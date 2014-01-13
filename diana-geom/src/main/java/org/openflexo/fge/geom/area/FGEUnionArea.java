@@ -178,6 +178,10 @@ public class FGEUnionArea extends FGEOperationArea {
 	public FGEUnionArea(FGEArea... objects) {
 		this();
 
+		System.out.println("Making FGEUnionArea");
+		for (FGEArea o : objects) {
+			System.out.println("Object: " + o);
+		}
 		for (FGEArea o : new ArrayList<FGEArea>(Arrays.asList(objects))) {
 			System.out.println("o=" + o);
 			System.out.println("o.clone()=" + o.clone());
