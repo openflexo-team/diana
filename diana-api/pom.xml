@@ -28,12 +28,12 @@
 			<groupId>org.openflexo</groupId>
 			<artifactId>diana-geom</artifactId>
 		</dependency>
-		<dependency>
+		<!--  <dependency>
 			<groupId>org.openflexo</groupId>
 			<artifactId>diana-geom</artifactId>
 			<classifier>resources</classifier>
 			<type>zip</type>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 </project>
 
