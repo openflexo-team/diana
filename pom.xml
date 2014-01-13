@@ -12,7 +12,7 @@
 	<name>diana</name>
 	<packaging>pom</packaging>
 	<properties>
-		<fib.version>1.0-SNAPSHOT</fib.version>
+		<gina.version>1.0-SNAPSHOT</gina.version>
 		<connie.version>1.0-SNAPSHOT</connie.version>
 		<pamela.version>1.0-SNAPSHOT</pamela.version>
 	</properties>
@@ -51,19 +51,19 @@
 			</dependency>
 			<dependency>
 				<groupId>org.openflexo</groupId>
-				<artifactId>flexoconnie</artifactId>
+				<artifactId>connie-core</artifactId>
 				<version>${connie.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.openflexo</groupId>
-				<artifactId>flexoconnie</artifactId>
+				<artifactId>connie-core</artifactId>
 				<version>${connie.version}</version>
 				<classifier>resources</classifier>
 				<type>zip</type>
 			</dependency>
 			<dependency>
 				<groupId>org.openflexo</groupId>
-				<artifactId>flexoconnie</artifactId>
+				<artifactId>connie-core</artifactId>
 				<version>${connie.version}</version>
 				<classifier>tests</classifier>
 			</dependency>
@@ -85,7 +85,7 @@
 		    </dependency>
 			<dependency>
 				<groupId>org.openflexo</groupId>
-				<artifactId>fib-core</artifactId>
+				<artifactId>gina-core</artifactId>
 			    <version>1.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
