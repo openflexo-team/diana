@@ -20,6 +20,8 @@
 package org.openflexo.fge.geom.area;
 
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
@@ -175,7 +177,8 @@ public class FGEUnionArea extends FGEOperationArea {
 
 	public FGEUnionArea(FGEArea... objects) {
 		this();
-		for (FGEArea o : objects) {
+
+		for (FGEArea o : new ArrayList<FGEArea>(Arrays.asList(objects))) {
 			System.out.println("o=" + o);
 			System.out.println("o.clone()=" + o.clone());
 			addArea(o.clone());
