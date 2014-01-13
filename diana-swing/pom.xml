@@ -24,6 +24,11 @@
 			<groupId>org.openflexo</groupId>
 			<artifactId>diana-core</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.openflexo</groupId>
+			<artifactId>diana-core</artifactId>
+			<classifier>tests</classifier>
+		</dependency>
 	</dependencies>
 </project>
 
