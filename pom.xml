@@ -26,7 +26,7 @@
 		<module>diana-core</module>
 		<module>diana-swing</module>
 		<module>diana-drawing-editor</module>
-		<module>diana-geomedit</module>
+		<!--  <module>diana-geomedit</module> --> <!--  Do not produce it yet -->
 		<module>diana-ppt-editor</module>
     </modules>
 	<dependencyManagement>
