@@ -33,10 +33,28 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	private static final Logger logger = Logger.getLogger(GraphicalRepresentation.class.getPackage().getName());
 
-	// Instantiate a new localizer in directory src/dev/resources/FGELocalized
-	// Little hack to be removed: linked to parent localizer (which is Openflexo main localizer)
-	public static LocalizedDelegateGUIImpl LOCALIZATION = new LocalizedDelegateGUIImpl(new FileResource("FGELocalized"),
-			new LocalizedDelegateGUIImpl(new FileResource("Localized"), null, false), true);
+	// TODO: Localizer for Diana, should be refactored
+	public static LocalizedDelegateGUIImpl LOCALIZATION;
+
+	static {
+		FileResource generalLocalizedDelegate = new FileResource("Localized");
+		FileResource fgeLocalizedDelegate = new FileResource("FGELocalized");
+
+		if (fgeLocalizedDelegate.exists()) {
+			if (generalLocalizedDelegate.exists()) {
+				LOCALIZATION = new LocalizedDelegateGUIImpl(fgeLocalizedDelegate, new LocalizedDelegateGUIImpl(generalLocalizedDelegate,
+						null, false), true);
+			} else {
+				LOCALIZATION = new LocalizedDelegateGUIImpl(fgeLocalizedDelegate, null, true);
+			}
+		} else {
+			if (generalLocalizedDelegate.exists()) {
+				LOCALIZATION = new LocalizedDelegateGUIImpl(generalLocalizedDelegate, null, true);
+			} else {
+				LOCALIZATION = new LocalizedDelegateGUIImpl(generalLocalizedDelegate, null, false);
+			}
+		}
+	}
 
 	private Stroke specificStroke = null;
 
@@ -75,8 +93,8 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	private boolean readOnly = false;
 	private boolean labelEditable = true;
 
-	private List<MouseClickControl<?>> mouseClickControls;
-	private List<MouseDragControl<?>> mouseDragControls;
+	private final List<MouseClickControl<?>> mouseClickControls;
+	private final List<MouseDragControl<?>> mouseDragControls;
 
 	private String toolTipText = null;
 
