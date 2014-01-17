@@ -8,10 +8,14 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.test.OrderedRunner;
+import org.openflexo.test.TestOrder;
 
+@RunWith(OrderedRunner.class)
 public class TestGraphDrawing {
 
 	private static FGEModelFactory FACTORY;
@@ -40,6 +44,7 @@ public class TestGraphDrawing {
 	}
 
 	@Test
+	@TestOrder(1)
 	public void test1InitGraph() {
 		graph = new Graph();
 		node1 = new GraphNode("node1", graph);
@@ -57,6 +62,7 @@ public class TestGraphDrawing {
 	}
 
 	@Test
+	@TestOrder(2)
 	public void test2InitGraphDrawing1() {
 		System.out.println("INIT graph drawing 1 ********************** ");
 		graphDrawing1 = new GraphDrawing1(graph, FACTORY);
@@ -66,6 +72,7 @@ public class TestGraphDrawing {
 	}
 
 	@Test
+	@TestOrder(3)
 	public void test3InitGraphicalObjectHierarchyForGraphDrawing1() {
 		ShapeNode<GraphNode> graphNode1 = (ShapeNode<GraphNode>) graphDrawing1.getRoot().getChildNodes().get(0);
 		assertNotNull(graphNode1);
@@ -92,6 +99,7 @@ public class TestGraphDrawing {
 	}
 
 	@Test
+	@TestOrder(4)
 	public void test4UpdateGraphicalObjectHierarchyForGraphDrawing1() {
 		ShapeNode<GraphNode> graphNode1 = (ShapeNode<GraphNode>) graphDrawing1.getRoot().getChildNodes().get(0);
 		ShapeNode<GraphNode> graphNode2 = (ShapeNode<GraphNode>) graphDrawing1.getRoot().getChildNodes().get(1);
@@ -115,6 +123,7 @@ public class TestGraphDrawing {
 	}
 
 	@Test
+	@TestOrder(5)
 	public void test5InitGraphDrawing2() {
 		System.out.println("INIT graph drawing 2 ********************** ");
 		graphDrawing2 = new GraphDrawing2(graph, FACTORY);
@@ -124,6 +133,7 @@ public class TestGraphDrawing {
 	}
 
 	@Test
+	@TestOrder(6)
 	public void test6InitGraphicalObjectHierarchyForGraphDrawing2() {
 		ShapeNode<GraphNode> graphNode1 = (ShapeNode<GraphNode>) graphDrawing2.getRoot().getChildNodes().get(0);
 		assertNotNull(graphNode1);
@@ -150,6 +160,7 @@ public class TestGraphDrawing {
 	}
 
 	@Test
+	@TestOrder(7)
 	public void test7UpdateGraphicalObjectHierarchyForGraphDrawing2() {
 		ShapeNode<GraphNode> graphNode1 = (ShapeNode<GraphNode>) graphDrawing2.getRoot().getChildNodes().get(0);
 		ShapeNode<GraphNode> graphNode2 = (ShapeNode<GraphNode>) graphDrawing2.getRoot().getChildNodes().get(1);
@@ -173,6 +184,7 @@ public class TestGraphDrawing {
 	}
 
 	@Test
+	@TestOrder(8)
 	public void test8InitGraphDrawing3() {
 		System.out.println("INIT graph drawing 3 ********************** ");
 		graphDrawing3 = new GraphDrawing3(graph, FACTORY);
@@ -182,6 +194,7 @@ public class TestGraphDrawing {
 	}
 
 	@Test
+	@TestOrder(9)
 	public void test9InitGraphicalObjectHierarchyForGraphDrawing3() {
 		System.out.println("all nodes = " + graphDrawing3.getRoot().getChildNodes());
 		ShapeNode<GraphNode> graphNode1 = (ShapeNode<GraphNode>) graphDrawing3.getRoot().getChildNodes().get(0);
@@ -208,6 +221,7 @@ public class TestGraphDrawing {
 	}
 
 	@Test
+	@TestOrder(10)
 	public void test10TUpdateGraphicalObjectHierarchyForGraphDrawing3() {
 		ShapeNode<GraphNode> graphNode1 = (ShapeNode<GraphNode>) graphDrawing3.getRoot().getChildNodes().get(0);
 		ShapeNode<GraphNode> graphNode2 = (ShapeNode<GraphNode>) graphDrawing3.getRoot().getChildNodes().get(1);
