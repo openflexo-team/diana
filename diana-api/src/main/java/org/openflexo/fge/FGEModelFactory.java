@@ -293,13 +293,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	}
 
 	/**
-	 * Creates and return a new ShapeGraphicalRepresentation, given a Drawable and a Drawing instance, initialized with default values and
-	 * given a shape type
-	 * 
-	 * @param aDrawing
-	 *            the drawing where the shape is defined
-	 * @param aDrawable
-	 *            object supposed to be represented by returned graphical representation
+	 * Creates and return a new ShapeGraphicalRepresentation, initialized with all properties of passed GR given a shape type
 	 * 
 	 * @return a newly created ShapeGraphicalRepresentation
 	 */
@@ -310,12 +304,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	}
 
 	/**
-	 * Creates and return a new ConnectorGraphicalRepresentation, given a Drawable and a Drawing instance, initialized with default values
-	 * 
-	 * @param aDrawing
-	 *            the drawing where the shape is defined
-	 * @param aDrawable
-	 *            object supposed to be represented by returned graphical representation
+	 * Creates and return a new ConnectorGraphicalRepresentation
 	 * 
 	 * @return a newly created ConnectorGraphicalRepresentation
 	 */
