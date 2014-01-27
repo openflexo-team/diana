@@ -38,8 +38,14 @@ public class MouseClickControlImpl<E extends AbstractDianaEditor<?, ?, ?>> exten
 		this.action = action;
 	}
 
+	@Override
 	public MouseClickControlAction<E> getControlAction() {
 		return action;
+	}
+
+	@Override
+	public void setControlAction(MouseClickControlAction<E> action) {
+		this.action = action;
 	}
 
 	@Override
@@ -62,6 +68,7 @@ public class MouseClickControlImpl<E extends AbstractDianaEditor<?, ?, ?>> exten
 	 * @param graphicalRepresentation
 	 * @param controller
 	 */
+	@Override
 	public void handleClick(DrawingTreeNode<?, ?> node, E controller, MouseControlContext context) {
 		if (action != null) {
 			if (action.handleClick(node, controller, context)) {

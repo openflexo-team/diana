@@ -31,6 +31,19 @@ public abstract class MouseClickControlActionImpl<E extends AbstractDianaEditor<
 
 	static final Logger logger = Logger.getLogger(MouseClickControlActionImpl.class.getPackage().getName());
 
+	/**
+	 * Handle click, by performing what is required.<br>
+	 * The implementation of this is technology-specific.<br>
+	 * Return flag indicating if event has been correctely handled and thus, should be consumed.
+	 * 
+	 * @param node
+	 *            the node on which this action applies
+	 * @param controller
+	 *            the editor
+	 * @param context
+	 *            run-time context of mouse control handling (eg MouseEvent)
+	 * @return
+	 */
 	@Override
 	public abstract boolean handleClick(DrawingTreeNode<?, ?> node, E controller, MouseControlContext context);
 

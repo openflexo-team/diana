@@ -39,14 +39,22 @@ public class MouseDragControlImpl<E extends AbstractDianaEditor<?, ?, ?>> extend
 		this.action = action;
 	}
 
+	@Override
 	public MouseDragControlAction<E> getControlAction() {
 		return action;
 	}
 
+	@Override
+	public void setControlAction(MouseDragControlAction<E> action) {
+		this.action = action;
+	}
+
+	@Override
 	public boolean isSignificativeDrag() {
 		return isSignificativeDrag;
 	}
 
+	@Override
 	public DrawingTreeNode<?, ?> getInitialNode() {
 		return initialNode;
 	}
@@ -59,6 +67,7 @@ public class MouseDragControlImpl<E extends AbstractDianaEditor<?, ?, ?>> extend
 	 * @param e
 	 *            MouseEvent
 	 */
+	@Override
 	public boolean handleMousePressed(DrawingTreeNode<?, ?> node, E controller, MouseControlContext context) {
 
 		if (action.handleMousePressed(node, controller, context)) {
@@ -79,6 +88,7 @@ public class MouseDragControlImpl<E extends AbstractDianaEditor<?, ?, ?>> extend
 	 * @param e
 	 *            MouseEvent
 	 */
+	@Override
 	public void handleMouseReleased(E controller, MouseControlContext context) {
 		if (action.handleMouseReleased(initialNode, controller, context, isSignificativeDrag())) {
 			initialNode = null;
@@ -95,6 +105,7 @@ public class MouseDragControlImpl<E extends AbstractDianaEditor<?, ?, ?>> extend
 	 * @param e
 	 *            MouseEvent
 	 */
+	@Override
 	public void handleMouseDragged(E controller, MouseControlContext context) {
 		if (action.handleMouseDragged(initialNode, controller, context)) {
 			// System.out.println("DRAGGED initialNode="+initialNode);

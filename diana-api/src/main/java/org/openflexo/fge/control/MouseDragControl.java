@@ -25,7 +25,10 @@ import org.openflexo.fge.Drawing.DrawingTreeNode;
 
 public interface MouseDragControl<E extends DianaEditor<?>> extends MouseControl<E> {
 
+	@Override
 	public MouseDragControlAction<E> getControlAction();
+
+	public void setControlAction(MouseDragControlAction<E> action);
 
 	public boolean isSignificativeDrag();
 

@@ -25,7 +25,10 @@ import org.openflexo.fge.Drawing.DrawingTreeNode;
 
 public interface MouseClickControl<E extends DianaEditor<?>> extends MouseControl<E> {
 
+	@Override
 	public MouseClickControlAction<E> getControlAction();
+
+	public void setControlAction(MouseClickControlAction<E> action);
 
 	public int getClickCount();
 
