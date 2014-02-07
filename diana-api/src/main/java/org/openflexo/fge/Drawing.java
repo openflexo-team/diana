@@ -41,6 +41,7 @@ import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.GeometricGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GraphicalRepresentation.LabelMetricsProvider;
+import org.openflexo.fge.ShapeGraphicalRepresentation.ShapeBorder;
 import org.openflexo.fge.connectors.Connector;
 import org.openflexo.fge.connectors.ConnectorSpecification;
 import org.openflexo.fge.cp.ControlArea;
@@ -410,6 +411,10 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 
 		public void setTextStyle(TextStyle style);
 
+		public boolean getContinuousTextEditing();
+
+		public void setContinuousTextEditing(boolean continuousTextEditing);
+
 	}
 
 	public interface ContainerNode<O, GR extends ContainerGraphicalRepresentation> extends DrawingTreeNode<O, GR> {
@@ -658,6 +663,10 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		public BackgroundStyle getBackgroundStyle();
 
 		public void setBackgroundStyle(BackgroundStyle style);
+
+		public ShapeBorder getBorder();
+
+		public void setBorder(ShapeBorder border);
 
 		public ShapeSpecification getShapeSpecification();
 

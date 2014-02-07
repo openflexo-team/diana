@@ -12,24 +12,28 @@ public interface DrawingView<M, C> extends FGEContainerView<M, C> {
 
 	public abstract Drawing<M> getDrawing();
 
+	@Override
 	public abstract M getDrawable();
 
+	@Override
 	public abstract AbstractDianaEditor<M, ?, ? super C> getController();
 
-	public abstract <O> FGEView<?, ?> viewForNode(DrawingTreeNode<?, ?> node);
+	public abstract <O> FGEView<O, ?> viewForNode(DrawingTreeNode<O, ?> node);
 
-	public abstract ConnectorView<?, ?> connectorViewForNode(ConnectorNode<?> node);
+	public abstract <O> ConnectorView<O, ?> connectorViewForNode(ConnectorNode<O> node);
 
-	public abstract ShapeView<?, ?> shapeViewForNode(ShapeNode<?> node);
+	public abstract <O> ShapeView<O, ?> shapeViewForNode(ShapeNode<O> node);
 
 	public abstract boolean contains(FGEView<?, ?> view);
 
+	@Override
 	public abstract void delete();
 
 	public void setRectangleSelectingAction(RectangleSelectingAction action);
 
 	public void resetRectangleSelectingAction();
 
+	@Override
 	public FGEDrawingGraphics getFGEGraphics();
 
 }

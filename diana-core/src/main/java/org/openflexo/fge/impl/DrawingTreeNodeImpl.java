@@ -1204,6 +1204,16 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		setPropertyValue(GraphicalRepresentation.TEXT_STYLE, style);
 	}
 
+	@Override
+	public boolean getContinuousTextEditing() {
+		return getPropertyValue(GraphicalRepresentation.CONTINUOUS_TEXT_EDITING);
+	}
+
+	@Override
+	public void setContinuousTextEditing(boolean continuousTextEditing) {
+		setPropertyValue(GraphicalRepresentation.CONTINUOUS_TEXT_EDITING, continuousTextEditing);
+	}
+
 	/*@Override
 	public boolean hasKey(String key) {
 		return KeyValueDecoder.hasKey(this, key);

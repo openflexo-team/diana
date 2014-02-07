@@ -27,6 +27,7 @@ import org.openflexo.fge.ShadowStyle;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.fge.ShapeGraphicalRepresentation.LocationConstraints;
+import org.openflexo.fge.ShapeGraphicalRepresentation.ShapeBorder;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEDimension;
@@ -1463,6 +1464,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	/**
 	 * Convenient method used to retrieve background style property value
 	 */
+	@Override
 	public BackgroundStyle getBackgroundStyle() {
 		return getPropertyValue(ShapeGraphicalRepresentation.BACKGROUND);
 	}
@@ -1470,6 +1472,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	/**
 	 * Convenient method used to set background style property value
 	 */
+	@Override
 	public void setBackgroundStyle(BackgroundStyle style) {
 		setPropertyValue(ShapeGraphicalRepresentation.BACKGROUND, style);
 	}
@@ -1488,6 +1491,22 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public void setShadowStyle(ShadowStyle style) {
 		setPropertyValue(ShapeGraphicalRepresentation.SHADOW_STYLE, style);
+	}
+
+	/**
+	 * Convenient method used to retrieve border property value
+	 */
+	@Override
+	public ShapeBorder getBorder() {
+		return getPropertyValue(ShapeGraphicalRepresentation.BORDER);
+	}
+
+	/**
+	 * Convenient method used to set border property value
+	 */
+	@Override
+	public void setBorder(ShapeBorder border) {
+		setPropertyValue(ShapeGraphicalRepresentation.BORDER, border);
 	}
 
 	/**

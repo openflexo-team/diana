@@ -109,20 +109,20 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 	private static final Logger logger = Logger.getLogger(JDrawingView.class.getPackage().getName());
 
-	private Drawing<M> drawing;
+	private final Drawing<M> drawing;
 	// private Map<DrawingTreeNode<?, ?>, FGEView<?,?>> contents;
-	private AbstractDianaEditor<M, SwingViewFactory, JComponent> controller;
-	private JFocusRetriever _focusRetriever;
-	private FGEPaintManager _paintManager;
+	private final AbstractDianaEditor<M, SwingViewFactory, JComponent> controller;
+	private final JFocusRetriever _focusRetriever;
+	private final FGEPaintManager _paintManager;
 
 	private MouseResizer resizer;
-	private FGEViewMouseListener mouseListener;
+	private final FGEViewMouseListener mouseListener;
 
 	protected JFGEDrawingGraphics graphics;
 
 	private static final FGEModelFactory PAINT_FACTORY = FGECoreUtils.TOOLS_FACTORY;
 
-	private Rectangle drawnRectangle = new Rectangle();
+	private final Rectangle drawnRectangle = new Rectangle();
 	private BufferedImage capturedDraggedNodeImage;
 	private Point capturedNodeLocation;
 	private Point dragOrigin;
@@ -400,10 +400,12 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		}
 	}
 
+	@Override
 	public void setRectangleSelectingAction(RectangleSelectingAction action) {
 		_rectangleSelectingAction = action;
 	}
 
+	@Override
 	public void resetRectangleSelectingAction() {
 		_rectangleSelectingAction = null;
 		getPaintManager().repaint(this);
@@ -863,17 +865,18 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 	}
 
 	@Override
-	public <O> JFGEView<?, ? extends JComponent> viewForNode(DrawingTreeNode<?, ?> node) {
-		return (JFGEView<?, ? extends JComponent>) controller.viewForNode(node);
-	}
-
-	public JShapeView<?> shapeViewForNode(ShapeNode<?> node) {
-		return (JShapeView<?>) viewForNode(node);
+	public <O> JFGEView<O, ? extends JComponent> viewForNode(DrawingTreeNode<O, ?> node) {
+		return (JFGEView<O, ? extends JComponent>) controller.viewForNode(node);
 	}
 
 	@Override
-	public JConnectorView<?> connectorViewForNode(ConnectorNode<?> node) {
-		return (JConnectorView<?>) viewForNode(node);
+	public <O> JShapeView<O> shapeViewForNode(ShapeNode<O> node) {
+		return (JShapeView<O>) viewForNode(node);
+	}
+
+	@Override
+	public <O> JConnectorView<O> connectorViewForNode(ConnectorNode<O> node) {
+		return (JConnectorView<O>) viewForNode(node);
 	}
 
 	public JFocusRetriever getFocusRetriever() {
@@ -903,6 +906,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		}
 	}
 
+	@Override
 	public FGEPaintManager getPaintManager() {
 		return _paintManager;
 	}
@@ -1110,10 +1114,12 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		}
 	}
 
+	@Override
 	public FGEContainerView<?, ?> getParentView() {
 		return null;
 	};
 
+	@Override
 	public void stopLabelEdition() {
 		getLabelView().stopEdition();
 	}
