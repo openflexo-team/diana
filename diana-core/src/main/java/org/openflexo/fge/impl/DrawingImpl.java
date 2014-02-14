@@ -689,8 +689,8 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 			logger.info("deleting " + this);
 		}
 		if (nodes != null) {
-			for (GRBinding grBinding : nodes.keySet()) {
-				for (DrawingTreeNode<?, ?> dtn : retrieveHash(grBinding).values()) {
+			for (GRBinding grBinding : new ArrayList<GRBinding>(nodes.keySet())) {
+				for (DrawingTreeNode<?, ?> dtn : new ArrayList<DrawingTreeNode<?, ?>>(retrieveHash(grBinding).values())) {
 					dtn.delete();
 				}
 			}
