@@ -296,7 +296,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	public boolean delete() {
 		if (!isDeleted) {
 			// Normally, it is already done, but check and do it when required...
-			if (parentNode instanceof ContainerNode && ((ContainerNode<?, ?>) parentNode).getChildNodes().contains(this)) {
+			if (parentNode instanceof ContainerNode && ((ContainerNode<?, ?>) parentNode).getChildNodes() != null
+					&& ((ContainerNode<?, ?>) parentNode).getChildNodes().contains(this)) {
 				parentNode.removeChild(this);
 			}
 
