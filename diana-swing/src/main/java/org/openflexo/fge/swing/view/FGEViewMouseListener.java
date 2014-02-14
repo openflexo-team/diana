@@ -57,7 +57,7 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 
 	private static final Logger logger = Logger.getLogger(FGEViewMouseListener.class.getPackage().getName());
 
-	private DrawingTreeNode<?, ?> node;
+	private final DrawingTreeNode<?, ?> node;
 	protected JFGEView<?, ?> view;
 	private MouseEvent previousEvent;
 
@@ -157,6 +157,7 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 
 			DianaInteractiveViewer<?, ?, ?> controller = (DianaInteractiveViewer<?, ?, ?>) getController();
 			DrawingTreeNode<?, ?> focusedObject = getFocusRetriever().getFocusedObject(e);
+
 			if (focusedObject == null) {
 				focusedObject = node.getDrawing().getRoot();
 			}
@@ -187,6 +188,7 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 						return;
 					}
 				}
+
 
 				if (focusedObject != null) {
 					ControlArea<?> ca = getFocusRetriever().getFocusedControlAreaForDrawable(focusedObject, e);
@@ -334,9 +336,9 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 	private ControlAreaDrag currentControlAreaDrag = null;
 
 	private class ControlAreaDrag {
-		private Point startMovingLocationInDrawingView;
-		private FGEPoint startMovingPoint;
-		private ControlArea<?> controlArea;
+		private final Point startMovingLocationInDrawingView;
+		private final FGEPoint startMovingPoint;
+		private final ControlArea<?> controlArea;
 		private double initialWidth;
 		private double initialHeight;
 
@@ -387,9 +389,9 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 	private FloatingLabelDrag currentFloatingLabelDrag = null;
 
 	private class FloatingLabelDrag {
-		private DrawingTreeNode<?, ?> node;
-		private Point startMovingLocationInDrawingView;
-		private Point startLabelPoint;
+		private final DrawingTreeNode<?, ?> node;
+		private final Point startMovingLocationInDrawingView;
+		private final Point startLabelPoint;
 
 		private boolean started = false;
 
