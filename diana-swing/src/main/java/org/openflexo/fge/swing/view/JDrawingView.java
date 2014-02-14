@@ -947,7 +947,9 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		List<FGEView<?, ?>> views = new ArrayList<FGEView<?, ?>>(controller.getContents().values());
 
 		for (FGEView<?, ?> v : views) {
-			v.delete();
+			if (v != this) {
+				v.delete();
+			}
 			// logger.info("Deleted view "+v);
 		}
 		// contents.clear();
