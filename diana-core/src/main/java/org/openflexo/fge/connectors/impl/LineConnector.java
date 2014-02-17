@@ -50,7 +50,7 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 		super(connectorNode);
 		controlPoints = new ArrayList<ControlPoint>();
 		if(getLineConnectorType()==null){
-			setLineConnectorType(LineConnectorType.CENTER_TO_CENTER);
+			setLineConnectorType(getConnectorSpecification().getLineConnectorType());
 		}
 	}
 
