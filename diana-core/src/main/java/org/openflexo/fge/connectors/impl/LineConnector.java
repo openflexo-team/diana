@@ -49,6 +49,9 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 	public LineConnector(ConnectorNode<?> connectorNode) {
 		super(connectorNode);
 		controlPoints = new ArrayList<ControlPoint>();
+		if(getLineConnectorType()==null){
+			setLineConnectorType(LineConnectorType.CENTER_TO_CENTER);
+		}
 	}
 
 	@Override

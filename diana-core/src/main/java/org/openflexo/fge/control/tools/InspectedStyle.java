@@ -562,7 +562,12 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	}
 
 	public boolean hasKey(String key) {
-		// Not relevant
+		if(key!=null){
+			GRParameter<?> parameter = GRParameter.getGRParameter(getInspectedStyleClass(), key);
+			if((parameter != null)&&(getPropertyValue(parameter)!=null)) {
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -573,7 +578,10 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	 * @return
 	 */
 	public Object objectForKey(String key) {
-		// Not relevant
+		GRParameter<?> parameter = GRParameter.getGRParameter(getInspectedStyleClass(), key);
+		if (parameter != null) {
+			return getPropertyValue(parameter);
+		}
 		return null;
 	}
 
@@ -584,7 +592,24 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	 * @return
 	 */
 	public void setObjectForKey(Object value, String key) {
-		// Not relevant
+		GRParameter<?> parameter = GRParameter.getGRParameter(getInspectedStyleClass(), key);
+		Object oldValue = objectForKey(key);
+		if (requireChange(oldValue, value)) {
+			if (getSelection().size() == 0) {
+				defaultValue.setObjectForKey(value, key);
+			} else {
+				CompoundEdit setValueEdit = startRecordEdit("Set " + key + " to " + value);
+				for (DrawingTreeNode<?, ?> n : getSelection()) {
+					S style = getStyle(n);
+					if (style != null) {
+						style.setObjectForKey(value, key);
+					}
+				}
+				stopRecordEdit(setValueEdit);
+			}
+			storedPropertyValues.put(parameter, value);
+			pcSupport.firePropertyChange(key, oldValue, value);
+		}
 	}
 
 	/**
@@ -594,8 +619,12 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	 * @return
 	 */
 	public Type getTypeForKey(String key) {
+		if(hasKey(key)){
+			if(GRParameter.getGRParameter(getInspectedStyleClass(), key)!=null){
+				return GRParameter.getGRParameter(getInspectedStyleClass(), key).getType();
+			}
+		}
 		return null;
-		// Not relevant
 	}
 
 }
