@@ -62,8 +62,6 @@ import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.FGEConstants;
-import org.openflexo.fge.FGECoreUtils;
-import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.control.AbstractDianaEditor;
@@ -73,6 +71,7 @@ import org.openflexo.fge.control.DianaInteractiveViewer;
 import org.openflexo.fge.control.actions.RectangleSelectingAction;
 import org.openflexo.fge.control.tools.DianaPalette;
 import org.openflexo.fge.cp.ControlArea;
+import org.openflexo.fge.impl.FGECachedModelFactory;
 import org.openflexo.fge.notifications.DrawingNeedsToBeRedrawn;
 import org.openflexo.fge.notifications.NodeAdded;
 import org.openflexo.fge.notifications.NodeDeleted;
@@ -93,6 +92,7 @@ import org.openflexo.fge.swing.paint.FGEPaintManager;
 import org.openflexo.fge.view.DrawingView;
 import org.openflexo.fge.view.FGEContainerView;
 import org.openflexo.fge.view.FGEView;
+import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.swing.MouseResizer;
 
 /**
@@ -120,7 +120,16 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 	protected JFGEDrawingGraphics graphics;
 
-	private static final FGEModelFactory PAINT_FACTORY = FGECoreUtils.TOOLS_FACTORY;
+	private static FGECachedModelFactory PAINT_FACTORY = null;
+
+	static {
+		try {
+			PAINT_FACTORY = new FGECachedModelFactory();
+		} catch (ModelDefinitionException e) {
+			logger.severe(e.getMessage());
+			e.printStackTrace();
+		}
+	}
 
 	private final Rectangle drawnRectangle = new Rectangle();
 	private BufferedImage capturedDraggedNodeImage;
