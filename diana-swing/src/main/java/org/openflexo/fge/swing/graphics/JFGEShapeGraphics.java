@@ -28,18 +28,18 @@ import java.util.logging.Logger;
 import org.openflexo.fge.BackgroundImageBackgroundStyle;
 import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.Drawing.ShapeNode;
-import org.openflexo.fge.FGECoreUtils;
-import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
+import org.openflexo.fge.impl.FGECachedModelFactory;
 import org.openflexo.fge.swing.view.JShapeView;
+import org.openflexo.model.exceptions.ModelDefinitionException;
 
 public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics {
 
 	private static final Logger logger = Logger.getLogger(JFGEShapeGraphics.class.getPackage().getName());
 
-	private JFGEShapeDecorationGraphics shapeDecorationGraphics;
+	private final JFGEShapeDecorationGraphics shapeDecorationGraphics;
 
 	public <O> JFGEShapeGraphics(ShapeNode<O> node, JShapeView<O> view) {
 		super(node, view);
@@ -51,6 +51,7 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 		return (ShapeGraphicalRepresentation) super.getGraphicalRepresentation();
 	}
 
+	@Override
 	public JFGEShapeDecorationGraphics getShapeDecorationGraphics() {
 		return shapeDecorationGraphics;
 	}
@@ -60,11 +61,13 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 	 * @param graphics2D
 	 * @param controller
 	 */
+	@Override
 	public void createGraphics(Graphics2D graphics2D) {
 		super.createGraphics(graphics2D);
 		shapeDecorationGraphics.createGraphics(graphics2D);
 	}
 
+	@Override
 	public void releaseGraphics() {
 		super.releaseGraphics();
 		shapeDecorationGraphics.releaseGraphics();
@@ -97,8 +100,18 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 		return (ShapeNode<?>) super.getNode();
 	}
 
-	private static final FGEModelFactory SHADOW_FACTORY = FGECoreUtils.TOOLS_FACTORY;
+	private static FGECachedModelFactory SHADOW_FACTORY = null;
 
+	static {
+		try {
+			SHADOW_FACTORY = new FGECachedModelFactory();
+		} catch (ModelDefinitionException e) {
+			logger.severe(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	@Override
 	public void paintShadow() {
 
 		double deep = getGraphicalRepresentation().getShadowStyle().getShadowDepth();

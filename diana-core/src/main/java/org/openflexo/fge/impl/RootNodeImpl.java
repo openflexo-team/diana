@@ -12,8 +12,6 @@ import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.ColorBackgroundStyle;
 import org.openflexo.fge.Drawing.RootNode;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
-import org.openflexo.fge.FGECoreUtils;
-import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.GRBinding;
 import org.openflexo.fge.GraphicalRepresentation;
@@ -22,6 +20,7 @@ import org.openflexo.fge.geom.FGEDimension;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.graphics.FGEDrawingGraphics;
+import org.openflexo.model.exceptions.ModelDefinitionException;
 
 public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepresentation> implements RootNode<M> {
 
@@ -30,7 +29,16 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 
 	private BackgroundStyle bgStyle;
 
-	private static final FGEModelFactory BACKGROUND_FACTORY = FGECoreUtils.TOOLS_FACTORY;
+	private static FGECachedModelFactory BACKGROUND_FACTORY = null;
+
+	static {
+		try {
+			BACKGROUND_FACTORY = new FGECachedModelFactory();
+		} catch (ModelDefinitionException e) {
+			logger.severe(e.getMessage());
+			e.printStackTrace();
+		}
+	}
 
 	protected RootNodeImpl(DrawingImpl<M> drawing, M drawable, GRBinding<M, DrawingGraphicalRepresentation> grBinding) {
 		super(drawing, drawable, grBinding, null);
