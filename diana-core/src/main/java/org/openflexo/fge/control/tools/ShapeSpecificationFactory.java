@@ -27,6 +27,7 @@ import org.openflexo.fge.shapes.Losange;
 import org.openflexo.fge.shapes.Oval;
 import org.openflexo.fge.shapes.Polygon;
 import org.openflexo.fge.shapes.Rectangle;
+import org.openflexo.fge.shapes.RectangularOctogon;
 import org.openflexo.fge.shapes.RegularPolygon;
 import org.openflexo.fge.shapes.ShapeSpecification;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
@@ -53,6 +54,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 	private InspectedSquare square;
 	private InspectedPolygon<Polygon> polygon;
 	private InspectedRegularPolygon<RegularPolygon> regularPolygon;
+	private InspectedRectangularOctogon<RectangularOctogon> rectangularOctogon;
 	private InspectedLosange losange;
 	private InspectedTriangle triangle;
 	private InspectedOval<Oval> oval;
@@ -75,6 +77,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		polygon = new InspectedPolygon<Polygon>(controller, (Polygon) controller.getFactory().makeShape(ShapeType.CUSTOM_POLYGON));
 		regularPolygon = new InspectedRegularPolygon<RegularPolygon>(controller, (RegularPolygon) controller.getFactory().makeShape(
 				ShapeType.POLYGON));
+		rectangularOctogon = new InspectedRectangularOctogon<RectangularOctogon>(controller, (RectangularOctogon) controller.getFactory().makeShape(
+				ShapeType.RECTANGULAROCTOGON));
 		losange = new InspectedLosange(controller, (Losange) controller.getFactory().makeShape(ShapeType.LOSANGE));
 		triangle = new InspectedTriangle(controller, (Triangle) controller.getFactory().makeShape(ShapeType.TRIANGLE));
 		oval = new InspectedOval<Oval>(controller, (Oval) controller.getFactory().makeShape(ShapeType.OVAL));
@@ -120,6 +124,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return square;
 		case CUSTOM_POLYGON:
 			return polygon;
+		case RECTANGULAROCTOGON:
+			return rectangularOctogon;
 		case POLYGON:
 			return regularPolygon;
 		case LOSANGE:
@@ -191,6 +197,9 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		case CUSTOM_POLYGON:
 			returned = polygon.cloneStyle();
 			break;
+		case RECTANGULAROCTOGON:
+			returned = rectangularOctogon.cloneStyle();
+			break;
 		case POLYGON:
 			returned = regularPolygon.cloneStyle();
 			break;
@@ -208,6 +217,9 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			break;
 		case ARC:
 			returned = arc.cloneStyle();
+			break;
+		case COMPLEX_CURVE:
+			returned = complexCurve.cloneStyle();
 			break;
 		case STAR:
 			returned = star.cloneStyle();
@@ -511,6 +523,29 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				return new FGERegularPolygon(0, 0, 1, 1, Filling.FILLED, getNPoints(), getStartAngle());
 			}
 			return new FGERectangle(0, 0, 1, 1, Filling.FILLED);
+		}
+
+	}
+	
+	protected class InspectedRectangularOctogon<SS extends RectangularOctogon> extends InspectedPolygon<SS> implements RectangularOctogon {
+
+		protected InspectedRectangularOctogon(DianaInteractiveViewer<?, ?, ?> controller, SS defaultValue) {
+			super(controller, defaultValue);
+		}
+
+		@Override
+		public ShapeType getShapeType() {
+			return ShapeType.POLYGON;
+		}
+
+		@Override
+		public SS getStyle(DrawingTreeNode<?, ?> node) {
+			if (node instanceof ShapeNode) {
+				if (((ShapeNode<?>) node).getShapeSpecification() instanceof RectangularOctogon) {
+					return (SS) ((ShapeNode<?>) node).getShapeSpecification();
+				}
+			}
+			return null;
 		}
 
 	}
