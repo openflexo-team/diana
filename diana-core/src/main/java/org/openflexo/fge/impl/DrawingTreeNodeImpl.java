@@ -123,8 +123,10 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		// parentNode.addChild(this);
 
 		graphicalRepresentation = grBinding.getGRProvider().provideGR(drawable, drawing.getFactory());
-		graphicalRepresentation.getPropertyChangeSupport().addPropertyChangeListener(this);
-
+		if(graphicalRepresentation.getPropertyChangeSupport()!=null){
+			graphicalRepresentation.getPropertyChangeSupport().addPropertyChangeListener(this);
+		}
+		
 		// System.out.println("Hop");
 
 		/*if (aParentDrawable == null) { // This is the root node
@@ -313,7 +315,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			drawable = null;
 			parentNode = null;
 
-			if (graphicalRepresentation != null) {
+			if (graphicalRepresentation != null && graphicalRepresentation.getPropertyChangeSupport()!=null){
 				graphicalRepresentation.getPropertyChangeSupport().removePropertyChangeListener(this);
 			}
 			graphicalRepresentation = null;

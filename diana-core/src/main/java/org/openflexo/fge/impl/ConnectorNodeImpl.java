@@ -144,7 +144,9 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 		if (enabledStartObjectObserving) {
 
 			for (DrawingTreeNode<?, ?> node : observedStartObjects) {
-				node.getPropertyChangeSupport().removePropertyChangeListener(this);
+				if(node.getPropertyChangeSupport()!=null){
+					node.getPropertyChangeSupport().removePropertyChangeListener(this);
+				}
 			}
 
 			enabledStartObjectObserving = false;
@@ -188,7 +190,9 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 					if (getGraphicalRepresentation(o) != null) getGraphicalRepresentation(o).deleteObserver(this);
 			}*/
 			for (DrawingTreeNode<?, ?> node : observedEndObjects) {
-				node.getPropertyChangeSupport().removePropertyChangeListener(this);
+				if(node.getPropertyChangeSupport()!=null){
+					node.getPropertyChangeSupport().removePropertyChangeListener(this);
+				}
 			}
 			enabledEndObjectObserving = false;
 		}

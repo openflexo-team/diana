@@ -77,7 +77,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 
 	public void delete() {
 
-		if (getConnectorSpecification() != null) {
+		if (getConnectorSpecification() != null && getConnectorSpecification().getPropertyChangeSupport()!=null) {
 			getConnectorSpecification().getPropertyChangeSupport().removePropertyChangeListener(this);
 		}
 		connectorNode = null;
