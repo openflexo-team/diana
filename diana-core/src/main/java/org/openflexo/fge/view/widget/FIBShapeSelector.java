@@ -23,7 +23,6 @@ import javax.swing.JComponent;
 
 import org.openflexo.fge.shapes.ShapeSpecification;
 import org.openflexo.fib.model.FIBCustom.FIBCustomComponent;
-import org.openflexo.toolbox.FileResource;
 
 /**
  * Widget allowing to view and edit a ShapeSpecification
@@ -34,6 +33,6 @@ import org.openflexo.toolbox.FileResource;
 // TODO: suppress reference to Swing (when FIB library will be independant from SWING technology)
 public interface FIBShapeSelector<C extends JComponent> extends FIBCustomComponent<ShapeSpecification, C> {
 
-	public static FileResource FIB_FILE = new FileResource("Fib/ShapeSelector.fib");
+	public static String FIB_FILE_NAME = "Fib/ShapeSelector.fib";
 
 }

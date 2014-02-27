@@ -18,7 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openflexo.fge.drawingeditor.model.DiagramFactory;
 import org.openflexo.model.exceptions.ModelDefinitionException;
-import org.openflexo.toolbox.FileResource;
+import org.openflexo.toolbox.ResourceLocator;
 
 public class TestLoadAndDisplaySomeDiagrams {
 
@@ -105,7 +105,7 @@ public class TestLoadAndDisplaySomeDiagrams {
 
 	@Test
 	public void testBasicExample() {
-		deserializeAndDisplay(new FileResource("DrawingExamples/BasicExample.drw"));
+		deserializeAndDisplay(ResourceLocator.locateFile("DrawingExamples/BasicExample.drw"));
 	}
 
 	/*@Test

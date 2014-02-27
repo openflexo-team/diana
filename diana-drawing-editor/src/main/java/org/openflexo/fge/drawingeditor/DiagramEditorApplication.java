@@ -76,10 +76,10 @@ import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.model.undo.UndoManager;
 import org.openflexo.swing.FlexoFileChooser;
-import org.openflexo.toolbox.FileResource;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 import org.openflexo.toolbox.ImageIconResource;
 import org.openflexo.toolbox.PropertyChangeListenerRegistrationManager;
+import org.openflexo.toolbox.ResourceLocator;
 import org.openflexo.toolbox.ToolBox;
 
 /**
@@ -94,12 +94,12 @@ public class DiagramEditorApplication {
 
 	// Retrieve default Openflexo locales
 	public static final String LOCALIZATION_DIRNAME = "Localized";
-	private static LocalizedDelegateGUIImpl MAIN_LOCALIZER = new LocalizedDelegateGUIImpl(new FileResource(LOCALIZATION_DIRNAME), null,
+	private static LocalizedDelegateGUIImpl MAIN_LOCALIZER = new LocalizedDelegateGUIImpl(ResourceLocator.locateDirectory(LOCALIZATION_DIRNAME), null,
 			false);
 
 	// Instanciate a new localizer in directory src/dev/resources/FIBEditorLocalizer
 	// linked to parent localizer (which is Openflexo main localizer)
-	public static LocalizedDelegateGUIImpl LOCALIZATION = new LocalizedDelegateGUIImpl(new FileResource("FGEEditorLocalized"),
+	public static LocalizedDelegateGUIImpl LOCALIZATION = new LocalizedDelegateGUIImpl(ResourceLocator.locateDirectory("FGEEditorLocalized"),
 			MAIN_LOCALIZER, true);
 
 	private static final int META_MASK = ToolBox.getPLATFORM() == ToolBox.MACOS ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
@@ -154,7 +154,7 @@ public class DiagramEditorApplication {
 		frame.setPreferredSize(new Dimension(1100, 800));
 		fileChooser = new FlexoFileChooser(frame);
 		fileChooser.setFileFilterAsString("*.drw");
-		fileChooser.setCurrentDirectory(new FileResource("DrawingExamples"));
+		fileChooser.setCurrentDirectory(ResourceLocator.locateDirectory("DrawingExamples"));
 
 		toolFactory = new SwingToolFactory(frame);
 

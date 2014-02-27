@@ -157,7 +157,7 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 		protected ForegroundStyleDetailsPanel(ForegroundStyle fs) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE);
+			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE_NAME,true);
 			controller = new CustomFIBController(fibComponent);
 			fibView = controller.buildView(fibComponent);
 

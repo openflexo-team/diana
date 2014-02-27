@@ -23,7 +23,6 @@ import javax.swing.JComponent;
 
 import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fib.model.FIBCustom.FIBCustomComponent;
-import org.openflexo.toolbox.FileResource;
 
 /**
  * Widget allowing to view and edit a BackgroundStyle
@@ -33,7 +32,7 @@ import org.openflexo.toolbox.FileResource;
  */
 // TODO: suppress reference to Swing (when FIB library will be independant from SWING technology)
 public interface FIBBackgroundStyleSelector<C extends JComponent> extends FIBCustomComponent<BackgroundStyle, C> {
-
-	public static FileResource FIB_FILE = new FileResource("Fib/BackgroundStyleSelector.fib");
+	
+	public static String FIB_FILE_NAME = "Fib/BackgroundStyleSelector.fib";
 
 }

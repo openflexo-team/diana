@@ -2,6 +2,7 @@ package org.openflexo.fge.impl;
 
 import java.awt.Stroke;
 import java.beans.PropertyChangeEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,7 +28,7 @@ import org.openflexo.fge.notifications.FGEAttributeNotification;
 import org.openflexo.fge.notifications.GRDeleted;
 import org.openflexo.fib.utils.LocalizedDelegateGUIImpl;
 import org.openflexo.model.factory.CloneableProxyObject;
-import org.openflexo.toolbox.FileResource;
+import org.openflexo.toolbox.ResourceLocator;
 
 public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implements GraphicalRepresentation {
 
@@ -37,8 +38,8 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	public static LocalizedDelegateGUIImpl LOCALIZATION;
 
 	static {
-		FileResource generalLocalizedDelegate = new FileResource("Localized");
-		FileResource fgeLocalizedDelegate = new FileResource("FGELocalized");
+		File generalLocalizedDelegate = ResourceLocator.locateDirectory("Localized");
+		File fgeLocalizedDelegate = ResourceLocator.locateDirectory("FGELocalized");
 
 		if (fgeLocalizedDelegate.exists()) {
 			if (generalLocalizedDelegate.exists()) {

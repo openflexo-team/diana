@@ -23,7 +23,6 @@ import javax.swing.JComponent;
 
 import org.openflexo.fge.TextStyle;
 import org.openflexo.fib.model.FIBCustom.FIBCustomComponent;
-import org.openflexo.toolbox.FileResource;
 
 /**
  * Widget allowing to view and edit a TextStyle
@@ -34,6 +33,6 @@ import org.openflexo.toolbox.FileResource;
 // TODO: suppress reference to Swing (when FIB library will be independant from SWING technology)
 public interface FIBTextStyleSelector<C extends JComponent> extends FIBCustomComponent<TextStyle, C> {
 
-	public static FileResource FIB_FILE = new FileResource("Fib/TextStyleSelector.fib");
+	public static String FIB_FILE_NAME = ("Fib/TextStyleSelector.fib");
 
 }

@@ -132,7 +132,7 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implement
 		protected ShapeDetailsPanel(ShapeSpecification backgroundStyle) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE);
+			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE_NAME,true);
 			controller = new CustomFIBController(fibComponent);
 			fibView = controller.buildView(fibComponent);
 

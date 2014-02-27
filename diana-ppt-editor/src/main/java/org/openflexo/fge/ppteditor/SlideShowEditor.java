@@ -32,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -48,7 +49,7 @@ import org.apache.poi.hslf.usermodel.SlideShow;
 import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.swing.VerticalLayout;
-import org.openflexo.toolbox.FileResource;
+import org.openflexo.toolbox.ResourceLocator;
 
 public class SlideShowEditor extends JPanel {
 
@@ -156,9 +157,9 @@ public class SlideShowEditor extends JPanel {
 	}
 
 	public static void main(String[] args) {
-		FileInputStream fis;
+		InputStream fis;
 		try {
-			fis = new FileInputStream(new FileResource("TestPPT2.ppt"));
+			fis = ResourceLocator.retrieveResource("TestPPT2.ppt");
 			SlideShow ssOpenned = new SlideShow(fis);
 			System.out.println("Yes, j'ai ouvert le truc");
 			System.out.println("Slides:" + ssOpenned.getSlides().length);
