@@ -10,8 +10,7 @@
 			<directory>src/main/resources</directory>
 			<outputDirectory></outputDirectory>
 			<excludes>
-				<exclude>Resources/Sounds</exclude>
-				<exclude>META-INF/</exclude>
+				<exclude>**/*</exclude>
 			</excludes>
 		</fileSet>
 	</fileSets>
