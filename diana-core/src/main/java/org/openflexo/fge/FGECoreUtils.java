@@ -31,8 +31,8 @@ public class FGECoreUtils {
 
 	// Instantiate a new localizer in directory src/dev/resources/FGELocalized
 	// Little hack to be removed: linked to parent localizer (which is Openflexo main localizer)
-	public static LocalizedDelegateGUIImpl LOCALIZATION = new LocalizedDelegateGUIImpl(ResourceLocator.locateDirectory("FGELocalized"),
-			new LocalizedDelegateGUIImpl(ResourceLocator.locateDirectory("Localized"), null, false), true);
+	public static LocalizedDelegateGUIImpl LOCALIZATION = new LocalizedDelegateGUIImpl(ResourceLocator.getResourceLocator().locateResource("FGELocalized"),
+			new LocalizedDelegateGUIImpl(ResourceLocator.getResourceLocator().locateResource("Localized"), null, false), true);
 
 	/**
 	 * This is the FGE model factory shared by all FGE tools

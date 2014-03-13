@@ -169,7 +169,7 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 		protected BackgroundStyleDetailsPanel(BackgroundStyle backgroundStyle) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE_NAME,true);
+			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE,true);
 			controller = new CustomFIBController(fibComponent);
 			fibView = controller.buildView(fibComponent);
 

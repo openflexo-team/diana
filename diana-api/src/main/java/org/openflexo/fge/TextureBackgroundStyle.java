@@ -32,6 +32,7 @@ import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLAttribute;
 import org.openflexo.model.annotations.XMLElement;
 import org.openflexo.toolbox.ImageIconResource;
+import org.openflexo.toolbox.ResourceLocator;
 
 /**
  * Represents a textured background defined with a texture and two colors
@@ -74,7 +75,7 @@ public interface TextureBackgroundStyle extends BackgroundStyle {
 		TEXTURE16;
 
 		public ImageIcon getImageIcon() {
-			return new ImageIconResource("Motifs/Motif" + (ordinal() + 1) + ".gif");
+			return new ImageIconResource(ResourceLocator.getResourceLocator().locateResource("Motifs/Motif" + (ordinal() + 1) + ".gif"));
 		}
 
 		@Override

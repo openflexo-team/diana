@@ -147,7 +147,7 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 		protected TextStyleDetailsPanel(TextStyle textStyle) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE_NAME,true);
+			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE,true);
 			controller = new CustomFIBController(fibComponent);
 			fibView = controller.buildView(fibComponent);
 

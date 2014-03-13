@@ -3,6 +3,7 @@ package org.openflexo.fge.impl;
 import java.awt.Stroke;
 import java.beans.PropertyChangeEvent;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,28 +29,30 @@ import org.openflexo.fge.notifications.FGEAttributeNotification;
 import org.openflexo.fge.notifications.GRDeleted;
 import org.openflexo.fib.utils.LocalizedDelegateGUIImpl;
 import org.openflexo.model.factory.CloneableProxyObject;
+import org.openflexo.toolbox.ResourceLocation;
 import org.openflexo.toolbox.ResourceLocator;
 
 public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implements GraphicalRepresentation {
 
 	private static final Logger logger = Logger.getLogger(GraphicalRepresentation.class.getPackage().getName());
+	private static final ResourceLocator rl = ResourceLocator.getResourceLocator();
 
 	// TODO: Localizer for Diana, should be refactored
 	public static LocalizedDelegateGUIImpl LOCALIZATION;
 
 	static {
-		File generalLocalizedDelegate = ResourceLocator.locateDirectory("Localized");
-		File fgeLocalizedDelegate = ResourceLocator.locateDirectory("FGELocalized");
+		ResourceLocation generalLocalizedDelegate = rl.locateResource("Localized");
+		ResourceLocation fgeLocalizedDelegate = rl.locateResource("FGELocalized");
 
-		if (fgeLocalizedDelegate.exists()) {
-			if (generalLocalizedDelegate.exists()) {
+		if (fgeLocalizedDelegate != null) {
+			if (generalLocalizedDelegate != null) {
 				LOCALIZATION = new LocalizedDelegateGUIImpl(fgeLocalizedDelegate, new LocalizedDelegateGUIImpl(generalLocalizedDelegate,
 						null, false), true);
 			} else {
 				LOCALIZATION = new LocalizedDelegateGUIImpl(fgeLocalizedDelegate, null, true);
 			}
 		} else {
-			if (generalLocalizedDelegate.exists()) {
+			if (generalLocalizedDelegate != null) {
 				LOCALIZATION = new LocalizedDelegateGUIImpl(generalLocalizedDelegate, null, true);
 			} else {
 				LOCALIZATION = new LocalizedDelegateGUIImpl(generalLocalizedDelegate, null, false);

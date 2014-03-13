@@ -23,6 +23,8 @@ import javax.swing.JComponent;
 
 import org.openflexo.fge.ShadowStyle;
 import org.openflexo.fib.model.FIBCustom.FIBCustomComponent;
+import org.openflexo.toolbox.ResourceLocation;
+import org.openflexo.toolbox.ResourceLocator;
 
 /**
  * Widget allowing to view and edit a ShadowStyle
@@ -33,6 +35,6 @@ import org.openflexo.fib.model.FIBCustom.FIBCustomComponent;
 // TODO: suppress reference to Swing (when FIB library will be independant from SWING technology)
 public interface FIBShadowStyleSelector<C extends JComponent> extends FIBCustomComponent<ShadowStyle, C> {
 
-	public static String FIB_FILE_NAME = "Fib/ShadowStyleSelector.fib";
+	public static  ResourceLocation FIB_FILE = ResourceLocator.getResourceLocator().locateResource("Fib/ShadowStyleSelector.fib");
 
 }

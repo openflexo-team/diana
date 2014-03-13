@@ -158,8 +158,10 @@ public class SlideShowEditor extends JPanel {
 
 	public static void main(String[] args) {
 		InputStream fis;
+
+		final ResourceLocator rl = ResourceLocator.getResourceLocator();
 		try {
-			fis = ResourceLocator.retrieveResource("TestPPT2.ppt");
+			fis = rl.retrieveResourceAsInputStream(rl.locateResource("TestPPT2.ppt"));
 			SlideShow ssOpenned = new SlideShow(fis);
 			System.out.println("Yes, j'ai ouvert le truc");
 			System.out.println("Slides:" + ssOpenned.getSlides().length);

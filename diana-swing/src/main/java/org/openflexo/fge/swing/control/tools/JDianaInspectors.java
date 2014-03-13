@@ -38,6 +38,8 @@ import org.openflexo.fib.FIBLibrary;
 import org.openflexo.fib.controller.FIBDialog;
 import org.openflexo.fib.model.FIBComponent;
 import org.openflexo.localization.LocalizedDelegate;
+import org.openflexo.toolbox.ResourceLocation;
+import org.openflexo.toolbox.ResourceLocator;
 
 /**
  * SWING implementation of {@link DianaInspectors}
@@ -49,6 +51,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(JDianaInspectors.class.getPackage().getName());
+	private static final ResourceLocator rl = ResourceLocator.getResourceLocator();
 
 	private JInspector<ForegroundStyle> foregroundStyleInspector;
 	private JInspector<BackgroundStyleFactory> backgroundStyleInspector;
@@ -90,18 +93,18 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 		}
 	}
 
-	public static String FOREGROUND_STYLE_FIB_FILE_NAME = "Fib/ForegroundStylePanel.fib";
-	public static String TEXT_STYLE_FIB_FILE_NAME = "Fib/TextStylePanel.fib";
-	public static String SHADOW_STYLE_FIB_FILE_NAME = "Fib/ShadowStylePanel.fib";
-	public static String BACKGROUND_STYLE_FIB_FILE_NAME = "Fib/BackgroundStylePanel.fib";
-	public static String SHAPE_SPECIFICATION_PANEL_FIB_FILE_NAME = "Fib/ShapeSelectorPanel.fib";
-	public static String CONNECTOR_SPECIFICATION_PANEL_FIB_FILE_NAME = "Fib/ConnectorSelectorPanel.fib";
-	public static String LOCATION_SIZE_FIB_FILE_NAME = "Fib/LocationSizePanel.fib";
+	public static ResourceLocation FOREGROUND_STYLE_FIB_FILE = rl.locateResource("Fib/ForegroundStylePanel.fib");
+	public static ResourceLocation TEXT_STYLE_FIB_FILE = rl.locateResource("Fib/TextStylePanel.fib");
+	public static ResourceLocation SHADOW_STYLE_FIB_FILE = rl.locateResource("Fib/ShadowStylePanel.fib");
+	public static ResourceLocation BACKGROUND_STYLE_FIB_FILE = rl.locateResource("Fib/BackgroundStylePanel.fib");
+	public static ResourceLocation SHAPE_SPECIFICATION_PANEL_FIB_FILE = rl.locateResource("Fib/ShapeSelectorPanel.fib");
+	public static ResourceLocation CONNECTOR_SPECIFICATION_PANEL_FIB_FILE = rl.locateResource("Fib/ConnectorSelectorPanel.fib");
+	public static ResourceLocation LOCATION_SIZE_FIB_FILE = rl.locateResource("Fib/LocationSizePanel.fib");
 
 	public JInspector<ForegroundStyle> getForegroundStyleInspector() {
 		if (foregroundStyleInspector == null) {
 			foregroundStyleInspector = new JInspector<ForegroundStyle>(FIBLibrary.instance()
-					.retrieveFIBComponent(FOREGROUND_STYLE_FIB_FILE_NAME,true), getInspectedForegroundStyle(), frame, "Foreground");
+					.retrieveFIBComponent(FOREGROUND_STYLE_FIB_FILE,true), getInspectedForegroundStyle(), frame, "Foreground");
 		}
 		return foregroundStyleInspector;
 	}
@@ -110,7 +113,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 		if (backgroundStyleInspector == null) {
 			// bsFactory = new BackgroundStyleFactory(getEditor().getCurrentBackgroundStyle());
 			backgroundStyleInspector = new JInspector<BackgroundStyleFactory>(FIBLibrary.instance().retrieveFIBComponent(
-					BACKGROUND_STYLE_FIB_FILE_NAME,true), (getInspectedBackgroundStyle() != null ? getInspectedBackgroundStyle().getStyleFactory()
+					BACKGROUND_STYLE_FIB_FILE,true), (getInspectedBackgroundStyle() != null ? getInspectedBackgroundStyle().getStyleFactory()
 					: null), frame, "Background");
 		}
 		return backgroundStyleInspector;
@@ -118,7 +121,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 
 	public JInspector<TextStyle> getTextStyleInspector() {
 		if (textStyleInspector == null) {
-			textStyleInspector = new JInspector<TextStyle>(FIBLibrary.instance().retrieveFIBComponent(TEXT_STYLE_FIB_FILE_NAME,true),
+			textStyleInspector = new JInspector<TextStyle>(FIBLibrary.instance().retrieveFIBComponent(TEXT_STYLE_FIB_FILE,true),
 					getInspectedTextStyle(), frame, "Text");
 		}
 		return textStyleInspector;
@@ -126,7 +129,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 
 	public JInspector<ShadowStyle> getShadowStyleInspector() {
 		if (shadowInspector == null) {
-			shadowInspector = new JInspector<ShadowStyle>(FIBLibrary.instance().retrieveFIBComponent(SHADOW_STYLE_FIB_FILE_NAME,true),
+			shadowInspector = new JInspector<ShadowStyle>(FIBLibrary.instance().retrieveFIBComponent(SHADOW_STYLE_FIB_FILE,true),
 					getInspectedShadowStyle(), frame, "Shadow");
 		}
 		return shadowInspector;
@@ -136,7 +139,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 	public JInspector<InspectedLocationSizeProperties> getLocationSizeInspector() {
 		if (locationSizeInspector == null) {
 			locationSizeInspector = new JInspector<InspectedLocationSizeProperties>(FIBLibrary.instance().retrieveFIBComponent(
-					LOCATION_SIZE_FIB_FILE_NAME,true), getInspectedLocationSizeProperties(), frame, "Location/Size");
+					LOCATION_SIZE_FIB_FILE,true), getInspectedLocationSizeProperties(), frame, "Location/Size");
 		}
 		return locationSizeInspector;
 	}
@@ -144,7 +147,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 	public JInspector<ShapeSpecificationFactory> getShapeInspector() {
 		if (shapeInspector == null) {
 			shapeInspector = new JInspector<ShapeSpecificationFactory>(FIBLibrary.instance().retrieveFIBComponent(
-					SHAPE_SPECIFICATION_PANEL_FIB_FILE_NAME,true), (getInspectedShapeSpecification() != null ? getInspectedShapeSpecification()
+					SHAPE_SPECIFICATION_PANEL_FIB_FILE,true), (getInspectedShapeSpecification() != null ? getInspectedShapeSpecification()
 					.getStyleFactory() : null), frame, "Shape");
 		}
 		return shapeInspector;
@@ -153,7 +156,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 	public JInspector<ConnectorSpecificationFactory> getConnectorInspector() {
 		if (connectorInspector == null) {
 			connectorInspector = new JInspector<ConnectorSpecificationFactory>(FIBLibrary.instance().retrieveFIBComponent(
-					CONNECTOR_SPECIFICATION_PANEL_FIB_FILE_NAME,true),
+					CONNECTOR_SPECIFICATION_PANEL_FIB_FILE,true),
 					(getInspectedConnectorSpecification() != null ? getInspectedConnectorSpecification().getStyleFactory() : null), frame,
 					"Connector");
 		}

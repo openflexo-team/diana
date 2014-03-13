@@ -87,15 +87,16 @@ import org.openflexo.toolbox.ToolBox;
 public class PPTEditorApplication {
 
 	private static final Logger logger = FlexoLogger.getLogger(PPTEditorApplication.class.getPackage().getName());
+	private static final ResourceLocator rl = ResourceLocator.getResourceLocator();
 
 	// Retrieve default Openflexo locales
 	public static final String LOCALIZATION_DIRNAME = "Localized";
-	private static LocalizedDelegateGUIImpl MAIN_LOCALIZER = new LocalizedDelegateGUIImpl(ResourceLocator.locateDirectory(LOCALIZATION_DIRNAME), null,
+	private static LocalizedDelegateGUIImpl MAIN_LOCALIZER = new LocalizedDelegateGUIImpl(rl.locateResource(LOCALIZATION_DIRNAME), null,
 			false);
 
 	// Instanciate a new localizer in directory src/dev/resources/FIBEditorLocalizer
 	// linked to parent localizer (which is Openflexo main localizer)
-	public static LocalizedDelegateGUIImpl LOCALIZATION = new LocalizedDelegateGUIImpl(ResourceLocator.locateDirectory("PPTEditorLocalized"),
+	public static LocalizedDelegateGUIImpl LOCALIZATION = new LocalizedDelegateGUIImpl(rl.locateResource("PPTEditorLocalized"),
 			MAIN_LOCALIZER, true);
 
 	private static final int META_MASK = ToolBox.getPLATFORM() == ToolBox.MACOS ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
@@ -139,7 +140,7 @@ public class PPTEditorApplication {
 		frame.setPreferredSize(new Dimension(1100, 800));
 		fileChooser = new FlexoFileChooser(frame);
 		fileChooser.setFileFilterAsString("*.ppt,*.pptx");
-		fileChooser.setCurrentDirectory(ResourceLocator.locateDirectory("ppt"));
+		fileChooser.setCurrentDirectory(rl.retrieveResourceAsFile(rl.locateResource("ppt")));
 
 		toolFactory = new SwingToolFactory(frame);
 
@@ -718,26 +719,26 @@ public class PPTEditorApplication {
 	}
 
 	// Actions icons
-	public static final ImageIcon UNDO_ICON = new ImageIconResource("Icons/Undo.png");
-	public static final ImageIcon REDO_ICON = new ImageIconResource("Icons/Redo.png");
-	public static final ImageIcon COPY_ICON = new ImageIconResource("Icons/Copy.png");
-	public static final ImageIcon PASTE_ICON = new ImageIconResource("Icons/Paste.png");
-	public static final ImageIcon CUT_ICON = new ImageIconResource("Icons/Cut.png");
-	public static final ImageIcon DELETE_ICON = new ImageIconResource("Icons/Delete.png");
-	public static final ImageIcon HELP_ICON = new ImageIconResource("Icons/Help.png");
-	public static final ImageIcon IMPORT_ICON = new ImageIconResource("Icons/Import.png");
-	public static final ImageIcon EXPORT_ICON = new ImageIconResource("Icons/Export.png");
-	public static final ImageIcon OPEN_ICON = new ImageIconResource("Icons/Open.png");
-	public static final ImageIcon NEW_ICON = new ImageIconResource("Icons/New.png");
-	public static final ImageIcon PRINT_ICON = new ImageIconResource("Icons/Print.png");
-	public static final ImageIcon SAVE_ICON = new ImageIconResource("Icons/Save.png");
-	public static final ImageIcon SAVE_DISABLED_ICON = new ImageIconResource("Icons/Save-disabled.png");
-	public static final ImageIcon SAVE_AS_ICON = new ImageIconResource("Icons/Save-as.png");
-	public static final ImageIcon SAVE_ALL_ICON = new ImageIconResource("Icons/Save-all.png");
-	public static final ImageIcon NETWORK_ICON = new ImageIconResource("Icons/Network.png");
-	public static final ImageIcon INFO_ICON = new ImageIconResource("Icons/Info.png");
-	public static final ImageIcon INSPECT_ICON = new ImageIconResource("Icons/Inspect.png");
-	public static final ImageIcon REFRESH_ICON = new ImageIconResource("Icons/Refresh.png");
-	public static final ImageIcon REFRESH_DISABLED_ICON = new ImageIconResource("Icons/Refresh-disabled.png");
+	public static final ImageIcon UNDO_ICON = new ImageIconResource(rl.locateResource("Icons/Undo.png"));
+	public static final ImageIcon REDO_ICON = new ImageIconResource(rl.locateResource("Icons/Redo.png"));
+	public static final ImageIcon COPY_ICON = new ImageIconResource(rl.locateResource("Icons/Copy.png"));
+	public static final ImageIcon PASTE_ICON = new ImageIconResource(rl.locateResource("Icons/Paste.png"));
+	public static final ImageIcon CUT_ICON = new ImageIconResource(rl.locateResource("Icons/Cut.png"));
+	public static final ImageIcon DELETE_ICON = new ImageIconResource(rl.locateResource("Icons/Delete.png"));
+	public static final ImageIcon HELP_ICON = new ImageIconResource(rl.locateResource("Icons/Help.png"));
+	public static final ImageIcon IMPORT_ICON = new ImageIconResource(rl.locateResource("Icons/Import.png"));
+	public static final ImageIcon EXPORT_ICON = new ImageIconResource(rl.locateResource("Icons/Export.png"));
+	public static final ImageIcon OPEN_ICON = new ImageIconResource(rl.locateResource("Icons/Open.png"));
+	public static final ImageIcon NEW_ICON = new ImageIconResource(rl.locateResource("Icons/New.png"));
+	public static final ImageIcon PRINT_ICON = new ImageIconResource(rl.locateResource("Icons/Print.png"));
+	public static final ImageIcon SAVE_ICON = new ImageIconResource(rl.locateResource("Icons/Save.png"));
+	public static final ImageIcon SAVE_DISABLED_ICON = new ImageIconResource(rl.locateResource("Icons/Save-disabled.png"));
+	public static final ImageIcon SAVE_AS_ICON = new ImageIconResource(rl.locateResource("Icons/Save-as.png"));
+	public static final ImageIcon SAVE_ALL_ICON = new ImageIconResource(rl.locateResource("Icons/Save-all.png"));
+	public static final ImageIcon NETWORK_ICON = new ImageIconResource(rl.locateResource("Icons/Network.png"));
+	public static final ImageIcon INFO_ICON = new ImageIconResource(rl.locateResource("Icons/Info.png"));
+	public static final ImageIcon INSPECT_ICON = new ImageIconResource(rl.locateResource("Icons/Inspect.png"));
+	public static final ImageIcon REFRESH_ICON = new ImageIconResource(rl.locateResource("Icons/Refresh.png"));
+	public static final ImageIcon REFRESH_DISABLED_ICON = new ImageIconResource(rl.locateResource("Icons/Refresh-disabled.png"));
 
 }

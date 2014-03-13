@@ -145,7 +145,7 @@ public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements
 		protected ShadowStyleDetailsPanel(ShadowStyle shadowStyle) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE_NAME,true);
+			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE,true);
 			controller = new CustomFIBController(fibComponent);
 			fibView = controller.buildView(fibComponent);
 
