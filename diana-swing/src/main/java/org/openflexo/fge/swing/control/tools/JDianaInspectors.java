@@ -38,8 +38,8 @@ import org.openflexo.fib.FIBLibrary;
 import org.openflexo.fib.controller.FIBDialog;
 import org.openflexo.fib.model.FIBComponent;
 import org.openflexo.localization.LocalizedDelegate;
-import org.openflexo.toolbox.ResourceLocation;
-import org.openflexo.toolbox.ResourceLocator;
+import org.openflexo.rm.Resource;
+import org.openflexo.rm.CompositeResourceLocatorImpl;
 
 /**
  * SWING implementation of {@link DianaInspectors}
@@ -51,7 +51,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(JDianaInspectors.class.getPackage().getName());
-	private static final ResourceLocator rl = ResourceLocator.getResourceLocator();
+	private static final CompositeResourceLocatorImpl rl = CompositeResourceLocatorImpl.getResourceLocator();
 
 	private JInspector<ForegroundStyle> foregroundStyleInspector;
 	private JInspector<BackgroundStyleFactory> backgroundStyleInspector;
@@ -93,13 +93,13 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 		}
 	}
 
-	public static ResourceLocation FOREGROUND_STYLE_FIB_FILE = rl.locateResource("Fib/ForegroundStylePanel.fib");
-	public static ResourceLocation TEXT_STYLE_FIB_FILE = rl.locateResource("Fib/TextStylePanel.fib");
-	public static ResourceLocation SHADOW_STYLE_FIB_FILE = rl.locateResource("Fib/ShadowStylePanel.fib");
-	public static ResourceLocation BACKGROUND_STYLE_FIB_FILE = rl.locateResource("Fib/BackgroundStylePanel.fib");
-	public static ResourceLocation SHAPE_SPECIFICATION_PANEL_FIB_FILE = rl.locateResource("Fib/ShapeSelectorPanel.fib");
-	public static ResourceLocation CONNECTOR_SPECIFICATION_PANEL_FIB_FILE = rl.locateResource("Fib/ConnectorSelectorPanel.fib");
-	public static ResourceLocation LOCATION_SIZE_FIB_FILE = rl.locateResource("Fib/LocationSizePanel.fib");
+	public static Resource FOREGROUND_STYLE_FIB_FILE = rl.locateResource("Fib/ForegroundStylePanel.fib");
+	public static Resource TEXT_STYLE_FIB_FILE = rl.locateResource("Fib/TextStylePanel.fib");
+	public static Resource SHADOW_STYLE_FIB_FILE = rl.locateResource("Fib/ShadowStylePanel.fib");
+	public static Resource BACKGROUND_STYLE_FIB_FILE = rl.locateResource("Fib/BackgroundStylePanel.fib");
+	public static Resource SHAPE_SPECIFICATION_PANEL_FIB_FILE = rl.locateResource("Fib/ShapeSelectorPanel.fib");
+	public static Resource CONNECTOR_SPECIFICATION_PANEL_FIB_FILE = rl.locateResource("Fib/ConnectorSelectorPanel.fib");
+	public static Resource LOCATION_SIZE_FIB_FILE = rl.locateResource("Fib/LocationSizePanel.fib");
 
 	public JInspector<ForegroundStyle> getForegroundStyleInspector() {
 		if (foregroundStyleInspector == null) {

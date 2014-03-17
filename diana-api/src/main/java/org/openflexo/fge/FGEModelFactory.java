@@ -53,6 +53,7 @@ import org.openflexo.fge.shapes.Triangle;
 import org.openflexo.model.ModelContextLibrary;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.model.factory.ModelFactory;
+import org.openflexo.rm.Resource;
 import org.openflexo.toolbox.ToolBox;
 
 /**
@@ -691,15 +692,15 @@ public abstract class FGEModelFactory extends ModelFactory {
 	/**
 	 * Make a new background style as image background, given a file encoding image
 	 * 
-	 * @param imageFile
+	 * @param imageResource
 	 *            the file where image is located (most image format allowed)
 	 * 
 	 * @return a newly created BackgroundStyle
 	 */
-	public BackgroundImageBackgroundStyle makeImageBackground(File imageFile) {
+	public BackgroundImageBackgroundStyle makeImageBackground(Resource imageResource) {
 		BackgroundImageBackgroundStyle returned = newInstance(BackgroundImageBackgroundStyle.class);
 		returned.setFactory(this);
-		returned.setImageFile(imageFile);
+		returned.setImageResource(imageResource);
 		return returned;
 	}
 
@@ -733,7 +734,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 		} else if (type == BackgroundStyleType.TEXTURE) {
 			return makeTexturedBackground(TextureType.TEXTURE1, java.awt.Color.RED, java.awt.Color.WHITE);
 		} else if (type == BackgroundStyleType.IMAGE) {
-			return makeImageBackground((File) null);
+			return makeImageBackground((Resource) null);
 		}
 		return null;
 	}

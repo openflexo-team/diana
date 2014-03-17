@@ -30,6 +30,7 @@ import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLAttribute;
 import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.rm.Resource;
 
 /**
  * Represents a background filled with an image
@@ -41,7 +42,7 @@ import org.openflexo.model.annotations.XMLElement;
 @XMLElement(xmlTag = "ImageBackgroundStyle")
 public interface BackgroundImageBackgroundStyle extends BackgroundStyle {
 
-	@PropertyIdentifier(type = File.class)
+	@PropertyIdentifier(type = Resource.class)
 	public static final String IMAGE_FILE_KEY = "imageFile";
 	@PropertyIdentifier(type = Double.class)
 	public static final String SCALE_X_KEY = "scaleX";
@@ -58,8 +59,8 @@ public interface BackgroundImageBackgroundStyle extends BackgroundStyle {
 	@PropertyIdentifier(type = Color.class)
 	public static final String IMAGE_BACKGROUND_COLOR_KEY = "imageBackgroundColor";
 
-	public static GRParameter<File> IMAGE_FILE = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class, IMAGE_FILE_KEY,
-			File.class);
+	public static GRParameter<Resource> IMAGE_FILE = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class, IMAGE_FILE_KEY,
+			Resource.class);
 	public static GRParameter<Double> SCALE_X = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class, SCALE_X_KEY, Double.class);
 	public static GRParameter<Double> SCALE_Y = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class, SCALE_Y_KEY, Double.class);
 	public static GRParameter<Double> DELTA_X = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class, DELTA_X_KEY, Double.class);
@@ -80,10 +81,10 @@ public interface BackgroundImageBackgroundStyle extends BackgroundStyle {
 
 	@Getter(value = IMAGE_FILE_KEY)
 	@XMLAttribute
-	public File getImageFile();
+	public Resource getImageResource();
 
 	@Setter(value = IMAGE_FILE_KEY)
-	public void setImageFile(File anImageFile);
+	public void setImageResource(Resource anImageResource);
 
 	@Getter(value = IMAGE_BACKGROUND_COLOR_KEY)
 	@XMLAttribute

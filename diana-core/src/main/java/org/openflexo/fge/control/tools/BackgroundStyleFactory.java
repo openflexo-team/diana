@@ -21,6 +21,7 @@ import org.openflexo.fge.NoneBackgroundStyle;
 import org.openflexo.fge.TextureBackgroundStyle;
 import org.openflexo.fge.TextureBackgroundStyle.TextureType;
 import org.openflexo.fge.control.DianaInteractiveViewer;
+import org.openflexo.rm.Resource;
 
 /**
  * Convenient class used to manipulate BackgroundStyle instances over BackgroundStyle class hierarchy
@@ -424,12 +425,12 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 		}
 
 		@Override
-		public File getImageFile() {
+		public Resource getImageResource() {
 			return getPropertyValue(BackgroundImageBackgroundStyle.IMAGE_FILE);
 		}
 
 		@Override
-		public void setImageFile(File anImageFile) {
+		public void setImageResource(Resource anImageFile) {
 			setPropertyValue(BackgroundImageBackgroundStyle.IMAGE_FILE, anImageFile);
 		}
 

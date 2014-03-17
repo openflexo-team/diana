@@ -71,11 +71,11 @@ import org.openflexo.fib.utils.LocalizedDelegateGUIImpl;
 import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
+import org.openflexo.rm.CompositeResourceLocatorImpl;
 import org.openflexo.swing.FlexoFileChooser;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 import org.openflexo.toolbox.ImageIconResource;
 import org.openflexo.toolbox.PropertyChangeListenerRegistrationManager;
-import org.openflexo.toolbox.ResourceLocator;
 import org.openflexo.toolbox.ToolBox;
 
 /**
@@ -87,7 +87,7 @@ import org.openflexo.toolbox.ToolBox;
 public class PPTEditorApplication {
 
 	private static final Logger logger = FlexoLogger.getLogger(PPTEditorApplication.class.getPackage().getName());
-	private static final ResourceLocator rl = ResourceLocator.getResourceLocator();
+	private static final CompositeResourceLocatorImpl rl = CompositeResourceLocatorImpl.getResourceLocator();
 
 	// Retrieve default Openflexo locales
 	public static final String LOCALIZATION_DIRNAME = "Localized";

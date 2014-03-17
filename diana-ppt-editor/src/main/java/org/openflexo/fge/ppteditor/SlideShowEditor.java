@@ -48,8 +48,8 @@ import org.apache.poi.hslf.model.Slide;
 import org.apache.poi.hslf.usermodel.SlideShow;
 import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.logging.FlexoLogger;
+import org.openflexo.rm.CompositeResourceLocatorImpl;
 import org.openflexo.swing.VerticalLayout;
-import org.openflexo.toolbox.ResourceLocator;
 
 public class SlideShowEditor extends JPanel {
 
@@ -159,9 +159,9 @@ public class SlideShowEditor extends JPanel {
 	public static void main(String[] args) {
 		InputStream fis;
 
-		final ResourceLocator rl = ResourceLocator.getResourceLocator();
+		final CompositeResourceLocatorImpl rl = CompositeResourceLocatorImpl.getResourceLocator();
 		try {
-			fis = rl.retrieveResourceAsInputStream(rl.locateResource("TestPPT2.ppt"));
+			fis = (rl.locateResource("TestPPT2.ppt")).openInputStream();
 			SlideShow ssOpenned = new SlideShow(fis);
 			System.out.println("Yes, j'ai ouvert le truc");
 			System.out.println("Slides:" + ssOpenned.getSlides().length);

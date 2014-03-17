@@ -75,11 +75,11 @@ import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.model.undo.UndoManager;
+import org.openflexo.rm.CompositeResourceLocatorImpl;
 import org.openflexo.swing.FlexoFileChooser;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 import org.openflexo.toolbox.ImageIconResource;
 import org.openflexo.toolbox.PropertyChangeListenerRegistrationManager;
-import org.openflexo.toolbox.ResourceLocator;
 import org.openflexo.toolbox.ToolBox;
 
 /**
@@ -91,16 +91,16 @@ import org.openflexo.toolbox.ToolBox;
 public class DiagramEditorApplication {
 
 	private static final Logger logger = FlexoLogger.getLogger(DiagramEditorApplication.class.getPackage().getName());
-	private static final ResourceLocator rl = ResourceLocator.getResourceLocator();
+	private static final CompositeResourceLocatorImpl rl = CompositeResourceLocatorImpl.getResourceLocator();
 
 	// Retrieve default Openflexo locales
 	public static final String LOCALIZATION_DIRNAME = "Localized";
-	private static LocalizedDelegateGUIImpl MAIN_LOCALIZER = new LocalizedDelegateGUIImpl(ResourceLocator.getResourceLocator().locateResource(LOCALIZATION_DIRNAME), null,
+	private static LocalizedDelegateGUIImpl MAIN_LOCALIZER = new LocalizedDelegateGUIImpl(CompositeResourceLocatorImpl.getResourceLocator().locateResource(LOCALIZATION_DIRNAME), null,
 			false);
 
 	// Instanciate a new localizer in directory src/dev/resources/FIBEditorLocalizer
 	// linked to parent localizer (which is Openflexo main localizer)
-	public static LocalizedDelegateGUIImpl LOCALIZATION = new LocalizedDelegateGUIImpl(ResourceLocator.getResourceLocator().locateResource("FGEEditorLocalized"),
+	public static LocalizedDelegateGUIImpl LOCALIZATION = new LocalizedDelegateGUIImpl(CompositeResourceLocatorImpl.getResourceLocator().locateResource("FGEEditorLocalized"),
 			MAIN_LOCALIZER, true);
 
 	private static final int META_MASK = ToolBox.getPLATFORM() == ToolBox.MACOS ? InputEvent.META_MASK : InputEvent.CTRL_MASK;

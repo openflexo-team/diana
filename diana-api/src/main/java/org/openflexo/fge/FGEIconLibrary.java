@@ -20,8 +20,8 @@
  */
 package org.openflexo.fge;
 
+import org.openflexo.rm.CompositeResourceLocatorImpl;
 import org.openflexo.toolbox.ImageIconResource;
-import org.openflexo.toolbox.ResourceLocator;
 
 /**
  * Utility class containing all icons used in FGE
@@ -30,7 +30,7 @@ import org.openflexo.toolbox.ResourceLocator;
  * 
  */
 public class FGEIconLibrary {
-	private static final ResourceLocator rl = ResourceLocator.getResourceLocator();
+	private static final CompositeResourceLocatorImpl rl = CompositeResourceLocatorImpl.getResourceLocator();
 
 	public static final ImageIconResource TOOLBAR_LEFT_ICON = new ImageIconResource(rl.locateResource("Icons/GUI/ToolBarLeft.gif"));
 	public static final ImageIconResource TOOLBAR_RIGHT_ICON = new ImageIconResource(rl.locateResource("Icons/GUI/ToolBarRight.gif"));

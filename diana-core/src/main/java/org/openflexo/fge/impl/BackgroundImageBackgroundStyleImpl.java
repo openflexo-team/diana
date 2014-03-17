@@ -7,19 +7,21 @@ import javax.swing.ImageIcon;
 
 import org.openflexo.fge.BackgroundImageBackgroundStyle;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
+import org.openflexo.rm.Resource;
+import org.openflexo.toolbox.ImageIconResource;
 
 public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyleImpl implements BackgroundImageBackgroundStyle {
 
-	private File imageFile;
+	private Resource imageResource;
 	private Image image;
 
 	public BackgroundImageBackgroundStyleImpl() {
 		this((ImageIcon) null);
 	}
 
-	public BackgroundImageBackgroundStyleImpl(File imageFile) {
+	public BackgroundImageBackgroundStyleImpl(Resource imageResource) {
 		super();
-		setImageFile(imageFile);
+		setImageResource(imageResource);
 	}
 
 	public BackgroundImageBackgroundStyleImpl(ImageIcon image) {
@@ -35,22 +37,22 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 	}
 
 	@Override
-	public File getImageFile() {
-		return imageFile;
+	public Resource getImageResource() {
+		return imageResource;
 	}
 
 	@Override
-	public void setImageFile(File anImageFile) {
-		if (requireChange(this.imageFile, anImageFile)) {
-			File oldFile = imageFile;
-			imageFile = anImageFile;
-			if (anImageFile != null && anImageFile.exists()) {
-				image = new ImageIcon(anImageFile.getAbsolutePath()).getImage();
+	public void setImageResource(Resource anImageResource) {
+		if (requireChange(this.imageResource, anImageResource)) {
+			Resource oldResource = imageResource;
+			imageResource = anImageResource;
+			if (anImageResource != null ) {
+				image = new ImageIconResource(anImageResource).getImage();
 			} else {
 				image = null;
 			}
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(IMAGE_FILE, oldFile, anImageFile));
+			notifyObservers(new FGEAttributeNotification(IMAGE_FILE, oldResource, anImageResource));
 		}
 	}
 
