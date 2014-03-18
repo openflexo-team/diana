@@ -30,19 +30,19 @@ import org.openflexo.fge.notifications.GRDeleted;
 import org.openflexo.fib.utils.LocalizedDelegateGUIImpl;
 import org.openflexo.model.factory.CloneableProxyObject;
 import org.openflexo.rm.Resource;
-import org.openflexo.rm.CompositeResourceLocatorImpl;
+import org.openflexo.rm.ResourceLocator;
 
 public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implements GraphicalRepresentation {
 
 	private static final Logger logger = Logger.getLogger(GraphicalRepresentation.class.getPackage().getName());
-	private static final CompositeResourceLocatorImpl rl = CompositeResourceLocatorImpl.getResourceLocator();
+	private static final ResourceLocator rl = ResourceLocator.getResourceLocator();
 
 	// TODO: Localizer for Diana, should be refactored
 	public static LocalizedDelegateGUIImpl LOCALIZATION;
 
 	static {
-		Resource generalLocalizedDelegate = rl.locateResource("Localized");
-		Resource fgeLocalizedDelegate = rl.locateResource("FGELocalized");
+		Resource generalLocalizedDelegate = ResourceLocator.locateResource("Localized");
+		Resource fgeLocalizedDelegate = ResourceLocator.locateResource("FGELocalized");
 
 		if (fgeLocalizedDelegate != null) {
 			if (generalLocalizedDelegate != null) {

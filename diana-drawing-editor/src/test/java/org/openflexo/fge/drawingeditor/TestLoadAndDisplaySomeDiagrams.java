@@ -18,7 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openflexo.fge.drawingeditor.model.DiagramFactory;
 import org.openflexo.model.exceptions.ModelDefinitionException;
-import org.openflexo.rm.CompositeResourceLocatorImpl;
+import org.openflexo.rm.ResourceLocator;
 
 public class TestLoadAndDisplaySomeDiagrams {
 
@@ -106,8 +106,8 @@ public class TestLoadAndDisplaySomeDiagrams {
 	@Test
 	public void testBasicExample() {
 
-		final CompositeResourceLocatorImpl rl = CompositeResourceLocatorImpl.getResourceLocator();
-		deserializeAndDisplay(rl.retrieveResourceAsFile(rl.locateResource(("DrawingExamples/BasicExample.drw"))));
+		final ResourceLocator rl = ResourceLocator.getResourceLocator();
+		deserializeAndDisplay(rl.retrieveResourceAsFile(ResourceLocator.locateResource(("DrawingExamples/BasicExample.drw"))));
 	}
 
 	/*@Test
