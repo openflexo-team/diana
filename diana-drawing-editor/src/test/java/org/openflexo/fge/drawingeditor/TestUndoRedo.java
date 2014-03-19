@@ -9,6 +9,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.openflexo.fge.drawingeditor.model.Connector;
 import org.openflexo.fge.drawingeditor.model.Diagram;
 import org.openflexo.fge.drawingeditor.model.DiagramFactory;
@@ -16,6 +17,8 @@ import org.openflexo.fge.drawingeditor.model.Shape;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.test.OrderedRunner;
+import org.openflexo.test.TestOrder;
 
 /**
  * This test is actually testing PAMELA undo/redo features applied to Diana model
@@ -23,6 +26,7 @@ import org.openflexo.model.undo.CompoundEdit;
  * @author sylvain
  * 
  */
+@RunWith(OrderedRunner.class)
 public class TestUndoRedo extends TestCase {
 
 	private static DiagramFactory factory;
@@ -60,6 +64,7 @@ public class TestUndoRedo extends TestCase {
 	}
 
 	@Test
+	@TestOrder(1)
 	public void test1Do() throws Exception {
 
 		initDiagram = factory.getUndoManager().startRecording("Initialize new Diagram");
@@ -109,6 +114,7 @@ public class TestUndoRedo extends TestCase {
 
 	// UNDO create connector
 	@Test
+	@TestOrder(2)
 	public void test2Undo1() throws Exception {
 
 		assertEquals(2, diagram.getShapes().size());
@@ -133,6 +139,7 @@ public class TestUndoRedo extends TestCase {
 
 	// UNDO create shape2
 	@Test
+	@TestOrder(3)
 	public void test3Undo2() throws Exception {
 
 		assertEquals(2, diagram.getShapes().size());
@@ -155,6 +162,7 @@ public class TestUndoRedo extends TestCase {
 
 	// UNDO create shape1
 	@Test
+	@TestOrder(4)
 	public void test4Undo3() throws Exception {
 
 		assertEquals(1, diagram.getShapes().size());
@@ -175,6 +183,7 @@ public class TestUndoRedo extends TestCase {
 
 	// REDO create shape1
 	@Test
+	@TestOrder(5)
 	public void test5Redo1() throws Exception {
 
 		assertEquals(0, diagram.getShapes().size());
@@ -196,6 +205,7 @@ public class TestUndoRedo extends TestCase {
 
 	// REDO create shape2
 	@Test
+	@TestOrder(6)
 	public void test6Redo2() throws Exception {
 
 		assertEquals(1, diagram.getShapes().size());
@@ -221,6 +231,7 @@ public class TestUndoRedo extends TestCase {
 
 	// REDO create connector
 	@Test
+	@TestOrder(7)
 	public void test7Redo3() throws Exception {
 
 		assertEquals(2, diagram.getShapes().size());

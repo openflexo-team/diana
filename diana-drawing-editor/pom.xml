@@ -29,6 +29,13 @@
                 <artifactId>docking-frames-common</artifactId>
                 <version>1.1.1</version>
         </dependency>
+        
+		<dependency>
+			<groupId>org.openflexo</groupId>
+			<artifactId>flexoutils</artifactId>
+			<classifier>tests</classifier>
+			<scope>test</scope>
+		</dependency>
          <!--  <dependency>
                 <groupId>org.dockingframes</groupId>
                 <artifactId>docking-frames-demo-app</artifactId>
