@@ -15,6 +15,9 @@
 		<gina.version>1.0-SNAPSHOT</gina.version>
 		<connie.version>1.0-SNAPSHOT</connie.version>
 		<pamela.version>1.0-SNAPSHOT</pamela.version>
+		<gina.version>1.0-SNAPSHOT</gina.version>
+		<graphicsutils.version>1.0-SNAPSHOT</graphicsutils.version>
+		
 	</properties>
 	<scm>
 		<connection>scm:git:ssh://git@github.com:openflexo-team/diana.git</connection>
@@ -35,25 +38,8 @@
 				<groupId>org.openflexo</groupId>
 				<artifactId>flexoutils</artifactId>
 				<version>${connie.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.openflexo</groupId>
-				<artifactId>flexoutils</artifactId>
-				<version>${connie.version}</version>
 				<classifier>tests</classifier>
 			</dependency>
-			<dependency>
-				<groupId>org.openflexo</groupId>
-				<artifactId>connie-core</artifactId>
-				<version>${connie.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.openflexo</groupId>
-				<artifactId>connie-core</artifactId>
-				<version>${connie.version}</version>
-				<classifier>tests</classifier>
-			</dependency>
-
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
@@ -67,12 +53,12 @@
 		    <dependency>
 			   <groupId>org.openflexo</groupId>
 			   <artifactId>flexographicsutils</artifactId>
-			   <version>1.7-SNAPSHOT</version>
+			   <version>${graphicsutils.version}</version>
 		    </dependency>
 			<dependency>
 				<groupId>org.openflexo</groupId>
 				<artifactId>gina-core</artifactId>
-			    <version>1.0-SNAPSHOT</version>
+			    <version>${gina.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.openflexo</groupId>
