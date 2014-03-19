@@ -35,6 +35,6 @@ import org.openflexo.rm.ResourceLocator;
 // TODO: suppress reference to Swing (when FIB library will be independant from SWING technology)
 public interface FIBForegroundStyleSelector<C extends JComponent> extends FIBCustomComponent<ForegroundStyle, C> {
 
-	public static Resource FIB_FILE = ResourceLocator.getResourceLocator().locateResource("Fib/ForegroundStyleSelector.fib");
+	public static Resource FIB_FILE = ResourceLocator.locateResource("Fib/ForegroundStyleSelector.fib");
 
 }

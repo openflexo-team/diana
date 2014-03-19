@@ -35,7 +35,7 @@ import org.openflexo.rm.ResourceLocator;
 public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implements GraphicalRepresentation {
 
 	private static final Logger logger = Logger.getLogger(GraphicalRepresentation.class.getPackage().getName());
-	private static final ResourceLocator rl = ResourceLocator.getResourceLocator();
+	
 
 	// TODO: Localizer for Diana, should be refactored
 	public static LocalizedDelegateGUIImpl LOCALIZATION;

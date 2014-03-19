@@ -87,7 +87,7 @@ import org.openflexo.toolbox.ToolBox;
 public class PPTEditorApplication {
 
 	private static final Logger logger = FlexoLogger.getLogger(PPTEditorApplication.class.getPackage().getName());
-	private static final ResourceLocator rl = ResourceLocator.getResourceLocator();
+	
 
 	// Retrieve default Openflexo locales
 	public static final String LOCALIZATION_DIRNAME = "Localized";
@@ -140,7 +140,7 @@ public class PPTEditorApplication {
 		frame.setPreferredSize(new Dimension(1100, 800));
 		fileChooser = new FlexoFileChooser(frame);
 		fileChooser.setFileFilterAsString("*.ppt,*.pptx");
-		fileChooser.setCurrentDirectory(rl.retrieveResourceAsFile(ResourceLocator.locateResource("ppt")));
+		fileChooser.setCurrentDirectory(ResourceLocator.retrieveResourceAsFile(ResourceLocator.locateResource("ppt")));
 
 		toolFactory = new SwingToolFactory(frame);
 

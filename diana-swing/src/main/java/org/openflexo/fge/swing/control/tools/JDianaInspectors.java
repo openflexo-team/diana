@@ -51,7 +51,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(JDianaInspectors.class.getPackage().getName());
-	private static final ResourceLocator rl = ResourceLocator.getResourceLocator();
+	
 
 	private JInspector<ForegroundStyle> foregroundStyleInspector;
 	private JInspector<BackgroundStyleFactory> backgroundStyleInspector;

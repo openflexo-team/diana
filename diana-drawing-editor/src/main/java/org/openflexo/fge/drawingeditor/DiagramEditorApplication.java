@@ -91,16 +91,16 @@ import org.openflexo.toolbox.ToolBox;
 public class DiagramEditorApplication {
 
 	private static final Logger logger = FlexoLogger.getLogger(DiagramEditorApplication.class.getPackage().getName());
-	private static final ResourceLocator rl = ResourceLocator.getResourceLocator();
+	
 
 	// Retrieve default Openflexo locales
 	public static final String LOCALIZATION_DIRNAME = "Localized";
-	private static LocalizedDelegateGUIImpl MAIN_LOCALIZER = new LocalizedDelegateGUIImpl(ResourceLocator.getResourceLocator().locateResource(LOCALIZATION_DIRNAME), null,
+	private static LocalizedDelegateGUIImpl MAIN_LOCALIZER = new LocalizedDelegateGUIImpl(ResourceLocator.locateResource(LOCALIZATION_DIRNAME), null,
 			false);
 
 	// Instanciate a new localizer in directory src/dev/resources/FIBEditorLocalizer
 	// linked to parent localizer (which is Openflexo main localizer)
-	public static LocalizedDelegateGUIImpl LOCALIZATION = new LocalizedDelegateGUIImpl(ResourceLocator.getResourceLocator().locateResource("FGEEditorLocalized"),
+	public static LocalizedDelegateGUIImpl LOCALIZATION = new LocalizedDelegateGUIImpl(ResourceLocator.locateResource("FGEEditorLocalized"),
 			MAIN_LOCALIZER, true);
 
 	private static final int META_MASK = ToolBox.getPLATFORM() == ToolBox.MACOS ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
@@ -155,7 +155,7 @@ public class DiagramEditorApplication {
 		frame.setPreferredSize(new Dimension(1100, 800));
 		fileChooser = new FlexoFileChooser(frame);
 		fileChooser.setFileFilterAsString("*.drw");
-		fileChooser.setCurrentDirectory(rl.retrieveResourceAsFile(ResourceLocator.locateResource("DrawingExamples")));
+		fileChooser.setCurrentDirectory(ResourceLocator.retrieveResourceAsFile(ResourceLocator.locateResource("DrawingExamples")));
 
 		toolFactory = new SwingToolFactory(frame);
 

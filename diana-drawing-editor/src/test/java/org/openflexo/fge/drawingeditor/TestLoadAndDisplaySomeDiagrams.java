@@ -106,8 +106,8 @@ public class TestLoadAndDisplaySomeDiagrams {
 	@Test
 	public void testBasicExample() {
 
-		final ResourceLocator rl = ResourceLocator.getResourceLocator();
-		deserializeAndDisplay(rl.retrieveResourceAsFile(ResourceLocator.locateResource(("DrawingExamples/BasicExample.drw"))));
+		
+		deserializeAndDisplay(ResourceLocator.retrieveResourceAsFile(ResourceLocator.locateResource(("DrawingExamples/BasicExample.drw"))));
 	}
 
 	/*@Test

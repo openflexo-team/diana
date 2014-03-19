@@ -75,7 +75,7 @@ public interface TextureBackgroundStyle extends BackgroundStyle {
 		TEXTURE16;
 
 		public ImageIcon getImageIcon() {
-			return new ImageIconResource(ResourceLocator.getResourceLocator().locateResource("Motifs/Motif" + (ordinal() + 1) + ".gif"));
+			return new ImageIconResource(ResourceLocator.locateResource("Motifs/Motif" + (ordinal() + 1) + ".gif"));
 		}
 
 		@Override

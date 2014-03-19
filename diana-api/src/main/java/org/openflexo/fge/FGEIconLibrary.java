@@ -30,7 +30,7 @@ import org.openflexo.toolbox.ImageIconResource;
  * 
  */
 public class FGEIconLibrary {
-	private static final ResourceLocator rl = ResourceLocator.getResourceLocator();
+	
 
 	public static final ImageIconResource TOOLBAR_LEFT_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/GUI/ToolBarLeft.gif"));
 	public static final ImageIconResource TOOLBAR_RIGHT_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/GUI/ToolBarRight.gif"));
