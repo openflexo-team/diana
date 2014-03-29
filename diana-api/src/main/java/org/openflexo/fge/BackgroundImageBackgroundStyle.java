@@ -142,5 +142,9 @@ public interface BackgroundImageBackgroundStyle extends BackgroundStyle {
 	public void setScaleXNoNotification(double aScaleX);
 
 	public void setScaleYNoNotification(double aScaleY);
+	
+	public File getImageFile();
+	
+	public void setImageFile(File file);
 
 }

@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import org.openflexo.fge.BackgroundImageBackgroundStyle;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 import org.openflexo.rm.Resource;
+import org.openflexo.rm.ResourceLocator;
 import org.openflexo.toolbox.ImageIconResource;
 
 public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyleImpl implements BackgroundImageBackgroundStyle {
@@ -23,7 +24,7 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 		super();
 		setImageResource(imageResource);
 	}
-
+	
 	public BackgroundImageBackgroundStyleImpl(ImageIcon image) {
 		super();
 		if (image != null) {
@@ -34,6 +35,16 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 	@Override
 	public BackgroundStyleType getBackgroundStyleType() {
 		return BackgroundStyleType.IMAGE;
+	}
+	
+	@Override
+	public File getImageFile() {
+		return getImageResource().getLocator().retrieveResourceAsFile(getImageResource());
+	}
+	
+	@Override
+	public void setImageFile(File imageFile) {
+		setImageResource(ResourceLocator.locateResource(imageFile.getPath()));
 	}
 
 	@Override

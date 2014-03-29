@@ -22,6 +22,7 @@ import org.openflexo.fge.TextureBackgroundStyle;
 import org.openflexo.fge.TextureBackgroundStyle.TextureType;
 import org.openflexo.fge.control.DianaInteractiveViewer;
 import org.openflexo.rm.Resource;
+import org.openflexo.rm.ResourceLocator;
 
 /**
  * Convenient class used to manipulate BackgroundStyle instances over BackgroundStyle class hierarchy
@@ -525,6 +526,19 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 		public void setScaleYNoNotification(double aScaleY) {
 			// TODO Auto-generated method stub
 
+		}
+
+		@Override
+		public File getImageFile() {
+			if(getImageResource()!=null && getImageResource().getLocator()!=null){
+				return getImageResource().getLocator().retrieveResourceAsFile(getImageResource());
+			}
+			return null;
+		}
+
+		@Override
+		public void setImageFile(File file) {
+			setImageResource(ResourceLocator.locateResource(file.getPath()));
 		}
 	}
 
