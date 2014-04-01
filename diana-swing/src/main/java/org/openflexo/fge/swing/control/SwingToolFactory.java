@@ -31,6 +31,7 @@ import org.openflexo.fge.control.actions.DrawConnectorAction;
 import org.openflexo.fge.control.actions.DrawShapeAction;
 import org.openflexo.fge.swing.JDianaInteractiveEditor;
 import org.openflexo.fge.swing.SwingViewFactory;
+import org.openflexo.fge.swing.control.tools.JDianaDialogInspectors;
 import org.openflexo.fge.swing.control.tools.JDianaInspectors;
 import org.openflexo.fge.swing.control.tools.JDianaLayoutWidget;
 import org.openflexo.fge.swing.control.tools.JDianaPalette;
@@ -53,28 +54,38 @@ public class SwingToolFactory implements DianaToolFactory<JComponent> {
 
 	public static SwingToolFactory DEFAULT = new SwingToolFactory(null);
 
-	private JFrame frame;
+	private final JFrame frame;
 
 	public SwingToolFactory(JFrame frame) {
 		this.frame = frame;
 	}
 
+	@Override
 	public JDianaToolSelector makeDianaToolSelector(AbstractDianaEditor<?, ?, ?> editor) {
 		return new JDianaToolSelector((JDianaInteractiveEditor<?>) editor);
 	}
 
+	@Override
 	public JDianaScaleSelector makeDianaScaleSelector(AbstractDianaEditor<?, ?, ?> editor) {
 		return new JDianaScaleSelector((AbstractDianaEditor<?, SwingViewFactory, ?>) editor);
 	}
 
+	@Override
 	public JDianaStyles makeDianaStyles() {
 		return new JDianaStyles();
 	}
 
-	public JDianaInspectors makeDianaInspectors() {
-		return new JDianaInspectors(frame);
+	@Override
+	public JDianaDialogInspectors makeDianaDialogInspectors() {
+		return new JDianaDialogInspectors(frame);
 	}
 
+	@Override
+	public JDianaInspectors makeDianaInspectors() {
+		return new JDianaInspectors();
+	}
+
+	@Override
 	public JDianaLayoutWidget makeDianaLayoutWidget() {
 		return new JDianaLayoutWidget();
 	}

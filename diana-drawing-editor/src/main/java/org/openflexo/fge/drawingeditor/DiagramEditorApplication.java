@@ -62,7 +62,7 @@ import org.openflexo.fge.control.exceptions.PasteException;
 import org.openflexo.fge.drawingeditor.model.Diagram;
 import org.openflexo.fge.drawingeditor.model.DiagramFactory;
 import org.openflexo.fge.swing.control.SwingToolFactory;
-import org.openflexo.fge.swing.control.tools.JDianaInspectors;
+import org.openflexo.fge.swing.control.tools.JDianaDialogInspectors;
 import org.openflexo.fge.swing.control.tools.JDianaLayoutWidget;
 import org.openflexo.fge.swing.control.tools.JDianaPalette;
 import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
@@ -91,50 +91,49 @@ import org.openflexo.toolbox.ToolBox;
 public class DiagramEditorApplication {
 
 	private static final Logger logger = FlexoLogger.getLogger(DiagramEditorApplication.class.getPackage().getName());
-	
 
 	// Retrieve default Openflexo locales
 	public static final String LOCALIZATION_DIRNAME = "Localized";
-	private static LocalizedDelegateGUIImpl MAIN_LOCALIZER = new LocalizedDelegateGUIImpl(ResourceLocator.locateResource(LOCALIZATION_DIRNAME), null,
-			false);
+	private static LocalizedDelegateGUIImpl MAIN_LOCALIZER = new LocalizedDelegateGUIImpl(
+			ResourceLocator.locateResource(LOCALIZATION_DIRNAME), null, false);
 
 	// Instanciate a new localizer in directory src/dev/resources/FIBEditorLocalizer
 	// linked to parent localizer (which is Openflexo main localizer)
-	public static LocalizedDelegateGUIImpl LOCALIZATION = new LocalizedDelegateGUIImpl(ResourceLocator.locateResource("FGEEditorLocalized"),
-			MAIN_LOCALIZER, true);
+	public static LocalizedDelegateGUIImpl LOCALIZATION = new LocalizedDelegateGUIImpl(
+			ResourceLocator.locateResource("FGEEditorLocalized"), MAIN_LOCALIZER, true);
 
 	private static final int META_MASK = ToolBox.getPLATFORM() == ToolBox.MACOS ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
 
-	private JFrame frame;
-	private JDialog paletteDialog;
-	private FlexoFileChooser fileChooser;
-	private SwingToolFactory toolFactory;
+	private final JFrame frame;
+	private final JDialog paletteDialog;
+	private final FlexoFileChooser fileChooser;
+	private final SwingToolFactory toolFactory;
 
 	// private FIBInspectorController inspector;
 
 	private DiagramFactory factory;
 
-	private Vector<DiagramEditor> diagramEditors = new Vector<DiagramEditor>();
-	private JPanel mainPanel;
+	private final Vector<DiagramEditor> diagramEditors = new Vector<DiagramEditor>();
+	private final JPanel mainPanel;
 	private JTabbedPane tabbedPane;
 
 	private DiagramEditor currentDiagramEditor;
 
-	private JDianaToolSelector toolSelector;
-	private JDianaScaleSelector scaleSelector;
-	private JDianaLayoutWidget layoutWidget;
-	private JDianaStyles stylesWidget;
-	private JDianaPalette commonPalette;
-	private DiagramEditorPalette commonPaletteModel;
-	private JDianaInspectors inspectors;
+	private final JDianaToolSelector toolSelector;
+	private final JDianaScaleSelector scaleSelector;
+	private final JDianaLayoutWidget layoutWidget;
+	private final JDianaStyles stylesWidget;
+	private final JDianaPalette commonPalette;
+	private final DiagramEditorPalette commonPaletteModel;
+	private final JDianaDialogInspectors inspectors;
 
 	protected PropertyChangeListenerRegistrationManager manager;
 
-	private SynchronizedMenuItem copyItem;
-	private SynchronizedMenuItem cutItem;
-	private SynchronizedMenuItem pasteItem;
-	private SynchronizedMenuItem undoItem;
-	private SynchronizedMenuItem redoItem;
+	private final SynchronizedMenuItem copyItem;
+	private final SynchronizedMenuItem cutItem;
+	private final SynchronizedMenuItem pasteItem;
+	private final SynchronizedMenuItem undoItem;
+	private final SynchronizedMenuItem redoItem;
 
 	@SuppressWarnings("serial")
 	public DiagramEditorApplication() {
@@ -169,7 +168,7 @@ public class DiagramEditorApplication {
 		stylesWidget = toolFactory.makeDianaStyles();
 		scaleSelector = toolFactory.makeDianaScaleSelector(null);
 		layoutWidget = toolFactory.makeDianaLayoutWidget();
-		inspectors = toolFactory.makeDianaInspectors();
+		inspectors = toolFactory.makeDianaDialogInspectors();
 
 		inspectors.getForegroundStyleInspector().setLocation(1000, 100);
 		inspectors.getTextStyleInspector().setLocation(1000, 300);
@@ -425,7 +424,7 @@ public class DiagramEditorApplication {
 	}
 
 	private class MyDrawingViewScrollPane extends JScrollPane {
-		private DiagramEditorView drawingView;
+		private final DiagramEditorView drawingView;
 
 		private MyDrawingViewScrollPane(DiagramEditorView v) {
 			super(v);
@@ -676,7 +675,7 @@ public class DiagramEditorApplication {
 	public class SynchronizedMenuItem extends JMenuItem implements PropertyChangeListener {
 
 		private HasPropertyChangeSupport observable;
-		private Synchronizer synchronizer;
+		private final Synchronizer synchronizer;
 
 		public SynchronizedMenuItem(String menuName, Synchronizer synchronizer) {
 			super(menuName);
@@ -707,7 +706,7 @@ public class DiagramEditorApplication {
 
 	public class WindowMenuItem extends JCheckBoxMenuItem implements WindowListener {
 
-		private Window window;
+		private final Window window;
 
 		public WindowMenuItem(String menuName, Window aWindow) {
 			super(menuName);
@@ -777,6 +776,7 @@ public class DiagramEditorApplication {
 	public static final ImageIcon INFO_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/Info.png"));
 	public static final ImageIcon INSPECT_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/Inspect.png"));
 	public static final ImageIcon REFRESH_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/Refresh.png"));
-	public static final ImageIcon REFRESH_DISABLED_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/Refresh-disabled.png"));
+	public static final ImageIcon REFRESH_DISABLED_ICON = new ImageIconResource(
+			ResourceLocator.locateResource("Icons/Refresh-disabled.png"));
 
 }

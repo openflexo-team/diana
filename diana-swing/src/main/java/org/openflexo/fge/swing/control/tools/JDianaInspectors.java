@@ -21,8 +21,6 @@ package org.openflexo.fge.swing.control.tools;
 
 import java.util.logging.Logger;
 
-import javax.swing.JFrame;
-
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.ShadowStyle;
 import org.openflexo.fge.TextStyle;
@@ -35,11 +33,12 @@ import org.openflexo.fge.control.tools.ShapeSpecificationFactory;
 import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.tools.JDianaInspectors.JInspector;
 import org.openflexo.fib.FIBLibrary;
-import org.openflexo.fib.controller.FIBDialog;
 import org.openflexo.fib.model.FIBComponent;
+import org.openflexo.fib.view.widget.DefaultFIBCustomComponent;
 import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.rm.Resource;
 import org.openflexo.rm.ResourceLocator;
+import org.openflexo.swing.FlexoCollabsiblePanelGroup;
 
 /**
  * SWING implementation of {@link DianaInspectors}
@@ -51,7 +50,6 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(JDianaInspectors.class.getPackage().getName());
-	
 
 	private JInspector<ForegroundStyle> foregroundStyleInspector;
 	private JInspector<BackgroundStyleFactory> backgroundStyleInspector;
@@ -61,35 +59,46 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 	private JInspector<ConnectorSpecificationFactory> connectorInspector;
 	private JInspector<InspectedLocationSizeProperties> locationSizeInspector;
 
-	private JFrame frame;
+	private final FlexoCollabsiblePanelGroup panelGroup;
 
-	public JDianaInspectors(JFrame frame) {
-		this.frame = frame;
+	public JDianaInspectors() {
+		panelGroup = new FlexoCollabsiblePanelGroup();
+		panelGroup.addContents(getForegroundStyleInspector().getTitle(), getForegroundStyleInspector());
+		panelGroup.addContents(getBackgroundStyleInspector().getTitle(), getBackgroundStyleInspector());
+		panelGroup.addContents(getTextStyleInspector().getTitle(), getTextStyleInspector());
+		panelGroup.addContents(getShadowStyleInspector().getTitle(), getShadowStyleInspector());
+		panelGroup.addContents(getLocationSizeInspector().getTitle(), getLocationSizeInspector());
+		panelGroup.addContents(getShapeInspector().getTitle(), getShapeInspector());
+		panelGroup.addContents(getConnectorInspector().getTitle(), getConnectorInspector());
+	}
+
+	public FlexoCollabsiblePanelGroup getPanelGroup() {
+		return panelGroup;
 	}
 
 	@Override
 	public void attachToEditor(AbstractDianaEditor<?, SwingViewFactory, ?> editor) {
 		super.attachToEditor(editor);
 		if (foregroundStyleInspector != null) {
-			foregroundStyleInspector.setData(getInspectedForegroundStyle(), true);
+			foregroundStyleInspector.setData(getInspectedForegroundStyle());
 		}
 		if (textStyleInspector != null) {
-			textStyleInspector.setData(getInspectedTextStyle(), true);
+			textStyleInspector.setData(getInspectedTextStyle());
 		}
 		if (shadowInspector != null) {
-			shadowInspector.setData(getInspectedShadowStyle(), true);
+			shadowInspector.setData(getInspectedShadowStyle());
 		}
 		if (backgroundStyleInspector != null) {
-			backgroundStyleInspector.setData(getInspectedBackgroundStyle().getStyleFactory(), true);
+			backgroundStyleInspector.setData(getInspectedBackgroundStyle().getStyleFactory());
 		}
 		if (shapeInspector != null) {
-			shapeInspector.setData(getInspectedShapeSpecification().getStyleFactory(), true);
+			shapeInspector.setData(getInspectedShapeSpecification().getStyleFactory());
 		}
 		if (connectorInspector != null) {
-			connectorInspector.setData(getInspectedConnectorSpecification().getStyleFactory(), true);
+			connectorInspector.setData(getInspectedConnectorSpecification().getStyleFactory());
 		}
 		if (locationSizeInspector != null) {
-			locationSizeInspector.setData(getInspectedLocationSizeProperties(), true);
+			locationSizeInspector.setData(getInspectedLocationSizeProperties());
 		}
 	}
 
@@ -101,36 +110,40 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 	public static Resource CONNECTOR_SPECIFICATION_PANEL_FIB_FILE = ResourceLocator.locateResource("Fib/ConnectorSelectorPanel.fib");
 	public static Resource LOCATION_SIZE_FIB_FILE = ResourceLocator.locateResource("Fib/LocationSizePanel.fib");
 
+	@Override
 	public JInspector<ForegroundStyle> getForegroundStyleInspector() {
 		if (foregroundStyleInspector == null) {
-			foregroundStyleInspector = new JInspector<ForegroundStyle>(FIBLibrary.instance()
-					.retrieveFIBComponent(FOREGROUND_STYLE_FIB_FILE,true), getInspectedForegroundStyle(), frame, "Foreground");
+			foregroundStyleInspector = new JInspector<ForegroundStyle>(FIBLibrary.instance().retrieveFIBComponent(
+					FOREGROUND_STYLE_FIB_FILE, true), getInspectedForegroundStyle(), "Foreground", ForegroundStyle.class);
 		}
 		return foregroundStyleInspector;
 	}
 
+	@Override
 	public JInspector<BackgroundStyleFactory> getBackgroundStyleInspector() {
 		if (backgroundStyleInspector == null) {
 			// bsFactory = new BackgroundStyleFactory(getEditor().getCurrentBackgroundStyle());
 			backgroundStyleInspector = new JInspector<BackgroundStyleFactory>(FIBLibrary.instance().retrieveFIBComponent(
-					BACKGROUND_STYLE_FIB_FILE,true), (getInspectedBackgroundStyle() != null ? getInspectedBackgroundStyle().getStyleFactory()
-					: null), frame, "Background");
+					BACKGROUND_STYLE_FIB_FILE, true), (getInspectedBackgroundStyle() != null ? getInspectedBackgroundStyle()
+					.getStyleFactory() : null), "Background", BackgroundStyleFactory.class);
 		}
 		return backgroundStyleInspector;
 	}
 
+	@Override
 	public JInspector<TextStyle> getTextStyleInspector() {
 		if (textStyleInspector == null) {
-			textStyleInspector = new JInspector<TextStyle>(FIBLibrary.instance().retrieveFIBComponent(TEXT_STYLE_FIB_FILE,true),
-					getInspectedTextStyle(), frame, "Text");
+			textStyleInspector = new JInspector<TextStyle>(FIBLibrary.instance().retrieveFIBComponent(TEXT_STYLE_FIB_FILE, true),
+					getInspectedTextStyle(), "Text", TextStyle.class);
 		}
 		return textStyleInspector;
 	}
 
+	@Override
 	public JInspector<ShadowStyle> getShadowStyleInspector() {
 		if (shadowInspector == null) {
-			shadowInspector = new JInspector<ShadowStyle>(FIBLibrary.instance().retrieveFIBComponent(SHADOW_STYLE_FIB_FILE,true),
-					getInspectedShadowStyle(), frame, "Shadow");
+			shadowInspector = new JInspector<ShadowStyle>(FIBLibrary.instance().retrieveFIBComponent(SHADOW_STYLE_FIB_FILE, true),
+					getInspectedShadowStyle(), "Shadow", ShadowStyle.class);
 		}
 		return shadowInspector;
 	}
@@ -139,39 +152,62 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 	public JInspector<InspectedLocationSizeProperties> getLocationSizeInspector() {
 		if (locationSizeInspector == null) {
 			locationSizeInspector = new JInspector<InspectedLocationSizeProperties>(FIBLibrary.instance().retrieveFIBComponent(
-					LOCATION_SIZE_FIB_FILE,true), getInspectedLocationSizeProperties(), frame, "Location/Size");
+					LOCATION_SIZE_FIB_FILE, true), getInspectedLocationSizeProperties(), "Location/Size",
+					InspectedLocationSizeProperties.class);
 		}
 		return locationSizeInspector;
 	}
 
+	@Override
 	public JInspector<ShapeSpecificationFactory> getShapeInspector() {
 		if (shapeInspector == null) {
 			shapeInspector = new JInspector<ShapeSpecificationFactory>(FIBLibrary.instance().retrieveFIBComponent(
-					SHAPE_SPECIFICATION_PANEL_FIB_FILE,true), (getInspectedShapeSpecification() != null ? getInspectedShapeSpecification()
-					.getStyleFactory() : null), frame, "Shape");
+					SHAPE_SPECIFICATION_PANEL_FIB_FILE, true), (getInspectedShapeSpecification() != null ? getInspectedShapeSpecification()
+					.getStyleFactory() : null), "Shape", ShapeSpecificationFactory.class);
 		}
 		return shapeInspector;
 	}
 
+	@Override
 	public JInspector<ConnectorSpecificationFactory> getConnectorInspector() {
 		if (connectorInspector == null) {
 			connectorInspector = new JInspector<ConnectorSpecificationFactory>(FIBLibrary.instance().retrieveFIBComponent(
-					CONNECTOR_SPECIFICATION_PANEL_FIB_FILE,true),
-					(getInspectedConnectorSpecification() != null ? getInspectedConnectorSpecification().getStyleFactory() : null), frame,
-					"Connector");
+					CONNECTOR_SPECIFICATION_PANEL_FIB_FILE, true),
+					(getInspectedConnectorSpecification() != null ? getInspectedConnectorSpecification().getStyleFactory() : null),
+					"Connector", ConnectorSpecificationFactory.class);
 		}
 		return connectorInspector;
 	}
 
 	@SuppressWarnings("serial")
-	public static class JInspector<T> extends FIBDialog<T> implements DianaInspectors.Inspector<T> {
+	public static class JInspector<T> extends DefaultFIBCustomComponent<T> implements DianaInspectors.Inspector<T> {
 
-		protected JInspector(FIBComponent fibComponent, T data, JFrame frame, String title) {
-			super(fibComponent, data, frame, false, (LocalizedDelegate) null);
-			setTitle(title);
-			setAlwaysOnTop(true);
+		private final String title;
+		private final Class<T> representedType;
+
+		protected JInspector(FIBComponent fibComponent, T data, String title, final Class<T> representedType) {
+			super(fibComponent, data, (LocalizedDelegate) null);
+			this.representedType = representedType;
+			this.title = title;
 		}
 
+		@Override
+		public void setData(T data) {
+			setEditedObject(data);
+		}
+
+		@Override
+		public Class<T> getRepresentedType() {
+			return representedType;
+		}
+
+		@Override
+		public void delete() {
+		}
+
+		public String getTitle() {
+			return title;
+		}
 	}
 
 	@Override

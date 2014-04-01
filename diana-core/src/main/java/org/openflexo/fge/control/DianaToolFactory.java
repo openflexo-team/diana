@@ -50,6 +50,8 @@ public interface DianaToolFactory<C> {
 
 	public DianaStyles<? extends C, ?> makeDianaStyles();
 
+	public DianaInspectors<?, ?> makeDianaDialogInspectors();
+
 	public DianaInspectors<?, ?> makeDianaInspectors();
 
 	public DianaLayoutWidget<? extends C, ?> makeDianaLayoutWidget();
