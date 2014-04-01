@@ -70,6 +70,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 		panelGroup.addContents(getLocationSizeInspector().getTitle(), getLocationSizeInspector());
 		panelGroup.addContents(getShapeInspector().getTitle(), getShapeInspector());
 		panelGroup.addContents(getConnectorInspector().getTitle(), getConnectorInspector());
+		panelGroup.setOpenedPanel(0); // Open foreground style inspector
 	}
 
 	public FlexoCollabsiblePanelGroup getPanelGroup() {
