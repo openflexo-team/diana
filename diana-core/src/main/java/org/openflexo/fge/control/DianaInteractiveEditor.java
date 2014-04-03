@@ -152,13 +152,13 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 	private DrawConnectorAction drawConnectorAction;
 	private DrawShapeAction drawTextAction;
 
-	private InspectedForegroundStyle inspectedForegroundStyle;
-	private InspectedBackgroundStyle inspectedBackgroundStyle;
-	private InspectedTextStyle inspectedTextStyle;
-	private InspectedShadowStyle inspectedShadowStyle;
-	private InspectedShapeSpecification inspectedShapeSpecification;
-	private InspectedConnectorSpecification inspectedConnectorSpecification;
-	private InspectedLocationSizeProperties inspectedLocationSizeProperties;
+	private final InspectedForegroundStyle inspectedForegroundStyle;
+	private final InspectedBackgroundStyle inspectedBackgroundStyle;
+	private final InspectedTextStyle inspectedTextStyle;
+	private final InspectedShadowStyle inspectedShadowStyle;
+	private final InspectedShapeSpecification inspectedShapeSpecification;
+	private final InspectedConnectorSpecification inspectedConnectorSpecification;
+	private final InspectedLocationSizeProperties inspectedLocationSizeProperties;
 
 	/**
 	 * The clipboard beeing managed by this editor
@@ -192,6 +192,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		setDrawConnectorToolOption(DrawConnectorToolOption.DrawLine);
 	}
 
+	@Override
 	public void delete() {
 		super.delete();
 		/*if (toolbox != null) {
@@ -206,6 +207,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		palettes = null;*/
 	}
 
+	@Override
 	protected void fireSelectionUpdated() {
 		inspectedForegroundStyle.fireSelectionUpdated();
 		inspectedTextStyle.fireSelectionUpdated();
@@ -326,7 +328,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		if (drawShapeToolController != null) {
 			drawShapeToolController.delete();
 		}
-		if (drawShapeAction != null) {
+		if (drawShapeAction != null && getToolFactory() != null) {
 			System.out.println("Preparing the prepareDrawShapeToolController");
 			drawShapeToolController = getToolFactory().makeDrawShapeToolController(this, drawShapeAction);
 			switch (getDrawShapeToolOption()) {
@@ -681,6 +683,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		return pastingLocation;
 	}
 
+	@Override
 	public void setLastClickedPoint(FGEPoint lastClickedPoint, DrawingTreeNode<?, ?> node) {
 
 		super.setLastClickedPoint(lastClickedPoint, node);
