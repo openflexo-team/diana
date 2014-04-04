@@ -75,6 +75,7 @@ import org.openflexo.fge.shapes.impl.SquareImpl;
 import org.openflexo.fge.shapes.impl.StarImpl;
 import org.openflexo.fge.shapes.impl.TriangleImpl;
 import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.model.factory.ModelFactory;
 
 public class FGEModelFactoryImpl extends FGEModelFactory {
 
@@ -109,44 +110,50 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	@Override
 	public void installImplementingClasses() throws ModelDefinitionException {
 
-		setImplementingClassForInterface(GraphicalRepresentationImpl.class, GraphicalRepresentation.class);
-		setImplementingClassForInterface(ShapeGraphicalRepresentationImpl.class, ShapeGraphicalRepresentation.class);
-		setImplementingClassForInterface(ConnectorGraphicalRepresentationImpl.class, ConnectorGraphicalRepresentation.class);
-		setImplementingClassForInterface(DrawingGraphicalRepresentationImpl.class, DrawingGraphicalRepresentation.class);
-		setImplementingClassForInterface(ContainerGraphicalRepresentationImpl.class, ContainerGraphicalRepresentation.class);
+		installImplementingClasses(this);
+	}
 
-		setImplementingClassForInterface(ShapeBorderImpl.class, ShapeBorder.class);
+	public static void installImplementingClasses(ModelFactory modelFactory) throws ModelDefinitionException {
 
-		setImplementingClassForInterface(FGEStyleImpl.class, FGEStyle.class);
-		setImplementingClassForInterface(ForegroundStyleImpl.class, ForegroundStyle.class);
-		setImplementingClassForInterface(ShadowStyleImpl.class, ShadowStyle.class);
-		setImplementingClassForInterface(TextStyleImpl.class, TextStyle.class);
-		setImplementingClassForInterface(BackgroundStyleImpl.class, BackgroundStyle.class);
-		setImplementingClassForInterface(NoneBackgroundStyleImpl.class, NoneBackgroundStyle.class);
-		setImplementingClassForInterface(ColorBackgroundStyleImpl.class, ColorBackgroundStyle.class);
-		setImplementingClassForInterface(ColorGradientBackgroundStyleImpl.class, ColorGradientBackgroundStyle.class);
-		setImplementingClassForInterface(TextureBackgroundStyleImpl.class, TextureBackgroundStyle.class);
-		setImplementingClassForInterface(BackgroundImageBackgroundStyleImpl.class, BackgroundImageBackgroundStyle.class);
+		modelFactory.setImplementingClassForInterface(GraphicalRepresentationImpl.class, GraphicalRepresentation.class);
+		modelFactory.setImplementingClassForInterface(ShapeGraphicalRepresentationImpl.class, ShapeGraphicalRepresentation.class);
+		modelFactory.setImplementingClassForInterface(ConnectorGraphicalRepresentationImpl.class, ConnectorGraphicalRepresentation.class);
+		modelFactory.setImplementingClassForInterface(DrawingGraphicalRepresentationImpl.class, DrawingGraphicalRepresentation.class);
+		modelFactory.setImplementingClassForInterface(ContainerGraphicalRepresentationImpl.class, ContainerGraphicalRepresentation.class);
 
-		setImplementingClassForInterface(ShapeSpecificationImpl.class, ShapeSpecification.class);
-		setImplementingClassForInterface(ArcImpl.class, Arc.class);
-		setImplementingClassForInterface(CircleImpl.class, Circle.class);
-		setImplementingClassForInterface(LosangeImpl.class, Losange.class);
-		setImplementingClassForInterface(OvalImpl.class, Oval.class);
-		setImplementingClassForInterface(PolygonImpl.class, Polygon.class);
-		setImplementingClassForInterface(RectangleImpl.class, Rectangle.class);
-		setImplementingClassForInterface(RectangularOctogonImpl.class, RectangularOctogon.class);
-		setImplementingClassForInterface(RegularPolygonImpl.class, RegularPolygon.class);
-		setImplementingClassForInterface(SquareImpl.class, Square.class);
-		setImplementingClassForInterface(StarImpl.class, Star.class);
-		setImplementingClassForInterface(TriangleImpl.class, Triangle.class);
-		setImplementingClassForInterface(ComplexCurveImpl.class, ComplexCurve.class);
+		modelFactory.setImplementingClassForInterface(ShapeBorderImpl.class, ShapeBorder.class);
 
-		setImplementingClassForInterface(ConnectorSpecificationImpl.class, ConnectorSpecification.class);
-		setImplementingClassForInterface(LineConnectorSpecificationImpl.class, LineConnectorSpecification.class);
-		setImplementingClassForInterface(CurveConnectorSpecificationImpl.class, CurveConnectorSpecification.class);
-		setImplementingClassForInterface(RectPolylinConnectorSpecificationImpl.class, RectPolylinConnectorSpecification.class);
-		setImplementingClassForInterface(CurvedPolylinConnectorSpecificationImpl.class, CurvedPolylinConnectorSpecification.class);
+		modelFactory.setImplementingClassForInterface(FGEStyleImpl.class, FGEStyle.class);
+		modelFactory.setImplementingClassForInterface(ForegroundStyleImpl.class, ForegroundStyle.class);
+		modelFactory.setImplementingClassForInterface(ShadowStyleImpl.class, ShadowStyle.class);
+		modelFactory.setImplementingClassForInterface(TextStyleImpl.class, TextStyle.class);
+		modelFactory.setImplementingClassForInterface(BackgroundStyleImpl.class, BackgroundStyle.class);
+		modelFactory.setImplementingClassForInterface(NoneBackgroundStyleImpl.class, NoneBackgroundStyle.class);
+		modelFactory.setImplementingClassForInterface(ColorBackgroundStyleImpl.class, ColorBackgroundStyle.class);
+		modelFactory.setImplementingClassForInterface(ColorGradientBackgroundStyleImpl.class, ColorGradientBackgroundStyle.class);
+		modelFactory.setImplementingClassForInterface(TextureBackgroundStyleImpl.class, TextureBackgroundStyle.class);
+		modelFactory.setImplementingClassForInterface(BackgroundImageBackgroundStyleImpl.class, BackgroundImageBackgroundStyle.class);
+
+		modelFactory.setImplementingClassForInterface(ShapeSpecificationImpl.class, ShapeSpecification.class);
+		modelFactory.setImplementingClassForInterface(ArcImpl.class, Arc.class);
+		modelFactory.setImplementingClassForInterface(CircleImpl.class, Circle.class);
+		modelFactory.setImplementingClassForInterface(LosangeImpl.class, Losange.class);
+		modelFactory.setImplementingClassForInterface(OvalImpl.class, Oval.class);
+		modelFactory.setImplementingClassForInterface(PolygonImpl.class, Polygon.class);
+		modelFactory.setImplementingClassForInterface(RectangleImpl.class, Rectangle.class);
+		modelFactory.setImplementingClassForInterface(RectangularOctogonImpl.class, RectangularOctogon.class);
+		modelFactory.setImplementingClassForInterface(RegularPolygonImpl.class, RegularPolygon.class);
+		modelFactory.setImplementingClassForInterface(SquareImpl.class, Square.class);
+		modelFactory.setImplementingClassForInterface(StarImpl.class, Star.class);
+		modelFactory.setImplementingClassForInterface(TriangleImpl.class, Triangle.class);
+		modelFactory.setImplementingClassForInterface(ComplexCurveImpl.class, ComplexCurve.class);
+
+		modelFactory.setImplementingClassForInterface(ConnectorSpecificationImpl.class, ConnectorSpecification.class);
+		modelFactory.setImplementingClassForInterface(LineConnectorSpecificationImpl.class, LineConnectorSpecification.class);
+		modelFactory.setImplementingClassForInterface(CurveConnectorSpecificationImpl.class, CurveConnectorSpecification.class);
+		modelFactory.setImplementingClassForInterface(RectPolylinConnectorSpecificationImpl.class, RectPolylinConnectorSpecification.class);
+		modelFactory.setImplementingClassForInterface(CurvedPolylinConnectorSpecificationImpl.class,
+				CurvedPolylinConnectorSpecification.class);
 
 	}
 
@@ -219,6 +226,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		return new MouseDragControlImpl<E2>(aName, button, action, shiftPressed, ctrlPressed, metaPressed, altPressed, this);
 	}
 
+	@Override
 	public MouseDragControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseDragControlAction(
 			PredefinedMouseDragControlActionType actionType) {
 		switch (actionType) {
@@ -234,6 +242,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		}
 	}
 
+	@Override
 	public MouseClickControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseClickControlAction(
 			PredefinedMouseClickControlActionType actionType) {
 		switch (actionType) {
