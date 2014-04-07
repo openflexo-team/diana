@@ -40,6 +40,8 @@ import org.openflexo.fge.view.DianaViewFactory;
 import org.openflexo.fge.view.DrawingView;
 import org.openflexo.fge.view.FGEView;
 import org.openflexo.fge.view.ShapeView;
+import org.openflexo.model.factory.EditingContext;
+import org.openflexo.model.undo.UndoManager;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 
 /**
@@ -59,7 +61,7 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 
 	private static final Logger logger = Logger.getLogger(AbstractDianaEditor.class.getPackage().getName());
 
-	private Drawing<M> drawing;
+	private final Drawing<M> drawing;
 	protected DrawingView<M, ? extends C> drawingView;
 	private DianaEditorDelegate delegate;
 
@@ -68,21 +70,21 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 	/**
 	 * This factory is the one which is used to creates and maintains object graph
 	 */
-	private FGEModelFactory factory;
+	private final FGEModelFactory factory;
 
 	/**
 	 * This is the view factory installed for this editor
 	 */
-	private F dianaFactory;
+	private final F dianaFactory;
 
 	/**
 	 * This is the view factory installed for this editor
 	 */
-	private DianaToolFactory<C> toolFactory;
+	private final DianaToolFactory<C> toolFactory;
 
 	protected Map<DrawingTreeNode<?, ?>, FGEView<?, ? extends C>> contents;
 
-	private PropertyChangeSupport pcSupport;
+	private final PropertyChangeSupport pcSupport;
 
 	public AbstractDianaEditor(Drawing<M> aDrawing, FGEModelFactory factory, F dianaFactory, DianaToolFactory<C> toolFactory) {
 		super();
@@ -119,6 +121,17 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 
 	public FGEModelFactory getFactory() {
 		return factory;
+	}
+
+	public EditingContext getEditingContext() {
+		return factory.getEditingContext();
+	}
+
+	public UndoManager getUndoManager() {
+		if (getEditingContext() != null) {
+			return getEditingContext().getUndoManager();
+		}
+		return null;
 	}
 
 	public F getDianaFactory() {
@@ -251,6 +264,7 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 		return (ConnectorView<?, ? extends C>) viewForNode(node);
 	}
 
+	@Override
 	public double getScale() {
 		return scale;
 	}
@@ -267,6 +281,7 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 		}
 	}
 
+	@Override
 	public Drawing<M> getDrawing() {
 		return drawing;
 	}

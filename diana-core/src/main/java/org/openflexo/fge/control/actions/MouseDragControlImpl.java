@@ -20,11 +20,11 @@
 package org.openflexo.fge.control.actions;
 
 import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.MouseControlContext;
 import org.openflexo.fge.control.MouseDragControl;
 import org.openflexo.fge.control.MouseDragControlAction;
+import org.openflexo.model.factory.EditingContext;
 
 public class MouseDragControlImpl<E extends AbstractDianaEditor<?, ?, ?>> extends MouseControlImpl<E> implements MouseDragControl<E> {
 
@@ -34,8 +34,8 @@ public class MouseDragControlImpl<E extends AbstractDianaEditor<?, ?, ?>> extend
 	private boolean isSignificativeDrag = false;
 
 	public MouseDragControlImpl(String aName, MouseButton button, MouseDragControlAction<E> action, boolean shiftPressed,
-			boolean ctrlPressed, boolean metaPressed, boolean altPressed, FGEModelFactory factory) {
-		super(aName, shiftPressed, ctrlPressed, metaPressed, altPressed, button, factory);
+			boolean ctrlPressed, boolean metaPressed, boolean altPressed, EditingContext editingContext) {
+		super(aName, shiftPressed, ctrlPressed, metaPressed, altPressed, button, editingContext);
 		this.action = action;
 	}
 

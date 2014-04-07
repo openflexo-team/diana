@@ -135,6 +135,8 @@ public class DiagramEditorApplication {
 	private final SynchronizedMenuItem undoItem;
 	private final SynchronizedMenuItem redoItem;
 
+	private final DiagramEditingContext editingContext;
+
 	@SuppressWarnings("serial")
 	public DiagramEditorApplication() {
 		super();
@@ -149,6 +151,9 @@ public class DiagramEditorApplication {
 		} catch (ModelDefinitionException e1) {
 			e1.printStackTrace();
 		}
+
+		editingContext = new DiagramEditingContext();
+		factory.setEditingContext(editingContext);
 
 		frame = new JFrame();
 		frame.setPreferredSize(new Dimension(1100, 800));
@@ -421,6 +426,10 @@ public class DiagramEditorApplication {
 		frame.validate();
 		frame.pack();
 
+	}
+
+	public DiagramEditingContext getEditingContext() {
+		return editingContext;
 	}
 
 	private class MyDrawingViewScrollPane extends JScrollPane {

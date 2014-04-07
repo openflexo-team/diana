@@ -41,7 +41,7 @@ import org.openflexo.model.undo.CompoundEdit;
 public class DrawEdgeControl extends MouseDragControlImpl<DianaDrawingEditor> {
 
 	public DrawEdgeControl(DiagramFactory factory) {
-		super("Draw edge", MouseButton.LEFT, new DrawEdgeAction(factory), false, true, false, false, factory); // CTRL-DRAG
+		super("Draw edge", MouseButton.LEFT, new DrawEdgeAction(factory), false, true, false, false, factory.getEditingContext()); // CTRL-DRAG
 	}
 
 	protected static class DrawEdgeAction extends MouseDragControlActionImpl<DianaDrawingEditor> {
@@ -50,7 +50,7 @@ public class DrawEdgeControl extends MouseDragControlImpl<DianaDrawingEditor> {
 		boolean drawEdge = false;
 		ShapeNode<Shape> fromShape = null;
 		ShapeNode<Shape> toShape = null;
-		private DiagramFactory factory;
+		private final DiagramFactory factory;
 
 		public DrawEdgeAction(DiagramFactory factory) {
 			this.factory = factory;
@@ -61,7 +61,7 @@ public class DrawEdgeControl extends MouseDragControlImpl<DianaDrawingEditor> {
 			if (node instanceof ShapeNode) {
 				drawEdge = true;
 				fromShape = (ShapeNode<Shape>) node;
-				((DiagramEditorView) controller.getDrawingView()).setDrawEdgeAction(this);
+				controller.getDrawingView().setDrawEdgeAction(this);
 				return true;
 			}
 			return false;
@@ -80,12 +80,12 @@ public class DrawEdgeControl extends MouseDragControlImpl<DianaDrawingEditor> {
 					((DiagramElement<?, ?>) fatherNode.getDrawable()).addToConnectors(newConnector);
 					System.out.println("Add new connector !");
 					factory.getUndoManager().stopRecording(drawEdge);
-					((DianaDrawingEditor) controller).setSelectedObject(controller.getDrawing().getDrawingTreeNode(newConnector));
+					controller.setSelectedObject(controller.getDrawing().getDrawingTreeNode(newConnector));
 				}
 				drawEdge = false;
 				fromShape = null;
 				toShape = null;
-				((DiagramEditorView) controller.getDrawingView()).setDrawEdgeAction(null);
+				controller.getDrawingView().setDrawEdgeAction(null);
 				return true;
 			}
 			return false;

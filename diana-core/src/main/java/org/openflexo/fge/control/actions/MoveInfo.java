@@ -51,8 +51,8 @@ public class MoveInfo {
 
 	private FGEView<?, ?> view;
 	private Point startMovingLocationInDrawingView;
-	private Hashtable<ShapeNode<?>, FGEPoint> movedObjects;
-	private ShapeNode<?> movedObject;
+	private final Hashtable<ShapeNode<?>, FGEPoint> movedObjects;
+	private final ShapeNode<?> movedObject;
 
 	private boolean moveHasStarted = false;
 
@@ -107,15 +107,15 @@ public class MoveInfo {
 	}
 
 	protected DrawingView<?, ?> getDrawingView() {
-		return (DrawingView<?, ?>) view.getDrawingView();
+		return view.getDrawingView();
 	}
 
 	private CompoundEdit moveEdit;
 
 	private void startDragging() {
 
-		if (getMovedObject().getFactory().getUndoManager() != null) {
-			moveEdit = getMovedObject().getFactory().getUndoManager().startRecording("Moving " + movedObjects.size() + " objects");
+		if (getMovedObject().getUndoManager() != null) {
+			moveEdit = getMovedObject().getUndoManager().startRecording("Moving " + movedObjects.size() + " objects");
 		}
 
 		for (ShapeNode<?> shapeNode : movedObjects.keySet()) {
@@ -188,8 +188,8 @@ public class MoveInfo {
 			}
 		}
 
-		if (getMovedObject().getFactory().getUndoManager() != null) {
-			getMovedObject().getFactory().getUndoManager().stopRecording(moveEdit);
+		if (getMovedObject().getUndoManager() != null) {
+			getMovedObject().getUndoManager().stopRecording(moveEdit);
 		}
 
 	}

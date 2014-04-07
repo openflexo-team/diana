@@ -53,6 +53,8 @@ import org.openflexo.fge.notifications.LabelWillEdit;
 import org.openflexo.fge.notifications.LabelWillMove;
 import org.openflexo.fge.notifications.NodeDeleted;
 import org.openflexo.model.factory.DeletableProxyObject;
+import org.openflexo.model.factory.EditingContext;
+import org.openflexo.model.undo.UndoManager;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 
 /**
@@ -123,10 +125,10 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		// parentNode.addChild(this);
 
 		graphicalRepresentation = grBinding.getGRProvider().provideGR(drawable, drawing.getFactory());
-		if(graphicalRepresentation.getPropertyChangeSupport()!=null){
+		if (graphicalRepresentation.getPropertyChangeSupport() != null) {
 			graphicalRepresentation.getPropertyChangeSupport().addPropertyChangeListener(this);
 		}
-		
+
 		// System.out.println("Hop");
 
 		/*if (aParentDrawable == null) { // This is the root node
@@ -197,6 +199,24 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	@Override
 	public FGEModelFactory getFactory() {
 		return getDrawing().getFactory();
+	}
+
+	/**
+	 * Return the EditingContext
+	 * 
+	 * @return
+	 */
+	@Override
+	public EditingContext getEditingContext() {
+		return getFactory().getEditingContext();
+	}
+
+	@Override
+	public UndoManager getUndoManager() {
+		if (getEditingContext() != null) {
+			return getEditingContext().getUndoManager();
+		}
+		return null;
 	}
 
 	@Override
@@ -315,7 +335,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			drawable = null;
 			parentNode = null;
 
-			if (graphicalRepresentation != null && graphicalRepresentation.getPropertyChangeSupport()!=null){
+			if (graphicalRepresentation != null && graphicalRepresentation.getPropertyChangeSupport() != null) {
 				graphicalRepresentation.getPropertyChangeSupport().removePropertyChangeListener(this);
 			}
 			graphicalRepresentation = null;

@@ -61,6 +61,8 @@ import org.openflexo.fge.graphics.ShapePainter;
 import org.openflexo.fge.shapes.Shape;
 import org.openflexo.fge.shapes.ShapeSpecification;
 import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.factory.EditingContext;
+import org.openflexo.model.undo.UndoManager;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 
 /**
@@ -157,6 +159,20 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		 * @return
 		 */
 		public FGEModelFactory getFactory();
+
+		/**
+		 * Return the EditingContext when any (might be null)
+		 * 
+		 * @return
+		 */
+		public EditingContext getEditingContext();
+
+		/**
+		 * Return the UndoManager when any (might be null)
+		 * 
+		 * @return
+		 */
+		public UndoManager getUndoManager();
 
 		/**
 		 * Return the represented java {@link Object} (the object of the model represented by this graphical node)

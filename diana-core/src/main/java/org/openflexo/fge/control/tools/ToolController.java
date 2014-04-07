@@ -46,13 +46,13 @@ public abstract class ToolController<ME> implements PropertyChangeListener, HasP
 
 	private static final Logger logger = Logger.getLogger(ToolController.class.getPackage().getName());
 
-	private DianaInteractiveEditor<?, ?, ?> controller;
+	private final DianaInteractiveEditor<?, ?, ?> controller;
 
 	private boolean editionHasBeenStarted = false;
 
-	private PropertyChangeSupport pcSupport;
+	private final PropertyChangeSupport pcSupport;
 
-	private ToolAction toolAction;
+	private final ToolAction toolAction;
 
 	public ToolController(DianaInteractiveEditor<?, ?, ?> controller, ToolAction toolAction) {
 		super();
@@ -201,16 +201,16 @@ public abstract class ToolController<ME> implements PropertyChangeListener, HasP
 	}
 
 	protected CompoundEdit startRecordEdit(String editName) {
-		if (controller.getFactory().getUndoManager() != null && !controller.getFactory().getUndoManager().isUndoInProgress()
-				&& !controller.getFactory().getUndoManager().isRedoInProgress()) {
-			return controller.getFactory().getUndoManager().startRecording(editName);
+		if (controller.getUndoManager() != null && !controller.getUndoManager().isUndoInProgress()
+				&& !controller.getUndoManager().isRedoInProgress()) {
+			return controller.getUndoManager().startRecording(editName);
 		}
 		return null;
 	}
 
 	protected void stopRecordEdit(CompoundEdit edit) {
-		if (edit != null && controller.getFactory().getUndoManager() != null) {
-			controller.getFactory().getUndoManager().stopRecording(edit);
+		if (edit != null && controller.getUndoManager() != null) {
+			controller.getUndoManager().stopRecording(edit);
 		}
 	}
 

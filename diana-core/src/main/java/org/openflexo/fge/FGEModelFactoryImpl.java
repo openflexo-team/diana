@@ -161,7 +161,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseClickControl<AbstractDianaEditor<?, ?, ?>> makeMouseClickControl(String aName, MouseButton button, int clickCount,
 			boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed) {
 		return new MouseClickControlImpl<AbstractDianaEditor<?, ?, ?>>(aName, button, clickCount, null, shiftPressed, ctrlPressed,
-				metaPressed, altPressed, this);
+				metaPressed, altPressed, getEditingContext());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -171,7 +171,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 			boolean altPressed) {
 		return new MouseClickControlImpl<AbstractDianaEditor<?, ?, ?>>(aName, button, clickCount,
 				(MouseClickControlAction<AbstractDianaEditor<?, ?, ?>>) makeMouseClickControlAction(actionType), shiftPressed, ctrlPressed,
-				metaPressed, altPressed, this);
+				metaPressed, altPressed, getEditingContext());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -189,14 +189,15 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	private <E2 extends AbstractDianaEditor<?, ?, ?>> MouseClickControl<E2> makeMouseClickControl2(String aName, MouseButton button,
 			int clickCount, MouseClickControlAction<E2> action, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed,
 			boolean altPressed) {
-		return new MouseClickControlImpl<E2>(aName, button, clickCount, action, shiftPressed, ctrlPressed, metaPressed, altPressed, this);
+		return new MouseClickControlImpl<E2>(aName, button, clickCount, action, shiftPressed, ctrlPressed, metaPressed, altPressed,
+				getEditingContext());
 	}
 
 	@Override
 	public MouseDragControl<? extends AbstractDianaEditor<?, ?, ?>> makeMouseDragControl(String aName, MouseButton button,
 			boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed) {
 		return new MouseDragControlImpl<AbstractDianaEditor<?, ?, ?>>(aName, button, null, shiftPressed, ctrlPressed, metaPressed,
-				altPressed, this);
+				altPressed, getEditingContext());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -206,7 +207,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 			boolean altPressed) {
 		return new MouseDragControlImpl<AbstractDianaEditor<?, ?, ?>>(aName, button,
 				(MouseDragControlAction<AbstractDianaEditor<?, ?, ?>>) makeMouseDragControlAction(actionType), shiftPressed, ctrlPressed,
-				metaPressed, altPressed, this);
+				metaPressed, altPressed, getEditingContext());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -223,7 +224,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	// ?>)
 	private <E2 extends AbstractDianaEditor<?, ?, ?>> MouseDragControl<E2> makeMouseDragControl2(String aName, MouseButton button,
 			MouseDragControlAction<E2> action, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed) {
-		return new MouseDragControlImpl<E2>(aName, button, action, shiftPressed, ctrlPressed, metaPressed, altPressed, this);
+		return new MouseDragControlImpl<E2>(aName, button, action, shiftPressed, ctrlPressed, metaPressed, altPressed, getEditingContext());
 	}
 
 	@Override

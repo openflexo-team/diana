@@ -598,8 +598,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 	 * @return true if there are edits to be undone
 	 */
 	public boolean canUndo() {
-		return getFactory() != null && getFactory().getUndoManager() != null
-				&& getFactory().getUndoManager().canUndoIfStoppingCurrentEdition();
+		return getUndoManager() != null && getUndoManager().canUndoIfStoppingCurrentEdition();
 	}
 
 	/**
@@ -607,16 +606,16 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 	 */
 	public void undo() {
 		logger.info("UNDO called");
-		getFactory().getUndoManager().debug();
-		if (getFactory().getUndoManager().canUndo()) {
-			logger.info("Undoing: " + getFactory().getUndoManager().editToBeUndone().getPresentationName());
-			getFactory().getUndoManager().undo();
+		getUndoManager().debug();
+		if (getUndoManager().canUndo()) {
+			logger.info("Undoing: " + getUndoManager().editToBeUndone().getPresentationName());
+			getUndoManager().undo();
 		} else {
-			if (getFactory().getUndoManager().canUndoIfStoppingCurrentEdition()) {
-				getFactory().getUndoManager().stopRecording(getFactory().getUndoManager().getCurrentEdition());
-				if (getFactory().getUndoManager().canUndo()) {
-					logger.info("Undoing: " + getFactory().getUndoManager().editToBeUndone().getPresentationName());
-					getFactory().getUndoManager().undo();
+			if (getUndoManager().canUndoIfStoppingCurrentEdition()) {
+				getUndoManager().stopRecording(getUndoManager().getCurrentEdition());
+				if (getUndoManager().canUndo()) {
+					logger.info("Undoing: " + getUndoManager().editToBeUndone().getPresentationName());
+					getUndoManager().undo();
 				}
 			} else {
 				System.out.println("JE peux pas faire d'UNDO et puis c'est tout !");
@@ -630,7 +629,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 	 * @return true if there are edits to be undone
 	 */
 	public boolean canRedo() {
-		return getFactory() != null && getFactory().getUndoManager() != null && getFactory().getUndoManager().canRedo();
+		return getUndoManager() != null && getUndoManager().canRedo();
 	}
 
 	/**
@@ -638,9 +637,9 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 	 */
 	public void redo() {
 		logger.info("REDO called");
-		if (getFactory().getUndoManager().canRedo()) {
-			logger.info("Redoing: " + getFactory().getUndoManager().editToBeRedone().getPresentationName());
-			getFactory().getUndoManager().redo();
+		if (getUndoManager().canRedo()) {
+			logger.info("Redoing: " + getUndoManager().editToBeRedone().getPresentationName());
+			getUndoManager().redo();
 		}
 	}
 

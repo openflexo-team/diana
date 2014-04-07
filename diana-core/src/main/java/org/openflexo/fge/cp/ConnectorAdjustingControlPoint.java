@@ -55,8 +55,8 @@ public class ConnectorAdjustingControlPoint extends ConnectorControlPoint {
 	@Override
 	public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
 
-		if (getNode().getFactory().getUndoManager() != null) {
-			adjustEdit = getNode().getFactory().getUndoManager().startRecording("Adjust connector");
+		if (getNode().getUndoManager() != null) {
+			adjustEdit = getNode().getUndoManager().startRecording("Adjust connector");
 		}
 
 		super.startDragging(controller, startPoint);
@@ -77,8 +77,8 @@ public class ConnectorAdjustingControlPoint extends ConnectorControlPoint {
 		if (controller instanceof AbstractDianaEditor && ((AbstractDianaEditor<?, ?, ?>) controller).getDelegate() != null) {
 			((AbstractDianaEditor<?, ?, ?>) controller).getDelegate().objectStopMoving(getNode());
 		}
-		if (getNode().getFactory().getUndoManager() != null) {
-			getNode().getFactory().getUndoManager().stopRecording(adjustEdit);
+		if (getNode().getUndoManager() != null) {
+			getNode().getUndoManager().stopRecording(adjustEdit);
 		}
 	}
 }

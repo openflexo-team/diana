@@ -23,10 +23,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.MouseControl;
 import org.openflexo.fge.control.MouseControlContext;
+import org.openflexo.model.factory.EditingContext;
 
 public abstract class MouseControlImpl<E extends AbstractDianaEditor<?, ?, ?>> implements MouseControl<E> {
 	static final Logger logger = Logger.getLogger(MouseControlImpl.class.getPackage().getName());
@@ -38,10 +38,10 @@ public abstract class MouseControlImpl<E extends AbstractDianaEditor<?, ?, ?>> i
 	private boolean altPressed = false;
 	private MouseButton button;
 
-	private FGEModelFactory factory;
+	private final EditingContext editingContext;
 
 	protected MouseControlImpl(String aName, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed,
-			MouseButton button, FGEModelFactory factory) {
+			MouseButton button, EditingContext editingContext) {
 		super();
 		name = aName;
 		this.shiftPressed = shiftPressed;
@@ -49,11 +49,11 @@ public abstract class MouseControlImpl<E extends AbstractDianaEditor<?, ?, ?>> i
 		this.metaPressed = metaPressed;
 		this.altPressed = altPressed;
 		this.button = button;
-		this.factory = factory;
+		this.editingContext = editingContext;
 	}
 
-	public FGEModelFactory getFactory() {
-		return factory;
+	public EditingContext getEditingContext() {
+		return editingContext;
 	}
 
 	@Override
@@ -113,6 +113,7 @@ public abstract class MouseControlImpl<E extends AbstractDianaEditor<?, ?, ?>> i
 				+ (altPressed ? ",ALT" : "");
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -121,6 +122,7 @@ public abstract class MouseControlImpl<E extends AbstractDianaEditor<?, ?, ?>> i
 		this.name = name;
 	}
 
+	@Override
 	public boolean isShiftPressed() {
 		return shiftPressed;
 	}
@@ -129,6 +131,7 @@ public abstract class MouseControlImpl<E extends AbstractDianaEditor<?, ?, ?>> i
 		this.shiftPressed = shiftPressed;
 	}
 
+	@Override
 	public boolean isCtrlPressed() {
 		return ctrlPressed;
 	}
@@ -137,6 +140,7 @@ public abstract class MouseControlImpl<E extends AbstractDianaEditor<?, ?, ?>> i
 		this.ctrlPressed = ctrlPressed;
 	}
 
+	@Override
 	public boolean isMetaPressed() {
 		return metaPressed;
 	}
@@ -145,6 +149,7 @@ public abstract class MouseControlImpl<E extends AbstractDianaEditor<?, ?, ?>> i
 		this.metaPressed = metaPressed;
 	}
 
+	@Override
 	public boolean isAltPressed() {
 		return altPressed;
 	}
@@ -153,6 +158,7 @@ public abstract class MouseControlImpl<E extends AbstractDianaEditor<?, ?, ?>> i
 		this.altPressed = altPressed;
 	}
 
+	@Override
 	public MouseButton getButton() {
 		return button;
 	}

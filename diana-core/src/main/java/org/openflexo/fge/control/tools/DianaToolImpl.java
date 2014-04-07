@@ -90,16 +90,16 @@ public abstract class DianaToolImpl<C, F extends DianaViewFactory<F, ?>> impleme
 	}
 
 	protected CompoundEdit startRecordEdit(String editName) {
-		if (getEditor().getFactory().getUndoManager() != null && !getEditor().getFactory().getUndoManager().isUndoInProgress()
-				&& !getEditor().getFactory().getUndoManager().isRedoInProgress()) {
-			return getEditor().getFactory().getUndoManager().startRecording(editName);
+		if (getEditor().getUndoManager() != null && !getEditor().getUndoManager().isUndoInProgress()
+				&& !getEditor().getUndoManager().isRedoInProgress()) {
+			return getEditor().getUndoManager().startRecording(editName);
 		}
 		return null;
 	}
 
 	protected void stopRecordEdit(CompoundEdit edit) {
-		if (edit != null && getEditor().getFactory().getUndoManager() != null) {
-			getEditor().getFactory().getUndoManager().stopRecording(edit);
+		if (edit != null && getEditor().getUndoManager() != null) {
+			getEditor().getUndoManager().stopRecording(edit);
 		}
 	}
 

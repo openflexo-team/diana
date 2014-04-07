@@ -20,11 +20,11 @@
 package org.openflexo.fge.control.actions;
 
 import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.MouseClickControl;
 import org.openflexo.fge.control.MouseClickControlAction;
 import org.openflexo.fge.control.MouseControlContext;
+import org.openflexo.model.factory.EditingContext;
 
 public class MouseClickControlImpl<E extends AbstractDianaEditor<?, ?, ?>> extends MouseControlImpl<E> implements MouseClickControl<E> {
 
@@ -32,8 +32,8 @@ public class MouseClickControlImpl<E extends AbstractDianaEditor<?, ?, ?>> exten
 	private MouseClickControlAction<E> action;
 
 	public MouseClickControlImpl(String aName, MouseButton button, int clickCount, MouseClickControlAction<E> action, boolean shiftPressed,
-			boolean ctrlPressed, boolean metaPressed, boolean altPressed, FGEModelFactory factory) {
-		super(aName, shiftPressed, ctrlPressed, metaPressed, altPressed, button, factory);
+			boolean ctrlPressed, boolean metaPressed, boolean altPressed, EditingContext editingContext) {
+		super(aName, shiftPressed, ctrlPressed, metaPressed, altPressed, button, editingContext);
 		this.clickCount = clickCount;
 		this.action = action;
 	}

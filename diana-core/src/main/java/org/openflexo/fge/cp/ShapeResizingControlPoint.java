@@ -220,8 +220,8 @@ public class ShapeResizingControlPoint extends ControlPoint {
 			return;
 		}
 
-		if (getNode().getFactory().getUndoManager() != null) {
-			resizeEdit = getNode().getFactory().getUndoManager().startRecording("Resizing shape");
+		if (getNode().getUndoManager() != null) {
+			resizeEdit = getNode().getUndoManager().startRecording("Resizing shape");
 		}
 
 		initialWidth = getNode().getUnscaledViewWidth();
@@ -340,8 +340,8 @@ public class ShapeResizingControlPoint extends ControlPoint {
 
 		getNode().notifyObjectHasResized();
 
-		if (getNode().getFactory().getUndoManager() != null) {
-			getNode().getFactory().getUndoManager().stopRecording(resizeEdit);
+		if (getNode().getUndoManager() != null) {
+			getNode().getUndoManager().stopRecording(resizeEdit);
 		}
 
 	}

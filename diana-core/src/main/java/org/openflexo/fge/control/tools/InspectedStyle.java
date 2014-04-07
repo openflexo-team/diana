@@ -170,16 +170,16 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	}
 
 	protected CompoundEdit startRecordEdit(String editName) {
-		if (getController().getFactory().getUndoManager() != null && !getController().getFactory().getUndoManager().isUndoInProgress()
-				&& !getController().getFactory().getUndoManager().isRedoInProgress()) {
-			return getController().getFactory().getUndoManager().startRecording(editName);
+		if (getController().getUndoManager() != null && !getController().getUndoManager().isUndoInProgress()
+				&& !getController().getUndoManager().isRedoInProgress()) {
+			return getController().getUndoManager().startRecording(editName);
 		}
 		return null;
 	}
 
 	protected void stopRecordEdit(CompoundEdit edit) {
-		if (edit != null && getController().getFactory().getUndoManager() != null) {
-			getController().getFactory().getUndoManager().stopRecording(edit);
+		if (edit != null && getController().getUndoManager() != null) {
+			getController().getUndoManager().stopRecording(edit);
 		}
 	}
 
@@ -562,9 +562,9 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	}
 
 	public boolean hasKey(String key) {
-		if(key!=null){
+		if (key != null) {
 			GRParameter<?> parameter = GRParameter.getGRParameter(getInspectedStyleClass(), key);
-			if((parameter != null)&&(getPropertyValue(parameter)!=null)) {
+			if ((parameter != null) && (getPropertyValue(parameter) != null)) {
 				return true;
 			}
 		}
@@ -619,8 +619,8 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	 * @return
 	 */
 	public Type getTypeForKey(String key) {
-		if(hasKey(key)){
-			if(GRParameter.getGRParameter(getInspectedStyleClass(), key)!=null){
+		if (hasKey(key)) {
+			if (GRParameter.getGRParameter(getInspectedStyleClass(), key) != null) {
 				return GRParameter.getGRParameter(getInspectedStyleClass(), key).getType();
 			}
 		}

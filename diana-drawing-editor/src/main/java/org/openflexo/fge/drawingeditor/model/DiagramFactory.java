@@ -12,6 +12,7 @@ import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.model.undo.UndoManager;
 
 public class DiagramFactory extends FGEModelFactoryImpl {
 
@@ -20,7 +21,13 @@ public class DiagramFactory extends FGEModelFactoryImpl {
 
 	public DiagramFactory() throws ModelDefinitionException {
 		super(Diagram.class, Shape.class, Connector.class);
-		createUndoManager();
+	}
+
+	public UndoManager getUndoManager() {
+		if (getEditingContext() != null) {
+			return getEditingContext().getUndoManager();
+		}
+		return null;
 	}
 
 	// Called for NEW
@@ -143,14 +150,14 @@ public class DiagramFactory extends FGEModelFactoryImpl {
 	@Override
 	public void applyBasicControls(DrawingGraphicalRepresentation drawingGraphicalRepresentation) {
 		super.applyBasicControls(drawingGraphicalRepresentation);
-		drawingGraphicalRepresentation.addToMouseClickControls(new ShowContextualMenuControl(this));
+		drawingGraphicalRepresentation.addToMouseClickControls(new ShowContextualMenuControl(getEditingContext()));
 		drawingGraphicalRepresentation.addToMouseDragControls(new DrawEdgeControl(this));
 	}
 
 	@Override
 	public void applyBasicControls(ShapeGraphicalRepresentation shapeGraphicalRepresentation) {
 		super.applyBasicControls(shapeGraphicalRepresentation);
-		shapeGraphicalRepresentation.addToMouseClickControls(new ShowContextualMenuControl(this));
+		shapeGraphicalRepresentation.addToMouseClickControls(new ShowContextualMenuControl(getEditingContext()));
 		shapeGraphicalRepresentation.addToMouseDragControls(new DrawEdgeControl(this));
 	}
 
