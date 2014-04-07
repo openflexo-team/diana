@@ -18,12 +18,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openflexo.fge.drawingeditor.model.DiagramFactory;
 import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.model.factory.EditingContext;
+import org.openflexo.model.factory.EditingContextImpl;
 import org.openflexo.rm.ResourceLocator;
 
 public class TestLoadAndDisplaySomeDiagrams {
 
 	public static EventProcessor eventProcessor;
 	public static DiagramFactory FACTORY;
+	public static EditingContext EDITING_CONTEXT;
 
 	public static boolean dontDestroyMe = false;
 
@@ -43,7 +46,9 @@ public class TestLoadAndDisplaySomeDiagrams {
 				@Override
 				public void run() {
 					try {
-						FACTORY = new DiagramFactory();
+						EDITING_CONTEXT = new EditingContextImpl();
+						((EditingContextImpl) EDITING_CONTEXT).createUndoManager();
+						FACTORY = new DiagramFactory(EDITING_CONTEXT);
 					} catch (ModelDefinitionException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -106,7 +111,6 @@ public class TestLoadAndDisplaySomeDiagrams {
 	@Test
 	public void testBasicExample() {
 
-		
 		deserializeAndDisplay(ResourceLocator.retrieveResourceAsFile(ResourceLocator.locateResource(("DrawingExamples/BasicExample.drw"))));
 	}
 

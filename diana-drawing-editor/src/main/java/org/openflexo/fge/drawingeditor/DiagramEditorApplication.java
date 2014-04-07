@@ -141,8 +141,10 @@ public class DiagramEditorApplication {
 	public DiagramEditorApplication() {
 		super();
 
+		editingContext = new DiagramEditingContext();
+
 		try {
-			factory = new DiagramFactory();
+			factory = new DiagramFactory(editingContext);
 			// System.out.println("factory: " + factory.debug());
 			// FGEPamelaInjectionModule injectionModule = new FGEPamelaInjectionModule(factory);
 			// injector = Guice.createInjector(injectionModule);
@@ -151,9 +153,6 @@ public class DiagramEditorApplication {
 		} catch (ModelDefinitionException e1) {
 			e1.printStackTrace();
 		}
-
-		editingContext = new DiagramEditingContext();
-		factory.setEditingContext(editingContext);
 
 		frame = new JFrame();
 		frame.setPreferredSize(new Dimension(1100, 800));

@@ -19,6 +19,7 @@ import org.openflexo.fge.drawingeditor.model.DiagramFactory;
 import org.openflexo.fge.drawingeditor.model.Shape;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.model.factory.EditingContextImpl;
 
 public class DiagramDrawing extends DrawingImpl<Diagram> {
 
@@ -115,7 +116,9 @@ public class DiagramDrawing extends DrawingImpl<Diagram> {
 	}
 
 	public static void main(String[] args) throws ModelDefinitionException {
-		DiagramFactory factory = new DiagramFactory();
+		EditingContextImpl editingContext = new EditingContextImpl();
+		editingContext.createUndoManager();
+		DiagramFactory factory = new DiagramFactory(editingContext);
 		Diagram myDrawing = factory.makeNewDiagram();
 		new DiagramDrawing(myDrawing, factory);
 	}

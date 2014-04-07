@@ -17,6 +17,7 @@ import org.openflexo.fge.drawingeditor.model.Shape;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.model.factory.Clipboard;
+import org.openflexo.model.factory.EditingContextImpl;
 
 /**
  * This test is actually testing PAMELA copy/paste features applied to Diana model
@@ -44,7 +45,9 @@ public class TestCopyPaste extends TestCase {
 	public void setUp() throws Exception {
 		new File("/tmp").mkdirs();
 		// modelContext = new ModelContext(FlexoProcess.class);
-		factory = new DiagramFactory();
+		EditingContextImpl editingContext = new EditingContextImpl();
+		editingContext.createUndoManager();
+		factory = new DiagramFactory(editingContext);
 	}
 
 	@Override

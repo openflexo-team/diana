@@ -16,6 +16,7 @@ import org.openflexo.fge.drawingeditor.model.DiagramFactory;
 import org.openflexo.fge.drawingeditor.model.Shape;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
+import org.openflexo.model.factory.EditingContextImpl;
 import org.openflexo.model.undo.CompoundEdit;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
@@ -43,7 +44,9 @@ public class TestUndoRedo extends TestCase {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		new File("/tmp").mkdirs();
-		factory = new DiagramFactory();
+		EditingContextImpl editingContext = new EditingContextImpl();
+		editingContext.createUndoManager();
+		factory = new DiagramFactory(editingContext);
 	}
 
 	@AfterClass
@@ -53,9 +56,9 @@ public class TestUndoRedo extends TestCase {
 	@Override
 	@Before
 	public void setUp() throws Exception {
-		if (factory == null) {
+		/*if (factory == null) {
 			factory = new DiagramFactory();
-		}
+		}*/
 	}
 
 	@Override

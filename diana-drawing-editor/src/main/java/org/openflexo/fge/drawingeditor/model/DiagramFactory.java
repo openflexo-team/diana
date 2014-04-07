@@ -11,6 +11,7 @@ import org.openflexo.fge.drawingeditor.ShowContextualMenuControl;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.model.factory.EditingContext;
 import org.openflexo.model.undo.CompoundEdit;
 import org.openflexo.model.undo.UndoManager;
 
@@ -19,8 +20,9 @@ public class DiagramFactory extends FGEModelFactoryImpl {
 	private int shapeIndex = 0;
 	private int connectorIndex = 0;
 
-	public DiagramFactory() throws ModelDefinitionException {
+	public DiagramFactory(EditingContext editingContext) throws ModelDefinitionException {
 		super(Diagram.class, Shape.class, Connector.class);
+		setEditingContext(editingContext);
 	}
 
 	public UndoManager getUndoManager() {
