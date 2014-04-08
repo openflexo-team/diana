@@ -617,8 +617,6 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 					logger.info("Undoing: " + getUndoManager().editToBeUndone().getPresentationName());
 					getUndoManager().undo();
 				}
-			} else {
-				System.out.println("JE peux pas faire d'UNDO et puis c'est tout !");
 			}
 		}
 	}

@@ -163,7 +163,6 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 				BindingValueChangeListener listener = new BindingValueChangeListener(dpv.dataBinding, DrawingTreeNodeImpl.this) {
 					@Override
 					public void bindingValueChanged(Object source, Object newValue) {
-						System.out.println(" YYYYYYYEEEEEEEEESSSSSSSSS");
 						notifyAttributeChanged(dpv.parameter, null, newValue);
 					}
 				};
