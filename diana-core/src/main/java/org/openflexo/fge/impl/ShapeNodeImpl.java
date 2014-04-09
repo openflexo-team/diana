@@ -195,6 +195,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public boolean isPointInsideShape(FGEPoint aPoint) {
+		if (getShape() == null) {
+			return false;
+		}
 		return getShape().isPointInsideShape(aPoint);
 	}
 
@@ -688,6 +691,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public boolean isContainedInSelection(Rectangle drawingViewSelection, double scale) {
+		if (getShape() == null) {
+			return false;
+		}
 		FGERectangle drawingViewBounds = new FGERectangle(drawingViewSelection.getX(), drawingViewSelection.getY(),
 				drawingViewSelection.getWidth(), drawingViewSelection.getHeight(), Filling.FILLED);
 		boolean isFullyContained = true;
