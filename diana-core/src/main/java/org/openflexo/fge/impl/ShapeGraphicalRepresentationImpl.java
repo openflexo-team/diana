@@ -1555,7 +1555,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 		FGEAttributeNotification<BackgroundStyle> notification = requireChange(BACKGROUND, aBackground, false);
 		if (notification != null) {
 			// background = aBackground.clone();
-			if (background != null && background.getPropertyChangeSupport()!=null) {
+			if (background != null && background.getPropertyChangeSupport() != null) {
 				background.getPropertyChangeSupport().removePropertyChangeListener(this);
 			}
 			background = aBackground;
@@ -1758,7 +1758,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setShapeSpecification(ShapeSpecification aShape) {
-		logger.info("================ setShapeSpecification() " + aShape);
+		// logger.info("================ setShapeSpecification() " + aShape);
 		if (shape != aShape) {
 			if (shape != null && shape.getPropertyChangeSupport() != null) {
 				shape.getPropertyChangeSupport().removePropertyChangeListener(this);
