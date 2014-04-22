@@ -160,13 +160,13 @@ public abstract class GRStructureVisitor<R> {
 
 		if (parent.hasShapeFor(binding, drawable)) {
 			// Already existing
-			System.out.println("% Found already existing node for " + drawable);
+			//System.out.println("% Found already existing node for " + drawable);
 			ShapeNode<O> returned = parent.getShapeFor(binding, drawable);
 			updatedNodes.add(returned);
 			// deletedNodes.remove(returned);
 			return returned;
 		} else {
-			System.out.println("% Creating new node for " + drawable);
+			//System.out.println("% Creating new node for " + drawable);
 			ShapeNode<O> returned = drawing.createNewShapeNode(parent, binding, drawable);
 			// New node
 			createdNodes.add(returned);
@@ -365,7 +365,7 @@ public abstract class GRStructureVisitor<R> {
 			}
 			return returned;
 		} else {
-			System.out.println("***** Nouveau ConnectorNode !!!! " + parent.getChildNodes());
+			//System.out.println("***** New ConnectorNode !!!! " + parent.getChildNodes());
 			ConnectorNode<O> returned = drawing.createNewConnectorNode(parent, binding, drawable, fromNode, toNode);
 			createdNodes.add(returned);
 			return returned;

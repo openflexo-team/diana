@@ -143,8 +143,6 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 		startShapeGR.setIsReadOnly(false);
 		startShapeGR.setBorder(factory.makeShapeBorder(0, 0, 0, 0));
 
-		System.out.println("MDC= " + startShapeGR.getMouseDragControls());
-
 		endShapeGR = factory.makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
 		endShapeGR.setX(getPanelWidth() - 30);
 		endShapeGR.setY(getPanelHeight() - 30);
