@@ -566,13 +566,17 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	}
 
 	public void notifyNodeAdded(DrawingTreeNode<?, ?> addedNode, ContainerNode<?, ?> parentNode) {
-		logger.info(">>>> Added node: " + addedNode);
+		if (logger.isLoggable(Level.FINE)) {
+			logger.fine(">>>> Added node: " + addedNode);
+		}
 		// See parentNode.notifyDrawableAdded(removedGR);
 		parentNode.notifyNodeAdded(addedNode);
 	}
 
 	public void notifyNodeRemoved(DrawingTreeNode<?, ?> removedNode, ContainerNode<?, ?> parentNode) {
-		logger.info(">>>> Removed node: " + removedNode);
+		if (logger.isLoggable(Level.FINE)) {
+			logger.fine(">>>> Removed node: " + removedNode);
+		}
 		// See parentNode.notifyDrawableRemoved(removedGR);
 		parentNode.notifyNodeRemoved(removedNode);
 	}

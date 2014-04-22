@@ -47,7 +47,7 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements FGECo
 
 	private static final Logger logger = Logger.getLogger(JDianaLayeredView.class.getPackage().getName());
 
-	private List<FGEView<?, ? extends JComponent>> childViews;
+	private final List<FGEView<?, ? extends JComponent>> childViews;
 
 	public JDianaLayeredView() {
 		super();
@@ -115,7 +115,7 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements FGECo
 
 	@Override
 	public void addView(FGEView<?, ?> view) {
-		logger.info("add view " + view + " under " + this);
+		// logger.info("add view " + view + " under " + this);
 		if (view instanceof JShapeView) {
 			((JShapeView<?>) view).setBackground(getBackground());
 			// logger.info("add the label view " + ((JShapeView<?>) view).getLabelView());
@@ -135,20 +135,21 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements FGECo
 		}
 	}
 
+	@Override
 	public void removeView(FGEView<?, ?> view) {
-		logger.info("remove view " + view + " from " + this);
+		// logger.info("remove view " + view + " from " + this);
 		if (view instanceof JShapeView) {
 			if (((JShapeView<?>) view).getLabelView() != null) {
 				remove(((JShapeView<?>) view).getLabelView());
 			}
 			remove(((JShapeView<?>) view));
-			childViews.remove((JShapeView<?>) view);
+			childViews.remove(view);
 		} else if (view instanceof JConnectorView) {
 			if (((JConnectorView<?>) view).getLabelView() != null) {
 				remove(((JConnectorView<?>) view).getLabelView());
 			}
 			remove(((JConnectorView<?>) view));
-			childViews.remove((JConnectorView<?>) view);
+			childViews.remove(view);
 		}
 	}
 
@@ -181,7 +182,7 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements FGECo
 	protected void handleNodeRemoved(DrawingTreeNode<?, ?> removedNode, ContainerNode<?, ?> parentNode) {
 		if (removedNode instanceof ShapeNode) {
 			ShapeNode<?> removedShapeNode = (ShapeNode<?>) removedNode;
-			JShapeView<?> view = (JShapeView<?>) getDrawingView().shapeViewForNode(removedShapeNode);
+			JShapeView<?> view = getDrawingView().shapeViewForNode(removedShapeNode);
 			if (view != null) {
 				remove(view);
 				revalidate();
@@ -237,10 +238,12 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements FGECo
 		return getDrawingView().getController();
 	}
 
+	@Override
 	public List<FGEView<?, ? extends JComponent>> getChildViews() {
 		return childViews;
 	}
 
+	@Override
 	public FGEPaintManager getPaintManager() {
 		return getDrawingView().getPaintManager();
 	}
