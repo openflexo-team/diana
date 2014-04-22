@@ -87,7 +87,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 	@Override
 	public Connector<?> getConnector() {
 		if (connector == null && getConnectorSpecification() != null) {
-			logger.info("Make new connector with " + getConnectorSpecification());
+			// logger.info("Make new connector with " + getConnectorSpecification());
 			connector = getConnectorSpecification().makeConnector(this);
 			getConnectorSpecification().getPropertyChangeSupport().addPropertyChangeListener(connector);
 		}
@@ -105,10 +105,10 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 	}
 
 	private boolean enabledStartObjectObserving = false;
-	private List<DrawingTreeNode<?, ?>> observedStartObjects = new ArrayList<DrawingTreeNode<?, ?>>();
+	private final List<DrawingTreeNode<?, ?>> observedStartObjects = new ArrayList<DrawingTreeNode<?, ?>>();
 
 	private boolean enabledEndObjectObserving = false;
-	private List<DrawingTreeNode<?, ?>> observedEndObjects = new ArrayList<DrawingTreeNode<?, ?>>();
+	private final List<DrawingTreeNode<?, ?>> observedEndObjects = new ArrayList<DrawingTreeNode<?, ?>>();
 
 	protected void enableStartObjectObserving(ShapeNode<?> aStartNode) {
 
@@ -123,7 +123,6 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 		if (aStartNode != null /*&& !enabledStartObjectObserving*/) {
 			aStartNode.getPropertyChangeSupport().addPropertyChangeListener(this);
 			observedStartObjects.add(aStartNode);
-			System.out.println("Je suis " + this + " et j'observe " + aStartNode);
 			// if (!isDeserializing()) {
 			for (DrawingTreeNode<?, ?> node : aStartNode.getAncestors()) {
 				/*if (getGraphicalRepresentation(o) != null) {
@@ -144,7 +143,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 		if (enabledStartObjectObserving) {
 
 			for (DrawingTreeNode<?, ?> node : observedStartObjects) {
-				if(node.getPropertyChangeSupport()!=null){
+				if (node.getPropertyChangeSupport() != null) {
 					node.getPropertyChangeSupport().removePropertyChangeListener(this);
 				}
 			}
@@ -190,7 +189,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 					if (getGraphicalRepresentation(o) != null) getGraphicalRepresentation(o).deleteObserver(this);
 			}*/
 			for (DrawingTreeNode<?, ?> node : observedEndObjects) {
-				if(node.getPropertyChangeSupport()!=null){
+				if (node.getPropertyChangeSupport() != null) {
 					node.getPropertyChangeSupport().removePropertyChangeListener(this);
 				}
 			}
@@ -412,7 +411,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 	}
 
 	private void fireConnectorSpecificationChanged() {
-		logger.info("fireConnectorSpecificationChanged()");
+		// logger.info("fireConnectorSpecificationChanged()");
 		if (connector != null && getConnectorSpecification() != null) {
 			getConnectorSpecification().getPropertyChangeSupport().removePropertyChangeListener(connector);
 			connector.delete();
@@ -508,6 +507,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 		return null;
 	}
 
+	@Override
 	public void paint(FGEConnectorGraphics g) {
 
 		if (isDeleted()) {

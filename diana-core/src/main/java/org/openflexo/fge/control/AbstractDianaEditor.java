@@ -161,7 +161,7 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 	private DrawingView<M, ?> buildDrawingView() {
 		drawingView = makeDrawingView();
 		contents.put(drawing.getRoot(), drawingView);
-		logger.info("Controller " + this + " Register " + drawingView + " for " + drawing.getRoot());
+		//logger.info("Controller " + this + " Register " + drawingView + " for " + drawing.getRoot());
 		for (DrawingTreeNode<?, ?> dtn : drawing.getRoot().getChildNodes()) {
 			if (dtn instanceof ShapeNode) {
 				ShapeView<?, ?> v = recursivelyBuildShapeView((ShapeNode<?>) dtn);
@@ -171,7 +171,7 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 				drawingView.addView(v);
 			}
 		}
-		System.out.println("JDrawingView: " + drawingView);
+		//System.out.println("JDrawingView: " + drawingView);
 		return drawingView;
 	}
 

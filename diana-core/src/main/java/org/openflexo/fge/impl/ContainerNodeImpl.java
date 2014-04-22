@@ -112,7 +112,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		if (childNodes.contains(aChildNode)) {
 			logger.warning("Node already present");
 		} else {
-			System.out.println("Add child " + aChildNode + " as child as " + this);
+			//System.out.println("Add child " + aChildNode + " as child as " + this);
 			((DrawingTreeNodeImpl<?, ?>) aChildNode).setParentNode(this);
 			childNodes.add((DrawingTreeNodeImpl<?, ?>) aChildNode);
 		}
@@ -121,7 +121,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	@Override
 	public void removeChild(DrawingTreeNode<?, ?> aChildNode) {
 		if (aChildNode == null) {
-			DrawingImpl.logger.warning("Cannot remove null node");
+			logger.warning("Cannot remove null node");
 			return;
 		}
 		if (childNodes.contains(aChildNode)) {

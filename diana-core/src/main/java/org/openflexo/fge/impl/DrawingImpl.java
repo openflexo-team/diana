@@ -584,8 +584,7 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	@Override
 	public <O> ShapeNode<O> createNewShapeNode(ContainerNode<?, ?> parentNode, ShapeGRBinding<O> binding, O drawable) {
 
-		System.out.println("draw shape with " + binding + " drawable=" + drawable + " parent=" + parentNode /*+ " isUpdatingObjectHierarchy="
-																											+ isUpdatingObjectHierarchy*/);
+		//System.out.println("draw shape with " + binding + " drawable=" + drawable + " parent=" + parentNode );
 
 		if (parentNode == null) {
 			logger.warning("Cannot register drawable above null parent");
@@ -610,8 +609,8 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	public <O> ConnectorNode<O> createNewConnectorNode(ContainerNode<?, ?> parentNode, ConnectorGRBinding<O> binding, O drawable,
 			ShapeNode<?> fromNode, ShapeNode<?> toNode) {
 
-		System.out.println("draw connector with " + binding + " drawable=" + drawable + " parent=" + parentNode + " fromNode=" + fromNode
-				+ " toNode=" + toNode);
+		//System.out.println("draw connector with " + binding + " drawable=" + drawable + " parent=" + parentNode + " fromNode=" + fromNode
+		//		+ " toNode=" + toNode);
 
 		if (parentNode == null) {
 			logger.warning("Cannot register drawable above null parent");
