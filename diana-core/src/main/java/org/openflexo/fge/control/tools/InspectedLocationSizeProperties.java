@@ -19,10 +19,17 @@
  */
 package org.openflexo.fge.control.tools;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.openflexo.fge.ConnectorGraphicalRepresentation;
 import org.openflexo.fge.ContainerGraphicalRepresentation;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.DrawingGraphicalRepresentation;
+import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.fge.GraphicalRepresentation.ParagraphAlignment;
@@ -56,6 +63,28 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 
 	public boolean areLocationPropertiesApplicable() {
 		return getController().getSelectedShapes().size() > 0;
+	}
+
+	@Override
+	protected void fireChangedProperties() {
+		// We replace here super code, because we have to fire changed properties for all properties
+		// as the union of properties of all possible types
+		List<GRParameter<?>> paramsList = new ArrayList<GRParameter<?>>();
+		paramsList.addAll(GRParameter.getGRParameters(DrawingGraphicalRepresentation.class));
+		paramsList.addAll(GRParameter.getGRParameters(GeometricGraphicalRepresentation.class));
+		paramsList.addAll(GRParameter.getGRParameters(ShapeGraphicalRepresentation.class));
+		paramsList.addAll(GRParameter.getGRParameters(ConnectorGraphicalRepresentation.class));
+		Set<GRParameter<?>> allParams = new HashSet<GRParameter<?>>(paramsList);
+		for (GRParameter<?> p : allParams) {
+			fireChangedProperty(p);
+		}
+	}
+
+	@Override
+	public void fireSelectionUpdated() {
+		super.fireSelectionUpdated();
+		getPropertyChangeSupport().firePropertyChange("areLocationPropertiesApplicable", !areLocationPropertiesApplicable(),
+				areLocationPropertiesApplicable());
 	}
 
 	public Boolean getIsVisible() {
