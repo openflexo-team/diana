@@ -39,6 +39,7 @@ import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
 import javax.swing.SwingUtilities;
 
+import org.openflexo.fge.ContainerGraphicalRepresentation;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
@@ -178,6 +179,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 		return null;
 	}
 
+	@Override
 	public FGEPaintManager getPaintManager() {
 		return getDrawingView().getPaintManager();
 	}
@@ -187,6 +189,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 		return (JDianaLayeredView<?>) super.getParent();
 	}
 
+	@Override
 	public JDianaLayeredView<?> getParentView() {
 		return getParent();
 	}
@@ -398,7 +401,9 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 					getParentView().revalidate();
 					getPaintManager().repaint(this);
 				}
-			} else if (evt.getPropertyName().equals(ObjectHasResized.EVENT_NAME)) {
+			} else if (evt.getPropertyName().equals(ObjectHasResized.EVENT_NAME)
+					|| evt.getPropertyName().equals(ContainerGraphicalRepresentation.WIDTH_KEY)
+					|| evt.getPropertyName().equals(ContainerGraphicalRepresentation.HEIGHT_KEY)) {
 				resizeView();
 				if (getPaintManager().isPaintingCacheEnabled()) {
 					getPaintManager().removeFromTemporaryObjects(shapeNode);
@@ -528,6 +533,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 		}
 	}
 
+	@Override
 	public void stopLabelEdition() {
 		getLabelView().stopEdition();
 	}

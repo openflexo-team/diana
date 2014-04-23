@@ -22,6 +22,7 @@ import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.GRBinding;
+import org.openflexo.fge.GRParameter;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.ShadowStyle;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
@@ -329,6 +330,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.MAXIMAL_HEIGHT.getName()
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.MAXIMAL_WIDTH.getName()) {
 				checkAndUpdateDimensionIfRequired();
+				// We forward then the event to the view
+				forward(evt);
 			} else if (evt.getPropertyName() == GraphicalRepresentation.HORIZONTAL_TEXT_ALIGNEMENT.getName()
 					|| evt.getPropertyName() == GraphicalRepresentation.VERTICAL_TEXT_ALIGNEMENT.getName()) {
 				checkAndUpdateDimensionIfRequired();
