@@ -964,13 +964,18 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		// contents.clear();
 
 		// TODO ???
-		getGraphicalRepresentation().getPropertyChangeSupport().removePropertyChangeListener(this);
-
-		for (DrawingTreeNode<?, ?> dtn : drawing.getRoot().getChildNodes()) {
-			if (dtn instanceof GeometricNode<?>) {
-				((GeometricNode<?>) dtn).getPropertyChangeSupport().removePropertyChangeListener(this);
+		if(getGraphicalRepresentation()!=null && getGraphicalRepresentation().getPropertyChangeSupport()!=null){
+			getGraphicalRepresentation().getPropertyChangeSupport().removePropertyChangeListener(this);
+		}
+		
+		if(drawing.getRoot().getChildNodes()!=null){
+			for (DrawingTreeNode<?, ?> dtn : drawing.getRoot().getChildNodes()) {
+				if (dtn instanceof GeometricNode<?>) {
+					((GeometricNode<?>) dtn).getPropertyChangeSupport().removePropertyChangeListener(this);
+				}
 			}
 		}
+		
 
 		isDeleted = true;
 	}
