@@ -200,7 +200,10 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 
 	@Override
 	public double getScale() {
-		return getController().getScale();
+		if (getController() != null) {
+			return getController().getScale();
+		}
+		return 1.0;
 	}
 
 	@Override
