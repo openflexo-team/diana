@@ -41,14 +41,16 @@ import org.openflexo.fge.GRProvider.ShapeGRProvider;
 
 public abstract class GRBinding<O, GR extends GraphicalRepresentation> implements Bindable {
 
-	private static BindingFactory BINDING_FACTORY = new JavaBindingFactory();
+	private static final BindingFactory BINDING_FACTORY = new JavaBindingFactory();
 
-	private String name;
-	private GRProvider<O, GR> grProvider;
-	private List<GRStructureVisitor<O>> walkers;
+	private final String name;
+	private final GRProvider<O, GR> grProvider;
+	private final List<GRStructureVisitor<O>> walkers;
 
-	private Map<GRParameter, DynamicPropertyValue<?>> dynamicPropertyValues;
+	private final Map<GRParameter, DynamicPropertyValue<?>> dynamicPropertyValues;
 	protected BindingModel bindingModel;
+
+	private BindingFactory bindingFactory = null;
 
 	public static class DynamicPropertyValue<T> {
 		public GRParameter<T> parameter;
@@ -114,7 +116,14 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> implement
 
 	@Override
 	public BindingFactory getBindingFactory() {
+		if (bindingFactory != null) {
+			return bindingFactory;
+		}
 		return BINDING_FACTORY;
+	}
+
+	public void setBindingFactory(BindingFactory bindingFactory) {
+		this.bindingFactory = bindingFactory;
 	}
 
 	@Override
