@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import org.openflexo.antar.binding.BindingEvaluationContext;
 import org.openflexo.antar.binding.BindingValueChangeListener;
 import org.openflexo.antar.binding.BindingVariable;
 import org.openflexo.antar.binding.DataBinding;
@@ -160,7 +161,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		public BindingValueObserver() {
 			listeners = new HashMap<GRBinding.DynamicPropertyValue<?>, BindingValueChangeListener<?>>();
 			for (final DynamicPropertyValue dpv : getGRBinding().getDynamicPropertyValues()) {
-				BindingValueChangeListener listener = new BindingValueChangeListener(dpv.dataBinding, DrawingTreeNodeImpl.this) {
+				BindingValueChangeListener listener = new BindingValueChangeListener(dpv.dataBinding, getBindingEvaluationContext()) {
 					@Override
 					public void bindingValueChanged(Object source, Object newValue) {
 						notifyAttributeChanged(dpv.parameter, null, newValue);
@@ -406,7 +407,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 		DrawingTreeNode<?, ?> node = this;
 		// TODO !!!!
-		List<TargetObject> targetList = binding.getTargetObjects(this);
+		List<TargetObject> targetList = binding.getTargetObjects(getBindingEvaluationContext());
 		if (targetList != null) {
 			for (TargetObject o : targetList) {
 				// System.out.println("> "+o.target+" for "+o.propertyName);
@@ -645,22 +646,6 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	protected void computeNewConstraint(ConstraintDependency dependency) {
 		// None known at this level
-	}
-
-	@Override
-	public Object getValue(BindingVariable variable) {
-		if (variable.getVariableName().equals("this")) {
-			return getGraphicalRepresentation();
-		} else if (variable.getVariableName().equals("parent")) {
-			return getParentNode().getGraphicalRepresentation();
-		} else if (variable.getVariableName().equals("drawable")) {
-			return getDrawable();
-		} else if (variable.getVariableName().equals("gr")) {
-			return getGraphicalRepresentation();
-		} else {
-			DrawingImpl.logger.warning("Could not find variable named " + variable);
-			return null;
-		}
 	}
 
 	@Override
@@ -1010,7 +995,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	protected <T> T getDynamicPropertyValue(GRParameter<T> parameter) throws InvocationTargetException {
 		if (hasDynamicPropertyValue(parameter)) {
 			try {
-				return getGRBinding().getDynamicPropertyValue(parameter).dataBinding.getBindingValue(this);
+				return getGRBinding().getDynamicPropertyValue(parameter).dataBinding.getBindingValue(getBindingEvaluationContext());
 			} catch (TypeMismatchException e) {
 				throw new InvocationTargetException(e);
 			} catch (NullReferenceException e) {
@@ -1031,7 +1016,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	protected <T> void setDynamicPropertyValue(GRParameter<T> parameter, T value) throws InvocationTargetException {
 		if (hasDynamicSettablePropertyValue(parameter)) {
 			try {
-				getGRBinding().getDynamicPropertyValue(parameter).dataBinding.setBindingValue(value, this);
+				getGRBinding().getDynamicPropertyValue(parameter).dataBinding.setBindingValue(value, getBindingEvaluationContext());
 				return;
 			} catch (TypeMismatchException e) {
 				throw new InvocationTargetException(e);
@@ -1171,23 +1156,69 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	}
 
+	private BindingEvaluationContext bindingEvaluationContext;
+
+	public BindingEvaluationContext getBindingEvaluationContext() {
+		if (bindingEvaluationContext == null) {
+			bindingEvaluationContext = new DrawingTreeNodeEvaluationContext();
+		}
+		return bindingEvaluationContext;
+	}
+
+	class DrawingTreeNodeEvaluationContext implements BindingEvaluationContext {
+		@Override
+		public Object getValue(BindingVariable variable) {
+			if (variable.getVariableName().equals("this")) {
+				return getGraphicalRepresentation();
+			} else if (variable.getVariableName().equals("parent")) {
+				return getParentNode().getGraphicalRepresentation();
+			} else if (variable.getVariableName().equals("drawable")) {
+				return getDrawable();
+			} else if (variable.getVariableName().equals("gr")) {
+				return getGraphicalRepresentation();
+			} else {
+				DrawingImpl.logger.warning("Could not find variable named " + variable);
+				return null;
+			}
+		}
+	}
+
 	/**
 	 * Convenient method used to retrieve text property value
 	 */
 	@Override
 	public String getText() {
-		/*System.out.println("Le text pour " + getDrawable().getClass().getSimpleName());
-		if (getDrawable().getClass().getSimpleName().contains("ShapeImpl_$$_javassist")) {
-			System.out.println("c'est quoi le text ???");
-			System.out.println("hasPV=" + hasDynamicPropertyValue(GraphicalRepresentation.TEXT));
-			try {
-				System.out.println("DPV=" + getDynamicPropertyValue(GraphicalRepresentation.TEXT));
-				return getDynamicPropertyValue(GraphicalRepresentation.TEXT);
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		/*if (hasDynamicPropertyValue(GraphicalRepresentation.TEXT)) {
+			DataBinding<String> db = getGRBinding().getDynamicPropertyValue(GraphicalRepresentation.TEXT).dataBinding;
+			if (db.toString().equals("drawable.name")) {
+				System.out.println("Content de l'avoir celui la !!!!!!!!!!");
+				System.out.println("valid=" + db.isValid());
+				System.out.println("reason:" + db.invalidBindingReason());
+				System.out.println("bindable:" + db.getOwner());
+				System.out.println("bindingModel:" + db.getOwner().getBindingModel());
+				System.out.println("bindingFactory:" + db.getOwner().getBindingFactory());
+				System.out.println("expression " + db.getExpression() + " of " + db.getExpression().getClass());
+				Expression expression = db.getExpression();
+				System.out.println("BP");
+				String value = null;
+				try {
+					value = getGRBinding().getDynamicPropertyValue(GraphicalRepresentation.TEXT).dataBinding
+							.getBindingValue(getBindingEvaluationContext());
+				} catch (TypeMismatchException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NullReferenceException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("valeur=" + value);
 			}
+
 		}*/
+
 		return getPropertyValue(GraphicalRepresentation.TEXT);
 	}
 
@@ -1196,7 +1227,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 */
 	@Override
 	public void setText(String text) {
-		System.out.println("set text with " + text);
+		// System.out.println("set text with " + text);
 		setPropertyValue(GraphicalRepresentation.TEXT, text);
 	}
 

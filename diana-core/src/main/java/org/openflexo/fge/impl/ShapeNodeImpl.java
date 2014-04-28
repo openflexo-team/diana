@@ -22,7 +22,6 @@ import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.GRBinding;
-import org.openflexo.fge.GRParameter;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.ShadowStyle;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
@@ -791,7 +790,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getGraphicalRepresentation().getXConstraints() != null && getGraphicalRepresentation().getXConstraints().isValid()) {
 			getGraphicalRepresentation().getXConstraints().decode();
 			try {
-				setX((Double) TypeUtils.castTo(getGraphicalRepresentation().getXConstraints().getBindingValue(this), Double.class));
+				setX((Double) TypeUtils.castTo(getGraphicalRepresentation().getXConstraints()
+						.getBindingValue(getBindingEvaluationContext()), Double.class));
 			} catch (TypeMismatchException e) {
 				e.printStackTrace();
 			} catch (NullReferenceException e) {
@@ -804,7 +804,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getGraphicalRepresentation().getYConstraints() != null && getGraphicalRepresentation().getYConstraints().isValid()) {
 			getGraphicalRepresentation().getYConstraints().decode();
 			try {
-				setY((Double) TypeUtils.castTo(getGraphicalRepresentation().getYConstraints().getBindingValue(this), Double.class));
+				setY((Double) TypeUtils.castTo(getGraphicalRepresentation().getYConstraints()
+						.getBindingValue(getBindingEvaluationContext()), Double.class));
 			} catch (TypeMismatchException e) {
 				e.printStackTrace();
 			} catch (NullReferenceException e) {
@@ -817,7 +818,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getGraphicalRepresentation().getWidthConstraints() != null && getGraphicalRepresentation().getWidthConstraints().isValid()) {
 			getGraphicalRepresentation().getWidthConstraints().decode();
 			try {
-				setWidth((Double) TypeUtils.castTo(getGraphicalRepresentation().getWidthConstraints().getBindingValue(this), Double.class));
+				setWidth((Double) TypeUtils.castTo(
+						getGraphicalRepresentation().getWidthConstraints().getBindingValue(getBindingEvaluationContext()), Double.class));
 			} catch (TypeMismatchException e) {
 				e.printStackTrace();
 			} catch (NullReferenceException e) {
@@ -830,8 +832,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getGraphicalRepresentation().getHeightConstraints() != null && getGraphicalRepresentation().getHeightConstraints().isValid()) {
 			getGraphicalRepresentation().getHeightConstraints().decode();
 			try {
-				setHeight((Double) TypeUtils
-						.castTo(getGraphicalRepresentation().getHeightConstraints().getBindingValue(this), Double.class));
+				setHeight((Double) TypeUtils.castTo(
+						getGraphicalRepresentation().getHeightConstraints().getBindingValue(getBindingEvaluationContext()), Double.class));
 			} catch (TypeMismatchException e) {
 				e.printStackTrace();
 			} catch (NullReferenceException e) {
@@ -891,7 +893,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	private void updateXPosition() {
 		try {
-			Double n = getGraphicalRepresentation().getXConstraints().getBindingValue(this);
+			Double n = getGraphicalRepresentation().getXConstraints().getBindingValue(getBindingEvaluationContext());
 			if (n != null) {
 				// System.out.println("New value for x is now: " + newValue);
 				setX(n.doubleValue());
@@ -907,7 +909,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	private void updateYPosition() {
 		try {
-			Double n = getGraphicalRepresentation().getYConstraints().getBindingValue(this);
+			Double n = getGraphicalRepresentation().getYConstraints().getBindingValue(getBindingEvaluationContext());
 			if (n != null) {
 				// System.out.println("New value for y is now: " + newValue);
 				setY(n.doubleValue());
@@ -923,7 +925,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	private void updateWidthPosition() {
 		try {
-			Double n = getGraphicalRepresentation().getWidthConstraints().getBindingValue(this);
+			Double n = getGraphicalRepresentation().getWidthConstraints().getBindingValue(getBindingEvaluationContext());
 			if (n != null) {
 				// System.out.println("New value for width is now: " + newValue);
 				setWidth(n.doubleValue());
@@ -939,7 +941,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	private void updateHeightPosition() {
 		try {
-			Double n = getGraphicalRepresentation().getHeightConstraints().getBindingValue(this);
+			Double n = getGraphicalRepresentation().getHeightConstraints().getBindingValue(getBindingEvaluationContext());
 			if (n != null) {
 				// System.out.println("New value for height is now: " + newValue);
 				setHeight(n.doubleValue());

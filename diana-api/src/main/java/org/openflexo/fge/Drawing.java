@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.openflexo.antar.binding.BindingEvaluationContext;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
 import org.openflexo.fge.GRBinding.ContainerGRBinding;
 import org.openflexo.fge.GRBinding.DrawingGRBinding;
@@ -121,8 +120,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 	 * @param <GR>
 	 *            Type of GraphicalRepresentation represented by this node
 	 */
-	public interface DrawingTreeNode<O, GR extends GraphicalRepresentation> extends BindingEvaluationContext, PropertyChangeListener,
-			Observer, HasPropertyChangeSupport /*, KeyValueCoding*/{
+	public interface DrawingTreeNode<O, GR extends GraphicalRepresentation> extends PropertyChangeListener, Observer,
+			HasPropertyChangeSupport /*, KeyValueCoding*/{
 
 		public static GRParameter<Boolean> IS_FOCUSED = GRParameter.getGRParameter(DrawingTreeNode.class, DrawingTreeNode.IS_FOCUSED_KEY,
 				Boolean.class);
