@@ -483,6 +483,9 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 	 */
 	@Override
 	public double distanceToConnector(FGEPoint aPoint, double scale) {
+		if (connector == null) {
+			return Double.MAX_VALUE;
+		}
 		return connector.distanceToConnector(aPoint, scale);
 	}
 
