@@ -390,7 +390,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	private void fireShapeSpecificationChanged() {
 
-		logger.info("fireShapeSpecificationChanged()");
+		// logger.info("fireShapeSpecificationChanged()");
 		if (shape != null && getShapeSpecification() != null) {
 			getShapeSpecification().getPropertyChangeSupport().removePropertyChangeListener(shape);
 			shape.delete();
