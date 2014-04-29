@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.logging.Logger;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import org.openflexo.fge.BackgroundStyle;
@@ -122,7 +121,7 @@ public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel<JSha
 		shapeGR.setBorder(factory.makeShapeBorder(getBorderSize(), getBorderSize(), getBorderSize(), getBorderSize()));
 
 		controller = new JDianaViewer<JShapePreviewPanel>(drawing, factory, SwingToolFactory.DEFAULT);
-		add((JComponent) controller.getDrawingView());
+		add(controller.getDrawingView());
 	}
 
 	@Override
@@ -218,12 +217,9 @@ public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel<JSha
 
 	protected void update() {
 
-		logger.info("************** update() in JShapePreviewPanel");
-
-		// getShape().updateShape();
+		// logger.info("************** update() in JShapePreviewPanel");
 
 		shapeGR.setShapeSpecification(getShape() != null ? getShape() : factory.makeShape(ShapeType.RECTANGLE));
-		// shapeGR.notifyShapeChanged();
 
 		shapeGR.setX(getShapeX());
 		shapeGR.setY(getShapeY());
