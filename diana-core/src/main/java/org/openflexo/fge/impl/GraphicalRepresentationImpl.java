@@ -2,8 +2,6 @@ package org.openflexo.fge.impl;
 
 import java.awt.Stroke;
 import java.beans.PropertyChangeEvent;
-import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -35,7 +33,6 @@ import org.openflexo.rm.ResourceLocator;
 public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implements GraphicalRepresentation {
 
 	private static final Logger logger = Logger.getLogger(GraphicalRepresentation.class.getPackage().getName());
-	
 
 	// TODO: Localizer for Diana, should be refactored
 	public static LocalizedDelegateGUIImpl LOCALIZATION;
@@ -192,7 +189,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 			for (GRParameter<?> p : GRParameter.getGRParameters(getClass())) {
 				boolean excepted = false;
 				for (GRParameter<?> ep : exceptedParameters) {
-					if (p == ep) {
+					if (p.getName().equals(ep.getName())) {
 						excepted = true;
 					}
 				}
