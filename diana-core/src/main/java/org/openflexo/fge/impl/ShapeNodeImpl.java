@@ -787,61 +787,66 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public void finalizeConstraints() {
-		if (getGraphicalRepresentation().getXConstraints() != null && getGraphicalRepresentation().getXConstraints().isValid()) {
-			getGraphicalRepresentation().getXConstraints().decode();
-			try {
-				setX((Double) TypeUtils.castTo(getGraphicalRepresentation().getXConstraints()
-						.getBindingValue(getBindingEvaluationContext()), Double.class));
-			} catch (TypeMismatchException e) {
-				e.printStackTrace();
-			} catch (NullReferenceException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
+		if (getGraphicalRepresentation() != null) {
+			if (getGraphicalRepresentation().getXConstraints() != null && getGraphicalRepresentation().getXConstraints().isValid()) {
+				getGraphicalRepresentation().getXConstraints().decode();
+				try {
+					setX((Double) TypeUtils.castTo(
+							getGraphicalRepresentation().getXConstraints().getBindingValue(getBindingEvaluationContext()), Double.class));
+				} catch (TypeMismatchException e) {
+					e.printStackTrace();
+				} catch (NullReferenceException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				}
+				getGraphicalRepresentation().setLocationConstraints(LocationConstraints.UNMOVABLE);
 			}
-			getGraphicalRepresentation().setLocationConstraints(LocationConstraints.UNMOVABLE);
-		}
-		if (getGraphicalRepresentation().getYConstraints() != null && getGraphicalRepresentation().getYConstraints().isValid()) {
-			getGraphicalRepresentation().getYConstraints().decode();
-			try {
-				setY((Double) TypeUtils.castTo(getGraphicalRepresentation().getYConstraints()
-						.getBindingValue(getBindingEvaluationContext()), Double.class));
-			} catch (TypeMismatchException e) {
-				e.printStackTrace();
-			} catch (NullReferenceException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
+			if (getGraphicalRepresentation().getYConstraints() != null && getGraphicalRepresentation().getYConstraints().isValid()) {
+				getGraphicalRepresentation().getYConstraints().decode();
+				try {
+					setY((Double) TypeUtils.castTo(
+							getGraphicalRepresentation().getYConstraints().getBindingValue(getBindingEvaluationContext()), Double.class));
+				} catch (TypeMismatchException e) {
+					e.printStackTrace();
+				} catch (NullReferenceException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				}
+				getGraphicalRepresentation().setLocationConstraints(LocationConstraints.UNMOVABLE);
 			}
-			getGraphicalRepresentation().setLocationConstraints(LocationConstraints.UNMOVABLE);
-		}
-		if (getGraphicalRepresentation().getWidthConstraints() != null && getGraphicalRepresentation().getWidthConstraints().isValid()) {
-			getGraphicalRepresentation().getWidthConstraints().decode();
-			try {
-				setWidth((Double) TypeUtils.castTo(
-						getGraphicalRepresentation().getWidthConstraints().getBindingValue(getBindingEvaluationContext()), Double.class));
-			} catch (TypeMismatchException e) {
-				e.printStackTrace();
-			} catch (NullReferenceException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
+			if (getGraphicalRepresentation().getWidthConstraints() != null && getGraphicalRepresentation().getWidthConstraints().isValid()) {
+				getGraphicalRepresentation().getWidthConstraints().decode();
+				try {
+					setWidth((Double) TypeUtils
+							.castTo(getGraphicalRepresentation().getWidthConstraints().getBindingValue(getBindingEvaluationContext()),
+									Double.class));
+				} catch (TypeMismatchException e) {
+					e.printStackTrace();
+				} catch (NullReferenceException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				}
+				getGraphicalRepresentation().setDimensionConstraints(DimensionConstraints.UNRESIZABLE);
 			}
-			getGraphicalRepresentation().setDimensionConstraints(DimensionConstraints.UNRESIZABLE);
-		}
-		if (getGraphicalRepresentation().getHeightConstraints() != null && getGraphicalRepresentation().getHeightConstraints().isValid()) {
-			getGraphicalRepresentation().getHeightConstraints().decode();
-			try {
-				setHeight((Double) TypeUtils.castTo(
-						getGraphicalRepresentation().getHeightConstraints().getBindingValue(getBindingEvaluationContext()), Double.class));
-			} catch (TypeMismatchException e) {
-				e.printStackTrace();
-			} catch (NullReferenceException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
+			if (getGraphicalRepresentation().getHeightConstraints() != null
+					&& getGraphicalRepresentation().getHeightConstraints().isValid()) {
+				getGraphicalRepresentation().getHeightConstraints().decode();
+				try {
+					setHeight((Double) TypeUtils.castTo(
+							getGraphicalRepresentation().getHeightConstraints().getBindingValue(getBindingEvaluationContext()),
+							Double.class));
+				} catch (TypeMismatchException e) {
+					e.printStackTrace();
+				} catch (NullReferenceException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				}
+				getGraphicalRepresentation().setDimensionConstraints(DimensionConstraints.UNRESIZABLE);
 			}
-			getGraphicalRepresentation().setDimensionConstraints(DimensionConstraints.UNRESIZABLE);
 		}
 	}
 

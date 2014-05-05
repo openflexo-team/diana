@@ -126,7 +126,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		// parentNode.addChild(this);
 
 		graphicalRepresentation = grBinding.getGRProvider().provideGR(drawable, drawing.getFactory());
-		if (graphicalRepresentation.getPropertyChangeSupport() != null) {
+		if (graphicalRepresentation != null && graphicalRepresentation.getPropertyChangeSupport() != null) {
 			graphicalRepresentation.getPropertyChangeSupport().addPropertyChangeListener(this);
 		}
 
