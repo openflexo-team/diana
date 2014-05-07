@@ -3,7 +3,6 @@ package org.openflexo.fge;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -37,10 +36,12 @@ import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEPolygon;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.shapes.Arc;
+import org.openflexo.fge.shapes.Chevron;
 import org.openflexo.fge.shapes.Circle;
 import org.openflexo.fge.shapes.ComplexCurve;
 import org.openflexo.fge.shapes.Losange;
 import org.openflexo.fge.shapes.Oval;
+import org.openflexo.fge.shapes.Plus;
 import org.openflexo.fge.shapes.Polygon;
 import org.openflexo.fge.shapes.Rectangle;
 import org.openflexo.fge.shapes.RectangularOctogon;
@@ -70,7 +71,7 @@ import org.openflexo.toolbox.ToolBox;
  */
 public abstract class FGEModelFactory extends ModelFactory {
 
-	static final Logger logger = Logger.getLogger(FGEModelFactory.class.getPackage().getName());
+	static final Logger	logger	= Logger.getLogger(FGEModelFactory.class.getPackage().getName());
 
 	/**
 	 * Creates a new model factory including all classes involved in FGE model
@@ -869,6 +870,10 @@ public abstract class FGEModelFactory extends ModelFactory {
 			returned = newInstance(Star.class);
 		} else if (type == ShapeType.ARC) {
 			returned = newInstance(Arc.class);
+		} else if (type == ShapeType.PLUS) {
+			returned = newInstance(Plus.class);
+		} else if (type == ShapeType.CHEVRON) {
+			returned = newInstance(Chevron.class);
 		} else {
 			logger.warning("Unexpected ShapeType: " + type);
 		}

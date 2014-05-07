@@ -253,6 +253,12 @@
     <Localized key="star" lang="English">Star</Localized>
     <Localized key="star" lang="French">Étoile</Localized>
     <Localized key="star" lang="Dutch">Star</Localized>
+    <Localized key="Plus" lang="English">Plus</Localized>
+    <Localized key="Plus" lang="French">Plus</Localized>
+    <Localized key="Plus" lang="Dutch">Plus</Localized>
+    <Localized key="Chevron" lang="English">Chevron</Localized>
+    <Localized key="Chevron" lang="French">Chevron</Localized>
+    <Localized key="Chevron" lang="Dutch">Chevron</Localized>
     <Localized key="shape_type" lang="English">Shape</Localized>
     <Localized key="shape_type" lang="French">Forme</Localized>
     <Localized key="shape_type" lang="Dutch">Shape</Localized>

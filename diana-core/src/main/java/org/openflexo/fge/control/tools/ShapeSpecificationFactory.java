@@ -21,10 +21,12 @@ import org.openflexo.fge.geom.FGERegularPolygon;
 import org.openflexo.fge.geom.FGERoundRectangle;
 import org.openflexo.fge.geom.FGEShape;
 import org.openflexo.fge.shapes.Arc;
+import org.openflexo.fge.shapes.Chevron;
 import org.openflexo.fge.shapes.Circle;
 import org.openflexo.fge.shapes.ComplexCurve;
 import org.openflexo.fge.shapes.Losange;
 import org.openflexo.fge.shapes.Oval;
+import org.openflexo.fge.shapes.Plus;
 import org.openflexo.fge.shapes.Polygon;
 import org.openflexo.fge.shapes.Rectangle;
 import org.openflexo.fge.shapes.RectangularOctogon;
@@ -35,6 +37,9 @@ import org.openflexo.fge.shapes.Square;
 import org.openflexo.fge.shapes.Star;
 import org.openflexo.fge.shapes.Triangle;
 import org.openflexo.fge.shapes.impl.ShapeImpl;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
 
 /**
  * Convenient class used to manipulate ShapeSpecification instances over ShapeSpecification class hierarchy
@@ -44,41 +49,41 @@ import org.openflexo.fge.shapes.impl.ShapeImpl;
  */
 public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecification, ShapeType> {
 
-	private static final Logger logger = Logger.getLogger(ShapeSpecificationFactory.class.getPackage().getName());
+	private static final Logger										logger		= Logger.getLogger(ShapeSpecificationFactory.class
+																						.getPackage().getName());
 
-	private static final String DELETED = "deleted";
+	private static final String										DELETED		= "deleted";
 
-	private ShapeType shapeType = ShapeType.RECTANGLE;
+	private ShapeType												shapeType	= ShapeType.RECTANGLE;
 
-	private InspectedRectangle<Rectangle> rectangle;
-	private InspectedSquare square;
-	private InspectedPolygon<Polygon> polygon;
-	private InspectedRegularPolygon<RegularPolygon> regularPolygon;
-	private InspectedRectangularOctogon<RectangularOctogon> rectangularOctogon;
-	private InspectedLosange losange;
-	private InspectedTriangle triangle;
-	private InspectedOval<Oval> oval;
-	private InspectedCircle circle;
-	private InspectedArc arc;
-	private InspectedStar star;
-	private InspectedComplexCurve complexCurve;
+	private final InspectedRectangle<Rectangle>						rectangle;
+	private final InspectedSquare									square;
+	private final InspectedPolygon<Polygon>							polygon;
+	private final InspectedRegularPolygon<RegularPolygon>			regularPolygon;
+	private final InspectedRectangularOctogon<RectangularOctogon>	rectangularOctogon;
+	private final InspectedLosange									losange;
+	private final InspectedTriangle									triangle;
+	private final InspectedOval<Oval>								oval;
+	private final InspectedCircle									circle;
+	private final InspectedArc										arc;
+	private final InspectedStar										star;
+	private final InspectedComplexCurve								complexCurve;
+	private final InspectedPlus<Plus>								plus;
+	private final InspectedChevron<Chevron>							chevron;
 
-	private PropertyChangeSupport pcSupport;
-	private FGEModelFactory fgeFactory;
-
-	private DianaInteractiveViewer<?, ?, ?> controller;
+	private PropertyChangeSupport									pcSupport;
+	private FGEModelFactory											fgeFactory;
 
 	public ShapeSpecificationFactory(DianaInteractiveViewer<?, ?, ?> controller) {
 		pcSupport = new PropertyChangeSupport(this);
-		this.controller = controller;
 		fgeFactory = controller.getFactory();
 		rectangle = new InspectedRectangle<Rectangle>(controller, (Rectangle) controller.getFactory().makeShape(ShapeType.RECTANGLE));
 		square = new InspectedSquare(controller, (Square) controller.getFactory().makeShape(ShapeType.SQUARE));
 		polygon = new InspectedPolygon<Polygon>(controller, (Polygon) controller.getFactory().makeShape(ShapeType.CUSTOM_POLYGON));
 		regularPolygon = new InspectedRegularPolygon<RegularPolygon>(controller, (RegularPolygon) controller.getFactory().makeShape(
 				ShapeType.POLYGON));
-		rectangularOctogon = new InspectedRectangularOctogon<RectangularOctogon>(controller, (RectangularOctogon) controller.getFactory().makeShape(
-				ShapeType.RECTANGULAROCTOGON));
+		rectangularOctogon = new InspectedRectangularOctogon<RectangularOctogon>(controller, (RectangularOctogon) controller.getFactory()
+				.makeShape(ShapeType.RECTANGULAROCTOGON));
 		losange = new InspectedLosange(controller, (Losange) controller.getFactory().makeShape(ShapeType.LOSANGE));
 		triangle = new InspectedTriangle(controller, (Triangle) controller.getFactory().makeShape(ShapeType.TRIANGLE));
 		oval = new InspectedOval<Oval>(controller, (Oval) controller.getFactory().makeShape(ShapeType.OVAL));
@@ -86,12 +91,16 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		arc = new InspectedArc(controller, (Arc) controller.getFactory().makeShape(ShapeType.ARC));
 		star = new InspectedStar(controller, (Star) controller.getFactory().makeShape(ShapeType.STAR));
 		complexCurve = new InspectedComplexCurve(controller, (ComplexCurve) controller.getFactory().makeShape(ShapeType.COMPLEX_CURVE));
+		plus = new InspectedPlus<Plus>(controller, (Plus) controller.getFactory().makeShape(ShapeType.PLUS));
+		chevron = new InspectedChevron<Chevron>(controller, (Chevron) controller.getFactory().makeShape(ShapeType.CHEVRON));
 	}
 
+	@Override
 	public FGEModelFactory getFGEFactory() {
 		return fgeFactory;
 	}
 
+	@Override
 	public void setFGEFactory(FGEModelFactory fgeFactory) {
 		this.fgeFactory = fgeFactory;
 	}
@@ -142,6 +151,12 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return star;
 		case COMPLEX_CURVE:
 			return complexCurve;
+		case PLUS:
+			return plus;
+		case CHEVRON:
+			return chevron;
+		default:
+			break;
 		}
 		logger.warning("Unexpected " + shapeType);
 		return null;
@@ -165,10 +180,12 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		return !oldObject.equals(newObject);
 	}
 
+	@Override
 	public ShapeType getStyleType() {
 		return shapeType;
 	}
 
+	@Override
 	public void setStyleType(ShapeType shapeType) {
 		ShapeType oldShapeType = getStyleType();
 
@@ -186,46 +203,36 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	@Override
 	public ShapeSpecification makeNewStyle(ShapeSpecification oldShapeSpecification) {
-		ShapeSpecification returned = null;
 		switch (shapeType) {
 		case RECTANGLE:
-			returned = rectangle.cloneStyle();
-			break;
+			return rectangle.cloneStyle();
 		case SQUARE:
-			returned = square.cloneStyle();
-			break;
+			return square.cloneStyle();
 		case CUSTOM_POLYGON:
-			returned = polygon.cloneStyle();
-			break;
+			return polygon.cloneStyle();
 		case RECTANGULAROCTOGON:
-			returned = rectangularOctogon.cloneStyle();
-			break;
+			return rectangularOctogon.cloneStyle();
 		case POLYGON:
-			returned = regularPolygon.cloneStyle();
-			break;
+			return regularPolygon.cloneStyle();
 		case LOSANGE:
-			returned = losange.cloneStyle();
-			break;
+			return losange.cloneStyle();
 		case TRIANGLE:
-			returned = triangle.cloneStyle();
-			break;
+			return triangle.cloneStyle();
 		case OVAL:
-			returned = oval.cloneStyle();
-			break;
+			return oval.cloneStyle();
 		case CIRCLE:
-			returned = circle.cloneStyle();
-			break;
+			return circle.cloneStyle();
 		case ARC:
-			returned = arc.cloneStyle();
-			break;
+			return arc.cloneStyle();
 		case COMPLEX_CURVE:
-			returned = complexCurve.cloneStyle();
-			break;
+			return complexCurve.cloneStyle();
 		case STAR:
-			returned = star.cloneStyle();
-			break;
+			return star.cloneStyle();
+		case PLUS:
+			return plus.cloneStyle();
+		default:
+			return null;
 		}
-		return returned;
 	}
 
 	protected abstract class AbstractInspectedShapeSpecification<SS extends ShapeSpecification> extends InspectedStyle<SS> implements
@@ -518,6 +525,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return null;
 		}
 
+		@Override
 		public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
 			if (getNPoints() > 2) {
 				return new FGERegularPolygon(0, 0, 1, 1, Filling.FILLED, getNPoints(), getStartAngle());
@@ -526,7 +534,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 	}
-	
+
 	protected class InspectedRectangularOctogon<SS extends RectangularOctogon> extends InspectedPolygon<SS> implements RectangularOctogon {
 
 		protected InspectedRectangularOctogon(DianaInteractiveViewer<?, ?, ?> controller, SS defaultValue) {
@@ -788,6 +796,76 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
+		}
+	}
+
+	protected class InspectedPlus<SS extends Plus> extends InspectedPolygon<SS> implements Plus {
+
+		protected InspectedPlus(DianaInteractiveViewer<?, ?, ?> controller, SS defaultValue) {
+			super(controller, defaultValue);
+		}
+
+		@Override
+		public ShapeType getShapeType() {
+			return ShapeType.PLUS;
+		}
+
+		@Override
+		public SS getStyle(DrawingTreeNode<?, ?> node) {
+			if (node instanceof ShapeNode) {
+				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Plus) {
+					return (SS) ((ShapeNode<?>) node).getShapeSpecification();
+				}
+			}
+			return null;
+		}
+
+		@Override
+		@Getter(value = Plus.RATIO_KEY, defaultValue = "0.2")
+		@XMLAttribute
+		public double getRatio() {
+			return getPropertyValue(Plus.RATIO);
+		}
+
+		@Override
+		@Setter(Plus.RATIO_KEY)
+		public void setRatio(double aRatio) {
+			setPropertyValue(Plus.RATIO, aRatio);
+		}
+	}
+
+	protected class InspectedChevron<SS extends Chevron> extends InspectedPolygon<SS> implements Chevron {
+
+		protected InspectedChevron(DianaInteractiveViewer<?, ?, ?> controller, SS defaultValue) {
+			super(controller, defaultValue);
+		}
+
+		@Override
+		public ShapeType getShapeType() {
+			return ShapeType.CHEVRON;
+		}
+
+		@Override
+		public SS getStyle(DrawingTreeNode<?, ?> node) {
+			if (node instanceof ShapeNode) {
+				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Chevron) {
+					return (SS) ((ShapeNode<?>) node).getShapeSpecification();
+				}
+			}
+			return null;
+		}
+
+		@Override
+		@Getter(value = Chevron.ARROW_LENGTH_KEY, defaultValue = "0.2")
+		@XMLAttribute
+		public double getArrowLength() {
+			return getPropertyValue(Chevron.ARROW_LENGTH);
+		}
+
+		@Override
+		@Setter(value = Chevron.ARROW_LENGTH_KEY)
+		public void setArrowLength(double aRatio) {
+			setPropertyValue(Chevron.ARROW_LENGTH, aRatio);
 		}
 	}
 
