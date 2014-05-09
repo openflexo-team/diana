@@ -227,6 +227,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return star.cloneStyle();
 		case PLUS:
 			return plus.cloneStyle();
+		case CHEVRON:
+			return chevron.cloneStyle();
 		default:
 			return null;
 		}
@@ -855,8 +857,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public void setArrowLength(double aRatio) {
-			setPropertyValue(Chevron.ARROW_LENGTH, aRatio);
+		public void setArrowLength(double anArrowLength) {
+			setPropertyValue(Chevron.ARROW_LENGTH, anArrowLength);
 		}
 	}
 
