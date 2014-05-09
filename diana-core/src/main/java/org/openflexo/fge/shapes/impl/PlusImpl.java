@@ -33,7 +33,7 @@ public abstract class PlusImpl extends PolygonImpl implements Plus {
 
 	@Override
 	public ShapeType getShapeType() {
-		return ShapeType.PLUS;// ShapeType.PLUS;
+		return ShapeType.PLUS;
 	}
 
 	/**
@@ -42,8 +42,9 @@ public abstract class PlusImpl extends PolygonImpl implements Plus {
 	 * @param ratio
 	 *            if ratio > 0.5 ratio is divide by 2
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
-	public void setRation(final double aRatio) {
+	public void setRatio(final double aRatio) {
 		double tmpRatio = aRatio;
 		if (tmpRatio > 0.5) {
 			tmpRatio /= 2;
@@ -53,6 +54,11 @@ public abstract class PlusImpl extends PolygonImpl implements Plus {
 			this.ratio = tmpRatio;
 			hasChanged(notification);
 		}
+	}
+
+	@Override
+	public double getRatio() {
+		return ratio;
 	}
 
 }

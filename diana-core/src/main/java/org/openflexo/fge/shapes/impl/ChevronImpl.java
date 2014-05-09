@@ -1,6 +1,7 @@
 package org.openflexo.fge.shapes.impl;
 
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.notifications.FGEAttributeNotification;
 import org.openflexo.fge.shapes.Chevron;
 
 /**
@@ -11,7 +12,7 @@ import org.openflexo.fge.shapes.Chevron;
  */
 public abstract class ChevronImpl extends PolygonImpl implements Chevron {
 
-	private final double	arrowLength	= 0.2;
+	private double	arrowLength	= 0.2;
 
 	public ChevronImpl() {
 		super();
@@ -25,7 +26,27 @@ public abstract class ChevronImpl extends PolygonImpl implements Chevron {
 
 	@Override
 	public ShapeType getShapeType() {
-		return ShapeType.CHEVRON;// ShapeType.PLUS;
+		return ShapeType.CHEVRON;
+	}
+
+	@Override
+	public double getArrowLength() {
+		return arrowLength;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void setArrowLength(final double anArrowLength) {
+		double tmpLgth = anArrowLength;
+		if (tmpLgth > 0.5) {
+			// 0 < tmpLght < 0.5
+			tmpLgth = Math.abs(anArrowLength / (1 + 2 * anArrowLength));
+		}
+		FGEAttributeNotification<Double> notification = requireChange(ARROW_LENGTH, tmpLgth);
+		if (notification != null) {
+			this.arrowLength = tmpLgth;
+			hasChanged(notification);
+		}
 	}
 
 }

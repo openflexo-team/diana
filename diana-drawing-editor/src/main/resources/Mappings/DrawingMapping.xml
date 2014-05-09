@@ -143,6 +143,16 @@
    	 <property name="isRounded" xmlTag="isRounded" attribute="YES"/>
   	 <property name="arcSize" xmlTag="arcSize" attribute="YES"/>
   </entity>
+
+	<entity name="org.openflexo.fge.shapes.Plus" xmlTag="PlusShape">
+		<description>Plus shape</description>
+		<property name="ratio" xmlTag="ratio" attribute="YES" />
+	</entity>
+
+	<entity name="org.openflexo.fge.shapes.Chevron" xmlTag="ChevronShape">
+		<description>Chevron shape</description>
+		<property name="arrowLength" xmlTag="arrowLength" attribute="YES" />
+	</entity>
 	
    <entity name="org.openflexo.fge.shapes.Square" xmlTag="SquareShape">
      <description>Square shape</description>

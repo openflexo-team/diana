@@ -26,10 +26,8 @@ import java.util.logging.Logger;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.FGEConstants;
-import org.openflexo.fge.ShadowStyle;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
-import org.openflexo.fge.TextStyle;
 import org.openflexo.fge.control.DianaInteractiveEditor.EditorTool;
 import org.openflexo.fge.control.DrawingPalette;
 import org.openflexo.fge.control.PaletteElement;
@@ -42,14 +40,14 @@ import org.openflexo.model.undo.CompoundEdit;
 
 public class DiagramEditorPalette extends DrawingPalette {
 
-	private static final Logger logger = FlexoLogger.getLogger(DiagramEditorPalette.class.getPackage().getName());
+	private static final Logger	logger				= FlexoLogger.getLogger(DiagramEditorPalette.class.getPackage().getName());
 
-	private static final int GRID_WIDTH = 80;
-	private static final int GRID_HEIGHT = 60;
-	public static final Font DEFAULT_TEXT_FONT = new Font("SansSerif", Font.PLAIN, 9);
-	public static final Font LABEL_FONT = new Font("SansSerif", Font.PLAIN, 11);
+	private static final int	GRID_WIDTH			= 80;
+	private static final int	GRID_HEIGHT			= 60;
+	public static final Font	DEFAULT_TEXT_FONT	= new Font("SansSerif", Font.PLAIN, 9);
+	public static final Font	LABEL_FONT			= new Font("SansSerif", Font.PLAIN, 11);
 
-	private DianaDrawingEditor editor;
+	private DianaDrawingEditor	editor;
 
 	public DiagramEditorPalette() {
 		super(360, 350, "default");
@@ -59,16 +57,16 @@ public class DiagramEditorPalette extends DrawingPalette {
 			if (st != ShapeType.CUSTOM_POLYGON && st != ShapeType.COMPLEX_CURVE) {
 				addElement(makePaletteElement(st, px, py));
 				px = px + 1;
-				if (px == 3) {
+				if (px == 4) {
 					px = 0;
 					py++;
 				}
 			}
 		}
 
-		addElement(makeSingleLabel(0, 3));
-		addElement(makeMultilineLabel(1, 3));
-		addElement(makeBoundedMultilineLabel(2, 3));
+		addElement(makeSingleLabel(0, 4));
+		addElement(makeMultilineLabel(1, 4));
+		addElement(makeBoundedMultilineLabel(2, 4));
 
 	}
 
@@ -225,10 +223,10 @@ public class DiagramEditorPalette extends DrawingPalette {
 					shapeGR.setBackground(getEditor().getInspectedBackgroundStyle().cloneStyle());
 				}
 				if (applyCurrentTextStyle) {
-					shapeGR.setTextStyle((TextStyle) getEditor().getInspectedTextStyle().cloneStyle());
+					shapeGR.setTextStyle(getEditor().getInspectedTextStyle().cloneStyle());
 				}
 				if (applyCurrentShadowStyle) {
-					shapeGR.setShadowStyle((ShadowStyle) getEditor().getInspectedShadowStyle().cloneStyle());
+					shapeGR.setShadowStyle(getEditor().getInspectedShadowStyle().cloneStyle());
 				}
 
 				container.addToShapes(newShape);

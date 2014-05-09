@@ -37,9 +37,6 @@ import org.openflexo.fge.shapes.Square;
 import org.openflexo.fge.shapes.Star;
 import org.openflexo.fge.shapes.Triangle;
 import org.openflexo.fge.shapes.impl.ShapeImpl;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
 
 /**
  * Convenient class used to manipulate ShapeSpecification instances over ShapeSpecification class hierarchy
@@ -821,14 +818,11 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		@Getter(value = Plus.RATIO_KEY, defaultValue = "0.2")
-		@XMLAttribute
 		public double getRatio() {
 			return getPropertyValue(Plus.RATIO);
 		}
 
 		@Override
-		@Setter(Plus.RATIO_KEY)
 		public void setRatio(double aRatio) {
 			setPropertyValue(Plus.RATIO, aRatio);
 		}
@@ -856,14 +850,11 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		@Getter(value = Chevron.ARROW_LENGTH_KEY, defaultValue = "0.2")
-		@XMLAttribute
 		public double getArrowLength() {
 			return getPropertyValue(Chevron.ARROW_LENGTH);
 		}
 
 		@Override
-		@Setter(value = Chevron.ARROW_LENGTH_KEY)
 		public void setArrowLength(double aRatio) {
 			setPropertyValue(Chevron.ARROW_LENGTH, aRatio);
 		}

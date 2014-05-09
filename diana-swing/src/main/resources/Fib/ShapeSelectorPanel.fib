@@ -119,6 +119,12 @@
     <Localized key="star" lang="English">Star</Localized>
     <Localized key="star" lang="French">Étoile</Localized>
     <Localized key="star" lang="Dutch">Star</Localized>
+    <Localized key="plus" lang="English">Plus</Localized>
+    <Localized key="plus" lang="French">Plus</Localized>
+    <Localized key="plus" lang="Dutch">Plus</Localized>
+    <Localized key="chevron" lang="English">Chevron</Localized>
+    <Localized key="chevron" lang="French">Chevron</Localized>
+    <Localized key="chevron" lang="Dutch">Chevron</Localized>
     <Localized key="arc" lang="English">Arc</Localized>
     <Localized key="arc" lang="French">Arc</Localized>
     <Localized key="arc" lang="Dutch">Boog (arc)</Localized>
@@ -149,6 +155,12 @@
     <Localized key="Star" lang="English">Star</Localized>
     <Localized key="Star" lang="French">Etoile</Localized>
     <Localized key="Star" lang="Dutch">Star</Localized>
+    <Localized key="Chevron" lang="English">Chevron</Localized>
+    <Localized key="Chevron" lang="French">Chevron</Localized>
+    <Localized key="Chevron" lang="Dutch">Chevron</Localized>
+    <Localized key="Plus" lang="English">Plus</Localized>
+    <Localized key="Plus" lang="French">Plus</Localized>
+    <Localized key="Plus" lang="Dutch">Plus</Localized>
     <Localized key="rounded" lang="English">Rounded</Localized>
     <Localized key="rounded" lang="French">Arrondi</Localized>
     <Localized key="rounded" lang="Dutch">Rounded</Localized>
@@ -215,6 +227,12 @@
     <Localized key="Étoile" lang="English">Étoile</Localized>
     <Localized key="Étoile" lang="French">Étoile</Localized>
     <Localized key="Étoile" lang="Dutch">Étoile</Localized>
+    <Localized key="Chevron" lang="English">Chevron</Localized>
+    <Localized key="Chevron" lang="French">Chevron</Localized>
+    <Localized key="Chevron" lang="Dutch">Chevron</Localized>
+    <Localized key="Plus" lang="English">Plus</Localized>
+    <Localized key="Plus" lang="French">Plus</Localized>
+    <Localized key="Plus" lang="Dutch">Plus</Localized>
     <Localized key="Ouvrir" lang="English">Ouvrir</Localized>
     <Localized key="Ouvrir" lang="French">Ouvrir</Localized>
     <Localized key="Ouvrir" lang="Dutch">Ouvrir</Localized>
