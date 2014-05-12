@@ -23,6 +23,7 @@ import org.openflexo.fge.notifications.ShapeChanged;
 import org.openflexo.fge.notifications.ShapeNeedsToBeRedrawn;
 import org.openflexo.fge.shapes.ShapeSpecification;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
+import org.openflexo.model.factory.ProxyMethodHandler;
 import org.openflexo.toolbox.ToolBox;
 
 public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphicalRepresentationImpl implements ShapeGraphicalRepresentation {
@@ -269,21 +270,44 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 		}
 
 		if (evt.getSource() instanceof BackgroundStyle) {
+
+			if (evt.getPropertyName().equals(ProxyMethodHandler.SERIALIZING)
+					|| evt.getPropertyName().equals(ProxyMethodHandler.DESERIALIZING)
+					|| evt.getPropertyName().equals(ProxyMethodHandler.MODIFIED)) {
+				return;
+			}
+
 			forward(evt);
-			// notifyAttributeChange(BACKGROUND);
 		}
 		if (evt.getSource() instanceof ForegroundStyle) {
+
+			if (evt.getPropertyName().equals(ProxyMethodHandler.SERIALIZING)
+					|| evt.getPropertyName().equals(ProxyMethodHandler.DESERIALIZING)
+					|| evt.getPropertyName().equals(ProxyMethodHandler.MODIFIED)) {
+				return;
+			}
+
 			forward(evt);
-			// notifyAttributeChange(FOREGROUND);
 		}
 		if (evt.getSource() instanceof ShadowStyle) {
+
+			if (evt.getPropertyName().equals(ProxyMethodHandler.SERIALIZING)
+					|| evt.getPropertyName().equals(ProxyMethodHandler.DESERIALIZING)
+					|| evt.getPropertyName().equals(ProxyMethodHandler.MODIFIED)) {
+				return;
+			}
+
 			forward(evt);
-			// notifyAttributeChange(SHADOW_STYLE);
 		}
 		if (evt.getSource() instanceof ShapeSpecification) {
+
+			if (evt.getPropertyName().equals(ProxyMethodHandler.SERIALIZING)
+					|| evt.getPropertyName().equals(ProxyMethodHandler.DESERIALIZING)
+					|| evt.getPropertyName().equals(ProxyMethodHandler.MODIFIED)) {
+				return;
+			}
+
 			forward(evt);
-			// ici c'est pas normal, ca devrait suffir
-			// notifyAttributeChange(SHAPE);
 		}
 	}
 
@@ -1458,11 +1482,11 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	public void setForeground(ForegroundStyle aForeground) {
 		FGEAttributeNotification notification = requireChange(FOREGROUND, aForeground, false);
 		if (notification != null) {
-			if (foreground != null) {
+			if (foreground != null && foreground.getPropertyChangeSupport() != null) {
 				foreground.getPropertyChangeSupport().removePropertyChangeListener(this);
 			}
 			foreground = aForeground;
-			if (aForeground != null) {
+			if (aForeground != null && foreground.getPropertyChangeSupport() != null) {
 				aForeground.getPropertyChangeSupport().addPropertyChangeListener(this);
 			}
 			hasChanged(notification);
@@ -1560,7 +1584,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 			}
 			background = aBackground;
 			// background.setGraphicalRepresentation(this);
-			if (aBackground != null) {
+			if (aBackground != null && aBackground.getPropertyChangeSupport() != null) {
 				aBackground.getPropertyChangeSupport().addPropertyChangeListener(this);
 			}
 			hasChanged(notification);
