@@ -33,11 +33,11 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 
 	private static final Logger logger = Logger.getLogger(JPaletteElementView.class.getPackage().getName());
 
-	private DragSource dragSource;
-	private DragGestureListener dgListener;
-	private DragSourceListener dsListener;
-	private int dragAction = DnDConstants.ACTION_COPY;
-	private DragGestureRecognizer dgr;
+	private final DragSource dragSource;
+	private final DragGestureListener dgListener;
+	private final DragSourceListener dsListener;
+	private final int dragAction = DnDConstants.ACTION_COPY;
+	private final DragGestureRecognizer dgr;
 	private DragGestureRecognizer labelDgr;
 
 	/* Local controller ONLY */
@@ -197,7 +197,9 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 		@Override
 		public void dragDropEnd(DragSourceDropEvent e) {
 			// Resets the screenshot stored by the palette view.
-			getDrawingView().resetCapturedNode();
+			if (getDrawingView() != null) {
+				getDrawingView().resetCapturedNode();
+			}
 			if (!e.getDropSuccess()) {
 				if (logger.isLoggable(Level.INFO)) {
 					logger.info("Dropping was not successful");
