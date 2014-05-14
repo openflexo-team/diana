@@ -21,6 +21,7 @@ package org.openflexo.fge.control.tools;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.logging.Logger;
 
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.GRParameter;
@@ -37,9 +38,11 @@ import org.openflexo.model.factory.KeyValueCoding;
  */
 public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, S extends KeyValueCoding, ST> extends InspectedStyle<S> {
 
-	private F styleFactory;
+	private static final Logger logger = Logger.getLogger(InspectedStyleUsingFactory.class.getPackage().getName());
 
-	private FactoryPropertyChangeListener factoryListener;
+	private final F styleFactory;
+
+	private final FactoryPropertyChangeListener factoryListener;
 
 	public InspectedStyleUsingFactory(DianaInteractiveViewer<?, ?, ?> controller, F styleFactory) {
 		super(controller, styleFactory.makeNewStyle(null));
@@ -63,6 +66,7 @@ public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, 
 		return styleFactory.makeNewStyle(null);
 	}
 
+	@Override
 	protected Class<? extends S> getInspectedStyleClass() {
 		if (getSelection().size() == 0) {
 			return (Class<? extends S>) getStyleFactory().getCurrentStyle().getClass();
@@ -75,6 +79,7 @@ public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, 
 		}
 	}
 
+	@Override
 	public <T> T getPropertyValue(GRParameter<T> parameter) {
 		InspectedStyle<? extends S> currentlyInspected = styleFactory.getCurrentStyle();
 		if (parameter.getDeclaringClass().isAssignableFrom(currentlyInspected.getClass())) {
@@ -110,6 +115,7 @@ public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, 
 
 	protected abstract ST getStyleType(S style);
 
+	@Override
 	public void fireSelectionUpdated() {
 		// System.out.println("Selection mise a jour, je veux un " + getStyleType() + " alors que je suis a "
 		// + getStyleFactory().getStyleType());
@@ -135,7 +141,7 @@ public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, 
 	protected class FactoryPropertyChangeListener implements PropertyChangeListener {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
-			//System.out.println("Tiens, on me previent que " + evt + " pour " + evt.getPropertyName());
+			// System.out.println("Tiens, on me previent que " + evt + " pour " + evt.getPropertyName());
 			if (evt.getPropertyName().equals(StyleFactory.STYLE_CLASS_CHANGED)) {
 				if (getSelection().size() == 0) {
 					// In this case style type should be applied as default value, which should be recomputed
@@ -144,6 +150,10 @@ public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, 
 					applyNewStyleTypeToSelection((ST) evt.getNewValue());
 				}
 				// We should now force notify all properties related to new style
+				if (getInspectedStyleClass() == null) {
+					logger.warning("Could not retrieve style for selection: " + getSelection());
+					return;
+				}
 				for (GRParameter<?> p : GRParameter.getGRParameters(getInspectedStyleClass())) {
 					forceFireChangedProperty(p);
 				}
