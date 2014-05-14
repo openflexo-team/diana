@@ -57,7 +57,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	static final Logger logger = Logger.getLogger(RectPolylinConnectorSpecification.class.getPackage().getName());
 
 	private FGERectPolylin polylin;
-	private Vector<FGERectPolylin> potentialPolylin;
+	private final Vector<FGERectPolylin> potentialPolylin;
 	// public FGERectPolylin debugPolylin;
 
 	private ControlPoint p_start;
@@ -65,7 +65,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	// private ControlPoint crossedControlPoint;
 
 	private Vector<ControlPoint> controlPoints;
-	private Vector<ControlArea<?>> controlAreas;
+	private final Vector<ControlArea<?>> controlAreas;
 
 	private boolean firstUpdated = false;
 
@@ -927,7 +927,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 		FGEPoint startMiddle = null;
 
-		if (startArea.isFinite()) {
+		if (startArea != null && startArea.isFinite()) {
 			FGERectangle startAreaBounds = startArea.getEmbeddingBounds();
 			if (startAreaBounds != null) {
 				startMiddle = startAreaBounds.getCenter();
@@ -940,7 +940,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 		FGEPoint endMiddle = null;
 
-		if (endArea.isFinite()) {
+		if (endArea != null && endArea.isFinite()) {
 			FGERectangle endAreaBounds = endArea.getEmbeddingBounds();
 			if (endAreaBounds != null) {
 				endMiddle = endAreaBounds.getCenter();
