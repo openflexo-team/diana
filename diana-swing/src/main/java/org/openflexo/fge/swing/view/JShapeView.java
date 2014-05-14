@@ -218,7 +218,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 	}
 
 	private void relocateView() {
-		if (getX() != shapeNode.getViewX(getScale()) || getY() != shapeNode.getViewY(getScale())) {
+		if (shapeNode != null && (getX() != shapeNode.getViewX(getScale()) || getY() != shapeNode.getViewY(getScale()))) {
 			if (labelView != null) {
 				labelView.updateBounds();
 			}
@@ -229,7 +229,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 	}
 
 	private void resizeView() {
-		if (getWidth() != shapeNode.getViewWidth(getScale()) || getHeight() != shapeNode.getViewHeight(getScale())) {
+		if (shapeNode != null && (getWidth() != shapeNode.getViewWidth(getScale()) || getHeight() != shapeNode.getViewHeight(getScale()))) {
 			if (labelView != null) {
 				labelView.updateBounds();
 			}
