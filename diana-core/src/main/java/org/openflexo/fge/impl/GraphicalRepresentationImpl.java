@@ -27,6 +27,7 @@ import org.openflexo.fge.notifications.FGEAttributeNotification;
 import org.openflexo.fge.notifications.GRDeleted;
 import org.openflexo.fib.utils.LocalizedDelegateGUIImpl;
 import org.openflexo.model.factory.CloneableProxyObject;
+import org.openflexo.model.factory.ProxyMethodHandler;
 import org.openflexo.rm.Resource;
 import org.openflexo.rm.ResourceLocator;
 
@@ -1118,8 +1119,16 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
+
 		if (evt.getSource() instanceof TextStyle) {
-			notifyAttributeChange(TEXT_STYLE);
+
+			if (evt.getPropertyName().equals(ProxyMethodHandler.SERIALIZING)
+					|| evt.getPropertyName().equals(ProxyMethodHandler.DESERIALIZING)
+					|| evt.getPropertyName().equals(ProxyMethodHandler.MODIFIED)) {
+				return;
+			}
+
+			forward(evt);
 		}
 	}
 
