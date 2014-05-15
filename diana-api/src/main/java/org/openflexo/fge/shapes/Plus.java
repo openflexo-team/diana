@@ -17,7 +17,7 @@ import org.openflexo.model.annotations.XMLElement;
  */
 @ModelEntity
 @XMLElement(xmlTag = "PlusShape")
-public interface Plus extends Polygon {
+public interface Plus extends ShapeSpecification {
 
 	// Property Keys
 	/**

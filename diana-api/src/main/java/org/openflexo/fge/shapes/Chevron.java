@@ -17,7 +17,7 @@ import org.openflexo.model.annotations.XMLElement;
  */
 @ModelEntity
 @XMLElement(xmlTag = "ChevronShape")
-public interface Chevron extends Polygon {
+public interface Chevron extends ShapeSpecification {
 
 	// Property Keys
 	@PropertyIdentifier(type = Double.class)

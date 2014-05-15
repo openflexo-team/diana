@@ -1,6 +1,10 @@
 package org.openflexo.fge.shapes.impl;
 
+import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geom.FGEPolygon;
+import org.openflexo.fge.geom.FGEShape;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 import org.openflexo.fge.shapes.Chevron;
 
@@ -10,18 +14,12 @@ import org.openflexo.fge.shapes.Chevron;
  * @author eloubout
  * 
  */
-public abstract class ChevronImpl extends PolygonImpl implements Chevron {
+public abstract class ChevronImpl extends ShapeSpecificationImpl implements Chevron {
 
 	private double	arrowLength	= 0.2;
 
 	public ChevronImpl() {
 		super();
-		addToPoints(new FGEPoint(0, 0));
-		addToPoints(new FGEPoint(arrowLength, 0.5));
-		addToPoints(new FGEPoint(0, 1));
-		addToPoints(new FGEPoint(1 - arrowLength, 1));
-		addToPoints(new FGEPoint(1, 0.5));
-		addToPoints(new FGEPoint(1 - arrowLength, 0));
 	}
 
 	@Override
@@ -47,6 +45,18 @@ public abstract class ChevronImpl extends PolygonImpl implements Chevron {
 			this.arrowLength = tmpLgth;
 			hasChanged(notification);
 		}
+	}
+
+	@Override
+	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
+		FGEPolygon returned = new FGEPolygon(Filling.FILLED);
+		returned.addToPoints(new FGEPoint(0, 0));
+		returned.addToPoints(new FGEPoint(arrowLength, 0.5));
+		returned.addToPoints(new FGEPoint(0, 1));
+		returned.addToPoints(new FGEPoint(1 - arrowLength, 1));
+		returned.addToPoints(new FGEPoint(1, 0.5));
+		returned.addToPoints(new FGEPoint(1 - arrowLength, 0));
+		return returned;
 	}
 
 }

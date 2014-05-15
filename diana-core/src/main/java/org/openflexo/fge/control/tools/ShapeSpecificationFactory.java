@@ -65,8 +65,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 	private final InspectedArc										arc;
 	private final InspectedStar										star;
 	private final InspectedComplexCurve								complexCurve;
-	private final InspectedPlus<Plus>								plus;
-	private final InspectedChevron<Chevron>							chevron;
+	private final InspectedPlus										plus;
+	private final InspectedChevron									chevron;
 
 	private PropertyChangeSupport									pcSupport;
 	private FGEModelFactory											fgeFactory;
@@ -88,8 +88,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		arc = new InspectedArc(controller, (Arc) controller.getFactory().makeShape(ShapeType.ARC));
 		star = new InspectedStar(controller, (Star) controller.getFactory().makeShape(ShapeType.STAR));
 		complexCurve = new InspectedComplexCurve(controller, (ComplexCurve) controller.getFactory().makeShape(ShapeType.COMPLEX_CURVE));
-		plus = new InspectedPlus<Plus>(controller, (Plus) controller.getFactory().makeShape(ShapeType.PLUS));
-		chevron = new InspectedChevron<Chevron>(controller, (Chevron) controller.getFactory().makeShape(ShapeType.CHEVRON));
+		plus = new InspectedPlus(controller, (Plus) controller.getFactory().makeShape(ShapeType.PLUS));
+		chevron = new InspectedChevron(controller, (Chevron) controller.getFactory().makeShape(ShapeType.CHEVRON));
 	}
 
 	@Override
@@ -798,9 +798,9 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 	}
 
-	protected class InspectedPlus<SS extends Plus> extends InspectedPolygon<SS> implements Plus {
+	protected class InspectedPlus extends AbstractInspectedShapeSpecification<Plus> implements Plus {
 
-		protected InspectedPlus(DianaInteractiveViewer<?, ?, ?> controller, SS defaultValue) {
+		protected InspectedPlus(DianaInteractiveViewer<?, ?, ?> controller, Plus defaultValue) {
 			super(controller, defaultValue);
 		}
 
@@ -810,10 +810,10 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public SS getStyle(DrawingTreeNode<?, ?> node) {
+		public Plus getStyle(DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Plus) {
-					return (SS) ((ShapeNode<?>) node).getShapeSpecification();
+					return (Plus) ((ShapeNode<?>) node).getShapeSpecification();
 				}
 			}
 			return null;
@@ -828,11 +828,34 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		public void setRatio(double aRatio) {
 			setPropertyValue(Plus.RATIO, aRatio);
 		}
+
+		@Override
+		public boolean areDimensionConstrained() {
+			return false;
+		}
+
+		@Override
+		public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
+			FGEPolygon returned = new FGEPolygon(Filling.FILLED);
+			returned.addToPoints(new FGEPoint(0, getRatio()));
+			returned.addToPoints(new FGEPoint(0, 1 - getRatio()));
+			returned.addToPoints(new FGEPoint(getRatio(), 1 - getRatio()));
+			returned.addToPoints(new FGEPoint(getRatio(), 1));
+			returned.addToPoints(new FGEPoint(1 - getRatio(), 1));
+			returned.addToPoints(new FGEPoint(1 - getRatio(), 1 - getRatio()));
+			returned.addToPoints(new FGEPoint(1, 1 - getRatio()));
+			returned.addToPoints(new FGEPoint(1, getRatio()));
+			returned.addToPoints(new FGEPoint(1 - getRatio(), getRatio()));
+			returned.addToPoints(new FGEPoint(1 - getRatio(), 0));
+			returned.addToPoints(new FGEPoint(getRatio(), 0));
+			returned.addToPoints(new FGEPoint(getRatio(), getRatio()));
+			return returned;
+		}
 	}
 
-	protected class InspectedChevron<SS extends Chevron> extends InspectedPolygon<SS> implements Chevron {
+	protected class InspectedChevron extends AbstractInspectedShapeSpecification<Chevron> implements Chevron {
 
-		protected InspectedChevron(DianaInteractiveViewer<?, ?, ?> controller, SS defaultValue) {
+		protected InspectedChevron(DianaInteractiveViewer<?, ?, ?> controller, Chevron defaultValue) {
 			super(controller, defaultValue);
 		}
 
@@ -842,10 +865,10 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public SS getStyle(DrawingTreeNode<?, ?> node) {
+		public Chevron getStyle(DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Chevron) {
-					return (SS) ((ShapeNode<?>) node).getShapeSpecification();
+					return (Chevron) ((ShapeNode<?>) node).getShapeSpecification();
 				}
 			}
 			return null;
@@ -859,6 +882,23 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		@Override
 		public void setArrowLength(double anArrowLength) {
 			setPropertyValue(Chevron.ARROW_LENGTH, anArrowLength);
+		}
+
+		@Override
+		public boolean areDimensionConstrained() {
+			return false;
+		}
+
+		@Override
+		public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
+			FGEPolygon returned = new FGEPolygon(Filling.FILLED);
+			returned.addToPoints(new FGEPoint(0, 0));
+			returned.addToPoints(new FGEPoint(getArrowLength(), 0.5));
+			returned.addToPoints(new FGEPoint(0, 1));
+			returned.addToPoints(new FGEPoint(1 - getArrowLength(), 1));
+			returned.addToPoints(new FGEPoint(1, 0.5));
+			returned.addToPoints(new FGEPoint(1 - getArrowLength(), 0));
+			return returned;
 		}
 	}
 

@@ -1,6 +1,10 @@
 package org.openflexo.fge.shapes.impl;
 
+import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geom.FGEPolygon;
+import org.openflexo.fge.geom.FGEShape;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 import org.openflexo.fge.shapes.Plus;
 
@@ -10,25 +14,13 @@ import org.openflexo.fge.shapes.Plus;
  * @author eloubout
  * 
  */
-public abstract class PlusImpl extends PolygonImpl implements Plus {
+public abstract class PlusImpl extends ShapeSpecificationImpl implements Plus {
 
 	/** Ratio of cut of the base rectangle. 0.5 is no short side. */
 	private double	ratio	= 0.25;
 
 	public PlusImpl() {
 		super();
-		addToPoints(new FGEPoint(0, ratio));
-		addToPoints(new FGEPoint(0, 1 - ratio));
-		addToPoints(new FGEPoint(ratio, 1 - ratio));
-		addToPoints(new FGEPoint(ratio, 1));
-		addToPoints(new FGEPoint(1 - ratio, 1));
-		addToPoints(new FGEPoint(1 - ratio, 1 - ratio));
-		addToPoints(new FGEPoint(1, 1 - ratio));
-		addToPoints(new FGEPoint(1, ratio));
-		addToPoints(new FGEPoint(1 - ratio, ratio));
-		addToPoints(new FGEPoint(1 - ratio, 0));
-		addToPoints(new FGEPoint(ratio, 0));
-		addToPoints(new FGEPoint(ratio, ratio));
 	}
 
 	@Override
@@ -59,6 +51,24 @@ public abstract class PlusImpl extends PolygonImpl implements Plus {
 	@Override
 	public double getRatio() {
 		return ratio;
+	}
+
+	@Override
+	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
+		FGEPolygon returned = new FGEPolygon(Filling.FILLED);
+		returned.addToPoints(new FGEPoint(0, ratio));
+		returned.addToPoints(new FGEPoint(0, 1 - ratio));
+		returned.addToPoints(new FGEPoint(ratio, 1 - ratio));
+		returned.addToPoints(new FGEPoint(ratio, 1));
+		returned.addToPoints(new FGEPoint(1 - ratio, 1));
+		returned.addToPoints(new FGEPoint(1 - ratio, 1 - ratio));
+		returned.addToPoints(new FGEPoint(1, 1 - ratio));
+		returned.addToPoints(new FGEPoint(1, ratio));
+		returned.addToPoints(new FGEPoint(1 - ratio, ratio));
+		returned.addToPoints(new FGEPoint(1 - ratio, 0));
+		returned.addToPoints(new FGEPoint(ratio, 0));
+		returned.addToPoints(new FGEPoint(ratio, ratio));
+		return returned;
 	}
 
 }
