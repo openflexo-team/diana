@@ -1,5 +1,7 @@
 package org.openflexo.fge.swing.control.tools;
 
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -31,7 +33,7 @@ public class JDianaScaleSelector extends DianaScaleSelector<JToolBar, SwingViewF
 	protected ChangeListener sliderChangeListener;
 	protected ActionListener actionListener;
 
-	private JToolBar component;
+	private final JToolBar component;
 
 	private boolean isInitialized = false;
 
@@ -40,9 +42,11 @@ public class JDianaScaleSelector extends DianaScaleSelector<JToolBar, SwingViewF
 		component = new JToolBar();
 		component.setOpaque(false);
 		scaleTF = new JTextField(5);
+		scaleTF.setFont(new Font("SansSerif", Font.PLAIN, 9));
 		int currentScale = (getEditor() != null ? (int) (getEditor().getScale() * 100) : 100);
 		scaleTF.setText(currentScale + "%");
 		slider = new JSlider(SwingConstants.HORIZONTAL, 0, MAX_ZOOM_VALUE, currentScale);
+		slider.setPreferredSize(new Dimension(200, 15));
 		slider.setOpaque(false);
 		slider.setMajorTickSpacing(100);
 		slider.setMinorTickSpacing(20);
