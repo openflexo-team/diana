@@ -29,33 +29,33 @@ public abstract class ChevronImpl extends ShapeSpecificationImpl implements Chev
 
 	@Override
 	public double getArrowLength() {
-		return arrowLength;
+		return this.arrowLength;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void setArrowLength(final double anArrowLength) {
-		double tmpLgth = anArrowLength;
-		if (tmpLgth > 0.5) {
-			// 0 < tmpLght < 0.5
-			tmpLgth = Math.abs(anArrowLength / (1 + 2 * anArrowLength));
-		}
-		FGEAttributeNotification<Double> notification = requireChange(ARROW_LENGTH, tmpLgth);
+		final FGEAttributeNotification<Double> notification = this.requireChange(ARROW_LENGTH, anArrowLength);
 		if (notification != null) {
-			this.arrowLength = tmpLgth;
-			hasChanged(notification);
+			this.arrowLength = anArrowLength;
+			this.hasChanged(notification);
 		}
 	}
 
+	/**
+	 * Draw a chevron by creating a filled polygon of 6 good points, ajustable with predifined arrowLenght
+	 * 
+	 * @return FGEPolygon
+	 */
 	@Override
-	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
-		FGEPolygon returned = new FGEPolygon(Filling.FILLED);
+	public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+		final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
 		returned.addToPoints(new FGEPoint(0, 0));
-		returned.addToPoints(new FGEPoint(arrowLength, 0.5));
+		returned.addToPoints(new FGEPoint(this.arrowLength, 0.5));
 		returned.addToPoints(new FGEPoint(0, 1));
-		returned.addToPoints(new FGEPoint(1 - arrowLength, 1));
+		returned.addToPoints(new FGEPoint(1 - this.arrowLength, 1));
 		returned.addToPoints(new FGEPoint(1, 0.5));
-		returned.addToPoints(new FGEPoint(1 - arrowLength, 0));
+		returned.addToPoints(new FGEPoint(1 - this.arrowLength, 0));
 		return returned;
 	}
 

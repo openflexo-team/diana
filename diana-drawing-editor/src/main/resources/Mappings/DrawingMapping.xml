@@ -148,6 +148,11 @@
 		<description>Plus shape</description>
 		<property name="ratio" xmlTag="ratio" attribute="YES" />
 	</entity>
+	
+		<entity name="org.openflexo.fge.shapes.RectangularOctogon" xmlTag="RectangularOctogonShape">
+		<description>Rectangular octogon shape</description>
+		<property name="ratio" xmlTag="ratio" attribute="YES" />
+	</entity>
 
 	<entity name="org.openflexo.fge.shapes.Chevron" xmlTag="ChevronShape">
 		<description>Chevron shape</description>

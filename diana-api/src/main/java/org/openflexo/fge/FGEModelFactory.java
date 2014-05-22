@@ -87,7 +87,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @throws ModelDefinitionException
 	 */
-	public FGEModelFactory(Class<?>... classes) throws ModelDefinitionException {
+	public FGEModelFactory(final Class<?>... classes) throws ModelDefinitionException {
 		this(Arrays.asList(classes));
 	}
 
@@ -96,24 +96,24 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @throws ModelDefinitionException
 	 */
-	public FGEModelFactory(Collection<Class<?>> classes) throws ModelDefinitionException {
+	public FGEModelFactory(final Collection<Class<?>> classes) throws ModelDefinitionException {
 
 		super(ModelContextLibrary.getCompoundModelContext(appendGRClasses(classes)));
 
-		addConverter(FGEUtils.DATA_BINDING_CONVERTER);
-		getStringEncoder().addConverter(FGEUtils.POINT_CONVERTER);
-		getStringEncoder().addConverter(FGEUtils.STEPPED_DIMENSION_CONVERTER);
+		this.addConverter(FGEUtils.DATA_BINDING_CONVERTER);
+		this.getStringEncoder().addConverter(FGEUtils.POINT_CONVERTER);
+		this.getStringEncoder().addConverter(FGEUtils.STEPPED_DIMENSION_CONVERTER);
 
 		logger.info("Created new FGEModelFactory...............................");
 
-		installImplementingClasses();
+		this.installImplementingClasses();
 
 	}
 
 	public abstract void installImplementingClasses() throws ModelDefinitionException;
 
-	private static Class<?>[] appendGRClasses(Collection<Class<?>> classes) {
-		Set<Class<?>> returned = new HashSet<Class<?>>(classes);
+	private static Class<?>[] appendGRClasses(final Collection<Class<?>> classes) {
+		final Set<Class<?>> returned = new HashSet<Class<?>>(classes);
 		returned.add(GraphicalRepresentation.class);
 		returned.add(DrawingGraphicalRepresentation.class);
 		returned.add(ShapeGraphicalRepresentation.class);
@@ -126,39 +126,39 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * Deserialized object are always set with basic controls
 	 */
 	@Override
-	public <I> void objectHasBeenDeserialized(I newlyCreatedObject, Class<I> implementedInterface) {
+	public <I> void objectHasBeenDeserialized(final I newlyCreatedObject, final Class<I> implementedInterface) {
 		super.objectHasBeenDeserialized(newlyCreatedObject, implementedInterface);
 		if (newlyCreatedObject instanceof DrawingGraphicalRepresentation) {
-			applyBasicControls((DrawingGraphicalRepresentation) newlyCreatedObject);
+			this.applyBasicControls((DrawingGraphicalRepresentation) newlyCreatedObject);
 		}
 		if (newlyCreatedObject instanceof ShapeGraphicalRepresentation) {
-			applyBasicControls((ShapeGraphicalRepresentation) newlyCreatedObject);
+			this.applyBasicControls((ShapeGraphicalRepresentation) newlyCreatedObject);
 		}
 		if (newlyCreatedObject instanceof ConnectorGraphicalRepresentation) {
-			applyBasicControls((ConnectorGraphicalRepresentation) newlyCreatedObject);
+			this.applyBasicControls((ConnectorGraphicalRepresentation) newlyCreatedObject);
 		}
 		if (newlyCreatedObject instanceof GeometricGraphicalRepresentation) {
-			applyBasicControls((GeometricGraphicalRepresentation) newlyCreatedObject);
+			this.applyBasicControls((GeometricGraphicalRepresentation) newlyCreatedObject);
 		}
 	}
 
 	@Override
-	public <I> void objectHasBeenCreated(I newlyCreatedObject, Class<I> implementedInterface) {
+	public <I> void objectHasBeenCreated(final I newlyCreatedObject, final Class<I> implementedInterface) {
 		if (newlyCreatedObject instanceof FGEObject) {
 			((FGEObject) newlyCreatedObject).setFactory(this);
 		}
 		super.objectHasBeenCreated(newlyCreatedObject, implementedInterface);
 		if (newlyCreatedObject instanceof DrawingGraphicalRepresentation) {
-			applyBasicControls((DrawingGraphicalRepresentation) newlyCreatedObject);
+			this.applyBasicControls((DrawingGraphicalRepresentation) newlyCreatedObject);
 		}
 		if (newlyCreatedObject instanceof ShapeGraphicalRepresentation) {
-			applyBasicControls((ShapeGraphicalRepresentation) newlyCreatedObject);
+			this.applyBasicControls((ShapeGraphicalRepresentation) newlyCreatedObject);
 		}
 		if (newlyCreatedObject instanceof ConnectorGraphicalRepresentation) {
-			applyBasicControls((ConnectorGraphicalRepresentation) newlyCreatedObject);
+			this.applyBasicControls((ConnectorGraphicalRepresentation) newlyCreatedObject);
 		}
 		if (newlyCreatedObject instanceof GeometricGraphicalRepresentation) {
-			applyBasicControls((GeometricGraphicalRepresentation) newlyCreatedObject);
+			this.applyBasicControls((GeometricGraphicalRepresentation) newlyCreatedObject);
 		}
 	}
 
@@ -170,7 +170,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @return a newly created DrawingGraphicalRepresentation
 	 */
 	public DrawingGraphicalRepresentation makeDrawingGraphicalRepresentation(/*Drawing<?> aDrawing*/) {
-		return makeDrawingGraphicalRepresentation(/*aDrawing,*/true);
+		return this.makeDrawingGraphicalRepresentation(/*aDrawing,*/true);
 	}
 
 	/**
@@ -180,8 +180,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param aDrawing
 	 * @return a newly created DrawingGraphicalRepresentation
 	 */
-	public DrawingGraphicalRepresentation makeDrawingGraphicalRepresentation(/*Drawing<?> aDrawing,*/boolean initBasicControls) {
-		DrawingGraphicalRepresentation returned = newInstance(DrawingGraphicalRepresentation.class, true, initBasicControls);
+	public DrawingGraphicalRepresentation makeDrawingGraphicalRepresentation(/*Drawing<?> aDrawing,*/final boolean initBasicControls) {
+		final DrawingGraphicalRepresentation returned = this.newInstance(DrawingGraphicalRepresentation.class, true, initBasicControls);
 		returned.setFactory(this);
 		// returned.setDrawable(aDrawing.getModel());
 		// returned.setDrawing(aDrawing);
@@ -193,8 +193,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @param drawingGraphicalRepresentation
 	 */
-	public void applyDefaultProperties(DrawingGraphicalRepresentation drawingGraphicalRepresentation) {
-		drawingGraphicalRepresentation.setTextStyle(makeDefaultTextStyle());
+	public void applyDefaultProperties(final DrawingGraphicalRepresentation drawingGraphicalRepresentation) {
+		drawingGraphicalRepresentation.setTextStyle(this.makeDefaultTextStyle());
 		drawingGraphicalRepresentation.setBackgroundColor(FGEConstants.DEFAULT_DRAWING_BACKGROUND_COLOR);
 		drawingGraphicalRepresentation.setWidth(FGEConstants.DEFAULT_DRAWING_WIDTH);
 		drawingGraphicalRepresentation.setHeight(FGEConstants.DEFAULT_DRAWING_HEIGHT);
@@ -205,13 +205,10 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @param drawingGraphicalRepresentation
 	 */
-	public void applyBasicControls(DrawingGraphicalRepresentation drawingGraphicalRepresentation) {
-		drawingGraphicalRepresentation.addToMouseClickControls(makeMouseClickControl("Drawing selection", MouseButton.LEFT, 1,
-				PredefinedMouseClickControlActionType.SELECTION));
-		drawingGraphicalRepresentation.addToMouseDragControls(makeMouseDragControl("Rectangle selection", MouseButton.LEFT,
-				PredefinedMouseDragControlActionType.RECTANGLE_SELECTING));
-		drawingGraphicalRepresentation.addToMouseDragControls(makeMouseDragControl("Zoom", MouseButton.RIGHT,
-				PredefinedMouseDragControlActionType.ZOOM));
+	public void applyBasicControls(final DrawingGraphicalRepresentation drawingGraphicalRepresentation) {
+		drawingGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Drawing selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
+		drawingGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Rectangle selection", MouseButton.LEFT, PredefinedMouseDragControlActionType.RECTANGLE_SELECTING));
+		drawingGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Zoom", MouseButton.RIGHT, PredefinedMouseDragControlActionType.ZOOM));
 	}
 
 	/**
@@ -227,7 +224,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 */
 	public <O> ShapeGraphicalRepresentation makeShapeGraphicalRepresentation() {
 
-		ShapeGraphicalRepresentation returned = newInstance(ShapeGraphicalRepresentation.class, true, true);
+		final ShapeGraphicalRepresentation returned = this.newInstance(ShapeGraphicalRepresentation.class, true, true);
 		returned.setFactory(this);
 		// returned.setDrawable(aDrawable);
 		// returned.setDrawing(aDrawing);
@@ -240,13 +237,13 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @param shapeGraphicalRepresentation
 	 */
-	public void applyDefaultProperties(ShapeGraphicalRepresentation shapeGraphicalRepresentation) {
-		shapeGraphicalRepresentation.setBorder(makeShapeBorder());
+	public void applyDefaultProperties(final ShapeGraphicalRepresentation shapeGraphicalRepresentation) {
+		shapeGraphicalRepresentation.setBorder(this.makeShapeBorder());
 		shapeGraphicalRepresentation.setLayer(FGEConstants.DEFAULT_SHAPE_LAYER);
-		shapeGraphicalRepresentation.setTextStyle(makeDefaultTextStyle());
-		shapeGraphicalRepresentation.setForeground(makeDefaultForegroundStyle());
-		shapeGraphicalRepresentation.setBackground(makeColoredBackground(Color.WHITE));
-		shapeGraphicalRepresentation.setShadowStyle(makeDefaultShadowStyle());
+		shapeGraphicalRepresentation.setTextStyle(this.makeDefaultTextStyle());
+		shapeGraphicalRepresentation.setForeground(this.makeDefaultForegroundStyle());
+		shapeGraphicalRepresentation.setBackground(this.makeColoredBackground(Color.WHITE));
+		shapeGraphicalRepresentation.setShadowStyle(this.makeDefaultShadowStyle());
 	}
 
 	/**
@@ -254,22 +251,17 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @param shapeGraphicalRepresentation
 	 */
-	public void applyBasicControls(ShapeGraphicalRepresentation shapeGraphicalRepresentation) {
-		shapeGraphicalRepresentation.addToMouseClickControls(makeMouseClickControl("Selection", MouseButton.LEFT, 1,
-				PredefinedMouseClickControlActionType.SELECTION));
+	public void applyBasicControls(final ShapeGraphicalRepresentation shapeGraphicalRepresentation) {
+		shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
 		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
-			shapeGraphicalRepresentation.addToMouseClickControls(makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1,
-					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		} else {
-			shapeGraphicalRepresentation.addToMouseClickControls(makeMouseControlClickControl("Multiple selection", MouseButton.LEFT, 1,
-					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			shapeGraphicalRepresentation
+					.addToMouseClickControls(this.makeMouseControlClickControl("Multiple selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}
-		shapeGraphicalRepresentation.addToMouseDragControls(makeMouseDragControl("Move", MouseButton.LEFT,
-				PredefinedMouseDragControlActionType.MOVE));
-		shapeGraphicalRepresentation.addToMouseDragControls(makeMouseDragControl("Zoom", MouseButton.RIGHT,
-				PredefinedMouseDragControlActionType.ZOOM));
-		shapeGraphicalRepresentation.addToMouseDragControls(makeMouseShiftDragControl("Rectangle selection", MouseButton.LEFT,
-				PredefinedMouseDragControlActionType.RECTANGLE_SELECTING));
+		shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Move", MouseButton.LEFT, PredefinedMouseDragControlActionType.MOVE));
+		shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Zoom", MouseButton.RIGHT, PredefinedMouseDragControlActionType.ZOOM));
+		shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseShiftDragControl("Rectangle selection", MouseButton.LEFT, PredefinedMouseDragControlActionType.RECTANGLE_SELECTING));
 	}
 
 	/**
@@ -277,8 +269,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created ShapeGraphicalRepresentation
 	 */
-	public <O> ShapeGraphicalRepresentation makeShapeGraphicalRepresentation(ShapeType shapeType) {
-		ShapeGraphicalRepresentation returned = makeShapeGraphicalRepresentation();
+	public <O> ShapeGraphicalRepresentation makeShapeGraphicalRepresentation(final ShapeType shapeType) {
+		final ShapeGraphicalRepresentation returned = this.makeShapeGraphicalRepresentation();
 		returned.setShapeType(shapeType);
 		return returned;
 	}
@@ -288,8 +280,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created ShapeGraphicalRepresentation
 	 */
-	public <O> ShapeGraphicalRepresentation makeShapeGraphicalRepresentation(ShapeSpecification shapeSpecification) {
-		ShapeGraphicalRepresentation returned = makeShapeGraphicalRepresentation();
+	public <O> ShapeGraphicalRepresentation makeShapeGraphicalRepresentation(final ShapeSpecification shapeSpecification) {
+		final ShapeGraphicalRepresentation returned = this.makeShapeGraphicalRepresentation();
 		returned.setShapeSpecification(shapeSpecification);
 		return returned;
 	}
@@ -299,8 +291,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created ShapeGraphicalRepresentation
 	 */
-	public <O> ShapeGraphicalRepresentation makeShapeGraphicalRepresentation(ShapeGraphicalRepresentation aGR) {
-		ShapeGraphicalRepresentation returned = makeShapeGraphicalRepresentation();
+	public <O> ShapeGraphicalRepresentation makeShapeGraphicalRepresentation(final ShapeGraphicalRepresentation aGR) {
+		final ShapeGraphicalRepresentation returned = this.makeShapeGraphicalRepresentation();
 		returned.setsWith(aGR);
 		return returned;
 	}
@@ -312,7 +304,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 */
 	public <O> ConnectorGraphicalRepresentation makeConnectorGraphicalRepresentation() {
 
-		ConnectorGraphicalRepresentation returned = newInstance(ConnectorGraphicalRepresentation.class, true, true);
+		final ConnectorGraphicalRepresentation returned = this.newInstance(ConnectorGraphicalRepresentation.class, true, true);
 		returned.setFactory(this);
 		// returned.setDrawable(aDrawable);
 		// returned.setDrawing(aDrawing);
@@ -330,9 +322,9 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created ConnectorGraphicalRepresentation
 	 */
-	public <O> ConnectorGraphicalRepresentation makeConnectorGraphicalRepresentation(ConnectorType aConnectorType) {
+	public <O> ConnectorGraphicalRepresentation makeConnectorGraphicalRepresentation(final ConnectorType aConnectorType) {
 
-		ConnectorGraphicalRepresentation returned = makeConnectorGraphicalRepresentation();
+		final ConnectorGraphicalRepresentation returned = this.makeConnectorGraphicalRepresentation();
 		// returned.setStartObject(aStartObject);
 		// returned.setEndObject(anEndObject);
 		returned.setConnectorType(aConnectorType);
@@ -345,10 +337,10 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @param connectorGraphicalRepresentation
 	 */
-	public void applyDefaultProperties(ConnectorGraphicalRepresentation connectorGraphicalRepresentation) {
+	public void applyDefaultProperties(final ConnectorGraphicalRepresentation connectorGraphicalRepresentation) {
 		connectorGraphicalRepresentation.setLayer(FGEConstants.DEFAULT_CONNECTOR_LAYER);
-		connectorGraphicalRepresentation.setForeground(makeDefaultForegroundStyle());
-		connectorGraphicalRepresentation.setTextStyle(makeDefaultTextStyle());
+		connectorGraphicalRepresentation.setForeground(this.makeDefaultForegroundStyle());
+		connectorGraphicalRepresentation.setTextStyle(this.makeDefaultTextStyle());
 	}
 
 	/**
@@ -356,15 +348,14 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @param connectorGraphicalRepresentation
 	 */
-	public void applyBasicControls(ConnectorGraphicalRepresentation connectorGraphicalRepresentation) {
-		connectorGraphicalRepresentation.addToMouseClickControls(makeMouseClickControl("Selection", MouseButton.LEFT, 1,
-				PredefinedMouseClickControlActionType.SELECTION));
+	public void applyBasicControls(final ConnectorGraphicalRepresentation connectorGraphicalRepresentation) {
+		connectorGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
 		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
-			connectorGraphicalRepresentation.addToMouseClickControls(makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1,
-					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			connectorGraphicalRepresentation.addToMouseClickControls(this
+					.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		} else {
-			connectorGraphicalRepresentation.addToMouseClickControls(makeMouseControlClickControl("Multiple selection", MouseButton.LEFT,
-					1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			connectorGraphicalRepresentation.addToMouseClickControls(this.makeMouseControlClickControl("Multiple selection", MouseButton.LEFT, 1,
+					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}
 	}
 
@@ -380,13 +371,13 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 */
 	public <O> GeometricGraphicalRepresentation makeGeometricGraphicalRepresentation() {
 
-		GeometricGraphicalRepresentation returned = newInstance(GeometricGraphicalRepresentation.class, true, true);
+		final GeometricGraphicalRepresentation returned = this.newInstance(GeometricGraphicalRepresentation.class, true, true);
 		returned.setFactory(this);
 		// returned.setDrawable(aDrawable);
 		// returned.setDrawing(aDrawing);
 
-		applyDefaultProperties(returned);
-		applyBasicControls(returned);
+		this.applyDefaultProperties(returned);
+		this.applyBasicControls(returned);
 
 		return returned;
 	}
@@ -401,9 +392,9 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created GeometricGraphicalRepresentation
 	 */
-	public <O> GeometricGraphicalRepresentation makeGeometricGraphicalRepresentation(FGEArea geometricObject) {
+	public <O> GeometricGraphicalRepresentation makeGeometricGraphicalRepresentation(final FGEArea geometricObject) {
 
-		GeometricGraphicalRepresentation returned = makeGeometricGraphicalRepresentation();
+		final GeometricGraphicalRepresentation returned = this.makeGeometricGraphicalRepresentation();
 		returned.setGeometricObject(geometricObject);
 		return returned;
 	}
@@ -413,11 +404,11 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @param connectorGraphicalRepresentation
 	 */
-	public void applyDefaultProperties(GeometricGraphicalRepresentation geometricGraphicalRepresentation) {
+	public void applyDefaultProperties(final GeometricGraphicalRepresentation geometricGraphicalRepresentation) {
 		geometricGraphicalRepresentation.setLayer(FGEConstants.DEFAULT_OBJECT_LAYER);
-		geometricGraphicalRepresentation.setForeground(makeDefaultForegroundStyle());
-		geometricGraphicalRepresentation.setBackground(makeColoredBackground(Color.WHITE));
-		geometricGraphicalRepresentation.setTextStyle(makeDefaultTextStyle());
+		geometricGraphicalRepresentation.setForeground(this.makeDefaultForegroundStyle());
+		geometricGraphicalRepresentation.setBackground(this.makeColoredBackground(Color.WHITE));
+		geometricGraphicalRepresentation.setTextStyle(this.makeDefaultTextStyle());
 	}
 
 	/**
@@ -425,28 +416,27 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @param connectorGraphicalRepresentation
 	 */
-	public void applyBasicControls(GeometricGraphicalRepresentation geometricGraphicalRepresentation) {
-		geometricGraphicalRepresentation.addToMouseClickControls(makeMouseClickControl("Selection", MouseButton.LEFT, 1,
-				PredefinedMouseClickControlActionType.SELECTION));
+	public void applyBasicControls(final GeometricGraphicalRepresentation geometricGraphicalRepresentation) {
+		geometricGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
 		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
-			geometricGraphicalRepresentation.addToMouseClickControls(makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1,
-					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			geometricGraphicalRepresentation.addToMouseClickControls(this
+					.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		} else {
-			geometricGraphicalRepresentation.addToMouseClickControls(makeMouseControlClickControl("Multiple selection", MouseButton.LEFT,
-					1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			geometricGraphicalRepresentation.addToMouseClickControls(this.makeMouseControlClickControl("Multiple selection", MouseButton.LEFT, 1,
+					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}
 	}
 
-	public ConnectorSpecification makeConnector(ConnectorType type) {
+	public ConnectorSpecification makeConnector(final ConnectorType type) {
 
 		if (type == ConnectorType.LINE) {
-			return makeLineConnector();
+			return this.makeLineConnector();
 		} else if (type == ConnectorType.RECT_POLYLIN) {
-			return makeRectPolylinConnector();
+			return this.makeRectPolylinConnector();
 		} else if (type == ConnectorType.CURVE) {
-			return makeCurveConnector();
+			return this.makeCurveConnector();
 		} else if (type == ConnectorType.CURVED_POLYLIN) {
-			return makeCurvedPolylinConnector();
+			return this.makeCurvedPolylinConnector();
 		}
 		logger.warning("Unexpected type: " + type);
 		return null;
@@ -460,7 +450,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @return a newly created LineConnectorSpecification
 	 */
 	public LineConnectorSpecification makeLineConnector() {
-		LineConnectorSpecification returned = newInstance(LineConnectorSpecification.class);
+		final LineConnectorSpecification returned = this.newInstance(LineConnectorSpecification.class);
 		returned.setFactory(this);
 		// aGR.setConnectorSpecification(returned);
 		// returned.setGraphicalRepresentation(aGR);
@@ -474,7 +464,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @return a newly created CurveConnectorSpecification
 	 */
 	public CurveConnectorSpecification makeCurveConnector() {
-		CurveConnectorSpecification returned = newInstance(CurveConnectorSpecification.class);
+		final CurveConnectorSpecification returned = this.newInstance(CurveConnectorSpecification.class);
 		returned.setFactory(this);
 		// aGR.setConnectorSpecification(returned);
 		// returned.setGraphicalRepresentation(aGR);
@@ -488,7 +478,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @return a newly created RectPolylinConnectorSpecification
 	 */
 	public RectPolylinConnectorSpecification makeRectPolylinConnector() {
-		RectPolylinConnectorSpecification returned = newInstance(RectPolylinConnectorSpecification.class);
+		final RectPolylinConnectorSpecification returned = this.newInstance(RectPolylinConnectorSpecification.class);
 		returned.setFactory(this);
 		// aGR.setConnectorSpecification(returned);
 		// returned.setGraphicalRepresentation(aGR);
@@ -502,7 +492,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @return a newly created CurvedPolylinConnectorSpecification
 	 */
 	public CurvedPolylinConnectorSpecification makeCurvedPolylinConnector() {
-		CurvedPolylinConnectorSpecification returned = newInstance(CurvedPolylinConnectorSpecification.class);
+		final CurvedPolylinConnectorSpecification returned = this.newInstance(CurvedPolylinConnectorSpecification.class);
 		returned.setFactory(this);
 		// aGR.setConnectorSpecification(returned);
 		// returned.setGraphicalRepresentation(aGR);
@@ -515,7 +505,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @return a newly created ForegroundStyle
 	 */
 	public ForegroundStyle makeNewForegroundStyle() {
-		ForegroundStyle returned = newInstance(ForegroundStyle.class);
+		final ForegroundStyle returned = this.newInstance(ForegroundStyle.class);
 		returned.setFactory(this);
 		return returned;
 	}
@@ -526,7 +516,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @return a newly created ForegroundStyle
 	 */
 	public ForegroundStyle makeDefaultForegroundStyle() {
-		ForegroundStyle returned = newInstance(ForegroundStyle.class);
+		final ForegroundStyle returned = this.newInstance(ForegroundStyle.class);
 		returned.setFactory(this);
 		returned.setNoStroke(false);
 		returned.setColor(Color.BLACK);
@@ -546,7 +536,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @return a newly created ForegroundStyle
 	 */
 	public ForegroundStyle makeNoneForegroundStyle() {
-		ForegroundStyle returned = makeDefaultForegroundStyle();
+		final ForegroundStyle returned = this.makeDefaultForegroundStyle();
 		returned.setNoStroke(true);
 		return returned;
 	}
@@ -559,8 +549,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created ForegroundStyle
 	 */
-	public ForegroundStyle makeForegroundStyle(Color aColor) {
-		ForegroundStyle returned = makeDefaultForegroundStyle();
+	public ForegroundStyle makeForegroundStyle(final Color aColor) {
+		final ForegroundStyle returned = this.makeDefaultForegroundStyle();
 		returned.setColor(aColor);
 		return returned;
 	}
@@ -576,8 +566,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created ForegroundStyle
 	 */
-	public ForegroundStyle makeForegroundStyle(Color aColor, float aLineWidth) {
-		ForegroundStyle returned = makeForegroundStyle(aColor);
+	public ForegroundStyle makeForegroundStyle(final Color aColor, final float aLineWidth) {
+		final ForegroundStyle returned = this.makeForegroundStyle(aColor);
 		returned.setLineWidth(aLineWidth);
 		return returned;
 	}
@@ -594,8 +584,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param dashStyle
 	 * @return a newly created ForegroundStyle
 	 */
-	public ForegroundStyle makeForegroundStyle(Color aColor, float aLineWidth, JoinStyle joinStyle, CapStyle capStyle, DashStyle dashStyle) {
-		ForegroundStyle returned = makeForegroundStyle(aColor);
+	public ForegroundStyle makeForegroundStyle(final Color aColor, final float aLineWidth, final JoinStyle joinStyle, final CapStyle capStyle, final DashStyle dashStyle) {
+		final ForegroundStyle returned = this.makeForegroundStyle(aColor);
 		returned.setLineWidth(aLineWidth);
 		returned.setJoinStyle(joinStyle);
 		returned.setCapStyle(capStyle);
@@ -613,8 +603,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param dashStyle
 	 * @return a newly created ForegroundStyle
 	 */
-	public ForegroundStyle makeForegroundStyle(Color aColor, float aLineWidth, DashStyle dashStyle) {
-		ForegroundStyle returned = makeForegroundStyle(aColor);
+	public ForegroundStyle makeForegroundStyle(final Color aColor, final float aLineWidth, final DashStyle dashStyle) {
+		final ForegroundStyle returned = this.makeForegroundStyle(aColor);
 		returned.setLineWidth(aLineWidth);
 		returned.setDashStyle(dashStyle);
 		return returned;
@@ -626,7 +616,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @return a newly created ForegroundStyle
 	 */
 	public BackgroundStyle makeDefaultBackgroundStyle() {
-		return makeColoredBackground(FGEConstants.DEFAULT_BACKGROUND_COLOR);
+		return this.makeColoredBackground(FGEConstants.DEFAULT_BACKGROUND_COLOR);
 	}
 
 	/**
@@ -635,7 +625,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @return a newly created BackgroundStyle
 	 */
 	public NoneBackgroundStyle makeEmptyBackground() {
-		NoneBackgroundStyle returned = newInstance(NoneBackgroundStyle.class);
+		final NoneBackgroundStyle returned = this.newInstance(NoneBackgroundStyle.class);
 		returned.setFactory(this);
 		return returned;
 	}
@@ -647,8 +637,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 *            color to be used as plain colored background
 	 * @return a newly created BackgroundStyle
 	 */
-	public ColorBackgroundStyle makeColoredBackground(Color aColor) {
-		ColorBackgroundStyle returned = newInstance(ColorBackgroundStyle.class);
+	public ColorBackgroundStyle makeColoredBackground(final Color aColor) {
+		final ColorBackgroundStyle returned = this.newInstance(ColorBackgroundStyle.class);
 		returned.setFactory(this);
 		returned.setColor(aColor);
 		return returned;
@@ -663,8 +653,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created BackgroundStyle
 	 */
-	public ColorGradientBackgroundStyle makeColorGradientBackground(Color color1, Color color2, ColorGradientDirection direction) {
-		ColorGradientBackgroundStyle returned = newInstance(ColorGradientBackgroundStyle.class);
+	public ColorGradientBackgroundStyle makeColorGradientBackground(final Color color1, final Color color2, final ColorGradientDirection direction) {
+		final ColorGradientBackgroundStyle returned = this.newInstance(ColorGradientBackgroundStyle.class);
 		returned.setFactory(this);
 		returned.setColor1(color1);
 		returned.setColor2(color2);
@@ -681,8 +671,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created BackgroundStyle
 	 */
-	public TextureBackgroundStyle makeTexturedBackground(TextureType textureType, Color color1, Color color2) {
-		TextureBackgroundStyle returned = newInstance(TextureBackgroundStyle.class);
+	public TextureBackgroundStyle makeTexturedBackground(final TextureType textureType, final Color color1, final Color color2) {
+		final TextureBackgroundStyle returned = this.newInstance(TextureBackgroundStyle.class);
 		returned.setFactory(this);
 		returned.setColor1(color1);
 		returned.setColor2(color2);
@@ -698,8 +688,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created BackgroundStyle
 	 */
-	public BackgroundImageBackgroundStyle makeImageBackground(Resource imageResource) {
-		BackgroundImageBackgroundStyle returned = newInstance(BackgroundImageBackgroundStyle.class);
+	public BackgroundImageBackgroundStyle makeImageBackground(final Resource imageResource) {
+		final BackgroundImageBackgroundStyle returned = this.newInstance(BackgroundImageBackgroundStyle.class);
 		returned.setFactory(this);
 		returned.setImageResource(imageResource);
 		return returned;
@@ -712,8 +702,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created BackgroundStyle
 	 */
-	public BackgroundImageBackgroundStyle makeImageBackground(Image image) {
-		BackgroundImageBackgroundStyle returned = newInstance(BackgroundImageBackgroundStyle.class);
+	public BackgroundImageBackgroundStyle makeImageBackground(final Image image) {
+		final BackgroundImageBackgroundStyle returned = this.newInstance(BackgroundImageBackgroundStyle.class);
 		returned.setFactory(this);
 		returned.setImage(image);
 		return returned;
@@ -725,17 +715,17 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param type
 	 * @return a newly created BackgroundStyle
 	 */
-	public BackgroundStyle makeBackground(BackgroundStyleType type) {
+	public BackgroundStyle makeBackground(final BackgroundStyleType type) {
 		if (type == BackgroundStyleType.NONE) {
-			return makeEmptyBackground();
+			return this.makeEmptyBackground();
 		} else if (type == BackgroundStyleType.COLOR) {
-			return makeColoredBackground(java.awt.Color.WHITE);
+			return this.makeColoredBackground(java.awt.Color.WHITE);
 		} else if (type == BackgroundStyleType.COLOR_GRADIENT) {
-			return makeColorGradientBackground(java.awt.Color.WHITE, java.awt.Color.BLACK, ColorGradientDirection.SOUTH_EAST_NORTH_WEST);
+			return this.makeColorGradientBackground(java.awt.Color.WHITE, java.awt.Color.BLACK, ColorGradientDirection.SOUTH_EAST_NORTH_WEST);
 		} else if (type == BackgroundStyleType.TEXTURE) {
-			return makeTexturedBackground(TextureType.TEXTURE1, java.awt.Color.RED, java.awt.Color.WHITE);
+			return this.makeTexturedBackground(TextureType.TEXTURE1, java.awt.Color.RED, java.awt.Color.WHITE);
 		} else if (type == BackgroundStyleType.IMAGE) {
-			return makeImageBackground((Resource) null);
+			return this.makeImageBackground((Resource) null);
 		}
 		return null;
 	}
@@ -746,7 +736,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @return a newly created ShadowStyle
 	 */
 	public ShadowStyle makeNoneShadowStyle() {
-		ShadowStyle returned = newInstance(ShadowStyle.class);
+		final ShadowStyle returned = this.newInstance(ShadowStyle.class);
 		returned.setFactory(this);
 		returned.setDrawShadow(false);
 		returned.setShadowDepth(0);
@@ -759,7 +749,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @return a newly created ShadowStyle
 	 */
 	public ShadowStyle makeDefaultShadowStyle() {
-		ShadowStyle returned = newInstance(ShadowStyle.class);
+		final ShadowStyle returned = this.newInstance(ShadowStyle.class);
 		returned.setFactory(this);
 		returned.setDrawShadow(true);
 		returned.setShadowDarkness(FGEConstants.DEFAULT_SHADOW_DARKNESS);
@@ -774,7 +764,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @return a newly created TextStyle
 	 */
 	public TextStyle makeDefaultTextStyle() {
-		return makeTextStyle(FGEConstants.DEFAULT_TEXT_COLOR, FGEConstants.DEFAULT_TEXT_FONT);
+		return this.makeTextStyle(FGEConstants.DEFAULT_TEXT_COLOR, FGEConstants.DEFAULT_TEXT_FONT);
 	}
 
 	/**
@@ -785,8 +775,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created TextStyle
 	 */
-	public TextStyle makeTextStyle(Color aColor, Font aFont) {
-		TextStyle returned = newInstance(TextStyle.class);
+	public TextStyle makeTextStyle(final Color aColor, final Font aFont) {
+		final TextStyle returned = this.newInstance(TextStyle.class);
 		returned.setFactory(this);
 		returned.setFont(aFont);
 		returned.setColor(aColor);
@@ -799,7 +789,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @return a newly created ShapeBorder
 	 */
 	public ShapeBorder makeShapeBorder() {
-		ShapeBorder returned = newInstance(ShapeBorder.class);
+		final ShapeBorder returned = this.newInstance(ShapeBorder.class);
 		returned.setFactory(this);
 		returned.setTop(FGEConstants.DEFAULT_BORDER_SIZE);
 		returned.setBottom(FGEConstants.DEFAULT_BORDER_SIZE);
@@ -813,8 +803,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created ShapeBorder
 	 */
-	public ShapeBorder makeShapeBorder(int top, int bottom, int left, int right) {
-		ShapeBorder returned = newInstance(ShapeBorder.class);
+	public ShapeBorder makeShapeBorder(final int top, final int bottom, final int left, final int right) {
+		final ShapeBorder returned = this.newInstance(ShapeBorder.class);
 		returned.setFactory(this);
 		returned.setTop(top);
 		returned.setBottom(bottom);
@@ -828,8 +818,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created ShapeBorder
 	 */
-	public ShapeBorder makeShapeBorder(ShapeBorder border) {
-		ShapeBorder returned = newInstance(ShapeBorder.class);
+	public ShapeBorder makeShapeBorder(final ShapeBorder border) {
+		final ShapeBorder returned = this.newInstance(ShapeBorder.class);
 		returned.setFactory(this);
 		returned.setTop(border.getTop());
 		returned.setBottom(border.getBottom());
@@ -844,38 +834,54 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param type
 	 * @return a newly created ShapeSpecification
 	 */
-	public ShapeSpecification makeShape(ShapeType type) {
+	public ShapeSpecification makeShape(final ShapeType type) {
 		ShapeSpecification returned = null;
-		if (type == ShapeType.SQUARE) {
-			returned = newInstance(Square.class);
-		} else if (type == ShapeType.RECTANGLE) {
-			returned = newInstance(Rectangle.class);
-		} else if (type == ShapeType.TRIANGLE) {
-			returned = newInstance(Triangle.class);
-		} else if (type == ShapeType.LOSANGE) {
-			returned = newInstance(Losange.class);
-		} else if (type == ShapeType.RECTANGULAROCTOGON) {
-			returned = newInstance(RectangularOctogon.class);
-		} else if (type == ShapeType.POLYGON) {
-			returned = newInstance(RegularPolygon.class);
-		} else if (type == ShapeType.CUSTOM_POLYGON) {
-			returned = newInstance(Polygon.class);
-		} else if (type == ShapeType.COMPLEX_CURVE) {
-			returned = newInstance(ComplexCurve.class);
-		} else if (type == ShapeType.OVAL) {
-			returned = newInstance(Oval.class);
-		} else if (type == ShapeType.CIRCLE) {
-			returned = newInstance(Circle.class);
-		} else if (type == ShapeType.STAR) {
-			returned = newInstance(Star.class);
-		} else if (type == ShapeType.ARC) {
-			returned = newInstance(Arc.class);
-		} else if (type == ShapeType.PLUS) {
-			returned = newInstance(Plus.class);
-		} else if (type == ShapeType.CHEVRON) {
-			returned = newInstance(Chevron.class);
-		} else {
+		switch (type) {
+		case SQUARE:
+			returned = this.newInstance(Square.class);
+			break;
+		case RECTANGLE:
+			returned = this.newInstance(Rectangle.class);
+			break;
+		case TRIANGLE:
+			returned = this.newInstance(Triangle.class);
+			break;
+		case ARC:
+			returned = this.newInstance(Arc.class);
+			break;
+		case CHEVRON:
+			returned = this.newInstance(Chevron.class);
+			break;
+		case CIRCLE:
+			returned = this.newInstance(Circle.class);
+			break;
+		case COMPLEX_CURVE:
+			returned = this.newInstance(ComplexCurve.class);
+			break;
+		case CUSTOM_POLYGON:
+			returned = this.newInstance(Polygon.class);
+			break;
+		case LOSANGE:
+			returned = this.newInstance(Losange.class);
+			break;
+		case OVAL:
+			returned = this.newInstance(Oval.class);
+			break;
+		case PLUS:
+			returned = this.newInstance(Plus.class);
+			break;
+		case POLYGON:
+			returned = this.newInstance(RegularPolygon.class);
+			break;
+		case RECTANGULAROCTOGON:
+			returned = this.newInstance(RectangularOctogon.class);
+			break;
+		case STAR:
+			returned = this.newInstance(Star.class);
+			break;
+		default:
 			logger.warning("Unexpected ShapeType: " + type);
+			break;
 		}
 
 		if (returned != null) {
@@ -892,9 +898,9 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param aPolygon
 	 * @return a newly created Polygon
 	 */
-	public Polygon makePolygon(FGEPolygon aPolygon) {
-		Polygon polygon = newInstance(Polygon.class);
-		for (FGEPoint pt : aPolygon.getPoints()) {
+	public Polygon makePolygon(final FGEPolygon aPolygon) {
+		final Polygon polygon = this.newInstance(Polygon.class);
+		for (final FGEPoint pt : aPolygon.getPoints()) {
 			polygon.addToPoints(pt);
 		}
 		return polygon;
@@ -907,9 +913,9 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param aPolygon
 	 * @return a newly created Polygon
 	 */
-	public Polygon makePolygon(FGEPoint... points) {
-		Polygon polygon = newInstance(Polygon.class);
-		for (FGEPoint pt : points) {
+	public Polygon makePolygon(final FGEPoint... points) {
+		final Polygon polygon = this.newInstance(Polygon.class);
+		for (final FGEPoint pt : points) {
 			polygon.addToPoints(pt);
 		}
 		return polygon;
@@ -922,9 +928,9 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created ComplexCurve
 	 */
-	public ComplexCurve makeComplexCurve(FGEComplexCurve aCurve) {
-		ComplexCurve curve = newInstance(ComplexCurve.class);
-		for (FGEPoint pt : aCurve.getPoints()) {
+	public ComplexCurve makeComplexCurve(final FGEComplexCurve aCurve) {
+		final ComplexCurve curve = this.newInstance(ComplexCurve.class);
+		for (final FGEPoint pt : aCurve.getPoints()) {
 			curve.addToPoints(pt);
 		}
 		curve.setClosure(aCurve.getClosure());
@@ -938,9 +944,9 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created ComplexCurve
 	 */
-	public ComplexCurve makeComplexCurve(FGEPoint... points) {
-		ComplexCurve curve = newInstance(ComplexCurve.class);
-		for (FGEPoint pt : points) {
+	public ComplexCurve makeComplexCurve(final FGEPoint... points) {
+		final ComplexCurve curve = this.newInstance(ComplexCurve.class);
+		for (final FGEPoint pt : points) {
 			curve.addToPoints(pt);
 		}
 		return curve;
@@ -956,160 +962,147 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param initWithBasicControls
 	 * @return
 	 */
-	public <I extends GraphicalRepresentation> I newInstance(Class<I> implementedInterface, boolean initWithDefaultProperties,
-			boolean initWithBasicControls) {
-		I returned = super.newInstance(implementedInterface);
+	public <I extends GraphicalRepresentation> I newInstance(final Class<I> implementedInterface, final boolean initWithDefaultProperties, final boolean initWithBasicControls) {
+		final I returned = super.newInstance(implementedInterface);
 		if (returned instanceof ShapeGraphicalRepresentation) {
 			if (initWithDefaultProperties) {
-				applyDefaultProperties((ShapeGraphicalRepresentation) returned);
+				this.applyDefaultProperties((ShapeGraphicalRepresentation) returned);
 			}
 			if (initWithBasicControls) {
-				applyBasicControls((ShapeGraphicalRepresentation) returned);
+				this.applyBasicControls((ShapeGraphicalRepresentation) returned);
 			}
 		} else if (returned instanceof ConnectorGraphicalRepresentation) {
 			if (initWithDefaultProperties) {
-				applyDefaultProperties((ConnectorGraphicalRepresentation) returned);
+				this.applyDefaultProperties((ConnectorGraphicalRepresentation) returned);
 			}
 			if (initWithBasicControls) {
-				applyBasicControls((ConnectorGraphicalRepresentation) returned);
+				this.applyBasicControls((ConnectorGraphicalRepresentation) returned);
 			}
 		} else if (returned instanceof DrawingGraphicalRepresentation) {
 			if (initWithDefaultProperties) {
-				applyDefaultProperties((DrawingGraphicalRepresentation) returned);
+				this.applyDefaultProperties((DrawingGraphicalRepresentation) returned);
 			}
 			if (initWithBasicControls) {
-				applyBasicControls((DrawingGraphicalRepresentation) returned);
+				this.applyBasicControls((DrawingGraphicalRepresentation) returned);
 			}
 		} else if (returned instanceof GeometricGraphicalRepresentation) {
 			if (initWithDefaultProperties) {
-				applyDefaultProperties((GeometricGraphicalRepresentation) returned);
+				this.applyDefaultProperties((GeometricGraphicalRepresentation) returned);
 			}
 			if (initWithBasicControls) {
-				applyBasicControls((GeometricGraphicalRepresentation) returned);
+				this.applyBasicControls((GeometricGraphicalRepresentation) returned);
 			}
 		}
 		return returned;
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseClickControl(String aName, MouseButton button, int clickCount) {
-		return makeMouseClickControl(aName, button, clickCount, false, false, false, false);
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseClickControl(final String aName, final MouseButton button, final int clickCount) {
+		return this.makeMouseClickControl(aName, button, clickCount, false, false, false, false);
 	}
 
-	public <E extends DianaEditor<?>> MouseClickControl<E> makeMouseClickControl(String aName, MouseButton button, int clickCount,
-			MouseClickControlAction<E> action) {
-		return makeMouseClickControl(aName, button, clickCount, action, false, false, false, false);
+	public <E extends DianaEditor<?>> MouseClickControl<E> makeMouseClickControl(final String aName, final MouseButton button, final int clickCount, final MouseClickControlAction<E> action) {
+		return this.makeMouseClickControl(aName, button, clickCount, action, false, false, false, false);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseShiftClickControl(String aName, MouseButton button, int clickCount) {
-		return makeMouseClickControl(aName, button, clickCount, true, false, false, false);
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseShiftClickControl(final String aName, final MouseButton button, final int clickCount) {
+		return this.makeMouseClickControl(aName, button, clickCount, true, false, false, false);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseControlClickControl(String aName, MouseButton button, int clickCount) {
-		return makeMouseClickControl(aName, button, clickCount, false, true, false, false);
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseControlClickControl(final String aName, final MouseButton button, final int clickCount) {
+		return this.makeMouseClickControl(aName, button, clickCount, false, true, false, false);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseMetaClickControl(String aName, MouseButton button, int clickCount) {
-		return makeMouseClickControl(aName, button, clickCount, false, false, true, false);
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseMetaClickControl(final String aName, final MouseButton button, final int clickCount) {
+		return this.makeMouseClickControl(aName, button, clickCount, false, false, true, false);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseAltClickControl(String aName, MouseButton button, int clickCount) {
-		return makeMouseClickControl(aName, button, clickCount, false, false, false, true);
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseAltClickControl(final String aName, final MouseButton button, final int clickCount) {
+		return this.makeMouseClickControl(aName, button, clickCount, false, false, false, true);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseClickControl(String aName, MouseButton button, int clickCount,
-			PredefinedMouseClickControlActionType actionType) {
-		return makeMouseClickControl(aName, button, clickCount, actionType, false, false, false, false);
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseClickControl(final String aName, final MouseButton button, final int clickCount, final PredefinedMouseClickControlActionType actionType) {
+		return this.makeMouseClickControl(aName, button, clickCount, actionType, false, false, false, false);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseShiftClickControl(String aName, MouseButton button, int clickCount,
-			PredefinedMouseClickControlActionType actionType) {
-		return makeMouseClickControl(aName, button, clickCount, actionType, true, false, false, false);
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseShiftClickControl(final String aName, final MouseButton button, final int clickCount,
+			final PredefinedMouseClickControlActionType actionType) {
+		return this.makeMouseClickControl(aName, button, clickCount, actionType, true, false, false, false);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseControlClickControl(String aName, MouseButton button, int clickCount,
-			PredefinedMouseClickControlActionType actionType) {
-		return makeMouseClickControl(aName, button, clickCount, actionType, false, true, false, false);
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseControlClickControl(final String aName, final MouseButton button, final int clickCount,
+			final PredefinedMouseClickControlActionType actionType) {
+		return this.makeMouseClickControl(aName, button, clickCount, actionType, false, true, false, false);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseMetaClickControl(String aName, MouseButton button, int clickCount,
-			PredefinedMouseClickControlActionType actionType) {
-		return makeMouseClickControl(aName, button, clickCount, actionType, false, false, true, false);
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseMetaClickControl(final String aName, final MouseButton button, final int clickCount,
+			final PredefinedMouseClickControlActionType actionType) {
+		return this.makeMouseClickControl(aName, button, clickCount, actionType, false, false, true, false);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseAltClickControl(String aName, MouseButton button, int clickCount,
-			PredefinedMouseClickControlActionType actionType) {
-		return makeMouseClickControl(aName, button, clickCount, actionType, false, false, false, true);
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseAltClickControl(final String aName, final MouseButton button, final int clickCount,
+			final PredefinedMouseClickControlActionType actionType) {
+		return this.makeMouseClickControl(aName, button, clickCount, actionType, false, false, false, true);
 	}
 
-	public abstract MouseClickControl<? extends DianaEditor<?>> makeMouseClickControl(String aName, MouseButton button, int clickCount,
+	public abstract MouseClickControl<? extends DianaEditor<?>> makeMouseClickControl(String aName, MouseButton button, int clickCount, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed,
+			boolean altPressed);
+
+	public abstract MouseClickControl<? extends DianaEditor<?>> makeMouseClickControl(String aName, MouseButton button, int clickCount, PredefinedMouseClickControlActionType actionType,
 			boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed);
 
-	public abstract MouseClickControl<? extends DianaEditor<?>> makeMouseClickControl(String aName, MouseButton button, int clickCount,
-			PredefinedMouseClickControlActionType actionType, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed,
-			boolean altPressed);
-
-	public abstract <E extends DianaEditor<?>> MouseClickControl<E> makeMouseClickControl(String aName, MouseButton button, int clickCount,
-			MouseClickControlAction<E> action, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed);
-
-	public MouseDragControl<? extends DianaEditor<?>> makeMouseDragControl(String aName, MouseButton button) {
-		return makeMouseDragControl(aName, button, false, false, false, false);
-	}
-
-	public MouseDragControl<? extends DianaEditor<?>> makeMouseShiftDragControl(String aName, MouseButton button) {
-		return makeMouseDragControl(aName, button, true, false, false, false);
-	}
-
-	public MouseDragControl<? extends DianaEditor<?>> makeMouseControlDragControl(String aName, MouseButton button) {
-		return makeMouseDragControl(aName, button, false, true, false, false);
-	}
-
-	public MouseDragControl<? extends DianaEditor<?>> makeMouseMetaDragControl(String aName, MouseButton button) {
-		return makeMouseDragControl(aName, button, false, false, true, false);
-	}
-
-	public MouseDragControl<? extends DianaEditor<?>> makeMouseAltDragControl(String aName, MouseButton button) {
-		return makeMouseDragControl(aName, button, false, false, false, true);
-	}
-
-	public MouseDragControl<? extends DianaEditor<?>> makeMouseDragControl(String aName, MouseButton button,
-			PredefinedMouseDragControlActionType actionType) {
-		return makeMouseDragControl(aName, button, actionType, false, false, false, false);
-	}
-
-	public MouseDragControl<? extends DianaEditor<?>> makeMouseShiftDragControl(String aName, MouseButton button,
-			PredefinedMouseDragControlActionType actionType) {
-		return makeMouseDragControl(aName, button, actionType, true, false, false, false);
-	}
-
-	public MouseDragControl<? extends DianaEditor<?>> makeMouseControlDragControl(String aName, MouseButton button,
-			PredefinedMouseDragControlActionType actionType) {
-		return makeMouseDragControl(aName, button, actionType, false, true, false, false);
-	}
-
-	public MouseDragControl<? extends DianaEditor<?>> makeMouseMetaDragControl(String aName, MouseButton button,
-			PredefinedMouseDragControlActionType actionType) {
-		return makeMouseDragControl(aName, button, actionType, false, false, true, false);
-	}
-
-	public MouseDragControl<? extends DianaEditor<?>> makeMouseAltDragControl(String aName, MouseButton button,
-			PredefinedMouseDragControlActionType actionType) {
-		return makeMouseDragControl(aName, button, actionType, false, false, false, true);
-	}
-
-	public abstract MouseDragControl<? extends DianaEditor<?>> makeMouseDragControl(String aName, MouseButton button, boolean shiftPressed,
+	public abstract <E extends DianaEditor<?>> MouseClickControl<E> makeMouseClickControl(String aName, MouseButton button, int clickCount, MouseClickControlAction<E> action, boolean shiftPressed,
 			boolean ctrlPressed, boolean metaPressed, boolean altPressed);
 
-	public abstract MouseDragControl<? extends DianaEditor<?>> makeMouseDragControl(String aName, MouseButton button,
-			PredefinedMouseDragControlActionType actionType, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed,
-			boolean altPressed);
+	public MouseDragControl<? extends DianaEditor<?>> makeMouseDragControl(final String aName, final MouseButton button) {
+		return this.makeMouseDragControl(aName, button, false, false, false, false);
+	}
 
-	public abstract <E extends DianaEditor<?>> MouseDragControl<E> makeMouseDragControl(String aName, MouseButton button,
-			MouseDragControlAction<E> action, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed);
+	public MouseDragControl<? extends DianaEditor<?>> makeMouseShiftDragControl(final String aName, final MouseButton button) {
+		return this.makeMouseDragControl(aName, button, true, false, false, false);
+	}
 
-	public abstract MouseDragControlAction<? extends DianaEditor<?>> makeMouseDragControlAction(
-			PredefinedMouseDragControlActionType actionType);
+	public MouseDragControl<? extends DianaEditor<?>> makeMouseControlDragControl(final String aName, final MouseButton button) {
+		return this.makeMouseDragControl(aName, button, false, true, false, false);
+	}
 
-	public abstract MouseClickControlAction<? extends DianaEditor<?>> makeMouseClickControlAction(
-			PredefinedMouseClickControlActionType actionType);
+	public MouseDragControl<? extends DianaEditor<?>> makeMouseMetaDragControl(final String aName, final MouseButton button) {
+		return this.makeMouseDragControl(aName, button, false, false, true, false);
+	}
+
+	public MouseDragControl<? extends DianaEditor<?>> makeMouseAltDragControl(final String aName, final MouseButton button) {
+		return this.makeMouseDragControl(aName, button, false, false, false, true);
+	}
+
+	public MouseDragControl<? extends DianaEditor<?>> makeMouseDragControl(final String aName, final MouseButton button, final PredefinedMouseDragControlActionType actionType) {
+		return this.makeMouseDragControl(aName, button, actionType, false, false, false, false);
+	}
+
+	public MouseDragControl<? extends DianaEditor<?>> makeMouseShiftDragControl(final String aName, final MouseButton button, final PredefinedMouseDragControlActionType actionType) {
+		return this.makeMouseDragControl(aName, button, actionType, true, false, false, false);
+	}
+
+	public MouseDragControl<? extends DianaEditor<?>> makeMouseControlDragControl(final String aName, final MouseButton button, final PredefinedMouseDragControlActionType actionType) {
+		return this.makeMouseDragControl(aName, button, actionType, false, true, false, false);
+	}
+
+	public MouseDragControl<? extends DianaEditor<?>> makeMouseMetaDragControl(final String aName, final MouseButton button, final PredefinedMouseDragControlActionType actionType) {
+		return this.makeMouseDragControl(aName, button, actionType, false, false, true, false);
+	}
+
+	public MouseDragControl<? extends DianaEditor<?>> makeMouseAltDragControl(final String aName, final MouseButton button, final PredefinedMouseDragControlActionType actionType) {
+		return this.makeMouseDragControl(aName, button, actionType, false, false, false, true);
+	}
+
+	public abstract MouseDragControl<? extends DianaEditor<?>> makeMouseDragControl(String aName, MouseButton button, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed);
+
+	public abstract MouseDragControl<? extends DianaEditor<?>> makeMouseDragControl(String aName, MouseButton button, PredefinedMouseDragControlActionType actionType, boolean shiftPressed,
+			boolean ctrlPressed, boolean metaPressed, boolean altPressed);
+
+	public abstract <E extends DianaEditor<?>> MouseDragControl<E> makeMouseDragControl(String aName, MouseButton button, MouseDragControlAction<E> action, boolean shiftPressed, boolean ctrlPressed,
+			boolean metaPressed, boolean altPressed);
+
+	public abstract MouseDragControlAction<? extends DianaEditor<?>> makeMouseDragControlAction(PredefinedMouseDragControlActionType actionType);
+
+	public abstract MouseClickControlAction<? extends DianaEditor<?>> makeMouseClickControlAction(PredefinedMouseClickControlActionType actionType);
 
 }

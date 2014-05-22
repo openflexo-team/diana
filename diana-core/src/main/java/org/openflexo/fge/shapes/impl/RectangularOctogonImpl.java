@@ -19,10 +19,22 @@
  */
 package org.openflexo.fge.shapes.impl;
 
+import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geom.FGEPolygon;
+import org.openflexo.fge.geom.FGEShape;
+import org.openflexo.fge.notifications.FGEAttributeNotification;
 import org.openflexo.fge.shapes.RectangularOctogon;
 
-public abstract class RectangularOctogonImpl extends PolygonImpl implements RectangularOctogon {
+public abstract class RectangularOctogonImpl extends ShapeSpecificationImpl implements RectangularOctogon {
+
+	private double	ratio	= 0.2;
+
+	@Override
+	public ShapeType getShapeType() {
+		return ShapeType.RECTANGULAROCTOGON;
+	}
 
 	// *******************************************************************************
 	// * Constructor *
@@ -33,20 +45,44 @@ public abstract class RectangularOctogonImpl extends PolygonImpl implements Rect
 	 */
 	public RectangularOctogonImpl() {
 		super();
-		addToPoints(new FGEPoint(0, 0.2));
-		addToPoints(new FGEPoint(0, 0.8));
-		addToPoints(new FGEPoint(0.1, 1));
-		addToPoints(new FGEPoint(0.9, 1));
-		addToPoints(new FGEPoint(1, 0.8));
-		addToPoints(new FGEPoint(1, 0.2));
-		addToPoints(new FGEPoint(0.9, 0));
-		addToPoints(new FGEPoint(0.1, 0));
 	}
 
-	/*@Deprecated
-	private RectangularOctogonImpl(ShapeGraphicalRepresentation aGraphicalRepresentation) {
-		this();
-		setGraphicalRepresentation(aGraphicalRepresentation);
-	}*/
+	/**
+	 * Set ratio
+	 * 
+	 * @param ratio
+	 *            if ratio > 0.5 ratio is divide by 2
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public void setRatio(final double aRatio) {
+		final FGEAttributeNotification<Double> notification = this.requireChange(RATIO, aRatio);
+		if (notification != null) {
+			this.ratio = aRatio;
+			this.hasChanged(notification);
+		}
+	}
+
+	@Override
+	public double getRatio() {
+		return this.ratio;
+	}
+
+	@Override
+	public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+		final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
+
+		returned.addToPoints(new FGEPoint(0, this.ratio));
+		returned.addToPoints(new FGEPoint(0, 1 - this.ratio));
+		returned.addToPoints(new FGEPoint(this.ratio / 2, 1));
+		returned.addToPoints(new FGEPoint(1 - this.ratio / 2, 1));
+		returned.addToPoints(new FGEPoint(1, 1 - this.ratio));
+		returned.addToPoints(new FGEPoint(1, this.ratio));
+		returned.addToPoints(new FGEPoint(1 - this.ratio / 2, 0));
+		returned.addToPoints(new FGEPoint(this.ratio / 2, 0));
+
+		return returned;
+
+	}
 
 }

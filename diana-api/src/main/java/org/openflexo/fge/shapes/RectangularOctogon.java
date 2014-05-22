@@ -20,18 +20,43 @@
  */
 package org.openflexo.fge.shapes;
 
+import org.openflexo.fge.GRParameter;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
 import org.openflexo.model.annotations.XMLElement;
 
 /**
- * Represents a rectangular octogon
+ * Represents a rectangular octogon.
  * 
  * Note that this implementation is powered by PAMELA framework.
  * 
  * @author sylvain
+ * @author etienne
  */
 @ModelEntity
 @XMLElement(xmlTag = "RectangularOctogonShape")
-public interface RectangularOctogon extends Polygon {
+public interface RectangularOctogon extends ShapeSpecification {
 
+	// Property Keys
+	/**
+	 * Cut ratio of rectangular octogon.
+	 */
+	@PropertyIdentifier(type = Double.class)
+	public static final String			RATIO_KEY	= "ratio";
+
+	public static GRParameter<Double>	RATIO		= GRParameter.getGRParameter(Plus.class, RATIO_KEY, Double.class);
+
+	// *******************************************************************************
+	// * Properties
+	// *******************************************************************************
+
+	@Getter(value = RATIO_KEY, defaultValue = "0.2")
+	@XMLAttribute
+	public double getRatio();
+
+	@Setter(value = RATIO_KEY)
+	public void setRatio(final double aRatio);
 }
