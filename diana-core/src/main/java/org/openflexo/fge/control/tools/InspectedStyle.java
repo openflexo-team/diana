@@ -281,7 +281,9 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 			if (s instanceof HasPropertyChangeSupport) {
 				inspectedStyles.add(s);
 				// System.out.println("!!!!!!!!!!!!!!! Observing " + s + " for " + n);
-				((HasPropertyChangeSupport) s).getPropertyChangeSupport().addPropertyChangeListener(this);
+				if (((HasPropertyChangeSupport) s).getPropertyChangeSupport() != null) {
+					((HasPropertyChangeSupport) s).getPropertyChangeSupport().addPropertyChangeListener(this);
+				}
 			}/* else if (s instanceof Observable) {
 				inspectedStyles.add(s);
 				((Observable) s).addObserver(this);
