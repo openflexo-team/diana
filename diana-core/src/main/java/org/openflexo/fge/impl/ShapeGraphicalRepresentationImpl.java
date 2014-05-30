@@ -1199,6 +1199,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	public DataBinding<Double> getXConstraints() {
 		if (xConstraints == null) {
 			xConstraints = new DataBinding<Double>(this, Double.class, DataBinding.BindingDefinitionType.GET);
+			xConstraints.setBindingName(X_CONSTRAINTS_KEY);
 		}
 		return xConstraints;
 	}
@@ -1223,6 +1224,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	public DataBinding<Double> getYConstraints() {
 		if (yConstraints == null) {
 			yConstraints = new DataBinding<Double>(this, Double.class, DataBinding.BindingDefinitionType.GET);
+			yConstraints.setBindingName(Y_CONSTRAINTS_KEY);
 		}
 		return yConstraints;
 	}
@@ -1247,6 +1249,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	public DataBinding<Double> getWidthConstraints() {
 		if (widthConstraints == null) {
 			widthConstraints = new DataBinding<Double>(this, Double.class, DataBinding.BindingDefinitionType.GET);
+			widthConstraints.setBindingName(WIDTH_CONSTRAINTS_KEY);
 		}
 		return widthConstraints;
 	}
@@ -1271,6 +1274,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	public DataBinding<Double> getHeightConstraints() {
 		if (heightConstraints == null) {
 			heightConstraints = new DataBinding<Double>(this, Double.class, DataBinding.BindingDefinitionType.GET);
+			heightConstraints.setBindingName(HEIGHT_CONSTRAINTS_KEY);
 		}
 		return heightConstraints;
 	}

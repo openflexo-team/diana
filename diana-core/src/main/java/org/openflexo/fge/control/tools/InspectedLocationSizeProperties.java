@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.openflexo.antar.binding.DataBinding;
 import org.openflexo.fge.ConnectorGraphicalRepresentation;
 import org.openflexo.fge.ContainerGraphicalRepresentation;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
@@ -36,6 +37,8 @@ import org.openflexo.fge.GraphicalRepresentation.ParagraphAlignment;
 import org.openflexo.fge.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.fge.ShadowStyle;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
+import org.openflexo.fge.ShapeGraphicalRepresentation.LocationConstraints;
 import org.openflexo.fge.control.DianaInteractiveViewer;
 
 /**
@@ -206,6 +209,62 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 
 	public void setIsMultilineAllowed(Boolean flag) {
 		setPropertyValue(GraphicalRepresentation.IS_MULTILINE_ALLOWED, flag);
+	}
+
+	public LocationConstraints getLocationConstraints() {
+		return getPropertyValue(ShapeGraphicalRepresentation.LOCATION_CONSTRAINTS);
+	}
+
+	public void setLocationConstraints(LocationConstraints locationConstraints) {
+		setPropertyValue(ShapeGraphicalRepresentation.LOCATION_CONSTRAINTS, locationConstraints);
+	}
+
+	public DimensionConstraints getDimensionConstraints() {
+		return getPropertyValue(ShapeGraphicalRepresentation.DIMENSION_CONSTRAINTS);
+	}
+
+	public void setDimensionConstraints(DimensionConstraints dimensionConstraints) {
+		setPropertyValue(ShapeGraphicalRepresentation.DIMENSION_CONSTRAINTS, dimensionConstraints);
+	}
+
+	public Boolean getIsAllowToLeaveBounds() {
+		return getPropertyValue(ShapeGraphicalRepresentation.ALLOW_TO_LEAVE_BOUNDS);
+	}
+
+	public void setIsAllowToLeaveBounds(Boolean flag) {
+		setPropertyValue(ShapeGraphicalRepresentation.ALLOW_TO_LEAVE_BOUNDS, flag);
+	}
+
+	public DataBinding<Double> getXConstraints() {
+		return getPropertyValue(ShapeGraphicalRepresentation.X_CONSTRAINTS);
+	}
+
+	public void setXConstraints(DataBinding<Double> xConstraints) {
+		setPropertyValue(ShapeGraphicalRepresentation.X_CONSTRAINTS, xConstraints);
+	}
+
+	public DataBinding<Double> getYConstraints() {
+		return getPropertyValue(ShapeGraphicalRepresentation.Y_CONSTRAINTS);
+	}
+
+	public void setYConstraints(DataBinding<Double> yConstraints) {
+		setPropertyValue(ShapeGraphicalRepresentation.Y_CONSTRAINTS, yConstraints);
+	}
+
+	public DataBinding<Double> getWidthConstraints() {
+		return getPropertyValue(ShapeGraphicalRepresentation.WIDTH_CONSTRAINTS);
+	}
+
+	public void setWidthConstraints(DataBinding<Double> widthConstraints) {
+		setPropertyValue(ShapeGraphicalRepresentation.WIDTH_CONSTRAINTS, widthConstraints);
+	}
+
+	public DataBinding<Double> getHeightConstraints() {
+		return getPropertyValue(ShapeGraphicalRepresentation.HEIGHT_CONSTRAINTS);
+	}
+
+	public void setHeightConstraints(DataBinding<Double> heightConstraints) {
+		setPropertyValue(ShapeGraphicalRepresentation.HEIGHT_CONSTRAINTS, heightConstraints);
 	}
 
 }
