@@ -277,6 +277,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		return null;
 	}
 
+	@Override
 	public JLabelView<O> getLabelView() {
 		return this;
 	}
@@ -286,6 +287,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		return (JDianaLayeredView<?>) super.getParent();
 	}
 
+	@Override
 	public JDianaLayeredView<?> getParentView() {
 		return getParent();
 	}
@@ -348,8 +350,9 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 			});
 		} else {
 			// logger.info("Received: "+notification);
-
-			if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) {
+			if (evt.getPropertyName() == null) {
+				return;
+			} else if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) {
 				delete();
 			} else if (evt.getPropertyName().equals(GraphicalRepresentation.TEXT.getName())
 			// There are some GR in WKF that rely on ShapeNeedsToBeRedrawn notification to update text (this can be removed once we
@@ -451,7 +454,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 
 	private class PreferredSizeRetriever implements Callable<Dimension> {
 
-		private double scale;
+		private final double scale;
 
 		protected PreferredSizeRetriever(double scale) {
 			super();
@@ -774,6 +777,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		// Not applicable
 	}
 
+	@Override
 	public FGEPaintManager getPaintManager() {
 		return getDrawingView().getPaintManager();
 	}

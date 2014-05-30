@@ -366,7 +366,9 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 			});
 		} else {
 			// logger.info("Received for " + getNode().getDrawable() + " in JShapeView: " + evt.getPropertyName() + " evt=" + evt);
-
+			if (evt.getPropertyName() == null) {
+				return;
+			}
 			if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.BACKGROUND_STYLE_TYPE_KEY)) {
 				System.out.println("Received BACKGROUND_STYLE changed !");
 			}
