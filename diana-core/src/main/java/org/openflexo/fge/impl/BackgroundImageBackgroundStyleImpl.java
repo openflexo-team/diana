@@ -24,7 +24,7 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 		super();
 		setImageResource(imageResource);
 	}
-	
+
 	public BackgroundImageBackgroundStyleImpl(ImageIcon image) {
 		super();
 		if (image != null) {
@@ -36,12 +36,15 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 	public BackgroundStyleType getBackgroundStyleType() {
 		return BackgroundStyleType.IMAGE;
 	}
-	
+
 	@Override
 	public File getImageFile() {
-		return getImageResource().getLocator().retrieveResourceAsFile(getImageResource());
+		if (getImageResource() != null) {
+			return getImageResource().getLocator().retrieveResourceAsFile(getImageResource());
+		}
+		return null;
 	}
-	
+
 	@Override
 	public void setImageFile(File imageFile) {
 		setImageResource(ResourceLocator.locateResource(imageFile.getPath()));
@@ -57,13 +60,13 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 		if (requireChange(this.imageResource, anImageResource)) {
 			Resource oldResource = imageResource;
 			imageResource = anImageResource;
-			if (anImageResource != null ) {
+			if (anImageResource != null) {
 				image = new ImageIconResource(anImageResource).getImage();
 			} else {
 				image = null;
 			}
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(IMAGE_FILE, oldResource, anImageResource));
+			notifyObservers(new FGEAttributeNotification(IMAGE_RESOURCE, oldResource, anImageResource));
 		}
 	}
 

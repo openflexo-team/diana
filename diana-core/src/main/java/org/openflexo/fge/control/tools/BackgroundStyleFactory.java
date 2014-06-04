@@ -67,10 +67,12 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 				.makeImageBackground(FGEConstants.DEFAULT_IMAGE));
 	}
 
+	@Override
 	public FGEModelFactory getFGEFactory() {
 		return fgeFactory;
 	}
 
+	@Override
 	public void setFGEFactory(FGEModelFactory fgeFactory) {
 		this.fgeFactory = fgeFactory;
 	}
@@ -131,10 +133,12 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 		return !oldObject.equals(newObject);
 	}
 
+	@Override
 	public BackgroundStyleType getStyleType() {
 		return backgroundStyleType;
 	}
 
+	@Override
 	public void setStyleType(BackgroundStyleType backgroundStyleType) {
 		BackgroundStyleType oldBackgroundStyleType = getStyleType();
 
@@ -158,7 +162,7 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 			returned = noneBackgroundStyle.cloneStyle();
 			break;
 		case COLOR:
-			ColorBackgroundStyle returnedColor = (ColorBackgroundStyle) colorBackgroundStyle.cloneStyle();
+			ColorBackgroundStyle returnedColor = colorBackgroundStyle.cloneStyle();
 			if (oldStyle instanceof ColorGradientBackgroundStyle) {
 				returnedColor.setColor(((ColorGradientBackgroundStyle) oldStyle).getColor1());
 			}
@@ -168,7 +172,7 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 			returned = returnedColor;
 			break;
 		case COLOR_GRADIENT:
-			ColorGradientBackgroundStyle returnedColorGradient = (ColorGradientBackgroundStyle) colorGradientBackgroundStyle.cloneStyle();
+			ColorGradientBackgroundStyle returnedColorGradient = colorGradientBackgroundStyle.cloneStyle();
 			if (oldStyle instanceof ColorBackgroundStyle) {
 				returnedColorGradient.setColor1(((ColorBackgroundStyle) oldStyle).getColor());
 			}
@@ -179,7 +183,7 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 			returned = returnedColorGradient;
 			break;
 		case TEXTURE:
-			TextureBackgroundStyle returnedTexture = (TextureBackgroundStyle) textureBackgroundStyle.cloneStyle();
+			TextureBackgroundStyle returnedTexture = textureBackgroundStyle.cloneStyle();
 			if (oldStyle instanceof ColorBackgroundStyle) {
 				returnedTexture.setColor1(((ColorBackgroundStyle) oldStyle).getColor());
 			}
@@ -427,12 +431,12 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 
 		@Override
 		public Resource getImageResource() {
-			return getPropertyValue(BackgroundImageBackgroundStyle.IMAGE_FILE);
+			return getPropertyValue(BackgroundImageBackgroundStyle.IMAGE_RESOURCE);
 		}
 
 		@Override
 		public void setImageResource(Resource anImageFile) {
-			setPropertyValue(BackgroundImageBackgroundStyle.IMAGE_FILE, anImageFile);
+			setPropertyValue(BackgroundImageBackgroundStyle.IMAGE_RESOURCE, anImageFile);
 		}
 
 		@Override
@@ -530,7 +534,7 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 
 		@Override
 		public File getImageFile() {
-			if(getImageResource()!=null && getImageResource().getLocator()!=null){
+			if (getImageResource() != null && getImageResource().getLocator() != null) {
 				return getImageResource().getLocator().retrieveResourceAsFile(getImageResource());
 			}
 			return null;

@@ -43,7 +43,7 @@ import org.openflexo.rm.Resource;
 public interface BackgroundImageBackgroundStyle extends BackgroundStyle {
 
 	@PropertyIdentifier(type = Resource.class)
-	public static final String IMAGE_FILE_KEY = "imageFile";
+	public static final String IMAGE_RESOURCE_KEY = "imageResource";
 	@PropertyIdentifier(type = Double.class)
 	public static final String SCALE_X_KEY = "scaleX";
 	@PropertyIdentifier(type = Double.class)
@@ -59,8 +59,8 @@ public interface BackgroundImageBackgroundStyle extends BackgroundStyle {
 	@PropertyIdentifier(type = Color.class)
 	public static final String IMAGE_BACKGROUND_COLOR_KEY = "imageBackgroundColor";
 
-	public static GRParameter<Resource> IMAGE_FILE = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class, IMAGE_FILE_KEY,
-			Resource.class);
+	public static GRParameter<Resource> IMAGE_RESOURCE = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class,
+			IMAGE_RESOURCE_KEY, Resource.class);
 	public static GRParameter<Double> SCALE_X = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class, SCALE_X_KEY, Double.class);
 	public static GRParameter<Double> SCALE_Y = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class, SCALE_Y_KEY, Double.class);
 	public static GRParameter<Double> DELTA_X = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class, DELTA_X_KEY, Double.class);
@@ -79,11 +79,11 @@ public interface BackgroundImageBackgroundStyle extends BackgroundStyle {
 	@Override
 	public BackgroundStyleType getBackgroundStyleType();
 
-	@Getter(value = IMAGE_FILE_KEY)
+	@Getter(value = IMAGE_RESOURCE_KEY)
 	@XMLAttribute
 	public Resource getImageResource();
 
-	@Setter(value = IMAGE_FILE_KEY)
+	@Setter(value = IMAGE_RESOURCE_KEY)
 	public void setImageResource(Resource anImageResource);
 
 	@Getter(value = IMAGE_BACKGROUND_COLOR_KEY)
@@ -142,9 +142,9 @@ public interface BackgroundImageBackgroundStyle extends BackgroundStyle {
 	public void setScaleXNoNotification(double aScaleX);
 
 	public void setScaleYNoNotification(double aScaleY);
-	
+
 	public File getImageFile();
-	
+
 	public void setImageFile(File file);
 
 }
