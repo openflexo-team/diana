@@ -63,13 +63,16 @@ public class InspectedBackgroundStyle extends InspectedStyleUsingFactory<Backgro
 		return null;
 	}
 
+	@Override
 	protected void applyNewStyle(BackgroundStyleType aStyleType, DrawingTreeNode<?, ?> node) {
 		ShapeNode<?> n = (ShapeNode<?>) node;
 		BackgroundStyle oldStyle = n.getBackgroundStyle();
 		CompoundEdit setValueEdit = startRecordEdit("Set BackgroundStyleType to " + aStyleType);
 		n.setBackgroundStyle(getStyleFactory().makeNewStyle(oldStyle));
-		n.getPropertyChangeSupport().firePropertyChange(ShapeGraphicalRepresentation.BACKGROUND_STYLE_TYPE_KEY,
-				oldStyle.getBackgroundStyleType(), aStyleType);
+		if (oldStyle != null) {
+			n.getPropertyChangeSupport().firePropertyChange(ShapeGraphicalRepresentation.BACKGROUND_STYLE_TYPE_KEY,
+					oldStyle.getBackgroundStyleType(), aStyleType);
+		}
 		stopRecordEdit(setValueEdit);
 	}
 }
