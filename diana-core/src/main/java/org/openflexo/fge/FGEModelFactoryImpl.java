@@ -41,6 +41,7 @@ import org.openflexo.fge.impl.ContainerGraphicalRepresentationImpl;
 import org.openflexo.fge.impl.DrawingGraphicalRepresentationImpl;
 import org.openflexo.fge.impl.FGEStyleImpl;
 import org.openflexo.fge.impl.ForegroundStyleImpl;
+import org.openflexo.fge.impl.GeometricGraphicalRepresentationImpl;
 import org.openflexo.fge.impl.GraphicalRepresentationImpl;
 import org.openflexo.fge.impl.NoneBackgroundStyleImpl;
 import org.openflexo.fge.impl.ShadowStyleImpl;
@@ -124,6 +125,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		modelFactory.setImplementingClassForInterface(ConnectorGraphicalRepresentationImpl.class, ConnectorGraphicalRepresentation.class);
 		modelFactory.setImplementingClassForInterface(DrawingGraphicalRepresentationImpl.class, DrawingGraphicalRepresentation.class);
 		modelFactory.setImplementingClassForInterface(ContainerGraphicalRepresentationImpl.class, ContainerGraphicalRepresentation.class);
+		modelFactory.setImplementingClassForInterface(GeometricGraphicalRepresentationImpl.class, GeometricGraphicalRepresentation.class);
 
 		modelFactory.setImplementingClassForInterface(ShapeBorderImpl.class, ShapeBorder.class);
 
