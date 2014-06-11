@@ -481,6 +481,16 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 
+		// If ConnectorNode is either null or deleted, ignore this event
+		// (This might happen during some edition phases with inspectors)
+		if (getConnectorNode() == null) {
+			// logger.warning("Called getPropertyValue() for null ConnectorNode");
+			return;
+		} else if (getConnectorNode().isDeleted()) {
+			// logger.warning("Called getPropertyValue() for deleted ConnectorNode");
+			return;
+		}
+
 		super.propertyChange(evt);
 
 		if (temporaryIgnoredObservables.contains(evt.getSource())) {

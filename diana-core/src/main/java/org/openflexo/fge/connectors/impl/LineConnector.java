@@ -49,7 +49,7 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 	public LineConnector(ConnectorNode<?> connectorNode) {
 		super(connectorNode);
 		controlPoints = new ArrayList<ControlPoint>();
-		if(getLineConnectorType()==null){
+		if (getLineConnectorType() == null) {
 			setLineConnectorType(getConnectorSpecification().getLineConnectorType());
 		}
 	}
@@ -535,6 +535,17 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
+
+		// If ConnectorNode is either null or deleted, ignore this event
+		// (This might happen during some edition phases with inspectors)
+		if (getConnectorNode() == null) {
+			// logger.warning("Called getPropertyValue() for null ConnectorNode");
+			return;
+		} else if (getConnectorNode().isDeleted()) {
+			// logger.warning("Called getPropertyValue() for deleted ConnectorNode");
+			return;
+		}
+
 		super.propertyChange(evt);
 
 		if (temporaryIgnoredObservables.contains(evt.getSource())) {

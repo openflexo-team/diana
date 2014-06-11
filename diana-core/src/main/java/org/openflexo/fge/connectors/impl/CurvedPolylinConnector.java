@@ -19,8 +19,8 @@ import org.openflexo.fge.graphics.FGEConnectorGraphics;
 
 public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnectorSpecification> {
 
-	private FGEPoint p1 = new FGEPoint();
-	private FGEPoint p2 = new FGEPoint();
+	private final FGEPoint p1 = new FGEPoint();
+	private final FGEPoint p2 = new FGEPoint();
 	private List<ControlPoint> controlPoints;
 
 	// *******************************************************************************
@@ -113,7 +113,7 @@ public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnector
 		return new FGEPoint(0.5, 0.5);
 	}
 
-	private FGERectangle NORMALIZED_BOUNDS = new FGERectangle(0, 0, 1, 1, Filling.FILLED);
+	private final FGERectangle NORMALIZED_BOUNDS = new FGERectangle(0, 0, 1, 1, Filling.FILLED);
 
 	@Override
 	public FGERectangle getConnectorUsedBounds() {
@@ -142,6 +142,17 @@ public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnector
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
+
+		// If ConnectorNode is either null or deleted, ignore this event
+		// (This might happen during some edition phases with inspectors)
+		if (getConnectorNode() == null) {
+			// logger.warning("Called getPropertyValue() for null ConnectorNode");
+			return;
+		} else if (getConnectorNode().isDeleted()) {
+			// logger.warning("Called getPropertyValue() for deleted ConnectorNode");
+			return;
+		}
+
 		super.propertyChange(evt);
 
 		if (temporaryIgnoredObservables.contains(evt.getSource())) {
@@ -149,6 +160,7 @@ public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnector
 			return;
 		}
 
+		// TODO
 		if (evt.getSource() == getConnectorSpecification()) {
 		}
 

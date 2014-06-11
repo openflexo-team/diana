@@ -60,7 +60,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	private FGEPoint endShapeLocation;
 	private FGERectangle knownConnectorUsedBounds;
 
-	private CS connectorSpecification;
+	private final CS connectorSpecification;
 
 	/**
 	 * Store temporary properties that may not be serialized
@@ -72,12 +72,15 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		this.connectorNode = connectorNode;
 		connectorSpecification = (CS) connectorNode.getConnectorSpecification();
 		propertyValues = new HashMap<GRParameter, Object>();
-
+		if (connectorSpecification != null && connectorSpecification.getPropertyChangeSupport() != null) {
+			connectorSpecification.getPropertyChangeSupport().addPropertyChangeListener(this);
+		}
 	}
 
+	@Override
 	public void delete() {
 
-		if (getConnectorSpecification() != null && getConnectorSpecification().getPropertyChangeSupport()!=null) {
+		if (getConnectorSpecification() != null && getConnectorSpecification().getPropertyChangeSupport() != null) {
 			getConnectorSpecification().getPropertyChangeSupport().removePropertyChangeListener(this);
 		}
 		connectorNode = null;
@@ -93,6 +96,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 
 	private boolean isDeleted = false;
 
+	@Override
 	public boolean isDeleted() {
 		return isDeleted;
 	}
@@ -146,6 +150,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	@Override
 	public abstract double distanceToConnector(FGEPoint aPoint, double scale);
 
+	@Override
 	public abstract void drawConnector(FGEConnectorGraphics g);
 
 	/**
@@ -366,6 +371,14 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 			// System.out.println("IGORE NOTIFICATION " + notification);
 			return;
 		}
+
+		// System.out.println("Received " + evt.getPropertyName() + " old=" + evt.getOldValue() + " new=" + evt.getNewValue());
+
+		if (evt.getSource() == getConnectorSpecification()) { // TODO: test structural modifications to optimize this
+			// System.out.println("notifyConnectorModified()");
+			notifyConnectorModified();
+		}
+
 	}
 
 /**
@@ -382,6 +395,14 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		// Now we have to think of this:
 		// New architecture of FGE now authorizes a ConnectorSpecification to be shared by many Connectors
 		// If UniqueGraphicalRepresentations is active, use ConnectorSpecification to store graphical properties
+
+		if (getConnectorNode() == null) {
+			logger.warning("Called getPropertyValue() for null ConnectorNode");
+			return null;
+		} else if (getConnectorNode().isDeleted()) {
+			logger.warning("Called getPropertyValue() for deleted ConnectorNode");
+			return null;
+		}
 
 		if (getConnectorNode().getDrawing().getPersistenceMode() == PersistenceMode.UniqueGraphicalRepresentations) {
 			if (getConnectorSpecification() == null) {
