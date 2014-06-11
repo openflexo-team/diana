@@ -103,7 +103,7 @@ public class GRParameter<T> {
 		return returned;
 	}
 
-	private Field field;
+	private final Field field;
 	private String name;
 	private Class<T> type;
 
@@ -160,28 +160,28 @@ public class GRParameter<T> {
 	}
 
 	public T getDefaultValue() {
-		if (type.equals(Integer.TYPE)) {
+		if (type.equals(Integer.TYPE) || type.equals(Integer.class)) {
 			return (T) new Integer(0);
 		}
-		if (type.equals(Short.TYPE)) {
+		if (type.equals(Short.TYPE) || type.equals(Short.class)) {
 			return (T) new Short((short) 0);
 		}
-		if (type.equals(Long.TYPE)) {
+		if (type.equals(Long.TYPE) || type.equals(Long.class)) {
 			return (T) new Long(0);
 		}
-		if (type.equals(Byte.TYPE)) {
+		if (type.equals(Byte.TYPE) || type.equals(Byte.class)) {
 			return (T) new Byte((byte) 0);
 		}
-		if (type.equals(Double.TYPE)) {
+		if (type.equals(Double.TYPE) || type.equals(Double.class)) {
 			return (T) new Double(0);
 		}
-		if (type.equals(Float.TYPE)) {
+		if (type.equals(Float.TYPE) || type.equals(Float.class)) {
 			return (T) new Float(0);
 		}
-		if (type.equals(Character.TYPE)) {
+		if (type.equals(Character.TYPE) || type.equals(Character.class)) {
 			return (T) new Character('a');
 		}
-		if (type.equals(Boolean.TYPE)) {
+		if (type.equals(Boolean.TYPE) || type.equals(Boolean.class)) {
 			return (T) new Boolean(false);
 		}
 		return null;
