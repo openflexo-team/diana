@@ -37,6 +37,7 @@ import org.openflexo.fge.shapes.Square;
 import org.openflexo.fge.shapes.Star;
 import org.openflexo.fge.shapes.Triangle;
 import org.openflexo.fge.shapes.impl.ShapeImpl;
+import org.openflexo.model.undo.CompoundEdit;
 
 /**
  * Convenient class used to manipulate ShapeSpecification instances over ShapeSpecification class hierarchy
@@ -69,9 +70,11 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	private PropertyChangeSupport pcSupport;
 	private FGEModelFactory fgeFactory;
+	private final DianaInteractiveViewer<?, ?, ?> controller;
 
 	public ShapeSpecificationFactory(final DianaInteractiveViewer<?, ?, ?> controller) {
 		this.pcSupport = new PropertyChangeSupport(this);
+		this.controller = controller;
 		this.fgeFactory = controller.getFactory();
 		this.rectangle = new InspectedRectangle<Rectangle>(controller, (Rectangle) controller.getFactory().makeShape(ShapeType.RECTANGLE));
 		this.square = new InspectedSquare(controller, (Square) controller.getFactory().makeShape(ShapeType.SQUARE));
@@ -89,6 +92,10 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		this.complexCurve = new InspectedComplexCurve(controller, (ComplexCurve) controller.getFactory().makeShape(ShapeType.COMPLEX_CURVE));
 		this.plus = new InspectedPlus(controller, (Plus) controller.getFactory().makeShape(ShapeType.PLUS));
 		this.chevron = new InspectedChevron(controller, (Chevron) controller.getFactory().makeShape(ShapeType.CHEVRON));
+	}
+
+	public DianaInteractiveViewer<?, ?, ?> getController() {
+		return controller;
 	}
 
 	@Override
@@ -195,6 +202,10 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		this.pcSupport.firePropertyChange(STYLE_CLASS_CHANGED, oldShapeType, this.getStyleType());
 		this.pcSupport.firePropertyChange("shapeSpecification", oldSS, this.getShapeSpecification());
 		this.pcSupport.firePropertyChange("styleType", oldShapeType, this.getStyleType());
+	}
+
+	public boolean isSingleSelection() {
+		return getController().getSelectedShapes().size() == 1;
 	}
 
 	@Override
@@ -360,19 +371,13 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 		@Override
 		public List<FGEPoint> getPoints() {
-			return this.getPropertyValue(ComplexCurve.POINTS);
+			return this.getPropertyValue(Polygon.POINTS);
 		}
 
 		@Override
 		public void setPoints(final List<FGEPoint> points) {
 			// Not applicable in this context (ambigous semantics, preferably disabled)
-			/*if (points != null) {
-				this.points = new ArrayList<FGEPoint>(points);
-			} else {
-				this.points = null;
-			}
-			notifyChange(POINTS);*/
-			this.setPropertyValue(ComplexCurve.POINTS, points);
+			this.setPropertyValue(Polygon.POINTS, points);
 		}
 
 		@Override
@@ -380,6 +385,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			// Not applicable in this context (ambigous semantics, preferably disabled)
 			// points.add(aPoint);
 			// notifyChange(POINTS);
+			getPoints().add(new FGEPoint(1.0, 1.0));
+			notifyChange(POINTS);
 		}
 
 		@Override
@@ -387,6 +394,43 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			// Not applicable in this context (ambigous semantics, preferably disabled)
 			// points.remove(aPoint);
 			// notifyChange(POINTS);
+
+			getPoints().remove(aPoint);
+			notifyChange(POINTS);
+		}
+
+		public void addCustomPolygonPoint(FGEPoint current) {
+			CompoundEdit addPointEdit = startRecordEdit("Add point");
+			int index = (current != null ? getPoints().indexOf(current) : -1);
+			FGEPoint newPoint;
+			if (!getPoints().isEmpty()) {
+				FGEPoint previousPoint = (index > -1 ? getPoints().get(index) : getPoints().get(getPoints().size() - 1));
+				FGEPoint nextPoint = (index + 1 < getPoints().size() ? getPoints().get(index + 1) : getPoints().get(0));
+				newPoint = FGEPoint.middleOf(previousPoint, nextPoint);
+			} else {
+				newPoint = new FGEPoint(0.5, 0.5);
+			}
+			if (index == -1) {
+				getPoints().add(newPoint);
+			} else {
+				getPoints().add(index + 1, newPoint);
+			}
+			notifyChange(POINTS);
+			stopRecordEdit(addPointEdit);
+
+		}
+
+		public void deleteCustomPolygonPoint(FGEPoint current) {
+			if (current == null) {
+				return;
+			}
+			int index = getPoints().indexOf(current);
+			if (index > -1) {
+				CompoundEdit removePointEdit = startRecordEdit("Remove point");
+				getPoints().remove(current);
+				notifyChange(POINTS);
+				stopRecordEdit(removePointEdit);
+			}
 		}
 
 		@Override
@@ -404,6 +448,9 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return null;
 		}
 
+		public void geometryChanged() {
+			notifyChange(POINTS);
+		}
 	}
 
 	protected class InspectedComplexCurve extends AbstractInspectedShapeSpecification<ComplexCurve> implements ComplexCurve {
@@ -931,6 +978,10 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			returned.addToPoints(new FGEPoint(1 - this.getArrowLength(), 0));
 			return returned;
 		}
+	}
+
+	public InspectedPolygon<Polygon> getInspectedPolygon() {
+		return polygon;
 	}
 
 }

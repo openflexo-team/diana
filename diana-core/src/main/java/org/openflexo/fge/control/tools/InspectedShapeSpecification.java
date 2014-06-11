@@ -63,6 +63,7 @@ public class InspectedShapeSpecification extends InspectedStyleUsingFactory<Shap
 		return null;
 	}
 
+	@Override
 	protected void applyNewStyle(ShapeType newShapeType, DrawingTreeNode<?, ?> node) {
 		ShapeNode<?> n = (ShapeNode<?>) node;
 		ShapeSpecification oldShapeSpecification = n.getShapeSpecification();
@@ -73,4 +74,14 @@ public class InspectedShapeSpecification extends InspectedStyleUsingFactory<Shap
 		// oldShapeSpecification.getShapeType(), newShapeType);
 		stopRecordEdit(setValueEdit);
 	}
+
+	@Override
+	public void fireSelectionUpdated() {
+		super.fireSelectionUpdated();
+
+		// Tricky code here: we detect the selection change to notify the factory of the potential change of "isSingleSelection" property
+		getStyleFactory().getPropertyChangeSupport().firePropertyChange("isSingleSelection", !getStyleFactory().isSingleSelection(),
+				getStyleFactory().isSingleSelection());
+	}
+
 }
