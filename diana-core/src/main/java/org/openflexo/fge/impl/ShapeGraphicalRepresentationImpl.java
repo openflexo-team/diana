@@ -1595,9 +1595,12 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 			BackgroundStyle oldBS = notification.oldValue();
 			BackgroundStyle newBS = notification.newValue();
 			// System.out.println("ET HOP (1) on balance un event " + BACKGROUND_STYLE_TYPE_KEY + " de " + oldBS + " a " + newBS);
-			getPropertyChangeSupport().firePropertyChange(BACKGROUND_STYLE_TYPE_KEY,
-					notification.oldValue() != null ? notification.oldValue().getBackgroundStyleType() : null,
-					notification.newValue() != null ? notification.newValue().getBackgroundStyleType() : null);
+			if (getPropertyChangeSupport() != null) {
+				getPropertyChangeSupport().firePropertyChange(BACKGROUND_STYLE_TYPE_KEY,
+						notification.oldValue() != null ? notification.oldValue().getBackgroundStyleType() : null,
+						notification.newValue() != null ? notification.newValue().getBackgroundStyleType() : null);
+			}
+
 		}
 	}
 

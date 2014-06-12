@@ -19,8 +19,8 @@
  */
 package org.openflexo.fge.shapes.impl;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
@@ -31,7 +31,7 @@ import org.openflexo.fge.shapes.Polygon;
 
 public abstract class PolygonImpl extends ShapeSpecificationImpl implements Polygon {
 
-	private List<FGEPoint> points;
+	private static final Logger logger = Logger.getLogger(PolygonImpl.class.getPackage().getName());
 
 	// *******************************************************************************
 	// * Constructor *
@@ -42,48 +42,20 @@ public abstract class PolygonImpl extends ShapeSpecificationImpl implements Poly
 	 */
 	public PolygonImpl() {
 		super();
-		this.points = new ArrayList<FGEPoint>();
 	}
 
 	public PolygonImpl(List<FGEPoint> points) {
 		this();
 		for (FGEPoint pt : points) {
-			this.points.add(pt);
+			addToPoints(pt);
 		}
 	}
 
 	public PolygonImpl(FGEPolygon polygon) {
 		this();
 		for (FGEPoint pt : polygon.getPoints()) {
-			points.add(pt);
+			addToPoints(pt);
 		}
-	}
-
-	@Override
-	public List<FGEPoint> getPoints() {
-		return points;
-	}
-
-	@Override
-	public void setPoints(List<FGEPoint> points) {
-		if (points != null) {
-			this.points = new ArrayList<FGEPoint>(points);
-		} else {
-			this.points = null;
-		}
-		notifyChange(POINTS);
-	}
-
-	@Override
-	public void addToPoints(FGEPoint aPoint) {
-		points.add(aPoint);
-		notifyChange(POINTS);
-	}
-
-	@Override
-	public void removeFromPoints(FGEPoint aPoint) {
-		points.remove(aPoint);
-		notifyChange(POINTS);
 	}
 
 	@Override
@@ -93,7 +65,7 @@ public abstract class PolygonImpl extends ShapeSpecificationImpl implements Poly
 
 	@Override
 	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
-		return new FGEPolygon(Filling.FILLED, points);
+		return new FGEPolygon(Filling.FILLED, getPoints());
 	}
 
 }

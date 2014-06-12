@@ -37,7 +37,7 @@ public class JFGEConnectorGraphics extends JFGEGraphics implements FGEConnectorG
 
 	private static final Logger logger = Logger.getLogger(JFGEConnectorGraphics.class.getPackage().getName());
 
-	private JFGESymbolGraphics symbolGraphics;
+	private final JFGESymbolGraphics symbolGraphics;
 
 	public <O> JFGEConnectorGraphics(ConnectorNode<O> node, JConnectorView<O> view) {
 		super(node, view);
@@ -49,6 +49,7 @@ public class JFGEConnectorGraphics extends JFGEGraphics implements FGEConnectorG
 		return (ConnectorGraphicalRepresentation) super.getGraphicalRepresentation();
 	}
 
+	@Override
 	public JFGESymbolGraphics getSymbolGraphics() {
 		return symbolGraphics;
 	}
@@ -95,6 +96,10 @@ public class JFGEConnectorGraphics extends JFGEGraphics implements FGEConnectorG
 	@Override
 	public void drawSymbol(double x, double y, ConnectorSymbol symbol, double size, double angle) {
 		Point p = convertNormalizedPointToViewCoordinates(x, y);
+
+		if (symbol == null) {
+			return;
+		}
 
 		if (getGraphicalRepresentation().getApplyForegroundToSymbols()) {
 			symbolGraphics.setDefaultForeground(symbol.getForegroundStyle(getGraphicalRepresentation().getForeground(), getFactory()));

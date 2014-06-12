@@ -64,24 +64,22 @@ public class InspectedConnectorSpecification extends
 		return null;
 	}
 
+	@Override
 	protected void applyNewStyleTypeToSelection(ConnectorType newStyleType) {
-		System.out.println("OK, je dis a tout le monde que c'est un " + newStyleType);
 		for (DrawingTreeNode<?, ?> n : getSelection()) {
 			ConnectorSpecification nodeStyle = getStyle(n);
-			System.out.println("> le noeud " + n + " est a " + nodeStyle + " type=" + getStyleType(nodeStyle));
 			if (getStyleType(nodeStyle) != newStyleType) {
 				applyNewStyle(newStyleType, n);
 			}
 		}
 	}
 
+	@Override
 	protected void applyNewStyle(ConnectorType newConnectorType, DrawingTreeNode<?, ?> node) {
 		ConnectorNode<?> n = (ConnectorNode<?>) node;
 		ConnectorSpecification oldConnectorSpecification = n.getConnectorSpecification();
 		CompoundEdit setValueEdit = startRecordEdit("Set ConnectorType to " + newConnectorType);
-		System.out.println("set ConnectorSpec with " + newConnectorType);
 		ConnectorSpecification newConnectorSpecification = getStyleFactory().makeNewStyle(oldConnectorSpecification);
-		System.out.println("set ConnectorSpec with " + newConnectorSpecification);
 		n.setConnectorSpecification(newConnectorSpecification);
 		// n.getPropertyChangeSupport().firePropertyChange(ShapeGraphicalRepresentation.BACKGROUND_STYLE_TYPE_KEY,
 		// oldShapeSpecification.getShapeType(), newShapeType);

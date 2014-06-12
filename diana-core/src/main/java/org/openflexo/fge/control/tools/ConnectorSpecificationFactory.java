@@ -39,15 +39,15 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 
 	private ConnectorType connectorType = ConnectorType.LINE;
 
-	private InspectedLineConnectorSpecification lineConnectorSpecification;
-	private InspectedCurveConnectorSpecification curveConnectorSpecification;
-	private InspectedRectPolylinConnectorSpecification rectPolylinConnectorSpecification;
-	private InspectedCurvedPolylinConnectorSpecification curvedPolylinConnectorSpecification;
+	private final InspectedLineConnectorSpecification lineConnectorSpecification;
+	private final InspectedCurveConnectorSpecification curveConnectorSpecification;
+	private final InspectedRectPolylinConnectorSpecification rectPolylinConnectorSpecification;
+	private final InspectedCurvedPolylinConnectorSpecification curvedPolylinConnectorSpecification;
 
 	private PropertyChangeSupport pcSupport;
 	private FGEModelFactory fgeFactory;
 
-	private DianaInteractiveViewer<?, ?, ?> controller;
+	private final DianaInteractiveViewer<?, ?, ?> controller;
 
 	public ConnectorSpecificationFactory(DianaInteractiveViewer<?, ?, ?> controller) {
 		pcSupport = new PropertyChangeSupport(this);
@@ -62,10 +62,12 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 
 	}
 
+	@Override
 	public FGEModelFactory getFGEFactory() {
 		return fgeFactory;
 	}
 
+	@Override
 	public void setFGEFactory(FGEModelFactory fgeFactory) {
 		this.fgeFactory = fgeFactory;
 	}
@@ -123,10 +125,12 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		return !oldObject.equals(newObject);
 	}
 
+	@Override
 	public ConnectorType getStyleType() {
 		return connectorType;
 	}
 
+	@Override
 	public void setStyleType(ConnectorType connectorType) {
 
 		ConnectorType oldConnectorType = getStyleType();
@@ -137,11 +141,41 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 
 		ConnectorSpecification oldCS = getConnectorSpecification();
 
+		System.out.println("oldCS=" + oldCS);
+
+		// Retaining some values to be applied to new inspected connector specification
+		StartSymbolType startSymbol = oldCS.getStartSymbol();
+		MiddleSymbolType middleSymbol = oldCS.getMiddleSymbol();
+		EndSymbolType endSymbol = oldCS.getEndSymbol();
+		double startSymbolSize = oldCS.getStartSymbolSize();
+		double middleSymbolSize = oldCS.getMiddleSymbolSize();
+		double endSymbolSize = oldCS.getEndSymbolSize();
+
 		this.connectorType = connectorType;
-		if(pcSupport!=null){
+		if (pcSupport != null) {
 			pcSupport.firePropertyChange(STYLE_CLASS_CHANGED, oldConnectorType, getStyleType());
 			pcSupport.firePropertyChange("connectorSpecification", oldCS, getConnectorSpecification());
 			pcSupport.firePropertyChange("styleType", oldConnectorType, getStyleType());
+		}
+
+		// Applying some values to new inspected connector specification
+		if (startSymbol != null) {
+			getConnectorSpecification().setStartSymbol(startSymbol);
+		}
+		if (middleSymbol != null) {
+			getConnectorSpecification().setMiddleSymbol(middleSymbol);
+		}
+		if (endSymbol != null) {
+			getConnectorSpecification().setEndSymbol(endSymbol);
+		}
+		if (startSymbolSize > 0) {
+			getConnectorSpecification().setStartSymbolSize(startSymbolSize);
+		}
+		if (middleSymbolSize > 0) {
+			getConnectorSpecification().setMiddleSymbolSize(middleSymbolSize);
+		}
+		if (endSymbolSize > 0) {
+			getConnectorSpecification().setEndSymbolSize(endSymbolSize);
 		}
 	}
 
@@ -209,7 +243,57 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 
 		@Override
 		public double getStartSymbolSize() {
-			return getPropertyValue(ConnectorSpecification.START_SYMBOL_SIZE);
+
+			// We have here to handle a very strange case where getStyle() might return null for the current selection
+
+			if (getPropertyValue(ConnectorSpecification.START_SYMBOL_SIZE) != null) {
+				return getPropertyValue(ConnectorSpecification.START_SYMBOL_SIZE);
+			}
+
+			return ConnectorSpecification.START_SYMBOL_SIZE.getDefaultValue();
+
+			// TODO remove this commented code when this issue will be investigated
+
+			/*System.out.println("Some debug for a very tricky issue");
+
+			Double returned = null;
+
+			if (getSelection().size() == 0) {
+				if (getDefaultValue() != null && getDefaultValue().hasKey(ConnectorSpecification.START_SYMBOL_SIZE.getName())) {
+					System.out.println("Cas 1, on retourne "
+							+ getDefaultValue().objectForKey(ConnectorSpecification.START_SYMBOL_SIZE.getName()));
+				} else {
+					System.out.println("Cas 4, on retourne null");
+					returned = null;
+				}
+			} else {
+				CS style = getStyle(getSelection().get(0));
+				if (style != null && style.hasKey(ConnectorSpecification.START_SYMBOL_SIZE.getName())) {
+					returned = (Double) style.objectForKey(ConnectorSpecification.START_SYMBOL_SIZE.getName());
+					System.out.println("Cas 2, on retourne " + style.objectForKey(ConnectorSpecification.START_SYMBOL_SIZE.getName()));
+				} else {
+					System.out.println("Cas 5, on retourne null");
+					System.out.println("style=" + style);
+					System.out.println("getSelection()=" + getSelection());
+
+					ConnectorNode cn = getSelection().get(0);
+
+					if (style != null) {
+						System.out.println("OK, j'ai bien un " + style.getClass().getSimpleName() + " mais c'est dur de lui appliquer "
+								+ ConnectorSpecification.START_SYMBOL_SIZE);
+						System.out.println("parameter.getDeclaringClass()=" + ConnectorSpecification.START_SYMBOL_SIZE.getDeclaringClass());
+						System.out.println("style.getClass()=" + style.getClass());
+					}
+					returned = null;
+				}
+			}
+			if (ConnectorSpecification.START_SYMBOL_SIZE.getType() != null
+					&& ConnectorSpecification.START_SYMBOL_SIZE.getType().isPrimitive() && returned == null) {
+				System.out.println("Cas 3, on retourne " + ConnectorSpecification.START_SYMBOL_SIZE.getDefaultValue());
+				return ConnectorSpecification.START_SYMBOL_SIZE.getDefaultValue();
+			}
+			Thread.dumpStack();
+			return 10.0;*/
 		}
 
 		@Override
@@ -219,7 +303,15 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 
 		@Override
 		public double getEndSymbolSize() {
-			return getPropertyValue(ConnectorSpecification.END_SYMBOL_SIZE);
+
+			// We have here to handle a very strange case where getStyle() might return null for the current selection
+
+			if (getPropertyValue(ConnectorSpecification.END_SYMBOL_SIZE) != null) {
+				return getPropertyValue(ConnectorSpecification.END_SYMBOL_SIZE);
+			}
+
+			return ConnectorSpecification.END_SYMBOL_SIZE.getDefaultValue();
+
 		}
 
 		@Override
@@ -229,7 +321,14 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 
 		@Override
 		public double getMiddleSymbolSize() {
-			return getPropertyValue(ConnectorSpecification.MIDDLE_SYMBOL_SIZE);
+
+			// We have here to handle a very strange case where getStyle() might return null for the current selection
+
+			if (getPropertyValue(ConnectorSpecification.MIDDLE_SYMBOL_SIZE) != null) {
+				return getPropertyValue(ConnectorSpecification.MIDDLE_SYMBOL_SIZE);
+			}
+
+			return ConnectorSpecification.MIDDLE_SYMBOL_SIZE.getDefaultValue();
 		}
 
 		@Override

@@ -37,6 +37,7 @@ import org.openflexo.fge.shapes.Square;
 import org.openflexo.fge.shapes.Star;
 import org.openflexo.fge.shapes.Triangle;
 import org.openflexo.fge.shapes.impl.ShapeImpl;
+import org.openflexo.model.undo.CompoundEdit;
 
 /**
  * Convenient class used to manipulate ShapeSpecification instances over ShapeSpecification class hierarchy
@@ -46,38 +47,42 @@ import org.openflexo.fge.shapes.impl.ShapeImpl;
  */
 public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecification, ShapeType> {
 
-	private static final Logger								logger		= Logger.getLogger(ShapeSpecificationFactory.class.getPackage().getName());
+	private static final Logger logger = Logger.getLogger(ShapeSpecificationFactory.class.getPackage().getName());
 
-	private static final String								DELETED		= "deleted";
+	private static final String DELETED = "deleted";
 
-	private ShapeType										shapeType	= ShapeType.RECTANGLE;
+	private ShapeType shapeType = ShapeType.RECTANGLE;
 
-	private final InspectedRectangle<Rectangle>				rectangle;
-	private final InspectedSquare							square;
-	private final InspectedPolygon<Polygon>					polygon;
-	private final InspectedRegularPolygon<RegularPolygon>	regularPolygon;
-	private final InspectedRectangularOctogon				rectangularOctogon;
-	private final InspectedLosange							losange;
-	private final InspectedTriangle							triangle;
-	private final InspectedOval<Oval>						oval;
-	private final InspectedCircle							circle;
-	private final InspectedArc								arc;
-	private final InspectedStar								star;
-	private final InspectedComplexCurve						complexCurve;
-	private final InspectedPlus								plus;
-	private final InspectedChevron							chevron;
+	private final InspectedRectangle<Rectangle> rectangle;
+	private final InspectedSquare square;
+	private final InspectedPolygon<Polygon> polygon;
+	private final InspectedRegularPolygon<RegularPolygon> regularPolygon;
+	private final InspectedRectangularOctogon rectangularOctogon;
+	private final InspectedLosange losange;
+	private final InspectedTriangle triangle;
+	private final InspectedOval<Oval> oval;
+	private final InspectedCircle circle;
+	private final InspectedArc arc;
+	private final InspectedStar star;
+	private final InspectedComplexCurve complexCurve;
+	private final InspectedPlus plus;
+	private final InspectedChevron chevron;
 
-	private PropertyChangeSupport							pcSupport;
-	private FGEModelFactory									fgeFactory;
+	private PropertyChangeSupport pcSupport;
+	private FGEModelFactory fgeFactory;
+	private final DianaInteractiveViewer<?, ?, ?> controller;
 
 	public ShapeSpecificationFactory(final DianaInteractiveViewer<?, ?, ?> controller) {
 		this.pcSupport = new PropertyChangeSupport(this);
+		this.controller = controller;
 		this.fgeFactory = controller.getFactory();
 		this.rectangle = new InspectedRectangle<Rectangle>(controller, (Rectangle) controller.getFactory().makeShape(ShapeType.RECTANGLE));
 		this.square = new InspectedSquare(controller, (Square) controller.getFactory().makeShape(ShapeType.SQUARE));
 		this.polygon = new InspectedPolygon<Polygon>(controller, (Polygon) controller.getFactory().makeShape(ShapeType.CUSTOM_POLYGON));
-		this.regularPolygon = new InspectedRegularPolygon<RegularPolygon>(controller, (RegularPolygon) controller.getFactory().makeShape(ShapeType.POLYGON));
-		this.rectangularOctogon = new InspectedRectangularOctogon(controller, (RectangularOctogon) controller.getFactory().makeShape(ShapeType.RECTANGULAROCTOGON));
+		this.regularPolygon = new InspectedRegularPolygon<RegularPolygon>(controller, (RegularPolygon) controller.getFactory().makeShape(
+				ShapeType.POLYGON));
+		this.rectangularOctogon = new InspectedRectangularOctogon(controller, (RectangularOctogon) controller.getFactory().makeShape(
+				ShapeType.RECTANGULAROCTOGON));
 		this.losange = new InspectedLosange(controller, (Losange) controller.getFactory().makeShape(ShapeType.LOSANGE));
 		this.triangle = new InspectedTriangle(controller, (Triangle) controller.getFactory().makeShape(ShapeType.TRIANGLE));
 		this.oval = new InspectedOval<Oval>(controller, (Oval) controller.getFactory().makeShape(ShapeType.OVAL));
@@ -87,6 +92,10 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		this.complexCurve = new InspectedComplexCurve(controller, (ComplexCurve) controller.getFactory().makeShape(ShapeType.COMPLEX_CURVE));
 		this.plus = new InspectedPlus(controller, (Plus) controller.getFactory().makeShape(ShapeType.PLUS));
 		this.chevron = new InspectedChevron(controller, (Chevron) controller.getFactory().makeShape(ShapeType.CHEVRON));
+	}
+
+	public DianaInteractiveViewer<?, ?, ?> getController() {
+		return controller;
 	}
 
 	@Override
@@ -195,6 +204,10 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		this.pcSupport.firePropertyChange("styleType", oldShapeType, this.getStyleType());
 	}
 
+	public boolean isSingleSelection() {
+		return getController().getSelectedShapes().size() == 1;
+	}
+
 	@Override
 	public ShapeSpecification makeNewStyle(final ShapeSpecification oldShapeSpecification) {
 		switch (this.shapeType) {
@@ -231,7 +244,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 	}
 
-	protected abstract class AbstractInspectedShapeSpecification<SS extends ShapeSpecification> extends InspectedStyle<SS> implements ShapeSpecification {
+	protected abstract class AbstractInspectedShapeSpecification<SS extends ShapeSpecification> extends InspectedStyle<SS> implements
+			ShapeSpecification {
 
 		protected AbstractInspectedShapeSpecification(final DianaInteractiveViewer<?, ?, ?> controller, final SS defaultValue) {
 			super(controller, defaultValue);
@@ -357,19 +371,13 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 		@Override
 		public List<FGEPoint> getPoints() {
-			return this.getPropertyValue(ComplexCurve.POINTS);
+			return this.getPropertyValue(Polygon.POINTS);
 		}
 
 		@Override
 		public void setPoints(final List<FGEPoint> points) {
 			// Not applicable in this context (ambigous semantics, preferably disabled)
-			/*if (points != null) {
-				this.points = new ArrayList<FGEPoint>(points);
-			} else {
-				this.points = null;
-			}
-			notifyChange(POINTS);*/
-			this.setPropertyValue(ComplexCurve.POINTS, points);
+			this.setPropertyValue(Polygon.POINTS, points);
 		}
 
 		@Override
@@ -377,6 +385,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			// Not applicable in this context (ambigous semantics, preferably disabled)
 			// points.add(aPoint);
 			// notifyChange(POINTS);
+			getPoints().add(new FGEPoint(1.0, 1.0));
+			notifyChange(POINTS);
 		}
 
 		@Override
@@ -384,6 +394,43 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			// Not applicable in this context (ambigous semantics, preferably disabled)
 			// points.remove(aPoint);
 			// notifyChange(POINTS);
+
+			getPoints().remove(aPoint);
+			notifyChange(POINTS);
+		}
+
+		public void addCustomPolygonPoint(FGEPoint current) {
+			CompoundEdit addPointEdit = startRecordEdit("Add point");
+			int index = (current != null ? getPoints().indexOf(current) : -1);
+			FGEPoint newPoint;
+			if (!getPoints().isEmpty()) {
+				FGEPoint previousPoint = (index > -1 ? getPoints().get(index) : getPoints().get(getPoints().size() - 1));
+				FGEPoint nextPoint = (index + 1 < getPoints().size() ? getPoints().get(index + 1) : getPoints().get(0));
+				newPoint = FGEPoint.middleOf(previousPoint, nextPoint);
+			} else {
+				newPoint = new FGEPoint(0.5, 0.5);
+			}
+			if (index == -1) {
+				getPoints().add(newPoint);
+			} else {
+				getPoints().add(index + 1, newPoint);
+			}
+			notifyChange(POINTS);
+			stopRecordEdit(addPointEdit);
+
+		}
+
+		public void deleteCustomPolygonPoint(FGEPoint current) {
+			if (current == null) {
+				return;
+			}
+			int index = getPoints().indexOf(current);
+			if (index > -1) {
+				CompoundEdit removePointEdit = startRecordEdit("Remove point");
+				getPoints().remove(current);
+				notifyChange(POINTS);
+				stopRecordEdit(removePointEdit);
+			}
 		}
 
 		@Override
@@ -401,6 +448,9 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return null;
 		}
 
+		public void geometryChanged() {
+			notifyChange(POINTS);
+		}
 	}
 
 	protected class InspectedComplexCurve extends AbstractInspectedShapeSpecification<ComplexCurve> implements ComplexCurve {
@@ -530,7 +580,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	}
 
-	protected class InspectedRectangularOctogon extends AbstractInspectedShapeSpecification<RectangularOctogon> implements RectangularOctogon {
+	protected class InspectedRectangularOctogon extends AbstractInspectedShapeSpecification<RectangularOctogon> implements
+			RectangularOctogon {
 
 		protected InspectedRectangularOctogon(final DianaInteractiveViewer<?, ?, ?> controller, final RectangularOctogon defaultValue) {
 			super(controller, defaultValue);
@@ -777,7 +828,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			for (int i = 0; i < this.getNPoints(); i++) {
 				final double angle = i * angleInterval + startA;
 				final double angle1 = (i - 0.5) * angleInterval + startA;
-				returned.addToPoints(new FGEPoint(Math.cos(angle1) * 0.5 * this.getRatio() + 0.5, Math.sin(angle1) * 0.5 * this.getRatio() + 0.5));
+				returned.addToPoints(new FGEPoint(Math.cos(angle1) * 0.5 * this.getRatio() + 0.5, Math.sin(angle1) * 0.5 * this.getRatio()
+						+ 0.5));
 				returned.addToPoints(new FGEPoint(Math.cos(angle) * 0.5 + 0.5, Math.sin(angle) * 0.5 + 0.5));
 			}
 			return returned;
@@ -926,6 +978,10 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			returned.addToPoints(new FGEPoint(1 - this.getArrowLength(), 0));
 			return returned;
 		}
+	}
+
+	public InspectedPolygon<Polygon> getInspectedPolygon() {
+		return polygon;
 	}
 
 }

@@ -98,21 +98,24 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 	}
 
 	public AbstractInspectedBackgroundStyle<?> getBackgroundStyle() {
-		switch (backgroundStyleType) {
-		case NONE:
-			return noneBackgroundStyle;
-		case COLOR:
-			return colorBackgroundStyle;
-		case COLOR_GRADIENT:
-			return colorGradientBackgroundStyle;
-		case TEXTURE:
-			return textureBackgroundStyle;
-		case IMAGE:
-			return backgroundImageBackgroundStyle;
-		default:
+		if (backgroundStyleType != null) {
+			switch (backgroundStyleType) {
+			case NONE:
+				return noneBackgroundStyle;
+			case COLOR:
+				return colorBackgroundStyle;
+			case COLOR_GRADIENT:
+				return colorGradientBackgroundStyle;
+			case TEXTURE:
+				return textureBackgroundStyle;
+			case IMAGE:
+				return backgroundImageBackgroundStyle;
+			default:
+				return null;
+			}
+		} else {
 			return null;
 		}
-
 	}
 
 	/**

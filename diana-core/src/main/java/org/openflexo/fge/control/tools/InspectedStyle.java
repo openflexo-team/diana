@@ -408,23 +408,35 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	}
 
 	public <T> void notifyChange(GRParameter<T> parameter, T oldValue, T newValue) {
-		// Not relevant
-
+		if (requireChange(oldValue, newValue)) {
+			if (getSelection().size() == 0) {
+				if (defaultValue instanceof HasPropertyChangeSupport) {
+					((HasPropertyChangeSupport) defaultValue).getPropertyChangeSupport().firePropertyChange(parameter.getName(), oldValue,
+							newValue);
+				}
+			} else {
+				for (DrawingTreeNode<?, ?> n : getSelection()) {
+					S style = getStyle(n);
+					if (style instanceof HasPropertyChangeSupport) {
+						((HasPropertyChangeSupport) style).getPropertyChangeSupport().firePropertyChange(parameter.getName(), oldValue,
+								newValue);
+					}
+				}
+			}
+		}
 	}
 
 	public <T> void notifyChange(GRParameter<T> parameter) {
-		// Not relevant
-
+		T currentValue = getPropertyValue(parameter);
+		notifyChange(parameter, currentValue != null ? null : parameter.getDefaultValue(), currentValue);
 	}
 
 	public <T> void notifyAttributeChange(GRParameter<T> parameter) {
-		// Not relevant
-
+		notifyChange(parameter);
 	}
 
 	public void notify(FGEAttributeNotification notification) {
 		// Not relevant
-
 	}
 
 	public Object performSuperGetter(String propertyIdentifier) {
