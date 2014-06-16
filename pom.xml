@@ -20,7 +20,7 @@
 		
 	</properties>
 	<scm>
-		<connection>scm:git:ssh://git@github.com:openflexo-team/diana.git</connection>
+		<connection>scm:git:ssh://git@github.com/openflexo-team/diana.git</connection>
 		<url>https://github.com/openflexo-team/diana</url>
 	</scm>
 	<modules>
