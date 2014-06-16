@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.openflexo</groupId>
 		<artifactId>openflexo-component</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>0.1</version>
 	</parent>
 	<version>1.0-SNAPSHOT</version>
 	<modelVersion>4.0.0</modelVersion>
@@ -12,11 +12,11 @@
 	<name>diana</name>
 	<packaging>pom</packaging>
 	<properties>
-		<gina.version>1.0-SNAPSHOT</gina.version>
-		<connie.version>1.0-SNAPSHOT</connie.version>
-		<pamela.version>1.0-SNAPSHOT</pamela.version>
-		<gina.version>1.0-SNAPSHOT</gina.version>
-		<graphicsutils.version>1.0-SNAPSHOT</graphicsutils.version>
+		<gina.version>1.0</gina.version>
+		<connie.version>1.0</connie.version>
+		<pamela.version>1.0</pamela.version>
+		<gina.version>1.0</gina.version>
+		<graphicsutils.version>1.0</graphicsutils.version>
 		
 	</properties>
 	<scm>
