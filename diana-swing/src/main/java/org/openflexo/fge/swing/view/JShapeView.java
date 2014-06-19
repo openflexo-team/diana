@@ -272,6 +272,9 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 	}
 
 	public Integer getLayer() {
+		if (shapeNode.getGraphicalRepresentation() == null) {
+			return FGEConstants.INITIAL_LAYER;
+		}
 		return FGEConstants.INITIAL_LAYER + shapeNode.getGraphicalRepresentation().getLayer();
 	}
 

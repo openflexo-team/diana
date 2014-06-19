@@ -77,10 +77,10 @@ public class FGEPaintManager {
 		*/
 	}
 
-	private JDrawingView<?> _drawingView;
+	private final JDrawingView<?> _drawingView;
 
 	private BufferedImage _paintBuffer;
-	private HashSet<DrawingTreeNode<?, ?>> _temporaryObjects;
+	private final HashSet<DrawingTreeNode<?, ?>> _temporaryObjects;
 
 	public FGEPaintManager(JDrawingView<?> drawingView) {
 		super();
@@ -254,6 +254,12 @@ public class FGEPaintManager {
 			// we must assume that a request to an extended area embedding those control points
 			// must be performed (in case of border is not sufficient)
 			ShapeNode<?> shapeNode = ((ShapeView<?, ?>) view).getNode();
+
+			if (shapeNode.getGraphicalRepresentation() == null) {
+				// Might happen during some required updating
+				return;
+			}
+
 			int requiredControlPointSpace = FGEConstants.CONTROL_POINT_SIZE;
 			if (shapeNode.getGraphicalRepresentation().getBorder() != null) {
 				if (shapeNode.getGraphicalRepresentation().getBorder().getTop() * view.getScale() < requiredControlPointSpace) {
@@ -361,7 +367,7 @@ public class FGEPaintManager {
 		// For now temporary repaint areas are registered only for JDrawingView !!!!!!
 		// Later, we might extend this scheme to the whole view hierarchy
 		// Using for example Hashtable<JComponent,Vector<Rectangle>> structure
-		private WeakHashMap<JComponent, Vector<Rectangle>> temporaryRepaintAreas;
+		private final WeakHashMap<JComponent, Vector<Rectangle>> temporaryRepaintAreas;
 
 		public FGERepaintManager() {
 			temporaryRepaintAreas = new WeakHashMap<JComponent, Vector<Rectangle>>();

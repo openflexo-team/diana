@@ -282,6 +282,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public double getUnscaledViewWidth() {
+		if (getGraphicalRepresentation() == null) {
+			return 0.0;
+		}
 		return getGraphicalRepresentation().getWidth()
 				+ (getGraphicalRepresentation().getBorder() != null ? getGraphicalRepresentation().getBorder().getLeft()
 						+ getGraphicalRepresentation().getBorder().getRight() : 0);
@@ -289,6 +292,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public double getUnscaledViewHeight() {
+		if (getGraphicalRepresentation() == null) {
+			return 0.0;
+		}
 		return getGraphicalRepresentation().getHeight()
 				+ (getGraphicalRepresentation().getBorder() != null ? getGraphicalRepresentation().getBorder().getTop()
 						+ getGraphicalRepresentation().getBorder().getBottom() : 0);
