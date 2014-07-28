@@ -111,7 +111,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 	public JLabelView(final DrawingTreeNode<O, ?> node, AbstractDianaEditor<?, SwingViewFactory, JComponent> controller,
 			JFGEView<O, ? extends JComponent> delegateView) {
 
-		logger.info("Build JLabelView for " + node.getDrawable() + " with text " + node.getText());
+		// logger.info("Build JLabelView for " + node.getDrawable() + " with text " + node.getText());
 
 		setUI(new BasicScrollPaneUI());
 		getViewport().setUI(new BasicViewportUI());
@@ -336,7 +336,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 			logger.warning("Received notifications for deleted view: " + evt);
 			return;
 		}
-		if (getNode().isDeleted()) {
+		if ((!evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) && getNode().isDeleted()) {
 			logger.warning("Received notifications for deleted Node " + evt);
 			return;
 		}
@@ -358,7 +358,6 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 			// There are some GR in WKF that rely on ShapeNeedsToBeRedrawn notification to update text (this can be removed once we
 			// properly use appropriate bindings
 					|| evt.getPropertyName().equals(ShapeNeedsToBeRedrawn.EVENT_NAME)) {
-				System.out.println("En tant que LabelView, on me dit de me mettre a jour");
 				updateText();
 				getPaintManager().repaint(this);
 			} else if (evt.getPropertyName().equals(GraphicalRepresentation.TEXT_STYLE.getName())) {

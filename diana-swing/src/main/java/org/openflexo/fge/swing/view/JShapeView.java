@@ -148,6 +148,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 		if (shapeNode != null) {
 			shapeNode.getPropertyChangeSupport().removePropertyChangeListener(this);
 		}
+		getController().unreferenceViewForDrawingTreeNode(shapeNode);
 		setDropTarget(null);
 		removeMouseListener(mouseListener);
 		removeMouseMotionListener(mouseListener);
@@ -354,7 +355,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 			return;
 		}
 
-		if (getNode().isDeleted()) {
+		if ((!evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) && getNode().isDeleted()) {
 			logger.warning("Received notifications for deleted ShapeNode " + evt);
 			return;
 		}
@@ -413,6 +414,15 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 					|| evt.getPropertyName().equals(ContainerGraphicalRepresentation.WIDTH_KEY)
 					|| evt.getPropertyName().equals(ContainerGraphicalRepresentation.HEIGHT_KEY)) {
 				resizeView();
+				if (getPaintManager().isPaintingCacheEnabled()) {
+					getPaintManager().removeFromTemporaryObjects(shapeNode);
+					getPaintManager().invalidate(shapeNode);
+					getPaintManager().repaint(getParentView());
+				}
+			} else if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.X_KEY)
+					|| evt.getPropertyName().equals(ShapeGraphicalRepresentation.Y_KEY)) {
+				// System.out.println("Relocating view");
+				relocateView();
 				if (getPaintManager().isPaintingCacheEnabled()) {
 					getPaintManager().removeFromTemporaryObjects(shapeNode);
 					getPaintManager().invalidate(shapeNode);

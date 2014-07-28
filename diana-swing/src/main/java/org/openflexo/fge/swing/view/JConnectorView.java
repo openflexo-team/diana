@@ -119,6 +119,7 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 		if (connectorNode != null) {
 			connectorNode.getPropertyChangeSupport().removePropertyChangeListener(this);
 		}
+		getController().unreferenceViewForDrawingTreeNode(connectorNode);
 		setDropTarget(null);
 		removeMouseListener(mouseListener);
 		removeMouseMotionListener(mouseListener);
@@ -160,6 +161,7 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 		return (JDianaLayeredView<?>) super.getParent();
 	}
 
+	@Override
 	public JDianaLayeredView<?> getParentView() {
 		return getParent();
 	}
@@ -362,7 +364,7 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 			return;
 		}
 
-		if (getNode().isDeleted()) {
+		if ((!evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) && getNode().isDeleted()) {
 			logger.warning("Received notifications for deleted ConnectorNode " + evt);
 			return;
 		}
@@ -476,6 +478,7 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 
 	}
 
+	@Override
 	public FGEPaintManager getPaintManager() {
 		return getDrawingView().getPaintManager();
 	}
@@ -488,6 +491,7 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 		return super.getToolTipText(event);
 	}
 
+	@Override
 	public void stopLabelEdition() {
 		getLabelView().stopEdition();
 	}

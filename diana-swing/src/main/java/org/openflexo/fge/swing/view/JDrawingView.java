@@ -829,7 +829,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 	private void paintFocused(DrawingTreeNode<?, ?> focused, JFGEDrawingGraphics graphics) {
 		if (focused.isDeleted()) {
-			logger.warning("Cannot paint for a deleted GR");
+			// logger.warning("Cannot paint for a deleted DTN");
 			return;
 		}
 		if (!focused.getGraphicalRepresentation().getDrawControlPointsWhenFocused()) {
@@ -964,18 +964,17 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		// contents.clear();
 
 		// TODO ???
-		if(getGraphicalRepresentation()!=null && getGraphicalRepresentation().getPropertyChangeSupport()!=null){
+		if (getGraphicalRepresentation() != null && getGraphicalRepresentation().getPropertyChangeSupport() != null) {
 			getGraphicalRepresentation().getPropertyChangeSupport().removePropertyChangeListener(this);
 		}
-		
-		if(drawing.getRoot().getChildNodes()!=null){
+
+		if (drawing.getRoot().getChildNodes() != null) {
 			for (DrawingTreeNode<?, ?> dtn : drawing.getRoot().getChildNodes()) {
 				if (dtn instanceof GeometricNode<?>) {
 					((GeometricNode<?>) dtn).getPropertyChangeSupport().removePropertyChangeListener(this);
 				}
 			}
 		}
-		
 
 		isDeleted = true;
 	}
