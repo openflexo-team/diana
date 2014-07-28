@@ -458,7 +458,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 	@Override
 	public boolean delete() {
 		if (!isDeleted()) {
-			System.out.println("Hop, le connecteur se fait deleter !!!");
+			//System.out.println("ConnectorNode deleted");
 			if (connector != null) {
 				connector.delete();
 			}

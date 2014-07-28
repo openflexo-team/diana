@@ -89,6 +89,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public boolean delete() {
 		Object o = getDrawable();
 		if (!isDeleted()) {
+			// System.out.println("ShapeNode deleted");
 			stopDrawableObserving();
 			super.delete();
 			finalizeDeletion();
@@ -1231,6 +1232,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public String toString() {
+
+		if (isDeleted()) {
+			return "Shape-" + getIndex() + " [DELETED] ";
+		}
 		return "Shape-" + getIndex() + "[" + getX() + ";" + getY() + "][" + getWidth() + "x" + getHeight() + "][" + getFGEShape() + "]:"
 				+ getDrawable();
 	}
