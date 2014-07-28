@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.openflexo.antar.binding.Bindable;
 import org.openflexo.antar.binding.BindingFactory;
@@ -40,6 +41,8 @@ import org.openflexo.fge.GRProvider.GeometricGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 
 public abstract class GRBinding<O, GR extends GraphicalRepresentation> implements Bindable {
+
+	private static final Logger logger = Logger.getLogger(GRBinding.class.getPackage().getName());
 
 	private static final BindingFactory BINDING_FACTORY = new JavaBindingFactory();
 
@@ -103,6 +106,11 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> implement
 		bindingValue.setBindingDefinitionType(settable ? BindingDefinitionType.GET_SET : BindingDefinitionType.GET);
 		DynamicPropertyValue<T> returned = new DynamicPropertyValue<T>(parameter, bindingValue);
 		dynamicPropertyValues.put(parameter, returned);
+
+		if (!bindingValue.isValid()) {
+			logger.warning("Invalid binding " + bindingValue + " reason " + bindingValue.invalidBindingReason());
+		}
+
 		return returned;
 	}
 
