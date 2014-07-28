@@ -571,11 +571,14 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 			return;
 		}
 		if (node.hasText()) {
-			textComponent.setText(node.getText());
+			if (!node.getText().equals(textComponent.getText())) {
+				textComponent.setText(node.getText());
+				updateBounds();
+			}
 		} else {
 			textComponent.setText("");
+			updateBounds();
 		}
-		updateBounds();
 	}
 
 	public void addFGEMouseListener() {
