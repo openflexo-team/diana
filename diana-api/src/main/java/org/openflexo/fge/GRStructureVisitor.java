@@ -28,10 +28,12 @@ import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.DrawingTreeNodeIdentifier;
+import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.Drawing.PendingConnector;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
 import org.openflexo.fge.GRBinding.ContainerGRBinding;
+import org.openflexo.fge.GRBinding.GeometricGRBinding;
 import org.openflexo.fge.GRBinding.ShapeGRBinding;
 
 /**
@@ -160,14 +162,57 @@ public abstract class GRStructureVisitor<R> {
 
 		if (parent.hasShapeFor(binding, drawable)) {
 			// Already existing
-			//System.out.println("% Found already existing node for " + drawable);
+			// System.out.println("% Found already existing node for " + drawable);
 			ShapeNode<O> returned = parent.getShapeFor(binding, drawable);
 			updatedNodes.add(returned);
 			// deletedNodes.remove(returned);
 			return returned;
 		} else {
-			//System.out.println("% Creating new node for " + drawable);
+			// System.out.println("% Creating new node for " + drawable);
 			ShapeNode<O> returned = drawing.createNewShapeNode(parent, binding, drawable);
+			// New node
+			createdNodes.add(returned);
+			return returned;
+		}
+	}
+
+	/**
+	 * Called to specify the drawing of a geometric representing supplied drawable using supplied {@link GRBinding}
+	 * 
+	 * @param binding
+	 * @param drawable
+	 * @return
+	 */
+	public <O> GeometricNode<O> drawGeometricObject(GeometricGRBinding<O> binding, O drawable) {
+		if (node instanceof ContainerNode) {
+			return drawGeometricObject((ContainerNode<O, ?>) node, binding, drawable);
+		} else {
+			logger.warning("Cannot add shape in non-container node");
+			return null;
+		}
+	}
+
+	/**
+	 * Internally used to draw or retrieve a ShapeNode in the graphical object hierarchy
+	 * 
+	 * @param parent
+	 * @param binding
+	 * @param drawable
+	 * @return
+	 */
+	private <O> GeometricNode<O> drawGeometricObject(ContainerNode<?, ?> parent, GeometricGRBinding<O> binding, O drawable) {
+		Drawing<?> drawing = node.getDrawing();
+
+		if (parent.hasGeometricObjectFor(binding, drawable)) {
+			// Already existing
+			// System.out.println("% Found already existing node for " + drawable);
+			GeometricNode<O> returned = parent.getGeometricObjectFor(binding, drawable);
+			updatedNodes.add(returned);
+			// deletedNodes.remove(returned);
+			return returned;
+		} else {
+			// System.out.println("% Creating new node for " + drawable);
+			GeometricNode<O> returned = drawing.createNewGeometricNode(parent, binding, drawable);
 			// New node
 			createdNodes.add(returned);
 			return returned;
@@ -365,7 +410,7 @@ public abstract class GRStructureVisitor<R> {
 			}
 			return returned;
 		} else {
-			//System.out.println("***** New ConnectorNode !!!! " + parent.getChildNodes());
+			// System.out.println("***** New ConnectorNode !!!! " + parent.getChildNodes());
 			ConnectorNode<O> returned = drawing.createNewConnectorNode(parent, binding, drawable, fromNode, toNode);
 			createdNodes.add(returned);
 			return returned;

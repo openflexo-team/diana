@@ -700,6 +700,26 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	}
 
 	@Override
+	public <O> GeometricNode<O> createNewGeometricNode(ContainerNode<?, ?> parentNode, GeometricGRBinding<O> binding, O drawable) {
+
+		// System.out.println("draw geometric object with " + binding + " drawable=" + drawable + " parent=" + parentNode);
+
+		if (parentNode == null) {
+			logger.warning("Cannot register drawable above null parent");
+			return null;
+		}
+
+		GeometricNodeImpl<O> returned = new GeometricNodeImpl<O>(this, drawable, binding, (ContainerNodeImpl<?, ?>) parentNode);
+
+		parentNode.addChild(returned);
+
+		notifyNodeAdded(returned, parentNode);
+
+		return returned;
+
+	}
+
+	@Override
 	public M getModel() {
 		return model;
 	}

@@ -468,6 +468,10 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 
 		public <O2> ConnectorNode<O2> getConnectorFor(ConnectorGRBinding<O2> binding, O2 aDrawable);
 
+		public <O2> boolean hasGeometricObjectFor(GeometricGRBinding<O2> binding, O2 aDrawable);
+
+		public <O2> GeometricNode<O2> getGeometricObjectFor(GeometricGRBinding<O2> binding, O2 aDrawable);
+
 		/**
 		 * Notify that the object just resized
 		 */
@@ -829,6 +833,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 
 	public <O> ConnectorNode<O> createNewConnectorNode(ContainerNode<?, ?> parent, ConnectorGRBinding<O> binding, O representable,
 			ShapeNode<?> fromNode, ShapeNode<?> toNode);
+
+	public <O> GeometricNode<O> createNewGeometricNode(ContainerNode<?, ?> parent, GeometricGRBinding<O> binding, O representable);
 
 	public <O> boolean hasPendingConnector(ConnectorGRBinding<O> binding, O drawable, DrawingTreeNodeIdentifier<?> parentNodeIdentifier,
 			DrawingTreeNodeIdentifier<?> startNodeIdentifier, DrawingTreeNodeIdentifier<?> endNodeIdentifier);

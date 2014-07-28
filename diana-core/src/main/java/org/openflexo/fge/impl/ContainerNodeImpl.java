@@ -14,10 +14,12 @@ import org.openflexo.fge.ContainerGraphicalRepresentation;
 import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.GRBinding;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
+import org.openflexo.fge.GRBinding.GeometricGRBinding;
 import org.openflexo.fge.GRBinding.ShapeGRBinding;
 import org.openflexo.fge.GRParameter;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
@@ -219,6 +221,22 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		for (DrawingTreeNode<?, ?> child : childNodes) {
 			if (child instanceof ConnectorNode && child.getGRBinding() == binding && child.getDrawable() == aDrawable) {
 				return (ConnectorNode<O2>) child;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public <O2> boolean hasGeometricObjectFor(GeometricGRBinding<O2> binding, O2 aDrawable) {
+		return getGeometricObjectFor(binding, aDrawable) != null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <O2> GeometricNode<O2> getGeometricObjectFor(GeometricGRBinding<O2> binding, O2 aDrawable) {
+		for (DrawingTreeNode<?, ?> child : childNodes) {
+			if (child instanceof GeometricNode && child.getGRBinding() == binding && child.getDrawable() == aDrawable) {
+				return (GeometricNode<O2>) child;
 			}
 		}
 		return null;
