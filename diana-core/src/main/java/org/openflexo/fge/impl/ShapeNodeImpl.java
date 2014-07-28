@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.openflexo.antar.binding.DataBinding;
 import org.openflexo.antar.binding.TypeUtils;
 import org.openflexo.antar.expr.NullReferenceException;
 import org.openflexo.antar.expr.TypeMismatchException;
@@ -22,6 +23,7 @@ import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.GRBinding;
+import org.openflexo.fge.GRParameter;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.ShadowStyle;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
@@ -93,7 +95,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			stopDrawableObserving();
 			super.delete();
 			finalizeDeletion();
-			logger.info("Deleted ShapeNodeImpl for drawable " + o);
+			// logger.info("Deleted ShapeNodeImpl for drawable " + o);
 			return true;
 		}
 		return false;
@@ -301,6 +303,22 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 						+ getGraphicalRepresentation().getBorder().getBottom() : 0);
 	}
 
+	/**
+	 * This method is called whenever it was detected that the value of a property declared as dynamic (specified by a {@link DataBinding}
+	 * in {@link GRBinding}) has changed
+	 * 
+	 * @param parameter
+	 * @param oldValue
+	 * @param newValue
+	 */
+	@Override
+	public <T> void fireDynamicPropertyChanged(GRParameter<T> parameter, T oldValue, T newValue) {
+		super.fireDynamicPropertyChanged(parameter, oldValue, newValue);
+		if (parameter == ShapeGraphicalRepresentation.X || parameter == ShapeGraphicalRepresentation.Y) {
+			notifyObjectMoved();
+		}
+	}
+
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 
@@ -329,6 +347,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.Y.getName()) {
 				forward(evt);
 				notifyObjectMoved(null);
+				System.out.println("Hop, " + getDrawable() + " a change de position");
 			} else if (evt.getPropertyName() == ContainerGraphicalRepresentation.WIDTH.getName()
 					|| evt.getPropertyName() == ContainerGraphicalRepresentation.HEIGHT.getName()
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.MINIMAL_HEIGHT.getName()

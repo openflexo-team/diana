@@ -58,7 +58,7 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		System.out.println("******************************** Received " + evt.getPropertyName() + " " + evt);
+		//System.out.println("******************************** Received " + evt.getPropertyName() + " " + evt);
 		super.propertyChange(evt);
 	}
 

@@ -18,6 +18,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 import java.util.Vector;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.openflexo.antar.binding.BindingEvaluationContext;
@@ -153,6 +154,18 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	// BindingValueChangeListener<?>>();
 
 	/**
+	 * This method is called whenever it was detected that the value of a property declared as dynamic (specified by a {@link DataBinding}
+	 * in {@link GRBinding}) has changed
+	 * 
+	 * @param parameter
+	 * @param oldValue
+	 * @param newValue
+	 */
+	public <T> void fireDynamicPropertyChanged(GRParameter<T> parameter, T oldValue, T newValue) {
+		getPropertyChangeSupport().firePropertyChange(parameter.getName(), oldValue, newValue);
+	}
+
+	/**
 	 * Utility class used to observe all dynamic property values, relatively to their value at run-time
 	 * 
 	 * @author sylvain
@@ -165,15 +178,20 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		public BindingValueObserver() {
 			listeners = new HashMap<GRBinding.DynamicPropertyValue<?>, BindingValueChangeListener<?>>();
 			for (final DynamicPropertyValue<?> dpv : getGRBinding().getDynamicPropertyValues()) {
-				BindingValueChangeListener<?> listener = new BindingValueChangeListener(dpv.dataBinding, getBindingEvaluationContext()) {
-					@Override
-					public void bindingValueChanged(Object source, Object newValue) {
-						// Detected that a data modification caused the evaluation of DataBinding to be changed
-						getPropertyChangeSupport().firePropertyChange(dpv.parameter.getName(), null, newValue);
-					}
-				};
-				listeners.put(dpv, listener);
+				registerBindingValueChangeListener(dpv);
 			}
+		}
+
+		private <T> void registerBindingValueChangeListener(final DynamicPropertyValue<T> dynamicPropertyValue) {
+			BindingValueChangeListener<T> listener = new BindingValueChangeListener<T>(dynamicPropertyValue.dataBinding,
+					getBindingEvaluationContext()) {
+				@Override
+				public void bindingValueChanged(Object source, T newValue) {
+					// Detected that a data modification caused the evaluation of DataBinding to be changed
+					fireDynamicPropertyChanged(dynamicPropertyValue.parameter, null, newValue);
+				}
+			};
+			listeners.put(dynamicPropertyValue, listener);
 		}
 
 		public void delete() {
@@ -583,7 +601,9 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		}
 
 		if (evt.getSource() == getDrawable()) {
-			logger.info("Received a notification from my drawable that " + evt.getPropertyName() + " change: " + evt);
+			if (logger.isLoggable(Level.FINE)) {
+				logger.fine("Received a notification from my drawable that " + evt.getPropertyName() + " change: " + evt);
+			}
 			fireStructureMayHaveChanged();
 		}
 
@@ -639,6 +659,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		getPropertyChangeSupport().firePropertyChange(propertyName, oldValue, newValue);
 	}
 
+	// TODO: (sylvain) i think this is no more necessary, remove this ???
+	@Deprecated
 	public <T> void notifyAttributeChanged(GRParameter<T> parameter, T oldValue, T newValue) {
 		propagateConstraintsAfterModification(parameter);
 		setChanged();
@@ -649,6 +671,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		getPropertyChangeSupport().firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
 	}
 
+	// TODO: (sylvain) i think this is no more necessary, remove this ???
+	@Deprecated
 	protected <T> void propagateConstraintsAfterModification(GRParameter<T> parameter) {
 		for (ConstraintDependency dependency : alterings) {
 			if (dependency.requiredParameter == parameter) {
@@ -657,6 +681,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		}
 	}
 
+	// TODO: (sylvain) i think this is no more necessary, remove this ???
+	@Deprecated
 	protected void computeNewConstraint(ConstraintDependency dependency) {
 		// None known at this level
 	}

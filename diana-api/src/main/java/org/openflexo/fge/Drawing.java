@@ -931,6 +931,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 	 * @author sylvain
 	 * 
 	 */
+	// TODO: (sylvain) i think this is no more necessary, remove this ???
+	@Deprecated
 	public static class ConstraintDependency {
 		public DrawingTreeNode<?, ?> requiringGR;
 		public GRParameter requiringParameter;
