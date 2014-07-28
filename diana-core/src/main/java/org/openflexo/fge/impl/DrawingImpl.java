@@ -489,7 +489,9 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	 */
 	private final <O> void updateGraphicalObjectsHierarchy(DrawingTreeNode<O, ?> dtn) {
 
-		logger.fine("updateGraphicalObjectsHierarchy for " + dtn);
+		if (logger.isLoggable(Level.FINE)) {
+			logger.fine("updateGraphicalObjectsHierarchy for " + dtn);
+		}
 
 		if (dtn.isInvalidated()) {
 			// System.out.println("Updating " + dtn);
@@ -523,11 +525,36 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 				}
 			}
 
+			// Now log when relevant
+
+			if (logger.isLoggable(Level.FINE)) {
+				for (DrawingTreeNode<?, ?> nodeToRemove : deletedNodes) {
+					logger.fine(" > [DELETED] " + nodeToRemove);
+				}
+				for (DrawingTreeNode<?, ?> createdNode : createdNodes) {
+					logger.fine(" > [CREATED] " + createdNode);
+				}
+				for (DrawingTreeNode<?, ?> updatedNode : updatedNodes) {
+					logger.fine(" > [UPDATED] " + updatedNode);
+				}
+			}
+
 			// Now the deleted nodes are relevant, delete them
 
+			// First we delete all connectors
 			for (DrawingTreeNode<?, ?> nodeToRemove : deletedNodes) {
-				deleteNode(nodeToRemove);
+				if (nodeToRemove instanceof ConnectorNode) {
+					deleteNode(nodeToRemove);
+				}
 			}
+
+			// Then we delete all other nodes
+			for (DrawingTreeNode<?, ?> nodeToRemove : deletedNodes) {
+				if (!(nodeToRemove instanceof ConnectorNode)) {
+					deleteNode(nodeToRemove);
+				}
+			}
+
 			for (DrawingTreeNode<?, ?> createdNode : createdNodes) {
 				updateGraphicalObjectsHierarchy(createdNode);
 			}
@@ -584,7 +611,7 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	@Override
 	public <O> ShapeNode<O> createNewShapeNode(ContainerNode<?, ?> parentNode, ShapeGRBinding<O> binding, O drawable) {
 
-		//System.out.println("draw shape with " + binding + " drawable=" + drawable + " parent=" + parentNode );
+		// System.out.println("draw shape with " + binding + " drawable=" + drawable + " parent=" + parentNode );
 
 		if (parentNode == null) {
 			logger.warning("Cannot register drawable above null parent");
@@ -609,8 +636,8 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	public <O> ConnectorNode<O> createNewConnectorNode(ContainerNode<?, ?> parentNode, ConnectorGRBinding<O> binding, O drawable,
 			ShapeNode<?> fromNode, ShapeNode<?> toNode) {
 
-		//System.out.println("draw connector with " + binding + " drawable=" + drawable + " parent=" + parentNode + " fromNode=" + fromNode
-		//		+ " toNode=" + toNode);
+		// System.out.println("draw connector with " + binding + " drawable=" + drawable + " parent=" + parentNode + " fromNode=" + fromNode
+		// + " toNode=" + toNode);
 
 		if (parentNode == null) {
 			logger.warning("Cannot register drawable above null parent");
