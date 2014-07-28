@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ import org.openflexo.toolbox.HasPropertyChangeSupport;
  * <li>(preferably)using classical {@link Observer}/{@link Observable} scheme, if drawable extends {@link Observable}</li>
  * </ul>
  * 
- * Also referenceq the {@link GRBinding} which is the specification of a node in the drawing tree
+ * Also references the {@link GRBinding} which is the specification of a node in the drawing tree
  * 
  * @author sylvain
  * 
@@ -148,6 +149,9 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	private BindingValueObserver bindingValueObserver;
 
+	// private final Map<GRParameter<?>, BindingValueChangeListener<?>> bindingValueListeners = new HashMap<GRParameter<?>,
+	// BindingValueChangeListener<?>>();
+
 	/**
 	 * Utility class used to observe all dynamic property values, relatively to their value at run-time
 	 * 
@@ -160,13 +164,15 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 		public BindingValueObserver() {
 			listeners = new HashMap<GRBinding.DynamicPropertyValue<?>, BindingValueChangeListener<?>>();
-			for (final DynamicPropertyValue dpv : getGRBinding().getDynamicPropertyValues()) {
-				BindingValueChangeListener listener = new BindingValueChangeListener(dpv.dataBinding, getBindingEvaluationContext()) {
+			for (final DynamicPropertyValue<?> dpv : getGRBinding().getDynamicPropertyValues()) {
+				BindingValueChangeListener<?> listener = new BindingValueChangeListener(dpv.dataBinding, getBindingEvaluationContext()) {
 					@Override
 					public void bindingValueChanged(Object source, Object newValue) {
-						notifyAttributeChanged(dpv.parameter, null, newValue);
+						// Detected that a data modification caused the evaluation of DataBinding to be changed
+						getPropertyChangeSupport().firePropertyChange(dpv.parameter.getName(), null, newValue);
 					}
 				};
+				listeners.put(dpv, listener);
 			}
 		}
 
@@ -340,9 +346,10 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			}
 			graphicalRepresentation = null;
 
+			isDeleted = true;
+
 			notifyObservers(new NodeDeleted(this));
 
-			isDeleted = true;
 			return true;
 		}
 		return false;
@@ -354,6 +361,11 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	protected void finalizeDeletion() {
 		if (pcSupport.hasListeners(null)) {
 			logger.warning("WARNING: finalizeDeletion called for " + this + " while object still being observed");
+			for (PropertyChangeListener l : pcSupport.getPropertyChangeListeners()) {
+				System.out.println(" > " + l);
+			}
+
+			Thread.dumpStack();
 		}
 		pcSupport = null;
 	}
@@ -615,8 +627,9 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	}
 
 	public void notifyObservers(FGENotification notification) {
-		if (isDeleted()) {
+		if ((!(notification instanceof NodeDeleted)) && isDeleted()) {
 			logger.warning("notifyObservers() called by a deleted DrawingTreeNode");
+			Thread.dumpStack();
 			return;
 		}
 		getPropertyChangeSupport().firePropertyChange(notification.propertyName(), notification.oldValue, notification.newValue);
@@ -992,7 +1005,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 * @return
 	 * @throws InvocationTargetException
 	 */
-	protected <T> T getDynamicPropertyValue(GRParameter<T> parameter) throws InvocationTargetException {
+	protected <T> T getDynamicPropertyValue(final GRParameter<T> parameter) throws InvocationTargetException {
 		if (hasDynamicPropertyValue(parameter)) {
 			try {
 				return getGRBinding().getDynamicPropertyValue(parameter).dataBinding.getBindingValue(getBindingEvaluationContext());
@@ -1078,6 +1091,10 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		// If SharedGraphicalRepresentations is active, GR should not be used to store graphical properties
 
 		else if (getDrawing().getPersistenceMode() == PersistenceMode.SharedGraphicalRepresentations) {
+
+			if (getGraphicalRepresentation() == null) {
+				return null;
+			}
 
 			T returned = (T) propertyValues.get(parameter);
 			if (returned == null) {
@@ -1180,6 +1197,11 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 				DrawingImpl.logger.warning("Could not find variable named " + variable);
 				return null;
 			}
+		}
+
+		@Override
+		public String toString() {
+			return "DrawingTreeNodeEvaluationContext for " + DrawingTreeNodeImpl.this;
 		}
 	}
 
