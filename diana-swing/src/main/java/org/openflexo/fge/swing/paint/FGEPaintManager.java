@@ -211,7 +211,9 @@ public class FGEPaintManager {
 			return;
 		}
 		if (view.isDeleted()) {
-			logger.warning("Cannot paint deleted view");
+			// This warning is not necessary, for example if an action leads the focused object to be deleted
+			// In this case, the old focused object will be called to be repainted. So, just ignore and return
+			// logger.warning("Cannot paint deleted view");
 			return;
 		}
 		if (!SwingUtilities.isEventDispatchThread()) {
