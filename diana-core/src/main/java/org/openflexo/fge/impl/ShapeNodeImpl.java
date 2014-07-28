@@ -206,8 +206,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public AffineTransform convertNormalizedPointToViewCoordinatesAT(double scale) {
-		AffineTransform returned = AffineTransform.getScaleInstance(getGraphicalRepresentation().getWidth(), getGraphicalRepresentation()
-				.getHeight());
+		AffineTransform returned = AffineTransform.getScaleInstance(getPropertyValue(ShapeGraphicalRepresentation.WIDTH),
+				getPropertyValue(ShapeGraphicalRepresentation.HEIGHT));
 		if (getGraphicalRepresentation().getBorder() != null) {
 			returned.preConcatenate(AffineTransform.getTranslateInstance(getGraphicalRepresentation().getBorder().getLeft(),
 					getGraphicalRepresentation().getBorder().getTop()));
@@ -285,22 +285,30 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public double getUnscaledViewWidth() {
-		if (getGraphicalRepresentation() == null) {
+		return getPropertyValue(ShapeGraphicalRepresentation.WIDTH)
+				+ (getGraphicalRepresentation().getBorder() != null ? getGraphicalRepresentation().getBorder().getLeft()
+						+ getGraphicalRepresentation().getBorder().getRight() : 0);
+
+		/*if (getGraphicalRepresentation() == null) {
 			return 0.0;
 		}
 		return getGraphicalRepresentation().getWidth()
 				+ (getGraphicalRepresentation().getBorder() != null ? getGraphicalRepresentation().getBorder().getLeft()
-						+ getGraphicalRepresentation().getBorder().getRight() : 0);
+						+ getGraphicalRepresentation().getBorder().getRight() : 0);*/
 	}
 
 	@Override
 	public double getUnscaledViewHeight() {
-		if (getGraphicalRepresentation() == null) {
-			return 0.0;
-		}
-		return getGraphicalRepresentation().getHeight()
+		return getPropertyValue(ShapeGraphicalRepresentation.HEIGHT)
 				+ (getGraphicalRepresentation().getBorder() != null ? getGraphicalRepresentation().getBorder().getTop()
 						+ getGraphicalRepresentation().getBorder().getBottom() : 0);
+
+		/*		if (getGraphicalRepresentation() == null) {
+					return 0.0;
+				}
+				return getGraphicalRepresentation().getHeight()
+						+ (getGraphicalRepresentation().getBorder() != null ? getGraphicalRepresentation().getBorder().getTop()
+								+ getGraphicalRepresentation().getBorder().getBottom() : 0);*/
 	}
 
 	/**

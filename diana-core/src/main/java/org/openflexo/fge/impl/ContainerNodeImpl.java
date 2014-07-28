@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.openflexo.antar.binding.DataBinding;
 import org.openflexo.fge.ContainerGraphicalRepresentation;
 import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.ContainerNode;
@@ -18,6 +19,7 @@ import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.GRBinding;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
 import org.openflexo.fge.GRBinding.ShapeGRBinding;
+import org.openflexo.fge.GRParameter;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.fge.geom.FGEDimension;
@@ -112,7 +114,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		if (childNodes.contains(aChildNode)) {
 			logger.warning("Node already present");
 		} else {
-			//System.out.println("Add child " + aChildNode + " as child as " + this);
+			// System.out.println("Add child " + aChildNode + " as child as " + this);
 			((DrawingTreeNodeImpl<?, ?>) aChildNode).setParentNode(this);
 			childNodes.add((DrawingTreeNodeImpl<?, ?>) aChildNode);
 		}
@@ -666,6 +668,22 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		}
 
 		return requiredBounds;
+	}
+
+	/**
+	 * This method is called whenever it was detected that the value of a property declared as dynamic (specified by a {@link DataBinding}
+	 * in {@link GRBinding}) has changed
+	 * 
+	 * @param parameter
+	 * @param oldValue
+	 * @param newValue
+	 */
+	@Override
+	public <T> void fireDynamicPropertyChanged(GRParameter<T> parameter, T oldValue, T newValue) {
+		super.fireDynamicPropertyChanged(parameter, oldValue, newValue);
+		if (parameter == ShapeGraphicalRepresentation.WIDTH || parameter == ShapeGraphicalRepresentation.HEIGHT) {
+			notifyObjectResized();
+		}
 	}
 
 }

@@ -405,10 +405,16 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 					getPaintManager().invalidate(shapeNode);
 				}
 			} else if (evt.getPropertyName().equals(ObjectResized.PROPERTY_NAME)) {
+				// TODO: (sylvain) those two cases may be joined ??? Please check
 				resizeView();
-				if (getParentView() != null) {
+				/*if (getParentView() != null) {
 					getParentView().revalidate();
 					getPaintManager().repaint(this);
+				}*/
+				if (getPaintManager().isPaintingCacheEnabled()) {
+					getPaintManager().removeFromTemporaryObjects(shapeNode);
+					getPaintManager().invalidate(shapeNode);
+					getPaintManager().repaint(getParentView());
 				}
 			} else if (evt.getPropertyName().equals(ObjectHasResized.EVENT_NAME)
 					|| evt.getPropertyName().equals(ContainerGraphicalRepresentation.WIDTH_KEY)
