@@ -37,16 +37,21 @@ public class JFGEDrawingDecorationGraphics extends JFGEGraphics implements FGEDr
 	}
 
 	@Override
+	public RootNode<?> getNode() {
+		return (RootNode<?>) super.getNode();
+	}
+
+	@Override
 	public DrawingGraphicalRepresentation getGraphicalRepresentation() {
 		return (DrawingGraphicalRepresentation) super.getGraphicalRepresentation();
 	}
 
 	public double getWidth() {
-		return getGraphicalRepresentation().getWidth();
+		return getNode().getWidth();
 	}
 
 	public double getHeight() {
-		return getGraphicalRepresentation().getHeight();
+		return getNode().getHeight();
 	}
 
 	// Decoration graphics doesn't use normalized coordinates system

@@ -37,16 +37,21 @@ public class JFGEShapeDecorationGraphics extends JFGEGraphics implements FGEShap
 	}
 
 	@Override
+	public ShapeNode<?> getNode() {
+		return (ShapeNode<?>) super.getNode();
+	}
+
+	@Override
 	public ShapeGraphicalRepresentation getGraphicalRepresentation() {
 		return (ShapeGraphicalRepresentation) super.getGraphicalRepresentation();
 	}
 
 	public double getWidth() {
-		return getGraphicalRepresentation().getWidth();
+		return getWidth();
 	}
 
 	public double getHeight() {
-		return getGraphicalRepresentation().getHeight();
+		return getHeight();
 	}
 
 	// Decoration graphics doesn't use normalized coordinates system

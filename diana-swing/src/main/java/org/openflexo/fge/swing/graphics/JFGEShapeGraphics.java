@@ -88,8 +88,8 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 				// the inspector is shown, an instability is raising: the shape is
 				// continuously switching between two values
 				// Please investigate
-				bgImage.setScaleXNoNotification(getGraphicalRepresentation().getWidth() / bgImage.getImage().getWidth(null));
-				bgImage.setScaleYNoNotification(getGraphicalRepresentation().getHeight() / bgImage.getImage().getHeight(null));
+				bgImage.setScaleXNoNotification(getNode().getWidth() / bgImage.getImage().getWidth(null));
+				bgImage.setScaleYNoNotification(getNode().getHeight() / bgImage.getImage().getHeight(null));
 			}
 		}
 

@@ -58,7 +58,7 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		//System.out.println("******************************** Received " + evt.getPropertyName() + " " + evt);
+		// System.out.println("******************************** Received " + evt.getPropertyName() + " " + evt);
 		super.propertyChange(evt);
 	}
 
@@ -91,17 +91,17 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 
 	@Override
 	public int getViewWidth(double scale) {
-		return (int) (getGraphicalRepresentation().getWidth() * scale);
+		return (int) (getWidth() * scale);
 	}
 
 	@Override
 	public int getViewHeight(double scale) {
-		return (int) (getGraphicalRepresentation().getHeight() * scale);
+		return (int) (getHeight() * scale);
 	}
 
 	@Override
 	public FGERectangle getNormalizedBounds() {
-		return new FGERectangle(0, 0, getGraphicalRepresentation().getWidth(), getGraphicalRepresentation().getHeight(), Filling.FILLED);
+		return new FGERectangle(0, 0, getWidth(), getHeight(), Filling.FILLED);
 	}
 
 	@Override

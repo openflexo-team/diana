@@ -240,8 +240,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			returned.preConcatenate(AffineTransform.getTranslateInstance(-getGraphicalRepresentation().getBorder().getLeft(),
 					-getGraphicalRepresentation().getBorder().getTop()));
 		}
-		returned.preConcatenate(AffineTransform.getScaleInstance(1 / getGraphicalRepresentation().getWidth(),
-				1 / getGraphicalRepresentation().getHeight()));
+		returned.preConcatenate(AffineTransform.getScaleInstance(1 / getWidth(), 1 / getHeight()));
 		return returned;
 		/*
 		double x2= (double)x;
