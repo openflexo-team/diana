@@ -33,6 +33,7 @@ import org.openflexo.fge.GRBinding.ConnectorGRBinding;
 import org.openflexo.fge.GRBinding.ContainerGRBinding;
 import org.openflexo.fge.GRBinding.DrawingGRBinding;
 import org.openflexo.fge.GRBinding.GeometricGRBinding;
+import org.openflexo.fge.GRBinding.GraphGRBinding;
 import org.openflexo.fge.GRBinding.ShapeGRBinding;
 import org.openflexo.fge.GRProvider.ConnectorGRProvider;
 import org.openflexo.fge.GRProvider.DrawingGRProvider;
@@ -40,6 +41,7 @@ import org.openflexo.fge.GRProvider.GeometricGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.GraphicalRepresentation;
+import org.openflexo.fge.graph.FGEGraph;
 import org.openflexo.fge.notifications.DrawingTreeNodeHierarchyRebuildEnded;
 import org.openflexo.fge.notifications.DrawingTreeNodeHierarchyRebuildStarted;
 import org.openflexo.fge.notifications.FGENotification;
@@ -187,6 +189,12 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	public <R> ConnectorGRBinding<R> bindConnector(Class<R> connectorObjectClass, String name, ShapeGRBinding<?> fromBinding,
 			ShapeGRBinding<?> toBinding, ContainerGRBinding<?, ?> parentBinding, ConnectorGRProvider<R> grProvider) {
 		ConnectorGRBinding<R> returned = new ConnectorGRBinding<R>(name, connectorObjectClass, grProvider);
+		return returned;
+	}
+
+	@Override
+	public <G extends FGEGraph> GraphGRBinding<G> bindGraph(Class<G> graphClass, String name, ShapeGRProvider<G> grProvider) {
+		GraphGRBinding<G> returned = new GraphGRBinding<G>(name, graphClass, grProvider);
 		return returned;
 	}
 

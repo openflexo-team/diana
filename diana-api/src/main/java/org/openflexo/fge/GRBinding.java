@@ -39,6 +39,7 @@ import org.openflexo.fge.GRProvider.ContainerGRProvider;
 import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.GeometricGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
+import org.openflexo.fge.graph.FGEGraph;
 
 public abstract class GRBinding<O, GR extends GraphicalRepresentation> implements Bindable {
 
@@ -169,7 +170,7 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> implement
 
 	public static class ShapeGRBinding<O> extends ContainerGRBinding<O, ShapeGraphicalRepresentation> {
 
-		public ShapeGRBinding(String name, Class<?> drawableClass, ShapeGRProvider<O> grProvider) {
+		public ShapeGRBinding(String name, Class<? extends O> drawableClass, ShapeGRProvider<O> grProvider) {
 			super(name, drawableClass, grProvider);
 			bindingModel.addToBindingVariables(new BindingVariable("gr", ShapeGraphicalRepresentation.class));
 		}
@@ -178,7 +179,7 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> implement
 
 	public static class ConnectorGRBinding<O> extends GRBinding<O, ConnectorGraphicalRepresentation> {
 
-		public ConnectorGRBinding(String name, Class<?> drawableClass, ConnectorGRProvider<O> grProvider) {
+		public ConnectorGRBinding(String name, Class<? extends O> drawableClass, ConnectorGRProvider<O> grProvider) {
 			super(name, drawableClass, grProvider);
 			bindingModel.addToBindingVariables(new BindingVariable("gr", ConnectorGraphicalRepresentation.class));
 		}
@@ -186,9 +187,17 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> implement
 
 	public static class GeometricGRBinding<O> extends GRBinding<O, GeometricGraphicalRepresentation> {
 
-		public GeometricGRBinding(String name, Class<?> drawableClass, GeometricGRProvider<O> grProvider) {
+		public GeometricGRBinding(String name, Class<? extends O> drawableClass, GeometricGRProvider<O> grProvider) {
 			super(name, drawableClass, grProvider);
 			bindingModel.addToBindingVariables(new BindingVariable("gr", GeometricGraphicalRepresentation.class));
+		}
+	}
+
+	public static class GraphGRBinding<O extends FGEGraph> extends GRBinding<O, ShapeGraphicalRepresentation> {
+
+		public GraphGRBinding(String name, Class<? extends O> graphClass, ShapeGRProvider<O> grProvider) {
+			super(name, graphClass, grProvider);
+			bindingModel.addToBindingVariables(new BindingVariable("gr", ShapeGraphicalRepresentation.class));
 		}
 	}
 

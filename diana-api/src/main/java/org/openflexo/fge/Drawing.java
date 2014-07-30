@@ -34,6 +34,7 @@ import org.openflexo.fge.GRBinding.ConnectorGRBinding;
 import org.openflexo.fge.GRBinding.ContainerGRBinding;
 import org.openflexo.fge.GRBinding.DrawingGRBinding;
 import org.openflexo.fge.GRBinding.GeometricGRBinding;
+import org.openflexo.fge.GRBinding.GraphGRBinding;
 import org.openflexo.fge.GRBinding.ShapeGRBinding;
 import org.openflexo.fge.GRProvider.ConnectorGRProvider;
 import org.openflexo.fge.GRProvider.DrawingGRProvider;
@@ -51,6 +52,7 @@ import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.geom.FGEShape;
 import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.fge.graph.FGEGraph;
 import org.openflexo.fge.graphics.FGEConnectorGraphics;
 import org.openflexo.fge.graphics.FGEDrawingGraphics;
 import org.openflexo.fge.graphics.FGEGeometricGraphics;
@@ -828,6 +830,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 
 	public <R> ConnectorGRBinding<R> bindConnector(Class<R> connectorObjectClass, String name, ShapeGRBinding<?> fromBinding,
 			ShapeGRBinding<?> toBinding, ContainerGRBinding<?, ?> parentBinding, ConnectorGRProvider<R> grProvider);
+
+	public <G extends FGEGraph> GraphGRBinding<G> bindGraph(Class<G> graphClass, String name, ShapeGRProvider<G> grProvider);
 
 	public <O> ShapeNode<O> createNewShapeNode(ContainerNode<?, ?> parent, ShapeGRBinding<O> binding, O representable);
 
