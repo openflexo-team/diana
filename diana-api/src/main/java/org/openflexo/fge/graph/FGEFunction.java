@@ -20,6 +20,9 @@
 package org.openflexo.fge.graph;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.openflexo.antar.binding.DataBinding;
@@ -28,10 +31,17 @@ import org.openflexo.antar.expr.NullReferenceException;
 import org.openflexo.antar.expr.TypeMismatchException;
 import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.ForegroundStyle;
+import org.openflexo.fge.geom.FGEComplexCurve;
+import org.openflexo.fge.geom.FGEGeneralShape.Closure;
+import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geom.FGEPolylin;
+import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.fge.geom.area.FGEUnionArea;
+import org.openflexo.fge.graph.FGEFunctionGraph.Orientation;
 
 /**
  * Represents a function as a typed expression<br>
- * Note that computed values may not be {@link Number} instances
+ * Note that computed values must not be {@link Number} instances
  * 
  * @author sylvain
  * 
@@ -51,6 +61,10 @@ public class FGEFunction<T> {
 	private BackgroundStyle backgroundStyle;
 
 	private final FGEGraph graph;
+
+	private FGEArea representation = null;
+
+	protected List<T> valueSamples;
 
 	public FGEFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression, FGEFunctionGraph.GraphType graphType,
 			FGEGraph graph) {
@@ -111,4 +125,125 @@ public class FGEFunction<T> {
 		return returned;
 	}
 
+	public FGEArea getRepresentation() {
+
+		if (representation == null) {
+			representation = buildRepresentation();
+		}
+
+		return representation;
+	}
+
+	protected FGEArea buildRepresentation() {
+
+		if (getGraph() instanceof FGEFunctionGraph) {
+			return buildRepresentationForFunctionGraph((FGEFunctionGraph) getGraph());
+		}
+		return null;
+	}
+
+	class FunctionSample<P> {
+		P p;
+		T value;
+
+		public FunctionSample(P p, T value) {
+			super();
+			this.p = p;
+			this.value = value;
+		}
+	}
+
+	protected <X> List<FunctionSample<X>> retrieveSamples(FGEFunctionGraph<X> graph) {
+
+		if (valueSamples != null) {
+			valueSamples.clear();
+		} else {
+			valueSamples = new ArrayList<T>();
+		}
+
+		List<FunctionSample<X>> samples = new ArrayList<FunctionSample<X>>();
+		Iterator<X> it = graph.iterateParameter();
+
+		while (it.hasNext()) {
+
+			X p = it.next();
+			T value = null;
+			try {
+				value = graph.evaluateFunction(this, p);
+			} catch (TypeMismatchException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NullReferenceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			samples.add(new FunctionSample<X>(p, value));
+
+			// System.out.println("Sampling p=" + p + " value=" + value);
+
+			if (!valueSamples.contains(value)) {
+				valueSamples.add(value);
+			}
+
+		}
+
+		return samples;
+	}
+
+	protected <X> FGEArea buildRepresentationForFunctionGraph(FGEFunctionGraph<X> graph) {
+
+		List<FunctionSample<X>> samples = retrieveSamples(graph);
+
+		System.out.println("Toutes les valeurs: " + valueSamples);
+
+		List<FGEPoint> points = new ArrayList<FGEPoint>();
+
+		for (FunctionSample<X> s : samples) {
+			FGEPoint pt;
+			if (graph.getParameterOrientation() == Orientation.HORIZONTAL) {
+				pt = new FGEPoint(graph.getNormalizedPosition(s.p), getNormalizedPosition(s.value));
+			} else {
+				pt = new FGEPoint(getNormalizedPosition(s.value), graph.getNormalizedPosition(s.p));
+			}
+			points.add(pt);
+		}
+
+		switch (graphType) {
+		case POINTS:
+			return FGEUnionArea.makeUnion(points);
+		case POLYLIN:
+			return new FGEPolylin(points);
+		case RECT_POLYLIN:
+			List<FGEPoint> rectPoints = new ArrayList<FGEPoint>();
+			double delta = (double) 1 / points.size() / 2;
+			for (FGEPoint pt : points) {
+				if (graph.getParameterOrientation() == Orientation.HORIZONTAL) {
+					rectPoints.add(new FGEPoint(pt.x - delta, pt.y));
+					rectPoints.add(new FGEPoint(pt.x + delta, pt.y));
+				}
+			}
+			return new FGEPolylin(rectPoints);
+		case CURVE:
+			return new FGEComplexCurve(Closure.OPEN_NOT_FILLED, points);
+
+		default:
+			break;
+		}
+		return null;
+	}
+
+	protected Double getNormalizedPosition(T value) {
+
+		if (valueSamples.size() <= 1) {
+			return 0.0;
+		}
+
+		// System.out.println("For " + value + " return " + (((double) valueSamples.indexOf(value)) / (valueSamples.size() - 1)));
+
+		return ((double) valueSamples.indexOf(value)) / (valueSamples.size() - 1);
+	}
 }

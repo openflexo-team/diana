@@ -31,9 +31,7 @@ import org.openflexo.antar.binding.BindingModel;
 import org.openflexo.antar.binding.BindingVariable;
 import org.openflexo.antar.binding.DataBinding;
 import org.openflexo.antar.binding.JavaBindingFactory;
-import org.openflexo.fge.geom.FGEGeometricObject.Filling;
-import org.openflexo.fge.geom.FGERectangle;
-import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
  * This is the common super class for all graphs
@@ -57,13 +55,6 @@ public abstract class FGEGraph implements Bindable {
 
 	private final FGEGraphEvaluator evaluator;
 
-	private double x = 0;
-	private double y = 0;
-	private double width = 100;
-	private double height = 100;
-
-	private FGEArea resultingArea = null;
-
 	public FGEGraph() {
 		functions = new ArrayList<FGEFunction<?>>();
 		parameterTypes = new HashMap<String, Class<?>>();
@@ -76,51 +67,13 @@ public abstract class FGEGraph implements Bindable {
 		bindingModel.addToBindingVariables(new BindingVariable(parameterName, parameterType));
 	}
 
-	public double getX() {
-		return x;
-	}
+	/**
+	 * Called for graph painting
+	 * 
+	 * @param g
+	 */
+	public void paint(FGEShapeGraphics g) {
 
-	public void setX(double x) {
-		this.x = x;
-		invalidateResultingArea();
-	}
-
-	public double getY() {
-		return y;
-	}
-
-	public void setY(double y) {
-		this.y = y;
-		invalidateResultingArea();
-	}
-
-	public double getWidth() {
-		return width;
-	}
-
-	public void setWidth(double width) {
-		this.width = width;
-		invalidateResultingArea();
-	}
-
-	public double getHeight() {
-		return height;
-	}
-
-	public void setHeight(double height) {
-		this.height = height;
-		invalidateResultingArea();
-	}
-
-	public void invalidateResultingArea() {
-		resultingArea = null;
-	}
-
-	public FGEArea getResultingArea() {
-		if (resultingArea == null) {
-			resultingArea = new FGERectangle(x, y, width, height, Filling.FILLED);
-		}
-		return resultingArea;
 	}
 
 	public <T> FGEFunction<T> addFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression, GraphType type) {
@@ -142,6 +95,10 @@ public abstract class FGEGraph implements Bindable {
 		FGENumericFunction<T> returned = new FGENumericFunction<T>(functionName, functionType, functionExpression, type, this);
 		functions.add(returned);
 		return returned;
+	}
+
+	public List<FGEFunction<?>> getFunctions() {
+		return functions;
 	}
 
 	@Override

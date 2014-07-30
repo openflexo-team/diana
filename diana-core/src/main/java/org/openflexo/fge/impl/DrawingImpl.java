@@ -641,6 +641,29 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	}
 
 	@Override
+	public <G extends FGEGraph> GraphNode<G> createNewGraphNode(ContainerNode<?, ?> parentNode, GraphGRBinding<G> binding, G drawable) {
+
+		// System.out.println("draw graph with " + binding + " drawable=" + drawable + " parent=" + parentNode );
+
+		if (parentNode == null) {
+			logger.warning("Cannot register drawable above null parent");
+			return null;
+		}
+
+		GraphNodeImpl<G> returned = new GraphNodeImpl<G>(this, drawable, binding, (ContainerNodeImpl<?, ?>) parentNode);
+		parentNode.addChild(returned);
+
+		// Now start to observe drawable for drawing structural modifications
+		// NOTE: No need now, done in ShapeNodeImpl
+		// returned.startDrawableObserving();
+
+		// if (isUpdatingObjectHierarchy) {
+		notifyNodeAdded(returned, parentNode);
+		// }
+		return returned;
+	}
+
+	@Override
 	public <O> ConnectorNode<O> createNewConnectorNode(ContainerNode<?, ?> parentNode, ConnectorGRBinding<O> binding, O drawable,
 			ShapeNode<?> fromNode, ShapeNode<?> toNode) {
 

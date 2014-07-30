@@ -29,12 +29,15 @@ import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.DrawingTreeNodeIdentifier;
 import org.openflexo.fge.Drawing.GeometricNode;
+import org.openflexo.fge.Drawing.GraphNode;
 import org.openflexo.fge.Drawing.PendingConnector;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
 import org.openflexo.fge.GRBinding.ContainerGRBinding;
 import org.openflexo.fge.GRBinding.GeometricGRBinding;
+import org.openflexo.fge.GRBinding.GraphGRBinding;
 import org.openflexo.fge.GRBinding.ShapeGRBinding;
+import org.openflexo.fge.graph.FGEGraph;
 
 /**
  * Represents a dynamic structure allowing to explore represented graph of objects<br>
@@ -436,6 +439,49 @@ public abstract class GRStructureVisitor<R> {
 			PendingConnector<O> returned = drawing.createPendingConnector(binding, drawable, parentNodeIdentifier, startNodeIdentifier,
 					endNodeIdentifier);
 			pendingConnectors.add(returned);
+			return returned;
+		}
+	}
+
+	/**
+	 * Called to specify the drawing of a graph
+	 * 
+	 * @param binding
+	 * @param drawable
+	 * @return
+	 */
+	public <G extends FGEGraph> GraphNode<G> drawGraph(GraphGRBinding<G> binding, G drawable) {
+		if (node instanceof ContainerNode) {
+			return drawGraph((ContainerNode<G, ?>) node, binding, drawable);
+		} else {
+			logger.warning("Cannot add shape in non-container node");
+			return null;
+		}
+	}
+
+	/**
+	 * Internally used to draw or retrieve a ShapeNode in the graphical object hierarchy
+	 * 
+	 * @param parent
+	 * @param binding
+	 * @param drawable
+	 * @return
+	 */
+	private <G extends FGEGraph> GraphNode<G> drawGraph(ContainerNode<?, ?> parent, GraphGRBinding<G> binding, G drawable) {
+		Drawing<?> drawing = node.getDrawing();
+
+		if (parent.hasGraphFor(binding, drawable)) {
+			// Already existing
+			// System.out.println("% Found already existing node for " + drawable);
+			GraphNode<G> returned = parent.getGraphFor(binding, drawable);
+			updatedNodes.add(returned);
+			// deletedNodes.remove(returned);
+			return returned;
+		} else {
+			// System.out.println("% Creating new node for " + drawable);
+			GraphNode<G> returned = drawing.createNewGraphNode(parent, binding, drawable);
+			// New node
+			createdNodes.add(returned);
 			return returned;
 		}
 	}

@@ -19,14 +19,20 @@
  */
 package org.openflexo.fge.graph;
 
+import java.awt.geom.AffineTransform;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
 
 import org.openflexo.antar.expr.NullReferenceException;
 import org.openflexo.antar.expr.TypeMismatchException;
+import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
- * Represents a 2D-base graph representing functions where a coordinates is based on an expression using opposite coordinate (iterated
- * value, which can be discrete or continuous)<br>
+ * Represents a 2D-base graph representing functions where:
+ * <ul>
+ * <li>a coordinate is iterated over continuous or discrete values</li>
+ * <li>a coordinates is based on an expression using opposite coordinate (iterated value, which can be discrete or continuous)</li><br>
+ * </ul>
  * 
  * Such graphs allows only one parameter.
  * 
@@ -35,11 +41,13 @@ import org.openflexo.antar.expr.TypeMismatchException;
  * @param <X>
  *            type of value which plays iterator role
  */
-public class FGEFunctionGraph<X> extends FGEGraph {
+public abstract class FGEFunctionGraph<X> extends FGEGraph {
 
 	public static enum Orientation {
 		HORIZONTAL, VERTICAL;
 	}
+
+	private Orientation parameterOrientation = Orientation.HORIZONTAL;
 
 	public FGEFunctionGraph() {
 		super();
@@ -62,13 +70,51 @@ public class FGEFunctionGraph<X> extends FGEGraph {
 		super.setParameter(parameterName, parameterType);
 	}
 
-	public void setParameterOrientation(Orientation orientation) {
+	public Orientation getParameterOrientation() {
+		return parameterOrientation;
+	}
 
+	public void setParameterOrientation(Orientation orientation) {
+		this.parameterOrientation = orientation;
 	}
 
 	public <Y> Y evaluateFunction(FGEFunction<Y> function, X value) throws TypeMismatchException, NullReferenceException,
 			InvocationTargetException {
 		getEvaluator().set(getParameter(), value);
 		return function.evaluate();
+	}
+
+	protected abstract Iterator<X> iterateParameter();
+
+	protected abstract Double getNormalizedPosition(X value);
+
+	/**
+	 * Called for graph painting
+	 * 
+	 * @param g
+	 */
+	@Override
+	public void paint(FGEShapeGraphics g) {
+
+		System.out.println("Painting graph");
+		// System.out.println("width = " + g.getViewWidth());
+		// System.out.println("height = " + g.getViewHeight());
+
+		super.paint(g);
+
+		// This AffinTransform allows to convert normalized coordinate system in FGE to the mathematical classical one
+		// y-axis order is reversed
+		AffineTransform at = new AffineTransform(new double[] { 1.0, 0.0, 0.0, -1.0, 0.0, 1.0 });
+
+		for (FGEFunction<?> f : getFunctions()) {
+			System.out.println(f.getRepresentation());
+
+			g.setDefaultForeground(f.getForegroundStyle());
+			g.setDefaultBackground(f.getBackgroundStyle());
+
+			f.getRepresentation().transform(at).paint(g);
+
+		}
+
 	}
 }

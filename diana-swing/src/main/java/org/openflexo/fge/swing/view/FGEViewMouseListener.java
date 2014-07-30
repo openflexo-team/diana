@@ -189,7 +189,6 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 					}
 				}
 
-
 				if (focusedObject != null) {
 					ControlArea<?> ca = getFocusRetriever().getFocusedControlAreaForDrawable(focusedObject, e);
 					if (ca != null && ca.isClickable()) {
@@ -539,6 +538,9 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 			if (applicableMouseDragControls.size() > 1) {
 				logger.warning("More than one applicable CustomMouseDragControlImpl for graphical representation: " + focusedObject
 						+ " Applying first and forgetting others...");
+
+				logger.warning("Available: " + applicableMouseDragControls);
+				logger.warning("Applying: " + applicableMouseDragControls.get(0));
 			}
 
 			// Apply applicable mouse drag control

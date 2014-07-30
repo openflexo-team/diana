@@ -15,11 +15,13 @@ import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
+import org.openflexo.fge.Drawing.GraphNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.GRBinding;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
 import org.openflexo.fge.GRBinding.GeometricGRBinding;
+import org.openflexo.fge.GRBinding.GraphGRBinding;
 import org.openflexo.fge.GRBinding.ShapeGRBinding;
 import org.openflexo.fge.GRParameter;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
@@ -29,6 +31,7 @@ import org.openflexo.fge.geom.FGEGeometricObject;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.geom.FGESteppedDimensionConstraint;
+import org.openflexo.fge.graph.FGEGraph;
 import org.openflexo.fge.notifications.NodeAdded;
 import org.openflexo.fge.notifications.NodeRemoved;
 import org.openflexo.fge.notifications.ObjectHasResized;
@@ -205,6 +208,22 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		for (DrawingTreeNode<?, ?> child : childNodes) {
 			if (child instanceof ShapeNode && child.getGRBinding() == binding && child.getDrawable() == aDrawable) {
 				return (ShapeNode<O2>) child;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public <G extends FGEGraph> boolean hasGraphFor(GraphGRBinding<G> binding, G aDrawable) {
+		return getGraphFor(binding, aDrawable) != null;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public <G extends FGEGraph> GraphNode<G> getGraphFor(GraphGRBinding<G> binding, G aDrawable) {
+		for (DrawingTreeNode<?, ?> child : childNodes) {
+			if (child instanceof GraphNode && child.getGRBinding() == binding && child.getDrawable() == aDrawable) {
+				return (GraphNode<G>) child;
 			}
 		}
 		return null;

@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 
 import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -53,7 +54,7 @@ public class TestFGEContinuousFunctionGraph {
 	@Test
 	@TestOrder(1)
 	public void test1InitGraph() {
-		graph = new FGEContinuousFunctionGraph<Double>();
+		graph = new FGEContinuousFunctionGraph<Double>(Double.class);
 		graph.setParameter("x", Double.class);
 		graph.setParameterRange(-10.0, 10.0);
 
@@ -77,11 +78,25 @@ public class TestFGEContinuousFunctionGraph {
 	}
 
 	@Test
-	@TestOrder(2)
+	@TestOrder(3)
 	public void testEvaluation() throws TypeMismatchException, NullReferenceException, InvocationTargetException {
 		assertEquals((Double) 0.0, graph.evaluateFunction(yFunction, 1.0));
 		assertEquals((Double) 1.0, graph.evaluateFunction(yFunction, 2.0));
 		assertEquals((Double) 4.0, graph.evaluateFunction(yFunction, 3.0));
 		assertEquals(4.0, graph.getEvaluator().get("y"));
+	}
+
+	@Test
+	@TestOrder(4)
+	public void testIterate() throws TypeMismatchException, NullReferenceException, InvocationTargetException {
+		int i = 0;
+		Iterator<Double> it = graph.iterateParameter();
+		while (it.hasNext()) {
+			Double d = it.next();
+			System.out.println("For " + d + " value is " + graph.evaluateFunction(yFunction, d));
+			i++;
+		}
+		assertEquals(21, i);
+
 	}
 }

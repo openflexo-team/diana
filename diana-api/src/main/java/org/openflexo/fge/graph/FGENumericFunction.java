@@ -19,10 +19,13 @@
  */
 package org.openflexo.fge.graph;
 
+import java.util.List;
+
 import org.openflexo.antar.binding.DataBinding;
 
 /**
  * Represents a numeric function as a typed expression<br>
+ * This function return numeric values.
  * 
  * @author sylvain
  * 
@@ -54,6 +57,9 @@ public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 	}
 
 	public T getMinValue() {
+		if (minValue == null) {
+			return computedMinValue;
+		}
 		return minValue;
 	}
 
@@ -62,6 +68,9 @@ public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 	}
 
 	public T getMaxValue() {
+		if (maxValue == null) {
+			return computedMaxValue;
+		}
 		return maxValue;
 	}
 
@@ -105,5 +114,74 @@ public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 	 */
 	public void setMinorTickSpacing(T minorTickSpacing) {
 		this.minorTickSpacing = minorTickSpacing;
+	}
+
+	private T computedMinValue;
+	private T computedMaxValue;
+
+	@Override
+	protected <X> List<FunctionSample<X>> retrieveSamples(FGEFunctionGraph<X> graph) {
+
+		List<FunctionSample<X>> samples = super.retrieveSamples(graph);
+
+		computedMinValue = null;
+		computedMaxValue = null;
+
+		for (FunctionSample<X> s : samples) {
+			T value = s.value;
+			if (value instanceof Double) {
+				if (computedMinValue == null || (Double) value < (Double) computedMinValue) {
+					computedMinValue = value;
+				}
+				if (computedMaxValue == null || (Double) value > (Double) computedMaxValue) {
+					computedMaxValue = value;
+				}
+			} else if (value instanceof Float) {
+				if (computedMinValue == null || (Float) value < (Float) computedMinValue) {
+					computedMinValue = value;
+				}
+				if (computedMaxValue == null || (Float) value > (Float) computedMaxValue) {
+					computedMaxValue = value;
+				}
+			} else if (value instanceof Long) {
+				if (computedMinValue == null || (Long) value < (Long) computedMinValue) {
+					computedMinValue = value;
+				}
+				if (computedMaxValue == null || (Long) value > (Long) computedMaxValue) {
+					computedMaxValue = value;
+				}
+			} else if (value instanceof Integer) {
+				if (computedMinValue == null || (Integer) value < (Integer) computedMinValue) {
+					computedMinValue = value;
+				}
+				if (computedMaxValue == null || (Integer) value > (Integer) computedMaxValue) {
+					computedMaxValue = value;
+				}
+			} else if (value instanceof Short) {
+				if (computedMinValue == null || (Short) value < (Short) computedMinValue) {
+					computedMinValue = value;
+				}
+				if (computedMaxValue == null || (Short) value > (Short) computedMaxValue) {
+					computedMaxValue = value;
+				}
+			} else if (value instanceof Byte) {
+				if (computedMinValue == null || (Byte) value < (Byte) computedMinValue) {
+					computedMinValue = value;
+				}
+				if (computedMaxValue == null || (Byte) value > (Byte) computedMaxValue) {
+					computedMaxValue = value;
+				}
+			}
+		}
+
+		System.out.println("computedMinValue=" + computedMinValue);
+		System.out.println("computedMaxValue=" + computedMaxValue);
+
+		return samples;
+	}
+
+	@Override
+	protected Double getNormalizedPosition(T value) {
+		return (value.doubleValue() - getMinValue().doubleValue()) / (getMaxValue().doubleValue() - getMinValue().doubleValue());
 	}
 }

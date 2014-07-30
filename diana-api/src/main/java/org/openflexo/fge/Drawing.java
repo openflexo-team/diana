@@ -474,6 +474,10 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 
 		public <O2> GeometricNode<O2> getGeometricObjectFor(GeometricGRBinding<O2> binding, O2 aDrawable);
 
+		public <G extends FGEGraph> boolean hasGraphFor(GraphGRBinding<G> binding, G aDrawable);
+
+		public <G extends FGEGraph> GraphNode<G> getGraphFor(GraphGRBinding<G> binding, G aDrawable);
+
 		/**
 		 * Notify that the object just resized
 		 */
@@ -694,6 +698,10 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		public void setShapeSpecification(ShapeSpecification shapeSpecification);
 	}
 
+	public interface GraphNode<G extends FGEGraph> extends ShapeNode<G> {
+
+	}
+
 	public interface ConnectorNode<O> extends DrawingTreeNode<O, ConnectorGraphicalRepresentation> {
 
 		public ShapeNode<?> getStartNode();
@@ -839,6 +847,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 			ShapeNode<?> fromNode, ShapeNode<?> toNode);
 
 	public <O> GeometricNode<O> createNewGeometricNode(ContainerNode<?, ?> parent, GeometricGRBinding<O> binding, O representable);
+
+	public <G extends FGEGraph> GraphNode<G> createNewGraphNode(ContainerNode<?, ?> parent, GraphGRBinding<G> binding, G representable);
 
 	public <O> boolean hasPendingConnector(ConnectorGRBinding<O> binding, O drawable, DrawingTreeNodeIdentifier<?> parentNodeIdentifier,
 			DrawingTreeNodeIdentifier<?> startNodeIdentifier, DrawingTreeNodeIdentifier<?> endNodeIdentifier);

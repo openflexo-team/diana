@@ -43,21 +43,34 @@ public class FGEGraphDrawing extends DrawingImpl<Object> {
 			}
 		});
 
-		final FGEContinuousFunctionGraph<Double> graph = new FGEContinuousFunctionGraph<Double>();
+		final FGEContinuousFunctionGraph<Double> graph = new FGEContinuousFunctionGraph<Double>(Double.class);
 		graph.setParameter("x", Double.class);
 		graph.setParameterRange(-10.0, 10.0);
+		graph.setStepsNumber(100);
+
 		FGENumericFunction<Double> yFunction = graph.addNumericFunction("y", Double.class, new DataBinding<Double>("x*x-2*x+1"),
-				GraphType.CURVE);
+				GraphType.POLYLIN);
 		yFunction.setRange(0.0, 100.0);
-		yFunction.setForegroundStyle(getFactory().makeForegroundStyle(Color.RED, 1.0f));
-		yFunction.setBackgroundStyle(getFactory().makeColorGradientBackground(Color.BLUE, Color.WHITE, ColorGradientDirection.NORTH_SOUTH));
+		yFunction.setForegroundStyle(getFactory().makeForegroundStyle(Color.BLUE, 1.0f));
 
-		graph.setX(50.0);
-		graph.setY(50.0);
-		graph.setWidth(200.0);
-		graph.setHeight(200.0);
+		FGENumericFunction<Double> y2Function = graph.addNumericFunction("y2", Double.class, new DataBinding<Double>("cos(x)"),
+				GraphType.CURVE);
+		y2Function.setRange(-1.0, 1.0);
+		y2Function.setForegroundStyle(getFactory().makeForegroundStyle(Color.RED, 1.0f));
+		y2Function
+				.setBackgroundStyle(getFactory().makeColorGradientBackground(Color.BLUE, Color.WHITE, ColorGradientDirection.NORTH_SOUTH));
 
-		graphGR = getFactory().makeShapeGraphicalRepresentation(ShapeType.CIRCLE);
+		FGENumericFunction<Integer> y3Function = graph.addNumericFunction("y3", Integer.class, new DataBinding<Integer>(
+				"($java.lang.Integer)(x*x/2+1)"), GraphType.POINTS);
+		y3Function.setRange(0, 12);
+		y3Function.setForegroundStyle(getFactory().makeForegroundStyle(Color.BLACK, 1.0f));
+
+		FGENumericFunction<Double> y4Function = graph.addNumericFunction("y", Double.class, new DataBinding<Double>("-3*x*(x-10)+20"),
+				GraphType.RECT_POLYLIN);
+		y4Function.setRange(0.0, 100.0);
+		y4Function.setForegroundStyle(getFactory().makeForegroundStyle(Color.PINK, 1.0f));
+
+		graphGR = getFactory().makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
 		graphGR.setText("Graph legend");
 		graphGR.setX(50);
 		graphGR.setY(50);
@@ -71,15 +84,7 @@ public class FGEGraphDrawing extends DrawingImpl<Object> {
 				ColorGradientDirection.SOUTH_EAST_NORTH_WEST));
 		graphGR.setForeground(getFactory().makeForegroundStyle(Color.ORANGE));
 
-		// final Object myRectangle = new Object();
-		// FGERectangle rect = new FGERectangle(Filling.FILLED);
-		// rect.setRect(200, 200, 200, 200);
-
-		// geomGR = getFactory().makeGeometricGraphicalRepresentation(graph.getResultingArea());
-		// geomGR.setBackground(getFactory().makeColoredBackground(/*TextureType.TEXTURE1, Color.red, Color.white*/Color.YELLOW));
-		// geomGR.setForeground(getFactory().makeForegroundStyle(Color.blue));
-
-		final GraphGRBinding<FGEContinuousFunctionGraph> geomBinding = bindGraph(FGEContinuousFunctionGraph.class, "graph",
+		final GraphGRBinding<FGEContinuousFunctionGraph> graphBinding = bindGraph(FGEContinuousFunctionGraph.class, "graph",
 				new ShapeGRProvider<FGEContinuousFunctionGraph>() {
 					@Override
 					public ShapeGraphicalRepresentation provideGR(FGEContinuousFunctionGraph drawable, FGEModelFactory factory) {
@@ -91,7 +96,7 @@ public class FGEGraphDrawing extends DrawingImpl<Object> {
 
 			@Override
 			public void visit(Object route) {
-				// drawGeometricObject(geomBinding, graph);
+				drawGraph(graphBinding, graph);
 			}
 		});
 

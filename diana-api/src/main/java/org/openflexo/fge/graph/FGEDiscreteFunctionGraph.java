@@ -19,6 +19,7 @@
  */
 package org.openflexo.fge.graph;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.openflexo.antar.binding.DataBinding;
@@ -31,17 +32,49 @@ import org.openflexo.antar.binding.DataBinding;
  * @param <T>
  *            type of discrete values
  */
-public class FGEDiscreteFunctionGraph<T> extends FGEFunctionGraph<List<T>> {
+public class FGEDiscreteFunctionGraph<T> extends FGEFunctionGraph<T> {
+
+	private List<T> discreteValues;
+	private DataBinding<String> labelBinding;
+
+	// private double spacing = 10;
+
+	public FGEDiscreteFunctionGraph() {
+		super();
+	}
+
+	public List<T> getDiscreteValues() {
+		return discreteValues;
+	}
 
 	public void setDiscreteValues(List<T> discreteValues) {
-		// TODO Auto-generated method stub
+		this.discreteValues = discreteValues;
+	}
+
+	public DataBinding<String> getDiscreteValuesLabel() {
+		return labelBinding;
 	}
 
 	public void setDiscreteValuesLabel(DataBinding<String> labelBinding) {
-		// TODO Auto-generated method stub
+		this.labelBinding = labelBinding;
+	}
+
+	/*public double getDiscreteValuesSpacing() {
+		return spacing;
 	}
 
 	public void setDiscreteValuesSpacing(double spacing) {
+		this.spacing = spacing;
+	}*/
+
+	@Override
+	protected Iterator<T> iterateParameter() {
+		return discreteValues.iterator();
+	}
+
+	@Override
+	protected Double getNormalizedPosition(T value) {
+		return ((double) discreteValues.indexOf(value)) / discreteValues.size();
 	}
 
 }
