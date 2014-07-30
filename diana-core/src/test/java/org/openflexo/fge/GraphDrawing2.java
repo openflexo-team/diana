@@ -11,13 +11,13 @@ import org.openflexo.fge.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 
-public class GraphDrawing2 extends DrawingImpl<Graph> {
+public class GraphDrawing2 extends DrawingImpl<TestGraph> {
 
 	private DrawingGraphicalRepresentation graphRepresentation;
 	private ShapeGraphicalRepresentation nodeRepresentation;
 	private ConnectorGraphicalRepresentation edgeRepresentation;
 
-	public GraphDrawing2(Graph graph, FGEModelFactory factory) {
+	public GraphDrawing2(TestGraph graph, FGEModelFactory factory) {
 		super(graph, factory, PersistenceMode.SharedGraphicalRepresentations);
 	}
 
@@ -27,45 +27,45 @@ public class GraphDrawing2 extends DrawingImpl<Graph> {
 		nodeRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.CIRCLE);
 		edgeRepresentation = getFactory().makeConnectorGraphicalRepresentation(ConnectorType.CURVE);
 
-		final DrawingGRBinding<Graph> graphBinding = bindDrawing(Graph.class, "graph", new DrawingGRProvider<Graph>() {
+		final DrawingGRBinding<TestGraph> graphBinding = bindDrawing(TestGraph.class, "graph", new DrawingGRProvider<TestGraph>() {
 			@Override
-			public DrawingGraphicalRepresentation provideGR(Graph drawable, FGEModelFactory factory) {
+			public DrawingGraphicalRepresentation provideGR(TestGraph drawable, FGEModelFactory factory) {
 				return graphRepresentation;
 			}
 		});
-		final ShapeGRBinding<GraphNode> nodeBinding = bindShape(GraphNode.class, "node", new ShapeGRProvider<GraphNode>() {
+		final ShapeGRBinding<TestGraphNode> nodeBinding = bindShape(TestGraphNode.class, "node", new ShapeGRProvider<TestGraphNode>() {
 			@Override
-			public ShapeGraphicalRepresentation provideGR(GraphNode drawable, FGEModelFactory factory) {
+			public ShapeGraphicalRepresentation provideGR(TestGraphNode drawable, FGEModelFactory factory) {
 				return nodeRepresentation;
 			}
 		});
-		final ConnectorGRBinding<Edge> edgeBinding = bindConnector(Edge.class, "edge", nodeBinding, nodeBinding, graphBinding,
-				new ConnectorGRProvider<Edge>() {
+		final ConnectorGRBinding<TestEdge> edgeBinding = bindConnector(TestEdge.class, "edge", nodeBinding, nodeBinding, graphBinding,
+				new ConnectorGRProvider<TestEdge>() {
 					@Override
-					public ConnectorGraphicalRepresentation provideGR(Edge drawable, FGEModelFactory factory) {
+					public ConnectorGraphicalRepresentation provideGR(TestEdge drawable, FGEModelFactory factory) {
 						return edgeRepresentation;
 					}
 				});
 
-		graphBinding.addToWalkers(new GRStructureVisitor<Graph>() {
+		graphBinding.addToWalkers(new GRStructureVisitor<TestGraph>() {
 
 			@Override
-			public void visit(Graph graph) {
-				for (GraphNode node : graph.getNodes()) {
+			public void visit(TestGraph graph) {
+				for (TestGraphNode node : graph.getNodes()) {
 					drawShape(nodeBinding, node, graph);
 				}
 			}
 		});
 
-		graphBinding.addToWalkers(new GRStructureVisitor<Graph>() {
+		graphBinding.addToWalkers(new GRStructureVisitor<TestGraph>() {
 			@Override
-			public void visit(Graph graph) {
+			public void visit(TestGraph graph) {
 				System.out.println("Walking for edges ");
-				for (GraphNode node : graph.getNodes()) {
-					for (Edge edge : node.getInputEdges()) {
+				for (TestGraphNode node : graph.getNodes()) {
+					for (TestEdge edge : node.getInputEdges()) {
 						drawConnector(edgeBinding, edge, edge.getStartNode(), edge.getEndNode());
 					}
-					for (Edge edge : node.getOutputEdges()) {
+					for (TestEdge edge : node.getOutputEdges()) {
 						drawConnector(edgeBinding, edge, edge.getStartNode(), edge.getEndNode());
 					}
 				}

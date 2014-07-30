@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class GraphNode extends Observable {
+public class TestGraphNode extends Observable {
 
 	private String name;
-	private Graph graph;
-	private List<Edge> inputEdges;
-	private List<Edge> outputEdges;
+	private final TestGraph graph;
+	private List<TestEdge> inputEdges;
+	private List<TestEdge> outputEdges;
 	private double x, y;
 
-	public GraphNode(String name, Graph graph) {
-		inputEdges = new ArrayList<Edge>();
-		outputEdges = new ArrayList<Edge>();
+	public TestGraphNode(String name, TestGraph graph) {
+		inputEdges = new ArrayList<TestEdge>();
+		outputEdges = new ArrayList<TestEdge>();
 		this.name = name;
 		this.graph = graph;
 		x = Math.random() * 500;
@@ -31,56 +31,56 @@ public class GraphNode extends Observable {
 		this.name = name;
 	}
 
-	public Graph getGraph() {
+	public TestGraph getGraph() {
 		return graph;
 	}
 
-	public List<Edge> getInputEdges() {
+	public List<TestEdge> getInputEdges() {
 		return inputEdges;
 	}
 
-	public void setInputEdges(List<Edge> inputEdges) {
+	public void setInputEdges(List<TestEdge> inputEdges) {
 		this.inputEdges = inputEdges;
 		setChanged();
 		notifyObservers();
 	}
 
-	public void addToInputEdges(Edge aNode) {
+	public void addToInputEdges(TestEdge aNode) {
 		inputEdges.add(aNode);
 		setChanged();
 		notifyObservers();
 	}
 
-	public void removeFromInputEdges(Edge aNode) {
+	public void removeFromInputEdges(TestEdge aNode) {
 		inputEdges.remove(aNode);
 		setChanged();
 		notifyObservers();
 	}
 
-	public List<Edge> getOutputEdges() {
+	public List<TestEdge> getOutputEdges() {
 		return outputEdges;
 	}
 
-	public void setOutputEdges(List<Edge> outputEdges) {
+	public void setOutputEdges(List<TestEdge> outputEdges) {
 		this.outputEdges = outputEdges;
 		setChanged();
 		notifyObservers();
 	}
 
-	public void addToOutputEdges(Edge aNode) {
+	public void addToOutputEdges(TestEdge aNode) {
 		outputEdges.add(aNode);
 		setChanged();
 		notifyObservers();
 	}
 
-	public void removeFromOutputEdges(Edge aNode) {
+	public void removeFromOutputEdges(TestEdge aNode) {
 		outputEdges.remove(aNode);
 		setChanged();
 		notifyObservers();
 	}
 
-	public void connectTo(GraphNode toNode) {
-		Edge newEdge = new Edge(this, toNode);
+	public void connectTo(TestGraphNode toNode) {
+		TestEdge newEdge = new TestEdge(this, toNode);
 		addToOutputEdges(newEdge);
 		toNode.addToInputEdges(newEdge);
 	}

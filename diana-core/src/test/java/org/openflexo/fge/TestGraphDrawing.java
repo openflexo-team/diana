@@ -19,8 +19,8 @@ import org.openflexo.test.TestOrder;
 public class TestGraphDrawing {
 
 	private static FGEModelFactory FACTORY;
-	private static Graph graph;
-	private static GraphNode node1, node2, node3, node4;
+	private static TestGraph graph;
+	private static TestGraphNode node1, node2, node3, node4;
 	private static GraphDrawing1 graphDrawing1;
 	private static GraphDrawing2 graphDrawing2;
 	private static GraphDrawing3 graphDrawing3;
@@ -46,10 +46,10 @@ public class TestGraphDrawing {
 	@Test
 	@TestOrder(1)
 	public void test1InitGraph() {
-		graph = new Graph();
-		node1 = new GraphNode("node1", graph);
-		node2 = new GraphNode("node2", graph);
-		node3 = new GraphNode("node3", graph);
+		graph = new TestGraph();
+		node1 = new TestGraphNode("node1", graph);
+		node2 = new TestGraphNode("node2", graph);
+		node3 = new TestGraphNode("node3", graph);
 		node1.connectTo(node2);
 		node1.connectTo(node3);
 		node3.connectTo(node2);
@@ -74,24 +74,24 @@ public class TestGraphDrawing {
 	@Test
 	@TestOrder(3)
 	public void test3InitGraphicalObjectHierarchyForGraphDrawing1() {
-		ShapeNode<GraphNode> graphNode1 = (ShapeNode<GraphNode>) graphDrawing1.getRoot().getChildNodes().get(0);
+		ShapeNode<TestGraphNode> graphNode1 = (ShapeNode<TestGraphNode>) graphDrawing1.getRoot().getChildNodes().get(0);
 		assertNotNull(graphNode1);
 		assertEquals(node1, graphNode1.getDrawable());
-		ShapeNode<GraphNode> graphNode2 = (ShapeNode<GraphNode>) graphDrawing1.getRoot().getChildNodes().get(1);
+		ShapeNode<TestGraphNode> graphNode2 = (ShapeNode<TestGraphNode>) graphDrawing1.getRoot().getChildNodes().get(1);
 		assertNotNull(graphNode2);
 		assertEquals(node2, graphNode2.getDrawable());
-		ShapeNode<GraphNode> graphNode3 = (ShapeNode<GraphNode>) graphDrawing1.getRoot().getChildNodes().get(2);
+		ShapeNode<TestGraphNode> graphNode3 = (ShapeNode<TestGraphNode>) graphDrawing1.getRoot().getChildNodes().get(2);
 		assertNotNull(graphNode3);
 		assertEquals(node3, graphNode3.getDrawable());
-		ConnectorNode<Edge> connectorNode1 = (ConnectorNode<Edge>) graphDrawing1.getRoot().getChildNodes().get(3);
+		ConnectorNode<TestEdge> connectorNode1 = (ConnectorNode<TestEdge>) graphDrawing1.getRoot().getChildNodes().get(3);
 		assertNotNull(connectorNode1);
 		assertEquals(node1.getOutputEdges().get(0), connectorNode1.getDrawable());
 		assertEquals(node2.getInputEdges().get(0), connectorNode1.getDrawable());
-		ConnectorNode<Edge> connectorNode2 = (ConnectorNode<Edge>) graphDrawing1.getRoot().getChildNodes().get(4);
+		ConnectorNode<TestEdge> connectorNode2 = (ConnectorNode<TestEdge>) graphDrawing1.getRoot().getChildNodes().get(4);
 		assertNotNull(connectorNode2);
 		assertEquals(node1.getOutputEdges().get(1), connectorNode2.getDrawable());
 		assertEquals(node3.getInputEdges().get(0), connectorNode2.getDrawable());
-		ConnectorNode<Edge> connectorNode3 = (ConnectorNode<Edge>) graphDrawing1.getRoot().getChildNodes().get(5);
+		ConnectorNode<TestEdge> connectorNode3 = (ConnectorNode<TestEdge>) graphDrawing1.getRoot().getChildNodes().get(5);
 		assertNotNull(connectorNode3);
 		assertEquals(node3.getOutputEdges().get(0), connectorNode3.getDrawable());
 		assertEquals(node2.getInputEdges().get(1), connectorNode3.getDrawable());
@@ -101,19 +101,19 @@ public class TestGraphDrawing {
 	@Test
 	@TestOrder(4)
 	public void test4UpdateGraphicalObjectHierarchyForGraphDrawing1() {
-		ShapeNode<GraphNode> graphNode1 = (ShapeNode<GraphNode>) graphDrawing1.getRoot().getChildNodes().get(0);
-		ShapeNode<GraphNode> graphNode2 = (ShapeNode<GraphNode>) graphDrawing1.getRoot().getChildNodes().get(1);
-		ShapeNode<GraphNode> graphNode3 = (ShapeNode<GraphNode>) graphDrawing1.getRoot().getChildNodes().get(2);
-		ConnectorNode<Edge> connectorNode1 = (ConnectorNode<Edge>) graphDrawing1.getRoot().getChildNodes().get(3);
-		ConnectorNode<Edge> connectorNode2 = (ConnectorNode<Edge>) graphDrawing1.getRoot().getChildNodes().get(4);
-		ConnectorNode<Edge> connectorNode3 = (ConnectorNode<Edge>) graphDrawing1.getRoot().getChildNodes().get(5);
+		ShapeNode<TestGraphNode> graphNode1 = (ShapeNode<TestGraphNode>) graphDrawing1.getRoot().getChildNodes().get(0);
+		ShapeNode<TestGraphNode> graphNode2 = (ShapeNode<TestGraphNode>) graphDrawing1.getRoot().getChildNodes().get(1);
+		ShapeNode<TestGraphNode> graphNode3 = (ShapeNode<TestGraphNode>) graphDrawing1.getRoot().getChildNodes().get(2);
+		ConnectorNode<TestEdge> connectorNode1 = (ConnectorNode<TestEdge>) graphDrawing1.getRoot().getChildNodes().get(3);
+		ConnectorNode<TestEdge> connectorNode2 = (ConnectorNode<TestEdge>) graphDrawing1.getRoot().getChildNodes().get(4);
+		ConnectorNode<TestEdge> connectorNode3 = (ConnectorNode<TestEdge>) graphDrawing1.getRoot().getChildNodes().get(5);
 		graphDrawing1.updateGraphicalObjectsHierarchy();
-		ShapeNode<GraphNode> graphNode1bis = (ShapeNode<GraphNode>) graphDrawing1.getRoot().getChildNodes().get(0);
-		ShapeNode<GraphNode> graphNode2bis = (ShapeNode<GraphNode>) graphDrawing1.getRoot().getChildNodes().get(1);
-		ShapeNode<GraphNode> graphNode3bis = (ShapeNode<GraphNode>) graphDrawing1.getRoot().getChildNodes().get(2);
-		ConnectorNode<Edge> connectorNode1bis = (ConnectorNode<Edge>) graphDrawing1.getRoot().getChildNodes().get(3);
-		ConnectorNode<Edge> connectorNode2bis = (ConnectorNode<Edge>) graphDrawing1.getRoot().getChildNodes().get(4);
-		ConnectorNode<Edge> connectorNode3bis = (ConnectorNode<Edge>) graphDrawing1.getRoot().getChildNodes().get(5);
+		ShapeNode<TestGraphNode> graphNode1bis = (ShapeNode<TestGraphNode>) graphDrawing1.getRoot().getChildNodes().get(0);
+		ShapeNode<TestGraphNode> graphNode2bis = (ShapeNode<TestGraphNode>) graphDrawing1.getRoot().getChildNodes().get(1);
+		ShapeNode<TestGraphNode> graphNode3bis = (ShapeNode<TestGraphNode>) graphDrawing1.getRoot().getChildNodes().get(2);
+		ConnectorNode<TestEdge> connectorNode1bis = (ConnectorNode<TestEdge>) graphDrawing1.getRoot().getChildNodes().get(3);
+		ConnectorNode<TestEdge> connectorNode2bis = (ConnectorNode<TestEdge>) graphDrawing1.getRoot().getChildNodes().get(4);
+		ConnectorNode<TestEdge> connectorNode3bis = (ConnectorNode<TestEdge>) graphDrawing1.getRoot().getChildNodes().get(5);
 		assertEquals(graphNode1, graphNode1bis);
 		assertEquals(graphNode2, graphNode2bis);
 		assertEquals(graphNode3, graphNode3bis);
@@ -135,24 +135,24 @@ public class TestGraphDrawing {
 	@Test
 	@TestOrder(6)
 	public void test6InitGraphicalObjectHierarchyForGraphDrawing2() {
-		ShapeNode<GraphNode> graphNode1 = (ShapeNode<GraphNode>) graphDrawing2.getRoot().getChildNodes().get(0);
+		ShapeNode<TestGraphNode> graphNode1 = (ShapeNode<TestGraphNode>) graphDrawing2.getRoot().getChildNodes().get(0);
 		assertNotNull(graphNode1);
 		assertEquals(node1, graphNode1.getDrawable());
-		ShapeNode<GraphNode> graphNode2 = (ShapeNode<GraphNode>) graphDrawing2.getRoot().getChildNodes().get(1);
+		ShapeNode<TestGraphNode> graphNode2 = (ShapeNode<TestGraphNode>) graphDrawing2.getRoot().getChildNodes().get(1);
 		assertNotNull(graphNode2);
 		assertEquals(node2, graphNode2.getDrawable());
-		ShapeNode<GraphNode> graphNode3 = (ShapeNode<GraphNode>) graphDrawing2.getRoot().getChildNodes().get(2);
+		ShapeNode<TestGraphNode> graphNode3 = (ShapeNode<TestGraphNode>) graphDrawing2.getRoot().getChildNodes().get(2);
 		assertNotNull(graphNode3);
 		assertEquals(node3, graphNode3.getDrawable());
-		ConnectorNode<Edge> connectorNode1 = (ConnectorNode<Edge>) graphDrawing2.getRoot().getChildNodes().get(3);
+		ConnectorNode<TestEdge> connectorNode1 = (ConnectorNode<TestEdge>) graphDrawing2.getRoot().getChildNodes().get(3);
 		assertNotNull(connectorNode1);
 		assertEquals(node1.getOutputEdges().get(0), connectorNode1.getDrawable());
 		assertEquals(node2.getInputEdges().get(0), connectorNode1.getDrawable());
-		ConnectorNode<Edge> connectorNode2 = (ConnectorNode<Edge>) graphDrawing2.getRoot().getChildNodes().get(4);
+		ConnectorNode<TestEdge> connectorNode2 = (ConnectorNode<TestEdge>) graphDrawing2.getRoot().getChildNodes().get(4);
 		assertNotNull(connectorNode2);
 		assertEquals(node1.getOutputEdges().get(1), connectorNode2.getDrawable());
 		assertEquals(node3.getInputEdges().get(0), connectorNode2.getDrawable());
-		ConnectorNode<Edge> connectorNode3 = (ConnectorNode<Edge>) graphDrawing2.getRoot().getChildNodes().get(5);
+		ConnectorNode<TestEdge> connectorNode3 = (ConnectorNode<TestEdge>) graphDrawing2.getRoot().getChildNodes().get(5);
 		assertNotNull(connectorNode3);
 		assertEquals(node3.getOutputEdges().get(0), connectorNode3.getDrawable());
 		assertEquals(node2.getInputEdges().get(1), connectorNode3.getDrawable());
@@ -162,19 +162,19 @@ public class TestGraphDrawing {
 	@Test
 	@TestOrder(7)
 	public void test7UpdateGraphicalObjectHierarchyForGraphDrawing2() {
-		ShapeNode<GraphNode> graphNode1 = (ShapeNode<GraphNode>) graphDrawing2.getRoot().getChildNodes().get(0);
-		ShapeNode<GraphNode> graphNode2 = (ShapeNode<GraphNode>) graphDrawing2.getRoot().getChildNodes().get(1);
-		ShapeNode<GraphNode> graphNode3 = (ShapeNode<GraphNode>) graphDrawing2.getRoot().getChildNodes().get(2);
-		ConnectorNode<Edge> connectorNode1 = (ConnectorNode<Edge>) graphDrawing2.getRoot().getChildNodes().get(3);
-		ConnectorNode<Edge> connectorNode2 = (ConnectorNode<Edge>) graphDrawing2.getRoot().getChildNodes().get(4);
-		ConnectorNode<Edge> connectorNode3 = (ConnectorNode<Edge>) graphDrawing2.getRoot().getChildNodes().get(5);
+		ShapeNode<TestGraphNode> graphNode1 = (ShapeNode<TestGraphNode>) graphDrawing2.getRoot().getChildNodes().get(0);
+		ShapeNode<TestGraphNode> graphNode2 = (ShapeNode<TestGraphNode>) graphDrawing2.getRoot().getChildNodes().get(1);
+		ShapeNode<TestGraphNode> graphNode3 = (ShapeNode<TestGraphNode>) graphDrawing2.getRoot().getChildNodes().get(2);
+		ConnectorNode<TestEdge> connectorNode1 = (ConnectorNode<TestEdge>) graphDrawing2.getRoot().getChildNodes().get(3);
+		ConnectorNode<TestEdge> connectorNode2 = (ConnectorNode<TestEdge>) graphDrawing2.getRoot().getChildNodes().get(4);
+		ConnectorNode<TestEdge> connectorNode3 = (ConnectorNode<TestEdge>) graphDrawing2.getRoot().getChildNodes().get(5);
 		graphDrawing2.updateGraphicalObjectsHierarchy();
-		ShapeNode<GraphNode> graphNode1bis = (ShapeNode<GraphNode>) graphDrawing2.getRoot().getChildNodes().get(0);
-		ShapeNode<GraphNode> graphNode2bis = (ShapeNode<GraphNode>) graphDrawing2.getRoot().getChildNodes().get(1);
-		ShapeNode<GraphNode> graphNode3bis = (ShapeNode<GraphNode>) graphDrawing2.getRoot().getChildNodes().get(2);
-		ConnectorNode<Edge> connectorNode1bis = (ConnectorNode<Edge>) graphDrawing2.getRoot().getChildNodes().get(3);
-		ConnectorNode<Edge> connectorNode2bis = (ConnectorNode<Edge>) graphDrawing2.getRoot().getChildNodes().get(4);
-		ConnectorNode<Edge> connectorNode3bis = (ConnectorNode<Edge>) graphDrawing2.getRoot().getChildNodes().get(5);
+		ShapeNode<TestGraphNode> graphNode1bis = (ShapeNode<TestGraphNode>) graphDrawing2.getRoot().getChildNodes().get(0);
+		ShapeNode<TestGraphNode> graphNode2bis = (ShapeNode<TestGraphNode>) graphDrawing2.getRoot().getChildNodes().get(1);
+		ShapeNode<TestGraphNode> graphNode3bis = (ShapeNode<TestGraphNode>) graphDrawing2.getRoot().getChildNodes().get(2);
+		ConnectorNode<TestEdge> connectorNode1bis = (ConnectorNode<TestEdge>) graphDrawing2.getRoot().getChildNodes().get(3);
+		ConnectorNode<TestEdge> connectorNode2bis = (ConnectorNode<TestEdge>) graphDrawing2.getRoot().getChildNodes().get(4);
+		ConnectorNode<TestEdge> connectorNode3bis = (ConnectorNode<TestEdge>) graphDrawing2.getRoot().getChildNodes().get(5);
 		assertEquals(graphNode1, graphNode1bis);
 		assertEquals(graphNode2, graphNode2bis);
 		assertEquals(graphNode3, graphNode3bis);
@@ -197,24 +197,24 @@ public class TestGraphDrawing {
 	@TestOrder(9)
 	public void test9InitGraphicalObjectHierarchyForGraphDrawing3() {
 		System.out.println("all nodes = " + graphDrawing3.getRoot().getChildNodes());
-		ShapeNode<GraphNode> graphNode1 = (ShapeNode<GraphNode>) graphDrawing3.getRoot().getChildNodes().get(0);
+		ShapeNode<TestGraphNode> graphNode1 = (ShapeNode<TestGraphNode>) graphDrawing3.getRoot().getChildNodes().get(0);
 		assertNotNull(graphNode1);
 		assertEquals(node1, graphNode1.getDrawable());
-		ShapeNode<GraphNode> graphNode2 = (ShapeNode<GraphNode>) graphDrawing3.getRoot().getChildNodes().get(1);
+		ShapeNode<TestGraphNode> graphNode2 = (ShapeNode<TestGraphNode>) graphDrawing3.getRoot().getChildNodes().get(1);
 		assertNotNull(graphNode2);
 		assertEquals(node2, graphNode2.getDrawable());
-		ShapeNode<GraphNode> graphNode3 = (ShapeNode<GraphNode>) graphDrawing3.getRoot().getChildNodes().get(2);
+		ShapeNode<TestGraphNode> graphNode3 = (ShapeNode<TestGraphNode>) graphDrawing3.getRoot().getChildNodes().get(2);
 		assertNotNull(graphNode3);
 		assertEquals(node3, graphNode3.getDrawable());
-		ConnectorNode<Edge> connectorNode1 = (ConnectorNode<Edge>) graphDrawing3.getRoot().getChildNodes().get(3);
+		ConnectorNode<TestEdge> connectorNode1 = (ConnectorNode<TestEdge>) graphDrawing3.getRoot().getChildNodes().get(3);
 		assertNotNull(connectorNode1);
 		assertEquals(node1.getOutputEdges().get(0), connectorNode1.getDrawable());
 		assertEquals(node2.getInputEdges().get(0), connectorNode1.getDrawable());
-		ConnectorNode<Edge> connectorNode2 = (ConnectorNode<Edge>) graphDrawing3.getRoot().getChildNodes().get(4);
+		ConnectorNode<TestEdge> connectorNode2 = (ConnectorNode<TestEdge>) graphDrawing3.getRoot().getChildNodes().get(4);
 		assertNotNull(connectorNode2);
 		assertEquals(node1.getOutputEdges().get(1), connectorNode2.getDrawable());
 		assertEquals(node3.getInputEdges().get(0), connectorNode2.getDrawable());
-		ConnectorNode<Edge> connectorNode3 = (ConnectorNode<Edge>) graphDrawing3.getRoot().getChildNodes().get(5);
+		ConnectorNode<TestEdge> connectorNode3 = (ConnectorNode<TestEdge>) graphDrawing3.getRoot().getChildNodes().get(5);
 		assertNotNull(connectorNode3);
 		assertEquals(node3.getOutputEdges().get(0), connectorNode3.getDrawable());
 		assertEquals(node2.getInputEdges().get(1), connectorNode3.getDrawable());
@@ -223,19 +223,19 @@ public class TestGraphDrawing {
 	@Test
 	@TestOrder(10)
 	public void test10TUpdateGraphicalObjectHierarchyForGraphDrawing3() {
-		ShapeNode<GraphNode> graphNode1 = (ShapeNode<GraphNode>) graphDrawing3.getRoot().getChildNodes().get(0);
-		ShapeNode<GraphNode> graphNode2 = (ShapeNode<GraphNode>) graphDrawing3.getRoot().getChildNodes().get(1);
-		ShapeNode<GraphNode> graphNode3 = (ShapeNode<GraphNode>) graphDrawing3.getRoot().getChildNodes().get(2);
-		ConnectorNode<Edge> connectorNode1 = (ConnectorNode<Edge>) graphDrawing3.getRoot().getChildNodes().get(3);
-		ConnectorNode<Edge> connectorNode2 = (ConnectorNode<Edge>) graphDrawing3.getRoot().getChildNodes().get(4);
-		ConnectorNode<Edge> connectorNode3 = (ConnectorNode<Edge>) graphDrawing3.getRoot().getChildNodes().get(5);
+		ShapeNode<TestGraphNode> graphNode1 = (ShapeNode<TestGraphNode>) graphDrawing3.getRoot().getChildNodes().get(0);
+		ShapeNode<TestGraphNode> graphNode2 = (ShapeNode<TestGraphNode>) graphDrawing3.getRoot().getChildNodes().get(1);
+		ShapeNode<TestGraphNode> graphNode3 = (ShapeNode<TestGraphNode>) graphDrawing3.getRoot().getChildNodes().get(2);
+		ConnectorNode<TestEdge> connectorNode1 = (ConnectorNode<TestEdge>) graphDrawing3.getRoot().getChildNodes().get(3);
+		ConnectorNode<TestEdge> connectorNode2 = (ConnectorNode<TestEdge>) graphDrawing3.getRoot().getChildNodes().get(4);
+		ConnectorNode<TestEdge> connectorNode3 = (ConnectorNode<TestEdge>) graphDrawing3.getRoot().getChildNodes().get(5);
 		graphDrawing3.updateGraphicalObjectsHierarchy();
-		ShapeNode<GraphNode> graphNode1bis = (ShapeNode<GraphNode>) graphDrawing3.getRoot().getChildNodes().get(0);
-		ShapeNode<GraphNode> graphNode2bis = (ShapeNode<GraphNode>) graphDrawing3.getRoot().getChildNodes().get(1);
-		ShapeNode<GraphNode> graphNode3bis = (ShapeNode<GraphNode>) graphDrawing3.getRoot().getChildNodes().get(2);
-		ConnectorNode<Edge> connectorNode1bis = (ConnectorNode<Edge>) graphDrawing3.getRoot().getChildNodes().get(3);
-		ConnectorNode<Edge> connectorNode2bis = (ConnectorNode<Edge>) graphDrawing3.getRoot().getChildNodes().get(4);
-		ConnectorNode<Edge> connectorNode3bis = (ConnectorNode<Edge>) graphDrawing3.getRoot().getChildNodes().get(5);
+		ShapeNode<TestGraphNode> graphNode1bis = (ShapeNode<TestGraphNode>) graphDrawing3.getRoot().getChildNodes().get(0);
+		ShapeNode<TestGraphNode> graphNode2bis = (ShapeNode<TestGraphNode>) graphDrawing3.getRoot().getChildNodes().get(1);
+		ShapeNode<TestGraphNode> graphNode3bis = (ShapeNode<TestGraphNode>) graphDrawing3.getRoot().getChildNodes().get(2);
+		ConnectorNode<TestEdge> connectorNode1bis = (ConnectorNode<TestEdge>) graphDrawing3.getRoot().getChildNodes().get(3);
+		ConnectorNode<TestEdge> connectorNode2bis = (ConnectorNode<TestEdge>) graphDrawing3.getRoot().getChildNodes().get(4);
+		ConnectorNode<TestEdge> connectorNode3bis = (ConnectorNode<TestEdge>) graphDrawing3.getRoot().getChildNodes().get(5);
 		assertEquals(graphNode1, graphNode1bis);
 		assertEquals(graphNode2, graphNode2bis);
 		assertEquals(graphNode3, graphNode3bis);

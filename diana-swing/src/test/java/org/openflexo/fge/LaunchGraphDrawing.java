@@ -31,7 +31,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -66,9 +65,9 @@ public class LaunchGraphDrawing {
 		showPanel();
 	}
 
-	public static class TestDrawingController extends JDianaInteractiveEditor<Graph> {
-		private JPopupMenu contextualMenu;
-		private JDianaScaleSelector scaleSelector;
+	public static class TestDrawingController extends JDianaInteractiveEditor<TestGraph> {
+		private final JPopupMenu contextualMenu;
+		private final JDianaScaleSelector scaleSelector;
 
 		public TestDrawingController(GraphDrawing1 aDrawing) {
 			super(aDrawing, aDrawing.getFactory(), SwingViewFactory.INSTANCE, SwingToolFactory.DEFAULT);
@@ -206,9 +205,9 @@ public class LaunchGraphDrawing {
 
 		dialog.setVisible(true);
 
-		JDianaInteractiveViewer<Graph> dc2 = new JDianaInteractiveViewer<Graph>(d, d.getFactory(), SwingToolFactory.DEFAULT);
+		JDianaInteractiveViewer<TestGraph> dc2 = new JDianaInteractiveViewer<TestGraph>(d, d.getFactory(), SwingToolFactory.DEFAULT);
 		final JDialog dialog2 = new JDialog((Frame) null, false);
-		dialog2.getContentPane().add(new JScrollPane((JComponent) dc2.getDrawingView()));
+		dialog2.getContentPane().add(new JScrollPane(dc2.getDrawingView()));
 		dialog2.setPreferredSize(new Dimension(400, 400));
 		dialog2.setLocation(800, 100);
 		dialog2.validate();
@@ -227,10 +226,10 @@ public class LaunchGraphDrawing {
 		} catch (ModelDefinitionException e) {
 			e.printStackTrace();
 		}
-		Graph graph = new Graph();
-		GraphNode node1 = new GraphNode("node1", graph);
-		GraphNode node2 = new GraphNode("node2", graph);
-		GraphNode node3 = new GraphNode("node3", graph);
+		TestGraph graph = new TestGraph();
+		TestGraphNode node1 = new TestGraphNode("node1", graph);
+		TestGraphNode node2 = new TestGraphNode("node2", graph);
+		TestGraphNode node3 = new TestGraphNode("node3", graph);
 		node1.connectTo(node2);
 		node1.connectTo(node3);
 		node3.connectTo(node2);
