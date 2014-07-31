@@ -19,10 +19,18 @@
  */
 package org.openflexo.fge.graph;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
 
 import org.openflexo.antar.binding.DataBinding;
+import org.openflexo.antar.binding.DataBinding.BindingDefinitionType;
+import org.openflexo.antar.expr.NullReferenceException;
+import org.openflexo.antar.expr.TypeMismatchException;
+import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
+import org.openflexo.fge.TextStyle;
+import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
  * Represents a 2D-base graph, where parameter takes discrete values
@@ -57,6 +65,9 @@ public class FGEDiscreteFunctionGraph<T> extends FGEFunctionGraph<T> {
 
 	public void setDiscreteValuesLabel(DataBinding<String> labelBinding) {
 		this.labelBinding = labelBinding;
+		this.labelBinding.setOwner(this);
+		this.labelBinding.setDeclaredType(String.class);
+		this.labelBinding.setBindingDefinitionType(BindingDefinitionType.GET);
 	}
 
 	/*public double getDiscreteValuesSpacing() {
@@ -74,7 +85,43 @@ public class FGEDiscreteFunctionGraph<T> extends FGEFunctionGraph<T> {
 
 	@Override
 	protected Double getNormalizedPosition(T value) {
-		return ((double) discreteValues.indexOf(value)) / discreteValues.size();
+		return (discreteValues.indexOf(value) + 0.5) / (discreteValues.size());
 	}
 
+	public String getLabel(T param) {
+		getEvaluator().set(getParameter(), param);
+		try {
+			return getDiscreteValuesLabel().getBindingValue(getEvaluator());
+		} catch (TypeMismatchException e) {
+			e.printStackTrace();
+		} catch (NullReferenceException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return param.toString();
+	}
+
+	@Override
+	public void paintParameters(FGEShapeGraphics g) {
+
+		TextStyle ts = g.getNode().getTextStyle();
+
+		double relativeTextWidth = (double) ts.getFont().getSize() / g.getViewWidth();
+		double relativeTextHeight = (double) ts.getFont().getSize() / g.getViewHeight();
+
+		g.useTextStyle(ts);
+
+		Iterator<T> it = iterateParameter();
+
+		while (it.hasNext()) {
+			T t = it.next();
+			String label = getLabel(t);
+			if (getParameterOrientation() == Orientation.HORIZONTAL) {
+				g.drawString(label, new FGEPoint(getNormalizedPosition(t), 1.0 + relativeTextHeight), HorizontalTextAlignment.CENTER);
+			} else {
+				g.drawString(label, new FGEPoint(-relativeTextWidth, getNormalizedPosition(t)), HorizontalTextAlignment.CENTER);
+			}
+		}
+	}
 }

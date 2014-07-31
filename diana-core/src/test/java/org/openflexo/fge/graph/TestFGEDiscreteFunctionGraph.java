@@ -32,7 +32,7 @@ public class TestFGEDiscreteFunctionGraph {
 	private static FGEModelFactory FACTORY;
 
 	private static FGEDiscreteFunctionGraph<Person> graph;
-	private static FGENumericFunction<Integer> ageFunction;
+	private static FGENumericFunction<Integer> sizeFunction;
 	private static FGENumericFunction<Double> weightFunction;
 
 	private static Person martin;
@@ -60,13 +60,13 @@ public class TestFGEDiscreteFunctionGraph {
 
 	public static class Person {
 		public String name;
-		public int age;
+		public int size;
 		public double weight;
 
-		public Person(String name, int age, double weight) {
+		public Person(String name, int size, double weight) {
 			super();
 			this.name = name;
-			this.age = age;
+			this.size = size;
 			this.weight = weight;
 		}
 	}
@@ -75,10 +75,10 @@ public class TestFGEDiscreteFunctionGraph {
 	@TestOrder(1)
 	public void test1InitGraph() {
 		List<Person> persons = new ArrayList<Person>();
-		persons.add(martin = new Person("Martin", 39, 73.7));
-		persons.add(mary = new Person("Mary", 41, 57.0));
-		persons.add(john = new Person("John", 9, 26.3));
-		persons.add(martinJr = new Person("Martin Jr", 5, 19.2));
+		persons.add(martin = new Person("Martin", 173, 73.7));
+		persons.add(mary = new Person("Mary", 165, 57.0));
+		persons.add(john = new Person("John", 107, 26.3));
+		persons.add(martinJr = new Person("Martin Jr", 97, 19.2));
 
 		graph = new FGEDiscreteFunctionGraph<Person>();
 
@@ -88,10 +88,10 @@ public class TestFGEDiscreteFunctionGraph {
 		graph.setParameterOrientation(Orientation.HORIZONTAL);
 		// graph.setDiscreteValuesSpacing(80.0);
 
-		ageFunction = graph.addNumericFunction("age", Integer.class, new DataBinding<Integer>("person.age"), GraphType.BAR_GRAPH);
-		ageFunction.setRange(0, 100);
-		ageFunction.setForegroundStyle(FACTORY.makeForegroundStyle(Color.RED, 1.0f));
-		ageFunction.setBackgroundStyle(FACTORY.makeColorGradientBackground(Color.BLUE, Color.WHITE, ColorGradientDirection.NORTH_SOUTH));
+		sizeFunction = graph.addNumericFunction("size", Integer.class, new DataBinding<Integer>("person.size"), GraphType.BAR_GRAPH);
+		sizeFunction.setRange(0, 100);
+		sizeFunction.setForegroundStyle(FACTORY.makeForegroundStyle(Color.BLUE, 1.0f));
+		sizeFunction.setBackgroundStyle(FACTORY.makeColorGradientBackground(Color.BLUE, Color.WHITE, ColorGradientDirection.NORTH_SOUTH));
 
 		weightFunction = graph.addNumericFunction("weight", Double.class, new DataBinding<Double>("person.weight"), GraphType.POLYLIN);
 		weightFunction.setForegroundStyle(FACTORY.makeForegroundStyle(Color.GREEN, 1.0f));
@@ -102,10 +102,10 @@ public class TestFGEDiscreteFunctionGraph {
 	@Test
 	@TestOrder(2)
 	public void testEvaluation() throws TypeMismatchException, NullReferenceException, InvocationTargetException {
-		assertEquals((Integer) 39, graph.evaluateFunction(ageFunction, martin));
-		assertEquals((Integer) 41, graph.evaluateFunction(ageFunction, mary));
-		assertEquals((Integer) 9, graph.evaluateFunction(ageFunction, john));
-		assertEquals((Integer) 5, graph.evaluateFunction(ageFunction, martinJr));
+		assertEquals((Integer) 173, graph.evaluateFunction(sizeFunction, martin));
+		assertEquals((Integer) 165, graph.evaluateFunction(sizeFunction, mary));
+		assertEquals((Integer) 107, graph.evaluateFunction(sizeFunction, john));
+		assertEquals((Integer) 97, graph.evaluateFunction(sizeFunction, martinJr));
 		assertEquals((Double) 73.7, graph.evaluateFunction(weightFunction, martin));
 		assertEquals((Double) 57.0, graph.evaluateFunction(weightFunction, mary));
 		assertEquals((Double) 26.3, graph.evaluateFunction(weightFunction, john));
@@ -119,7 +119,7 @@ public class TestFGEDiscreteFunctionGraph {
 		Iterator<Person> it = graph.iterateParameter();
 		while (it.hasNext()) {
 			Person p = it.next();
-			System.out.println("For " + p + " age is " + graph.evaluateFunction(ageFunction, p) + " waight is "
+			System.out.println("For " + p + " age is " + graph.evaluateFunction(sizeFunction, p) + " waight is "
 					+ graph.evaluateFunction(weightFunction, p));
 			i++;
 		}

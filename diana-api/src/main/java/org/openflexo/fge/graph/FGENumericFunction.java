@@ -174,9 +174,6 @@ public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 			}
 		}
 
-		System.out.println("computedMinValue=" + computedMinValue);
-		System.out.println("computedMaxValue=" + computedMaxValue);
-
 		return samples;
 	}
 

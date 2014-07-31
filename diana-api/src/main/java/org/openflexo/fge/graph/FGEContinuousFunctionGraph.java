@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.openflexo.fge.graphics.FGEShapeGraphics;
+
 /**
  * Represents a 2D-base graph, where a coordinates is based on an expression using opposite coordinate
  * 
@@ -162,6 +164,11 @@ public class FGEContinuousFunctionGraph<X extends Number> extends FGEFunctionGra
 	 * @return the number of values between minor ticks
 	 */
 	public X getParameterMajorTickSpacing() {
+
+		/*if (majorTickSpacing == null) {
+			System.out.println("min=" + getParameterMinValue());
+			System.out.println("max=" + getParameterMaxValue());
+		}*/
 		return majorTickSpacing;
 	}
 
@@ -277,6 +284,16 @@ public class FGEContinuousFunctionGraph<X extends Number> extends FGEFunctionGra
 					/ (getParameterMaxValue().byteValue() - getParameterMinValue().byteValue());
 		}
 		return 0.0;
+	}
+
+	@Override
+	public void paintParameters(FGEShapeGraphics g) {
+
+		// System.out.println("Major tick spacing = " + getParameterMajorTickSpacing());
+		// System.out.println("Minor tick spacing = " + getParameterMinorTickSpacing());
+
+		// g.setDefaultTextStyle(aTextStyle);
+
 	}
 
 }

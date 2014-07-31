@@ -25,8 +25,6 @@ public class GraphNodeImpl<G extends FGEGraph> extends ShapeNodeImpl<G> implemen
 
 	@Override
 	public void paint(FGEShapeGraphics g) {
-		System.out.println("Hop, on peint le graphe !!!");
-
 		// First draw outline (fg and bg)
 		super.paint(g);
 

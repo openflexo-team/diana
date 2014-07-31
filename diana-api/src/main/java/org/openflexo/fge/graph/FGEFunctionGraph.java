@@ -19,7 +19,6 @@
  */
 package org.openflexo.fge.graph;
 
-import java.awt.geom.AffineTransform;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 
@@ -96,24 +95,23 @@ public abstract class FGEFunctionGraph<X> extends FGEGraph {
 	@Override
 	public void paint(FGEShapeGraphics g) {
 
-		System.out.println("Painting graph");
+		// System.out.println("Painting graph");
 		// System.out.println("width = " + g.getViewWidth());
 		// System.out.println("height = " + g.getViewHeight());
 
 		super.paint(g);
 
-		// This AffinTransform allows to convert normalized coordinate system in FGE to the mathematical classical one
-		// y-axis order is reversed
-		AffineTransform at = new AffineTransform(new double[] { 1.0, 0.0, 0.0, -1.0, 0.0, 1.0 });
+		// Paint parameters
+		paintParameters(g);
 
 		for (FGEFunction<?> f : getFunctions()) {
 
-			g.setDefaultForeground(f.getForegroundStyle());
-			g.setDefaultBackground(f.getBackgroundStyle());
-
-			f.getRepresentation().transform(at).paint(g);
+			f.paint(g);
 
 		}
 
 	}
+
+	public abstract void paintParameters(FGEShapeGraphics g);
+
 }

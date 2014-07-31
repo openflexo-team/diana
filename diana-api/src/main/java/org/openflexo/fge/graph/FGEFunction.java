@@ -19,6 +19,7 @@
  */
 package org.openflexo.fge.graph;
 
+import java.awt.geom.AffineTransform;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,12 +33,17 @@ import org.openflexo.antar.expr.TypeMismatchException;
 import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.geom.FGEComplexCurve;
+import org.openflexo.fge.geom.FGEDimension;
 import org.openflexo.fge.geom.FGEGeneralShape.Closure;
+import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEPolylin;
+import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.fge.graph.FGEFunctionGraph.Orientation;
+import org.openflexo.fge.graph.FGEGraph.GraphType;
+import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
  * Represents a function as a typed expression<br>
@@ -183,7 +189,7 @@ public class FGEFunction<T> {
 
 			samples.add(new FunctionSample<X>(p, value));
 
-			// System.out.println("Sampling p=" + p + " value=" + value);
+			// System.out.println("Sampling function " + getFunctionName() + "(" + p + ") = " + value);
 
 			if (!valueSamples.contains(value)) {
 				valueSamples.add(value);
@@ -198,8 +204,6 @@ public class FGEFunction<T> {
 
 		List<FunctionSample<X>> samples = retrieveSamples(graph);
 
-		System.out.println("Toutes les valeurs: " + valueSamples);
-
 		List<FGEPoint> points = new ArrayList<FGEPoint>();
 
 		for (FunctionSample<X> s : samples) {
@@ -209,6 +213,10 @@ public class FGEFunction<T> {
 			} else {
 				pt = new FGEPoint(getNormalizedPosition(s.value), graph.getNormalizedPosition(s.p));
 			}
+
+			// System.out.println("Sampling function " + getFunctionName() + "(" + s.p + ") = " + s.value + " normalizedValue="
+			// + getNormalizedPosition(s.value));
+
 			points.add(pt);
 		}
 
@@ -224,11 +232,32 @@ public class FGEFunction<T> {
 				if (graph.getParameterOrientation() == Orientation.HORIZONTAL) {
 					rectPoints.add(new FGEPoint(pt.x - delta, pt.y));
 					rectPoints.add(new FGEPoint(pt.x + delta, pt.y));
+				} else { // Vertical
+					rectPoints.add(new FGEPoint(pt.x, pt.y - delta));
+					rectPoints.add(new FGEPoint(pt.x, pt.y + delta));
 				}
 			}
 			return new FGEPolylin(rectPoints);
 		case CURVE:
 			return new FGEComplexCurve(Closure.OPEN_NOT_FILLED, points);
+		case BAR_GRAPH:
+			List<FGERectangle> rectangles = new ArrayList<FGERectangle>();
+			double sampleSize = (double) 1 / points.size();
+			double barWidth = 0.8 * sampleSize / graph.getNumberOfFunctionsOfType(GraphType.BAR_GRAPH);
+			double barSpacing = sampleSize / 10;
+			int index = graph.getIndexOfFunctionsOfType(this);
+			for (FGEPoint pt : points) {
+				if (graph.getParameterOrientation() == Orientation.HORIZONTAL) {
+					FGERectangle r = new FGERectangle(new FGEPoint(pt.x - sampleSize / 2 + barSpacing + (index * barWidth), 0),
+							new FGEDimension(barWidth, pt.y), Filling.FILLED);
+					rectangles.add(r);
+				} else {
+					FGERectangle r = new FGERectangle(new FGEPoint(0, pt.y - sampleSize / 2 + barSpacing + (index * barWidth)),
+							new FGEDimension(pt.x, barWidth), Filling.FILLED);
+					rectangles.add(r);
+				}
+			}
+			return FGEUnionArea.makeUnion(rectangles);
 
 		default:
 			break;
@@ -246,4 +275,24 @@ public class FGEFunction<T> {
 
 		return ((double) valueSamples.indexOf(value)) / (valueSamples.size() - 1);
 	}
+
+	public void paint(FGEShapeGraphics g) {
+
+		// System.out.println("Painting function");
+
+		// This AffinTransform allows to convert normalized coordinate system in FGE to the mathematical classical one
+		// y-axis order is reversed
+		AffineTransform at = new AffineTransform(new double[] { 1.0, 0.0, 0.0, -1.0, 0.0, 1.0 });
+
+		g.setDefaultForeground(getForegroundStyle());
+		g.setDefaultBackground(getBackgroundStyle());
+
+		FGEArea functionRepresentation = getRepresentation();
+
+		if (functionRepresentation != null) {
+			functionRepresentation.transform(at).paint(g);
+		}
+
+	}
+
 }

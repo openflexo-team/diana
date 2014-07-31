@@ -20,14 +20,18 @@
  */
 package org.openflexo.fge.graphics;
 
+import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 
 public interface FGEShapeGraphics extends FGEGraphics {
 
+	@Override
 	public ShapeGraphicalRepresentation getGraphicalRepresentation();
 
 	public FGEShapeDecorationGraphics getShapeDecorationGraphics();
 
 	public void paintShadow();
 
+	@Override
+	public ShapeNode<?> getNode();
 }

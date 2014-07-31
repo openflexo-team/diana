@@ -101,6 +101,42 @@ public abstract class FGEGraph implements Bindable {
 		return functions;
 	}
 
+	/**
+	 * Returns the number of functions of supplied graph type declared in this FGEGraph
+	 * 
+	 * @param graphType
+	 * @return
+	 */
+	public int getNumberOfFunctionsOfType(GraphType graphType) {
+		int returned = 0;
+		for (FGEFunction<?> f : functions) {
+			if (f.getGraphType() == graphType) {
+				returned++;
+			}
+		}
+		return returned;
+	}
+
+	/**
+	 * Return the index of supplied function in the collection represented by all functions declared in this FGEGraph which have the same
+	 * {@link GraphType}
+	 * 
+	 * @param function
+	 * @return
+	 */
+	public int getIndexOfFunctionsOfType(FGEFunction function) {
+		int returned = 0;
+		for (FGEFunction<?> f : functions) {
+			if (f == function) {
+				return returned;
+			}
+			if (f.getGraphType() == function.getGraphType()) {
+				returned++;
+			}
+		}
+		return returned;
+	}
+
 	@Override
 	public BindingModel getBindingModel() {
 		return bindingModel;
