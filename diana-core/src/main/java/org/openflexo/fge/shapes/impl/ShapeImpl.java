@@ -63,7 +63,7 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 
 	private List<ControlPoint> controlPoints;
 
-	private SS shapeSpecification;
+	private final SS shapeSpecification;
 
 	// *******************************************************************************
 	// * Constructor *
@@ -306,39 +306,36 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 
 		// Background
 		if (shapeNode.getIsSelected()) {
-			if (shapeNode.getGraphicalRepresentation().getHasSelectedBackground()) {
-				g.setDefaultBackground(shapeNode.getGraphicalRepresentation().getSelectedBackground());
-			} else if (shapeNode.getGraphicalRepresentation().getHasFocusedBackground()) {
-				g.setDefaultBackground(shapeNode.getGraphicalRepresentation().getFocusedBackground());
+			if (shapeNode.getHasSelectedBackgroundStyle()) {
+				g.setDefaultBackground(shapeNode.getSelectedBackgroundStyle());
+			} else if (shapeNode.getHasFocusedBackgroundStyle()) {
+				g.setDefaultBackground(shapeNode.getFocusedBackgroundStyle());
 			} else {
-				g.setDefaultBackground(shapeNode.getGraphicalRepresentation().getBackground());
+				g.setDefaultBackground(shapeNode.getBackgroundStyle());
 			}
-		} else if (shapeNode.getIsFocused() && shapeNode.getGraphicalRepresentation().getHasFocusedBackground()) {
-			g.setDefaultBackground(shapeNode.getGraphicalRepresentation().getFocusedBackground());
+		} else if (shapeNode.getIsFocused() && shapeNode.getHasFocusedBackgroundStyle()) {
+			g.setDefaultBackground(shapeNode.getFocusedBackgroundStyle());
 		} else {
-			g.setDefaultBackground(shapeNode.getGraphicalRepresentation().getBackground());
+			g.setDefaultBackground(shapeNode.getBackgroundStyle());
 		}
 
 		// Foreground
 		if (shapeNode.getIsSelected()) {
-			if (shapeNode.getGraphicalRepresentation().getHasSelectedForeground()) {
-				g.setDefaultForeground(shapeNode.getGraphicalRepresentation().getSelectedForeground());
-			} else if (shapeNode.getGraphicalRepresentation().getHasFocusedForeground()) {
-				g.setDefaultForeground(shapeNode.getGraphicalRepresentation().getFocusedForeground());
+			if (shapeNode.getHasSelectedForegroundStyle()) {
+				g.setDefaultForeground(shapeNode.getSelectedForegroundStyle());
+			} else if (shapeNode.getHasFocusedForegroundStyle()) {
+				g.setDefaultForeground(shapeNode.getFocusedForegroundStyle());
 			} else {
-				g.setDefaultForeground(shapeNode.getGraphicalRepresentation().getForeground());
+				g.setDefaultForeground(shapeNode.getForegroundStyle());
 			}
-		} else if (shapeNode.getIsFocused() && shapeNode.getGraphicalRepresentation().getHasFocusedForeground()) {
-			g.setDefaultForeground(shapeNode.getGraphicalRepresentation().getFocusedForeground());
+		} else if (shapeNode.getIsFocused() && shapeNode.getHasFocusedForegroundStyle()) {
+			g.setDefaultForeground(shapeNode.getFocusedForegroundStyle());
 		} else {
-			if (shapeNode.getGraphicalRepresentation().getForeground() == null) {
-				logger.info("Ca vient de la: " + shapeNode.getGraphicalRepresentation());
-			}
-			g.setDefaultForeground(shapeNode.getGraphicalRepresentation().getForeground());
+			g.setDefaultForeground(shapeNode.getForegroundStyle());
 		}
 
 		// Text
-		g.setDefaultTextStyle(shapeNode.getGraphicalRepresentation().getTextStyle());
+		g.setDefaultTextStyle(shapeNode.getTextStyle());
 	}
 
 	/*	@Override

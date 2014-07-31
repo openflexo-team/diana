@@ -411,13 +411,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		}
 
 		if (evt.getSource() instanceof BackgroundStyle || evt.getPropertyName() == ShapeGraphicalRepresentation.BACKGROUND_STYLE_TYPE_KEY) {
-			notifyAttributeChanged(ShapeGraphicalRepresentation.BACKGROUND, null, getGraphicalRepresentation().getBackground());
+			notifyAttributeChanged(ShapeGraphicalRepresentation.BACKGROUND, null, getBackgroundStyle());
 		}
 		if (evt.getSource() instanceof ForegroundStyle) {
-			notifyAttributeChanged(ShapeGraphicalRepresentation.FOREGROUND, null, getGraphicalRepresentation().getForeground());
+			notifyAttributeChanged(ShapeGraphicalRepresentation.FOREGROUND, null, getForegroundStyle());
 		}
 		if (evt.getSource() instanceof ShadowStyle) {
-			notifyAttributeChanged(ShapeGraphicalRepresentation.SHADOW_STYLE, null, getGraphicalRepresentation().getShadowStyle());
+			notifyAttributeChanged(ShapeGraphicalRepresentation.SHADOW_STYLE, null, getShadowStyle());
 		}
 	}
 
@@ -1514,6 +1514,48 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		setPropertyValue(ShapeGraphicalRepresentation.FOREGROUND, aValue);
 	}
 
+	@Override
+	public boolean getHasFocusedForegroundStyle() {
+		return getGraphicalRepresentation().getHasFocusedForeground() || getFocusedForegroundStyle() != null;
+	}
+
+	/**
+	 * Convenient method used to retrieve focused foreground style property value
+	 */
+	@Override
+	public ForegroundStyle getFocusedForegroundStyle() {
+		return getPropertyValue(ShapeGraphicalRepresentation.FOCUSED_FOREGROUND);
+	}
+
+	/**
+	 * Convenient method used to set focused foreground style property value
+	 */
+	@Override
+	public void setFocusedForegroundStyle(ForegroundStyle aValue) {
+		setPropertyValue(ShapeGraphicalRepresentation.FOCUSED_FOREGROUND, aValue);
+	}
+
+	@Override
+	public boolean getHasSelectedForegroundStyle() {
+		return getGraphicalRepresentation().getHasSelectedForeground() || getSelectedForegroundStyle() != null;
+	}
+
+	/**
+	 * Convenient method used to retrieve selected foreground style property value
+	 */
+	@Override
+	public ForegroundStyle getSelectedForegroundStyle() {
+		return getPropertyValue(ShapeGraphicalRepresentation.SELECTED_FOREGROUND);
+	}
+
+	/**
+	 * Convenient method used to set selected foreground style property value
+	 */
+	@Override
+	public void setSelectedForegroundStyle(ForegroundStyle aValue) {
+		setPropertyValue(ShapeGraphicalRepresentation.SELECTED_FOREGROUND, aValue);
+	}
+
 	/**
 	 * Convenient method used to retrieve background style property value
 	 */
@@ -1528,6 +1570,48 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public void setBackgroundStyle(BackgroundStyle style) {
 		setPropertyValue(ShapeGraphicalRepresentation.BACKGROUND, style);
+	}
+
+	@Override
+	public boolean getHasSelectedBackgroundStyle() {
+		return getGraphicalRepresentation().getHasSelectedBackground() || getSelectedBackgroundStyle() != null;
+	}
+
+	/**
+	 * Convenient method used to retrieve selected background style property value
+	 */
+	@Override
+	public BackgroundStyle getSelectedBackgroundStyle() {
+		return getPropertyValue(ShapeGraphicalRepresentation.SELECTED_BACKGROUND);
+	}
+
+	/**
+	 * Convenient method used to set selected background style property value
+	 */
+	@Override
+	public void setSelectedBackgroundStyle(BackgroundStyle style) {
+		setPropertyValue(ShapeGraphicalRepresentation.SELECTED_BACKGROUND, style);
+	}
+
+	@Override
+	public boolean getHasFocusedBackgroundStyle() {
+		return getGraphicalRepresentation().getHasFocusedBackground() || getFocusedBackgroundStyle() != null;
+	}
+
+	/**
+	 * Convenient method used to retrieve focused background style property value
+	 */
+	@Override
+	public BackgroundStyle getFocusedBackgroundStyle() {
+		return getPropertyValue(ShapeGraphicalRepresentation.FOCUSED_BACKGROUND);
+	}
+
+	/**
+	 * Convenient method used to set focused background style property value
+	 */
+	@Override
+	public void setFocusedBackgroundStyle(BackgroundStyle style) {
+		setPropertyValue(ShapeGraphicalRepresentation.FOCUSED_BACKGROUND, style);
 	}
 
 	/**

@@ -681,6 +681,18 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 
 		public void setForegroundStyle(ForegroundStyle aValue);
 
+		public boolean getHasSelectedForegroundStyle();
+
+		public ForegroundStyle getSelectedForegroundStyle();
+
+		public void setSelectedForegroundStyle(ForegroundStyle aValue);
+
+		public boolean getHasFocusedForegroundStyle();
+
+		public ForegroundStyle getFocusedForegroundStyle();
+
+		public void setFocusedForegroundStyle(ForegroundStyle aValue);
+
 		public ShadowStyle getShadowStyle();
 
 		public void setShadowStyle(ShadowStyle style);
@@ -688,6 +700,18 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		public BackgroundStyle getBackgroundStyle();
 
 		public void setBackgroundStyle(BackgroundStyle style);
+
+		public boolean getHasSelectedBackgroundStyle();
+
+		public BackgroundStyle getSelectedBackgroundStyle();
+
+		public void setSelectedBackgroundStyle(BackgroundStyle style);
+
+		public boolean getHasFocusedBackgroundStyle();
+
+		public BackgroundStyle getFocusedBackgroundStyle();
+
+		public void setFocusedBackgroundStyle(BackgroundStyle style);
 
 		public ShapeBorder getBorder();
 
