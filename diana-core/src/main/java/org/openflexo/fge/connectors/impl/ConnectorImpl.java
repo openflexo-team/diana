@@ -14,7 +14,7 @@ import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.PersistenceMode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGEUtils;
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.connectors.Connector;
 import org.openflexo.fge.connectors.ConnectorSpecification;
 import org.openflexo.fge.connectors.ConnectorSpecification.ConnectorType;
@@ -65,13 +65,13 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	/**
 	 * Store temporary properties that may not be serialized
 	 */
-	private Map<GRParameter, Object> propertyValues = new HashMap<GRParameter, Object>();
+	private Map<GRProperty, Object> propertyValues = new HashMap<GRProperty, Object>();
 
 	public ConnectorImpl(ConnectorNode<?> connectorNode) {
 		super();
 		this.connectorNode = connectorNode;
 		connectorSpecification = (CS) connectorNode.getConnectorSpecification();
-		propertyValues = new HashMap<GRParameter, Object>();
+		propertyValues = new HashMap<GRProperty, Object>();
 		if (connectorSpecification != null && connectorSpecification.getPropertyChangeSupport() != null) {
 			connectorSpecification.getPropertyChangeSupport().addPropertyChangeListener(this);
 		}
@@ -390,7 +390,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	 * @return
 	 */
 	@Override
-	public <T> T getPropertyValue(GRParameter<T> parameter) {
+	public <T> T getPropertyValue(GRProperty<T> parameter) {
 
 		// Now we have to think of this:
 		// New architecture of FGE now authorizes a ConnectorSpecification to be shared by many Connectors
@@ -442,7 +442,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	 * @return
 	 */
 	@Override
-	public <T> void setPropertyValue(GRParameter<T> parameter, T value) {
+	public <T> void setPropertyValue(GRProperty<T> parameter, T value) {
 
 		// Now we have to think of this:
 		// New architecture of FGE now authorizes a ConnectorSpecification to be shared by many Connectors

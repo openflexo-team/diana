@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEObject;
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 import org.openflexo.fge.notifications.FGENotification;
 import org.openflexo.model.ModelEntity;
@@ -111,7 +111,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 	// *******************************************************************************
 
 	@Override
-	public <T> void notifyChange(GRParameter<T> parameter, T oldValue, T newValue) {
+	public <T> void notifyChange(GRProperty<T> parameter, T oldValue, T newValue) {
 		// Never notify unchanged values
 		if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
 			return;
@@ -123,12 +123,12 @@ public abstract class FGEObjectImpl implements FGEObject {
 	}
 
 	@Override
-	public <T> void notifyChange(GRParameter<T> parameter) {
+	public <T> void notifyChange(GRProperty<T> parameter) {
 		notifyChange(parameter, null, valueForParameter(parameter));
 	}
 
 	@Override
-	public <T> void notifyAttributeChange(GRParameter<T> parameter) {
+	public <T> void notifyAttributeChange(GRProperty<T> parameter) {
 		notifyChange(parameter);
 	}
 
@@ -141,7 +141,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 	 * @param useEquals
 	 * @return
 	 */
-	protected <T> FGEAttributeNotification requireChange(GRParameter<T> parameter, T value) {
+	protected <T> FGEAttributeNotification requireChange(GRProperty<T> parameter, T value) {
 		return requireChange(parameter, value, true);
 	}
 
@@ -159,7 +159,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 	 * @param useEquals
 	 * @return
 	 */
-	protected <T> FGEAttributeNotification requireChange(GRParameter<T> parameter, T value, boolean useEquals) {
+	protected <T> FGEAttributeNotification requireChange(GRProperty<T> parameter, T value, boolean useEquals) {
 		T oldValue = valueForParameter(parameter);
 		if (value == oldValue && value != null && !value.getClass().isEnum()) {
 			// logger.warning(parameter.name() + ": require change called for same object: aren't you wrong ???");
@@ -195,7 +195,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	protected <T> T valueForParameter(GRParameter<T> parameter) {
+	protected <T> T valueForParameter(GRProperty<T> parameter) {
 		if (parameter == null) {
 			return null;
 		}

@@ -30,26 +30,24 @@ import java.util.logging.Logger;
 import org.openflexo.model.annotations.PropertyIdentifier;
 
 /**
- * A GRParameter encodes a typed property access associated to a class of FGE model
+ * A {@link GRProperty} encodes a typed property access associated to any class of Diana model<br>
+ * This allows a reflexive access to all properties of Diana model
  * 
  * @author sylvain
  * 
  * @param <T>
+ *            type of accessed data
  */
-public class GRParameter<T> {
+public class GRProperty<T> {
 
-	private static final Logger logger = Logger.getLogger(GRParameter.class.getPackage().getName());
+	private static final Logger logger = Logger.getLogger(GRProperty.class.getPackage().getName());
 
-	public static void main(String[] args) {
-		System.out.println("Hop: " + getGRParameter(GraphicalRepresentation.class, GraphicalRepresentation.IDENTIFIER_KEY));
-	}
-
-	private static Map<String, GRParameter<?>> retrieveParameters(Class<?> ownerClass) {
-		Map<String, GRParameter<?>> returned = new HashMap<String, GRParameter<?>>();
+	private static Map<String, GRProperty<?>> retrieveParameters(Class<?> ownerClass) {
+		Map<String, GRProperty<?>> returned = new HashMap<String, GRProperty<?>>();
 		for (Field f : ownerClass.getFields()) {
 			PropertyIdentifier parameter = f.getAnnotation(PropertyIdentifier.class);
 			if (parameter != null) {
-				GRParameter p = new GRParameter(f, parameter);
+				GRProperty p = new GRProperty(f, parameter);
 				// System.out.println("Found " + p);
 				returned.put(p.getName(), p);
 			}
@@ -57,43 +55,43 @@ public class GRParameter<T> {
 		return returned;
 	}
 
-	private static Map<Class<?>, Map<String, GRParameter<?>>> cachedParameters = new HashMap<Class<?>, Map<String, GRParameter<?>>>();
+	private static Map<Class<?>, Map<String, GRProperty<?>>> cachedParameters = new HashMap<Class<?>, Map<String, GRProperty<?>>>();
 
-	public static <T> GRParameter<T> getGRParameter(Class<?> declaringClass, String name, Class<T> type) {
-		GRParameter<T> returned = (GRParameter<T>) getGRParameter(declaringClass, name);
+	public static <T> GRProperty<T> getGRParameter(Class<?> declaringClass, String name, Class<T> type) {
+		GRProperty<T> returned = (GRProperty<T>) getGRParameter(declaringClass, name);
 		if (returned != null) {
 			returned.type = type;
 		}
 		return returned;
 	}
 
-	public static GRParameter<?> getGRParameter(Class<?> declaringClass, String name) {
-		Map<String, GRParameter<?>> cacheForClass = cachedParameters.get(declaringClass);
+	public static GRProperty<?> getGRParameter(Class<?> declaringClass, String name) {
+		Map<String, GRProperty<?>> cacheForClass = cachedParameters.get(declaringClass);
 		if (cacheForClass == null) {
 			cacheForClass = retrieveParameters(declaringClass);
 			cachedParameters.put(declaringClass, cacheForClass);
 		}
-		GRParameter<?> returned = cacheForClass.get(name);
+		GRProperty<?> returned = cacheForClass.get(name);
 		if (returned == null && declaringClass.getSuperclass() != null) {
 			return getGRParameter(declaringClass.getSuperclass(), name);
 		}
 		/*if (returned == null) {
-			logger.warning("Not found GRParameter " + name + " for " + declaringClass);
+			logger.warning("Not found GRProperty " + name + " for " + declaringClass);
 		}*/
 		return returned;
 	}
 
-	private static Map<Class<?>, Collection<GRParameter<?>>> cache = new HashMap<Class<?>, Collection<GRParameter<?>>>();
+	private static Map<Class<?>, Collection<GRProperty<?>>> cache = new HashMap<Class<?>, Collection<GRProperty<?>>>();
 
-	public static Collection<GRParameter<?>> getGRParameters(Class<?> declaringClass) {
-		Collection<GRParameter<?>> returned = cache.get(declaringClass);
+	public static Collection<GRProperty<?>> getGRParameters(Class<?> declaringClass) {
+		Collection<GRProperty<?>> returned = cache.get(declaringClass);
 		if (returned == null) {
-			Map<String, GRParameter<?>> cacheForClass = cachedParameters.get(declaringClass);
+			Map<String, GRProperty<?>> cacheForClass = cachedParameters.get(declaringClass);
 			if (cacheForClass == null) {
 				cacheForClass = retrieveParameters(declaringClass);
 				cachedParameters.put(declaringClass, cacheForClass);
 			}
-			returned = new ArrayList<GRParameter<?>>();
+			returned = new ArrayList<GRProperty<?>>();
 			returned.addAll(cacheForClass.values());
 			if (declaringClass.getSuperclass() != null) {
 				returned.addAll(getGRParameters(declaringClass.getSuperclass()));
@@ -107,7 +105,7 @@ public class GRParameter<T> {
 	private String name;
 	private Class<T> type;
 
-	private GRParameter(Field field, PropertyIdentifier p) {
+	private GRProperty(Field field, PropertyIdentifier p) {
 		this.field = field;
 		try {
 			name = (String) field.get(field.getDeclaringClass());
@@ -156,7 +154,7 @@ public class GRParameter<T> {
 
 	@Override
 	public String toString() {
-		return "GRParameter: " + getFieldName() + " " + getName() + " " + getType().getSimpleName();
+		return "GRProperty: " + getFieldName() + " " + getName() + " " + getType().getSimpleName();
 	}
 
 	public T getDefaultValue() {
@@ -205,7 +203,7 @@ public class GRParameter<T> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		GRParameter other = (GRParameter) obj;
+		GRProperty other = (GRProperty) obj;
 		if (field == null) {
 			if (other.field != null)
 				return false;

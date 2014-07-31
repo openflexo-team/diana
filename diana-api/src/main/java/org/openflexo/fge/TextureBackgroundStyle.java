@@ -51,9 +51,9 @@ public interface TextureBackgroundStyle extends BackgroundStyle {
 	@PropertyIdentifier(type = TextureType.class)
 	public static final String TEXTURE_TYPE_KEY = "textureType";
 
-	public static GRParameter<Color> COLOR1 = GRParameter.getGRParameter(TextureBackgroundStyle.class, COLOR1_KEY, Color.class);
-	public static GRParameter<Color> COLOR2 = GRParameter.getGRParameter(TextureBackgroundStyle.class, COLOR2_KEY, Color.class);
-	public static GRParameter<TextureType> TEXTURE_TYPE = GRParameter.getGRParameter(TextureBackgroundStyle.class, TEXTURE_TYPE_KEY,
+	public static GRProperty<Color> COLOR1 = GRProperty.getGRParameter(TextureBackgroundStyle.class, COLOR1_KEY, Color.class);
+	public static GRProperty<Color> COLOR2 = GRProperty.getGRParameter(TextureBackgroundStyle.class, COLOR2_KEY, Color.class);
+	public static GRProperty<TextureType> TEXTURE_TYPE = GRProperty.getGRParameter(TextureBackgroundStyle.class, TEXTURE_TYPE_KEY,
 			TextureType.class);
 
 	public static enum TextureType implements HasIcon {

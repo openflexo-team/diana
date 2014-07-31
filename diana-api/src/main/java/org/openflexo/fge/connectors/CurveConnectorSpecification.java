@@ -20,7 +20,7 @@
  */
 package org.openflexo.fge.connectors;
 
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
@@ -44,17 +44,17 @@ public interface CurveConnectorSpecification extends ConnectorSpecification {
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String ARE_BOUNDS_ADJUSTABLE_KEY = "areBoundsAdjustable";
 
-	/*public static enum CurveConnectorParameters implements GRParameter {
+	/*public static enum CurveConnectorParameters implements GRProperty {
 		cpPosition, cp1RelativeToStartObject, cp2RelativeToEndObject, areBoundsAdjustable;
 	}*/
 
-	public static GRParameter<FGEPoint> CP_POSITION = GRParameter.getGRParameter(CurveConnectorSpecification.class, CP_POSITION_KEY,
+	public static GRProperty<FGEPoint> CP_POSITION = GRProperty.getGRParameter(CurveConnectorSpecification.class, CP_POSITION_KEY,
 			FGEPoint.class);
-	public static GRParameter<FGEPoint> CP1_RELATIVE_TO_START_OBJECT = GRParameter.getGRParameter(CurveConnectorSpecification.class,
+	public static GRProperty<FGEPoint> CP1_RELATIVE_TO_START_OBJECT = GRProperty.getGRParameter(CurveConnectorSpecification.class,
 			CP1_RELATIVE_TO_START_OBJECT_KEY, FGEPoint.class);
-	public static GRParameter<FGEPoint> CP2_RELATIVE_TO_END_OBJECT = GRParameter.getGRParameter(CurveConnectorSpecification.class,
+	public static GRProperty<FGEPoint> CP2_RELATIVE_TO_END_OBJECT = GRProperty.getGRParameter(CurveConnectorSpecification.class,
 			CP2_RELATIVE_TO_END_OBJECT_KEY, FGEPoint.class);
-	public static GRParameter<Boolean> ARE_BOUNDS_ADJUSTABLE = GRParameter.getGRParameter(CurveConnectorSpecification.class,
+	public static GRProperty<Boolean> ARE_BOUNDS_ADJUSTABLE = GRProperty.getGRParameter(CurveConnectorSpecification.class,
 			ARE_BOUNDS_ADJUSTABLE_KEY, Boolean.class);
 
 	// *******************************************************************************

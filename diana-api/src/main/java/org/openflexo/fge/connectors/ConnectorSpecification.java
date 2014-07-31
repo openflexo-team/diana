@@ -25,7 +25,7 @@ import javax.swing.ImageIcon;
 import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.FGEIconLibrary;
 import org.openflexo.fge.FGEObject;
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.connectors.ConnectorSymbol.EndSymbolType;
 import org.openflexo.fge.connectors.ConnectorSymbol.MiddleSymbolType;
 import org.openflexo.fge.connectors.ConnectorSymbol.StartSymbolType;
@@ -64,20 +64,20 @@ public interface ConnectorSpecification extends FGEObject {
 	@PropertyIdentifier(type = Double.class)
 	public static final String RELATIVE_MIDDLE_SYMBOL_LOCATION_KEY = "relativeMiddleSymbolLocation";
 
-	public static GRParameter<StartSymbolType> START_SYMBOL = GRParameter.getGRParameter(ConnectorSpecification.class, START_SYMBOL_KEY,
+	public static GRProperty<StartSymbolType> START_SYMBOL = GRProperty.getGRParameter(ConnectorSpecification.class, START_SYMBOL_KEY,
 			StartSymbolType.class);
-	public static GRParameter<Double> START_SYMBOL_SIZE = GRParameter.getGRParameter(ConnectorSpecification.class, START_SYMBOL_SIZE_KEY,
+	public static GRProperty<Double> START_SYMBOL_SIZE = GRProperty.getGRParameter(ConnectorSpecification.class, START_SYMBOL_SIZE_KEY,
 			Double.class);
-	public static GRParameter<MiddleSymbolType> MIDDLE_SYMBOL = GRParameter.getGRParameter(ConnectorSpecification.class, MIDDLE_SYMBOL_KEY,
+	public static GRProperty<MiddleSymbolType> MIDDLE_SYMBOL = GRProperty.getGRParameter(ConnectorSpecification.class, MIDDLE_SYMBOL_KEY,
 			MiddleSymbolType.class);
-	public static GRParameter<Double> MIDDLE_SYMBOL_SIZE = GRParameter.getGRParameter(ConnectorSpecification.class, MIDDLE_SYMBOL_SIZE_KEY,
+	public static GRProperty<Double> MIDDLE_SYMBOL_SIZE = GRProperty.getGRParameter(ConnectorSpecification.class, MIDDLE_SYMBOL_SIZE_KEY,
 			Double.class);
-	public static GRParameter<EndSymbolType> END_SYMBOL = GRParameter.getGRParameter(ConnectorSpecification.class, END_SYMBOL_KEY,
+	public static GRProperty<EndSymbolType> END_SYMBOL = GRProperty.getGRParameter(ConnectorSpecification.class, END_SYMBOL_KEY,
 			EndSymbolType.class);
-	public static GRParameter<Double> END_SYMBOL_SIZE = GRParameter.getGRParameter(ConnectorSpecification.class, END_SYMBOL_SIZE_KEY,
+	public static GRProperty<Double> END_SYMBOL_SIZE = GRProperty.getGRParameter(ConnectorSpecification.class, END_SYMBOL_SIZE_KEY,
 			Double.class);
 
-	public static GRParameter<Double> RELATIVE_MIDDLE_SYMBOL_LOCATION = GRParameter.getGRParameter(ConnectorSpecification.class,
+	public static GRProperty<Double> RELATIVE_MIDDLE_SYMBOL_LOCATION = GRProperty.getGRParameter(ConnectorSpecification.class,
 			RELATIVE_MIDDLE_SYMBOL_LOCATION_KEY, Double.class);
 
 	public static enum ConnectorType {

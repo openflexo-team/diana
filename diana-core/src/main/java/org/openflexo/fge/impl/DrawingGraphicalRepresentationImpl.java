@@ -77,8 +77,8 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 	}
 
 	/*@Override
-	public Vector<GRParameter> getAllParameters() {
-		Vector<GRParameter> returned = super.getAllParameters();
+	public Vector<GRProperty> getAllParameters() {
+		Vector<GRProperty> returned = super.getAllParameters();
 		Parameters[] allParams = Parameters.values();
 		for (int i = 0; i < allParams.length; i++) {
 			returned.add(allParams[i]);
@@ -110,12 +110,12 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 	}*/
 
 	/*@Override
-	public final void setsWith(GraphicalRepresentation gr, GRParameter... exceptedParameters) {
+	public final void setsWith(GraphicalRepresentation gr, GRProperty... exceptedParameters) {
 		super.setsWith(gr, exceptedParameters);
 		if (gr instanceof ConnectorGraphicalRepresentation) {
 			for (Parameters p : Parameters.values()) {
 				boolean excepted = false;
-				for (GRParameter ep : exceptedParameters) {
+				for (GRProperty ep : exceptedParameters) {
 					if (p == ep) {
 						excepted = true;
 					}

@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.BackgroundStyle;
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 
 public abstract class BackgroundStyleImpl extends FGEStyleImpl implements BackgroundStyle {
@@ -16,12 +16,12 @@ public abstract class BackgroundStyleImpl extends FGEStyleImpl implements Backgr
 	private boolean useTransparency = false;
 	private float transparencyLevel = 0.5f; // Between 0.0 and 1.0
 
-	public static GRParameter<?> getParameter(String parameterName) {
-		return GRParameter.getGRParameter(BackgroundStyle.class, parameterName);
+	public static GRProperty<?> getParameter(String parameterName) {
+		return GRProperty.getGRParameter(BackgroundStyle.class, parameterName);
 	}
 
-	public static Collection<GRParameter<?>> getAllParameters() {
-		return GRParameter.getGRParameters(BackgroundStyle.class);
+	public static Collection<GRProperty<?>> getAllParameters() {
+		return GRProperty.getGRParameters(BackgroundStyle.class);
 	}
 
 	/*@Deprecated

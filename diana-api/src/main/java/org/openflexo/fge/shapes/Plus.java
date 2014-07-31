@@ -1,6 +1,6 @@
 package org.openflexo.fge.shapes;
 
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
@@ -26,7 +26,7 @@ public interface Plus extends ShapeSpecification {
 	@PropertyIdentifier(type = Double.class)
 	public static final String			RATIO_KEY	= "ratio";
 
-	public static GRParameter<Double>	RATIO		= GRParameter.getGRParameter(Plus.class, RATIO_KEY, Double.class);
+	public static GRProperty<Double>	RATIO		= GRProperty.getGRParameter(Plus.class, RATIO_KEY, Double.class);
 
 	// *******************************************************************************
 	// * Properties

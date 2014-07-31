@@ -25,7 +25,7 @@ import java.util.List;
 
 import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.ShapeNode;
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.FGEPoint;
@@ -98,7 +98,7 @@ public interface Connector<CS extends ConnectorSpecification> extends PropertyCh
 	 * @param parameter
 	 * @return
 	 */
-	public <T> T getPropertyValue(GRParameter<T> parameter);
+	public <T> T getPropertyValue(GRProperty<T> parameter);
 
 /**
 	 * Sets the property value for supplied parameter<br>
@@ -108,6 +108,6 @@ public interface Connector<CS extends ConnectorSpecification> extends PropertyCh
 	 * @param parameter
 	 * @return
 	 */
-	public <T> void setPropertyValue(GRParameter<T> parameter, T value);
+	public <T> void setPropertyValue(GRProperty<T> parameter, T value);
 
 }

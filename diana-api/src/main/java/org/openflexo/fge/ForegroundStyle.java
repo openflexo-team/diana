@@ -61,18 +61,18 @@ public interface ForegroundStyle extends FGEStyle {
 	@PropertyIdentifier(type = Float.class)
 	public static final String TRANSPARENCY_LEVEL_KEY = "transparencyLevel";
 
-	public static GRParameter<Color> COLOR = GRParameter.getGRParameter(ForegroundStyle.class, COLOR_KEY, Color.class);
-	public static GRParameter<Double> LINE_WIDTH = GRParameter.getGRParameter(ForegroundStyle.class, LINE_WIDTH_KEY, Double.TYPE);
-	public static GRParameter<CapStyle> CAP_STYLE = GRParameter.getGRParameter(ForegroundStyle.class, CAP_STYLE_KEY, CapStyle.class);
-	public static GRParameter<JoinStyle> JOIN_STYLE = GRParameter.getGRParameter(ForegroundStyle.class, JOIN_STYLE_KEY, JoinStyle.class);
-	public static GRParameter<DashStyle> DASH_STYLE = GRParameter.getGRParameter(ForegroundStyle.class, DASH_STYLE_KEY, DashStyle.class);
-	public static GRParameter<Boolean> NO_STROKE = GRParameter.getGRParameter(ForegroundStyle.class, NO_STROKE_KEY, Boolean.TYPE);
-	public static GRParameter<Boolean> USE_TRANSPARENCY = GRParameter.getGRParameter(ForegroundStyle.class, USE_TRANSPARENCY_KEY,
+	public static GRProperty<Color> COLOR = GRProperty.getGRParameter(ForegroundStyle.class, COLOR_KEY, Color.class);
+	public static GRProperty<Double> LINE_WIDTH = GRProperty.getGRParameter(ForegroundStyle.class, LINE_WIDTH_KEY, Double.TYPE);
+	public static GRProperty<CapStyle> CAP_STYLE = GRProperty.getGRParameter(ForegroundStyle.class, CAP_STYLE_KEY, CapStyle.class);
+	public static GRProperty<JoinStyle> JOIN_STYLE = GRProperty.getGRParameter(ForegroundStyle.class, JOIN_STYLE_KEY, JoinStyle.class);
+	public static GRProperty<DashStyle> DASH_STYLE = GRProperty.getGRParameter(ForegroundStyle.class, DASH_STYLE_KEY, DashStyle.class);
+	public static GRProperty<Boolean> NO_STROKE = GRProperty.getGRParameter(ForegroundStyle.class, NO_STROKE_KEY, Boolean.TYPE);
+	public static GRProperty<Boolean> USE_TRANSPARENCY = GRProperty.getGRParameter(ForegroundStyle.class, USE_TRANSPARENCY_KEY,
 			Boolean.TYPE);
-	public static GRParameter<Float> TRANSPARENCY_LEVEL = GRParameter.getGRParameter(ForegroundStyle.class, TRANSPARENCY_LEVEL_KEY,
+	public static GRProperty<Float> TRANSPARENCY_LEVEL = GRProperty.getGRParameter(ForegroundStyle.class, TRANSPARENCY_LEVEL_KEY,
 			Float.TYPE);
 
-	/*public static enum Parameters implements GRParameter {
+	/*public static enum Parameters implements GRProperty {
 		color, lineWidth, capStyle, joinStyle, dashStyle, noStroke, useTransparency, transparencyLevel
 	}*/
 

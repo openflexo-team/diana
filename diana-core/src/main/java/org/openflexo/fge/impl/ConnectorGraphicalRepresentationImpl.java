@@ -109,12 +109,12 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 	}
 
 	@Override
-	public final void setsWith(GraphicalRepresentation gr, GRParameter... exceptedParameters) {
+	public final void setsWith(GraphicalRepresentation gr, GRProperty... exceptedParameters) {
 		super.setsWith(gr, exceptedParameters);
 		if (gr instanceof ConnectorGraphicalRepresentationImpl) {
 			for (ConnectorParameters p : ConnectorParameters.values()) {
 				boolean excepted = false;
-				for (GRParameter ep : exceptedParameters) {
+				for (GRProperty ep : exceptedParameters) {
 					if (p == ep) {
 						excepted = true;
 					}

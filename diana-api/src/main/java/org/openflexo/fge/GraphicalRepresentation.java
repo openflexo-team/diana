@@ -121,11 +121,11 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 
 	}
 
-	/*public static interface GRParameter {
+	/*public static interface GRProperty {
 		public String name();
 	}
 
-	public static enum Parameters implements GRParameter {
+	public static enum Parameters implements GRProperty {
 		identifier, layer, hasText, text, isMultilineAllowed, lineWrap, continuousTextEditing, textStyle, absoluteTextX, // TODO: remove ?
 		absoluteTextY, // TODO: remove ?
 		horizontalTextAlignment,
@@ -159,48 +159,48 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 		TOP, MIDDLE, BOTTOM;
 	}
 
-	public static GRParameter<String> IDENTIFIER = GRParameter.getGRParameter(GraphicalRepresentation.class, IDENTIFIER_KEY, String.class);
-	public static GRParameter<Integer> LAYER = GRParameter.getGRParameter(GraphicalRepresentation.class, LAYER_KEY, Integer.class);
-	public static GRParameter<Double> TRANSPARENCY = GRParameter.getGRParameter(GraphicalRepresentation.class, TRANSPARENCY_KEY,
+	public static GRProperty<String> IDENTIFIER = GRProperty.getGRParameter(GraphicalRepresentation.class, IDENTIFIER_KEY, String.class);
+	public static GRProperty<Integer> LAYER = GRProperty.getGRParameter(GraphicalRepresentation.class, LAYER_KEY, Integer.class);
+	public static GRProperty<Double> TRANSPARENCY = GRProperty.getGRParameter(GraphicalRepresentation.class, TRANSPARENCY_KEY,
 			Double.class);
-	public static GRParameter<String> TEXT = GRParameter.getGRParameter(GraphicalRepresentation.class, TEXT_KEY, String.class);
-	public static GRParameter<TextStyle> TEXT_STYLE = GRParameter.getGRParameter(GraphicalRepresentation.class, TEXT_STYLE_KEY,
+	public static GRProperty<String> TEXT = GRProperty.getGRParameter(GraphicalRepresentation.class, TEXT_KEY, String.class);
+	public static GRProperty<TextStyle> TEXT_STYLE = GRProperty.getGRParameter(GraphicalRepresentation.class, TEXT_STYLE_KEY,
 			TextStyle.class);
-	public static GRParameter<HorizontalTextAlignment> HORIZONTAL_TEXT_ALIGNEMENT = GRParameter.getGRParameter(
+	public static GRProperty<HorizontalTextAlignment> HORIZONTAL_TEXT_ALIGNEMENT = GRProperty.getGRParameter(
 			GraphicalRepresentation.class, HORIZONTAL_TEXT_ALIGNEMENT_KEY, HorizontalTextAlignment.class);
-	public static GRParameter<VerticalTextAlignment> VERTICAL_TEXT_ALIGNEMENT = GRParameter.getGRParameter(GraphicalRepresentation.class,
+	public static GRProperty<VerticalTextAlignment> VERTICAL_TEXT_ALIGNEMENT = GRProperty.getGRParameter(GraphicalRepresentation.class,
 			VERTICAL_TEXT_ALIGNEMENT_KEY, VerticalTextAlignment.class);
-	public static GRParameter<Double> ABSOLUTE_TEXT_X = GRParameter.getGRParameter(GraphicalRepresentation.class, ABSOLUTE_TEXT_X_KEY,
+	public static GRProperty<Double> ABSOLUTE_TEXT_X = GRProperty.getGRParameter(GraphicalRepresentation.class, ABSOLUTE_TEXT_X_KEY,
 			Double.class);
-	public static GRParameter<Double> ABSOLUTE_TEXT_Y = GRParameter.getGRParameter(GraphicalRepresentation.class, ABSOLUTE_TEXT_Y_KEY,
+	public static GRProperty<Double> ABSOLUTE_TEXT_Y = GRProperty.getGRParameter(GraphicalRepresentation.class, ABSOLUTE_TEXT_Y_KEY,
 			Double.class);
-	public static GRParameter<Boolean> IS_MULTILINE_ALLOWED = GRParameter.getGRParameter(GraphicalRepresentation.class,
+	public static GRProperty<Boolean> IS_MULTILINE_ALLOWED = GRProperty.getGRParameter(GraphicalRepresentation.class,
 			IS_MULTILINE_ALLOWED_KEY, Boolean.TYPE);
-	public static GRParameter<Boolean> LINE_WRAP = GRParameter.getGRParameter(GraphicalRepresentation.class, LINE_WRAP_KEY, Boolean.class);
-	public static GRParameter<Boolean> CONTINUOUS_TEXT_EDITING = GRParameter.getGRParameter(GraphicalRepresentation.class,
+	public static GRProperty<Boolean> LINE_WRAP = GRProperty.getGRParameter(GraphicalRepresentation.class, LINE_WRAP_KEY, Boolean.class);
+	public static GRProperty<Boolean> CONTINUOUS_TEXT_EDITING = GRProperty.getGRParameter(GraphicalRepresentation.class,
 			CONTINUOUS_TEXT_EDITING_KEY, Boolean.class);
 
-	public static GRParameter<ParagraphAlignment> PARAGRAPH_ALIGNEMENT = GRParameter.getGRParameter(GraphicalRepresentation.class,
+	public static GRProperty<ParagraphAlignment> PARAGRAPH_ALIGNEMENT = GRProperty.getGRParameter(GraphicalRepresentation.class,
 			PARAGRAPH_ALIGNMENT_KEY, ParagraphAlignment.class);
-	public static GRParameter<Boolean> IS_SELECTABLE = GRParameter.getGRParameter(GraphicalRepresentation.class, IS_SELECTABLE_KEY,
+	public static GRProperty<Boolean> IS_SELECTABLE = GRProperty.getGRParameter(GraphicalRepresentation.class, IS_SELECTABLE_KEY,
 			Boolean.class);
-	public static GRParameter<Boolean> IS_FOCUSABLE = GRParameter.getGRParameter(GraphicalRepresentation.class, IS_FOCUSABLE_KEY,
+	public static GRProperty<Boolean> IS_FOCUSABLE = GRProperty.getGRParameter(GraphicalRepresentation.class, IS_FOCUSABLE_KEY,
 			Boolean.class);
-	public static GRParameter<Boolean> DRAW_CONTROL_POINTS_WHEN_FOCUSED = GRParameter.getGRParameter(GraphicalRepresentation.class,
+	public static GRProperty<Boolean> DRAW_CONTROL_POINTS_WHEN_FOCUSED = GRProperty.getGRParameter(GraphicalRepresentation.class,
 			DRAW_CONTROL_POINTS_WHEN_FOCUSED_KEY, Boolean.class);
-	public static GRParameter<Boolean> DRAW_CONTROL_POINTS_WHEN_SELECTED = GRParameter.getGRParameter(GraphicalRepresentation.class,
+	public static GRProperty<Boolean> DRAW_CONTROL_POINTS_WHEN_SELECTED = GRProperty.getGRParameter(GraphicalRepresentation.class,
 			DRAW_CONTROL_POINTS_WHEN_SELECTED_KEY, Boolean.class);
-	public static GRParameter<Boolean> IS_READ_ONLY = GRParameter.getGRParameter(GraphicalRepresentation.class, IS_READ_ONLY_KEY,
+	public static GRProperty<Boolean> IS_READ_ONLY = GRProperty.getGRParameter(GraphicalRepresentation.class, IS_READ_ONLY_KEY,
 			Boolean.class);
-	public static GRParameter<Boolean> IS_LABEL_EDITABLE = GRParameter.getGRParameter(GraphicalRepresentation.class, IS_LABEL_EDITABLE_KEY,
+	public static GRProperty<Boolean> IS_LABEL_EDITABLE = GRProperty.getGRParameter(GraphicalRepresentation.class, IS_LABEL_EDITABLE_KEY,
 			Boolean.class);
-	public static GRParameter<Boolean> IS_VISIBLE = GRParameter
+	public static GRProperty<Boolean> IS_VISIBLE = GRProperty
 			.getGRParameter(GraphicalRepresentation.class, IS_VISIBLE_KEY, Boolean.class);
-	public static GRParameter<List> MOUSE_CLICK_CONTROLS = GRParameter.getGRParameter(GraphicalRepresentation.class,
+	public static GRProperty<List> MOUSE_CLICK_CONTROLS = GRProperty.getGRParameter(GraphicalRepresentation.class,
 			MOUSE_CLICK_CONTROLS_KEY, List.class);
-	public static GRParameter<List> MOUSE_DRAG_CONTROLS = GRParameter.getGRParameter(GraphicalRepresentation.class,
+	public static GRProperty<List> MOUSE_DRAG_CONTROLS = GRProperty.getGRParameter(GraphicalRepresentation.class,
 			MOUSE_DRAG_CONTROLS_KEY, List.class);
-	public static GRParameter<String> TOOLTIP_TEXT = GRParameter.getGRParameter(GraphicalRepresentation.class, TOOLTIP_TEXT_KEY,
+	public static GRProperty<String> TOOLTIP_TEXT = GRProperty.getGRParameter(GraphicalRepresentation.class, TOOLTIP_TEXT_KEY,
 			String.class);
 
 	// *******************************************************************************
@@ -437,13 +437,13 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	// * Utils
 	// *******************************************************************************
 
-	// public GRParameter<?> parameterWithName(String parameterName);
+	// public GRProperty<?> parameterWithName(String parameterName);
 
-	// public Collection<GRParameter<?>> getAllParameters();
+	// public Collection<GRProperty<?>> getAllParameters();
 
 	public void setsWith(GraphicalRepresentation gr);
 
-	public void setsWith(GraphicalRepresentation gr, GRParameter<?>... exceptedParameters);
+	public void setsWith(GraphicalRepresentation gr, GRProperty<?>... exceptedParameters);
 
 	public void initializeDeserialization();
 
@@ -527,11 +527,11 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 
 	public void paint(Graphics g, DianaEditor controller);*/
 
-	/*public void notifyChange(GRParameter parameter, Object oldValue, Object newValue);
+	/*public void notifyChange(GRProperty parameter, Object oldValue, Object newValue);
 
-	public void notifyChange(GRParameter parameter);
+	public void notifyChange(GRProperty parameter);
 
-	public void notifyAttributeChange(GRParameter parameter);
+	public void notifyAttributeChange(GRProperty parameter);
 
 	public void notify(FGENotification notification);*/
 
@@ -648,7 +648,7 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 
 	public Vector<ConstraintDependency> getAlterings();
 
-	public void declareDependantOf(GraphicalRepresentation aComponent, GRParameter requiringParameter, GRParameter requiredParameter)
+	public void declareDependantOf(GraphicalRepresentation aComponent, GRProperty requiringParameter, GRProperty requiredParameter)
 			throws DependencyLoopException;
 	*/
 	// public GRVariable createStringVariable();

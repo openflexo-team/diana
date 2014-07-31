@@ -33,7 +33,7 @@ import java.util.logging.Logger;
 import org.openflexo.antar.binding.TypeUtils;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.FGEModelFactory;
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.control.DianaInteractiveViewer;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 import org.openflexo.logging.FlexoLogger;
@@ -77,7 +77,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		return controller;
 	}
 
-	protected Map<GRParameter<?>, Object> storedPropertyValues = new HashMap<GRParameter<?>, Object>();
+	protected Map<GRProperty<?>, Object> storedPropertyValues = new HashMap<GRProperty<?>, Object>();
 
 	/**
 	 * Return property value matching supplied parameter for current selection<br>
@@ -91,7 +91,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	 * @param parameter
 	 * @return
 	 */
-	public <T> T getPropertyValue(GRParameter<T> parameter) {
+	public <T> T getPropertyValue(GRProperty<T> parameter) {
 		T returned = _getPropertyValue(parameter);
 		if (logger.isLoggable(Level.FINE)) {
 			logger.fine("Requesting " + parameter + " for " + getSelection() + ", returning " + returned);
@@ -107,7 +107,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	 * @param parameter
 	 * @return
 	 */
-	protected <T> T _getPropertyValue(GRParameter<T> parameter) {
+	protected <T> T _getPropertyValue(GRProperty<T> parameter) {
 		T returned;
 		if (getSelection().size() == 0) {
 			if (defaultValue != null && defaultValue.hasKey(parameter.getName())) {
@@ -147,7 +147,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	 * @param parameter
 	 * @param value
 	 */
-	public <T> void setPropertyValue(GRParameter<T> parameter, T value) {
+	public <T> void setPropertyValue(GRProperty<T> parameter, T value) {
 		T oldValue = getPropertyValue(parameter);
 		// System.out.println("Sets from " + oldValue + " to " + value);
 		if (requireChange(oldValue, value)) {
@@ -300,7 +300,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	protected void fireChangedProperties() {
 
 		if (getInspectedStyleClass() != null) {
-			for (GRParameter<?> p : GRParameter.getGRParameters(getInspectedStyleClass())) {
+			for (GRProperty<?> p : GRProperty.getGRParameters(getInspectedStyleClass())) {
 				fireChangedProperty(p);
 			}
 		}
@@ -312,9 +312,9 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 
 	/**
 	 * Internally called to fire change events between previously registered values and current resulting values<br>
-	 * Do this only when needed on supplied GRParameter
+	 * Do this only when needed on supplied GRProperty
 	 */
-	protected <T> void fireChangedProperty(GRParameter<T> p) {
+	protected <T> void fireChangedProperty(GRProperty<T> p) {
 		@SuppressWarnings("unchecked")
 		T storedValue = (T) storedPropertyValues.get(p);
 		T newValue = _getPropertyValue(p);
@@ -323,14 +323,14 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		}
 	}
 
-	protected <T> void _doFireChangedProperty(GRParameter<T> p, T oldValue, T newValue) {
+	protected <T> void _doFireChangedProperty(GRProperty<T> p, T oldValue, T newValue) {
 		pcSupport.firePropertyChange(p.getName(), oldValue, newValue);
 		// System.out.println("fired changed property " + p + " from " + oldValue + " to " + newValue);
 		// setChanged();
 		// notifyObservers(new FGEAttributeNotification<T>(p, oldValue, newValue));
 	}
 
-	protected <T> void forceFireChangedProperty(GRParameter<T> p) {
+	protected <T> void forceFireChangedProperty(GRProperty<T> p) {
 		@SuppressWarnings("unchecked")
 		T storedValue = (T) storedPropertyValues.get(p);
 		T newValue = _getPropertyValue(p);
@@ -407,7 +407,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 
 	}
 
-	public <T> void notifyChange(GRParameter<T> parameter, T oldValue, T newValue) {
+	public <T> void notifyChange(GRProperty<T> parameter, T oldValue, T newValue) {
 		if (requireChange(oldValue, newValue)) {
 			if (getSelection().size() == 0) {
 				if (defaultValue instanceof HasPropertyChangeSupport) {
@@ -426,12 +426,12 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		}
 	}
 
-	public <T> void notifyChange(GRParameter<T> parameter) {
+	public <T> void notifyChange(GRProperty<T> parameter) {
 		T currentValue = getPropertyValue(parameter);
 		notifyChange(parameter, currentValue != null ? null : parameter.getDefaultValue(), currentValue);
 	}
 
-	public <T> void notifyAttributeChange(GRParameter<T> parameter) {
+	public <T> void notifyAttributeChange(GRProperty<T> parameter) {
 		notifyChange(parameter);
 	}
 
@@ -577,7 +577,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 
 	public boolean hasKey(String key) {
 		if (key != null) {
-			GRParameter<?> parameter = GRParameter.getGRParameter(getInspectedStyleClass(), key);
+			GRProperty<?> parameter = GRProperty.getGRParameter(getInspectedStyleClass(), key);
 			if ((parameter != null) && (getPropertyValue(parameter) != null)) {
 				return true;
 			}
@@ -592,7 +592,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	 * @return
 	 */
 	public Object objectForKey(String key) {
-		GRParameter<?> parameter = GRParameter.getGRParameter(getInspectedStyleClass(), key);
+		GRProperty<?> parameter = GRProperty.getGRParameter(getInspectedStyleClass(), key);
 		if (parameter != null) {
 			return getPropertyValue(parameter);
 		}
@@ -606,7 +606,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	 * @return
 	 */
 	public void setObjectForKey(Object value, String key) {
-		GRParameter<?> parameter = GRParameter.getGRParameter(getInspectedStyleClass(), key);
+		GRProperty<?> parameter = GRProperty.getGRParameter(getInspectedStyleClass(), key);
 		Object oldValue = objectForKey(key);
 		if (requireChange(oldValue, value)) {
 			if (getSelection().size() == 0) {
@@ -634,8 +634,8 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	 */
 	public Type getTypeForKey(String key) {
 		if (hasKey(key)) {
-			if (GRParameter.getGRParameter(getInspectedStyleClass(), key) != null) {
-				return GRParameter.getGRParameter(getInspectedStyleClass(), key).getType();
+			if (GRProperty.getGRParameter(getInspectedStyleClass(), key) != null) {
+				return GRProperty.getGRParameter(getInspectedStyleClass(), key).getType();
 			}
 		}
 		return null;

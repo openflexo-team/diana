@@ -21,7 +21,7 @@
 package org.openflexo.fge.connectors;
 
 import org.openflexo.fge.FGEConstants;
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectPolylin;
@@ -102,40 +102,40 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	@PropertyIdentifier(type = Integer.class)
 	public static final String PIXEL_OVERLAP_KEY = "pixelOverlap";
 
-	public static GRParameter<RectPolylinConstraints> RECT_POLYLIN_CONSTRAINTS = GRParameter.getGRParameter(
+	public static GRProperty<RectPolylinConstraints> RECT_POLYLIN_CONSTRAINTS = GRProperty.getGRParameter(
 			RectPolylinConnectorSpecification.class, RECT_POLYLIN_CONSTRAINTS_KEY, RectPolylinConstraints.class);
-	public static GRParameter<Boolean> STRAIGHT_LINE_WHEN_POSSIBLE = GRParameter.getGRParameter(RectPolylinConnectorSpecification.class,
+	public static GRProperty<Boolean> STRAIGHT_LINE_WHEN_POSSIBLE = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
 			STRAIGHT_LINE_WHEN_POSSIBLE_KEY, Boolean.class);
-	public static GRParameter<RectPolylinAdjustability> ADJUSTABILITY = GRParameter.getGRParameter(RectPolylinConnectorSpecification.class,
+	public static GRProperty<RectPolylinAdjustability> ADJUSTABILITY = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
 			ADJUSTABILITY_KEY, RectPolylinAdjustability.class);
-	public static GRParameter<SimplifiedCardinalDirection> START_ORIENTATION = GRParameter.getGRParameter(
+	public static GRProperty<SimplifiedCardinalDirection> START_ORIENTATION = GRProperty.getGRParameter(
 			RectPolylinConnectorSpecification.class, START_ORIENTATION_KEY, SimplifiedCardinalDirection.class);
-	public static GRParameter<SimplifiedCardinalDirection> END_ORIENTATION = GRParameter.getGRParameter(
+	public static GRProperty<SimplifiedCardinalDirection> END_ORIENTATION = GRProperty.getGRParameter(
 			RectPolylinConnectorSpecification.class, END_ORIENTATION_KEY, SimplifiedCardinalDirection.class);
-	public static GRParameter<Boolean> IS_ROUNDED = GRParameter.getGRParameter(RectPolylinConnectorSpecification.class, IS_ROUNDED_KEY,
+	public static GRProperty<Boolean> IS_ROUNDED = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class, IS_ROUNDED_KEY,
 			Boolean.class);
-	public static GRParameter<Integer> ARC_SIZE = GRParameter.getGRParameter(RectPolylinConnectorSpecification.class, ARC_SIZE_KEY,
+	public static GRProperty<Integer> ARC_SIZE = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class, ARC_SIZE_KEY,
 			Integer.class);
-	public static GRParameter<Boolean> IS_STARTING_LOCATION_FIXED = GRParameter.getGRParameter(RectPolylinConnectorSpecification.class,
+	public static GRProperty<Boolean> IS_STARTING_LOCATION_FIXED = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
 			IS_STARTING_LOCATION_FIXED_KEY, Boolean.class);
-	public static GRParameter<Boolean> IS_ENDING_LOCATION_FIXED = GRParameter.getGRParameter(RectPolylinConnectorSpecification.class,
+	public static GRProperty<Boolean> IS_ENDING_LOCATION_FIXED = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
 			IS_ENDING_LOCATION_FIXED_KEY, Boolean.class);
-	public static GRParameter<Boolean> IS_STARTING_LOCATION_DRAGGABLE = GRParameter.getGRParameter(RectPolylinConnectorSpecification.class,
+	public static GRProperty<Boolean> IS_STARTING_LOCATION_DRAGGABLE = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
 			IS_STARTING_LOCATION_DRAGGABLE_KEY, Boolean.class);
-	public static GRParameter<Boolean> IS_ENDING_LOCATION_DRAGGABLE = GRParameter.getGRParameter(RectPolylinConnectorSpecification.class,
+	public static GRProperty<Boolean> IS_ENDING_LOCATION_DRAGGABLE = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
 			IS_ENDING_LOCATION_DRAGGABLE_KEY, Boolean.class);
-	public static GRParameter<FGEPoint> CROSSED_CONTROL_POINT = GRParameter.getGRParameter(RectPolylinConnectorSpecification.class,
+	public static GRProperty<FGEPoint> CROSSED_CONTROL_POINT = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
 			CROSSED_CONTROL_POINT_KEY, FGEPoint.class);
-	public static GRParameter<FGEPoint> FIXED_START_LOCATION = GRParameter.getGRParameter(RectPolylinConnectorSpecification.class,
+	public static GRProperty<FGEPoint> FIXED_START_LOCATION = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
 			FIXED_START_LOCATION_KEY, FGEPoint.class);
-	public static GRParameter<FGEPoint> FIXED_END_LOCATION = GRParameter.getGRParameter(RectPolylinConnectorSpecification.class,
+	public static GRProperty<FGEPoint> FIXED_END_LOCATION = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
 			FIXED_END_LOCATION_KEY, FGEPoint.class);
-	public static GRParameter<FGERectPolylin> POLYLIN = GRParameter.getGRParameter(RectPolylinConnectorSpecification.class, POLYLIN_KEY,
+	public static GRProperty<FGERectPolylin> POLYLIN = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class, POLYLIN_KEY,
 			FGERectPolylin.class);
-	public static GRParameter<Integer> PIXEL_OVERLAP = GRParameter.getGRParameter(RectPolylinConnectorSpecification.class,
+	public static GRProperty<Integer> PIXEL_OVERLAP = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
 			PIXEL_OVERLAP_KEY, Integer.class);
 
-	/*public static enum RectPolylinConnectorParameters implements GRParameter {
+	/*public static enum RectPolylinConnectorParameters implements GRProperty {
 		rectPolylinConstraints,
 		straightLineWhenPossible,
 		adjustability,

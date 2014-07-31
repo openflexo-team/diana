@@ -20,7 +20,7 @@
  */
 package org.openflexo.fge.connectors;
 
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
@@ -42,14 +42,14 @@ public interface LineConnectorSpecification extends ConnectorSpecification {
 	@PropertyIdentifier(type = FGEPoint.class)
 	public static final String CP2_RELATIVE_TO_END_OBJECT_KEY = "cp2RelativeToEndObject";
 
-	public static GRParameter<LineConnectorType> LINE_CONNECTOR_TYPE = GRParameter.getGRParameter(LineConnectorSpecification.class,
+	public static GRProperty<LineConnectorType> LINE_CONNECTOR_TYPE = GRProperty.getGRParameter(LineConnectorSpecification.class,
 			LINE_CONNECTOR_TYPE_KEY, LineConnectorType.class);
-	public static GRParameter<FGEPoint> CP1_RELATIVE_TO_START_OBJECT = GRParameter.getGRParameter(LineConnectorSpecification.class,
+	public static GRProperty<FGEPoint> CP1_RELATIVE_TO_START_OBJECT = GRProperty.getGRParameter(LineConnectorSpecification.class,
 			CP1_RELATIVE_TO_START_OBJECT_KEY, FGEPoint.class);
-	public static GRParameter<FGEPoint> CP2_RELATIVE_TO_END_OBJECT = GRParameter.getGRParameter(LineConnectorSpecification.class,
+	public static GRProperty<FGEPoint> CP2_RELATIVE_TO_END_OBJECT = GRProperty.getGRParameter(LineConnectorSpecification.class,
 			CP2_RELATIVE_TO_END_OBJECT_KEY, FGEPoint.class);
 
-	/*public static enum LineConnectorParameters implements GRParameter {
+	/*public static enum LineConnectorParameters implements GRProperty {
 		lineConnectorType, cp1RelativeToStartObject, cp2RelativeToEndObject;
 	}*/
 

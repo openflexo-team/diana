@@ -119,7 +119,7 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	// * Inner concepts
 	// *******************************************************************************
 
-	/*public static enum ShapeParameters implements GRParameter {
+	/*public static enum ShapeParameters implements GRProperty {
 		x, y,
 		// width,
 		// height,
@@ -224,49 +224,49 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 
 	}
 
-	public static GRParameter<Double> X = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class, X_KEY, Double.TYPE);
-	public static GRParameter<Double> Y = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class, Y_KEY, Double.TYPE);
-	public static GRParameter<BackgroundStyle> BACKGROUND = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class, BACKGROUND_KEY,
+	public static GRProperty<Double> X = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, X_KEY, Double.TYPE);
+	public static GRProperty<Double> Y = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, Y_KEY, Double.TYPE);
+	public static GRProperty<BackgroundStyle> BACKGROUND = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, BACKGROUND_KEY,
 			BackgroundStyle.class);
-	public static GRParameter<ForegroundStyle> FOREGROUND = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class, FOREGROUND_KEY,
+	public static GRProperty<ForegroundStyle> FOREGROUND = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, FOREGROUND_KEY,
 			ForegroundStyle.class);
-	public static GRParameter<ForegroundStyle> FOCUSED_FOREGROUND = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class,
+	public static GRProperty<ForegroundStyle> FOCUSED_FOREGROUND = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			FOCUSED_FOREGROUND_KEY, ForegroundStyle.class);
-	public static GRParameter<BackgroundStyle> FOCUSED_BACKGROUND = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class,
+	public static GRProperty<BackgroundStyle> FOCUSED_BACKGROUND = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			FOCUSED_BACKGROUND_KEY, BackgroundStyle.class);
-	public static GRParameter<ForegroundStyle> SELECTED_FOREGROUND = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class,
+	public static GRProperty<ForegroundStyle> SELECTED_FOREGROUND = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			SELECTED_FOREGROUND_KEY, ForegroundStyle.class);
-	public static GRParameter<BackgroundStyle> SELECTED_BACKGROUND = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class,
+	public static GRProperty<BackgroundStyle> SELECTED_BACKGROUND = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			SELECTED_BACKGROUND_KEY, BackgroundStyle.class);
-	public static GRParameter<ShadowStyle> SHADOW_STYLE = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class, SHADOW_STYLE_KEY,
+	public static GRProperty<ShadowStyle> SHADOW_STYLE = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, SHADOW_STYLE_KEY,
 			ShadowStyle.class);
-	public static GRParameter<LocationConstraints> LOCATION_CONSTRAINTS = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class,
+	public static GRProperty<LocationConstraints> LOCATION_CONSTRAINTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			LOCATION_CONSTRAINTS_KEY, LocationConstraints.class);
-	public static GRParameter<FGEArea> LOCATION_CONSTRAINED_AREA = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class,
+	public static GRProperty<FGEArea> LOCATION_CONSTRAINED_AREA = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			LOCATION_CONSTRAINED_AREA_KEY, FGEArea.class);
-	public static GRParameter<Boolean> IS_FLOATING_LABEL = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class,
+	public static GRProperty<Boolean> IS_FLOATING_LABEL = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			IS_FLOATING_LABEL_KEY, Boolean.class);
-	public static GRParameter<Boolean> ADAPT_BOUNDS_TO_CONTENTS = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class,
+	public static GRProperty<Boolean> ADAPT_BOUNDS_TO_CONTENTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			ADAPT_BOUNDS_TO_CONTENTS_KEY, Boolean.class);
-	public static GRParameter<Boolean> ALLOW_TO_LEAVE_BOUNDS = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class,
+	public static GRProperty<Boolean> ALLOW_TO_LEAVE_BOUNDS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			ALLOW_TO_LEAVE_BOUNDS_KEY, Boolean.class);
-	public static GRParameter<Double> RELATIVE_TEXT_X = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class, RELATIVE_TEXT_X_KEY,
+	public static GRProperty<Double> RELATIVE_TEXT_X = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, RELATIVE_TEXT_X_KEY,
 			Double.class);
-	public static GRParameter<Double> RELATIVE_TEXT_Y = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class, RELATIVE_TEXT_Y_KEY,
+	public static GRProperty<Double> RELATIVE_TEXT_Y = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, RELATIVE_TEXT_Y_KEY,
 			Double.class);
-	public static GRParameter<ShapeBorder> BORDER = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class, BORDER_KEY,
+	public static GRProperty<ShapeBorder> BORDER = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, BORDER_KEY,
 			ShapeBorder.class);
-	public static GRParameter<ShapeSpecification> SHAPE = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class,
+	public static GRProperty<ShapeSpecification> SHAPE = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			SHAPE_SPECIFICATION_KEY, ShapeSpecification.class);
-	public static GRParameter<ShapeType> SHAPE_TYPE = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class, SHAPE_TYPE_KEY,
+	public static GRProperty<ShapeType> SHAPE_TYPE = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, SHAPE_TYPE_KEY,
 			ShapeType.class);
-	public static GRParameter<DataBinding> X_CONSTRAINTS = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class,
+	public static GRProperty<DataBinding> X_CONSTRAINTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			X_CONSTRAINTS_KEY, DataBinding.class);
-	public static GRParameter<DataBinding> Y_CONSTRAINTS = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class,
+	public static GRProperty<DataBinding> Y_CONSTRAINTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			Y_CONSTRAINTS_KEY, DataBinding.class);
-	public static GRParameter<DataBinding> WIDTH_CONSTRAINTS = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class,
+	public static GRProperty<DataBinding> WIDTH_CONSTRAINTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			WIDTH_CONSTRAINTS_KEY, DataBinding.class);
-	public static GRParameter<DataBinding> HEIGHT_CONSTRAINTS = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class,
+	public static GRProperty<DataBinding> HEIGHT_CONSTRAINTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			HEIGHT_CONSTRAINTS_KEY, DataBinding.class);
 
 	// *******************************************************************************

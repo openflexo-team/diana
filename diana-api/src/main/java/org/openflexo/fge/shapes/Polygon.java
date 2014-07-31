@@ -22,7 +22,7 @@ package org.openflexo.fge.shapes;
 
 import java.util.List;
 
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.model.annotations.Adder;
 import org.openflexo.model.annotations.CloningStrategy;
@@ -52,9 +52,9 @@ public interface Polygon extends ShapeSpecification {
 	@PropertyIdentifier(type = FGEPoint.class, cardinality = Cardinality.LIST)
 	public static final String POINTS_KEY = "points";
 
-	public static GRParameter<List> POINTS = GRParameter.getGRParameter(Polygon.class, POINTS_KEY, List.class);
+	public static GRProperty<List> POINTS = GRProperty.getGRParameter(Polygon.class, POINTS_KEY, List.class);
 
-	/*public static enum PolygonParameters implements GRParameter {
+	/*public static enum PolygonParameters implements GRProperty {
 		points;
 	}*/
 

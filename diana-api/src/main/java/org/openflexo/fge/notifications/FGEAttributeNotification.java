@@ -20,7 +20,7 @@
  */
 package org.openflexo.fge.notifications;
 
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 
 /**
  * Notification thrown when an attribute changed its value from a value to another value
@@ -31,9 +31,9 @@ import org.openflexo.fge.GRParameter;
  */
 public class FGEAttributeNotification<T> extends FGENotification {
 
-	public GRParameter<T> parameter;
+	public GRProperty<T> parameter;
 
-	public FGEAttributeNotification(GRParameter<T> parameter, T oldValue, T newValue) {
+	public FGEAttributeNotification(GRProperty<T> parameter, T oldValue, T newValue) {
 		super(parameter != null ? parameter.getName() : null, oldValue, newValue);
 		this.parameter = parameter;
 		this.oldValue = oldValue;
@@ -46,7 +46,7 @@ public class FGEAttributeNotification<T> extends FGENotification {
 				+ newValue;
 	}
 
-	public GRParameter<T> getParameter() {
+	public GRProperty<T> getParameter() {
 		return parameter;
 	}
 

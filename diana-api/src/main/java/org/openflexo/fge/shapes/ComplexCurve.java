@@ -22,7 +22,7 @@ package org.openflexo.fge.shapes;
 
 import java.util.List;
 
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.geom.FGEGeneralShape.Closure;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.model.annotations.Adder;
@@ -57,10 +57,10 @@ public interface ComplexCurve extends ShapeSpecification {
 	@PropertyIdentifier(type = Closure.class)
 	public static final String CLOSURE_KEY = "closure";
 
-	public static GRParameter<List> POINTS = GRParameter.getGRParameter(ComplexCurve.class, POINTS_KEY, List.class);
-	public static GRParameter<Closure> CLOSURE = GRParameter.getGRParameter(ComplexCurve.class, CLOSURE_KEY, Closure.class);
+	public static GRProperty<List> POINTS = GRProperty.getGRParameter(ComplexCurve.class, POINTS_KEY, List.class);
+	public static GRProperty<Closure> CLOSURE = GRProperty.getGRParameter(ComplexCurve.class, CLOSURE_KEY, Closure.class);
 
-	/*public static enum PolygonParameters implements GRParameter {
+	/*public static enum PolygonParameters implements GRProperty {
 		points;
 	}*/
 

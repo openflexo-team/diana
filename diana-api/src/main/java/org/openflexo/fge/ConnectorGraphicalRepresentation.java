@@ -68,24 +68,24 @@ public interface ConnectorGraphicalRepresentation extends GraphicalRepresentatio
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String DEBUG_COVERING_AREA_KEY = "debugCoveringArea";
 
-	public static GRParameter<ConnectorSpecification> CONNECTOR = GRParameter.getGRParameter(ConnectorGraphicalRepresentation.class,
+	public static GRProperty<ConnectorSpecification> CONNECTOR = GRProperty.getGRParameter(ConnectorGraphicalRepresentation.class,
 			ConnectorGraphicalRepresentation.CONNECTOR_SPECIFICATION_KEY, ConnectorSpecification.class);
-	public static GRParameter<ConnectorType> CONNECTOR_TYPE = GRParameter.getGRParameter(ConnectorGraphicalRepresentation.class,
+	public static GRProperty<ConnectorType> CONNECTOR_TYPE = GRProperty.getGRParameter(ConnectorGraphicalRepresentation.class,
 			CONNECTOR_TYPE_KEY, ConnectorType.class);
 
-	public static GRParameter<ForegroundStyle> FOREGROUND = GRParameter.getGRParameter(ConnectorGraphicalRepresentation.class,
+	public static GRProperty<ForegroundStyle> FOREGROUND = GRProperty.getGRParameter(ConnectorGraphicalRepresentation.class,
 			ConnectorGraphicalRepresentation.FOREGROUND_KEY, ForegroundStyle.class);
-	public static GRParameter<ForegroundStyle> SELECTED_FOREGROUND = GRParameter.getGRParameter(ConnectorGraphicalRepresentation.class,
+	public static GRProperty<ForegroundStyle> SELECTED_FOREGROUND = GRProperty.getGRParameter(ConnectorGraphicalRepresentation.class,
 			ConnectorGraphicalRepresentation.SELECTED_FOREGROUND_KEY, ForegroundStyle.class);
-	public static GRParameter<ForegroundStyle> FOCUSED_FOREGROUND = GRParameter.getGRParameter(ConnectorGraphicalRepresentation.class,
+	public static GRProperty<ForegroundStyle> FOCUSED_FOREGROUND = GRProperty.getGRParameter(ConnectorGraphicalRepresentation.class,
 			ConnectorGraphicalRepresentation.FOCUSED_FOREGROUND_KEY, ForegroundStyle.class);
 
-	public static GRParameter<Boolean> APPLY_FOREGROUND_TO_SYMBOLS = GRParameter.getGRParameter(ConnectorGraphicalRepresentation.class,
+	public static GRProperty<Boolean> APPLY_FOREGROUND_TO_SYMBOLS = GRProperty.getGRParameter(ConnectorGraphicalRepresentation.class,
 			ConnectorGraphicalRepresentation.APPLY_FOREGROUND_TO_SYMBOLS_KEY, Boolean.class);
-	public static GRParameter<Boolean> DEBUG_COVERING_AREA = GRParameter.getGRParameter(ConnectorGraphicalRepresentation.class,
+	public static GRProperty<Boolean> DEBUG_COVERING_AREA = GRProperty.getGRParameter(ConnectorGraphicalRepresentation.class,
 			ConnectorGraphicalRepresentation.DEBUG_COVERING_AREA_KEY, Boolean.class);
 
-	/*public static enum ConnectorParameters implements GRParameter {
+	/*public static enum ConnectorParameters implements GRProperty {
 		connector,
 		foreground,
 		selectedForeground,

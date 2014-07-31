@@ -53,14 +53,14 @@ public interface TextStyle extends FGEStyle {
 	@PropertyIdentifier(type = Boolean.class, isPrimitive = true)
 	public static final String IS_BACKGROUND_COLORED_KEY = "isBackgroundColored";
 
-	public static GRParameter<Color> COLOR = GRParameter.getGRParameter(TextStyle.class, COLOR_KEY, Color.class);
-	public static GRParameter<Color> BACKGROUND_COLOR = GRParameter.getGRParameter(TextStyle.class, BACKGROUND_COLOR_KEY, Color.class);
-	public static GRParameter<Font> FONT = GRParameter.getGRParameter(TextStyle.class, FONT_KEY, Font.class);
-	public static GRParameter<Integer> ORIENTATION = GRParameter.getGRParameter(TextStyle.class, ORIENTATION_KEY, Integer.TYPE);
-	public static GRParameter<Boolean> IS_BACKGROUND_COLORED = GRParameter.getGRParameter(TextStyle.class, IS_BACKGROUND_COLORED_KEY,
+	public static GRProperty<Color> COLOR = GRProperty.getGRParameter(TextStyle.class, COLOR_KEY, Color.class);
+	public static GRProperty<Color> BACKGROUND_COLOR = GRProperty.getGRParameter(TextStyle.class, BACKGROUND_COLOR_KEY, Color.class);
+	public static GRProperty<Font> FONT = GRProperty.getGRParameter(TextStyle.class, FONT_KEY, Font.class);
+	public static GRProperty<Integer> ORIENTATION = GRProperty.getGRParameter(TextStyle.class, ORIENTATION_KEY, Integer.TYPE);
+	public static GRProperty<Boolean> IS_BACKGROUND_COLORED = GRProperty.getGRParameter(TextStyle.class, IS_BACKGROUND_COLORED_KEY,
 			Boolean.TYPE);
 
-	/*public static enum Parameters implements GRParameter {
+	/*public static enum Parameters implements GRProperty {
 		color, backgroundColor, font, orientation, backgroundColored
 	}*/
 

@@ -74,8 +74,8 @@ public abstract class GeometricGraphicalRepresentationImpl extends GraphicalRepr
 	}
 
 	/*@Override
-	public Vector<GRParameter> getAllParameters() {
-		Vector<GRParameter> returned = super.getAllParameters();
+	public Vector<GRProperty> getAllParameters() {
+		Vector<GRProperty> returned = super.getAllParameters();
 		GeometricParameters[] allParams = GeometricParameters.values();
 		for (int i = 0; i < allParams.length; i++) {
 			returned.add(allParams[i]);

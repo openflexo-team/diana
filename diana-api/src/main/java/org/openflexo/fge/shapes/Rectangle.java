@@ -20,7 +20,7 @@
  */
 package org.openflexo.fge.shapes;
 
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
@@ -46,10 +46,10 @@ public interface Rectangle extends ShapeSpecification {
 	@PropertyIdentifier(type = Double.class)
 	public static final String ARC_SIZE_KEY = "arcSize";
 
-	public static GRParameter<Boolean> IS_ROUNDED = GRParameter.getGRParameter(Rectangle.class, IS_ROUNDED_KEY, Boolean.class);
-	public static GRParameter<Double> ARC_SIZE = GRParameter.getGRParameter(Rectangle.class, ARC_SIZE_KEY, Double.class);
+	public static GRProperty<Boolean> IS_ROUNDED = GRProperty.getGRParameter(Rectangle.class, IS_ROUNDED_KEY, Boolean.class);
+	public static GRProperty<Double> ARC_SIZE = GRProperty.getGRParameter(Rectangle.class, ARC_SIZE_KEY, Double.class);
 
-	/*public static enum RectangleParameters implements GRParameter {
+	/*public static enum RectangleParameters implements GRProperty {
 		isRounded, arcSize;
 	}*/
 

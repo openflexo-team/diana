@@ -44,12 +44,12 @@ public interface BackgroundStyle extends FGEStyle {
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String USE_TRANSPARENCY_KEY = "useTransparency";
 
-	public static GRParameter<Float> TRANSPARENCY_LEVEL = GRParameter.getGRParameter(BackgroundStyle.class, TRANSPARENCY_LEVEL_KEY,
+	public static GRProperty<Float> TRANSPARENCY_LEVEL = GRProperty.getGRParameter(BackgroundStyle.class, TRANSPARENCY_LEVEL_KEY,
 			Float.TYPE);
-	public static GRParameter<Boolean> USE_TRANSPARENCY = GRParameter.getGRParameter(BackgroundStyle.class, USE_TRANSPARENCY_KEY,
+	public static GRProperty<Boolean> USE_TRANSPARENCY = GRProperty.getGRParameter(BackgroundStyle.class, USE_TRANSPARENCY_KEY,
 			Boolean.TYPE);
 
-	/*public static enum Parameters implements GRParameter {
+	/*public static enum Parameters implements GRProperty {
 		color,
 		color1,
 		color2,

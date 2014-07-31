@@ -39,7 +39,7 @@ import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.GRBinding;
 import org.openflexo.fge.GRBinding.DynamicPropertyValue;
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation.LabelMetricsProvider;
 import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
@@ -106,7 +106,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	/**
 	 * Store temporary properties that may not be serialized
 	 */
-	private Map<GRParameter, Object> propertyValues = new HashMap<GRParameter, Object>();
+	private Map<GRProperty, Object> propertyValues = new HashMap<GRProperty, Object>();
 
 	protected DrawingTreeNodeImpl(DrawingImpl<?> drawingImpl, O drawable, GRBinding<O, GR> grBinding, ContainerNodeImpl<?, ?> parentNode) {
 
@@ -123,7 +123,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 		hash.put(drawable, this);
 
-		propertyValues = new HashMap<GRParameter, Object>();
+		propertyValues = new HashMap<GRProperty, Object>();
 
 		// parentNode.addChild(this);
 
@@ -150,7 +150,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	private BindingValueObserver bindingValueObserver;
 
-	// private final Map<GRParameter<?>, BindingValueChangeListener<?>> bindingValueListeners = new HashMap<GRParameter<?>,
+	// private final Map<GRProperty<?>, BindingValueChangeListener<?>> bindingValueListeners = new HashMap<GRProperty<?>,
 	// BindingValueChangeListener<?>>();
 
 	/**
@@ -161,7 +161,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 * @param oldValue
 	 * @param newValue
 	 */
-	public <T> void fireDynamicPropertyChanged(GRParameter<T> parameter, T oldValue, T newValue) {
+	public <T> void fireDynamicPropertyChanged(GRProperty<T> parameter, T oldValue, T newValue) {
 		getPropertyChangeSupport().firePropertyChange(parameter.getName(), oldValue, newValue);
 	}
 
@@ -443,7 +443,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 				// System.out.println("> "+o.target+" for "+o.propertyName);
 				if (o.target instanceof DrawingTreeNode) {
 					DrawingTreeNode<?, ?> c = (DrawingTreeNode<?, ?>) o.target;
-					GRParameter<?> param = GRParameter.getGRParameter(c.getGraphicalRepresentation().getClass(), o.propertyName);
+					GRProperty<?> param = GRProperty.getGRParameter(c.getGraphicalRepresentation().getClass(), o.propertyName);
 					// logger.info("OK, found "+getBindingAttribute()+" of "+getOwner()+" depends of "+param+" , "+c);
 					try {
 						node.declareDependantOf(c, param, param);
@@ -469,7 +469,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	}
 
 	@Override
-	public void declareDependantOf(DrawingTreeNode<?, ?> aNode, GRParameter requiringParameter, GRParameter requiredParameter)
+	public void declareDependantOf(DrawingTreeNode<?, ?> aNode, GRProperty requiringParameter, GRProperty requiredParameter)
 			throws DependencyLoopException {
 		// logger.info("Component "+this+" depends of "+aComponent);
 		if (aNode == this) {
@@ -612,7 +612,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			if (getDrawing().getPersistenceMode() == PersistenceMode.SharedGraphicalRepresentations) {
 				// This is a tricky area
 				// We share GR, which means that we don't use GR to store values, but we store them in propertyValues hashtable
-				GRParameter<?> parameter = GRParameter.getGRParameter(evt.getSource().getClass(), evt.getPropertyName());
+				GRProperty<?> parameter = GRProperty.getGRParameter(evt.getSource().getClass(), evt.getPropertyName());
 				// System.out.println("Value needs to be updated for parameter " + evt.getPropertyName()
 				// + " parameter=" + parameter);
 				if (parameter != null && propertyValues.get(parameter) != evt.getNewValue()) {
@@ -661,7 +661,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	// TODO: (sylvain) i think this is no more necessary, remove this ???
 	@Deprecated
-	public <T> void notifyAttributeChanged(GRParameter<T> parameter, T oldValue, T newValue) {
+	public <T> void notifyAttributeChanged(GRProperty<T> parameter, T oldValue, T newValue) {
 		propagateConstraintsAfterModification(parameter);
 		setChanged();
 		notifyObservers(new FGEAttributeNotification<T>(parameter, oldValue, newValue));
@@ -673,7 +673,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	// TODO: (sylvain) i think this is no more necessary, remove this ???
 	@Deprecated
-	protected <T> void propagateConstraintsAfterModification(GRParameter<T> parameter) {
+	protected <T> void propagateConstraintsAfterModification(GRProperty<T> parameter) {
 		for (ConstraintDependency dependency : alterings) {
 			if (dependency.requiredParameter == parameter) {
 				((DrawingTreeNodeImpl<?, ?>) dependency.requiringGR).computeNewConstraint(dependency);
@@ -1008,7 +1008,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 * @param parameter
 	 * @return
 	 */
-	protected boolean hasDynamicPropertyValue(GRParameter<?> parameter) {
+	protected boolean hasDynamicPropertyValue(GRProperty<?> parameter) {
 		return getGRBinding().hasDynamicPropertyValue(parameter);
 	}
 
@@ -1019,7 +1019,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 * @param parameter
 	 * @return
 	 */
-	protected boolean hasDynamicSettablePropertyValue(GRParameter<?> parameter) {
+	protected boolean hasDynamicSettablePropertyValue(GRProperty<?> parameter) {
 		return getGRBinding().hasDynamicPropertyValue(parameter) && getGRBinding().getDynamicPropertyValue(parameter).isSettable();
 	}
 
@@ -1031,7 +1031,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 * @return
 	 * @throws InvocationTargetException
 	 */
-	protected <T> T getDynamicPropertyValue(final GRParameter<T> parameter) throws InvocationTargetException {
+	protected <T> T getDynamicPropertyValue(final GRProperty<T> parameter) throws InvocationTargetException {
 		if (hasDynamicPropertyValue(parameter)) {
 			try {
 				return getGRBinding().getDynamicPropertyValue(parameter).dataBinding.getBindingValue(getBindingEvaluationContext());
@@ -1052,7 +1052,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 * @param value
 	 * @throws InvocationTargetException
 	 */
-	protected <T> void setDynamicPropertyValue(GRParameter<T> parameter, T value) throws InvocationTargetException {
+	protected <T> void setDynamicPropertyValue(GRProperty<T> parameter, T value) throws InvocationTargetException {
 		if (hasDynamicSettablePropertyValue(parameter)) {
 			try {
 				getGRBinding().getDynamicPropertyValue(parameter).dataBinding.setBindingValue(value, getBindingEvaluationContext());
@@ -1082,7 +1082,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 * @return
 	 */
 	@Override
-	public <T> T getPropertyValue(GRParameter<T> parameter) {
+	public <T> T getPropertyValue(GRProperty<T> parameter) {
 		T returned = _getPropertyValue(parameter);
 		if (parameter.getType().isPrimitive() && returned == null) {
 			returned = parameter.getDefaultValue();
@@ -1090,7 +1090,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		return returned;
 	}
 
-	protected <T> T _getPropertyValue(GRParameter<T> parameter) {
+	protected <T> T _getPropertyValue(GRProperty<T> parameter) {
 		if (hasDynamicPropertyValue(parameter)) {
 			try {
 				return getDynamicPropertyValue(parameter);
@@ -1159,7 +1159,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 * @return
 	 */
 	@Override
-	public <T> void setPropertyValue(GRParameter<T> parameter, T value) {
+	public <T> void setPropertyValue(GRProperty<T> parameter, T value) {
 		if (hasDynamicSettablePropertyValue(parameter)) {
 			try {
 				setDynamicPropertyValue(parameter, value);

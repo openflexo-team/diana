@@ -70,31 +70,31 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT_KEY = "adjustMaximalHeightToLabelHeight";
 
-	public static GRParameter<Double> WIDTH = GRParameter.getGRParameter(ContainerGraphicalRepresentation.class, WIDTH_KEY, Double.TYPE);
-	public static GRParameter<Double> HEIGHT = GRParameter.getGRParameter(ContainerGraphicalRepresentation.class, HEIGHT_KEY, Double.TYPE);
+	public static GRProperty<Double> WIDTH = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class, WIDTH_KEY, Double.TYPE);
+	public static GRProperty<Double> HEIGHT = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class, HEIGHT_KEY, Double.TYPE);
 
-	public static GRParameter<Boolean> ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT = GRParameter.getGRParameter(
+	public static GRProperty<Boolean> ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT = GRProperty.getGRParameter(
 			ShapeGraphicalRepresentation.class, ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT_KEY, Boolean.class);
-	public static GRParameter<Boolean> ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class,
+	public static GRProperty<Boolean> ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH_KEY, Boolean.class);
-	public static GRParameter<Boolean> ADJUST_MINIMAL_HEIGHT_TO_LABEL_HEIGHT = GRParameter.getGRParameter(
+	public static GRProperty<Boolean> ADJUST_MINIMAL_HEIGHT_TO_LABEL_HEIGHT = GRProperty.getGRParameter(
 			ShapeGraphicalRepresentation.class, ADJUST_MINIMAL_HEIGHT_TO_LABEL_HEIGHT_KEY, Boolean.class);
-	public static GRParameter<Boolean> ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class,
+	public static GRProperty<Boolean> ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH_KEY, Boolean.class);
-	public static GRParameter<Double> MINIMAL_WIDTH = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class, MINIMAL_WIDTH_KEY,
+	public static GRProperty<Double> MINIMAL_WIDTH = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, MINIMAL_WIDTH_KEY,
 			Double.class);
-	public static GRParameter<Double> MINIMAL_HEIGHT = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class, MINIMAL_HEIGHT_KEY,
+	public static GRProperty<Double> MINIMAL_HEIGHT = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, MINIMAL_HEIGHT_KEY,
 			Double.class);
-	public static GRParameter<Double> MAXIMAL_WIDTH = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class, MAXIMAL_WIDTH_KEY,
+	public static GRProperty<Double> MAXIMAL_WIDTH = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, MAXIMAL_WIDTH_KEY,
 			Double.class);
-	public static GRParameter<Double> MAXIMAL_HEIGHT = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class, MAXIMAL_HEIGHT_KEY,
+	public static GRProperty<Double> MAXIMAL_HEIGHT = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, MAXIMAL_HEIGHT_KEY,
 			Double.class);
-	public static GRParameter<DimensionConstraints> DIMENSION_CONSTRAINTS = GRParameter.getGRParameter(ShapeGraphicalRepresentation.class,
+	public static GRProperty<DimensionConstraints> DIMENSION_CONSTRAINTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			DIMENSION_CONSTRAINTS_KEY, DimensionConstraints.class);
-	public static GRParameter<FGESteppedDimensionConstraint> DIMENSION_CONSTRAINT_STEP = GRParameter.getGRParameter(
+	public static GRProperty<FGESteppedDimensionConstraint> DIMENSION_CONSTRAINT_STEP = GRProperty.getGRParameter(
 			ShapeGraphicalRepresentation.class, DIMENSION_CONSTRAINT_STEP_KEY, FGESteppedDimensionConstraint.class);
 
-	/*public static enum ContainerParameters implements GRParameter {
+	/*public static enum ContainerParameters implements GRProperty {
 		width, height;
 	}*/
 

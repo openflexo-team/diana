@@ -20,7 +20,7 @@
  */
 package org.openflexo.fge.shapes;
 
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
@@ -46,10 +46,10 @@ public interface RegularPolygon extends Polygon {
 	@PropertyIdentifier(type = Integer.class)
 	public static final String START_ANGLE_KEY = "startAngle";
 
-	public static GRParameter<Integer> N_POINTS = GRParameter.getGRParameter(RegularPolygon.class, N_POINTS_KEY, Integer.class);
-	public static GRParameter<Integer> START_ANGLE = GRParameter.getGRParameter(RegularPolygon.class, START_ANGLE_KEY, Integer.class);
+	public static GRProperty<Integer> N_POINTS = GRProperty.getGRParameter(RegularPolygon.class, N_POINTS_KEY, Integer.class);
+	public static GRProperty<Integer> START_ANGLE = GRProperty.getGRParameter(RegularPolygon.class, START_ANGLE_KEY, Integer.class);
 
-	/*public static enum RegularPolygonParameters implements GRParameter {
+	/*public static enum RegularPolygonParameters implements GRProperty {
 		nPoints, startAngle;
 	}*/
 

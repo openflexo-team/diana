@@ -42,7 +42,7 @@ public interface ColorBackgroundStyle extends BackgroundStyle {
 	@PropertyIdentifier(type = Color.class)
 	public static final String COLOR_KEY = "color";
 
-	public static GRParameter<Color> COLOR = GRParameter.getGRParameter(ColorBackgroundStyle.class, COLOR_KEY, Color.class);
+	public static GRProperty<Color> COLOR = GRProperty.getGRParameter(ColorBackgroundStyle.class, COLOR_KEY, Color.class);
 
 	@Getter(value = COLOR_KEY)
 	@XMLAttribute

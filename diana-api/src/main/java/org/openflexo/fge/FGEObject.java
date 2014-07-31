@@ -44,11 +44,11 @@ public interface FGEObject extends AccessibleProxyObject, DeletableProxyObject, 
 	@Deprecated
 	public void setFactory(FGEModelFactory factory);
 
-	public <T> void notifyChange(GRParameter<T> parameter, T oldValue, T newValue);
+	public <T> void notifyChange(GRProperty<T> parameter, T oldValue, T newValue);
 
-	public <T> void notifyChange(GRParameter<T> parameter);
+	public <T> void notifyChange(GRProperty<T> parameter);
 
-	public <T> void notifyAttributeChange(GRParameter<T> parameter);
+	public <T> void notifyAttributeChange(GRProperty<T> parameter);
 
 	public void notify(FGEAttributeNotification notification);
 

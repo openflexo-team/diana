@@ -20,7 +20,7 @@
  */
 package org.openflexo.fge.shapes;
 
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.geom.FGEArc.ArcType;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
@@ -49,11 +49,11 @@ public interface Arc extends ShapeSpecification {
 	@PropertyIdentifier(type = ArcType.class)
 	public static final String ARC_TYPE_KEY = "arcType";
 
-	public static GRParameter<Integer> ANGLE_EXTENT = GRParameter.getGRParameter(Arc.class, ANGLE_EXTENT_KEY, Integer.class);
-	public static GRParameter<Integer> ANGLE_START = GRParameter.getGRParameter(Arc.class, ANGLE_START_KEY, Integer.class);
-	public static GRParameter<ArcType> ARC_TYPE = GRParameter.getGRParameter(Arc.class, ARC_TYPE_KEY, ArcType.class);
+	public static GRProperty<Integer> ANGLE_EXTENT = GRProperty.getGRParameter(Arc.class, ANGLE_EXTENT_KEY, Integer.class);
+	public static GRProperty<Integer> ANGLE_START = GRProperty.getGRParameter(Arc.class, ANGLE_START_KEY, Integer.class);
+	public static GRProperty<ArcType> ARC_TYPE = GRProperty.getGRParameter(Arc.class, ARC_TYPE_KEY, ArcType.class);
 
-	/*public static enum ArcParameters implements GRParameter {
+	/*public static enum ArcParameters implements GRProperty {
 		angleExtent, angleStart, arcType;
 	}*/
 

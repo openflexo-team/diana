@@ -23,7 +23,7 @@ import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.GRBinding;
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.ShadowStyle;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
@@ -319,7 +319,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * @param newValue
 	 */
 	@Override
-	public <T> void fireDynamicPropertyChanged(GRParameter<T> parameter, T oldValue, T newValue) {
+	public <T> void fireDynamicPropertyChanged(GRProperty<T> parameter, T oldValue, T newValue) {
 		super.fireDynamicPropertyChanged(parameter, oldValue, newValue);
 		if (parameter == ShapeGraphicalRepresentation.X || parameter == ShapeGraphicalRepresentation.Y) {
 			notifyObjectMoved();

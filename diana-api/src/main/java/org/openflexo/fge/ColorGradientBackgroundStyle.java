@@ -46,9 +46,9 @@ public interface ColorGradientBackgroundStyle extends BackgroundStyle {
 	@PropertyIdentifier(type = ColorGradientDirection.class)
 	public static final String DIRECTION_KEY = "direction";
 
-	public static GRParameter<Color> COLOR1 = GRParameter.getGRParameter(ColorGradientBackgroundStyle.class, COLOR1_KEY, Color.class);
-	public static GRParameter<Color> COLOR2 = GRParameter.getGRParameter(ColorGradientBackgroundStyle.class, COLOR2_KEY, Color.class);
-	public static GRParameter<ColorGradientDirection> DIRECTION = GRParameter.getGRParameter(ColorGradientBackgroundStyle.class,
+	public static GRProperty<Color> COLOR1 = GRProperty.getGRParameter(ColorGradientBackgroundStyle.class, COLOR1_KEY, Color.class);
+	public static GRProperty<Color> COLOR2 = GRProperty.getGRParameter(ColorGradientBackgroundStyle.class, COLOR2_KEY, Color.class);
+	public static GRProperty<ColorGradientDirection> DIRECTION = GRProperty.getGRParameter(ColorGradientBackgroundStyle.class,
 			DIRECTION_KEY, ColorGradientDirection.class);
 
 	public static enum ColorGradientDirection {

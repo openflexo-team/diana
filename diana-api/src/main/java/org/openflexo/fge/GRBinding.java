@@ -51,16 +51,16 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> implement
 	private final GRProvider<O, GR> grProvider;
 	private final List<GRStructureVisitor<O>> walkers;
 
-	private final Map<GRParameter, DynamicPropertyValue<?>> dynamicPropertyValues;
+	private final Map<GRProperty, DynamicPropertyValue<?>> dynamicPropertyValues;
 	protected BindingModel bindingModel;
 
 	private BindingFactory bindingFactory = null;
 
 	public static class DynamicPropertyValue<T> {
-		public GRParameter<T> parameter;
+		public GRProperty<T> parameter;
 		public DataBinding<T> dataBinding;
 
-		public DynamicPropertyValue(GRParameter<T> parameter, DataBinding<T> dataBinding) {
+		public DynamicPropertyValue(GRProperty<T> parameter, DataBinding<T> dataBinding) {
 			super();
 			this.parameter = parameter;
 			this.dataBinding = dataBinding;
@@ -75,7 +75,7 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> implement
 		this.name = name;
 		this.grProvider = grProvider;
 		walkers = new ArrayList<GRStructureVisitor<O>>();
-		dynamicPropertyValues = new Hashtable<GRParameter, DynamicPropertyValue<?>>();
+		dynamicPropertyValues = new Hashtable<GRProperty, DynamicPropertyValue<?>>();
 		bindingModel = new BindingModel();
 		bindingModel.addToBindingVariables(new BindingVariable("drawable", drawableClass));
 	}
@@ -92,15 +92,15 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> implement
 		return grProvider;
 	}
 
-	public <T> DynamicPropertyValue<T> getDynamicPropertyValue(GRParameter<T> parameter) {
+	public <T> DynamicPropertyValue<T> getDynamicPropertyValue(GRProperty<T> parameter) {
 		return (DynamicPropertyValue<T>) dynamicPropertyValues.get(parameter);
 	}
 
-	public <T> DynamicPropertyValue<T> setDynamicPropertyValue(GRParameter<T> parameter, DataBinding<T> bindingValue) {
+	public <T> DynamicPropertyValue<T> setDynamicPropertyValue(GRProperty<T> parameter, DataBinding<T> bindingValue) {
 		return setDynamicPropertyValue(parameter, bindingValue, false);
 	}
 
-	public <T> DynamicPropertyValue<T> setDynamicPropertyValue(GRParameter<T> parameter, DataBinding<T> bindingValue, boolean settable) {
+	public <T> DynamicPropertyValue<T> setDynamicPropertyValue(GRProperty<T> parameter, DataBinding<T> bindingValue, boolean settable) {
 		bindingValue.setOwner(this);
 		bindingValue.setBindingName(parameter.getName());
 		bindingValue.setDeclaredType(parameter.getType());
@@ -115,7 +115,7 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> implement
 		return returned;
 	}
 
-	public boolean hasDynamicPropertyValue(GRParameter<?> parameter) {
+	public boolean hasDynamicPropertyValue(GRProperty<?> parameter) {
 		return dynamicPropertyValues.get(parameter) != null;
 	}
 

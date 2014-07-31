@@ -29,7 +29,7 @@ import org.openflexo.fge.ConnectorGraphicalRepresentation;
 import org.openflexo.fge.ContainerGraphicalRepresentation;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
@@ -72,13 +72,13 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 	protected void fireChangedProperties() {
 		// We replace here super code, because we have to fire changed properties for all properties
 		// as the union of properties of all possible types
-		List<GRParameter<?>> paramsList = new ArrayList<GRParameter<?>>();
-		paramsList.addAll(GRParameter.getGRParameters(DrawingGraphicalRepresentation.class));
-		paramsList.addAll(GRParameter.getGRParameters(GeometricGraphicalRepresentation.class));
-		paramsList.addAll(GRParameter.getGRParameters(ShapeGraphicalRepresentation.class));
-		paramsList.addAll(GRParameter.getGRParameters(ConnectorGraphicalRepresentation.class));
-		Set<GRParameter<?>> allParams = new HashSet<GRParameter<?>>(paramsList);
-		for (GRParameter<?> p : allParams) {
+		List<GRProperty<?>> paramsList = new ArrayList<GRProperty<?>>();
+		paramsList.addAll(GRProperty.getGRParameters(DrawingGraphicalRepresentation.class));
+		paramsList.addAll(GRProperty.getGRParameters(GeometricGraphicalRepresentation.class));
+		paramsList.addAll(GRProperty.getGRParameters(ShapeGraphicalRepresentation.class));
+		paramsList.addAll(GRProperty.getGRParameters(ConnectorGraphicalRepresentation.class));
+		Set<GRProperty<?>> allParams = new HashSet<GRProperty<?>>(paramsList);
+		for (GRProperty<?> p : allParams) {
 			fireChangedProperty(p);
 		}
 	}

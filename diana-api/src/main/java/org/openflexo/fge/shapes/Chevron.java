@@ -1,6 +1,6 @@
 package org.openflexo.fge.shapes;
 
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
@@ -23,7 +23,7 @@ public interface Chevron extends ShapeSpecification {
 	@PropertyIdentifier(type = Double.class)
 	public static final String			ARROW_LENGTH_KEY	= "arrowLength";
 
-	public static GRParameter<Double>	ARROW_LENGTH		= GRParameter.getGRParameter(Chevron.class, ARROW_LENGTH_KEY, Double.class);
+	public static GRProperty<Double>	ARROW_LENGTH		= GRProperty.getGRParameter(Chevron.class, ARROW_LENGTH_KEY, Double.class);
 
 	// *******************************************************************************
 	// * Properties

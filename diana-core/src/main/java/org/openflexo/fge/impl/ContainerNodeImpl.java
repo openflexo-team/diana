@@ -23,7 +23,7 @@ import org.openflexo.fge.GRBinding.ConnectorGRBinding;
 import org.openflexo.fge.GRBinding.GeometricGRBinding;
 import org.openflexo.fge.GRBinding.GraphGRBinding;
 import org.openflexo.fge.GRBinding.ShapeGRBinding;
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.fge.geom.FGEDimension;
@@ -716,7 +716,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	 * @param newValue
 	 */
 	@Override
-	public <T> void fireDynamicPropertyChanged(GRParameter<T> parameter, T oldValue, T newValue) {
+	public <T> void fireDynamicPropertyChanged(GRProperty<T> parameter, T oldValue, T newValue) {
 		super.fireDynamicPropertyChanged(parameter, oldValue, newValue);
 		if (parameter == ShapeGraphicalRepresentation.WIDTH || parameter == ShapeGraphicalRepresentation.HEIGHT) {
 			notifyObjectResized();

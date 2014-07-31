@@ -15,7 +15,7 @@ import org.openflexo.antar.binding.JavaBindingFactory;
 import org.openflexo.fge.ConnectorGraphicalRepresentation;
 import org.openflexo.fge.Drawing;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.TextStyle;
@@ -112,12 +112,12 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	// private boolean isRegistered = false;
 	// private boolean hasText = true;
 
-	/*public static GRParameter<?> getParameter(String parameterName) {
-		return GRParameter.getGRParameter(GraphicalRepresentation.class, parameterName);
+	/*public static GRProperty<?> getParameter(String parameterName) {
+		return GRProperty.getGRParameter(GraphicalRepresentation.class, parameterName);
 	}
 
-	public static Collection<GRParameter<?>> getAllParameters() {
-		return GRParameter.getGRParameters(GraphicalRepresentation.class);
+	public static Collection<GRProperty<?>> getAllParameters() {
+		return GRProperty.getGRParameters(GraphicalRepresentation.class);
 	}*/
 
 	// *******************************************************************************
@@ -174,7 +174,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	@Override
 	public final void setsWith(GraphicalRepresentation gr) {
 		if (gr instanceof GraphicalRepresentation) {
-			for (GRParameter<?> p : GRParameter.getGRParameters(getClass())) {
+			for (GRProperty<?> p : GRProperty.getGRParameters(getClass())) {
 				if (!p.getName().equals(GraphicalRepresentation.IDENTIFIER_KEY)
 						&& !p.getName().equals(GraphicalRepresentation.MOUSE_CLICK_CONTROLS_KEY)
 						&& !p.getName().equals(GraphicalRepresentation.MOUSE_DRAG_CONTROLS_KEY)) {
@@ -185,11 +185,11 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	}
 
 	@Override
-	public final void setsWith(GraphicalRepresentation gr, GRParameter<?>... exceptedParameters) {
+	public final void setsWith(GraphicalRepresentation gr, GRProperty<?>... exceptedParameters) {
 		if (gr instanceof GraphicalRepresentation) {
-			for (GRParameter<?> p : GRParameter.getGRParameters(getClass())) {
+			for (GRProperty<?> p : GRProperty.getGRParameters(getClass())) {
 				boolean excepted = false;
-				for (GRParameter<?> ep : exceptedParameters) {
+				for (GRProperty<?> ep : exceptedParameters) {
 					if (p.getName().equals(ep.getName())) {
 						excepted = true;
 					}
@@ -203,7 +203,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 		}
 	}
 
-	protected final void _setParameterValueWith(GRParameter<?> parameter, GraphicalRepresentation gr) {
+	protected final void _setParameterValueWith(GRProperty<?> parameter, GraphicalRepresentation gr) {
 		if (gr.hasKey(parameter.getName())) {
 			Object value = gr.objectForKey(parameter.getName());
 			if (value instanceof CloneableProxyObject) {
@@ -1592,7 +1592,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	}*/
 
 	/*@Override
-	public void declareDependantOf(GraphicalRepresentation aComponent, GRParameter requiringParameter, GRParameter requiredParameter)
+	public void declareDependantOf(GraphicalRepresentation aComponent, GRProperty requiringParameter, GRProperty requiredParameter)
 			throws DependencyLoopException {
 		// logger.info("Component "+this+" depends of "+aComponent);
 		if (aComponent == this) {
@@ -1635,7 +1635,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 		}
 	}*/
 
-	/*protected void propagateConstraintsAfterModification(GRParameter parameter) {
+	/*protected void propagateConstraintsAfterModification(GRProperty parameter) {
 		for (ConstraintDependency dependency : alterings) {
 			if (dependency.requiredParameter == parameter) {
 				((GraphicalRepresentationImpl) dependency.requiringGR).computeNewConstraint(dependency);
@@ -1735,7 +1735,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 				// System.out.println("> "+o.target+" for "+o.propertyName);
 				if (o.target instanceof GraphicalRepresentation) {
 					GraphicalRepresentation c = (GraphicalRepresentation) o.target;
-					GRParameter param = c.parameterWithName(o.propertyName);
+					GRProperty param = c.parameterWithName(o.propertyName);
 					// logger.info("OK, found "+getBindingAttribute()+" of "+getOwner()+" depends of "+param+" , "+c);
 					try {
 						component.declareDependantOf(c, param, param);

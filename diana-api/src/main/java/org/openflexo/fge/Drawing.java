@@ -125,9 +125,9 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 	public interface DrawingTreeNode<O, GR extends GraphicalRepresentation> extends PropertyChangeListener, Observer,
 			HasPropertyChangeSupport /*, KeyValueCoding*/{
 
-		public static GRParameter<Boolean> IS_FOCUSED = GRParameter.getGRParameter(DrawingTreeNode.class, DrawingTreeNode.IS_FOCUSED_KEY,
+		public static GRProperty<Boolean> IS_FOCUSED = GRProperty.getGRParameter(DrawingTreeNode.class, DrawingTreeNode.IS_FOCUSED_KEY,
 				Boolean.class);
-		public static GRParameter<Boolean> IS_SELECTED = GRParameter.getGRParameter(DrawingTreeNode.class, DrawingTreeNode.IS_FOCUSED_KEY,
+		public static GRProperty<Boolean> IS_SELECTED = GRProperty.getGRParameter(DrawingTreeNode.class, DrawingTreeNode.IS_FOCUSED_KEY,
 				Boolean.class);
 
 		@PropertyIdentifier(type = Boolean.class)
@@ -135,7 +135,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		@PropertyIdentifier(type = Boolean.class)
 		public static final String IS_FOCUSED_KEY = "isFocused";
 
-		/*public static enum DrawingTreeNodeParameter implements GRParameter {
+		/*public static enum DrawingTreeNodeParameter implements GRProperty {
 			isSelected, isFocused;
 		}*/
 
@@ -271,7 +271,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		 *            parameter which is to be set
 		 * @return
 		 */
-		public <T> T getPropertyValue(GRParameter<T> parameter);
+		public <T> T getPropertyValue(GRProperty<T> parameter);
 
 		/**
 		 * Sets the property value for supplied parameter<br>
@@ -287,7 +287,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		 *            value to be set
 		 * @return
 		 */
-		public <T> void setPropertyValue(GRParameter<T> parameter, T value);
+		public <T> void setPropertyValue(GRProperty<T> parameter, T value);
 
 		public boolean isConnectedToDrawing();
 
@@ -372,7 +372,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 
 		public List<ConstraintDependency> getAlterings();
 
-		public void declareDependantOf(DrawingTreeNode<?, ?> aNode, GRParameter requiringParameter, GRParameter requiredParameter)
+		public void declareDependantOf(DrawingTreeNode<?, ?> aNode, GRProperty requiringParameter, GRProperty requiredParameter)
 				throws DependencyLoopException;
 
 		public void notifyLabelWillBeEdited();
@@ -979,12 +979,12 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 	@Deprecated
 	public static class ConstraintDependency {
 		public DrawingTreeNode<?, ?> requiringGR;
-		public GRParameter requiringParameter;
+		public GRProperty requiringParameter;
 		public DrawingTreeNode<?, ?> requiredGR;
-		public GRParameter requiredParameter;
+		public GRProperty requiredParameter;
 
-		public ConstraintDependency(DrawingTreeNode<?, ?> requiringGR, GRParameter requiringParameter, DrawingTreeNode<?, ?> requiredGR,
-				GRParameter requiredParameter) {
+		public ConstraintDependency(DrawingTreeNode<?, ?> requiringGR, GRProperty requiringParameter, DrawingTreeNode<?, ?> requiredGR,
+				GRProperty requiredParameter) {
 			super();
 			this.requiringGR = requiringGR;
 			this.requiringParameter = requiringParameter;

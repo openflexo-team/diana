@@ -20,7 +20,7 @@
  */
 package org.openflexo.fge.shapes;
 
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
@@ -48,11 +48,11 @@ public interface Star extends ShapeSpecification {
 	@PropertyIdentifier(type = Double.class)
 	public static final String RATIO_KEY = "ratio";
 
-	public static GRParameter<Integer> N_POINTS = GRParameter.getGRParameter(Star.class, N_POINTS_KEY, Integer.class);
-	public static GRParameter<Integer> START_ANGLE = GRParameter.getGRParameter(Star.class, START_ANGLE_KEY, Integer.class);
-	public static GRParameter<Double> RATIO = GRParameter.getGRParameter(Star.class, RATIO_KEY, Double.class);
+	public static GRProperty<Integer> N_POINTS = GRProperty.getGRParameter(Star.class, N_POINTS_KEY, Integer.class);
+	public static GRProperty<Integer> START_ANGLE = GRProperty.getGRParameter(Star.class, START_ANGLE_KEY, Integer.class);
+	public static GRProperty<Double> RATIO = GRProperty.getGRParameter(Star.class, RATIO_KEY, Double.class);
 
-	/*public static enum StarParameters implements GRParameter {
+	/*public static enum StarParameters implements GRProperty {
 		nPoints, startAngle, ratio;
 	}*/
 

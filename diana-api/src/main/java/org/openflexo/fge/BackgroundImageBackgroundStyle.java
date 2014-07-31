@@ -59,17 +59,17 @@ public interface BackgroundImageBackgroundStyle extends BackgroundStyle {
 	@PropertyIdentifier(type = Color.class)
 	public static final String IMAGE_BACKGROUND_COLOR_KEY = "imageBackgroundColor";
 
-	public static GRParameter<Resource> IMAGE_RESOURCE = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class,
+	public static GRProperty<Resource> IMAGE_RESOURCE = GRProperty.getGRParameter(BackgroundImageBackgroundStyle.class,
 			IMAGE_RESOURCE_KEY, Resource.class);
-	public static GRParameter<Double> SCALE_X = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class, SCALE_X_KEY, Double.class);
-	public static GRParameter<Double> SCALE_Y = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class, SCALE_Y_KEY, Double.class);
-	public static GRParameter<Double> DELTA_X = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class, DELTA_X_KEY, Double.class);
-	public static GRParameter<Double> DELTA_Y = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class, DELTA_Y_KEY, Double.class);
-	public static GRParameter<Boolean> FIT_TO_SHAPE = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class, FIT_TO_SHAPE_KEY,
+	public static GRProperty<Double> SCALE_X = GRProperty.getGRParameter(BackgroundImageBackgroundStyle.class, SCALE_X_KEY, Double.class);
+	public static GRProperty<Double> SCALE_Y = GRProperty.getGRParameter(BackgroundImageBackgroundStyle.class, SCALE_Y_KEY, Double.class);
+	public static GRProperty<Double> DELTA_X = GRProperty.getGRParameter(BackgroundImageBackgroundStyle.class, DELTA_X_KEY, Double.class);
+	public static GRProperty<Double> DELTA_Y = GRProperty.getGRParameter(BackgroundImageBackgroundStyle.class, DELTA_Y_KEY, Double.class);
+	public static GRProperty<Boolean> FIT_TO_SHAPE = GRProperty.getGRParameter(BackgroundImageBackgroundStyle.class, FIT_TO_SHAPE_KEY,
 			Boolean.class);
-	public static GRParameter<ImageBackgroundType> IMAGE_BACKGROUND_TYPE = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class,
+	public static GRProperty<ImageBackgroundType> IMAGE_BACKGROUND_TYPE = GRProperty.getGRParameter(BackgroundImageBackgroundStyle.class,
 			IMAGE_BACKGROUND_TYPE_KEY, ImageBackgroundType.class);
-	public static GRParameter<Color> IMAGE_BACKGROUND_COLOR = GRParameter.getGRParameter(BackgroundImageBackgroundStyle.class,
+	public static GRProperty<Color> IMAGE_BACKGROUND_COLOR = GRProperty.getGRParameter(BackgroundImageBackgroundStyle.class,
 			IMAGE_BACKGROUND_COLOR_KEY, Color.class);
 
 	public static enum ImageBackgroundType {

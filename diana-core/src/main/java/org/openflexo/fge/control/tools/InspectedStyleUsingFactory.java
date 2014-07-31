@@ -24,7 +24,7 @@ import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.GRParameter;
+import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.control.DianaInteractiveViewer;
 import org.openflexo.model.factory.KeyValueCoding;
 
@@ -80,7 +80,7 @@ public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, 
 	}
 
 	@Override
-	public <T> T getPropertyValue(GRParameter<T> parameter) {
+	public <T> T getPropertyValue(GRProperty<T> parameter) {
 		InspectedStyle<? extends S> currentlyInspected = styleFactory.getCurrentStyle();
 		if (parameter.getDeclaringClass().isAssignableFrom(currentlyInspected.getClass())) {
 			return currentlyInspected.getPropertyValue(parameter);
@@ -89,7 +89,7 @@ public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, 
 	}
 
 	@Override
-	public <T> void setPropertyValue(GRParameter<T> parameter, T value) {
+	public <T> void setPropertyValue(GRProperty<T> parameter, T value) {
 		InspectedStyle<? extends S> currentlyInspected = styleFactory.getCurrentStyle();
 		if (parameter.getDeclaringClass().isAssignableFrom(currentlyInspected.getClass())) {
 			currentlyInspected.setPropertyValue(parameter, value);
@@ -97,7 +97,7 @@ public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, 
 	}
 
 	@Override
-	protected <T> void fireChangedProperty(GRParameter<T> parameter) {
+	protected <T> void fireChangedProperty(GRProperty<T> parameter) {
 		InspectedStyle<? extends S> currentlyInspected = styleFactory.getCurrentStyle();
 		if (parameter.getDeclaringClass().isAssignableFrom(currentlyInspected.getClass())) {
 			currentlyInspected.fireChangedProperty(parameter);
@@ -154,13 +154,13 @@ public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, 
 					logger.warning("Could not retrieve style for selection: " + getSelection());
 					return;
 				}
-				for (GRParameter<?> p : GRParameter.getGRParameters(getInspectedStyleClass())) {
+				for (GRProperty<?> p : GRProperty.getGRParameters(getInspectedStyleClass())) {
 					forceFireChangedProperty(p);
 				}
 			}
 
 			/*Class<?> inspectedStyleClass = getStyleFactory().getCurrentStyle().getClass();
-			GRParameter param = GRParameter.getGRParameter(inspectedStyleClass, evt.getPropertyName());
+			GRProperty param = GRProperty.getGRParameter(inspectedStyleClass, evt.getPropertyName());
 			System.out.println("Found param = " + param);
 			if (param != null) {
 				setPropertyValue(param, evt.getNewValue());
