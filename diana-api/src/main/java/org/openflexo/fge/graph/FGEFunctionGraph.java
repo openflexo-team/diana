@@ -107,7 +107,6 @@ public abstract class FGEFunctionGraph<X> extends FGEGraph {
 		AffineTransform at = new AffineTransform(new double[] { 1.0, 0.0, 0.0, -1.0, 0.0, 1.0 });
 
 		for (FGEFunction<?> f : getFunctions()) {
-			System.out.println(f.getRepresentation());
 
 			g.setDefaultForeground(f.getForegroundStyle());
 			g.setDefaultBackground(f.getBackgroundStyle());
