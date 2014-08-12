@@ -1,4 +1,10 @@
-*.class
+**/target
+
+# IDE files #
+*.iml
+*.ipr
+*.iws
+/.idea
 
 # Package Files #
 *.jar

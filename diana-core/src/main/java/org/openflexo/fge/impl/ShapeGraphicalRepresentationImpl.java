@@ -5,14 +5,9 @@ import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
 import org.openflexo.antar.binding.DataBinding;
-import org.openflexo.fge.BackgroundStyle;
+import org.openflexo.fge.*;
 import org.openflexo.fge.BackgroundStyle.BackgroundStyleType;
-import org.openflexo.fge.Drawing;
 import org.openflexo.fge.Drawing.ContainerNode;
-import org.openflexo.fge.FGEConstants;
-import org.openflexo.fge.ForegroundStyle;
-import org.openflexo.fge.ShadowStyle;
-import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.control.MouseControl.MouseButton;
 import org.openflexo.fge.control.PredefinedMouseClickControlActionType;
 import org.openflexo.fge.control.PredefinedMouseDragControlActionType;
@@ -26,7 +21,8 @@ import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.model.factory.ProxyMethodHandler;
 import org.openflexo.toolbox.ToolBox;
 
-public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphicalRepresentationImpl implements ShapeGraphicalRepresentation {
+public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphicalRepresentationImpl
+		implements ShapeGraphicalRepresentation {
 
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(ShapeGraphicalRepresentation.class.getPackage().getName());
@@ -135,7 +131,8 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
 			addToMouseClickControls(getFactory().makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1,
 					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
-		} else {
+		}
+		else {
 			addToMouseClickControls(getFactory().makeMouseControlClickControl("Multiple selection", MouseButton.LEFT, 1,
 					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}
@@ -452,7 +449,6 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 
 	}*/
-
 	@Override
 	public double getX() {
 		// SGU: in general case, this is NOT forbidden
@@ -896,7 +892,6 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 		}
 		return returnedAuthorizedRatio;
 	}*/
-
 	@Override
 	public final boolean getAllowToLeaveBounds() {
 		return allowToLeaveBounds;
@@ -946,13 +941,13 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	/**
 	 * Return required width of shape, giving computed width of current label (useful for auto-layout, when
-	 * 
+	 *
 	 * <pre>
 	 * adjustMinimalWidthToLabelWidth
 	 * </pre>
-	 * 
+	 *
 	 * is set to true). Override this method to implement custom layout
-	 * 
+	 *
 	 * @param labelWidth
 	 * @return
 	 */
@@ -962,13 +957,13 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	/**
 	 * Return required height of shape, giving computed height of current label (usefull for auto-layout, when
-	 * 
+	 * <p/>
 	 * <pre>
 	 * adjustMinimalHeightToLabelHeight
 	 * </pre>
-	 * 
+	 * <p/>
 	 * is set to true). Override this method to implement custom layout
-	 * 
+	 *
 	 * @param labelHeight
 	 * @return
 	 */
@@ -1592,9 +1587,6 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 				aBackground.getPropertyChangeSupport().addPropertyChangeListener(this);
 			}
 			hasChanged(notification);
-			BackgroundStyle oldBS = notification.oldValue();
-			BackgroundStyle newBS = notification.newValue();
-			// System.out.println("ET HOP (1) on balance un event " + BACKGROUND_STYLE_TYPE_KEY + " de " + oldBS + " a " + newBS);
 			if (getPropertyChangeSupport() != null) {
 				getPropertyChangeSupport().firePropertyChange(BACKGROUND_STYLE_TYPE_KEY,
 						notification.oldValue() != null ? notification.oldValue().getBackgroundStyleType() : null,
@@ -1990,7 +1982,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	/**
 	 * Return bounds (including border) relative to parent container
-	 * 
+	 *
 	 * @return
 	 */
 	/*@Override
@@ -2000,7 +1992,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	/**
 	 * Return bounds (including border) relative to parent container
-	 * 
+	 *
 	 * @return
 	 */
 	/*public FGERectangle getBoundsNoBorder() {
@@ -2009,7 +2001,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	/**
 	 * Return view bounds (excluding border) relative to parent container
-	 * 
+	 *
 	 * @param scale
 	 * @return
 	 */
@@ -2027,7 +2019,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	/**
 	 * Return view bounds (excluding border) relative to given container
-	 * 
+	 *
 	 * @param scale
 	 * @return
 	 */
@@ -2040,7 +2032,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	/**
 	 * Return logical bounds (including border) relative to given container
-	 * 
+	 *
 	 * @param scale
 	 * @return
 	 */
@@ -2277,7 +2269,6 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 		}
 		return super.getAvailableLabelWidth(scale);
 	}*/
-
 	@Override
 	public void setHorizontalTextAlignment(org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment horizontalTextAlignment) {
 		super.setHorizontalTextAlignment(horizontalTextAlignment);
@@ -2327,7 +2318,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	/**
 	 * Override this if you want to use such a feature
-	 * 
+	 *
 	 * @return
 	 */
 	@Override
@@ -2337,7 +2328,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	/**
 	 * Override this if you want to use this feature Default implementation return always false
-	 * 
+	 *
 	 * @return
 	 */
 	@Override
@@ -2378,7 +2369,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	/**
 	 * Returns the area on which the given connector can start. The area is expressed in this normalized coordinates
-	 * 
+	 *
 	 * @param connectorGR
 	 *            the connector asking where to start
 	 * @return the area on which the given connector can start
@@ -2390,7 +2381,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	/**
 	 * Returns the area on which the given connector can end. The area is expressed in this normalized coordinates
-	 * 
+	 *
 	 * @param connectorGR
 	 *            the connector asking where to end
 	 * @return the area on which the given connector can end
@@ -2402,10 +2393,10 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	/**
 	 * Returns the area on which the given connector can start. The area is expressed in this normalized coordinates
-	 * 
+	 *
 	 * @param connectorGR
 	 *            the connector asking where to start
-	 * 
+	 *
 	 * @return the area on which the given connector can start
 	 */
 	/*@Override
@@ -2416,9 +2407,8 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	/**
 	 * Returns the area on which the given connector can end. The area is expressed in this normalized coordinates
-	 * 
-	 * @param connectorGR
-	 *            the connector asking where to end
+	 *
+	 * @param connectorGR the connector asking where to end
 	 * @return the area on which the given connector can end
 	 */
 	/*@Override
