@@ -1530,7 +1530,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public boolean getHasFocusedForegroundStyle() {
-		return getGraphicalRepresentation().getHasFocusedForeground() || getFocusedForegroundStyle() != null;
+		return getGraphicalRepresentation().getHasFocusedForeground();
 	}
 
 	/**
@@ -1538,8 +1538,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 */
 	@Override
 	public ForegroundStyle getFocusedForegroundStyle() {
-		// TODO : Investigate why when using FOCUSED_, default is returned (description will be on JIRA)
-		return getPropertyValue(ShapeGraphicalRepresentation.FOREGROUND);
+		return getPropertyValue(ShapeGraphicalRepresentation.FOCUSED_FOREGROUND);
 	}
 
 	/**
@@ -1552,7 +1551,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public boolean getHasSelectedForegroundStyle() {
-		return getGraphicalRepresentation().getHasSelectedForeground() || getSelectedForegroundStyle() != null;
+		return getGraphicalRepresentation().getHasSelectedForeground();
 	}
 
 	/**
@@ -1560,8 +1559,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 */
 	@Override
 	public ForegroundStyle getSelectedForegroundStyle() {
-		// TODO : Investigate why when using SELECTED_, default is returned (description will be on JIRA)
-		return getPropertyValue(ShapeGraphicalRepresentation.FOREGROUND);
+		return getPropertyValue(ShapeGraphicalRepresentation.SELECTED_FOREGROUND);
 	}
 
 	/**
@@ -1590,7 +1588,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public boolean getHasSelectedBackgroundStyle() {
-		return getGraphicalRepresentation().getHasSelectedBackground() || getSelectedBackgroundStyle() != null;
+		return getGraphicalRepresentation().getHasSelectedBackground();
 	}
 
 	/**
@@ -1598,8 +1596,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 */
 	@Override
 	public BackgroundStyle getSelectedBackgroundStyle() {
-		// TODO : Investigate why when using SELECTED_, default is returned (description will be on JIRA)
-		return getPropertyValue(ShapeGraphicalRepresentation.BACKGROUND);
+		return getPropertyValue(ShapeGraphicalRepresentation.SELECTED_BACKGROUND);
 	}
 
 	/**
@@ -1612,7 +1609,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public boolean getHasFocusedBackgroundStyle() {
-		return getGraphicalRepresentation().getHasFocusedBackground() || getFocusedBackgroundStyle() != null;
+		return getGraphicalRepresentation().getHasFocusedBackground();
 	}
 
 	/**
@@ -1620,7 +1617,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 */
 	@Override
 	public BackgroundStyle getFocusedBackgroundStyle() {
-		return getPropertyValue(ShapeGraphicalRepresentation.BACKGROUND);
+		return getPropertyValue(ShapeGraphicalRepresentation.FOCUSED_BACKGROUND);
 	}
 
 	/**
@@ -1628,7 +1625,6 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 */
 	@Override
 	public void setFocusedBackgroundStyle(BackgroundStyle style) {
-		// TODO : Investigate why when using FOCUSED_, default is returned (description will be on JIRA)
 		setPropertyValue(ShapeGraphicalRepresentation.FOCUSED_BACKGROUND, style);
 	}
 
