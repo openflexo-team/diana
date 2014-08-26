@@ -306,7 +306,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		if (drawCustomShapeToolController != null) {
 			drawCustomShapeToolController.delete();
 		}
-		if (drawCustomShapeAction != null) {
+		if (drawCustomShapeAction != null  && getToolFactory() != null) {
 			switch (getDrawCustomShapeToolOption()) {
 			case DrawPolygon:
 				drawCustomShapeToolController = getToolFactory().makeDrawPolygonToolController(this, drawCustomShapeAction);
