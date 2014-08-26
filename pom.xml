@@ -123,18 +123,22 @@
 					<exclude>**/*.java</exclude>
 				</excludes>
 			</resource>
-			<!--  <resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<exclude>**/*</exclude>
-				</includes>
-			</resource>
-			-->
 			<resource>
 				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
 				<includes>
-					<include>**/*</include>
+					<include>**/diana.properties</include>
 				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>**/diana.properties</exclude>
+				</excludes>
+				<!--  <includes>
+					<include>**/*</include>
+				</includes>-->
 			</resource>
 		</resources>
 		<pluginManagement>
