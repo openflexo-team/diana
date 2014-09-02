@@ -162,10 +162,16 @@
 			constraints="flow(expandHorizontally=false;expandVertically=false;index=7;location=right)" />
 		<Label label="is_multiline_allowed" index="20"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=20;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			name="IsVisibleLabel" localize="true" />
+			name="IsMultilineAllowedLabel" localize="true" />
 		<CheckBox selected="false" index="21" data="data.isMultilineAllowed"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=21;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
-			name="IsVisible" localize="true" />
+			name="IsMultilineAllowed" localize="true" />
+		<Label label="line_wrap" index="20"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=22;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
+			name="LineWrapLabel" localize="true" />
+		<CheckBox selected="false" index="21" data="data.lineWrap"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=23;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
+			name="LineWrap" localize="true" />
 	</Tab>
 	<Tab title="Constraints" layout="twocols" borderTop="2"
 		borderBottom="2" borderLeft="10" borderRight="10" titleFont="SansSerif,0,11"

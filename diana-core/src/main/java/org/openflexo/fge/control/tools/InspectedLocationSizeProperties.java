@@ -211,6 +211,14 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		setPropertyValue(GraphicalRepresentation.IS_MULTILINE_ALLOWED, flag);
 	}
 
+	public Boolean getLineWrap() {
+		return getPropertyValue(GraphicalRepresentation.LINE_WRAP);
+	}
+
+	public void setLineWrap(Boolean flag) {
+		setPropertyValue(GraphicalRepresentation.LINE_WRAP, flag);
+	}
+
 	public LocationConstraints getLocationConstraints() {
 		return getPropertyValue(ShapeGraphicalRepresentation.LOCATION_CONSTRAINTS);
 	}
