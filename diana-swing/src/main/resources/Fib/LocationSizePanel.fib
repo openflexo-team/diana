@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TabPanel name="LocationSizePanel"
 	dataClassName="org.openflexo.fge.control.tools.InspectedLocationSizeProperties"
-	font="SansSerif,0,11" opaque="false" width="350" height="250">
+	font="SansSerif,0,11" opaque="false" width="350" height="270">
 	<LocalizedDictionary />
 	<Tab title="Location/Size" layout="twocols" borderTop="2"
 		borderBottom="2" borderLeft="10" borderRight="10" titleFont="SansSerif,0,11"
