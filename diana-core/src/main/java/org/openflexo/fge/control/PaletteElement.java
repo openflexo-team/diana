@@ -38,4 +38,5 @@ public interface PaletteElement extends Serializable {
 
 	public void delete();
 
+	public String getName();
 }

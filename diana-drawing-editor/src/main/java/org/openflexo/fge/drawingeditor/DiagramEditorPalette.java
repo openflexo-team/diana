@@ -40,14 +40,14 @@ import org.openflexo.model.undo.CompoundEdit;
 
 public class DiagramEditorPalette extends DrawingPalette {
 
-	private static final Logger	logger				= FlexoLogger.getLogger(DiagramEditorPalette.class.getPackage().getName());
+	private static final Logger logger = FlexoLogger.getLogger(DiagramEditorPalette.class.getPackage().getName());
 
-	private static final int	GRID_WIDTH			= 80;
-	private static final int	GRID_HEIGHT			= 60;
-	public static final Font	DEFAULT_TEXT_FONT	= new Font("SansSerif", Font.PLAIN, 9);
-	public static final Font	LABEL_FONT			= new Font("SansSerif", Font.PLAIN, 11);
+	private static final int GRID_WIDTH = 80;
+	private static final int GRID_HEIGHT = 60;
+	public static final Font DEFAULT_TEXT_FONT = new Font("SansSerif", Font.PLAIN, 9);
+	public static final Font LABEL_FONT = new Font("SansSerif", Font.PLAIN, 11);
 
-	private DianaDrawingEditor	editor;
+	private DianaDrawingEditor editor;
 
 	public DiagramEditorPalette() {
 		super(360, 350, "default");
@@ -191,6 +191,7 @@ public class DiagramEditorPalette extends DrawingPalette {
 	private PaletteElement makePaletteElement(final ShapeGraphicalRepresentation gr, final boolean applyCurrentForeground,
 			final boolean applyCurrentBackground, final boolean applyCurrentTextStyle, final boolean applyCurrentShadowStyle) {
 		PaletteElement returned = new PaletteElement() {
+
 			@Override
 			public boolean acceptDragging(DrawingTreeNode<?, ?> target) {
 				return getEditor() != null && target instanceof ContainerNode;
@@ -242,6 +243,11 @@ public class DiagramEditorPalette extends DrawingPalette {
 			@Override
 			public ShapeGraphicalRepresentation getGraphicalRepresentation() {
 				return gr;
+			}
+
+			@Override
+			public String getName() {
+				return null;
 			}
 
 			@Override
