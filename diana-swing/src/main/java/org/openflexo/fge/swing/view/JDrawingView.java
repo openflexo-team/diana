@@ -976,6 +976,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			}
 		}
 
+		drawing.getRoot().getPropertyChangeSupport().removePropertyChangeListener(this);
+		
 		isDeleted = true;
 	}
 
