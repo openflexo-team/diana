@@ -973,6 +973,9 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 				if (dtn instanceof GeometricNode<?>) {
 					((GeometricNode<?>) dtn).getPropertyChangeSupport().removePropertyChangeListener(this);
 				}
+				if (dtn instanceof ConnectorNode<?>) {
+					((ConnectorNode<?>) dtn).getPropertyChangeSupport().removePropertyChangeListener(this);
+				}
 			}
 		}
 
