@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
+import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation.LocationConstraints;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
@@ -50,7 +51,7 @@ public class DrawingPalette implements HasPropertyChangeSupport {
 
 	private boolean drawWorkingArea = false;
 
-	private PropertyChangeSupport pcSupport;
+	private final PropertyChangeSupport pcSupport;
 
 	/**
 	 * This factory is the one used to build palettes, NOT THE ONE which is used in the related drawing editor
@@ -115,15 +116,27 @@ public class DrawingPalette implements HasPropertyChangeSupport {
 	}
 
 	public void addElement(PaletteElement element) {
-		elements.add(element);
-		// Try to perform some checks and initialization of
-		// expecting behaviour for a PaletteElement
-		element.getGraphicalRepresentation().setIsFocusable(false);
-		element.getGraphicalRepresentation().setIsSelectable(false);
-		element.getGraphicalRepresentation().setIsReadOnly(true);
-		element.getGraphicalRepresentation().setLocationConstraints(LocationConstraints.UNMOVABLE);
-		// element.getGraphicalRepresentation().addToMouseDragControls(mouseDragControl)
-		pcSupport.firePropertyChange("elements", null, element);
+		if (element != null) {
+			elements.add(element);
+			ShapeGraphicalRepresentation gr = element.getGraphicalRepresentation();
+			if (gr != null) {
+				// Try to perform some checks and initialization of
+				// expecting behaviour for a PaletteElement
+				element.getGraphicalRepresentation().setIsFocusable(false);
+				element.getGraphicalRepresentation().setIsSelectable(false);
+				element.getGraphicalRepresentation().setIsReadOnly(true);
+				element.getGraphicalRepresentation().setLocationConstraints(LocationConstraints.UNMOVABLE);
+				// element.getGraphicalRepresentation().addToMouseDragControls(mouseDragControl)
+			}
+			else {
+				logger.warning("Adding an element with empty GR ! in palette:  " + this.getTitle());
+			}
+			pcSupport.firePropertyChange("elements", null, element);
+		}
+		else {
+
+			logger.warning("Adding a null element in palette:  " + this.getTitle());
+		}
 	}
 
 	public void removeElement(PaletteElement element) {
