@@ -2,6 +2,7 @@ package org.openflexo.fge.impl;
 
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeSupport;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.ConnectorGraphicalRepresentation;
@@ -73,7 +74,8 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
 			addToMouseClickControls(getFactory().makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1,
 					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
-		} else {
+		}
+		else {
 			addToMouseClickControls(getFactory().makeMouseControlClickControl("Multiple selection", MouseButton.LEFT, 1,
 					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}
@@ -167,13 +169,18 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 	@Override
 	public void setForeground(ForegroundStyle aForeground) {
 		FGEAttributeNotification notification = requireChange(FOREGROUND, aForeground);
+		PropertyChangeSupport pcs = null;
 		if (notification != null) {
 			if (foreground != null) {
-				foreground.getPropertyChangeSupport().removePropertyChangeListener(this);
+				pcs = foreground.getPropertyChangeSupport();
+				if (pcs != null)
+					pcs.removePropertyChangeListener(this);
 			}
 			foreground = aForeground;
 			if (aForeground != null) {
-				aForeground.getPropertyChangeSupport().addPropertyChangeListener(this);
+				pcs = aForeground.getPropertyChangeSupport();
+				if (pcs != null)
+					pcs.addPropertyChangeListener(this);
 			}
 			hasChanged(notification);
 		}
