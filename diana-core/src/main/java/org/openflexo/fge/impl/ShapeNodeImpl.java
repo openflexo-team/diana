@@ -14,25 +14,46 @@ import org.openflexo.antar.binding.DataBinding;
 import org.openflexo.antar.binding.TypeUtils;
 import org.openflexo.antar.expr.NullReferenceException;
 import org.openflexo.antar.expr.TypeMismatchException;
-import org.openflexo.fge.*;
+import org.openflexo.fge.BackgroundStyle;
+import org.openflexo.fge.ContainerGraphicalRepresentation;
 import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.ConstraintDependency;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.FGEUtils;
+import org.openflexo.fge.ForegroundStyle;
+import org.openflexo.fge.GRBinding;
+import org.openflexo.fge.GRProperty;
+import org.openflexo.fge.GraphicalRepresentation;
+import org.openflexo.fge.ShadowStyle;
+import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.fge.ShapeGraphicalRepresentation.LocationConstraints;
 import org.openflexo.fge.ShapeGraphicalRepresentation.ShapeBorder;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.cp.ControlPoint;
-import org.openflexo.fge.geom.*;
+import org.openflexo.fge.geom.FGEDimension;
+import org.openflexo.fge.geom.FGEGeometricObject;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geom.FGERectangle;
+import org.openflexo.fge.geom.FGESegment;
+import org.openflexo.fge.geom.FGEShape;
+import org.openflexo.fge.geom.GeomUtils;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.geom.area.FGEIntersectionArea;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 import org.openflexo.fge.graphics.ShapeDecorationPainter;
 import org.openflexo.fge.graphics.ShapePainter;
-import org.openflexo.fge.notifications.*;
+import org.openflexo.fge.notifications.ObjectHasMoved;
+import org.openflexo.fge.notifications.ObjectHasResized;
+import org.openflexo.fge.notifications.ObjectMove;
+import org.openflexo.fge.notifications.ObjectResized;
+import org.openflexo.fge.notifications.ObjectWillMove;
+import org.openflexo.fge.notifications.ObjectWillResize;
+import org.openflexo.fge.notifications.ShapeChanged;
+import org.openflexo.fge.notifications.ShapeNeedsToBeRedrawn;
 import org.openflexo.fge.shapes.ShapeSpecification;
 import org.openflexo.fge.shapes.impl.ShapeImpl;
 
@@ -106,7 +127,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	/**
 	 * Return bounds (including border) relative to parent container
-	 *
+	 * 
 	 * @return
 	 */
 	@Override
@@ -116,7 +137,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	/**
 	 * Return bounds (including border) relative to parent container
-	 *
+	 * 
 	 * @return
 	 */
 	public FGERectangle getBoundsNoBorder() {
@@ -125,7 +146,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	/**
 	 * Return view bounds (excluding border) relative to parent container
-	 *
+	 * 
 	 * @param scale
 	 * @return
 	 */
@@ -145,7 +166,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	/**
 	 * Return view bounds (excluding border) relative to given container
-	 *
+	 * 
 	 * @param scale
 	 * @return
 	 */
@@ -158,7 +179,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	/**
 	 * Return logical bounds (including border) relative to given container
-	 *
+	 * 
 	 * @param scale
 	 * @return
 	 */
@@ -263,9 +284,15 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public double getUnscaledViewWidth() {
+
+		if (getGraphicalRepresentation() == null) {
+			logger.warning("ShapeNode without a GraphicalRepresentation - INVESTIGATE ");
+			return 0.0;
+		}
+
 		return getPropertyValue(ShapeGraphicalRepresentation.WIDTH)
 				+ (getGraphicalRepresentation().getBorder() != null ? getGraphicalRepresentation().getBorder().getLeft()
-				+ getGraphicalRepresentation().getBorder().getRight() : 0);
+						+ getGraphicalRepresentation().getBorder().getRight() : 0);
 
 		/*if (getGraphicalRepresentation() == null) {
 			return 0.0;
@@ -277,9 +304,15 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public double getUnscaledViewHeight() {
+
+		if (getGraphicalRepresentation() == null) {
+			logger.warning("ShapeNode without a GraphicalRepresentation - INVESTIGATE ");
+			return 0.0;
+		}
+
 		return getPropertyValue(ShapeGraphicalRepresentation.HEIGHT)
 				+ (getGraphicalRepresentation().getBorder() != null ? getGraphicalRepresentation().getBorder().getTop()
-				+ getGraphicalRepresentation().getBorder().getBottom() : 0);
+						+ getGraphicalRepresentation().getBorder().getBottom() : 0);
 
 		/*		if (getGraphicalRepresentation() == null) {
 					return 0.0;
@@ -292,7 +325,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	/**
 	 * This method is called whenever it was detected that the value of a property declared as dynamic (specified by a {@link DataBinding}
 	 * in {@link GRBinding}) has changed
-	 *
+	 * 
 	 * @param parameter
 	 * @param oldValue
 	 * @param newValue
@@ -551,7 +584,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	/**
 	 * General method called to update location of a ShapeNode
-	 *
+	 * 
 	 * @param requestedLocation
 	 */
 	private void updateLocation(FGEPoint requestedLocation) {
@@ -594,7 +627,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	/**
 	 * Compute and return a constrained location, according to contextual constraints
-	 *
+	 * 
 	 * @param requestedLocation
 	 * @return a new location respecting all contextual constraints
 	 */
@@ -843,8 +876,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				}
 				getGraphicalRepresentation().setLocationConstraints(LocationConstraints.UNMOVABLE);
 			}
-			if (getGraphicalRepresentation().getWidthConstraints() != null && getGraphicalRepresentation().getWidthConstraints()
-					.isValid()) {
+			if (getGraphicalRepresentation().getWidthConstraints() != null && getGraphicalRepresentation().getWidthConstraints().isValid()) {
 				getGraphicalRepresentation().getWidthConstraints().decode();
 				try {
 					setWidth((Double) TypeUtils
@@ -1212,8 +1244,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	/**
 	 * Returns the area on which the given connector can start. The area is expressed in this normalized coordinates
-	 *
-	 * @param connectorGR the connector asking where to start
+	 * 
+	 * @param connectorGR
+	 *            the connector asking where to start
 	 * @return the area on which the given connector can start
 	 */
 	@Override
@@ -1223,8 +1256,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	/**
 	 * Returns the area on which the given connector can end. The area is expressed in this normalized coordinates
-	 *
-	 * @param connectorGR the connector asking where to end
+	 * 
+	 * @param connectorGR
+	 *            the connector asking where to end
 	 * @return the area on which the given connector can end
 	 */
 	@Override
@@ -1234,8 +1268,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	/**
 	 * Returns the area on which the given connector can start. The area is expressed in this normalized coordinates
-	 *
-	 * @param connectorGR the connector asking where to start
+	 * 
+	 * @param connectorGR
+	 *            the connector asking where to start
 	 * @return the area on which the given connector can start
 	 */
 	@Override
@@ -1246,13 +1281,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	/**
 	 * Returns the area on which the given connector can end. The area is expressed in this normalized coordinates
-	 *
-	 * @param connectorGR the connector asking where to end
+	 * 
+	 * @param connectorGR
+	 *            the connector asking where to end
 	 * @return the area on which the given connector can end
 	 */
 	@Override
-	public FGEArea getAllowedEndAreaForConnectorForDirection(ConnectorNode<?> connector, FGEArea area,
-			SimplifiedCardinalDirection direction) {
+	public FGEArea getAllowedEndAreaForConnectorForDirection(ConnectorNode<?> connector, FGEArea area, SimplifiedCardinalDirection direction) {
 		return area;
 	}
 
