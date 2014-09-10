@@ -1245,10 +1245,10 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		// logger.info("Best polylin found from/to "+startOrientation+"/"+endOrientation+" with "+polylin.getPointsNb()+" points");
 		// logger.info("Polylin="+polylin);
 
-		if (getStartOrientation() != choosenStartOrientation) {
+		if (getStartOrientation() != choosenStartOrientation && logger.isLoggable(Level.FINE)) {
 			logger.fine("Requested start orientation was: " + choosenStartOrientation + " but is finally: " + getStartOrientation());
 		}
-		if (getEndOrientation() != choosenEndOrientation) {
+		if (getEndOrientation() != choosenEndOrientation && logger.isLoggable(Level.FINE)) {
 			logger.fine("Requested end orientation was: " + choosenEndOrientation + " but is finally: " + getEndOrientation());
 		}
 
@@ -1257,12 +1257,17 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 		// updateWithNewPolylin(polylin,true);
 
-		if (polylin != null && polylin.isNormalized()) {
-			updateWithNewPolylin(polylin, true, false);
+		if (polylin != null) {
+			if (polylin.isNormalized()) {
+				updateWithNewPolylin(polylin, true, false);
+			}
+			else {
+				logger.warning("Result of auto-layout computing returned a non-normalized polylin. Please investigate");
+				updateWithNewPolylin(polylin, false, false);
+			}
 		}
 		else {
-			logger.warning("Result of auto-layout computing returned a non-normalized polylin. Please investigate");
-			updateWithNewPolylin(polylin, false, false);
+			logger.warning("polylin=null !!!!!!");
 		}
 
 		// logger.info("After update, polylin from/to "+startOrientation+"/"+endOrientation+" with "+polylin.getPointsNb()+" points");
@@ -1474,18 +1479,20 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			logger.fine("Update with polylin with " + aPolylin.getPointsNb() + " points");
 		}
 
-		if (aPolylin.hasExtraPoints()) {
-			aPolylin.removeExtraPoints();
-		}
+		if (aPolylin != null) {
+			if (aPolylin.hasExtraPoints()) {
+				aPolylin.removeExtraPoints();
+			}
 
-		polylin = aPolylin;
+			polylin = aPolylin;
 
-		_rebuildControlPoints();
+			_rebuildControlPoints();
 
-		_connectorChanged(temporary);
+			_connectorChanged(temporary);
 
-		if (!assertLayoutIsValid) {
-			updateAndNormalizeCurrentPolylin();
+			if (!assertLayoutIsValid) {
+				updateAndNormalizeCurrentPolylin();
+			}
 		}
 	}
 
