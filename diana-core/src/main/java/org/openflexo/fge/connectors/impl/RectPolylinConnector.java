@@ -1246,10 +1246,10 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		// logger.info("Polylin="+polylin);
 
 		if (getStartOrientation() != choosenStartOrientation) {
-			logger.warning("Requested start orientation was: " + choosenStartOrientation + " but is finally: " + getStartOrientation());
+			logger.fine("Requested start orientation was: " + choosenStartOrientation + " but is finally: " + getStartOrientation());
 		}
 		if (getEndOrientation() != choosenEndOrientation) {
-			logger.warning("Requested end orientation was: " + choosenEndOrientation + " but is finally: " + getEndOrientation());
+			logger.fine("Requested end orientation was: " + choosenEndOrientation + " but is finally: " + getEndOrientation());
 		}
 
 		// logger.info("Before update, polylin from/to "+startOrientation+"/"+endOrientation+" with "+polylin.getPointsNb()+" points");
