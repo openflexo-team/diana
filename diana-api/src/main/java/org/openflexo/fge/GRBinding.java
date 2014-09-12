@@ -27,12 +27,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.openflexo.antar.binding.Bindable;
 import org.openflexo.antar.binding.BindingFactory;
 import org.openflexo.antar.binding.BindingModel;
 import org.openflexo.antar.binding.BindingVariable;
 import org.openflexo.antar.binding.DataBinding;
 import org.openflexo.antar.binding.DataBinding.BindingDefinitionType;
+import org.openflexo.antar.binding.DefaultBindable;
 import org.openflexo.antar.binding.JavaBindingFactory;
 import org.openflexo.fge.GRProvider.ConnectorGRProvider;
 import org.openflexo.fge.GRProvider.ContainerGRProvider;
@@ -41,7 +41,7 @@ import org.openflexo.fge.GRProvider.GeometricGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.graph.FGEGraph;
 
-public abstract class GRBinding<O, GR extends GraphicalRepresentation> implements Bindable {
+public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends DefaultBindable {
 
 	private static final Logger logger = Logger.getLogger(GRBinding.class.getPackage().getName());
 

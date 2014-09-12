@@ -30,6 +30,7 @@ import org.openflexo.antar.binding.BindingFactory;
 import org.openflexo.antar.binding.BindingModel;
 import org.openflexo.antar.binding.BindingVariable;
 import org.openflexo.antar.binding.DataBinding;
+import org.openflexo.antar.binding.DefaultBindable;
 import org.openflexo.antar.binding.JavaBindingFactory;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
@@ -39,7 +40,7 @@ import org.openflexo.fge.graphics.FGEShapeGraphics;
  * @author sylvain
  * 
  */
-public abstract class FGEGraph implements Bindable {
+public abstract class FGEGraph extends DefaultBindable implements Bindable {
 
 	private static BindingFactory JAVA_BINDING_FACTORY = new JavaBindingFactory();
 
