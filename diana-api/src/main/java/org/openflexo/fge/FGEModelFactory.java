@@ -71,7 +71,7 @@ import org.openflexo.toolbox.ToolBox;
  */
 public abstract class FGEModelFactory extends ModelFactory {
 
-	static final Logger	logger	= Logger.getLogger(FGEModelFactory.class.getPackage().getName());
+	static final Logger logger = Logger.getLogger(FGEModelFactory.class.getPackage().getName());
 
 	/**
 	 * Creates a new model factory including all classes involved in FGE model
@@ -104,7 +104,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 		this.getStringEncoder().addConverter(FGEUtils.POINT_CONVERTER);
 		this.getStringEncoder().addConverter(FGEUtils.STEPPED_DIMENSION_CONVERTER);
 
-		logger.info("Created new FGEModelFactory...............................");
+		//logger.info("Created new FGEModelFactory...............................");
 
 		this.installImplementingClasses();
 
@@ -206,9 +206,12 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param drawingGraphicalRepresentation
 	 */
 	public void applyBasicControls(final DrawingGraphicalRepresentation drawingGraphicalRepresentation) {
-		drawingGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Drawing selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
-		drawingGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Rectangle selection", MouseButton.LEFT, PredefinedMouseDragControlActionType.RECTANGLE_SELECTING));
-		drawingGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Zoom", MouseButton.RIGHT, PredefinedMouseDragControlActionType.ZOOM));
+		drawingGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Drawing selection", MouseButton.LEFT, 1,
+				PredefinedMouseClickControlActionType.SELECTION));
+		drawingGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Rectangle selection", MouseButton.LEFT,
+				PredefinedMouseDragControlActionType.RECTANGLE_SELECTING));
+		drawingGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Zoom", MouseButton.RIGHT,
+				PredefinedMouseDragControlActionType.ZOOM));
 	}
 
 	/**
@@ -252,16 +255,21 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param shapeGraphicalRepresentation
 	 */
 	public void applyBasicControls(final ShapeGraphicalRepresentation shapeGraphicalRepresentation) {
-		shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
+		shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Selection", MouseButton.LEFT, 1,
+				PredefinedMouseClickControlActionType.SELECTION));
 		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
-			shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1,
+					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		} else {
-			shapeGraphicalRepresentation
-					.addToMouseClickControls(this.makeMouseControlClickControl("Multiple selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseControlClickControl("Multiple selection", MouseButton.LEFT,
+					1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}
-		shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Move", MouseButton.LEFT, PredefinedMouseDragControlActionType.MOVE));
-		shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Zoom", MouseButton.RIGHT, PredefinedMouseDragControlActionType.ZOOM));
-		shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseShiftDragControl("Rectangle selection", MouseButton.LEFT, PredefinedMouseDragControlActionType.RECTANGLE_SELECTING));
+		shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Move", MouseButton.LEFT,
+				PredefinedMouseDragControlActionType.MOVE));
+		shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Zoom", MouseButton.RIGHT,
+				PredefinedMouseDragControlActionType.ZOOM));
+		shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseShiftDragControl("Rectangle selection", MouseButton.LEFT,
+				PredefinedMouseDragControlActionType.RECTANGLE_SELECTING));
 	}
 
 	/**
@@ -349,13 +357,14 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param connectorGraphicalRepresentation
 	 */
 	public void applyBasicControls(final ConnectorGraphicalRepresentation connectorGraphicalRepresentation) {
-		connectorGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
+		connectorGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Selection", MouseButton.LEFT, 1,
+				PredefinedMouseClickControlActionType.SELECTION));
 		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
-			connectorGraphicalRepresentation.addToMouseClickControls(this
-					.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			connectorGraphicalRepresentation.addToMouseClickControls(this.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT,
+					1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		} else {
-			connectorGraphicalRepresentation.addToMouseClickControls(this.makeMouseControlClickControl("Multiple selection", MouseButton.LEFT, 1,
-					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			connectorGraphicalRepresentation.addToMouseClickControls(this.makeMouseControlClickControl("Multiple selection",
+					MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}
 	}
 
@@ -417,13 +426,14 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param connectorGraphicalRepresentation
 	 */
 	public void applyBasicControls(final GeometricGraphicalRepresentation geometricGraphicalRepresentation) {
-		geometricGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
+		geometricGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Selection", MouseButton.LEFT, 1,
+				PredefinedMouseClickControlActionType.SELECTION));
 		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
-			geometricGraphicalRepresentation.addToMouseClickControls(this
-					.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			geometricGraphicalRepresentation.addToMouseClickControls(this.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT,
+					1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		} else {
-			geometricGraphicalRepresentation.addToMouseClickControls(this.makeMouseControlClickControl("Multiple selection", MouseButton.LEFT, 1,
-					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			geometricGraphicalRepresentation.addToMouseClickControls(this.makeMouseControlClickControl("Multiple selection",
+					MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}
 	}
 
@@ -584,7 +594,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param dashStyle
 	 * @return a newly created ForegroundStyle
 	 */
-	public ForegroundStyle makeForegroundStyle(final Color aColor, final float aLineWidth, final JoinStyle joinStyle, final CapStyle capStyle, final DashStyle dashStyle) {
+	public ForegroundStyle makeForegroundStyle(final Color aColor, final float aLineWidth, final JoinStyle joinStyle,
+			final CapStyle capStyle, final DashStyle dashStyle) {
 		final ForegroundStyle returned = this.makeForegroundStyle(aColor);
 		returned.setLineWidth(aLineWidth);
 		returned.setJoinStyle(joinStyle);
@@ -653,7 +664,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created BackgroundStyle
 	 */
-	public ColorGradientBackgroundStyle makeColorGradientBackground(final Color color1, final Color color2, final ColorGradientDirection direction) {
+	public ColorGradientBackgroundStyle makeColorGradientBackground(final Color color1, final Color color2,
+			final ColorGradientDirection direction) {
 		final ColorGradientBackgroundStyle returned = this.newInstance(ColorGradientBackgroundStyle.class);
 		returned.setFactory(this);
 		returned.setColor1(color1);
@@ -721,7 +733,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 		} else if (type == BackgroundStyleType.COLOR) {
 			return this.makeColoredBackground(java.awt.Color.WHITE);
 		} else if (type == BackgroundStyleType.COLOR_GRADIENT) {
-			return this.makeColorGradientBackground(java.awt.Color.WHITE, java.awt.Color.BLACK, ColorGradientDirection.SOUTH_EAST_NORTH_WEST);
+			return this.makeColorGradientBackground(java.awt.Color.WHITE, java.awt.Color.BLACK,
+					ColorGradientDirection.SOUTH_EAST_NORTH_WEST);
 		} else if (type == BackgroundStyleType.TEXTURE) {
 			return this.makeTexturedBackground(TextureType.TEXTURE1, java.awt.Color.RED, java.awt.Color.WHITE);
 		} else if (type == BackgroundStyleType.IMAGE) {
@@ -962,7 +975,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param initWithBasicControls
 	 * @return
 	 */
-	public <I extends GraphicalRepresentation> I newInstance(final Class<I> implementedInterface, final boolean initWithDefaultProperties, final boolean initWithBasicControls) {
+	public <I extends GraphicalRepresentation> I newInstance(final Class<I> implementedInterface, final boolean initWithDefaultProperties,
+			final boolean initWithBasicControls) {
 		final I returned = super.newInstance(implementedInterface);
 		if (returned instanceof ShapeGraphicalRepresentation) {
 			if (initWithDefaultProperties) {
@@ -996,62 +1010,70 @@ public abstract class FGEModelFactory extends ModelFactory {
 		return returned;
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseClickControl(final String aName, final MouseButton button, final int clickCount) {
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseClickControl(final String aName, final MouseButton button,
+			final int clickCount) {
 		return this.makeMouseClickControl(aName, button, clickCount, false, false, false, false);
 	}
 
-	public <E extends DianaEditor<?>> MouseClickControl<E> makeMouseClickControl(final String aName, final MouseButton button, final int clickCount, final MouseClickControlAction<E> action) {
+	public <E extends DianaEditor<?>> MouseClickControl<E> makeMouseClickControl(final String aName, final MouseButton button,
+			final int clickCount, final MouseClickControlAction<E> action) {
 		return this.makeMouseClickControl(aName, button, clickCount, action, false, false, false, false);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseShiftClickControl(final String aName, final MouseButton button, final int clickCount) {
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseShiftClickControl(final String aName, final MouseButton button,
+			final int clickCount) {
 		return this.makeMouseClickControl(aName, button, clickCount, true, false, false, false);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseControlClickControl(final String aName, final MouseButton button, final int clickCount) {
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseControlClickControl(final String aName, final MouseButton button,
+			final int clickCount) {
 		return this.makeMouseClickControl(aName, button, clickCount, false, true, false, false);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseMetaClickControl(final String aName, final MouseButton button, final int clickCount) {
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseMetaClickControl(final String aName, final MouseButton button,
+			final int clickCount) {
 		return this.makeMouseClickControl(aName, button, clickCount, false, false, true, false);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseAltClickControl(final String aName, final MouseButton button, final int clickCount) {
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseAltClickControl(final String aName, final MouseButton button,
+			final int clickCount) {
 		return this.makeMouseClickControl(aName, button, clickCount, false, false, false, true);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseClickControl(final String aName, final MouseButton button, final int clickCount, final PredefinedMouseClickControlActionType actionType) {
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseClickControl(final String aName, final MouseButton button,
+			final int clickCount, final PredefinedMouseClickControlActionType actionType) {
 		return this.makeMouseClickControl(aName, button, clickCount, actionType, false, false, false, false);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseShiftClickControl(final String aName, final MouseButton button, final int clickCount,
-			final PredefinedMouseClickControlActionType actionType) {
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseShiftClickControl(final String aName, final MouseButton button,
+			final int clickCount, final PredefinedMouseClickControlActionType actionType) {
 		return this.makeMouseClickControl(aName, button, clickCount, actionType, true, false, false, false);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseControlClickControl(final String aName, final MouseButton button, final int clickCount,
-			final PredefinedMouseClickControlActionType actionType) {
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseControlClickControl(final String aName, final MouseButton button,
+			final int clickCount, final PredefinedMouseClickControlActionType actionType) {
 		return this.makeMouseClickControl(aName, button, clickCount, actionType, false, true, false, false);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseMetaClickControl(final String aName, final MouseButton button, final int clickCount,
-			final PredefinedMouseClickControlActionType actionType) {
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseMetaClickControl(final String aName, final MouseButton button,
+			final int clickCount, final PredefinedMouseClickControlActionType actionType) {
 		return this.makeMouseClickControl(aName, button, clickCount, actionType, false, false, true, false);
 	}
 
-	public MouseClickControl<? extends DianaEditor<?>> makeMouseAltClickControl(final String aName, final MouseButton button, final int clickCount,
-			final PredefinedMouseClickControlActionType actionType) {
+	public MouseClickControl<? extends DianaEditor<?>> makeMouseAltClickControl(final String aName, final MouseButton button,
+			final int clickCount, final PredefinedMouseClickControlActionType actionType) {
 		return this.makeMouseClickControl(aName, button, clickCount, actionType, false, false, false, true);
 	}
 
-	public abstract MouseClickControl<? extends DianaEditor<?>> makeMouseClickControl(String aName, MouseButton button, int clickCount, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed,
-			boolean altPressed);
-
-	public abstract MouseClickControl<? extends DianaEditor<?>> makeMouseClickControl(String aName, MouseButton button, int clickCount, PredefinedMouseClickControlActionType actionType,
+	public abstract MouseClickControl<? extends DianaEditor<?>> makeMouseClickControl(String aName, MouseButton button, int clickCount,
 			boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed);
 
-	public abstract <E extends DianaEditor<?>> MouseClickControl<E> makeMouseClickControl(String aName, MouseButton button, int clickCount, MouseClickControlAction<E> action, boolean shiftPressed,
-			boolean ctrlPressed, boolean metaPressed, boolean altPressed);
+	public abstract MouseClickControl<? extends DianaEditor<?>> makeMouseClickControl(String aName, MouseButton button, int clickCount,
+			PredefinedMouseClickControlActionType actionType, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed,
+			boolean altPressed);
+
+	public abstract <E extends DianaEditor<?>> MouseClickControl<E> makeMouseClickControl(String aName, MouseButton button, int clickCount,
+			MouseClickControlAction<E> action, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed);
 
 	public MouseDragControl<? extends DianaEditor<?>> makeMouseDragControl(final String aName, final MouseButton button) {
 		return this.makeMouseDragControl(aName, button, false, false, false, false);
@@ -1073,36 +1095,45 @@ public abstract class FGEModelFactory extends ModelFactory {
 		return this.makeMouseDragControl(aName, button, false, false, false, true);
 	}
 
-	public MouseDragControl<? extends DianaEditor<?>> makeMouseDragControl(final String aName, final MouseButton button, final PredefinedMouseDragControlActionType actionType) {
+	public MouseDragControl<? extends DianaEditor<?>> makeMouseDragControl(final String aName, final MouseButton button,
+			final PredefinedMouseDragControlActionType actionType) {
 		return this.makeMouseDragControl(aName, button, actionType, false, false, false, false);
 	}
 
-	public MouseDragControl<? extends DianaEditor<?>> makeMouseShiftDragControl(final String aName, final MouseButton button, final PredefinedMouseDragControlActionType actionType) {
+	public MouseDragControl<? extends DianaEditor<?>> makeMouseShiftDragControl(final String aName, final MouseButton button,
+			final PredefinedMouseDragControlActionType actionType) {
 		return this.makeMouseDragControl(aName, button, actionType, true, false, false, false);
 	}
 
-	public MouseDragControl<? extends DianaEditor<?>> makeMouseControlDragControl(final String aName, final MouseButton button, final PredefinedMouseDragControlActionType actionType) {
+	public MouseDragControl<? extends DianaEditor<?>> makeMouseControlDragControl(final String aName, final MouseButton button,
+			final PredefinedMouseDragControlActionType actionType) {
 		return this.makeMouseDragControl(aName, button, actionType, false, true, false, false);
 	}
 
-	public MouseDragControl<? extends DianaEditor<?>> makeMouseMetaDragControl(final String aName, final MouseButton button, final PredefinedMouseDragControlActionType actionType) {
+	public MouseDragControl<? extends DianaEditor<?>> makeMouseMetaDragControl(final String aName, final MouseButton button,
+			final PredefinedMouseDragControlActionType actionType) {
 		return this.makeMouseDragControl(aName, button, actionType, false, false, true, false);
 	}
 
-	public MouseDragControl<? extends DianaEditor<?>> makeMouseAltDragControl(final String aName, final MouseButton button, final PredefinedMouseDragControlActionType actionType) {
+	public MouseDragControl<? extends DianaEditor<?>> makeMouseAltDragControl(final String aName, final MouseButton button,
+			final PredefinedMouseDragControlActionType actionType) {
 		return this.makeMouseDragControl(aName, button, actionType, false, false, false, true);
 	}
 
-	public abstract MouseDragControl<? extends DianaEditor<?>> makeMouseDragControl(String aName, MouseButton button, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed);
-
-	public abstract MouseDragControl<? extends DianaEditor<?>> makeMouseDragControl(String aName, MouseButton button, PredefinedMouseDragControlActionType actionType, boolean shiftPressed,
+	public abstract MouseDragControl<? extends DianaEditor<?>> makeMouseDragControl(String aName, MouseButton button, boolean shiftPressed,
 			boolean ctrlPressed, boolean metaPressed, boolean altPressed);
 
-	public abstract <E extends DianaEditor<?>> MouseDragControl<E> makeMouseDragControl(String aName, MouseButton button, MouseDragControlAction<E> action, boolean shiftPressed, boolean ctrlPressed,
-			boolean metaPressed, boolean altPressed);
+	public abstract MouseDragControl<? extends DianaEditor<?>> makeMouseDragControl(String aName, MouseButton button,
+			PredefinedMouseDragControlActionType actionType, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed,
+			boolean altPressed);
 
-	public abstract MouseDragControlAction<? extends DianaEditor<?>> makeMouseDragControlAction(PredefinedMouseDragControlActionType actionType);
+	public abstract <E extends DianaEditor<?>> MouseDragControl<E> makeMouseDragControl(String aName, MouseButton button,
+			MouseDragControlAction<E> action, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed);
 
-	public abstract MouseClickControlAction<? extends DianaEditor<?>> makeMouseClickControlAction(PredefinedMouseClickControlActionType actionType);
+	public abstract MouseDragControlAction<? extends DianaEditor<?>> makeMouseDragControlAction(
+			PredefinedMouseDragControlActionType actionType);
+
+	public abstract MouseClickControlAction<? extends DianaEditor<?>> makeMouseClickControlAction(
+			PredefinedMouseClickControlActionType actionType);
 
 }
