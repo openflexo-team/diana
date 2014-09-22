@@ -88,635 +88,635 @@
     <Number allowsNull="false" minValue="0.0" maxValue="1.0" increment="0.05" numberType="DoubleType" columns="4" index="15" data="data.connectorSpecification.relativeMiddleSymbolLocation" constraints="twocols(expandHorizontally=false;expandVertically=false;index=15;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" name="RelativeMiddleSymbolLocation" localize="true" />
   </Panel>
   <LocalizedDictionary>
-    <Localized key="shape_type" lang="English">Shape</Localized>
-    <Localized key="shape_type" lang="French">Forme</Localized>
-    <Localized key="shape_type" lang="Dutch">Shape</Localized>
-    <Localized key="rectangle" lang="English">Rectangle</Localized>
-    <Localized key="rectangle" lang="French">Rectangle</Localized>
-    <Localized key="rectangle" lang="Dutch">Rectangle</Localized>
-    <Localized key="square" lang="English">Square</Localized>
-    <Localized key="square" lang="French">Carré</Localized>
-    <Localized key="square" lang="Dutch">Square</Localized>
-    <Localized key="rectangularoctogon" lang="English">Rectangular octogon</Localized>
-    <Localized key="rectangularoctogon" lang="French">Octogone rectangulaire</Localized>
-    <Localized key="rectangularoctogon" lang="Dutch">Rectangular octogon</Localized>
-    <Localized key="polygon" lang="English">Regular polygon</Localized>
-    <Localized key="polygon" lang="French">Polygone régulier</Localized>
-    <Localized key="polygon" lang="Dutch">Regular polygon</Localized>
-    <Localized key="triangle" lang="English">Triangle</Localized>
-    <Localized key="triangle" lang="French">Triangle</Localized>
-    <Localized key="triangle" lang="Dutch">Triangle</Localized>
-    <Localized key="losange" lang="English">Losange</Localized>
-    <Localized key="losange" lang="French">Losange</Localized>
-    <Localized key="losange" lang="Dutch">Losange</Localized>
-    <Localized key="oval" lang="English">Oval</Localized>
-    <Localized key="oval" lang="French">Ovale</Localized>
-    <Localized key="oval" lang="Dutch">Oval</Localized>
-    <Localized key="circle" lang="English">Circle</Localized>
-    <Localized key="circle" lang="French">Cercle</Localized>
-    <Localized key="circle" lang="Dutch">Circle</Localized>
-    <Localized key="star" lang="English">Star</Localized>
-    <Localized key="star" lang="French">Étoile</Localized>
-    <Localized key="star" lang="Dutch">Star</Localized>
-    <Localized key="arc" lang="English">Arc</Localized>
-    <Localized key="arc" lang="French">Arc</Localized>
-    <Localized key="arc" lang="Dutch">Boog (arc)</Localized>
-    <Localized key="custom_polygon" lang="English">Custom polygon</Localized>
-    <Localized key="custom_polygon" lang="French">Polygone personnalisé</Localized>
-    <Localized key="custom_polygon" lang="Dutch">Custom polygon</Localized>
-    <Localized key="Rectangle" lang="English">Rectangle</Localized>
-    <Localized key="Rectangle" lang="French">Rectangle</Localized>
-    <Localized key="Rectangle" lang="Dutch">Rectangle</Localized>
-    <Localized key="Square" lang="English">Square</Localized>
-    <Localized key="Square" lang="French">Carré</Localized>
-    <Localized key="Square" lang="Dutch">Square</Localized>
-    <Localized key="Regular polygon" lang="English">Regular polygon</Localized>
-    <Localized key="Regular polygon" lang="French">Polygone régulier</Localized>
-    <Localized key="Regular polygon" lang="Dutch">Regular polygon</Localized>
-    <Localized key="Triangle" lang="English">Triangle</Localized>
-    <Localized key="Triangle" lang="French">Triangle</Localized>
-    <Localized key="Triangle" lang="Dutch">Triangle</Localized>
-    <Localized key="Losange" lang="English">Losange</Localized>
-    <Localized key="Losange" lang="French">Losange</Localized>
-    <Localized key="Losange" lang="Dutch">Losange</Localized>
-    <Localized key="Oval" lang="English">Oval</Localized>
-    <Localized key="Oval" lang="French">Ovale</Localized>
-    <Localized key="Oval" lang="Dutch">Oval</Localized>
-    <Localized key="Circle" lang="English">Circle</Localized>
-    <Localized key="Circle" lang="French">Cercle</Localized>
-    <Localized key="Circle" lang="Dutch">Circle</Localized>
-    <Localized key="Star" lang="English">Star</Localized>
-    <Localized key="Star" lang="French">Etoile</Localized>
-    <Localized key="Star" lang="Dutch">Star</Localized>
-    <Localized key="rounded" lang="English">Rounded</Localized>
-    <Localized key="rounded" lang="French">Arrondi</Localized>
-    <Localized key="rounded" lang="Dutch">Rounded</Localized>
-    <Localized key="arc_size" lang="English">Arc size</Localized>
-    <Localized key="arc_size" lang="French">Taille de l'arc</Localized>
-    <Localized key="arc_size" lang="Dutch">Grootte boog</Localized>
-    <Localized key="points_number" lang="English">Point number</Localized>
-    <Localized key="points_number" lang="French">Nimbre de points</Localized>
-    <Localized key="points_number" lang="Dutch">Point number</Localized>
-    <Localized key="start_angle" lang="English">Start angle</Localized>
-    <Localized key="start_angle" lang="French">Angle de départ</Localized>
-    <Localized key="start_angle" lang="Dutch">Start angle</Localized>
-    <Localized key="ratio" lang="English">Ratio</Localized>
-    <Localized key="ratio" lang="French">Rapport</Localized>
-    <Localized key="ratio" lang="Dutch">Ratio</Localized>
-    <Localized key="angle_extent" lang="English">Angle extent</Localized>
-    <Localized key="angle_extent" lang="French">Extension d'angle</Localized>
-    <Localized key="angle_extent" lang="Dutch">Vergroting van de hoek</Localized>
-    <Localized key="arc_type" lang="English">Arc type</Localized>
-    <Localized key="arc_type" lang="French">Type d'arc</Localized>
-    <Localized key="arc_type" lang="Dutch">Type boog</Localized>
-    <Localized key="open" lang="English">Open</Localized>
-    <Localized key="open" lang="French">Ouvrir</Localized>
-    <Localized key="open" lang="Dutch">Open</Localized>
-    <Localized key="Open" lang="English">Open</Localized>
-    <Localized key="Open" lang="French">Ouvert</Localized>
-    <Localized key="Open" lang="Dutch">Open</Localized>
-    <Localized key="chord" lang="English">Chord</Localized>
-    <Localized key="chord" lang="French">Son</Localized>
-    <Localized key="chord" lang="Dutch">Chord</Localized>
-    <Localized key="Chord" lang="English">Chord</Localized>
-    <Localized key="Chord" lang="French">Chord</Localized>
-    <Localized key="Chord" lang="Dutch">Chord</Localized>
-    <Localized key="pie" lang="English">Pie</Localized>
-    <Localized key="pie" lang="French">Camembert</Localized>
-    <Localized key="pie" lang="Dutch">Pie</Localized>
-    <Localized key="id" lang="English">Id</Localized>
-    <Localized key="id" lang="French">Id</Localized>
-    <Localized key="id" lang="Dutch">Id</Localized>
-    <Localized key="x" lang="English">Position x</Localized>
-    <Localized key="x" lang="French">Abscisse</Localized>
-    <Localized key="x" lang="Dutch">Position x</Localized>
-    <Localized key="y" lang="English">Position y</Localized>
-    <Localized key="y" lang="French">Ordonnée</Localized>
-    <Localized key="y" lang="Dutch">Position y</Localized>
-    <Localized key="apply" lang="English">Apply</Localized>
-    <Localized key="apply" lang="French">Appliquer</Localized>
-    <Localized key="apply" lang="Dutch">Pas toe</Localized>
-    <Localized key="cancel" lang="English">Cancel</Localized>
-    <Localized key="cancel" lang="French">Annuler</Localized>
-    <Localized key="cancel" lang="Dutch">Cancel</Localized>
-    <Localized key="Carré" lang="English">Carré</Localized>
-    <Localized key="Carré" lang="French">Carré</Localized>
-    <Localized key="Carré" lang="Dutch">Carré</Localized>
-    <Localized key="Polygone régulier" lang="English">Polygone régulier</Localized>
-    <Localized key="Polygone régulier" lang="French">Polygone régulier</Localized>
-    <Localized key="Polygone régulier" lang="Dutch">Polygone régulier</Localized>
-    <Localized key="Ovale" lang="English">Ovale</Localized>
-    <Localized key="Ovale" lang="French">Ovale</Localized>
-    <Localized key="Ovale" lang="Dutch">Ovale</Localized>
-    <Localized key="Cercle" lang="English">Cercle</Localized>
-    <Localized key="Cercle" lang="French">Cercle</Localized>
-    <Localized key="Cercle" lang="Dutch">Cercle</Localized>
-    <Localized key="Étoile" lang="English">Étoile</Localized>
-    <Localized key="Étoile" lang="French">Étoile</Localized>
-    <Localized key="Étoile" lang="Dutch">Étoile</Localized>
-    <Localized key="Ouvrir" lang="English">Ouvrir</Localized>
-    <Localized key="Ouvrir" lang="French">Ouvrir</Localized>
-    <Localized key="Ouvrir" lang="Dutch">Ouvrir</Localized>
-    <Localized key="Son" lang="English">Son</Localized>
-    <Localized key="Son" lang="French">Son</Localized>
-    <Localized key="Son" lang="Dutch">Son</Localized>
-    <Localized key="camember" lang="English">Pie</Localized>
-    <Localized key="camember" lang="French">Camembert</Localized>
-    <Localized key="camember" lang="Dutch">Pie</Localized>
-    <Localized key="boog (arc)" lang="English">boog (arc)</Localized>
-    <Localized key="boog (arc)" lang="French">boog (arc)</Localized>
-    <Localized key="boog (arc)" lang="Dutch">boog (arc)</Localized>
-    <Localized key="Curved polyline" lang="English">Curved polyline</Localized>
-    <Localized key="Curved polyline" lang="French">Curved polyline</Localized>
-    <Localized key="Curved polyline" lang="Dutch">Curved polyline</Localized>
-    <Localized key="line_type" lang="English">line_type</Localized>
-    <Localized key="line_type" lang="French">line_type</Localized>
-    <Localized key="line_type" lang="Dutch">line_type</Localized>
-    <Localized key="center_to_center" lang="English">Center to center</Localized>
-    <Localized key="center_to_center" lang="French">Centre à centre</Localized>
-    <Localized key="center_to_center" lang="Dutch">Center tot center</Localized>
-    <Localized key="Center to center" lang="English">Center to center</Localized>
-    <Localized key="Center to center" lang="French">Center to center</Localized>
-    <Localized key="Center to center" lang="Dutch">Center to center</Localized>
-    <Localized key="minimal_length" lang="English">Minimal length</Localized>
-    <Localized key="minimal_length" lang="French">Longueur minimale</Localized>
-    <Localized key="minimal_length" lang="Dutch">Minimale lengte</Localized>
-    <Localized key="Minimal length" lang="English">Minimal length</Localized>
-    <Localized key="Minimal length" lang="French">Minimal length</Localized>
-    <Localized key="Minimal length" lang="Dutch">Minimal length</Localized>
-    <Localized key="funny" lang="English">funny</Localized>
-    <Localized key="funny" lang="French">amusant</Localized>
-    <Localized key="funny" lang="Dutch">leuk</Localized>
-    <Localized key="adjustable" lang="English">adjustable</Localized>
-    <Localized key="adjustable" lang="French">ajustable</Localized>
-    <Localized key="adjustable" lang="Dutch">regelbaar</Localized>
-    <Localized key="Line connector" lang="English">Line connector</Localized>
-    <Localized key="Line connector" lang="French">Line connector</Localized>
-    <Localized key="Line connector" lang="Dutch">Line connector</Localized>
-    <Localized key="straight_when_possible" lang="English">Straight when possible</Localized>
-    <Localized key="straight_when_possible" lang="French">Droit si possible</Localized>
-    <Localized key="straight_when_possible" lang="Dutch">Recht als het mogelijk is</Localized>
-    <Localized key="north" lang="English">North</Localized>
-    <Localized key="north" lang="French">Nord</Localized>
-    <Localized key="north" lang="Dutch">Noorden</Localized>
-    <Localized key="east" lang="English">East</Localized>
-    <Localized key="east" lang="French">Est</Localized>
-    <Localized key="east" lang="Dutch">Oosten</Localized>
-    <Localized key="south" lang="English">South</Localized>
-    <Localized key="south" lang="French">Sud</Localized>
-    <Localized key="south" lang="Dutch">Zuiden</Localized>
-    <Localized key="west" lang="English">West</Localized>
-    <Localized key="west" lang="French">Ouest</Localized>
-    <Localized key="west" lang="Dutch">Westen</Localized>
-    <Localized key="North" lang="English">North</Localized>
-    <Localized key="North" lang="French">North</Localized>
-    <Localized key="North" lang="Dutch">North</Localized>
-    <Localized key="East" lang="English">East</Localized>
-    <Localized key="East" lang="French">East</Localized>
-    <Localized key="East" lang="Dutch">East</Localized>
-    <Localized key="South" lang="English">South</Localized>
-    <Localized key="South" lang="French">South</Localized>
-    <Localized key="South" lang="Dutch">South</Localized>
-    <Localized key="West" lang="English">West</Localized>
-    <Localized key="West" lang="French">West</Localized>
-    <Localized key="West" lang="Dutch">West</Localized>
-    <Localized key="end_orientation" lang="English">End orientation</Localized>
-    <Localized key="end_orientation" lang="French">Fin orientation</Localized>
-    <Localized key="end_orientation" lang="Dutch">Einde van de orientatie</Localized>
-    <Localized key="start_orientation" lang="English">Start orientation</Localized>
-    <Localized key="start_orientation" lang="French">Début d'orientation</Localized>
-    <Localized key="start_orientation" lang="Dutch">Start orientatie</Localized>
-    <Localized key="layout_constraints" lang="English">Layout constraints</Localized>
-    <Localized key="layout_constraints" lang="French">Contraintes</Localized>
-    <Localized key="layout_constraints" lang="Dutch">Layout constraints</Localized>
-    <Localized key="none" lang="English">None</Localized>
-    <Localized key="none" lang="French">Aucun</Localized>
-    <Localized key="none" lang="Dutch">Geen enkele</Localized>
-    <Localized key="orthogonal_layout" lang="English">Orthogonal layout</Localized>
-    <Localized key="orthogonal_layout" lang="French">Mise en page orthogonale</Localized>
-    <Localized key="orthogonal_layout" lang="Dutch">Orthogonale layout</Localized>
-    <Localized key="orthogonal_layout_horizontal_first" lang="English">Orthogonal layout horizontal first</Localized>
-    <Localized key="orthogonal_layout_horizontal_first" lang="French">Mise en page orthogonale (horizontal d'abord)</Localized>
-    <Localized key="orthogonal_layout_horizontal_first" lang="Dutch">Orthogonale layout (horizontaal eerst)</Localized>
-    <Localized key="orthogonal_layout_vertical_first" lang="English">orthogonal layout vertical first</Localized>
-    <Localized key="orthogonal_layout_vertical_first" lang="French">Mise en page orthogonale (vertital d'abord)</Localized>
-    <Localized key="orthogonal_layout_vertical_first" lang="Dutch">Orthogonale layout (vertikaal eerst)</Localized>
-    <Localized key="horizontal_or_vertical_layout" lang="English">Horizontal or vertical layout</Localized>
-    <Localized key="horizontal_or_vertical_layout" lang="French">Layout horizontal ou vertical</Localized>
-    <Localized key="horizontal_or_vertical_layout" lang="Dutch">Horizontale of verticale layout</Localized>
-    <Localized key="horizontal_layout" lang="English">Horizontal layout</Localized>
-    <Localized key="horizontal_layout" lang="French">Mise en page horizontale</Localized>
-    <Localized key="horizontal_layout" lang="Dutch">Horizontale layout</Localized>
-    <Localized key="vertical_layout" lang="English">Vertical layout</Localized>
-    <Localized key="vertical_layout" lang="French">Mise en page verticale</Localized>
-    <Localized key="vertical_layout" lang="Dutch">Vertikale layout</Localized>
-    <Localized key="orientations_fixed" lang="English">Orientations fixed</Localized>
-    <Localized key="orientations_fixed" lang="French">Orientations fixées</Localized>
-    <Localized key="orientations_fixed" lang="Dutch">Vastgelegde orientatie</Localized>
-    <Localized key="start_orientation_fixed" lang="English">Start orientation fixed</Localized>
-    <Localized key="start_orientation_fixed" lang="French">Direction initiale réparée</Localized>
-    <Localized key="start_orientation_fixed" lang="Dutch">Start orientatie vastgesteld</Localized>
-    <Localized key="end_orientation_fixed" lang="English">End orientation fixed</Localized>
-    <Localized key="end_orientation_fixed" lang="French">Orientation finale fixe</Localized>
-    <Localized key="end_orientation_fixed" lang="Dutch">Eind orientatie vastgelegd</Localized>
-    <Localized key="None" lang="English">None</Localized>
-    <Localized key="None" lang="French">None</Localized>
-    <Localized key="None" lang="Dutch">None</Localized>
-    <Localized key="Orthogonal layout" lang="English">Orthogonal layout</Localized>
-    <Localized key="Orthogonal layout" lang="French">Orthogonal layout</Localized>
-    <Localized key="Orthogonal layout" lang="Dutch">Orthogonal layout</Localized>
-    <Localized key="Orthogonal layout horizontal first" lang="English">Orthogonal layout horizontal first</Localized>
-    <Localized key="Orthogonal layout horizontal first" lang="French">Orthogonal layout horizontal first</Localized>
-    <Localized key="Orthogonal layout horizontal first" lang="Dutch">Orthogonal layout horizontal first</Localized>
-    <Localized key="orthogonal layout vertical first" lang="English">orthogonal layout vertical first</Localized>
-    <Localized key="orthogonal layout vertical first" lang="French">orthogonal layout vertical first</Localized>
-    <Localized key="orthogonal layout vertical first" lang="Dutch">orthogonal layout vertical first</Localized>
-    <Localized key="Horizontal or vertical layout" lang="English">Horizontal or vertical layout</Localized>
-    <Localized key="Horizontal or vertical layout" lang="French">Horizontal or vertical layout</Localized>
-    <Localized key="Horizontal or vertical layout" lang="Dutch">Horizontal or vertical layout</Localized>
-    <Localized key="Horizontal layout" lang="English">Horizontal layout</Localized>
-    <Localized key="Horizontal layout" lang="French">Horizontal layout</Localized>
-    <Localized key="Horizontal layout" lang="Dutch">Horizontal layout</Localized>
-    <Localized key="Vertical layout" lang="English">Vertical layout</Localized>
-    <Localized key="Vertical layout" lang="French">Vertical layout</Localized>
-    <Localized key="Vertical layout" lang="Dutch">Vertical layout</Localized>
-    <Localized key="Orientations fixed" lang="English">Orientations fixed</Localized>
-    <Localized key="Orientations fixed" lang="French">Orientations fixed</Localized>
-    <Localized key="Orientations fixed" lang="Dutch">Orientations fixed</Localized>
-    <Localized key="Start orientation fixed" lang="English">Start orientation fixed</Localized>
-    <Localized key="Start orientation fixed" lang="French">Start orientation fixed</Localized>
-    <Localized key="Start orientation fixed" lang="Dutch">Start orientation fixed</Localized>
-    <Localized key="End orientation fixed" lang="English">End orientation fixed</Localized>
-    <Localized key="End orientation fixed" lang="French">End orientation fixed</Localized>
-    <Localized key="End orientation fixed" lang="Dutch">End orientation fixed</Localized>
-    <Localized key="start_location" lang="English">start_location</Localized>
-    <Localized key="start_location" lang="French">start_location</Localized>
-    <Localized key="start_location" lang="Dutch">start_location</Localized>
-    <Localized key="end_location_fixed" lang="English">End location fixed</Localized>
-    <Localized key="end_location_fixed" lang="French">End point fixe</Localized>
-    <Localized key="end_location_fixed" lang="Dutch">Eind punt niet verplaatsbeer</Localized>
-    <Localized key="fixed" lang="English">fixed</Localized>
-    <Localized key="fixed" lang="French">fixed</Localized>
-    <Localized key="fixed" lang="Dutch">fixed</Localized>
-    <Localized key="draggable" lang="English">draggable</Localized>
-    <Localized key="draggable" lang="French">draggable</Localized>
-    <Localized key="draggable" lang="Dutch">draggable</Localized>
-    <Localized key="adjustability" lang="English">adjustability</Localized>
-    <Localized key="adjustability" lang="French">ajustabilité</Localized>
-    <Localized key="adjustability" lang="Dutch">regelbaarheid</Localized>
-    <Localized key="auto_layout" lang="English">Automatic layout</Localized>
-    <Localized key="auto_layout" lang="French">Disposition automatique</Localized>
-    <Localized key="auto_layout" lang="Dutch">Automatic layout</Localized>
-    <Localized key="basically_adjustable" lang="English">Adjustable with a control point</Localized>
-    <Localized key="basically_adjustable" lang="French">Ajustement avec un point de contrôle</Localized>
-    <Localized key="basically_adjustable" lang="Dutch">Adjustable with a control point</Localized>
-    <Localized key="fully_adjustable" lang="English">Fully adjustable</Localized>
-    <Localized key="fully_adjustable" lang="French">Complètement ajustable</Localized>
-    <Localized key="fully_adjustable" lang="Dutch">Fully adjustable</Localized>
-    <Localized key="Automatic layout" lang="English">Automatic layout</Localized>
-    <Localized key="Automatic layout" lang="French">Automatic layout</Localized>
-    <Localized key="Automatic layout" lang="Dutch">Automatic layout</Localized>
-    <Localized key="Adjustable with a control point" lang="English">Adjustable with a control point</Localized>
-    <Localized key="Adjustable with a control point" lang="French">Adjustable with a control point</Localized>
-    <Localized key="Adjustable with a control point" lang="Dutch">Adjustable with a control point</Localized>
-    <Localized key="Fully adjustable" lang="English">Fully adjustable</Localized>
-    <Localized key="Fully adjustable" lang="French">Fully adjustable</Localized>
-    <Localized key="Fully adjustable" lang="Dutch">Fully adjustable</Localized>
-    <Localized key="arc_size_(pixels)" lang="English">arc size (pixels)</Localized>
-    <Localized key="arc_size_(pixels)" lang="French">Taille de l'arc (pixels)</Localized>
-    <Localized key="arc_size_(pixels)" lang="Dutch">Grootte boog (pixels)</Localized>
-    <Localized key="overlap_(pixels)" lang="English">Overlap (pixels)</Localized>
-    <Localized key="overlap_(pixels)" lang="French">Chevauchement (pixels)</Localized>
-    <Localized key="overlap_(pixels)" lang="Dutch">Overlapping (pixels)</Localized>
-    <Localized key="Layout" lang="English">Layout</Localized>
-    <Localized key="Layout" lang="French">Layout</Localized>
-    <Localized key="Layout" lang="Dutch">Layout</Localized>
-    <Localized key="Adjustability" lang="English">Adjustability</Localized>
-    <Localized key="Adjustability" lang="French">Adjustability</Localized>
-    <Localized key="Adjustability" lang="Dutch">Adjustability</Localized>
-    <Localized key="Advanced" lang="English">Advanced</Localized>
-    <Localized key="Advanced" lang="French">Avancé</Localized>
-    <Localized key="Advanced" lang="Dutch">Geavanceerd</Localized>
-    <Localized key="line" lang="English">line</Localized>
-    <Localized key="line" lang="French">ligne</Localized>
-    <Localized key="line" lang="Dutch">line</Localized>
-    <Localized key="rect_polylin" lang="English">Rect polyline</Localized>
-    <Localized key="rect_polylin" lang="French">Polyligne rectangle</Localized>
-    <Localized key="rect_polylin" lang="Dutch">Rect polyline</Localized>
-    <Localized key="curve" lang="English">Curve</Localized>
-    <Localized key="curve" lang="French">courbe</Localized>
-    <Localized key="curve" lang="Dutch">Curve</Localized>
-    <Localized key="curved_polylin" lang="English">Curved polyline</Localized>
-    <Localized key="curved_polylin" lang="French">Poly-ligne courbe</Localized>
-    <Localized key="curved_polylin" lang="Dutch">Gebogen poly-lijn</Localized>
-    <Localized key="custom" lang="English">custom</Localized>
-    <Localized key="custom" lang="French">sur mesure</Localized>
-    <Localized key="custom" lang="Dutch">op maat</Localized>
-    <Localized key="Rect polyline" lang="English">Rect polyline</Localized>
-    <Localized key="Rect polyline" lang="French">Rect polyline</Localized>
-    <Localized key="Rect polyline" lang="Dutch">Rect polyline</Localized>
-    <Localized key="Curve" lang="English">Curve</Localized>
-    <Localized key="Curve" lang="French">Curve</Localized>
-    <Localized key="Curve" lang="Dutch">Curve</Localized>
-    <Localized key="connector_type" lang="English">Connector type</Localized>
-    <Localized key="connector_type" lang="French">Type de connecteur</Localized>
-    <Localized key="connector_type" lang="Dutch">Connectie type</Localized>
-    <Localized key="size" lang="English">Size</Localized>
-    <Localized key="size" lang="French">Taille</Localized>
-    <Localized key="size" lang="Dutch">Afmetingen</Localized>
-    <Localized key="arrow" lang="English">Arrow</Localized>
-    <Localized key="arrow" lang="French">Flèche</Localized>
-    <Localized key="arrow" lang="Dutch">Pijl</Localized>
-    <Localized key="plain_arrow" lang="English">Plain arrow</Localized>
-    <Localized key="plain_arrow" lang="French">Flèche pleine</Localized>
-    <Localized key="plain_arrow" lang="Dutch">Volgekleurde pijl</Localized>
-    <Localized key="filled_arrow" lang="English">Filled arrow</Localized>
-    <Localized key="filled_arrow" lang="French">Flèche pleine</Localized>
-    <Localized key="filled_arrow" lang="Dutch">Volgekleurde pijl</Localized>
-    <Localized key="plain_double_arrow" lang="English">Plain double arrow</Localized>
-    <Localized key="plain_double_arrow" lang="French">Double flèche pleine</Localized>
-    <Localized key="plain_double_arrow" lang="Dutch">Volgekleurde dubbele pijl</Localized>
-    <Localized key="filled_double_arrow" lang="English">Filled double arrow</Localized>
-    <Localized key="filled_double_arrow" lang="French">Double flèche pleine</Localized>
-    <Localized key="filled_double_arrow" lang="Dutch">Volgekleurde dubbele pijl</Localized>
-    <Localized key="plain_circle" lang="English">Plain circle</Localized>
-    <Localized key="plain_circle" lang="French">Disque</Localized>
-    <Localized key="plain_circle" lang="Dutch">Volgekleurde cirkel</Localized>
-    <Localized key="filled_circle" lang="English">Filled circle</Localized>
-    <Localized key="filled_circle" lang="French">Cercle plein</Localized>
-    <Localized key="filled_circle" lang="Dutch">Volgekleurde cirkel</Localized>
-    <Localized key="plain_square" lang="English">Plain square</Localized>
-    <Localized key="plain_square" lang="French">Carré plein</Localized>
-    <Localized key="plain_square" lang="Dutch">Volgekleurd vierkant</Localized>
-    <Localized key="filled_square" lang="English">Filled square</Localized>
-    <Localized key="filled_square" lang="French">Carré plein</Localized>
-    <Localized key="filled_square" lang="Dutch">Volgekleurd vierkant</Localized>
-    <Localized key="plain_diamond" lang="English">Plain diamond</Localized>
-    <Localized key="plain_diamond" lang="French">Diamant plein</Localized>
-    <Localized key="plain_diamond" lang="Dutch">Volgekleurde diamant</Localized>
-    <Localized key="plain_long_diamond" lang="English">Plain long diamond</Localized>
-    <Localized key="plain_long_diamond" lang="French">Long losange plein</Localized>
-    <Localized key="plain_long_diamond" lang="Dutch">Volgekleurde langwerpige diamant</Localized>
-    <Localized key="filled_diamond" lang="English">Filled diamond</Localized>
-    <Localized key="filled_diamond" lang="French">Losange plein</Localized>
-    <Localized key="filled_diamond" lang="Dutch">Volgekleurde Ruit</Localized>
-    <Localized key="default_flow" lang="English">Default flow</Localized>
-    <Localized key="default_flow" lang="French">Chemin par défaut</Localized>
-    <Localized key="default_flow" lang="Dutch">Standaard pad</Localized>
-    <Localized key="Arrow" lang="English">Arrow</Localized>
-    <Localized key="Arrow" lang="French">Arrow</Localized>
-    <Localized key="Arrow" lang="Dutch">Arrow</Localized>
-    <Localized key="Plain arrow" lang="English">Plain arrow</Localized>
-    <Localized key="Plain arrow" lang="French">Plain arrow</Localized>
-    <Localized key="Plain arrow" lang="Dutch">Plain arrow</Localized>
-    <Localized key="Filled arrow" lang="English">Filled arrow</Localized>
-    <Localized key="Filled arrow" lang="French">Filled arrow</Localized>
-    <Localized key="Filled arrow" lang="Dutch">Filled arrow</Localized>
-    <Localized key="Plain double arrow" lang="English">Plain double arrow</Localized>
-    <Localized key="Plain double arrow" lang="French">Plain double arrow</Localized>
-    <Localized key="Plain double arrow" lang="Dutch">Plain double arrow</Localized>
-    <Localized key="Filled double arrow" lang="English">Filled double arrow</Localized>
-    <Localized key="Filled double arrow" lang="French">Filled double arrow</Localized>
-    <Localized key="Filled double arrow" lang="Dutch">Filled double arrow</Localized>
-    <Localized key="Plain circle" lang="English">Plain circle</Localized>
-    <Localized key="Plain circle" lang="French">Plain circle</Localized>
-    <Localized key="Plain circle" lang="Dutch">Plain circle</Localized>
-    <Localized key="Filled circle" lang="English">Filled circle</Localized>
-    <Localized key="Filled circle" lang="French">Filled circle</Localized>
-    <Localized key="Filled circle" lang="Dutch">Filled circle</Localized>
-    <Localized key="Plain square" lang="English">Plain square</Localized>
-    <Localized key="Plain square" lang="French">Plain square</Localized>
-    <Localized key="Plain square" lang="Dutch">Plain square</Localized>
-    <Localized key="Filled square" lang="English">Filled square</Localized>
-    <Localized key="Filled square" lang="French">Filled square</Localized>
-    <Localized key="Filled square" lang="Dutch">Filled square</Localized>
-    <Localized key="Plain diamond" lang="English">Plain diamond</Localized>
-    <Localized key="Plain diamond" lang="French">Plain diamond</Localized>
-    <Localized key="Plain diamond" lang="Dutch">Plain diamond</Localized>
-    <Localized key="Plain long diamond" lang="English">Plain long diamond</Localized>
-    <Localized key="Plain long diamond" lang="French">Plain long diamond</Localized>
-    <Localized key="Plain long diamond" lang="Dutch">Plain long diamond</Localized>
-    <Localized key="Filled diamond" lang="English">Filled diamond</Localized>
-    <Localized key="Filled diamond" lang="French">Filled diamond</Localized>
-    <Localized key="Filled diamond" lang="Dutch">Filled diamond</Localized>
-    <Localized key="Default flow" lang="English">Default flow</Localized>
-    <Localized key="Default flow" lang="French">Default flow</Localized>
-    <Localized key="Default flow" lang="Dutch">Default flow</Localized>
-    <Localized key="start_symbol" lang="English">Start symbol</Localized>
-    <Localized key="start_symbol" lang="French">Symbole de départ</Localized>
-    <Localized key="start_symbol" lang="Dutch">Start symbool</Localized>
-    <Localized key="middle_location" lang="English">Middle location</Localized>
-    <Localized key="middle_location" lang="French">Espace de milieu</Localized>
-    <Localized key="middle_location" lang="Dutch">Tussenruimte</Localized>
-    <Localized key="end_symbol" lang="English">End symbol</Localized>
-    <Localized key="end_symbol" lang="French">Symbole de fin</Localized>
-    <Localized key="end_symbol" lang="Dutch">Eind symbool</Localized>
-    <Localized key="middle_symbol" lang="English">middle symbol</Localized>
-    <Localized key="middle_symbol" lang="French">Symbole du milieu</Localized>
-    <Localized key="middle_symbol" lang="Dutch">Middelste symbool</Localized>
-    <Localized key="Symbols" lang="English">Symbols</Localized>
-    <Localized key="Symbols" lang="French">Symbols</Localized>
-    <Localized key="Symbols" lang="Dutch">Symbols</Localized>
-    <Localized key="adjustable_bounds" lang="English">adjustable bounds</Localized>
-    <Localized key="adjustable_bounds" lang="French">Liens adjustables</Localized>
-    <Localized key="adjustable_bounds" lang="Dutch">regelbare limitien</Localized>
-    <Localized key="Curve connector" lang="English">Curve connector</Localized>
-    <Localized key="Curve connector" lang="French">Curve connector</Localized>
-    <Localized key="Curve connector" lang="Dutch">Curve connector</Localized>
-    <Localized key="Centre à centre" lang="English">Centre à centre</Localized>
-    <Localized key="Centre à centre" lang="French">Centre à centre</Localized>
-    <Localized key="Centre à centre" lang="Dutch">Centre à centre</Localized>
-    <Localized key="Longueur minimale" lang="English">Longueur minimale</Localized>
-    <Localized key="Longueur minimale" lang="French">Longueur minimale</Localized>
-    <Localized key="Longueur minimale" lang="Dutch">Longueur minimale</Localized>
-    <Localized key="amusant" lang="English">amusant</Localized>
-    <Localized key="amusant" lang="French">amusant</Localized>
-    <Localized key="amusant" lang="Dutch">amusant</Localized>
-    <Localized key="ajustable" lang="English">ajustable</Localized>
-    <Localized key="ajustable" lang="French">ajustable</Localized>
-    <Localized key="ajustable" lang="Dutch">ajustable</Localized>
-    <Localized key="Nord" lang="English">Nord</Localized>
-    <Localized key="Nord" lang="French">Nord</Localized>
-    <Localized key="Nord" lang="Dutch">Nord</Localized>
-    <Localized key="Est" lang="English">Est</Localized>
-    <Localized key="Est" lang="French">Est</Localized>
-    <Localized key="Est" lang="Dutch">Est</Localized>
-    <Localized key="Sud" lang="English">Sud</Localized>
-    <Localized key="Sud" lang="French">Sud</Localized>
-    <Localized key="Sud" lang="Dutch">Sud</Localized>
-    <Localized key="Ouest" lang="English">Ouest</Localized>
-    <Localized key="Ouest" lang="French">Ouest</Localized>
-    <Localized key="Ouest" lang="Dutch">Ouest</Localized>
-    <Localized key="Aucun" lang="English">Aucun</Localized>
-    <Localized key="Aucun" lang="French">Aucun</Localized>
-    <Localized key="Aucun" lang="Dutch">Aucun</Localized>
-    <Localized key="Mise en page orthogonale" lang="English">Mise en page orthogonale</Localized>
-    <Localized key="Mise en page orthogonale" lang="French">Mise en page orthogonale</Localized>
-    <Localized key="Mise en page orthogonale" lang="Dutch">Mise en page orthogonale</Localized>
-    <Localized key="Mise en page orthogonale (horizontal d'abord)" lang="English">Mise en page orthogonale (horizontal d'abord)</Localized>
-    <Localized key="Mise en page orthogonale (horizontal d'abord)" lang="French">Mise en page orthogonale (horizontal d'abord)</Localized>
-    <Localized key="Mise en page orthogonale (horizontal d'abord)" lang="Dutch">Mise en page orthogonale (horizontal d'abord)</Localized>
-    <Localized key="Mise en page orthogonale (vertital d'abord)" lang="English">Mise en page orthogonale (vertital d'abord)</Localized>
-    <Localized key="Mise en page orthogonale (vertital d'abord)" lang="French">Mise en page orthogonale (vertital d'abord)</Localized>
-    <Localized key="Mise en page orthogonale (vertital d'abord)" lang="Dutch">Mise en page orthogonale (vertital d'abord)</Localized>
-    <Localized key="Layout horizontal ou vertical" lang="English">Layout horizontal ou vertical</Localized>
-    <Localized key="Layout horizontal ou vertical" lang="French">Layout horizontal ou vertical</Localized>
-    <Localized key="Layout horizontal ou vertical" lang="Dutch">Layout horizontal ou vertical</Localized>
-    <Localized key="Mise en page horizontale" lang="English">Mise en page horizontale</Localized>
-    <Localized key="Mise en page horizontale" lang="French">Mise en page horizontale</Localized>
-    <Localized key="Mise en page horizontale" lang="Dutch">Mise en page horizontale</Localized>
-    <Localized key="Mise en page verticale" lang="English">Mise en page verticale</Localized>
-    <Localized key="Mise en page verticale" lang="French">Mise en page verticale</Localized>
-    <Localized key="Mise en page verticale" lang="Dutch">Mise en page verticale</Localized>
-    <Localized key="Orientations fixées" lang="English">Orientations fixées</Localized>
-    <Localized key="Orientations fixées" lang="French">Orientations fixées</Localized>
-    <Localized key="Orientations fixées" lang="Dutch">Orientations fixées</Localized>
-    <Localized key="Direction initiale réparée" lang="English">Direction initiale réparée</Localized>
-    <Localized key="Direction initiale réparée" lang="French">Direction initiale réparée</Localized>
-    <Localized key="Direction initiale réparée" lang="Dutch">Direction initiale réparée</Localized>
-    <Localized key="Orientation finale fixe" lang="English">Orientation finale fixe</Localized>
-    <Localized key="Orientation finale fixe" lang="French">Orientation finale fixe</Localized>
-    <Localized key="Orientation finale fixe" lang="Dutch">Orientation finale fixe</Localized>
-    <Localized key="Disposition automatique" lang="English">Disposition automatique</Localized>
-    <Localized key="Disposition automatique" lang="French">Disposition automatique</Localized>
-    <Localized key="Disposition automatique" lang="Dutch">Disposition automatique</Localized>
-    <Localized key="Ajustement avec un point de contrôle" lang="English">Ajustement avec un point de contrôle</Localized>
-    <Localized key="Ajustement avec un point de contrôle" lang="French">Ajustement avec un point de contrôle</Localized>
-    <Localized key="Ajustement avec un point de contrôle" lang="Dutch">Ajustement avec un point de contrôle</Localized>
-    <Localized key="Complètement ajustable" lang="English">Complètement ajustable</Localized>
-    <Localized key="Complètement ajustable" lang="French">Complètement ajustable</Localized>
-    <Localized key="Complètement ajustable" lang="Dutch">Complètement ajustable</Localized>
-    <Localized key="ligne" lang="English">ligne</Localized>
-    <Localized key="ligne" lang="French">ligne</Localized>
-    <Localized key="ligne" lang="Dutch">ligne</Localized>
-    <Localized key="Polyligne rectangle" lang="English">Polyligne rectangle</Localized>
-    <Localized key="Polyligne rectangle" lang="French">Polyligne rectangle</Localized>
-    <Localized key="Polyligne rectangle" lang="Dutch">Polyligne rectangle</Localized>
-    <Localized key="courbe" lang="English">courbe</Localized>
-    <Localized key="courbe" lang="French">courbe</Localized>
-    <Localized key="courbe" lang="Dutch">courbe</Localized>
-    <Localized key="Poly-ligne courbe" lang="English">Poly-ligne courbe</Localized>
-    <Localized key="Poly-ligne courbe" lang="French">Poly-ligne courbe</Localized>
-    <Localized key="Poly-ligne courbe" lang="Dutch">Poly-ligne courbe</Localized>
-    <Localized key="sur mesure" lang="English">sur mesure</Localized>
-    <Localized key="sur mesure" lang="French">sur mesure</Localized>
-    <Localized key="sur mesure" lang="Dutch">sur mesure</Localized>
-    <Localized key="Flèche" lang="English">Flèche</Localized>
-    <Localized key="Flèche" lang="French">Flèche</Localized>
-    <Localized key="Flèche" lang="Dutch">Flèche</Localized>
-    <Localized key="Flèche pleine" lang="English">Flèche pleine</Localized>
-    <Localized key="Flèche pleine" lang="French">Flèche pleine</Localized>
-    <Localized key="Flèche pleine" lang="Dutch">Flèche pleine</Localized>
-    <Localized key="Double flèche pleine" lang="English">Double flèche pleine</Localized>
-    <Localized key="Double flèche pleine" lang="French">Double flèche pleine</Localized>
-    <Localized key="Double flèche pleine" lang="Dutch">Double flèche pleine</Localized>
-    <Localized key="Disque" lang="English">Disque</Localized>
-    <Localized key="Disque" lang="French">Disque</Localized>
-    <Localized key="Disque" lang="Dutch">Disque</Localized>
-    <Localized key="Cercle plein" lang="English">Cercle plein</Localized>
-    <Localized key="Cercle plein" lang="French">Cercle plein</Localized>
-    <Localized key="Cercle plein" lang="Dutch">Cercle plein</Localized>
-    <Localized key="Carré plein" lang="English">Carré plein</Localized>
-    <Localized key="Carré plein" lang="French">Carré plein</Localized>
-    <Localized key="Carré plein" lang="Dutch">Carré plein</Localized>
-    <Localized key="Diamant plein" lang="English">Diamant plein</Localized>
-    <Localized key="Diamant plein" lang="French">Diamant plein</Localized>
-    <Localized key="Diamant plein" lang="Dutch">Diamant plein</Localized>
-    <Localized key="Long losange plein" lang="English">Long losange plein</Localized>
-    <Localized key="Long losange plein" lang="French">Long losange plein</Localized>
-    <Localized key="Long losange plein" lang="Dutch">Long losange plein</Localized>
-    <Localized key="Losange plein" lang="English">Losange plein</Localized>
-    <Localized key="Losange plein" lang="French">Losange plein</Localized>
-    <Localized key="Losange plein" lang="Dutch">Losange plein</Localized>
-    <Localized key="Chemin par défaut" lang="English">Chemin par défaut</Localized>
-    <Localized key="Chemin par défaut" lang="French">Chemin par défaut</Localized>
-    <Localized key="Chemin par défaut" lang="Dutch">Chemin par défaut</Localized>
-    <Localized key="Center tot center" lang="English">Center tot center</Localized>
-    <Localized key="Center tot center" lang="French">Center tot center</Localized>
-    <Localized key="Center tot center" lang="Dutch">Center tot center</Localized>
-    <Localized key="Minimale lengte" lang="English">Minimale lengte</Localized>
-    <Localized key="Minimale lengte" lang="French">Minimale lengte</Localized>
-    <Localized key="Minimale lengte" lang="Dutch">Minimale lengte</Localized>
-    <Localized key="leuk" lang="English">leuk</Localized>
-    <Localized key="leuk" lang="French">leuk</Localized>
-    <Localized key="leuk" lang="Dutch">leuk</Localized>
-    <Localized key="regelbaar" lang="English">regelbaar</Localized>
-    <Localized key="regelbaar" lang="French">regelbaar</Localized>
-    <Localized key="regelbaar" lang="Dutch">regelbaar</Localized>
-    <Localized key="Noorden" lang="English">Noorden</Localized>
-    <Localized key="Noorden" lang="French">Noorden</Localized>
-    <Localized key="Noorden" lang="Dutch">Noorden</Localized>
-    <Localized key="Oosten" lang="English">Oosten</Localized>
-    <Localized key="Oosten" lang="French">Oosten</Localized>
-    <Localized key="Oosten" lang="Dutch">Oosten</Localized>
-    <Localized key="Zuiden" lang="English">Zuiden</Localized>
-    <Localized key="Zuiden" lang="French">Zuiden</Localized>
-    <Localized key="Zuiden" lang="Dutch">Zuiden</Localized>
-    <Localized key="Westen" lang="English">Westen</Localized>
-    <Localized key="Westen" lang="French">Westen</Localized>
-    <Localized key="Westen" lang="Dutch">Westen</Localized>
-    <Localized key="Geen enkele" lang="English">Geen enkele</Localized>
-    <Localized key="Geen enkele" lang="French">Geen enkele</Localized>
-    <Localized key="Geen enkele" lang="Dutch">Geen enkele</Localized>
-    <Localized key="Orthogonale layout" lang="English">Orthogonale layout</Localized>
-    <Localized key="Orthogonale layout" lang="French">Orthogonale layout</Localized>
-    <Localized key="Orthogonale layout" lang="Dutch">Orthogonale layout</Localized>
-    <Localized key="Orthogonale layout (horizontaal eerst)" lang="English">Orthogonale layout (horizontaal eerst)</Localized>
-    <Localized key="Orthogonale layout (horizontaal eerst)" lang="French">Orthogonale layout (horizontaal eerst)</Localized>
-    <Localized key="Orthogonale layout (horizontaal eerst)" lang="Dutch">Orthogonale layout (horizontaal eerst)</Localized>
-    <Localized key="Orthogonale layout (vertikaal eerst)" lang="English">Orthogonale layout (vertikaal eerst)</Localized>
-    <Localized key="Orthogonale layout (vertikaal eerst)" lang="French">Orthogonale layout (vertikaal eerst)</Localized>
-    <Localized key="Orthogonale layout (vertikaal eerst)" lang="Dutch">Orthogonale layout (vertikaal eerst)</Localized>
-    <Localized key="Horizontale of verticale layout" lang="English">Horizontale of verticale layout</Localized>
-    <Localized key="Horizontale of verticale layout" lang="French">Horizontale of verticale layout</Localized>
-    <Localized key="Horizontale of verticale layout" lang="Dutch">Horizontale of verticale layout</Localized>
-    <Localized key="Horizontale layout" lang="English">Horizontale layout</Localized>
-    <Localized key="Horizontale layout" lang="French">Horizontale layout</Localized>
-    <Localized key="Horizontale layout" lang="Dutch">Horizontale layout</Localized>
-    <Localized key="Vertikale layout" lang="English">Vertikale layout</Localized>
-    <Localized key="Vertikale layout" lang="French">Vertikale layout</Localized>
-    <Localized key="Vertikale layout" lang="Dutch">Vertikale layout</Localized>
-    <Localized key="Vastgelegde orientatie" lang="English">Vastgelegde orientatie</Localized>
-    <Localized key="Vastgelegde orientatie" lang="French">Vastgelegde orientatie</Localized>
-    <Localized key="Vastgelegde orientatie" lang="Dutch">Vastgelegde orientatie</Localized>
-    <Localized key="Start orientatie vastgesteld" lang="English">Start orientatie vastgesteld</Localized>
-    <Localized key="Start orientatie vastgesteld" lang="French">Start orientatie vastgesteld</Localized>
-    <Localized key="Start orientatie vastgesteld" lang="Dutch">Start orientatie vastgesteld</Localized>
-    <Localized key="Eind orientatie vastgelegd" lang="English">Eind orientatie vastgelegd</Localized>
-    <Localized key="Eind orientatie vastgelegd" lang="French">Eind orientatie vastgelegd</Localized>
-    <Localized key="Eind orientatie vastgelegd" lang="Dutch">Eind orientatie vastgelegd</Localized>
-    <Localized key="Gebogen poly-lijn" lang="English">Gebogen poly-lijn</Localized>
-    <Localized key="Gebogen poly-lijn" lang="French">Gebogen poly-lijn</Localized>
-    <Localized key="Gebogen poly-lijn" lang="Dutch">Gebogen poly-lijn</Localized>
-    <Localized key="op maat" lang="English">op maat</Localized>
-    <Localized key="op maat" lang="French">op maat</Localized>
-    <Localized key="op maat" lang="Dutch">op maat</Localized>
-    <Localized key="Pijl" lang="English">Pijl</Localized>
-    <Localized key="Pijl" lang="French">Pijl</Localized>
-    <Localized key="Pijl" lang="Dutch">Pijl</Localized>
-    <Localized key="Volgekleurde pijl" lang="English">Volgekleurde pijl</Localized>
-    <Localized key="Volgekleurde pijl" lang="French">Volgekleurde pijl</Localized>
-    <Localized key="Volgekleurde pijl" lang="Dutch">Volgekleurde pijl</Localized>
-    <Localized key="Volgekleurde dubbele pijl" lang="English">Volgekleurde dubbele pijl</Localized>
-    <Localized key="Volgekleurde dubbele pijl" lang="French">Volgekleurde dubbele pijl</Localized>
-    <Localized key="Volgekleurde dubbele pijl" lang="Dutch">Volgekleurde dubbele pijl</Localized>
-    <Localized key="Volgekleurde cirkel" lang="English">Volgekleurde cirkel</Localized>
-    <Localized key="Volgekleurde cirkel" lang="French">Volgekleurde cirkel</Localized>
-    <Localized key="Volgekleurde cirkel" lang="Dutch">Volgekleurde cirkel</Localized>
-    <Localized key="Volgekleurd vierkant" lang="English">Volgekleurd vierkant</Localized>
-    <Localized key="Volgekleurd vierkant" lang="French">Volgekleurd vierkant</Localized>
-    <Localized key="Volgekleurd vierkant" lang="Dutch">Volgekleurd vierkant</Localized>
-    <Localized key="Volgekleurde diamant" lang="English">Volgekleurde diamant</Localized>
-    <Localized key="Volgekleurde diamant" lang="French">Volgekleurde diamant</Localized>
-    <Localized key="Volgekleurde diamant" lang="Dutch">Volgekleurde diamant</Localized>
-    <Localized key="Volgekleurde langwerpige diamant" lang="English">Volgekleurde langwerpige diamant</Localized>
-    <Localized key="Volgekleurde langwerpige diamant" lang="French">Volgekleurde langwerpige diamant</Localized>
-    <Localized key="Volgekleurde langwerpige diamant" lang="Dutch">Volgekleurde langwerpige diamant</Localized>
-    <Localized key="Volgekleurde Ruit" lang="English">Volgekleurde Ruit</Localized>
-    <Localized key="Volgekleurde Ruit" lang="French">Volgekleurde Ruit</Localized>
-    <Localized key="Volgekleurde Ruit" lang="Dutch">Volgekleurde Ruit</Localized>
-    <Localized key="Standaard pad" lang="English">Standaard pad</Localized>
-    <Localized key="Standaard pad" lang="French">Standaard pad</Localized>
-    <Localized key="Standaard pad" lang="Dutch">Standaard pad</Localized>
+    <Localized key="shape_type" lang="English" value="Shape" />
+    <Localized key="shape_type" lang="French" value="Forme" />
+    <Localized key="shape_type" lang="Dutch" value="Shape" />
+    <Localized key="rectangle" lang="English" value="Rectangle" />
+    <Localized key="rectangle" lang="French" value="Rectangle" />
+    <Localized key="rectangle" lang="Dutch" value="Rectangle" />
+    <Localized key="square" lang="English" value="Square" />
+    <Localized key="square" lang="French" value="Carré" />
+    <Localized key="square" lang="Dutch" value="Square" />
+    <Localized key="rectangularoctogon" lang="English" value="Rectangular octogon" />
+    <Localized key="rectangularoctogon" lang="French" value="Octogone rectangulaire" />
+    <Localized key="rectangularoctogon" lang="Dutch" value="Rectangular octogon" />
+    <Localized key="polygon" lang="English" value="Regular polygon" />
+    <Localized key="polygon" lang="French" value="Polygone régulier" />
+    <Localized key="polygon" lang="Dutch" value="Regular polygon" />
+    <Localized key="triangle" lang="English" value="Triangle" />
+    <Localized key="triangle" lang="French" value="Triangle" />
+    <Localized key="triangle" lang="Dutch" value="Triangle" />
+    <Localized key="losange" lang="English" value="Losange" />
+    <Localized key="losange" lang="French" value="Losange" />
+    <Localized key="losange" lang="Dutch" value="Losange" />
+    <Localized key="oval" lang="English" value="Oval" />
+    <Localized key="oval" lang="French" value="Ovale" />
+    <Localized key="oval" lang="Dutch" value="Oval" />
+    <Localized key="circle" lang="English" value="Circle" />
+    <Localized key="circle" lang="French" value="Cercle" />
+    <Localized key="circle" lang="Dutch" value="Circle" />
+    <Localized key="star" lang="English" value="Star" />
+    <Localized key="star" lang="French" value="Étoile" />
+    <Localized key="star" lang="Dutch" value="Star" />
+    <Localized key="arc" lang="English" value="Arc" />
+    <Localized key="arc" lang="French" value="Arc" />
+    <Localized key="arc" lang="Dutch" value="Boog (arc)" />
+    <Localized key="custom_polygon" lang="English" value="Custom polygon" />
+    <Localized key="custom_polygon" lang="French" value="Polygone personnalisé" />
+    <Localized key="custom_polygon" lang="Dutch" value="Custom polygon" />
+    <Localized key="Rectangle" lang="English" value="Rectangle" />
+    <Localized key="Rectangle" lang="French" value="Rectangle" />
+    <Localized key="Rectangle" lang="Dutch" value="Rectangle" />
+    <Localized key="Square" lang="English" value="Square" />
+    <Localized key="Square" lang="French" value="Carré" />
+    <Localized key="Square" lang="Dutch" value="Square" />
+    <Localized key="Regular polygon" lang="English" value="Regular polygon" />
+    <Localized key="Regular polygon" lang="French" value="Polygone régulier" />
+    <Localized key="Regular polygon" lang="Dutch" value="Regular polygon" />
+    <Localized key="Triangle" lang="English" value="Triangle" />
+    <Localized key="Triangle" lang="French" value="Triangle" />
+    <Localized key="Triangle" lang="Dutch" value="Triangle" />
+    <Localized key="Losange" lang="English" value="Losange" />
+    <Localized key="Losange" lang="French" value="Losange" />
+    <Localized key="Losange" lang="Dutch" value="Losange" />
+    <Localized key="Oval" lang="English" value="Oval" />
+    <Localized key="Oval" lang="French" value="Ovale" />
+    <Localized key="Oval" lang="Dutch" value="Oval" />
+    <Localized key="Circle" lang="English" value="Circle" />
+    <Localized key="Circle" lang="French" value="Cercle" />
+    <Localized key="Circle" lang="Dutch" value="Circle" />
+    <Localized key="Star" lang="English" value="Star" />
+    <Localized key="Star" lang="French" value="Etoile" />
+    <Localized key="Star" lang="Dutch" value="Star" />
+    <Localized key="rounded" lang="English" value="Rounded" />
+    <Localized key="rounded" lang="French" value="Arrondi" />
+    <Localized key="rounded" lang="Dutch" value="Rounded" />
+    <Localized key="arc_size" lang="English" value="Arc size" />
+    <Localized key="arc_size" lang="French" value="Taille de l'arc" />
+    <Localized key="arc_size" lang="Dutch" value="Grootte boog" />
+    <Localized key="points_number" lang="English" value="Point number" />
+    <Localized key="points_number" lang="French" value="Nimbre de points" />
+    <Localized key="points_number" lang="Dutch" value="Point number" />
+    <Localized key="start_angle" lang="English" value="Start angle" />
+    <Localized key="start_angle" lang="French" value="Angle de départ" />
+    <Localized key="start_angle" lang="Dutch" value="Start angle" />
+    <Localized key="ratio" lang="English" value="Ratio" />
+    <Localized key="ratio" lang="French" value="Rapport" />
+    <Localized key="ratio" lang="Dutch" value="Ratio" />
+    <Localized key="angle_extent" lang="English" value="Angle extent" />
+    <Localized key="angle_extent" lang="French" value="Extension d'angle" />
+    <Localized key="angle_extent" lang="Dutch" value="Vergroting van de hoek" />
+    <Localized key="arc_type" lang="English" value="Arc type" />
+    <Localized key="arc_type" lang="French" value="Type d'arc" />
+    <Localized key="arc_type" lang="Dutch" value="Type boog" />
+    <Localized key="open" lang="English" value="Open" />
+    <Localized key="open" lang="French" value="Ouvrir" />
+    <Localized key="open" lang="Dutch" value="Open" />
+    <Localized key="Open" lang="English" value="Open" />
+    <Localized key="Open" lang="French" value="Ouvert" />
+    <Localized key="Open" lang="Dutch" value="Open" />
+    <Localized key="chord" lang="English" value="Chord" />
+    <Localized key="chord" lang="French" value="Son" />
+    <Localized key="chord" lang="Dutch" value="Chord" />
+    <Localized key="Chord" lang="English" value="Chord" />
+    <Localized key="Chord" lang="French" value="Chord" />
+    <Localized key="Chord" lang="Dutch" value="Chord" />
+    <Localized key="pie" lang="English" value="Pie" />
+    <Localized key="pie" lang="French" value="Camembert" />
+    <Localized key="pie" lang="Dutch" value="Pie" />
+    <Localized key="id" lang="English" value="Id" />
+    <Localized key="id" lang="French" value="Id" />
+    <Localized key="id" lang="Dutch" value="Id" />
+    <Localized key="x" lang="English" value="Position x" />
+    <Localized key="x" lang="French" value="Abscisse" />
+    <Localized key="x" lang="Dutch" value="Position x" />
+    <Localized key="y" lang="English" value="Position y" />
+    <Localized key="y" lang="French" value="Ordonnée" />
+    <Localized key="y" lang="Dutch" value="Position y" />
+    <Localized key="apply" lang="English" value="Apply" />
+    <Localized key="apply" lang="French" value="Appliquer" />
+    <Localized key="apply" lang="Dutch" value="Pas toe" />
+    <Localized key="cancel" lang="English" value="Cancel" />
+    <Localized key="cancel" lang="French" value="Annuler" />
+    <Localized key="cancel" lang="Dutch" value="Cancel" />
+    <Localized key="Carré" lang="English" value="Carré" />
+    <Localized key="Carré" lang="French" value="Carré" />
+    <Localized key="Carré" lang="Dutch" value="Carré" />
+    <Localized key="Polygone régulier" lang="English" value="Polygone régulier" />
+    <Localized key="Polygone régulier" lang="French" value="Polygone régulier" />
+    <Localized key="Polygone régulier" lang="Dutch" value="Polygone régulier" />
+    <Localized key="Ovale" lang="English" value="Ovale" />
+    <Localized key="Ovale" lang="French" value="Ovale" />
+    <Localized key="Ovale" lang="Dutch" value="Ovale" />
+    <Localized key="Cercle" lang="English" value="Cercle" />
+    <Localized key="Cercle" lang="French" value="Cercle" />
+    <Localized key="Cercle" lang="Dutch" value="Cercle" />
+    <Localized key="Étoile" lang="English" value="Étoile" />
+    <Localized key="Étoile" lang="French" value="Étoile" />
+    <Localized key="Étoile" lang="Dutch" value="Étoile" />
+    <Localized key="Ouvrir" lang="English" value="Ouvrir" />
+    <Localized key="Ouvrir" lang="French" value="Ouvrir" />
+    <Localized key="Ouvrir" lang="Dutch" value="Ouvrir" />
+    <Localized key="Son" lang="English" value="Son" />
+    <Localized key="Son" lang="French" value="Son" />
+    <Localized key="Son" lang="Dutch" value="Son" />
+    <Localized key="camember" lang="English" value="Pie" />
+    <Localized key="camember" lang="French" value="Camembert" />
+    <Localized key="camember" lang="Dutch" value="Pie" />
+    <Localized key="boog (arc)" lang="English" value="boog (arc)" />
+    <Localized key="boog (arc)" lang="French" value="boog (arc)" />
+    <Localized key="boog (arc)" lang="Dutch" value="boog (arc)" />
+    <Localized key="Curved polyline" lang="English" value="Curved polyline" />
+    <Localized key="Curved polyline" lang="French" value="Curved polyline" />
+    <Localized key="Curved polyline" lang="Dutch" value="Curved polyline" />
+    <Localized key="line_type" lang="English" value="line_type" />
+    <Localized key="line_type" lang="French" value="line_type" />
+    <Localized key="line_type" lang="Dutch" value="line_type" />
+    <Localized key="center_to_center" lang="English" value="Center to center" />
+    <Localized key="center_to_center" lang="French" value="Centre à centre" />
+    <Localized key="center_to_center" lang="Dutch" value="Center tot center" />
+    <Localized key="Center to center" lang="English" value="Center to center" />
+    <Localized key="Center to center" lang="French" value="Center to center" />
+    <Localized key="Center to center" lang="Dutch" value="Center to center" />
+    <Localized key="minimal_length" lang="English" value="Minimal length" />
+    <Localized key="minimal_length" lang="French" value="Longueur minimale" />
+    <Localized key="minimal_length" lang="Dutch" value="Minimale lengte" />
+    <Localized key="Minimal length" lang="English" value="Minimal length" />
+    <Localized key="Minimal length" lang="French" value="Minimal length" />
+    <Localized key="Minimal length" lang="Dutch" value="Minimal length" />
+    <Localized key="funny" lang="English" value="funny" />
+    <Localized key="funny" lang="French" value="amusant" />
+    <Localized key="funny" lang="Dutch" value="leuk" />
+    <Localized key="adjustable" lang="English" value="adjustable" />
+    <Localized key="adjustable" lang="French" value="ajustable" />
+    <Localized key="adjustable" lang="Dutch" value="regelbaar" />
+    <Localized key="Line connector" lang="English" value="Line connector" />
+    <Localized key="Line connector" lang="French" value="Line connector" />
+    <Localized key="Line connector" lang="Dutch" value="Line connector" />
+    <Localized key="straight_when_possible" lang="English" value="Straight when possible" />
+    <Localized key="straight_when_possible" lang="French" value="Droit si possible" />
+    <Localized key="straight_when_possible" lang="Dutch" value="Recht als het mogelijk is" />
+    <Localized key="north" lang="English" value="North" />
+    <Localized key="north" lang="French" value="Nord" />
+    <Localized key="north" lang="Dutch" value="Noorden" />
+    <Localized key="east" lang="English" value="East" />
+    <Localized key="east" lang="French" value="Est" />
+    <Localized key="east" lang="Dutch" value="Oosten" />
+    <Localized key="south" lang="English" value="South" />
+    <Localized key="south" lang="French" value="Sud" />
+    <Localized key="south" lang="Dutch" value="Zuiden" />
+    <Localized key="west" lang="English" value="West" />
+    <Localized key="west" lang="French" value="Ouest" />
+    <Localized key="west" lang="Dutch" value="Westen" />
+    <Localized key="North" lang="English" value="North" />
+    <Localized key="North" lang="French" value="North" />
+    <Localized key="North" lang="Dutch" value="North" />
+    <Localized key="East" lang="English" value="East" />
+    <Localized key="East" lang="French" value="East" />
+    <Localized key="East" lang="Dutch" value="East" />
+    <Localized key="South" lang="English" value="South" />
+    <Localized key="South" lang="French" value="South" />
+    <Localized key="South" lang="Dutch" value="South" />
+    <Localized key="West" lang="English" value="West" />
+    <Localized key="West" lang="French" value="West" />
+    <Localized key="West" lang="Dutch" value="West" />
+    <Localized key="end_orientation" lang="English" value="End orientation" />
+    <Localized key="end_orientation" lang="French" value="Fin orientation" />
+    <Localized key="end_orientation" lang="Dutch" value="Einde van de orientatie" />
+    <Localized key="start_orientation" lang="English" value="Start orientation" />
+    <Localized key="start_orientation" lang="French" value="Début d'orientation" />
+    <Localized key="start_orientation" lang="Dutch" value="Start orientatie" />
+    <Localized key="layout_constraints" lang="English" value="Layout constraints" />
+    <Localized key="layout_constraints" lang="French" value="Contraintes" />
+    <Localized key="layout_constraints" lang="Dutch" value="Layout constraints" />
+    <Localized key="none" lang="English" value="None" />
+    <Localized key="none" lang="French" value="Aucun" />
+    <Localized key="none" lang="Dutch" value="Geen enkele" />
+    <Localized key="orthogonal_layout" lang="English" value="Orthogonal layout" />
+    <Localized key="orthogonal_layout" lang="French" value="Mise en page orthogonale" />
+    <Localized key="orthogonal_layout" lang="Dutch" value="Orthogonale layout" />
+    <Localized key="orthogonal_layout_horizontal_first" lang="English" value="Orthogonal layout horizontal first" />
+    <Localized key="orthogonal_layout_horizontal_first" lang="French" value="Mise en page orthogonale (horizontal d'abord)" />
+    <Localized key="orthogonal_layout_horizontal_first" lang="Dutch" value="Orthogonale layout (horizontaal eerst)" />
+    <Localized key="orthogonal_layout_vertical_first" lang="English" value="orthogonal layout vertical first" />
+    <Localized key="orthogonal_layout_vertical_first" lang="French" value="Mise en page orthogonale (vertital d'abord)" />
+    <Localized key="orthogonal_layout_vertical_first" lang="Dutch" value="Orthogonale layout (vertikaal eerst)" />
+    <Localized key="horizontal_or_vertical_layout" lang="English" value="Horizontal or vertical layout" />
+    <Localized key="horizontal_or_vertical_layout" lang="French" value="Layout horizontal ou vertical" />
+    <Localized key="horizontal_or_vertical_layout" lang="Dutch" value="Horizontale of verticale layout" />
+    <Localized key="horizontal_layout" lang="English" value="Horizontal layout" />
+    <Localized key="horizontal_layout" lang="French" value="Mise en page horizontale" />
+    <Localized key="horizontal_layout" lang="Dutch" value="Horizontale layout" />
+    <Localized key="vertical_layout" lang="English" value="Vertical layout" />
+    <Localized key="vertical_layout" lang="French" value="Mise en page verticale" />
+    <Localized key="vertical_layout" lang="Dutch" value="Vertikale layout" />
+    <Localized key="orientations_fixed" lang="English" value="Orientations fixed" />
+    <Localized key="orientations_fixed" lang="French" value="Orientations fixées" />
+    <Localized key="orientations_fixed" lang="Dutch" value="Vastgelegde orientatie" />
+    <Localized key="start_orientation_fixed" lang="English" value="Start orientation fixed" />
+    <Localized key="start_orientation_fixed" lang="French" value="Direction initiale réparée" />
+    <Localized key="start_orientation_fixed" lang="Dutch" value="Start orientatie vastgesteld" />
+    <Localized key="end_orientation_fixed" lang="English" value="End orientation fixed" />
+    <Localized key="end_orientation_fixed" lang="French" value="Orientation finale fixe" />
+    <Localized key="end_orientation_fixed" lang="Dutch" value="Eind orientatie vastgelegd" />
+    <Localized key="None" lang="English" value="None" />
+    <Localized key="None" lang="French" value="None" />
+    <Localized key="None" lang="Dutch" value="None" />
+    <Localized key="Orthogonal layout" lang="English" value="Orthogonal layout" />
+    <Localized key="Orthogonal layout" lang="French" value="Orthogonal layout" />
+    <Localized key="Orthogonal layout" lang="Dutch" value="Orthogonal layout" />
+    <Localized key="Orthogonal layout horizontal first" lang="English" value="Orthogonal layout horizontal first" />
+    <Localized key="Orthogonal layout horizontal first" lang="French" value="Orthogonal layout horizontal first" />
+    <Localized key="Orthogonal layout horizontal first" lang="Dutch" value="Orthogonal layout horizontal first" />
+    <Localized key="orthogonal layout vertical first" lang="English" value="orthogonal layout vertical first" />
+    <Localized key="orthogonal layout vertical first" lang="French" value="orthogonal layout vertical first" />
+    <Localized key="orthogonal layout vertical first" lang="Dutch" value="orthogonal layout vertical first" />
+    <Localized key="Horizontal or vertical layout" lang="English" value="Horizontal or vertical layout" />
+    <Localized key="Horizontal or vertical layout" lang="French" value="Horizontal or vertical layout" />
+    <Localized key="Horizontal or vertical layout" lang="Dutch" value="Horizontal or vertical layout" />
+    <Localized key="Horizontal layout" lang="English" value="Horizontal layout" />
+    <Localized key="Horizontal layout" lang="French" value="Horizontal layout" />
+    <Localized key="Horizontal layout" lang="Dutch" value="Horizontal layout" />
+    <Localized key="Vertical layout" lang="English" value="Vertical layout" />
+    <Localized key="Vertical layout" lang="French" value="Vertical layout" />
+    <Localized key="Vertical layout" lang="Dutch" value="Vertical layout" />
+    <Localized key="Orientations fixed" lang="English" value="Orientations fixed" />
+    <Localized key="Orientations fixed" lang="French" value="Orientations fixed" />
+    <Localized key="Orientations fixed" lang="Dutch" value="Orientations fixed" />
+    <Localized key="Start orientation fixed" lang="English" value="Start orientation fixed" />
+    <Localized key="Start orientation fixed" lang="French" value="Start orientation fixed" />
+    <Localized key="Start orientation fixed" lang="Dutch" value="Start orientation fixed" />
+    <Localized key="End orientation fixed" lang="English" value="End orientation fixed" />
+    <Localized key="End orientation fixed" lang="French" value="End orientation fixed" />
+    <Localized key="End orientation fixed" lang="Dutch" value="End orientation fixed" />
+    <Localized key="start_location" lang="English" value="start_location" />
+    <Localized key="start_location" lang="French" value="start_location" />
+    <Localized key="start_location" lang="Dutch" value="start_location" />
+    <Localized key="end_location_fixed" lang="English" value="End location fixed" />
+    <Localized key="end_location_fixed" lang="French" value="End point fixe" />
+    <Localized key="end_location_fixed" lang="Dutch" value="Eind punt niet verplaatsbeer" />
+    <Localized key="fixed" lang="English" value="fixed" />
+    <Localized key="fixed" lang="French" value="fixed" />
+    <Localized key="fixed" lang="Dutch" value="fixed" />
+    <Localized key="draggable" lang="English" value="draggable" />
+    <Localized key="draggable" lang="French" value="draggable" />
+    <Localized key="draggable" lang="Dutch" value="draggable" />
+    <Localized key="adjustability" lang="English" value="adjustability" />
+    <Localized key="adjustability" lang="French" value="ajustabilité" />
+    <Localized key="adjustability" lang="Dutch" value="regelbaarheid" />
+    <Localized key="auto_layout" lang="English" value="Automatic layout" />
+    <Localized key="auto_layout" lang="French" value="Disposition automatique" />
+    <Localized key="auto_layout" lang="Dutch" value="Automatic layout" />
+    <Localized key="basically_adjustable" lang="English" value="Adjustable with a control point" />
+    <Localized key="basically_adjustable" lang="French" value="Ajustement avec un point de contrôle" />
+    <Localized key="basically_adjustable" lang="Dutch" value="Adjustable with a control point" />
+    <Localized key="fully_adjustable" lang="English" value="Fully adjustable" />
+    <Localized key="fully_adjustable" lang="French" value="Complètement ajustable" />
+    <Localized key="fully_adjustable" lang="Dutch" value="Fully adjustable" />
+    <Localized key="Automatic layout" lang="English" value="Automatic layout" />
+    <Localized key="Automatic layout" lang="French" value="Automatic layout" />
+    <Localized key="Automatic layout" lang="Dutch" value="Automatic layout" />
+    <Localized key="Adjustable with a control point" lang="English" value="Adjustable with a control point" />
+    <Localized key="Adjustable with a control point" lang="French" value="Adjustable with a control point" />
+    <Localized key="Adjustable with a control point" lang="Dutch" value="Adjustable with a control point" />
+    <Localized key="Fully adjustable" lang="English" value="Fully adjustable" />
+    <Localized key="Fully adjustable" lang="French" value="Fully adjustable" />
+    <Localized key="Fully adjustable" lang="Dutch" value="Fully adjustable" />
+    <Localized key="arc_size_(pixels)" lang="English" value="arc size (pixels)" />
+    <Localized key="arc_size_(pixels)" lang="French" value="Taille de l'arc (pixels)" />
+    <Localized key="arc_size_(pixels)" lang="Dutch" value="Grootte boog (pixels)" />
+    <Localized key="overlap_(pixels)" lang="English" value="Overlap (pixels)" />
+    <Localized key="overlap_(pixels)" lang="French" value="Chevauchement (pixels)" />
+    <Localized key="overlap_(pixels)" lang="Dutch" value="Overlapping (pixels)" />
+    <Localized key="Layout" lang="English" value="Layout" />
+    <Localized key="Layout" lang="French" value="Layout" />
+    <Localized key="Layout" lang="Dutch" value="Layout" />
+    <Localized key="Adjustability" lang="English" value="Adjustability" />
+    <Localized key="Adjustability" lang="French" value="Adjustability" />
+    <Localized key="Adjustability" lang="Dutch" value="Adjustability" />
+    <Localized key="Advanced" lang="English" value="Advanced" />
+    <Localized key="Advanced" lang="French" value="Avancé" />
+    <Localized key="Advanced" lang="Dutch" value="Geavanceerd" />
+    <Localized key="line" lang="English" value="line" />
+    <Localized key="line" lang="French" value="ligne" />
+    <Localized key="line" lang="Dutch" value="line" />
+    <Localized key="rect_polylin" lang="English" value="Rect polyline" />
+    <Localized key="rect_polylin" lang="French" value="Polyligne rectangle" />
+    <Localized key="rect_polylin" lang="Dutch" value="Rect polyline" />
+    <Localized key="curve" lang="English" value="Curve" />
+    <Localized key="curve" lang="French" value="courbe" />
+    <Localized key="curve" lang="Dutch" value="Curve" />
+    <Localized key="curved_polylin" lang="English" value="Curved polyline" />
+    <Localized key="curved_polylin" lang="French" value="Poly-ligne courbe" />
+    <Localized key="curved_polylin" lang="Dutch" value="Gebogen poly-lijn" />
+    <Localized key="custom" lang="English" value="custom" />
+    <Localized key="custom" lang="French" value="sur mesure" />
+    <Localized key="custom" lang="Dutch" value="op maat" />
+    <Localized key="Rect polyline" lang="English" value="Rect polyline" />
+    <Localized key="Rect polyline" lang="French" value="Rect polyline" />
+    <Localized key="Rect polyline" lang="Dutch" value="Rect polyline" />
+    <Localized key="Curve" lang="English" value="Curve" />
+    <Localized key="Curve" lang="French" value="Curve" />
+    <Localized key="Curve" lang="Dutch" value="Curve" />
+    <Localized key="connector_type" lang="English" value="Connector type" />
+    <Localized key="connector_type" lang="French" value="Type de connecteur" />
+    <Localized key="connector_type" lang="Dutch" value="Connectie type" />
+    <Localized key="size" lang="English" value="Size" />
+    <Localized key="size" lang="French" value="Taille" />
+    <Localized key="size" lang="Dutch" value="Afmetingen" />
+    <Localized key="arrow" lang="English" value="Arrow" />
+    <Localized key="arrow" lang="French" value="Flèche" />
+    <Localized key="arrow" lang="Dutch" value="Pijl" />
+    <Localized key="plain_arrow" lang="English" value="Plain arrow" />
+    <Localized key="plain_arrow" lang="French" value="Flèche pleine" />
+    <Localized key="plain_arrow" lang="Dutch" value="Volgekleurde pijl" />
+    <Localized key="filled_arrow" lang="English" value="Filled arrow" />
+    <Localized key="filled_arrow" lang="French" value="Flèche pleine" />
+    <Localized key="filled_arrow" lang="Dutch" value="Volgekleurde pijl" />
+    <Localized key="plain_double_arrow" lang="English" value="Plain double arrow" />
+    <Localized key="plain_double_arrow" lang="French" value="Double flèche pleine" />
+    <Localized key="plain_double_arrow" lang="Dutch" value="Volgekleurde dubbele pijl" />
+    <Localized key="filled_double_arrow" lang="English" value="Filled double arrow" />
+    <Localized key="filled_double_arrow" lang="French" value="Double flèche pleine" />
+    <Localized key="filled_double_arrow" lang="Dutch" value="Volgekleurde dubbele pijl" />
+    <Localized key="plain_circle" lang="English" value="Plain circle" />
+    <Localized key="plain_circle" lang="French" value="Disque" />
+    <Localized key="plain_circle" lang="Dutch" value="Volgekleurde cirkel" />
+    <Localized key="filled_circle" lang="English" value="Filled circle" />
+    <Localized key="filled_circle" lang="French" value="Cercle plein" />
+    <Localized key="filled_circle" lang="Dutch" value="Volgekleurde cirkel" />
+    <Localized key="plain_square" lang="English" value="Plain square" />
+    <Localized key="plain_square" lang="French" value="Carré plein" />
+    <Localized key="plain_square" lang="Dutch" value="Volgekleurd vierkant" />
+    <Localized key="filled_square" lang="English" value="Filled square" />
+    <Localized key="filled_square" lang="French" value="Carré plein" />
+    <Localized key="filled_square" lang="Dutch" value="Volgekleurd vierkant" />
+    <Localized key="plain_diamond" lang="English" value="Plain diamond" />
+    <Localized key="plain_diamond" lang="French" value="Diamant plein" />
+    <Localized key="plain_diamond" lang="Dutch" value="Volgekleurde diamant" />
+    <Localized key="plain_long_diamond" lang="English" value="Plain long diamond" />
+    <Localized key="plain_long_diamond" lang="French" value="Long losange plein" />
+    <Localized key="plain_long_diamond" lang="Dutch" value="Volgekleurde langwerpige diamant" />
+    <Localized key="filled_diamond" lang="English" value="Filled diamond" />
+    <Localized key="filled_diamond" lang="French" value="Losange plein" />
+    <Localized key="filled_diamond" lang="Dutch" value="Volgekleurde Ruit" />
+    <Localized key="default_flow" lang="English" value="Default flow" />
+    <Localized key="default_flow" lang="French" value="Chemin par défaut" />
+    <Localized key="default_flow" lang="Dutch" value="Standaard pad" />
+    <Localized key="Arrow" lang="English" value="Arrow" />
+    <Localized key="Arrow" lang="French" value="Arrow" />
+    <Localized key="Arrow" lang="Dutch" value="Arrow" />
+    <Localized key="Plain arrow" lang="English" value="Plain arrow" />
+    <Localized key="Plain arrow" lang="French" value="Plain arrow" />
+    <Localized key="Plain arrow" lang="Dutch" value="Plain arrow" />
+    <Localized key="Filled arrow" lang="English" value="Filled arrow" />
+    <Localized key="Filled arrow" lang="French" value="Filled arrow" />
+    <Localized key="Filled arrow" lang="Dutch" value="Filled arrow" />
+    <Localized key="Plain double arrow" lang="English" value="Plain double arrow" />
+    <Localized key="Plain double arrow" lang="French" value="Plain double arrow" />
+    <Localized key="Plain double arrow" lang="Dutch" value="Plain double arrow" />
+    <Localized key="Filled double arrow" lang="English" value="Filled double arrow" />
+    <Localized key="Filled double arrow" lang="French" value="Filled double arrow" />
+    <Localized key="Filled double arrow" lang="Dutch" value="Filled double arrow" />
+    <Localized key="Plain circle" lang="English" value="Plain circle" />
+    <Localized key="Plain circle" lang="French" value="Plain circle" />
+    <Localized key="Plain circle" lang="Dutch" value="Plain circle" />
+    <Localized key="Filled circle" lang="English" value="Filled circle" />
+    <Localized key="Filled circle" lang="French" value="Filled circle" />
+    <Localized key="Filled circle" lang="Dutch" value="Filled circle" />
+    <Localized key="Plain square" lang="English" value="Plain square" />
+    <Localized key="Plain square" lang="French" value="Plain square" />
+    <Localized key="Plain square" lang="Dutch" value="Plain square" />
+    <Localized key="Filled square" lang="English" value="Filled square" />
+    <Localized key="Filled square" lang="French" value="Filled square" />
+    <Localized key="Filled square" lang="Dutch" value="Filled square" />
+    <Localized key="Plain diamond" lang="English" value="Plain diamond" />
+    <Localized key="Plain diamond" lang="French" value="Plain diamond" />
+    <Localized key="Plain diamond" lang="Dutch" value="Plain diamond" />
+    <Localized key="Plain long diamond" lang="English" value="Plain long diamond" />
+    <Localized key="Plain long diamond" lang="French" value="Plain long diamond" />
+    <Localized key="Plain long diamond" lang="Dutch" value="Plain long diamond" />
+    <Localized key="Filled diamond" lang="English" value="Filled diamond" />
+    <Localized key="Filled diamond" lang="French" value="Filled diamond" />
+    <Localized key="Filled diamond" lang="Dutch" value="Filled diamond" />
+    <Localized key="Default flow" lang="English" value="Default flow" />
+    <Localized key="Default flow" lang="French" value="Default flow" />
+    <Localized key="Default flow" lang="Dutch" value="Default flow" />
+    <Localized key="start_symbol" lang="English" value="Start symbol" />
+    <Localized key="start_symbol" lang="French" value="Symbole de départ" />
+    <Localized key="start_symbol" lang="Dutch" value="Start symbool" />
+    <Localized key="middle_location" lang="English" value="Middle location" />
+    <Localized key="middle_location" lang="French" value="Espace de milieu" />
+    <Localized key="middle_location" lang="Dutch" value="Tussenruimte" />
+    <Localized key="end_symbol" lang="English" value="End symbol" />
+    <Localized key="end_symbol" lang="French" value="Symbole de fin" />
+    <Localized key="end_symbol" lang="Dutch" value="Eind symbool" />
+    <Localized key="middle_symbol" lang="English" value="middle symbol" />
+    <Localized key="middle_symbol" lang="French" value="Symbole du milieu" />
+    <Localized key="middle_symbol" lang="Dutch" value="Middelste symbool" />
+    <Localized key="Symbols" lang="English" value="Symbols" />
+    <Localized key="Symbols" lang="French" value="Symbols" />
+    <Localized key="Symbols" lang="Dutch" value="Symbols" />
+    <Localized key="adjustable_bounds" lang="English" value="adjustable bounds" />
+    <Localized key="adjustable_bounds" lang="French" value="Liens adjustables" />
+    <Localized key="adjustable_bounds" lang="Dutch" value="regelbare limitien" />
+    <Localized key="Curve connector" lang="English" value="Curve connector" />
+    <Localized key="Curve connector" lang="French" value="Curve connector" />
+    <Localized key="Curve connector" lang="Dutch" value="Curve connector" />
+    <Localized key="Centre à centre" lang="English" value="Centre à centre" />
+    <Localized key="Centre à centre" lang="French" value="Centre à centre" />
+    <Localized key="Centre à centre" lang="Dutch" value="Centre à centre" />
+    <Localized key="Longueur minimale" lang="English" value="Longueur minimale" />
+    <Localized key="Longueur minimale" lang="French" value="Longueur minimale" />
+    <Localized key="Longueur minimale" lang="Dutch" value="Longueur minimale" />
+    <Localized key="amusant" lang="English" value="amusant" />
+    <Localized key="amusant" lang="French" value="amusant" />
+    <Localized key="amusant" lang="Dutch" value="amusant" />
+    <Localized key="ajustable" lang="English" value="ajustable" />
+    <Localized key="ajustable" lang="French" value="ajustable" />
+    <Localized key="ajustable" lang="Dutch" value="ajustable" />
+    <Localized key="Nord" lang="English" value="Nord" />
+    <Localized key="Nord" lang="French" value="Nord" />
+    <Localized key="Nord" lang="Dutch" value="Nord" />
+    <Localized key="Est" lang="English" value="Est" />
+    <Localized key="Est" lang="French" value="Est" />
+    <Localized key="Est" lang="Dutch" value="Est" />
+    <Localized key="Sud" lang="English" value="Sud" />
+    <Localized key="Sud" lang="French" value="Sud" />
+    <Localized key="Sud" lang="Dutch" value="Sud" />
+    <Localized key="Ouest" lang="English" value="Ouest" />
+    <Localized key="Ouest" lang="French" value="Ouest" />
+    <Localized key="Ouest" lang="Dutch" value="Ouest" />
+    <Localized key="Aucun" lang="English" value="Aucun" />
+    <Localized key="Aucun" lang="French" value="Aucun" />
+    <Localized key="Aucun" lang="Dutch" value="Aucun" />
+    <Localized key="Mise en page orthogonale" lang="English" value="Mise en page orthogonale" />
+    <Localized key="Mise en page orthogonale" lang="French" value="Mise en page orthogonale" />
+    <Localized key="Mise en page orthogonale" lang="Dutch" value="Mise en page orthogonale" />
+    <Localized key="Mise en page orthogonale (horizontal d'abord)" lang="English" value="Mise en page orthogonale (horizontal d'abord)" />
+    <Localized key="Mise en page orthogonale (horizontal d'abord)" lang="French" value="Mise en page orthogonale (horizontal d'abord)" />
+    <Localized key="Mise en page orthogonale (horizontal d'abord)" lang="Dutch" value="Mise en page orthogonale (horizontal d'abord)" />
+    <Localized key="Mise en page orthogonale (vertital d'abord)" lang="English" value="Mise en page orthogonale (vertital d'abord)" />
+    <Localized key="Mise en page orthogonale (vertital d'abord)" lang="French" value="Mise en page orthogonale (vertital d'abord)" />
+    <Localized key="Mise en page orthogonale (vertital d'abord)" lang="Dutch" value="Mise en page orthogonale (vertital d'abord)" />
+    <Localized key="Layout horizontal ou vertical" lang="English" value="Layout horizontal ou vertical" />
+    <Localized key="Layout horizontal ou vertical" lang="French" value="Layout horizontal ou vertical" />
+    <Localized key="Layout horizontal ou vertical" lang="Dutch" value="Layout horizontal ou vertical" />
+    <Localized key="Mise en page horizontale" lang="English" value="Mise en page horizontale" />
+    <Localized key="Mise en page horizontale" lang="French" value="Mise en page horizontale" />
+    <Localized key="Mise en page horizontale" lang="Dutch" value="Mise en page horizontale" />
+    <Localized key="Mise en page verticale" lang="English" value="Mise en page verticale" />
+    <Localized key="Mise en page verticale" lang="French" value="Mise en page verticale" />
+    <Localized key="Mise en page verticale" lang="Dutch" value="Mise en page verticale" />
+    <Localized key="Orientations fixées" lang="English" value="Orientations fixées" />
+    <Localized key="Orientations fixées" lang="French" value="Orientations fixées" />
+    <Localized key="Orientations fixées" lang="Dutch" value="Orientations fixées" />
+    <Localized key="Direction initiale réparée" lang="English" value="Direction initiale réparée" />
+    <Localized key="Direction initiale réparée" lang="French" value="Direction initiale réparée" />
+    <Localized key="Direction initiale réparée" lang="Dutch" value="Direction initiale réparée" />
+    <Localized key="Orientation finale fixe" lang="English" value="Orientation finale fixe" />
+    <Localized key="Orientation finale fixe" lang="French" value="Orientation finale fixe" />
+    <Localized key="Orientation finale fixe" lang="Dutch" value="Orientation finale fixe" />
+    <Localized key="Disposition automatique" lang="English" value="Disposition automatique" />
+    <Localized key="Disposition automatique" lang="French" value="Disposition automatique" />
+    <Localized key="Disposition automatique" lang="Dutch" value="Disposition automatique" />
+    <Localized key="Ajustement avec un point de contrôle" lang="English" value="Ajustement avec un point de contrôle" />
+    <Localized key="Ajustement avec un point de contrôle" lang="French" value="Ajustement avec un point de contrôle" />
+    <Localized key="Ajustement avec un point de contrôle" lang="Dutch" value="Ajustement avec un point de contrôle" />
+    <Localized key="Complètement ajustable" lang="English" value="Complètement ajustable" />
+    <Localized key="Complètement ajustable" lang="French" value="Complètement ajustable" />
+    <Localized key="Complètement ajustable" lang="Dutch" value="Complètement ajustable" />
+    <Localized key="ligne" lang="English" value="ligne" />
+    <Localized key="ligne" lang="French" value="ligne" />
+    <Localized key="ligne" lang="Dutch" value="ligne" />
+    <Localized key="Polyligne rectangle" lang="English" value="Polyligne rectangle" />
+    <Localized key="Polyligne rectangle" lang="French" value="Polyligne rectangle" />
+    <Localized key="Polyligne rectangle" lang="Dutch" value="Polyligne rectangle" />
+    <Localized key="courbe" lang="English" value="courbe" />
+    <Localized key="courbe" lang="French" value="courbe" />
+    <Localized key="courbe" lang="Dutch" value="courbe" />
+    <Localized key="Poly-ligne courbe" lang="English" value="Poly-ligne courbe" />
+    <Localized key="Poly-ligne courbe" lang="French" value="Poly-ligne courbe" />
+    <Localized key="Poly-ligne courbe" lang="Dutch" value="Poly-ligne courbe" />
+    <Localized key="sur mesure" lang="English" value="sur mesure" />
+    <Localized key="sur mesure" lang="French" value="sur mesure" />
+    <Localized key="sur mesure" lang="Dutch" value="sur mesure" />
+    <Localized key="Flèche" lang="English" value="Flèche" />
+    <Localized key="Flèche" lang="French" value="Flèche" />
+    <Localized key="Flèche" lang="Dutch" value="Flèche" />
+    <Localized key="Flèche pleine" lang="English" value="Flèche pleine" />
+    <Localized key="Flèche pleine" lang="French" value="Flèche pleine" />
+    <Localized key="Flèche pleine" lang="Dutch" value="Flèche pleine" />
+    <Localized key="Double flèche pleine" lang="English" value="Double flèche pleine" />
+    <Localized key="Double flèche pleine" lang="French" value="Double flèche pleine" />
+    <Localized key="Double flèche pleine" lang="Dutch" value="Double flèche pleine" />
+    <Localized key="Disque" lang="English" value="Disque" />
+    <Localized key="Disque" lang="French" value="Disque" />
+    <Localized key="Disque" lang="Dutch" value="Disque" />
+    <Localized key="Cercle plein" lang="English" value="Cercle plein" />
+    <Localized key="Cercle plein" lang="French" value="Cercle plein" />
+    <Localized key="Cercle plein" lang="Dutch" value="Cercle plein" />
+    <Localized key="Carré plein" lang="English" value="Carré plein" />
+    <Localized key="Carré plein" lang="French" value="Carré plein" />
+    <Localized key="Carré plein" lang="Dutch" value="Carré plein" />
+    <Localized key="Diamant plein" lang="English" value="Diamant plein" />
+    <Localized key="Diamant plein" lang="French" value="Diamant plein" />
+    <Localized key="Diamant plein" lang="Dutch" value="Diamant plein" />
+    <Localized key="Long losange plein" lang="English" value="Long losange plein" />
+    <Localized key="Long losange plein" lang="French" value="Long losange plein" />
+    <Localized key="Long losange plein" lang="Dutch" value="Long losange plein" />
+    <Localized key="Losange plein" lang="English" value="Losange plein" />
+    <Localized key="Losange plein" lang="French" value="Losange plein" />
+    <Localized key="Losange plein" lang="Dutch" value="Losange plein" />
+    <Localized key="Chemin par défaut" lang="English" value="Chemin par défaut" />
+    <Localized key="Chemin par défaut" lang="French" value="Chemin par défaut" />
+    <Localized key="Chemin par défaut" lang="Dutch" value="Chemin par défaut" />
+    <Localized key="Center tot center" lang="English" value="Center tot center" />
+    <Localized key="Center tot center" lang="French" value="Center tot center" />
+    <Localized key="Center tot center" lang="Dutch" value="Center tot center" />
+    <Localized key="Minimale lengte" lang="English" value="Minimale lengte" />
+    <Localized key="Minimale lengte" lang="French" value="Minimale lengte" />
+    <Localized key="Minimale lengte" lang="Dutch" value="Minimale lengte" />
+    <Localized key="leuk" lang="English" value="leuk" />
+    <Localized key="leuk" lang="French" value="leuk" />
+    <Localized key="leuk" lang="Dutch" value="leuk" />
+    <Localized key="regelbaar" lang="English" value="regelbaar" />
+    <Localized key="regelbaar" lang="French" value="regelbaar" />
+    <Localized key="regelbaar" lang="Dutch" value="regelbaar" />
+    <Localized key="Noorden" lang="English" value="Noorden" />
+    <Localized key="Noorden" lang="French" value="Noorden" />
+    <Localized key="Noorden" lang="Dutch" value="Noorden" />
+    <Localized key="Oosten" lang="English" value="Oosten" />
+    <Localized key="Oosten" lang="French" value="Oosten" />
+    <Localized key="Oosten" lang="Dutch" value="Oosten" />
+    <Localized key="Zuiden" lang="English" value="Zuiden" />
+    <Localized key="Zuiden" lang="French" value="Zuiden" />
+    <Localized key="Zuiden" lang="Dutch" value="Zuiden" />
+    <Localized key="Westen" lang="English" value="Westen" />
+    <Localized key="Westen" lang="French" value="Westen" />
+    <Localized key="Westen" lang="Dutch" value="Westen" />
+    <Localized key="Geen enkele" lang="English" value="Geen enkele" />
+    <Localized key="Geen enkele" lang="French" value="Geen enkele" />
+    <Localized key="Geen enkele" lang="Dutch" value="Geen enkele" />
+    <Localized key="Orthogonale layout" lang="English" value="Orthogonale layout" />
+    <Localized key="Orthogonale layout" lang="French" value="Orthogonale layout" />
+    <Localized key="Orthogonale layout" lang="Dutch" value="Orthogonale layout" />
+    <Localized key="Orthogonale layout (horizontaal eerst)" lang="English" value="Orthogonale layout (horizontaal eerst)" />
+    <Localized key="Orthogonale layout (horizontaal eerst)" lang="French" value="Orthogonale layout (horizontaal eerst)" />
+    <Localized key="Orthogonale layout (horizontaal eerst)" lang="Dutch" value="Orthogonale layout (horizontaal eerst)" />
+    <Localized key="Orthogonale layout (vertikaal eerst)" lang="English" value="Orthogonale layout (vertikaal eerst)" />
+    <Localized key="Orthogonale layout (vertikaal eerst)" lang="French" value="Orthogonale layout (vertikaal eerst)" />
+    <Localized key="Orthogonale layout (vertikaal eerst)" lang="Dutch" value="Orthogonale layout (vertikaal eerst)" />
+    <Localized key="Horizontale of verticale layout" lang="English" value="Horizontale of verticale layout" />
+    <Localized key="Horizontale of verticale layout" lang="French" value="Horizontale of verticale layout" />
+    <Localized key="Horizontale of verticale layout" lang="Dutch" value="Horizontale of verticale layout" />
+    <Localized key="Horizontale layout" lang="English" value="Horizontale layout" />
+    <Localized key="Horizontale layout" lang="French" value="Horizontale layout" />
+    <Localized key="Horizontale layout" lang="Dutch" value="Horizontale layout" />
+    <Localized key="Vertikale layout" lang="English" value="Vertikale layout" />
+    <Localized key="Vertikale layout" lang="French" value="Vertikale layout" />
+    <Localized key="Vertikale layout" lang="Dutch" value="Vertikale layout" />
+    <Localized key="Vastgelegde orientatie" lang="English" value="Vastgelegde orientatie" />
+    <Localized key="Vastgelegde orientatie" lang="French" value="Vastgelegde orientatie" />
+    <Localized key="Vastgelegde orientatie" lang="Dutch" value="Vastgelegde orientatie" />
+    <Localized key="Start orientatie vastgesteld" lang="English" value="Start orientatie vastgesteld" />
+    <Localized key="Start orientatie vastgesteld" lang="French" value="Start orientatie vastgesteld" />
+    <Localized key="Start orientatie vastgesteld" lang="Dutch" value="Start orientatie vastgesteld" />
+    <Localized key="Eind orientatie vastgelegd" lang="English" value="Eind orientatie vastgelegd" />
+    <Localized key="Eind orientatie vastgelegd" lang="French" value="Eind orientatie vastgelegd" />
+    <Localized key="Eind orientatie vastgelegd" lang="Dutch" value="Eind orientatie vastgelegd" />
+    <Localized key="Gebogen poly-lijn" lang="English" value="Gebogen poly-lijn" />
+    <Localized key="Gebogen poly-lijn" lang="French" value="Gebogen poly-lijn" />
+    <Localized key="Gebogen poly-lijn" lang="Dutch" value="Gebogen poly-lijn" />
+    <Localized key="op maat" lang="English" value="op maat" />
+    <Localized key="op maat" lang="French" value="op maat" />
+    <Localized key="op maat" lang="Dutch" value="op maat" />
+    <Localized key="Pijl" lang="English" value="Pijl" />
+    <Localized key="Pijl" lang="French" value="Pijl" />
+    <Localized key="Pijl" lang="Dutch" value="Pijl" />
+    <Localized key="Volgekleurde pijl" lang="English" value="Volgekleurde pijl" />
+    <Localized key="Volgekleurde pijl" lang="French" value="Volgekleurde pijl" />
+    <Localized key="Volgekleurde pijl" lang="Dutch" value="Volgekleurde pijl" />
+    <Localized key="Volgekleurde dubbele pijl" lang="English" value="Volgekleurde dubbele pijl" />
+    <Localized key="Volgekleurde dubbele pijl" lang="French" value="Volgekleurde dubbele pijl" />
+    <Localized key="Volgekleurde dubbele pijl" lang="Dutch" value="Volgekleurde dubbele pijl" />
+    <Localized key="Volgekleurde cirkel" lang="English" value="Volgekleurde cirkel" />
+    <Localized key="Volgekleurde cirkel" lang="French" value="Volgekleurde cirkel" />
+    <Localized key="Volgekleurde cirkel" lang="Dutch" value="Volgekleurde cirkel" />
+    <Localized key="Volgekleurd vierkant" lang="English" value="Volgekleurd vierkant" />
+    <Localized key="Volgekleurd vierkant" lang="French" value="Volgekleurd vierkant" />
+    <Localized key="Volgekleurd vierkant" lang="Dutch" value="Volgekleurd vierkant" />
+    <Localized key="Volgekleurde diamant" lang="English" value="Volgekleurde diamant" />
+    <Localized key="Volgekleurde diamant" lang="French" value="Volgekleurde diamant" />
+    <Localized key="Volgekleurde diamant" lang="Dutch" value="Volgekleurde diamant" />
+    <Localized key="Volgekleurde langwerpige diamant" lang="English" value="Volgekleurde langwerpige diamant" />
+    <Localized key="Volgekleurde langwerpige diamant" lang="French" value="Volgekleurde langwerpige diamant" />
+    <Localized key="Volgekleurde langwerpige diamant" lang="Dutch" value="Volgekleurde langwerpige diamant" />
+    <Localized key="Volgekleurde Ruit" lang="English" value="Volgekleurde Ruit" />
+    <Localized key="Volgekleurde Ruit" lang="French" value="Volgekleurde Ruit" />
+    <Localized key="Volgekleurde Ruit" lang="Dutch" value="Volgekleurde Ruit" />
+    <Localized key="Standaard pad" lang="English" value="Standaard pad" />
+    <Localized key="Standaard pad" lang="French" value="Standaard pad" />
+    <Localized key="Standaard pad" lang="Dutch" value="Standaard pad" />
   </LocalizedDictionary>
 </Panel>

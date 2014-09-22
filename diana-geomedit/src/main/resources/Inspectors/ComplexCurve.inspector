@@ -7,9 +7,9 @@
     </Tab>
   </TabPanel>
   <LocalizedDictionary>
-    <Localized key="closure" lang="English">Closure</Localized>
-    <Localized key="closure" lang="French">Fermeture</Localized>
-    <Localized key="closure" lang="Dutch">Closure</Localized>
+    <Localized key="closure" lang="English" value="Closure" />
+    <Localized key="closure" lang="French" value="Fermeture" />
+    <Localized key="closure" lang="Dutch" value="Closure" />
   </LocalizedDictionary>
   <Parameter name="title" value="Complex curve" />
 </Panel>

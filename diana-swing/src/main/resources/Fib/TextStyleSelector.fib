@@ -10,7 +10,7 @@
     </Button>
   </Panel>
   <LocalizedDictionary>
-    <Localized key="apply" lang="Dutch">Apply</Localized>
-    <Localized key="cancel" lang="Dutch">Cancel</Localized>
+    <Localized key="apply" lang="Dutch" value="Apply" />
+    <Localized key="cancel" lang="Dutch" value="Cancel" />
   </LocalizedDictionary>
 </Panel>

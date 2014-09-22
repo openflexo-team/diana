@@ -21,12 +21,12 @@
     </Tab>
   </TabPanel>
   <LocalizedDictionary>
-    <Localized key="name" lang="English">Name</Localized>
-    <Localized key="name" lang="French">Nom</Localized>
-    <Localized key="name" lang="Dutch">Name</Localized>
-    <Localized key="description" lang="English">Description</Localized>
-    <Localized key="description" lang="French">Description</Localized>
-    <Localized key="description" lang="Dutch">Description</Localized>
+    <Localized key="name" lang="English" value="Name" />
+    <Localized key="name" lang="French" value="Nom" />
+    <Localized key="name" lang="Dutch" value="Name" />
+    <Localized key="description" lang="English" value="Description" />
+    <Localized key="description" lang="French" value="Description" />
+    <Localized key="description" lang="Dutch" value="Description" />
   </LocalizedDictionary>
   <Parameter name="title" value="Line" />
 </Panel>

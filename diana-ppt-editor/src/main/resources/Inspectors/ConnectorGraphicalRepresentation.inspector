@@ -106,98 +106,98 @@
     </Tab>
   </TabPanel>
   <LocalizedDictionary>
-    <Localized key="debug_covering_area" lang="English">Debug covering area</Localized>
-    <Localized key="debug_covering_area" lang="French">Couverture de déverminage</Localized>
-    <Localized key="debug_covering_area" lang="Dutch">Debug covering area</Localized>
-    <Localized key="Location/Size" lang="French">Emplacement/Taille</Localized>
-    <Localized key="layer" lang="English">Layer</Localized>
-    <Localized key="layer" lang="French">Couche</Localized>
-    <Localized key="layer" lang="Dutch">Layer</Localized>
-    <Localized key="Text" lang="French">Texte</Localized>
-    <Localized key="absolute_text_x" lang="English">Absolute text X</Localized>
-    <Localized key="absolute_text_x" lang="French">texte x absolu</Localized>
-    <Localized key="absolute_text_x" lang="Dutch">Absolute text X</Localized>
-    <Localized key="absolute_text_y" lang="English">Absolute text Y</Localized>
-    <Localized key="absolute_text_y" lang="French">texte y absolu</Localized>
-    <Localized key="absolute_text_y" lang="Dutch">Absolute text Y</Localized>
-    <Localized key="Connector" lang="French">Connecteur</Localized>
-    <Localized key="foreground" lang="English">Foreground</Localized>
-    <Localized key="foreground" lang="French">Couleur d'avant-plan</Localized>
-    <Localized key="foreground" lang="Dutch">Foreground</Localized>
-    <Localized key="line" lang="French">ligne</Localized>
-    <Localized key="rect_polylin" lang="English">Rect polyline</Localized>
-    <Localized key="rect_polylin" lang="French">Polyligne rectangle</Localized>
-    <Localized key="rect_polylin" lang="Dutch">Rect polyline</Localized>
-    <Localized key="curve" lang="English">Curve</Localized>
-    <Localized key="curve" lang="French">Courbe</Localized>
-    <Localized key="curve" lang="Dutch">Curve</Localized>
-    <Localized key="curved_polylin" lang="English">Curved polyline</Localized>
-    <Localized key="curved_polylin" lang="French">Poly-ligne courbe</Localized>
-    <Localized key="curved_polylin" lang="Dutch">Curved polyline</Localized>
-    <Localized key="custom" lang="French">Sur mesure</Localized>
-    <Localized key="connector_type" lang="English">Connector type</Localized>
-    <Localized key="connector_type" lang="French">Type de connecteur</Localized>
-    <Localized key="connector_type" lang="Dutch">Connector type</Localized>
-    <Localized key="line_type" lang="English">Line type</Localized>
-    <Localized key="line_type" lang="French">Type de ligne connectrice</Localized>
-    <Localized key="line_type" lang="Dutch">Line type</Localized>
-    <Localized key="adjustable_bounds" lang="English">Adjustable bounds</Localized>
-    <Localized key="adjustable_bounds" lang="French">Liens adjustables</Localized>
-    <Localized key="adjustable_bounds" lang="Dutch">Adjustable bounds</Localized>
-    <Localized key="constraints" lang="French">Contraintes</Localized>
-    <Localized key="start_orientation" lang="English">Start orientation</Localized>
-    <Localized key="start_orientation" lang="French">Début d'orientation</Localized>
-    <Localized key="start_orientation" lang="Dutch">Start orientation</Localized>
-    <Localized key="end_orientation" lang="English">End orientation</Localized>
-    <Localized key="end_orientation" lang="French">Fin orientation</Localized>
-    <Localized key="end_orientation" lang="Dutch">End orientation</Localized>
-    <Localized key="straight_when_possible" lang="English">Straight when possible</Localized>
-    <Localized key="straight_when_possible" lang="French">Droit si possible</Localized>
-    <Localized key="straight_when_possible" lang="Dutch">Straight when possible</Localized>
-    <Localized key="adjustability" lang="French">ajustabilité</Localized>
-    <Localized key="start_location_fixed" lang="English">Start location fixed</Localized>
-    <Localized key="start_location_fixed" lang="French">Point de départ fixe</Localized>
-    <Localized key="start_location_fixed" lang="Dutch">Start location fixed</Localized>
-    <Localized key="end_location_fixed" lang="English">End location fixed</Localized>
-    <Localized key="end_location_fixed" lang="French">End point fixe</Localized>
-    <Localized key="end_location_fixed" lang="Dutch">End location fixed</Localized>
-    <Localized key="start_location_draggable" lang="English">Start location draggable</Localized>
-    <Localized key="start_location_draggable" lang="French">Point de départ déplaçable</Localized>
-    <Localized key="start_location_draggable" lang="Dutch">Start location draggable</Localized>
-    <Localized key="end_location_draggable" lang="English">End location draggable</Localized>
-    <Localized key="end_location_draggable" lang="French">End point deplaçable</Localized>
-    <Localized key="end_location_draggable" lang="Dutch">End location draggable</Localized>
-    <Localized key="overlap_(pixels)" lang="English">Overlap (pixels)</Localized>
-    <Localized key="overlap_(pixels)" lang="French">Chevauchement (pixels)</Localized>
-    <Localized key="overlap_(pixels)" lang="Dutch">Overlap (pixels)</Localized>
-    <Localized key="rounded" lang="English">Rounded</Localized>
-    <Localized key="rounded" lang="French">Arrondi</Localized>
-    <Localized key="rounded" lang="Dutch">Rounded</Localized>
-    <Localized key="arc_size_(pixels)" lang="English">Arc size (pixels)</Localized>
-    <Localized key="arc_size_(pixels)" lang="French">Taille de l'arc (pixels)</Localized>
-    <Localized key="arc_size_(pixels)" lang="Dutch">Arc size (pixels)</Localized>
-    <Localized key="start_symbol" lang="English">Start symbol</Localized>
-    <Localized key="start_symbol" lang="French">Symbole de départ</Localized>
-    <Localized key="start_symbol" lang="Dutch">Start symbol</Localized>
-    <Localized key="start_symbol_size" lang="English">Start symbol size</Localized>
-    <Localized key="start_symbol_size" lang="French">Taille du symbole de départ</Localized>
-    <Localized key="start_symbol_size" lang="Dutch">Start symbol size</Localized>
-    <Localized key="middle_symbol" lang="English">Middle symbol</Localized>
-    <Localized key="middle_symbol" lang="French">Symbole du milieu</Localized>
-    <Localized key="middle_symbol" lang="Dutch">Middle symbol</Localized>
-    <Localized key="middle_symbol_size" lang="English">Middle symbol size</Localized>
-    <Localized key="middle_symbol_size" lang="French">Taille du symbole du milieu</Localized>
-    <Localized key="middle_symbol_size" lang="Dutch">Middle symbol size</Localized>
-    <Localized key="end_symbol" lang="English">End symbol</Localized>
-    <Localized key="end_symbol" lang="French">Symbole de fin</Localized>
-    <Localized key="end_symbol" lang="Dutch">End symbol</Localized>
-    <Localized key="end_symbol_size" lang="English">End symbol size</Localized>
-    <Localized key="end_symbol_size" lang="French">Taille du symbole de terminaison</Localized>
-    <Localized key="end_symbol_size" lang="Dutch">End symbol size</Localized>
-    <Localized key="middle_location" lang="English">Middle location</Localized>
-    <Localized key="middle_location" lang="French">Espace de milieu</Localized>
-    <Localized key="middle_location" lang="Dutch">Middle location</Localized>
-    <Localized key="debug" lang="French">Déverminage</Localized>
+    <Localized key="debug_covering_area" lang="English" value="Debug covering area" />
+    <Localized key="debug_covering_area" lang="French" value="Couverture de déverminage" />
+    <Localized key="debug_covering_area" lang="Dutch" value="Debug covering area" />
+    <Localized key="Location/Size" lang="French" value="Emplacement/Taille" />
+    <Localized key="layer" lang="English" value="Layer" />
+    <Localized key="layer" lang="French" value="Couche" />
+    <Localized key="layer" lang="Dutch" value="Layer" />
+    <Localized key="Text" lang="French" value="Texte" />
+    <Localized key="absolute_text_x" lang="English" value="Absolute text X" />
+    <Localized key="absolute_text_x" lang="French" value="texte x absolu" />
+    <Localized key="absolute_text_x" lang="Dutch" value="Absolute text X" />
+    <Localized key="absolute_text_y" lang="English" value="Absolute text Y" />
+    <Localized key="absolute_text_y" lang="French" value="texte y absolu" />
+    <Localized key="absolute_text_y" lang="Dutch" value="Absolute text Y" />
+    <Localized key="Connector" lang="French" value="Connecteur" />
+    <Localized key="foreground" lang="English" value="Foreground" />
+    <Localized key="foreground" lang="French" value="Couleur d'avant-plan" />
+    <Localized key="foreground" lang="Dutch" value="Foreground" />
+    <Localized key="line" lang="French" value="ligne" />
+    <Localized key="rect_polylin" lang="English" value="Rect polyline" />
+    <Localized key="rect_polylin" lang="French" value="Polyligne rectangle" />
+    <Localized key="rect_polylin" lang="Dutch" value="Rect polyline" />
+    <Localized key="curve" lang="English" value="Curve" />
+    <Localized key="curve" lang="French" value="Courbe" />
+    <Localized key="curve" lang="Dutch" value="Curve" />
+    <Localized key="curved_polylin" lang="English" value="Curved polyline" />
+    <Localized key="curved_polylin" lang="French" value="Poly-ligne courbe" />
+    <Localized key="curved_polylin" lang="Dutch" value="Curved polyline" />
+    <Localized key="custom" lang="French" value="Sur mesure" />
+    <Localized key="connector_type" lang="English" value="Connector type" />
+    <Localized key="connector_type" lang="French" value="Type de connecteur" />
+    <Localized key="connector_type" lang="Dutch" value="Connector type" />
+    <Localized key="line_type" lang="English" value="Line type" />
+    <Localized key="line_type" lang="French" value="Type de ligne connectrice" />
+    <Localized key="line_type" lang="Dutch" value="Line type" />
+    <Localized key="adjustable_bounds" lang="English" value="Adjustable bounds" />
+    <Localized key="adjustable_bounds" lang="French" value="Liens adjustables" />
+    <Localized key="adjustable_bounds" lang="Dutch" value="Adjustable bounds" />
+    <Localized key="constraints" lang="French" value="Contraintes" />
+    <Localized key="start_orientation" lang="English" value="Start orientation" />
+    <Localized key="start_orientation" lang="French" value="Début d'orientation" />
+    <Localized key="start_orientation" lang="Dutch" value="Start orientation" />
+    <Localized key="end_orientation" lang="English" value="End orientation" />
+    <Localized key="end_orientation" lang="French" value="Fin orientation" />
+    <Localized key="end_orientation" lang="Dutch" value="End orientation" />
+    <Localized key="straight_when_possible" lang="English" value="Straight when possible" />
+    <Localized key="straight_when_possible" lang="French" value="Droit si possible" />
+    <Localized key="straight_when_possible" lang="Dutch" value="Straight when possible" />
+    <Localized key="adjustability" lang="French" value="ajustabilité" />
+    <Localized key="start_location_fixed" lang="English" value="Start location fixed" />
+    <Localized key="start_location_fixed" lang="French" value="Point de départ fixe" />
+    <Localized key="start_location_fixed" lang="Dutch" value="Start location fixed" />
+    <Localized key="end_location_fixed" lang="English" value="End location fixed" />
+    <Localized key="end_location_fixed" lang="French" value="End point fixe" />
+    <Localized key="end_location_fixed" lang="Dutch" value="End location fixed" />
+    <Localized key="start_location_draggable" lang="English" value="Start location draggable" />
+    <Localized key="start_location_draggable" lang="French" value="Point de départ déplaçable" />
+    <Localized key="start_location_draggable" lang="Dutch" value="Start location draggable" />
+    <Localized key="end_location_draggable" lang="English" value="End location draggable" />
+    <Localized key="end_location_draggable" lang="French" value="End point deplaçable" />
+    <Localized key="end_location_draggable" lang="Dutch" value="End location draggable" />
+    <Localized key="overlap_(pixels)" lang="English" value="Overlap (pixels)" />
+    <Localized key="overlap_(pixels)" lang="French" value="Chevauchement (pixels)" />
+    <Localized key="overlap_(pixels)" lang="Dutch" value="Overlap (pixels)" />
+    <Localized key="rounded" lang="English" value="Rounded" />
+    <Localized key="rounded" lang="French" value="Arrondi" />
+    <Localized key="rounded" lang="Dutch" value="Rounded" />
+    <Localized key="arc_size_(pixels)" lang="English" value="Arc size (pixels)" />
+    <Localized key="arc_size_(pixels)" lang="French" value="Taille de l'arc (pixels)" />
+    <Localized key="arc_size_(pixels)" lang="Dutch" value="Arc size (pixels)" />
+    <Localized key="start_symbol" lang="English" value="Start symbol" />
+    <Localized key="start_symbol" lang="French" value="Symbole de départ" />
+    <Localized key="start_symbol" lang="Dutch" value="Start symbol" />
+    <Localized key="start_symbol_size" lang="English" value="Start symbol size" />
+    <Localized key="start_symbol_size" lang="French" value="Taille du symbole de départ" />
+    <Localized key="start_symbol_size" lang="Dutch" value="Start symbol size" />
+    <Localized key="middle_symbol" lang="English" value="Middle symbol" />
+    <Localized key="middle_symbol" lang="French" value="Symbole du milieu" />
+    <Localized key="middle_symbol" lang="Dutch" value="Middle symbol" />
+    <Localized key="middle_symbol_size" lang="English" value="Middle symbol size" />
+    <Localized key="middle_symbol_size" lang="French" value="Taille du symbole du milieu" />
+    <Localized key="middle_symbol_size" lang="Dutch" value="Middle symbol size" />
+    <Localized key="end_symbol" lang="English" value="End symbol" />
+    <Localized key="end_symbol" lang="French" value="Symbole de fin" />
+    <Localized key="end_symbol" lang="Dutch" value="End symbol" />
+    <Localized key="end_symbol_size" lang="English" value="End symbol size" />
+    <Localized key="end_symbol_size" lang="French" value="Taille du symbole de terminaison" />
+    <Localized key="end_symbol_size" lang="Dutch" value="End symbol size" />
+    <Localized key="middle_location" lang="English" value="Middle location" />
+    <Localized key="middle_location" lang="French" value="Espace de milieu" />
+    <Localized key="middle_location" lang="Dutch" value="Middle location" />
+    <Localized key="debug" lang="French" value="Déverminage" />
   </LocalizedDictionary>
   <Parameter name="title" value="Connector" />
 </Panel>

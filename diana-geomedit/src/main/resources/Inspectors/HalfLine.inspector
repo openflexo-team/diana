@@ -13,8 +13,8 @@
     </Tab>
   </TabPanel>
   <LocalizedDictionary>
-    <Localized key="limitX" lang="French">limite X</Localized>
-    <Localized key="limitY" lang="French">limite Y</Localized>
+    <Localized key="limitX" lang="French" value="limite X" />
+    <Localized key="limitY" lang="French" value="limite Y" />
   </LocalizedDictionary>
   <Parameter name="title" value="HalfLine" />
 </Panel>

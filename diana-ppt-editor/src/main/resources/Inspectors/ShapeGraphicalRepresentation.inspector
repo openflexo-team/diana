@@ -125,165 +125,165 @@
     </Tab>
   </TabPanel>
   <LocalizedDictionary>
-    <Localized key="Location/Size" lang="French">Emplacement/Taille</Localized>
-    <Localized key="layer" lang="English">Layer</Localized>
-    <Localized key="layer" lang="French">Couche</Localized>
-    <Localized key="layer" lang="Dutch">Layer</Localized>
-    <Localized key="x" lang="English">Position x</Localized>
-    <Localized key="x" lang="French">Abscisse</Localized>
-    <Localized key="x" lang="Dutch">Position x</Localized>
-    <Localized key="y" lang="English">Position y</Localized>
-    <Localized key="y" lang="French">Ordonnée</Localized>
-    <Localized key="y" lang="Dutch">Position y</Localized>
-    <Localized key="freely_movable" lang="English">Freely movable</Localized>
-    <Localized key="freely_movable" lang="French">Peut être bougé</Localized>
-    <Localized key="freely_movable" lang="Dutch">Freely movable</Localized>
-    <Localized key="contained_in_shape" lang="English">Contained in shape</Localized>
-    <Localized key="contained_in_shape" lang="French">Contenu dans la forme</Localized>
-    <Localized key="contained_in_shape" lang="Dutch">Contained in shape</Localized>
-    <Localized key="unmovable" lang="French">non déplaçable</Localized>
-    <Localized key="relative_to_parent" lang="English">Relative to parent</Localized>
-    <Localized key="relative_to_parent" lang="French">Relatif au parent</Localized>
-    <Localized key="relative_to_parent" lang="Dutch">Relative to parent</Localized>
-    <Localized key="x_fixed" lang="English">x fixed</Localized>
-    <Localized key="x_fixed" lang="French">x fixe</Localized>
-    <Localized key="x_fixed" lang="Dutch">x fixed</Localized>
-    <Localized key="y_fixed" lang="English">y fixed</Localized>
-    <Localized key="y_fixed" lang="Dutch">y fixed</Localized>
-    <Localized key="area_constrained" lang="English">area constrained</Localized>
-    <Localized key="area_constrained" lang="French">espace contraint</Localized>
-    <Localized key="area_constrained" lang="Dutch">area constrained</Localized>
-    <Localized key="location_constraints" lang="English">Location constraints</Localized>
-    <Localized key="location_constraints" lang="French">Contraintes de positionnement</Localized>
-    <Localized key="location_constraints" lang="Dutch">Location constraints</Localized>
-    <Localized key="width" lang="English">Width</Localized>
-    <Localized key="width" lang="French">Largeur</Localized>
-    <Localized key="width" lang="Dutch">Width</Localized>
-    <Localized key="height" lang="English">Height</Localized>
-    <Localized key="height" lang="French">Hauteur</Localized>
-    <Localized key="height" lang="Dutch">Height</Localized>
-    <Localized key="freely_resizable" lang="English">Freely resizable</Localized>
-    <Localized key="freely_resizable" lang="French">Peut être redimensionné</Localized>
-    <Localized key="freely_resizable" lang="Dutch">Freely resizable</Localized>
-    <Localized key="unresizable" lang="French">non redimensionnable</Localized>
-    <Localized key="constrained_dimensions" lang="English">Constrained dimensions</Localized>
-    <Localized key="constrained_dimensions" lang="French">Dimensions contraintes</Localized>
-    <Localized key="constrained_dimensions" lang="Dutch">Constrained dimensions</Localized>
-    <Localized key="step_constrained" lang="English">step constrained</Localized>
-    <Localized key="step_constrained" lang="French">pas contraint</Localized>
-    <Localized key="step_constrained" lang="Dutch">step constrained</Localized>
-    <Localized key="width_fixed" lang="English">Fixed width</Localized>
-    <Localized key="width_fixed" lang="French">Largeur fixe</Localized>
-    <Localized key="width_fixed" lang="Dutch">Fixed width</Localized>
-    <Localized key="height_fixed" lang="English">Fixed height</Localized>
-    <Localized key="height_fixed" lang="French">Hauteur fixe</Localized>
-    <Localized key="height_fixed" lang="Dutch">Fixed height</Localized>
-    <Localized key="container" lang="French">conteneur</Localized>
-    <Localized key="dimensions_constraints" lang="English">Dimensions contraints</Localized>
-    <Localized key="dimensions_constraints" lang="French">Contraintes de dimensionnement</Localized>
-    <Localized key="dimensions_constraints" lang="Dutch">Dimensions contraints</Localized>
-    <Localized key="top_border" lang="English">Top border</Localized>
-    <Localized key="top_border" lang="French">Bord haut</Localized>
-    <Localized key="top_border" lang="Dutch">Top border</Localized>
-    <Localized key="bottom_border" lang="English">Bottom border</Localized>
-    <Localized key="bottom_border" lang="French">Bord du bas</Localized>
-    <Localized key="bottom_border" lang="Dutch">Bottom border</Localized>
-    <Localized key="left_border" lang="English">Left border</Localized>
-    <Localized key="left_border" lang="French">Bord gauche</Localized>
-    <Localized key="left_border" lang="Dutch">Left border</Localized>
-    <Localized key="right_border" lang="English">Right border</Localized>
-    <Localized key="right_border" lang="French">Bord droit</Localized>
-    <Localized key="right_border" lang="Dutch">Right border</Localized>
-    <Localized key="is_visible" lang="English">Is visible</Localized>
-    <Localized key="is_visible" lang="French">Visible</Localized>
-    <Localized key="is_visible" lang="Dutch">Is visible</Localized>
-    <Localized key="Text" lang="French">Texte</Localized>
-    <Localized key="floating_label" lang="English">Floating label</Localized>
-    <Localized key="floating_label" lang="French">Label flottant</Localized>
-    <Localized key="floating_label" lang="Dutch">Floating label</Localized>
-    <Localized key="absolute_text_x" lang="English">Absolute text X</Localized>
-    <Localized key="absolute_text_x" lang="French">texte x absolu</Localized>
-    <Localized key="absolute_text_x" lang="Dutch">Absolute text X</Localized>
-    <Localized key="absolute_text_y" lang="English">Absolute text Y</Localized>
-    <Localized key="absolute_text_y" lang="French">texte y absolu</Localized>
-    <Localized key="absolute_text_y" lang="Dutch">Absolute text Y</Localized>
-    <Localized key="relative_text_x" lang="English">Relative text x</Localized>
-    <Localized key="relative_text_x" lang="French">Text relatif à X</Localized>
-    <Localized key="relative_text_x" lang="Dutch">Relative text y</Localized>
-    <Localized key="relative_text_y" lang="English">Relative text y</Localized>
-    <Localized key="relative_text_y" lang="French">Text relatif à Y</Localized>
-    <Localized key="relative_text_y" lang="Dutch">Relative text y</Localized>
-    <Localized key="adjust_minimal_width_to_label_width" lang="English">Adjust the minimal width to label width</Localized>
-    <Localized key="adjust_minimal_width_to_label_width" lang="French">Ajuster la largeur minimale à la largeur du label</Localized>
-    <Localized key="adjust_minimal_width_to_label_width" lang="Dutch">Adjust the minimal width to label width</Localized>
-    <Localized key="adjust_minimal_height_to_label_height" lang="English">Adjust the minimal height to the label height</Localized>
-    <Localized key="adjust_minimal_height_to_label_height" lang="French">Ajuster la hauteur minimale à la hauteur du label</Localized>
-    <Localized key="adjust_minimal_height_to_label_height" lang="Dutch">Adjust the minimal height to the label height</Localized>
-    <Localized key="Shape" lang="French">Forme</Localized>
-    <Localized key="foreground" lang="English">Foreground</Localized>
-    <Localized key="foreground" lang="French">Couleur d'avant-plan</Localized>
-    <Localized key="foreground" lang="Dutch">Foreground</Localized>
-    <Localized key="background" lang="English">Background</Localized>
-    <Localized key="background" lang="French">Arrière-plan</Localized>
-    <Localized key="background" lang="Dutch">Background</Localized>
-    <Localized key="shadow" lang="English">Shadow</Localized>
-    <Localized key="shadow" lang="French">Ombre</Localized>
-    <Localized key="shadow" lang="Dutch">Shadow</Localized>
-    <Localized key="rectangle" lang="English">Rectangle</Localized>
-    <Localized key="rectangle" lang="French">Rectangle</Localized>
-    <Localized key="rectangle" lang="Dutch">Rectangle</Localized>
-    <Localized key="square" lang="English">Square</Localized>
-    <Localized key="square" lang="French">Carré</Localized>
-    <Localized key="square" lang="Dutch">Square</Localized>
-    <Localized key="polygon" lang="English">Regular polygon</Localized>
-    <Localized key="polygon" lang="French">Polygone régulier</Localized>
-    <Localized key="polygon" lang="Dutch">Regular polygon</Localized>
-    <Localized key="triangle" lang="English">Triangle</Localized>
-    <Localized key="triangle" lang="French">Triangle</Localized>
-    <Localized key="triangle" lang="Dutch">Triangle</Localized>
-    <Localized key="losange" lang="English">Losange</Localized>
-    <Localized key="losange" lang="French">Losange</Localized>
-    <Localized key="losange" lang="Dutch">Losange</Localized>
-    <Localized key="oval" lang="English">Oval</Localized>
-    <Localized key="oval" lang="French">Ovale</Localized>
-    <Localized key="oval" lang="Dutch">Oval</Localized>
-    <Localized key="circle" lang="English">Circle</Localized>
-    <Localized key="circle" lang="French">Cercle</Localized>
-    <Localized key="circle" lang="Dutch">Circle</Localized>
-    <Localized key="star" lang="English">Star</Localized>
-    <Localized key="star" lang="French">Étoile</Localized>
-    <Localized key="star" lang="Dutch">Star</Localized>
-    <Localized key="Plus" lang="English">Plus</Localized>
-    <Localized key="Plus" lang="French">Plus</Localized>
-    <Localized key="Plus" lang="Dutch">Plus</Localized>
-    <Localized key="Chevron" lang="English">Chevron</Localized>
-    <Localized key="Chevron" lang="French">Chevron</Localized>
-    <Localized key="Chevron" lang="Dutch">Chevron</Localized>
-    <Localized key="shape_type" lang="English">Shape</Localized>
-    <Localized key="shape_type" lang="French">Forme</Localized>
-    <Localized key="shape_type" lang="Dutch">Shape</Localized>
-    <Localized key="n_points" lang="English">Points number</Localized>
-    <Localized key="n_points" lang="French">Sommets</Localized>
-    <Localized key="n_points" lang="Dutch">Points number</Localized>
-    <Localized key="start_angle" lang="English">Start angle</Localized>
-    <Localized key="start_angle" lang="French">Angle</Localized>
-    <Localized key="start_angle" lang="Dutch">Start angle</Localized>
-    <Localized key="rounded" lang="English">Rounded</Localized>
-    <Localized key="rounded" lang="French">Arrondi</Localized>
-    <Localized key="rounded" lang="Dutch">Rounded</Localized>
-    <Localized key="arc_size" lang="English">Arc size</Localized>
-    <Localized key="arc_size" lang="French">Taille de l'arc</Localized>
-    <Localized key="arc_size" lang="Dutch">Arc size</Localized>
-    <Localized key="ratio" lang="French">rapport</Localized>
-    <Localized key="angle_start" lang="English">angle start</Localized>
-    <Localized key="angle_start" lang="French">début d'angle</Localized>
-    <Localized key="angle_start" lang="Dutch">angle start</Localized>
-    <Localized key="angle_extent" lang="English">angle extent</Localized>
-    <Localized key="angle_extent" lang="French">extension d'angle</Localized>
-    <Localized key="angle_extent" lang="Dutch">angle extent</Localized>
-    <Localized key="arc_type" lang="English">Arc type</Localized>
-    <Localized key="arc_type" lang="French">Type d'arc</Localized>
-    <Localized key="arc_type" lang="Dutch">Arc type</Localized>
+    <Localized key="Location/Size" lang="French" value="Emplacement/Taille" />
+    <Localized key="layer" lang="English" value="Layer" />
+    <Localized key="layer" lang="French" value="Couche" />
+    <Localized key="layer" lang="Dutch" value="Layer" />
+    <Localized key="x" lang="English" value="Position x" />
+    <Localized key="x" lang="French" value="Abscisse" />
+    <Localized key="x" lang="Dutch" value="Position x" />
+    <Localized key="y" lang="English" value="Position y" />
+    <Localized key="y" lang="French" value="Ordonnée" />
+    <Localized key="y" lang="Dutch" value="Position y" />
+    <Localized key="freely_movable" lang="English" value="Freely movable" />
+    <Localized key="freely_movable" lang="French" value="Peut être bougé" />
+    <Localized key="freely_movable" lang="Dutch" value="Freely movable" />
+    <Localized key="contained_in_shape" lang="English" value="Contained in shape" />
+    <Localized key="contained_in_shape" lang="French" value="Contenu dans la forme" />
+    <Localized key="contained_in_shape" lang="Dutch" value="Contained in shape" />
+    <Localized key="unmovable" lang="French" value="non déplaçable" />
+    <Localized key="relative_to_parent" lang="English" value="Relative to parent" />
+    <Localized key="relative_to_parent" lang="French" value="Relatif au parent" />
+    <Localized key="relative_to_parent" lang="Dutch" value="Relative to parent" />
+    <Localized key="x_fixed" lang="English" value="x fixed" />
+    <Localized key="x_fixed" lang="French" value="x fixe" />
+    <Localized key="x_fixed" lang="Dutch" value="x fixed" />
+    <Localized key="y_fixed" lang="English" value="y fixed" />
+    <Localized key="y_fixed" lang="Dutch" value="y fixed" />
+    <Localized key="area_constrained" lang="English" value="area constrained" />
+    <Localized key="area_constrained" lang="French" value="espace contraint" />
+    <Localized key="area_constrained" lang="Dutch" value="area constrained" />
+    <Localized key="location_constraints" lang="English" value="Location constraints" />
+    <Localized key="location_constraints" lang="French" value="Contraintes de positionnement" />
+    <Localized key="location_constraints" lang="Dutch" value="Location constraints" />
+    <Localized key="width" lang="English" value="Width" />
+    <Localized key="width" lang="French" value="Largeur" />
+    <Localized key="width" lang="Dutch" value="Width" />
+    <Localized key="height" lang="English" value="Height" />
+    <Localized key="height" lang="French" value="Hauteur" />
+    <Localized key="height" lang="Dutch" value="Height" />
+    <Localized key="freely_resizable" lang="English" value="Freely resizable" />
+    <Localized key="freely_resizable" lang="French" value="Peut être redimensionné" />
+    <Localized key="freely_resizable" lang="Dutch" value="Freely resizable" />
+    <Localized key="unresizable" lang="French" value="non redimensionnable" />
+    <Localized key="constrained_dimensions" lang="English" value="Constrained dimensions" />
+    <Localized key="constrained_dimensions" lang="French" value="Dimensions contraintes" />
+    <Localized key="constrained_dimensions" lang="Dutch" value="Constrained dimensions" />
+    <Localized key="step_constrained" lang="English" value="step constrained" />
+    <Localized key="step_constrained" lang="French" value="pas contraint" />
+    <Localized key="step_constrained" lang="Dutch" value="step constrained" />
+    <Localized key="width_fixed" lang="English" value="Fixed width" />
+    <Localized key="width_fixed" lang="French" value="Largeur fixe" />
+    <Localized key="width_fixed" lang="Dutch" value="Fixed width" />
+    <Localized key="height_fixed" lang="English" value="Fixed height" />
+    <Localized key="height_fixed" lang="French" value="Hauteur fixe" />
+    <Localized key="height_fixed" lang="Dutch" value="Fixed height" />
+    <Localized key="container" lang="French" value="conteneur" />
+    <Localized key="dimensions_constraints" lang="English" value="Dimensions contraints" />
+    <Localized key="dimensions_constraints" lang="French" value="Contraintes de dimensionnement" />
+    <Localized key="dimensions_constraints" lang="Dutch" value="Dimensions contraints" />
+    <Localized key="top_border" lang="English" value="Top border" />
+    <Localized key="top_border" lang="French" value="Bord haut" />
+    <Localized key="top_border" lang="Dutch" value="Top border" />
+    <Localized key="bottom_border" lang="English" value="Bottom border" />
+    <Localized key="bottom_border" lang="French" value="Bord du bas" />
+    <Localized key="bottom_border" lang="Dutch" value="Bottom border" />
+    <Localized key="left_border" lang="English" value="Left border" />
+    <Localized key="left_border" lang="French" value="Bord gauche" />
+    <Localized key="left_border" lang="Dutch" value="Left border" />
+    <Localized key="right_border" lang="English" value="Right border" />
+    <Localized key="right_border" lang="French" value="Bord droit" />
+    <Localized key="right_border" lang="Dutch" value="Right border" />
+    <Localized key="is_visible" lang="English" value="Is visible" />
+    <Localized key="is_visible" lang="French" value="Visible" />
+    <Localized key="is_visible" lang="Dutch" value="Is visible" />
+    <Localized key="Text" lang="French" value="Texte" />
+    <Localized key="floating_label" lang="English" value="Floating label" />
+    <Localized key="floating_label" lang="French" value="Label flottant" />
+    <Localized key="floating_label" lang="Dutch" value="Floating label" />
+    <Localized key="absolute_text_x" lang="English" value="Absolute text X" />
+    <Localized key="absolute_text_x" lang="French" value="texte x absolu" />
+    <Localized key="absolute_text_x" lang="Dutch" value="Absolute text X" />
+    <Localized key="absolute_text_y" lang="English" value="Absolute text Y" />
+    <Localized key="absolute_text_y" lang="French" value="texte y absolu" />
+    <Localized key="absolute_text_y" lang="Dutch" value="Absolute text Y" />
+    <Localized key="relative_text_x" lang="English" value="Relative text x" />
+    <Localized key="relative_text_x" lang="French" value="Text relatif à X" />
+    <Localized key="relative_text_x" lang="Dutch" value="Relative text y" />
+    <Localized key="relative_text_y" lang="English" value="Relative text y" />
+    <Localized key="relative_text_y" lang="French" value="Text relatif à Y" />
+    <Localized key="relative_text_y" lang="Dutch" value="Relative text y" />
+    <Localized key="adjust_minimal_width_to_label_width" lang="English" value="Adjust the minimal width to label width" />
+    <Localized key="adjust_minimal_width_to_label_width" lang="French" value="Ajuster la largeur minimale à la largeur du label" />
+    <Localized key="adjust_minimal_width_to_label_width" lang="Dutch" value="Adjust the minimal width to label width" />
+    <Localized key="adjust_minimal_height_to_label_height" lang="English" value="Adjust the minimal height to the label height" />
+    <Localized key="adjust_minimal_height_to_label_height" lang="French" value="Ajuster la hauteur minimale à la hauteur du label" />
+    <Localized key="adjust_minimal_height_to_label_height" lang="Dutch" value="Adjust the minimal height to the label height" />
+    <Localized key="Shape" lang="French" value="Forme" />
+    <Localized key="foreground" lang="English" value="Foreground" />
+    <Localized key="foreground" lang="French" value="Couleur d'avant-plan" />
+    <Localized key="foreground" lang="Dutch" value="Foreground" />
+    <Localized key="background" lang="English" value="Background" />
+    <Localized key="background" lang="French" value="Arrière-plan" />
+    <Localized key="background" lang="Dutch" value="Background" />
+    <Localized key="shadow" lang="English" value="Shadow" />
+    <Localized key="shadow" lang="French" value="Ombre" />
+    <Localized key="shadow" lang="Dutch" value="Shadow" />
+    <Localized key="rectangle" lang="English" value="Rectangle" />
+    <Localized key="rectangle" lang="French" value="Rectangle" />
+    <Localized key="rectangle" lang="Dutch" value="Rectangle" />
+    <Localized key="square" lang="English" value="Square" />
+    <Localized key="square" lang="French" value="Carré" />
+    <Localized key="square" lang="Dutch" value="Square" />
+    <Localized key="polygon" lang="English" value="Regular polygon" />
+    <Localized key="polygon" lang="French" value="Polygone régulier" />
+    <Localized key="polygon" lang="Dutch" value="Regular polygon" />
+    <Localized key="triangle" lang="English" value="Triangle" />
+    <Localized key="triangle" lang="French" value="Triangle" />
+    <Localized key="triangle" lang="Dutch" value="Triangle" />
+    <Localized key="losange" lang="English" value="Losange" />
+    <Localized key="losange" lang="French" value="Losange" />
+    <Localized key="losange" lang="Dutch" value="Losange" />
+    <Localized key="oval" lang="English" value="Oval" />
+    <Localized key="oval" lang="French" value="Ovale" />
+    <Localized key="oval" lang="Dutch" value="Oval" />
+    <Localized key="circle" lang="English" value="Circle" />
+    <Localized key="circle" lang="French" value="Cercle" />
+    <Localized key="circle" lang="Dutch" value="Circle" />
+    <Localized key="star" lang="English" value="Star" />
+    <Localized key="star" lang="French" value="Étoile" />
+    <Localized key="star" lang="Dutch" value="Star" />
+    <Localized key="Plus" lang="English" value="Plus" />
+    <Localized key="Plus" lang="French" value="Plus" />
+    <Localized key="Plus" lang="Dutch" value="Plus" />
+    <Localized key="Chevron" lang="English" value="Chevron" />
+    <Localized key="Chevron" lang="French" value="Chevron" />
+    <Localized key="Chevron" lang="Dutch" value="Chevron" />
+    <Localized key="shape_type" lang="English" value="Shape" />
+    <Localized key="shape_type" lang="French" value="Forme" />
+    <Localized key="shape_type" lang="Dutch" value="Shape" />
+    <Localized key="n_points" lang="English" value="Points number" />
+    <Localized key="n_points" lang="French" value="Sommets" />
+    <Localized key="n_points" lang="Dutch" value="Points number" />
+    <Localized key="start_angle" lang="English" value="Start angle" />
+    <Localized key="start_angle" lang="French" value="Angle" />
+    <Localized key="start_angle" lang="Dutch" value="Start angle" />
+    <Localized key="rounded" lang="English" value="Rounded" />
+    <Localized key="rounded" lang="French" value="Arrondi" />
+    <Localized key="rounded" lang="Dutch" value="Rounded" />
+    <Localized key="arc_size" lang="English" value="Arc size" />
+    <Localized key="arc_size" lang="French" value="Taille de l'arc" />
+    <Localized key="arc_size" lang="Dutch" value="Arc size" />
+    <Localized key="ratio" lang="French" value="rapport" />
+    <Localized key="angle_start" lang="English" value="angle start" />
+    <Localized key="angle_start" lang="French" value="début d'angle" />
+    <Localized key="angle_start" lang="Dutch" value="angle start" />
+    <Localized key="angle_extent" lang="English" value="angle extent" />
+    <Localized key="angle_extent" lang="French" value="extension d'angle" />
+    <Localized key="angle_extent" lang="Dutch" value="angle extent" />
+    <Localized key="arc_type" lang="English" value="Arc type" />
+    <Localized key="arc_type" lang="French" value="Type d'arc" />
+    <Localized key="arc_type" lang="Dutch" value="Arc type" />
   </LocalizedDictionary>
   <Parameter name="title" value="Shape" />
 </Panel>
