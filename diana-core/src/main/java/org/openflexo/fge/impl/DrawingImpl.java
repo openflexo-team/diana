@@ -773,17 +773,40 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 			logger.info("deleting " + this);
 		}
 		if (nodes != null) {
-			for (GRBinding grBinding : new ArrayList<GRBinding>(nodes.keySet())) {
-				for (DrawingTreeNode<?, ?> dtn : new ArrayList<DrawingTreeNode<?, ?>>(retrieveHash(grBinding).values())) {
-					dtn.delete();
+			List<GRBinding> grBindingsToDelete = new ArrayList<GRBinding>(nodes.keySet());
+			List<GRBinding> connectorGRBindingsToDelete = new ArrayList<GRBinding>();
+			
+			// Retrieve connectors to be deleted
+			for (GRBinding grBinding : grBindingsToDelete) {
+				if(grBinding instanceof ConnectorGRBinding<?>){
+					connectorGRBindingsToDelete.add((ConnectorGRBinding) grBinding);
 				}
 			}
-
+			grBindingsToDelete.removeAll(connectorGRBindingsToDelete);
+			// First delete connector nodes
+			deleteNodes(connectorGRBindingsToDelete);
+			// Then deleted all remaining nodes
+			deleteNodes(grBindingsToDelete);
+			
+			// 
+			/*for (DrawingTreeNode<?, ?> dtn : new ArrayList<DrawingTreeNode<?, ?>>(retrieveHash(grBinding).values())) {
+				dtn.delete();
+			}*/
+			
 			nodes.clear();
 		}
 		model = null;
 	}
-
+	
+	// Delete nodes
+	private void deleteNodes(List<GRBinding> grBindingsToDelete){
+		for (GRBinding grBinding : grBindingsToDelete) {
+			for (DrawingTreeNode<?, ?> dtn : new ArrayList<DrawingTreeNode<?, ?>>(retrieveHash(grBinding).values())) {
+				dtn.delete();
+			}
+		}
+	}
+	
 	/**
 	 * This hook is called whenever a drawing will be displayed (when a JDrawingView will be build)
 	 */

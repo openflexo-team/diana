@@ -26,29 +26,29 @@
     <LocalizedDictionary />
   </Panel>
   <LocalizedDictionary>
-    <Localized key="font" lang="English">Font</Localized>
-    <Localized key="color" lang="English">Color</Localized>
-    <Localized key="orientation" lang="English">Orientation</Localized>
-    <Localized key="apply" lang="English">Apply</Localized>
-    <Localized key="cancel" lang="English">Cancel</Localized>
-    <Localized key="font" lang="French">Police</Localized>
-    <Localized key="color" lang="French">Couleur</Localized>
-    <Localized key="orientation" lang="French">Orientation</Localized>
-    <Localized key="apply" lang="French">Appliquer</Localized>
-    <Localized key="cancel" lang="French">Annuler</Localized>
-    <Localized key="font" lang="Dutch">Font</Localized>
-    <Localized key="color" lang="Dutch">Color</Localized>
-    <Localized key="orientation" lang="Dutch">Orientation</Localized>
-    <Localized key="apply" lang="Dutch">Apply</Localized>
-    <Localized key="cancel" lang="Dutch">Cancel</Localized>
-    <Localized key="background" lang="English">Background</Localized>
-    <Localized key="background" lang="French">Arrière-plan</Localized>
-    <Localized key="background" lang="Dutch">Background</Localized>
-    <Localized key="transparent" lang="English">Transparent</Localized>
-    <Localized key="transparent" lang="French">Transparent</Localized>
-    <Localized key="transparent" lang="Dutch">transparent</Localized>
-    <Localized key="foreground" lang="English">Foreground</Localized>
-    <Localized key="foreground" lang="French">Couleur d'avant-plan</Localized>
-    <Localized key="foreground" lang="Dutch">Foreground</Localized>
+    <Localized key="font" lang="English" value="Font" />
+    <Localized key="color" lang="English" value="Color" />
+    <Localized key="orientation" lang="English" value="Orientation" />
+    <Localized key="apply" lang="English" value="Apply" />
+    <Localized key="cancel" lang="English" value="Cancel" />
+    <Localized key="font" lang="French" value="Police" />
+    <Localized key="color" lang="French" value="Couleur" />
+    <Localized key="orientation" lang="French" value="Orientation" />
+    <Localized key="apply" lang="French" value="Appliquer" />
+    <Localized key="cancel" lang="French" value="Annuler" />
+    <Localized key="font" lang="Dutch" value="Font" />
+    <Localized key="color" lang="Dutch" value="Color" />
+    <Localized key="orientation" lang="Dutch" value="Orientation" />
+    <Localized key="apply" lang="Dutch" value="Apply" />
+    <Localized key="cancel" lang="Dutch" value="Cancel" />
+    <Localized key="background" lang="English" value="Background" />
+    <Localized key="background" lang="French" value="Arrière-plan" />
+    <Localized key="background" lang="Dutch" value="Background" />
+    <Localized key="transparent" lang="English" value="Transparent" />
+    <Localized key="transparent" lang="French" value="Transparent" />
+    <Localized key="transparent" lang="Dutch" value="transparent" />
+    <Localized key="foreground" lang="English" value="Foreground" />
+    <Localized key="foreground" lang="French" value="Couleur d'avant-plan" />
+    <Localized key="foreground" lang="Dutch" value="Foreground" />
   </LocalizedDictionary>
 </Panel>

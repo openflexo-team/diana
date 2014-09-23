@@ -136,59 +136,59 @@
     <Number allowsNull="false" minValue="0" maxValue="1" increment="0.05" numberType="FloatType" columns="3" index="3" data="data.backgroundStyle.transparencyLevel" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=8;insetsRight=2;insetsTop=0;location=right)" name="Integer" localize="true" enable="((data.styleType != &quot;NONE&quot;) &amp; data.backgroundStyle.useTransparency)" />
   </Panel>
   <LocalizedDictionary>
-    <Localized key="background" lang="English">Background</Localized>
-    <Localized key="none" lang="English">None</Localized>
-    <Localized key="color" lang="English">Color</Localized>
-    <Localized key="color_gradient" lang="English">Color gradient</Localized>
-    <Localized key="texture" lang="English">Texture</Localized>
-    <Localized key="image" lang="English">Image</Localized>
-    <Localized key="use_transparency" lang="English">Use transparency</Localized>
-    <Localized key="level" lang="English">Level</Localized>
-    <Localized key="fit_to_shape" lang="English">Fit to shape</Localized>
-    <Localized key="x" lang="English">x</Localized>
-    <Localized key="y" lang="English">y</Localized>
-    <Localized key="background" lang="French">Arrière-plan</Localized>
-    <Localized key="none" lang="French">Aucun</Localized>
-    <Localized key="color" lang="French">Couleur</Localized>
-    <Localized key="color_gradient" lang="French">Gradient de couleurs</Localized>
-    <Localized key="texture" lang="French">Texture</Localized>
-    <Localized key="image" lang="French">Image</Localized>
-    <Localized key="use_transparency" lang="French">Utiliser la transparence</Localized>
-    <Localized key="level" lang="French">Niveau</Localized>
-    <Localized key="fit_to_shape" lang="French">Adapté à la forme</Localized>
-    <Localized key="x" lang="French">x</Localized>
-    <Localized key="y" lang="French">y</Localized>
-    <Localized key="background" lang="Dutch">Background</Localized>
-    <Localized key="none" lang="Dutch">None</Localized>
-    <Localized key="color" lang="Dutch">Color</Localized>
-    <Localized key="color_gradient" lang="Dutch">Color gradient</Localized>
-    <Localized key="texture" lang="Dutch">Texture</Localized>
-    <Localized key="image" lang="Dutch">Image</Localized>
-    <Localized key="use_transparency" lang="Dutch">Use transparency</Localized>
-    <Localized key="level" lang="Dutch">Level</Localized>
-    <Localized key="fit_to_shape" lang="Dutch">Fit to shape</Localized>
-    <Localized key="x" lang="Dutch">x</Localized>
-    <Localized key="y" lang="Dutch">y</Localized>
-    <Localized key="not_applicable" lang="English">Not applicable</Localized>
-    <Localized key="not_applicable" lang="French">Sans objet</Localized>
-    <Localized key="not_applicable" lang="Dutch">Not applicable</Localized>
-    <Localized key="north_south" lang="English">North/South</Localized>
-    <Localized key="west_east" lang="English">West East</Localized>
-    <Localized key="south_east_north_west" lang="English">South East North West</Localized>
-    <Localized key="south_west_north_east" lang="English">South West North East</Localized>
-    <Localized key="north_south" lang="French">Nord/Sud</Localized>
-    <Localized key="west_east" lang="French">Ouest Est</Localized>
-    <Localized key="south_east_north_west" lang="French">Sud Est Nord Ouest</Localized>
-    <Localized key="south_west_north_east" lang="French">Sud Ouest Nord Est</Localized>
-    <Localized key="north_south" lang="Dutch">North/South</Localized>
-    <Localized key="west_east" lang="Dutch">West East</Localized>
-    <Localized key="south_east_north_west" lang="Dutch">South East North West</Localized>
-    <Localized key="south_west_north_east" lang="Dutch">South West North East</Localized>
-    <Localized key="scale" lang="French">Echelle</Localized>
-    <Localized key="scale" lang="English">Scale</Localized>
-    <Localized key="opaque" lang="English">Opaque</Localized>
-    <Localized key="opaque" lang="French">Opaque</Localized>
-    <Localized key="delta" lang="French">Delta</Localized>
-    <Localized key="delta" lang="English">Delta</Localized>
+    <Localized key="background" lang="English" value="Background" />
+    <Localized key="none" lang="English" value="None" />
+    <Localized key="color" lang="English" value="Color" />
+    <Localized key="color_gradient" lang="English" value="Color gradient" />
+    <Localized key="texture" lang="English" value="Texture" />
+    <Localized key="image" lang="English" value="Image" />
+    <Localized key="use_transparency" lang="English" value="Use transparency" />
+    <Localized key="level" lang="English" value="Level" />
+    <Localized key="fit_to_shape" lang="English" value="Fit to shape" />
+    <Localized key="x" lang="English" value="x" />
+    <Localized key="y" lang="English" value="y" />
+    <Localized key="background" lang="French" value="Arrière-plan" />
+    <Localized key="none" lang="French" value="Aucun" />
+    <Localized key="color" lang="French" value="Couleur" />
+    <Localized key="color_gradient" lang="French" value="Gradient de couleurs" />
+    <Localized key="texture" lang="French" value="Texture" />
+    <Localized key="image" lang="French" value="Image" />
+    <Localized key="use_transparency" lang="French" value="Utiliser la transparence" />
+    <Localized key="level" lang="French" value="Niveau" />
+    <Localized key="fit_to_shape" lang="French" value="Adapté à la forme" />
+    <Localized key="x" lang="French" value="x" />
+    <Localized key="y" lang="French" value="y" />
+    <Localized key="background" lang="Dutch" value="Background" />
+    <Localized key="none" lang="Dutch" value="None" />
+    <Localized key="color" lang="Dutch" value="Color" />
+    <Localized key="color_gradient" lang="Dutch" value="Color gradient" />
+    <Localized key="texture" lang="Dutch" value="Texture" />
+    <Localized key="image" lang="Dutch" value="Image" />
+    <Localized key="use_transparency" lang="Dutch" value="Use transparency" />
+    <Localized key="level" lang="Dutch" value="Level" />
+    <Localized key="fit_to_shape" lang="Dutch" value="Fit to shape" />
+    <Localized key="x" lang="Dutch" value="x" />
+    <Localized key="y" lang="Dutch" value="y" />
+    <Localized key="not_applicable" lang="English" value="Not applicable" />
+    <Localized key="not_applicable" lang="French" value="Sans objet" />
+    <Localized key="not_applicable" lang="Dutch" value="Not applicable" />
+    <Localized key="north_south" lang="English" value="North/South" />
+    <Localized key="west_east" lang="English" value="West East" />
+    <Localized key="south_east_north_west" lang="English" value="South East North West" />
+    <Localized key="south_west_north_east" lang="English" value="South West North East" />
+    <Localized key="north_south" lang="French" value="Nord/Sud" />
+    <Localized key="west_east" lang="French" value="Ouest Est" />
+    <Localized key="south_east_north_west" lang="French" value="Sud Est Nord Ouest" />
+    <Localized key="south_west_north_east" lang="French" value="Sud Ouest Nord Est" />
+    <Localized key="north_south" lang="Dutch" value="North/South" />
+    <Localized key="west_east" lang="Dutch" value="West East" />
+    <Localized key="south_east_north_west" lang="Dutch" value="South East North West" />
+    <Localized key="south_west_north_east" lang="Dutch" value="South West North East" />
+    <Localized key="scale" lang="French" value="Echelle" />
+    <Localized key="scale" lang="English" value="Scale" />
+    <Localized key="opaque" lang="English" value="Opaque" />
+    <Localized key="opaque" lang="French" value="Opaque" />
+    <Localized key="delta" lang="French" value="Delta" />
+    <Localized key="delta" lang="English" value="Delta" />
   </LocalizedDictionary>
 </Panel>

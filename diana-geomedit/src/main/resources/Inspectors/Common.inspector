@@ -45,30 +45,30 @@
     <Tab title="Data" layout="twocols" titleFont="SansSerif,0,11" darkLevel="0" index="0" font="SansSerif,0,11" useScrollBar="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="DataTab" />
   </TabPanel>
   <LocalizedDictionary>
-    <Localized key="read_only" lang="English">Read only</Localized>
-    <Localized key="read_only" lang="French">Lecture seule</Localized>
-    <Localized key="read_only" lang="Dutch">Read only</Localized>
-    <Localized key="is_selectable" lang="English">Is selectable</Localized>
-    <Localized key="is_selectable" lang="French">Sélectionnable</Localized>
-    <Localized key="is_selectable" lang="Dutch">Is selectable</Localized>
-    <Localized key="is_selected" lang="English">Is selected</Localized>
-    <Localized key="is_selected" lang="French">Sélectionné ?</Localized>
-    <Localized key="is_selected" lang="Dutch">Is selected</Localized>
-    <Localized key="is_focusable" lang="English">Is focusable</Localized>
-    <Localized key="is_focusable" lang="French">Focusable</Localized>
-    <Localized key="is_focusable" lang="Dutch">Is focusable</Localized>
-    <Localized key="is_focused" lang="English">Is focused</Localized>
-    <Localized key="is_focused" lang="French">A le focus</Localized>
-    <Localized key="is_focused" lang="Dutch">Is focused</Localized>
-    <Localized key="mouse_click_controls" lang="English">Mouse click controls</Localized>
-    <Localized key="mouse_click_controls" lang="French">Contrôle des clicks de souris</Localized>
-    <Localized key="mouse_click_controls" lang="Dutch">Mouse click controls</Localized>
-    <Localized key="mouse_drag_controls" lang="English">Mouse drag controls</Localized>
-    <Localized key="mouse_drag_controls" lang="French">Contrôle des 'drag' de souris</Localized>
-    <Localized key="mouse_drag_controls" lang="Dutch">Mouse drag controls</Localized>
-    <Localized key="text_style" lang="English">Text style</Localized>
-    <Localized key="text_style" lang="French">Style de texte</Localized>
-    <Localized key="text_style" lang="Dutch">Text style</Localized>
+    <Localized key="read_only" lang="English" value="Read only" />
+    <Localized key="read_only" lang="French" value="Lecture seule" />
+    <Localized key="read_only" lang="Dutch" value="Read only" />
+    <Localized key="is_selectable" lang="English" value="Is selectable" />
+    <Localized key="is_selectable" lang="French" value="Sélectionnable" />
+    <Localized key="is_selectable" lang="Dutch" value="Is selectable" />
+    <Localized key="is_selected" lang="English" value="Is selected" />
+    <Localized key="is_selected" lang="French" value="Sélectionné ?" />
+    <Localized key="is_selected" lang="Dutch" value="Is selected" />
+    <Localized key="is_focusable" lang="English" value="Is focusable" />
+    <Localized key="is_focusable" lang="French" value="Focusable" />
+    <Localized key="is_focusable" lang="Dutch" value="Is focusable" />
+    <Localized key="is_focused" lang="English" value="Is focused" />
+    <Localized key="is_focused" lang="French" value="A le focus" />
+    <Localized key="is_focused" lang="Dutch" value="Is focused" />
+    <Localized key="mouse_click_controls" lang="English" value="Mouse click controls" />
+    <Localized key="mouse_click_controls" lang="French" value="Contrôle des clicks de souris" />
+    <Localized key="mouse_click_controls" lang="Dutch" value="Mouse click controls" />
+    <Localized key="mouse_drag_controls" lang="English" value="Mouse drag controls" />
+    <Localized key="mouse_drag_controls" lang="French" value="Contrôle des 'drag' de souris" />
+    <Localized key="mouse_drag_controls" lang="Dutch" value="Mouse drag controls" />
+    <Localized key="text_style" lang="English" value="Text style" />
+    <Localized key="text_style" lang="French" value="Style de texte" />
+    <Localized key="text_style" lang="Dutch" value="Text style" />
   </LocalizedDictionary>
   <Parameter name="title" value="Common" />
 </Panel>

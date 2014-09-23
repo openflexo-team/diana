@@ -21,24 +21,24 @@
     <Number minValue="0" maxValue="15" increment="1" numberType="IntegerType" columns="3" data="data.shadowBlur" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right;x=0;y=0)" name="Integer" localize="true" enable="data.drawShadow" />
   </Panel>
   <LocalizedDictionary>
-    <Localized key="draw_shadow" lang="English">Draw shadow</Localized>
-    <Localized key="darkness" lang="English">Darkness</Localized>
-    <Localized key="depth" lang="English">Depth</Localized>
-    <Localized key="blur" lang="English">Blur</Localized>
-    <Localized key="apply" lang="English">Apply</Localized>
-    <Localized key="cancel" lang="English">Cancel</Localized>
-    <Localized key="draw_shadow" lang="French">Dessiner une ombre</Localized>
-    <Localized key="darkness" lang="French">Obscurité</Localized>
-    <Localized key="depth" lang="French">Profondeur</Localized>
-    <Localized key="blur" lang="French">Flou</Localized>
-    <Localized key="apply" lang="French">Appliquer</Localized>
-    <Localized key="cancel" lang="French">Annuler</Localized>
-    <Localized key="draw_shadow" lang="Dutch">Draw shadow</Localized>
-    <Localized key="darkness" lang="Dutch">Darkness</Localized>
-    <Localized key="depth" lang="Dutch">Depth</Localized>
-    <Localized key="blur" lang="Dutch">Blur</Localized>
-    <Localized key="apply" lang="Dutch">Apply</Localized>
-    <Localized key="cancel" lang="Dutch">Cancel</Localized>
+    <Localized key="draw_shadow" lang="English" value="Draw shadow" />
+    <Localized key="darkness" lang="English" value="Darkness" />
+    <Localized key="depth" lang="English" value="Depth" />
+    <Localized key="blur" lang="English" value="Blur" />
+    <Localized key="apply" lang="English" value="Apply" />
+    <Localized key="cancel" lang="English" value="Cancel" />
+    <Localized key="draw_shadow" lang="French" value="Dessiner une ombre" />
+    <Localized key="darkness" lang="French" value="Obscurité" />
+    <Localized key="depth" lang="French" value="Profondeur" />
+    <Localized key="blur" lang="French" value="Flou" />
+    <Localized key="apply" lang="French" value="Appliquer" />
+    <Localized key="cancel" lang="French" value="Annuler" />
+    <Localized key="draw_shadow" lang="Dutch" value="Draw shadow" />
+    <Localized key="darkness" lang="Dutch" value="Darkness" />
+    <Localized key="depth" lang="Dutch" value="Depth" />
+    <Localized key="blur" lang="Dutch" value="Blur" />
+    <Localized key="apply" lang="Dutch" value="Apply" />
+    <Localized key="cancel" lang="Dutch" value="Cancel" />
   </LocalizedDictionary>
 </Panel>
 

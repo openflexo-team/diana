@@ -21,24 +21,24 @@
     </Tab>
   </TabPanel>
   <LocalizedDictionary>
-    <Localized key="selection_color" lang="English">Selection color</Localized>
-    <Localized key="selection_color" lang="French">Couleur de sélection</Localized>
-    <Localized key="selection_color" lang="Dutch">Selection color</Localized>
-    <Localized key="focus_color" lang="English">Focus color</Localized>
-    <Localized key="focus_color" lang="French">Couleur de focus</Localized>
-    <Localized key="focus_color" lang="Dutch">Focus color</Localized>
-    <Localized key="rectangle_selection_color" lang="English">Rectangle selection color</Localized>
-    <Localized key="rectangle_selection_color" lang="French">Couleur du rectangle de sélection</Localized>
-    <Localized key="rectangle_selection_color" lang="Dutch">Rectangle selection color</Localized>
-    <Localized key="background_color" lang="English">Background color</Localized>
-    <Localized key="background_color" lang="French">Couleur de l'arrière-plan</Localized>
-    <Localized key="background_color" lang="Dutch">Background color</Localized>
-    <Localized key="width" lang="English">Width</Localized>
-    <Localized key="width" lang="French">Largeur</Localized>
-    <Localized key="width" lang="Dutch">Width</Localized>
-    <Localized key="height" lang="English">Height</Localized>
-    <Localized key="height" lang="French">Hauteur</Localized>
-    <Localized key="height" lang="Dutch">Height</Localized>
+    <Localized key="selection_color" lang="English" value="Selection color" />
+    <Localized key="selection_color" lang="French" value="Couleur de sélection" />
+    <Localized key="selection_color" lang="Dutch" value="Selection color" />
+    <Localized key="focus_color" lang="English" value="Focus color" />
+    <Localized key="focus_color" lang="French" value="Couleur de focus" />
+    <Localized key="focus_color" lang="Dutch" value="Focus color" />
+    <Localized key="rectangle_selection_color" lang="English" value="Rectangle selection color" />
+    <Localized key="rectangle_selection_color" lang="French" value="Couleur du rectangle de sélection" />
+    <Localized key="rectangle_selection_color" lang="Dutch" value="Rectangle selection color" />
+    <Localized key="background_color" lang="English" value="Background color" />
+    <Localized key="background_color" lang="French" value="Couleur de l'arrière-plan" />
+    <Localized key="background_color" lang="Dutch" value="Background color" />
+    <Localized key="width" lang="English" value="Width" />
+    <Localized key="width" lang="French" value="Largeur" />
+    <Localized key="width" lang="Dutch" value="Width" />
+    <Localized key="height" lang="English" value="Height" />
+    <Localized key="height" lang="French" value="Hauteur" />
+    <Localized key="height" lang="Dutch" value="Height" />
   </LocalizedDictionary>
   <Parameter name="title" value="Drawing" />
 </Panel>

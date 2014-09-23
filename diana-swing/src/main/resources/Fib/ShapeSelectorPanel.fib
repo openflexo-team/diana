@@ -343,177 +343,177 @@
 		<Dependancy componentName="shapeTypeDropdown" />
 	</Panel>
 	<LocalizedDictionary>
-		<Localized key="shape_type" lang="English">Shape</Localized>
-		<Localized key="shape_type" lang="French">Forme</Localized>
-		<Localized key="shape_type" lang="Dutch">Shape</Localized>
-		<Localized key="rectangle" lang="English">Rectangle</Localized>
-		<Localized key="rectangle" lang="French">Rectangle</Localized>
-		<Localized key="rectangle" lang="Dutch">Rectangle</Localized>
-		<Localized key="square" lang="English">Square</Localized>
-		<Localized key="square" lang="French">Carré</Localized>
-		<Localized key="square" lang="Dutch">Square</Localized>
+		<Localized key="shape_type" lang="English" value="Shape" />
+		<Localized key="shape_type" lang="French" value="Forme" />
+		<Localized key="shape_type" lang="Dutch" value="Shape" />
+		<Localized key="rectangle" lang="English" value="Rectangle" />
+		<Localized key="rectangle" lang="French" value="Rectangle" />
+		<Localized key="rectangle" lang="Dutch" value="Rectangle" />
+		<Localized key="square" lang="English" value="Square" />
+		<Localized key="square" lang="French" value="Carré" />
+		<Localized key="square" lang="Dutch" value="Square" />
 		<Localized key="rectangularoctogon" lang="English">Rectangular octogon
 		</Localized>
 		<Localized key="rectangularoctogon" lang="French">Octogone
 			rectangulaire</Localized>
 		<Localized key="rectangularoctogon" lang="Dutch">Rectangular octogon
 		</Localized>
-		<Localized key="polygon" lang="English">Regular polygon</Localized>
-		<Localized key="polygon" lang="French">Polygone régulier</Localized>
-		<Localized key="polygon" lang="Dutch">Regular polygon</Localized>
-		<Localized key="triangle" lang="English">Triangle</Localized>
-		<Localized key="triangle" lang="French">Triangle</Localized>
-		<Localized key="triangle" lang="Dutch">Triangle</Localized>
-		<Localized key="losange" lang="English">Losange</Localized>
-		<Localized key="losange" lang="French">Losange</Localized>
-		<Localized key="losange" lang="Dutch">Losange</Localized>
-		<Localized key="oval" lang="English">Oval</Localized>
-		<Localized key="oval" lang="French">Ovale</Localized>
-		<Localized key="oval" lang="Dutch">Oval</Localized>
-		<Localized key="circle" lang="English">Circle</Localized>
-		<Localized key="circle" lang="French">Cercle</Localized>
-		<Localized key="circle" lang="Dutch">Circle</Localized>
-		<Localized key="star" lang="English">Star</Localized>
-		<Localized key="star" lang="French">Étoile</Localized>
-		<Localized key="star" lang="Dutch">Star</Localized>
-		<Localized key="plus" lang="English">Plus</Localized>
-		<Localized key="plus" lang="French">Plus</Localized>
-		<Localized key="plus" lang="Dutch">Plus</Localized>
-		<Localized key="chevron" lang="English">Chevron</Localized>
-		<Localized key="chevron" lang="French">Chevron</Localized>
-		<Localized key="chevron" lang="Dutch">Chevron</Localized>
-		<Localized key="arc" lang="English">Arc</Localized>
-		<Localized key="arc" lang="French">Arc</Localized>
-		<Localized key="arc" lang="Dutch">Boog (arc)</Localized>
+		<Localized key="polygon" lang="English" value="Regular polygon" />
+		<Localized key="polygon" lang="French" value="Polygone régulier" />
+		<Localized key="polygon" lang="Dutch" value="Regular polygon" />
+		<Localized key="triangle" lang="English" value="Triangle" />
+		<Localized key="triangle" lang="French" value="Triangle" />
+		<Localized key="triangle" lang="Dutch" value="Triangle" />
+		<Localized key="losange" lang="English" value="Losange" />
+		<Localized key="losange" lang="French" value="Losange" />
+		<Localized key="losange" lang="Dutch" value="Losange" />
+		<Localized key="oval" lang="English" value="Oval" />
+		<Localized key="oval" lang="French" value="Ovale" />
+		<Localized key="oval" lang="Dutch" value="Oval" />
+		<Localized key="circle" lang="English" value="Circle" />
+		<Localized key="circle" lang="French" value="Cercle" />
+		<Localized key="circle" lang="Dutch" value="Circle" />
+		<Localized key="star" lang="English" value="Star" />
+		<Localized key="star" lang="French" value="Étoile" />
+		<Localized key="star" lang="Dutch" value="Star" />
+		<Localized key="plus" lang="English" value="Plus" />
+		<Localized key="plus" lang="French" value="Plus" />
+		<Localized key="plus" lang="Dutch" value="Plus" />
+		<Localized key="chevron" lang="English" value="Chevron" />
+		<Localized key="chevron" lang="French" value="Chevron" />
+		<Localized key="chevron" lang="Dutch" value="Chevron" />
+		<Localized key="arc" lang="English" value="Arc" />
+		<Localized key="arc" lang="French" value="Arc" />
+		<Localized key="arc" lang="Dutch" value="Boog (arc)" />
 		<Localized key="custom_polygon" lang="English">Custom polygon
 		</Localized>
 		<Localized key="custom_polygon" lang="French">Polygone personnalisé
 		</Localized>
 		<Localized key="custom_polygon" lang="Dutch">Custom polygon
 		</Localized>
-		<Localized key="Rectangle" lang="English">Rectangle</Localized>
-		<Localized key="Rectangle" lang="French">Rectangle</Localized>
-		<Localized key="Rectangle" lang="Dutch">Rectangle</Localized>
-		<Localized key="Square" lang="English">Square</Localized>
-		<Localized key="Square" lang="French">Carré</Localized>
-		<Localized key="Square" lang="Dutch">Square</Localized>
+		<Localized key="Rectangle" lang="English" value="Rectangle" />
+		<Localized key="Rectangle" lang="French" value="Rectangle" />
+		<Localized key="Rectangle" lang="Dutch" value="Rectangle" />
+		<Localized key="Square" lang="English" value="Square" />
+		<Localized key="Square" lang="French" value="Carré" />
+		<Localized key="Square" lang="Dutch" value="Square" />
 		<Localized key="Regular polygon" lang="English">Regular polygon
 		</Localized>
 		<Localized key="Regular polygon" lang="French">Polygone régulier
 		</Localized>
 		<Localized key="Regular polygon" lang="Dutch">Regular polygon
 		</Localized>
-		<Localized key="Triangle" lang="English">Triangle</Localized>
-		<Localized key="Triangle" lang="French">Triangle</Localized>
-		<Localized key="Triangle" lang="Dutch">Triangle</Localized>
-		<Localized key="Losange" lang="English">Losange</Localized>
-		<Localized key="Losange" lang="French">Losange</Localized>
-		<Localized key="Losange" lang="Dutch">Losange</Localized>
-		<Localized key="Oval" lang="English">Oval</Localized>
-		<Localized key="Oval" lang="French">Ovale</Localized>
-		<Localized key="Oval" lang="Dutch">Oval</Localized>
-		<Localized key="Circle" lang="English">Circle</Localized>
-		<Localized key="Circle" lang="French">Cercle</Localized>
-		<Localized key="Circle" lang="Dutch">Circle</Localized>
-		<Localized key="Star" lang="English">Star</Localized>
-		<Localized key="Star" lang="French">Etoile</Localized>
-		<Localized key="Star" lang="Dutch">Star</Localized>
-		<Localized key="Chevron" lang="English">Chevron</Localized>
-		<Localized key="Chevron" lang="French">Chevron</Localized>
-		<Localized key="Chevron" lang="Dutch">Chevron</Localized>
-		<Localized key="Plus" lang="English">Plus</Localized>
-		<Localized key="Plus" lang="French">Plus</Localized>
-		<Localized key="Plus" lang="Dutch">Plus</Localized>
-		<Localized key="rounded" lang="English">Rounded</Localized>
-		<Localized key="rounded" lang="French">Arrondi</Localized>
-		<Localized key="rounded" lang="Dutch">Rounded</Localized>
-		<Localized key="arc_size" lang="English">Arc size</Localized>
-		<Localized key="arc_size" lang="French">Taille de l'arc</Localized>
-		<Localized key="arc_size" lang="Dutch">Grootte boog</Localized>
-		<Localized key="points_number" lang="English">Point number</Localized>
+		<Localized key="Triangle" lang="English" value="Triangle" />
+		<Localized key="Triangle" lang="French" value="Triangle" />
+		<Localized key="Triangle" lang="Dutch" value="Triangle" />
+		<Localized key="Losange" lang="English" value="Losange" />
+		<Localized key="Losange" lang="French" value="Losange" />
+		<Localized key="Losange" lang="Dutch" value="Losange" />
+		<Localized key="Oval" lang="English" value="Oval" />
+		<Localized key="Oval" lang="French" value="Ovale" />
+		<Localized key="Oval" lang="Dutch" value="Oval" />
+		<Localized key="Circle" lang="English" value="Circle" />
+		<Localized key="Circle" lang="French" value="Cercle" />
+		<Localized key="Circle" lang="Dutch" value="Circle" />
+		<Localized key="Star" lang="English" value="Star" />
+		<Localized key="Star" lang="French" value="Etoile" />
+		<Localized key="Star" lang="Dutch" value="Star" />
+		<Localized key="Chevron" lang="English" value="Chevron" />
+		<Localized key="Chevron" lang="French" value="Chevron" />
+		<Localized key="Chevron" lang="Dutch" value="Chevron" />
+		<Localized key="Plus" lang="English" value="Plus" />
+		<Localized key="Plus" lang="French" value="Plus" />
+		<Localized key="Plus" lang="Dutch" value="Plus" />
+		<Localized key="rounded" lang="English" value="Rounded" />
+		<Localized key="rounded" lang="French" value="Arrondi" />
+		<Localized key="rounded" lang="Dutch" value="Rounded" />
+		<Localized key="arc_size" lang="English" value="Arc size" />
+		<Localized key="arc_size" lang="French" value="Taille de l'arc" />
+		<Localized key="arc_size" lang="Dutch" value="Grootte boog" />
+		<Localized key="points_number" lang="English" value="Point number" />
 		<Localized key="points_number" lang="French">Nimbre de points
 		</Localized>
-		<Localized key="points_number" lang="Dutch">Point number</Localized>
-		<Localized key="start_angle" lang="English">Start angle</Localized>
+		<Localized key="points_number" lang="Dutch" value="Point number" />
+		<Localized key="start_angle" lang="English" value="Start angle" />
 		<Localized key="start_angle" lang="French">Angle de départ
 		</Localized>
-		<Localized key="start_angle" lang="Dutch">Start angle</Localized>
-		<Localized key="ratio" lang="English">Ratio</Localized>
-		<Localized key="ratio" lang="French">Rapport</Localized>
-		<Localized key="ratio" lang="Dutch">Ratio</Localized>
-		<Localized key="angle_extent" lang="English">Angle extent</Localized>
+		<Localized key="start_angle" lang="Dutch" value="Start angle" />
+		<Localized key="ratio" lang="English" value="Ratio" />
+		<Localized key="ratio" lang="French" value="Rapport" />
+		<Localized key="ratio" lang="Dutch" value="Ratio" />
+		<Localized key="angle_extent" lang="English" value="Angle extent" />
 		<Localized key="angle_extent" lang="French">Extension d'angle
 		</Localized>
 		<Localized key="angle_extent" lang="Dutch">Vergroting van de hoek
 		</Localized>
-		<Localized key="arc_type" lang="English">Arc type</Localized>
-		<Localized key="arc_type" lang="French">Type d'arc</Localized>
-		<Localized key="arc_type" lang="Dutch">Type boog</Localized>
-		<Localized key="open" lang="English">Open</Localized>
-		<Localized key="open" lang="French">Ouvrir</Localized>
-		<Localized key="open" lang="Dutch">Open</Localized>
-		<Localized key="Open" lang="English">Open</Localized>
-		<Localized key="Open" lang="French">Ouvert</Localized>
-		<Localized key="Open" lang="Dutch">Open</Localized>
-		<Localized key="chord" lang="English">Chord</Localized>
-		<Localized key="chord" lang="French">Son</Localized>
-		<Localized key="chord" lang="Dutch">Chord</Localized>
-		<Localized key="Chord" lang="English">Chord</Localized>
-		<Localized key="Chord" lang="French">Chord</Localized>
-		<Localized key="Chord" lang="Dutch">Chord</Localized>
-		<Localized key="pie" lang="English">Pie</Localized>
-		<Localized key="pie" lang="French">Camembert</Localized>
-		<Localized key="pie" lang="Dutch">Pie</Localized>
-		<Localized key="id" lang="English">Id</Localized>
-		<Localized key="id" lang="French">Id</Localized>
-		<Localized key="id" lang="Dutch">Id</Localized>
-		<Localized key="x" lang="English">Position x</Localized>
-		<Localized key="x" lang="French">Abscisse</Localized>
-		<Localized key="x" lang="Dutch">Position x</Localized>
-		<Localized key="y" lang="English">Position y</Localized>
-		<Localized key="y" lang="French">Ordonnée</Localized>
-		<Localized key="y" lang="Dutch">Position y</Localized>
-		<Localized key="apply" lang="English">Apply</Localized>
-		<Localized key="apply" lang="French">Appliquer</Localized>
-		<Localized key="apply" lang="Dutch">Pas toe</Localized>
-		<Localized key="cancel" lang="English">Cancel</Localized>
-		<Localized key="cancel" lang="French">Annuler</Localized>
-		<Localized key="cancel" lang="Dutch">Cancel</Localized>
-		<Localized key="Carré" lang="English">Carré</Localized>
-		<Localized key="Carré" lang="French">Carré</Localized>
-		<Localized key="Carré" lang="Dutch">Carré</Localized>
+		<Localized key="arc_type" lang="English" value="Arc type" />
+		<Localized key="arc_type" lang="French" value="Type d'arc" />
+		<Localized key="arc_type" lang="Dutch" value="Type boog" />
+		<Localized key="open" lang="English" value="Open" />
+		<Localized key="open" lang="French" value="Ouvrir" />
+		<Localized key="open" lang="Dutch" value="Open" />
+		<Localized key="Open" lang="English" value="Open" />
+		<Localized key="Open" lang="French" value="Ouvert" />
+		<Localized key="Open" lang="Dutch" value="Open" />
+		<Localized key="chord" lang="English" value="Chord" />
+		<Localized key="chord" lang="French" value="Son" />
+		<Localized key="chord" lang="Dutch" value="Chord" />
+		<Localized key="Chord" lang="English" value="Chord" />
+		<Localized key="Chord" lang="French" value="Chord" />
+		<Localized key="Chord" lang="Dutch" value="Chord" />
+		<Localized key="pie" lang="English" value="Pie" />
+		<Localized key="pie" lang="French" value="Camembert" />
+		<Localized key="pie" lang="Dutch" value="Pie" />
+		<Localized key="id" lang="English" value="Id" />
+		<Localized key="id" lang="French" value="Id" />
+		<Localized key="id" lang="Dutch" value="Id" />
+		<Localized key="x" lang="English" value="Position x" />
+		<Localized key="x" lang="French" value="Abscisse" />
+		<Localized key="x" lang="Dutch" value="Position x" />
+		<Localized key="y" lang="English" value="Position y" />
+		<Localized key="y" lang="French" value="Ordonnée" />
+		<Localized key="y" lang="Dutch" value="Position y" />
+		<Localized key="apply" lang="English" value="Apply" />
+		<Localized key="apply" lang="French" value="Appliquer" />
+		<Localized key="apply" lang="Dutch" value="Pas toe" />
+		<Localized key="cancel" lang="English" value="Cancel" />
+		<Localized key="cancel" lang="French" value="Annuler" />
+		<Localized key="cancel" lang="Dutch" value="Cancel" />
+		<Localized key="Carré" lang="English" value="Carré" />
+		<Localized key="Carré" lang="French" value="Carré" />
+		<Localized key="Carré" lang="Dutch" value="Carré" />
 		<Localized key="Polygone régulier" lang="English">Polygone régulier
 		</Localized>
 		<Localized key="Polygone régulier" lang="French">Polygone régulier
 		</Localized>
 		<Localized key="Polygone régulier" lang="Dutch">Polygone régulier
 		</Localized>
-		<Localized key="Ovale" lang="English">Ovale</Localized>
-		<Localized key="Ovale" lang="French">Ovale</Localized>
-		<Localized key="Ovale" lang="Dutch">Ovale</Localized>
-		<Localized key="Cercle" lang="English">Cercle</Localized>
-		<Localized key="Cercle" lang="French">Cercle</Localized>
-		<Localized key="Cercle" lang="Dutch">Cercle</Localized>
-		<Localized key="Étoile" lang="English">Étoile</Localized>
-		<Localized key="Étoile" lang="French">Étoile</Localized>
-		<Localized key="Étoile" lang="Dutch">Étoile</Localized>
-		<Localized key="Chevron" lang="English">Chevron</Localized>
-		<Localized key="Chevron" lang="French">Chevron</Localized>
-		<Localized key="Chevron" lang="Dutch">Chevron</Localized>
-		<Localized key="Plus" lang="English">Plus</Localized>
-		<Localized key="Plus" lang="French">Plus</Localized>
-		<Localized key="Plus" lang="Dutch">Plus</Localized>
-		<Localized key="Ouvrir" lang="English">Ouvrir</Localized>
-		<Localized key="Ouvrir" lang="French">Ouvrir</Localized>
-		<Localized key="Ouvrir" lang="Dutch">Ouvrir</Localized>
-		<Localized key="Son" lang="English">Son</Localized>
-		<Localized key="Son" lang="French">Son</Localized>
-		<Localized key="Son" lang="Dutch">Son</Localized>
-		<Localized key="camember" lang="English">Pie</Localized>
-		<Localized key="camember" lang="French">Camembert</Localized>
-		<Localized key="camember" lang="Dutch">Pie</Localized>
-		<Localized key="boog (arc)" lang="English">boog (arc)</Localized>
-		<Localized key="boog (arc)" lang="French">boog (arc)</Localized>
-		<Localized key="boog (arc)" lang="Dutch">boog (arc)</Localized>
+		<Localized key="Ovale" lang="English" value="Ovale" />
+		<Localized key="Ovale" lang="French" value="Ovale" />
+		<Localized key="Ovale" lang="Dutch" value="Ovale" />
+		<Localized key="Cercle" lang="English" value="Cercle" />
+		<Localized key="Cercle" lang="French" value="Cercle" />
+		<Localized key="Cercle" lang="Dutch" value="Cercle" />
+		<Localized key="Étoile" lang="English" value="Étoile" />
+		<Localized key="Étoile" lang="French" value="Étoile" />
+		<Localized key="Étoile" lang="Dutch" value="Étoile" />
+		<Localized key="Chevron" lang="English" value="Chevron" />
+		<Localized key="Chevron" lang="French" value="Chevron" />
+		<Localized key="Chevron" lang="Dutch" value="Chevron" />
+		<Localized key="Plus" lang="English" value="Plus" />
+		<Localized key="Plus" lang="French" value="Plus" />
+		<Localized key="Plus" lang="Dutch" value="Plus" />
+		<Localized key="Ouvrir" lang="English" value="Ouvrir" />
+		<Localized key="Ouvrir" lang="French" value="Ouvrir" />
+		<Localized key="Ouvrir" lang="Dutch" value="Ouvrir" />
+		<Localized key="Son" lang="English" value="Son" />
+		<Localized key="Son" lang="French" value="Son" />
+		<Localized key="Son" lang="Dutch" value="Son" />
+		<Localized key="camember" lang="English" value="Pie" />
+		<Localized key="camember" lang="French" value="Camembert" />
+		<Localized key="camember" lang="Dutch" value="Pie" />
+		<Localized key="boog (arc)" lang="English" value="boog (arc)" />
+		<Localized key="boog (arc)" lang="French" value="boog (arc)" />
+		<Localized key="boog (arc)" lang="Dutch" value="boog (arc)" />
 	</LocalizedDictionary>
 </Panel>

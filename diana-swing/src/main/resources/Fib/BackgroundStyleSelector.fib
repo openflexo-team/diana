@@ -10,9 +10,9 @@
     </Button>
   </Panel>
   <LocalizedDictionary>
-    <Localized key="apply" lang="English">Apply</Localized>
-    <Localized key="cancel" lang="English">Cancel</Localized>
-    <Localized key="apply" lang="French">Appliquer</Localized>
-    <Localized key="cancel" lang="French">Annuler</Localized>
+    <Localized key="apply" lang="English" value="Apply" />
+    <Localized key="cancel" lang="English" value="Cancel" />
+    <Localized key="apply" lang="French" value="Appliquer" />
+    <Localized key="cancel" lang="French" value="Annuler" />
   </LocalizedDictionary>
 </Panel>

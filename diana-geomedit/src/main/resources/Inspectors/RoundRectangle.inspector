@@ -19,27 +19,27 @@
     </Tab>
   </TabPanel>
   <LocalizedDictionary>
-    <Localized key="x" lang="English">Position x</Localized>
-    <Localized key="x" lang="French">Abscisse</Localized>
-    <Localized key="x" lang="Dutch">Position x</Localized>
-    <Localized key="y" lang="English">Position y</Localized>
-    <Localized key="y" lang="French">Ordonnée</Localized>
-    <Localized key="y" lang="Dutch">Position y</Localized>
-    <Localized key="width" lang="English">Width</Localized>
-    <Localized key="width" lang="French">Largeur</Localized>
-    <Localized key="width" lang="Dutch">Width</Localized>
-    <Localized key="height" lang="English">Height</Localized>
-    <Localized key="height" lang="French">Hauteur</Localized>
-    <Localized key="height" lang="Dutch">Height</Localized>
-    <Localized key="arc_width" lang="English">Arc width</Localized>
-    <Localized key="arc_width" lang="French">Largeur de l'arc</Localized>
-    <Localized key="arc_width" lang="Dutch">Arc width</Localized>
-    <Localized key="arc_height" lang="English">Arc height</Localized>
-    <Localized key="arc_height" lang="French">Hauteur de l'arc</Localized>
-    <Localized key="arc_height" lang="Dutch">Arc height</Localized>
-    <Localized key="filled" lang="English">Filled</Localized>
-    <Localized key="filled" lang="French">Plein</Localized>
-    <Localized key="filled" lang="Dutch">Filled</Localized>
+    <Localized key="x" lang="English" value="Position x" />
+    <Localized key="x" lang="French" value="Abscisse" />
+    <Localized key="x" lang="Dutch" value="Position x" />
+    <Localized key="y" lang="English" value="Position y" />
+    <Localized key="y" lang="French" value="Ordonnée" />
+    <Localized key="y" lang="Dutch" value="Position y" />
+    <Localized key="width" lang="English" value="Width" />
+    <Localized key="width" lang="French" value="Largeur" />
+    <Localized key="width" lang="Dutch" value="Width" />
+    <Localized key="height" lang="English" value="Height" />
+    <Localized key="height" lang="French" value="Hauteur" />
+    <Localized key="height" lang="Dutch" value="Height" />
+    <Localized key="arc_width" lang="English" value="Arc width" />
+    <Localized key="arc_width" lang="French" value="Largeur de l'arc" />
+    <Localized key="arc_width" lang="Dutch" value="Arc width" />
+    <Localized key="arc_height" lang="English" value="Arc height" />
+    <Localized key="arc_height" lang="French" value="Hauteur de l'arc" />
+    <Localized key="arc_height" lang="Dutch" value="Arc height" />
+    <Localized key="filled" lang="English" value="Filled" />
+    <Localized key="filled" lang="French" value="Plein" />
+    <Localized key="filled" lang="Dutch" value="Filled" />
   </LocalizedDictionary>
   <Parameter name="title" value="Rectangle" />
 </Panel>
