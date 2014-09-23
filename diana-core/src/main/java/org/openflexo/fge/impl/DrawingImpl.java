@@ -510,7 +510,10 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 			List<DrawingTreeNode<?, ?>> updatedNodes = new ArrayList<DrawingTreeNode<?, ?>>();
 
 			if (dtn instanceof ContainerNode) {
-				deletedNodes.addAll(((ContainerNode<?, ?>) dtn).getChildNodes());
+				List<? extends DrawingTreeNode<?, ?>> childNodes = ((ContainerNode<?, ?>) dtn).getChildNodes();
+				if (childNodes != null) {
+					deletedNodes.addAll(childNodes);
+				}
 			}
 
 			for (GRStructureVisitor<O> walker : grBinding.getWalkers()) {
