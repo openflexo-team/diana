@@ -26,7 +26,7 @@ public class BindingChanged extends FGENotification {
 	private DataBinding<?> binding;
 
 	public BindingChanged(DataBinding<?> binding) {
-		super(binding.getBindingName(), null, binding);
+		super((binding.getBindingName() != null ? binding.getBindingName() : "BindingChanged"), null, binding);
 	}
 
 	public DataBinding<?> getBinding() {
