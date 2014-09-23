@@ -336,7 +336,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 			logger.warning("Received notifications for deleted view: " + evt);
 			return;
 		}
-		if ((!evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) && getNode().isDeleted()) {
+		if (evt.getPropertyName() != null && (!evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) && getNode().isDeleted()) {
 			logger.warning("Received notifications for deleted Node " + evt);
 			return;
 		}
