@@ -34,7 +34,7 @@ import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.tools.JDianaInspectors.JInspector;
 import org.openflexo.fib.FIBLibrary;
 import org.openflexo.fib.model.FIBComponent;
-import org.openflexo.fib.view.widget.DefaultFIBCustomComponent;
+import org.openflexo.fib.swing.FIBJPanel;
 import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.rm.Resource;
 import org.openflexo.rm.ResourceLocator;
@@ -181,7 +181,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 	}
 
 	@SuppressWarnings("serial")
-	public static class JInspector<T> extends DefaultFIBCustomComponent<T> implements DianaInspectors.Inspector<T> {
+	public static class JInspector<T> extends FIBJPanel<T> implements DianaInspectors.Inspector<T> {
 
 		private final String title;
 		private final Class<T> representedType;

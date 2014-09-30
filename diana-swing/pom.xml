@@ -26,6 +26,10 @@
 			<artifactId>diana-core</artifactId>
 			<classifier>tests</classifier>
 		</dependency>
+		<dependency>
+			<groupId>org.openflexo</groupId>
+			<artifactId>gina-swing</artifactId>
+		</dependency>
 	</dependencies>
 </project>
 

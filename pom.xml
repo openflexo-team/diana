@@ -61,6 +61,11 @@
 			</dependency>
 			<dependency>
 				<groupId>org.openflexo</groupId>
+				<artifactId>gina-swing</artifactId>
+			    <version>${gina.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.openflexo</groupId>
 				<artifactId>diana-geom</artifactId>
 				<version>${project.version}</version>
 			</dependency>
