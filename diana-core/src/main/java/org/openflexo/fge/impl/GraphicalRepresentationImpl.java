@@ -44,16 +44,16 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 		if (fgeLocalizedDelegate != null) {
 			if (generalLocalizedDelegate != null) {
-				LOCALIZATION = new LocalizedDelegateGUIImpl(fgeLocalizedDelegate, new LocalizedDelegateGUIImpl(generalLocalizedDelegate,
-						null, false), true);
+				LOCALIZATION = LocalizedDelegateGUIImpl.getLocalizedDelegate(fgeLocalizedDelegate,
+						LocalizedDelegateGUIImpl.getLocalizedDelegate(generalLocalizedDelegate, null, false), true);
 			} else {
-				LOCALIZATION = new LocalizedDelegateGUIImpl(fgeLocalizedDelegate, null, true);
+				LOCALIZATION = LocalizedDelegateGUIImpl.getLocalizedDelegate(fgeLocalizedDelegate, null, true);
 			}
 		} else {
 			if (generalLocalizedDelegate != null) {
-				LOCALIZATION = new LocalizedDelegateGUIImpl(generalLocalizedDelegate, null, true);
+				LOCALIZATION = LocalizedDelegateGUIImpl.getLocalizedDelegate(generalLocalizedDelegate, null, true);
 			} else {
-				LOCALIZATION = new LocalizedDelegateGUIImpl(generalLocalizedDelegate, null, false);
+				LOCALIZATION = LocalizedDelegateGUIImpl.getLocalizedDelegate(generalLocalizedDelegate, null, false);
 			}
 		}
 	}

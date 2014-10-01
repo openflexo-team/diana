@@ -90,12 +90,12 @@ public class PPTEditorApplication {
 
 	// Retrieve default Openflexo locales
 	public static final String LOCALIZATION_DIRNAME = "Localized";
-	private static LocalizedDelegateGUIImpl MAIN_LOCALIZER = new LocalizedDelegateGUIImpl(
+	private static LocalizedDelegateGUIImpl MAIN_LOCALIZER = LocalizedDelegateGUIImpl.getLocalizedDelegate(
 			ResourceLocator.locateResource(LOCALIZATION_DIRNAME), null, false);
 
 	// Instanciate a new localizer in directory src/dev/resources/FIBEditorLocalizer
 	// linked to parent localizer (which is Openflexo main localizer)
-	public static LocalizedDelegateGUIImpl LOCALIZATION = new LocalizedDelegateGUIImpl(
+	public static LocalizedDelegateGUIImpl LOCALIZATION = LocalizedDelegateGUIImpl.getLocalizedDelegate(
 			ResourceLocator.locateResource("PPTEditorLocalized"), MAIN_LOCALIZER, true);
 
 	private static final int META_MASK = ToolBox.getPLATFORM() == ToolBox.MACOS ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
