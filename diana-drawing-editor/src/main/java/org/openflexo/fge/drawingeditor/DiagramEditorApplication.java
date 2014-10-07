@@ -68,9 +68,10 @@ import org.openflexo.fge.swing.control.tools.JDianaPalette;
 import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
 import org.openflexo.fge.swing.control.tools.JDianaStyles;
 import org.openflexo.fge.swing.control.tools.JDianaToolSelector;
-import org.openflexo.fib.utils.FlexoLoggingViewer;
-import org.openflexo.fib.utils.LocalizedDelegateGUIImpl;
+import org.openflexo.fib.swing.localization.LocalizedEditor;
+import org.openflexo.fib.swing.logging.FlexoLoggingViewer;
 import org.openflexo.localization.FlexoLocalization;
+import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.model.exceptions.ModelDefinitionException;
@@ -94,13 +95,13 @@ public class DiagramEditorApplication {
 
 	// Retrieve default Openflexo locales
 	public static final String LOCALIZATION_DIRNAME = "Localized";
-	private static LocalizedDelegateGUIImpl MAIN_LOCALIZER = LocalizedDelegateGUIImpl.getLocalizedDelegate(
-			ResourceLocator.locateResource(LOCALIZATION_DIRNAME), null, false);
+	private static LocalizedDelegate MAIN_LOCALIZER = FlexoLocalization.getLocalizedDelegate(
+			ResourceLocator.locateResource(LOCALIZATION_DIRNAME), null, false, false);
 
 	// Instanciate a new localizer in directory src/dev/resources/FIBEditorLocalizer
 	// linked to parent localizer (which is Openflexo main localizer)
-	public static LocalizedDelegateGUIImpl LOCALIZATION = LocalizedDelegateGUIImpl.getLocalizedDelegate(
-			ResourceLocator.locateResource("FGEEditorLocalized"), MAIN_LOCALIZER, true);
+	public static LocalizedDelegate LOCALIZATION = FlexoLocalization.getLocalizedDelegate(
+			ResourceLocator.locateResource("FGEEditorLocalized"), MAIN_LOCALIZER, true, true);
 
 	private static final int META_MASK = ToolBox.getPLATFORM() == ToolBox.MACOS ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
 
@@ -136,6 +137,8 @@ public class DiagramEditorApplication {
 	private final SynchronizedMenuItem redoItem;
 
 	private final DiagramEditingContext editingContext;
+
+	private LocalizedEditor localizedEditor;
 
 	@SuppressWarnings("serial")
 	public DiagramEditorApplication() {
@@ -406,7 +409,10 @@ public class DiagramEditorApplication {
 		localizedItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LOCALIZATION.showLocalizedEditor(frame);
+				if (localizedEditor == null) {
+					localizedEditor = new LocalizedEditor(frame, "localized_editor", LOCALIZATION, MAIN_LOCALIZER);
+				}
+				localizedEditor.setVisible(true);
 			}
 		});
 

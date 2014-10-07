@@ -47,19 +47,19 @@
       <Label label="dimensions_constraints" index="8" constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;location=left)" name="DimensionConstraintsLabel" localize="true" />
       <DropDown index="9" data="data.dimensionConstraints" constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;location=right)" width="150" name="DimensionConstraints" format="object.name.toLowerCase" localize="true" iteratorClassName="org.openflexo.fge.ShapeGraphicalRepresentation$DimensionConstraints" autoSelectFirstRow="false" />
       <Label label="x_constraints" index="10" constraints="twocols(expandVertically=false;index=10;location=left)" localize="true" />
-      <Custom componentClassName="org.openflexo.fib.utils.BindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.xConstraints)" index="11" data="data.xConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=11;location=right)">
+      <Custom componentClassName="org.openflexo.fib.swing.utils.BindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.xConstraints)" index="11" data="data.xConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=11;location=right)">
         <Assignment variable="component.bindable" value="data" />
       </Custom>
       <Label label="y_constraints" index="12" constraints="twocols(expandVertically=false;index=12;location=left)" localize="true" />
-      <Custom componentClassName="org.openflexo.fib.utils.BindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.yConstraints)" index="13" data="data.yConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=13;location=right)">
+      <Custom componentClassName="org.openflexo.fib.swing.utils.BindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.yConstraints)" index="13" data="data.yConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=13;location=right)">
         <Assignment variable="component.bindable" value="data" />
       </Custom>
       <Label label="width_constraints" index="14" constraints="twocols(expandVertically=false;index=14;location=left)" localize="true" />
-      <Custom componentClassName="org.openflexo.fib.utils.BindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.widthConstraints)" index="15" data="data.widthConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=15;location=right)">
+      <Custom componentClassName="org.openflexo.fib.swing.utils.BindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.widthConstraints)" index="15" data="data.widthConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=15;location=right)">
         <Assignment variable="component.bindable" value="data" />
       </Custom>
       <Label label="height_constraints" index="16" constraints="twocols(expandVertically=false;index=16;location=left)" localize="true" />
-      <Custom componentClassName="org.openflexo.fib.utils.BindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.heightConstraints)" index="17" data="data.heightConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=17;location=right)">
+      <Custom componentClassName="org.openflexo.fib.swing.utils.BindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.heightConstraints)" index="17" data="data.heightConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=17;location=right)">
         <Assignment variable="component.bindable" value="data" />
       </Custom>
       <Label label="border" index="18" constraints="twocols(expandHorizontally=false;expandVertically=false;index=18;location=left)" name="BorderLabel" localize="true" />

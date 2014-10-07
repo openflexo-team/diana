@@ -21,7 +21,8 @@ package org.openflexo.fge;
 
 import java.util.logging.Logger;
 
-import org.openflexo.fib.utils.LocalizedDelegateGUIImpl;
+import org.openflexo.localization.FlexoLocalization;
+import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.rm.ResourceLocator;
 
@@ -31,9 +32,8 @@ public class FGECoreUtils {
 
 	// Instantiate a new localizer in directory src/dev/resources/FGELocalized
 	// Little hack to be removed: linked to parent localizer (which is Openflexo main localizer)
-	public static LocalizedDelegateGUIImpl LOCALIZATION = LocalizedDelegateGUIImpl.getLocalizedDelegate(
-			ResourceLocator.locateResource("FGELocalized"),
-			LocalizedDelegateGUIImpl.getLocalizedDelegate(ResourceLocator.locateResource("Localized"), null, false), true);
+	public static LocalizedDelegate LOCALIZATION = FlexoLocalization.getLocalizedDelegate(ResourceLocator.locateResource("FGELocalized"),
+			FlexoLocalization.getLocalizedDelegate(ResourceLocator.locateResource("Localized"), null, false, false), true, true);
 
 	/**
 	 * This is the FGE model factory shared by all FGE tools
