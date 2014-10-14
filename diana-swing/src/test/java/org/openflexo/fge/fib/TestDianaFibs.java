@@ -17,13 +17,38 @@ public class TestDianaFibs extends GenericFIBTestCase {
 	}
 
 	@Test
+	public void testBackgroundStyleSelector() {
+		validateFIB("Fib/BackgroundStyleSelector.fib");
+	}
+
+	@Test
+	public void testConnectorSelectorPanel() {
+		validateFIB("Fib/ConnectorSelectorPanel.fib");
+	}
+
+	@Test
 	public void testForegroundStylePanel() {
 		validateFIB("Fib/ForegroundStylePanel.fib");
 	}
 
 	@Test
+	public void testForegroundStyleSelector() {
+		validateFIB("Fib/ForegroundStyleSelector.fib");
+	}
+
+	@Test
+	public void testLocationSizePanel() {
+		validateFIB("Fib/LocationSizePanel.fib");
+	}
+
+	@Test
 	public void testShadowStylePanel() {
 		validateFIB("Fib/ShadowStylePanel.fib");
+	}
+
+	@Test
+	public void testShadowStyleSelector() {
+		validateFIB("Fib/ShadowStyleSelector.fib");
 	}
 
 	@Test
@@ -34,5 +59,10 @@ public class TestDianaFibs extends GenericFIBTestCase {
 	@Test
 	public void testTextStylePanel() {
 		validateFIB("Fib/TextStylePanel.fib");
+	}
+
+	@Test
+	public void testTextStyleSelector() {
+		validateFIB("Fib/TextStyleSelector.fib");
 	}
 }
