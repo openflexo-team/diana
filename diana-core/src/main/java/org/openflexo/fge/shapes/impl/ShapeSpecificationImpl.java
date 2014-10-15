@@ -37,7 +37,7 @@ public abstract class ShapeSpecificationImpl extends FGEObjectImpl implements Sh
 
 	// private transient ShapeGraphicalRepresentation graphicalRepresentation;
 
-	// private transient Vector<ControlPoint> _controlPoints = null;
+	// private transient Vector<ControlPoint> controlPoints = null;
 
 	// private static final FGEModelFactory SHADOW_FACTORY = FGECoreUtils.TOOLS_FACTORY;
 

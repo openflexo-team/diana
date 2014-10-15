@@ -114,6 +114,7 @@ public class GRProperty<T> {
 		} catch (IllegalAccessException e1) {
 			name = field.getName();
 		}
+
 		type = (Class<T>) p.type();
 		if (p.isPrimitive()) {
 			if (type.equals(Integer.class)) {

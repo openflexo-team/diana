@@ -35,6 +35,7 @@ import org.openflexo.fge.notifications.ObjectResized;
 import org.openflexo.fge.notifications.ObjectWillMove;
 import org.openflexo.fge.notifications.ObjectWillResize;
 import org.openflexo.fge.notifications.ShapeChanged;
+import org.openflexo.toolbox.ConcatenedList;
 
 public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphicalRepresentation> implements ConnectorNode<O> {
 
@@ -450,15 +451,29 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 		}
 	}
 
+	private List<? extends ControlArea<?>> controlAreas = null;
+
 	@Override
 	public List<? extends ControlArea<?>> getControlAreas() {
-		return getConnector().getControlAreas();
+		if (controlAreas == null) {
+			List<ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
+			if (customControlAreas == null) {
+				controlAreas = getConnector().getControlAreas();
+			} else {
+				ConcatenedList<ControlArea<?>> concatenedControlAreas = new ConcatenedList<ControlArea<?>>();
+				concatenedControlAreas.addElementList(getConnector().getControlAreas());
+				concatenedControlAreas.addElementList(customControlAreas);
+				controlAreas = concatenedControlAreas;
+			}
+		}
+		return controlAreas;
+		// return getConnector().getControlAreas();
 	}
 
 	@Override
 	public boolean delete() {
 		if (!isDeleted()) {
-			//System.out.println("ConnectorNode deleted");
+			// System.out.println("ConnectorNode deleted");
 			if (connector != null) {
 				connector.delete();
 			}

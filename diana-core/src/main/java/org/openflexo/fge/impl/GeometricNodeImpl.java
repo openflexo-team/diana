@@ -16,6 +16,7 @@ import org.openflexo.fge.GRBinding;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.control.DianaEditor;
+import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.cp.GeometryAdjustingControlPoint;
 import org.openflexo.fge.geom.FGEAbstractLine;
@@ -41,6 +42,7 @@ import org.openflexo.fge.geom.area.FGEPlane;
 import org.openflexo.fge.geom.area.FGEQuarterPlane;
 import org.openflexo.fge.graphics.FGEGeometricGraphics;
 import org.openflexo.fge.notifications.GeometryModified;
+import org.openflexo.toolbox.ConcatenedList;
 
 public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphicalRepresentation> implements GeometricNode<O> {
 
@@ -48,7 +50,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 
 	// protected FGEGeometricGraphicsImpl graphics;
 
-	protected List<ControlPoint> _controlPoints;
+	protected List<ControlPoint> controlPoints;
 
 	// TODO: change to protected
 	public GeometricNodeImpl(DrawingImpl<?> drawingImpl, O drawable, GRBinding<O, GeometricGraphicalRepresentation> grBinding,
@@ -69,17 +71,31 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 		return false;
 	}
 
+	private List<? extends ControlArea<?>> controlAreas = null;
+
 	@Override
-	public List<ControlPoint> getControlAreas() {
-		if (_controlPoints == null) {
-			rebuildControlPoints();
+	public List<? extends ControlArea<?>> getControlAreas() {
+		if (controlAreas == null) {
+			List<ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
+			if (customControlAreas == null) {
+				controlAreas = getControlPoints();
+			} else {
+				ConcatenedList<ControlArea<?>> concatenedControlAreas = new ConcatenedList<ControlArea<?>>();
+				concatenedControlAreas.addElementList(getControlPoints());
+				concatenedControlAreas.addElementList(customControlAreas);
+				controlAreas = concatenedControlAreas;
+			}
 		}
-		return _controlPoints;
+		return controlAreas;
+		// return getConnector().getControlAreas();
 	}
 
 	@Override
 	public List<ControlPoint> getControlPoints() {
-		return getControlAreas();
+		if (controlPoints == null) {
+			rebuildControlPoints();
+		}
+		return controlPoints;
 	}
 
 	/*@Override
@@ -168,6 +184,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 		return isFullyContained;
 	}
 
+	@Override
 	public void paint(FGEGeometricGraphics g) {
 		/*if (!isRegistered()) {
 			setRegistered(true);
@@ -746,7 +763,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 
 	private void updateControlPoints() {
 		boolean cpNeedsToBeRebuilt = false;
-		for (ControlPoint cp : _controlPoints) {
+		for (ControlPoint cp : controlPoints) {
 			if (cp instanceof GeometryAdjustingControlPoint) {
 				((GeometryAdjustingControlPoint) cp).update(getGraphicalRepresentation().getGeometricObject());
 			} else {
@@ -760,38 +777,43 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 
 	@Override
 	public List<ControlPoint> rebuildControlPoints() {
-		if (_controlPoints == null) {
-			_controlPoints = new Vector<ControlPoint>();
+		if (controlPoints == null) {
+			controlPoints = new Vector<ControlPoint>();
 		}
-		_controlPoints.clear();
+		controlPoints.clear();
 
 		if (getGraphicalRepresentation().getGeometricObject() == null) {
-			return _controlPoints;
+			return controlPoints;
 		}
 
 		if (getGraphicalRepresentation().getGeometricObject() instanceof FGEPoint) {
-			_controlPoints.addAll(buildControlPointsForPoint((FGEPoint) getGraphicalRepresentation().getGeometricObject()));
+			controlPoints.addAll(buildControlPointsForPoint((FGEPoint) getGraphicalRepresentation().getGeometricObject()));
 		} else if (getGraphicalRepresentation().getGeometricObject() instanceof FGEAbstractLine) {
-			_controlPoints.addAll(buildControlPointsForLine((FGEAbstractLine) getGraphicalRepresentation().getGeometricObject()));
+			controlPoints.addAll(buildControlPointsForLine((FGEAbstractLine) getGraphicalRepresentation().getGeometricObject()));
 		} else if (getGraphicalRepresentation().getGeometricObject() instanceof FGERectangle) {
-			_controlPoints.addAll(buildControlPointsForRectangle((FGERectangle) getGraphicalRepresentation().getGeometricObject()));
+			controlPoints.addAll(buildControlPointsForRectangle((FGERectangle) getGraphicalRepresentation().getGeometricObject()));
 		} else if (getGraphicalRepresentation().getGeometricObject() instanceof FGERoundRectangle) {
-			_controlPoints.addAll(buildControlPointsForRectangle(((FGERoundRectangle) getGraphicalRepresentation().getGeometricObject())
+			controlPoints.addAll(buildControlPointsForRectangle(((FGERoundRectangle) getGraphicalRepresentation().getGeometricObject())
 					.getBoundingBox()));
 		} else if (getGraphicalRepresentation().getGeometricObject() instanceof FGEEllips) {
-			_controlPoints.addAll(buildControlPointsForEllips((FGEEllips) getGraphicalRepresentation().getGeometricObject()));
+			controlPoints.addAll(buildControlPointsForEllips((FGEEllips) getGraphicalRepresentation().getGeometricObject()));
 		} else if (getGraphicalRepresentation().getGeometricObject() instanceof FGEPolygon) {
-			_controlPoints.addAll(buildControlPointsForPolygon((FGEPolygon) getGraphicalRepresentation().getGeometricObject()));
+			controlPoints.addAll(buildControlPointsForPolygon((FGEPolygon) getGraphicalRepresentation().getGeometricObject()));
 		} else if (getGraphicalRepresentation().getGeometricObject() instanceof FGEPolylin) {
-			_controlPoints.addAll(buildControlPointsForPolylin((FGEPolylin) getGraphicalRepresentation().getGeometricObject()));
+			controlPoints.addAll(buildControlPointsForPolylin((FGEPolylin) getGraphicalRepresentation().getGeometricObject()));
 		} else if (getGraphicalRepresentation().getGeometricObject() instanceof FGEQuadCurve) {
-			_controlPoints.addAll(buildControlPointsForCurve((FGEQuadCurve) getGraphicalRepresentation().getGeometricObject()));
+			controlPoints.addAll(buildControlPointsForCurve((FGEQuadCurve) getGraphicalRepresentation().getGeometricObject()));
 		} else if (getGraphicalRepresentation().getGeometricObject() instanceof FGECubicCurve) {
-			_controlPoints.addAll(buildControlPointsForCurve((FGECubicCurve) getGraphicalRepresentation().getGeometricObject()));
+			controlPoints.addAll(buildControlPointsForCurve((FGECubicCurve) getGraphicalRepresentation().getGeometricObject()));
 		} else if (getGraphicalRepresentation().getGeometricObject() instanceof FGEGeneralShape) {
-			_controlPoints.addAll(buildControlPointsForGeneralShape((FGEGeneralShape) getGraphicalRepresentation().getGeometricObject()));
+			controlPoints.addAll(buildControlPointsForGeneralShape((FGEGeneralShape) getGraphicalRepresentation().getGeometricObject()));
 		}
-		return _controlPoints;
+
+		// controlPoints.addAll(index, c)
+
+		controlAreas = null;
+
+		return controlPoints;
 	}
 
 	@Override

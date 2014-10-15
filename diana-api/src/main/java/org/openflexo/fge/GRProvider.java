@@ -20,8 +20,17 @@
  */
 package org.openflexo.fge;
 
+import java.util.List;
+
+import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.cp.ControlArea;
+
 public abstract class GRProvider<O, GR extends GraphicalRepresentation> {
 	public abstract GR provideGR(O drawable, FGEModelFactory factory);
+
+	public List<ControlArea<?>> makeControlAreasFor(DrawingTreeNode<O, GR> dtn) {
+		return null;
+	}
 
 	public static abstract class ContainerGRProvider<O, GR extends ContainerGraphicalRepresentation> extends GRProvider<O, GR> {
 

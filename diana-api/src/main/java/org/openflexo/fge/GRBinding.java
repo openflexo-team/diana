@@ -34,11 +34,13 @@ import org.openflexo.antar.binding.DataBinding;
 import org.openflexo.antar.binding.DataBinding.BindingDefinitionType;
 import org.openflexo.antar.binding.DefaultBindable;
 import org.openflexo.antar.binding.JavaBindingFactory;
+import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.GRProvider.ConnectorGRProvider;
 import org.openflexo.fge.GRProvider.ContainerGRProvider;
 import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.GeometricGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
+import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.graph.FGEGraph;
 
 public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends DefaultBindable {
@@ -150,6 +152,10 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 	public void notifiedBindingDecoded(DataBinding<?> dataBinding) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public List<ControlArea<?>> makeControlAreasFor(DrawingTreeNode<O, GR> dtn) {
+		return grProvider.makeControlAreasFor(dtn);
 	}
 
 	public static abstract class ContainerGRBinding<O, GR extends ContainerGraphicalRepresentation> extends GRBinding<O, GR> {
