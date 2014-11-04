@@ -35,7 +35,7 @@ import org.openflexo.fge.geom.area.FGEEmptyArea;
 import org.openflexo.fge.geom.area.FGEHalfBand;
 
 public class AdjustableIntermediateSegment extends RectPolylinAdjustableSegment {
-	static final Logger logger = Logger.getLogger(AdjustableIntermediateSegment.class.getPackage().getName());
+	static final Logger LOGGER = Logger.getLogger(AdjustableIntermediateSegment.class.getPackage().getName());
 
 	private boolean consistentData = false;
 	private int index;
@@ -58,7 +58,7 @@ public class AdjustableIntermediateSegment extends RectPolylinAdjustableSegment 
 		currentSegment = getArea();
 		index = getPolylin().getSegmentIndex(currentSegment);
 		if (index <= 0 || index >= getPolylin().getSegmentNb() - 1) {
-			logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification "
+			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification "
 					+ getNode().getGraphicalRepresentation().getText() + " index=" + index + " polylin.getSegmentNb()="
 					+ getPolylin().getSegmentNb());
 			return;
@@ -67,7 +67,7 @@ public class AdjustableIntermediateSegment extends RectPolylinAdjustableSegment 
 		nextSegment = getPolylin().getSegmentAt(index + 1);
 		if (currentSegment.getApproximatedOrientation() == null || previousSegment.getApproximatedOrientation() == null
 				|| nextSegment.getApproximatedOrientation() == null) {
-			logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
+			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return;
 		}
 		if (index > 1) {
@@ -144,7 +144,7 @@ public class AdjustableIntermediateSegment extends RectPolylinAdjustableSegment 
 		}
 
 		if (draggingAuthorizedArea == null) {
-			logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
+			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return;
 		}
 
@@ -257,19 +257,19 @@ public class AdjustableIntermediateSegment extends RectPolylinAdjustableSegment 
 		FGEPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
 
 		if (pt == null) {
-			logger.warning("Unexpected null point while dragging AdjustableIntermediateSegment " + getDraggingAuthorizedArea() + " pt="
+			LOGGER.warning("Unexpected null point while dragging AdjustableIntermediateSegment " + getDraggingAuthorizedArea() + " pt="
 					+ newRelativePoint);
 			return false;
 		}
 
 		FGEPoint p1 = getPolylin().getPointAt(index);
 		if (p1 == null) {
-			logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
+			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return false;
 		}
 		FGEPoint p2 = getPolylin().getPointAt(index + 1);
 		if (p2 == null) {
-			logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
+			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return false;
 		}
 
@@ -280,7 +280,7 @@ public class AdjustableIntermediateSegment extends RectPolylinAdjustableSegment 
 			p1.x = pt.x;
 			p2.x = pt.x;
 		} else {
-			logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
+			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return false;
 		}
 

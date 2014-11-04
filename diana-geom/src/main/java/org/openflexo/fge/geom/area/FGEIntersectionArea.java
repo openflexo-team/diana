@@ -333,6 +333,16 @@ public class FGEIntersectionArea extends FGEOperationArea {
 	}
 
 	@Override
+	public int hashCode() {
+		int res = 27;
+		for (int i = 0; i < getObjects().size(); i++) {
+			FGEArea a = getObjects().get(i);
+			res += a.hashCode(); //commute, order does not matter
+		}
+		return res;
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEIntersectionArea) {
 			FGEIntersectionArea inters = (FGEIntersectionArea) obj;

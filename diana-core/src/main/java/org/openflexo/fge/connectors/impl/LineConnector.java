@@ -32,7 +32,7 @@ import org.openflexo.fge.graphics.FGEConnectorGraphics;
 
 public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 
-	private static final Logger logger = Logger.getLogger(LineConnectorSpecification.class.getPackage().getName());
+	private static final Logger LOGGER = Logger.getLogger(LineConnectorSpecification.class.getPackage().getName());
 
 	private ControlPoint cp1;
 	private ControlPoint cp2;
@@ -134,7 +134,7 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 					getStartNode());
 			FGEPoint pointOnStartObject = getStartNode().getShape().outlineIntersect(centerOfEndObjectSeenFromStartObject);
 			if (pointOnStartObject == null) {
-				logger.warning("outlineIntersect() returned null");
+				LOGGER.warning("outlineIntersect() returned null");
 				pointOnStartObject = new FGEPoint(0.5, 0.5);
 			}
 			FGEPoint newP1 = FGEUtils.convertNormalizedPoint(getStartNode(), pointOnStartObject, connectorNode);
@@ -143,7 +143,7 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 					getEndNode());
 			FGEPoint pointOnEndObject = getEndNode().getShape().outlineIntersect(centerOfStartObjectSeenFromEndObject);
 			if (pointOnEndObject == null) {
-				logger.warning("outlineIntersect() returned null");
+				LOGGER.warning("outlineIntersect() returned null");
 				pointOnEndObject = new FGEPoint(0.5, 0.5);
 			}
 			FGEPoint newP2 = FGEUtils.convertNormalizedPoint(getEndNode(), pointOnEndObject, connectorNode);
@@ -288,7 +288,7 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 			}
 
 			else {
-				logger.warning("Unexpected covering area found : " + coveringArea);
+				LOGGER.warning("Unexpected covering area found : " + coveringArea);
 			}
 		}
 
@@ -404,7 +404,7 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 
 		else {
 
-			logger.warning("Unexpected lineConnectorType=" + getLineConnectorType());
+			LOGGER.warning("Unexpected lineConnectorType=" + getLineConnectorType());
 		}
 	}
 
@@ -499,7 +499,7 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 	@Override
 	public double distanceToConnector(FGEPoint aPoint, double scale) {
 		if (cp1 == null || cp2 == null) {
-			logger.warning("Invalid date in LineConnectorSpecification: control points are null");
+			LOGGER.warning("Invalid date in LineConnectorSpecification: control points are null");
 			return Double.POSITIVE_INFINITY;
 		}
 		Point testPoint = connectorNode.convertNormalizedPointToViewCoordinates(aPoint, scale);

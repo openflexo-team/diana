@@ -34,7 +34,7 @@ import org.openflexo.fge.geom.area.FGEEmptyArea;
 import org.openflexo.fge.geom.area.FGEHalfPlane;
 
 public class AdjustableFirstSegment extends RectPolylinAdjustableSegment {
-	static final Logger logger = Logger.getLogger(AdjustableFirstSegment.class.getPackage().getName());
+	static final Logger LOGGER = Logger.getLogger(AdjustableFirstSegment.class.getPackage().getName());
 
 	private boolean consistentData = false;
 	private FGESegment currentSegment;
@@ -54,7 +54,7 @@ public class AdjustableFirstSegment extends RectPolylinAdjustableSegment {
 		currentSegment = getArea();
 		nextSegment = getPolylin().getSegmentAt(1);
 		if (currentSegment.getApproximatedOrientation() == null || nextSegment.getApproximatedOrientation() == null) {
-			logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
+			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return;
 		}
 		if (getPolylin().getSegmentNb() > 2) {
@@ -80,7 +80,7 @@ public class AdjustableFirstSegment extends RectPolylinAdjustableSegment {
 	public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
 		super.startDragging(controller, startPoint);
 		retrieveInfos();
-		logger.info("Start dragging: " + draggingAuthorizedArea);
+		LOGGER.info("Start dragging: " + draggingAuthorizedArea);
 	}
 
 	@Override
@@ -100,12 +100,12 @@ public class AdjustableFirstSegment extends RectPolylinAdjustableSegment {
 
 		FGEPoint p1 = getPolylin().getFirstPoint();
 		if (p1 == null) {
-			logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
+			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return false;
 		}
 		FGEPoint p2 = getPolylin().getPointAt(1);
 		if (p2 == null) {
-			logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
+			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return false;
 		}
 
@@ -115,7 +115,7 @@ public class AdjustableFirstSegment extends RectPolylinAdjustableSegment {
 		} else if (currentOrientation.isVertical()) {
 			p2.x = pt.x;
 		} else {
-			logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
+			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return false;
 		}
 

@@ -28,7 +28,7 @@ import org.openflexo.rm.ResourceLocator;
 
 public class FGECoreUtils {
 
-	static final Logger logger = Logger.getLogger(FGECoreUtils.class.getPackage().getName());
+	static final Logger LOGGER = Logger.getLogger(FGECoreUtils.class.getPackage().getName());
 
 	// Instantiate a new localizer in directory src/dev/resources/FGELocalized
 	// Little hack to be removed: linked to parent localizer (which is Openflexo main localizer)
@@ -44,7 +44,7 @@ public class FGECoreUtils {
 		try {
 			TOOLS_FACTORY = new FGEModelFactoryImpl();
 		} catch (ModelDefinitionException e) {
-			logger.severe(e.getMessage());
+			LOGGER.severe(e.getMessage());
 			e.printStackTrace();
 		}
 	}

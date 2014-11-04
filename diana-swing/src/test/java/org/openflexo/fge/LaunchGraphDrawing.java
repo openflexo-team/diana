@@ -49,7 +49,7 @@ import org.openflexo.model.exceptions.ModelDefinitionException;
 
 public class LaunchGraphDrawing {
 
-	private static final Logger logger = FlexoLogger.getLogger(LaunchGraphDrawing.class.getPackage().getName());
+	private static final Logger LOGGER = FlexoLogger.getLogger(LaunchGraphDrawing.class.getPackage().getName());
 
 	public static void main(String[] args) {
 		try {

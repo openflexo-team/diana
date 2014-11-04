@@ -34,7 +34,7 @@ import org.openflexo.fge.graphics.FGEConnectorGraphics;
 
 public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 
-	private static final Logger logger = Logger.getLogger(CurveConnectorSpecification.class.getPackage().getName());
+	private static final Logger LOGGER = Logger.getLogger(CurveConnectorSpecification.class.getPackage().getName());
 
 	private ControlPoint cp1;
 	private ControlPoint cp2;
@@ -119,7 +119,7 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 						getStartNode());
 				setCp1RelativeToStartObject(getStartNode().getShape().outlineIntersect(centerOfEndObjectSeenFromStartObject));
 				if (getCp1RelativeToStartObject() == null) {
-					logger.warning("outlineIntersect() returned null");
+					LOGGER.warning("outlineIntersect() returned null");
 					setCp1RelativeToStartObject(new FGEPoint(0.5, 0.5));
 				}
 
@@ -127,7 +127,7 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 						getEndNode());
 				setCp2RelativeToEndObject(getEndNode().getShape().outlineIntersect(centerOfStartObjectSeenFromEndObject));
 				if (getCp2RelativeToEndObject() == null) {
-					logger.warning("outlineIntersect() returned null");
+					LOGGER.warning("outlineIntersect() returned null");
 					setCp2RelativeToEndObject(new FGEPoint(0.5, 0.5));
 				}
 			}
@@ -172,14 +172,14 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 
 			setCp1RelativeToStartObject(getStartNode().getShape().outlineIntersect(cpPositionSeenFromStartObject));
 			if (getCp1RelativeToStartObject() == null) {
-				logger.warning("outlineIntersect() returned null");
+				LOGGER.warning("outlineIntersect() returned null");
 				setCp1RelativeToStartObject(new FGEPoint(0.5, 0.5));
 			}
 
 			FGEPoint cpPositionSeenFromEndObject = FGEUtils.convertNormalizedPoint(connectorNode, getCpPosition(), getEndNode());
 			setCp2RelativeToEndObject(getEndNode().getShape().outlineIntersect(cpPositionSeenFromEndObject));
 			if (getCp2RelativeToEndObject() == null) {
-				logger.warning("outlineIntersect() returned null");
+				LOGGER.warning("outlineIntersect() returned null");
 				setCp2RelativeToEndObject(new FGEPoint(0.5, 0.5));
 			}
 
@@ -330,14 +330,14 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 		FGEPoint cpPositionSeenFromStartObject = FGEUtils.convertNormalizedPoint(connectorNode, getCpPosition(), getStartNode());
 		setCp1RelativeToStartObject(getStartNode().getShape().outlineIntersect(cpPositionSeenFromStartObject));
 		if (getCp1RelativeToStartObject() == null) {
-			logger.warning("outlineIntersect() returned null");
+			LOGGER.warning("outlineIntersect() returned null");
 			setCp1RelativeToStartObject(new FGEPoint(0.5, 0.5));
 		}
 
 		FGEPoint cpPositionSeenFromEndObject = FGEUtils.convertNormalizedPoint(connectorNode, getCpPosition(), getEndNode());
 		setCp2RelativeToEndObject(getEndNode().getShape().outlineIntersect(cpPositionSeenFromEndObject));
 		if (getCp2RelativeToEndObject() == null) {
-			logger.warning("outlineIntersect() returned null");
+			LOGGER.warning("outlineIntersect() returned null");
 			setCp2RelativeToEndObject(new FGEPoint(0.5, 0.5));
 		}
 
@@ -389,7 +389,7 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 	@Override
 	public double distanceToConnector(FGEPoint aPoint, double scale) {
 		if (curve == null) {
-			logger.warning("Curve is null");
+			LOGGER.warning("Curve is null");
 			return Double.POSITIVE_INFINITY;
 		}
 		Point testPoint = connectorNode.convertNormalizedPointToViewCoordinates(aPoint, scale);

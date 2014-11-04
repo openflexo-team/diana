@@ -34,7 +34,7 @@ import org.openflexo.fge.geom.area.FGEPlane;
 import org.openflexo.fge.geom.area.FGESubstractionArea;
 
 public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoint {
-	static final Logger logger = Logger.getLogger(AdjustableFirstControlPoint.class.getPackage().getName());
+	static final Logger LOGGER = Logger.getLogger(AdjustableFirstControlPoint.class.getPackage().getName());
 
 	private SimplifiedCardinalDirection currentStartOrientation = null;
 
@@ -54,7 +54,7 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 			FGEPoint initialPoint, MouseEvent event) {
 		FGEPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
 		if (pt == null) {
-			logger.warning("Cannot nearest point for point " + newRelativePoint + " and area " + getDraggingAuthorizedArea());
+			LOGGER.warning("Cannot nearest point for point " + newRelativePoint + " and area " + getDraggingAuthorizedArea());
 			return false;
 		}
 		// Following little hack is used here to prevent some equalities that may
@@ -94,7 +94,7 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 			// OK, the new location will not modify general structure of connector
 			FGEPoint newStartPoint = startArea.nearestPointFrom(newFirstCPLocation, initialStartOrientation.getOpposite());
 			if (newStartPoint == null) {
-				logger.warning("Could not find nearest point from " + newFirstCPLocation + " on " + startArea + " following orientation "
+				LOGGER.warning("Could not find nearest point from " + newFirstCPLocation + " on " + startArea + " following orientation "
 						+ initialStartOrientation.getOpposite());
 				newStartPoint = startArea.getNearestPoint(newFirstCPLocation);
 			}
@@ -231,7 +231,7 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 
 				FGEPoint newStartPosition = startArea.nearestPointFrom(newFirstCPLocation, orientation.getOpposite());
 				if (newStartPosition == null) {
-					logger.warning("Could not find nearest point from " + newFirstCPLocation + " on " + startArea
+					LOGGER.warning("Could not find nearest point from " + newFirstCPLocation + " on " + startArea
 							+ " following orientation " + initialStartOrientation.getOpposite());
 					newStartPosition = startArea.getNearestPoint(newFirstCPLocation);
 				}

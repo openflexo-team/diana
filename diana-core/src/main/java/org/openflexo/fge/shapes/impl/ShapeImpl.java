@@ -50,7 +50,7 @@ import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
  * @author sylvain
  * 
  */
-public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeListener, Shape<SS> {
+public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeListener, Shape<SS>, Cloneable {
 
 	private static final Logger logger = Logger.getLogger(ShapeImpl.class.getPackage().getName());
 

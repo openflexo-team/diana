@@ -444,6 +444,15 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 	}
 
 	@Override
+	public int hashCode() {
+		int res = 27;
+		for (int i = 0; i < getPathElements().size(); i++) {
+			res += getElementAt(i).hashCode();
+		}
+		return res;
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEGeneralShape) {
 			FGEGeneralShape p = (FGEGeneralShape) obj;

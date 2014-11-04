@@ -44,7 +44,7 @@ import org.openflexo.toolbox.ColorUtils;
 
 public class FGEUtils {
 
-	static final Logger logger = Logger.getLogger(FGEUtils.class.getPackage().getName());
+	static final Logger LOGGER = Logger.getLogger(FGEUtils.class.getPackage().getName());
 
 	public static final Color NICE_RED = new Color(255, 153, 153);
 	public static final Color NICE_BLUE = new Color(153, 153, 255);
@@ -301,7 +301,7 @@ public class FGEUtils {
 		double tx = 0;
 		double ty = 0;
 		if (source == null) {
-			logger.warning("Called convertFromDrawableToDrawingAT() for null graphical representation (source)");
+			LOGGER.warning("Called convertFromDrawableToDrawingAT() for null graphical representation (source)");
 			return new AffineTransform();
 		}
 		DrawingTreeNode<?, ?> current = source;
@@ -352,7 +352,7 @@ public class FGEUtils {
 		double tx = 0;
 		double ty = 0;
 		if (destination == null) {
-			logger.warning("Called convertFromDrawingToDrawableAT() for null graphical representation (destination)");
+			LOGGER.warning("Called convertFromDrawingToDrawableAT() for null graphical representation (destination)");
 			return new AffineTransform();
 		}
 		DrawingTreeNode<?, ?> current = destination;
@@ -398,7 +398,7 @@ public class FGEUtils {
 	 */
 	public static AffineTransform convertNormalizedCoordinatesAT(DrawingTreeNode<?, ?> source, DrawingTreeNode<?, ?> destination) {
 		if (source == null) {
-			logger.warning("null source !");
+			LOGGER.warning("null source !");
 		}
 		AffineTransform returned = source.convertNormalizedPointToViewCoordinatesAT(1.0);
 		returned.preConcatenate(convertCoordinatesAT(source, destination, 1.0));

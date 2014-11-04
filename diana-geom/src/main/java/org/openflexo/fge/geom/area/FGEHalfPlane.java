@@ -410,6 +410,11 @@ public class FGEHalfPlane implements FGEArea {
 	}
 
 	@Override
+	public int hashCode() {//TODO AB: to be checked
+		return (line.hashCode() + testPoint.hashCode());
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEHalfPlane) {
 			FGEHalfPlane hp = (FGEHalfPlane) obj;

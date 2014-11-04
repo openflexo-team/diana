@@ -12,7 +12,7 @@ import org.openflexo.fge.notifications.FGEAttributeNotification;
 
 public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpecificationImpl implements RectPolylinConnectorSpecification {
 
-	static final Logger logger = Logger.getLogger(RectPolylinConnectorSpecification.class.getPackage().getName());
+	static final Logger LOGGER = Logger.getLogger(RectPolylinConnectorSpecification.class.getPackage().getName());
 
 	private boolean straightLineWhenPossible = true;
 	private RectPolylinAdjustability adjustability = RectPolylinAdjustability.AUTO_LAYOUT;

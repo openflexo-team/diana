@@ -22,9 +22,9 @@ package org.openflexo.fge.geom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class FGESteppedDimensionConstraint {
+public class FGESteppedDimensionConstraint implements Cloneable {
 
-	private static final Logger logger = Logger.getLogger(FGESteppedDimensionConstraint.class.getPackage().getName());
+	private static final Logger LOGGER = Logger.getLogger(FGESteppedDimensionConstraint.class.getPackage().getName());
 
 	private double hStep = 1.0;
 	private double vStep = 1.0;
@@ -37,14 +37,14 @@ public class FGESteppedDimensionConstraint {
 	public FGEDimension getNearestDimension(FGEDimension dimension, double minWidth, double maxWidth, double minHeight, double maxHeight) {
 		FGEDimension d = dimension.clone();
 		if (minWidth > maxWidth) {
-			if (logger.isLoggable(Level.WARNING)) {
-				logger.warning("Cannot proceed with minWidth>maxWidth: " + minWidth + " " + maxWidth);
+			if (LOGGER.isLoggable(Level.WARNING)) {
+				LOGGER.warning("Cannot proceed with minWidth>maxWidth: " + minWidth + " " + maxWidth);
 			}
 			return d;
 		}
 		if (minHeight > maxHeight) {
-			if (logger.isLoggable(Level.WARNING)) {
-				logger.warning("Cannot proceed with minHeight>maxHeight: " + minHeight + " " + maxHeight);
+			if (LOGGER.isLoggable(Level.WARNING)) {
+				LOGGER.warning("Cannot proceed with minHeight>maxHeight: " + minHeight + " " + maxHeight);
 			}
 			return d;
 		}
@@ -90,6 +90,11 @@ public class FGESteppedDimensionConstraint {
 		return vStep;
 	}
 
+	@Override
+	public int hashCode() {
+		return (new Double(hStep)).hashCode() + (new Double(vStep)).hashCode();
+	}
+	
 	@Override
 	public boolean equals(Object object) {
 		if (object instanceof FGESteppedDimensionConstraint) {

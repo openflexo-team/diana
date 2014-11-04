@@ -22,7 +22,7 @@ public abstract class ConnectorSpecificationImpl extends FGEObjectImpl implement
 	private double relativeMiddleSymbolLocation = 0.5; // default is in the middle !
 
 	@SuppressWarnings("unused")
-	private static final Logger logger = Logger.getLogger(ConnectorSpecification.class.getPackage().getName());
+	private static final Logger LOGGER = Logger.getLogger(ConnectorSpecification.class.getPackage().getName());
 
 	public ConnectorSpecificationImpl() {
 		super();

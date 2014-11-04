@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.6" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" language="java" name="org.openflexo.fge.FGECoreUtils" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/FGECoreUtils.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="90" y="54"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="org.openflexo.fge.FGEModelFactoryImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/FGEModelFactoryImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1662" y="441"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="org.openflexo.fge.impl.FGEObjectImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/FGEObjectImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="408" y="53"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="org.openflexo.fge.impl.BackgroundImageBackgroundStyleImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/BackgroundImageBackgroundStyleImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="154" y="343"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="org.openflexo.fge.impl.BackgroundStyleImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/BackgroundStyleImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="273" y="238"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="org.openflexo.fge.impl.ColorBackgroundStyleImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/ColorBackgroundStyleImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="365" y="461"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="org.openflexo.fge.impl.ColorGradientBackgroundStyleImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/ColorGradientBackgroundStyleImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="471" y="322"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="org.openflexo.fge.impl.ConnectorGraphicalRepresentationImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/ConnectorGraphicalRepresentationImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="686" y="235"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="org.openflexo.fge.impl.ConnectorNodeImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/ConnectorNodeImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1241" y="422"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="org.openflexo.fge.impl.ContainerGraphicalRepresentationImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/ContainerGraphicalRepresentationImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="776" y="333"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="org.openflexo.fge.impl.ContainerNodeImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/ContainerNodeImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1396" y="268"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="org.openflexo.fge.impl.DrawingGraphicalRepresentationImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/DrawingGraphicalRepresentationImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="878" y="431"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="org.openflexo.fge.impl.DrawingImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/DrawingImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1130" y="151"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="org.openflexo.fge.impl.DrawingTreeNodeImpl.DrawingTreeNodeEvaluationContext" 
+    project="diana-core" file="/diana-core/src/main/java/org/openflexo/fge/impl/DrawingTreeNodeImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1548" y="142"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="org.openflexo.fge.impl.DrawingTreeNodeImpl.BindingValueObserver" 
+    project="diana-core" file="/diana-core/src/main/java/org/openflexo/fge/impl/DrawingTreeNodeImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1499" y="69"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="org.openflexo.fge.impl.DrawingTreeNodeImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/DrawingTreeNodeImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1227" y="66"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="org.openflexo.fge.impl.FGECachedModelFactory" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/FGECachedModelFactory.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1623" y="569"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="org.openflexo.fge.impl.FGEStyleImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/FGEStyleImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="162" y="134"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="org.openflexo.fge.impl.ForegroundStyleImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/ForegroundStyleImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="91" y="240"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="org.openflexo.fge.impl.GeometricGraphicalRepresentationImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/GeometricGraphicalRepresentationImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1007" y="245"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="org.openflexo.fge.impl.GeometricNodeImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/GeometricNodeImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1122" y="337"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="org.openflexo.fge.impl.GraphicalRepresentationImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/GraphicalRepresentationImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="729" y="109"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="org.openflexo.fge.impl.GraphNodeImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/GraphNodeImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1399" y="660"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" name="org.openflexo.fge.impl.NoneBackgroundStyleImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/NoneBackgroundStyleImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="168" y="426"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="25" language="java" name="org.openflexo.fge.impl.PendingConnectorImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/PendingConnectorImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1137" y="560"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="26" language="java" name="org.openflexo.fge.impl.RootNodeImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/RootNodeImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1462" y="439"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="27" language="java" name="org.openflexo.fge.impl.ShadowStyleImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/ShadowStyleImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="445" y="233"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="28" language="java" name="org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/ShapeGraphicalRepresentationImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="648" y="507"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="29" language="java" name="org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl.ShapeBorderImpl" 
+    project="diana-core" file="/diana-core/src/main/java/org/openflexo/fge/impl/ShapeGraphicalRepresentationImpl.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="489" y="138"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="30" language="java" name="org.openflexo.fge.impl.ShapeNodeImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/ShapeNodeImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1395" y="574"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="31" language="java" name="org.openflexo.fge.impl.TextStyleImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/TextStyleImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="332" y="140"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="32" language="java" name="org.openflexo.fge.impl.TextureBackgroundStyleImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/impl/TextureBackgroundStyleImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="482" y="400"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="33" language="java" name="org.openflexo.fge.connectors.impl.ConnectorImpl" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/connectors/impl/ConnectorImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="928" y="640"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="34" language="java" name="org.openflexo.fge.connectors.impl.ConnectorSpecificationImpl" 
+    project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/connectors/impl/ConnectorSpecificationImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="352" y="562"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="35" language="java" name="org.openflexo.fge.connectors.impl.CurveConnector" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/connectors/impl/CurveConnector.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="869" y="788"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="36" language="java" name="org.openflexo.fge.connectors.impl.CurveConnectorSpecificationImpl" 
+    project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/connectors/impl/CurveConnectorSpecificationImpl.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="553" y="638"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="37" language="java" name="org.openflexo.fge.connectors.impl.CurvedPolylinConnector" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/connectors/impl/CurvedPolylinConnector.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="763" y="722"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="38" language="java" name="org.openflexo.fge.connectors.impl.CurvedPolylinConnectorSpecificationImpl" 
+    project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/connectors/impl/CurvedPolylinConnectorSpecificationImpl.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="172" y="726"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="39" language="java" name="org.openflexo.fge.connectors.impl.LineConnector" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/connectors/impl/LineConnector.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1234" y="716"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="40" language="java" name="org.openflexo.fge.connectors.impl.LineConnectorSpecificationImpl" 
+    project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/connectors/impl/LineConnectorSpecificationImpl.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="145" y="652"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="41" language="java" name="org.openflexo.fge.connectors.impl.RectPolylinConnector.UnnormalizedArcSize" 
+    project="diana-core" file="/diana-core/src/main/java/org/openflexo/fge/connectors/impl/RectPolylinConnector.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1094" y="852"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="42" language="java" name="org.openflexo.fge.connectors.impl.RectPolylinConnector" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/connectors/impl/RectPolylinConnector.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1093" y="780"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="43" language="java" name="org.openflexo.fge.connectors.impl.RectPolylinConnectorSpecificationImpl" 
+    project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/connectors/impl/RectPolylinConnectorSpecificationImpl.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="502" y="728"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="44" language="java" name="org.openflexo.fge.cp.ConnectorControlPoint" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/cp/ConnectorControlPoint.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1608" y="727"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="45" language="java" name="org.openflexo.fge.cp.ConnectorAdjustingControlPoint" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/cp/ConnectorAdjustingControlPoint.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1524" y="819"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="46" language="java" name="org.openflexo.fge.cp.ConnectorNonAdjustableControlPoint" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/cp/ConnectorNonAdjustableControlPoint.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1817" y="819"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="47" language="java" name="org.openflexo.fge.cp.GeometryAdjustingControlPoint" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/cp/GeometryAdjustingControlPoint.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1824" y="654"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="48" language="java" name="org.openflexo.fge.cp.LabelControlPoint" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/cp/LabelControlPoint.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1876" y="733"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="49" language="java" name="org.openflexo.fge.cp.ShapeResizingControlPoint" project="diana-core" 
+    file="/diana-core/src/main/java/org/openflexo/fge/cp/ShapeResizingControlPoint.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1850" y="569"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <generalization id="50">    
+    <end type="SOURCE" refId="35"/>    
+    <end type="TARGET" refId="33"/>  
+  </generalization>  
+  <nesting id="51">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="14"/>  
+  </nesting>  
+  <generalization id="52">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="53">    
+    <end type="SOURCE" refId="36"/>    
+    <end type="TARGET" refId="34"/>  
+  </generalization>  
+  <generalization id="54">    
+    <end type="SOURCE" refId="24"/>    
+    <end type="TARGET" refId="5"/>  
+  </generalization>  
+  <generalization id="55">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="22"/>  
+  </generalization>  
+  <association id="56">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="57" name="rootNode"/>      
+      <multiplicity id="58" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="26" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="59">    
+    <end type="SOURCE" refId="27"/>    
+    <end type="TARGET" refId="18"/>  
+  </generalization>  
+  <generalization id="60">    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="33"/>  
+  </generalization>  
+  <generalization id="61">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <generalization id="62">    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="63">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="64" name="childNodes"/>      
+      <multiplicity id="65" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="66">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
+  <association id="67">    
+    <end type="SOURCE" refId="16" navigable="false">      
+      <attribute id="68" name="bindingValueObserver"/>      
+      <multiplicity id="69" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="70">    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="33"/>  
+  </generalization>  
+  <generalization id="71">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="18"/>  
+  </generalization>  
+  <generalization id="72">    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="34"/>  
+  </generalization>  
+  <nesting id="73">    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="29"/>  
+  </nesting>  
+  <generalization id="74">    
+    <end type="SOURCE" refId="43"/>    
+    <end type="TARGET" refId="34"/>  
+  </generalization>  
+  <generalization id="75">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="16"/>  
+  </generalization>  
+  <generalization id="76">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="16"/>  
+  </generalization>  
+  <generalization id="77">    
+    <end type="SOURCE" refId="46"/>    
+    <end type="TARGET" refId="44"/>  
+  </generalization>  
+  <association id="78">    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="79" name="BACKGROUND_FACTORY"/>      
+      <multiplicity id="80" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="81">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="22"/>  
+  </generalization>  
+  <generalization id="82">    
+    <end type="SOURCE" refId="40"/>    
+    <end type="TARGET" refId="34"/>  
+  </generalization>  
+  <generalization id="83">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="5"/>  
+  </generalization>  
+  <nesting id="84">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="15"/>  
+  </nesting>  
+  <generalization id="85">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="5"/>  
+  </generalization>  
+  <generalization id="86">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="30"/>  
+  </generalization>  
+  <nesting id="87">    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="41"/>  
+  </nesting>  
+  <generalization id="88">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="18"/>  
+  </generalization>  
+  <association id="89">    
+    <end type="SOURCE" refId="16" navigable="false">      
+      <attribute id="90" name="drawing"/>      
+      <multiplicity id="91" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="92">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="93">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="94" name="endNode"/>      
+      <multiplicity id="95" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="30" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="96">    
+    <end type="SOURCE" refId="25" navigable="false">      
+      <attribute id="97" name="connectorNode"/>      
+      <multiplicity id="98" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="99">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="16"/>  
+  </generalization>  
+  <generalization id="100">    
+    <end type="SOURCE" refId="32"/>    
+    <end type="TARGET" refId="5"/>  
+  </generalization>  
+  <generalization id="101">    
+    <end type="SOURCE" refId="39"/>    
+    <end type="TARGET" refId="33"/>  
+  </generalization>  
+  <generalization id="102">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="5"/>  
+  </generalization>  
+  <generalization id="103">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="10"/>  
+  </generalization>  
+  <generalization id="104">    
+    <end type="SOURCE" refId="30"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
+  <generalization id="105">    
+    <end type="SOURCE" refId="31"/>    
+    <end type="TARGET" refId="18"/>  
+  </generalization>  
+  <generalization id="106">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="22"/>  
+  </generalization>  
+  <association id="107">    
+    <end type="SOURCE" refId="42" navigable="false">      
+      <attribute id="108" name="middleSymbolLocationControlPoint"/>      
+      <multiplicity id="109" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="45" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="110">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="111" name="startNode"/>      
+      <multiplicity id="112" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="30" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="113">    
+    <end type="SOURCE" refId="16" navigable="false">      
+      <attribute id="114" name="parentNode"/>      
+      <multiplicity id="115" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="116">    
+    <end type="SOURCE" refId="45"/>    
+    <end type="TARGET" refId="44"/>  
+  </generalization>  
+  <generalization id="117">    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="10"/>  
+  </generalization>  
+  <association id="118">    
+    <end type="SOURCE" refId="39" navigable="false">      
+      <attribute id="119" name="middleSymbolLocationControlPoint"/>      
+      <multiplicity id="120" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="45" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="121">    
+    <end type="SOURCE" refId="34"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false" static="true"/>    
+    <operations public="false" package="false" protected="false" private="false" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

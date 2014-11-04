@@ -246,7 +246,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		case ZOOM:
 			return new ZoomAction();
 		default:
-			logger.warning("Unexpected actionType " + actionType);
+			LOGGER.warning("Unexpected actionType " + actionType);
 			return null;
 		}
 	}
@@ -262,7 +262,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		case MULTIPLE_SELECTION:
 			return new MultipleSelectionAction();
 		default:
-			logger.warning("Unexpected actionType " + actionType);
+			LOGGER.warning("Unexpected actionType " + actionType);
 			return null;
 		}
 	}

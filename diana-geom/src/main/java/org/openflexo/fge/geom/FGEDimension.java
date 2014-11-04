@@ -49,6 +49,12 @@ public class FGEDimension extends Dimension2D {
 	}
 
 	@Override
+	public int hashCode() {//TODO AB to be checked 
+		// strange but how to ensure o1 equals o2 => o1.hc = o2.hc with the following equals definition ?
+		return 42; //because this is THE answer
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEDimension) {
 			FGEDimension s = (FGEDimension) obj;

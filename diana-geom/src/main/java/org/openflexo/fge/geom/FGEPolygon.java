@@ -894,6 +894,15 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 	}
 
 	@Override
+	public int hashCode() {
+		int res = 27;
+		for (int j = 0; j < getPointsNb(); j++) {
+			res += getPointAt(j).hashCode(); //commute, order does not matter
+		}
+		return res;
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEPolygon) {
 			FGEPolygon p = (FGEPolygon) obj;

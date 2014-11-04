@@ -40,7 +40,7 @@ import org.openflexo.model.annotations.PropertyIdentifier;
  */
 public class GRProperty<T> {
 
-	private static final Logger logger = Logger.getLogger(GRProperty.class.getPackage().getName());
+	private static final Logger LOGGER = Logger.getLogger(GRProperty.class.getPackage().getName());
 
 	private static Map<String, GRProperty<?>> retrieveParameters(Class<?> ownerClass) {
 		Map<String, GRProperty<?>> returned = new HashMap<String, GRProperty<?>>();

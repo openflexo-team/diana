@@ -71,7 +71,7 @@ import org.openflexo.toolbox.ToolBox;
  */
 public abstract class FGEModelFactory extends ModelFactory {
 
-	static final Logger logger = Logger.getLogger(FGEModelFactory.class.getPackage().getName());
+	static final Logger LOGGER = Logger.getLogger(FGEModelFactory.class.getPackage().getName());
 
 	/**
 	 * Creates a new model factory including all classes involved in FGE model
@@ -448,7 +448,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 		} else if (type == ConnectorType.CURVED_POLYLIN) {
 			return this.makeCurvedPolylinConnector();
 		}
-		logger.warning("Unexpected type: " + type);
+		LOGGER.warning("Unexpected type: " + type);
 		return null;
 
 	}
@@ -893,7 +893,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 			returned = this.newInstance(Star.class);
 			break;
 		default:
-			logger.warning("Unexpected ShapeType: " + type);
+			LOGGER.warning("Unexpected ShapeType: " + type);
 			break;
 		}
 

@@ -40,9 +40,9 @@ public class FGESubstractionArea extends FGEOperationArea {
 	// private static final FGEModelFactory FACTORY = GeomUtils.TOOLS_FACTORY;
 	// private static final BackgroundStyle BACKGROUND = FACTORY.makeColoredBackground(java.awt.Color.GRAY);
 
-	private FGEArea containerArea;
-	private FGEArea substractedArea;
-	private boolean isStrict;
+	private final FGEArea containerArea;
+	private final FGEArea substractedArea;
+	private final boolean isStrict;
 
 	/**
 	 * Build a new FGESubstractionArea given container area and substracted area. Really build this operation area without trying to compute
@@ -316,7 +316,12 @@ public class FGESubstractionArea extends FGEOperationArea {
 	public FGEArea getSubstractedArea() {
 		return substractedArea;
 	}
-
+	
+	@Override
+	public int hashCode() {
+		return getContainerArea().hashCode() + getSubstractedArea().hashCode() + (isStrict?1:0);
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGESubstractionArea) {

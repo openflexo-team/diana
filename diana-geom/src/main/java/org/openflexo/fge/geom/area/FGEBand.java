@@ -473,6 +473,11 @@ public class FGEBand implements FGEArea {
 	}
 
 	@Override
+	public int hashCode() {
+		return (line1.hashCode() + line2.hashCode());
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEBand) {
 			FGEBand b = (FGEBand) obj;

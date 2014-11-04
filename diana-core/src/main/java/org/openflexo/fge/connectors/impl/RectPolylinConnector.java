@@ -54,7 +54,7 @@ import org.openflexo.toolbox.ConcatenedList;
 
 public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpecification> {
 
-	static final Logger logger = Logger.getLogger(RectPolylinConnectorSpecification.class.getPackage().getName());
+	static final Logger LOGGER = Logger.getLogger(RectPolylinConnectorSpecification.class.getPackage().getName());
 
 	private FGERectPolylin polylin;
 	private final Vector<FGERectPolylin> potentialPolylin;
@@ -261,14 +261,14 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	@Override
 	public void refreshConnector(boolean force) {
 		if (!force && !needsRefresh()) {
-			if (logger.isLoggable(Level.FINE)) {
-				logger.fine("Skipping refreshConnector() for " + connectorNode);
+			if (LOGGER.isLoggable(Level.FINE)) {
+				LOGGER.fine("Skipping refreshConnector() for " + connectorNode);
 			}
 			return;
 		}
 		else {
-			if (logger.isLoggable(Level.FINE)) {
-				logger.fine("Perform refreshConnector() for " + connectorNode);
+			if (LOGGER.isLoggable(Level.FINE)) {
+				LOGGER.fine("Perform refreshConnector() for " + connectorNode);
 			}
 		}
 
@@ -421,7 +421,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
 						FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
 					if (polylin == null) {
-						logger.warning("polylin is null");
+						LOGGER.warning("polylin is null");
 						return false;
 					}
 					// logger.info("OK, moving to "+point);dds
@@ -511,7 +511,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			Vector<SimplifiedCardinalDirection> newConstraints = SimplifiedCardinalDirection.intersection(returned,
 					_getAllowedStartOrientationsDueToFixedStartingLocation());
 			if (newConstraints.size() == 0) {
-				logger.warning("Cannot respect fixed start location orientation constraint primitives=" + returned
+				LOGGER.warning("Cannot respect fixed start location orientation constraint primitives=" + returned
 						+ " for fixed starting position=" + _getAllowedStartOrientationsDueToFixedStartingLocation());
 				return returned;
 			}
@@ -542,7 +542,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		}
 		// logger.info("Allowed start orientations due to fixed starting location = "+returned);
 		if (returned.size() == 0) {
-			logger.warning("Allowed start orientations due to fixed starting location returned an empty vector " + returned);
+			LOGGER.warning("Allowed start orientations due to fixed starting location returned an empty vector " + returned);
 		}
 		return returned;
 	}
@@ -594,7 +594,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			Vector<SimplifiedCardinalDirection> newConstraints = SimplifiedCardinalDirection.intersection(returned,
 					_getAllowedEndOrientationsDueToFixedEndingLocation());
 			if (newConstraints.size() == 0) {
-				logger.warning("Cannot respect fixed end location orientation constraint primitives=" + returned
+				LOGGER.warning("Cannot respect fixed end location orientation constraint primitives=" + returned
 						+ " for fixed ending position=" + _getAllowedEndOrientationsDueToFixedEndingLocation());
 				return returned;
 			}
@@ -618,7 +618,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		}
 		// logger.info("Allowed end orientations due to fixed ending location="+returned);
 		if (returned.size() == 0) {
-			logger.warning("Allowed start orientations due to fixed starting location returned an empty vector " + returned);
+			LOGGER.warning("Allowed start orientations due to fixed starting location returned an empty vector " + returned);
 		}
 		return returned;
 	}
@@ -769,7 +769,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			 * if (startArea instanceof FGEShape) { return ((FGEShape<?>)startArea).nearestOutlinePoint(fixedPoint); } else
 			 */FGEPoint returned = startArea.getNearestPoint(fixedPoint);
 			if (!startArea.containsPoint(returned)) {
-				logger.warning("Inconsistent data: point " + returned + " not located on area: " + startArea + " [was: " + fixedPoint + "]");
+				LOGGER.warning("Inconsistent data: point " + returned + " not located on area: " + startArea + " [was: " + fixedPoint + "]");
 			}
 			return returned;
 
@@ -831,7 +831,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			return FGEUnionArea.makeUnion(allowedAreas);
 		}
 		else if (allowedStartOrientations.size() == 0) {
-			logger.warning("Cannot respect starting orientation constraints");
+			LOGGER.warning("Cannot respect starting orientation constraints");
 		}
 
 		return startArea;
@@ -859,7 +859,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			 */
 			FGEPoint returned = endArea.getNearestPoint(fixedPoint);
 			if (!endArea.containsPoint(returned)) {
-				logger.warning("Inconsistent data: point " + returned + " not located on area: " + endArea + " [was: " + fixedPoint + "]");
+				LOGGER.warning("Inconsistent data: point " + returned + " not located on area: " + endArea + " [was: " + fixedPoint + "]");
 			}
 			return returned;
 		}
@@ -916,7 +916,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			return FGEUnionArea.makeUnion(allowedAreas);
 		}
 		else if (allowedEndOrientations.size() == 0) {
-			logger.warning("Cannot respect ending orientation constraints");
+			LOGGER.warning("Cannot respect ending orientation constraints");
 		}
 
 		return endArea;
@@ -944,7 +944,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			}
 		}
 		if (startMiddle == null) {
-			logger.warning("Could not find middle of resulting start area: " + startArea);
+			LOGGER.warning("Could not find middle of resulting start area: " + startArea);
 			startMiddle = new FGEPoint(0, 0);
 		}
 
@@ -957,7 +957,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			}
 		}
 		if (endMiddle == null) {
-			logger.warning("Could not find middle of resulting start area: " + startArea);
+			LOGGER.warning("Could not find middle of resulting start area: " + startArea);
 			endMiddle = new FGEPoint(1, 1);
 		}
 
@@ -1156,7 +1156,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		Vector<SimplifiedCardinalDirection> allowedEndOrientations = getAllowedEndOrientations();
 
 		if (!testAllCombinations && potentialStartOrientations.size() != potentialEndOrientations.size()) {
-			logger.warning("Inconsistent data: potentialStartOrientations.size() != potentialEndOrientations.size()");
+			LOGGER.warning("Inconsistent data: potentialStartOrientations.size() != potentialEndOrientations.size()");
 		}
 
 		if (testAllCombinations) {
@@ -1239,17 +1239,17 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			setEndOrientation(polylin.getEndOrientation());
 		}
 		else {
-			logger.warning("polylin=null !!!!!!");
+			LOGGER.warning("polylin=null !!!!!!");
 		}
 
 		// logger.info("Best polylin found from/to "+startOrientation+"/"+endOrientation+" with "+polylin.getPointsNb()+" points");
 		// logger.info("Polylin="+polylin);
 
-		if (getStartOrientation() != choosenStartOrientation && logger.isLoggable(Level.FINE)) {
-			logger.fine("Requested start orientation was: " + choosenStartOrientation + " but is finally: " + getStartOrientation());
+		if (getStartOrientation() != choosenStartOrientation && LOGGER.isLoggable(Level.FINE)) {
+			LOGGER.fine("Requested start orientation was: " + choosenStartOrientation + " but is finally: " + getStartOrientation());
 		}
-		if (getEndOrientation() != choosenEndOrientation && logger.isLoggable(Level.FINE)) {
-			logger.fine("Requested end orientation was: " + choosenEndOrientation + " but is finally: " + getEndOrientation());
+		if (getEndOrientation() != choosenEndOrientation && LOGGER.isLoggable(Level.FINE)) {
+			LOGGER.fine("Requested end orientation was: " + choosenEndOrientation + " but is finally: " + getEndOrientation());
 		}
 
 		// logger.info("Before update, polylin from/to "+startOrientation+"/"+endOrientation+" with "+polylin.getPointsNb()+" points");
@@ -1262,12 +1262,12 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				updateWithNewPolylin(polylin, true, false);
 			}
 			else {
-				logger.warning("Result of auto-layout computing returned a non-normalized polylin. Please investigate");
+				LOGGER.warning("Result of auto-layout computing returned a non-normalized polylin. Please investigate");
 				updateWithNewPolylin(polylin, false, false);
 			}
 		}
 		else {
-			logger.warning("polylin=null !!!!!!");
+			LOGGER.warning("polylin=null !!!!!!");
 		}
 
 		// logger.info("After update, polylin from/to "+startOrientation+"/"+endOrientation+" with "+polylin.getPointsNb()+" points");
@@ -1322,7 +1322,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		}
 
 		if (newPolylin == null) {
-			logger.warning("Obtained null polylin allowedStartOrientations=" + allowedStartOrientations);
+			LOGGER.warning("Obtained null polylin allowedStartOrientations=" + allowedStartOrientations);
 			return;
 		}
 
@@ -1330,7 +1330,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			updateWithNewPolylin(newPolylin, true, false);
 		}
 		else {
-			logger.warning("Result of basically_adjustable layout computing returned a non-normalized polylin. Please investigate");
+			LOGGER.warning("Result of basically_adjustable layout computing returned a non-normalized polylin. Please investigate");
 			updateWithNewPolylin(newPolylin, false, false);
 		}
 
@@ -1475,8 +1475,8 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	}
 
 	public void updateWithNewPolylin(FGERectPolylin aPolylin, boolean assertLayoutIsValid, boolean temporary) {
-		if (logger.isLoggable(Level.FINE)) {
-			logger.fine("Update with polylin with " + aPolylin.getPointsNb() + " points");
+		if (LOGGER.isLoggable(Level.FINE)) {
+			LOGGER.fine("Update with polylin with " + aPolylin.getPointsNb() + " points");
 		}
 
 		if (aPolylin != null) {
@@ -1513,8 +1513,8 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			return;
 		}
 
-		if (logger.isLoggable(Level.FINER)) {
-			logger.finer("updateAndNormalizeCurrentPolylin()");
+		if (LOGGER.isLoggable(Level.FINER)) {
+			LOGGER.finer("updateAndNormalizeCurrentPolylin()");
 		}
 
 		isCleaningPolylin = true;
@@ -1539,8 +1539,8 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			}
 
 			else {
-				if (logger.isLoggable(Level.FINER)) {
-					logger.finer("RectPolylin layout changed");
+				if (LOGGER.isLoggable(Level.FINER)) {
+					LOGGER.finer("RectPolylin layout changed");
 				}
 				// Layout has changed, update with new normalized polylin
 				updateWithNewPolylin(polylin.makeNormalizedRectPolylin(), false, true);
@@ -1633,7 +1633,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				int nSegments = polylin.getSegments().size();
 				if (nSegments < 1) {
 					// Pathologic case
-					logger.warning("Unexpected situation here");
+					LOGGER.warning("Unexpected situation here");
 				}
 				else if (nSegments == 1) {
 					if ((!getIsStartingLocationFixed() || getConnectorSpecification().getIsStartingLocationDraggable())
@@ -1831,7 +1831,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 			// Retrieve next point (also called "first" control point)
 			if (polylin.getSegmentAt(0) == null) {
-				logger.warning("Unexpected null first segment. Abort.");
+				LOGGER.warning("Unexpected null first segment. Abort.");
 				return;
 			}
 			FGEPoint nextPoint = polylin.getSegmentAt(0).getP2();
@@ -1982,7 +1982,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 			// Retrieve previous point (also called "last" control point)
 			if (polylin.getSegmentAt(polylin.getSegmentNb() - 1) == null) {
-				logger.warning("Unexpected null last segment. Abort.");
+				LOGGER.warning("Unexpected null last segment. Abort.");
 				return;
 			}
 			FGEPoint previousPoint = polylin.getSegmentAt(polylin.getSegmentNb() - 1).getP1();
@@ -2187,7 +2187,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 		if (evt.getSource() == getConnectorSpecification()) {
 
-			if (evt.getPropertyName() == RectPolylinConnectorSpecification.RECT_POLYLIN_CONSTRAINTS.getName()) {
+			if (evt.getPropertyName().equals(RectPolylinConnectorSpecification.RECT_POLYLIN_CONSTRAINTS.getName())) {
 				p_start = null;
 				p_end = null;
 				updateLayout();

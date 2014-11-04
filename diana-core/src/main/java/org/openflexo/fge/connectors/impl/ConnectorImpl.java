@@ -42,7 +42,7 @@ import org.openflexo.toolbox.HasPropertyChangeSupport;
  */
 public abstract class ConnectorImpl<CS extends ConnectorSpecification> implements Connector<CS> {
 
-	private static final Logger logger = Logger.getLogger(ConnectorSpecification.class.getPackage().getName());
+	private static final Logger LOGGER = Logger.getLogger(ConnectorSpecification.class.getPackage().getName());
 
 	// private transient ConnectorGraphicalRepresentation graphicalRepresentation;
 
@@ -257,8 +257,8 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 			FGEArea startObjectShape = connectorNode.getStartNode().getFGEShape().transform(at1);
 			FGEArea endObjectShape = connectorNode.getEndNode().getFGEShape().transform(at2);
 			FGEArea returned = startObjectShape.intersect(endObjectShape);
-			if (logger.isLoggable(Level.FINE)) {
-				logger.fine("computeCoveringArea(" + order + ") = " + returned);
+			if (LOGGER.isLoggable(Level.FINE)) {
+				LOGGER.fine("computeCoveringArea(" + order + ") = " + returned);
 			}
 			return returned;
 		}
@@ -286,8 +286,8 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 					start_north.intersect(end_west), start_south.intersect(end_east), start_south.intersect(end_west));
 		}
 
-		if (logger.isLoggable(Level.FINE)) {
-			logger.fine("computeCoveringArea(" + order + ") = " + returned);
+		if (LOGGER.isLoggable(Level.FINE)) {
+			LOGGER.fine("computeCoveringArea(" + order + ") = " + returned);
 		}
 
 		return returned;
@@ -363,7 +363,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	public void propertyChange(PropertyChangeEvent evt) {
 
 		if (isDeleted()) {
-			logger.warning("Received PropertyChangeEvent=" + evt + " for a deleted connector !!!");
+			LOGGER.warning("Received PropertyChangeEvent=" + evt + " for a deleted connector !!!");
 			return;
 		}
 
@@ -397,10 +397,10 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		// If UniqueGraphicalRepresentations is active, use ConnectorSpecification to store graphical properties
 
 		if (getConnectorNode() == null) {
-			logger.warning("Called getPropertyValue() for null ConnectorNode");
+			LOGGER.warning("Called getPropertyValue() for null ConnectorNode");
 			return null;
 		} else if (getConnectorNode().isDeleted()) {
-			logger.warning("Called getPropertyValue() for deleted ConnectorNode");
+			LOGGER.warning("Called getPropertyValue() for deleted ConnectorNode");
 			return null;
 		}
 
@@ -428,7 +428,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		}
 
 		else {
-			logger.warning("Not implemented: " + getConnectorNode().getDrawing().getPersistenceMode());
+			LOGGER.warning("Not implemented: " + getConnectorNode().getDrawing().getPersistenceMode());
 			return null;
 		}
 	}
@@ -471,7 +471,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		}
 
 		else {
-			logger.warning("Not implemented: " + getConnectorNode().getDrawing().getPersistenceMode());
+			LOGGER.warning("Not implemented: " + getConnectorNode().getDrawing().getPersistenceMode());
 		}
 
 	}

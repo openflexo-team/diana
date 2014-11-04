@@ -281,6 +281,11 @@ public class FGEHalfBand implements FGEArea {
 	}
 
 	@Override
+	public int hashCode() {
+		return (halfLine1.hashCode() + halfLine2.hashCode());
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEHalfBand) {
 			FGEHalfBand hb = (FGEHalfBand) obj;

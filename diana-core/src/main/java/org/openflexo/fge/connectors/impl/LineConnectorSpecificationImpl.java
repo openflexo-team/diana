@@ -10,7 +10,7 @@ import org.openflexo.fge.notifications.FGEAttributeNotification;
 public abstract class LineConnectorSpecificationImpl extends ConnectorSpecificationImpl implements LineConnectorSpecification {
 
 	@SuppressWarnings("unused")
-	private static final Logger logger = Logger.getLogger(LineConnectorSpecification.class.getPackage().getName());
+	private static final Logger LOGGER = Logger.getLogger(LineConnectorSpecification.class.getPackage().getName());
 
 	private FGEPoint cp1RelativeToStartObject;
 	private FGEPoint cp2RelativeToEndObject;

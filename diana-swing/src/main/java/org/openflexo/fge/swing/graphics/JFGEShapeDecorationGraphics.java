@@ -30,7 +30,7 @@ import org.openflexo.fge.swing.view.JShapeView;
 
 public class JFGEShapeDecorationGraphics extends JFGEGraphics implements FGEShapeDecorationGraphics {
 
-	private static final Logger logger = Logger.getLogger(JFGEShapeDecorationGraphics.class.getPackage().getName());
+	private static final Logger LOGGER = Logger.getLogger(JFGEShapeDecorationGraphics.class.getPackage().getName());
 
 	public <O> JFGEShapeDecorationGraphics(ShapeNode<O> node, JShapeView<O> view) {
 		super(node, view);
@@ -46,13 +46,13 @@ public class JFGEShapeDecorationGraphics extends JFGEGraphics implements FGEShap
 		return (ShapeGraphicalRepresentation) super.getGraphicalRepresentation();
 	}
 
-	public double getWidth() {
-		return getWidth();
-	}
-
-	public double getHeight() {
-		return getHeight();
-	}
+//	public double getWidth() {//infinite loop
+//		return getWidth();
+//	}
+//
+//	public double getHeight() {//infinite loop
+//		return getHeight();
+//	}
 
 	// Decoration graphics doesn't use normalized coordinates system
 	@Override

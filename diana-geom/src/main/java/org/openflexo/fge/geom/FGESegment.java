@@ -249,6 +249,11 @@ public class FGESegment extends FGEAbstractLine<FGESegment> implements FGEGenera
 	}
 
 	@Override
+	public int hashCode() {
+		return getP1().hashCode() + getP2().hashCode();
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGESegment) {
 			FGESegment s = (FGESegment) obj;

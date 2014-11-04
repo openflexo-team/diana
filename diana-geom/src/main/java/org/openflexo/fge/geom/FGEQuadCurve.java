@@ -314,6 +314,11 @@ public class FGEQuadCurve extends Double implements FGEGeneralShape.GeneralShape
 	}
 
 	@Override
+	public int hashCode() {
+		return getP1().hashCode() + getP2().hashCode();
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEQuadCurve) {
 			FGEQuadCurve s = (FGEQuadCurve) obj;

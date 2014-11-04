@@ -33,7 +33,7 @@ import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.geom.area.FGEPlane;
 
 public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPoint {
-	static final Logger logger = Logger.getLogger(AdjustableMiddleControlPoint.class.getPackage().getName());
+	static final Logger LOGGER = Logger.getLogger(AdjustableMiddleControlPoint.class.getPackage().getName());
 
 	public AdjustableMiddleControlPoint(FGEPoint point, RectPolylinConnector connector) {
 		super(point, connector);
@@ -49,7 +49,7 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 			FGEPoint initialPoint, MouseEvent event) {
 		FGEPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
 		if (pt == null) {
-			logger.warning("Cannot nearest point for point " + newRelativePoint + " and area " + getDraggingAuthorizedArea());
+			LOGGER.warning("Cannot nearest point for point " + newRelativePoint + " and area " + getDraggingAuthorizedArea());
 			return false;
 		}
 		// Following little hack is used here to prevent some equalities that may
@@ -100,7 +100,7 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 				.allDirectionsExcept(allowedStartOrientations), SimplifiedCardinalDirection.allDirectionsExcept(allowedEndOrientations));
 
 		if (newPolylin == null) {
-			logger.warning("Obtained null polylin allowedStartOrientations=" + allowedStartOrientations);
+			LOGGER.warning("Obtained null polylin allowedStartOrientations=" + allowedStartOrientations);
 			return;
 		}
 
@@ -116,7 +116,7 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 		if (newPolylin.isNormalized()) {
 			getConnector().updateWithNewPolylin(newPolylin, true, false);
 		} else {
-			logger.warning("Computed layout returned a non-normalized polylin. Please investigate");
+			LOGGER.warning("Computed layout returned a non-normalized polylin. Please investigate");
 			getConnector().updateWithNewPolylin(newPolylin, false, false);
 		}
 

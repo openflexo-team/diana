@@ -31,7 +31,7 @@ import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.geom.area.FGEEmptyArea;
 
 public class AdjustableUniqueSegment extends RectPolylinAdjustableSegment {
-	static final Logger logger = Logger.getLogger(AdjustableUniqueSegment.class.getPackage().getName());
+	static final Logger LOGGER = Logger.getLogger(AdjustableUniqueSegment.class.getPackage().getName());
 
 	private boolean consistentData = false;
 	private FGESegment currentSegment;
@@ -48,7 +48,7 @@ public class AdjustableUniqueSegment extends RectPolylinAdjustableSegment {
 	private void retrieveInfos() {
 		currentSegment = getArea();
 		if (currentSegment.getApproximatedOrientation() == null) {
-			logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
+			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return;
 		}
 		currentOrientation = currentSegment.getApproximatedOrientation();
@@ -80,7 +80,7 @@ public class AdjustableUniqueSegment extends RectPolylinAdjustableSegment {
 	public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
 		super.startDragging(controller, startPoint);
 		retrieveInfos();
-		logger.info("start cpts=" + getConnector().getControlAreas());
+		LOGGER.info("start cpts=" + getConnector().getControlAreas());
 	}
 
 	@Override
@@ -99,12 +99,12 @@ public class AdjustableUniqueSegment extends RectPolylinAdjustableSegment {
 
 		FGEPoint p1 = getPolylin().getPointAt(0);
 		if (p1 == null) {
-			logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
+			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return false;
 		}
 		FGEPoint p2 = getPolylin().getPointAt(1);
 		if (p2 == null) {
-			logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
+			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return false;
 		}
 

@@ -30,7 +30,7 @@ import org.openflexo.fge.geom.FGERectPolylin;
 import org.openflexo.fge.geom.area.FGEArea;
 
 public class AdjustableEndControlPoint extends RectPolylinAdjustableControlPoint {
-	static final Logger logger = Logger.getLogger(AdjustableEndControlPoint.class.getPackage().getName());
+	static final Logger LOGGER = Logger.getLogger(AdjustableEndControlPoint.class.getPackage().getName());
 
 	public AdjustableEndControlPoint(FGEPoint point, RectPolylinConnector connector) {
 		super(point, connector);
@@ -52,7 +52,7 @@ public class AdjustableEndControlPoint extends RectPolylinAdjustableControlPoint
 			FGEPoint initialPoint, MouseEvent event) {
 		FGEPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
 		if (pt == null) {
-			logger.warning("Cannot nearest point for point " + newRelativePoint + " and area " + getDraggingAuthorizedArea());
+			LOGGER.warning("Cannot nearest point for point " + newRelativePoint + " and area " + getDraggingAuthorizedArea());
 			return false;
 		}
 		setPoint(pt);

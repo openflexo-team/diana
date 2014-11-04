@@ -45,7 +45,7 @@ import org.openflexo.fge.graph.FGEGraph;
 
 public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends DefaultBindable {
 
-	private static final Logger logger = Logger.getLogger(GRBinding.class.getPackage().getName());
+	private static final Logger LOGGER = Logger.getLogger(GRBinding.class.getPackage().getName());
 
 	private static final BindingFactory BINDING_FACTORY = new JavaBindingFactory();
 
@@ -111,7 +111,7 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 		dynamicPropertyValues.put(parameter, returned);
 
 		if (!bindingValue.isValid()) {
-			logger.warning("Invalid binding " + bindingValue + " reason " + bindingValue.invalidBindingReason());
+			LOGGER.warning("Invalid binding " + bindingValue + " reason " + bindingValue.invalidBindingReason());
 		}
 
 		return returned;

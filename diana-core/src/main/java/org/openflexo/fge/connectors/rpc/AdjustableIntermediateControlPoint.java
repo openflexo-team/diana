@@ -35,7 +35,7 @@ import org.openflexo.fge.geom.area.FGEHalfPlane;
 import org.openflexo.fge.geom.area.FGEPlane;
 
 public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableControlPoint {
-	static final Logger logger = Logger.getLogger(AdjustableIntermediateControlPoint.class.getPackage().getName());
+	static final Logger LOGGER = Logger.getLogger(AdjustableIntermediateControlPoint.class.getPackage().getName());
 
 	private int index;
 
@@ -71,7 +71,7 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 		}
 		FGEPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
 		if (pt == null) {
-			logger.warning("Cannot nearest point for point " + newRelativePoint + " and area " + getDraggingAuthorizedArea());
+			LOGGER.warning("Cannot nearest point for point " + newRelativePoint + " and area " + getDraggingAuthorizedArea());
 			return false;
 		}
 		// Following little hack is used here to prevent some equalities that may
@@ -98,8 +98,8 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 	 * @param index
 	 */
 	private boolean movedIntermediateCP(int index, FGEPoint oldCPLocation, boolean simplifyLayout) {
-		if (logger.isLoggable(Level.FINE)) {
-			logger.fine("Moved intermediate point at index: " + index);
+		if (LOGGER.isLoggable(Level.FINE)) {
+			LOGGER.fine("Moved intermediate point at index: " + index);
 		}
 
 		// First, obtain location of Control Point being moved
@@ -132,7 +132,7 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 		} else if (previousSegmentOrientation.isVertical()) {
 			previousCPNewLocation.x = newCPLocation.x;
 		} else {
-			logger.warning("Inconsistent data: segment not horizontal nor vertical");
+			LOGGER.warning("Inconsistent data: segment not horizontal nor vertical");
 		}
 
 		// If we don't modify general layout of connector,
@@ -144,8 +144,8 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 			// From both side of half-plane formed by intermediateCPStartSegment
 			FGEHalfPlane intermediateCPStartSegmentHalfPlane = new FGEHalfPlane(intermediateCPStartSegment, oldCPLocation);
 			if (!intermediateCPStartSegmentHalfPlane.containsPoint(newCPLocation)) {
-				if (logger.isLoggable(Level.INFO)) {
-					logger.info("Two points will be removed (pattern 1) at index=" + (index - 1));
+				if (LOGGER.isLoggable(Level.INFO)) {
+					LOGGER.info("Two points will be removed (pattern 1) at index=" + (index - 1));
 				}
 				getConnector()._simplifyLayoutOfCurrentPolylinByDeletingTwoPoints(index - 1, newCPLocation);
 				/*
@@ -172,8 +172,8 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 				FGEHalfPlane intermediateCPBeforeStartSegmentHalfPlane = new FGEHalfPlane(intermediateCPBeforeStartSegment,
 						previousCPOldLocation);
 				if (!intermediateCPBeforeStartSegmentHalfPlane.containsPoint(previousCPNewLocation)) {
-					if (logger.isLoggable(Level.INFO)) {
-						logger.info("Two points will be removed (pattern 2) at index=" + (index - 2));
+					if (LOGGER.isLoggable(Level.INFO)) {
+						LOGGER.info("Two points will be removed (pattern 2) at index=" + (index - 2));
 					}
 					getConnector()._simplifyLayoutOfCurrentPolylinByDeletingTwoPoints(index - 2, newCPLocation);
 					/*
@@ -204,7 +204,7 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 		} else if (nextSegmentOrientation.isVertical()) {
 			nextCPNewLocation.x = newCPLocation.x;
 		} else {
-			logger.warning("Inconsistent data: segment not horizontal nor vertical");
+			LOGGER.warning("Inconsistent data: segment not horizontal nor vertical");
 		}
 
 		// If we don't modify general layout of connector,
@@ -217,8 +217,8 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 			// From both side of half-plane formed by intermediateCPEndSegment
 			FGEHalfPlane intermediateCPEndSegmentHalfPlane = new FGEHalfPlane(intermediateCPEndSegment, oldCPLocation);
 			if (!intermediateCPEndSegmentHalfPlane.containsPoint(newCPLocation)) {
-				if (logger.isLoggable(Level.INFO)) {
-					logger.info("Two points will be removed (pattern 3) at index=" + index);
+				if (LOGGER.isLoggable(Level.INFO)) {
+					LOGGER.info("Two points will be removed (pattern 3) at index=" + index);
 				}
 				getConnector()._simplifyLayoutOfCurrentPolylinByDeletingTwoPoints(index, newCPLocation);
 				/*
@@ -244,8 +244,8 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 				FGESegment intermediateCPAfterEndSegment = getPolylin().getSegmentAt(index + 2);
 				FGEHalfPlane intermediateCPAfterEndSegmentHalfPlane = new FGEHalfPlane(intermediateCPAfterEndSegment, nextCPOldLocation);
 				if (!intermediateCPAfterEndSegmentHalfPlane.containsPoint(nextCPNewLocation)) {
-					if (logger.isLoggable(Level.INFO)) {
-						logger.info("Two points will be removed (pattern 4) at index=" + (index + 1));
+					if (LOGGER.isLoggable(Level.INFO)) {
+						LOGGER.info("Two points will be removed (pattern 4) at index=" + (index + 1));
 					}
 					getConnector()._simplifyLayoutOfCurrentPolylinByDeletingTwoPoints(index + 1, newCPLocation);
 					/*

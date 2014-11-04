@@ -155,6 +155,11 @@ public class FGEHalfLine extends FGEAbstractLine<FGEHalfLine> {
 	}
 
 	@Override
+	public int hashCode() {//TODO AB to be checked
+		return (getLimit().hashCode() + getOpposite().hashCode());
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEHalfLine) {
 			FGEHalfLine hl = (FGEHalfLine) obj;

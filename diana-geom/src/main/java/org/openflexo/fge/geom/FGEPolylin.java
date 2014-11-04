@@ -571,6 +571,15 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 	}
 
 	@Override
+	public int hashCode() {
+		int res = 27;
+		for (int j = 0; j < getPointsNb(); j++) {
+			res += getPointAt(j).hashCode(); //commute, order does not matter
+		}
+		return res;
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEPolylin) {
 			FGEPolylin p = (FGEPolylin) obj;

@@ -33,7 +33,7 @@ import org.openflexo.fge.graphics.AbstractFGEGraphics;
 @SuppressWarnings("serial")
 public class FGELine extends FGEAbstractLine<FGELine> {
 
-	private static final Logger logger = Logger.getLogger(FGELine.class.getPackage().getName());
+	private static final Logger LOGGER = Logger.getLogger(FGELine.class.getPackage().getName());
 
 	public FGELine(double X1, double Y1, double X2, double Y2) {
 		super(X1, Y1, X2, Y2);
@@ -147,14 +147,14 @@ public class FGELine extends FGEAbstractLine<FGELine> {
 		} else if (intersect.equals(hp2)) {
 			return hl2.clone();
 		} else {
-			logger.warning("Unexpected intersection: " + intersect);
+			LOGGER.warning("Unexpected intersection: " + intersect);
 			return null;
 		}
 	}
 
 	@Override
 	protected FGEArea computeLineIntersection(FGEAbstractLine<?> line) {
-		logger.info("computeIntersection() between " + this + "\n and " + line + " overlap=" + overlap(line));
+		LOGGER.info("computeIntersection() between " + this + "\n and " + line + " overlap=" + overlap(line));
 		if (overlap(line)) {
 			return line.clone();
 		} else if (isParallelTo(line)) {
@@ -186,6 +186,11 @@ public class FGELine extends FGEAbstractLine<FGELine> {
 		return true;
 	}
 
+	@Override
+	public int hashCode() {//AB same slope 
+		return (getB()==0?31:((new java.lang.Double(getA()/getB()).hashCode())));
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGELine) {

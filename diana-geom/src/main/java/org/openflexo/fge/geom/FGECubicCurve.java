@@ -190,6 +190,11 @@ public class FGECubicCurve extends Double implements FGEGeneralShape.GeneralShap
 	}
 
 	@Override
+	public int hashCode() {
+		return getP1().hashCode() + getP2().hashCode() + getCtrlP1().hashCode() + getCtrlP2().hashCode();
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGECubicCurve) {
 			FGECubicCurve s = (FGECubicCurve) obj;
