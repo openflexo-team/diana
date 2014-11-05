@@ -367,7 +367,6 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.Y.getName()) {
 				forward(evt);
 				notifyObjectMoved(null);
-				System.out.println("Hop, " + getDrawable() + " a change de position");
 			} else if (evt.getPropertyName() == ContainerGraphicalRepresentation.WIDTH.getName()
 					|| evt.getPropertyName() == ContainerGraphicalRepresentation.HEIGHT.getName()
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.MINIMAL_HEIGHT.getName()
