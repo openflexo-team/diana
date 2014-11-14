@@ -1043,9 +1043,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				point.x -= d.width / 2;
 				break;
 			case LEFT:
+				point.x = (int) (point.x - getWidth()/2);
 				break;
 			case RIGHT:
-				point.x -= d.width;
+				point.x = (int) (point.x + getWidth()/2) - d.width;
 				break;
 
 			}
@@ -1053,14 +1054,16 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getGraphicalRepresentation().getVerticalTextAlignment() != null) {
 			switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
 			case BOTTOM:
-				point.y -= d.height;
+				
+				point.y = (int) (point.y + getHeight()/2) - d.height;
+				//point.y -= d.height;
 				break;
 			case MIDDLE:
 				point.y -= d.height / 2;
 				break;
 			case TOP:
+				point.y = (int) (point.y - getHeight()/2);
 				break;
-
 			}
 		}
 		return point;
