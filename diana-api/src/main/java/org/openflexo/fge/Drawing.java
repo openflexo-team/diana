@@ -993,6 +993,11 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		}
 
 		@Override
+		public int hashCode() {
+			return requiredGR.hashCode() + requiringGR.hashCode() + requiringParameter.hashCode() + requiredParameter.hashCode();
+		}
+		
+		@Override
 		public boolean equals(Object obj) {
 			if (obj instanceof ConstraintDependency) {
 				ConstraintDependency opposite = (ConstraintDependency) obj;
