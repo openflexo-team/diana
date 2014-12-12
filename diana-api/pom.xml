@@ -32,5 +32,6 @@
 			<type>zip</type>
 		</dependency> -->
 	</dependencies>
+	<packaging>ejb</packaging>
 </project>
 

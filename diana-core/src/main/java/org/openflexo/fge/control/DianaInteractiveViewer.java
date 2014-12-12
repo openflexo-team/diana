@@ -72,7 +72,6 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	// private DianaInspectors inspectors;
 
 	private DrawingTreeNode<?, ?> focusedFloatingLabel;
-
 	private List<DrawingTreeNode<?, ?>> focusedObjects;
 	private List<DrawingTreeNode<?, ?>> selectedObjects;
 	private List<ShapeNode<?>> selectedShapes;
