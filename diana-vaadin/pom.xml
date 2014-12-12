@@ -4,10 +4,10 @@
 	<parent>
 		<groupId>org.openflexo</groupId>
 		<artifactId>diana</artifactId>
- 		<version>1.1-vaadin</version>
+        <version>1.1-vaadin</version>
 	</parent>
-	<artifactId>diana-drawing-editor</artifactId>
-	<name>GUI :: Diana-DrawingEditor</name>
+	<artifactId>diana-vaadin</artifactId>
+	<name>GUI :: Diana-Vaadin</name>
 	<build>
 		<plugins>
 			<plugin>
@@ -19,25 +19,13 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.openflexo</groupId>
-			<artifactId>diana-swing</artifactId>
+			<artifactId>diana-core</artifactId>
 		</dependency>
-       <dependency>
-                <groupId>org.dockingframes</groupId>
-                <artifactId>docking-frames-common</artifactId>
-                <version>1.1.1</version>
-        </dependency>
-        
 		<dependency>
 			<groupId>org.openflexo</groupId>
-			<artifactId>flexoutils</artifactId>
+			<artifactId>diana-core</artifactId>
 			<classifier>tests</classifier>
-			<scope>test</scope>
 		</dependency>
-         <!--  <dependency>
-                <groupId>org.dockingframes</groupId>
-                <artifactId>docking-frames-demo-app</artifactId>
-                <version>1.1.0</version>
-        </dependency>-->
 	</dependencies>
 </project>
 
