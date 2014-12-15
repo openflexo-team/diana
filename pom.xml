@@ -11,9 +11,9 @@
 	<name>diana</name>
 	<packaging>pom</packaging>
 	<properties>
-		<connie.version>1.1-RC1</connie.version>
-		<pamela.version>1.1-RC1</pamela.version>
-		<gina.version>1.1-RC1</gina.version>
+		<connie.version>1.1-SNAPSHOT</connie.version>
+		<pamela.version>1.1-SNAPSHOT</pamela.version>
+		<gina.version>1.1-SNAPSHOT</gina.version>
 		<graphicsutils.version>1.0</graphicsutils.version>
 		
 	</properties>
