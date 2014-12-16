@@ -85,6 +85,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 		System.out.println("Undeleting " + this);
 		performSuperUndelete();
 		isDeleted = false;
+		pcSupport = new PropertyChangeSupport(this);
 		return false;
 	}
 
