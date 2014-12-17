@@ -325,7 +325,7 @@ public class FGEPaintManager {
 		return getPaintBuffer().getSubimage(rect.x, rect.y, rect.width, rect.height);
 	}
 
-	private synchronized BufferedImage bufferDrawingView() {
+	private BufferedImage bufferDrawingView() {
 		if (paintRequestLogger.isLoggable(Level.FINE)) {
 			paintRequestLogger.fine("Buffering whole JDrawingView. Is it really necessary ?");
 		}
@@ -342,7 +342,7 @@ public class FGEPaintManager {
 		return image;
 	}
 
-	private synchronized BufferedImage getPaintBuffer() {
+	private BufferedImage getPaintBuffer() {
 		if (_paintBuffer == null) {
 			_paintBuffer = bufferDrawingView();
 		}
@@ -375,7 +375,7 @@ public class FGEPaintManager {
 			temporaryRepaintAreas = new WeakHashMap<JComponent, Vector<Rectangle>>();
 		}
 
-		public synchronized void addTemporaryRepaintArea(Rectangle r, JComponent view) {
+		public void addTemporaryRepaintArea(Rectangle r, JComponent view) {
 			if (MANAGE_DIRTY_REGIONS) {
 				Vector<Rectangle> allRect = temporaryRepaintAreas.get(view);
 				if (allRect == null) {
@@ -406,7 +406,7 @@ public class FGEPaintManager {
 		}
 
 		@Override
-		public synchronized void addDirtyRegion(JComponent c, int x, int y, int w, int h) {
+		public void addDirtyRegion(JComponent c, int x, int y, int w, int h) {
 			if (paintRequestLogger.isLoggable(Level.FINEST)) {
 				paintRequestLogger.finest("adding DirtyRegion: " + c.getName() + ", " + x + "," + y + " " + w + "x" + h);
 			}
