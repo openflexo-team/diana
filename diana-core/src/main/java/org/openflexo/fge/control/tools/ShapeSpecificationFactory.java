@@ -129,6 +129,9 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 	}
 
 	public AbstractInspectedShapeSpecification<?> getShapeSpecification() {
+		if (this.shapeType == null) {
+			return null;
+		}
 		switch (this.shapeType) {
 		case RECTANGLE:
 			return this.rectangle;
