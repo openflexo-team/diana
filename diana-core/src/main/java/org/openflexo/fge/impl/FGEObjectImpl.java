@@ -82,7 +82,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 
 	@Override
 	public boolean undelete() {
-		System.out.println("Undeleting " + this);
+		// System.out.println("Undeleting " + this);
 		performSuperUndelete();
 		isDeleted = false;
 		pcSupport = new PropertyChangeSupport(this);
@@ -274,8 +274,14 @@ public abstract class FGEObjectImpl implements FGEObject {
 
 	@Override
 	public final Object clone() {
+		if (getFactory() != null && getFactory().getEditingContext() != null && getFactory().getEditingContext().getUndoManager() != null) {
+			getFactory().getEditingContext().getUndoManager().enableAnticipatedRecording();
+		}
 		FGEObject returned = (FGEObject) cloneObject();
 		returned.setFactory(getFactory());
+		if (getFactory() != null && getFactory().getEditingContext() != null && getFactory().getEditingContext().getUndoManager() != null) {
+			getFactory().getEditingContext().getUndoManager().disableAnticipatedRecording();
+		}
 		return returned;
 	}
 

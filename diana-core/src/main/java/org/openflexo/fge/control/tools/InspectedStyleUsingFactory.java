@@ -63,9 +63,13 @@ public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, 
 
 	@Override
 	public S cloneStyle() {
-		styleFactory.getFGEFactory().getEditingContext().getUndoManager().enableAnticipatedRecording();
+		if (styleFactory != null && styleFactory.getFGEFactory() != null && styleFactory.getFGEFactory().getEditingContext() != null) {
+			styleFactory.getFGEFactory().getEditingContext().getUndoManager().enableAnticipatedRecording();
+		}
 		S returned = styleFactory.makeNewStyle(null);
-		styleFactory.getFGEFactory().getEditingContext().getUndoManager().disableAsynchronousRecording();
+		if (styleFactory != null && styleFactory.getFGEFactory() != null && styleFactory.getFGEFactory().getEditingContext() != null) {
+			styleFactory.getFGEFactory().getEditingContext().getUndoManager().disableAnticipatedRecording();
+		}
 		return returned;
 	}
 
