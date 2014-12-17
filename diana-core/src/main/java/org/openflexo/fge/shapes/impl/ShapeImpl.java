@@ -38,6 +38,7 @@ import org.openflexo.fge.graphics.FGEShapeGraphics;
 import org.openflexo.fge.shapes.Shape;
 import org.openflexo.fge.shapes.ShapeSpecification;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
+import org.openflexo.toolbox.HasPropertyChangeSupport;
 
 /**
  * This class represents a shape as a geometric area in a ShapeNode. This is an instance of {@link ShapeSpecification}. As it, it is
@@ -80,7 +81,7 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 	}
 
 	public void delete() {
-		if (getShapeSpecification() != null) {
+		if (getShapeSpecification() != null && getShapeSpecification().getPropertyChangeSupport() != null) {
 			getShapeSpecification().getPropertyChangeSupport().removePropertyChangeListener(this);
 		}
 		shapeNode = null;
@@ -429,7 +430,8 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getSource() == getShapeSpecification()) {
+		if (evt.getSource() == getShapeSpecification()
+				&& !evt.getPropertyName().equals(((HasPropertyChangeSupport) evt.getSource()).getDeletedProperty())) {
 			// System.out.println("Received " + evt + " in ShapeImpl propertyName=" + evt.getPropertyName());
 			// Those notifications are forwarded by the shape specification
 			updateShape();
