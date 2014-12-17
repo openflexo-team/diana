@@ -65,41 +65,6 @@ public abstract class ShapeSpecificationImpl extends FGEObjectImpl implements Sh
 	@Override
 	public abstract ShapeType getShapeType();
 
-	/*@Override
-	public ShapeSpecificationImpl clone() {
-		try {
-			ShapeSpecificationImpl returned = (ShapeSpecificationImpl) super.clone();
-			// returned._controlPoints = null;
-			// returned.graphicalRepresentation = null;
-			// returned.updateShape();
-			// returned.rebuildControlPoints();
-			return returned;
-		} catch (CloneNotSupportedException e) {
-			// cannot happen since we are clonable
-			e.printStackTrace();
-			return null;
-		}
-	}*/
-
-	/*@Override
-	public boolean equals(Object object) {
-		// TODO
-		//if (object instanceof ShapeSpecificationImpl && getShape() != null) {
-		//	return getShape().equals(((ShapeSpecificationImpl) object).getShape())
-		//			&& areDimensionConstrained() == ((ShapeSpecificationImpl) object).areDimensionConstrained();
-		//}
-		return super.equals(object);
-	}*/
-
-	@Override
-	public int hashCode() {
-		// TODO
-		/*if (getShape() != null) {
-			return getShape().toString().hashCode();
-		}*/
-		return super.hashCode();
-	}
-
 	@Override
 	public ShapeImpl<?> makeShape(ShapeNode<?> node) {
 		ShapeImpl returned = new ShapeImpl(node);
