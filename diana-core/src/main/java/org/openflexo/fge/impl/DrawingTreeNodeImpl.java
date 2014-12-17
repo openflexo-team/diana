@@ -127,7 +127,6 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 		retrieveGraphicalRepresentation();
 
-
 		dependancies = new ArrayList<ConstraintDependency>();
 		alterings = new ArrayList<ConstraintDependency>();
 
@@ -301,6 +300,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		return graphicalRepresentation;
 	}
 
+	@Override
 	public void retrieveGraphicalRepresentation() {
 		if (graphicalRepresentation == null && grBinding != null) {
 
@@ -309,7 +309,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 				graphicalRepresentation.getPropertyChangeSupport().addPropertyChangeListener(this);
 			}
 			if (getPropertyChangeSupport() != null) {
-				getPropertyChangeSupport().firePropertyChange("graphicalRepresentation", null, graphicalRepresentation);
+				getPropertyChangeSupport().firePropertyChange(GRAPHICAL_REPRESENTATION_KEY, null, graphicalRepresentation);
 			}
 		}
 

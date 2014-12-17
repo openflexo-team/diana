@@ -135,6 +135,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		@PropertyIdentifier(type = Boolean.class)
 		public static final String IS_FOCUSED_KEY = "isFocused";
 
+		public static final String GRAPHICAL_REPRESENTATION_KEY = "graphicalRepresentation";
+
 		/*public static enum DrawingTreeNodeParameter implements GRProperty {
 			isSelected, isFocused;
 		}*/
