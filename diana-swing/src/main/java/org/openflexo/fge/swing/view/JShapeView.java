@@ -182,7 +182,10 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 
 	@Override
 	public FGEPaintManager getPaintManager() {
-		return getDrawingView().getPaintManager();
+		if (getDrawingView() != null) {
+			return getDrawingView().getPaintManager();
+		}
+		return null;
 	}
 
 	@Override
@@ -373,8 +376,19 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 			if (evt.getPropertyName() == null) {
 				return;
 			}
+
+			if (evt.getPropertyName().equals(DrawingTreeNode.GRAPHICAL_REPRESENTATION_KEY)) {
+				// GR changed
+				relocateAndResizeView();
+				if (getPaintManager().isPaintingCacheEnabled()) {
+					getPaintManager().removeFromTemporaryObjects(shapeNode);
+					getPaintManager().invalidate(shapeNode);
+					getPaintManager().repaint(getParentView());
+				}
+			}
+
 			if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.BACKGROUND_STYLE_TYPE_KEY)) {
-				System.out.println("Received BACKGROUND_STYLE changed !");
+				//System.out.println("Received BACKGROUND_STYLE changed !");
 			}
 
 			if (evt.getPropertyName().equals(NodeAdded.EVENT_NAME)) {
@@ -450,7 +464,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 			} else if (evt.getPropertyName().equals(DrawingTreeNode.IS_FOCUSED.getName())) {
 				getPaintManager().repaint(this);
 			} else if (evt.getPropertyName().equals(GraphicalRepresentation.TEXT.getName())) {
-				System.out.println("Updating label view");
+				//System.out.println("Updating label view");
 				// updateLabelView();
 				getPaintManager().invalidate(shapeNode);
 				getPaintManager().repaint(this);

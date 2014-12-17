@@ -287,7 +287,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public double getUnscaledViewWidth() {
 
 		if (getGraphicalRepresentation() == null) {
-			logger.warning("ShapeNode without a GraphicalRepresentation - INVESTIGATE ");
+			// logger.warning("ShapeNode without a GraphicalRepresentation - INVESTIGATE ");
 			return 0.0;
 		}
 
@@ -307,7 +307,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public double getUnscaledViewHeight() {
 
 		if (getGraphicalRepresentation() == null) {
-			logger.warning("ShapeNode without a GraphicalRepresentation - INVESTIGATE ");
+			// logger.warning("ShapeNode without a GraphicalRepresentation - INVESTIGATE ");
 			return 0.0;
 		}
 
@@ -1043,10 +1043,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				point.x -= d.width / 2;
 				break;
 			case LEFT:
-				point.x = (int) (point.x - getWidth()/2);
+				point.x = (int) (point.x - getWidth() / 2);
 				break;
 			case RIGHT:
-				point.x = (int) (point.x + getWidth()/2) - d.width;
+				point.x = (int) (point.x + getWidth() / 2) - d.width;
 				break;
 
 			}
@@ -1054,15 +1054,15 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getGraphicalRepresentation().getVerticalTextAlignment() != null) {
 			switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
 			case BOTTOM:
-				
-				point.y = (int) (point.y + getHeight()/2) - d.height;
-				//point.y -= d.height;
+
+				point.y = (int) (point.y + getHeight() / 2) - d.height;
+				// point.y -= d.height;
 				break;
 			case MIDDLE:
 				point.y -= d.height / 2;
 				break;
 			case TOP:
-				point.y = (int) (point.y - getHeight()/2);
+				point.y = (int) (point.y - getHeight() / 2);
 				break;
 			}
 		}

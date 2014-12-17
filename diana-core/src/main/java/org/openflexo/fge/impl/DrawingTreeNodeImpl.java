@@ -125,20 +125,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 		propertyValues = new HashMap<GRProperty, Object>();
 
-		// parentNode.addChild(this);
-
-		graphicalRepresentation = grBinding.getGRProvider().provideGR(drawable, drawing.getFactory());
-		if (graphicalRepresentation != null && graphicalRepresentation.getPropertyChangeSupport() != null) {
-			graphicalRepresentation.getPropertyChangeSupport().addPropertyChangeListener(this);
-		}
-
-		// System.out.println("Hop");
-
-		/*if (aParentDrawable == null) { // This is the root node
-			graphicalRepresentation = (GraphicalRepresentation) getDrawingGraphicalRepresentation();
-		} else {
-			graphicalRepresentation = retrieveGraphicalRepresentation(aDrawable);
-		}*/
+		retrieveGraphicalRepresentation();
 
 		dependancies = new ArrayList<ConstraintDependency>();
 		alterings = new ArrayList<ConstraintDependency>();
@@ -309,7 +296,23 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	@Override
 	public GR getGraphicalRepresentation() {
+
 		return graphicalRepresentation;
+	}
+
+	@Override
+	public void retrieveGraphicalRepresentation() {
+		if (graphicalRepresentation == null && grBinding != null) {
+
+			graphicalRepresentation = grBinding.getGRProvider().provideGR(drawable, drawing.getFactory());
+			if (graphicalRepresentation != null && graphicalRepresentation.getPropertyChangeSupport() != null) {
+				graphicalRepresentation.getPropertyChangeSupport().addPropertyChangeListener(this);
+			}
+			if (getPropertyChangeSupport() != null) {
+				getPropertyChangeSupport().firePropertyChange(GRAPHICAL_REPRESENTATION_KEY, null, graphicalRepresentation);
+			}
+		}
+
 	}
 
 	@Override
@@ -546,8 +549,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		// Now start to observe drawable for drawing structural modifications
 		if (drawable instanceof Observable) {
 			((Observable) drawable).addObserver(this);
-		}
-		else if (drawable instanceof HasPropertyChangeSupport) {
+		} else if (drawable instanceof HasPropertyChangeSupport) {
 			((HasPropertyChangeSupport) drawable).getPropertyChangeSupport().addPropertyChangeListener(this);
 		}
 		isObservingDrawable = true;
@@ -561,8 +563,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		// Now start to observe drawable for drawing structural modifications
 		if (drawable instanceof Observable) {
 			((Observable) drawable).deleteObserver(this);
-		}
-		else if (drawable instanceof HasPropertyChangeSupport) {
+		} else if (drawable instanceof HasPropertyChangeSupport) {
 			((HasPropertyChangeSupport) drawable).getPropertyChangeSupport().removePropertyChangeListener(this);
 		}
 		isObservingDrawable = false;
@@ -879,8 +880,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		Dimension d;
 		if (labelMetricsProvider != null) {
 			d = labelMetricsProvider.getScaledPreferredDimension(scale);
-		}
-		else {
+		} else {
 			d = new Dimension(0, 0);
 		}
 		return d;
@@ -1117,8 +1117,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			}
 			if (getGraphicalRepresentation().hasKey(parameter.getName())) {
 				return (T) getGraphicalRepresentation().objectForKey(parameter.getName());
-			}
-			else {
+			} else {
 				return null;
 			}
 		}
@@ -1136,8 +1135,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 				// Init default value with GR
 				if (getGraphicalRepresentation().hasKey(parameter.getName())) {
 					returned = (T) getGraphicalRepresentation().objectForKey(parameter.getName());
-				}
-				else {
+				} else {
 					returned = null;
 				}
 				if (returned != null) {
@@ -1223,17 +1221,13 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		public Object getValue(BindingVariable variable) {
 			if (variable.getVariableName().equals("this")) {
 				return getGraphicalRepresentation();
-			}
-			else if (variable.getVariableName().equals("parent")) {
+			} else if (variable.getVariableName().equals("parent")) {
 				return getParentNode().getGraphicalRepresentation();
-			}
-			else if (variable.getVariableName().equals("drawable")) {
+			} else if (variable.getVariableName().equals("drawable")) {
 				return getDrawable();
-			}
-			else if (variable.getVariableName().equals("gr")) {
+			} else if (variable.getVariableName().equals("gr")) {
 				return getGraphicalRepresentation();
-			}
-			else {
+			} else {
 				DrawingImpl.logger.warning("Could not find variable named " + variable);
 				return null;
 			}

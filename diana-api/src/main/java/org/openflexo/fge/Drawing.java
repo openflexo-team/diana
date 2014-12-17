@@ -135,6 +135,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		@PropertyIdentifier(type = Boolean.class)
 		public static final String IS_FOCUSED_KEY = "isFocused";
 
+		public static final String GRAPHICAL_REPRESENTATION_KEY = "graphicalRepresentation";
+
 		/*public static enum DrawingTreeNodeParameter implements GRProperty {
 			isSelected, isFocused;
 		}*/
@@ -188,6 +190,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		 * @return
 		 */
 		public GR getGraphicalRepresentation();
+
+		public void retrieveGraphicalRepresentation();
 
 		/**
 		 * Return parent node (a container node which contains this node)
@@ -996,7 +1000,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		public int hashCode() {
 			return requiredGR.hashCode() + requiringGR.hashCode() + requiringParameter.hashCode() + requiredParameter.hashCode();
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
 			if (obj instanceof ConstraintDependency) {

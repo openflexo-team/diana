@@ -242,7 +242,16 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	 */
 	public S cloneStyle() {
 		if (defaultValue instanceof CloneableProxyObject) {
-			return (S) ((CloneableProxyObject) defaultValue).cloneObject();
+			if (getFactory() != null && getFactory().getEditingContext() != null
+					&& getFactory().getEditingContext().getUndoManager() != null) {
+				getFactory().getEditingContext().getUndoManager().enableAnticipatedRecording();
+			}
+			S returned = (S) ((CloneableProxyObject) defaultValue).cloneObject();
+			if (getFactory() != null && getFactory().getEditingContext() != null
+					&& getFactory().getEditingContext().getUndoManager() != null) {
+				getFactory().getEditingContext().getUndoManager().disableAnticipatedRecording();
+			}
+			return returned;
 		}
 		logger.warning("Could not clone " + defaultValue);
 		return defaultValue;
