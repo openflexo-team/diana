@@ -189,6 +189,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		 */
 		public GR getGraphicalRepresentation();
 
+		public void retrieveGraphicalRepresentation();
+
 		/**
 		 * Return parent node (a container node which contains this node)
 		 * 
@@ -996,7 +998,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		public int hashCode() {
 			return requiredGR.hashCode() + requiringGR.hashCode() + requiringParameter.hashCode() + requiredParameter.hashCode();
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
 			if (obj instanceof ConstraintDependency) {
