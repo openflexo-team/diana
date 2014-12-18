@@ -89,6 +89,7 @@ public class SwingViewFactory implements DianaViewFactory<SwingViewFactory, JCom
 	 * 
 	 * @return
 	 */
+	@Override
 	public <M> JDrawingView<M> makeDrawingView(AbstractDianaEditor<M, SwingViewFactory, JComponent> controller) {
 		return new JDrawingView<M>(controller);
 	}
@@ -100,7 +101,9 @@ public class SwingViewFactory implements DianaViewFactory<SwingViewFactory, JCom
 	 * @param shapeNode
 	 * @return
 	 */
+	@Override
 	public <O> JShapeView<O> makeShapeView(ShapeNode<O> shapeNode, AbstractDianaEditor<?, SwingViewFactory, JComponent> controller) {
+		System.out.println("New ShapeView !!!");
 		return new JShapeView<O>(shapeNode, controller);
 	}
 
@@ -111,6 +114,7 @@ public class SwingViewFactory implements DianaViewFactory<SwingViewFactory, JCom
 	 * @param shapeNode
 	 * @return
 	 */
+	@Override
 	public <O> JConnectorView<O> makeConnectorView(ConnectorNode<O> connectorNode,
 			AbstractDianaEditor<?, SwingViewFactory, JComponent> controller) {
 		return new JConnectorView<O>(connectorNode, controller);
