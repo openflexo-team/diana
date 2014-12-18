@@ -452,6 +452,10 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 		 * }
 		 */
 
+		if (cp1 == null || cp2 == null) {
+			return;
+		}
+
 		g.useDefaultForegroundStyle();
 		// logger.info("paintConnector() "+cp1.getPoint()+"-"+cp2.getPoint()+" with "+g.getCurrentForeground());
 		g.drawLine(cp1.getPoint(), cp2.getPoint());
