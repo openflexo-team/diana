@@ -103,7 +103,6 @@ public class SwingViewFactory implements DianaViewFactory<SwingViewFactory, JCom
 	 */
 	@Override
 	public <O> JShapeView<O> makeShapeView(ShapeNode<O> shapeNode, AbstractDianaEditor<?, SwingViewFactory, JComponent> controller) {
-		System.out.println("New ShapeView !!!");
 		return new JShapeView<O>(shapeNode, controller);
 	}
 
