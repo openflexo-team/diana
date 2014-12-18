@@ -90,10 +90,12 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 	public JShapeView(ShapeNode<O> node, AbstractDianaEditor<?, SwingViewFactory, JComponent> controller) {
 		super();
 		logger.fine("Create JShapeView " + Integer.toHexString(hashCode()) + " for " + node);
+
 		this.controller = controller;
 		this.shapeNode = node;
 		node.finalizeConstraints();
 		updateLabelView();
+
 		if (getController() != null) {
 			relocateAndResizeView();
 		}
@@ -233,6 +235,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 	}
 
 	private void resizeView() {
+
 		if (shapeNode != null && (getWidth() != shapeNode.getViewWidth(getScale()) || getHeight() != shapeNode.getViewHeight(getScale()))) {
 			if (labelView != null) {
 				labelView.updateBounds();
@@ -377,6 +380,15 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 				return;
 			}
 
+			if (evt.getSource() == getNode().getBorder()) {
+				relocateAndResizeView();
+				if (getPaintManager().isPaintingCacheEnabled()) {
+					getPaintManager().removeFromTemporaryObjects(shapeNode);
+					getPaintManager().invalidate(shapeNode);
+					getPaintManager().repaint(getParentView());
+				}
+			}
+
 			if (evt.getPropertyName().equals(DrawingTreeNode.GRAPHICAL_REPRESENTATION_KEY)) {
 				// GR changed
 				relocateAndResizeView();
@@ -388,7 +400,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 			}
 
 			if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.BACKGROUND_STYLE_TYPE_KEY)) {
-				//System.out.println("Received BACKGROUND_STYLE changed !");
+				// System.out.println("Received BACKGROUND_STYLE changed !");
 			}
 
 			if (evt.getPropertyName().equals(NodeAdded.EVENT_NAME)) {
@@ -464,7 +476,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 			} else if (evt.getPropertyName().equals(DrawingTreeNode.IS_FOCUSED.getName())) {
 				getPaintManager().repaint(this);
 			} else if (evt.getPropertyName().equals(GraphicalRepresentation.TEXT.getName())) {
-				//System.out.println("Updating label view");
+				// System.out.println("Updating label view");
 				// updateLabelView();
 				getPaintManager().invalidate(shapeNode);
 				getPaintManager().repaint(this);

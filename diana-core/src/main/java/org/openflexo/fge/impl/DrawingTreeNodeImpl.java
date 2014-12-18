@@ -57,6 +57,7 @@ import org.openflexo.fge.notifications.LabelWillMove;
 import org.openflexo.fge.notifications.NodeDeleted;
 import org.openflexo.model.factory.DeletableProxyObject;
 import org.openflexo.model.factory.EditingContext;
+import org.openflexo.model.factory.ProxyMethodHandler;
 import org.openflexo.model.undo.UndoManager;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 
@@ -588,6 +589,20 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		getDrawing().updateGraphicalObjectsHierarchy(getDrawable());
 	}
 
+	/**
+	 * Return boolean indicating if received event might change structure of DrawingTreeNode hierarchy<br>
+	 * By default, this is
+	 * 
+	 * @param evt
+	 * @return
+	 */
+	private boolean eventMightRequireStructureModification(PropertyChangeEvent evt, O drawable) {
+		if (evt.getPropertyName().equals(ProxyMethodHandler.MODIFIED)) {
+			return false;
+		}
+		return true;
+	}
+
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 
@@ -607,7 +622,9 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			if (logger.isLoggable(Level.FINE)) {
 				logger.fine("Received a notification from my drawable that " + evt.getPropertyName() + " change: " + evt);
 			}
-			fireStructureMayHaveChanged();
+			if (eventMightRequireStructureModification(evt, getDrawable())) {
+				fireStructureMayHaveChanged();
+			}
 		}
 
 		if (evt.getSource() == getGraphicalRepresentation()) {
@@ -671,7 +688,10 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	}
 
 	public void forward(PropertyChangeEvent evt) {
-		getPropertyChangeSupport().firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
+
+		getPropertyChangeSupport().firePropertyChange(evt);
+
+		// getPropertyChangeSupport().firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
 	}
 
 	// TODO: (sylvain) i think this is no more necessary, remove this ???

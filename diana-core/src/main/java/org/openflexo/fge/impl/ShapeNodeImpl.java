@@ -391,7 +391,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			} else if (evt.getPropertyName() == ShapeGraphicalRepresentation.ADAPT_BOUNDS_TO_CONTENTS.getName()) {
 				extendBoundsToHostContents();
 			} else if (evt.getPropertyName() == ShapeGraphicalRepresentation.BORDER.getName()) {
-				notifyObjectResized();
+				forward(evt);
+				notifyObjectMoved(null);
+				checkAndUpdateDimensionIfRequired();
 			} else if (evt.getPropertyName() == ShapeGraphicalRepresentation.SHAPE.getName()
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.SHAPE_TYPE.getName()) {
 				fireShapeSpecificationChanged();
@@ -430,6 +432,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		}
 		if (evt.getSource() instanceof ShadowStyle) {
 			notifyAttributeChanged(ShapeGraphicalRepresentation.SHADOW_STYLE, null, getShadowStyle());
+		}
+		if (evt.getSource() instanceof ShapeBorder) {
+			forward(evt);
+			notifyAttributeChanged(ShapeGraphicalRepresentation.BORDER, null, getBorder());
 		}
 	}
 

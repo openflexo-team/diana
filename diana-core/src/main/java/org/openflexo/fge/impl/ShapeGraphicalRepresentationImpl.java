@@ -1676,11 +1676,6 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	public void setBorder(ShapeBorder border) {
 		FGEAttributeNotification notification = requireChange(BORDER, border);
 		if (notification != null) {
-
-			System.out.println(">>>>>>>>>>>>>>>>> La border passe de " + this.border + " a " + border + " pour " + this);
-			System.out.println("deleted=" + isDeleted());
-			System.out.println("pcSupport=" + getPropertyChangeSupport());
-
 			if (this.border != null && this.border.getPropertyChangeSupport() != null) {
 				this.border.getPropertyChangeSupport().removePropertyChangeListener(this);
 			}

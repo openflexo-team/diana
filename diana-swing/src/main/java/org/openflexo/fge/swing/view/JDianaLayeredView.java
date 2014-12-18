@@ -163,7 +163,7 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements FGECo
 			revalidate();
 			getPaintManager().invalidate(parentNode);
 			getPaintManager().repaint(this);
-			shapeNode.notifyShapeNeedsToBeRedrawn(); // TODO: is this necessary ?
+			// shapeNode.notifyShapeNeedsToBeRedrawn(); // TODO: is this necessary ?
 		} else if (newNode instanceof ConnectorNode) {
 			ConnectorNode<?> connectorNode = (ConnectorNode<?>) newNode;
 			JConnectorView<?> connectorView = (JConnectorView<?>) getController().makeConnectorView(connectorNode);
