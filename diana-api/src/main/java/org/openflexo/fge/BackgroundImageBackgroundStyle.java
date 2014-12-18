@@ -43,7 +43,7 @@ import org.openflexo.rm.Resource;
 public interface BackgroundImageBackgroundStyle extends BackgroundStyle {
 
 	@PropertyIdentifier(type = Resource.class)
-	public static final String IMAGE_RESOURCE_KEY = "imageResource";
+	public static final String IMAGE_RESOURCE_KEY = "imageFile";
 	@PropertyIdentifier(type = Double.class)
 	public static final String SCALE_X_KEY = "scaleX";
 	@PropertyIdentifier(type = Double.class)
@@ -58,6 +58,8 @@ public interface BackgroundImageBackgroundStyle extends BackgroundStyle {
 	public static final String IMAGE_BACKGROUND_TYPE_KEY = "imageBackgroundType";
 	@PropertyIdentifier(type = Color.class)
 	public static final String IMAGE_BACKGROUND_COLOR_KEY = "imageBackgroundColor";
+	/*@PropertyIdentifier(type = File.class)
+	public static final String IMAGE_FILE_KEY = "imageFile";*/
 
 	public static GRProperty<Resource> IMAGE_RESOURCE = GRProperty.getGRParameter(BackgroundImageBackgroundStyle.class,
 			IMAGE_RESOURCE_KEY, Resource.class);
@@ -143,8 +145,11 @@ public interface BackgroundImageBackgroundStyle extends BackgroundStyle {
 
 	public void setScaleYNoNotification(double aScaleY);
 
+	//@Getter(value = IMAGE_FILE_KEY)
+	//@XMLAttribute
 	public File getImageFile();
 
+	//@Setter(value = IMAGE_FILE_KEY)
 	public void setImageFile(File file);
 
 }
