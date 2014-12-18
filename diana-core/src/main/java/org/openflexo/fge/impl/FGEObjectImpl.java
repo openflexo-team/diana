@@ -60,7 +60,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 
 	@Override
 	public boolean delete(Object... context) {
-		if (!isDeleted) {
+		if (!isDeleted()) {
 			isDeleted = true;
 			performSuperDelete();
 			// TODO: remove all listeners of PropertyChangedSupport
@@ -81,11 +81,11 @@ public abstract class FGEObjectImpl implements FGEObject {
 	}
 
 	@Override
-	public boolean undelete() {
+	public boolean undelete(boolean restoreProperties) {
 		// System.out.println("Undeleting " + this);
-		performSuperUndelete();
+		performSuperUndelete(restoreProperties);
 		isDeleted = false;
-		pcSupport = new PropertyChangeSupport(this);
+		// pcSupport = new PropertyChangeSupport(this);
 		return false;
 	}
 
@@ -96,7 +96,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 
 	@Override
 	public final PropertyChangeSupport getPropertyChangeSupport() {
-		if (pcSupport == null && !isDeleted) {
+		if (pcSupport == null && !isDeleted()) {
 			pcSupport = new PropertyChangeSupport(this);
 		}
 		return pcSupport;
@@ -303,14 +303,22 @@ public abstract class FGEObjectImpl implements FGEObject {
 	}
 
 	public void notifyObservers(FGENotification notification) {
-		if (!isDeleted && getPropertyChangeSupport() != null) {
+		if (!isDeleted() && getPropertyChangeSupport() != null) {
 			getPropertyChangeSupport().firePropertyChange(notification.propertyName(), notification.oldValue, notification.newValue);
 		}
 	}
 
 	public void forward(PropertyChangeEvent evt) {
-		getPropertyChangeSupport().firePropertyChange(
-				new PropertyChangeEvent(evt.getSource(), evt.getPropertyName(), evt.getOldValue(), evt.getNewValue()));
+		if (getPropertyChangeSupport() == null) {
+			logger.warning("Object " + this + " has no property change support !!!");
+			return;
+		}
+
+		/*getPropertyChangeSupport().firePropertyChange(
+				new PropertyChangeEvent(evt.getSource(), evt.getPropertyName(), evt.getOldValue(), evt.getNewValue()));*/
+
+		getPropertyChangeSupport().firePropertyChange(evt);
+
 	}
 
 	@Deprecated

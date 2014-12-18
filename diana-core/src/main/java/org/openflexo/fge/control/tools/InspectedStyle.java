@@ -389,7 +389,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		return true;
 	}
 
-	public boolean undelete() {
+	public boolean undelete(boolean restoreProperties) {
 		// TODO: implement this
 		logger.warning("Undelete() not implemented yet");
 		isDeleted = false;
@@ -478,7 +478,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		return false;
 	}
 
-	public boolean performSuperUndelete() {
+	public boolean performSuperUndelete(boolean restoreProperties) {
 		// Not relevant
 		return false;
 	}

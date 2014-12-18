@@ -251,7 +251,7 @@ public class DiagramEditorPalette extends DrawingPalette {
 			}
 
 			@Override
-			public void delete() {
+			public void delete(Object... context) {
 				gr.delete();
 			}
 

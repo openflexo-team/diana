@@ -36,7 +36,7 @@ public interface PaletteElement extends Serializable {
 
 	public boolean elementDragged(DrawingTreeNode<?, ?> target, FGEPoint dropLocation);
 
-	public void delete();
+	public void delete(Object... context);
 
 	public String getName();
 }

@@ -5,9 +5,14 @@ import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
 import org.openflexo.antar.binding.DataBinding;
-import org.openflexo.fge.*;
+import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.BackgroundStyle.BackgroundStyleType;
+import org.openflexo.fge.Drawing;
 import org.openflexo.fge.Drawing.ContainerNode;
+import org.openflexo.fge.FGEConstants;
+import org.openflexo.fge.ForegroundStyle;
+import org.openflexo.fge.ShadowStyle;
+import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.control.MouseControl.MouseButton;
 import org.openflexo.fge.control.PredefinedMouseClickControlActionType;
 import org.openflexo.fge.control.PredefinedMouseDragControlActionType;
@@ -21,8 +26,7 @@ import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.model.factory.ProxyMethodHandler;
 import org.openflexo.toolbox.ToolBox;
 
-public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphicalRepresentationImpl
-		implements ShapeGraphicalRepresentation {
+public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphicalRepresentationImpl implements ShapeGraphicalRepresentation {
 
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(ShapeGraphicalRepresentation.class.getPackage().getName());
@@ -47,7 +51,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	private boolean hasFocusedForeground = false;
 	private boolean hasFocusedBackground = false;
 
-	private ShapeBorder border; /* = new ShapeBorderImpl();*/
+	private ShapeBorder border;
 
 	private ShapeSpecification shape = null;
 
@@ -56,22 +60,9 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	private boolean allowToLeaveBounds = true;
 	private boolean adaptBoundsToContents = false;
 
-	/*private boolean drawShadow = true;
-	private int shadowDarkness = FGEConstants.DEFAULT_SHADOW_DARKNESS;
-	private int shadowDeep = FGEConstants.DEFAULT_SHADOW_DEEP;
-	private int shadowBlur = FGEConstants.DEFAULT_SHADOW_BLUR;*/
-
 	private boolean isFloatingLabel = true;
 	private double relativeTextX = 0.5;
 	private double relativeTextY = 0.5;
-
-	// private boolean isResizing = false;
-	// private boolean isMoving = false;
-
-	// private FGEShapeGraphicsImpl graphics;
-	// private FGEShapeDecorationGraphicsImpl decorationGraphics;
-	// private ShapeDecorationPainter decorationPainter;
-	// private ShapePainter shapePainter;
 
 	// *******************************************************************************
 	// * Constructor *
@@ -82,14 +73,11 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	 */
 	public ShapeGraphicalRepresentationImpl() {
 		super();
-		// graphics = new FGEShapeGraphicsImpl(this);
 	}
 
 	@Deprecated
 	private ShapeGraphicalRepresentationImpl(Object aDrawable, Drawing<?> aDrawing) {
 		this();
-		// setDrawable(aDrawable);
-		// setDrawing(aDrawing);
 	}
 
 	@Deprecated
@@ -131,8 +119,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
 			addToMouseClickControls(getFactory().makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1,
 					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
-		}
-		else {
+		} else {
 			addToMouseClickControls(getFactory().makeMouseControlClickControl("Multiple selection", MouseButton.LEFT, 1,
 					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}
@@ -192,14 +179,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 		if (shadowStyle != null && shadowStyle.getPropertyChangeSupport() != null) {
 			shadowStyle.getPropertyChangeSupport().removePropertyChangeListener(this);
 		}
-		super.delete();
-		return true;
-	}
-
-	@Override
-	public boolean undelete() {
-		super.undelete();
-		return true;
+		return super.delete(context);
 	}
 
 	// ***************************************************************************
@@ -289,6 +269,18 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 					|| evt.getPropertyName().equals(ProxyMethodHandler.MODIFIED)) {
 				return;
 			}
+
+			forward(evt);
+		}
+		if (evt.getSource() instanceof ShapeBorder) {
+
+			if (evt.getPropertyName().equals(ProxyMethodHandler.SERIALIZING)
+					|| evt.getPropertyName().equals(ProxyMethodHandler.DESERIALIZING)
+					|| evt.getPropertyName().equals(ProxyMethodHandler.MODIFIED)) {
+				return;
+			}
+
+			System.out.println("Dans ShapeGraphicalRepresentationImpl, on recoit " + evt.getPropertyName() + " evt=" + evt);
 
 			forward(evt);
 		}
@@ -954,6 +946,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	/**
 	 * Return required height of shape, giving computed height of current label (usefull for auto-layout, when
 	 * <p/>
+	 * 
 	 * <pre>
 	 * adjustMinimalHeightToLabelHeight
 	 * </pre>
@@ -1683,9 +1676,19 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	public void setBorder(ShapeBorder border) {
 		FGEAttributeNotification notification = requireChange(BORDER, border);
 		if (notification != null) {
+
+			System.out.println(">>>>>>>>>>>>>>>>> La border passe de " + this.border + " a " + border + " pour " + this);
+			System.out.println("deleted=" + isDeleted());
+			System.out.println("pcSupport=" + getPropertyChangeSupport());
+
+			if (this.border != null && this.border.getPropertyChangeSupport() != null) {
+				this.border.getPropertyChangeSupport().removePropertyChangeListener(this);
+			}
 			this.border = border;
+			if (border != null && border.getPropertyChangeSupport() != null) {
+				border.getPropertyChangeSupport().addPropertyChangeListener(this);
+			}
 			hasChanged(notification);
-			// notifyObjectResized();
 		}
 	}
 
@@ -2341,139 +2344,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 		return false;
 	}
 
-	// *******************************************************************************
-	// * Layout *
-	// *******************************************************************************
-
-	/*@Override
-	public void performRandomLayout() {
-		performRandomLayout(getWidth(), getHeight());
-	}
-
-	@Override
-	public void performAutoLayout() {
-		performAutoLayout(getWidth(), getHeight());
-	}*/
-
-	/*@Override
-	public void notifyDrawableAdded(GraphicalRepresentation addedGR) {
-		super.notifyDrawableAdded(addedGR);
-		if (getAdaptBoundsToContents()) {
-			extendBoundsToHostContents();
-		}
-	}*/
-
-	/**
-	 * Returns the area on which the given connector can start. The area is expressed in this normalized coordinates
-	 *
-	 * @param connectorGR
-	 *            the connector asking where to start
-	 * @return the area on which the given connector can start
-	 */
-	/*@Override
-	public FGEArea getAllowedStartAreaForConnector(ConnectorGraphicalRepresentation connectorGR) {
-		return getShape().getOutline();
-	}*/
-
-	/**
-	 * Returns the area on which the given connector can end. The area is expressed in this normalized coordinates
-	 *
-	 * @param connectorGR
-	 *            the connector asking where to end
-	 * @return the area on which the given connector can end
-	 */
-	/*@Override
-	public FGEArea getAllowedEndAreaForConnector(ConnectorGraphicalRepresentation connectorGR) {
-		return getShape().getOutline();
-	}*/
-
-	/**
-	 * Returns the area on which the given connector can start. The area is expressed in this normalized coordinates
-	 *
-	 * @param connectorGR
-	 *            the connector asking where to start
-	 *
-	 * @return the area on which the given connector can start
-	 */
-	/*@Override
-	public FGEArea getAllowedStartAreaForConnectorForDirection(ConnectorGraphicalRepresentation connectorGR, FGEArea area,
-			SimplifiedCardinalDirection direction) {
-		return area;
-	}*/
-
-	/**
-	 * Returns the area on which the given connector can end. The area is expressed in this normalized coordinates
-	 *
-	 * @param connectorGR the connector asking where to end
-	 * @return the area on which the given connector can end
-	 */
-	/*@Override
-	public FGEArea getAllowedEndAreaForConnectorForDirection(ConnectorGraphicalRepresentation connectorGR, FGEArea area,
-			SimplifiedCardinalDirection direction) {
-		return area;
-	}*/
-
 	public static abstract class ShapeBorderImpl extends FGEObjectImpl implements ShapeBorder {
-		private int top = FGEConstants.DEFAULT_BORDER_SIZE;
-		private int bottom = FGEConstants.DEFAULT_BORDER_SIZE;
-		private int left = FGEConstants.DEFAULT_BORDER_SIZE;
-		private int right = FGEConstants.DEFAULT_BORDER_SIZE;
-
-		/*	@Override
-			public ShapeBorder clone() {
-				try {
-					return (ShapeBorder) super.clone();
-				} catch (CloneNotSupportedException e) {
-					// cannot happen, we are clonable
-					e.printStackTrace();
-					return null;
-				}
-			}*/
-
-		/*@Override
-		public String toString() {
-			return "ShapeBorder [" + left + "," + top + "," + right + "," + bottom + "]";
-		}*/
-
-		@Override
-		public int getTop() {
-			return top;
-		}
-
-		@Override
-		public void setTop(int top) {
-			this.top = top;
-		}
-
-		@Override
-		public int getBottom() {
-			return bottom;
-		}
-
-		@Override
-		public void setBottom(int bottom) {
-			this.bottom = bottom;
-		}
-
-		@Override
-		public int getLeft() {
-			return left;
-		}
-
-		@Override
-		public void setLeft(int left) {
-			this.left = left;
-		}
-
-		@Override
-		public int getRight() {
-			return right;
-		}
-
-		@Override
-		public void setRight(int right) {
-			this.right = right;
-		}
 
 	}
 

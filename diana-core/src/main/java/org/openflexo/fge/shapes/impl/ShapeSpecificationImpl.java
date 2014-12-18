@@ -19,6 +19,8 @@
  */
 package org.openflexo.fge.shapes.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.Drawing.ShapeNode;
@@ -65,11 +67,28 @@ public abstract class ShapeSpecificationImpl extends FGEObjectImpl implements Sh
 	@Override
 	public abstract ShapeType getShapeType();
 
+	private final List<ShapeImpl<?>> createdShapes = new ArrayList<ShapeImpl<?>>();
+
 	@Override
 	public ShapeImpl<?> makeShape(ShapeNode<?> node) {
 		ShapeImpl returned = new ShapeImpl(node);
-		getPropertyChangeSupport().addPropertyChangeListener(returned);
+		if (getPropertyChangeSupport() != null) {
+			// TODO
+			createdShapes.add(returned);
+			getPropertyChangeSupport().addPropertyChangeListener(returned);
+		}
 		return returned;
+	}
+
+	@Override
+	public boolean delete(Object... context) {
+		for (ShapeImpl<?> s : createdShapes) {
+			if (getPropertyChangeSupport() != null) {
+				getPropertyChangeSupport().removePropertyChangeListener(s);
+			}
+		}
+		createdShapes.clear();
+		return super.delete(context);
 	}
 
 }
