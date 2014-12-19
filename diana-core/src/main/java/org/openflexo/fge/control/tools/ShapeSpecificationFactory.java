@@ -1,3 +1,23 @@
+/*
+ * (c) Copyright 2013-2014 Openflexo
+ *
+ * This file is part of OpenFlexo.
+ *
+ * OpenFlexo is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * OpenFlexo is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OpenFlexo. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package org.openflexo.fge.control.tools;
 
 import java.beans.PropertyChangeSupport;
@@ -133,36 +153,36 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return null;
 		}
 		switch (this.shapeType) {
-		case RECTANGLE:
-			return this.rectangle;
-		case SQUARE:
-			return this.square;
-		case CUSTOM_POLYGON:
-			return this.polygon;
-		case RECTANGULAROCTOGON:
-			return this.rectangularOctogon;
-		case POLYGON:
-			return this.regularPolygon;
-		case LOSANGE:
-			return this.losange;
-		case TRIANGLE:
-			return this.triangle;
-		case OVAL:
-			return this.oval;
-		case CIRCLE:
-			return this.circle;
-		case ARC:
-			return this.arc;
-		case STAR:
-			return this.star;
-		case COMPLEX_CURVE:
-			return this.complexCurve;
-		case PLUS:
-			return this.plus;
-		case CHEVRON:
-			return this.chevron;
-		default:
-			break;
+			case RECTANGLE:
+				return this.rectangle;
+			case SQUARE:
+				return this.square;
+			case CUSTOM_POLYGON:
+				return this.polygon;
+			case RECTANGULAROCTOGON:
+				return this.rectangularOctogon;
+			case POLYGON:
+				return this.regularPolygon;
+			case LOSANGE:
+				return this.losange;
+			case TRIANGLE:
+				return this.triangle;
+			case OVAL:
+				return this.oval;
+			case CIRCLE:
+				return this.circle;
+			case ARC:
+				return this.arc;
+			case STAR:
+				return this.star;
+			case COMPLEX_CURVE:
+				return this.complexCurve;
+			case PLUS:
+				return this.plus;
+			case CHEVRON:
+				return this.chevron;
+			default:
+				break;
 		}
 		logger.warning("Unexpected " + this.shapeType);
 		return null;
@@ -179,7 +199,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;
-			} else {
+			}
+			else {
 				return true;
 			}
 		}
@@ -214,36 +235,36 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 	@Override
 	public ShapeSpecification makeNewStyle(final ShapeSpecification oldShapeSpecification) {
 		switch (this.shapeType) {
-		case RECTANGLE:
-			return this.rectangle.cloneStyle();
-		case SQUARE:
-			return this.square.cloneStyle();
-		case CUSTOM_POLYGON:
-			return this.polygon.cloneStyle();
-		case RECTANGULAROCTOGON:
-			return this.rectangularOctogon.cloneStyle();
-		case POLYGON:
-			return this.regularPolygon.cloneStyle();
-		case LOSANGE:
-			return this.losange.cloneStyle();
-		case TRIANGLE:
-			return this.triangle.cloneStyle();
-		case OVAL:
-			return this.oval.cloneStyle();
-		case CIRCLE:
-			return this.circle.cloneStyle();
-		case ARC:
-			return this.arc.cloneStyle();
-		case COMPLEX_CURVE:
-			return this.complexCurve.cloneStyle();
-		case STAR:
-			return this.star.cloneStyle();
-		case PLUS:
-			return this.plus.cloneStyle();
-		case CHEVRON:
-			return this.chevron.cloneStyle();
-		default:
-			return null;
+			case RECTANGLE:
+				return this.rectangle.cloneStyle();
+			case SQUARE:
+				return this.square.cloneStyle();
+			case CUSTOM_POLYGON:
+				return this.polygon.cloneStyle();
+			case RECTANGULAROCTOGON:
+				return this.rectangularOctogon.cloneStyle();
+			case POLYGON:
+				return this.regularPolygon.cloneStyle();
+			case LOSANGE:
+				return this.losange.cloneStyle();
+			case TRIANGLE:
+				return this.triangle.cloneStyle();
+			case OVAL:
+				return this.oval.cloneStyle();
+			case CIRCLE:
+				return this.circle.cloneStyle();
+			case ARC:
+				return this.arc.cloneStyle();
+			case COMPLEX_CURVE:
+				return this.complexCurve.cloneStyle();
+			case STAR:
+				return this.star.cloneStyle();
+			case PLUS:
+				return this.plus.cloneStyle();
+			case CHEVRON:
+				return this.chevron.cloneStyle();
+			default:
+				return null;
 		}
 	}
 
@@ -410,12 +431,14 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				FGEPoint previousPoint = (index > -1 ? getPoints().get(index) : getPoints().get(getPoints().size() - 1));
 				FGEPoint nextPoint = (index + 1 < getPoints().size() ? getPoints().get(index + 1) : getPoints().get(0));
 				newPoint = FGEPoint.middleOf(previousPoint, nextPoint);
-			} else {
+			}
+			else {
 				newPoint = new FGEPoint(0.5, 0.5);
 			}
 			if (index == -1) {
 				getPoints().add(newPoint);
-			} else {
+			}
+			else {
 				getPoints().add(index + 1, newPoint);
 			}
 			notifyChange(POINTS);
@@ -981,10 +1004,6 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			returned.addToPoints(new FGEPoint(1 - this.getArrowLength(), 0));
 			return returned;
 		}
-	}
-
-	public InspectedPolygon<Polygon> getInspectedPolygon() {
-		return polygon;
 	}
 
 }
