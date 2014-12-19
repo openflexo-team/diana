@@ -93,6 +93,9 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 	}
 
 	public AbstractInspectedConnectorSpecification<?> getConnectorSpecification() {
+		if (connectorType == null) {
+			return null;
+		}
 		switch (connectorType) {
 		case LINE:
 			return lineConnectorSpecification;
