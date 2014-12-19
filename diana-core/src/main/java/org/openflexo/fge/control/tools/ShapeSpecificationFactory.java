@@ -46,6 +46,7 @@ import org.openflexo.fge.shapes.Circle;
 import org.openflexo.fge.shapes.ComplexCurve;
 import org.openflexo.fge.shapes.Losange;
 import org.openflexo.fge.shapes.Oval;
+import org.openflexo.fge.shapes.Parallelogram;
 import org.openflexo.fge.shapes.Plus;
 import org.openflexo.fge.shapes.Polygon;
 import org.openflexo.fge.shapes.Rectangle;
@@ -87,6 +88,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 	private final InspectedComplexCurve complexCurve;
 	private final InspectedPlus plus;
 	private final InspectedChevron chevron;
+	private final InspectedParallelogram parallelogram;
 
 	private PropertyChangeSupport pcSupport;
 	private FGEModelFactory fgeFactory;
@@ -112,6 +114,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		this.complexCurve = new InspectedComplexCurve(controller, (ComplexCurve) controller.getFactory().makeShape(ShapeType.COMPLEX_CURVE));
 		this.plus = new InspectedPlus(controller, (Plus) controller.getFactory().makeShape(ShapeType.PLUS));
 		this.chevron = new InspectedChevron(controller, (Chevron) controller.getFactory().makeShape(ShapeType.CHEVRON));
+		this.parallelogram = new InspectedParallelogram(controller, (Parallelogram) controller.getFactory().makeShape(
+				ShapeType.PARALLELOGRAM));
 	}
 
 	public DianaInteractiveViewer<?, ?, ?> getController() {
@@ -159,6 +163,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				return this.square;
 			case CUSTOM_POLYGON:
 				return this.polygon;
+			case PARALLELOGRAM:
+				return this.parallelogram;
 			case RECTANGULAROCTOGON:
 				return this.rectangularOctogon;
 			case POLYGON:
@@ -263,6 +269,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				return this.plus.cloneStyle();
 			case CHEVRON:
 				return this.chevron.cloneStyle();
+			case PARALLELOGRAM:
+				return this.parallelogram.cloneStyle();
 			default:
 				return null;
 		}
@@ -1004,6 +1012,67 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			returned.addToPoints(new FGEPoint(1 - this.getArrowLength(), 0));
 			return returned;
 		}
+	}
+
+	protected class InspectedParallelogram extends AbstractInspectedShapeSpecification<Parallelogram> implements Parallelogram {
+
+		protected InspectedParallelogram(final DianaInteractiveViewer<?, ?, ?> controller, final Parallelogram defaultValue) {
+			super(controller, defaultValue);
+		}
+
+		@Override
+		public ShapeType getShapeType() {
+			return ShapeType.PARALLELOGRAM;
+		}
+
+		@Override
+		public Parallelogram getStyle(final DrawingTreeNode<?, ?> node) {
+			if (node instanceof ShapeNode) {
+				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Parallelogram) {
+					return (Parallelogram) ((ShapeNode<?>) node).getShapeSpecification();
+				}
+			}
+			return null;
+		}
+
+		@Override
+		public double getShiftRatio() {
+			return this.getPropertyValue(Parallelogram.SHIFT_RATIO);
+		}
+
+		@Override
+		public void setShiftRatio(final double aShiftRatio) {
+			this.setPropertyValue(Parallelogram.SHIFT_RATIO, aShiftRatio);
+		}
+
+		@Override
+		public boolean areDimensionConstrained() {
+			return false;
+		}
+
+		@Override
+		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+			final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
+			double shift_ratio = getShiftRatio();
+			if (shift_ratio >= 0) {
+				returned.addToPoints(new FGEPoint(shift_ratio, 0));
+				returned.addToPoints(new FGEPoint(1, 0));
+				returned.addToPoints(new FGEPoint(1 - shift_ratio, 1));
+				returned.addToPoints(new FGEPoint(0, 1));
+			}
+			else {
+				returned.addToPoints(new FGEPoint(0, 0));
+				returned.addToPoints(new FGEPoint(1 + shift_ratio, 0));
+				returned.addToPoints(new FGEPoint(1, 1));
+				returned.addToPoints(new FGEPoint(-shift_ratio, 1));
+			}
+			return returned;
+		}
+	}
+
+	// This method is used in Fib!!
+	public InspectedPolygon<Polygon> getInspectedPolygon() {
+		return polygon;
 	}
 
 }
