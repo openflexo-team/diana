@@ -1051,6 +1051,11 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 			this.grBinding = grBinding;
 		}
 
+		@Override
+		public String toString() {
+			return "DrawingTreeNodeIdentifier[drawable=" + drawable + ",grBinding=" + grBinding + "]";
+		}
+
 		public O getDrawable() {
 			return drawable;
 		}

@@ -6,10 +6,10 @@ import org.openflexo.fge.Drawing.DrawingTreeNodeIdentifier;
 import org.openflexo.fge.Drawing.PendingConnector;
 
 public class PendingConnectorImpl<O> implements PendingConnector<O> {
-	private ConnectorNodeImpl<O> connectorNode;
-	private DrawingTreeNodeIdentifier<?> parentNodeIdentifier;
-	private DrawingTreeNodeIdentifier<?> startNodeIdentifier;
-	private DrawingTreeNodeIdentifier<?> endNodeIdentifier;
+	private final ConnectorNodeImpl<O> connectorNode;
+	private final DrawingTreeNodeIdentifier<?> parentNodeIdentifier;
+	private final DrawingTreeNodeIdentifier<?> startNodeIdentifier;
+	private final DrawingTreeNodeIdentifier<?> endNodeIdentifier;
 
 	public PendingConnectorImpl(ConnectorNode<O> connectorNode, DrawingTreeNodeIdentifier<?> parentNodeIdentifier,
 			DrawingTreeNodeIdentifier<?> startNodeIdentifier, DrawingTreeNodeIdentifier<?> endNodeIdentifier) {
@@ -52,6 +52,11 @@ public class PendingConnectorImpl<O> implements PendingConnector<O> {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		return "PendingConnectorImpl[" + connectorNode.getDrawable() + "]";
 	}
 
 }
