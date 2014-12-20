@@ -1,6 +1,6 @@
 /*
  * (c) Copyright 2010-2011 AgileBirds
- * (c) Copyright 2012-2013 Openflexo
+ * (c) Copyright 2013-2014 Openflexo
  *
  * This file is part of OpenFlexo.
  *
@@ -39,7 +39,8 @@ import org.openflexo.model.annotations.ModelEntity;
 @ModelEntity(isAbstract = true)
 @Imports({ @Import(Arc.class), @Import(Circle.class), @Import(Losange.class), @Import(Oval.class), @Import(Polygon.class),
 		@Import(Rectangle.class), @Import(RectangularOctogon.class), @Import(RegularPolygon.class), @Import(Square.class),
-		@Import(Star.class), @Import(Triangle.class), @Import(ComplexCurve.class), @Import(Plus.class), @Import(Chevron.class) })
+		@Import(Star.class), @Import(Triangle.class), @Import(ComplexCurve.class), @Import(Plus.class), @Import(Parallelogram.class),
+		@Import(Chevron.class) })
 public interface ShapeSpecification extends FGEObject {
 
 	public static enum ShapeType {
@@ -56,18 +57,19 @@ public interface ShapeSpecification extends FGEObject {
 		CUSTOM_POLYGON,
 		COMPLEX_CURVE,
 		PLUS,
-		CHEVRON
+		CHEVRON,
+		PARALLELOGRAM
 	}
 
-	public static final FGEPoint	CENTER		= new FGEPoint(0.5, 0.5);
-	public static final FGEPoint	NORTH_EAST	= new FGEPoint(1, 0);
-	public static final FGEPoint	SOUTH_EAST	= new FGEPoint(1, 1);
-	public static final FGEPoint	SOUTH_WEST	= new FGEPoint(0, 1);
-	public static final FGEPoint	NORTH_WEST	= new FGEPoint(0, 0);
-	public static final FGEPoint	NORTH		= new FGEPoint(0.5, 0);
-	public static final FGEPoint	EAST		= new FGEPoint(1, 0.5);
-	public static final FGEPoint	SOUTH		= new FGEPoint(0.5, 1);
-	public static final FGEPoint	WEST		= new FGEPoint(0, 0.5);
+	public static final FGEPoint CENTER = new FGEPoint(0.5, 0.5);
+	public static final FGEPoint NORTH_EAST = new FGEPoint(1, 0);
+	public static final FGEPoint SOUTH_EAST = new FGEPoint(1, 1);
+	public static final FGEPoint SOUTH_WEST = new FGEPoint(0, 1);
+	public static final FGEPoint NORTH_WEST = new FGEPoint(0, 0);
+	public static final FGEPoint NORTH = new FGEPoint(0.5, 0);
+	public static final FGEPoint EAST = new FGEPoint(1, 0.5);
+	public static final FGEPoint SOUTH = new FGEPoint(0.5, 1);
+	public static final FGEPoint WEST = new FGEPoint(0, 0.5);
 
 	/**
 	 * Must be overriden when shape requires it

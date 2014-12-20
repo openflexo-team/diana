@@ -1,3 +1,23 @@
+/*
+ * (c) Copyright 2013-2014 Openflexo
+ *
+ * This file is part of OpenFlexo.
+ *
+ * OpenFlexo is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * OpenFlexo is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OpenFlexo. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package org.openflexo.fge.control.tools;
 
 import java.beans.PropertyChangeSupport;
@@ -26,6 +46,7 @@ import org.openflexo.fge.shapes.Circle;
 import org.openflexo.fge.shapes.ComplexCurve;
 import org.openflexo.fge.shapes.Losange;
 import org.openflexo.fge.shapes.Oval;
+import org.openflexo.fge.shapes.Parallelogram;
 import org.openflexo.fge.shapes.Plus;
 import org.openflexo.fge.shapes.Polygon;
 import org.openflexo.fge.shapes.Rectangle;
@@ -67,6 +88,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 	private final InspectedComplexCurve complexCurve;
 	private final InspectedPlus plus;
 	private final InspectedChevron chevron;
+	private final InspectedParallelogram parallelogram;
 
 	private PropertyChangeSupport pcSupport;
 	private FGEModelFactory fgeFactory;
@@ -92,6 +114,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		this.complexCurve = new InspectedComplexCurve(controller, (ComplexCurve) controller.getFactory().makeShape(ShapeType.COMPLEX_CURVE));
 		this.plus = new InspectedPlus(controller, (Plus) controller.getFactory().makeShape(ShapeType.PLUS));
 		this.chevron = new InspectedChevron(controller, (Chevron) controller.getFactory().makeShape(ShapeType.CHEVRON));
+		this.parallelogram = new InspectedParallelogram(controller, (Parallelogram) controller.getFactory().makeShape(
+				ShapeType.PARALLELOGRAM));
 	}
 
 	public DianaInteractiveViewer<?, ?, ?> getController() {
@@ -133,36 +157,38 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return null;
 		}
 		switch (this.shapeType) {
-		case RECTANGLE:
-			return this.rectangle;
-		case SQUARE:
-			return this.square;
-		case CUSTOM_POLYGON:
-			return this.polygon;
-		case RECTANGULAROCTOGON:
-			return this.rectangularOctogon;
-		case POLYGON:
-			return this.regularPolygon;
-		case LOSANGE:
-			return this.losange;
-		case TRIANGLE:
-			return this.triangle;
-		case OVAL:
-			return this.oval;
-		case CIRCLE:
-			return this.circle;
-		case ARC:
-			return this.arc;
-		case STAR:
-			return this.star;
-		case COMPLEX_CURVE:
-			return this.complexCurve;
-		case PLUS:
-			return this.plus;
-		case CHEVRON:
-			return this.chevron;
-		default:
-			break;
+			case RECTANGLE:
+				return this.rectangle;
+			case SQUARE:
+				return this.square;
+			case CUSTOM_POLYGON:
+				return this.polygon;
+			case PARALLELOGRAM:
+				return this.parallelogram;
+			case RECTANGULAROCTOGON:
+				return this.rectangularOctogon;
+			case POLYGON:
+				return this.regularPolygon;
+			case LOSANGE:
+				return this.losange;
+			case TRIANGLE:
+				return this.triangle;
+			case OVAL:
+				return this.oval;
+			case CIRCLE:
+				return this.circle;
+			case ARC:
+				return this.arc;
+			case STAR:
+				return this.star;
+			case COMPLEX_CURVE:
+				return this.complexCurve;
+			case PLUS:
+				return this.plus;
+			case CHEVRON:
+				return this.chevron;
+			default:
+				break;
 		}
 		logger.warning("Unexpected " + this.shapeType);
 		return null;
@@ -179,7 +205,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;
-			} else {
+			}
+			else {
 				return true;
 			}
 		}
@@ -214,36 +241,38 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 	@Override
 	public ShapeSpecification makeNewStyle(final ShapeSpecification oldShapeSpecification) {
 		switch (this.shapeType) {
-		case RECTANGLE:
-			return this.rectangle.cloneStyle();
-		case SQUARE:
-			return this.square.cloneStyle();
-		case CUSTOM_POLYGON:
-			return this.polygon.cloneStyle();
-		case RECTANGULAROCTOGON:
-			return this.rectangularOctogon.cloneStyle();
-		case POLYGON:
-			return this.regularPolygon.cloneStyle();
-		case LOSANGE:
-			return this.losange.cloneStyle();
-		case TRIANGLE:
-			return this.triangle.cloneStyle();
-		case OVAL:
-			return this.oval.cloneStyle();
-		case CIRCLE:
-			return this.circle.cloneStyle();
-		case ARC:
-			return this.arc.cloneStyle();
-		case COMPLEX_CURVE:
-			return this.complexCurve.cloneStyle();
-		case STAR:
-			return this.star.cloneStyle();
-		case PLUS:
-			return this.plus.cloneStyle();
-		case CHEVRON:
-			return this.chevron.cloneStyle();
-		default:
-			return null;
+			case RECTANGLE:
+				return this.rectangle.cloneStyle();
+			case SQUARE:
+				return this.square.cloneStyle();
+			case CUSTOM_POLYGON:
+				return this.polygon.cloneStyle();
+			case RECTANGULAROCTOGON:
+				return this.rectangularOctogon.cloneStyle();
+			case POLYGON:
+				return this.regularPolygon.cloneStyle();
+			case LOSANGE:
+				return this.losange.cloneStyle();
+			case TRIANGLE:
+				return this.triangle.cloneStyle();
+			case OVAL:
+				return this.oval.cloneStyle();
+			case CIRCLE:
+				return this.circle.cloneStyle();
+			case ARC:
+				return this.arc.cloneStyle();
+			case COMPLEX_CURVE:
+				return this.complexCurve.cloneStyle();
+			case STAR:
+				return this.star.cloneStyle();
+			case PLUS:
+				return this.plus.cloneStyle();
+			case CHEVRON:
+				return this.chevron.cloneStyle();
+			case PARALLELOGRAM:
+				return this.parallelogram.cloneStyle();
+			default:
+				return null;
 		}
 	}
 
@@ -410,12 +439,14 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				FGEPoint previousPoint = (index > -1 ? getPoints().get(index) : getPoints().get(getPoints().size() - 1));
 				FGEPoint nextPoint = (index + 1 < getPoints().size() ? getPoints().get(index + 1) : getPoints().get(0));
 				newPoint = FGEPoint.middleOf(previousPoint, nextPoint);
-			} else {
+			}
+			else {
 				newPoint = new FGEPoint(0.5, 0.5);
 			}
 			if (index == -1) {
 				getPoints().add(newPoint);
-			} else {
+			}
+			else {
 				getPoints().add(index + 1, newPoint);
 			}
 			notifyChange(POINTS);
@@ -983,6 +1014,63 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 	}
 
+	protected class InspectedParallelogram extends AbstractInspectedShapeSpecification<Parallelogram> implements Parallelogram {
+
+		protected InspectedParallelogram(final DianaInteractiveViewer<?, ?, ?> controller, final Parallelogram defaultValue) {
+			super(controller, defaultValue);
+		}
+
+		@Override
+		public ShapeType getShapeType() {
+			return ShapeType.PARALLELOGRAM;
+		}
+
+		@Override
+		public Parallelogram getStyle(final DrawingTreeNode<?, ?> node) {
+			if (node instanceof ShapeNode) {
+				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Parallelogram) {
+					return (Parallelogram) ((ShapeNode<?>) node).getShapeSpecification();
+				}
+			}
+			return null;
+		}
+
+		@Override
+		public double getShiftRatio() {
+			return this.getPropertyValue(Parallelogram.SHIFT_RATIO);
+		}
+
+		@Override
+		public void setShiftRatio(final double aShiftRatio) {
+			this.setPropertyValue(Parallelogram.SHIFT_RATIO, aShiftRatio);
+		}
+
+		@Override
+		public boolean areDimensionConstrained() {
+			return false;
+		}
+
+		@Override
+		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+			final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
+			double shift_ratio = getShiftRatio();
+			if (shift_ratio >= 0) {
+				returned.addToPoints(new FGEPoint(shift_ratio, 0));
+				returned.addToPoints(new FGEPoint(1, 0));
+				returned.addToPoints(new FGEPoint(1 - shift_ratio, 1));
+				returned.addToPoints(new FGEPoint(0, 1));
+			}
+			else {
+				returned.addToPoints(new FGEPoint(0, 0));
+				returned.addToPoints(new FGEPoint(1 + shift_ratio, 0));
+				returned.addToPoints(new FGEPoint(1, 1));
+				returned.addToPoints(new FGEPoint(-shift_ratio, 1));
+			}
+			return returned;
+		}
+	}
+
+	// This method is used in Fib!!
 	public InspectedPolygon<Polygon> getInspectedPolygon() {
 		return polygon;
 	}

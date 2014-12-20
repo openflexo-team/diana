@@ -1,3 +1,24 @@
+/*
+ * (c) Copyright 2010-2011 AgileBirds
+ * (c) Copyright 2013-2014 Openflexo
+ *
+ * This file is part of OpenFlexo.
+ *
+ * OpenFlexo is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * OpenFlexo is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OpenFlexo. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package org.openflexo.fge;
 
 import java.util.ArrayList;
@@ -55,6 +76,7 @@ import org.openflexo.fge.shapes.Circle;
 import org.openflexo.fge.shapes.ComplexCurve;
 import org.openflexo.fge.shapes.Losange;
 import org.openflexo.fge.shapes.Oval;
+import org.openflexo.fge.shapes.Parallelogram;
 import org.openflexo.fge.shapes.Plus;
 import org.openflexo.fge.shapes.Polygon;
 import org.openflexo.fge.shapes.Rectangle;
@@ -70,6 +92,7 @@ import org.openflexo.fge.shapes.impl.CircleImpl;
 import org.openflexo.fge.shapes.impl.ComplexCurveImpl;
 import org.openflexo.fge.shapes.impl.LosangeImpl;
 import org.openflexo.fge.shapes.impl.OvalImpl;
+import org.openflexo.fge.shapes.impl.ParallelogramImpl;
 import org.openflexo.fge.shapes.impl.PlusImpl;
 import org.openflexo.fge.shapes.impl.PolygonImpl;
 import org.openflexo.fge.shapes.impl.RectangleImpl;
@@ -155,6 +178,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		modelFactory.setImplementingClassForInterface(ComplexCurveImpl.class, ComplexCurve.class);
 		modelFactory.setImplementingClassForInterface(PlusImpl.class, Plus.class);
 		modelFactory.setImplementingClassForInterface(ChevronImpl.class, Chevron.class);
+		modelFactory.setImplementingClassForInterface(ParallelogramImpl.class, Parallelogram.class);
 
 		modelFactory.setImplementingClassForInterface(ConnectorSpecificationImpl.class, ConnectorSpecification.class);
 		modelFactory.setImplementingClassForInterface(LineConnectorSpecificationImpl.class, LineConnectorSpecification.class);
@@ -239,15 +263,15 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseDragControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseDragControlAction(
 			PredefinedMouseDragControlActionType actionType) {
 		switch (actionType) {
-		case MOVE:
-			return new MoveAction();
-		case RECTANGLE_SELECTING:
-			return new RectangleSelectingAction();
-		case ZOOM:
-			return new ZoomAction();
-		default:
-			LOGGER.warning("Unexpected actionType " + actionType);
-			return null;
+			case MOVE:
+				return new MoveAction();
+			case RECTANGLE_SELECTING:
+				return new RectangleSelectingAction();
+			case ZOOM:
+				return new ZoomAction();
+			default:
+				LOGGER.warning("Unexpected actionType " + actionType);
+				return null;
 		}
 	}
 
@@ -255,15 +279,15 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseClickControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseClickControlAction(
 			PredefinedMouseClickControlActionType actionType) {
 		switch (actionType) {
-		case SELECTION:
-			return new SelectionAction();
-		case CONTINUOUS_SELECTION:
-			return new ContinuousSelectionAction();
-		case MULTIPLE_SELECTION:
-			return new MultipleSelectionAction();
-		default:
-			LOGGER.warning("Unexpected actionType " + actionType);
-			return null;
+			case SELECTION:
+				return new SelectionAction();
+			case CONTINUOUS_SELECTION:
+				return new ContinuousSelectionAction();
+			case MULTIPLE_SELECTION:
+				return new MultipleSelectionAction();
+			default:
+				LOGGER.warning("Unexpected actionType " + actionType);
+				return null;
 		}
 	}
 

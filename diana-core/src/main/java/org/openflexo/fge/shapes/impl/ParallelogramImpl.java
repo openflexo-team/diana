@@ -26,57 +26,69 @@ import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEPolygon;
 import org.openflexo.fge.geom.FGEShape;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
-import org.openflexo.fge.shapes.Chevron;
+import org.openflexo.fge.shapes.Parallelogram;
 
 /**
- * Implementation of interface Chevron.
+ * Implementation of interface Parallelogram.
  * 
- * @author eloubout
+ * @author xtof
  * 
  */
-public abstract class ChevronImpl extends ShapeSpecificationImpl implements Chevron {
+public abstract class ParallelogramImpl extends ShapeSpecificationImpl implements Parallelogram {
 
-	private double arrowLength = 0.2;
+	// angle is contained between 0 and 180
+	private double shift_ratio = 0.2;
 
-	public ChevronImpl() {
+	public ParallelogramImpl() {
 		super();
 	}
 
 	@Override
 	public ShapeType getShapeType() {
-		return ShapeType.CHEVRON;
+		return ShapeType.PARALLELOGRAM;
 	}
 
 	@Override
-	public double getArrowLength() {
-		return this.arrowLength;
+	public double getShiftRatio() {
+		return this.shift_ratio;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void setArrowLength(final double anArrowLength) {
-		final FGEAttributeNotification<Double> notification = this.requireChange(ARROW_LENGTH, anArrowLength);
+	public void setShiftRatio(final double aShiftRatio) {
+		double normalized = Math.abs(aShiftRatio);
+		if (normalized > 1) {
+			normalized = aShiftRatio / normalized;
+		}
+		else
+			normalized = aShiftRatio;
+		final FGEAttributeNotification<Double> notification = this.requireChange(SHIFT_RATIO, normalized);
 		if (notification != null) {
-			this.arrowLength = anArrowLength;
+			this.shift_ratio = normalized;
 			this.hasChanged(notification);
 		}
 	}
 
 	/**
-	 * Draw a chevron by creating a filled polygon of 6 good points, ajustable with predifined arrowLenght
+	 * Draw a parallellogram by creating a filled polygon of 4 good points, adjustable with predifined angle
 	 * 
 	 * @return FGEPolygon
 	 */
 	@Override
 	public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
 		final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
-		returned.addToPoints(new FGEPoint(0, 0));
-		returned.addToPoints(new FGEPoint(this.arrowLength, 0.5));
-		returned.addToPoints(new FGEPoint(0, 1));
-		returned.addToPoints(new FGEPoint(1 - this.arrowLength, 1));
-		returned.addToPoints(new FGEPoint(1, 0.5));
-		returned.addToPoints(new FGEPoint(1 - this.arrowLength, 0));
+		if (shift_ratio >= 0) {
+			returned.addToPoints(new FGEPoint(shift_ratio, 0));
+			returned.addToPoints(new FGEPoint(1, 0));
+			returned.addToPoints(new FGEPoint(1 - shift_ratio, 1));
+			returned.addToPoints(new FGEPoint(0, 1));
+		}
+		else {
+			returned.addToPoints(new FGEPoint(0, 0));
+			returned.addToPoints(new FGEPoint(1 + shift_ratio, 0));
+			returned.addToPoints(new FGEPoint(1, 1));
+			returned.addToPoints(new FGEPoint(-shift_ratio, 1));
+		}
 		return returned;
 	}
-
 }
