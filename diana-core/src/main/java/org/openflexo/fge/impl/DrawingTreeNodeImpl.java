@@ -1204,12 +1204,14 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		if (getDrawing().getPersistenceMode() == PersistenceMode.UniqueGraphicalRepresentations) {
 			boolean wasObserving = ignoreNotificationsFrom(getGraphicalRepresentation());
 			T oldValue = null;
-			if (getGraphicalRepresentation().hasKey(parameter.getName())) {
-				oldValue = (T) getGraphicalRepresentation().objectForKey(parameter.getName());
-				getGraphicalRepresentation().setObjectForKey(value, parameter.getName());
-			}
-			if (wasObserving) {
-				observeAgain(getGraphicalRepresentation());
+			if (getGraphicalRepresentation() != null) {
+				if (getGraphicalRepresentation().hasKey(parameter.getName())) {
+					oldValue = (T) getGraphicalRepresentation().objectForKey(parameter.getName());
+					getGraphicalRepresentation().setObjectForKey(value, parameter.getName());
+				}
+				if (wasObserving) {
+					observeAgain(getGraphicalRepresentation());
+				}
 			}
 			// Since GR is prevented to fire notifications, do it myself
 			getPropertyChangeSupport().firePropertyChange(parameter.getName(), oldValue, value);
