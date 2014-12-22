@@ -11,10 +11,10 @@
 	<name>diana</name>
 	<packaging>pom</packaging>
 	<properties>
-		<connie.version>1.1</connie.version>
-		<pamela.version>1.1</pamela.version>
-		<gina.version>1.1</gina.version>
-		<graphicsutils.version>1.1</graphicsutils.version>
+		<connie.version>1.2-SNAPSHOT</connie.version>
+		<pamela.version>1.2-SNAPSHOT</pamela.version>
+		<gina.version>1.2-SNAPSHOT</gina.version>
+		<graphicsutils.version>1.2-SNAPSHOT</graphicsutils.version>
 	</properties>
 	<scm>
 		<connection>scm:git:ssh://git@github.com/openflexo-team/diana.git</connection>
