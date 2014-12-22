@@ -151,7 +151,7 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 
 	@Override
 	public String toString() {
-		return "Root[" + getWidth() + "x" + getHeight() + "]:" + getDrawable();
+		return "[" + Integer.toHexString(hashCode()) + "]Root[" + getWidth() + "x" + getHeight() + "]:" + getDrawable();
 	}
 
 	@Override
