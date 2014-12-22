@@ -152,6 +152,10 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		// System.out.println("Sets from " + oldValue + " to " + value);
 		if (requireChange(oldValue, value)) {
 			if (getSelection().size() == 0) {
+				if (defaultValue == null) {
+					logger.warning("Cannot set " + parameter + " to " + value + " : no default value defined for " + this);
+					return;
+				}
 				defaultValue.setObjectForKey(value, parameter.getName());
 			} else {
 				CompoundEdit setValueEdit = startRecordEdit("Set " + parameter.getName() + " to " + value);
