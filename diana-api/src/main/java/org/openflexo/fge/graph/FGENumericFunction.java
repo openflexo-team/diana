@@ -40,7 +40,7 @@ package org.openflexo.fge.graph;
 
 import java.util.List;
 
-import org.openflexo.antar.binding.DataBinding;
+import org.openflexo.connie.DataBinding;
 
 /**
  * Represents a numeric function as a typed expression<br>

@@ -39,7 +39,7 @@
 
 package org.openflexo.fge;
 
-import org.openflexo.antar.binding.DataBinding;
+import org.openflexo.connie.DataBinding;
 import org.openflexo.fge.BackgroundStyle.BackgroundStyleType;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.geom.FGEDimension;

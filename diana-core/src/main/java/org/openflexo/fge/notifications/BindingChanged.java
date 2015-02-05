@@ -39,7 +39,7 @@
 
 package org.openflexo.fge.notifications;
 
-import org.openflexo.antar.binding.DataBinding;
+import org.openflexo.connie.DataBinding;
 
 public class BindingChanged extends FGENotification {
 

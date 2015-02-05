@@ -41,8 +41,8 @@ package org.openflexo.fge.graph;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 
-import org.openflexo.antar.expr.NullReferenceException;
-import org.openflexo.antar.expr.TypeMismatchException;
+import org.openflexo.connie.exception.NullReferenceException;
+import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**

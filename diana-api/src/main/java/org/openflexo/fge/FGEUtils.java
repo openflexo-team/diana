@@ -48,7 +48,7 @@ import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 
-import org.openflexo.antar.binding.DataBinding;
+import org.openflexo.connie.DataBinding;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.converter.PointConverter;
 import org.openflexo.fge.converter.RectPolylinConverter;
