@@ -73,6 +73,13 @@ public class FGEEllips extends FGEArc {
 		this(center.x - size.width / 2, center.y - size.height / 2, size.width, size.height, filling);
 	}
 
+	public void setCenterAndSize(FGEPoint center, FGEDimension size) {
+		setX(center.x - size.width / 2);
+		setY(center.y - size.height / 2);
+		setWidth(size.width);
+		setHeight(size.height);
+	}
+
 	@Override
 	public boolean getIsFilled() {
 		return _filling == Filling.FILLED;

@@ -148,6 +148,42 @@ public class FGEArc extends Arc2D.Double implements FGEGeometricObject<FGEArc>, 
 	}
 
 	@Override
+	public double getX() {
+		return super.getX();
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	@Override
+	public double getY() {
+		return super.getY();
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
+	@Override
+	public double getWidth() {
+		return super.getWidth();
+	}
+
+	public void setWidth(double width) {
+		this.width = width;
+	}
+
+	@Override
+	public double getHeight() {
+		return super.getHeight();
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
+	}
+
+	@Override
 	public FGEPoint getCenter() {
 		return new FGEPoint(getCenterX(), getCenterY());
 	}
