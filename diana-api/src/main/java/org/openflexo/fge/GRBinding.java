@@ -40,6 +40,7 @@ package org.openflexo.fge;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -49,8 +50,8 @@ import org.openflexo.connie.BindingFactory;
 import org.openflexo.connie.BindingModel;
 import org.openflexo.connie.BindingVariable;
 import org.openflexo.connie.DataBinding;
-import org.openflexo.connie.DefaultBindable;
 import org.openflexo.connie.DataBinding.BindingDefinitionType;
+import org.openflexo.connie.DefaultBindable;
 import org.openflexo.connie.java.JavaBindingFactory;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.GRProvider.ConnectorGRProvider;
@@ -178,9 +179,21 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 
 	public static abstract class ContainerGRBinding<O, GR extends ContainerGraphicalRepresentation> extends GRBinding<O, GR> {
 
+		private final Map<String, Class<? extends FGELayoutManager>> layoutManagerClasses;
+
 		public ContainerGRBinding(String name, Class<?> drawableClass, ContainerGRProvider<O, GR> grProvider) {
 			super(name, drawableClass, grProvider);
+			layoutManagerClasses = new HashMap<String, Class<? extends FGELayoutManager>>();
 		}
+
+		public void addLayoutManager(String identifier, Class<? extends FGELayoutManager> layoutManagerClass) {
+			layoutManagerClasses.put(identifier, layoutManagerClass);
+		}
+
+		public Map<String, Class<? extends FGELayoutManager>> getLayoutManagerClasses() {
+			return layoutManagerClasses;
+		}
+
 	}
 
 	public static class DrawingGRBinding<M> extends ContainerGRBinding<M, DrawingGraphicalRepresentation> {
@@ -217,7 +230,7 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 		}
 	}
 
-	public static class GraphGRBinding<O extends FGEGraph> extends GRBinding<O, ShapeGraphicalRepresentation> {
+	public static class GraphGRBinding<O extends FGEGraph> extends ShapeGRBinding<O> {
 
 		public GraphGRBinding(String name, Class<? extends O> graphClass, ShapeGRProvider<O> grProvider) {
 			super(name, graphClass, grProvider);

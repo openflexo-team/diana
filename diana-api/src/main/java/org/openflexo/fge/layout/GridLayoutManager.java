@@ -2,7 +2,7 @@
  * 
  * Copyright (c) 2014, Openflexo
  * 
- * This file is part of Diana-core, a component of the software infrastructure 
+ * This file is part of Diana-api, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -36,36 +36,43 @@
  * 
  */
 
-package org.openflexo.fge.impl;
+package org.openflexo.fge.layout;
 
-import java.util.logging.Logger;
+import org.openflexo.fge.FGELayoutManager;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
+import org.openflexo.model.annotations.XMLElement;
 
-import org.openflexo.fge.Drawing.GraphNode;
-import org.openflexo.fge.GRBinding.GraphGRBinding;
-import org.openflexo.fge.graph.FGEGraph;
-import org.openflexo.fge.graphics.FGEShapeGraphics;
+/**
+ * Represents a layout manager automatically placing the layouted nodes on a grid
+ * 
+ * @author sylvain
+ * 
+ */
+@ModelEntity
+@XMLElement
+public interface GridLayoutManager<O> extends FGELayoutManager<O> {
 
-public class GraphNodeImpl<G extends FGEGraph> extends ShapeNodeImpl<G> implements GraphNode<G> {
+	@PropertyIdentifier(type = Double.class)
+	public static final String GRID_X_KEY = "gridX";
+	@PropertyIdentifier(type = Double.class)
+	public static final String GRID_Y_KEY = "gridY";
 
-	private static final Logger logger = Logger.getLogger(GraphNodeImpl.class.getPackage().getName());
+	@Getter(GRID_X_KEY)
+	@XMLAttribute
+	public Double getGridX();
 
-	// TODO: change to protected
-	public GraphNodeImpl(DrawingImpl<?> drawingImpl, G graph, GraphGRBinding<G> grBinding, ContainerNodeImpl<?, ?> parentNode) {
-		super(drawingImpl, graph, grBinding, parentNode);
-	}
+	@Setter(GRID_X_KEY)
+	public void setGridX(Double gridX);
 
-	@Override
-	public boolean delete() {
-		return super.delete();
-	}
+	@Getter(GRID_Y_KEY)
+	@XMLAttribute
+	public Double getGridY();
 
-	@Override
-	public void paint(FGEShapeGraphics g) {
-		// First draw outline (fg and bg)
-		super.paint(g);
+	@Setter(GRID_Y_KEY)
+	public void setGridY(Double gridY);
 
-		// Paint the graph
-		getDrawable().paint(g);
-
-	}
 }

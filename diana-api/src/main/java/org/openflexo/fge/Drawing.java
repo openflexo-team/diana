@@ -743,6 +743,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		public ShapeSpecification getShapeSpecification();
 
 		public void setShapeSpecification(ShapeSpecification shapeSpecification);
+
+		public void layoutedWith(String layoutManagerIdentifier);
 	}
 
 	public interface GraphNode<G extends FGEGraph> extends ShapeNode<G> {

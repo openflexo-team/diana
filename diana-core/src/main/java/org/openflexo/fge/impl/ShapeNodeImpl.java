@@ -61,6 +61,7 @@ import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.GRBinding;
+import org.openflexo.fge.GRBinding.ShapeGRBinding;
 import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.ShadowStyle;
@@ -118,8 +119,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	private ShapeImpl<?> shape;
 
 	// TODO: change to protected
-	public ShapeNodeImpl(DrawingImpl<?> drawingImpl, O drawable, GRBinding<O, ShapeGraphicalRepresentation> grBinding,
-			ContainerNodeImpl<?, ?> parentNode) {
+	public ShapeNodeImpl(DrawingImpl<?> drawingImpl, O drawable, ShapeGRBinding<O> grBinding, ContainerNodeImpl<?, ?> parentNode) {
 		super(drawingImpl, drawable, grBinding, parentNode);
 		startDrawableObserving();
 		// graphics = new FGEShapeGraphicsImpl(this);
@@ -1747,4 +1747,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		}
 	}
 
+	@Override
+	public void layoutedWith(String layoutManagerIdentifier) {
+		// prout
+	}
 }

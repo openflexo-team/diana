@@ -43,7 +43,9 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -55,9 +57,11 @@ import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.Drawing.GraphNode;
 import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.FGELayoutManager;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.GRBinding;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
+import org.openflexo.fge.GRBinding.ContainerGRBinding;
 import org.openflexo.fge.GRBinding.GeometricGRBinding;
 import org.openflexo.fge.GRBinding.GraphGRBinding;
 import org.openflexo.fge.GRBinding.ShapeGRBinding;
@@ -86,9 +90,17 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	private boolean isResizing = false;
 	private boolean isCheckingDimensionConstraints = false;
 
-	protected ContainerNodeImpl(DrawingImpl<?> drawing, O drawable, GRBinding<O, GR> grBinding, ContainerNodeImpl<?, ?> parentNode) {
+	private final Map<String, FGELayoutManager<O>> layoutManagers;
+
+	protected ContainerNodeImpl(DrawingImpl<?> drawing, O drawable, ContainerGRBinding<O, GR> grBinding, ContainerNodeImpl<?, ?> parentNode) {
 		super(drawing, drawable, grBinding, parentNode);
 		childNodes = new ArrayList<DrawingTreeNodeImpl<?, ?>>();
+		layoutManagers = new HashMap<String, FGELayoutManager<O>>();
+		for (String identifier : grBinding.getLayoutManagerClasses().keySet()) {
+			Class<? extends FGELayoutManager> layoutManagerClass = grBinding.getLayoutManagerClasses().get(identifier);
+			FGELayoutManager<O> layoutManager = getFactory().newInstance(layoutManagerClass);
+			System.out.println("created " + layoutManager);
+		}
 	}
 
 	@Override

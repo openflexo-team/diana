@@ -51,7 +51,7 @@ import org.openflexo.fge.ColorBackgroundStyle;
 import org.openflexo.fge.Drawing.RootNode;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.ForegroundStyle;
-import org.openflexo.fge.GRBinding;
+import org.openflexo.fge.GRBinding.DrawingGRBinding;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.FGEDimension;
@@ -78,7 +78,7 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 		}
 	}
 
-	protected RootNodeImpl(DrawingImpl<M> drawing, M drawable, GRBinding<M, DrawingGraphicalRepresentation> grBinding) {
+	protected RootNodeImpl(DrawingImpl<M> drawing, M drawable, DrawingGRBinding<M> grBinding) {
 		super(drawing, drawable, grBinding, null);
 		startDrawableObserving();
 	}
