@@ -58,6 +58,7 @@ import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.ConstraintDependency;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.FGELayoutManager;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.GRBinding;
@@ -117,6 +118,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	private ShapePainter shapePainter;
 
 	private ShapeImpl<?> shape;
+
+	private FGELayoutManager<?> layoutManager;
 
 	// TODO: change to protected
 	public ShapeNodeImpl(DrawingImpl<?> drawingImpl, O drawable, ShapeGRBinding<O> grBinding, ContainerNodeImpl<?, ?> parentNode) {
@@ -1749,6 +1752,11 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public void layoutedWith(String layoutManagerIdentifier) {
-		// prout
+		layoutManager = getParentNode().getLayoutManager(layoutManagerIdentifier);
+		System.out.println("Looked-up layout manager: " + layoutManager);
+	}
+
+	public FGELayoutManager<?> getLayoutManager() {
+		return layoutManager;
 	}
 }

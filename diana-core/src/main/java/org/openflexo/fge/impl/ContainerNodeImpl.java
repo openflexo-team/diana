@@ -58,6 +58,7 @@ import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.Drawing.GraphNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGELayoutManager;
+import org.openflexo.fge.FGELayoutManagerSpecification;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.GRBinding;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
@@ -96,11 +97,13 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		super(drawing, drawable, grBinding, parentNode);
 		childNodes = new ArrayList<DrawingTreeNodeImpl<?, ?>>();
 		layoutManagers = new HashMap<String, FGELayoutManager<O>>();
-		for (String identifier : grBinding.getLayoutManagerClasses().keySet()) {
-			Class<? extends FGELayoutManager> layoutManagerClass = grBinding.getLayoutManagerClasses().get(identifier);
-			FGELayoutManager<O> layoutManager = getFactory().newInstance(layoutManagerClass);
-			System.out.println("created " + layoutManager);
+		for (FGELayoutManagerSpecification<?> spec : grBinding.getLayoutManagerSpecifications().values()) {
+			layoutManagers.put(spec.getIdentifier(), (FGELayoutManager<O>) spec.makeLayoutManager());
 		}
+	}
+
+	public FGELayoutManager<O> getLayoutManager(String identifier) {
+		return layoutManagers.get(identifier);
 	}
 
 	@Override

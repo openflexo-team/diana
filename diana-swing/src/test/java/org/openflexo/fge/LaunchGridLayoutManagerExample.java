@@ -67,7 +67,7 @@ import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 
 /**
- * Demonstrates how to use GridLayoutManager
+ * Demonstrates how to use GridLayoutManagerImpl
  * 
  * @author sylvain
  * 

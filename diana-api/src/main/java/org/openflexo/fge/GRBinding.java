@@ -179,19 +179,19 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 
 	public static abstract class ContainerGRBinding<O, GR extends ContainerGraphicalRepresentation> extends GRBinding<O, GR> {
 
-		private final Map<String, Class<? extends FGELayoutManager>> layoutManagerClasses;
+		private final Map<String, FGELayoutManagerSpecification<?>> layoutManagerSpecifications;
 
 		public ContainerGRBinding(String name, Class<?> drawableClass, ContainerGRProvider<O, GR> grProvider) {
 			super(name, drawableClass, grProvider);
-			layoutManagerClasses = new HashMap<String, Class<? extends FGELayoutManager>>();
+			layoutManagerSpecifications = new HashMap<String, FGELayoutManagerSpecification<?>>();
 		}
 
-		public void addLayoutManager(String identifier, Class<? extends FGELayoutManager> layoutManagerClass) {
-			layoutManagerClasses.put(identifier, layoutManagerClass);
+		public void addLayoutManager(FGELayoutManagerSpecification<?> layoutManagerSpec) {
+			layoutManagerSpecifications.put(layoutManagerSpec.getIdentifier(), layoutManagerSpec);
 		}
 
-		public Map<String, Class<? extends FGELayoutManager>> getLayoutManagerClasses() {
-			return layoutManagerClasses;
+		public Map<String, FGELayoutManagerSpecification<?>> getLayoutManagerSpecifications() {
+			return layoutManagerSpecifications;
 		}
 
 	}

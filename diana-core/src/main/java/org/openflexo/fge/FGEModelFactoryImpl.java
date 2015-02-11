@@ -36,7 +36,6 @@
  * 
  */
 
-
 package org.openflexo.fge;
 
 import java.util.ArrayList;
@@ -88,6 +87,8 @@ import org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl;
 import org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl.ShapeBorderImpl;
 import org.openflexo.fge.impl.TextStyleImpl;
 import org.openflexo.fge.impl.TextureBackgroundStyleImpl;
+import org.openflexo.fge.layout.GridLayoutManager;
+import org.openflexo.fge.layout.GridLayoutManagerImpl;
 import org.openflexo.fge.shapes.Arc;
 import org.openflexo.fge.shapes.Chevron;
 import org.openflexo.fge.shapes.Circle;
@@ -205,6 +206,9 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		modelFactory.setImplementingClassForInterface(CurvedPolylinConnectorSpecificationImpl.class,
 				CurvedPolylinConnectorSpecification.class);
 
+		// Layout managers
+		modelFactory.setImplementingClassForInterface(GridLayoutManagerImpl.class, GridLayoutManager.class);
+
 	}
 
 	@Override
@@ -281,15 +285,15 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseDragControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseDragControlAction(
 			PredefinedMouseDragControlActionType actionType) {
 		switch (actionType) {
-			case MOVE:
-				return new MoveAction();
-			case RECTANGLE_SELECTING:
-				return new RectangleSelectingAction();
-			case ZOOM:
-				return new ZoomAction();
-			default:
-				LOGGER.warning("Unexpected actionType " + actionType);
-				return null;
+		case MOVE:
+			return new MoveAction();
+		case RECTANGLE_SELECTING:
+			return new RectangleSelectingAction();
+		case ZOOM:
+			return new ZoomAction();
+		default:
+			LOGGER.warning("Unexpected actionType " + actionType);
+			return null;
 		}
 	}
 
@@ -297,15 +301,15 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseClickControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseClickControlAction(
 			PredefinedMouseClickControlActionType actionType) {
 		switch (actionType) {
-			case SELECTION:
-				return new SelectionAction();
-			case CONTINUOUS_SELECTION:
-				return new ContinuousSelectionAction();
-			case MULTIPLE_SELECTION:
-				return new MultipleSelectionAction();
-			default:
-				LOGGER.warning("Unexpected actionType " + actionType);
-				return null;
+		case SELECTION:
+			return new SelectionAction();
+		case CONTINUOUS_SELECTION:
+			return new ContinuousSelectionAction();
+		case MULTIPLE_SELECTION:
+			return new MultipleSelectionAction();
+		default:
+			LOGGER.warning("Unexpected actionType " + actionType);
+			return null;
 		}
 	}
 

@@ -49,7 +49,7 @@ import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.fge.impl.DrawingImpl;
-import org.openflexo.fge.layout.GridLayoutManager;
+import org.openflexo.fge.layout.GridLayoutManagerSpecification;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 
 public class GridLayoutManagerDrawing extends DrawingImpl<TestGraph> {
@@ -96,7 +96,7 @@ public class GridLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 					}
 				});
 
-		graphBinding.addLayoutManager("grid", GridLayoutManager.class);
+		graphBinding.addLayoutManager(new GridLayoutManagerSpecification("grid", getFactory()));
 
 		graphBinding.addToWalkers(new GRStructureVisitor<TestGraph>() {
 
@@ -121,10 +121,8 @@ public class GridLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 		});
 
 		nodeBinding.setDynamicPropertyValue(GraphicalRepresentation.TEXT, new DataBinding<String>("drawable.name"), true);
-		// nodeBinding.setDynamicPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X, new DataBinding<Double>("drawable.labelX"));
-		// nodeBinding.setDynamicPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y, new DataBinding<Double>("drawable.labelY"));
-		nodeBinding.setDynamicPropertyValue(ShapeGraphicalRepresentation.X, new DataBinding<Double>("drawable.circularX"), true);
-		nodeBinding.setDynamicPropertyValue(ShapeGraphicalRepresentation.Y, new DataBinding<Double>("drawable.circularY"), true);
+		nodeBinding.setDynamicPropertyValue(ShapeGraphicalRepresentation.X, new DataBinding<Double>("drawable.x"), true);
+		nodeBinding.setDynamicPropertyValue(ShapeGraphicalRepresentation.Y, new DataBinding<Double>("drawable.y"), true);
 
 	}
 }
