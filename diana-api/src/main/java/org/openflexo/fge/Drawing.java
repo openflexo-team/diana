@@ -247,17 +247,22 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		public int getDepth();
 
 		/**
-		 * Invalidate this graphical node (mark it as to be updated)
+		 * Return boolean indicating if this {@link DrawingTreeNode} is valid.<br>
+		 * 
+		 * A {@link DrawingTreeNode} is valid when it is correctely embedded inside {@link Drawing} tree (which means that parent and child
+		 * are set and correct, and that start and end shapes are set for connectors)
+		 * 
+		 * @return
+		 */
+		public boolean isValid();
+
+		/**
+		 * Called this to invalidate this {@link DrawingTreeNode} regarding to the Drawing tree hierarchy
 		 */
 		public void invalidate();
 
 		/**
-		 * Validate this graphical node
-		 */
-		public void validate();
-
-		/**
-		 * Return flag indicating if this node has been invalidated
+		 * Return boolean indicating if this {@link DrawingTreeNode} was invalidated regarding to the Drawing tree hierarchy
 		 * 
 		 * @return
 		 */
@@ -312,7 +317,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		 */
 		public <T> void setPropertyValue(GRProperty<T> parameter, T value);
 
-		public boolean isConnectedToDrawing();
+		// public boolean isConnectedToDrawing();
 
 		public boolean isAncestorOf(DrawingTreeNode<?, ?> child);
 
@@ -352,18 +357,6 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		public Rectangle getViewBounds(double scale);
 
 		public FGERectangle getNormalizedBounds();
-
-		/**
-		 * Return boolean indicating if this graphical representation is validated. A validated graphical representation is a graphical
-		 * representation fully embedded in its graphical representation tree, which means that parent and child are set and correct, and
-		 * that start and end shapes are set for connectors
-		 * 
-		 * 
-		 * @return
-		 */
-		public boolean isValidated();
-
-		public void setValidated(boolean validated);
 
 		public LabelMetricsProvider getLabelMetricsProvider();
 
@@ -744,7 +737,34 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 
 		public void setShapeSpecification(ShapeSpecification shapeSpecification);
 
+		/**
+		 * Called to define FGELayoutManager for this node<br>
+		 * The layout manager should be already declared in the parent. It is identified by supplied layoutManagerIdentifier.
+		 * 
+		 * @param layoutManagerIdentifier
+		 */
 		public void layoutedWith(String layoutManagerIdentifier);
+
+		/**
+		 * Return the layout manager responsible for the layout of this node (relating to its container)
+		 * 
+		 * @return
+		 */
+		public FGELayoutManager<?> getLayoutManager();
+
+		/**
+		 * Invalidate this graphical node regarding to its layout manager<br>
+		 * This method might be used to relayout the node
+		 */
+		public void invalidateLayout();
+
+		/**
+		 * Return boolean indicating if this {@link DrawingTreeNode} is validated regarding to its layout manager<br>
+		 * 
+		 * @return
+		 */
+		public boolean isLayoutValidated();
+
 	}
 
 	public interface GraphNode<G extends FGEGraph> extends ShapeNode<G> {
@@ -771,7 +791,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		 */
 		public Rectangle getNormalizedBounds(double scale);
 
-		public boolean isConnectorConsistent();
+		// public boolean isConnectorConsistent();
 
 		public void refreshConnector();
 

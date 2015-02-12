@@ -98,7 +98,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		childNodes = new ArrayList<DrawingTreeNodeImpl<?, ?>>();
 		layoutManagers = new HashMap<String, FGELayoutManager<O>>();
 		for (FGELayoutManagerSpecification<?> spec : grBinding.getLayoutManagerSpecifications().values()) {
-			layoutManagers.put(spec.getIdentifier(), (FGELayoutManager<O>) spec.makeLayoutManager());
+			layoutManagers.put(spec.getIdentifier(), (FGELayoutManager<O>) spec.makeLayoutManager(this));
 		}
 	}
 
@@ -202,6 +202,14 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 			return 0;
 		}
 		return getChildNodes().indexOf(child1) - getChildNodes().indexOf(child2);
+	}
+
+	@Override
+	public void validate() {
+		super.validate();
+		for (FGELayoutManager<O> layoutManager : layoutManagers.values()) {
+			layoutManager.doLayout();
+		}
 	}
 
 	@Override

@@ -374,7 +374,7 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 					getController(),
 					aControlArea.getNode().convertRemoteViewCoordinatesToLocalNormalizedPoint(clickedLocationInDrawingView,
 							getDrawingView().getDrawing().getRoot(), getDrawingView().getScale()));
-			if (controlArea.getNode().isConnectedToDrawing()) {
+			if (controlArea.getNode().isValid()) {
 				initialWidth = controlArea.getNode().getViewWidth(view.getScale());
 				initialHeight = controlArea.getNode().getViewHeight(view.getScale());
 			} else {

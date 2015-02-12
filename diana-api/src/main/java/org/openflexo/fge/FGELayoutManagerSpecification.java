@@ -42,6 +42,7 @@ import org.openflexo.connie.BindingFactory;
 import org.openflexo.connie.BindingModel;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.DefaultBindable;
+import org.openflexo.fge.Drawing.ContainerNode;
 
 /**
  * Represents the specification of a LayoutManager in DIANA<br>
@@ -97,8 +98,9 @@ public class FGELayoutManagerSpecification<LM extends FGELayoutManager<?>> exten
 
 	}
 
-	public LM makeLayoutManager() {
+	public LM makeLayoutManager(ContainerNode<?, ?> containerNode) {
 		LM layoutManager = factory.newInstance(layoutManagerClass);
+		layoutManager.setContainerNode((ContainerNode) containerNode);
 		System.out.println("Created LayoutManager " + identifier + " : " + layoutManager);
 		return layoutManager;
 	}

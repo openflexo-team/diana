@@ -121,6 +121,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	private FGELayoutManager<?> layoutManager;
 
+	private boolean layoutValidated = false;
+
 	// TODO: change to protected
 	public ShapeNodeImpl(DrawingImpl<?> drawingImpl, O drawable, ShapeGRBinding<O> grBinding, ContainerNodeImpl<?, ?> parentNode) {
 		super(drawingImpl, drawable, grBinding, parentNode);
@@ -235,10 +237,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public Rectangle getViewBounds(DrawingTreeNode<?, ?> aContainer, double scale) {
 		Rectangle bounds = getViewBounds(scale);
 		if (getParentNode() == null) {
-			logger.warning("Container is null for " + this + " validated=" + isValidated());
+			logger.warning("Container is null for " + this + " valid=" + isValid());
 		}
 		if (aContainer == null) {
-			logger.warning("Container is null for " + this + " validated=" + isValidated());
+			logger.warning("Container is null for " + this + " valid=" + isValid());
 		}
 		bounds = FGEUtils.convertRectangle(getParentNode(), bounds, aContainer, scale);
 		return bounds;
@@ -645,6 +647,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		// Prelude of update, first select new location respecting contextual constraints
 		FGEPoint newLocation = getConstrainedLocation(requestedLocation);
 
+		// Now the newLocation respect required constraints, we might apply it
 		FGEPoint oldLocation = getLocation();
 		if (!newLocation.equals(oldLocation)) {
 			double oldX = getX();
@@ -1750,13 +1753,40 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		}
 	}
 
+	/**
+	 * Called to define FGELayoutManager for this node<br>
+	 * The layout manager should be already declared in the parent. It is identified by supplied layoutManagerIdentifier.
+	 * 
+	 * @param layoutManagerIdentifier
+	 */
 	@Override
 	public void layoutedWith(String layoutManagerIdentifier) {
 		layoutManager = getParentNode().getLayoutManager(layoutManagerIdentifier);
 		System.out.println("Looked-up layout manager: " + layoutManager);
 	}
 
+	/**
+	 * Return the layout manager responsible for the layout of this node (relating to its container)
+	 * 
+	 * @return
+	 */
+	@Override
 	public FGELayoutManager<?> getLayoutManager() {
 		return layoutManager;
 	}
+
+	@Override
+	public boolean isLayoutValidated() {
+		return layoutValidated;
+	}
+
+	@Override
+	public void invalidateLayout() {
+		layoutValidated = false;
+	}
+
+	public void validateLayout() {
+		layoutValidated = true;
+	}
+
 }

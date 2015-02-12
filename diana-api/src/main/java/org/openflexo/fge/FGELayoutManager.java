@@ -44,6 +44,7 @@ import java.util.List;
 import org.openflexo.connie.Bindable;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.layout.GridLayoutManager;
 import org.openflexo.model.annotations.Adder;
 import org.openflexo.model.annotations.Getter;
@@ -90,4 +91,34 @@ public interface FGELayoutManager<O> extends FGEObject, Bindable, PropertyChange
 	@Remover(value = LAYOUTED_NODES_KEY)
 	public void removeFromLayoutedNodes(DrawingTreeNode<?, ?> node);
 
+	/**
+	 * Called to invalidate the whole layout<br>
+	 * All contained {@link ShapeNode} will be invalidated
+	 */
+	public void invalidate();
+
+	/**
+	 * Called to invalidate a {@link ShapeNode}
+	 * 
+	 * @param node
+	 */
+	public void invalidate(ShapeNode<?> node);
+
+	/**
+	 * Perform layout for all invalidated {@link ShapeNode} contained in this layout
+	 */
+	public void doLayout();
+
+	/**
+	 * Perform layout for supplied {@link ShapeNode}, if this node is invalidated<br>
+	 * If node was not invalidated, simply return
+	 * 
+	 * @param node
+	 */
+	public void layout(ShapeNode<?> node);
+
+	/**
+	 * Called at the beginning of layout computation for the whole container
+	 */
+	public void preComputeLayout();
 }

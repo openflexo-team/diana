@@ -86,7 +86,7 @@ public class JFocusRetriever {
 
 	private static final Logger logger = Logger.getLogger(JFocusRetriever.class.getPackage().getName());
 
-	private JDrawingView<?> drawingView;
+	private final JDrawingView<?> drawingView;
 
 	public JFocusRetriever(JDrawingView<?> aDrawingView) {
 		drawingView = aDrawingView;
@@ -544,7 +544,7 @@ public class JFocusRetriever {
 								}
 							} else if (childNode instanceof ConnectorNode) {
 								ConnectorNode<?> connectorNode = (ConnectorNode<?>) childNode;
-								if (connectorNode.isValidated()) {
+								if (connectorNode.isValid()) {
 									for (ControlArea<?> ca : connectorNode.getControlAreas()) {
 										// Point pt1 =
 										// gr.convertNormalizedPointToViewCoordinates(ca.getPoint(),

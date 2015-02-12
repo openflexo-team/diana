@@ -90,7 +90,7 @@ public abstract class ControlPoint extends ControlArea<FGEPoint> {
 	}
 
 	public boolean isEmbeddedInComponentHierarchy(FGEGraphics graphics) {
-		return getNode().isConnectedToDrawing();
+		return getNode().isValid();
 	}
 
 }

@@ -181,7 +181,7 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 	 */
 	@Override
 	public boolean shouldBeDisplayed() {
-		if (!isValidated()) {
+		if (!isValid()) {
 			return false;
 		}
 		return getGraphicalRepresentation().getIsVisible();

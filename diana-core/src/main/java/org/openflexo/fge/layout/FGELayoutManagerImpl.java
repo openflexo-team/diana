@@ -38,6 +38,11 @@
 
 package org.openflexo.fge.layout;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGELayoutManager;
 import org.openflexo.fge.impl.FGEObjectImpl;
 
@@ -49,4 +54,74 @@ import org.openflexo.fge.impl.FGEObjectImpl;
  */
 public abstract class FGELayoutManagerImpl<O> extends FGEObjectImpl implements FGELayoutManager<O> {
 
+	private boolean invalidated = true;
+
+	private final List<ShapeNode<?>> nodes;
+
+	public FGELayoutManagerImpl() {
+		nodes = new ArrayList<ShapeNode<?>>();
+	}
+
+	/**
+	 * Called to invalidate the whole layout<br>
+	 * All contained {@link ShapeNode} will be invalidated
+	 */
+	@Override
+	public void invalidate() {
+		invalidated = true;
+	}
+
+	/**
+	 * Called to invalidate a {@link ShapeNode}
+	 * 
+	 * @param node
+	 */
+	@Override
+	public void invalidate(ShapeNode<?> node) {
+		node.invalidateLayout();
+	}
+
+	/**
+	 * Perform layout for all invalidated {@link ShapeNode} contained in this layout
+	 */
+	@Override
+	public void doLayout() {
+		boolean wasInvalidated = invalidated;
+		if (wasInvalidated) {
+			preComputeLayout();
+			invalidated = false;
+		}
+		for (ShapeNode<?> node : nodes) {
+			if (node.isValid() && !node.isLayoutValidated()) {
+				layout(node);
+			}
+		}
+	}
+
+	/**
+	 * Perform layout for supplied {@link ShapeNode}, if this node is invalidated<br>
+	 * If node was not invalidated, simply return
+	 * 
+	 * @param node
+	 */
+	@Override
+	public void layout(ShapeNode<?> node) {
+		System.out.println("OK, je suis sense faire le layout de " + node);
+	}
+
+	/**
+	 * Called at the beginning of layout computation for the whole container
+	 */
+	@Override
+	public void preComputeLayout() {
+		nodes.clear();
+		for (DrawingTreeNode<?, ?> dtn : getContainerNode().getChildNodes()) {
+			if (dtn instanceof ShapeNode) {
+				if (((ShapeNode<O>) dtn).getLayoutManager() == this) {
+					nodes.add((ShapeNode<O>) dtn);
+				}
+			}
+		}
+		System.out.println(toString() + ": je prends en compte les noeuds suivant pour mon layout: " + nodes);
+	}
 }

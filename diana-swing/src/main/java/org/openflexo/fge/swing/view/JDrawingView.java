@@ -729,7 +729,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		if (selected instanceof ShapeNode) {
 			ShapeNode<?> shapeNode = (ShapeNode<?>) selected;
 			for (ControlArea<?> ca : shapeNode.getControlAreas()) {
-				if (selected.isConnectedToDrawing()) {
+				if (selected.isValid()) {
 					paintControlArea(ca, graphics);
 				}
 			}
@@ -751,7 +751,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			}
 
 			for (ControlArea<?> ca : connectorNode.getControlAreas()) {
-				if (selected.isConnectedToDrawing()) {
+				if (selected.isValid()) {
 					paintControlArea(ca, graphics);
 				}
 			}
@@ -863,7 +863,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		if (focused instanceof ShapeNode) {
 			ShapeNode<?> shapeNode = (ShapeNode<?>) focused;
 			for (ControlArea<?> ca : shapeNode.getControlAreas()) {
-				if (focused.isConnectedToDrawing()) {
+				if (focused.isValid()) {
 					paintControlArea(ca, graphics);
 				}
 			}
@@ -881,7 +881,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			}
 
 			for (ControlArea<?> ca : connectorNode.getControlAreas()) {
-				if (focused.isConnectedToDrawing()) {
+				if (focused.isValid()) {
 					paintControlArea(ca, graphics);
 				}
 			}
@@ -1000,7 +1000,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		}
 
 		drawing.getRoot().getPropertyChangeSupport().removePropertyChangeListener(this);
-		
+
 		isDeleted = true;
 	}
 
