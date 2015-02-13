@@ -45,6 +45,7 @@ import org.openflexo.connie.Bindable;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.layout.GridLayoutManager;
 import org.openflexo.model.annotations.Adder;
 import org.openflexo.model.annotations.Getter;
@@ -129,4 +130,35 @@ public interface FGELayoutManager<LMS extends FGELayoutManagerSpecification<?>, 
 	 * Called at the beginning of layout computation for the whole container
 	 */
 	public void preComputeLayout();
+
+	/**
+	 * Return flag indicating whether this layout manager supports autolayout
+	 * 
+	 * @return
+	 */
+	public boolean supportAutolayout();
+
+	/**
+	 * Return flag indicating whether this layout manager supports decoration painting<br>
+	 * 
+	 * @return
+	 */
+	public boolean supportDecoration();
+
+	/**
+	 * Return flag indicating whether layout manager decoration is to be paint<br>
+	 * Note that this is relevant only if this layout manager supports decoration painting
+	 * 
+	 * @return
+	 */
+	public Boolean paintDecoration();
+
+	/**
+	 * Hook used to detect that a shape has moved from a location to another location
+	 * 
+	 * @param oldLocation
+	 * @param location
+	 */
+	public void shapeMoved(FGEPoint oldLocation, FGEPoint location);
+
 }

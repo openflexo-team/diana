@@ -55,6 +55,15 @@ public abstract class FGELayoutManagerSpecificationImpl<LM extends FGELayoutMana
 		FGELayoutManagerSpecification<LM> {
 
 	@Override
+	public Boolean paintDecoration() {
+		Boolean returned = (Boolean) performSuperGetter(PAINT_DECORATION_KEY);
+		if (returned == null) {
+			return supportDecoration();
+		}
+		return returned;
+	}
+
+	@Override
 	public BindingModel getBindingModel() {
 		// TODO Auto-generated method stub
 		return null;
@@ -78,6 +87,7 @@ public abstract class FGELayoutManagerSpecificationImpl<LM extends FGELayoutMana
 
 	}
 
+	@Override
 	public LM makeLayoutManager(ContainerNode<?, ?> containerNode) {
 		LM layoutManager = getFactory().newInstance(getLayoutManagerClass());
 		((FGELayoutManager) layoutManager).setLayoutManagerSpecification(this);

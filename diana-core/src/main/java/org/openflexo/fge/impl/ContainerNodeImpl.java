@@ -75,6 +75,7 @@ import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.geom.FGESteppedDimensionConstraint;
 import org.openflexo.fge.graph.FGEGraph;
+import org.openflexo.fge.graphics.FGEGraphics;
 import org.openflexo.fge.notifications.NodeAdded;
 import org.openflexo.fge.notifications.NodeRemoved;
 import org.openflexo.fge.notifications.ObjectHasResized;
@@ -784,4 +785,15 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		}
 	}
 
+	@Override
+	public void paint(FGEGraphics g) {
+
+		for (FGELayoutManager<?, ?> layoutManager : layoutManagers.values()) {
+			System.out.println("Tiens, on peint " + layoutManager + " supportDecoration=" + layoutManager.supportDecoration()
+					+ " paintDecoration=" + layoutManager.paintDecoration());
+			if (layoutManager.supportDecoration() && layoutManager.paintDecoration()) {
+				((FGELayoutManagerImpl<?, ?>) layoutManager).paintDecoration(g);
+			}
+		}
+	}
 }

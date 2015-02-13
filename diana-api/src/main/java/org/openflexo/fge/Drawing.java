@@ -75,6 +75,7 @@ import org.openflexo.fge.graph.FGEGraph;
 import org.openflexo.fge.graphics.FGEConnectorGraphics;
 import org.openflexo.fge.graphics.FGEDrawingGraphics;
 import org.openflexo.fge.graphics.FGEGeometricGraphics;
+import org.openflexo.fge.graphics.FGEGraphics;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 import org.openflexo.fge.graphics.ShapeDecorationPainter;
 import org.openflexo.fge.graphics.ShapePainter;
@@ -524,6 +525,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		public FGERectangle getRequiredBoundsForContents();
 
 		public FGERectangle getBounds();
+
+		public void paint(FGEGraphics g);
 
 	}
 

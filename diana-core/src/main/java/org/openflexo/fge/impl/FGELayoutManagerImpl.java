@@ -45,6 +45,8 @@ import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGELayoutManager;
 import org.openflexo.fge.FGELayoutManagerSpecification;
+import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.graphics.FGEGraphics;
 
 /**
  * Default implementation for {@link FGELayoutManager}
@@ -106,8 +108,28 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 	 * @param node
 	 */
 	@Override
-	public void layout(ShapeNode<?> node) {
-		System.out.println("OK, je suis sense faire le layout de " + node);
+	public final void layout(ShapeNode<?> node) {
+		if (!node.isLayoutValidated()) {
+			performLayout(node);
+		}
+	}
+
+	/**
+	 * Perform layout for supplied {@link ShapeNode}
+	 * 
+	 * @param node
+	 */
+	protected abstract void performLayout(ShapeNode<?> node);
+
+	/**
+	 * Hook used to detect that a shape has moved from a location to another location<br>
+	 * Default implementation does nothing.
+	 * 
+	 * @param oldLocation
+	 * @param location
+	 */
+	@Override
+	public void shapeMoved(FGEPoint oldLocation, FGEPoint location) {
 	}
 
 	/**
@@ -125,4 +147,45 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 		}
 		System.out.println(toString() + ": je prends en compte les noeuds suivant pour mon layout: " + nodes);
 	}
+
+	/**
+	 * Return flag indicating whether this layout manager supports autolayout
+	 * 
+	 * @return
+	 */
+	@Override
+	public final boolean supportAutolayout() {
+		return getLayoutManagerSpecification().supportAutolayout();
+	}
+
+	/**
+	 * Return flag indicating whether this layout manager supports decoration painting<br>
+	 * 
+	 * @return
+	 */
+	@Override
+	public final boolean supportDecoration() {
+		return getLayoutManagerSpecification().supportDecoration();
+	}
+
+	/**
+	 * Return flag indicating whether layout manager decoration is to be paint<br>
+	 * Note that this is relevant only if this layout manager supports decoration painting
+	 * 
+	 * @return
+	 */
+	@Override
+	public final Boolean paintDecoration() {
+		return getLayoutManagerSpecification().paintDecoration();
+	}
+
+	/**
+	 * Called to paint decoration
+	 * 
+	 * @param g
+	 */
+	public void paintDecoration(FGEGraphics g) {
+		// Override when required
+	}
+
 }

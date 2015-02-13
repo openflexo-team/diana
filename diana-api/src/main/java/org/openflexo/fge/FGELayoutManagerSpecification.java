@@ -47,7 +47,7 @@ import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.model.annotations.XMLAttribute;
 
 /**
  * Represents the specification of a LayoutManager in DIANA<br>
@@ -63,23 +63,61 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 	public static final String IDENTIFIER_KEY = "identifier";
 	@PropertyIdentifier(type = FGEModelFactory.class)
 	public static final String FACTORY = "factory";
+	@PropertyIdentifier(type = Boolean.class)
+	public static final String PAINT_DECORATION_KEY = "paintDecoration";
 
+	/**
+	 * Return identifier (a String) for this layout manager specification<br>
+	 * This string should be unique regarding the layout managers defined for container
+	 * 
+	 * @return
+	 */
 	@Getter(IDENTIFIER_KEY)
-	@XMLElement
+	@XMLAttribute
 	public String getIdentifier();
 
+	/**
+	 * Sets identifier for this layout manager specification<br>
+	 * 
+	 * @param identifier
+	 */
 	@Setter(IDENTIFIER_KEY)
 	public void setIdentifier(String identifier);
 
 	public Class<? extends LM> getLayoutManagerClass();
 
+	/**
+	 * Return {@link FGEModelFactory} to use when creating new layout manager conform to this specification
+	 */
 	@Override
 	@Getter(value = FACTORY, ignoreType = true)
 	public FGEModelFactory getFactory();
 
+	/**
+	 * Sets {@link FGEModelFactory} to use when creating new layout manager conform to this specification
+	 */
 	@Override
 	@Setter(FACTORY)
 	public void setFactory(FGEModelFactory aFactory);
+
+	/**
+	 * Return flag indicating whether layout manager decoration is to be paint<br>
+	 * Note that this is relevant only if this layout manager supports decoration painting
+	 * 
+	 * @return
+	 */
+	@Getter(PAINT_DECORATION_KEY)
+	@XMLAttribute
+	public Boolean paintDecoration();
+
+	/**
+	 * Sets flag indicating whether layout manager decoration is to be paint<br>
+	 * Note that this is relevant only if this layout manager supports decoration painting
+	 * 
+	 * @param paintDecoration
+	 */
+	@Setter(PAINT_DECORATION_KEY)
+	public void setPaintDecoration(Boolean paintDecoration);
 
 	/**
 	 * Build and return a new {@link FGELayoutManager} conform to this {@link FGELayoutManagerSpecification}
@@ -88,5 +126,19 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 	 * @return
 	 */
 	public LM makeLayoutManager(ContainerNode<?, ?> containerNode);
+
+	/**
+	 * Return flag indicating whether this layout manager supports autolayout
+	 * 
+	 * @return
+	 */
+	public boolean supportAutolayout();
+
+	/**
+	 * Return flag indicating whether this layout manager supports decoration painting<br>
+	 * 
+	 * @return
+	 */
+	public boolean supportDecoration();
 
 }

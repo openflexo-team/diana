@@ -215,6 +215,9 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 	@Override
 	public void paint(FGEDrawingGraphics g) {
 
+		// Paint container properties (layout managers)
+		super.paint(g);
+
 		// If there is a decoration painter and decoration should be painted BEFORE shape, fo it now
 		if (getGraphicalRepresentation().getDecorationPainter() != null
 				&& getGraphicalRepresentation().getDecorationPainter().paintBeforeDrawing()) {

@@ -39,7 +39,13 @@
 package org.openflexo.fge.layout;
 
 import org.openflexo.fge.FGELayoutManagerSpecification;
+import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
+import org.openflexo.fge.GraphicalRepresentation.VerticalTextAlignment;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
 import org.openflexo.model.annotations.XMLElement;
 
 /**
@@ -51,5 +57,42 @@ import org.openflexo.model.annotations.XMLElement;
 @ModelEntity
 @XMLElement
 public interface GridLayoutManagerSpecification extends FGELayoutManagerSpecification<GridLayoutManager> {
+
+	@PropertyIdentifier(type = double.class)
+	public static final String GRID_X_KEY = "gridX";
+	@PropertyIdentifier(type = double.class)
+	public static final String GRID_Y_KEY = "gridY";
+	@PropertyIdentifier(type = HorizontalTextAlignment.class)
+	public static final String HORIZONTAL_ALIGNEMENT_KEY = "horizontalAlignment";
+	@PropertyIdentifier(type = VerticalTextAlignment.class)
+	public static final String VERTICAL_ALIGNEMENT_KEY = "verticalAlignment";
+
+	@Getter(value = GRID_X_KEY, defaultValue = "20.0")
+	@XMLAttribute
+	public double getGridX();
+
+	@Setter(GRID_X_KEY)
+	public void setGridX(double gridX);
+
+	@Getter(value = GRID_Y_KEY, defaultValue = "20.0")
+	@XMLAttribute
+	public double getGridY();
+
+	@Setter(GRID_Y_KEY)
+	public void setGridY(double gridY);
+
+	@Getter(value = HORIZONTAL_ALIGNEMENT_KEY, defaultValue = "CENTER")
+	@XMLAttribute
+	public HorizontalTextAlignment getHorizontalAlignment();
+
+	@Setter(value = HORIZONTAL_ALIGNEMENT_KEY)
+	public void setHorizontalAlignment(HorizontalTextAlignment horizontalAlignment);
+
+	@Getter(value = VERTICAL_ALIGNEMENT_KEY, defaultValue = "MIDDLE")
+	@XMLAttribute
+	public VerticalTextAlignment getVerticalAlignment();
+
+	@Setter(value = VERTICAL_ALIGNEMENT_KEY)
+	public void setVerticalAlignment(VerticalTextAlignment verticalAlignment);
 
 }

@@ -96,7 +96,13 @@ public class GridLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 					}
 				});
 
-		graphBinding.addLayoutManager(getFactory().makeLayoutManagerSpecification("grid", GridLayoutManagerSpecification.class));
+		GridLayoutManagerSpecification gridLayoutManager = getFactory().makeLayoutManagerSpecification("grid",
+				GridLayoutManagerSpecification.class);
+		gridLayoutManager.setPaintDecoration(true);
+		gridLayoutManager.setGridX(100);
+		gridLayoutManager.setGridY(20);
+
+		graphBinding.addLayoutManager(gridLayoutManager);
 
 		graphBinding.addToWalkers(new GRStructureVisitor<TestGraph>() {
 

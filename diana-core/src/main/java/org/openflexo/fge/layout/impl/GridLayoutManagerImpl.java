@@ -38,8 +38,13 @@
 
 package org.openflexo.fge.layout.impl;
 
+import java.awt.Color;
+
 import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.ForegroundStyle.DashStyle;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geom.area.FGEGrid;
+import org.openflexo.fge.graphics.FGEGraphics;
 import org.openflexo.fge.impl.FGELayoutManagerImpl;
 import org.openflexo.fge.layout.GridLayoutManager;
 import org.openflexo.fge.layout.GridLayoutManagerSpecification;
@@ -54,17 +59,78 @@ public abstract class GridLayoutManagerImpl<O> extends FGELayoutManagerImpl<Grid
 		GridLayoutManager<O> {
 
 	@Override
-	public void layout(ShapeNode<?> node) {
-		super.layout(node);
-		System.out.println("x=" + node.getX());
-		System.out.println("y=" + node.getY());
+	public double getGridX() {
+		return getLayoutManagerSpecification().getGridX();
+	}
 
-		double newX = ((int) (node.getX() / 30)) * 30;
-		double newY = ((int) (node.getY() / 30)) * 30;
+	@Override
+	public double getGridY() {
+		return getLayoutManagerSpecification().getGridY();
+	}
 
-		System.out.println("newX=" + newX);
-		System.out.println("newY=" + newY);
+	private FGEGrid grid = null;
+
+	public FGEGrid getGrid() {
+		if (grid == null) {
+			grid = new FGEGrid(new FGEPoint(0, 0), getGridX(), getGridY());
+		}
+		return grid;
+	}
+
+	@Override
+	protected void performLayout(ShapeNode<?> node) {
+
+		double newX = node.getX();
+		double newY = node.getY();
+
+		switch (getLayoutManagerSpecification().getHorizontalAlignment()) {
+		case CENTER:
+			newX = ((int) (((node.getX() + node.getWidth() / 2 + node.getBorder().getLeft()) / getGridX())) * getGridX()) - node.getWidth()
+					/ 2 - node.getBorder().getLeft();
+			break;
+		case LEFT:
+			newX = ((int) (((node.getX() + node.getBorder().getLeft()) / getGridX())) * getGridX()) - node.getBorder().getLeft();
+			break;
+		case RIGHT:
+			newX = ((int) (((node.getX() + node.getWidth() + node.getBorder().getLeft()) / getGridX())) * getGridX()) - node.getWidth()
+					- node.getBorder().getLeft();
+			break;
+		default:
+			break;
+		}
+
+		switch (getLayoutManagerSpecification().getVerticalAlignment()) {
+		case MIDDLE:
+			newY = ((int) (((node.getY() + node.getHeight() / 2 + node.getBorder().getTop()) / getGridY())) * getGridY())
+					- node.getHeight() / 2 - node.getBorder().getTop();
+			break;
+		case TOP:
+			newY = ((int) (((node.getY() + node.getBorder().getTop()) / getGridY())) * getGridY()) - node.getBorder().getTop();
+			break;
+		case BOTTOM:
+			newY = ((int) (((node.getY() + node.getHeight() + node.getBorder().getTop()) / getGridY())) * getGridY()) - node.getHeight()
+					- node.getBorder().getTop();
+			break;
+		default:
+			break;
+		}
 
 		node.setLocation(new FGEPoint(newX, newY));
 	}
+
+	/**
+	 * Called to paint decoration
+	 * 
+	 * @param g
+	 */
+	@Override
+	public void paintDecoration(FGEGraphics g) {
+
+		g.setDefaultForeground(getFactory().makeForegroundStyle(Color.LIGHT_GRAY, 1, DashStyle.DOTS_DASHES));
+		g.useDefaultForegroundStyle();
+
+		getGrid().paint(g);
+
+	}
+
 }

@@ -56,4 +56,24 @@ public abstract class GridLayoutManagerSpecificationImpl extends FGELayoutManage
 		return GridLayoutManager.class;
 	}
 
+	/**
+	 * Return true indicating that this layout manager supports autolayout
+	 * 
+	 * @return
+	 */
+	@Override
+	public boolean supportAutolayout() {
+		return true;
+	}
+
+	/**
+	 * Return true indicating that this layout manager supports decoration painting<br>
+	 * 
+	 * @return
+	 */
+	@Override
+	public boolean supportDecoration() {
+		return true;
+	}
+
 }

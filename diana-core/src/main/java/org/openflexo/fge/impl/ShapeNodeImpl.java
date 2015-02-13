@@ -658,6 +658,14 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				setXNoNotification(newLocation.x);
 				setYNoNotification(newLocation.y);
 			}
+
+			if (!isRelayouting && getLayoutManager() != null && getLayoutManager().supportAutolayout()) {
+				isRelayouting = true;
+				getLayoutManager().invalidate(this);
+				getLayoutManager().layout(this);
+				isRelayouting = false;
+			}
+
 			notifyObjectMoved(oldLocation);
 			notifyAttributeChanged(ShapeGraphicalRepresentation.X, oldX, getX());
 			notifyAttributeChanged(ShapeGraphicalRepresentation.Y, oldY, getY());
@@ -666,9 +674,16 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					logger.fine("setLocation() lead shape going outside it's parent view");
 				}
 			}
+
 		}
 
 	}
+
+	/**
+	 * Flag indicating if we are about to relayout current node<br>
+	 * This means that the relocation request was initiated from the layout manager
+	 */
+	private boolean isRelayouting = false;
 
 	/**
 	 * Compute and return a constrained location, according to contextual constraints
@@ -1228,6 +1243,11 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public void notifyObjectMoved(FGEPoint oldLocation) {
+
+		if (getLayoutManager() != null) {
+			getLayoutManager().shapeMoved(oldLocation, getLocation());
+		}
+
 		setChanged();
 		notifyObservers(new ObjectMove(oldLocation, getLocation()));
 	}
@@ -1547,6 +1567,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public void paint(FGEShapeGraphics g) {
+
+		// Paint container properties (layout managers)
+		super.paint(g);
+
 		// If there is a decoration painter and decoration should be painted BEFORE shape, do it now
 		if (decorationPainter != null && decorationPainter.paintBeforeShape()) {
 			decorationPainter.paintDecoration(g.getShapeDecorationGraphics());

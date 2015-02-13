@@ -186,8 +186,9 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 			layoutManagerSpecifications = new HashMap<String, FGELayoutManagerSpecification<?>>();
 		}
 
-		public void addLayoutManager(FGELayoutManagerSpecification<?> layoutManagerSpec) {
+		public FGELayoutManagerSpecification<?> addLayoutManager(FGELayoutManagerSpecification<?> layoutManagerSpec) {
 			layoutManagerSpecifications.put(layoutManagerSpec.getIdentifier(), layoutManagerSpec);
+			return layoutManagerSpec;
 		}
 
 		public Map<String, FGELayoutManagerSpecification<?>> getLayoutManagerSpecifications() {

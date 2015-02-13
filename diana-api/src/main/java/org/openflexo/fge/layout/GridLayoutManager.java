@@ -39,11 +39,7 @@
 package org.openflexo.fge.layout;
 
 import org.openflexo.fge.FGELayoutManager;
-import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
 import org.openflexo.model.annotations.XMLElement;
 
 /**
@@ -56,23 +52,8 @@ import org.openflexo.model.annotations.XMLElement;
 @XMLElement
 public interface GridLayoutManager<O> extends FGELayoutManager<GridLayoutManagerSpecification, O> {
 
-	@PropertyIdentifier(type = Double.class)
-	public static final String GRID_X_KEY = "gridX";
-	@PropertyIdentifier(type = Double.class)
-	public static final String GRID_Y_KEY = "gridY";
+	public double getGridX();
 
-	@Getter(GRID_X_KEY)
-	@XMLAttribute
-	public Double getGridX();
-
-	@Setter(GRID_X_KEY)
-	public void setGridX(Double gridX);
-
-	@Getter(GRID_Y_KEY)
-	@XMLAttribute
-	public Double getGridY();
-
-	@Setter(GRID_Y_KEY)
-	public void setGridY(Double gridY);
+	public double getGridY();
 
 }
