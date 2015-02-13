@@ -750,7 +750,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		 * 
 		 * @return
 		 */
-		public FGELayoutManager<?> getLayoutManager();
+		public FGELayoutManager<?, ?> getLayoutManager();
 
 		/**
 		 * Invalidate this graphical node regarding to its layout manager<br>

@@ -36,14 +36,53 @@
  * 
  */
 
-package org.openflexo.fge.layout;
+package org.openflexo.fge.impl;
+
+import org.openflexo.connie.BindingFactory;
+import org.openflexo.connie.BindingModel;
+import org.openflexo.connie.DataBinding;
+import org.openflexo.fge.Drawing.ContainerNode;
+import org.openflexo.fge.FGELayoutManager;
+import org.openflexo.fge.FGELayoutManagerSpecification;
 
 /**
- * Default implementation for {@link GridLayoutManager}
+ * Represents the specification of a LayoutManager in DIANA<br>
  * 
  * @author sylvain
  * 
  */
-public abstract class GridLayoutManagerImpl<O> extends FGELayoutManagerImpl<O> implements GridLayoutManager<O> {
+public abstract class FGELayoutManagerSpecificationImpl<LM extends FGELayoutManager<?, ?>> extends FGEObjectImpl implements
+		FGELayoutManagerSpecification<LM> {
 
+	@Override
+	public BindingModel getBindingModel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BindingFactory getBindingFactory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void notifiedBindingChanged(DataBinding<?> dataBinding) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void notifiedBindingDecoded(DataBinding<?> dataBinding) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public LM makeLayoutManager(ContainerNode<?, ?> containerNode) {
+		LM layoutManager = getFactory().newInstance(getLayoutManagerClass());
+		((FGELayoutManager) layoutManager).setLayoutManagerSpecification(this);
+		layoutManager.setContainerNode((ContainerNode) containerNode);
+		System.out.println("Created LayoutManager " + getIdentifier() + " : " + layoutManager);
+		return layoutManager;
+	}
 }

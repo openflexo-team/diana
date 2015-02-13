@@ -36,7 +36,7 @@
  * 
  */
 
-package org.openflexo.fge.layout;
+package org.openflexo.fge.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ import java.util.List;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGELayoutManager;
-import org.openflexo.fge.impl.FGEObjectImpl;
+import org.openflexo.fge.FGELayoutManagerSpecification;
 
 /**
  * Default implementation for {@link FGELayoutManager}
@@ -52,7 +52,8 @@ import org.openflexo.fge.impl.FGEObjectImpl;
  * @author sylvain
  * 
  */
-public abstract class FGELayoutManagerImpl<O> extends FGEObjectImpl implements FGELayoutManager<O> {
+public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecification<?>, O> extends FGEObjectImpl implements
+		FGELayoutManager<LMS, O> {
 
 	private boolean invalidated = true;
 

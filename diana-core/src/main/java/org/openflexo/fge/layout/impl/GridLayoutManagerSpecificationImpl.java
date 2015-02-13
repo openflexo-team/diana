@@ -36,43 +36,24 @@
  * 
  */
 
-package org.openflexo.fge.layout;
+package org.openflexo.fge.layout.impl;
 
-import org.openflexo.fge.FGELayoutManager;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.fge.impl.FGELayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.GridLayoutManager;
+import org.openflexo.fge.layout.GridLayoutManagerSpecification;
 
 /**
- * Represents a layout manager automatically placing the layouted nodes on a grid
+ * Default implementation for the specification of a {@link GridLayoutManager} in DIANA<br>
  * 
  * @author sylvain
  * 
  */
-@ModelEntity
-@XMLElement
-public interface GridLayoutManager<O> extends FGELayoutManager<GridLayoutManagerSpecification, O> {
+public abstract class GridLayoutManagerSpecificationImpl extends FGELayoutManagerSpecificationImpl<GridLayoutManager> implements
+		GridLayoutManagerSpecification {
 
-	@PropertyIdentifier(type = Double.class)
-	public static final String GRID_X_KEY = "gridX";
-	@PropertyIdentifier(type = Double.class)
-	public static final String GRID_Y_KEY = "gridY";
-
-	@Getter(GRID_X_KEY)
-	@XMLAttribute
-	public Double getGridX();
-
-	@Setter(GRID_X_KEY)
-	public void setGridX(Double gridX);
-
-	@Getter(GRID_Y_KEY)
-	@XMLAttribute
-	public Double getGridY();
-
-	@Setter(GRID_Y_KEY)
-	public void setGridY(Double gridY);
+	@Override
+	public Class<GridLayoutManager> getLayoutManagerClass() {
+		return GridLayoutManager.class;
+	}
 
 }

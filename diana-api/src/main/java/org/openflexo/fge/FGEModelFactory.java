@@ -159,6 +159,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 		returned.add(ConnectorGraphicalRepresentation.class);
 		returned.add(GeometricGraphicalRepresentation.class);
 		returned.add(FGELayoutManager.class);
+		returned.add(FGELayoutManagerSpecification.class);
 		return returned.toArray(new Class<?>[returned.size()]);
 	}
 
@@ -225,6 +226,13 @@ public abstract class FGEModelFactory extends ModelFactory {
 		returned.setFactory(this);
 		// returned.setDrawable(aDrawing.getModel());
 		// returned.setDrawing(aDrawing);
+		return returned;
+	}
+
+	public <LMS extends FGELayoutManagerSpecification<?>> LMS makeLayoutManagerSpecification(String identifier,
+			Class<? extends LMS> layoutManagerSpecClass) {
+		LMS returned = newInstance(layoutManagerSpecClass);
+		returned.setIdentifier(identifier);
 		return returned;
 	}
 

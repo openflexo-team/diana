@@ -91,18 +91,18 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	private boolean isResizing = false;
 	private boolean isCheckingDimensionConstraints = false;
 
-	private final Map<String, FGELayoutManager<O>> layoutManagers;
+	private final Map<String, FGELayoutManager<?, O>> layoutManagers;
 
 	protected ContainerNodeImpl(DrawingImpl<?> drawing, O drawable, ContainerGRBinding<O, GR> grBinding, ContainerNodeImpl<?, ?> parentNode) {
 		super(drawing, drawable, grBinding, parentNode);
 		childNodes = new ArrayList<DrawingTreeNodeImpl<?, ?>>();
-		layoutManagers = new HashMap<String, FGELayoutManager<O>>();
+		layoutManagers = new HashMap<String, FGELayoutManager<?, O>>();
 		for (FGELayoutManagerSpecification<?> spec : grBinding.getLayoutManagerSpecifications().values()) {
-			layoutManagers.put(spec.getIdentifier(), (FGELayoutManager<O>) spec.makeLayoutManager(this));
+			layoutManagers.put(spec.getIdentifier(), (FGELayoutManager<?, O>) spec.makeLayoutManager(this));
 		}
 	}
 
-	public FGELayoutManager<O> getLayoutManager(String identifier) {
+	public FGELayoutManager<?, O> getLayoutManager(String identifier) {
 		return layoutManagers.get(identifier);
 	}
 
@@ -207,7 +207,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	@Override
 	public void validate() {
 		super.validate();
-		for (FGELayoutManager<O> layoutManager : layoutManagers.values()) {
+		for (FGELayoutManager<?, O> layoutManager : layoutManagers.values()) {
 			layoutManager.doLayout();
 		}
 	}

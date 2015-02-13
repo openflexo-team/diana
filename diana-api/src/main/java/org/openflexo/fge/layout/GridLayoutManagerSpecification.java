@@ -39,18 +39,17 @@
 package org.openflexo.fge.layout;
 
 import org.openflexo.fge.FGELayoutManagerSpecification;
-import org.openflexo.fge.FGEModelFactory;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
 /**
- * Represents the specification of a LayoutManager in DIANA<br>
+ * Represents the specification of a GridLayoutManager in DIANA<br>
  * 
  * @author sylvain
  * 
  */
-public class GridLayoutManagerSpecification extends FGELayoutManagerSpecification<GridLayoutManager> {
-
-	public GridLayoutManagerSpecification(String identifier, FGEModelFactory factory) {
-		super(identifier, GridLayoutManager.class, factory);
-	}
+@ModelEntity
+@XMLElement
+public interface GridLayoutManagerSpecification extends FGELayoutManagerSpecification<GridLayoutManager> {
 
 }

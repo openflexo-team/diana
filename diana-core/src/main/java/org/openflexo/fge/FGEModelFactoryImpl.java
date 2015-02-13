@@ -88,7 +88,9 @@ import org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl.ShapeBorderImpl;
 import org.openflexo.fge.impl.TextStyleImpl;
 import org.openflexo.fge.impl.TextureBackgroundStyleImpl;
 import org.openflexo.fge.layout.GridLayoutManager;
-import org.openflexo.fge.layout.GridLayoutManagerImpl;
+import org.openflexo.fge.layout.GridLayoutManagerSpecification;
+import org.openflexo.fge.layout.impl.GridLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.GridLayoutManagerSpecificationImpl;
 import org.openflexo.fge.shapes.Arc;
 import org.openflexo.fge.shapes.Chevron;
 import org.openflexo.fge.shapes.Circle;
@@ -208,6 +210,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 
 		// Layout managers
 		modelFactory.setImplementingClassForInterface(GridLayoutManagerImpl.class, GridLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(GridLayoutManagerSpecificationImpl.class, GridLayoutManagerSpecification.class);
 
 	}
 

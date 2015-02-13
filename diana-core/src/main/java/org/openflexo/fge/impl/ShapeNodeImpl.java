@@ -119,7 +119,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	private ShapeImpl<?> shape;
 
-	private FGELayoutManager<?> layoutManager;
+	private FGELayoutManager<?, ?> layoutManager;
 
 	private boolean layoutValidated = false;
 
@@ -1771,7 +1771,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * @return
 	 */
 	@Override
-	public FGELayoutManager<?> getLayoutManager() {
+	public FGELayoutManager<?, ?> getLayoutManager() {
 		return layoutManager;
 	}
 

@@ -38,11 +38,16 @@
 
 package org.openflexo.fge;
 
-import org.openflexo.connie.BindingFactory;
-import org.openflexo.connie.BindingModel;
-import org.openflexo.connie.DataBinding;
-import org.openflexo.connie.DefaultBindable;
+import org.openflexo.connie.Bindable;
 import org.openflexo.fge.Drawing.ContainerNode;
+import org.openflexo.fge.layout.GridLayoutManagerSpecification;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLElement;
 
 /**
  * Represents the specification of a LayoutManager in DIANA<br>
@@ -50,58 +55,38 @@ import org.openflexo.fge.Drawing.ContainerNode;
  * @author sylvain
  * 
  */
-public class FGELayoutManagerSpecification<LM extends FGELayoutManager<?>> extends DefaultBindable {
+@ModelEntity(isAbstract = true)
+@Imports({ @Import(GridLayoutManagerSpecification.class) })
+public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>> extends FGEObject, Bindable {
 
-	private final String identifier;
-	private final Class<? extends LM> layoutManagerClass;
-	private final FGEModelFactory factory;
+	@PropertyIdentifier(type = String.class)
+	public static final String IDENTIFIER_KEY = "identifier";
+	@PropertyIdentifier(type = FGEModelFactory.class)
+	public static final String FACTORY = "factory";
 
-	public FGELayoutManagerSpecification(String identifier, Class<? extends LM> layoutManagerClass, FGEModelFactory factory) {
-		this.identifier = identifier;
-		this.layoutManagerClass = layoutManagerClass;
-		this.factory = factory;
-	}
+	@Getter(IDENTIFIER_KEY)
+	@XMLElement
+	public String getIdentifier();
 
-	public String getIdentifier() {
-		return identifier;
-	}
+	@Setter(IDENTIFIER_KEY)
+	public void setIdentifier(String identifier);
 
-	public Class<? extends LM> getLayoutManagerClass() {
-		return layoutManagerClass;
-	}
-
-	public FGEModelFactory getFactory() {
-		return factory;
-	}
+	public Class<? extends LM> getLayoutManagerClass();
 
 	@Override
-	public BindingModel getBindingModel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	@Getter(value = FACTORY, ignoreType = true)
+	public FGEModelFactory getFactory();
 
 	@Override
-	public BindingFactory getBindingFactory() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	@Setter(FACTORY)
+	public void setFactory(FGEModelFactory aFactory);
 
-	@Override
-	public void notifiedBindingChanged(DataBinding<?> dataBinding) {
-		// TODO Auto-generated method stub
+	/**
+	 * Build and return a new {@link FGELayoutManager} conform to this {@link FGELayoutManagerSpecification}
+	 * 
+	 * @param containerNode
+	 * @return
+	 */
+	public LM makeLayoutManager(ContainerNode<?, ?> containerNode);
 
-	}
-
-	@Override
-	public void notifiedBindingDecoded(DataBinding<?> dataBinding) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public LM makeLayoutManager(ContainerNode<?, ?> containerNode) {
-		LM layoutManager = factory.newInstance(layoutManagerClass);
-		layoutManager.setContainerNode((ContainerNode) containerNode);
-		System.out.println("Created LayoutManager " + identifier + " : " + layoutManager);
-		return layoutManager;
-	}
 }

@@ -66,12 +66,20 @@ import org.openflexo.model.annotations.Setter;
  */
 @ModelEntity(isAbstract = true)
 @Imports({ @Import(GridLayoutManager.class) })
-public interface FGELayoutManager<O> extends FGEObject, Bindable, PropertyChangeListener {
+public interface FGELayoutManager<LMS extends FGELayoutManagerSpecification<?>, O> extends FGEObject, Bindable, PropertyChangeListener {
 
+	@PropertyIdentifier(type = FGELayoutManagerSpecification.class)
+	public static final String LAYOUT_MANAGER_SPECIFICATION_KEY = "layoutManagerSpecification";
 	@PropertyIdentifier(type = ContainerNode.class)
 	public static final String CONTAINER_NODE_KEY = "containerNode";
 	@PropertyIdentifier(type = DrawingTreeNode.class, cardinality = Cardinality.SINGLE)
 	public static final String LAYOUTED_NODES_KEY = "layoutedNodes";
+
+	@Getter(value = LAYOUT_MANAGER_SPECIFICATION_KEY, ignoreType = true)
+	public LMS getLayoutManagerSpecification();
+
+	@Setter(LAYOUT_MANAGER_SPECIFICATION_KEY)
+	public void setLayoutManagerSpecification(LMS layoutManagerSpecification);
 
 	@Getter(value = CONTAINER_NODE_KEY, ignoreType = true)
 	public ContainerNode<O, ?> getContainerNode();

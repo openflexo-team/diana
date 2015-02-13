@@ -36,43 +36,35 @@
  * 
  */
 
-package org.openflexo.fge.layout;
+package org.openflexo.fge.layout.impl;
 
-import org.openflexo.fge.FGELayoutManager;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.impl.FGELayoutManagerImpl;
+import org.openflexo.fge.layout.GridLayoutManager;
+import org.openflexo.fge.layout.GridLayoutManagerSpecification;
 
 /**
- * Represents a layout manager automatically placing the layouted nodes on a grid
+ * Default implementation for {@link GridLayoutManager}
  * 
  * @author sylvain
  * 
  */
-@ModelEntity
-@XMLElement
-public interface GridLayoutManager<O> extends FGELayoutManager<GridLayoutManagerSpecification, O> {
+public abstract class GridLayoutManagerImpl<O> extends FGELayoutManagerImpl<GridLayoutManagerSpecification, O> implements
+		GridLayoutManager<O> {
 
-	@PropertyIdentifier(type = Double.class)
-	public static final String GRID_X_KEY = "gridX";
-	@PropertyIdentifier(type = Double.class)
-	public static final String GRID_Y_KEY = "gridY";
+	@Override
+	public void layout(ShapeNode<?> node) {
+		super.layout(node);
+		System.out.println("x=" + node.getX());
+		System.out.println("y=" + node.getY());
 
-	@Getter(GRID_X_KEY)
-	@XMLAttribute
-	public Double getGridX();
+		double newX = ((int) (node.getX() / 30)) * 30;
+		double newY = ((int) (node.getY() / 30)) * 30;
 
-	@Setter(GRID_X_KEY)
-	public void setGridX(Double gridX);
+		System.out.println("newX=" + newX);
+		System.out.println("newY=" + newY);
 
-	@Getter(GRID_Y_KEY)
-	@XMLAttribute
-	public Double getGridY();
-
-	@Setter(GRID_Y_KEY)
-	public void setGridY(Double gridY);
-
+		node.setLocation(new FGEPoint(newX, newY));
+	}
 }
