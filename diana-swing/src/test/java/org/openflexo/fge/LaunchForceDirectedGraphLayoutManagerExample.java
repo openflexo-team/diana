@@ -2,7 +2,7 @@
  * 
  * Copyright (c) 2014, Openflexo
  * 
- * This file is part of Diana-api, a component of the software infrastructure 
+ * This file is part of Diana-swing, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -36,48 +36,50 @@
  * 
  */
 
-package org.openflexo.fge.layout.impl;
+package org.openflexo.fge;
 
-import org.openflexo.fge.impl.FGELayoutManagerSpecificationImpl;
-import org.openflexo.fge.layout.GridLayoutManager;
-import org.openflexo.fge.layout.GridLayoutManagerSpecification;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.openflexo.logging.FlexoLogger;
+import org.openflexo.logging.FlexoLoggingManager;
+import org.openflexo.model.exceptions.ModelDefinitionException;
 
 /**
- * Default implementation for the specification of a {@link GridLayoutManager} in DIANA<br>
+ * Demonstrates how to use GridLayoutManagerImpl
  * 
  * @author sylvain
  * 
  */
-public abstract class GridLayoutManagerSpecificationImpl extends FGELayoutManagerSpecificationImpl<GridLayoutManager> implements
-		GridLayoutManagerSpecification {
+public class LaunchForceDirectedGraphLayoutManagerExample extends AbstractLaunchLayoutManagerExample {
 
-	@Override
-	public Class<GridLayoutManager> getLayoutManagerClass() {
-		return GridLayoutManager.class;
+	private static final Logger LOGGER = FlexoLogger.getLogger(LaunchForceDirectedGraphLayoutManagerExample.class.getPackage().getName());
+
+	public static void main(String[] args) {
+		try {
+			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		showPanel(makeDrawing());
 	}
 
-	/**
-	 * Return true indicating that this layout manager supports autolayout
-	 * 
-	 * @return
-	 */
-	@Override
-	public boolean supportAutolayout() {
-		return true;
+	public static ForceDirectedGraphLayoutManagerDrawing makeDrawing() {
+		FGEModelFactory factory = null;
+		try {
+			factory = new FGEModelFactoryImpl();
+		} catch (ModelDefinitionException e) {
+			e.printStackTrace();
+		}
+		TestGraph graph = makeTestGraph();
+		ForceDirectedGraphLayoutManagerDrawing returned = new ForceDirectedGraphLayoutManagerDrawing(graph, factory);
+		return returned;
 	}
 
-	/**
-	 * Return true indicating that this layout manager supports decoration painting<br>
-	 * 
-	 * @return
-	 */
-	@Override
-	public boolean supportDecoration() {
-		return true;
-	}
-
-	@Override
-	public DraggingMode getDefaultDraggingMode() {
-		return DraggingMode.ContinuousLayout;
-	}
 }

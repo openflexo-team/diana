@@ -38,6 +38,7 @@
 
 package org.openflexo.fge.impl;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +46,7 @@ import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGELayoutManager;
 import org.openflexo.fge.FGELayoutManagerSpecification;
+import org.openflexo.fge.FGELayoutManagerSpecification.DraggingMode;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.graphics.FGEGraphics;
 
@@ -65,6 +67,10 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 		nodes = new ArrayList<ShapeNode<?>>();
 	}
 
+	public List<ShapeNode<?>> getNodes() {
+		return nodes;
+	}
+
 	/**
 	 * Called to invalidate the whole layout<br>
 	 * All contained {@link ShapeNode} will be invalidated
@@ -72,6 +78,13 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 	@Override
 	public void invalidate() {
 		invalidated = true;
+		for (DrawingTreeNode<?, ?> dtn : getContainerNode().getChildNodes()) {
+			if (dtn instanceof ShapeNode) {
+				if (((ShapeNode<O>) dtn).getLayoutManager() == this) {
+					invalidate((ShapeNode<O>) dtn);
+				}
+			}
+		}
 	}
 
 	/**
@@ -81,24 +94,49 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 	 */
 	@Override
 	public void invalidate(ShapeNode<?> node) {
-		node.invalidateLayout();
+		if (node.isLayoutValidated()) {
+			System.out.println("Invalidate: " + node);
+			node.invalidateLayout();
+		}
+
+		// If layout is declared as fully layouted (move or resize of one node might invalidate the whole container)
+		// Invalidate all nodes
+		if (isFullyLayouted()) {
+			for (ShapeNode<?> dtn : nodes) {
+				if (dtn.isLayoutValidated()) {
+					System.out.println("invalidate " + dtn);
+					invalidate(dtn);
+				}
+			}
+		}
+
+	}
+
+	protected boolean layoutInProgress = false;
+
+	@Override
+	public void doLayout(boolean force) {
+
+		computeLayout();
+
+		layoutInProgress = true;
+		for (ShapeNode<?> node : nodes) {
+			if (node.isValid()) {
+				doLayout(node, force);
+			}
+		}
+		layoutInProgress = false;
+
 	}
 
 	/**
-	 * Perform layout for all invalidated {@link ShapeNode} contained in this layout
+	 * Return flag indicating if layout is in progress
+	 * 
+	 * @return
 	 */
 	@Override
-	public void doLayout() {
-		boolean wasInvalidated = invalidated;
-		if (wasInvalidated) {
-			preComputeLayout();
-			invalidated = false;
-		}
-		for (ShapeNode<?> node : nodes) {
-			if (node.isValid() && !node.isLayoutValidated()) {
-				layout(node);
-			}
-		}
+	public boolean isLayoutInProgress() {
+		return layoutInProgress;
 	}
 
 	/**
@@ -108,8 +146,8 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 	 * @param node
 	 */
 	@Override
-	public final void layout(ShapeNode<?> node) {
-		if (!node.isLayoutValidated()) {
+	public final void doLayout(ShapeNode<?> node, boolean force) {
+		if (!node.isLayoutValidated() || force) {
 			performLayout(node);
 		}
 	}
@@ -135,8 +173,22 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 	/**
 	 * Called at the beginning of layout computation for the whole container
 	 */
+	protected void initLayout() {
+		retrieveNodesToLayout();
+	}
+
 	@Override
-	public void preComputeLayout() {
+	public void computeLayout() {
+
+		boolean wasInvalidated = invalidated;
+		if (wasInvalidated) {
+			initLayout();
+			invalidated = false;
+		}
+
+	}
+
+	private void retrieveNodesToLayout() {
 		nodes.clear();
 		for (DrawingTreeNode<?, ?> dtn : getContainerNode().getChildNodes()) {
 			if (dtn instanceof ShapeNode) {
@@ -145,7 +197,6 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 				}
 			}
 		}
-		System.out.println(toString() + ": je prends en compte les noeuds suivant pour mon layout: " + nodes);
 	}
 
 	/**
@@ -188,4 +239,20 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 		// Override when required
 	}
 
+	@Override
+	public DraggingMode getDraggingMode() {
+		return getLayoutManagerSpecification().getDraggingMode();
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		// System.out.println("Received " + evt.getPropertyName() + " with " + evt);
+		if (evt.getPropertyName().equals(FGELayoutManagerSpecification.DRAGGING_MODE_KEY)) {
+			// Nothing to do yet
+		} else if (evt.getPropertyName().equals(FGELayoutManagerSpecification.PAINT_DECORATION_KEY)) {
+			// TODO: this is really brutal for a simple repaint request ???
+			getContainerNode().invalidate();
+			getContainerNode().getDrawing().updateGraphicalObjectsHierarchy();
+		}
+	}
 }

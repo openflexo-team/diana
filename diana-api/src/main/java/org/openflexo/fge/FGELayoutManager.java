@@ -45,13 +45,11 @@ import org.openflexo.connie.Bindable;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.FGELayoutManagerSpecification.DraggingMode;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.layout.GridLayoutManager;
 import org.openflexo.model.annotations.Adder;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.Getter.Cardinality;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Remover;
@@ -66,7 +64,6 @@ import org.openflexo.model.annotations.Setter;
  * 
  */
 @ModelEntity(isAbstract = true)
-@Imports({ @Import(GridLayoutManager.class) })
 public interface FGELayoutManager<LMS extends FGELayoutManagerSpecification<?>, O> extends FGEObject, Bindable, PropertyChangeListener {
 
 	@PropertyIdentifier(type = FGELayoutManagerSpecification.class)
@@ -116,7 +113,7 @@ public interface FGELayoutManager<LMS extends FGELayoutManagerSpecification<?>, 
 	/**
 	 * Perform layout for all invalidated {@link ShapeNode} contained in this layout
 	 */
-	public void doLayout();
+	public void doLayout(boolean force);
 
 	/**
 	 * Perform layout for supplied {@link ShapeNode}, if this node is invalidated<br>
@@ -124,12 +121,16 @@ public interface FGELayoutManager<LMS extends FGELayoutManagerSpecification<?>, 
 	 * 
 	 * @param node
 	 */
-	public void layout(ShapeNode<?> node);
+	public void doLayout(ShapeNode<?> node, boolean force);
+
+	public void computeLayout();
 
 	/**
-	 * Called at the beginning of layout computation for the whole container
+	 * Return flag indicating if the move or resize of one node might invalidate the whole container
+	 * 
+	 * @return
 	 */
-	public void preComputeLayout();
+	public boolean isFullyLayouted();
 
 	/**
 	 * Return flag indicating whether this layout manager supports autolayout
@@ -154,6 +155,13 @@ public interface FGELayoutManager<LMS extends FGELayoutManagerSpecification<?>, 
 	public Boolean paintDecoration();
 
 	/**
+	 * Return Dragging-mode to use
+	 * 
+	 * @return
+	 */
+	public DraggingMode getDraggingMode();
+
+	/**
 	 * Hook used to detect that a shape has moved from a location to another location
 	 * 
 	 * @param oldLocation
@@ -161,4 +169,10 @@ public interface FGELayoutManager<LMS extends FGELayoutManagerSpecification<?>, 
 	 */
 	public void shapeMoved(FGEPoint oldLocation, FGEPoint location);
 
+	/**
+	 * Return flag indicating if layout is in progress
+	 * 
+	 * @return
+	 */
+	public boolean isLayoutInProgress();
 }

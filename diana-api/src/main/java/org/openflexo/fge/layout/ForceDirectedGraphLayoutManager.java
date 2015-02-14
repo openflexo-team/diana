@@ -36,48 +36,28 @@
  * 
  */
 
-package org.openflexo.fge.layout.impl;
+package org.openflexo.fge.layout;
 
-import org.openflexo.fge.impl.FGELayoutManagerSpecificationImpl;
-import org.openflexo.fge.layout.GridLayoutManager;
-import org.openflexo.fge.layout.GridLayoutManagerSpecification;
+import org.openflexo.fge.FGELayoutManager;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
 /**
- * Default implementation for the specification of a {@link GridLayoutManager} in DIANA<br>
+ * Represents a layout manager automatically placing nodes as a force-directed graph
  * 
  * @author sylvain
  * 
  */
-public abstract class GridLayoutManagerSpecificationImpl extends FGELayoutManagerSpecificationImpl<GridLayoutManager> implements
-		GridLayoutManagerSpecification {
+@ModelEntity
+@XMLElement
+public interface ForceDirectedGraphLayoutManager<O> extends FGELayoutManager<ForceDirectedGraphLayoutManagerSpecification, O> {
 
-	@Override
-	public Class<GridLayoutManager> getLayoutManagerClass() {
-		return GridLayoutManager.class;
-	}
+	public int getStepsNumber();
 
-	/**
-	 * Return true indicating that this layout manager supports autolayout
-	 * 
-	 * @return
-	 */
-	@Override
-	public boolean supportAutolayout() {
-		return true;
-	}
+	public double getStretch();
 
-	/**
-	 * Return true indicating that this layout manager supports decoration painting<br>
-	 * 
-	 * @return
-	 */
-	@Override
-	public boolean supportDecoration() {
-		return true;
-	}
+	public int getRepulsionRangeSq();
 
-	@Override
-	public DraggingMode getDefaultDraggingMode() {
-		return DraggingMode.ContinuousLayout;
-	}
+	public double getForceMultiplier();
+
 }

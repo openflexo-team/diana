@@ -130,7 +130,7 @@ public class DiagramEditorApplication {
 	private final FlexoFileChooser fileChooser;
 	private final SwingToolFactory toolFactory;
 
-	// private FIBInspectorController inspector;
+	// private JFIBInspectorController inspector;
 
 	private DiagramFactory factory;
 
@@ -185,7 +185,7 @@ public class DiagramEditorApplication {
 
 		toolFactory = new SwingToolFactory(frame);
 
-		// inspector = new FIBInspectorController(frame);
+		// inspector = new JFIBInspectorController(frame);
 
 		frame.setTitle("Basic drawing editor");
 

@@ -40,6 +40,7 @@ package org.openflexo.fge;
 
 import org.openflexo.connie.Bindable;
 import org.openflexo.fge.Drawing.ContainerNode;
+import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
 import org.openflexo.fge.layout.GridLayoutManagerSpecification;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.Import;
@@ -56,7 +57,7 @@ import org.openflexo.model.annotations.XMLAttribute;
  * 
  */
 @ModelEntity(isAbstract = true)
-@Imports({ @Import(GridLayoutManagerSpecification.class) })
+@Imports({ @Import(GridLayoutManagerSpecification.class), @Import(ForceDirectedGraphLayoutManagerSpecification.class) })
 public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>> extends FGEObject, Bindable {
 
 	@PropertyIdentifier(type = String.class)
@@ -65,6 +66,8 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 	public static final String FACTORY = "factory";
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String PAINT_DECORATION_KEY = "paintDecoration";
+	@PropertyIdentifier(type = DraggingMode.class)
+	public static final String DRAGGING_MODE_KEY = "draggingMode";
 
 	/**
 	 * Return identifier (a String) for this layout manager specification<br>
@@ -120,6 +123,23 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 	public void setPaintDecoration(Boolean paintDecoration);
 
 	/**
+	 * Return Dragging-mode to use
+	 * 
+	 * @return
+	 */
+	@Getter(DRAGGING_MODE_KEY)
+	@XMLAttribute
+	public DraggingMode getDraggingMode();
+
+	/**
+	 * Sets Dragging-mode to use
+	 * 
+	 * @param draggingMode
+	 */
+	@Setter(DRAGGING_MODE_KEY)
+	public void setDraggingMode(DraggingMode draggingMode);
+
+	/**
 	 * Build and return a new {@link FGELayoutManager} conform to this {@link FGELayoutManagerSpecification}
 	 * 
 	 * @param containerNode
@@ -141,4 +161,113 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 	 */
 	public boolean supportDecoration();
 
+	/**
+	 * Represents Dragging-mode to use
+	 * 
+	 * @author sylvain
+	 *
+	 */
+	public enum DraggingMode {
+		/**
+		 * Let the user freely drag, perform no layout (but invalidate node)
+		 */
+		FreeDraggingNoLayout {
+			@Override
+			public boolean relayoutOnDrag() {
+				return false;
+			}
+
+			@Override
+			public boolean relayoutAfterDrag() {
+				return false;
+			}
+
+			@Override
+			public boolean allowsDragging() {
+				return true;
+			}
+		},
+		/**
+		 * Let the user freely drag, and perform layout at the end of drag (mouse-released event)
+		 */
+		FreeDiaggingAndLayout {
+			@Override
+			public boolean relayoutOnDrag() {
+				return false;
+			}
+
+			@Override
+			public boolean relayoutAfterDrag() {
+				return true;
+			}
+
+			@Override
+			public boolean allowsDragging() {
+				return true;
+			}
+		},
+		/**
+		 * Let the user freely drag, perform continuous layout
+		 */
+		ContinuousLayout {
+			@Override
+			public boolean relayoutOnDrag() {
+				return true;
+			}
+
+			@Override
+			public boolean relayoutAfterDrag() {
+				return true;
+			}
+
+			@Override
+			public boolean allowsDragging() {
+				return true;
+			}
+		},
+		/**
+		 * Let the user drag on a constrained area (defined in layout manager implementation)
+		 */
+		ConstrainedDragging {
+			@Override
+			public boolean relayoutOnDrag() {
+				return false;
+			}
+
+			@Override
+			public boolean relayoutAfterDrag() {
+				return true;
+			}
+
+			@Override
+			public boolean allowsDragging() {
+				return true;
+			}
+		},
+		/**
+		 * Do not allow dragging
+		 */
+		NoDragging {
+			@Override
+			public boolean relayoutOnDrag() {
+				return false;
+			}
+
+			@Override
+			public boolean relayoutAfterDrag() {
+				return false;
+			}
+
+			@Override
+			public boolean allowsDragging() {
+				return false;
+			}
+		};
+
+		public abstract boolean relayoutOnDrag();
+
+		public abstract boolean relayoutAfterDrag();
+
+		public abstract boolean allowsDragging();
+	}
 }

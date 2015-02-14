@@ -453,6 +453,21 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 
 	public interface ContainerNode<O, GR extends ContainerGraphicalRepresentation> extends DrawingTreeNode<O, GR> {
 
+		/**
+		 * Return default FGELayoutManager (the first one found)
+		 * 
+		 * @return
+		 */
+		public FGELayoutManager<?, O> getDefaultLayoutManager();
+
+		/**
+		 * Return FGELayoutManager identified by identifier
+		 * 
+		 * @param identifier
+		 * @return
+		 */
+		public FGELayoutManager<?, O> getLayoutManager(String identifier);
+
 		public double getWidth();
 
 		public void setWidth(double aValue);
@@ -767,6 +782,18 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		 * @return
 		 */
 		public boolean isLayoutValidated();
+
+		/**
+		 * Return flag indicating if we are about to relayout current node<br>
+		 * This means that the relocation request was initiated from the layout manager
+		 */
+		public boolean isRelayouting();
+
+		/**
+		 * Sets flag indicating if we are about to relayout current node<br>
+		 * This means that the relocation request was initiated from the layout manager
+		 */
+		public void setRelayouting(boolean relayouting);
 
 	}
 

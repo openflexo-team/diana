@@ -659,11 +659,18 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				setYNoNotification(newLocation.y);
 			}
 
-			if (!isRelayouting && getLayoutManager() != null && getLayoutManager().supportAutolayout()) {
-				isRelayouting = true;
-				getLayoutManager().invalidate(this);
-				getLayoutManager().layout(this);
-				isRelayouting = false;
+			if (!isRelayouting && getLayoutManager() != null && getLayoutManager().supportAutolayout()
+					&& !getLayoutManager().isLayoutInProgress()) {
+				boolean performLayout;
+				if (isMoving) {
+					// We are inside a drag operation
+					performLayout = getLayoutManager().getDraggingMode().relayoutOnDrag();
+				} else {
+					performLayout = getLayoutManager().getDraggingMode().relayoutAfterDrag();
+				}
+				if (performLayout) {
+					performLayout();
+				}
 			}
 
 			notifyObjectMoved(oldLocation);
@@ -679,11 +686,36 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	}
 
+	private void performLayout() {
+		setRelayouting(true);
+		if (getLayoutManager().isFullyLayouted()) {
+			getLayoutManager().computeLayout();
+		}
+		getLayoutManager().doLayout(this, true);
+		setRelayouting(false);
+	}
+
 	/**
 	 * Flag indicating if we are about to relayout current node<br>
 	 * This means that the relocation request was initiated from the layout manager
 	 */
 	private boolean isRelayouting = false;
+
+	/**
+	 * Return flag indicating if we are about to relayout current node<br>
+	 * This means that the relocation request was initiated from the layout manager
+	 */
+	public boolean isRelayouting() {
+		return isRelayouting;
+	}
+
+	/**
+	 * Sets flag indicating if we are about to relayout current node<br>
+	 * This means that the relocation request was initiated from the layout manager
+	 */
+	public void setRelayouting(boolean relayouting) {
+		isRelayouting = relayouting;
+	}
 
 	/**
 	 * Compute and return a constrained location, according to contextual constraints
@@ -1262,6 +1294,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public void notifyObjectHasMoved() {
 		isMoving = false;
+
+		if (getLayoutManager() != null) {
+			if (getLayoutManager().getDraggingMode().relayoutAfterDrag()) {
+				performLayout();
+			}
+		}
+
 		setChanged();
 		notifyObservers(new ObjectHasMoved());
 	}
@@ -1786,7 +1825,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public void layoutedWith(String layoutManagerIdentifier) {
 		layoutManager = getParentNode().getLayoutManager(layoutManagerIdentifier);
-		System.out.println("Looked-up layout manager: " + layoutManager);
+		// System.out.println("Looked-up layout manager: " + layoutManager);
 	}
 
 	/**

@@ -39,6 +39,7 @@
 package org.openflexo.fge.layout.impl;
 
 import java.awt.Color;
+import java.beans.PropertyChangeEvent;
 
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.ForegroundStyle.DashStyle;
@@ -68,13 +69,25 @@ public abstract class GridLayoutManagerImpl<O> extends FGELayoutManagerImpl<Grid
 		return getLayoutManagerSpecification().getGridY();
 	}
 
+	@Override
+	public boolean isFullyLayouted() {
+		return false;
+	}
+
 	private FGEGrid grid = null;
 
 	public FGEGrid getGrid() {
 		if (grid == null) {
+			// System.out.println("Nouvelle grid " + getGridX() + "x" + getGridY());
 			grid = new FGEGrid(new FGEPoint(0, 0), getGridX(), getGridY());
 		}
 		return grid;
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		grid = null;
 	}
 
 	@Override
@@ -85,15 +98,15 @@ public abstract class GridLayoutManagerImpl<O> extends FGELayoutManagerImpl<Grid
 
 		switch (getLayoutManagerSpecification().getHorizontalAlignment()) {
 		case CENTER:
-			newX = ((int) (((node.getX() + node.getWidth() / 2 + node.getBorder().getLeft()) / getGridX())) * getGridX()) - node.getWidth()
-					/ 2 - node.getBorder().getLeft();
+			newX = ((int) (((node.getX() + node.getWidth() / 2 + node.getBorder().getLeft()) / getGridX()) + 0.5) * getGridX())
+					- node.getWidth() / 2 - node.getBorder().getLeft();
 			break;
 		case LEFT:
-			newX = ((int) (((node.getX() + node.getBorder().getLeft()) / getGridX())) * getGridX()) - node.getBorder().getLeft();
+			newX = ((int) (((node.getX() + node.getBorder().getLeft()) / getGridX()) + 0.5) * getGridX()) - node.getBorder().getLeft();
 			break;
 		case RIGHT:
-			newX = ((int) (((node.getX() + node.getWidth() + node.getBorder().getLeft()) / getGridX())) * getGridX()) - node.getWidth()
-					- node.getBorder().getLeft();
+			newX = ((int) (((node.getX() + node.getWidth() + node.getBorder().getLeft()) / getGridX()) + 0.5) * getGridX())
+					- node.getWidth() - node.getBorder().getLeft();
 			break;
 		default:
 			break;
@@ -101,15 +114,15 @@ public abstract class GridLayoutManagerImpl<O> extends FGELayoutManagerImpl<Grid
 
 		switch (getLayoutManagerSpecification().getVerticalAlignment()) {
 		case MIDDLE:
-			newY = ((int) (((node.getY() + node.getHeight() / 2 + node.getBorder().getTop()) / getGridY())) * getGridY())
+			newY = ((int) (((node.getY() + node.getHeight() / 2 + node.getBorder().getTop()) / getGridY()) + 0.5) * getGridY())
 					- node.getHeight() / 2 - node.getBorder().getTop();
 			break;
 		case TOP:
-			newY = ((int) (((node.getY() + node.getBorder().getTop()) / getGridY())) * getGridY()) - node.getBorder().getTop();
+			newY = ((int) (((node.getY() + node.getBorder().getTop()) / getGridY()) + 0.5) * getGridY()) - node.getBorder().getTop();
 			break;
 		case BOTTOM:
-			newY = ((int) (((node.getY() + node.getHeight() + node.getBorder().getTop()) / getGridY())) * getGridY()) - node.getHeight()
-					- node.getBorder().getTop();
+			newY = ((int) (((node.getY() + node.getHeight() + node.getBorder().getTop()) / getGridY()) + 0.5) * getGridY())
+					- node.getHeight() - node.getBorder().getTop();
 			break;
 		default:
 			break;
@@ -133,4 +146,15 @@ public abstract class GridLayoutManagerImpl<O> extends FGELayoutManagerImpl<Grid
 
 	}
 
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		super.propertyChange(evt);
+		if (evt.getPropertyName().equals(GridLayoutManagerSpecification.GRID_X_KEY)) {
+			invalidate();
+			doLayout(true);
+		} else if (evt.getPropertyName().equals(GridLayoutManagerSpecification.GRID_Y_KEY)) {
+			invalidate();
+			doLayout(true);
+		}
+	}
 }

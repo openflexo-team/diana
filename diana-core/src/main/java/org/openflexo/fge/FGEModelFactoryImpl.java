@@ -87,8 +87,12 @@ import org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl;
 import org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl.ShapeBorderImpl;
 import org.openflexo.fge.impl.TextStyleImpl;
 import org.openflexo.fge.impl.TextureBackgroundStyleImpl;
+import org.openflexo.fge.layout.ForceDirectedGraphLayoutManager;
+import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
 import org.openflexo.fge.layout.GridLayoutManager;
 import org.openflexo.fge.layout.GridLayoutManagerSpecification;
+import org.openflexo.fge.layout.impl.ForceDirectedGraphLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.ForceDirectedGraphLayoutManagerSpecificationImpl;
 import org.openflexo.fge.layout.impl.GridLayoutManagerImpl;
 import org.openflexo.fge.layout.impl.GridLayoutManagerSpecificationImpl;
 import org.openflexo.fge.shapes.Arc;
@@ -211,6 +215,9 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		// Layout managers
 		modelFactory.setImplementingClassForInterface(GridLayoutManagerImpl.class, GridLayoutManager.class);
 		modelFactory.setImplementingClassForInterface(GridLayoutManagerSpecificationImpl.class, GridLayoutManagerSpecification.class);
+		modelFactory.setImplementingClassForInterface(ForceDirectedGraphLayoutManagerImpl.class, ForceDirectedGraphLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(ForceDirectedGraphLayoutManagerSpecificationImpl.class,
+				ForceDirectedGraphLayoutManagerSpecification.class);
 
 	}
 

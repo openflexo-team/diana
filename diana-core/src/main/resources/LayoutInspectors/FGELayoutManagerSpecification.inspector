@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel className="org.openflexo.fib.swing.toolbox.JFIBInspector"
+	layout="border" titleFont="SansSerif,0,12" darkLevel="0"
+	dataClassName="org.openflexo.fge.FGELayoutManagerSpecification" font="SansSerif,0,12"
+	name="Inspector">
+	<TabPanel name="Tab" index="0" constraints="border(index=0;location=center)">
+		<Tab title="Basic" layout="twocols" titleFont="SansSerif,0,11"
+			darkLevel="0" index="1" font="SansSerif,0,11" useScrollBar="true"
+			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
+			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="TextTab">
+			<Label label="identifier" index="0"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="IdentifierLabel" localize="true" />
+			<TextField index="1" data="data.identifier"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
+				name="Identifier" localize="true" columns="10" />
+			<Label label="dragging_mode" index="2"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="DraggingModeLabel" localize="true" />
+			<DropDown index="3" data="data.draggingMode"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
+				width="150" name="DraggingMode" format="object.name" localize="true"
+				iteratorClassName="org.openflexo.fge.FGELayoutManagerSpecification$DraggingMode"
+				autoSelectFirstRow="false" />
+			<CheckBox index="4" data="data.paintDecoration"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="PaintDecoration" localize="true" />
+			<Label label="paint_decoration" index="5"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
+				name="PaintDecorationLabel" localize="true" />
+
+		</Tab>
+		<Tab title="Advanced" layout="twocols" titleFont="SansSerif,0,11"
+			darkLevel="0" index="4" font="SansSerif,0,11" useScrollBar="true"
+			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
+			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="AdvancedTab">
+		</Tab>
+	</TabPanel>
+	<LocalizedDictionary>
+	</LocalizedDictionary>
+	<Parameter name="title" value="Default" />
+</Panel>

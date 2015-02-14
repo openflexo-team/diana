@@ -55,6 +55,17 @@ public abstract class FGELayoutManagerSpecificationImpl<LM extends FGELayoutMana
 		FGELayoutManagerSpecification<LM> {
 
 	@Override
+	public DraggingMode getDraggingMode() {
+		DraggingMode returned = (DraggingMode) performSuperGetter(DRAGGING_MODE_KEY);
+		if (returned == null) {
+			return getDefaultDraggingMode();
+		}
+		return returned;
+	}
+
+	public abstract DraggingMode getDefaultDraggingMode();
+
+	@Override
 	public Boolean paintDecoration() {
 		Boolean returned = (Boolean) performSuperGetter(PAINT_DECORATION_KEY);
 		if (returned == null) {
@@ -92,6 +103,7 @@ public abstract class FGELayoutManagerSpecificationImpl<LM extends FGELayoutMana
 		LM layoutManager = getFactory().newInstance(getLayoutManagerClass());
 		((FGELayoutManager) layoutManager).setLayoutManagerSpecification(this);
 		layoutManager.setContainerNode((ContainerNode) containerNode);
+		getPropertyChangeSupport().addPropertyChangeListener(layoutManager);
 		System.out.println("Created LayoutManager " + getIdentifier() + " : " + layoutManager);
 		return layoutManager;
 	}

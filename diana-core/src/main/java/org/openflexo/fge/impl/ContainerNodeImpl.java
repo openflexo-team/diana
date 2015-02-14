@@ -103,8 +103,28 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		}
 	}
 
+	/**
+	 * Return FGELayoutManager identified by identifier
+	 * 
+	 * @param identifier
+	 * @return
+	 */
+	@Override
 	public FGELayoutManager<?, O> getLayoutManager(String identifier) {
 		return layoutManagers.get(identifier);
+	}
+
+	/**
+	 * Return default FGELayoutManager (the first one found)
+	 * 
+	 * @return
+	 */
+	@Override
+	public FGELayoutManager<?, O> getDefaultLayoutManager() {
+		if (layoutManagers.size() > 0) {
+			return layoutManagers.values().iterator().next();
+		}
+		return null;
 	}
 
 	@Override
@@ -209,7 +229,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	public void validate() {
 		super.validate();
 		for (FGELayoutManager<?, O> layoutManager : layoutManagers.values()) {
-			layoutManager.doLayout();
+			layoutManager.doLayout(true);
 		}
 	}
 
@@ -789,8 +809,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	public void paint(FGEGraphics g) {
 
 		for (FGELayoutManager<?, ?> layoutManager : layoutManagers.values()) {
-			System.out.println("Tiens, on peint " + layoutManager + " supportDecoration=" + layoutManager.supportDecoration()
-					+ " paintDecoration=" + layoutManager.paintDecoration());
+			// System.out.println("Paint LayoutManager " + layoutManager + " supportDecoration=" + layoutManager.supportDecoration()
+			// + " paintDecoration=" + layoutManager.paintDecoration());
 			if (layoutManager.supportDecoration() && layoutManager.paintDecoration()) {
 				((FGELayoutManagerImpl<?, ?>) layoutManager).paintDecoration(g);
 			}

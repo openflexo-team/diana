@@ -126,7 +126,7 @@ public class PPTEditorApplication {
 	private final FlexoFileChooser fileChooser;
 	private final SwingToolFactory toolFactory;
 
-	// private FIBInspectorController inspector;
+	// private JFIBInspectorController inspector;
 
 	// private Vector<SlideShowEditor> pptEditors = new Vector<SlideShowEditor>();
 	private final JPanel mainPanel;
@@ -166,7 +166,7 @@ public class PPTEditorApplication {
 
 		toolFactory = new SwingToolFactory(frame);
 
-		// inspector = new FIBInspectorController(frame);
+		// inspector = new JFIBInspectorController(frame);
 
 		frame.setTitle("Powerpoint editor");
 

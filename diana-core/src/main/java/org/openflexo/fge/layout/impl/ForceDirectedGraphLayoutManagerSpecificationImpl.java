@@ -39,21 +39,21 @@
 package org.openflexo.fge.layout.impl;
 
 import org.openflexo.fge.impl.FGELayoutManagerSpecificationImpl;
-import org.openflexo.fge.layout.GridLayoutManager;
-import org.openflexo.fge.layout.GridLayoutManagerSpecification;
+import org.openflexo.fge.layout.ForceDirectedGraphLayoutManager;
+import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
 
 /**
- * Default implementation for the specification of a {@link GridLayoutManager} in DIANA<br>
+ * Default implementation for the specification of a {@link ForceDirectedGraphLayoutManager} in DIANA<br>
  * 
  * @author sylvain
  * 
  */
-public abstract class GridLayoutManagerSpecificationImpl extends FGELayoutManagerSpecificationImpl<GridLayoutManager> implements
-		GridLayoutManagerSpecification {
+public abstract class ForceDirectedGraphLayoutManagerSpecificationImpl extends
+		FGELayoutManagerSpecificationImpl<ForceDirectedGraphLayoutManager> implements ForceDirectedGraphLayoutManagerSpecification {
 
 	@Override
-	public Class<GridLayoutManager> getLayoutManagerClass() {
-		return GridLayoutManager.class;
+	public Class<ForceDirectedGraphLayoutManager> getLayoutManagerClass() {
+		return ForceDirectedGraphLayoutManager.class;
 	}
 
 	/**
@@ -73,11 +73,12 @@ public abstract class GridLayoutManagerSpecificationImpl extends FGELayoutManage
 	 */
 	@Override
 	public boolean supportDecoration() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public DraggingMode getDefaultDraggingMode() {
-		return DraggingMode.ContinuousLayout;
+		return DraggingMode.FreeDiaggingAndLayout;
 	}
+
 }

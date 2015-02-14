@@ -170,8 +170,6 @@ public class FGEGrid implements FGEArea {
 
 		FGERectangle bounds = g.getNodeNormalizedBounds();
 
-		System.out.println("paint grid for " + bounds);
-
 		int nx = (int) (bounds.getWidth() / hStep);
 		int ny = (int) (bounds.getHeight() / vStep);
 

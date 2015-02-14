@@ -2,7 +2,7 @@
  * 
  * Copyright (c) 2014, Openflexo
  * 
- * This file is part of Diana-api, a component of the software infrastructure 
+ * This file is part of Diana-core, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -35,49 +35,27 @@
  * or visit www.openflexo.org if you need additional information.
  * 
  */
+package org.openflexo.fge.control.tools.animations;
 
-package org.openflexo.fge.layout.impl;
+import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.geom.FGEPoint;
 
-import org.openflexo.fge.impl.FGELayoutManagerSpecificationImpl;
-import org.openflexo.fge.layout.GridLayoutManager;
-import org.openflexo.fge.layout.GridLayoutManagerSpecification;
+public class TranslationTransition {
+	private final ShapeNode<?> shapeNode;
+	private final FGEPoint oldLocation;
+	private final FGEPoint newLocation;
 
-/**
- * Default implementation for the specification of a {@link GridLayoutManager} in DIANA<br>
- * 
- * @author sylvain
- * 
- */
-public abstract class GridLayoutManagerSpecificationImpl extends FGELayoutManagerSpecificationImpl<GridLayoutManager> implements
-		GridLayoutManagerSpecification {
-
-	@Override
-	public Class<GridLayoutManager> getLayoutManagerClass() {
-		return GridLayoutManager.class;
+	public TranslationTransition(ShapeNode<?> shapeNode, FGEPoint oldLocation, FGEPoint newLocation) {
+		super();
+		this.shapeNode = shapeNode;
+		this.oldLocation = oldLocation;
+		this.newLocation = newLocation;
 	}
 
-	/**
-	 * Return true indicating that this layout manager supports autolayout
-	 * 
-	 * @return
-	 */
-	@Override
-	public boolean supportAutolayout() {
-		return true;
-	}
-
-	/**
-	 * Return true indicating that this layout manager supports decoration painting<br>
-	 * 
-	 * @return
-	 */
-	@Override
-	public boolean supportDecoration() {
-		return true;
-	}
-
-	@Override
-	public DraggingMode getDefaultDraggingMode() {
-		return DraggingMode.ContinuousLayout;
+	public void performStep(int step, int totalSteps) {
+		shapeNode.setRelayouting(true);
+		shapeNode.setLocation(new FGEPoint(oldLocation.x - (oldLocation.x - newLocation.x) * step / totalSteps, oldLocation.y
+				- (oldLocation.y - newLocation.y) * step / totalSteps));
+		shapeNode.setRelayouting(false);
 	}
 }
