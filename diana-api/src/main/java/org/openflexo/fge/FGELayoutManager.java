@@ -180,4 +180,10 @@ public interface FGELayoutManager<LMS extends FGELayoutManagerSpecification<?>, 
 	public boolean isLayoutInProgress();
 
 	public void attemptToPlaceNodeManually(ShapeNode<?> node);
+
+	/**
+	 * Randomly layout invalidated {@link ShapeNode} contained in this layout, all when force to true
+	 */
+	public void randomLayout(boolean force);
+
 }

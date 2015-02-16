@@ -159,10 +159,20 @@ public class AbstractLaunchLayoutManagerExample {
 				}
 			});
 
+			JButton randomButton = new JButton("Random");
+			randomButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					drawingController.getDrawing().getRoot().getDefaultLayoutManager().invalidate();
+					drawingController.getDrawing().getRoot().getDefaultLayoutManager().randomLayout(true);
+				}
+			});
+
 			JPanel controlPanel = new JPanel(new FlowLayout());
 			controlPanel.add(inspectButton);
 			controlPanel.add(logButton);
 			controlPanel.add(layoutButton);
+			controlPanel.add(randomButton);
 
 			add(controlPanel, BorderLayout.SOUTH);
 

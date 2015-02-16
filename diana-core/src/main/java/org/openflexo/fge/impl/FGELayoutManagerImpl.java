@@ -41,6 +41,7 @@ package org.openflexo.fge.impl;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
@@ -203,6 +204,23 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 				}
 			}
 		}
+	}
+
+	@Override
+	public void randomLayout(boolean force) {
+
+		// computeLayout();
+
+		layoutInProgress = true;
+		for (ShapeNode<?> node : nodes) {
+			if (node.isValid()) {
+				int randX = (new Random()).nextInt((int) getContainerNode().getWidth());
+				int randY = (new Random()).nextInt((int) getContainerNode().getHeight());
+				node.setLocation(new FGEPoint(randX, randY));
+			}
+		}
+		layoutInProgress = false;
+
 	}
 
 	/**
