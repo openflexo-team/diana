@@ -155,6 +155,12 @@ public abstract class GridLayoutManagerImpl<O> extends FGELayoutManagerImpl<Grid
 		} else if (evt.getPropertyName().equals(GridLayoutManagerSpecification.GRID_Y_KEY)) {
 			invalidate();
 			doLayout(true);
+		} else if (evt.getPropertyName().equals(GridLayoutManagerSpecification.HORIZONTAL_ALIGNEMENT_KEY)) {
+			invalidate();
+			doLayout(true);
+		} else if (evt.getPropertyName().equals(GridLayoutManagerSpecification.VERTICAL_ALIGNEMENT_KEY)) {
+			invalidate();
+			doLayout(true);
 		}
 	}
 }

@@ -70,6 +70,10 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 	public static final String PAINT_DECORATION_KEY = "paintDecoration";
 	@PropertyIdentifier(type = DraggingMode.class)
 	public static final String DRAGGING_MODE_KEY = "draggingMode";
+	@PropertyIdentifier(type = Boolean.class)
+	public static final String ANIMATE_LAYOUT_KEY = "animateLayout";
+	@PropertyIdentifier(type = Integer.class)
+	public static final String ANIMATION_STEPS_NUMBER_KEY = "animationStepsNumber";
 
 	/**
 	 * Return identifier (a String) for this layout manager specification<br>
@@ -140,6 +144,40 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 	 */
 	@Setter(DRAGGING_MODE_KEY)
 	public void setDraggingMode(DraggingMode draggingMode);
+
+	/**
+	 * Return flag indicating whether layout should be performed using animation
+	 * 
+	 * @return
+	 */
+	@Getter(value = ANIMATE_LAYOUT_KEY, defaultValue = "true")
+	@XMLAttribute
+	public boolean animateLayout();
+
+	/**
+	 * Sets flag indicating whether layout should be performed using animation
+	 * 
+	 * @param paintDecoration
+	 */
+	@Setter(ANIMATE_LAYOUT_KEY)
+	public void setAnimateLayout(boolean animateLayout);
+
+	/**
+	 * Return number of steps to be performed for animations
+	 * 
+	 * @return
+	 */
+	@Getter(value = ANIMATION_STEPS_NUMBER_KEY, defaultValue = "10")
+	@XMLAttribute
+	public int getAnimationStepsNumber();
+
+	/**
+	 * Sets number of steps to be performed for animations
+	 * 
+	 * @param stepsNumber
+	 */
+	@Setter(ANIMATION_STEPS_NUMBER_KEY)
+	public void setAnimationStepsNumber(int stepsNumber);
 
 	/**
 	 * Build and return a new {@link FGELayoutManager} conform to this {@link FGELayoutManagerSpecification}

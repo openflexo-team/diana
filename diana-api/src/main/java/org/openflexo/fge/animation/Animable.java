@@ -2,7 +2,7 @@
  * 
  * Copyright (c) 2014, Openflexo
  * 
- * This file is part of Diana-api, a component of the software infrastructure 
+ * This file is part of Diana-core, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -35,24 +35,13 @@
  * or visit www.openflexo.org if you need additional information.
  * 
  */
+package org.openflexo.fge.animation;
 
-package org.openflexo.fge.layout;
+public interface Animable {
 
-import org.openflexo.fge.FGELayoutManager;
-import org.openflexo.fge.FGELayoutManagerSpecification;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
+	public void startAnimation(Animation animation);
 
-/**
- * Abstract specification of a {@link FGELayoutManager} generally handling trees<br>
- * 
- * @author sylvain
- * 
- */
-@ModelEntity(isAbstract = true)
-@Imports({ @Import(TreeLayoutManagerSpecification.class), @Import(BalloonLayoutManagerSpecification.class),
-		@Import(RadialTreeLayoutManagerSpecification.class) })
-public interface TreeBasedLayoutManagerSpecification<LM extends TreeBasedLayoutManager<?, ?>> extends FGELayoutManagerSpecification<LM> {
+	public void stopAnimation(Animation animation);
 
+	public boolean isAnimationRunning();
 }

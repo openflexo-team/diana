@@ -2,7 +2,7 @@
  * 
  * Copyright (c) 2014, Openflexo
  * 
- * This file is part of Diana-swing, a component of the software infrastructure 
+ * This file is part of Fml-technologyadapter-ui, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -38,46 +38,67 @@
 
 package org.openflexo.fge.layout;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.logging.Logger;
+import java.awt.Component;
+import java.io.IOException;
+import java.util.logging.Level;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
-import org.openflexo.fge.Drawing;
-import org.openflexo.fge.FGELayoutManager;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.openflexo.fge.FGEModelFactory;
+import org.openflexo.fge.FGEModelFactoryImpl;
 import org.openflexo.fge.TestGraph;
-import org.openflexo.fge.TestGraphNode;
-import org.openflexo.fge.swing.JDianaInteractiveEditor;
-import org.openflexo.fge.swing.SwingViewFactory;
-import org.openflexo.fge.swing.control.SwingToolFactory;
-import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
-import org.openflexo.fib.swing.logging.FlexoLoggingViewer;
 import org.openflexo.fib.swing.toolbox.JFIBInspectorController;
-import org.openflexo.logging.FlexoLogger;
+import org.openflexo.fib.testutils.GraphicalContextDelegate;
 import org.openflexo.logging.FlexoLoggingManager;
+import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.rm.ResourceLocator;
+import org.openflexo.test.OrderedRunner;
+import org.openflexo.test.TestOrder;
 
 /**
- * Demonstrates how to use GridLayoutManagerImpl
+ * Test FlexoConceptPanel fib
  * 
  * @author sylvain
  * 
  */
-public class AbstractLaunchLayoutManagerExample {
+@RunWith(OrderedRunner.class)
+public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 
-	private static final Logger LOGGER = FlexoLogger.getLogger(AbstractLaunchLayoutManagerExample.class.getPackage().getName());
+	private static GraphicalContextDelegate gcDelegate;
 
 	private static JFIBInspectorController inspector;
 
-	public static TestGraph makeTestGraph() {
+	static FGEModelFactory factory = null;
+
+	@BeforeClass
+	public static void setupClass() {
+		// instanciateTestServiceManager();
+		try {
+			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			factory = new FGEModelFactoryImpl();
+		} catch (ModelDefinitionException e) {
+			e.printStackTrace();
+		}
+
+		inspector = new JFIBInspectorController(null, ResourceLocator.locateResource("LayoutInspectors"), null);
+
+		initGUI();
+	}
+
+	/*public static TestGraph makeTestGraph() {
 		TestGraph graph = new TestGraph();
 		TestGraphNode node0 = new TestGraphNode("node0", graph);
 		TestGraphNode node1 = new TestGraphNode("node1", graph);
@@ -147,7 +168,7 @@ public class AbstractLaunchLayoutManagerExample {
 			logButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), null);
+					FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), gcDelegate.getFrame());
 				}
 			});
 
@@ -155,6 +176,7 @@ public class AbstractLaunchLayoutManagerExample {
 			layoutButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					System.out.println("Layout");
 					drawingController.getDrawing().getRoot().getDefaultLayoutManager().doLayout(true);
 				}
 			});
@@ -172,31 +194,102 @@ public class AbstractLaunchLayoutManagerExample {
 			return drawingController;
 		}
 
-		public FGELayoutManager<?, ?> getLayoutManager() {
-			return drawingController.getDrawing().getRoot().getDefaultLayoutManager();
+		public FGELayoutManagerSpecification<?> getLayoutManagerSpecification() {
+			return drawingController.getDrawing().getRoot().getDefaultLayoutManager().getLayoutManagerSpecification();
 		}
 
 	}
 
 	public static LayoutDemoPanel makePanel(final Drawing d) {
 		return new LayoutDemoPanel(d);
+	}*/
+
+	public static void initGUI() {
+		gcDelegate = new GraphicalContextDelegate(TestAllLayouts.class.getSimpleName()) {
+
+			@Override
+			public void selectedTab(int index, Component selectedComponent) {
+				super.selectedTab(index, selectedComponent);
+				LayoutDemoPanel demoPanel = (LayoutDemoPanel) selectedComponent;
+				inspector.inspectObject(demoPanel.getLayoutManager());
+			}
+
+		};
 	}
 
-	public static void showPanel(final Drawing d) {
-		final JDialog dialog = new JDialog((Frame) null, false);
+	@AfterClass
+	public static void waitGUI() {
+		gcDelegate.waitGUI();
+	}
 
-		LayoutDemoPanel panel = new LayoutDemoPanel(d);
+	@Before
+	public void setUp() {
+		gcDelegate.setUp();
+	}
 
-		dialog.setPreferredSize(new Dimension(550, 600));
-		dialog.getContentPane().add(panel);
-		dialog.validate();
-		dialog.pack();
+	@After
+	public void tearDown() throws Exception {
+		gcDelegate.tearDown();
+	}
 
-		inspector = new JFIBInspectorController(null, ResourceLocator.locateResource("LayoutInspectors"), null);
-		inspector.inspectObject(panel.getLayoutManager());
+	@Test
+	@TestOrder(1)
+	public void testGridLayoutManager() {
 
-		dialog.setVisible(true);
+		TestGraph graph = makeTestGraph();
+		GridLayoutManagerDrawing returned = new GridLayoutManagerDrawing(graph, factory);
 
+		gcDelegate.addTab("GridLayoutManager", makePanel(returned));
+	}
+
+	@Test
+	@TestOrder(2)
+	public void testForceDirectedGraphLayoutManager() {
+
+		TestGraph graph = makeTestGraph();
+		ForceDirectedGraphLayoutManagerDrawing returned = new ForceDirectedGraphLayoutManagerDrawing(graph, factory);
+
+		gcDelegate.addTab("ForceDirectedGraphLayoutManager", makePanel(returned));
+	}
+
+	@Test
+	@TestOrder(3)
+	public void testISOMGraphLayoutManager() {
+
+		TestGraph graph = makeTestGraph();
+		ISOMGraphLayoutManagerDrawing returned = new ISOMGraphLayoutManagerDrawing(graph, factory);
+
+		gcDelegate.addTab("ISOMGraphLayoutManager", makePanel(returned));
+	}
+
+	@Test
+	@TestOrder(4)
+	public void testTreeLayoutManager() {
+
+		TestGraph graph = makeTestGraph();
+		TreeLayoutManagerDrawing returned = new TreeLayoutManagerDrawing(graph, factory);
+
+		gcDelegate.addTab("TreeLayoutManager", makePanel(returned));
+	}
+
+	@Test
+	@TestOrder(5)
+	public void testBalloonLayoutManager() {
+
+		TestGraph graph = makeTestGraph();
+		BalloonLayoutManagerDrawing returned = new BalloonLayoutManagerDrawing(graph, factory);
+
+		gcDelegate.addTab("BalloonLayoutManager", makePanel(returned));
+	}
+
+	@Test
+	@TestOrder(6)
+	public void testRadialTreeLayoutManager() {
+
+		TestGraph graph = makeTestGraph();
+		RadialTreeLayoutManagerDrawing returned = new RadialTreeLayoutManagerDrawing(graph, factory);
+
+		gcDelegate.addTab("RadialTreeLayoutManager", makePanel(returned));
 	}
 
 }

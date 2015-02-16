@@ -36,23 +36,24 @@
  * 
  */
 
-package org.openflexo.fge.layout;
+package org.openflexo.fge.layout.impl;
 
-import org.openflexo.fge.FGELayoutManager;
-import org.openflexo.fge.FGELayoutManagerSpecification;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.fge.layout.BalloonLayoutManagerSpecification;
+import org.openflexo.fge.layout.RadialTreeLayoutManager;
+import org.openflexo.fge.layout.RadialTreeLayoutManagerSpecification;
 
 /**
- * Abstract specification of a {@link FGELayoutManager} generally handling trees<br>
+ * Implementation for the specification of a {@link BalloonLayoutManagerSpecification} in DIANA<br>
  * 
  * @author sylvain
  * 
  */
-@ModelEntity(isAbstract = true)
-@Imports({ @Import(TreeLayoutManagerSpecification.class), @Import(BalloonLayoutManagerSpecification.class),
-		@Import(RadialTreeLayoutManagerSpecification.class) })
-public interface TreeBasedLayoutManagerSpecification<LM extends TreeBasedLayoutManager<?, ?>> extends FGELayoutManagerSpecification<LM> {
+public abstract class RadialTreeLayoutManagerSpecificationImpl<O> extends
+		TreeBasedLayoutManagerSpecificationImpl<RadialTreeLayoutManager<O>, O> implements RadialTreeLayoutManagerSpecification<O> {
+
+	@Override
+	public Class<RadialTreeLayoutManager<O>> getLayoutManagerClass() {
+		return (Class) RadialTreeLayoutManager.class;
+	}
 
 }

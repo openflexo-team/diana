@@ -60,28 +60,29 @@ import org.openflexo.fge.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 
-public class TreeLayoutManagerDrawing extends DrawingImpl<TestGraph> {
+public class RadialTreeLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 
 	private DrawingGraphicalRepresentation graphRepresentation;
 	private ShapeGraphicalRepresentation nodeRepresentation;
 	private ConnectorGraphicalRepresentation edgeRepresentation;
 
-	public TreeLayoutManagerDrawing(TestGraph graph, FGEModelFactory factory) {
+	public RadialTreeLayoutManagerDrawing(TestGraph graph, FGEModelFactory factory) {
 		super(graph, factory, PersistenceMode.SharedGraphicalRepresentations);
 	}
 
 	@Override
 	public void init() {
 		graphRepresentation = getFactory().makeDrawingGraphicalRepresentation();
-		nodeRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
-		nodeRepresentation.setBackground(getFactory().makeColoredBackground(Color.PINK));
-		nodeRepresentation.setWidth(40);
-		nodeRepresentation.setHeight(20);
-		nodeRepresentation.setIsFloatingLabel(false);
-		// edgeRepresentation = getFactory().makeConnectorGraphicalRepresentation(ConnectorType.RECT_POLYLIN);
-		// ((RectPolylinConnectorSpecification) edgeRepresentation.getConnectorSpecification())
-		// .setRectPolylinConstraints(RectPolylinConstraints.VERTICAL_LAYOUT);
-		edgeRepresentation = getFactory().makeConnectorGraphicalRepresentation(ConnectorType.LINE);
+		// graphRepresentation.setBackgroundColor(Color.RED);
+		nodeRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.CIRCLE);
+		nodeRepresentation.setBackground(getFactory().makeColoredBackground(Color.red));
+		// nodeRepresentation.setX(50);
+		// nodeRepresentation.setY(50);
+		nodeRepresentation.setWidth(30);
+		nodeRepresentation.setHeight(30);
+		nodeRepresentation.setAbsoluteTextX(30);
+		nodeRepresentation.setAbsoluteTextY(0);
+		edgeRepresentation = getFactory().makeConnectorGraphicalRepresentation(ConnectorType.CURVE);
 
 		final DrawingGRBinding<TestGraph> graphBinding = bindDrawing(TestGraph.class, "graph", new DrawingGRProvider<TestGraph>() {
 			@Override
@@ -103,17 +104,17 @@ public class TreeLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 					}
 				});
 
-		TreeLayoutManagerSpecification fdgraphLayoutManager = getFactory().makeLayoutManagerSpecification("tree",
-				TreeLayoutManagerSpecification.class);
+		RadialTreeLayoutManagerSpecification layoutManager = getFactory().makeLayoutManagerSpecification("radialtree",
+				RadialTreeLayoutManagerSpecification.class);
 
-		graphBinding.addLayoutManager(fdgraphLayoutManager);
+		graphBinding.addLayoutManager(layoutManager);
 
 		graphBinding.addToWalkers(new GRStructureVisitor<TestGraph>() {
 
 			@Override
 			public void visit(TestGraph graph) {
 				for (TestGraphNode node : graph.getNodes()) {
-					drawShape(nodeBinding, node).layoutedWith("tree");
+					drawShape(nodeBinding, node).layoutedWith("radialtree");
 				}
 			}
 		});

@@ -2,7 +2,7 @@
  * 
  * Copyright (c) 2014, Openflexo
  * 
- * This file is part of Diana-api, a component of the software infrastructure 
+ * This file is part of Diana-core, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -35,24 +35,29 @@
  * or visit www.openflexo.org if you need additional information.
  * 
  */
+package org.openflexo.fge.animation.impl;
 
-package org.openflexo.fge.layout;
+import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.animation.Transition;
+import org.openflexo.fge.geom.FGEPoint;
 
-import org.openflexo.fge.FGELayoutManager;
-import org.openflexo.fge.FGELayoutManagerSpecification;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
+public class TranslationTransition implements Transition {
 
-/**
- * Abstract specification of a {@link FGELayoutManager} generally handling trees<br>
- * 
- * @author sylvain
- * 
- */
-@ModelEntity(isAbstract = true)
-@Imports({ @Import(TreeLayoutManagerSpecification.class), @Import(BalloonLayoutManagerSpecification.class),
-		@Import(RadialTreeLayoutManagerSpecification.class) })
-public interface TreeBasedLayoutManagerSpecification<LM extends TreeBasedLayoutManager<?, ?>> extends FGELayoutManagerSpecification<LM> {
+	private final ShapeNode<?> shapeNode;
+	private final FGEPoint oldLocation;
+	private final FGEPoint newLocation;
 
+	public TranslationTransition(ShapeNode<?> shapeNode, FGEPoint oldLocation, FGEPoint newLocation) {
+		super();
+		this.shapeNode = shapeNode;
+		this.oldLocation = oldLocation;
+		this.newLocation = newLocation;
+	}
+
+	public void performStep(int step, int totalSteps) {
+		shapeNode.setRelayouting(true);
+		shapeNode.setLocation(new FGEPoint(oldLocation.x - (oldLocation.x - newLocation.x) * step / totalSteps, oldLocation.y
+				- (oldLocation.y - newLocation.y) * step / totalSteps));
+		shapeNode.setRelayouting(false);
+	}
 }

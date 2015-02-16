@@ -103,11 +103,6 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	private static final Logger logger = Logger.getLogger(ShapeNodeImpl.class.getPackage().getName());
 
-	// private double x = 0;
-	// private double y = 0;
-	// private double width = 0;
-	// private double height = 0;
-
 	private boolean isMoving = false;
 
 	private boolean observeParentGRBecauseMyLocationReferToIt = false;
@@ -540,7 +535,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 		// Relocate
 		if (needsRelocate) {
-			System.out.println("Relocate with deltaX=" + deltaX + " deltaY=" + deltaY);
+			// System.out.println("Relocate with deltaX=" + deltaX + " deltaY=" + deltaY);
 			newPosition.x = newPosition.x - deltaX;
 			newPosition.y = newPosition.y - deltaY;
 			setLocation(newPosition);
@@ -662,7 +657,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			if (!isRelayouting && getLayoutManager() != null && getLayoutManager().supportAutolayout()
 					&& !getLayoutManager().isLayoutInProgress()) {
 				boolean performLayout;
-				if (isMoving) {
+				if (isMoving() || isResizing()) {
 					// We are inside a drag operation
 					performLayout = getLayoutManager().getDraggingMode().relayoutOnDrag();
 				} else {
@@ -688,6 +683,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	private void performLayout() {
 		setRelayouting(true);
+
+		getLayoutManager().attemptToPlaceNodeManually(this);
 		if (getLayoutManager().isFullyLayouted()) {
 			getLayoutManager().computeLayout();
 		}
@@ -705,6 +702,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * Return flag indicating if we are about to relayout current node<br>
 	 * This means that the relocation request was initiated from the layout manager
 	 */
+	@Override
 	public boolean isRelayouting() {
 		return isRelayouting;
 	}
@@ -713,6 +711,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * Sets flag indicating if we are about to relayout current node<br>
 	 * This means that the relocation request was initiated from the layout manager
 	 */
+	@Override
 	public void setRelayouting(boolean relayouting) {
 		isRelayouting = relayouting;
 	}
@@ -1317,6 +1316,18 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public void notifyObjectResized(FGEDimension oldSize) {
 		getShape().notifyObjectResized();
 		super.notifyObjectResized(oldSize);
+	}
+
+	@Override
+	public void notifyObjectHasResized() {
+		super.notifyObjectHasResized();
+
+		if (getLayoutManager() != null) {
+			if (getLayoutManager().getDraggingMode().relayoutAfterDrag()) {
+				performLayout();
+			}
+		}
+
 	}
 
 	@Override

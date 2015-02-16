@@ -38,6 +38,7 @@
 
 package org.openflexo.fge.layout.impl;
 
+import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,8 +48,8 @@ import java.util.Map;
 import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
-import org.openflexo.fge.control.tools.animations.Animation;
-import org.openflexo.fge.control.tools.animations.TranslationTransition;
+import org.openflexo.fge.animation.impl.AnimationImpl;
+import org.openflexo.fge.animation.impl.TranslationTransition;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.impl.FGELayoutManagerImpl;
 import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
@@ -88,11 +89,22 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 	@Override
 	protected void performLayout(ShapeNode<?> node) {
 
-		// computeLayout();
+		if (!animateLayout() || !node.getDrawing().isAnimationRunning()) {
 
-		FGEPoint newLocation = new FGEPoint(getLayout().getX(node), getLayout().getY(node));
-		// System.out.println("New location for " + node + " " + newLocation);
-		node.setLocation(newLocation);
+			FGEPoint newLocation = locationForNode(node);
+			node.setLocation(newLocation);
+		}
+	}
+
+	/**
+	 * Internally used to compute layout: the position computed by the layout is the center of the shape, so we need to translate it
+	 * relatively to its size and border
+	 * 
+	 * @param node
+	 * @return
+	 */
+	protected FGEPoint locationForNode(ShapeNode<?> node) {
+		return new FGEPoint(getLayout().getX(node), getLayout().getY(node));
 	}
 
 	/**
@@ -148,6 +160,7 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 		System.out.println(graph.toString());
 
 		buildLayout();
+		getLayout().setSize(new Dimension(getLayoutWidth().intValue(), getLayoutHeight().intValue()));
 
 	}
 
@@ -170,18 +183,18 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 				// System.out.println("Compute layout, step " + i);
 				getIterativeContextLayout().step();
 			}
+
 		}
 
-		List<TranslationTransition> transitions = new ArrayList<TranslationTransition>();
-		for (ShapeNode<?> shapeNode : getNodes()) {
-			transitions.add(new TranslationTransition(shapeNode, new FGEPoint(xMap.get(shapeNode), yMap.get(shapeNode)), new FGEPoint(
-					getLayout().getX(shapeNode), getLayout().getY(shapeNode))));
+		if (animateLayout()) {
+			List<TranslationTransition> transitions = new ArrayList<TranslationTransition>();
+			for (ShapeNode<?> shapeNode : getNodes()) {
+				transitions.add(new TranslationTransition(shapeNode, new FGEPoint(xMap.get(shapeNode), yMap.get(shapeNode)), new FGEPoint(
+						getLayout().getX(shapeNode), getLayout().getY(shapeNode))));
+			}
+
+			AnimationImpl.performTransitions(transitions, getAnimationStepsNumber(), getContainerNode().getDrawing());
 		}
-
-		layoutInProgress = true;
-		Animation.performTransitions(transitions);
-		layoutInProgress = false;
-
 	}
 
 	@Override
@@ -190,31 +203,45 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 		if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.STEPS_NUMBER_KEY)) {
 			invalidate();
 			doLayout(true);
+		} else if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.LAYOUT_WIDTH_KEY)) {
+			invalidate();
+			doLayout(true);
+		} else if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.LAYOUT_HEIGHT_KEY)) {
+			invalidate();
+			doLayout(true);
 		}
 	}
 
-	/*@Override
-		public void invalidate(ShapeNode<?> node) {
-			System.out.println("On invalide " + node);
-			computeLayout();
-			super.invalidate(node);
-		}*/
+	@Override
+	public Double getLayoutWidth() {
+		Double returned = getLayoutManagerSpecification().getLayoutWidth();
+		if (returned == null) {
+			return getContainerNode().getWidth();
+		}
+		return returned;
+	}
 
-	/*@Override
-		public void shapeMoved(FGEPoint oldLocation, FGEPoint location) {
-			if (!isLayoutInProgress()) {
-				super.shapeMoved(oldLocation, location);
+	@Override
+	public void setLayoutWidth(Double aValue) {
+		if (!getLayoutWidth().equals(aValue)) {
+			getLayoutManagerSpecification().setLayoutWidth(aValue);
+		}
+	}
 
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						for (int i = 0; i < 10; i++) {
-							layout.step();
-							doLayout(true);
-						}
-					}
-				}).start();
+	@Override
+	public Double getLayoutHeight() {
+		Double returned = getLayoutManagerSpecification().getLayoutHeight();
+		if (returned == null) {
+			return getContainerNode().getHeight();
+		}
+		return returned;
+	}
 
-			}
-		}*/
+	@Override
+	public void setLayoutHeight(Double aValue) {
+		if (!getLayoutHeight().equals(aValue)) {
+			getLayoutManagerSpecification().setLayoutHeight(aValue);
+		}
+	}
+
 }

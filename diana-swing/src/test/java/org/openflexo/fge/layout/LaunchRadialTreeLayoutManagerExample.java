@@ -2,7 +2,7 @@
  * 
  * Copyright (c) 2014, Openflexo
  * 
- * This file is part of Diana-api, a component of the software infrastructure 
+ * This file is part of Diana-swing, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -38,21 +38,51 @@
 
 package org.openflexo.fge.layout;
 
-import org.openflexo.fge.FGELayoutManager;
-import org.openflexo.fge.FGELayoutManagerSpecification;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.openflexo.fge.FGEModelFactory;
+import org.openflexo.fge.FGEModelFactoryImpl;
+import org.openflexo.fge.TestGraph;
+import org.openflexo.logging.FlexoLogger;
+import org.openflexo.logging.FlexoLoggingManager;
+import org.openflexo.model.exceptions.ModelDefinitionException;
 
 /**
- * Abstract specification of a {@link FGELayoutManager} generally handling trees<br>
+ * Demonstrates how to use GridLayoutManagerImpl
  * 
  * @author sylvain
  * 
  */
-@ModelEntity(isAbstract = true)
-@Imports({ @Import(TreeLayoutManagerSpecification.class), @Import(BalloonLayoutManagerSpecification.class),
-		@Import(RadialTreeLayoutManagerSpecification.class) })
-public interface TreeBasedLayoutManagerSpecification<LM extends TreeBasedLayoutManager<?, ?>> extends FGELayoutManagerSpecification<LM> {
+public class LaunchRadialTreeLayoutManagerExample extends AbstractLaunchLayoutManagerExample {
+
+	private static final Logger LOGGER = FlexoLogger.getLogger(LaunchRadialTreeLayoutManagerExample.class.getPackage().getName());
+
+	public static void main(String[] args) {
+		try {
+			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		showPanel(makeDrawing());
+	}
+
+	public static RadialTreeLayoutManagerDrawing makeDrawing() {
+		FGEModelFactory factory = null;
+		try {
+			factory = new FGEModelFactoryImpl();
+		} catch (ModelDefinitionException e) {
+			e.printStackTrace();
+		}
+		TestGraph graph = makeTestGraph();
+		RadialTreeLayoutManagerDrawing returned = new RadialTreeLayoutManagerDrawing(graph, factory);
+		return returned;
+	}
 
 }

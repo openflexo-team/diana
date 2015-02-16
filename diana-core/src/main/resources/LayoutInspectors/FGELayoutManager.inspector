@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Panel className="org.openflexo.fib.swing.toolbox.JFIBInspector"
 	layout="border" titleFont="SansSerif,0,12" darkLevel="0"
-	dataClassName="org.openflexo.fge.FGELayoutManagerSpecification" font="SansSerif,0,12"
+	dataClassName="org.openflexo.fge.FGELayoutManager" font="SansSerif,0,12"
 	name="Inspector">
 	<TabPanel name="Tab" index="0" constraints="border(index=0;location=center)">
 		<Tab title="Basic" layout="twocols" titleFont="SansSerif,0,11"
@@ -11,29 +11,42 @@
 			<Label label="identifier" index="0"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="IdentifierLabel" localize="true" />
-			<TextField index="1" data="data.identifier"
+			<TextField index="1" data="data.layoutManagerSpecification.identifier"
 				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
 				name="Identifier" localize="true" columns="10" />
 			<Label label="dragging_mode" index="2"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="DraggingModeLabel" localize="true" />
-			<DropDown index="3" data="data.draggingMode"
+			<DropDown index="3" data="data.layoutManagerSpecification.draggingMode"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
 				width="150" name="DraggingMode" format="object.name" localize="true"
 				iteratorClassName="org.openflexo.fge.FGELayoutManagerSpecification$DraggingMode"
 				autoSelectFirstRow="false" />
-			<CheckBox index="4" data="data.paintDecoration"
+			<CheckBox index="4" data="data.layoutManagerSpecification.paintDecoration"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
-				name="PaintDecoration" localize="true" />
+				name="PaintDecoration" localize="true" visible="data.supportDecoration"/>
 			<Label label="paint_decoration" index="5"
 				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
-				name="PaintDecorationLabel" localize="true" />
+				name="PaintDecorationLabel" localize="true" visible="data.supportDecoration"/>
 
 		</Tab>
 		<Tab title="Advanced" layout="twocols" titleFont="SansSerif,0,11"
 			darkLevel="0" index="4" font="SansSerif,0,11" useScrollBar="true"
 			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
 			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="AdvancedTab">
+			<Label label="animate_layout" index="0"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;location=left)"
+				name="AnimateLayoutLabel" localize="true" />
+			<CheckBox index="1" data="data.layoutManagerSpecification.animateLayout"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
+				name="AnimateLayout" localize="true" />
+			<Label label="steps_number" index="2"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;location=left)"
+				name="StepsNumberLabel" localize="true" enable="data.layoutManagerSpecification.animateLayout"/>
+			<Number minValue="0.0" maxValue="1000.0" increment="5.0"
+				numberType="IntegerType" columns="5" index="3" data="data.layoutManagerSpecification.animationStepsNumber"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;location=right)"
+				name="StepsNumber" localize="true" enable="data.layoutManagerSpecification.animateLayout"/>
 		</Tab>
 	</TabPanel>
 	<LocalizedDictionary>

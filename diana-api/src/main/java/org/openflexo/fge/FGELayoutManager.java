@@ -178,4 +178,6 @@ public interface FGELayoutManager<LMS extends FGELayoutManagerSpecification<?>, 
 	 * @return
 	 */
 	public boolean isLayoutInProgress();
+
+	public void attemptToPlaceNodeManually(ShapeNode<?> node);
 }

@@ -237,12 +237,29 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 	}
 
 	/**
+	 * Return flag indicating whether layout should be performed using animation
+	 * 
+	 * @return
+	 */
+	public final boolean animateLayout() {
+		return getLayoutManagerSpecification().animateLayout();
+	}
+
+	/**
+	 * Return number of steps to be performed for animations
+	 * 
+	 * @return
+	 */
+	public int getAnimationStepsNumber() {
+		return getLayoutManagerSpecification().getAnimationStepsNumber();
+	}
+
+	/**
 	 * Called to paint decoration
 	 * 
 	 * @param g
 	 */
 	public void paintDecoration(FGEGraphics g) {
-		// Override when required
 	}
 
 	@Override
@@ -261,4 +278,10 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 			getContainerNode().getDrawing().updateGraphicalObjectsHierarchy();
 		}
 	}
+
+	@Override
+	public void attemptToPlaceNodeManually(ShapeNode<?> node) {
+		System.out.println("On essaie de fixer " + node.getText() + " a " + node.getLocation());
+	}
+
 }

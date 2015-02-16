@@ -43,9 +43,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.animation.impl.AnimationImpl;
+import org.openflexo.fge.animation.impl.TranslationTransition;
 import org.openflexo.fge.control.DianaInteractiveViewer;
-import org.openflexo.fge.control.tools.animations.Animation;
-import org.openflexo.fge.control.tools.animations.TranslationTransition;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.view.DianaViewFactory;
 
@@ -156,7 +156,7 @@ public abstract class DianaLayoutWidget<C, F extends DianaViewFactory<F, ? super
 	}
 
 	public void performTransitions(final List<TranslationTransition> transitions, String editName) {
-		Animation.performTransitions(transitions, startRecordEdit(editName), getEditor());
+		AnimationImpl.performTransitions(transitions, 10, startRecordEdit(editName), getEditor(), getEditor().getDrawing());
 	}
 
 	@Override

@@ -62,6 +62,12 @@
 			</dependency>
 			<dependency>
 				<groupId>org.openflexo</groupId>
+				<artifactId>gina-core</artifactId>
+				<version>${gina.version}</version>
+				<classifier>tests</classifier>
+			</dependency>
+			<dependency>
+				<groupId>org.openflexo</groupId>
 				<artifactId>gina-swing</artifactId>
 				<version>${gina.version}</version>
 			</dependency>

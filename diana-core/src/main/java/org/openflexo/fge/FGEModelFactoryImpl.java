@@ -95,6 +95,8 @@ import org.openflexo.fge.layout.GridLayoutManager;
 import org.openflexo.fge.layout.GridLayoutManagerSpecification;
 import org.openflexo.fge.layout.ISOMGraphLayoutManager;
 import org.openflexo.fge.layout.ISOMGraphLayoutManagerSpecification;
+import org.openflexo.fge.layout.RadialTreeLayoutManager;
+import org.openflexo.fge.layout.RadialTreeLayoutManagerSpecification;
 import org.openflexo.fge.layout.TreeLayoutManager;
 import org.openflexo.fge.layout.TreeLayoutManagerSpecification;
 import org.openflexo.fge.layout.impl.BalloonLayoutManagerImpl;
@@ -105,6 +107,8 @@ import org.openflexo.fge.layout.impl.GridLayoutManagerImpl;
 import org.openflexo.fge.layout.impl.GridLayoutManagerSpecificationImpl;
 import org.openflexo.fge.layout.impl.ISOMGraphLayoutManagerImpl;
 import org.openflexo.fge.layout.impl.ISOMGraphLayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.impl.RadialTreeLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.RadialTreeLayoutManagerSpecificationImpl;
 import org.openflexo.fge.layout.impl.TreeLayoutManagerImpl;
 import org.openflexo.fge.layout.impl.TreeLayoutManagerSpecificationImpl;
 import org.openflexo.fge.shapes.Arc;
@@ -237,6 +241,9 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		modelFactory.setImplementingClassForInterface(TreeLayoutManagerSpecificationImpl.class, TreeLayoutManagerSpecification.class);
 		modelFactory.setImplementingClassForInterface(BalloonLayoutManagerImpl.class, BalloonLayoutManager.class);
 		modelFactory.setImplementingClassForInterface(BalloonLayoutManagerSpecificationImpl.class, BalloonLayoutManagerSpecification.class);
+		modelFactory.setImplementingClassForInterface(RadialTreeLayoutManagerImpl.class, RadialTreeLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(RadialTreeLayoutManagerSpecificationImpl.class,
+				RadialTreeLayoutManagerSpecification.class);
 	}
 
 	@Override

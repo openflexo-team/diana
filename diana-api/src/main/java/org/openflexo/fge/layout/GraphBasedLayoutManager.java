@@ -52,4 +52,12 @@ public interface GraphBasedLayoutManager<LMS extends GraphBasedLayoutManagerSpec
 
 	public int getStepsNumber();
 
+	public Double getLayoutWidth();
+
+	public void setLayoutWidth(Double aValue);
+
+	public Double getLayoutHeight();
+
+	public void setLayoutHeight(Double aValue);
+
 }

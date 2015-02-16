@@ -61,6 +61,8 @@ import org.openflexo.fge.GRProvider.GeometricGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.GraphicalRepresentation;
+import org.openflexo.fge.animation.Animable;
+import org.openflexo.fge.animation.Animation;
 import org.openflexo.fge.graph.FGEGraph;
 import org.openflexo.fge.notifications.DrawingTreeNodeHierarchyRebuildEnded;
 import org.openflexo.fge.notifications.DrawingTreeNodeHierarchyRebuildStarted;
@@ -75,7 +77,7 @@ import org.openflexo.fge.notifications.FGENotification;
  * @param <M>
  *            Type of object which is handled as root object
  */
-public abstract class DrawingImpl<M> implements Drawing<M> {
+public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 
 	static final Logger logger = Logger.getLogger(DrawingImpl.class.getPackage().getName());
 
@@ -842,4 +844,22 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	public PropertyChangeSupport getPropertyChangeSupport() {
 		return pcSupport;
 	}
+
+	@Override
+	public void startAnimation(Animation animationImpl) {
+		isAnimationRunning = true;
+	}
+
+	@Override
+	public void stopAnimation(Animation animationImpl) {
+		isAnimationRunning = false;
+	}
+
+	private boolean isAnimationRunning = false;
+
+	@Override
+	public boolean isAnimationRunning() {
+		return isAnimationRunning;
+	}
+
 }

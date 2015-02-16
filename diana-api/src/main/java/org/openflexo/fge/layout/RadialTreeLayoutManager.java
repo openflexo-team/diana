@@ -38,52 +38,17 @@
 
 package org.openflexo.fge.layout;
 
-import org.openflexo.fge.FGELayoutManager;
-import org.openflexo.fge.FGELayoutManagerSpecification;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
+import org.openflexo.model.annotations.XMLElement;
 
 /**
- * Abstract specification of a {@link FGELayoutManager} generally handling graphs with an iterative process<br>
+ * A radial layout for Tree or Forest graphs.
  * 
  * @author sylvain
  * 
  */
-@ModelEntity(isAbstract = true)
-@Imports({ @Import(ForceDirectedGraphLayoutManagerSpecification.class), @Import(ISOMGraphLayoutManagerSpecification.class) })
-public interface GraphBasedLayoutManagerSpecification<LM extends GraphBasedLayoutManager<?, ?>> extends FGELayoutManagerSpecification<LM> {
-
-	@PropertyIdentifier(type = Integer.class)
-	public static final String STEPS_NUMBER_KEY = "stepsNumber";
-	@PropertyIdentifier(type = Double.class)
-	public static final String LAYOUT_WIDTH_KEY = "layoutWidth";
-	@PropertyIdentifier(type = Double.class)
-	public static final String LAYOUT_HEIGHT_KEY = "layoutHeight";
-
-	@Getter(value = STEPS_NUMBER_KEY, defaultValue = "30")
-	@XMLAttribute
-	public int getStepsNumber();
-
-	@Setter(STEPS_NUMBER_KEY)
-	public void setStepsNumber(int stepsNumber);
-
-	@Getter(value = LAYOUT_WIDTH_KEY)
-	@XMLAttribute
-	public abstract Double getLayoutWidth();
-
-	@Setter(value = LAYOUT_WIDTH_KEY)
-	public abstract void setLayoutWidth(Double aValue);
-
-	@Getter(value = LAYOUT_HEIGHT_KEY)
-	@XMLAttribute
-	public abstract Double getLayoutHeight();
-
-	@Setter(value = LAYOUT_HEIGHT_KEY)
-	public abstract void setLayoutHeight(Double aValue);
+@ModelEntity
+@XMLElement
+public interface RadialTreeLayoutManager<O> extends TreeBasedLayoutManager<RadialTreeLayoutManagerSpecification<O>, O> {
 
 }

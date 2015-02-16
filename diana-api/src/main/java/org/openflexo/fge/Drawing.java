@@ -61,6 +61,7 @@ import org.openflexo.fge.GRProvider.GeometricGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GraphicalRepresentation.LabelMetricsProvider;
 import org.openflexo.fge.ShapeGraphicalRepresentation.ShapeBorder;
+import org.openflexo.fge.animation.Animable;
 import org.openflexo.fge.connectors.Connector;
 import org.openflexo.fge.connectors.ConnectorSpecification;
 import org.openflexo.fge.cp.ControlArea;
@@ -102,7 +103,7 @@ import org.openflexo.toolbox.HasPropertyChangeSupport;
  * @param <M>
  *            Type of object which is handled as root object: this is the model represented by the drawing
  */
-public interface Drawing<M> extends HasPropertyChangeSupport {
+public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 	/**
 	 * Encode the way the internal persistance of values for graphical properties is performed.<br>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Panel className="org.openflexo.fib.swing.toolbox.JFIBInspector"
 	layout="border" titleFont="SansSerif,0,12" darkLevel="0"
-	dataClassName="org.openflexo.fge.layout.GridLayoutManagerSpecification" font="SansSerif,0,12"
+	dataClassName="org.openflexo.fge.layout.GridLayoutManager" font="SansSerif,0,12"
 	name="Inspector">
 	<TabPanel name="Tab" index="0" constraints="border(index=0;location=center)">
 
@@ -13,20 +13,20 @@
 				constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;location=left)"
 				name="GridXLabel" localize="true" />
 			<Number minValue="0.0" maxValue="1000.0" increment="5.0"
-				numberType="DoubleType" columns="5" index="11" data="data.gridX"
+				numberType="DoubleType" columns="5" index="11" data="data.layoutManagerSpecification.gridX"
 				constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;location=right)"
 				name="GridX" localize="true" />
 			<Label label="grid_y" index="12"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;location=left)"
 				name="GridYLabel" localize="true" />
 			<Number minValue="0.0" maxValue="1000.0" increment="5.0"
-				numberType="DoubleType" columns="5" index="13" data="data.gridY"
+				numberType="DoubleType" columns="5" index="13" data="data.layoutManagerSpecification.gridY"
 				constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;location=right)"
 				name="GridY" localize="true" />
 			<Label label="horizontal_alignment" index="14"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="HorizontalAlignmentLabel" localize="true" />
-			<DropDown index="15" data="data.horizontalAlignment"
+			<DropDown index="15" data="data.layoutManagerSpecification.horizontalAlignment"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
 				width="150" name="HorizontalAlignment" format="object.name"
 				localize="true"
@@ -35,7 +35,7 @@
 			<Label label="vertical_alignment" index="16"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="HorizontalAlignmentLabel" localize="true" />
-			<DropDown index="17" data="data.verticalAlignment"
+			<DropDown index="17" data="data.layoutManagerSpecification.verticalAlignment"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
 				width="150" name="VerticalAlignment" format="object.name"
 				localize="true"
@@ -46,5 +46,5 @@
 	</TabPanel>
 	<LocalizedDictionary>
 	</LocalizedDictionary>
-	<Parameter name="title" value="GridLayoutManagerSpecification" />
+	<Parameter name="title" value="GridLayoutManager" />
 </Panel>

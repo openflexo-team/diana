@@ -48,8 +48,8 @@ import java.util.Map;
 import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
-import org.openflexo.fge.control.tools.animations.Animation;
-import org.openflexo.fge.control.tools.animations.TranslationTransition;
+import org.openflexo.fge.animation.impl.AnimationImpl;
+import org.openflexo.fge.animation.impl.TranslationTransition;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.impl.FGELayoutManagerImpl;
 import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
@@ -73,6 +73,7 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 
 	private DirectedGraph<ShapeNode<?>, ConnectorNode<?>> graph;
 	private Forest<ShapeNode<?>, ConnectorNode<?>> forest;
+	private int maxDepth = 0;
 
 	public DirectedGraph<ShapeNode<?>, ConnectorNode<?>> getGraph() {
 		return graph;
@@ -90,8 +91,11 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 	@Override
 	protected void performLayout(ShapeNode<?> node) {
 
-		FGEPoint newLocation = locationForNode(node);
-		node.setLocation(newLocation);
+		if (!animateLayout() || !node.getDrawing().isAnimationRunning()) {
+
+			FGEPoint newLocation = locationForNode(node);
+			node.setLocation(newLocation);
+		}
 	}
 
 	/**
@@ -101,7 +105,7 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 	 * @param node
 	 * @return
 	 */
-	private FGEPoint locationForNode(ShapeNode<?> node) {
+	protected FGEPoint locationForNode(ShapeNode<?> node) {
 		Point2D newLocation = getLayout().transform(node);
 		return new FGEPoint(newLocation.getX() - node.getWidth() / 2 - node.getBorder().getLeft(), newLocation.getY() - node.getHeight()
 				/ 2 - node.getBorder().getTop());
@@ -159,24 +163,24 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 		Map<ShapeNode<?>, Double> xMap = new HashMap<ShapeNode<?>, Double>();
 		Map<ShapeNode<?>, Double> yMap = new HashMap<ShapeNode<?>, Double>();
 
+		maxDepth = 0;
 		for (ShapeNode<?> shapeNode : getNodes()) {
-			// getLayout().setLocation(shapeNode, new FGEPoint(shapeNode.getX(), shapeNode.getY()));
+			maxDepth = Math.max(maxDepth, getDepth(shapeNode));
 			xMap.put(shapeNode, shapeNode.getX());
 			yMap.put(shapeNode, shapeNode.getY());
 		}
 
-		// Perform the layout here
+		// No global layout to launch
 
-		List<TranslationTransition> transitions = new ArrayList<TranslationTransition>();
-		for (ShapeNode<?> shapeNode : getNodes()) {
-			FGEPoint newLocation = locationForNode(shapeNode);
-			transitions.add(new TranslationTransition(shapeNode, new FGEPoint(xMap.get(shapeNode), yMap.get(shapeNode)), newLocation));
+		if (animateLayout()) {
+			List<TranslationTransition> transitions = new ArrayList<TranslationTransition>();
+			for (ShapeNode<?> shapeNode : getNodes()) {
+				FGEPoint newLocation = locationForNode(shapeNode);
+				transitions.add(new TranslationTransition(shapeNode, new FGEPoint(xMap.get(shapeNode), yMap.get(shapeNode)), newLocation));
+			}
+
+			AnimationImpl.performTransitions(transitions, getAnimationStepsNumber(), getContainerNode().getDrawing());
 		}
-
-		layoutInProgress = true;
-		Animation.performTransitions(transitions);
-		layoutInProgress = false;
-
 	}
 
 	@Override
@@ -188,4 +192,29 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 		}
 	}
 
+	protected int getDepth(ShapeNode<?> node) {
+		if (forest.getPredecessorCount(node) > 0) {
+			int returned = -1;
+			List<ShapeNode<?>> predecessors = new ArrayList<ShapeNode<?>>(forest.getPredecessors(node));
+			for (int i = 0; i < predecessors.size(); i++) {
+				int parentDepth = getDepth(predecessors.get(i));
+				if (parentDepth + 1 > returned) {
+					returned = parentDepth + 1;
+				}
+			}
+			return returned;
+		}
+		return 0;
+	}
+
+	public int getMaxDepth() {
+		return maxDepth;
+	}
+
+	/*@Override
+	public void attemptToPlaceNodeManually(ShapeNode<?> node) {
+		super.attemptToPlaceNodeManually(node);
+		getLayout().setLocation(node, node.getLocation());
+		getLayout().lock(node, true);
+	}*/
 }

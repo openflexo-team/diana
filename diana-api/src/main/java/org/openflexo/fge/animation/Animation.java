@@ -35,27 +35,24 @@
  * or visit www.openflexo.org if you need additional information.
  * 
  */
-package org.openflexo.fge.control.tools.animations;
+package org.openflexo.fge.animation;
 
-import org.openflexo.fge.Drawing.ShapeNode;
-import org.openflexo.fge.geom.FGEPoint;
+import java.util.List;
 
-public class TranslationTransition {
-	private final ShapeNode<?> shapeNode;
-	private final FGEPoint oldLocation;
-	private final FGEPoint newLocation;
+import org.openflexo.fge.control.DianaEditor;
+import org.openflexo.model.undo.CompoundEdit;
 
-	public TranslationTransition(ShapeNode<?> shapeNode, FGEPoint oldLocation, FGEPoint newLocation) {
-		super();
-		this.shapeNode = shapeNode;
-		this.oldLocation = oldLocation;
-		this.newLocation = newLocation;
-	}
+public interface Animation {
 
-	public void performStep(int step, int totalSteps) {
-		shapeNode.setRelayouting(true);
-		shapeNode.setLocation(new FGEPoint(oldLocation.x - (oldLocation.x - newLocation.x) * step / totalSteps, oldLocation.y
-				- (oldLocation.y - newLocation.y) * step / totalSteps));
-		shapeNode.setRelayouting(false);
-	}
+	public int getCurrentStep();
+
+	public int getSteps();
+
+	public List<? extends Transition> getTransitions();
+
+	public CompoundEdit getEdit();
+
+	public DianaEditor<?> getEditor();
+
+	public void performAnimation(final Animable animable);
 }
