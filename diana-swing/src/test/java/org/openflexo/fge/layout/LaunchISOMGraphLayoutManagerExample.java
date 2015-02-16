@@ -2,7 +2,7 @@
  * 
  * Copyright (c) 2014, Openflexo
  * 
- * This file is part of Diana-api, a component of the software infrastructure 
+ * This file is part of Diana-swing, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -38,23 +38,52 @@
 
 package org.openflexo.fge.layout;
 
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.openflexo.fge.FGEModelFactory;
+import org.openflexo.fge.FGEModelFactoryImpl;
+import org.openflexo.fge.TestGraph;
+import org.openflexo.fge.layout.ISOMGraphLayoutManagerDrawing;
+import org.openflexo.logging.FlexoLogger;
+import org.openflexo.logging.FlexoLoggingManager;
+import org.openflexo.model.exceptions.ModelDefinitionException;
 
 /**
- * Represents a layout manager automatically placing nodes as a force-directed graph
+ * Demonstrates how to use GridLayoutManagerImpl
  * 
  * @author sylvain
  * 
  */
-@ModelEntity
-@XMLElement
-public interface ForceDirectedGraphLayoutManager<O> extends GraphBasedLayoutManager<ForceDirectedGraphLayoutManagerSpecification, O> {
+public class LaunchISOMGraphLayoutManagerExample extends AbstractLaunchLayoutManagerExample {
 
-	public double getStretch();
+	private static final Logger LOGGER = FlexoLogger.getLogger(LaunchISOMGraphLayoutManagerExample.class.getPackage().getName());
 
-	public int getRepulsionRangeSq();
+	public static void main(String[] args) {
+		try {
+			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-	public double getForceMultiplier();
+		showPanel(makeDrawing());
+	}
+
+	public static ISOMGraphLayoutManagerDrawing makeDrawing() {
+		FGEModelFactory factory = null;
+		try {
+			factory = new FGEModelFactoryImpl();
+		} catch (ModelDefinitionException e) {
+			e.printStackTrace();
+		}
+		TestGraph graph = makeTestGraph();
+		ISOMGraphLayoutManagerDrawing returned = new ISOMGraphLayoutManagerDrawing(graph, factory);
+		return returned;
+	}
 
 }

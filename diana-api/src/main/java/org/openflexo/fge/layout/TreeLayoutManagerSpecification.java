@@ -2,7 +2,7 @@
  * 
  * Copyright (c) 2014, Openflexo
  * 
- * This file is part of Diana-swing, a component of the software infrastructure 
+ * This file is part of Diana-api, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -36,50 +36,22 @@
  * 
  */
 
-package org.openflexo.fge;
+package org.openflexo.fge.layout;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.openflexo.logging.FlexoLogger;
-import org.openflexo.logging.FlexoLoggingManager;
-import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
 /**
- * Demonstrates how to use GridLayoutManagerImpl
+ * Represents a self-organizing map layout algorithm for a tree
  * 
  * @author sylvain
  * 
  */
-public class LaunchForceDirectedGraphLayoutManagerExample extends AbstractLaunchLayoutManagerExample {
-
-	private static final Logger LOGGER = FlexoLogger.getLogger(LaunchForceDirectedGraphLayoutManagerExample.class.getPackage().getName());
-
-	public static void main(String[] args) {
-		try {
-			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		showPanel(makeDrawing());
-	}
-
-	public static ForceDirectedGraphLayoutManagerDrawing makeDrawing() {
-		FGEModelFactory factory = null;
-		try {
-			factory = new FGEModelFactoryImpl();
-		} catch (ModelDefinitionException e) {
-			e.printStackTrace();
-		}
-		TestGraph graph = makeTestGraph();
-		ForceDirectedGraphLayoutManagerDrawing returned = new ForceDirectedGraphLayoutManagerDrawing(graph, factory);
-		return returned;
-	}
+@ModelEntity
+@XMLElement
+@Imports({ @Import(TreeLayoutManager.class) })
+public interface TreeLayoutManagerSpecification<O> extends TreeBasedLayoutManagerSpecification<TreeLayoutManager<O>> {
 
 }

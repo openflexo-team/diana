@@ -38,52 +38,16 @@
 
 package org.openflexo.fge.layout;
 
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
+import org.openflexo.fge.FGELayoutManager;
 import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
-import org.openflexo.model.annotations.XMLElement;
 
 /**
- * Represents the specification of a ForceDirectedGraphLayoutManager in DIANA<br>
+ * Abstract api of a {@link FGELayoutManager} generally handling trees<br>
  * 
  * @author sylvain
  * 
  */
-@ModelEntity
-@XMLElement
-@Imports({ @Import(ForceDirectedGraphLayoutManager.class) })
-public interface ForceDirectedGraphLayoutManagerSpecification extends
-		GraphBasedLayoutManagerSpecification<ForceDirectedGraphLayoutManager<?>> {
+@ModelEntity(isAbstract = true)
+public interface TreeBasedLayoutManager<LMS extends TreeBasedLayoutManagerSpecification<?>, O> extends FGELayoutManager<LMS, O> {
 
-	@PropertyIdentifier(type = Double.class)
-	public static final String STRETCH_KEY = "stretch";
-	@PropertyIdentifier(type = Integer.class)
-	public static final String REPULSION_RANGE_SQ_KEY = "repulsionRangeSq";
-	@PropertyIdentifier(type = Double.class)
-	public static final String FORCE_MULTIPLIER_KEY = "forceMultiplier";
-
-	@Getter(value = STRETCH_KEY, defaultValue = "0.70")
-	@XMLAttribute
-	public double getStretch();
-
-	@Setter(STRETCH_KEY)
-	public void setStretch(double value);
-
-	@Getter(value = REPULSION_RANGE_SQ_KEY, defaultValue = "10000")
-	@XMLAttribute
-	public int getRepulsionRangeSq();
-
-	@Setter(REPULSION_RANGE_SQ_KEY)
-	public void setRepulsionRangeSq(int value);
-
-	@Getter(value = FORCE_MULTIPLIER_KEY, defaultValue = "0.3333333333333333333")
-	@XMLAttribute
-	public double getForceMultiplier();
-
-	@Setter(FORCE_MULTIPLIER_KEY)
-	public void setForceMultiplier(double value);
 }

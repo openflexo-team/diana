@@ -38,22 +38,51 @@
 
 package org.openflexo.fge.layout.impl;
 
-import org.openflexo.fge.layout.ForceDirectedGraphLayoutManager;
-import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
+import java.beans.PropertyChangeEvent;
+
+import org.openflexo.fge.Drawing.ConnectorNode;
+import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.layout.TreeLayoutManager;
+import org.openflexo.fge.layout.TreeLayoutManagerSpecification;
+
+import edu.uci.ics.jung.algorithms.layout.TreeLayout;
 
 /**
- * Default implementation for the specification of a {@link ForceDirectedGraphLayoutManager} in DIANA<br>
+ * Default implementation for {@link TreeLayoutManager}
  * 
  * @author sylvain
  * 
  */
-public abstract class ForceDirectedGraphLayoutManagerSpecificationImpl extends
-		GraphBasedLayoutManagerSpecificationImpl<ForceDirectedGraphLayoutManager<?>, Object> implements
-		ForceDirectedGraphLayoutManagerSpecification {
+public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImpl<TreeLayoutManagerSpecification<O>, O> implements
+		TreeLayoutManager<O> {
+
+	private TreeLayout<ShapeNode<?>, ConnectorNode<?>> layout;
 
 	@Override
-	public Class<ForceDirectedGraphLayoutManager<?>> getLayoutManagerClass() {
-		return (Class) ForceDirectedGraphLayoutManager.class;
+	protected TreeLayout<ShapeNode<?>, ConnectorNode<?>> buildLayout() {
+		layout = new TreeLayout<ShapeNode<?>, ConnectorNode<?>>(getForest());
+		// layout.setSize(new Dimension((int) getContainerNode().getWidth(), (int) getContainerNode().getHeight()));
+		return layout;
+	}
+
+	@Override
+	public TreeLayout<ShapeNode<?>, ConnectorNode<?>> getLayout() {
+		return layout;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		super.propertyChange(evt);
+		/*if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.STRETCH_KEY)) {
+			invalidate();
+			doLayout(true);
+		} else if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.REPULSION_RANGE_SQ_KEY)) {
+			invalidate();
+			doLayout(true);
+		} else if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.FORCE_MULTIPLIER_KEY)) {
+			invalidate();
+			doLayout(true);
+		}*/
 	}
 
 }

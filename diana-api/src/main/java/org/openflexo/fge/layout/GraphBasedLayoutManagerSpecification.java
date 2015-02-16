@@ -38,6 +38,8 @@
 
 package org.openflexo.fge.layout;
 
+import org.openflexo.fge.FGELayoutManager;
+import org.openflexo.fge.FGELayoutManagerSpecification;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
@@ -45,45 +47,25 @@ import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLAttribute;
-import org.openflexo.model.annotations.XMLElement;
 
 /**
- * Represents the specification of a ForceDirectedGraphLayoutManager in DIANA<br>
+ * Abstract specification of a {@link FGELayoutManager} generally handling graphs with an iterative process<br>
  * 
  * @author sylvain
  * 
  */
-@ModelEntity
-@XMLElement
-@Imports({ @Import(ForceDirectedGraphLayoutManager.class) })
-public interface ForceDirectedGraphLayoutManagerSpecification extends
-		GraphBasedLayoutManagerSpecification<ForceDirectedGraphLayoutManager<?>> {
+@ModelEntity(isAbstract = true)
+@Imports({ @Import(ForceDirectedGraphLayoutManagerSpecification.class), @Import(ISOMGraphLayoutManagerSpecification.class) })
+public interface GraphBasedLayoutManagerSpecification<LM extends GraphBasedLayoutManager<?, ?>> extends FGELayoutManagerSpecification<LM> {
 
-	@PropertyIdentifier(type = Double.class)
-	public static final String STRETCH_KEY = "stretch";
 	@PropertyIdentifier(type = Integer.class)
-	public static final String REPULSION_RANGE_SQ_KEY = "repulsionRangeSq";
-	@PropertyIdentifier(type = Double.class)
-	public static final String FORCE_MULTIPLIER_KEY = "forceMultiplier";
+	public static final String STEPS_NUMBER_KEY = "stepsNumber";
 
-	@Getter(value = STRETCH_KEY, defaultValue = "0.70")
+	@Getter(value = STEPS_NUMBER_KEY, defaultValue = "30")
 	@XMLAttribute
-	public double getStretch();
+	public int getStepsNumber();
 
-	@Setter(STRETCH_KEY)
-	public void setStretch(double value);
+	@Setter(STEPS_NUMBER_KEY)
+	public void setStepsNumber(int stepsNumber);
 
-	@Getter(value = REPULSION_RANGE_SQ_KEY, defaultValue = "10000")
-	@XMLAttribute
-	public int getRepulsionRangeSq();
-
-	@Setter(REPULSION_RANGE_SQ_KEY)
-	public void setRepulsionRangeSq(int value);
-
-	@Getter(value = FORCE_MULTIPLIER_KEY, defaultValue = "0.3333333333333333333")
-	@XMLAttribute
-	public double getForceMultiplier();
-
-	@Setter(FORCE_MULTIPLIER_KEY)
-	public void setForceMultiplier(double value);
 }

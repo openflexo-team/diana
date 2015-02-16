@@ -177,6 +177,9 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 		retrieveNodesToLayout();
 	}
 
+	/**
+	 * Compute the whole layout, do not place elements
+	 */
 	@Override
 	public void computeLayout() {
 
@@ -188,6 +191,9 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 
 	}
 
+	/**
+	 * Internally used to retrieve in the container all nodes which are to be layouted
+	 */
 	private void retrieveNodesToLayout() {
 		nodes.clear();
 		for (DrawingTreeNode<?, ?> dtn : getContainerNode().getChildNodes()) {

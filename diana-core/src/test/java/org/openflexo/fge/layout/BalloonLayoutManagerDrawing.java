@@ -36,37 +36,37 @@
  * 
  */
 
-package org.openflexo.fge;
+package org.openflexo.fge.layout;
 
 import java.awt.Color;
 
 import org.openflexo.connie.DataBinding;
-import org.openflexo.fge.ForegroundStyle.DashStyle;
+import org.openflexo.fge.ConnectorGraphicalRepresentation;
+import org.openflexo.fge.DrawingGraphicalRepresentation;
+import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
 import org.openflexo.fge.GRBinding.DrawingGRBinding;
-import org.openflexo.fge.GRBinding.GeometricGRBinding;
 import org.openflexo.fge.GRBinding.ShapeGRBinding;
 import org.openflexo.fge.GRProvider.ConnectorGRProvider;
 import org.openflexo.fge.GRProvider.DrawingGRProvider;
-import org.openflexo.fge.GRProvider.GeometricGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
+import org.openflexo.fge.GRStructureVisitor;
+import org.openflexo.fge.GraphicalRepresentation;
+import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.TestEdge;
+import org.openflexo.fge.TestGraph;
+import org.openflexo.fge.TestGraphNode;
 import org.openflexo.fge.connectors.ConnectorSpecification.ConnectorType;
-import org.openflexo.fge.geom.FGECircle;
-import org.openflexo.fge.geom.FGEGeometricObject.Filling;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 
-public class CircularDrawing extends DrawingImpl<TestGraph> {
+public class BalloonLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 
 	private DrawingGraphicalRepresentation graphRepresentation;
 	private ShapeGraphicalRepresentation nodeRepresentation;
 	private ConnectorGraphicalRepresentation edgeRepresentation;
-	private GeometricGraphicalRepresentation circle1GR;
 
-	public CircularDrawing(TestGraph graph, FGEModelFactory factory) {
+	public BalloonLayoutManagerDrawing(TestGraph graph, FGEModelFactory factory) {
 		super(graph, factory, PersistenceMode.SharedGraphicalRepresentations);
 	}
 
@@ -75,20 +75,14 @@ public class CircularDrawing extends DrawingImpl<TestGraph> {
 		graphRepresentation = getFactory().makeDrawingGraphicalRepresentation();
 		// graphRepresentation.setBackgroundColor(Color.RED);
 		nodeRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.CIRCLE);
+		nodeRepresentation.setBackground(getFactory().makeColoredBackground(Color.CYAN));
 		// nodeRepresentation.setX(50);
 		// nodeRepresentation.setY(50);
-		nodeRepresentation.setWidth(20);
-		nodeRepresentation.setHeight(20);
+		nodeRepresentation.setWidth(30);
+		nodeRepresentation.setHeight(30);
 		nodeRepresentation.setAbsoluteTextX(30);
 		nodeRepresentation.setAbsoluteTextY(0);
-		nodeRepresentation.setBackground(getFactory().makeColoredBackground(Color.red));
 		edgeRepresentation = getFactory().makeConnectorGraphicalRepresentation(ConnectorType.CURVE);
-
-		FGECircle circle1 = new FGECircle(new FGEPoint(310, 310), 100, Filling.NOT_FILLED);
-		FGECircle circle2 = new FGECircle(new FGEPoint(310, 310), 200, Filling.NOT_FILLED);
-		FGEArea union = FGEUnionArea.makeUnion(circle1, circle2);
-		circle1GR = getFactory().makeGeometricGraphicalRepresentation(union);
-		circle1GR.setForeground(getFactory().makeForegroundStyle(Color.GRAY, 0.5f, DashStyle.MEDIUM_DASHES));
 
 		final DrawingGRBinding<TestGraph> graphBinding = bindDrawing(TestGraph.class, "graph", new DrawingGRProvider<TestGraph>() {
 			@Override
@@ -110,21 +104,17 @@ public class CircularDrawing extends DrawingImpl<TestGraph> {
 					}
 				});
 
-		final GeometricGRBinding<TestGraph> circle1Binding = bindGeometric(TestGraph.class, "circle1",
-				new GeometricGRProvider<TestGraph>() {
-					@Override
-					public GeometricGraphicalRepresentation provideGR(TestGraph drawable, FGEModelFactory factory) {
-						return circle1GR;
-					}
-				});
+		BalloonLayoutManagerSpecification fdgraphLayoutManager = getFactory().makeLayoutManagerSpecification("balloon",
+				BalloonLayoutManagerSpecification.class);
+
+		graphBinding.addLayoutManager(fdgraphLayoutManager);
 
 		graphBinding.addToWalkers(new GRStructureVisitor<TestGraph>() {
 
 			@Override
 			public void visit(TestGraph graph) {
-				drawGeometricObject(circle1Binding, graph);
 				for (TestGraphNode node : graph.getNodes()) {
-					drawShape(nodeBinding, node);
+					drawShape(nodeBinding, node).layoutedWith("balloon");
 				}
 			}
 		});
@@ -132,7 +122,6 @@ public class CircularDrawing extends DrawingImpl<TestGraph> {
 		nodeBinding.addToWalkers(new GRStructureVisitor<TestGraphNode>() {
 			@Override
 			public void visit(TestGraphNode node) {
-				System.out.println("Walking for edges ");
 				for (TestEdge edge : node.getInputEdges()) {
 					drawConnector(edgeBinding, edge, edge.getStartNode(), edge.getEndNode(), node.getGraph());
 				}
@@ -143,10 +132,8 @@ public class CircularDrawing extends DrawingImpl<TestGraph> {
 		});
 
 		nodeBinding.setDynamicPropertyValue(GraphicalRepresentation.TEXT, new DataBinding<String>("drawable.name"), true);
-		// nodeBinding.setDynamicPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X, new DataBinding<Double>("drawable.labelX"));
-		// nodeBinding.setDynamicPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y, new DataBinding<Double>("drawable.labelY"));
-		nodeBinding.setDynamicPropertyValue(ShapeGraphicalRepresentation.X, new DataBinding<Double>("drawable.circularX"), true);
-		nodeBinding.setDynamicPropertyValue(ShapeGraphicalRepresentation.Y, new DataBinding<Double>("drawable.circularY"), true);
+		nodeBinding.setDynamicPropertyValue(ShapeGraphicalRepresentation.X, new DataBinding<Double>("drawable.x"), true);
+		nodeBinding.setDynamicPropertyValue(ShapeGraphicalRepresentation.Y, new DataBinding<Double>("drawable.y"), true);
 
 	}
 }

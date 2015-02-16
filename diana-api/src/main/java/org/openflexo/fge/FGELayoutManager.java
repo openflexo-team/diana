@@ -123,6 +123,9 @@ public interface FGELayoutManager<LMS extends FGELayoutManagerSpecification<?>, 
 	 */
 	public void doLayout(ShapeNode<?> node, boolean force);
 
+	/**
+	 * Compute the whole layout, do not place elements
+	 */
 	public void computeLayout();
 
 	/**

@@ -38,22 +38,21 @@
 
 package org.openflexo.fge.layout.impl;
 
-import org.openflexo.fge.layout.ForceDirectedGraphLayoutManager;
-import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
+import org.openflexo.fge.layout.BalloonLayoutManager;
+import org.openflexo.fge.layout.BalloonLayoutManagerSpecification;
 
 /**
- * Default implementation for the specification of a {@link ForceDirectedGraphLayoutManager} in DIANA<br>
+ * Implementation for the specification of a {@link BalloonLayoutManagerSpecification} in DIANA<br>
  * 
  * @author sylvain
  * 
  */
-public abstract class ForceDirectedGraphLayoutManagerSpecificationImpl extends
-		GraphBasedLayoutManagerSpecificationImpl<ForceDirectedGraphLayoutManager<?>, Object> implements
-		ForceDirectedGraphLayoutManagerSpecification {
+public abstract class BalloonLayoutManagerSpecificationImpl<O> extends TreeBasedLayoutManagerSpecificationImpl<BalloonLayoutManager<O>, O>
+		implements BalloonLayoutManagerSpecification<O> {
 
 	@Override
-	public Class<ForceDirectedGraphLayoutManager<?>> getLayoutManagerClass() {
-		return (Class) ForceDirectedGraphLayoutManager.class;
+	public Class<BalloonLayoutManager<O>> getLayoutManagerClass() {
+		return (Class) BalloonLayoutManager.class;
 	}
 
 }

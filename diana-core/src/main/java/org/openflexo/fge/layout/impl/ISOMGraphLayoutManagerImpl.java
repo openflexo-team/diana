@@ -2,7 +2,7 @@
  * 
  * Copyright (c) 2014, Openflexo
  * 
- * This file is part of Diana-swing, a component of the software infrastructure 
+ * This file is part of Diana-api, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -36,50 +36,46 @@
  * 
  */
 
-package org.openflexo.fge;
+package org.openflexo.fge.layout.impl;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
 
-import org.openflexo.logging.FlexoLogger;
-import org.openflexo.logging.FlexoLoggingManager;
-import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.fge.Drawing.ConnectorNode;
+import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.layout.ForceDirectedGraphLayoutManager;
+import org.openflexo.fge.layout.ISOMGraphLayoutManager;
+import org.openflexo.fge.layout.ISOMGraphLayoutManagerSpecification;
+
+import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
+import edu.uci.ics.jung.algorithms.layout.ISOMLayout;
 
 /**
- * Demonstrates how to use GridLayoutManagerImpl
+ * Default implementation for {@link ForceDirectedGraphLayoutManager}
  * 
  * @author sylvain
  * 
  */
-public class LaunchGridLayoutManagerExample extends AbstractLaunchLayoutManagerExample {
+public abstract class ISOMGraphLayoutManagerImpl<O> extends GraphBasedLayoutManagerImpl<ISOMGraphLayoutManagerSpecification, O> implements
+		ISOMGraphLayoutManager<O> {
 
-	private static final Logger LOGGER = FlexoLogger.getLogger(LaunchGridLayoutManagerExample.class.getPackage().getName());
+	private ISOMLayout<ShapeNode<?>, ConnectorNode<?>> layout;
 
-	public static void main(String[] args) {
-		try {
-			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		showPanel(makeDrawing());
+	@Override
+	protected AbstractLayout<ShapeNode<?>, ConnectorNode<?>> buildLayout() {
+		layout = new ISOMLayout<ShapeNode<?>, ConnectorNode<?>>(getGraph());
+		layout.setSize(new Dimension((int) getContainerNode().getWidth(), (int) getContainerNode().getHeight()));
+		return layout;
 	}
 
-	public static GridLayoutManagerDrawing makeDrawing() {
-		FGEModelFactory factory = null;
-		try {
-			factory = new FGEModelFactoryImpl();
-		} catch (ModelDefinitionException e) {
-			e.printStackTrace();
-		}
-		TestGraph graph = makeTestGraph();
-		GridLayoutManagerDrawing returned = new GridLayoutManagerDrawing(graph, factory);
-		return returned;
+	@Override
+	public ISOMLayout<ShapeNode<?>, ConnectorNode<?>> getLayout() {
+		return layout;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		super.propertyChange(evt);
 	}
 
 }

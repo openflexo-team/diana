@@ -2,7 +2,7 @@
  * 
  * Copyright (c) 2014, Openflexo
  * 
- * This file is part of Diana-api, a component of the software infrastructure 
+ * This file is part of Diana-swing, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -36,24 +36,53 @@
  * 
  */
 
-package org.openflexo.fge.layout.impl;
+package org.openflexo.fge.layout;
 
-import org.openflexo.fge.layout.ForceDirectedGraphLayoutManager;
-import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.openflexo.fge.FGEModelFactory;
+import org.openflexo.fge.FGEModelFactoryImpl;
+import org.openflexo.fge.TestGraph;
+import org.openflexo.logging.FlexoLogger;
+import org.openflexo.logging.FlexoLoggingManager;
+import org.openflexo.model.exceptions.ModelDefinitionException;
 
 /**
- * Default implementation for the specification of a {@link ForceDirectedGraphLayoutManager} in DIANA<br>
+ * Demonstrates how to use GridLayoutManagerImpl
  * 
  * @author sylvain
  * 
  */
-public abstract class ForceDirectedGraphLayoutManagerSpecificationImpl extends
-		GraphBasedLayoutManagerSpecificationImpl<ForceDirectedGraphLayoutManager<?>, Object> implements
-		ForceDirectedGraphLayoutManagerSpecification {
+public class LaunchBalloonLayoutManagerExample extends AbstractLaunchLayoutManagerExample {
 
-	@Override
-	public Class<ForceDirectedGraphLayoutManager<?>> getLayoutManagerClass() {
-		return (Class) ForceDirectedGraphLayoutManager.class;
+	private static final Logger LOGGER = FlexoLogger.getLogger(LaunchBalloonLayoutManagerExample.class.getPackage().getName());
+
+	public static void main(String[] args) {
+		try {
+			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		showPanel(makeDrawing());
+	}
+
+	public static BalloonLayoutManagerDrawing makeDrawing() {
+		FGEModelFactory factory = null;
+		try {
+			factory = new FGEModelFactoryImpl();
+		} catch (ModelDefinitionException e) {
+			e.printStackTrace();
+		}
+		TestGraph graph = makeTestGraph();
+		BalloonLayoutManagerDrawing returned = new BalloonLayoutManagerDrawing(graph, factory);
+		return returned;
 	}
 
 }

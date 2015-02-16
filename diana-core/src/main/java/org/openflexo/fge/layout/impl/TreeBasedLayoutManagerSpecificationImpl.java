@@ -38,22 +38,42 @@
 
 package org.openflexo.fge.layout.impl;
 
-import org.openflexo.fge.layout.ForceDirectedGraphLayoutManager;
-import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
+import org.openflexo.fge.impl.FGELayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.TreeBasedLayoutManager;
+import org.openflexo.fge.layout.TreeBasedLayoutManagerSpecification;
 
 /**
- * Default implementation for the specification of a {@link ForceDirectedGraphLayoutManager} in DIANA<br>
+ * Base partial implementation for the specification of a {@link TreeBasedLayoutManagerSpecification} in DIANA<br>
  * 
  * @author sylvain
  * 
  */
-public abstract class ForceDirectedGraphLayoutManagerSpecificationImpl extends
-		GraphBasedLayoutManagerSpecificationImpl<ForceDirectedGraphLayoutManager<?>, Object> implements
-		ForceDirectedGraphLayoutManagerSpecification {
+public abstract class TreeBasedLayoutManagerSpecificationImpl<LM extends TreeBasedLayoutManager<?, ?>, O> extends
+		FGELayoutManagerSpecificationImpl<LM> implements TreeBasedLayoutManagerSpecification<LM> {
+
+	/**
+	 * Return true indicating that this layout manager supports autolayout
+	 * 
+	 * @return
+	 */
+	@Override
+	public boolean supportAutolayout() {
+		return true;
+	}
+
+	/**
+	 * Return true indicating that this layout manager supports decoration painting<br>
+	 * 
+	 * @return
+	 */
+	@Override
+	public boolean supportDecoration() {
+		return true;
+	}
 
 	@Override
-	public Class<ForceDirectedGraphLayoutManager<?>> getLayoutManagerClass() {
-		return (Class) ForceDirectedGraphLayoutManager.class;
+	public DraggingMode getDefaultDraggingMode() {
+		return DraggingMode.FreeDiaggingAndLayout;
 	}
 
 }

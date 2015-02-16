@@ -38,22 +38,22 @@
 
 package org.openflexo.fge.layout.impl;
 
-import org.openflexo.fge.layout.ForceDirectedGraphLayoutManager;
-import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
+import org.openflexo.fge.layout.TreeBasedLayoutManagerSpecification;
+import org.openflexo.fge.layout.TreeLayoutManager;
+import org.openflexo.fge.layout.TreeLayoutManagerSpecification;
 
 /**
- * Default implementation for the specification of a {@link ForceDirectedGraphLayoutManager} in DIANA<br>
+ * Implementation for the specification of a {@link TreeBasedLayoutManagerSpecification} in DIANA<br>
  * 
  * @author sylvain
  * 
  */
-public abstract class ForceDirectedGraphLayoutManagerSpecificationImpl extends
-		GraphBasedLayoutManagerSpecificationImpl<ForceDirectedGraphLayoutManager<?>, Object> implements
-		ForceDirectedGraphLayoutManagerSpecification {
+public abstract class TreeLayoutManagerSpecificationImpl<O> extends TreeBasedLayoutManagerSpecificationImpl<TreeLayoutManager<O>, O>
+		implements TreeLayoutManagerSpecification<O> {
 
 	@Override
-	public Class<ForceDirectedGraphLayoutManager<?>> getLayoutManagerClass() {
-		return (Class) ForceDirectedGraphLayoutManager.class;
+	public Class<TreeLayoutManager<O>> getLayoutManagerClass() {
+		return (Class) TreeLayoutManager.class;
 	}
 
 }

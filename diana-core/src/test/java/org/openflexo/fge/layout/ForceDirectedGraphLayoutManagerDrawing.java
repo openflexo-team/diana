@@ -36,12 +36,23 @@
  * 
  */
 
-package org.openflexo.fge;
+package org.openflexo.fge.layout;
 
 import java.awt.Color;
 
 import org.openflexo.connie.DataBinding;
-import org.openflexo.fge.FGELayoutManagerSpecification.DraggingMode;
+import org.openflexo.fge.ConnectorGraphicalRepresentation;
+import org.openflexo.fge.DrawingGraphicalRepresentation;
+import org.openflexo.fge.FGEModelFactory;
+import org.openflexo.fge.GRBinding;
+import org.openflexo.fge.GRProvider;
+import org.openflexo.fge.GRStructureVisitor;
+import org.openflexo.fge.GraphicalRepresentation;
+import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.TestEdge;
+import org.openflexo.fge.TestGraph;
+import org.openflexo.fge.TestGraphNode;
+import org.openflexo.fge.Drawing.PersistenceMode;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
 import org.openflexo.fge.GRBinding.DrawingGRBinding;
 import org.openflexo.fge.GRBinding.ShapeGRBinding;
@@ -50,16 +61,16 @@ import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.fge.impl.DrawingImpl;
-import org.openflexo.fge.layout.GridLayoutManagerSpecification;
+import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 
-public class GridLayoutManagerDrawing extends DrawingImpl<TestGraph> {
+public class ForceDirectedGraphLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 
 	private DrawingGraphicalRepresentation graphRepresentation;
 	private ShapeGraphicalRepresentation nodeRepresentation;
 	private ConnectorGraphicalRepresentation edgeRepresentation;
 
-	public GridLayoutManagerDrawing(TestGraph graph, FGEModelFactory factory) {
+	public ForceDirectedGraphLayoutManagerDrawing(TestGraph graph, FGEModelFactory factory) {
 		super(graph, factory, PersistenceMode.SharedGraphicalRepresentations);
 	}
 
@@ -67,8 +78,8 @@ public class GridLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 	public void init() {
 		graphRepresentation = getFactory().makeDrawingGraphicalRepresentation();
 		// graphRepresentation.setBackgroundColor(Color.RED);
-		nodeRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.LOSANGE);
-		nodeRepresentation.setBackground(getFactory().makeColoredBackground(Color.blue));
+		nodeRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.CIRCLE);
+		nodeRepresentation.setBackground(getFactory().makeColoredBackground(Color.ORANGE));
 		// nodeRepresentation.setX(50);
 		// nodeRepresentation.setY(50);
 		nodeRepresentation.setWidth(20);
@@ -97,26 +108,17 @@ public class GridLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 					}
 				});
 
-		GridLayoutManagerSpecification gridLayoutManager = getFactory().makeLayoutManagerSpecification("grid",
-				GridLayoutManagerSpecification.class);
-		gridLayoutManager.setPaintDecoration(true);
-		gridLayoutManager.setGridX(100);
-		gridLayoutManager.setGridY(20);
-		// gridLayoutManager.setDraggingMode(DraggingMode.FreeDraggingNoLayout); ok
-		gridLayoutManager.setDraggingMode(DraggingMode.FreeDiaggingAndLayout);
-		// gridLayoutManager.setDraggingMode(DraggingMode.ContinuousLayout); ok
-		// gridLayoutManager.setDraggingMode(DraggingMode.ConstrainedDragging); not relevant here
-		// gridLayoutManager.setDraggingMode(DraggingMode.NoDragging);
-		// gridLayoutManager.setDraggingMode(DraggingMode.FreeDiaggingAndLayout);
+		ForceDirectedGraphLayoutManagerSpecification fdgraphLayoutManager = getFactory().makeLayoutManagerSpecification("fdgraph",
+				ForceDirectedGraphLayoutManagerSpecification.class);
 
-		graphBinding.addLayoutManager(gridLayoutManager);
+		graphBinding.addLayoutManager(fdgraphLayoutManager);
 
 		graphBinding.addToWalkers(new GRStructureVisitor<TestGraph>() {
 
 			@Override
 			public void visit(TestGraph graph) {
 				for (TestGraphNode node : graph.getNodes()) {
-					drawShape(nodeBinding, node).layoutedWith("grid");
+					drawShape(nodeBinding, node).layoutedWith("fdgraph");
 				}
 			}
 		});

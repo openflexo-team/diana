@@ -39,7 +39,8 @@
 package org.openflexo.fge.layout.impl;
 
 import org.openflexo.fge.layout.ForceDirectedGraphLayoutManager;
-import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
+import org.openflexo.fge.layout.ISOMGraphLayoutManager;
+import org.openflexo.fge.layout.ISOMGraphLayoutManagerSpecification;
 
 /**
  * Default implementation for the specification of a {@link ForceDirectedGraphLayoutManager} in DIANA<br>
@@ -47,13 +48,12 @@ import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
  * @author sylvain
  * 
  */
-public abstract class ForceDirectedGraphLayoutManagerSpecificationImpl extends
-		GraphBasedLayoutManagerSpecificationImpl<ForceDirectedGraphLayoutManager<?>, Object> implements
-		ForceDirectedGraphLayoutManagerSpecification {
+public abstract class ISOMGraphLayoutManagerSpecificationImpl extends
+		GraphBasedLayoutManagerSpecificationImpl<ISOMGraphLayoutManager<?>, Object> implements ISOMGraphLayoutManagerSpecification {
 
 	@Override
-	public Class<ForceDirectedGraphLayoutManager<?>> getLayoutManagerClass() {
-		return (Class) ForceDirectedGraphLayoutManager.class;
+	public Class<ISOMGraphLayoutManager<?>> getLayoutManagerClass() {
+		return (Class) ISOMGraphLayoutManager.class;
 	}
 
 }

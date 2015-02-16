@@ -40,8 +40,9 @@ package org.openflexo.fge;
 
 import org.openflexo.connie.Bindable;
 import org.openflexo.fge.Drawing.ContainerNode;
-import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
+import org.openflexo.fge.layout.GraphBasedLayoutManagerSpecification;
 import org.openflexo.fge.layout.GridLayoutManagerSpecification;
+import org.openflexo.fge.layout.TreeBasedLayoutManagerSpecification;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
@@ -57,7 +58,8 @@ import org.openflexo.model.annotations.XMLAttribute;
  * 
  */
 @ModelEntity(isAbstract = true)
-@Imports({ @Import(GridLayoutManagerSpecification.class), @Import(ForceDirectedGraphLayoutManagerSpecification.class) })
+@Imports({ @Import(GridLayoutManagerSpecification.class), @Import(GraphBasedLayoutManagerSpecification.class),
+		@Import(TreeBasedLayoutManagerSpecification.class) })
 public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>> extends FGEObject, Bindable {
 
 	@PropertyIdentifier(type = String.class)

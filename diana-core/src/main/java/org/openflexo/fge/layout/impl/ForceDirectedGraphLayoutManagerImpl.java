@@ -39,24 +39,15 @@
 package org.openflexo.fge.layout.impl;
 
 import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.beans.PropertyChangeEvent;
 
 import org.openflexo.fge.Drawing.ConnectorNode;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
-import org.openflexo.fge.control.tools.animations.Animation;
-import org.openflexo.fge.control.tools.animations.TranslationTransition;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.impl.FGELayoutManagerImpl;
 import org.openflexo.fge.layout.ForceDirectedGraphLayoutManager;
 import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
 
+import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.algorithms.layout.SpringLayout;
-import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
-import edu.uci.ics.jung.graph.Graph;
 
 /**
  * Default implementation for {@link ForceDirectedGraphLayoutManager}
@@ -64,8 +55,8 @@ import edu.uci.ics.jung.graph.Graph;
  * @author sylvain
  * 
  */
-public abstract class ForceDirectedGraphLayoutManagerImpl<O> extends FGELayoutManagerImpl<ForceDirectedGraphLayoutManagerSpecification, O>
-		implements ForceDirectedGraphLayoutManager<O> {
+public abstract class ForceDirectedGraphLayoutManagerImpl<O> extends
+		GraphBasedLayoutManagerImpl<ForceDirectedGraphLayoutManagerSpecification, O> implements ForceDirectedGraphLayoutManager<O> {
 
 	@Override
 	public double getStretch() {
@@ -82,111 +73,36 @@ public abstract class ForceDirectedGraphLayoutManagerImpl<O> extends FGELayoutMa
 		return getLayoutManagerSpecification().getForceMultiplier();
 	}
 
-	@Override
-	public int getStepsNumber() {
-		return getLayoutManagerSpecification().getStepsNumber();
-	}
-
-	@Override
-	public boolean isFullyLayouted() {
-		return true;
-	}
-
-	@Override
-	protected void performLayout(ShapeNode<?> node) {
-
-		// computeLayout();
-
-		FGEPoint newLocation = new FGEPoint(layout.getX(node), layout.getY(node));
-		System.out.println("New location for " + node + " " + newLocation);
-		node.setLocation(newLocation);
-	}
-
-	private Graph<ShapeNode<?>, ConnectorNode<?>> graph;
 	private SpringLayout<ShapeNode<?>, ConnectorNode<?>> layout;
 
 	@Override
-	public void initLayout() {
-		super.initLayout();
-
-		graph = new DirectedSparseMultigraph<ShapeNode<?>, ConnectorNode<?>>();
-
-		for (DrawingTreeNode<?, ?> dtn : getContainerNode().getChildNodes()) {
-			if (dtn instanceof ShapeNode) {
-				graph.addVertex((ShapeNode<?>) dtn);
-			}
-		}
-
-		for (DrawingTreeNode<?, ?> dtn : getContainerNode().getChildNodes()) {
-			if (dtn instanceof ConnectorNode) {
-				ConnectorNode<?> connectorNode = (ConnectorNode<?>) dtn;
-				if (graph.containsVertex((connectorNode.getStartNode())) && graph.containsVertex((connectorNode.getEndNode()))) {
-					graph.addEdge(connectorNode, connectorNode.getStartNode(), connectorNode.getEndNode());
-				}
-			}
-		}
-
-		System.out.println(graph.toString());
-
-		layout = new SpringLayout<ShapeNode<?>, ConnectorNode<?>>(graph);
+	protected AbstractLayout<ShapeNode<?>, ConnectorNode<?>> buildLayout() {
+		layout = new SpringLayout<ShapeNode<?>, ConnectorNode<?>>(getGraph());
 		layout.setSize(new Dimension((int) getContainerNode().getWidth(), (int) getContainerNode().getHeight()));
-
+		layout.setForceMultiplier(getForceMultiplier());
+		layout.setRepulsionRange(getRepulsionRangeSq());
+		layout.setStretch(getStretch());
+		return layout;
 	}
 
 	@Override
-	public void computeLayout() {
-
-		Thread.dumpStack();
-		super.computeLayout();
-
-		Map<ShapeNode<?>, Double> xMap = new HashMap<ShapeNode<?>, Double>();
-		Map<ShapeNode<?>, Double> yMap = new HashMap<ShapeNode<?>, Double>();
-
-		for (ShapeNode<?> shapeNode : getNodes()) {
-			layout.setLocation(shapeNode, shapeNode.getX(), shapeNode.getY());
-			xMap.put(shapeNode, shapeNode.getX());
-			yMap.put(shapeNode, shapeNode.getY());
-		}
-
-		for (int i = 0; i < getStepsNumber(); i++) {
-			System.out.println("Compute layout, step " + i);
-			layout.step();
-		}
-
-		List<TranslationTransition> transitions = new ArrayList<TranslationTransition>();
-		for (ShapeNode<?> shapeNode : getNodes()) {
-			transitions.add(new TranslationTransition(shapeNode, new FGEPoint(xMap.get(shapeNode), yMap.get(shapeNode)), new FGEPoint(
-					layout.getX(shapeNode), layout.getY(shapeNode))));
-		}
-
-		layoutInProgress = true;
-		Animation.performTransitions(transitions);
-		layoutInProgress = false;
-
+	public SpringLayout<ShapeNode<?>, ConnectorNode<?>> getLayout() {
+		return layout;
 	}
 
-	/*@Override
-		public void invalidate(ShapeNode<?> node) {
-			System.out.println("On invalide " + node);
-			computeLayout();
-			super.invalidate(node);
-		}*/
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		super.propertyChange(evt);
+		if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.STRETCH_KEY)) {
+			invalidate();
+			doLayout(true);
+		} else if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.REPULSION_RANGE_SQ_KEY)) {
+			invalidate();
+			doLayout(true);
+		} else if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.FORCE_MULTIPLIER_KEY)) {
+			invalidate();
+			doLayout(true);
+		}
+	}
 
-	/*@Override
-		public void shapeMoved(FGEPoint oldLocation, FGEPoint location) {
-			if (!isLayoutInProgress()) {
-				super.shapeMoved(oldLocation, location);
-
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						for (int i = 0; i < 10; i++) {
-							layout.step();
-							doLayout(true);
-						}
-					}
-				}).start();
-
-			}
-		}*/
 }

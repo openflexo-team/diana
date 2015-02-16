@@ -36,7 +36,7 @@
  * 
  */
 
-package org.openflexo.fge;
+package org.openflexo.fge.layout;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -44,6 +44,8 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
@@ -51,27 +53,38 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.openflexo.fge.Drawing;
+import org.openflexo.fge.FGEModelFactory;
+import org.openflexo.fge.FGEModelFactoryImpl;
+import org.openflexo.fge.TestGraph;
+import org.openflexo.fge.TestGraphNode;
+import org.openflexo.fge.layout.CircularDrawing;
 import org.openflexo.fge.swing.JDianaInteractiveEditor;
 import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
 import org.openflexo.fib.swing.logging.FlexoLoggingViewer;
-import org.openflexo.fib.swing.toolbox.JFIBInspectorController;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
-import org.openflexo.rm.ResourceLocator;
+import org.openflexo.model.exceptions.ModelDefinitionException;
 
-/**
- * Demonstrates how to use GridLayoutManagerImpl
- * 
- * @author sylvain
- * 
- */
-public class AbstractLaunchLayoutManagerExample {
+public class LaunchCircularLayoutExample {
 
-	private static final Logger LOGGER = FlexoLogger.getLogger(AbstractLaunchLayoutManagerExample.class.getPackage().getName());
+	private static final Logger LOGGER = FlexoLogger.getLogger(LaunchCircularLayoutExample.class.getPackage().getName());
 
-	private static JFIBInspectorController inspector;
+	public static void main(String[] args) {
+		try {
+			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		showPanel();
+	}
 
 	public static class TestDrawingController extends JDianaInteractiveEditor<TestGraph> {
 		// private final JPopupMenu contextualMenu;
@@ -86,13 +99,14 @@ public class AbstractLaunchLayoutManagerExample {
 
 	}
 
-	public static void showPanel(final Drawing d) {
+	public static void showPanel() {
 		final JDialog dialog = new JDialog((Frame) null, false);
 
 		JPanel panel = new JPanel(new BorderLayout());
 
 		// final TestInspector inspector = new TestInspector();
 
+		final Drawing d = makeDrawing();
 		final TestDrawingController dc = new TestDrawingController(d);
 		// dc.disablePaintingCache();
 		dc.getDrawingView().setName("[NO_CACHE]");
@@ -112,7 +126,7 @@ public class AbstractLaunchLayoutManagerExample {
 		inspectButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				inspector.setVisible(true);
+				// inspector.getWindow().setVisible(true);
 			}
 		});
 
@@ -146,14 +160,17 @@ public class AbstractLaunchLayoutManagerExample {
 		dialog.validate();
 		dialog.pack();
 
-		inspector = new JFIBInspectorController(null, ResourceLocator.locateResource("LayoutInspectors"), null);
-		inspector.inspectObject(dc.getDrawing().getRoot().getDefaultLayoutManager().getLayoutManagerSpecification());
-
 		dialog.setVisible(true);
 
 	}
 
-	public static TestGraph makeTestGraph() {
+	public static CircularDrawing makeDrawing() {
+		FGEModelFactory factory = null;
+		try {
+			factory = new FGEModelFactoryImpl();
+		} catch (ModelDefinitionException e) {
+			e.printStackTrace();
+		}
 		TestGraph graph = new TestGraph();
 		TestGraphNode node0 = new TestGraphNode("node0", graph);
 		TestGraphNode node1 = new TestGraphNode("node1", graph);
@@ -176,7 +193,9 @@ public class AbstractLaunchLayoutManagerExample {
 		node2.connectTo(node8);
 		node4.connectTo(node9);
 		node4.connectTo(node10);
-		return graph;
+		CircularDrawing returned = new CircularDrawing(graph, factory);
+		returned.printGraphicalObjectHierarchy();
+		return returned;
 	}
 
 }
