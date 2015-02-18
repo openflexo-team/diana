@@ -139,6 +139,7 @@ public class AbstractLaunchLayoutManagerExample {
 			inspectButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					System.out.println("Hop l'inspecteur " + inspector);
 					inspector.setVisible(true);
 				}
 			});
@@ -155,6 +156,8 @@ public class AbstractLaunchLayoutManagerExample {
 			layoutButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					// TODO: remove invalidate
+					drawingController.getDrawing().getRoot().getDefaultLayoutManager().invalidate();
 					drawingController.getDrawing().getRoot().getDefaultLayoutManager().doLayout(true);
 				}
 			});

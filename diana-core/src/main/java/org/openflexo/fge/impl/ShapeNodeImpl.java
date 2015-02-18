@@ -1417,11 +1417,12 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public String toString() {
 
-		if (isDeleted()) {
-			return "[" + Integer.toHexString(hashCode()) + "]Shape-" + getIndex() + " [DELETED] ";
-		}
-		return "[" + Integer.toHexString(hashCode()) + "]Shape-" + getIndex() + "[" + getX() + ";" + getY() + "][" + getWidth() + "x"
-				+ getHeight() + "][" + getFGEShape() + "]:" + getDrawable();
+		/*	if (isDeleted()) {
+				return "[" + Integer.toHexString(hashCode()) + "]Shape-" + getIndex() + " [DELETED] ";
+			}
+			return "[" + Integer.toHexString(hashCode()) + "]Shape-" + getIndex() + "[" + getX() + ";" + getY() + "][" + getWidth() + "x"
+					+ getHeight() + "][" + getFGEShape() + "]:" + getDrawable();*/
+		return "ShapeNodeImpl[" + getText() + "/" + Integer.toHexString(hashCode()) + "]";
 	}
 
 	@Override
@@ -1862,5 +1863,4 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public void validateLayout() {
 		layoutValidated = true;
 	}
-
 }
