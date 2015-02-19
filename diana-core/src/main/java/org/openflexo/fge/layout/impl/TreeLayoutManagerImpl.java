@@ -47,6 +47,7 @@ import java.util.Map;
 import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.ForegroundStyle.DashStyle;
+import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.graphics.FGEGraphics;
 import org.openflexo.fge.layout.TreeLayoutManager;
@@ -127,15 +128,16 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 
 	private FGERectangle buildRequiredBounds(ShapeNode<?> n, double xPosition, double yPosition, double height) {
 
+		double startXPosition = xPosition;
 		double requiredWithForChildren = 0;
 		for (ShapeNode<?> child : getGraph().getSuccessors(n)) {
 			FGERectangle childRequiredBounds = buildRequiredBounds(child, xPosition, yPosition + height, getHeight(child));
 			requiredWithForChildren += childRequiredBounds.getWidth();
-			// xPosition += requiredWithForChildren;
+			xPosition += childRequiredBounds.getWidth();
 		}
 
 		double width = Math.max(Math.max(getLayout().getDistX(), n.getWidth()), requiredWithForChildren);
-		FGERectangle returned = new FGERectangle(xPosition, yPosition, width, height);
+		FGERectangle returned = new FGERectangle(startXPosition, yPosition, width, height);
 
 		System.out.println("Node " + n.getText() + " " + returned);
 		layoutPositions.put(n, returned);
@@ -148,12 +150,20 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 		return layout;
 	}
 
-	/*@Override
+	@Override
 	protected FGEPoint locationForNode(ShapeNode<?> node) {
 		// Point2D newLocation = getLayout().transform(node);
 		FGERectangle bounds = layoutPositions.get(node);
-		return new FGEPoint(bounds.getCenter().getX() - node.getWidth() / 2 - node.getBorder().getLeft() - getLayout().getDistX(), bounds
-				.getCenter().getY() - node.getHeight() / 2 - node.getBorder().getTop() );
+		return new FGEPoint(bounds.getCenter().getX() - node.getWidth() / 2 - node.getBorder().getLeft(), bounds.getCenter().getY()
+				- node.getHeight() / 2 - node.getBorder().getTop());
+	}
+
+	/*@Override
+	protected FGEPoint locationForNode(ShapeNode<?> node) {
+		FGEPoint returned = super.locationForNode(node);
+		// returned.setX(returned.getX() - getLayout().getDistX());
+		returned.setY(returned.getY() - getLayout().getDistY());
+		return returned;
 	}*/
 
 	@Override
