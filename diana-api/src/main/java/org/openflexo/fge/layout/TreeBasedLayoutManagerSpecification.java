@@ -40,9 +40,15 @@ package org.openflexo.fge.layout;
 
 import org.openflexo.fge.FGELayoutManager;
 import org.openflexo.fge.FGELayoutManagerSpecification;
+import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
+import org.openflexo.fge.GraphicalRepresentation.VerticalTextAlignment;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
 
 /**
  * Abstract specification of a {@link FGELayoutManager} generally handling trees<br>
@@ -54,5 +60,24 @@ import org.openflexo.model.annotations.ModelEntity;
 @Imports({ @Import(TreeLayoutManagerSpecification.class), @Import(BalloonLayoutManagerSpecification.class),
 		@Import(RadialTreeLayoutManagerSpecification.class) })
 public interface TreeBasedLayoutManagerSpecification<LM extends TreeBasedLayoutManager<?, ?>> extends FGELayoutManagerSpecification<LM> {
+
+	@PropertyIdentifier(type = HorizontalTextAlignment.class)
+	public static final String HORIZONTAL_ALIGNEMENT_KEY = "horizontalAlignment";
+	@PropertyIdentifier(type = VerticalTextAlignment.class)
+	public static final String VERTICAL_ALIGNEMENT_KEY = "verticalAlignment";
+
+	@Getter(value = HORIZONTAL_ALIGNEMENT_KEY, defaultValue = "CENTER")
+	@XMLAttribute
+	public HorizontalTextAlignment getHorizontalAlignment();
+
+	@Setter(value = HORIZONTAL_ALIGNEMENT_KEY)
+	public void setHorizontalAlignment(HorizontalTextAlignment horizontalAlignment);
+
+	@Getter(value = VERTICAL_ALIGNEMENT_KEY, defaultValue = "MIDDLE")
+	@XMLAttribute
+	public VerticalTextAlignment getVerticalAlignment();
+
+	@Setter(value = VERTICAL_ALIGNEMENT_KEY)
+	public void setVerticalAlignment(VerticalTextAlignment verticalAlignment);
 
 }

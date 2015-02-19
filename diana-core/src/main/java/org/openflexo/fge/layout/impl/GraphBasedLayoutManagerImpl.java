@@ -58,7 +58,7 @@ import org.openflexo.fge.layout.GraphBasedLayoutManagerSpecification;
 
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.algorithms.util.IterativeContext;
-import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
+import edu.uci.ics.jung.graph.DirectedOrderedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
 
 /**
@@ -140,7 +140,7 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 	public void initLayout() {
 		super.initLayout();
 
-		graph = new DirectedSparseMultigraph<ShapeNode<?>, ConnectorNode<?>>();
+		graph = new DirectedOrderedSparseMultigraph<ShapeNode<?>, ConnectorNode<?>>();
 
 		for (DrawingTreeNode<?, ?> dtn : getContainerNode().getChildNodes()) {
 			if (dtn instanceof ShapeNode) {

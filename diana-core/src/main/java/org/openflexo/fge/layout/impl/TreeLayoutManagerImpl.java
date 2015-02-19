@@ -72,38 +72,19 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 
 	@Override
 	protected TreeLayout<ShapeNode<?>, ConnectorNode<?>> buildLayout() {
-		layout = new DianaTreeLayout<ShapeNode<?>, ConnectorNode<?>>(getForest());
+		layout = new DianaTreeLayout<ShapeNode<?>, ConnectorNode<?>>(getForest(), getSpacingX(), getSpacingY(), getBorderX(), getBorderY());
 		// layout.setSize(new Dimension((int) getContainerNode().getWidth(), (int) getContainerNode().getHeight()));
 
 		layoutPositions = new HashMap<ShapeNode<?>, FGERectangle>();
 		rowHeights = new HashMap<Integer, Double>();
 
 		for (Integer i : getLayout().getVerticesByRows().keySet()) {
-			System.out.println("Row " + i + " " + getLayout().getVerticesByRows().get(i));
-			double height = getLayout().getDistY();
+			double height = getLayout().getSpacingY();
 			for (ShapeNode<?> n : getLayout().getVerticesByRows().get(i)) {
-				height = Math.max(height, n.getHeight());
+				height = Math.max(height, n.getHeight() + getBorderY() * 2);
 			}
 			rowHeights.put(i, height);
 		}
-
-		/*double yPosition = 0;
-		for (Integer i : getLayout().getVerticesByRows().keySet()) {
-			System.out.println("Row " + i + " " + getLayout().getVerticesByRows().get(i));
-			double height = getLayout().getDistY();
-			for (ShapeNode<?> n : getLayout().getVerticesByRows().get(i)) {
-				height = Math.max(height, n.getHeight());
-			}
-			double xPosition = 0;
-			for (ShapeNode<?> n : getLayout().getVerticesByRows().get(i)) {
-				FGERectangle bounds = buildRequiredBounds(n, xPosition, yPosition, height);
-				// layoutPositions.put(n, bounds);
-				double width = bounds.getWidth();
-				xPosition += width;
-				System.out.println(" > " + n.getText() + " bounds=" + bounds);
-			}
-			yPosition += height;
-		}*/
 
 		Collection<ShapeNode<?>> roots = TreeUtils.getRoots(getForest());
 
@@ -122,7 +103,7 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 
 	public Double getHeight(ShapeNode<?> n) {
 		int depth = getLayout().getDepth(n);
-		System.out.println("height for " + n.getText() + ": " + rowHeights.get(depth));
+		// System.out.println("height for " + n.getText() + ": " + rowHeights.get(depth));
 		return rowHeights.get(depth);
 	}
 
@@ -136,10 +117,10 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 			xPosition += childRequiredBounds.getWidth();
 		}
 
-		double width = Math.max(Math.max(getLayout().getDistX(), n.getWidth()), requiredWithForChildren);
+		double width = Math.max(Math.max(getLayout().getSpacingX(), n.getWidth() + getLayout().getBorderX() * 2), requiredWithForChildren);
 		FGERectangle returned = new FGERectangle(startXPosition, yPosition, width, height);
 
-		System.out.println("Node " + n.getText() + " " + returned);
+		// System.out.println("Node " + n.getText() + " " + returned);
 		layoutPositions.put(n, returned);
 
 		return returned;
@@ -154,8 +135,36 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 	protected FGEPoint locationForNode(ShapeNode<?> node) {
 		// Point2D newLocation = getLayout().transform(node);
 		FGERectangle bounds = layoutPositions.get(node);
-		return new FGEPoint(bounds.getCenter().getX() - node.getWidth() / 2 - node.getBorder().getLeft(), bounds.getCenter().getY()
-				- node.getHeight() / 2 - node.getBorder().getTop());
+		double x = 0;
+		double y = 0;
+
+		switch (getHorizontalAlignment()) {
+		case CENTER:
+			x = bounds.getCenter().getX() - node.getWidth() / 2 - node.getBorder().getLeft();
+			break;
+		case LEFT:
+			x = bounds.getX() - node.getBorder().getLeft();
+			break;
+		case RIGHT:
+			x = bounds.getX() + bounds.getWidth() - node.getWidth() - node.getBorder().getLeft();
+			break;
+		}
+
+		switch (getVerticalAlignment()) {
+		case MIDDLE:
+			y = bounds.getCenter().getY() - node.getHeight() / 2 - node.getBorder().getTop();
+			break;
+		case TOP:
+			y = bounds.getY() - node.getBorder().getTop();
+			break;
+		case BOTTOM:
+			y = bounds.getY() + bounds.getHeight() - node.getHeight() - node.getBorder().getTop();
+			break;
+		}
+		// return new FGEPoint(bounds.getCenter().getX() - node.getWidth() / 2 - node.getBorder().getLeft(), bounds.getCenter().getY()
+		// - node.getHeight() / 2 - node.getBorder().getTop());
+
+		return new FGEPoint(x, y);
 	}
 
 	/*@Override
@@ -169,16 +178,20 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		super.propertyChange(evt);
-		/*if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.STRETCH_KEY)) {
+		if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.SPACING_X_KEY)) {
 			invalidate();
 			doLayout(true);
-		} else if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.REPULSION_RANGE_SQ_KEY)) {
+		} else if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.SPACING_Y_KEY)) {
 			invalidate();
 			doLayout(true);
-		} else if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.FORCE_MULTIPLIER_KEY)) {
+		} else if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.BORDER_X_KEY)) {
 			invalidate();
 			doLayout(true);
-		}*/
+		} else if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.BORDER_Y_KEY)) {
+			invalidate();
+			doLayout(true);
+		}
+
 	}
 
 	/**
@@ -206,6 +219,22 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 				System.out.println("Node " + n.getText() + " radius=" + getLayout().getRadii().get(n));
 			}*/
 
+	}
+
+	public double getSpacingX() {
+		return getLayoutManagerSpecification().getSpacingX();
+	}
+
+	public double getSpacingY() {
+		return getLayoutManagerSpecification().getSpacingY();
+	}
+
+	public double getBorderX() {
+		return getLayoutManagerSpecification().getBorderX();
+	}
+
+	public double getBorderY() {
+		return getLayoutManagerSpecification().getBorderY();
 	}
 
 }

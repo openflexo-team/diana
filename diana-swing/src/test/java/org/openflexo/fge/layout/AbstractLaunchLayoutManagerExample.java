@@ -139,7 +139,6 @@ public class AbstractLaunchLayoutManagerExample {
 			inspectButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					System.out.println("Hop l'inspecteur " + inspector);
 					inspector.setVisible(true);
 				}
 			});

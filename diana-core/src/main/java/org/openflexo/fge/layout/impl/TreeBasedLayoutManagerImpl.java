@@ -48,18 +48,19 @@ import java.util.Map;
 import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
+import org.openflexo.fge.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.fge.animation.impl.AnimationImpl;
 import org.openflexo.fge.animation.impl.TranslationTransition;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.impl.FGELayoutManagerImpl;
-import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
 import org.openflexo.fge.layout.TreeBasedLayoutManager;
 import org.openflexo.fge.layout.TreeBasedLayoutManagerSpecification;
 
 import edu.uci.ics.jung.algorithms.layout.TreeLayout;
 import edu.uci.ics.jung.graph.DelegateForest;
 import edu.uci.ics.jung.graph.DirectedGraph;
-import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
+import edu.uci.ics.jung.graph.DirectedOrderedSparseMultigraph;
 import edu.uci.ics.jung.graph.Forest;
 
 /**
@@ -132,7 +133,7 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 	public void initLayout() {
 		super.initLayout();
 
-		graph = new DirectedSparseMultigraph<ShapeNode<?>, ConnectorNode<?>>();
+		graph = new DirectedOrderedSparseMultigraph<ShapeNode<?>, ConnectorNode<?>>();
 
 		for (DrawingTreeNode<?, ?> dtn : getContainerNode().getChildNodes()) {
 			if (dtn instanceof ShapeNode) {
@@ -186,7 +187,10 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		super.propertyChange(evt);
-		if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.STEPS_NUMBER_KEY)) {
+		if (evt.getPropertyName().equals(TreeBasedLayoutManagerSpecification.HORIZONTAL_ALIGNEMENT_KEY)) {
+			invalidate();
+			doLayout(true);
+		} else if (evt.getPropertyName().equals(TreeBasedLayoutManagerSpecification.VERTICAL_ALIGNEMENT_KEY)) {
 			invalidate();
 			doLayout(true);
 		}
@@ -211,10 +215,18 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 		return maxDepth;
 	}
 
-	/*@Override
+	@Override
 	public void attemptToPlaceNodeManually(ShapeNode<?> node) {
 		super.attemptToPlaceNodeManually(node);
-		getLayout().setLocation(node, node.getLocation());
-		getLayout().lock(node, true);
-	}*/
+		invalidate();
+	}
+
+	public HorizontalTextAlignment getHorizontalAlignment() {
+		return getLayoutManagerSpecification().getHorizontalAlignment();
+	}
+
+	public VerticalTextAlignment getVerticalAlignment() {
+		return getLayoutManagerSpecification().getVerticalAlignment();
+	}
+
 }

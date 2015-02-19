@@ -10,8 +10,17 @@ import edu.uci.ics.jung.graph.Forest;
 
 public class DianaTreeLayout<V, E> extends TreeLayout<V, E> {
 
-	public DianaTreeLayout(Forest<V, E> g) {
+	private final double spacingX;
+	private final double spacingY;
+	private final double borderX;
+	private final double borderY;
+
+	public DianaTreeLayout(Forest<V, E> g, double spacingX, double spacingY, double borderX, double borderY) {
 		super(g);
+		this.spacingX = spacingX;
+		this.spacingY = spacingY;
+		this.borderX = borderX;
+		this.borderY = borderY;
 	}
 
 	private Map<Integer, List<V>> verticesByRows;
@@ -71,12 +80,19 @@ public class DianaTreeLayout<V, E> extends TreeLayout<V, E> {
 		return basePositions.get(n) + distX;
 	}
 
-	public int getDistX() {
-		return distX;
+	public double getSpacingX() {
+		return spacingX;
 	}
 
-	public int getDistY() {
-		return distY;
+	public double getSpacingY() {
+		return spacingY;
 	}
 
+	public double getBorderX() {
+		return borderX;
+	}
+
+	public double getBorderY() {
+		return borderY;
+	}
 }

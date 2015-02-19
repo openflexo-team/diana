@@ -38,9 +38,13 @@
 
 package org.openflexo.fge.layout;
 
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
 import org.openflexo.model.annotations.XMLElement;
 
 /**
@@ -53,5 +57,43 @@ import org.openflexo.model.annotations.XMLElement;
 @XMLElement
 @Imports({ @Import(TreeLayoutManager.class) })
 public interface TreeLayoutManagerSpecification<O> extends TreeBasedLayoutManagerSpecification<TreeLayoutManager<O>> {
+
+	@PropertyIdentifier(type = double.class)
+	public static final String SPACING_X_KEY = "spacingX";
+	@PropertyIdentifier(type = double.class)
+	public static final String SPACING_Y_KEY = "spacingY";
+
+	@PropertyIdentifier(type = double.class)
+	public static final String BORDER_X_KEY = "borderX";
+	@PropertyIdentifier(type = double.class)
+	public static final String BORDER_Y_KEY = "borderY";
+
+	@Getter(value = SPACING_X_KEY, defaultValue = "50.0")
+	@XMLAttribute
+	public double getSpacingX();
+
+	@Setter(SPACING_X_KEY)
+	public void setSpacingX(double spacingX);
+
+	@Getter(value = SPACING_Y_KEY, defaultValue = "50.0")
+	@XMLAttribute
+	public double getSpacingY();
+
+	@Setter(SPACING_Y_KEY)
+	public void setSpacingY(double spacingY);
+
+	@Getter(value = BORDER_X_KEY, defaultValue = "10.0")
+	@XMLAttribute
+	public double getBorderX();
+
+	@Setter(BORDER_X_KEY)
+	public void setBorderX(double borderX);
+
+	@Getter(value = BORDER_Y_KEY, defaultValue = "10.0")
+	@XMLAttribute
+	public double getBorderY();
+
+	@Setter(BORDER_Y_KEY)
+	public void setBorderY(double borderY);
 
 }
