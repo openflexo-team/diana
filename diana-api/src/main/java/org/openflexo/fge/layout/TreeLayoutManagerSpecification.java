@@ -82,14 +82,14 @@ public interface TreeLayoutManagerSpecification<O> extends TreeBasedLayoutManage
 	@Setter(SPACING_Y_KEY)
 	public void setSpacingY(double spacingY);
 
-	@Getter(value = BORDER_X_KEY, defaultValue = "10.0")
+	@Getter(value = BORDER_X_KEY, defaultValue = "5.0")
 	@XMLAttribute
 	public double getBorderX();
 
 	@Setter(BORDER_X_KEY)
 	public void setBorderX(double borderX);
 
-	@Getter(value = BORDER_Y_KEY, defaultValue = "10.0")
+	@Getter(value = BORDER_Y_KEY, defaultValue = "5.0")
 	@XMLAttribute
 	public double getBorderY();
 

@@ -48,6 +48,7 @@ import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGELayoutManager;
 import org.openflexo.fge.FGELayoutManagerSpecification;
 import org.openflexo.fge.FGELayoutManagerSpecification.DraggingMode;
+import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.graphics.FGEGraphics;
 
@@ -260,7 +261,7 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 	 * @return
 	 */
 	public final boolean animateLayout() {
-		return getLayoutManagerSpecification().animateLayout();
+		return getLayoutManagerSpecification().animateLayout() /*&& !layoutInProgress*/;
 	}
 
 	/**
@@ -300,6 +301,17 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 	@Override
 	public void attemptToPlaceNodeManually(ShapeNode<?> node) {
 		System.out.println("On essaie de fixer " + node.getText() + " a " + node.getLocation());
+	}
+
+	/**
+	 * Return {@link ControlArea} managed by this layout manager<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public List<ControlArea<?>> getControlAreas() {
+		return null;
 	}
 
 }

@@ -592,6 +592,13 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 			if (getController() instanceof DianaInteractiveViewer) {
 				// Don't paint those things in case of buffering
+
+				// System.out.println("focused: " + ((DianaInteractiveViewer<?, ?, ?>) getController()).getFocusedObjects());
+
+				if (((DianaInteractiveViewer<?, ?, ?>) getController()).getFocusedObjects().size() == 0) {
+					paintFocused(getDrawing().getRoot(), graphics);
+				}
+
 				for (DrawingTreeNode<?, ?> o : new ArrayList<DrawingTreeNode<?, ?>>(
 						((DianaInteractiveViewer<?, ?, ?>) getController()).getFocusedObjects())) {
 					// logger.info("Paint focused " + o);
@@ -859,6 +866,16 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 		Graphics2D oldGraphics = graphics.cloneGraphics();
 		graphics.setDefaultForeground(PAINT_FACTORY.makeForegroundStyle(getGraphicalRepresentation().getFocusColor()));
+
+		/*if (focused instanceof RootNode) {
+			if (focused.getControlAreas() != null) {
+				for (ControlArea<?> ca : focused.getControlAreas()) {
+					if (focused.isValid()) {
+						paintControlArea(ca, graphics);
+					}
+				}
+			}
+		}*/
 
 		if (focused instanceof ShapeNode) {
 			ShapeNode<?> shapeNode = (ShapeNode<?>) focused;

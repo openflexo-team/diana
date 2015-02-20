@@ -42,8 +42,6 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.beans.PropertyChangeEvent;
-import java.util.Collections;
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.BackgroundStyle;
@@ -53,7 +51,6 @@ import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.GRBinding.DrawingGRBinding;
 import org.openflexo.fge.GraphicalRepresentation;
-import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.FGEDimension;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGERectangle;
@@ -168,11 +165,11 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 		return false;
 	}
 
-	@Override
+	/*@Override
 	public List<ControlArea<?>> getControlAreas() {
 		// No control areas are declared for the root node
 		return Collections.emptyList();
-	}
+	}*/
 
 	/**
 	 * Return flag indicating if this node should be displayed, relatively to the value returned by visible feature in

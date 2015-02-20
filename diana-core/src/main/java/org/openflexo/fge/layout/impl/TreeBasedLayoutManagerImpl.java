@@ -173,7 +173,8 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 
 		// No global layout to launch
 
-		if (animateLayout()) {
+		if (animateLayout() && !layoutInProgress) {
+			System.out.println("Petite animation...");
 			List<TranslationTransition> transitions = new ArrayList<TranslationTransition>();
 			for (ShapeNode<?> shapeNode : getNodes()) {
 				FGEPoint newLocation = locationForNode(shapeNode);
@@ -221,10 +222,12 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 		invalidate();
 	}
 
+	@Override
 	public HorizontalTextAlignment getHorizontalAlignment() {
 		return getLayoutManagerSpecification().getHorizontalAlignment();
 	}
 
+	@Override
 	public VerticalTextAlignment getVerticalAlignment() {
 		return getLayoutManagerSpecification().getVerticalAlignment();
 	}

@@ -40,13 +40,15 @@ package org.openflexo.fge.layout.impl;
 
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.ShapeNode;
-import org.openflexo.fge.ForegroundStyle.DashStyle;
+import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.graphics.FGEGraphics;
@@ -69,6 +71,13 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 
 	private Map<ShapeNode<?>, FGERectangle> layoutPositions;
 	private Map<Integer, Double> rowHeights;
+	private final Map<Integer, Double> fixedRowHeights;
+
+	public TreeLayoutManagerImpl() {
+		super();
+		controlAreas = new ArrayList<ControlArea<?>>();
+		fixedRowHeights = new HashMap<Integer, Double>();
+	}
 
 	@Override
 	protected TreeLayout<ShapeNode<?>, ConnectorNode<?>> buildLayout() {
@@ -82,6 +91,13 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 			double height = getLayout().getSpacingY();
 			for (ShapeNode<?> n : getLayout().getVerticesByRows().get(i)) {
 				height = Math.max(height, n.getHeight() + getBorderY() * 2);
+				if (getFixedRowHeight(i) != null) {
+					if (getFixedRowHeight(i) > height) {
+						height = getFixedRowHeight(i);
+					} /*else {
+						fixedRowHeights.remove(i);
+						}*/
+				}
 			}
 			rowHeights.put(i, height);
 		}
@@ -98,6 +114,24 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 				System.out.println("Base position " + layoutPositions.get(n) + " depth=" + getDepth(n) + " for node " + n);
 			}*/
 
+		controlAreas.clear();
+
+		double h = 0;
+		for (int i = 0; i < getLayout().getVerticesByRows().size(); i++) {
+			switch (getVerticalAlignment()) {
+			case TOP:
+				controlAreas.add(new TreeBaseLineAdjustingArea(this, i, h));
+				break;
+			case MIDDLE:
+				controlAreas.add(new TreeBaseLineAdjustingArea(this, i, h + getRowHeight(i) / 2));
+				break;
+			case BOTTOM:
+				controlAreas.add(new TreeBaseLineAdjustingArea(this, i, h + getRowHeight(i)));
+				break;
+			}
+			h += getRowHeight(i);
+		}
+
 		return layout;
 	}
 
@@ -105,6 +139,25 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 		int depth = getLayout().getDepth(n);
 		// System.out.println("height for " + n.getText() + ": " + rowHeights.get(depth));
 		return rowHeights.get(depth);
+	}
+
+	@Override
+	public double getRowHeight(int depth) {
+		return rowHeights.get(depth);
+	}
+
+	@Override
+	public Double getFixedRowHeight(int depth) {
+		return fixedRowHeights.get(depth);
+	}
+
+	@Override
+	public void setFixedRowHeight(int depth, double height) {
+		layoutInProgress = true;
+		fixedRowHeights.put(depth, height);
+		invalidate();
+		doLayout(false);
+		layoutInProgress = false;
 	}
 
 	private FGERectangle buildRequiredBounds(ShapeNode<?> n, double xPosition, double yPosition, double height) {
@@ -202,23 +255,20 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 	@Override
 	public void paintDecoration(FGEGraphics g) {
 
-		g.setDefaultForeground(getFactory().makeForegroundStyle(Color.GRAY, 1, DashStyle.DOTS_DASHES));
+		g.setDefaultForeground(getFactory().makeForegroundStyle(Color.BLUE, 1));
 		g.useDefaultForegroundStyle();
 
 		for (FGERectangle rectangle : layoutPositions.values()) {
 			rectangle.paint(g);
 		}
 
-		/*	FGECircle circle1 = new FGECircle(getContainerNode().getBounds().getCenter(), 185 * 2 - 60, Filling.NOT_FILLED);
+	}
 
-			circle1.paint(g);
+	private final List<ControlArea<?>> controlAreas;
 
-			System.out.println("radii=" + getLayout().getRadii());
-
-			for (ShapeNode<?> n : getLayout().getRadii().keySet()) {
-				System.out.println("Node " + n.getText() + " radius=" + getLayout().getRadii().get(n));
-			}*/
-
+	@Override
+	public List<ControlArea<?>> getControlAreas() {
+		return controlAreas;
 	}
 
 	public double getSpacingX() {

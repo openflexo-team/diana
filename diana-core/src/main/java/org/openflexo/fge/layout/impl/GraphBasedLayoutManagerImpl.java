@@ -186,7 +186,7 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 
 		}
 
-		if (animateLayout()) {
+		if (animateLayout() && !layoutInProgress) {
 			List<TranslationTransition> transitions = new ArrayList<TranslationTransition>();
 			for (ShapeNode<?> shapeNode : getNodes()) {
 				transitions.add(new TranslationTransition(shapeNode, new FGEPoint(xMap.get(shapeNode), yMap.get(shapeNode)), new FGEPoint(

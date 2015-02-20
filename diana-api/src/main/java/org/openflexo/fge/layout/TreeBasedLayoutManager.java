@@ -39,6 +39,8 @@
 package org.openflexo.fge.layout;
 
 import org.openflexo.fge.FGELayoutManager;
+import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
+import org.openflexo.fge.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.model.annotations.ModelEntity;
 
 /**
@@ -49,5 +51,9 @@ import org.openflexo.model.annotations.ModelEntity;
  */
 @ModelEntity(isAbstract = true)
 public interface TreeBasedLayoutManager<LMS extends TreeBasedLayoutManagerSpecification<?>, O> extends FGELayoutManager<LMS, O> {
+
+	public HorizontalTextAlignment getHorizontalAlignment();
+
+	public VerticalTextAlignment getVerticalAlignment();
 
 }

@@ -1347,22 +1347,21 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public List<? extends ControlArea<?>> getControlAreas() {
 		if (controlAreas == null) {
-			List<ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
-			if (customControlAreas == null) {
-				if (getShape() != null) {
-					controlAreas = getShape().getControlAreas();
-				} else {
+			controlAreas = super.getControlAreas();
 
+			List<ControlPoint> shapeControlAreas = getShape().getControlAreas();
+
+			if (shapeControlAreas != null && shapeControlAreas.size() > 0) {
+				if (controlAreas == null) {
+					controlAreas = shapeControlAreas;
+				} else if (controlAreas instanceof ConcatenedList) {
+					((ConcatenedList<ControlArea<?>>) controlAreas).addElementList(shapeControlAreas);
+				} else {
+					controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, shapeControlAreas);
 				}
-			} else {
-				ConcatenedList<ControlArea<?>> concatenedControlAreas = new ConcatenedList<ControlArea<?>>();
-				concatenedControlAreas.addElementList(getShape().getControlAreas());
-				concatenedControlAreas.addElementList(customControlAreas);
-				controlAreas = concatenedControlAreas;
 			}
 		}
 		return controlAreas;
-		// return getShape().getControlAreas();
 	}
 
 	/**

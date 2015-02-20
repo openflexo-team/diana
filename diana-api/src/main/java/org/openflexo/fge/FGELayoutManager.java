@@ -46,6 +46,7 @@ import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGELayoutManagerSpecification.DraggingMode;
+import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.model.annotations.Adder;
 import org.openflexo.model.annotations.Getter;
@@ -185,5 +186,13 @@ public interface FGELayoutManager<LMS extends FGELayoutManagerSpecification<?>, 
 	 * Randomly layout invalidated {@link ShapeNode} contained in this layout, all when force to true
 	 */
 	public void randomLayout(boolean force);
+
+	/**
+	 * Return {@link ControlArea} managed by this layout manager<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	public List<ControlArea<?>> getControlAreas();
 
 }

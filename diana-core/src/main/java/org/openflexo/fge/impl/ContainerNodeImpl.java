@@ -41,6 +41,7 @@ package org.openflexo.fge.impl;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -69,6 +70,7 @@ import org.openflexo.fge.GRBinding.ShapeGRBinding;
 import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
+import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.FGEDimension;
 import org.openflexo.fge.geom.FGEGeometricObject;
 import org.openflexo.fge.geom.FGEPoint;
@@ -81,6 +83,7 @@ import org.openflexo.fge.notifications.NodeRemoved;
 import org.openflexo.fge.notifications.ObjectHasResized;
 import org.openflexo.fge.notifications.ObjectResized;
 import org.openflexo.fge.notifications.ObjectWillResize;
+import org.openflexo.toolbox.ConcatenedList;
 
 public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresentation> extends DrawingTreeNodeImpl<O, GR> implements
 		ContainerNode<O, GR> {
@@ -112,6 +115,10 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	@Override
 	public FGELayoutManager<?, O> getLayoutManager(String identifier) {
 		return layoutManagers.get(identifier);
+	}
+
+	public Collection<FGELayoutManager<?, O>> getOwningLayoutManagers() {
+		return layoutManagers.values();
 	}
 
 	/**
@@ -814,6 +821,53 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 			if (layoutManager.supportDecoration() && layoutManager.paintDecoration()) {
 				((FGELayoutManagerImpl<?, ?>) layoutManager).paintDecoration(g);
 			}
+			if (layoutManager.getControlAreas() != null) {
+				for (ControlArea<?> ca : layoutManager.getControlAreas()) {
+					ca.paint(g);
+				}
+			}
 		}
 	}
+
+	private List<? extends ControlArea<?>> controlAreas = null;
+
+	@Override
+	public List<? extends ControlArea<?>> getControlAreas() {
+		if (controlAreas == null) {
+			List<ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
+			List<ControlArea<?>> layoutManagerAreas = null;
+
+			if (getOwningLayoutManagers().size() > 0) {
+				for (FGELayoutManager<?, O> layoutManager : getOwningLayoutManagers()) {
+					if (layoutManagerAreas == null) {
+						layoutManagerAreas = layoutManager.getControlAreas();
+					} else if (layoutManagerAreas instanceof ConcatenedList) {
+						((ConcatenedList<ControlArea<?>>) layoutManagerAreas).addElementList(layoutManager.getControlAreas());
+					} else {
+						controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, layoutManager.getControlAreas());
+					}
+				}
+			}
+			if (customControlAreas != null && customControlAreas.size() > 0) {
+				if (controlAreas == null) {
+					controlAreas = customControlAreas;
+				} else if (controlAreas instanceof ConcatenedList) {
+					((ConcatenedList<ControlArea<?>>) controlAreas).addElementList(customControlAreas);
+				} else {
+					controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, customControlAreas);
+				}
+			}
+			if (layoutManagerAreas != null && layoutManagerAreas.size() > 0) {
+				if (controlAreas == null) {
+					controlAreas = layoutManagerAreas;
+				} else if (controlAreas instanceof ConcatenedList) {
+					((ConcatenedList<ControlArea<?>>) controlAreas).addElementList(layoutManagerAreas);
+				} else {
+					controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, layoutManagerAreas);
+				}
+			}
+		}
+		return controlAreas;
+	}
+
 }

@@ -51,4 +51,9 @@ import org.openflexo.model.annotations.XMLElement;
 @XMLElement
 public interface TreeLayoutManager<O> extends TreeBasedLayoutManager<TreeLayoutManagerSpecification<O>, O> {
 
+	public double getRowHeight(int depth);
+
+	public Double getFixedRowHeight(int depth);
+
+	public void setFixedRowHeight(int depth, double height);
 }
