@@ -469,6 +469,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		 */
 		public FGELayoutManager<?, O> getLayoutManager(String identifier);
 
+		public List<FGELayoutManagerSpecification<?>> getLayoutManagerSpecifications();
+
 		public double getWidth();
 
 		public void setWidth(double aValue);

@@ -40,7 +40,6 @@ package org.openflexo.fge;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -179,21 +178,21 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 
 	public static abstract class ContainerGRBinding<O, GR extends ContainerGraphicalRepresentation> extends GRBinding<O, GR> {
 
-		private final Map<String, FGELayoutManagerSpecification<?>> layoutManagerSpecifications;
+		// private final Map<String, FGELayoutManagerSpecification<?>> layoutManagerSpecifications;
 
 		public ContainerGRBinding(String name, Class<?> drawableClass, ContainerGRProvider<O, GR> grProvider) {
 			super(name, drawableClass, grProvider);
-			layoutManagerSpecifications = new HashMap<String, FGELayoutManagerSpecification<?>>();
+			// layoutManagerSpecifications = new HashMap<String, FGELayoutManagerSpecification<?>>();
 		}
 
-		public FGELayoutManagerSpecification<?> addLayoutManager(FGELayoutManagerSpecification<?> layoutManagerSpec) {
+		/*public FGELayoutManagerSpecification<?> addLayoutManager(FGELayoutManagerSpecification<?> layoutManagerSpec) {
 			layoutManagerSpecifications.put(layoutManagerSpec.getIdentifier(), layoutManagerSpec);
 			return layoutManagerSpec;
 		}
 
 		public Map<String, FGELayoutManagerSpecification<?>> getLayoutManagerSpecifications() {
 			return layoutManagerSpecifications;
-		}
+		}*/
 
 	}
 

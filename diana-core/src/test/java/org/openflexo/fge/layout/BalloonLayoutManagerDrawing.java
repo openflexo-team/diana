@@ -74,6 +74,11 @@ public class BalloonLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 	public void init() {
 		graphRepresentation = getFactory().makeDrawingGraphicalRepresentation();
 		// graphRepresentation.setBackgroundColor(Color.RED);
+
+		BalloonLayoutManagerSpecification<?> fdgraphLayoutManager = getFactory().makeLayoutManagerSpecification("balloon",
+				BalloonLayoutManagerSpecification.class);
+		graphRepresentation.addToLayoutManagerSpecifications(fdgraphLayoutManager);
+
 		nodeRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.CIRCLE);
 		nodeRepresentation.setBackground(getFactory().makeColoredBackground(Color.CYAN));
 		// nodeRepresentation.setX(50);
@@ -103,11 +108,6 @@ public class BalloonLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 						return edgeRepresentation;
 					}
 				});
-
-		BalloonLayoutManagerSpecification fdgraphLayoutManager = getFactory().makeLayoutManagerSpecification("balloon",
-				BalloonLayoutManagerSpecification.class);
-
-		graphBinding.addLayoutManager(fdgraphLayoutManager);
 
 		graphBinding.addToWalkers(new GRStructureVisitor<TestGraph>() {
 

@@ -101,9 +101,16 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		super(drawing, drawable, grBinding, parentNode);
 		childNodes = new ArrayList<DrawingTreeNodeImpl<?, ?>>();
 		layoutManagers = new HashMap<String, FGELayoutManager<?, O>>();
-		for (FGELayoutManagerSpecification<?> spec : grBinding.getLayoutManagerSpecifications().values()) {
+		for (FGELayoutManagerSpecification<?> spec : getGraphicalRepresentation().getLayoutManagerSpecifications()) {
 			layoutManagers.put(spec.getIdentifier(), (FGELayoutManager<?, O>) spec.makeLayoutManager(this));
 		}
+	}
+
+	/**
+	 * Convenient method used to retrieve border property value
+	 */
+	public List<FGELayoutManagerSpecification<?>> getLayoutManagerSpecifications() {
+		return getPropertyValue(ContainerGraphicalRepresentation.LAYOUT_MANAGER_SPECIFICATIONS);
 	}
 
 	/**

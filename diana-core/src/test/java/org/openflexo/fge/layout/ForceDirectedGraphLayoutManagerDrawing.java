@@ -44,24 +44,20 @@ import org.openflexo.connie.DataBinding;
 import org.openflexo.fge.ConnectorGraphicalRepresentation;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.FGEModelFactory;
-import org.openflexo.fge.GRBinding;
-import org.openflexo.fge.GRProvider;
-import org.openflexo.fge.GRStructureVisitor;
-import org.openflexo.fge.GraphicalRepresentation;
-import org.openflexo.fge.ShapeGraphicalRepresentation;
-import org.openflexo.fge.TestEdge;
-import org.openflexo.fge.TestGraph;
-import org.openflexo.fge.TestGraphNode;
-import org.openflexo.fge.Drawing.PersistenceMode;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
 import org.openflexo.fge.GRBinding.DrawingGRBinding;
 import org.openflexo.fge.GRBinding.ShapeGRBinding;
 import org.openflexo.fge.GRProvider.ConnectorGRProvider;
 import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
+import org.openflexo.fge.GRStructureVisitor;
+import org.openflexo.fge.GraphicalRepresentation;
+import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.TestEdge;
+import org.openflexo.fge.TestGraph;
+import org.openflexo.fge.TestGraphNode;
 import org.openflexo.fge.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.fge.impl.DrawingImpl;
-import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 
 public class ForceDirectedGraphLayoutManagerDrawing extends DrawingImpl<TestGraph> {
@@ -78,6 +74,10 @@ public class ForceDirectedGraphLayoutManagerDrawing extends DrawingImpl<TestGrap
 	public void init() {
 		graphRepresentation = getFactory().makeDrawingGraphicalRepresentation();
 		// graphRepresentation.setBackgroundColor(Color.RED);
+		ForceDirectedGraphLayoutManagerSpecification fdgraphLayoutManager = getFactory().makeLayoutManagerSpecification("fdgraph",
+				ForceDirectedGraphLayoutManagerSpecification.class);
+		graphRepresentation.addToLayoutManagerSpecifications(fdgraphLayoutManager);
+
 		nodeRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.CIRCLE);
 		nodeRepresentation.setBackground(getFactory().makeColoredBackground(Color.ORANGE));
 		// nodeRepresentation.setX(50);
@@ -107,11 +107,6 @@ public class ForceDirectedGraphLayoutManagerDrawing extends DrawingImpl<TestGrap
 						return edgeRepresentation;
 					}
 				});
-
-		ForceDirectedGraphLayoutManagerSpecification fdgraphLayoutManager = getFactory().makeLayoutManagerSpecification("fdgraph",
-				ForceDirectedGraphLayoutManagerSpecification.class);
-
-		graphBinding.addLayoutManager(fdgraphLayoutManager);
 
 		graphBinding.addToWalkers(new GRStructureVisitor<TestGraph>() {
 

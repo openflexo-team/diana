@@ -73,6 +73,11 @@ public class TreeLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 	@Override
 	public void init() {
 		graphRepresentation = getFactory().makeDrawingGraphicalRepresentation();
+		TreeLayoutManagerSpecification fdgraphLayoutManager = getFactory().makeLayoutManagerSpecification("tree",
+				TreeLayoutManagerSpecification.class);
+
+		graphRepresentation.addToLayoutManagerSpecifications(fdgraphLayoutManager);
+
 		nodeRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
 		nodeRepresentation.setBackground(getFactory().makeColoredBackground(Color.PINK));
 		nodeRepresentation.setWidth(40);
@@ -102,11 +107,6 @@ public class TreeLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 						return edgeRepresentation;
 					}
 				});
-
-		TreeLayoutManagerSpecification fdgraphLayoutManager = getFactory().makeLayoutManagerSpecification("tree",
-				TreeLayoutManagerSpecification.class);
-
-		graphBinding.addLayoutManager(fdgraphLayoutManager);
 
 		graphBinding.addToWalkers(new GRStructureVisitor<TestGraph>() {
 

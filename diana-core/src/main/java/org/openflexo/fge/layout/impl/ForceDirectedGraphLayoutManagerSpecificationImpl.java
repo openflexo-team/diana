@@ -56,4 +56,9 @@ public abstract class ForceDirectedGraphLayoutManagerSpecificationImpl extends
 		return (Class) ForceDirectedGraphLayoutManager.class;
 	}
 
+	@Override
+	public LayoutManagerSpecificationType getLayoutManagerSpecificationType() {
+		return LayoutManagerSpecificationType.FORCE_DIRECTED_GRAPH;
+	}
+
 }

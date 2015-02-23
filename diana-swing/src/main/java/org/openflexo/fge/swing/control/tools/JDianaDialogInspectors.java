@@ -49,6 +49,7 @@ import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.tools.BackgroundStyleFactory;
 import org.openflexo.fge.control.tools.ConnectorSpecificationFactory;
 import org.openflexo.fge.control.tools.DianaInspectors;
+import org.openflexo.fge.control.tools.InspectedLayoutManagerSpecifications;
 import org.openflexo.fge.control.tools.InspectedLocationSizeProperties;
 import org.openflexo.fge.control.tools.ShapeSpecificationFactory;
 import org.openflexo.fge.swing.SwingViewFactory;
@@ -78,6 +79,7 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	private JDialogInspector<ShapeSpecificationFactory> shapeInspector;
 	private JDialogInspector<ConnectorSpecificationFactory> connectorInspector;
 	private JDialogInspector<InspectedLocationSizeProperties> locationSizeInspector;
+	private JDialogInspector<InspectedLayoutManagerSpecifications> layoutManagersInspector;
 
 	private final JFrame frame;
 
@@ -118,6 +120,7 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	public static Resource SHAPE_SPECIFICATION_PANEL_FIB_FILE = ResourceLocator.locateResource("Fib/ShapeSelectorPanel.fib");
 	public static Resource CONNECTOR_SPECIFICATION_PANEL_FIB_FILE = ResourceLocator.locateResource("Fib/ConnectorSelectorPanel.fib");
 	public static Resource LOCATION_SIZE_FIB_FILE = ResourceLocator.locateResource("Fib/LocationSizePanel.fib");
+	public static Resource LAYOUT_MANAGERS_FIB_FILE = ResourceLocator.locateResource("Fib/LayoutManagersPanel.fib");
 
 	@Override
 	public JDialogInspector<ForegroundStyle> getForegroundStyleInspector() {
@@ -185,6 +188,16 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 					"Connector");
 		}
 		return connectorInspector;
+	}
+
+	@Override
+	public JDialogInspector<InspectedLayoutManagerSpecifications> getLayoutManagersInspector() {
+		if (layoutManagersInspector == null) {
+			layoutManagersInspector = new JDialogInspector<InspectedLayoutManagerSpecifications>(FIBLibrary.instance()
+					.retrieveFIBComponent(LAYOUT_MANAGERS_FIB_FILE, true), getInspectedLayoutManagerSpecifications(), frame,
+					"Layout Managers");
+		}
+		return layoutManagersInspector;
 	}
 
 	@SuppressWarnings("serial")

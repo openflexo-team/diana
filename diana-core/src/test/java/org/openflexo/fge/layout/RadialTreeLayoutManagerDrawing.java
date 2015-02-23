@@ -74,6 +74,11 @@ public class RadialTreeLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 	public void init() {
 		graphRepresentation = getFactory().makeDrawingGraphicalRepresentation();
 		// graphRepresentation.setBackgroundColor(Color.RED);
+		RadialTreeLayoutManagerSpecification layoutManager = getFactory().makeLayoutManagerSpecification("radialtree",
+				RadialTreeLayoutManagerSpecification.class);
+
+		graphRepresentation.addToLayoutManagerSpecifications(layoutManager);
+
 		nodeRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.CIRCLE);
 		nodeRepresentation.setBackground(getFactory().makeColoredBackground(Color.red));
 		// nodeRepresentation.setX(50);
@@ -103,11 +108,6 @@ public class RadialTreeLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 						return edgeRepresentation;
 					}
 				});
-
-		RadialTreeLayoutManagerSpecification layoutManager = getFactory().makeLayoutManagerSpecification("radialtree",
-				RadialTreeLayoutManagerSpecification.class);
-
-		graphBinding.addLayoutManager(layoutManager);
 
 		graphBinding.addToWalkers(new GRStructureVisitor<TestGraph>() {
 

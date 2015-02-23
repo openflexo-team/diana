@@ -204,6 +204,7 @@ public class DiagramEditorApplication {
 		inspectors.getShapeInspector().setLocation(1000, 600);
 		inspectors.getConnectorInspector().setLocation(1000, 700);
 		inspectors.getLocationSizeInspector().setLocation(1000, 50);
+		inspectors.getLayoutManagersInspector().setLocation(1000, 300);
 
 		JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		topPanel.add(toolSelector.getComponent());
@@ -404,6 +405,8 @@ public class DiagramEditorApplication {
 				inspectors.getShadowStyleInspector());
 		WindowMenuItem locationSizeInspectorItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION,
 				"location_size_inspector"), inspectors.getLocationSizeInspector());
+		WindowMenuItem layoutManagerInspectorItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION,
+				"layout_manager_inspector"), inspectors.getLayoutManagersInspector());
 
 		WindowMenuItem paletteItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "palette"), paletteDialog);
 
@@ -414,6 +417,7 @@ public class DiagramEditorApplication {
 		viewMenu.add(connectorInspectorItem);
 		viewMenu.add(shadowInspectorItem);
 		viewMenu.add(locationSizeInspectorItem);
+		viewMenu.add(layoutManagerInspectorItem);
 		viewMenu.addSeparator();
 		viewMenu.add(paletteItem);
 

@@ -55,4 +55,9 @@ public abstract class BalloonLayoutManagerSpecificationImpl<O> extends TreeBased
 		return (Class) BalloonLayoutManager.class;
 	}
 
+	@Override
+	public LayoutManagerSpecificationType getLayoutManagerSpecificationType() {
+		return LayoutManagerSpecificationType.BALLOON_LAYOUT;
+	}
+
 }

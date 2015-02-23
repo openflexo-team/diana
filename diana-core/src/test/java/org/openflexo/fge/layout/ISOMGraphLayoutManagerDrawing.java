@@ -44,24 +44,20 @@ import org.openflexo.connie.DataBinding;
 import org.openflexo.fge.ConnectorGraphicalRepresentation;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.FGEModelFactory;
-import org.openflexo.fge.GRBinding;
-import org.openflexo.fge.GRProvider;
-import org.openflexo.fge.GRStructureVisitor;
-import org.openflexo.fge.GraphicalRepresentation;
-import org.openflexo.fge.ShapeGraphicalRepresentation;
-import org.openflexo.fge.TestEdge;
-import org.openflexo.fge.TestGraph;
-import org.openflexo.fge.TestGraphNode;
-import org.openflexo.fge.Drawing.PersistenceMode;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
 import org.openflexo.fge.GRBinding.DrawingGRBinding;
 import org.openflexo.fge.GRBinding.ShapeGRBinding;
 import org.openflexo.fge.GRProvider.ConnectorGRProvider;
 import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
+import org.openflexo.fge.GRStructureVisitor;
+import org.openflexo.fge.GraphicalRepresentation;
+import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.TestEdge;
+import org.openflexo.fge.TestGraph;
+import org.openflexo.fge.TestGraphNode;
 import org.openflexo.fge.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.fge.impl.DrawingImpl;
-import org.openflexo.fge.layout.ISOMGraphLayoutManagerSpecification;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 
 public class ISOMGraphLayoutManagerDrawing extends DrawingImpl<TestGraph> {
@@ -78,6 +74,11 @@ public class ISOMGraphLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 	public void init() {
 		graphRepresentation = getFactory().makeDrawingGraphicalRepresentation();
 		// graphRepresentation.setBackgroundColor(Color.RED);
+		ISOMGraphLayoutManagerSpecification isomGraphLayoutManager = getFactory().makeLayoutManagerSpecification("isomgraph",
+				ISOMGraphLayoutManagerSpecification.class);
+
+		graphRepresentation.addToLayoutManagerSpecifications(isomGraphLayoutManager);
+
 		nodeRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.SQUARE);
 		nodeRepresentation.setBackground(getFactory().makeColoredBackground(Color.GREEN));
 		// nodeRepresentation.setX(50);
@@ -107,11 +108,6 @@ public class ISOMGraphLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 						return edgeRepresentation;
 					}
 				});
-
-		ISOMGraphLayoutManagerSpecification isomGraphLayoutManager = getFactory().makeLayoutManagerSpecification("isomgraph",
-				ISOMGraphLayoutManagerSpecification.class);
-
-		graphBinding.addLayoutManager(isomGraphLayoutManager);
 
 		graphBinding.addToWalkers(new GRStructureVisitor<TestGraph>() {
 

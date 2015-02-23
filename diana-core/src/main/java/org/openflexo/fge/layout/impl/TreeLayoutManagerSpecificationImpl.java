@@ -56,4 +56,9 @@ public abstract class TreeLayoutManagerSpecificationImpl<O> extends TreeBasedLay
 		return (Class) TreeLayoutManager.class;
 	}
 
+	@Override
+	public LayoutManagerSpecificationType getLayoutManagerSpecificationType() {
+		return LayoutManagerSpecificationType.TREE_LAYOUT;
+	}
+
 }

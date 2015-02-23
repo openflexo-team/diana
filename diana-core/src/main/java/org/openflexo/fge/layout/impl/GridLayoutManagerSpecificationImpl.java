@@ -52,6 +52,11 @@ public abstract class GridLayoutManagerSpecificationImpl extends FGELayoutManage
 		GridLayoutManagerSpecification {
 
 	@Override
+	public LayoutManagerSpecificationType getLayoutManagerSpecificationType() {
+		return LayoutManagerSpecificationType.GRID;
+	}
+
+	@Override
 	public Class<GridLayoutManager> getLayoutManagerClass() {
 		return GridLayoutManager.class;
 	}

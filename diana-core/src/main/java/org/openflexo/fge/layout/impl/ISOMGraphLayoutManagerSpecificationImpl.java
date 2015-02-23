@@ -56,4 +56,9 @@ public abstract class ISOMGraphLayoutManagerSpecificationImpl extends
 		return (Class) ISOMGraphLayoutManager.class;
 	}
 
+	@Override
+	public LayoutManagerSpecificationType getLayoutManagerSpecificationType() {
+		return LayoutManagerSpecificationType.ISOM_GRAPH;
+	}
+
 }

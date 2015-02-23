@@ -56,4 +56,9 @@ public abstract class RadialTreeLayoutManagerSpecificationImpl<O> extends
 		return (Class) RadialTreeLayoutManager.class;
 	}
 
+	@Override
+	public LayoutManagerSpecificationType getLayoutManagerSpecificationType() {
+		return LayoutManagerSpecificationType.RADIAL_TREE;
+	}
+
 }
