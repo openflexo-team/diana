@@ -195,4 +195,5 @@ public interface FGELayoutManager<LMS extends FGELayoutManagerSpecification<?>, 
 	 */
 	public List<ControlArea<?>> getControlAreas();
 
+	public String getIdentifier();
 }

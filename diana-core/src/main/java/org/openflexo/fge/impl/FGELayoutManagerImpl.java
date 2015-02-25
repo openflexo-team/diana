@@ -73,6 +73,13 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 		return nodes;
 	}
 
+	public String getIdentifier() {
+		if (getLayoutManagerSpecification() != null) {
+			return getLayoutManagerSpecification().getIdentifier();
+		}
+		return null;
+	}
+
 	/**
 	 * Called to invalidate the whole layout<br>
 	 * All contained {@link ShapeNode} will be invalidated

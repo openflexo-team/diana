@@ -207,6 +207,9 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		inspectedConnectorSpecification = new InspectedConnectorSpecification(this);
 		inspectedLocationSizeProperties = new InspectedLocationSizeProperties(this);
 		inspectedLayoutManagerSpecifications = new InspectedLayoutManagerSpecifications(this);
+
+		System.out.println("**** hop, on a bien cree " + inspectedLayoutManagerSpecifications);
+
 		setCurrentTool(EditorTool.SelectionTool);
 		setDrawShapeToolOption(DrawShapeToolOption.DrawRectangle);
 		setDrawCustomShapeToolOption(DrawCustomShapeToolOption.DrawPolygon);
@@ -237,6 +240,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		inspectedShapeSpecification.fireSelectionUpdated();
 		inspectedConnectorSpecification.fireSelectionUpdated();
 		inspectedLocationSizeProperties.fireSelectionUpdated();
+		inspectedLayoutManagerSpecifications.fireSelectionUpdated();
 	}
 
 	public DrawShapeToolController<?> getDrawShapeToolController() {

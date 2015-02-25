@@ -54,6 +54,7 @@ import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.graphics.FGEGraphics;
 import org.openflexo.fge.layout.TreeLayoutManager;
 import org.openflexo.fge.layout.TreeLayoutManagerSpecification;
+import org.openflexo.fib.annotation.FIBPanel;
 
 import edu.uci.ics.jung.algorithms.layout.TreeLayout;
 import edu.uci.ics.jung.graph.util.TreeUtils;
@@ -64,6 +65,7 @@ import edu.uci.ics.jung.graph.util.TreeUtils;
  * @author sylvain
  * 
  */
+@FIBPanel("Fib/Layout/TreeLayoutManagerPanel.fib")
 public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImpl<TreeLayoutManagerSpecification<O>, O> implements
 		TreeLayoutManager<O> {
 

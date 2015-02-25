@@ -40,13 +40,11 @@ package org.openflexo.fge.impl;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -95,20 +93,71 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	private boolean isResizing = false;
 	private boolean isCheckingDimensionConstraints = false;
 
-	private final Map<String, FGELayoutManager<?, O>> layoutManagers;
+	private final List<FGELayoutManager<?, O>> layoutManagers;
 
 	protected ContainerNodeImpl(DrawingImpl<?> drawing, O drawable, ContainerGRBinding<O, GR> grBinding, ContainerNodeImpl<?, ?> parentNode) {
 		super(drawing, drawable, grBinding, parentNode);
 		childNodes = new ArrayList<DrawingTreeNodeImpl<?, ?>>();
-		layoutManagers = new HashMap<String, FGELayoutManager<?, O>>();
-		for (FGELayoutManagerSpecification<?> spec : getGraphicalRepresentation().getLayoutManagerSpecifications()) {
-			layoutManagers.put(spec.getIdentifier(), (FGELayoutManager<?, O>) spec.makeLayoutManager(this));
+		layoutManagers = new ArrayList<FGELayoutManager<?, O>>();
+		/*for (FGELayoutManagerSpecification<?> spec : getGraphicalRepresentation().getLayoutManagerSpecifications()) {
+			FGELayoutManager<?, O> layoutManager = (FGELayoutManager<?, O>) spec.makeLayoutManager(this);
+			layoutManagers.add(layoutManager);
+		}*/
+		updateLayoutManagers();
+
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		super.propertyChange(evt);
+
+		if (evt.getSource() == getGraphicalRepresentation()) {
+			if (evt.getPropertyName().equals(ContainerGraphicalRepresentation.LAYOUT_MANAGER_SPECIFICATIONS_KEY)) {
+				// Detected that the layout manager specifications have changed
+				if (evt.getNewValue() == null) {
+					System.out.println("Les LMS changent: DELETE de " + evt.getOldValue());
+				} else if (evt.getOldValue() == null) {
+					System.out.println("Les LMS changent: ADD de " + evt.getNewValue());
+				}
+				updateLayoutManagers();
+			}
 		}
+	}
+
+	/**
+	 * Internally called to update instantiated {@link FGELayoutManager} from {@link FGELayoutManagerSpecification} list as defined in
+	 * {@link ContainerGraphicalRepresentation}
+	 */
+	private void updateLayoutManagers() {
+		FGELayoutManager<?, O> oldDefaultLayoutManager = getDefaultLayoutManager();
+		List<FGELayoutManager<?, O>> lmToRemove = new ArrayList<FGELayoutManager<?, O>>(getLayoutManagers());
+		for (FGELayoutManagerSpecification<?> spec : getGraphicalRepresentation().getLayoutManagerSpecifications()) {
+			boolean found = false;
+			for (FGELayoutManager<?, ?> lm : getLayoutManagers()) {
+				if (lm.getLayoutManagerSpecification() == spec) {
+					lmToRemove.remove(lm);
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				FGELayoutManager<?, O> newLayoutManager = (FGELayoutManager<?, O>) spec.makeLayoutManager(this);
+				layoutManagers.add(newLayoutManager);
+			}
+		}
+		for (FGELayoutManager<?, ?> lm : new ArrayList<FGELayoutManager<?, O>>(lmToRemove)) {
+			lm.delete();
+			layoutManagers.remove(lm);
+		}
+		getPropertyChangeSupport().firePropertyChange("layoutManagers", null, getLayoutManagers());
+		getPropertyChangeSupport().firePropertyChange("defaultLayoutManager", oldDefaultLayoutManager, getDefaultLayoutManager());
+
 	}
 
 	/**
 	 * Convenient method used to retrieve border property value
 	 */
+	@Override
 	public List<FGELayoutManagerSpecification<?>> getLayoutManagerSpecifications() {
 		return getPropertyValue(ContainerGraphicalRepresentation.LAYOUT_MANAGER_SPECIFICATIONS);
 	}
@@ -121,11 +170,20 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	 */
 	@Override
 	public FGELayoutManager<?, O> getLayoutManager(String identifier) {
-		return layoutManagers.get(identifier);
+		if (identifier == null) {
+			return null;
+		}
+		for (FGELayoutManager<?, O> layoutManager : layoutManagers) {
+			if (identifier.equals(layoutManager.getLayoutManagerSpecification().getIdentifier())) {
+				return layoutManager;
+			}
+		}
+		return null;
 	}
 
-	public Collection<FGELayoutManager<?, O>> getOwningLayoutManagers() {
-		return layoutManagers.values();
+	@Override
+	public List<FGELayoutManager<?, O>> getLayoutManagers() {
+		return layoutManagers;
 	}
 
 	/**
@@ -136,7 +194,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	@Override
 	public FGELayoutManager<?, O> getDefaultLayoutManager() {
 		if (layoutManagers.size() > 0) {
-			return layoutManagers.values().iterator().next();
+			return layoutManagers.get(0);
 		}
 		return null;
 	}
@@ -242,7 +300,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	@Override
 	public void validate() {
 		super.validate();
-		for (FGELayoutManager<?, O> layoutManager : layoutManagers.values()) {
+		for (FGELayoutManager<?, O> layoutManager : layoutManagers) {
 			layoutManager.doLayout(true);
 		}
 	}
@@ -822,7 +880,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	@Override
 	public void paint(FGEGraphics g) {
 
-		for (FGELayoutManager<?, ?> layoutManager : layoutManagers.values()) {
+		for (FGELayoutManager<?, ?> layoutManager : layoutManagers) {
 			// System.out.println("Paint LayoutManager " + layoutManager + " supportDecoration=" + layoutManager.supportDecoration()
 			// + " paintDecoration=" + layoutManager.paintDecoration());
 			if (layoutManager.supportDecoration() && layoutManager.paintDecoration()) {
@@ -844,8 +902,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 			List<ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
 			List<ControlArea<?>> layoutManagerAreas = null;
 
-			if (getOwningLayoutManagers().size() > 0) {
-				for (FGELayoutManager<?, O> layoutManager : getOwningLayoutManagers()) {
+			if (getLayoutManagers().size() > 0) {
+				for (FGELayoutManager<?, O> layoutManager : getLayoutManagers()) {
 					if (layoutManagerAreas == null) {
 						layoutManagerAreas = layoutManager.getControlAreas();
 					} else if (layoutManagerAreas instanceof ConcatenedList) {

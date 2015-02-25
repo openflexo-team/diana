@@ -47,15 +47,19 @@ import org.openflexo.fge.ContainerGraphicalRepresentation;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
+import org.openflexo.fge.FGELayoutManager;
 import org.openflexo.fge.FGELayoutManagerSpecification;
+import org.openflexo.fge.FGELayoutManagerSpecification.LayoutManagerSpecificationType;
+import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.control.DianaInteractiveViewer;
-import org.openflexo.fge.layout.GridLayoutManagerSpecification;
 
 /**
- * Implementation of {@link LayoutManagerSpecification}, as a container multiple {@link LayoutManagerSpecification<br>
- * This is the object beeing represented in tool inspectors
+ * Proxy object manager by the controller of {@link LayoutManagerSpecification} inspector (this is the object represented by the inspector)<br>
+ * 
+ * Only one instance of {@link ContainerNode} might be accessed through this class (behaviour is here different from the other inspectors
+ * managing a multiple selection)
  * 
  * @author sylvain
  * 
@@ -67,8 +71,27 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 	}
 
 	@Override
-	public List<DrawingTreeNode<?, ?>> getSelection() {
-		return getController().getSelectedObjects();
+	public List<ContainerNode<?, ?>> getSelection() {
+		return getController().getSelectedContainers();
+	}
+
+	public ContainerNode<?, ?> getContainerNode() {
+		if (getSelection().size() > 0) {
+			return getSelection().get(0);
+		}
+		return null;
+	}
+
+	public boolean hasValidSelection() {
+		return getSelection().size() == 1;
+	}
+
+	@Override
+	public FGEModelFactory getFactory() {
+		if (getContainerNode() != null) {
+			return getContainerNode().getFactory();
+		}
+		return null;
 	}
 
 	@Override
@@ -95,27 +118,54 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 	@Override
 	public void fireSelectionUpdated() {
 		super.fireSelectionUpdated();
-		/*getPropertyChangeSupport().firePropertyChange("areLocationPropertiesApplicable", !areLocationPropertiesApplicable(),
-				areLocationPropertiesApplicable());*/
+		getPropertyChangeSupport().firePropertyChange("hasValidSelection", !hasValidSelection(), hasValidSelection());
 	}
 
-	public List<FGELayoutManagerSpecification<?>> getLayoutManagerSpecifications() {
-		return getPropertyValue(ContainerGraphicalRepresentation.LAYOUT_MANAGER_SPECIFICATIONS);
+	public List<FGELayoutManager<?, ?>> getLayoutManagers() {
+		// return getPropertyValue(ContainerGraphicalRepresentation.LAYOUT_MANAGER_SPECIFICATIONS);
+		if (getContainerNode() != null) {
+			return (List) getContainerNode().getLayoutManagers();
+		}
+		return null;
 	}
 
-	private FGELayoutManagerSpecification<?> defaultLayoutManagerSpecification;
-
-	public FGELayoutManagerSpecification<?> getDefaultLayoutManagerSpecification() {
-		System.out.println("getDefaultLayoutManagerSpecification???");
-
-		if (getLayoutManagerSpecifications().size() > 0) {
-			System.out.println(">> return " + defaultLayoutManagerSpecification);
-			return getLayoutManagerSpecifications().get(0);
+	public LayoutManagerSpecificationType getDefaultLayoutType() {
+		if (getDefaultLayoutManager() != null) {
+			return getDefaultLayoutManager().getLayoutManagerSpecification().getLayoutManagerSpecificationType();
 		}
-		if (defaultLayoutManagerSpecification == null) {
-			defaultLayoutManagerSpecification = getFactory().makeLayoutManagerSpecification("prout", GridLayoutManagerSpecification.class);
+		return LayoutManagerSpecificationType.NONE;
+	}
+
+	public void setDefaultLayoutType(LayoutManagerSpecificationType defaultLayoutType) {
+
+		if (getDefaultLayoutType() != defaultLayoutType && hasValidSelection() && getContainerNode() != null && getFactory() != null) {
+
+			FGELayoutManager<?, ?> oldLayoutManager = getDefaultLayoutManager();
+
+			System.out.println("setDefaultLayoutType with " + defaultLayoutType);
+			LayoutManagerSpecificationType oldValue = getDefaultLayoutType();
+			ContainerGraphicalRepresentation gr = getContainerNode().getGraphicalRepresentation();
+
+			if (getDefaultLayoutManager() != null) {
+				gr.removeFromLayoutManagerSpecifications(getDefaultLayoutManager().getLayoutManagerSpecification());
+			}
+
+			if (defaultLayoutType != LayoutManagerSpecificationType.NONE) {
+				FGELayoutManagerSpecification<?> newLayoutManagerSpecification = getFactory().makeLayoutManagerSpecification("toto",
+						defaultLayoutType.getLayoutManagerSpecificationClass());
+				System.out.println("new layout manager: " + newLayoutManagerSpecification);
+				gr.addToLayoutManagerSpecifications(newLayoutManagerSpecification);
+			}
+
+			getPropertyChangeSupport().firePropertyChange("defaultLayoutManager", oldLayoutManager, getDefaultLayoutManager());
+			getPropertyChangeSupport().firePropertyChange("defaultLayoutType", oldValue, defaultLayoutType);
 		}
-		System.out.println("> return " + defaultLayoutManagerSpecification);
-		return defaultLayoutManagerSpecification;
+	}
+
+	public FGELayoutManager<?, ?> getDefaultLayoutManager() {
+		if (getLayoutManagers() != null && getLayoutManagers().size() > 0) {
+			return getLayoutManagers().get(0);
+		}
+		return null;
 	}
 }

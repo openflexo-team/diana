@@ -45,6 +45,7 @@ import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.layout.ForceDirectedGraphLayoutManager;
 import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
+import org.openflexo.fib.annotation.FIBPanel;
 
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.algorithms.layout.SpringLayout;
@@ -55,6 +56,7 @@ import edu.uci.ics.jung.algorithms.layout.SpringLayout;
  * @author sylvain
  * 
  */
+@FIBPanel("Fib/Layout/ForceDirectedGraphLayoutManagerPanel.fib")
 public abstract class ForceDirectedGraphLayoutManagerImpl<O> extends
 		GraphBasedLayoutManagerImpl<ForceDirectedGraphLayoutManagerSpecification, O> implements ForceDirectedGraphLayoutManager<O> {
 

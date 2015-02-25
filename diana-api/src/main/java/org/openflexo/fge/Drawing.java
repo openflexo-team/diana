@@ -40,6 +40,7 @@
 package org.openflexo.fge;
 
 import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
@@ -455,14 +456,22 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 	public interface ContainerNode<O, GR extends ContainerGraphicalRepresentation> extends DrawingTreeNode<O, GR> {
 
 		/**
-		 * Return default FGELayoutManager (the first one found)
+		 * Return default FGELayoutManager which are managed by this {@link ContainerNode} (the first one found)
 		 * 
 		 * @return
 		 */
 		public FGELayoutManager<?, O> getDefaultLayoutManager();
 
 		/**
-		 * Return FGELayoutManager identified by identifier
+		 * Return all {@link FGELayoutManager} which are managed by this {@link ContainerNode} (those are not the {@link LayoutManager} used
+		 * to layout this node)
+		 * 
+		 * @return
+		 */
+		public List<FGELayoutManager<?, O>> getLayoutManagers();
+
+		/**
+		 * Return {@link FGELayoutManager} managed by this {@link ContainerNode} and identified by identifier, null when not found
 		 * 
 		 * @param identifier
 		 * @return

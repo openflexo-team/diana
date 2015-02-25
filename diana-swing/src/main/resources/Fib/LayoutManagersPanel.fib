@@ -7,29 +7,30 @@
 	dataClassName="org.openflexo.fge.control.tools.InspectedLayoutManagerSpecifications"
 	titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true">
 	<LocalizedDictionary id="1" />
-	<Panel id="2" darkLevel="0" visible="EnableMultipleLayoutsCheckBox.data"
+	<Panel id="2" darkLevel="0"
+		visible="(data.hasValidSelection &amp; EnableMultipleLayoutsCheckBox.data)"
 		useScrollBar="false" borderLeft="10" protectContent="false" opaque="false"
 		layout="twocols" controllerClassName="org.openflexo.fib.controller.FIBController"
 		borderRight="10" border="empty" trackViewPortWidth="true" index="0"
 		constraints="gridbag(anchor=center;fill=horizontal;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=0;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=0.0;weightY=0.0)"
 		borderBottom="2" borderTitle="" titleFont="SansSerif,0,11" borderTop="2"
 		trackViewPortHeight="true">
-		<Table id="3" name="LayoutTable" showFooter="true" visible="EnableMultipleLayoutsCheckBox.data"
+		<Table id="3" showFooter="true" visible="EnableMultipleLayoutsCheckBox.data"
 			manageDynamicModel="true" selectionMode="MultipleIntervalSelection"
 			boundToSelectionManager="false" controllerClassName="org.openflexo.fib.controller.FIBController"
 			index="0" localize="true"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=center)"
 			visibleRowCount="2" createNewRowOnClick="false" rowHeight="20"
-			textSelectionColor="255,255,255" iteratorClassName="org.openflexo.fge.FGELayoutManagerSpecification"
+			textSelectionColor="255,255,255" iteratorClassName="org.openflexo.fge.FGELayoutManager"
 			backgroundSelectionColor="26,96,206" useScrollBar="false"
-			backgroundNonSelectionColor="255,255,255" data="data.layoutManagerSpecifications"
-			autoSelectFirstRow="false"
-			textNonSelectionColor="0,0,0" readOnly="false"
-			backgroundSecondarySelectionColor="173,215,255">
+			backgroundNonSelectionColor="255,255,255" data="data.layoutManagers"
+			autoSelectFirstRow="true" name="LayoutTable" textNonSelectionColor="0,0,0"
+			readOnly="false" backgroundSecondarySelectionColor="173,215,255">
 			<TextFieldColumn id="4" data="iterator.identifier"
 				displayTitle="true" title="identifier" name="textfield" columnWidth="100"
 				resizable="true" showIcon="false" />
-			<LabelColumn id="5" data="iterator.layoutManagerClass.simpleName"
+			<LabelColumn id="5"
+				data="iterator.layoutManagerSpecification.layoutManagerClass.simpleName"
 				displayTitle="true" title="type" name="label" columnWidth="100"
 				resizable="true" showIcon="false" />
 			<AddAction id="6" name="new" />
@@ -37,50 +38,67 @@
 				isAvailable="data.isMouseDragControlDeletable(selected)" />
 		</Table>
 	</Panel>
-	<DropDown id="8" manageDynamicModel="false" useScrollBar="false"
-		data="data.layoutType" showReset="false" staticList=""
-		autoSelectFirstRow="true" name="dropdown"
+	<Label id="8" manageDynamicModel="false" useScrollBar="false"
+		visible="(data.hasValidSelection &amp; (!(EnableMultipleLayoutsCheckBox.data)))"
 		controllerClassName="org.openflexo.fib.controller.FIBController"
-		index="1" localize="true"
+		index="1" localize="true" align="left"
+		constraints="gridbag(anchor=east;fill=none;gridHeight=1;gridWidth=1;gridX=-1;gridY=-1;index=2;insetsBottom=0;insetsLeft=10;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=0.0;weightY=0.0)"
+		label="layout_type" readOnly="false" />
+	<DropDown id="9"
+		visible="(data.hasValidSelection &amp; (!(EnableMultipleLayoutsCheckBox.data)))"
+		manageDynamicModel="false" useScrollBar="false" data="data.defaultLayoutType"
+		showReset="false" staticList="" autoSelectFirstRow="true" name="dropdown"
+		controllerClassName="org.openflexo.fib.controller.FIBController"
+		index="2" localize="true"
 		constraints="gridbag(anchor=center;fill=horizontal;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=2;insetsBottom=5;insetsLeft=10;insetsRight=10;insetsTop=10;padX=0;padY=0;weightX=0.0;weightY=0.0)"
 		format="object.name.toLowerCase" showText="true" readOnly="false"
 		iteratorClassName="org.openflexo.fge.FGELayoutManagerSpecification$LayoutManagerSpecificationType"
 		showIcon="false" />
-	<Panel id="9" darkLevel="0" useScrollBar="false" borderLeft="10"
-		protectContent="false" height="90" opaque="false" name="LayoutPanel"
-		layout="border" dataClassName="org.openflexo.fge.FGELayoutManagerSpecification"
-		borderRight="10" border="rounded3d" trackViewPortWidth="true" index="6"
-		width="80" data="EnableMultipleLayoutsCheckBox.data ? LayoutTable.selected : data.defaultLayoutManagerSpecification"
+	<Panel id="10" darkLevel="0" visible="data.hasValidSelection"
+		useScrollBar="false"
+		data="(EnableMultipleLayoutsCheckBox.data ? LayoutTable.selected : data.defaultLayoutManager)"
+		borderLeft="10" protectContent="false" height="90" opaque="false"
+		name="LayoutPanel" layout="border" controllerClassName="org.openflexo.fib.controller.FIBController"
+		borderRight="10" border="empty" trackViewPortWidth="true" index="6"
+		width="80"
 		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		borderBottom="2" borderTitle="" titleFont="SansSerif,0,11" borderTop="2"
-		trackViewPortHeight="true">
-
-		<Label id="171" manageDynamicModel="false" useScrollBar="false"
-			controllerClassName="org.openflexo.fib.controller.FIBController"
-			index="2" localize="true" align="left"
-			constraints="border(location=north)"
-			data="'prout'+LayoutPanel.data.identifier" readOnly="false" />
-		<FIBReferencedComponent componentFile="Fib/Layout/LayoutManagerSpecification.fib"
-			localize="true" manageDynamicModel="true" name="LayoutManagerSpecificationWidget"
-			data="LayoutPanel.data" constraints="border(location=center)" opaque="false" />
-
+		borderBottom="2" borderTitle="" dataClassName="org.openflexo.fge.FGELayoutManager"
+		titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true">
+		<FIBReferencedComponent id="11"
+			manageDynamicModel="true" useScrollBar="false" data="LayoutPanel.data"
+			name="LayoutManagerWidget" controllerClassName="org.openflexo.fib.controller.FIBController"
+			localize="true" dynamicComponentFile="controller.getFIBPanelForObject(LayoutPanel.data)"
+			constraints="border(location=center)" readOnly="false" />
 	</Panel>
-	<Panel id="15" darkLevel="0" vGap="5" useScrollBar="false"
-		protectContent="false" hGap="5" layout="flow"
+	<Panel id="12" darkLevel="0" visible="data.hasValidSelection"
+		vGap="5" useScrollBar="false" protectContent="false" hGap="5" layout="flow"
 		controllerClassName="org.openflexo.fib.controller.FIBController"
 		border="empty" flowAlignment="CENTER" trackViewPortWidth="true"
 		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)"
 		titleFont="SansSerif,0,11" trackViewPortHeight="true">
-		<CheckBox id="16" manageDynamicModel="true" useScrollBar="false"
+		<CheckBox id="13" manageDynamicModel="true" useScrollBar="false"
 			selected="false" name="EnableMultipleLayoutsCheckBox"
 			controllerClassName="org.openflexo.fib.controller.FIBController"
 			index="1" negate="false" localize="true"
 			constraints="flow(expandHorizontally=true;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			readOnly="false" />
-		<Label id="17" manageDynamicModel="false" useScrollBar="false"
+		<Label id="14" manageDynamicModel="false" useScrollBar="false"
 			controllerClassName="org.openflexo.fib.controller.FIBController"
 			index="2" localize="true" align="left"
 			constraints="flow(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			label="enable_multiple_layouts" readOnly="false" />
+	</Panel>
+	<Panel id="15" darkLevel="0" visible="(!(data.hasValidSelection))"
+		vGap="5" useScrollBar="false" protectContent="false" hGap="5" layout="flow"
+		controllerClassName="org.openflexo.fib.controller.FIBController"
+		border="empty" flowAlignment="CENTER" trackViewPortWidth="true"
+		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)"
+		titleFont="SansSerif,0,11" trackViewPortHeight="true">
+		<Label id="16" manageDynamicModel="false" useScrollBar="false"
+			data="((data.selection.size &gt; 0) ? &quot;multiple_selection&quot; : &quot;no_selection&quot;)"
+			controllerClassName="org.openflexo.fib.controller.FIBController"
+			index="2" localize="true" align="left"
+			constraints="flow(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
+			readOnly="false" />
 	</Panel>
 </Panel>

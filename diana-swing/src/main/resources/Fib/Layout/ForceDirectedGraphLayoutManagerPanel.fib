@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel layout="border" titleFont="SansSerif,0,12" darkLevel="0"
+	dataClassName="org.openflexo.fge.layout.ForceDirectedGraphLayoutManager" font="SansSerif,0,12"
+	name="Inspector">
+	<TabPanel name="Tab" index="0" constraints="border(index=0;location=center)">
+		<Tab title="Basic" layout="twocols" titleFont="SansSerif,0,11"
+			darkLevel="0" index="1" font="SansSerif,0,11" useScrollBar="true"
+			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
+			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="TextTab">
+			<Label label="stretch" index="12"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;location=left)"
+				name="StretchLabel" localize="true" />
+			<Number minValue="0.0" maxValue="1000.0" increment="0.1"
+				numberType="DoubleType" columns="5" index="13" data="data.layoutManagerSpecification.stretch"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;location=right)"
+				name="Stretch" localize="true" />
+			<Label label="repulsionRangeSq" index="14"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;location=left)"
+				name="RepulsionRangeSqLabel" localize="true" />
+			<Number minValue="0.0" maxValue="100000.0" increment="500.0"
+				numberType="IntegerType" columns="5" index="15" data="data.layoutManagerSpecification.repulsionRangeSq"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;location=right)"
+				name="RepulsionRangeSq" localize="true" />
+			<Label label="forceMultiplier" index="16"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;location=left)"
+				name="ForceMultiplierLabel" localize="true" />
+			<Number minValue="0.0" maxValue="1000.0" increment="0.1"
+				numberType="DoubleType" columns="5" index="17" data="data.layoutManagerSpecification.forceMultiplier"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;location=right)"
+				name="ForceMultiplier" localize="true" />
+		</Tab>
+
+	</TabPanel>
+	<LocalizedDictionary>
+	</LocalizedDictionary>
+	<Parameter name="title" value="ForceDirectedGraphLayoutManager" />
+</Panel>

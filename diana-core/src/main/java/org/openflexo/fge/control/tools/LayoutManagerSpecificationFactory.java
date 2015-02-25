@@ -38,37 +38,8 @@
 
 package org.openflexo.fge.control.tools;
 
-import java.awt.Color;
-import java.beans.PropertyChangeSupport;
-import java.util.List;
-import java.util.logging.Logger;
-
-import org.openflexo.connie.BindingFactory;
-import org.openflexo.connie.BindingModel;
-import org.openflexo.connie.DataBinding;
-import org.openflexo.fge.BackgroundStyle;
-import org.openflexo.fge.BackgroundStyle.BackgroundStyleType;
-import org.openflexo.fge.ColorBackgroundStyle;
-import org.openflexo.fge.ColorGradientBackgroundStyle;
-import org.openflexo.fge.ColorGradientBackgroundStyle.ColorGradientDirection;
-import org.openflexo.fge.Drawing.ContainerNode;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.Drawing.ShapeNode;
-import org.openflexo.fge.FGEConstants;
-import org.openflexo.fge.FGELayoutManager;
 import org.openflexo.fge.FGELayoutManagerSpecification;
 import org.openflexo.fge.FGELayoutManagerSpecification.LayoutManagerSpecificationType;
-import org.openflexo.fge.FGEModelFactory;
-import org.openflexo.fge.TextureBackgroundStyle;
-import org.openflexo.fge.TextureBackgroundStyle.TextureType;
-import org.openflexo.fge.control.DianaInteractiveViewer;
-import org.openflexo.fge.control.tools.BackgroundStyleFactory.AbstractInspectedBackgroundStyle;
-import org.openflexo.fge.control.tools.BackgroundStyleFactory.InspectedBackgroundImageBackgroundStyle;
-import org.openflexo.fge.control.tools.BackgroundStyleFactory.InspectedColorBackgroundStyle;
-import org.openflexo.fge.control.tools.BackgroundStyleFactory.InspectedColorGradientBackgroundStyle;
-import org.openflexo.fge.control.tools.BackgroundStyleFactory.InspectedNoneBackgroundStyle;
-import org.openflexo.fge.control.tools.BackgroundStyleFactory.InspectedTextureBackgroundStyle;
-import org.openflexo.fge.layout.GridLayoutManagerSpecification;
 
 /**
  * Convenient class used to manipulate FGELayoutManagerSpecification instances over FGELayoutManagerSpecification class hierarchy
@@ -76,9 +47,10 @@ import org.openflexo.fge.layout.GridLayoutManagerSpecification;
  * @author sylvain
  * 
  */
-public class LayoutManagerSpecificationFactory implements StyleFactory<FGELayoutManagerSpecification<?>, LayoutManagerSpecificationType> {
+public abstract class LayoutManagerSpecificationFactory implements
+		StyleFactory<FGELayoutManagerSpecification<?>, LayoutManagerSpecificationType> {
 
-	private static final Logger logger = Logger.getLogger(LayoutManagerSpecificationFactory.class.getPackage().getName());
+	/*private static final Logger logger = Logger.getLogger(LayoutManagerSpecificationFactory.class.getPackage().getName());
 
 	private static final String DELETED = "deleted";
 	// private AbstractInspectedBackgroundStyle<?> backgroundStyle;
@@ -164,13 +136,6 @@ public class LayoutManagerSpecificationFactory implements StyleFactory<FGELayout
 		}
 	}
 
-	/**
-	 * Equals method allowing null values
-	 * 
-	 * @param oldObject
-	 * @param newObject
-	 * @return
-	 */
 	protected boolean requireChange(Object oldObject, Object newObject) {
 		if (oldObject == null) {
 			if (newObject == null) {
@@ -427,5 +392,5 @@ public class LayoutManagerSpecificationFactory implements StyleFactory<FGELayout
 			return null;
 		}
 	}
-
+	*/
 }

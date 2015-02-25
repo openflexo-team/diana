@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel className="org.openflexo.fib.swing.toolbox.JFIBInspector"
+	layout="border" titleFont="SansSerif,0,12" darkLevel="0"
+	dataClassName="org.openflexo.fge.layout.TreeBasedLayoutManager" font="SansSerif,0,12"
+	name="Inspector">
+	<TabPanel name="Tab" index="0" constraints="border(index=0;location=center)">
+
+		<Tab title="Basic" layout="twocols" titleFont="SansSerif,0,11"
+			darkLevel="0" index="1" font="SansSerif,0,11" useScrollBar="true"
+			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
+			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="TextTab">
+			<Label label="horizontal_alignment" index="10"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="HorizontalAlignmentLabel" localize="true" />
+			<DropDown index="11" data="data.layoutManagerSpecification.horizontalAlignment"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
+				width="150" name="HorizontalAlignment" format="object.name"
+				localize="true"
+				iteratorClassName="org.openflexo.fge.GraphicalRepresentation$HorizontalTextAlignment"
+				autoSelectFirstRow="false" />
+			<Label label="vertical_alignment" index="12"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="VerticalAlignmentLabel" localize="true" />
+			<DropDown index="13" data="data.layoutManagerSpecification.verticalAlignment"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
+				width="150" name="VerticalAlignment" format="object.name"
+				localize="true"
+				iteratorClassName="org.openflexo.fge.GraphicalRepresentation$VerticalTextAlignment"
+				autoSelectFirstRow="false" />
+		</Tab>
+
+	</TabPanel>
+	<LocalizedDictionary>
+	</LocalizedDictionary>
+	<Parameter name="title" value="TreeBasedLayoutManager" />
+</Panel>

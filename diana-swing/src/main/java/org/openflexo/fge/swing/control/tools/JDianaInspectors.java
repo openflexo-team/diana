@@ -91,7 +91,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 		panelGroup.addContents(getLocationSizeInspector().getTitle(), getLocationSizeInspector());
 		panelGroup.addContents(getShapeInspector().getTitle(), getShapeInspector());
 		panelGroup.addContents(getConnectorInspector().getTitle(), getConnectorInspector());
-		panelGroup.addContents(getConnectorInspector().getTitle(), getConnectorInspector());
+		panelGroup.addContents(getLayoutManagersInspector().getTitle(), getConnectorInspector());
 		panelGroup.setOpenedPanel(0); // Open foreground style inspector
 	}
 
@@ -122,6 +122,9 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 		}
 		if (locationSizeInspector != null) {
 			locationSizeInspector.setData(getInspectedLocationSizeProperties());
+		}
+		if (layoutManagersInspector != null) {
+			layoutManagersInspector.setData(getInspectedLayoutManagerSpecifications());
 		}
 	}
 
@@ -204,7 +207,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 	}
 
 	@Override
-	public Inspector<InspectedLayoutManagerSpecifications> getLayoutManagersInspector() {
+	public JInspector<InspectedLayoutManagerSpecifications> getLayoutManagersInspector() {
 		if (layoutManagersInspector == null) {
 			layoutManagersInspector = new JInspector<InspectedLayoutManagerSpecifications>(FIBLibrary.instance().retrieveFIBComponent(
 					LAYOUT_MANAGERS_FIB_FILE, true), getInspectedLayoutManagerSpecifications(), "Layout Managers",
