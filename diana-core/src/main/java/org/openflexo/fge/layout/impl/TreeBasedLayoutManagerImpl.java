@@ -160,6 +160,8 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 
 		forest = new DelegateForest<ShapeNode<?>, ConnectorNode<?>>(graph);
 
+		System.out.println("tree=" + graph.toString());
+
 		buildLayout();
 
 	}

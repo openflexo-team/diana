@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
@@ -69,6 +70,8 @@ import edu.uci.ics.jung.graph.Graph;
  */
 public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutManagerSpecification<?>, O> extends
 		FGELayoutManagerImpl<LMS, O> implements GraphBasedLayoutManager<LMS, O> {
+
+	private static final Logger logger = Logger.getLogger(GraphBasedLayoutManagerImpl.class.getPackage().getName());
 
 	private Graph<ShapeNode<?>, ConnectorNode<?>> graph;
 
@@ -181,7 +184,12 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 		if (getIterativeContextLayout() != null) {
 			for (int i = 0; i < getStepsNumber(); i++) {
 				// System.out.println("Compute layout, step " + i);
-				getIterativeContextLayout().step();
+				try {
+					getIterativeContextLayout().step();
+				} catch (Exception e) {
+					logger.warning("Unexpected exception: " + e.getMessage());
+					e.printStackTrace();
+				}
 			}
 
 		}
@@ -214,6 +222,10 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 
 	@Override
 	public Double getLayoutWidth() {
+		if (getLayoutManagerSpecification() == null) {
+			return 0.0;
+		}
+
 		Double returned = getLayoutManagerSpecification().getLayoutWidth();
 		if (returned == null) {
 			return getContainerNode().getWidth();
@@ -223,6 +235,9 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 
 	@Override
 	public void setLayoutWidth(Double aValue) {
+		if (getLayoutManagerSpecification() == null) {
+			return;
+		}
 		if (!getLayoutWidth().equals(aValue)) {
 			getLayoutManagerSpecification().setLayoutWidth(aValue);
 		}
@@ -230,6 +245,10 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 
 	@Override
 	public Double getLayoutHeight() {
+		if (getLayoutManagerSpecification() == null) {
+			return 0.0;
+		}
+
 		Double returned = getLayoutManagerSpecification().getLayoutHeight();
 		if (returned == null) {
 			return getContainerNode().getHeight();
@@ -239,6 +258,9 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 
 	@Override
 	public void setLayoutHeight(Double aValue) {
+		if (getLayoutManagerSpecification() == null) {
+			return;
+		}
 		if (!getLayoutHeight().equals(aValue)) {
 			getLayoutManagerSpecification().setLayoutHeight(aValue);
 		}

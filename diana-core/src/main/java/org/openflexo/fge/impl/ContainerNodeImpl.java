@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.fge.ContainerGraphicalRepresentation;
 import org.openflexo.fge.Drawing.ConnectorNode;
@@ -372,11 +373,31 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 
 	@Override
 	public void notifyNodeAdded(DrawingTreeNode<?, ?> addedNode) {
+
+		if ((addedNode instanceof ShapeNode)
+				&& StringUtils.isEmpty(((ShapeNode<?>) addedNode).getGraphicalRepresentation().getLayoutManagerIdentifier())
+				&& getLayoutManagers().size() == 1) {
+			// Only one layout manager defined in container
+			// This new ShapeNode has no layout manager, we force the default one
+
+			System.out.println("OK, pour le nouveau noeud, je le mets a " + getLayoutManagers().get(0));
+
+			((ShapeNode<?>) addedNode).getGraphicalRepresentation().setLayoutManagerIdentifier(getLayoutManagers().get(0).getIdentifier());
+
+			getLayoutManagers().get(0).invalidate();
+			getLayoutManagers().get(0).doLayout(true);
+		}
+
 		if (addedNode.getGraphicalRepresentation() != null) {
 			addedNode.getGraphicalRepresentation().updateBindingModel();
 		}
 		setChanged();
 		notifyObservers(new NodeAdded(addedNode, this));
+
+		for (FGELayoutManager<?, O> lm : getLayoutManagers()) {
+			lm.invalidate();
+			lm.doLayout(true);
+		}
 	}
 
 	@Override
@@ -386,6 +407,12 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		}
 		setChanged();
 		notifyObservers(new NodeRemoved(removedNode, this));
+
+		for (FGELayoutManager<?, O> lm : getLayoutManagers()) {
+			lm.invalidate();
+			lm.doLayout(true);
+		}
+
 	}
 
 	@Override

@@ -193,28 +193,36 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 		double x = 0;
 		double y = 0;
 
-		switch (getHorizontalAlignment()) {
-		case CENTER:
-			x = bounds.getCenter().getX() - node.getWidth() / 2 - node.getBorder().getLeft();
-			break;
-		case LEFT:
-			x = bounds.getX() - node.getBorder().getLeft();
-			break;
-		case RIGHT:
-			x = bounds.getX() + bounds.getWidth() - node.getWidth() - node.getBorder().getLeft();
-			break;
-		}
+		if (bounds != null) {
 
-		switch (getVerticalAlignment()) {
-		case MIDDLE:
-			y = bounds.getCenter().getY() - node.getHeight() / 2 - node.getBorder().getTop();
-			break;
-		case TOP:
-			y = bounds.getY() - node.getBorder().getTop();
-			break;
-		case BOTTOM:
-			y = bounds.getY() + bounds.getHeight() - node.getHeight() - node.getBorder().getTop();
-			break;
+			switch (getHorizontalAlignment()) {
+			case CENTER:
+				System.out.println("bounds=" + bounds);
+				System.out.println("node=" + node);
+				System.out.println("node.getBorder()=" + node.getBorder());
+
+				x = bounds.getCenter().getX() - node.getWidth() / 2 - node.getBorder().getLeft();
+				break;
+			case LEFT:
+				x = bounds.getX() - node.getBorder().getLeft();
+				break;
+			case RIGHT:
+				x = bounds.getX() + bounds.getWidth() - node.getWidth() - node.getBorder().getLeft();
+				break;
+			}
+
+			switch (getVerticalAlignment()) {
+			case MIDDLE:
+				y = bounds.getCenter().getY() - node.getHeight() / 2 - node.getBorder().getTop();
+				break;
+			case TOP:
+				y = bounds.getY() - node.getBorder().getTop();
+				break;
+			case BOTTOM:
+				y = bounds.getY() + bounds.getHeight() - node.getHeight() - node.getBorder().getTop();
+				break;
+			}
+
 		}
 		// return new FGEPoint(bounds.getCenter().getX() - node.getWidth() / 2 - node.getBorder().getLeft(), bounds.getCenter().getY()
 		// - node.getHeight() / 2 - node.getBorder().getTop());

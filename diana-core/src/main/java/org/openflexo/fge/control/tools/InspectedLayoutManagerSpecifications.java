@@ -55,6 +55,9 @@ import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.control.DianaInteractiveViewer;
+import org.openflexo.fib.utils.FIBInspector;
+import org.openflexo.fib.utils.InspectorGroup;
+import org.openflexo.rm.ResourceLocator;
 import org.openflexo.toolbox.StringUtils;
 
 /**
@@ -68,8 +71,19 @@ import org.openflexo.toolbox.StringUtils;
  */
 public class InspectedLayoutManagerSpecifications extends InspectedStyle<ContainerGraphicalRepresentation> {
 
+	private final InspectorGroup layoutManagerInspectorGroup;
+
 	public InspectedLayoutManagerSpecifications(DianaInteractiveViewer<?, ?, ?> controller) {
 		super(controller, null);
+		layoutManagerInspectorGroup = new InspectorGroup(ResourceLocator.locateResource("LayoutInspectors"));
+	}
+
+	public InspectorGroup getLayoutManagerInspectorGroup() {
+		return layoutManagerInspectorGroup;
+	}
+
+	public FIBInspector getLayoutInspector(FGELayoutManager<?, ?> object) {
+		return getLayoutManagerInspectorGroup().inspectorForObject(object);
 	}
 
 	@Override
@@ -139,7 +153,7 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 			}
 		}*/
 
-		if (getDefaultLayoutManager() != null) {
+		if (getDefaultLayoutManager() != null && getDefaultLayoutManager().getLayoutManagerSpecification() != null) {
 			return getDefaultLayoutManager().getLayoutManagerSpecification().getLayoutManagerSpecificationType();
 		}
 		return LayoutManagerSpecificationType.NONE;
@@ -194,13 +208,25 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 	 * @return
 	 */
 	public FGELayoutManager<?, ?> getDefaultLayoutManager() {
-		/*if (hasValidSelection() && getContainerNode() instanceof ShapeNode && getContainerNode().getChildNodes().isEmpty()) {
+		if (layoutedAsMode()) {
+			System.out.println("JE retourne le layout manager de la shape " + getContainerNode() + " qui est "
+					+ ((ShapeNode<?>) getContainerNode()).getLayoutManager());
 			return ((ShapeNode<?>) getContainerNode()).getLayoutManager();
-		}*/
-		if (getLayoutManagers() != null && getLayoutManagers().size() > 0) {
+		} else if (getLayoutManagers() != null && getLayoutManagers().size() > 0) {
 			return getLayoutManagers().get(0);
 		}
 		return null;
 	}
 
+	public boolean layoutedAsMode() {
+		return hasValidSelection() && getContainerNode() instanceof ShapeNode && getContainerNode().getChildNodes().isEmpty();
+	}
+
+	public String displayMode() {
+		if (layoutedAsMode()) {
+			return "layouted_as";
+		} else {
+			return "define_layout";
+		}
+	}
 }

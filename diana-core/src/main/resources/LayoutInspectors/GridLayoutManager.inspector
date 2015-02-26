@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Panel className="org.openflexo.fib.swing.toolbox.JFIBInspector"
+<Inspector
 	layout="border" titleFont="SansSerif,0,12" darkLevel="0"
 	dataClassName="org.openflexo.fge.layout.GridLayoutManager" font="SansSerif,0,12"
 	name="Inspector">
@@ -47,4 +47,4 @@
 	<LocalizedDictionary>
 	</LocalizedDictionary>
 	<Parameter name="title" value="GridLayoutManager" />
-</Panel>
+</Inspector>

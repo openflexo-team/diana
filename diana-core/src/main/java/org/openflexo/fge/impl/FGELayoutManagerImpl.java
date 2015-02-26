@@ -73,7 +73,6 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 				if (!getIdentifier().equals(shapeNode.getGraphicalRepresentation().getLayoutManagerIdentifier())) {
 					// In this case, we have detected that the node was not layouted with this layout manager
 					// Just add it
-					System.out.println("*************** Hop, prout on ajoute le truc");
 					shapeNode.getGraphicalRepresentation().setLayoutManagerIdentifier(getIdentifier());
 					return super.add(shapeNode);
 				} else {
@@ -88,7 +87,6 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 					if (getIdentifier().equals(shapeNode.getGraphicalRepresentation().getLayoutManagerIdentifier())) {
 						// In this case, we have detected that the node was layouted with this layout manager
 						// Just remove it
-						System.out.println("*************** Hop, prout on vire le truc");
 						shapeNode.getGraphicalRepresentation().setLayoutManagerIdentifier(null);
 						return super.remove(o);
 					} else {
@@ -353,7 +351,7 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 
 	@Override
 	public void attemptToPlaceNodeManually(ShapeNode<?> node) {
-		System.out.println("On essaie de fixer " + node.getText() + " a " + node.getLocation());
+		// System.out.println("On essaie de fixer " + node.getText() + " a " + node.getLocation());
 	}
 
 	/**

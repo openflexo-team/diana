@@ -1866,13 +1866,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * {@link FGELayoutManagerSpecification} is defined in {@link ContainerGraphicalRepresentation}
 	 */
 	public void relayoutNode() {
+
+		System.out.println("************* relayoutNode called for " + this);
+
 		FGELayoutManager<?, ?> layoutManager = null;
 		if (StringUtils.isNotEmpty(getGraphicalRepresentation().getLayoutManagerIdentifier())) {
 			layoutManager = getParentNode().getLayoutManager(getGraphicalRepresentation().getLayoutManagerIdentifier());
 		}
-		System.out.println("OK, je dois remettre a jour le layout du noeud " + this + " avec " + layoutManager);
-		// Thread.dumpStack();
-
 		setLayoutManager(layoutManager);
 		if (layoutManager != null) {
 			layoutManager.invalidate(this);

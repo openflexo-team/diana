@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Panel className="org.openflexo.fib.swing.toolbox.JFIBInspector"
+<Inspector
 	layout="border" titleFont="SansSerif,0,12" darkLevel="0"
 	dataClassName="org.openflexo.fge.layout.TreeBasedLayoutManager" font="SansSerif,0,12"
 	name="Inspector">
@@ -9,7 +9,7 @@
 			darkLevel="0" index="1" font="SansSerif,0,11" useScrollBar="true"
 			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
 			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="TextTab">
-			<Label label="horizontal_alignment" index="10"
+			<Label label="h_align" index="10"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="HorizontalAlignmentLabel" localize="true" />
 			<DropDown index="11" data="data.layoutManagerSpecification.horizontalAlignment"
@@ -18,7 +18,7 @@
 				localize="true"
 				iteratorClassName="org.openflexo.fge.GraphicalRepresentation$HorizontalTextAlignment"
 				autoSelectFirstRow="false" />
-			<Label label="vertical_alignment" index="12"
+			<Label label="v_align" index="12"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="VerticalAlignmentLabel" localize="true" />
 			<DropDown index="13" data="data.layoutManagerSpecification.verticalAlignment"
@@ -33,4 +33,4 @@
 	<LocalizedDictionary>
 	</LocalizedDictionary>
 	<Parameter name="title" value="TreeBasedLayoutManager" />
-</Panel>
+</Inspector>
