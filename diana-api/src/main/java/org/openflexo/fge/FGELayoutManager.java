@@ -48,12 +48,9 @@ import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGELayoutManagerSpecification.DraggingMode;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.model.annotations.Adder;
 import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.Getter.Cardinality;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Remover;
 import org.openflexo.model.annotations.Setter;
 
 /**
@@ -71,8 +68,9 @@ public interface FGELayoutManager<LMS extends FGELayoutManagerSpecification<?>, 
 	public static final String LAYOUT_MANAGER_SPECIFICATION_KEY = "layoutManagerSpecification";
 	@PropertyIdentifier(type = ContainerNode.class)
 	public static final String CONTAINER_NODE_KEY = "containerNode";
-	@PropertyIdentifier(type = DrawingTreeNode.class, cardinality = Cardinality.SINGLE)
-	public static final String LAYOUTED_NODES_KEY = "layoutedNodes";
+
+	// @PropertyIdentifier(type = ShapeNode.class, cardinality = Cardinality.SINGLE)
+	// public static final String LAYOUTED_NODES_KEY = "layoutedNodes";
 
 	@Getter(value = LAYOUT_MANAGER_SPECIFICATION_KEY, ignoreType = true)
 	public LMS getLayoutManagerSpecification();
@@ -86,17 +84,16 @@ public interface FGELayoutManager<LMS extends FGELayoutManagerSpecification<?>, 
 	@Setter(CONTAINER_NODE_KEY)
 	public void setContainerNode(ContainerNode<O, ?> node);
 
-	@Getter(value = LAYOUTED_NODES_KEY, cardinality = Cardinality.LIST, ignoreType = true)
-	public List<DrawingTreeNode<?, ?>> getLayoutedNodes();
+	// @Getter(value = LAYOUTED_NODES_KEY, cardinality = Cardinality.LIST, ignoreType = true)
+	public List<ShapeNode<?>> getLayoutedNodes();
 
-	@Setter(value = LAYOUTED_NODES_KEY)
-	public void setLayoutedNodes(List<DrawingTreeNode<?, ?>> nodes);
+	public void setLayoutedNodes(List<ShapeNode<?>> nodes);
 
-	@Adder(value = LAYOUTED_NODES_KEY)
-	public void addToLayoutedNodes(DrawingTreeNode<?, ?> node);
+	// @Adder(value = LAYOUTED_NODES_KEY)
+	public void addToLayoutedNodes(ShapeNode<?> node);
 
-	@Remover(value = LAYOUTED_NODES_KEY)
-	public void removeFromLayoutedNodes(DrawingTreeNode<?, ?> node);
+	// @Remover(value = LAYOUTED_NODES_KEY)
+	public void removeFromLayoutedNodes(ShapeNode<?> node);
 
 	/**
 	 * Called to invalidate the whole layout<br>

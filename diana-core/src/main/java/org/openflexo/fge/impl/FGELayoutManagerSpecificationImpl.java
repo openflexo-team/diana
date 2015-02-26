@@ -108,4 +108,9 @@ public abstract class FGELayoutManagerSpecificationImpl<LM extends FGELayoutMana
 		return layoutManager;
 	}
 
+	@Override
+	public boolean delete(Object... context) {
+		System.out.println("---------> Hop on delete " + this);
+		return super.delete(context);
+	}
 }

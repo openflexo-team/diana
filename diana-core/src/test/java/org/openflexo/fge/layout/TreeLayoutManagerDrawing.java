@@ -83,9 +83,8 @@ public class TreeLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 		nodeRepresentation.setWidth(40);
 		nodeRepresentation.setHeight(20);
 		nodeRepresentation.setIsFloatingLabel(false);
-		// edgeRepresentation = getFactory().makeConnectorGraphicalRepresentation(ConnectorType.RECT_POLYLIN);
-		// ((RectPolylinConnectorSpecification) edgeRepresentation.getConnectorSpecification())
-		// .setRectPolylinConstraints(RectPolylinConstraints.VERTICAL_LAYOUT);
+		nodeRepresentation.setLayoutManagerIdentifier("tree");
+
 		edgeRepresentation = getFactory().makeConnectorGraphicalRepresentation(ConnectorType.LINE);
 
 		final DrawingGRBinding<TestGraph> graphBinding = bindDrawing(TestGraph.class, "graph", new DrawingGRProvider<TestGraph>() {
@@ -113,7 +112,7 @@ public class TreeLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 			@Override
 			public void visit(TestGraph graph) {
 				for (TestGraphNode node : graph.getNodes()) {
-					drawShape(nodeBinding, node).layoutedWith("tree");
+					drawShape(nodeBinding, node);
 				}
 			}
 		});

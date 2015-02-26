@@ -63,16 +63,44 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 
 	private boolean invalidated = true;
 
-	private final List<ShapeNode<?>> nodes;
+	// Nodes beeing layouted
+	private final List<ShapeNode<?>> layoutedNodes;
 
 	public FGELayoutManagerImpl() {
-		nodes = new ArrayList<ShapeNode<?>>();
+		layoutedNodes = new ArrayList<ShapeNode<?>>() {
+			@Override
+			public boolean add(ShapeNode<?> shapeNode) {
+				if (!getIdentifier().equals(shapeNode.getGraphicalRepresentation().getLayoutManagerIdentifier())) {
+					// In this case, we have detected that the node was not layouted with this layout manager
+					// Just add it
+					System.out.println("*************** Hop, prout on ajoute le truc");
+					shapeNode.getGraphicalRepresentation().setLayoutManagerIdentifier(getIdentifier());
+					return super.add(shapeNode);
+				} else {
+					return super.add(shapeNode);
+				}
+			}
+
+			@Override
+			public boolean remove(Object o) {
+				if (o instanceof ShapeNode) {
+					ShapeNode<?> shapeNode = (ShapeNode<?>) o;
+					if (getIdentifier().equals(shapeNode.getGraphicalRepresentation().getLayoutManagerIdentifier())) {
+						// In this case, we have detected that the node was layouted with this layout manager
+						// Just remove it
+						System.out.println("*************** Hop, prout on vire le truc");
+						shapeNode.getGraphicalRepresentation().setLayoutManagerIdentifier(null);
+						return super.remove(o);
+					} else {
+						return super.remove(o);
+					}
+				}
+				return false;
+			}
+		};
 	}
 
-	public List<ShapeNode<?>> getNodes() {
-		return nodes;
-	}
-
+	@Override
 	public String getIdentifier() {
 		if (getLayoutManagerSpecification() != null) {
 			return getLayoutManagerSpecification().getIdentifier();
@@ -109,9 +137,9 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 		}
 
 		// If layout is declared as fully layouted (move or resize of one node might invalidate the whole container)
-		// Invalidate all nodes
+		// Invalidate all layoutedNodes
 		if (isFullyLayouted()) {
-			for (ShapeNode<?> dtn : nodes) {
+			for (ShapeNode<?> dtn : layoutedNodes) {
 				if (dtn.isLayoutValidated()) {
 					System.out.println("invalidate " + dtn);
 					invalidate(dtn);
@@ -129,7 +157,7 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 		computeLayout();
 
 		layoutInProgress = true;
-		for (ShapeNode<?> node : nodes) {
+		for (ShapeNode<?> node : layoutedNodes) {
 			if (node.isValid()) {
 				doLayout(node, force);
 			}
@@ -156,6 +184,10 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 	 */
 	@Override
 	public final void doLayout(ShapeNode<?> node, boolean force) {
+		// If the whole layout is invalidated, just return
+		if (invalidated) {
+			return;
+		}
 		if (!node.isLayoutValidated() || force) {
 			performLayout(node);
 		}
@@ -201,17 +233,25 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 	}
 
 	/**
-	 * Internally used to retrieve in the container all nodes which are to be layouted
+	 * Internally used to retrieve in the container all layoutedNodes which are to be layouted
 	 */
 	private void retrieveNodesToLayout() {
-		nodes.clear();
+
+		System.out.println("Hop, on recalcule les noeuds pour faire le layout");
+
+		layoutedNodes.clear();
 		for (DrawingTreeNode<?, ?> dtn : getContainerNode().getChildNodes()) {
 			if (dtn instanceof ShapeNode) {
 				if (((ShapeNode<O>) dtn).getLayoutManager() == this) {
-					nodes.add((ShapeNode<O>) dtn);
+					layoutedNodes.add((ShapeNode<O>) dtn);
 				}
 			}
 		}
+
+		System.out.println("layoutedNodes=" + layoutedNodes);
+
+		getPropertyChangeSupport().firePropertyChange("layoutedNodes", null, layoutedNodes);
+
 	}
 
 	@Override
@@ -220,7 +260,7 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 		// computeLayout();
 
 		layoutInProgress = true;
-		for (ShapeNode<?> node : nodes) {
+		for (ShapeNode<?> node : layoutedNodes) {
 			if (node.isValid()) {
 				int randX = (new Random()).nextInt((int) getContainerNode().getWidth());
 				int randY = (new Random()).nextInt((int) getContainerNode().getHeight());
@@ -248,7 +288,10 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 	 */
 	@Override
 	public final boolean supportDecoration() {
-		return getLayoutManagerSpecification().supportDecoration();
+		if (getLayoutManagerSpecification() != null) {
+			return getLayoutManagerSpecification().supportDecoration();
+		}
+		return false;
 	}
 
 	/**
@@ -290,18 +333,21 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 
 	@Override
 	public DraggingMode getDraggingMode() {
+		if (getLayoutManagerSpecification() == null) {
+			return DraggingMode.FreeDraggingNoLayout;
+		}
 		return getLayoutManagerSpecification().getDraggingMode();
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		// System.out.println("Received " + evt.getPropertyName() + " with " + evt);
-		if (evt.getPropertyName().equals(FGELayoutManagerSpecification.DRAGGING_MODE_KEY)) {
+		if (evt.getPropertyName().equals(FGELayoutManagerSpecification.DELETED)) {
+			delete();
+		} else if (evt.getPropertyName().equals(FGELayoutManagerSpecification.DRAGGING_MODE_KEY)) {
 			// Nothing to do yet
 		} else if (evt.getPropertyName().equals(FGELayoutManagerSpecification.PAINT_DECORATION_KEY)) {
-			// TODO: this is really brutal for a simple repaint request ???
-			getContainerNode().invalidate();
-			getContainerNode().getDrawing().updateGraphicalObjectsHierarchy();
+			getContainerNode().notifyNodeLayoutDecorationChanged(this);
 		}
 	}
 
@@ -321,4 +367,35 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 		return null;
 	}
 
+	@Override
+	public boolean delete(Object... context) {
+		for (ShapeNode<?> n : layoutedNodes) {
+			// Disconnect all layouted layoutedNodes from related FGELayoutManagerSpecification
+			n.getGraphicalRepresentation().setLayoutManagerIdentifier(null);
+		}
+		return super.delete(context);
+	}
+
+	@Override
+	public List<ShapeNode<?>> getLayoutedNodes() {
+		return layoutedNodes;
+	}
+
+	@Override
+	public void setLayoutedNodes(List<ShapeNode<?>> nodes) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void addToLayoutedNodes(ShapeNode<?> node) {
+		System.out.println("on rajoute le noeud " + node);
+		node.getGraphicalRepresentation().setLayoutManagerIdentifier(getIdentifier());
+	}
+
+	@Override
+	public void removeFromLayoutedNodes(ShapeNode<?> node) {
+		System.out.println("on enleve le noeud " + node);
+		node.getGraphicalRepresentation().setLayoutManagerIdentifier(null);
+	}
 }

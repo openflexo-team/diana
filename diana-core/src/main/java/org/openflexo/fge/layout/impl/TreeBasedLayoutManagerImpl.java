@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openflexo.fge.Drawing.ConnectorNode;
+import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
@@ -64,7 +65,10 @@ import edu.uci.ics.jung.graph.DirectedOrderedSparseMultigraph;
 import edu.uci.ics.jung.graph.Forest;
 
 /**
- * Default partial implementation for {@link TreeBasedLayoutManager}
+ * Default partial implementation for {@link TreeBasedLayoutManager}<br>
+ * 
+ * This implementation manages a {@link DirectedGraph} which is acyclic. We prevent here from cycle formation by ignoring extra edges
+ * creating cycles. Note that the choice of relevant edges is here arbitrary.
  * 
  * @author sylvain
  * 
@@ -145,7 +149,11 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 			if (dtn instanceof ConnectorNode) {
 				ConnectorNode<?> connectorNode = (ConnectorNode<?>) dtn;
 				if (graph.containsVertex((connectorNode.getStartNode())) && graph.containsVertex((connectorNode.getEndNode()))) {
-					graph.addEdge(connectorNode, connectorNode.getStartNode(), connectorNode.getEndNode());
+					if (getFirstCommonAncestor(connectorNode.getStartNode(), connectorNode.getEndNode()) == null) {
+						graph.addEdge(connectorNode, connectorNode.getStartNode(), connectorNode.getEndNode());
+					} else {
+						// Will not connect those two nodes otherwise a cycle will be created
+					}
 				}
 			}
 		}
@@ -153,6 +161,46 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 		forest = new DelegateForest<ShapeNode<?>, ConnectorNode<?>>(graph);
 
 		buildLayout();
+
+	}
+
+	public ShapeNode<?> getFirstCommonAncestor(ShapeNode<?> child1, ShapeNode<?> child2) {
+		List<ShapeNode<?>> ancestors1 = getAncestors(child1);
+		List<ShapeNode<?>> ancestors2 = getAncestors(child2);
+		for (int i = 0; i < ancestors1.size(); i++) {
+			ShapeNode<?> o1 = ancestors1.get(i);
+			if (ancestors2.contains(o1)) {
+				return o1;
+			}
+		}
+		return null;
+	}
+
+	public List<ShapeNode<?>> getAncestors(ShapeNode<?> node) {
+		List<ShapeNode<?>> ancestors = new ArrayList<ShapeNode<?>>();
+		ancestors.add(node);
+		if (graph.getPredecessorCount(node) > 0) {
+			for (ShapeNode<?> predecessor : graph.getPredecessors(node)) {
+				ancestors.addAll(getAncestors(predecessor));
+			}
+		}
+		return ancestors;
+	}
+
+	public boolean isChildOf(ShapeNode<?> child, ContainerNode<?, ?> parent) {
+		if (child == parent) {
+			return true;
+		}
+
+		if (graph.getPredecessorCount(child) > 0) {
+			for (ShapeNode<?> predecessor : graph.getPredecessors(child)) {
+				if (predecessor instanceof ShapeNode && isChildOf(predecessor, parent)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 
 	}
 
@@ -165,7 +213,7 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 		Map<ShapeNode<?>, Double> yMap = new HashMap<ShapeNode<?>, Double>();
 
 		maxDepth = 0;
-		for (ShapeNode<?> shapeNode : getNodes()) {
+		for (ShapeNode<?> shapeNode : getLayoutedNodes()) {
 			maxDepth = Math.max(maxDepth, getDepth(shapeNode));
 			xMap.put(shapeNode, shapeNode.getX());
 			yMap.put(shapeNode, shapeNode.getY());
@@ -174,9 +222,8 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 		// No global layout to launch
 
 		if (animateLayout() && !layoutInProgress) {
-			System.out.println("Petite animation...");
 			List<TranslationTransition> transitions = new ArrayList<TranslationTransition>();
-			for (ShapeNode<?> shapeNode : getNodes()) {
+			for (ShapeNode<?> shapeNode : getLayoutedNodes()) {
 				FGEPoint newLocation = locationForNode(shapeNode);
 				transitions.add(new TranslationTransition(shapeNode, new FGEPoint(xMap.get(shapeNode), yMap.get(shapeNode)), newLocation));
 			}

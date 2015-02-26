@@ -425,6 +425,9 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			} else if (evt.getSource() instanceof GeometricGraphicalRepresentation) {
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
+			} else if (evt.getPropertyName().equals(ContainerNode.LAYOUT_DECORATION_KEY)) {
+				getPaintManager().invalidate(getDrawing().getRoot());
+				getPaintManager().repaint(this);
 			}
 		}
 	}

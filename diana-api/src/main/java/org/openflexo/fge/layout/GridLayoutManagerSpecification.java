@@ -84,14 +84,14 @@ public interface GridLayoutManagerSpecification extends FGELayoutManagerSpecific
 	@Setter(GRID_Y_KEY)
 	public void setGridY(double gridY);
 
-	@Getter(value = HORIZONTAL_ALIGNEMENT_KEY, defaultValue = "CENTER")
+	@Getter(value = HORIZONTAL_ALIGNEMENT_KEY, defaultValue = "LEFT")
 	@XMLAttribute
 	public HorizontalTextAlignment getHorizontalAlignment();
 
 	@Setter(value = HORIZONTAL_ALIGNEMENT_KEY)
 	public void setHorizontalAlignment(HorizontalTextAlignment horizontalAlignment);
 
-	@Getter(value = VERTICAL_ALIGNEMENT_KEY, defaultValue = "MIDDLE")
+	@Getter(value = VERTICAL_ALIGNEMENT_KEY, defaultValue = "TOP")
 	@XMLAttribute
 	public VerticalTextAlignment getVerticalAlignment();
 

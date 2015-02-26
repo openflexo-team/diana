@@ -260,8 +260,10 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 		g.setDefaultForeground(getFactory().makeForegroundStyle(Color.BLUE, 1));
 		g.useDefaultForegroundStyle();
 
-		for (FGERectangle rectangle : layoutPositions.values()) {
-			rectangle.paint(g);
+		if (layoutPositions != null) {
+			for (FGERectangle rectangle : layoutPositions.values()) {
+				rectangle.paint(g);
+			}
 		}
 
 	}

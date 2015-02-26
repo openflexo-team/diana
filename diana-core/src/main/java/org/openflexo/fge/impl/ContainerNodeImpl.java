@@ -149,8 +149,27 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 			lm.delete();
 			layoutManagers.remove(lm);
 		}
+
+		// Now select nodes
+		/*if (getLayoutManagers().size() == 1) {
+			for (ShapeNode<?> shapeNode : getShapeNodes()) {
+				shapeNode.setLayoutManager(getDefaultLayoutManager());
+			}
+			getDefaultLayoutManager().invalidate();
+			getDefaultLayoutManager().doLayout(true);
+		}*/
+
 		getPropertyChangeSupport().firePropertyChange("layoutManagers", null, getLayoutManagers());
 		getPropertyChangeSupport().firePropertyChange("defaultLayoutManager", oldDefaultLayoutManager, getDefaultLayoutManager());
+
+		for (FGELayoutManager<?, O> lm : getLayoutManagers()) {
+			notifyNodeLayoutDecorationChanged(lm);
+		}
+
+		if (getLayoutManagers().isEmpty()) {
+			// Big hack to repaint decoration (more precisely do not paint it anymore) for a removed layout
+			getPropertyChangeSupport().firePropertyChange(LAYOUT_DECORATION_KEY, false, true);
+		}
 
 	}
 
@@ -252,6 +271,17 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	}
 
 	@Override
+	public List<ShapeNodeImpl<?>> getShapeNodes() {
+		List<ShapeNodeImpl<?>> returned = new ArrayList<ShapeNodeImpl<?>>();
+		for (DrawingTreeNodeImpl<?, ?> child : getChildNodes()) {
+			if (child instanceof ShapeNodeImpl) {
+				returned.add((ShapeNodeImpl) child);
+			}
+		}
+		return returned;
+	}
+
+	@Override
 	public List<DrawingTreeNodeImpl<?, ?>> getChildNodes() {
 		return childNodes;
 	}
@@ -331,6 +361,13 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 			return super.delete();
 		}
 		return false;
+	}
+
+	@Override
+	public void notifyNodeLayoutDecorationChanged(FGELayoutManager<?, O> layoutManager) {
+		getPropertyChangeSupport().firePropertyChange(LAYOUT_DECORATION_KEY, new Boolean(!layoutManager.paintDecoration()),
+				new Boolean(layoutManager.paintDecoration()));
+
 	}
 
 	@Override

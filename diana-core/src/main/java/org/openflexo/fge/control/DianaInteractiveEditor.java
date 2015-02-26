@@ -208,8 +208,6 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		inspectedLocationSizeProperties = new InspectedLocationSizeProperties(this);
 		inspectedLayoutManagerSpecifications = new InspectedLayoutManagerSpecifications(this);
 
-		System.out.println("**** hop, on a bien cree " + inspectedLayoutManagerSpecifications);
-
 		setCurrentTool(EditorTool.SelectionTool);
 		setDrawShapeToolOption(DrawShapeToolOption.DrawRectangle);
 		setDrawCustomShapeToolOption(DrawCustomShapeToolOption.DrawPolygon);

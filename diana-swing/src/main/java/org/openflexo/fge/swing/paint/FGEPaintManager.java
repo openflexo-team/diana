@@ -61,6 +61,7 @@ import javax.swing.SwingUtilities;
 
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.Drawing.RootNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGEConstants;
 import org.openflexo.fge.FGEUtils;
@@ -94,7 +95,7 @@ public class FGEPaintManager {
 		paintPrimitiveLogger.setLevel(Level.FINE);
 		paintRequestLogger.setLevel(Level.FINE);
 		paintStatsLogger.setLevel(Level.FINE);
-		*/
+		 */
 	}
 
 	private final JDrawingView<?> _drawingView;
@@ -226,6 +227,7 @@ public class FGEPaintManager {
 	}
 
 	public void repaint(final JFGEView<?, ?> view) {
+
 		if (view == null) {
 			logger.warning("Cannot paint null view");
 			return;

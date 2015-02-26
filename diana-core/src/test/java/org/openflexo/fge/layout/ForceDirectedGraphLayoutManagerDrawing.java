@@ -74,18 +74,18 @@ public class ForceDirectedGraphLayoutManagerDrawing extends DrawingImpl<TestGrap
 	public void init() {
 		graphRepresentation = getFactory().makeDrawingGraphicalRepresentation();
 		// graphRepresentation.setBackgroundColor(Color.RED);
-		ForceDirectedGraphLayoutManagerSpecification fdgraphLayoutManager = getFactory().makeLayoutManagerSpecification("fdgraph",
+		ForceDirectedGraphLayoutManagerSpecification fdgraphLayoutManager = getFactory().makeLayoutManagerSpecification("fd-graph",
 				ForceDirectedGraphLayoutManagerSpecification.class);
 		graphRepresentation.addToLayoutManagerSpecifications(fdgraphLayoutManager);
 
 		nodeRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.CIRCLE);
 		nodeRepresentation.setBackground(getFactory().makeColoredBackground(Color.ORANGE));
-		// nodeRepresentation.setX(50);
-		// nodeRepresentation.setY(50);
+		nodeRepresentation.setLayoutManagerIdentifier("fd-graph");
 		nodeRepresentation.setWidth(20);
 		nodeRepresentation.setHeight(20);
 		nodeRepresentation.setAbsoluteTextX(30);
 		nodeRepresentation.setAbsoluteTextY(0);
+
 		edgeRepresentation = getFactory().makeConnectorGraphicalRepresentation(ConnectorType.CURVE);
 
 		final DrawingGRBinding<TestGraph> graphBinding = bindDrawing(TestGraph.class, "graph", new DrawingGRProvider<TestGraph>() {
@@ -113,7 +113,7 @@ public class ForceDirectedGraphLayoutManagerDrawing extends DrawingImpl<TestGrap
 			@Override
 			public void visit(TestGraph graph) {
 				for (TestGraphNode node : graph.getNodes()) {
-					drawShape(nodeBinding, node).layoutedWith("fdgraph");
+					drawShape(nodeBinding, node);
 				}
 			}
 		});

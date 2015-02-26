@@ -46,6 +46,8 @@ import org.openflexo.model.annotations.ModelEntity;
 /**
  * Abstract api of a {@link FGELayoutManager} generally handling trees<br>
  * 
+ * 
+ * 
  * @author sylvain
  * 
  */

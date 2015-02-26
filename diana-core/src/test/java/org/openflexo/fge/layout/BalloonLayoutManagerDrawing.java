@@ -81,12 +81,12 @@ public class BalloonLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 
 		nodeRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.CIRCLE);
 		nodeRepresentation.setBackground(getFactory().makeColoredBackground(Color.CYAN));
-		// nodeRepresentation.setX(50);
-		// nodeRepresentation.setY(50);
+		nodeRepresentation.setLayoutManagerIdentifier("balloon");
 		nodeRepresentation.setWidth(30);
 		nodeRepresentation.setHeight(30);
 		nodeRepresentation.setAbsoluteTextX(30);
 		nodeRepresentation.setAbsoluteTextY(0);
+
 		edgeRepresentation = getFactory().makeConnectorGraphicalRepresentation(ConnectorType.CURVE);
 
 		final DrawingGRBinding<TestGraph> graphBinding = bindDrawing(TestGraph.class, "graph", new DrawingGRProvider<TestGraph>() {
@@ -114,7 +114,7 @@ public class BalloonLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 			@Override
 			public void visit(TestGraph graph) {
 				for (TestGraphNode node : graph.getNodes()) {
-					drawShape(nodeBinding, node).layoutedWith("balloon");
+					drawShape(nodeBinding, node);
 				}
 			}
 		});

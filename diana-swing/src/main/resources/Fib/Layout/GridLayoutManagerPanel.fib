@@ -76,12 +76,12 @@
 			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="NodesTab">
 			<CheckboxList id="200" manageDynamicModel="true" columns="1"
 				controllerClassName="org.openflexo.fib.controller.FIBController"
-				index="0" localize="false" constraints="flow(index=0;location=center)"
-				format="object.toString"
-				showText="true" iteratorClassName="org.openflexo.fge.Drawing$DrawingTreeNode"
+				index="0" localize="false" constraints="twocols(expandHorizontally=true;expandVertically=false;location=center)"
+				format="object.text"
+				showText="true" iteratorClassName="org.openflexo.fge.Drawing$ShapeNode"
 				vGap="2" showIcon="true" useScrollBar="false"
-				staticList="" autoSelectFirstRow="true" name="CheckboxList" hGap="0"
-				list="data.containerNode.childNodes" data="data.layoutedNodes"
+				name="NodesList" hGap="0"
+				list="data.containerNode.shapeNodes" data="data.layoutedNodes"
 				readOnly="false" />
 		</Tab>
 

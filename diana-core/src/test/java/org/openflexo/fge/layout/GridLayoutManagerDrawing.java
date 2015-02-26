@@ -90,12 +90,12 @@ public class GridLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 
 		nodeRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.LOSANGE);
 		nodeRepresentation.setBackground(getFactory().makeColoredBackground(Color.blue));
-		// nodeRepresentation.setX(50);
-		// nodeRepresentation.setY(50);
+		nodeRepresentation.setLayoutManagerIdentifier("grid");
 		nodeRepresentation.setWidth(20);
 		nodeRepresentation.setHeight(20);
 		nodeRepresentation.setAbsoluteTextX(30);
 		nodeRepresentation.setAbsoluteTextY(0);
+
 		edgeRepresentation = getFactory().makeConnectorGraphicalRepresentation(ConnectorType.CURVE);
 
 		final DrawingGRBinding<TestGraph> graphBinding = bindDrawing(TestGraph.class, "graph", new DrawingGRProvider<TestGraph>() {
@@ -123,7 +123,7 @@ public class GridLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 			@Override
 			public void visit(TestGraph graph) {
 				for (TestGraphNode node : graph.getNodes()) {
-					drawShape(nodeBinding, node).layoutedWith("grid");
+					drawShape(nodeBinding, node);
 				}
 			}
 		});

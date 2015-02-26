@@ -74,19 +74,19 @@ public class ISOMGraphLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 	public void init() {
 		graphRepresentation = getFactory().makeDrawingGraphicalRepresentation();
 		// graphRepresentation.setBackgroundColor(Color.RED);
-		ISOMGraphLayoutManagerSpecification isomGraphLayoutManager = getFactory().makeLayoutManagerSpecification("isomgraph",
+		ISOMGraphLayoutManagerSpecification isomGraphLayoutManager = getFactory().makeLayoutManagerSpecification("isom-graph",
 				ISOMGraphLayoutManagerSpecification.class);
 
 		graphRepresentation.addToLayoutManagerSpecifications(isomGraphLayoutManager);
 
 		nodeRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.SQUARE);
 		nodeRepresentation.setBackground(getFactory().makeColoredBackground(Color.GREEN));
-		// nodeRepresentation.setX(50);
-		// nodeRepresentation.setY(50);
+		nodeRepresentation.setLayoutManagerIdentifier("isom-graph");
 		nodeRepresentation.setWidth(20);
 		nodeRepresentation.setHeight(20);
 		nodeRepresentation.setAbsoluteTextX(30);
 		nodeRepresentation.setAbsoluteTextY(0);
+
 		edgeRepresentation = getFactory().makeConnectorGraphicalRepresentation(ConnectorType.CURVE);
 
 		final DrawingGRBinding<TestGraph> graphBinding = bindDrawing(TestGraph.class, "graph", new DrawingGRProvider<TestGraph>() {
@@ -114,7 +114,7 @@ public class ISOMGraphLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 			@Override
 			public void visit(TestGraph graph) {
 				for (TestGraphNode node : graph.getNodes()) {
-					drawShape(nodeBinding, node).layoutedWith("isomgraph");
+					drawShape(nodeBinding, node);
 				}
 			}
 		});

@@ -150,19 +150,26 @@ public abstract class GridLayoutManagerImpl<O> extends FGELayoutManagerImpl<Grid
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
+
+		System.out.println("propertyChange in GridLayoutManagerImpl with " + evt.getPropertyName() + " evt=" + evt);
+
 		super.propertyChange(evt);
 		if (evt.getPropertyName().equals(GridLayoutManagerSpecification.GRID_X_KEY)) {
 			invalidate();
 			doLayout(true);
+			getContainerNode().notifyNodeLayoutDecorationChanged(this);
 		} else if (evt.getPropertyName().equals(GridLayoutManagerSpecification.GRID_Y_KEY)) {
 			invalidate();
 			doLayout(true);
+			getContainerNode().notifyNodeLayoutDecorationChanged(this);
 		} else if (evt.getPropertyName().equals(GridLayoutManagerSpecification.HORIZONTAL_ALIGNEMENT_KEY)) {
 			invalidate();
 			doLayout(true);
+			getContainerNode().notifyNodeLayoutDecorationChanged(this);
 		} else if (evt.getPropertyName().equals(GridLayoutManagerSpecification.VERTICAL_ALIGNEMENT_KEY)) {
 			invalidate();
 			doLayout(true);
+			getContainerNode().notifyNodeLayoutDecorationChanged(this);
 		}
 	}
 }

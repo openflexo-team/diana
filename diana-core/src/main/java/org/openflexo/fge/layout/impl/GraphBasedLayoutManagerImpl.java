@@ -172,7 +172,7 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 		Map<ShapeNode<?>, Double> xMap = new HashMap<ShapeNode<?>, Double>();
 		Map<ShapeNode<?>, Double> yMap = new HashMap<ShapeNode<?>, Double>();
 
-		for (ShapeNode<?> shapeNode : getNodes()) {
+		for (ShapeNode<?> shapeNode : getLayoutedNodes()) {
 			getLayout().setLocation(shapeNode, shapeNode.getX(), shapeNode.getY());
 			xMap.put(shapeNode, shapeNode.getX());
 			yMap.put(shapeNode, shapeNode.getY());
@@ -188,7 +188,7 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 
 		if (animateLayout() && !layoutInProgress) {
 			List<TranslationTransition> transitions = new ArrayList<TranslationTransition>();
-			for (ShapeNode<?> shapeNode : getNodes()) {
+			for (ShapeNode<?> shapeNode : getLayoutedNodes()) {
 				transitions.add(new TranslationTransition(shapeNode, new FGEPoint(xMap.get(shapeNode), yMap.get(shapeNode)), new FGEPoint(
 						getLayout().getX(shapeNode), getLayout().getY(shapeNode))));
 			}

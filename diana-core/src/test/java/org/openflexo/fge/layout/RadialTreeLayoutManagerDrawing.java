@@ -74,19 +74,19 @@ public class RadialTreeLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 	public void init() {
 		graphRepresentation = getFactory().makeDrawingGraphicalRepresentation();
 		// graphRepresentation.setBackgroundColor(Color.RED);
-		RadialTreeLayoutManagerSpecification layoutManager = getFactory().makeLayoutManagerSpecification("radialtree",
+		RadialTreeLayoutManagerSpecification layoutManager = getFactory().makeLayoutManagerSpecification("radial-tree",
 				RadialTreeLayoutManagerSpecification.class);
 
 		graphRepresentation.addToLayoutManagerSpecifications(layoutManager);
 
 		nodeRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.CIRCLE);
 		nodeRepresentation.setBackground(getFactory().makeColoredBackground(Color.red));
-		// nodeRepresentation.setX(50);
-		// nodeRepresentation.setY(50);
+		nodeRepresentation.setLayoutManagerIdentifier("radial-tree");
 		nodeRepresentation.setWidth(30);
 		nodeRepresentation.setHeight(30);
 		nodeRepresentation.setAbsoluteTextX(30);
 		nodeRepresentation.setAbsoluteTextY(0);
+
 		edgeRepresentation = getFactory().makeConnectorGraphicalRepresentation(ConnectorType.CURVE);
 
 		final DrawingGRBinding<TestGraph> graphBinding = bindDrawing(TestGraph.class, "graph", new DrawingGRProvider<TestGraph>() {
@@ -114,7 +114,7 @@ public class RadialTreeLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 			@Override
 			public void visit(TestGraph graph) {
 				for (TestGraphNode node : graph.getNodes()) {
-					drawShape(nodeBinding, node).layoutedWith("radialtree");
+					drawShape(nodeBinding, node);
 				}
 			}
 		});

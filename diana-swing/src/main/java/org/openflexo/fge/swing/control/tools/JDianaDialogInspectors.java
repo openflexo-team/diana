@@ -137,8 +137,6 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	@Override
 	public JDialogInspector<BackgroundStyleFactory> getBackgroundStyleInspector() {
 		if (backgroundStyleInspector == null) {
-			System.out.println("Nouvel BackgroundStyleFactory inspecteur avec " + getInspectedBackgroundStyle());
-			// bsFactory = new BackgroundStyleFactory(getEditor().getCurrentBackgroundStyle());
 			backgroundStyleInspector = new JDialogInspector<BackgroundStyleFactory>(FIBLibrary.instance().retrieveFIBComponent(
 					BACKGROUND_STYLE_FIB_FILE, true), (getInspectedBackgroundStyle() != null ? getInspectedBackgroundStyle()
 					.getStyleFactory() : null), frame, "Background");
@@ -197,11 +195,6 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	@Override
 	public JDialogInspector<InspectedLayoutManagerSpecifications> getLayoutManagersInspector() {
 		if (layoutManagersInspector == null) {
-			/*System.out.println("Nouvel inspecteur avec " + getInspectedLayoutManagerSpecifications());
-			if (getInspectedLayoutManagerSpecifications() == null) {
-				System.out.println("getEditor()=" + getEditor());
-				System.exit(-1);
-			}*/
 			layoutManagersInspector = new JDialogInspector<InspectedLayoutManagerSpecifications>(FIBLibrary.instance()
 					.retrieveFIBComponent(LAYOUT_MANAGERS_FIB_FILE, true), getInspectedLayoutManagerSpecifications(), frame,
 					"Layout Managers");

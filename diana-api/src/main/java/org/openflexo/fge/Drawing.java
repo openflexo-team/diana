@@ -455,6 +455,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 	public interface ContainerNode<O, GR extends ContainerGraphicalRepresentation> extends DrawingTreeNode<O, GR> {
 
+		public static final String LAYOUT_DECORATION_KEY = "layoutDecoration";
+
 		/**
 		 * Return default FGELayoutManager which are managed by this {@link ContainerNode} (the first one found)
 		 * 
@@ -492,6 +494,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public void setSize(FGEDimension newSize);
 
+		public List<? extends ShapeNode<?>> getShapeNodes();
+
 		public List<? extends DrawingTreeNode<?, ?>> getChildNodes();
 
 		public void addChild(DrawingTreeNode<?, ?> aChildNode);
@@ -501,6 +505,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		public int getOrder(DrawingTreeNode<?, ?> child1, DrawingTreeNode<?, ?> child2);
 
 		public ShapeNode<?> getTopLevelShapeGraphicalRepresentation(FGEPoint p);
+
+		public void notifyNodeLayoutDecorationChanged(FGELayoutManager<?, O> layoutManager);
 
 		public void notifyNodeAdded(DrawingTreeNode<?, ?> addedNode);
 
@@ -773,7 +779,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		 * 
 		 * @param layoutManagerIdentifier
 		 */
-		public void layoutedWith(String layoutManagerIdentifier);
+		// public void layoutedWith(String layoutManagerIdentifier);
 
 		/**
 		 * Return the layout manager responsible for the layout of this node (relating to its container)
@@ -781,6 +787,13 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		 * @return
 		 */
 		public FGELayoutManager<?, ?> getLayoutManager();
+
+		/**
+		 * Sets the layout manager responsible for the layout of this node (relating to its container)
+		 * 
+		 * @param layoutManager
+		 */
+		// public void setLayoutManager(FGELayoutManager<?, ?> layoutManager);
 
 		/**
 		 * Invalidate this graphical node regarding to its layout manager<br>

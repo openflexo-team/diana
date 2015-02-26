@@ -79,11 +79,21 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 			public Class<FGELayoutManagerSpecification<?>> getLayoutManagerSpecificationClass() {
 				return null;
 			}
+
+			@Override
+			public String getDefaultLayoutManagerName() {
+				return null;
+			}
 		},
 		GRID {
 			@Override
 			public Class<GridLayoutManagerSpecification> getLayoutManagerSpecificationClass() {
 				return GridLayoutManagerSpecification.class;
+			}
+
+			@Override
+			public String getDefaultLayoutManagerName() {
+				return "grid";
 			}
 		},
 		FORCE_DIRECTED_GRAPH {
@@ -91,11 +101,21 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 			public Class<ForceDirectedGraphLayoutManagerSpecification> getLayoutManagerSpecificationClass() {
 				return ForceDirectedGraphLayoutManagerSpecification.class;
 			}
+
+			@Override
+			public String getDefaultLayoutManagerName() {
+				return "fd-graph";
+			}
 		},
 		ISOM_GRAPH {
 			@Override
 			public Class<ISOMGraphLayoutManagerSpecification> getLayoutManagerSpecificationClass() {
 				return ISOMGraphLayoutManagerSpecification.class;
+			}
+
+			@Override
+			public String getDefaultLayoutManagerName() {
+				return "isom-graph";
 			}
 		},
 		TREE_LAYOUT {
@@ -103,11 +123,21 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 			public Class<TreeLayoutManagerSpecification<?>> getLayoutManagerSpecificationClass() {
 				return (Class) TreeLayoutManagerSpecification.class;
 			}
+
+			@Override
+			public String getDefaultLayoutManagerName() {
+				return "tree";
+			}
 		},
 		BALLOON_LAYOUT {
 			@Override
 			public Class<BalloonLayoutManagerSpecification<?>> getLayoutManagerSpecificationClass() {
 				return (Class) BalloonLayoutManagerSpecification.class;
+			}
+
+			@Override
+			public String getDefaultLayoutManagerName() {
+				return "balloon";
 			}
 		},
 		RADIAL_TREE {
@@ -115,9 +145,16 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 			public Class<RadialTreeLayoutManagerSpecification<?>> getLayoutManagerSpecificationClass() {
 				return (Class) RadialTreeLayoutManagerSpecification.class;
 			}
+
+			@Override
+			public String getDefaultLayoutManagerName() {
+				return "radial-tree";
+			}
 		};
 
 		public abstract Class<? extends FGELayoutManagerSpecification<?>> getLayoutManagerSpecificationClass();
+
+		public abstract String getDefaultLayoutManagerName();
 	}
 
 	@PropertyIdentifier(type = String.class)

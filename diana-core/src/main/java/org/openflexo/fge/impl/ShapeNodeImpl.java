@@ -59,6 +59,7 @@ import org.openflexo.fge.Drawing.ConstraintDependency;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGELayoutManager;
+import org.openflexo.fge.FGELayoutManagerSpecification;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.GRBinding;
@@ -98,6 +99,7 @@ import org.openflexo.fge.shapes.ShapeSpecification;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.fge.shapes.impl.ShapeImpl;
 import org.openflexo.toolbox.ConcatenedList;
+import org.openflexo.toolbox.StringUtils;
 
 public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalRepresentation> implements ShapeNode<O> {
 
@@ -125,6 +127,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		// graphics = new FGEShapeGraphicsImpl(this);
 		// width = getGraphicalRepresentation().getMinimalWidth();
 		// height = getGraphicalRepresentation().getMinimalHeight();
+		relayoutNode();
 	}
 
 	@Override
@@ -441,6 +444,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			} else if (evt.getPropertyName() == ShapeGraphicalRepresentation.SHAPE.getName()
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.SHAPE_TYPE.getName()) {
 				fireShapeSpecificationChanged();
+			} else if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.LAYOUT_MANAGER_IDENTIFIER_KEY)) {
+				relayoutNode();
 			}
 
 			/*if (notif instanceof BindingChanged) {
@@ -1833,10 +1838,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * 
 	 * @param layoutManagerIdentifier
 	 */
-	@Override
 	public void layoutedWith(String layoutManagerIdentifier) {
-		layoutManager = getParentNode().getLayoutManager(layoutManagerIdentifier);
-		// System.out.println("Looked-up layout manager: " + layoutManager);
+		setLayoutManager(getParentNode().getLayoutManager(layoutManagerIdentifier));
 	}
 
 	/**
@@ -1847,6 +1850,34 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public FGELayoutManager<?, ?> getLayoutManager() {
 		return layoutManager;
+	}
+
+	private void setLayoutManager(FGELayoutManager<?, ?> layoutManager) {
+		if ((layoutManager != this.layoutManager)) {
+			FGELayoutManager<?, ?> oldValue = this.layoutManager;
+			this.layoutManager = layoutManager;
+			getPropertyChangeSupport().firePropertyChange("layoutManager", oldValue, layoutManager);
+		}
+	}
+
+	/**
+	 * Called when changed FGELayoutManager for this node<br>
+	 * The layout manager is retrieved from layout identifier defined in {@link ShapeGraphicalRepresentation}, asserting that related
+	 * {@link FGELayoutManagerSpecification} is defined in {@link ContainerGraphicalRepresentation}
+	 */
+	public void relayoutNode() {
+		FGELayoutManager<?, ?> layoutManager = null;
+		if (StringUtils.isNotEmpty(getGraphicalRepresentation().getLayoutManagerIdentifier())) {
+			layoutManager = getParentNode().getLayoutManager(getGraphicalRepresentation().getLayoutManagerIdentifier());
+		}
+		System.out.println("OK, je dois remettre a jour le layout du noeud " + this + " avec " + layoutManager);
+		// Thread.dumpStack();
+
+		setLayoutManager(layoutManager);
+		if (layoutManager != null) {
+			layoutManager.invalidate(this);
+			layoutManager.doLayout(this, true);
+		}
 	}
 
 	@Override

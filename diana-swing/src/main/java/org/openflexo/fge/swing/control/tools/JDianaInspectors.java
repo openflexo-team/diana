@@ -89,9 +89,9 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 		panelGroup.addContents(getTextStyleInspector().getTitle(), getTextStyleInspector());
 		panelGroup.addContents(getShadowStyleInspector().getTitle(), getShadowStyleInspector());
 		panelGroup.addContents(getLocationSizeInspector().getTitle(), getLocationSizeInspector());
+		panelGroup.addContents(getLayoutManagersInspector().getTitle(), getLayoutManagersInspector());
 		panelGroup.addContents(getShapeInspector().getTitle(), getShapeInspector());
 		panelGroup.addContents(getConnectorInspector().getTitle(), getConnectorInspector());
-		panelGroup.addContents(getLayoutManagersInspector().getTitle(), getConnectorInspector());
 		panelGroup.setOpenedPanel(0); // Open foreground style inspector
 	}
 

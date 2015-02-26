@@ -46,6 +46,7 @@ import java.util.Set;
 import org.openflexo.fge.ContainerGraphicalRepresentation;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.FGELayoutManager;
 import org.openflexo.fge.FGELayoutManagerSpecification;
@@ -54,6 +55,7 @@ import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.control.DianaInteractiveViewer;
+import org.openflexo.toolbox.StringUtils;
 
 /**
  * Proxy object manager by the controller of {@link LayoutManagerSpecification} inspector (this is the object represented by the inspector)<br>
@@ -130,6 +132,13 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 	}
 
 	public LayoutManagerSpecificationType getDefaultLayoutType() {
+
+		/*if (getContainerNode() != null) {
+			for (ShapeNode<?> n : getContainerNode().getShapeNodes()) {
+				System.out.println("> Node " + n + " lm=" + n.getGraphicalRepresentation().getLayoutManagerIdentifier());
+			}
+		}*/
+
 		if (getDefaultLayoutManager() != null) {
 			return getDefaultLayoutManager().getLayoutManagerSpecification().getLayoutManagerSpecificationType();
 		}
@@ -147,14 +156,29 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 			ContainerGraphicalRepresentation gr = getContainerNode().getGraphicalRepresentation();
 
 			if (getDefaultLayoutManager() != null) {
-				gr.removeFromLayoutManagerSpecifications(getDefaultLayoutManager().getLayoutManagerSpecification());
+				FGELayoutManagerSpecification<?> spec = getDefaultLayoutManager().getLayoutManagerSpecification();
+				gr.removeFromLayoutManagerSpecifications(spec);
+				spec.delete();
 			}
 
 			if (defaultLayoutType != LayoutManagerSpecificationType.NONE) {
-				FGELayoutManagerSpecification<?> newLayoutManagerSpecification = getFactory().makeLayoutManagerSpecification("toto",
-						defaultLayoutType.getLayoutManagerSpecificationClass());
+				FGELayoutManagerSpecification<?> newLayoutManagerSpecification = getFactory().makeLayoutManagerSpecification(
+						defaultLayoutType.getDefaultLayoutManagerName(), defaultLayoutType.getLayoutManagerSpecificationClass());
 				System.out.println("new layout manager: " + newLayoutManagerSpecification);
 				gr.addToLayoutManagerSpecifications(newLayoutManagerSpecification);
+				for (ShapeNode<?> n : getContainerNode().getShapeNodes()) {
+					// For all ShapeNode contained in ContainerNode with no layout manager, assign this newly created layout manager
+					if (StringUtils.isEmpty(n.getGraphicalRepresentation().getLayoutManagerIdentifier())) {
+						n.getGraphicalRepresentation().setLayoutManagerIdentifier(newLayoutManagerSpecification.getIdentifier());
+					}
+				}
+				// FGELayoutManager<?, ?> newLayoutManager = getContainerNode()
+				// .getLayoutManager(newLayoutManagerSpecification.getIdentifier());
+
+				if (getDefaultLayoutManager() != null) {
+					getDefaultLayoutManager().invalidate();
+					getDefaultLayoutManager().doLayout(true);
+				}
 			}
 
 			getPropertyChangeSupport().firePropertyChange("defaultLayoutManager", oldLayoutManager, getDefaultLayoutManager());
@@ -162,10 +186,21 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 		}
 	}
 
+	/**
+	 * Return default {@link FGELayoutManager} to display in the context of this inspector<br>
+	 * 
+	 * If selection is a container with some layout defined, return first one.<br>
+	 * 
+	 * @return
+	 */
 	public FGELayoutManager<?, ?> getDefaultLayoutManager() {
+		/*if (hasValidSelection() && getContainerNode() instanceof ShapeNode && getContainerNode().getChildNodes().isEmpty()) {
+			return ((ShapeNode<?>) getContainerNode()).getLayoutManager();
+		}*/
 		if (getLayoutManagers() != null && getLayoutManagers().size() > 0) {
 			return getLayoutManagers().get(0);
 		}
 		return null;
 	}
+
 }
