@@ -197,10 +197,6 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 
 			switch (getHorizontalAlignment()) {
 			case CENTER:
-				System.out.println("bounds=" + bounds);
-				System.out.println("node=" + node);
-				System.out.println("node.getBorder()=" + node.getBorder());
-
 				x = bounds.getCenter().getX() - node.getWidth() / 2 - node.getBorder().getLeft();
 				break;
 			case LEFT:
