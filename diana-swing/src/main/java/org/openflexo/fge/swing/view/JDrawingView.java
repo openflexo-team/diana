@@ -544,6 +544,9 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 	@Override
 	public synchronized void paint(Graphics g) {
+
+		System.out.println("PAINT JDrawingView clip=" + g.getClip());
+
 		if (isDeleted()) {
 			return;
 		}
@@ -555,6 +558,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 				if (FGEPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE)) {
 					FGEPaintManager.paintPrimitiveLogger.fine("JDrawingView: Paint for image buffering area, clip=" + g.getClipBounds());
 				}
+				System.out.println("On peint normalement la drawingview");
+				long start = System.currentTimeMillis();
 				super.paint(g);
 				if (bufferingHasBeenStartedAgain) {
 					g.clearRect(0, 0, drawing.getRoot().getViewWidth(getController().getScale()),
@@ -562,7 +567,10 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					super.paint(g);
 					bufferingHasBeenStartedAgain = false;
 				}
+				System.out.println("Ca a pris: " + (System.currentTimeMillis() - start) + " ms");
 			} else {
+				System.out.println("On peint la drawingview avec le buffer");
+				long start = System.currentTimeMillis();
 				if (getPaintManager().renderUsingBuffer((Graphics2D) g, g.getClipBounds(), drawing.getRoot(), getScale())) {
 					// Now, we still have to paint objects that are declared
 					// to be temporary and continuously to be redrawn
@@ -573,6 +581,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					// Skip buffering and perform normal rendering
 					super.paint(g);
 				}
+				System.out.println("Ca prend quand meme: " + (System.currentTimeMillis() - start) + " ms");
 				paintCapturedNode(g);
 			}
 		} else {
@@ -1000,7 +1009,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		}
 
 		drawing.getRoot().getPropertyChangeSupport().removePropertyChangeListener(this);
-		
+
 		isDeleted = true;
 	}
 

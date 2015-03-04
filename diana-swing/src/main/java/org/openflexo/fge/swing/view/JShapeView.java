@@ -307,6 +307,9 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 
 	@Override
 	public void paint(Graphics g) {
+
+		System.out.println("PAINT JShapeView clip=" + g.getClip());
+
 		if (isDeleted()) {
 			return;
 		}

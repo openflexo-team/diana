@@ -285,6 +285,9 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 
 	@Override
 	public void paint(Graphics g) {
+
+		System.out.println("PAINT JConnectorView clip=" + g.getClip());
+
 		if (isDeleted()) {
 			return;
 		}

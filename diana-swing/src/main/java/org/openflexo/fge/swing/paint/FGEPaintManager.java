@@ -82,7 +82,7 @@ public class FGEPaintManager {
 	public static final Logger paintRequestLogger = Logger.getLogger("PaintRequest");
 	public static final Logger paintStatsLogger = Logger.getLogger("PaintStats");
 
-	private boolean _paintingCacheEnabled;
+	private boolean _paintingCacheEnabled = true;
 
 	// private static final int DEFAULT_IMAGE_TYPE = BufferedImage.TYPE_INT_RGB;
 
@@ -226,6 +226,9 @@ public class FGEPaintManager {
 	}
 
 	public void repaint(final JFGEView<?, ?> view) {
+
+		System.out.println("************* repaint view for node " + view.getNode() + " view=" + view);
+
 		if (view == null) {
 			logger.warning("Cannot paint null view");
 			return;
