@@ -43,6 +43,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.openflexo.connie.BindingFactory;
+import org.openflexo.connie.BindingModel;
+import org.openflexo.connie.DataBinding;
+import org.openflexo.connie.java.JavaBindingFactory;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGELayoutManager;
@@ -395,5 +399,28 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 	public void removeFromLayoutedNodes(ShapeNode<?> node) {
 		System.out.println("on enleve le noeud " + node);
 		node.getGraphicalRepresentation().setLayoutManagerIdentifier(null);
+	}
+
+	@Override
+	public BindingModel getBindingModel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private static BindingFactory BINDING_FACTORY = new JavaBindingFactory();
+
+	@Override
+	public BindingFactory getBindingFactory() {
+		return BINDING_FACTORY;
+	}
+
+	@Override
+	public void notifiedBindingChanged(DataBinding<?> dataBinding) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void notifiedBindingDecoded(DataBinding<?> dataBinding) {
+		// TODO Auto-generated method stub
 	}
 }
