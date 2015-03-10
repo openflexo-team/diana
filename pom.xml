@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.openflexo</groupId>
 		<artifactId>openflexo-component</artifactId>
-        <version>0.2</version>
+        <version>0.3-SNAPSHOT</version>
 	</parent>
 	<version>1.2-SNAPSHOT</version>
 	<modelVersion>4.0.0</modelVersion>
@@ -38,11 +38,6 @@
 				<artifactId>flexoutils</artifactId>
 				<version>${connie.version}</version>
 				<classifier>tests</classifier>
-			</dependency>
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.10</version>
 			</dependency>
 		    <dependency>
 			   <groupId>org.openflexo</groupId>
@@ -173,6 +168,61 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-	</build>
+	</build>     
+
+ <!-- *****************
+  	Profiles
+  	 -->
+      <profiles>
+        <profile>
+            <id>snapshot-profile</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <!-- ************
+   		Places where to upload files for component Maven site
+   		-->
+            <distributionManagement>
+                <site>
+                    <id>diana.website</id>
+                    <url>scp://server-one.openflexo.org/home/www/sites/diana/SNAPSHOT/</url>
+                </site>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>RC-profile</id>
+            <activation>
+                <property>
+                    <name>performRC</name>
+                </property>
+            </activation>
+            <!-- ************
+   		Places where to upload files for component Maven site
+		   -->
+            <distributionManagement>
+                <site>
+                    <id>diana.website</id>
+                    <url>scp://server-one.openflexo.org/home/www/sites/diana/SNAPSHOT/</url>
+                </site>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>release-profile</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                </property>
+            </activation>
+            <!-- ************
+   		Places where to upload files for component Maven site
+		   -->
+            <distributionManagement>
+                <site>
+                    <id>diana.website</id>
+                    <url>scp://server-one.openflexo.org/home/www/sites/diana/${project.version}/</url>
+                </site>
+            </distributionManagement>
+        </profile>
+      </profiles>
 </project>
 
