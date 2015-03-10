@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Panel className="org.openflexo.fge.drawingeditor.FIBInspector" layout="border" dataClassName="org.openflexo.fge.ConnectorGraphicalRepresentation" font="SansSerif,0,12" useScrollBar="false" name="Inspector">
+<Inspector layout="border" dataClassName="org.openflexo.fge.ConnectorGraphicalRepresentation" font="SansSerif,0,12" useScrollBar="false" name="Inspector">
   <TabPanel name="Tab" constraints="border(location=center;index=0)" useScrollBar="false">
     <Tab index="3" title="Edition" layout="twocols" font="SansSerif,0,11" useScrollBar="false" name="EditionTab">
       <Label label="is_selectable" localize="true" name="IsSelectableLabel" constraints="twocols(location=left;index=2;expandHorizontally=false;expandVertically=false)" useScrollBar="false" />

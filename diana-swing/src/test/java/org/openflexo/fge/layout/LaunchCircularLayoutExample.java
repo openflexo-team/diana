@@ -36,7 +36,7 @@
  * 
  */
 
-package org.openflexo.fge;
+package org.openflexo.fge.layout;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -44,20 +44,22 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 
+import org.openflexo.fge.Drawing;
+import org.openflexo.fge.FGEModelFactory;
+import org.openflexo.fge.FGEModelFactoryImpl;
+import org.openflexo.fge.TestGraph;
+import org.openflexo.fge.TestGraphNode;
+import org.openflexo.fge.layout.CircularDrawing;
 import org.openflexo.fge.swing.JDianaInteractiveEditor;
-import org.openflexo.fge.swing.JDianaInteractiveViewer;
 import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
@@ -85,14 +87,14 @@ public class LaunchCircularLayoutExample {
 	}
 
 	public static class TestDrawingController extends JDianaInteractiveEditor<TestGraph> {
-		private final JPopupMenu contextualMenu;
+		// private final JPopupMenu contextualMenu;
 		private final JDianaScaleSelector scaleSelector;
 
-		public TestDrawingController(CircularDrawing aDrawing) {
+		public TestDrawingController(Drawing aDrawing) {
 			super(aDrawing, aDrawing.getFactory(), SwingViewFactory.INSTANCE, SwingToolFactory.DEFAULT);
 			scaleSelector = (JDianaScaleSelector) getToolFactory().makeDianaScaleSelector(this);
-			contextualMenu = new JPopupMenu();
-			contextualMenu.add(new JMenuItem("Item"));
+			// contextualMenu = new JPopupMenu();
+			// contextualMenu.add(new JMenuItem("Item"));
 		}
 
 	}
@@ -104,7 +106,7 @@ public class LaunchCircularLayoutExample {
 
 		// final TestInspector inspector = new TestInspector();
 
-		final CircularDrawing d = makeDrawing();
+		final Drawing d = makeDrawing();
 		final TestDrawingController dc = new TestDrawingController(d);
 		// dc.disablePaintingCache();
 		dc.getDrawingView().setName("[NO_CACHE]");
@@ -136,24 +138,12 @@ public class LaunchCircularLayoutExample {
 			}
 		});
 
-		JButton screenshotButton = new JButton("Screenshot");
-		screenshotButton.addActionListener(new ActionListener() {
+		JButton layoutButton = new JButton("Layout");
+		layoutButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				final BufferedImage screenshot = dc.getDelegate().makeScreenshot(dc.getDrawing().getRoot());
-				JDialog screenshotDialog = new JDialog((Frame) null, false);
-				screenshotDialog.getContentPane().add(new JPanel() {
-					@Override
-					public void paint(java.awt.Graphics g) {
-						super.paint(g);
-						g.drawImage(screenshot, 0, 0, screenshot.getWidth(), screenshot.getHeight(), null);
-					}
-				});
-				screenshotDialog.setPreferredSize(new Dimension(400, 400));
-				screenshotDialog.setLocation(500, 500);
-				screenshotDialog.validate();
-				screenshotDialog.pack();
-				screenshotDialog.setVisible(true);
+				System.out.println("Layout");
+				dc.getDrawing().getRoot().getDefaultLayoutManager().doLayout(true);
 			}
 		});
 
@@ -161,7 +151,7 @@ public class LaunchCircularLayoutExample {
 		controlPanel.add(closeButton);
 		controlPanel.add(inspectButton);
 		controlPanel.add(logButton);
-		controlPanel.add(screenshotButton);
+		controlPanel.add(layoutButton);
 
 		panel.add(controlPanel, BorderLayout.SOUTH);
 
@@ -172,18 +162,6 @@ public class LaunchCircularLayoutExample {
 
 		dialog.setVisible(true);
 
-		JDianaInteractiveViewer<TestGraph> dc2 = new JDianaInteractiveViewer<TestGraph>(d, d.getFactory(), SwingToolFactory.DEFAULT);
-		final JDialog dialog2 = new JDialog((Frame) null, false);
-		dialog2.getContentPane().add(new JScrollPane(dc2.getDrawingView()));
-		dialog2.setPreferredSize(new Dimension(400, 400));
-		dialog2.setLocation(800, 100);
-		dialog2.validate();
-		dialog2.pack();
-		dialog2.setVisible(true);
-		// dc2.enablePaintingCache();
-
-		// dc.addObserver(inspector);
-		// inspector.getWindow().setVisible(true);
 	}
 
 	public static CircularDrawing makeDrawing() {

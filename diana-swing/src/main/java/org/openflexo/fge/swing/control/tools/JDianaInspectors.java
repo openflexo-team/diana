@@ -47,6 +47,7 @@ import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.tools.BackgroundStyleFactory;
 import org.openflexo.fge.control.tools.ConnectorSpecificationFactory;
 import org.openflexo.fge.control.tools.DianaInspectors;
+import org.openflexo.fge.control.tools.InspectedLayoutManagerSpecifications;
 import org.openflexo.fge.control.tools.InspectedLocationSizeProperties;
 import org.openflexo.fge.control.tools.ShapeSpecificationFactory;
 import org.openflexo.fge.swing.SwingViewFactory;
@@ -77,6 +78,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 	private JInspector<ShapeSpecificationFactory> shapeInspector;
 	private JInspector<ConnectorSpecificationFactory> connectorInspector;
 	private JInspector<InspectedLocationSizeProperties> locationSizeInspector;
+	private JInspector<InspectedLayoutManagerSpecifications> layoutManagersInspector;
 
 	private final FlexoCollabsiblePanelGroup panelGroup;
 
@@ -87,6 +89,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 		panelGroup.addContents(getTextStyleInspector().getTitle(), getTextStyleInspector());
 		panelGroup.addContents(getShadowStyleInspector().getTitle(), getShadowStyleInspector());
 		panelGroup.addContents(getLocationSizeInspector().getTitle(), getLocationSizeInspector());
+		panelGroup.addContents(getLayoutManagersInspector().getTitle(), getLayoutManagersInspector());
 		panelGroup.addContents(getShapeInspector().getTitle(), getShapeInspector());
 		panelGroup.addContents(getConnectorInspector().getTitle(), getConnectorInspector());
 		panelGroup.setOpenedPanel(0); // Open foreground style inspector
@@ -120,6 +123,9 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 		if (locationSizeInspector != null) {
 			locationSizeInspector.setData(getInspectedLocationSizeProperties());
 		}
+		if (layoutManagersInspector != null) {
+			layoutManagersInspector.setData(getInspectedLayoutManagerSpecifications());
+		}
 	}
 
 	public static Resource FOREGROUND_STYLE_FIB_FILE = ResourceLocator.locateResource("Fib/ForegroundStylePanel.fib");
@@ -129,6 +135,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 	public static Resource SHAPE_SPECIFICATION_PANEL_FIB_FILE = ResourceLocator.locateResource("Fib/ShapeSelectorPanel.fib");
 	public static Resource CONNECTOR_SPECIFICATION_PANEL_FIB_FILE = ResourceLocator.locateResource("Fib/ConnectorSelectorPanel.fib");
 	public static Resource LOCATION_SIZE_FIB_FILE = ResourceLocator.locateResource("Fib/LocationSizePanel.fib");
+	public static Resource LAYOUT_MANAGERS_FIB_FILE = ResourceLocator.locateResource("Fib/LayoutManagersPanel.fib");
 
 	@Override
 	public JInspector<ForegroundStyle> getForegroundStyleInspector() {
@@ -197,6 +204,16 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 					"Connector", ConnectorSpecificationFactory.class);
 		}
 		return connectorInspector;
+	}
+
+	@Override
+	public JInspector<InspectedLayoutManagerSpecifications> getLayoutManagersInspector() {
+		if (layoutManagersInspector == null) {
+			layoutManagersInspector = new JInspector<InspectedLayoutManagerSpecifications>(FIBLibrary.instance().retrieveFIBComponent(
+					LAYOUT_MANAGERS_FIB_FILE, true), getInspectedLayoutManagerSpecifications(), "Layout Managers",
+					InspectedLayoutManagerSpecifications.class);
+		}
+		return layoutManagersInspector;
 	}
 
 	@SuppressWarnings("serial")

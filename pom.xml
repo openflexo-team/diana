@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<groupId>org.openflexo</groupId>
 		<artifactId>openflexo-component</artifactId>
@@ -20,17 +21,17 @@
 	<scm>
 		<connection>scm:git:ssh://git@github.com/openflexo-team/diana.git</connection>
 		<url>https://github.com/openflexo-team/diana</url>
-	  <tag>1.2</tag>
-  </scm>
+		<tag>1.2</tag>
+	</scm>
 	<modules>
 		<module>diana-geom</module>
 		<module>diana-api</module>
 		<module>diana-core</module>
 		<module>diana-swing</module>
 		<module>diana-drawing-editor</module>
-		<!--  <module>diana-geomedit</module> --> <!--  Do not produce it yet -->
+		<!-- <module>diana-geomedit</module> --> <!-- Do not produce it yet -->
 		<module>diana-ppt-editor</module>
-    </modules>
+	</modules>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -52,12 +53,18 @@
 			<dependency>
 				<groupId>org.openflexo</groupId>
 				<artifactId>gina-core</artifactId>
-			    <version>${gina.version}</version>
+				<version>${gina.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.openflexo</groupId>
+				<artifactId>gina-core</artifactId>
+				<version>${gina.version}</version>
+				<classifier>tests</classifier>
 			</dependency>
 			<dependency>
 				<groupId>org.openflexo</groupId>
 				<artifactId>gina-swing</artifactId>
-			    <version>${gina.version}</version>
+				<version>${gina.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.openflexo</groupId>
@@ -113,8 +120,20 @@
 				<artifactId>diana-geomedit</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>net.sf.jung</groupId>
+				<artifactId>jung-graph-impl</artifactId>
+				<version>2.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.jung</groupId>
+				<artifactId>jung-algorithms</artifactId>
+				<version>2.0.1</version>
+			</dependency>
+
 		</dependencies>
-  	</dependencyManagement>
+	</dependencyManagement>
 	<build>
 		<resources>
 			<resource>
@@ -136,9 +155,7 @@
 				<excludes>
 					<exclude>**/diana.properties</exclude>
 				</excludes>
-				<!--  <includes>
-					<include>**/*</include>
-				</includes>-->
+				<!-- <includes> <include>**/*</include> </includes> -->
 			</resource>
 		</resources>
 		<pluginManagement>
@@ -148,12 +165,12 @@
 					<artifactId>maven-jar-plugin</artifactId>
 					<executions>
 						<execution>
-						    <id>default-jar</id>
+							<id>default-jar</id>
 							<goals>
 								<goal>jar</goal>
 							</goals>
 							<configuration>
-							     <skipIfEmpty>true</skipIfEmpty>
+								<skipIfEmpty>true</skipIfEmpty>
 							</configuration>
 						</execution>
 						<execution>
@@ -161,7 +178,7 @@
 								<goal>test-jar</goal>
 							</goals>
 							<configuration>
-							     <skipIfEmpty>true</skipIfEmpty>
+								<skipIfEmpty>true</skipIfEmpty>
 							</configuration>
 						</execution>
 					</executions>

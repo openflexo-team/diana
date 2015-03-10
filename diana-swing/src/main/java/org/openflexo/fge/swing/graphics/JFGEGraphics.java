@@ -165,6 +165,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 		g2d.setStroke(aStroke);
 	}
 
+	@Override
 	protected void applyCurrentForegroundStyle() {
 		if (g2d == null) {
 			return; // Strange...
@@ -194,6 +195,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 				+ stroke.getLineJoin() + ")-(cap=" + stroke.getEndCap() + ")-(dash=" + stroke.getDashPhase() + ")";
 	}
 
+	@Override
 	protected void applyCurrentBackgroundStyle() {
 		if (g2d == null) {
 			return; // Strange...
@@ -216,6 +218,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 		}
 	}
 
+	@Override
 	protected void applyCurrentTextStyle() {
 		g2d.setColor(getCurrentTextStyle().getColor());
 		g2d.setFont(getCurrentTextStyle().getFont());
@@ -405,7 +408,9 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 
 	@Override
 	public void drawLine(double x1, double y1, double x2, double y2) {
-		// logger.info("drawLine("+x1+","+y1+","+x2+","+y2+")"+" with "+debugForegroundStyle());
+		// logger.info("drawLine(" + x1 + "," + y1 + "," + x2 + "," + y2 + ")" + " with " + debugForegroundStyle());
+		// logger.info("clipbounds=" + g2d.getClipBounds());
+
 		if (getCurrentForeground() == null || getCurrentForeground().getNoStroke()) {
 			return;
 		}
@@ -584,6 +589,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 		}
 	}
 
+	@Override
 	public FGERectangle drawString(String text, double x, double y, int orientation, HorizontalTextAlignment alignment) {
 		if (text == null || text.length() == 0) {
 			return new FGERectangle();
@@ -812,10 +818,10 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 	}
 
 	static class ColorSwapFilter extends RGBImageFilter {
-		private int target1;
-		private int replacement1;
-		private int target2;
-		private int replacement2;
+		private final int target1;
+		private final int replacement1;
+		private final int target2;
+		private final int replacement2;
 
 		public ColorSwapFilter(java.awt.Color target1, java.awt.Color replacement1, java.awt.Color target2, java.awt.Color replacement2) {
 			this.target1 = target1.getRGB();

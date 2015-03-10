@@ -58,6 +58,7 @@ import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.animation.Animation;
 import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.DianaInteractiveEditor;
 import org.openflexo.fge.control.DrawingPalette;
@@ -203,6 +204,14 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 
 			paletteElementBinding.setDynamicPropertyValue(GraphicalRepresentation.TEXT, new DataBinding<String>("drawable.name"), false);
 
+		}
+
+		@Override
+		public void startAnimation(Animation animation) {
+		}
+
+		@Override
+		public void stopAnimation(Animation animation) {
 		}
 	}
 

@@ -40,12 +40,12 @@
 package org.openflexo.fge.geom.area;
 
 import java.awt.geom.AffineTransform;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.geom.FGEAbstractLine;
 import org.openflexo.fge.geom.FGEGeometricObject;
 import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.graphics.AbstractFGEGraphics;
@@ -167,9 +167,21 @@ public class FGEGrid implements FGEArea {
 
 	@Override
 	public void paint(AbstractFGEGraphics g) {
-		if (logger.isLoggable(Level.WARNING)) {
-			logger.warning("TODO");
+
+		FGERectangle bounds = g.getNodeNormalizedBounds();
+
+		int nx = (int) (bounds.getWidth() / hStep);
+		int ny = (int) (bounds.getHeight() / vStep);
+
+		for (int i = 0; i < nx; i++) {
+			FGELine l = new FGELine(new FGEPoint(i * hStep, 0), new FGEPoint(i * hStep, 1));
+			bounds.intersect(l).paint(g);
 		}
+		for (int j = 0; j < ny; j++) {
+			FGELine l = new FGELine(new FGEPoint(0, j * vStep), new FGEPoint(1, j * vStep));
+			bounds.intersect(l).paint(g);
+		}
+
 	}
 
 	@Override

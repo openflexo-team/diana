@@ -170,23 +170,25 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 		LEFT, CENTER, RIGHT, JUSTIFY;
 	}
 
+	// TODO: rename to HorizontalAlignment
 	public static enum HorizontalTextAlignment {
 		LEFT, CENTER, RIGHT
 	}
 
+	// TODO: rename to VerticalAlignment
 	public static enum VerticalTextAlignment {
 		TOP, MIDDLE, BOTTOM;
 	}
 
 	public static GRProperty<String> IDENTIFIER = GRProperty.getGRParameter(GraphicalRepresentation.class, IDENTIFIER_KEY, String.class);
 	public static GRProperty<Integer> LAYER = GRProperty.getGRParameter(GraphicalRepresentation.class, LAYER_KEY, Integer.class);
-	public static GRProperty<Double> TRANSPARENCY = GRProperty.getGRParameter(GraphicalRepresentation.class, TRANSPARENCY_KEY,
-			Double.class);
+	public static GRProperty<Double> TRANSPARENCY = GRProperty
+			.getGRParameter(GraphicalRepresentation.class, TRANSPARENCY_KEY, Double.class);
 	public static GRProperty<String> TEXT = GRProperty.getGRParameter(GraphicalRepresentation.class, TEXT_KEY, String.class);
 	public static GRProperty<TextStyle> TEXT_STYLE = GRProperty.getGRParameter(GraphicalRepresentation.class, TEXT_STYLE_KEY,
 			TextStyle.class);
-	public static GRProperty<HorizontalTextAlignment> HORIZONTAL_TEXT_ALIGNEMENT = GRProperty.getGRParameter(
-			GraphicalRepresentation.class, HORIZONTAL_TEXT_ALIGNEMENT_KEY, HorizontalTextAlignment.class);
+	public static GRProperty<HorizontalTextAlignment> HORIZONTAL_TEXT_ALIGNEMENT = GRProperty.getGRParameter(GraphicalRepresentation.class,
+			HORIZONTAL_TEXT_ALIGNEMENT_KEY, HorizontalTextAlignment.class);
 	public static GRProperty<VerticalTextAlignment> VERTICAL_TEXT_ALIGNEMENT = GRProperty.getGRParameter(GraphicalRepresentation.class,
 			VERTICAL_TEXT_ALIGNEMENT_KEY, VerticalTextAlignment.class);
 	public static GRProperty<Double> ABSOLUTE_TEXT_X = GRProperty.getGRParameter(GraphicalRepresentation.class, ABSOLUTE_TEXT_X_KEY,
@@ -213,14 +215,13 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 			Boolean.class);
 	public static GRProperty<Boolean> IS_LABEL_EDITABLE = GRProperty.getGRParameter(GraphicalRepresentation.class, IS_LABEL_EDITABLE_KEY,
 			Boolean.class);
-	public static GRProperty<Boolean> IS_VISIBLE = GRProperty
-			.getGRParameter(GraphicalRepresentation.class, IS_VISIBLE_KEY, Boolean.class);
+	public static GRProperty<Boolean> IS_VISIBLE = GRProperty.getGRParameter(GraphicalRepresentation.class, IS_VISIBLE_KEY, Boolean.class);
 	public static GRProperty<List> MOUSE_CLICK_CONTROLS = GRProperty.getGRParameter(GraphicalRepresentation.class,
 			MOUSE_CLICK_CONTROLS_KEY, List.class);
-	public static GRProperty<List> MOUSE_DRAG_CONTROLS = GRProperty.getGRParameter(GraphicalRepresentation.class,
-			MOUSE_DRAG_CONTROLS_KEY, List.class);
-	public static GRProperty<String> TOOLTIP_TEXT = GRProperty.getGRParameter(GraphicalRepresentation.class, TOOLTIP_TEXT_KEY,
-			String.class);
+	public static GRProperty<List> MOUSE_DRAG_CONTROLS = GRProperty.getGRParameter(GraphicalRepresentation.class, MOUSE_DRAG_CONTROLS_KEY,
+			List.class);
+	public static GRProperty<String> TOOLTIP_TEXT = GRProperty
+			.getGRParameter(GraphicalRepresentation.class, TOOLTIP_TEXT_KEY, String.class);
 
 	// *******************************************************************************
 	// * Model
@@ -468,6 +469,7 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 
 	public void finalizeDeserialization();
 
+	@Override
 	public boolean isDeserializing();
 
 	// *******************************************************************************

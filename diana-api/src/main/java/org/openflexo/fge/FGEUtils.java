@@ -171,10 +171,10 @@ public class FGEUtils {
 	}
 
 	public static DrawingTreeNode<?, ?> getFirstCommonAncestor(DrawingTreeNode<?, ?> child1, DrawingTreeNode<?, ?> child2) {
-		if (!child1.isValidated()) {
+		if (!child1.isValid()) {
 			return null;
 		}
-		if (!child2.isValidated()) {
+		if (!child2.isValid()) {
 			return null;
 		}
 		return getFirstCommonAncestor(child1, child2, false);
@@ -182,10 +182,10 @@ public class FGEUtils {
 
 	public static DrawingTreeNode<?, ?> getFirstCommonAncestor(DrawingTreeNode<?, ?> child1, DrawingTreeNode<?, ?> child2,
 			boolean includeCurrent) {
-		if (!child1.isValidated()) {
+		if (!child1.isValid()) {
 			return null;
 		}
-		if (!child2.isValidated()) {
+		if (!child2.isValid()) {
 			return null;
 		}
 		List<DrawingTreeNode<?, ?>> ancestors1 = child1.getAncestors();
@@ -206,10 +206,10 @@ public class FGEUtils {
 	}
 
 	public static boolean areElementsConnectedInGraphicalHierarchy(DrawingTreeNode<?, ?> element1, DrawingTreeNode<?, ?> element2) {
-		if (!element1.isValidated()) {
+		if (!element1.isValid()) {
 			return false;
 		}
-		if (!element2.isValidated()) {
+		if (!element2.isValid()) {
 			return false;
 		}
 		return getFirstCommonAncestor(element1, element2) != null;

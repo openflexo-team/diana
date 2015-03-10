@@ -42,6 +42,7 @@ package org.openflexo.fge;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.fge.BackgroundStyle.BackgroundStyleType;
 import org.openflexo.fge.Drawing.ContainerNode;
+import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.geom.FGEDimension;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.area.FGEArea;
@@ -133,6 +134,9 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	public static final String HEIGHT_CONSTRAINTS_KEY = "heightConstraints";
 
 	public static final String BACKGROUND_STYLE_TYPE_KEY = "BackgroundStyleType";
+
+	@PropertyIdentifier(type = String.class)
+	public static final String LAYOUT_MANAGER_IDENTIFIER_KEY = "layoutManagerIdentifier";
 
 	// *******************************************************************************
 	// * Inner concepts
@@ -279,10 +283,10 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 			SHAPE_SPECIFICATION_KEY, ShapeSpecification.class);
 	public static GRProperty<ShapeType> SHAPE_TYPE = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, SHAPE_TYPE_KEY,
 			ShapeType.class);
-	public static GRProperty<DataBinding> X_CONSTRAINTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
-			X_CONSTRAINTS_KEY, DataBinding.class);
-	public static GRProperty<DataBinding> Y_CONSTRAINTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
-			Y_CONSTRAINTS_KEY, DataBinding.class);
+	public static GRProperty<DataBinding> X_CONSTRAINTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, X_CONSTRAINTS_KEY,
+			DataBinding.class);
+	public static GRProperty<DataBinding> Y_CONSTRAINTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, Y_CONSTRAINTS_KEY,
+			DataBinding.class);
 	public static GRProperty<DataBinding> WIDTH_CONSTRAINTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			WIDTH_CONSTRAINTS_KEY, DataBinding.class);
 	public static GRProperty<DataBinding> HEIGHT_CONSTRAINTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
@@ -715,8 +719,23 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	 */
 	public boolean dragOutsideParentContainerInsideContainer(ContainerNode<?, ?> container, FGEPoint location);
 
-	// public void performRandomLayout();
+	/**
+	 * Return identifier of {@link FGELayoutManagerSpecification} to use to layout represented {@link ShapeNode}.<br>
+	 * This implies that such {@link FGELayoutManagerSpecification} has been defined in {@link ContainerGraphicalRepresentation}
+	 * 
+	 * @return
+	 */
+	@Getter(value = LAYOUT_MANAGER_IDENTIFIER_KEY)
+	@XMLAttribute
+	public String getLayoutManagerIdentifier();
 
-	// public void performAutoLayout();
+	/**
+	 * Sets identifier of {@link FGELayoutManagerSpecification} to use to layout represented {@link ShapeNode}.<br>
+	 * This implies that such {@link FGELayoutManagerSpecification} has been defined in {@link ContainerGraphicalRepresentation}
+	 * 
+	 * @param identifier
+	 */
+	@Setter(value = LAYOUT_MANAGER_IDENTIFIER_KEY)
+	public void setLayoutManagerIdentifier(String identifier);
 
 }

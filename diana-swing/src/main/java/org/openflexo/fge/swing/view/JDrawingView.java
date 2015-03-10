@@ -425,6 +425,9 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			} else if (evt.getSource() instanceof GeometricGraphicalRepresentation) {
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
+			} else if (evt.getPropertyName().equals(ContainerNode.LAYOUT_DECORATION_KEY)) {
+				getPaintManager().invalidate(getDrawing().getRoot());
+				getPaintManager().repaint(this);
 			}
 		}
 	}
@@ -592,6 +595,13 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 			if (getController() instanceof DianaInteractiveViewer) {
 				// Don't paint those things in case of buffering
+
+				// System.out.println("focused: " + ((DianaInteractiveViewer<?, ?, ?>) getController()).getFocusedObjects());
+
+				if (((DianaInteractiveViewer<?, ?, ?>) getController()).getFocusedObjects().size() == 0) {
+					paintFocused(getDrawing().getRoot(), graphics);
+				}
+
 				for (DrawingTreeNode<?, ?> o : new ArrayList<DrawingTreeNode<?, ?>>(
 						((DianaInteractiveViewer<?, ?, ?>) getController()).getFocusedObjects())) {
 					// logger.info("Paint focused " + o);
@@ -729,7 +739,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		if (selected instanceof ShapeNode) {
 			ShapeNode<?> shapeNode = (ShapeNode<?>) selected;
 			for (ControlArea<?> ca : shapeNode.getControlAreas()) {
-				if (selected.isConnectedToDrawing()) {
+				if (selected.isValid()) {
 					paintControlArea(ca, graphics);
 				}
 			}
@@ -751,7 +761,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			}
 
 			for (ControlArea<?> ca : connectorNode.getControlAreas()) {
-				if (selected.isConnectedToDrawing()) {
+				if (selected.isValid()) {
 					paintControlArea(ca, graphics);
 				}
 			}
@@ -860,10 +870,20 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		Graphics2D oldGraphics = graphics.cloneGraphics();
 		graphics.setDefaultForeground(PAINT_FACTORY.makeForegroundStyle(getGraphicalRepresentation().getFocusColor()));
 
+		/*if (focused instanceof RootNode) {
+			if (focused.getControlAreas() != null) {
+				for (ControlArea<?> ca : focused.getControlAreas()) {
+					if (focused.isValid()) {
+						paintControlArea(ca, graphics);
+					}
+				}
+			}
+		}*/
+
 		if (focused instanceof ShapeNode) {
 			ShapeNode<?> shapeNode = (ShapeNode<?>) focused;
 			for (ControlArea<?> ca : shapeNode.getControlAreas()) {
-				if (focused.isConnectedToDrawing()) {
+				if (focused.isValid()) {
 					paintControlArea(ca, graphics);
 				}
 			}
@@ -881,7 +901,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			}
 
 			for (ControlArea<?> ca : connectorNode.getControlAreas()) {
-				if (focused.isConnectedToDrawing()) {
+				if (focused.isValid()) {
 					paintControlArea(ca, graphics);
 				}
 			}
@@ -1000,7 +1020,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		}
 
 		drawing.getRoot().getPropertyChangeSupport().removePropertyChangeListener(this);
-		
+
 		isDeleted = true;
 	}
 

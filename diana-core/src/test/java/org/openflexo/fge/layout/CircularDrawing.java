@@ -36,11 +36,24 @@
  * 
  */
 
-package org.openflexo.fge;
+package org.openflexo.fge.layout;
 
 import java.awt.Color;
 
 import org.openflexo.connie.DataBinding;
+import org.openflexo.fge.ConnectorGraphicalRepresentation;
+import org.openflexo.fge.DrawingGraphicalRepresentation;
+import org.openflexo.fge.FGEModelFactory;
+import org.openflexo.fge.GRBinding;
+import org.openflexo.fge.GRProvider;
+import org.openflexo.fge.GRStructureVisitor;
+import org.openflexo.fge.GeometricGraphicalRepresentation;
+import org.openflexo.fge.GraphicalRepresentation;
+import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.TestEdge;
+import org.openflexo.fge.TestGraph;
+import org.openflexo.fge.TestGraphNode;
+import org.openflexo.fge.Drawing.PersistenceMode;
 import org.openflexo.fge.ForegroundStyle.DashStyle;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
 import org.openflexo.fge.GRBinding.DrawingGRBinding;

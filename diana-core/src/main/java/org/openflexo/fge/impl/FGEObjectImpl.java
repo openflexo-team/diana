@@ -51,6 +51,7 @@ import org.openflexo.fge.notifications.FGEAttributeNotification;
 import org.openflexo.fge.notifications.FGENotification;
 import org.openflexo.model.ModelEntity;
 import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.model.factory.DeletableProxyObject;
 
 public abstract class FGEObjectImpl implements FGEObject {
 	private static final Logger logger = Logger.getLogger(FGEObjectImpl.class.getPackage().getName());
@@ -124,7 +125,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 
 	@Override
 	public String getDeletedProperty() {
-		return "delete";
+		return DeletableProxyObject.DELETED;
 	}
 
 	// *******************************************************************************

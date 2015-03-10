@@ -119,6 +119,13 @@ public abstract class DianaInspectors<C extends Inspector<?>, F extends DianaVie
 		return null;
 	}
 
+	public InspectedLayoutManagerSpecifications getInspectedLayoutManagerSpecifications() {
+		if (getEditor() != null) {
+			return getEditor().getInspectedLayoutManagerSpecifications();
+		}
+		return null;
+	}
+
 	public abstract Inspector<ForegroundStyle> getForegroundStyleInspector();
 
 	public abstract Inspector<BackgroundStyleFactory> getBackgroundStyleInspector();
@@ -132,6 +139,8 @@ public abstract class DianaInspectors<C extends Inspector<?>, F extends DianaVie
 	public abstract Inspector<ConnectorSpecificationFactory> getConnectorInspector();
 
 	public abstract Inspector<InspectedLocationSizeProperties> getLocationSizeInspector();
+
+	public abstract Inspector<InspectedLayoutManagerSpecifications> getLayoutManagersInspector();
 
 	public static interface Inspector<D> {
 		public void setData(D data);

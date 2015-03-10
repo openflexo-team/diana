@@ -58,6 +58,7 @@ import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
+import org.openflexo.fge.Drawing.RootNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGEConstants;
 import org.openflexo.fge.control.DianaInteractiveEditor;
@@ -86,7 +87,7 @@ public class JFocusRetriever {
 
 	private static final Logger logger = Logger.getLogger(JFocusRetriever.class.getPackage().getName());
 
-	private JDrawingView<?> drawingView;
+	private final JDrawingView<?> drawingView;
 
 	public JFocusRetriever(JDrawingView<?> aDrawingView) {
 		drawingView = aDrawingView;
@@ -254,6 +255,19 @@ public class JFocusRetriever {
 					smallestDistance = caDistance;
 				}
 			}
+		} else if (node instanceof RootNode) {
+			RootNode<?> rootNode = (RootNode<?>) node;
+			double smallestDistance = Double.POSITIVE_INFINITY;
+			if (rootNode.getControlAreas() != null) {
+				for (ControlArea<?> ca : rootNode.getControlAreas()) {
+					double caDistance = ca.getDistanceToArea(p3, getScale());
+					if (caDistance < selectionDistance && caDistance < smallestDistance
+							&& (returned == null || getController().preferredFocusedControlArea(returned, ca) == ca)) {
+						returned = ca;
+						smallestDistance = caDistance;
+					}
+				}
+			}
 		}
 		return returned;
 	}
@@ -313,6 +327,7 @@ public class JFocusRetriever {
 	}
 
 	private DrawingTreeNode<?, ?> getFocusedObject(ContainerNode<?, ?> node, Component eventSource, Point eventLocation) {
+
 		FGEView<?, ?> view = drawingView.viewForNode(node);
 		Point p = SwingUtilities.convertPoint(eventSource, eventLocation, (Component) view);
 		double distanceToNearestConnector = Double.POSITIVE_INFINITY;
@@ -544,7 +559,7 @@ public class JFocusRetriever {
 								}
 							} else if (childNode instanceof ConnectorNode) {
 								ConnectorNode<?> connectorNode = (ConnectorNode<?>) childNode;
-								if (connectorNode.isValidated()) {
+								if (connectorNode.isValid()) {
 									for (ControlArea<?> ca : connectorNode.getControlAreas()) {
 										// Point pt1 =
 										// gr.convertNormalizedPointToViewCoordinates(ca.getPoint(),
@@ -694,6 +709,32 @@ public class JFocusRetriever {
 			}
 
 		}
+
+		if (returned == null && node instanceof RootNode) {
+
+			if (node.getControlAreas() != null) {
+				for (ControlArea<?> ca : node.getControlAreas()) {
+					// Point pt1 =
+					// gr.convertNormalizedPointToViewCoordinates(cp.getPoint(),
+					// getScale());
+					// Point pt2 =qds
+					// gr.convertNormalizedPointToViewCoordinates(p3,
+					// getScale());
+					// double cpDistance =
+					// Point2D.distance(pt1.x,pt1.y,pt2.x,pt2.y);
+
+					// Point p2 = SwingUtilities.convertPoint((Component) view, p, (Component) v);
+					FGEPoint p3 = node.convertViewCoordinatesToNormalizedPoint(p, getScale());
+
+					double caDistance = ca.getDistanceToArea(p3, getScale());
+					if (caDistance < FGEConstants.SELECTION_DISTANCE) {
+						returned = node;
+					}
+				}
+			}
+
+		}
+
 		if (logger.isLoggable(Level.FINE)) {
 			logger.fine("Focused GR: " + returned);
 		}

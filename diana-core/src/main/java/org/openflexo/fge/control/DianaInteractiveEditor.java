@@ -36,7 +36,6 @@
  * 
  */
 
-
 package org.openflexo.fge.control;
 
 import java.util.Arrays;
@@ -67,6 +66,7 @@ import org.openflexo.fge.control.tools.DrawTextToolController;
 import org.openflexo.fge.control.tools.InspectedBackgroundStyle;
 import org.openflexo.fge.control.tools.InspectedConnectorSpecification;
 import org.openflexo.fge.control.tools.InspectedForegroundStyle;
+import org.openflexo.fge.control.tools.InspectedLayoutManagerSpecifications;
 import org.openflexo.fge.control.tools.InspectedLocationSizeProperties;
 import org.openflexo.fge.control.tools.InspectedShadowStyle;
 import org.openflexo.fge.control.tools.InspectedShapeSpecification;
@@ -178,6 +178,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 	private final InspectedShapeSpecification inspectedShapeSpecification;
 	private final InspectedConnectorSpecification inspectedConnectorSpecification;
 	private final InspectedLocationSizeProperties inspectedLocationSizeProperties;
+	private final InspectedLayoutManagerSpecifications inspectedLayoutManagerSpecifications;
 
 	/**
 	 * The clipboard beeing managed by this editor
@@ -205,6 +206,8 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		inspectedShapeSpecification = new InspectedShapeSpecification(this);
 		inspectedConnectorSpecification = new InspectedConnectorSpecification(this);
 		inspectedLocationSizeProperties = new InspectedLocationSizeProperties(this);
+		inspectedLayoutManagerSpecifications = new InspectedLayoutManagerSpecifications(this);
+
 		setCurrentTool(EditorTool.SelectionTool);
 		setDrawShapeToolOption(DrawShapeToolOption.DrawRectangle);
 		setDrawCustomShapeToolOption(DrawCustomShapeToolOption.DrawPolygon);
@@ -235,6 +238,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		inspectedShapeSpecification.fireSelectionUpdated();
 		inspectedConnectorSpecification.fireSelectionUpdated();
 		inspectedLocationSizeProperties.fireSelectionUpdated();
+		inspectedLayoutManagerSpecifications.fireSelectionUpdated();
 	}
 
 	public DrawShapeToolController<?> getDrawShapeToolController() {
@@ -325,7 +329,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		if (drawCustomShapeToolController != null) {
 			drawCustomShapeToolController.delete();
 		}
-		if (drawCustomShapeAction != null  && getToolFactory() != null) {
+		if (drawCustomShapeAction != null && getToolFactory() != null) {
 			switch (getDrawCustomShapeToolOption()) {
 			case DrawPolygon:
 				drawCustomShapeToolController = getToolFactory().makeDrawPolygonToolController(this, drawCustomShapeAction);
@@ -424,6 +428,10 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 
 	public InspectedLocationSizeProperties getInspectedLocationSizeProperties() {
 		return inspectedLocationSizeProperties;
+	}
+
+	public InspectedLayoutManagerSpecifications getInspectedLayoutManagerSpecifications() {
+		return inspectedLayoutManagerSpecifications;
 	}
 
 	public DrawShapeAction getDrawShapeAction() {

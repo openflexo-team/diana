@@ -157,6 +157,12 @@ public class MoveInfo {
 
 	public void moveTo(Point newLocationInDrawingView) {
 
+		if (getMovedObject().getLayoutManager() != null) {
+			if (!getMovedObject().getLayoutManager().getDraggingMode().allowsDragging()) {
+				return;
+			}
+		}
+
 		if (!moveHasStarted) {
 			startDragging();
 		}

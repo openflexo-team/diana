@@ -36,7 +36,6 @@
  * 
  */
 
-
 package org.openflexo.fge;
 
 import java.util.ArrayList;
@@ -88,6 +87,30 @@ import org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl;
 import org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl.ShapeBorderImpl;
 import org.openflexo.fge.impl.TextStyleImpl;
 import org.openflexo.fge.impl.TextureBackgroundStyleImpl;
+import org.openflexo.fge.layout.BalloonLayoutManager;
+import org.openflexo.fge.layout.BalloonLayoutManagerSpecification;
+import org.openflexo.fge.layout.ForceDirectedGraphLayoutManager;
+import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
+import org.openflexo.fge.layout.GridLayoutManager;
+import org.openflexo.fge.layout.GridLayoutManagerSpecification;
+import org.openflexo.fge.layout.ISOMGraphLayoutManager;
+import org.openflexo.fge.layout.ISOMGraphLayoutManagerSpecification;
+import org.openflexo.fge.layout.RadialTreeLayoutManager;
+import org.openflexo.fge.layout.RadialTreeLayoutManagerSpecification;
+import org.openflexo.fge.layout.TreeLayoutManager;
+import org.openflexo.fge.layout.TreeLayoutManagerSpecification;
+import org.openflexo.fge.layout.impl.BalloonLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.BalloonLayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.impl.ForceDirectedGraphLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.ForceDirectedGraphLayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.impl.GridLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.GridLayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.impl.ISOMGraphLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.ISOMGraphLayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.impl.RadialTreeLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.RadialTreeLayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.impl.TreeLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.TreeLayoutManagerSpecificationImpl;
 import org.openflexo.fge.shapes.Arc;
 import org.openflexo.fge.shapes.Chevron;
 import org.openflexo.fge.shapes.Circle;
@@ -205,6 +228,22 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		modelFactory.setImplementingClassForInterface(CurvedPolylinConnectorSpecificationImpl.class,
 				CurvedPolylinConnectorSpecification.class);
 
+		// Layout managers
+		modelFactory.setImplementingClassForInterface(GridLayoutManagerImpl.class, GridLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(GridLayoutManagerSpecificationImpl.class, GridLayoutManagerSpecification.class);
+		modelFactory.setImplementingClassForInterface(ForceDirectedGraphLayoutManagerImpl.class, ForceDirectedGraphLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(ForceDirectedGraphLayoutManagerSpecificationImpl.class,
+				ForceDirectedGraphLayoutManagerSpecification.class);
+		modelFactory.setImplementingClassForInterface(ISOMGraphLayoutManagerImpl.class, ISOMGraphLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(ISOMGraphLayoutManagerSpecificationImpl.class,
+				ISOMGraphLayoutManagerSpecification.class);
+		modelFactory.setImplementingClassForInterface(TreeLayoutManagerImpl.class, TreeLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(TreeLayoutManagerSpecificationImpl.class, TreeLayoutManagerSpecification.class);
+		modelFactory.setImplementingClassForInterface(BalloonLayoutManagerImpl.class, BalloonLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(BalloonLayoutManagerSpecificationImpl.class, BalloonLayoutManagerSpecification.class);
+		modelFactory.setImplementingClassForInterface(RadialTreeLayoutManagerImpl.class, RadialTreeLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(RadialTreeLayoutManagerSpecificationImpl.class,
+				RadialTreeLayoutManagerSpecification.class);
 	}
 
 	@Override
@@ -281,15 +320,15 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseDragControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseDragControlAction(
 			PredefinedMouseDragControlActionType actionType) {
 		switch (actionType) {
-			case MOVE:
-				return new MoveAction();
-			case RECTANGLE_SELECTING:
-				return new RectangleSelectingAction();
-			case ZOOM:
-				return new ZoomAction();
-			default:
-				LOGGER.warning("Unexpected actionType " + actionType);
-				return null;
+		case MOVE:
+			return new MoveAction();
+		case RECTANGLE_SELECTING:
+			return new RectangleSelectingAction();
+		case ZOOM:
+			return new ZoomAction();
+		default:
+			LOGGER.warning("Unexpected actionType " + actionType);
+			return null;
 		}
 	}
 
@@ -297,15 +336,15 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseClickControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseClickControlAction(
 			PredefinedMouseClickControlActionType actionType) {
 		switch (actionType) {
-			case SELECTION:
-				return new SelectionAction();
-			case CONTINUOUS_SELECTION:
-				return new ContinuousSelectionAction();
-			case MULTIPLE_SELECTION:
-				return new MultipleSelectionAction();
-			default:
-				LOGGER.warning("Unexpected actionType " + actionType);
-				return null;
+		case SELECTION:
+			return new SelectionAction();
+		case CONTINUOUS_SELECTION:
+			return new ContinuousSelectionAction();
+		case MULTIPLE_SELECTION:
+			return new MultipleSelectionAction();
+		default:
+			LOGGER.warning("Unexpected actionType " + actionType);
+			return null;
 		}
 	}
 
