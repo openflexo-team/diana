@@ -142,9 +142,6 @@ button3.addClickListener(new Button.ClickListener() {
 	
 	button4.addClickListener(new Button.ClickListener() {
 		
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1696479532047276895L;
 
 		@Override
