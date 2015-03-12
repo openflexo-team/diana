@@ -57,7 +57,7 @@ public class JDrawShapeToolController extends DrawShapeToolController<MouseEvent
 	}
 
 	public DrawingTreeNode<?, ?> getFocusedObject(MouseEvent e) {
-		return getDrawingView().getFocusRetriever().getFocusedObject(e);
+		return null;//getDrawingView().getFocusRetriever().getFocusedObject(e);
 	}
 
 	/**

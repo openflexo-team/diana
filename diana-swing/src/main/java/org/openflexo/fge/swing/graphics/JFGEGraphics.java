@@ -199,7 +199,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 		if (getCurrentForeground().getNoStroke()) {
 			return;
 		}
-		Point p1 = convertNormalizedPointToViewCoordinates(x, y);
+		/*Point p1 = convertNormalizedPointToViewCoordinates(x, y);
 		p1.x -= FGEConstants.POINT_SIZE;
 		p1.y -= FGEConstants.POINT_SIZE;
 		Point p2 = convertNormalizedPointToViewCoordinates(x, y);
@@ -212,7 +212,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 		p4.x += FGEConstants.POINT_SIZE;
 		p4.y -= FGEConstants.POINT_SIZE;
 		g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
-		g2d.drawLine(p3.x, p3.y, p4.x, p4.y);
+		g2d.drawLine(p3.x, p3.y, p4.x, p4.y);*/
 	}
 
 	@Override
@@ -804,7 +804,6 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 				logger.fine("imageComplete status=" + status);
 			}
 		}
-
 	}
 
 }

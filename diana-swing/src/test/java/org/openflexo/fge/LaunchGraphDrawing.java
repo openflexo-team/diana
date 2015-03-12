@@ -66,14 +66,14 @@ public class LaunchGraphDrawing {
 	}
 
 	public static class TestDrawingController extends JDianaInteractiveEditor<TestGraph> {
-		private final JPopupMenu contextualMenu;
-		private final JDianaScaleSelector scaleSelector;
+		//private final JPopupMenu contextualMenu;
+		//private final JDianaScaleSelector scaleSelector;
 
 		public TestDrawingController(GraphDrawing1 aDrawing) {
 			super(aDrawing, aDrawing.getFactory(), SwingViewFactory.INSTANCE, SwingToolFactory.DEFAULT);
-			scaleSelector = (JDianaScaleSelector) getToolFactory().makeDianaScaleSelector(this);
-			contextualMenu = new JPopupMenu();
-			contextualMenu.add(new JMenuItem("Item"));
+			//scaleSelector = (JDianaScaleSelector) getToolFactory().makeDianaScaleSelector(this);
+			//contextualMenu = new JPopupMenu();
+			//contextualMenu.add(new JMenuItem("Item"));
 		}
 
 		/*@Override
@@ -140,9 +140,9 @@ public class LaunchGraphDrawing {
 		final GraphDrawing1 d = makeDrawing();
 		final TestDrawingController dc = new TestDrawingController(d);
 		// dc.disablePaintingCache();
-		dc.getDrawingView().setName("[NO_CACHE]");
+		//dc.getDrawingView().setName("[NO_CACHE]");
 		panel.add(new JScrollPane(dc.getDrawingView()), BorderLayout.CENTER);
-		panel.add(dc.scaleSelector.getComponent(), BorderLayout.NORTH);
+		//panel.add(dc.scaleSelector.getComponent(), BorderLayout.NORTH);
 
 		JButton closeButton = new JButton("Close");
 		closeButton.addActionListener(new ActionListener() {

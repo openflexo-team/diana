@@ -98,7 +98,7 @@ public class JDNDInfo implements DNDInfo {
 		this.dragSource = DragSource.getDefaultDragSource();
 		this.dsListener = new DSListener();
 
-		shapeView = getDrawingView().shapeViewForNode(shapeNode);
+		//shapeView = getDrawingView().shapeViewForNode(shapeNode);
 
 		// component, action, listener
 		dgr = this.dragSource.createDefaultDragGestureRecognizer(shapeView, this.dragAction, this.dgListener);
@@ -128,8 +128,8 @@ public class JDNDInfo implements DNDInfo {
 				SunDragSourceContextPeer.setDragDropInProgress(false);
 			}
 		}
-		this.dragSource.startDrag(dge, MoveAction.dropKO, new MoveAction.ShapeNodeTransferable(shapeNode, initialPoint), dsListener);
-		getDrawingView().captureDraggedNode(shapeView, dge);
+		/*this.dragSource.startDrag(dge, MoveAction.dropKO, new MoveAction.ShapeNodeTransferable(shapeNode, initialPoint), dsListener);
+		getDrawingView().captureDraggedNode(shapeView, dge);*/
 
 		// gr.setIsVisible(false);
 
@@ -416,13 +416,13 @@ public class JDNDInfo implements DNDInfo {
 		@Override
 		public void dragOver(DropTargetDragEvent e) {
 			if (isDragFlavorSupported(e)) {
-				getDrawingView().updateCapturedDraggedNodeImagePosition(e, getDrawingView());
+				//getDrawingView().updateCapturedDraggedNodeImagePosition(e, getDrawingView());
 			}
 			if (!isDragOk(e)) {
 				if (dragSourceContext == null) {
 					logger.warning("dragSourceContext should NOT be null");
 				} else {
-					dragSourceContext.setCursor(MoveAction.dropKO);
+					/*dragSourceContext.setCursor(MoveAction.dropKO);*/
 				}
 				e.rejectDrag();
 				return;
@@ -430,8 +430,8 @@ public class JDNDInfo implements DNDInfo {
 			if (dragSourceContext == null) {
 				logger.warning("dragSourceContext should NOT be null");
 			} else {
-				dragSourceContext.setCursor(MoveAction.dropOK);
-
+				/*dragSourceContext.setCursor(MoveAction.dropOK);
+*/
 				/*try {
 					ShapeGraphicalRepresentation element = ((TransferedShapeNode)e.getTransferable().getTransferData(ShapeNodeTransferable.defaultFlavor())).getTransferedElement();
 					GraphicalRepresentation focused = getFocusedObject(e);
@@ -582,7 +582,7 @@ public class JDNDInfo implements DNDInfo {
 
 		private JFocusRetriever getFocusRetriever() {
 			if (_dropContainer instanceof FGEView) {
-				return getDrawingView().getFocusRetriever();
+				//return getDrawingView().getFocusRetriever();
 			}
 			return null;
 		}

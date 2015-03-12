@@ -94,10 +94,8 @@ public interface DianaViewFactory<F extends DianaViewFactory<F, C>, C> {
 
 	public FGESymbolGraphics makeSymbolGraphics(ConnectorNode<?> connectorNode);
 	*/
-	public PaletteController<F, C> makePaletteController(DianaPalette<?, ?> palette);
-
+	public PaletteController<F, C> makePaletteController(DianaPalette<?, ?> palette);	
 	public FIBBackgroundStyleSelector<? extends C> makeFIBBackgroundStyleSelector(BackgroundStyleFactory backgroundStyleFactory);
-
 	public FIBForegroundStyleSelector<? extends C> makeFIBForegroundStyleSelector(ForegroundStyle foregroundStyle);
 
 	public FIBTextStyleSelector<? extends C> makeFIBTextStyleSelector(TextStyle textStyle);

@@ -60,7 +60,6 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 		HasPropertyChangeSupport {
 
 	private static final Logger logger = Logger.getLogger(AbstractDianaEditor.class.getPackage().getName());
-
 	private final Drawing<M> drawing;
 	protected DrawingView<M, ? extends C> drawingView;
 	private DianaEditorDelegate delegate;

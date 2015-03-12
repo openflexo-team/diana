@@ -47,7 +47,8 @@ public abstract class RectPolylinAdjustableControlPoint extends ConnectorAdjusti
 
 	@Override
 	public Cursor getDraggingCursor() {
-		return FGEConstants.MOVE_CURSOR;
+		return null;//FGEConstants.MOVE_CURSOR;
+		// TODO changed on 27 janvier 2015
 	}
 
 	@Override

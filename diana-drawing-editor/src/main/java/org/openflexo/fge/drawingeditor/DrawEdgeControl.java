@@ -95,7 +95,7 @@ public class DrawEdgeControl extends MouseDragControlImpl<DianaDrawingEditor> {
 		public boolean handleMouseDragged(DrawingTreeNode<?, ?> node, DianaDrawingEditor controller, MouseControlContext context) {
 			if (drawEdge) {
 				MouseEvent event = ((JMouseControlContext) context).getMouseEvent();
-				DrawingTreeNode<?, ?> dtn = controller.getDrawingView().getFocusRetriever().getFocusedObject(event);
+				DrawingTreeNode<?, ?> dtn = null;//controller.getDrawingView().getFocusRetriever().getFocusedObject(event);
 				if (dtn instanceof ShapeNode && dtn != fromShape && !fromShape.getAncestors().contains(dtn)) {
 					toShape = (ShapeNode<Shape>) dtn;
 				} else {

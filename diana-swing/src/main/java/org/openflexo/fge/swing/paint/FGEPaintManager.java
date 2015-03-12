@@ -206,7 +206,7 @@ public class FGEPaintManager {
 	}
 
 	public void repaint(final JFGEView<?, ?> view) {
-		if (view == null) {
+		/*if (view == null) {
 			logger.warning("Cannot paint null view");
 			return;
 		}
@@ -302,10 +302,10 @@ public class FGEPaintManager {
 		if (paintRequestLogger.isLoggable(Level.FINE)) {
 			paintRequestLogger.fine("Called REPAINT for graphical representation " + node);
 		}
-		JFGEView<?, ?> view = _drawingView.viewForNode(node);
+		/*JFGEView<?, ?> view = _drawingView.viewForNode(node);
 		if (view != null) {
 			repaint(view);
-		}
+		}*/
 	}
 
 	public BufferedImage getScreenshot(DrawingTreeNode<?, ?> node) {
@@ -532,13 +532,13 @@ public class FGEPaintManager {
 			// Alternative implementation: improve performances (hope so)
 			Graphics2D newGraphics = (Graphics2D) g.create();
 			/** Unactivation of anti-aliasing */
-			newGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+			/*newGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 			newGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
-			/** Fast rendering required here */
+			/** Fast rendering required here 
 			newGraphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
 			newGraphics.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
 			newGraphics.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
-			newGraphics.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE);
+			newGraphics.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE);*/
 
 			BufferedImage partialImage = buffer.getSubimage(sp1.x, sp1.y, viewBoundsInDrawingView.width, viewBoundsInDrawingView.height);
 			newGraphics.drawImage(partialImage, dp1.x, dp1.y, null);

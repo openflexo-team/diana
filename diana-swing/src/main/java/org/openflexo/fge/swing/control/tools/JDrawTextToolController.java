@@ -57,7 +57,7 @@ public class JDrawTextToolController extends DrawTextToolController<MouseEvent> 
 	}
 
 	public DrawingTreeNode<?, ?> getFocusedObject(MouseEvent e) {
-		return getDrawingView().getFocusRetriever().getFocusedObject(e);
+		return null;//getDrawingView().getFocusRetriever().getFocusedObject(e);
 	}
 
 	/**

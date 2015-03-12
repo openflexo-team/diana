@@ -227,7 +227,7 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 		@Override
 		public void dragOver(DropTargetDragEvent e) {
 			if (isDragFlavorSupported(e)) {
-				getDrawingView().updateCapturedDraggedNodeImagePosition(e, getDrawingView().getActivePalette().getPaletteView());
+				//getDrawingView().updateCapturedDraggedNodeImagePosition(e, getDrawingView().getActivePalette().getPaletteView());
 			}
 			if (!isDragOk(e)) {
 				if (getDragSourceContext() == null) {
@@ -374,7 +374,7 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 
 		private JFocusRetriever getFocusRetriever() {
 			if (_dropContainer instanceof FGEView) {
-				return getDrawingView().getFocusRetriever();
+				//return getDrawingView().getFocusRetriever();
 			}
 			return null;
 		}

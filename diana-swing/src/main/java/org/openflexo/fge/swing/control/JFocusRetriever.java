@@ -131,7 +131,7 @@ public class JFocusRetriever {
 			return false;
 		}
 
-		JFGEView<?, ?> view = drawingView.viewForNode(node);
+		JFGEView<?, ?> view = null;//drawingView.viewForNode(node);
 		if (view == null) {
 			logger.warning("Unexpected null view for node " + node + " AbstractDianaEditor=" + getController() + " JDrawingView="
 					+ drawingView);

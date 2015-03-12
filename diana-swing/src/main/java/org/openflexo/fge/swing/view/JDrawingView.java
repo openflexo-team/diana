@@ -154,23 +154,23 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		drawing = controller.getDrawing();
 		drawing.getRoot().getGraphicalRepresentation().updateBindingModel();
 		// contents = new Hashtable<DrawingTreeNode<?, ?>, FGEView<?,?>>();
-		graphics = new JFGEDrawingGraphics(drawing.getRoot(), this);
-		_focusRetriever = new JFocusRetriever(this);
+		graphics = new JFGEDrawingGraphics(drawing.getRoot(), this);    // used to paint the graphics
+		_focusRetriever = null;//new JFocusRetriever(this);
 		if (drawing.getRoot().getGraphicalRepresentation().isResizable()) {
-			resizer = new DrawingViewResizer();
+			//resizer = new DrawingViewResizer();
 		}
-		mouseListener = controller.getDianaFactory().makeViewMouseListener(drawing.getRoot(), this, controller);
-		addMouseListener(mouseListener);
-		addMouseMotionListener(mouseListener);
-		installKeyBindings();
-		resizeView();
-		drawing.getRoot().getPropertyChangeSupport().addPropertyChangeListener(this);
+		mouseListener = null;//controller.getDianaFactory().makeViewMouseListener(drawing.getRoot(), this, controller);
+		//addMouseListener(mouseListener);
+		//addMouseMotionListener(mouseListener);
+		//installKeyBindings();
+		//resizeView();
+		//drawing.getRoot().getPropertyChangeSupport().addPropertyChangeListener(this);
 
-		// graphics = new JFGEDrawingGraphics(drawing.getRoot());
+		//graphics = new JFGEDrawingGraphics(drawing.getRoot());
 
 		for (DrawingTreeNode<?, ?> dtn : drawing.getRoot().getChildNodes()) {
 			if (dtn instanceof GeometricNode<?>) {
-				((GeometricNode<?>) dtn).getPropertyChangeSupport().addPropertyChangeListener(this);
+				//((GeometricNode<?>) dtn).getPropertyChangeSupport().addPropertyChangeListener(this);
 			}
 		}
 
@@ -182,16 +182,16 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			}
 		}*/
 
-		updateBackground();
-		setOpaque(true);
+		//updateBackground();
+		//setOpaque(true);
 
-		_paintManager = new FGEPaintManager(this);
+		_paintManager = new FGEPaintManager(this);     // used to paint the graphics
 
-		setToolTipText(getClass().getSimpleName() + hashCode());
+		//setToolTipText(getClass().getSimpleName() + hashCode());
 		// setDoubleBuffered(true);
-		setFocusable(true);
+		//setFocusable(true);
 		// GPO: no LayoutManager here, so next line is useless?
-		revalidate();
+		//revalidate();
 	}
 
 	@Override
@@ -208,7 +208,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		return (SwingEditorDelegate) getController().getDelegate();
 	}
 
-	private void installKeyBindings() {
+	/*private void installKeyBindings() {
 		if (getController() instanceof DianaInteractiveViewer) {
 			getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "move_left");
 			getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "move_right");
@@ -243,7 +243,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 				}
 			});
 		}
-	}
+	}*/
 
 	/* (non-Javadoc)
 	 * @see org.openflexo.fge.view.DrawingView#getDrawing()
@@ -284,7 +284,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		return getController().getScale();
 	}
 
-	public Integer getLayer() {
+	/*public Integer getLayer() {
 		return JLayeredPane.DEFAULT_LAYER;
 	}
 
@@ -295,7 +295,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			r = r.union(c.getBounds());
 		}
 		return r.getSize();
-	}
+	}*/
 
 	@Override
 	public void rescale() {
@@ -417,7 +417,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 	@Override
 	public void resetRectangleSelectingAction() {
 		_rectangleSelectingAction = null;
-		getPaintManager().repaint(this);
+		//getPaintManager().repaint(this);
 	}
 
 	@Override
@@ -629,9 +629,9 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 	private void paintGeometricObjects(Graphics g) {
 
 		Graphics2D g2 = (Graphics2D) g;
-		DrawUtils.turnOnAntiAlising(g2);
-		DrawUtils.setRenderQuality(g2);
-		DrawUtils.setColorRenderQuality(g2);
+		//DrawUtils.turnOnAntiAlising(g2);
+		//DrawUtils.setRenderQuality(g2);
+		//DrawUtils.setColorRenderQuality(g2);
 
 		List<GeometricNode<?>> geomList = new ArrayList<GeometricNode<?>>();
 		for (Object n : drawing.getRoot().getChildNodes()) {
@@ -684,11 +684,11 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 	}
 
 	private void paintControlPoint(Point location, Color color, Graphics g) {
-		int size = FGEConstants.CONTROL_POINT_SIZE;
+		/*int size = FGEConstants.CONTROL_POINT_SIZE;
 		g.setColor(color);
 		Rectangle r = new Rectangle(location.x - size, location.y - size, size * 2, size * 2);
 		g.fillRect(r.x, r.y, r.width, r.height);
-		getPaintManager().addTemporaryRepaintArea(r, this);
+		getPaintManager().addTemporaryRepaintArea(r, this);*/
 	}
 
 	private void paintSelected(DrawingTreeNode<?, ?> selected, JFGEDrawingGraphics graphics) {
@@ -710,7 +710,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			ShapeNode<?> shapeNode = (ShapeNode<?>) selected;
 			for (ControlArea<?> ca : shapeNode.getControlAreas()) {
 				if (selected.isConnectedToDrawing()) {
-					paintControlArea(ca, graphics);
+					//paintControlArea(ca, graphics);
 				}
 			}
 		}
@@ -732,7 +732,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 			for (ControlArea<?> ca : connectorNode.getControlAreas()) {
 				if (selected.isConnectedToDrawing()) {
-					paintControlArea(ca, graphics);
+					//paintControlArea(ca, graphics);
 				}
 			}
 		}
@@ -773,7 +773,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		graphics.setDefaultForeground(PAINT_FACTORY.makeForegroundStyle(getGraphicalRepresentation().getFocusColor()));
 
 		for (ControlArea<?> ca : ((DianaInteractiveEditor<?, ?, ?>) getController()).getDrawCustomShapeToolController().getControlAreas()) {
-			paintControlArea(ca, graphics);
+			//paintControlArea(ca, graphics);
 		}
 
 		graphics.releaseClonedGraphics(oldGraphics);
@@ -795,7 +795,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		if (connectorController.getConnectorNode() == null) {
 			return;
 		}
-
+/*
 		// OK, now we paint the connector beeing drawn
 		// Following code is not quite easy to understand, i try to document it well
 
@@ -824,11 +824,12 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 		// We finally restore the original graphics for the drawing
 		graphics.releaseClonedGraphics(oldGraphics);
+	*/
 
 	}
 
 	private void paintFocused(DrawingTreeNode<?, ?> focused, JFGEDrawingGraphics graphics) {
-		if (focused.isDeleted()) {
+		/*if (focused.isDeleted()) {
 			// logger.warning("Cannot paint for a deleted DTN");
 			return;
 		}
@@ -870,7 +871,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			paintFocusedFloatingLabel(focused, graphics.getGraphics());
 		}
 
-		graphics.releaseClonedGraphics(oldGraphics);
+		graphics.releaseClonedGraphics(oldGraphics);*/
 	}
 
 	@Override
@@ -986,7 +987,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 	// This call is made on the edition drawing view
 	public final void updateCapturedDraggedNodeImagePosition(DropTargetDragEvent e, JDrawingView<?> source) {
-		capturedNodeLocation = SwingUtilities.convertPoint(((DropTarget) e.getSource()).getComponent(), e.getLocation(), this);
+		/*capturedNodeLocation = SwingUtilities.convertPoint(((DropTarget) e.getSource()).getComponent(), e.getLocation(), this);
 		if (source != this) {
 			dragOrigin = activePalette.getPaletteView().dragOrigin; // transfer from
 			// the palette
@@ -1009,16 +1010,18 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		int scaledHeight = (int) (capturedDraggedNodeImage.getHeight() * getScale());
 		drawnRectangle.setRect((int) capturedNodeLocation.getX(), (int) capturedNodeLocation.getY(), scaledWidth, scaledHeight);
 		getPaintManager().repaint(this, drawnRectangle.getBounds());
+		*/
+		
 	}
 
 	private void paintCapturedNode(Graphics g) {
-		if (capturedDraggedNodeImage != null && drawnRectangle != null) {
+		/*if (capturedDraggedNodeImage != null && drawnRectangle != null) {
 			Graphics2D g2 = (Graphics2D) g;
 			// g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 0.7f));
 			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 			g2.drawImage(capturedDraggedNodeImage, (int) drawnRectangle.getX(), (int) drawnRectangle.getY(),
 					(int) drawnRectangle.getWidth(), (int) drawnRectangle.getHeight(), this);
-		}
+		}*/
 	}
 
 	// This call is made on the drawing view of the palette
@@ -1045,7 +1048,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 	@Override
 	public void autoscroll(Point p) {
-		JScrollPane scroll = (JScrollPane) SwingUtilities.getAncestorOfClass(JScrollPane.class, this);
+		/*JScrollPane scroll = (JScrollPane) SwingUtilities.getAncestorOfClass(JScrollPane.class, this);
 		if (scroll == null) {
 			if (logger.isLoggable(Level.WARNING)) {
 				logger.warning("Not inside a scroll pane, cannot scroll!");
@@ -1089,7 +1092,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					bar.setValue(bar.getValue() + bar.getUnitIncrement(1));
 				}
 			}
-		}
+		}*/
 	}
 
 	@Override

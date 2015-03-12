@@ -58,12 +58,13 @@ public class JFGEDrawingGraphics extends JFGEGraphics implements FGEDrawingGraph
 	 */
 	public void createGraphics(Graphics2D graphics2D) {
 		super.createGraphics(graphics2D);
+		// used to draw the graphics
 		drawingDecorationGraphics.createGraphics(graphics2D);
 	}
 
 	public void releaseGraphics() {
 		super.releaseGraphics();
-		drawingDecorationGraphics.releaseGraphics();
+		//drawingDecorationGraphics.releaseGraphics();
 	}
 
 	// Drawing graphics doesn't use normalized coordinates system
@@ -75,7 +76,7 @@ public class JFGEDrawingGraphics extends JFGEGraphics implements FGEDrawingGraph
 	// Drawing graphics doesn't use normalized coordinates system
 	@Override
 	public FGEPoint convertViewCoordinatesToNormalizedPoint(int x, int y) {
-		return new FGEPoint(x / getScale(), y / getScale());
+		return null;//new FGEPoint(x / getScale(), y / getScale());
 	}
 
 }

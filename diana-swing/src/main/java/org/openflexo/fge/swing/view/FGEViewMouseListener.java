@@ -152,7 +152,7 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 			}
 
 		}
-
+		
 		if (performSelectionTool && getFocusRetriever() != null) {
 
 			DianaInteractiveViewer<?, ?, ?> controller = (DianaInteractiveViewer<?, ?, ?>) getController();
@@ -179,11 +179,11 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 
 				if (focusedObject != null && e.getClickCount() == 2 && getFocusRetriever().focusOnFloatingLabel(focusedObject, e)) {
 					if (focusedObject instanceof ShapeNode) {
-						view.getDrawingView().shapeViewForNode((ShapeNode<?>) focusedObject).getLabelView().startEdition();
+						//view.getDrawingView().shapeViewForNode((ShapeNode<?>) focusedObject).getLabelView().startEdition();
 						e.consume();
 						return;
 					} else if (focusedObject instanceof ConnectorNode) {
-						view.getDrawingView().connectorViewForNode((ConnectorNode<?>) focusedObject).getLabelView().startEdition();
+						//view.getDrawingView().connectorViewForNode((ConnectorNode<?>) focusedObject).getLabelView().startEdition();
 						e.consume();
 						return;
 					}
@@ -902,7 +902,7 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 	 */
 	public JFocusRetriever getFocusRetriever() {
 		if (getController() instanceof DianaInteractiveViewer) {
-			return getDrawingView().getFocusRetriever();
+			//return getDrawingView().getFocusRetriever();
 		}
 		return null;
 	}

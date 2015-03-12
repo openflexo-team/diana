@@ -41,8 +41,8 @@ public interface FGEConstants {
 	public static final int CONTROL_POINT_SIZE = 2;
 	public static final int POINT_SIZE = 4;
 
-	public static final Cursor MOVE_CURSOR = Toolkit.getDefaultToolkit().createCustomCursor(FGEIconLibrary.CURSOR_MOVE_ICON.getImage(),
-			new Point(16, 16), "CustomMove");
+	//public static final Cursor MOVE_CURSOR = Toolkit.getDefaultToolkit().createCustomCursor(FGEIconLibrary.CURSOR_MOVE_ICON.getImage(),
+			//new Point(16, 16), "CustomMove");
 	public static final Integer INITIAL_LAYER = 32;
 	public static final Integer DEFAULT_CONNECTOR_LAYER = 64;
 	public static final Integer DEFAULT_SHAPE_LAYER = 1;

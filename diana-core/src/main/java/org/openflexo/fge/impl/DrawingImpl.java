@@ -293,6 +293,7 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	 * @param aDrawable
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <O> ConnectorNode<O> getConnectorNode(O drawable, ConnectorGRBinding<O> binding) {
 		DrawingTreeNode<O, ?> dtn = getDrawingTreeNode(drawable, binding);

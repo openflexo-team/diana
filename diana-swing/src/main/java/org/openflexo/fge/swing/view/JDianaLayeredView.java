@@ -249,10 +249,10 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements FGECo
 	}
 
 	public void paint(FGEGraphics graphics, DianaEditor<?> controller) {
-		Graphics2D g2 = ((JFGEGraphics) graphics).getGraphics();
+		/*Graphics2D g2 = ((JFGEGraphics) graphics).getGraphics();
 		DrawUtils.turnOnAntiAlising(g2);
 		DrawUtils.setRenderQuality(g2);
-		DrawUtils.setColorRenderQuality(g2);
+		DrawUtils.setColorRenderQuality(g2);*/
 	}
 
 }

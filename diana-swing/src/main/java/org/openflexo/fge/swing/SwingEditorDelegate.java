@@ -92,10 +92,10 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 		if (getPaintManager().isPaintingCacheEnabled()) {
 			// Just repaint old and eventual new focused object
 			if (oldFocusedObject != null) {
-				getPaintManager().repaint(oldFocusedObject);
+				//getPaintManager().repaint(oldFocusedObject);
 			}
 			if (newFocusedObject != null) {
-				getPaintManager().repaint(newFocusedObject);
+				//getPaintManager().repaint(newFocusedObject);
 			}
 		} else {
 			// @brutal mode
