@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.7" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" language="java" name="org.openflexo.diana.vaadin.view.VDianaBasedView" project="diana-vaadin" 
+    file="/diana-vaadin/src/org/openflexo/diana/vaadin/view/VDianaBasedView.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="102" width="196" x="40" y="116"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="2" language="java" name="org.openflexo.diana.vaadin.view.VDrawingView.VDrawingViewPressListener" 
+    project="diana-vaadin" file="/diana-vaadin/src/org/openflexo/diana/vaadin/view/VDrawingView.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="51" width="187" x="114" y="409"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="3" language="java" name="org.openflexo.diana.vaadin.view.VDrawingView" project="diana-vaadin" 
+    file="/diana-vaadin/src/org/openflexo/diana/vaadin/view/VDrawingView.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="104" width="196" x="209" y="242"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="4" language="java" name="org.openflexo.diana.vaadin.view.VDrawingView.VDrawingViewClickListener" 
+    project="diana-vaadin" file="/diana-vaadin/src/org/openflexo/diana/vaadin/view/VDrawingView.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="51" width="182" x="244" y="492"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="5" language="java" name="org.openflexo.diana.vaadin.view.VFGEView" project="diana-vaadin" 
+    file="/diana-vaadin/src/org/openflexo/diana/vaadin/view/VFGEView.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="138" y="40"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="6" language="java" name="org.openflexo.diana.vaadin.view.VShapeView" project="diana-vaadin" 
+    file="/diana-vaadin/src/org/openflexo/diana/vaadin/view/VShapeView.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="110" width="233" x="-153" y="250"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="org.openflexo.diana.vaadin.graphics.VDianaGraphics" project="diana-vaadin" 
+    file="/diana-vaadin/src/org/openflexo/diana/vaadin/graphics/VDianaGraphics.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="82" width="201" x="433" y="570"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="org.openflexo.diana.vaadin.graphics.VDianaDrawingGraphics" project="diana-vaadin" 
+    file="/diana-vaadin/src/org/openflexo/diana/vaadin/graphics/VDianaDrawingGraphics.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="131" width="234" x="509" y="221"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="org.openflexo.diana.vaadin.graphics.VDianaDrawingDecorationGraphics" 
+    project="diana-vaadin" 
+    file="/diana-vaadin/src/org/openflexo/diana/vaadin/graphics/VDianaDrawingDecorationGraphics.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="137" width="227" x="604" y="416"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="org.openflexo.diana.vaadin.view.VConnectorView" project="diana-vaadin" 
+    file="/diana-vaadin/src/org/openflexo/diana/vaadin/view/VConnectorView.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="106" width="190" x="-390" y="234"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="org.openflexo.diana.vaadin.graphics.VDianaShapeGraphics" project="diana-vaadin" 
+    file="/diana-vaadin/src/org/openflexo/diana/vaadin/graphics/VDianaShapeGraphics.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="139" width="184" x="-127" y="458"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="org.openflexo.diana.vaadin.graphics.VDianaConnectorGraphics" 
+    project="diana-vaadin" file="/diana-vaadin/src/org/openflexo/diana/vaadin/graphics/VDianaConnectorGraphics.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="56" width="190" x="-395" y="580"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <association id="13">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="14" name="graphics"/>      
+      <multiplicity id="15" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="16">    
+    <bendpoint x="525" y="352"/>    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <generalization id="17">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <association id="18">    
+    <bendpoint x="462" y="571"/>    
+    <bendpoint x="458" y="298"/>    
+    <bendpoint x="416" y="298"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="19" name="Delegate"/>      
+      <multiplicity id="20" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="21">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </nesting>  
+  <generalization id="22">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <association id="23">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="24" name="graphics"/>      
+      <multiplicity id="25" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="26">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="27" name="graphics"/>      
+      <multiplicity id="28" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="29">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <association id="30">    
+    <bendpoint x="337" y="418"/>    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="31" name="clickListeners"/>      
+      <multiplicity id="32" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="33">    
+    <bendpoint x="58" y="586"/>    
+    <bendpoint x="433" y="595"/>    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <realization id="34">    
+    <bendpoint x="-297" y="46"/>    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="5"/>  
+  </realization>  
+  <association id="35">    
+    <bendpoint x="225" y="378"/>    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="36" name="pressListeners"/>      
+      <multiplicity id="37" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="38">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="4"/>  
+  </nesting>  
+  <realization id="39">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="5"/>  
+  </realization>  
+  <generalization id="40">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <association id="41">    
+    <bendpoint x="710" y="352"/>    
+    <bendpoint x="716" y="353"/>    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="42" name="drawingDecorationGraphics"/>      
+      <multiplicity id="43" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
