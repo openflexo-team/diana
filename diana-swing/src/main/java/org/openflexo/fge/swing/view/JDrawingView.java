@@ -347,7 +347,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 	private void updateBackground() {
 		if (getGraphicalRepresentation().getDrawWorkingArea()) {
 			setBackground(Color.GRAY);
-		} else {
+		}
+		else {
 			setBackground(getGraphicalRepresentation().getBackgroundColor());
 		}
 	}
@@ -374,36 +375,45 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					propertyChange(evt);
 				}
 			});
-		} else {
+		}
+		else {
 			// logger.info("Received: "+notification);
 
 			if (evt.getPropertyName().equals(NodeAdded.EVENT_NAME)) {
 				handleNodeAdded((DrawingTreeNode<?, ?>) evt.getNewValue());
-			} else if (evt.getPropertyName().equals(NodeRemoved.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(NodeRemoved.EVENT_NAME)) {
 				handleNodeRemoved((DrawingTreeNode<?, ?>) evt.getOldValue(), (ContainerNode<?, ?>) evt.getNewValue());
-			} else if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) {
 				delete();
-			} else if (evt.getPropertyName().equals(ObjectResized.PROPERTY_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(ObjectResized.PROPERTY_NAME)) {
 				rescale();
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.BACKGROUND_COLOR.getName())) {
+			}
+			else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.BACKGROUND_COLOR.getName())) {
 				getPaintManager().invalidate(getDrawing().getRoot());
 				updateBackground();
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.DRAW_WORKING_AREA.getName())) {
+			}
+			else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.DRAW_WORKING_AREA.getName())) {
 				getPaintManager().invalidate(getDrawing().getRoot());
 				updateBackground();
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.WIDTH.getName())) {
+			}
+			else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.WIDTH.getName())) {
 				rescale();
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.HEIGHT.getName())) {
+			}
+			else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.HEIGHT.getName())) {
 				rescale();
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.IS_RESIZABLE.getName())) {
+			}
+			else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.IS_RESIZABLE.getName())) {
 				if (getDrawing().getRoot().getGraphicalRepresentation().isResizable()) {
 					removeMouseListener(mouseListener); // We remove the mouse
 														// listener, so that the
@@ -412,20 +422,25 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 														// mouseListener
 					if (resizer == null) {
 						resizer = new DrawingViewResizer();
-					} else {
+					}
+					else {
 						addMouseListener(resizer);
 					}
 					addMouseListener(mouseListener);
-				} else {
+				}
+				else {
 					removeMouseListener(resizer);
 				}
-			} else if (evt.getPropertyName().equals(DrawingNeedsToBeRedrawn.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(DrawingNeedsToBeRedrawn.EVENT_NAME)) {
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
-			} else if (evt.getSource() instanceof GeometricGraphicalRepresentation) {
+			}
+			else if (evt.getSource() instanceof GeometricGraphicalRepresentation) {
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(ContainerNode.LAYOUT_DECORATION_KEY)) {
+			}
+			else if (evt.getPropertyName().equals(ContainerNode.LAYOUT_DECORATION_KEY)) {
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
 			}
@@ -509,7 +524,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					childGraphics.createGraphics(g2d/*, controller*/);
 					if (node instanceof ShapeNode) {
 						((ShapeNode<?>) node).paint((JFGEShapeGraphics) childGraphics);
-					} else if (node instanceof ConnectorNode) {
+					}
+					else if (node instanceof ConnectorNode) {
 						((ConnectorNode<?>) node).paint((JFGEConnectorGraphics) childGraphics);
 					}
 					if (node instanceof GeometricNode) {
@@ -530,7 +546,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					if (node instanceof ContainerNode) {
 						forcePaintObjects((ContainerNode<?, ?>) node, g2d, false);
 					}
-				} else {
+				}
+				else {
 					// do the job for childs
 					if (node instanceof ContainerNode) {
 						forcePaintObjects((ContainerNode<?, ?>) node, g2d, true);
@@ -565,12 +582,14 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					super.paint(g);
 					bufferingHasBeenStartedAgain = false;
 				}
-			} else {
+			}
+			else {
 				if (getPaintManager().renderUsingBuffer((Graphics2D) g, g.getClipBounds(), drawing.getRoot(), getScale())) {
 					// Now, we still have to paint objects that are declared
 					// to be temporary and continuously to be redrawn
 					forcePaintTemporaryObjects(drawing.getRoot(), g);
-				} else {
+				}
+				else {
 					// This failed for some reasons (eg rendering request
 					// outside cached image)
 					// Skip buffering and perform normal rendering
@@ -578,7 +597,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 				}
 				paintCapturedNode(g);
 			}
-		} else {
+		}
+		else {
 			// Normal painting
 			super.paint(g);
 		}
@@ -628,7 +648,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 				if (((DianaInteractiveEditor<?, ?, ?>) getController()).getCurrentTool() == EditorTool.DrawCustomShapeTool) {
 					// logger.info("Painting current edited shape");
 					paintCurrentEditedShape(graphics);
-				} else if (((DianaInteractiveEditor<?, ?, ?>) getController()).getCurrentTool() == EditorTool.DrawConnectorTool) {
+				}
+				else if (((DianaInteractiveEditor<?, ?, ?>) getController()).getCurrentTool() == EditorTool.DrawConnectorTool) {
 					// logger.info("Painting current edited shape");
 					paintCurrentDrawnConnector(graphics);
 				}
@@ -691,9 +712,11 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		Color color = Color.BLACK;
 		if (focusedFloatingLabel.getIsSelected()) {
 			color = getGraphicalRepresentation().getSelectionColor();
-		} else if (focusedFloatingLabel.getIsFocused()) {
+		}
+		else if (focusedFloatingLabel.getIsFocused()) {
 			color = getGraphicalRepresentation().getFocusColor();
-		} else {
+		}
+		else {
 			return;
 		}
 		JFGEView<?, ?> view = viewForNode(focusedFloatingLabel);
@@ -736,7 +759,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		Graphics2D oldGraphics = graphics.cloneGraphics();
 		graphics.setDefaultForeground(PAINT_FACTORY.makeForegroundStyle(getGraphicalRepresentation().getSelectionColor()));
 
-		if (selected instanceof ShapeNode) {
+		if (selected instanceof ShapeNode && selected != null) {
 			ShapeNode<?> shapeNode = (ShapeNode<?>) selected;
 			for (ControlArea<?> ca : shapeNode.getControlAreas()) {
 				if (selected.isValid()) {
@@ -887,7 +910,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					paintControlArea(ca, graphics);
 				}
 			}
-		} else if (focused instanceof ConnectorNode) {
+		}
+		else if (focused instanceof ConnectorNode) {
 			ConnectorNode<?> connectorNode = (ConnectorNode<?>) focused;
 
 			if (connectorNode.getStartNode() == null || connectorNode.getStartNode().isDeleted()) {
@@ -950,7 +974,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					v.activatePalette(aPalette);
 				}
 			}
-		} else {
+		}
+		else {
 			logger.warning("Unexpected palette: " + aPalette);
 		}
 	}
@@ -1107,7 +1132,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					bar.setValue(bar.getValue() - bar.getUnitIncrement(-1));
 				}
 			}
-		} else if (p.x > inner.x + inner.width) { // Move right
+		}
+		else if (p.x > inner.x + inner.width) { // Move right
 			JScrollBar bar = scroll.getHorizontalScrollBar();
 			if (bar != null) {
 				if (bar.getValue() < bar.getMaximum()) {
@@ -1122,7 +1148,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					bar.setValue(bar.getValue() - bar.getUnitIncrement(-1));
 				}
 			}
-		} else if (p.y > inner.y + inner.height) { // Move down
+		}
+		else if (p.y > inner.y + inner.height) { // Move down
 			JScrollBar bar = scroll.getVerticalScrollBar();
 			if (bar != null) {
 				if (bar.getValue() < bar.getMaximum()) {
