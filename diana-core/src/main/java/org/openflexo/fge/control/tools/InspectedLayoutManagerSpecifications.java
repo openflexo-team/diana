@@ -212,20 +212,25 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 			System.out.println("JE retourne le layout manager de la shape " + getContainerNode() + " qui est "
 					+ ((ShapeNode<?>) getContainerNode()).getLayoutManager());
 			return ((ShapeNode<?>) getContainerNode()).getLayoutManager();
-		} else if (getLayoutManagers() != null && getLayoutManagers().size() > 0) {
+		}
+		else if (getLayoutManagers() != null && getLayoutManagers().size() > 0) {
 			return getLayoutManagers().get(0);
 		}
 		return null;
 	}
 
 	public boolean layoutedAsMode() {
-		return hasValidSelection() && getContainerNode() instanceof ShapeNode && getContainerNode().getChildNodes().isEmpty();
+		if (getContainerNode() != null && getContainerNode().getChildNodes() != null) {
+			return hasValidSelection() && getContainerNode() instanceof ShapeNode && getContainerNode().getChildNodes().isEmpty();
+		}
+		return false;
 	}
 
 	public String displayMode() {
 		if (layoutedAsMode()) {
 			return "layouted_as";
-		} else {
+		}
+		else {
 			return "define_layout";
 		}
 	}
