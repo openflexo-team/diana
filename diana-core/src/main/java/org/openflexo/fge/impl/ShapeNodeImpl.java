@@ -1867,7 +1867,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 */
 	public void relayoutNode() {
 
-		System.out.println("************* relayoutNode called for " + this);
+		//System.out.println("************* relayoutNode called for " + this);
 
 		FGELayoutManager<?, ?> layoutManager = null;
 		if (StringUtils.isNotEmpty(getGraphicalRepresentation().getLayoutManagerIdentifier())) {
