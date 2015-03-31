@@ -733,6 +733,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			return requestedLocation;
 		}
 
+		if (getGraphicalRepresentation() == null) {
+			return requestedLocation;
+		}
+
 		if (!getGraphicalRepresentation().getAllowToLeaveBounds()) {
 			requestedLocation = requestedLocation.clone();
 			if (requestedLocation.x < 0) {
@@ -1867,7 +1871,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 */
 	public void relayoutNode() {
 
-		//System.out.println("************* relayoutNode called for " + this);
+		// System.out.println("************* relayoutNode called for " + this);
 
 		FGELayoutManager<?, ?> layoutManager = null;
 		if (StringUtils.isNotEmpty(getGraphicalRepresentation().getLayoutManagerIdentifier())) {
