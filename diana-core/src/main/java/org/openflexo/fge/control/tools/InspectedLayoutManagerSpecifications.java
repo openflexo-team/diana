@@ -171,8 +171,10 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 
 			if (getDefaultLayoutManager() != null) {
 				FGELayoutManagerSpecification<?> spec = getDefaultLayoutManager().getLayoutManagerSpecification();
-				gr.removeFromLayoutManagerSpecifications(spec);
-				spec.delete();
+				if (spec != null) {
+					gr.removeFromLayoutManagerSpecifications(spec);
+					spec.delete();
+				}
 			}
 
 			if (defaultLayoutType != LayoutManagerSpecificationType.NONE) {
@@ -212,8 +214,7 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 			System.out.println("JE retourne le layout manager de la shape " + getContainerNode() + " qui est "
 					+ ((ShapeNode<?>) getContainerNode()).getLayoutManager());
 			return ((ShapeNode<?>) getContainerNode()).getLayoutManager();
-		}
-		else if (getLayoutManagers() != null && getLayoutManagers().size() > 0) {
+		} else if (getLayoutManagers() != null && getLayoutManagers().size() > 0) {
 			return getLayoutManagers().get(0);
 		}
 		return null;
@@ -229,8 +230,7 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 	public String displayMode() {
 		if (layoutedAsMode()) {
 			return "layouted_as";
-		}
-		else {
+		} else {
 			return "define_layout";
 		}
 	}
