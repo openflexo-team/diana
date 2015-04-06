@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel className="org.openflexo.fge.geomedit.FIBInspector" layout="border" titleFont="SansSerif,0,12" darkLevel="0" dataClassName="org.openflexo.fge.geomedit.gr.GeometricDrawingGraphicalRepresentation" font="SansSerif,0,12" name="Inspector">
+  <TabPanel name="Tab" constraints="border(location=center)">
+    <Tab title="Edition" layout="twocols" titleFont="SansSerif,0,11" darkLevel="0" index="4" font="SansSerif,0,11" useScrollBar="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="EditionTab">
+      <Label label="selection_color" index="0" constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;location=left)" localize="true" />
+      <Color index="1" data="data.selectionColor" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;location=right)" localize="true" />
+      <Label label="focus_color" index="2" constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;location=left)" localize="true" />
+      <Color index="3" data="data.focusColor" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;location=right)" localize="true" />
+      <Label label="rectangle_selection_color" index="4" constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;location=left)" localize="true" />
+      <Color index="5" data="data.rectangleSelectingSelectionColor" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;location=right)" localize="true" />
+    </Tab>
+    <Tab title="Background" layout="twocols" titleFont="SansSerif,0,11" darkLevel="0" index="2" font="SansSerif,0,11" useScrollBar="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="BackgroundTab">
+      <Label label="background_color" index="0" constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;location=left)" localize="true" />
+      <Color index="1" data="data.backgroundColor" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;location=right)" localize="true" />
+    </Tab>
+    <Tab title="Data" layout="twocols" titleFont="SansSerif,0,11" darkLevel="0" index="0" font="SansSerif,0,11" useScrollBar="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="DataTab">
+      <Label label="width" index="0" constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;location=left)" localize="true" />
+      <Number minValue="-Infinity" maxValue="Infinity" increment="1.0" numberType="DoubleType" columns="10" index="1" data="data.width" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;location=right)" localize="true" />
+      <Label label="height" index="2" constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;location=left)" localize="true" />
+      <Number minValue="-Infinity" maxValue="Infinity" increment="1.0" numberType="DoubleType" columns="10" index="3" data="data.height" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;location=right)" localize="true" />
+    </Tab>
+  </TabPanel>
+  <LocalizedDictionary>
+    <Localized key="selection_color" lang="English" value="Selection color" />
+    <Localized key="selection_color" lang="French" value="Couleur de sélection" />
+    <Localized key="selection_color" lang="Dutch" value="Selection color" />
+    <Localized key="focus_color" lang="English" value="Focus color" />
+    <Localized key="focus_color" lang="French" value="Couleur de focus" />
+    <Localized key="focus_color" lang="Dutch" value="Focus color" />
+    <Localized key="rectangle_selection_color" lang="English" value="Rectangle selection color" />
+    <Localized key="rectangle_selection_color" lang="French" value="Couleur du rectangle de sélection" />
+    <Localized key="rectangle_selection_color" lang="Dutch" value="Rectangle selection color" />
+    <Localized key="background_color" lang="English" value="Background color" />
+    <Localized key="background_color" lang="French" value="Couleur de l'arrière-plan" />
+    <Localized key="background_color" lang="Dutch" value="Background color" />
+    <Localized key="width" lang="English" value="Width" />
+    <Localized key="width" lang="French" value="Largeur" />
+    <Localized key="width" lang="Dutch" value="Width" />
+    <Localized key="height" lang="English" value="Height" />
+    <Localized key="height" lang="French" value="Hauteur" />
+    <Localized key="height" lang="Dutch" value="Height" />
+  </LocalizedDictionary>
+  <Parameter name="title" value="Drawing" />
+</Panel>

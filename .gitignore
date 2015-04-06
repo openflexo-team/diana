@@ -1,0 +1,17 @@
+**/target
+
+# IDE files #
+*.iml
+*.ipr
+*.iws
+/.idea
+
+# Package Files #
+*.jar
+*.war
+*.ear
+.classpath
+.project
+.settings
+/.pmd
+/.gitignore

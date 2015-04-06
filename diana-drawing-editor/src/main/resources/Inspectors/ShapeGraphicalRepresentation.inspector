@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel className="org.openflexo.fge.drawingeditor.FIBInspector" layout="border" titleFont="SansSerif,0,12" darkLevel="0" dataClassName="org.openflexo.fge.ShapeGraphicalRepresentation" font="SansSerif,0,12" name="Inspector">
+  <TabPanel name="Tab" index="0" constraints="border(index=0;location=center)">
+    <Tab title="Edition" layout="twocols" titleFont="SansSerif,0,11" darkLevel="0" index="3" font="SansSerif,0,11" useScrollBar="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="EditionTab">
+      <Label label="is_selectable" index="2" constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;location=left)" name="IsSelectableLabel" localize="true" />
+      <Panel layout="flow" hGap="0" vGap="0" flowAlignment="LEADING" borderTitle="Panel" borderLeft="2" titleFont="SansSerif,0,11" darkLevel="0" index="3" constraints="twocols(expandHorizontally=true;expandVertically=false;index=3;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)">
+        <CheckBox selected="false" data="data.isSelectable" constraints="flow()" name="IsSelectable" localize="true" />
+        <CheckBox selected="true" index="1" data="data.hasSelectedForeground" constraints="flow(index=1)" localize="true" enable="data.isSelectable" />
+        <Label label="use" index="2" constraints="flow(index=2;location=east)" localize="true" enable="data.isSelectable" />
+        <Custom componentClassName="org.openflexo.fge.view.widget.FIBForegroundStyleSelector" localize="true" enable="(data.isSelectable &amp; data.hasSelectedForeground)" manageDynamicModel="true" index="3" data="data.selectedForeground" constraints="flow(index=3)" />
+        <CheckBox selected="true" index="4" data="data.hasSelectedBackground" constraints="flow(index=4)" localize="true" enable="data.isSelectable" />
+        <Label label="use" index="5" constraints="flow(index=5)" localize="true" enable="data.isSelectable" />
+        <Custom componentClassName="org.openflexo.fge.view.widget.FIBBackgroundStyleSelector" localize="true" enable="(data.isSelectable &amp; data.hasSelectedBackground)" manageDynamicModel="true" index="6" data="data.selectedBackground" constraints="flow(index=6)" />
+        <Label label="cp" index="10" constraints="flow(expandHorizontally=false;expandVertically=false;index=10;location=left)" localize="true" enable="data.isSelectable" />
+        <CheckBox selected="false" index="11" data="data.drawControlPointsWhenSelected" constraints="flow(expandHorizontally=false;expandVertically=false;index=11;location=right)" localize="true" enable="data.isSelectable" />
+      </Panel>
+      <Label label="is_focusable" index="6" constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;location=left)" name="IsFocusableLabel" localize="true" />
+      <Panel layout="flow" hGap="0" vGap="0" flowAlignment="LEADING" borderTitle="Panel" borderLeft="2" titleFont="SansSerif,0,11" darkLevel="0" index="7" constraints="twocols(expandHorizontally=true;expandVertically=false;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)">
+        <CheckBox selected="false" index="0" data="data.isFocusable" constraints="flow(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=center)" name="IsFocusable" localize="true" />
+        <CheckBox selected="true" index="1" data="data.hasFocusedForeground" constraints="flow(index=1)" localize="true" enable="data.isFocusable" />
+        <Label label="use" index="2" constraints="flow(index=2;location=east)" localize="true" enable="data.isFocusable" />
+        <Custom componentClassName="org.openflexo.fge.view.widget.FIBForegroundStyleSelector" localize="true" enable="(data.isFocusable &amp; data.hasFocusedForeground)" manageDynamicModel="true" index="3" data="data.focusedForeground" constraints="flow(index=3)" />
+        <CheckBox selected="true" index="4" data="data.hasFocusedBackground" constraints="flow(index=4)" localize="true" enable="data.isFocusable" />
+        <Label label="use" index="5" constraints="flow(index=5)" localize="true" enable="data.isFocusable" />
+        <Custom componentClassName="org.openflexo.fge.view.widget.FIBBackgroundStyleSelector" localize="true" enable="(data.isFocusable &amp; data.hasFocusedBackground)" manageDynamicModel="true" index="6" data="data.focusedBackground" constraints="flow(index=6)" />
+        <Label label="cp" index="10" constraints="flow(expandHorizontally=false;expandVertically=false;index=10;location=left)" localize="true" enable="data.isFocusable" />
+        <CheckBox selected="false" index="11" data="data.drawControlPointsWhenFocused" constraints="flow(expandHorizontally=false;expandVertically=false;index=11;location=right)" localize="true" enable="data.isFocusable" />
+      </Panel>
+    </Tab>
+    <Tab title="Location/Size" layout="twocols" titleFont="SansSerif,0,11" darkLevel="0" index="2" font="SansSerif,0,11" useScrollBar="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="LocationSizeTab">
+      <Label label="layer" index="0" constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;location=left)" name="LayerLabel" localize="true" />
+      <Number minValue="0" maxValue="65535" increment="1" numberType="IntegerType" columns="10" index="1" data="data.layer" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;location=right)" name="Layer" localize="true" />
+      <Label label="position" index="2" constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;location=left)" name="PositionLabel" localize="true" />
+      <Panel layout="flow" hGap="5" vGap="0" flowAlignment="LEADING" titleFont="SansSerif,0,11" darkLevel="0" index="3" constraints="twocols(expandHorizontally=true;expandVertically=false;index=3;location=right)">
+        <Number minValue="0.0" maxValue="10000.0" increment="1.0" numberType="DoubleType" columns="5" index="0" data="data.x" constraints="flow(index=0)" name="X" localize="true" />
+        <Label label=";" index="1" constraints="flow(index=1)" name="Space" localize="true" />
+        <Number minValue="0.0" maxValue="10000.0" increment="1.0" numberType="DoubleType" columns="5" index="2" data="data.y" constraints="flow(index=2)" name="Y" localize="true" />
+      </Panel>
+      <Label label="location_constraints" index="4" constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;location=left)" name="LocationConstraintsLabel" localize="true" />
+      <DropDown index="5" data="data.locationConstraints" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;location=right)" width="150" name="LocationConstraints" format="object.name.toLowerCase" localize="true" iteratorClassName="org.openflexo.fge.ShapeGraphicalRepresentation$LocationConstraints" autoSelectFirstRow="false" />
+      <Label label="dimensions" index="6" constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;location=left)" name="DimensionLabel" localize="true" />
+      <Panel layout="flow" hGap="5" vGap="0" flowAlignment="LEADING" titleFont="SansSerif,0,11" darkLevel="0" index="7" constraints="twocols(expandHorizontally=true;expandVertically=false;index=7;location=right)">
+        <Number minValue="0.0" maxValue="10000.0" increment="1.0" numberType="DoubleType" columns="5" index="0" data="data.width" constraints="flow(index=0)" name="Width" localize="true" />
+        <Label label="x" index="1" constraints="flow(index=1)" name="X" localize="true" />
+        <Number minValue="0.0" maxValue="10000.0" increment="1.0" numberType="DoubleType" columns="5" index="2" data="data.height" constraints="flow(index=2)" name="Height" localize="true" />
+      </Panel>
+      <Label label="dimensions_constraints" index="8" constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;location=left)" name="DimensionConstraintsLabel" localize="true" />
+      <DropDown index="9" data="data.dimensionConstraints" constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;location=right)" width="150" name="DimensionConstraints" format="object.name.toLowerCase" localize="true" iteratorClassName="org.openflexo.fge.ShapeGraphicalRepresentation$DimensionConstraints" autoSelectFirstRow="false" />
+      <Label label="x_constraints" index="10" constraints="twocols(expandVertically=false;index=10;location=left)" localize="true" />
+      <Custom componentClassName="org.openflexo.fib.swing.utils.BindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.xConstraints)" index="11" data="data.xConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=11;location=right)">
+        <Assignment variable="component.bindable" value="data" />
+      </Custom>
+      <Label label="y_constraints" index="12" constraints="twocols(expandVertically=false;index=12;location=left)" localize="true" />
+      <Custom componentClassName="org.openflexo.fib.swing.utils.BindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.yConstraints)" index="13" data="data.yConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=13;location=right)">
+        <Assignment variable="component.bindable" value="data" />
+      </Custom>
+      <Label label="width_constraints" index="14" constraints="twocols(expandVertically=false;index=14;location=left)" localize="true" />
+      <Custom componentClassName="org.openflexo.fib.swing.utils.BindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.widthConstraints)" index="15" data="data.widthConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=15;location=right)">
+        <Assignment variable="component.bindable" value="data" />
+      </Custom>
+      <Label label="height_constraints" index="16" constraints="twocols(expandVertically=false;index=16;location=left)" localize="true" />
+      <Custom componentClassName="org.openflexo.fib.swing.utils.BindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.heightConstraints)" index="17" data="data.heightConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=17;location=right)">
+        <Assignment variable="component.bindable" value="data" />
+      </Custom>
+      <Label label="border" index="18" constraints="twocols(expandHorizontally=false;expandVertically=false;index=18;location=left)" name="BorderLabel" localize="true" />
+      <Panel layout="flow" hGap="5" vGap="0" flowAlignment="LEADING" titleFont="SansSerif,0,11" darkLevel="0" index="19" constraints="twocols(expandHorizontally=true;expandVertically=false;index=19;location=right)">
+        <Label label="top" index="0" constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=left)" name="BorderTopLabel" localize="true" />
+        <Number minValue="0" maxValue="255" increment="1" numberType="IntegerType" columns="2" index="1" data="data.border.top" constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=right)" name="Bordertop" localize="true" />
+        <Label label="bottom" index="2" constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=left)" name="BorderBottomLabel" localize="true" />
+        <Number minValue="0" maxValue="255" increment="1" numberType="IntegerType" columns="2" index="3" data="data.border.bottom" constraints="flow(expandHorizontally=false;expandVertically=false;index=3;location=right)" name="Borderbottom" localize="true" />
+        <Label label="left" index="4" constraints="flow(expandHorizontally=false;expandVertically=false;index=4;location=left)" name="BorderLeftLabel" localize="true" />
+        <Number minValue="0" maxValue="255" increment="1" numberType="IntegerType" columns="2" index="5" data="data.border.left" constraints="flow(expandHorizontally=false;expandVertically=false;index=5;location=right)" name="Borderleft" localize="true" />
+        <Label label="right" index="6" constraints="flow(expandHorizontally=false;expandVertically=false;index=6;location=left)" name="BorderRightLabel" localize="true" />
+        <Number minValue="0" maxValue="255" increment="1" numberType="IntegerType" columns="2" index="7" data="data.border.right" constraints="flow(expandHorizontally=false;expandVertically=false;index=7;location=right)" name="Borderright" localize="true" />
+      </Panel>
+      <Label label="is_visible" index="20" constraints="twocols(expandHorizontally=false;expandVertically=false;index=20;location=left)" name="IsVisibleLabel" localize="true" />
+      <CheckBox selected="false" index="21" data="data.isVisible" constraints="twocols(expandHorizontally=false;expandVertically=false;index=21;location=right)" name="IsVisible" localize="true" />
+      <Label label="allows_to_leave_bounds" index="22" constraints="twocols(expandHorizontally=true;expandVertically=false;index=22;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true" />
+      <CheckBox selected="true" index="23" data="data.allowToLeaveBounds" constraints="twocols(expandHorizontally=true;expandVertically=false;index=23;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" name="checkbox" localize="true" />
+      <Label label="adapt_bounds_to_host_contents" index="24" constraints="twocols(expandHorizontally=true;expandVertically=false;index=24;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true" />
+      <CheckBox selected="true" index="25" data="data.adaptBoundsToContents" constraints="twocols(expandHorizontally=true;expandVertically=false;index=25;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" name="checkbox" localize="true" />
+      <Label label="index" index="26" constraints="twocols(expandHorizontally=true;expandVertically=false;index=26;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true" />
+      <Number minValue="0" maxValue="65535" increment="1" numberType="IntegerType" columns="3" index="27" data="data.index" constraints="twocols(expandHorizontally=false;expandVertically=false;index=27;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" name="Integer" localize="true" />
+    </Tab>
+    <Tab title="Text" layout="twocols" titleFont="SansSerif,0,11" darkLevel="0" index="1" font="SansSerif,0,11" useScrollBar="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="TextTab">
+      <Label label="floating_label" index="14" constraints="twocols(expandHorizontally=false;expandVertically=false;index=14;location=left)" name="IsFloatingLabelLabel" localize="true" />
+      <CheckBox selected="false" index="15" data="data.isFloatingLabel" constraints="twocols(expandHorizontally=false;expandVertically=false;index=15;location=right)" name="IsFloatingLabel" localize="true" />
+      <Label label="line_wrap" index="16" constraints="twocols(expandHorizontally=false;expandVertically=false;index=16;location=left)" localize="true" />
+      <CheckBox selected="false" index="17" data="data.lineWrap" constraints="twocols(expandHorizontally=false;expandVertically=false;index=17;location=right)" name="LineWrap" localize="true" />
+      <Label label="absolute_text_x" index="18" constraints="twocols(expandHorizontally=false;expandVertically=false;index=18;location=left)" visible="(data.isFloatingLabel = true)" name="AbsoluteTextXLabel" localize="true" />
+      <Number minValue="-Infinity" maxValue="Infinity" increment="1.0" numberType="DoubleType" index="19" data="data.absoluteTextX" constraints="twocols(expandHorizontally=false;expandVertically=false;index=19;location=right)" visible="(data.isFloatingLabel = true)" name="AbsoluteTextX" localize="true" />
+      <Label label="absolute_text_y" index="20" constraints="twocols(expandHorizontally=false;expandVertically=false;index=20;location=left)" visible="(data.isFloatingLabel = true)" name="AbsoluteTextYLabel" localize="true" />
+      <Number minValue="-Infinity" maxValue="Infinity" increment="1.0" numberType="DoubleType" index="21" data="data.absoluteTextY" constraints="twocols(expandHorizontally=false;expandVertically=false;index=21;location=right)" visible="(data.isFloatingLabel = true)" name="AbsoluteTextY" localize="true" />
+      <Label label="relative_text_x" index="22" constraints="twocols(expandHorizontally=false;expandVertically=false;index=22;location=left)" visible="(data.isFloatingLabel = false)" name="RelativeTextXLabel" localize="true" />
+      <Number minValue="-1.0" maxValue="1.0" increment="0.01" numberType="DoubleType" index="23" data="data.relativeTextX" constraints="twocols(expandHorizontally=false;expandVertically=false;index=23;location=right)" visible="(data.isFloatingLabel = false)" name="RelativeTextX" localize="true" />
+      <Label label="relative_text_y" index="24" constraints="twocols(expandHorizontally=false;expandVertically=false;index=24;location=left)" visible="(data.isFloatingLabel = false)" name="RelativeTextYLabel" localize="true" />
+      <Number minValue="-1.0" maxValue="1.0" increment="0.01" numberType="DoubleType" index="25" data="data.relativeTextY" constraints="twocols(expandHorizontally=false;expandVertically=false;index=25;location=right)" visible="(data.isFloatingLabel = false)" name="RelativeTextY" localize="true" />
+      <CheckBox selected="false" index="26" data="data.adjustMinimalWidthToLabelWidth" constraints="twocols(expandHorizontally=false;expandVertically=false;index=26;location=left)" name="AdjustMinimalWidthToLabelWidth" localize="true" />
+      <Label label="adjust_minimal_width_to_label_width" index="27" constraints="twocols(expandHorizontally=false;expandVertically=false;index=27;location=right)" name="AdjustMinimalWidthToLabelWidthLabel" localize="true" />
+      <CheckBox selected="false" index="28" data="data.adjustMinimalHeightToLabelHeight" constraints="twocols(expandHorizontally=false;expandVertically=false;index=28;location=left)" name="AdjustMinimalHeightToLabelHeight" localize="true" />
+      <Label label="adjust_minimal_height_to_label_height" index="29" constraints="twocols(expandHorizontally=false;expandVertically=false;index=29;location=right)" name="AdjustMinimalHeightToLabelHeightLabel" localize="true" />
+    </Tab>
+    <Tab title="Shape" layout="gridbag" titleFont="SansSerif,0,11" darkLevel="0" index="0" font="SansSerif,0,11" useScrollBar="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="ShapeTab">
+      <Custom componentClassName="org.openflexo.fge.view.widget.ShapePreviewPanel" localize="true" manageDynamicModel="true" index="0" data="data.shape" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=none;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=center;padX=0;padY=0;weightX=0.0;weightY=0.0)">
+        <Assignment variable="component.panelWidth" value="120" />
+        <Assignment variable="component.panelHeight" value="80" />
+        <Assignment variable="component.foregroundStyle" value="data.foreground" />
+        <Assignment variable="component.backgroundStyle" value="data.background" />
+        <Assignment variable="component.shadowStyle" value="data.shadowStyle" />
+        <Dependancy componentName="ForegroundSelector" />
+        <Dependancy componentName="BackgroundSelector" />
+        <Dependancy componentName="ShadowStyleSelector" />
+        <Dependancy componentName="ShapeSelector" />
+      </Custom>
+      <Panel layout="twocols" border="rounded3d" borderTop="2" borderBottom="2" borderRight="2" titleFont="SansSerif,0,11" darkLevel="1" index="1" constraints="gridbag(anchor=center;expandHorizontally=false;fill=none;gridHeight=1;gridWidth=1;gridX=-1;gridY=-1;index=1;insetsBottom=10;insetsLeft=10;insetsRight=10;insetsTop=10;location=center;padX=10;padY=10;weightX=0.0;weightY=0.0)">
+        <Label label="foreground" index="0" constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=10;insetsRight=2;insetsTop=5;location=left)" name="ForegroundLabel" localize="true" />
+        <Custom componentClassName="org.openflexo.fge.view.widget.FIBForegroundStyleSelector" localize="true" manageDynamicModel="true" name="ForegroundSelector" index="1" data="data.foreground" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+        <Label label="background" index="2" constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" name="BackgroundLabel" localize="true" />
+        <Custom componentClassName="org.openflexo.fge.view.widget.FIBBackgroundStyleSelector" localize="true" manageDynamicModel="true" name="BackgroundSelector" index="3" data="data.background" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+        <Label label="shadow" index="4" constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" name="ShadowStyleLabel" localize="true" />
+        <Custom componentClassName="org.openflexo.fge.view.widget.FIBShadowStyleSelector" localize="true" manageDynamicModel="true" name="ShadowStyleSelector" index="5" data="data.shadowStyle" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+        <Label label="shape" index="6" constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" name="ShapeTypeLabel" localize="true" />
+        <Custom componentClassName="org.openflexo.fge.view.widget.FIBShapeSelector" localize="true" manageDynamicModel="true" name="ShapeSelector" index="7" data="data.shape" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+      </Panel>
+    </Tab>
+  </TabPanel>
+  <LocalizedDictionary>
+    <Localized key="Location/Size" lang="French" value="Emplacement/Taille" />
+    <Localized key="layer" lang="English" value="Layer" />
+    <Localized key="layer" lang="French" value="Couche" />
+    <Localized key="layer" lang="Dutch" value="Layer" />
+    <Localized key="x" lang="English" value="Position x" />
+    <Localized key="x" lang="French" value="Abscisse" />
+    <Localized key="x" lang="Dutch" value="Position x" />
+    <Localized key="y" lang="English" value="Position y" />
+    <Localized key="y" lang="French" value="Ordonnée" />
+    <Localized key="y" lang="Dutch" value="Position y" />
+    <Localized key="freely_movable" lang="English" value="Freely movable" />
+    <Localized key="freely_movable" lang="French" value="Peut être bougé" />
+    <Localized key="freely_movable" lang="Dutch" value="Freely movable" />
+    <Localized key="contained_in_shape" lang="English" value="Contained in shape" />
+    <Localized key="contained_in_shape" lang="French" value="Contenu dans la forme" />
+    <Localized key="contained_in_shape" lang="Dutch" value="Contained in shape" />
+    <Localized key="unmovable" lang="French" value="non déplaçable" />
+    <Localized key="relative_to_parent" lang="English" value="Relative to parent" />
+    <Localized key="relative_to_parent" lang="French" value="Relatif au parent" />
+    <Localized key="relative_to_parent" lang="Dutch" value="Relative to parent" />
+    <Localized key="x_fixed" lang="English" value="x fixed" />
+    <Localized key="x_fixed" lang="French" value="x fixe" />
+    <Localized key="x_fixed" lang="Dutch" value="x fixed" />
+    <Localized key="y_fixed" lang="English" value="y fixed" />
+    <Localized key="y_fixed" lang="Dutch" value="y fixed" />
+    <Localized key="area_constrained" lang="English" value="area constrained" />
+    <Localized key="area_constrained" lang="French" value="espace contraint" />
+    <Localized key="area_constrained" lang="Dutch" value="area constrained" />
+    <Localized key="location_constraints" lang="English" value="Location constraints" />
+    <Localized key="location_constraints" lang="French" value="Contraintes de positionnement" />
+    <Localized key="location_constraints" lang="Dutch" value="Location constraints" />
+    <Localized key="width" lang="English" value="Width" />
+    <Localized key="width" lang="French" value="Largeur" />
+    <Localized key="width" lang="Dutch" value="Width" />
+    <Localized key="height" lang="English" value="Height" />
+    <Localized key="height" lang="French" value="Hauteur" />
+    <Localized key="height" lang="Dutch" value="Height" />
+    <Localized key="freely_resizable" lang="English" value="Freely resizable" />
+    <Localized key="freely_resizable" lang="French" value="Peut être redimensionné" />
+    <Localized key="freely_resizable" lang="Dutch" value="Freely resizable" />
+    <Localized key="unresizable" lang="French" value="non redimensionnable" />
+    <Localized key="constrained_dimensions" lang="English" value="Constrained dimensions" />
+    <Localized key="constrained_dimensions" lang="French" value="Dimensions contraintes" />
+    <Localized key="constrained_dimensions" lang="Dutch" value="Constrained dimensions" />
+    <Localized key="step_constrained" lang="English" value="step constrained" />
+    <Localized key="step_constrained" lang="French" value="pas contraint" />
+    <Localized key="step_constrained" lang="Dutch" value="step constrained" />
+    <Localized key="width_fixed" lang="English" value="Fixed width" />
+    <Localized key="width_fixed" lang="French" value="Largeur fixe" />
+    <Localized key="width_fixed" lang="Dutch" value="Fixed width" />
+    <Localized key="height_fixed" lang="English" value="Fixed height" />
+    <Localized key="height_fixed" lang="French" value="Hauteur fixe" />
+    <Localized key="height_fixed" lang="Dutch" value="Fixed height" />
+    <Localized key="container" lang="French" value="conteneur" />
+    <Localized key="dimensions_constraints" lang="English" value="Dimensions contraints" />
+    <Localized key="dimensions_constraints" lang="French" value="Contraintes de dimensionnement" />
+    <Localized key="dimensions_constraints" lang="Dutch" value="Dimensions contraints" />
+    <Localized key="top_border" lang="English" value="Top border" />
+    <Localized key="top_border" lang="French" value="Bord haut" />
+    <Localized key="top_border" lang="Dutch" value="Top border" />
+    <Localized key="bottom_border" lang="English" value="Bottom border" />
+    <Localized key="bottom_border" lang="French" value="Bord du bas" />
+    <Localized key="bottom_border" lang="Dutch" value="Bottom border" />
+    <Localized key="left_border" lang="English" value="Left border" />
+    <Localized key="left_border" lang="French" value="Bord gauche" />
+    <Localized key="left_border" lang="Dutch" value="Left border" />
+    <Localized key="right_border" lang="English" value="Right border" />
+    <Localized key="right_border" lang="French" value="Bord droit" />
+    <Localized key="right_border" lang="Dutch" value="Right border" />
+    <Localized key="is_visible" lang="English" value="Is visible" />
+    <Localized key="is_visible" lang="French" value="Visible" />
+    <Localized key="is_visible" lang="Dutch" value="Is visible" />
+    <Localized key="Text" lang="French" value="Texte" />
+    <Localized key="floating_label" lang="English" value="Floating label" />
+    <Localized key="floating_label" lang="French" value="Label flottant" />
+    <Localized key="floating_label" lang="Dutch" value="Floating label" />
+    <Localized key="absolute_text_x" lang="English" value="Absolute text X" />
+    <Localized key="absolute_text_x" lang="French" value="texte x absolu" />
+    <Localized key="absolute_text_x" lang="Dutch" value="Absolute text X" />
+    <Localized key="absolute_text_y" lang="English" value="Absolute text Y" />
+    <Localized key="absolute_text_y" lang="French" value="texte y absolu" />
+    <Localized key="absolute_text_y" lang="Dutch" value="Absolute text Y" />
+    <Localized key="relative_text_x" lang="English" value="Relative text x" />
+    <Localized key="relative_text_x" lang="French" value="Text relatif à X" />
+    <Localized key="relative_text_x" lang="Dutch" value="Relative text y" />
+    <Localized key="relative_text_y" lang="English" value="Relative text y" />
+    <Localized key="relative_text_y" lang="French" value="Text relatif à Y" />
+    <Localized key="relative_text_y" lang="Dutch" value="Relative text y" />
+    <Localized key="adjust_minimal_width_to_label_width" lang="English" value="Adjust the minimal width to label width" />
+    <Localized key="adjust_minimal_width_to_label_width" lang="French" value="Ajuster la largeur minimale à la largeur du label" />
+    <Localized key="adjust_minimal_width_to_label_width" lang="Dutch" value="Adjust the minimal width to label width" />
+    <Localized key="adjust_minimal_height_to_label_height" lang="English" value="Adjust the minimal height to the label height" />
+    <Localized key="adjust_minimal_height_to_label_height" lang="French" value="Ajuster la hauteur minimale à la hauteur du label" />
+    <Localized key="adjust_minimal_height_to_label_height" lang="Dutch" value="Adjust the minimal height to the label height" />
+    <Localized key="Shape" lang="French" value="Forme" />
+    <Localized key="foreground" lang="English" value="Foreground" />
+    <Localized key="foreground" lang="French" value="Couleur d'avant-plan" />
+    <Localized key="foreground" lang="Dutch" value="Foreground" />
+    <Localized key="background" lang="English" value="Background" />
+    <Localized key="background" lang="French" value="Arrière-plan" />
+    <Localized key="background" lang="Dutch" value="Background" />
+    <Localized key="shadow" lang="English" value="Shadow" />
+    <Localized key="shadow" lang="French" value="Ombre" />
+    <Localized key="shadow" lang="Dutch" value="Shadow" />
+    <Localized key="rectangle" lang="English" value="Rectangle" />
+    <Localized key="rectangle" lang="French" value="Rectangle" />
+    <Localized key="rectangle" lang="Dutch" value="Rectangle" />
+    <Localized key="square" lang="English" value="Square" />
+    <Localized key="square" lang="French" value="Carré" />
+    <Localized key="square" lang="Dutch" value="Square" />
+    <Localized key="polygon" lang="English" value="Regular polygon" />
+    <Localized key="polygon" lang="French" value="Polygone régulier" />
+    <Localized key="polygon" lang="Dutch" value="Regular polygon" />
+    <Localized key="triangle" lang="English" value="Triangle" />
+    <Localized key="triangle" lang="French" value="Triangle" />
+    <Localized key="triangle" lang="Dutch" value="Triangle" />
+    <Localized key="losange" lang="English" value="Losange" />
+    <Localized key="losange" lang="French" value="Losange" />
+    <Localized key="losange" lang="Dutch" value="Losange" />
+    <Localized key="oval" lang="English" value="Oval" />
+    <Localized key="oval" lang="French" value="Ovale" />
+    <Localized key="oval" lang="Dutch" value="Oval" />
+    <Localized key="circle" lang="English" value="Circle" />
+    <Localized key="circle" lang="French" value="Cercle" />
+    <Localized key="circle" lang="Dutch" value="Circle" />
+    <Localized key="star" lang="English" value="Star" />
+    <Localized key="star" lang="French" value="Étoile" />
+    <Localized key="star" lang="Dutch" value="Star" />
+    <Localized key="shape_type" lang="English" value="Shape" />
+    <Localized key="shape_type" lang="French" value="Forme" />
+    <Localized key="shape_type" lang="Dutch" value="Shape" />
+    <Localized key="n_points" lang="English" value="Points number" />
+    <Localized key="n_points" lang="French" value="Sommets" />
+    <Localized key="n_points" lang="Dutch" value="Points number" />
+    <Localized key="start_angle" lang="English" value="Start angle" />
+    <Localized key="start_angle" lang="French" value="Angle" />
+    <Localized key="start_angle" lang="Dutch" value="Start angle" />
+    <Localized key="rounded" lang="English" value="Rounded" />
+    <Localized key="rounded" lang="French" value="Arrondi" />
+    <Localized key="rounded" lang="Dutch" value="Rounded" />
+    <Localized key="arc_size" lang="English" value="Arc size" />
+    <Localized key="arc_size" lang="French" value="Taille de l'arc" />
+    <Localized key="arc_size" lang="Dutch" value="Arc size" />
+    <Localized key="ratio" lang="French" value="rapport" />
+    <Localized key="angle_start" lang="English" value="angle start" />
+    <Localized key="angle_start" lang="French" value="début d'angle" />
+    <Localized key="angle_start" lang="Dutch" value="angle start" />
+    <Localized key="angle_extent" lang="English" value="angle extent" />
+    <Localized key="angle_extent" lang="French" value="extension d'angle" />
+    <Localized key="angle_extent" lang="Dutch" value="angle extent" />
+    <Localized key="arc_type" lang="English" value="Arc type" />
+    <Localized key="arc_type" lang="French" value="Type d'arc" />
+    <Localized key="arc_type" lang="Dutch" value="Arc type" />
+  </LocalizedDictionary>
+  <Parameter name="title" value="Shape" />
+</Panel>
