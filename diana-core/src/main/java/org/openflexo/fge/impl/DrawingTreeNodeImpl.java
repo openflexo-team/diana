@@ -440,9 +440,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		if (pcSupport.hasListeners(null)) {
 			logger.warning("WARNING: finalizeDeletion called for " + this + " while object still being observed");
 			for (PropertyChangeListener l : pcSupport.getPropertyChangeListeners()) {
-				System.out.println(" > " + l);
+				logger.info("Remaining PropertyChangeListener:  " + l);
 			}
-
 			Thread.dumpStack();
 		}
 		pcSupport = null;
@@ -1240,7 +1239,9 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 				}
 			}
 			// Since GR is prevented to fire notifications, do it myself
-			getPropertyChangeSupport().firePropertyChange(parameter.getName(), oldValue, value);
+			if (getPropertyChangeSupport() != null) {
+				getPropertyChangeSupport().firePropertyChange(parameter.getName(), oldValue, value);
+			}
 		}
 
 		// If SharedGraphicalRepresentations is active, GR should not be used to store graphical properties
