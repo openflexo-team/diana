@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.openflexo</groupId>
 		<artifactId>openflexo-component</artifactId>
-        <version>0.3-SNAPSHOT</version>
+        <version>0.3-RC3</version>
 	</parent>
 	<version>1.2-SNAPSHOT</version>
 	<modelVersion>4.0.0</modelVersion>
@@ -11,10 +11,10 @@
 	<name>diana</name>
 	<packaging>pom</packaging>
 	<properties>
-		<connie.version>1.2-SNAPSHOT</connie.version>
-		<pamela.version>1.2-SNAPSHOT</pamela.version>
-		<gina.version>1.2-SNAPSHOT</gina.version>
-		<graphicsutils.version>1.2-SNAPSHOT</graphicsutils.version>
+		<connie.version>1.2-RC3</connie.version>
+		<pamela.version>1.2-RC3</pamela.version>
+		<gina.version>1.2-RC3</gina.version>
+		<graphicsutils.version>1.2-RC3</graphicsutils.version>
 		<diana.logo>https://media.openflexo.org/images/diana_logo64x64.png</diana.logo>
 	</properties>
 	<scm>
