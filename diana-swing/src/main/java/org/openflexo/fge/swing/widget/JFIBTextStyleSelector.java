@@ -46,7 +46,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import org.openflexo.fge.Drawing;
@@ -167,7 +166,7 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 		protected TextStyleDetailsPanel(TextStyle textStyle) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE,true);
+			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
 			controller = new CustomFIBController(fibComponent);
 			fibView = controller.buildView(fibComponent);
 
@@ -344,7 +343,7 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 			textGR.setBorder(factory.makeShapeBorder(0, 0, 0, 0));
 
 			controller = new JDianaViewer<TextStylePreviewPanel>(drawing, factory, SwingToolFactory.DEFAULT);
-			add((JComponent) controller.getDrawingView());
+			add(controller.getDrawingView());
 
 			update();
 		}

@@ -46,7 +46,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -189,7 +188,7 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 		protected BackgroundStyleDetailsPanel(BackgroundStyle backgroundStyle) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE,true);
+			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
 			controller = new CustomFIBController(fibComponent);
 			fibView = controller.buildView(fibComponent);
 
@@ -384,7 +383,7 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 			rectGR.setBorder(factory.makeShapeBorder(0, 0, 0, 0));
 
 			controller = new JDianaViewer<BackgroundStylePreviewPanel>(drawing, factory, SwingToolFactory.DEFAULT);
-			add((JComponent) controller.getDrawingView());
+			add(controller.getDrawingView());
 		}
 
 		public void delete() {
