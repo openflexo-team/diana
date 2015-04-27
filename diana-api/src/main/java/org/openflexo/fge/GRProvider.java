@@ -46,7 +46,7 @@ import org.openflexo.fge.cp.ControlArea;
 public abstract class GRProvider<O, GR extends GraphicalRepresentation> {
 	public abstract GR provideGR(O drawable, FGEModelFactory factory);
 
-	public List<ControlArea<?>> makeControlAreasFor(DrawingTreeNode<O, GR> dtn) {
+	public List<? extends ControlArea<?>> makeControlAreasFor(DrawingTreeNode<O, GR> dtn) {
 		return null;
 	}
 

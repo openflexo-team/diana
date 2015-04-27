@@ -963,7 +963,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	@Override
 	public List<? extends ControlArea<?>> getControlAreas() {
 		if (controlAreas == null) {
-			List<ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
+			List<? extends ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
 			List<ControlArea<?>> layoutManagerAreas = null;
 
 			if (getLayoutManagers().size() > 0) {

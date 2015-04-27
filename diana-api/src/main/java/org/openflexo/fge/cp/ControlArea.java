@@ -81,6 +81,12 @@ public abstract class ControlArea<A extends FGEArea> implements FGEConstants {
 
 	}
 
+	public void delete() {
+		node = null;
+		area = null;
+		draggingAuthorizedArea = null;
+	}
+
 	public DrawingTreeNode<?, ?> getNode() {
 		return node;
 	}

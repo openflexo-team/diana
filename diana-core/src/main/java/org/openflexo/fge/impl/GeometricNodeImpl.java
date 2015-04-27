@@ -114,7 +114,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	@Override
 	public List<? extends ControlArea<?>> getControlAreas() {
 		if (controlAreas == null) {
-			List<ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
+			List<? extends ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
 			if (customControlAreas == null) {
 				controlAreas = getControlPoints();
 			} else {
