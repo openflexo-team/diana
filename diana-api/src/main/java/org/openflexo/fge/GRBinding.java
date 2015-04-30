@@ -172,7 +172,7 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 
 	}
 
-	public List<ControlArea<?>> makeControlAreasFor(DrawingTreeNode<O, GR> dtn) {
+	public List<? extends ControlArea<?>> makeControlAreasFor(DrawingTreeNode<O, GR> dtn) {
 		return grProvider.makeControlAreasFor(dtn);
 	}
 

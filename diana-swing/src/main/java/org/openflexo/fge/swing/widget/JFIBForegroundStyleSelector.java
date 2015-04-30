@@ -37,7 +37,6 @@
  * 
  */
 
-
 package org.openflexo.fge.swing.widget;
 
 import java.awt.BorderLayout;
@@ -47,7 +46,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import org.openflexo.fge.Drawing;
@@ -177,7 +175,7 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 		protected ForegroundStyleDetailsPanel(ForegroundStyle fs) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE,true);
+			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
 			controller = new CustomFIBController(fibComponent);
 			fibView = controller.buildView(fibComponent);
 
@@ -354,7 +352,7 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 			System.out.println("lineGR setForeground with " + getEditedObject());
 
 			controller = new JDianaViewer<ForegroundStylePreviewPanel>(drawing, factory, SwingToolFactory.DEFAULT);
-			add((JComponent) controller.getDrawingView());
+			add(controller.getDrawingView());
 		}
 
 		public void delete() {
