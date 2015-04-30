@@ -116,20 +116,11 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 		}
 	}
 
-	public static Resource FOREGROUND_STYLE_FIB_FILE = ResourceLocator.locateResource("Fib/ForegroundStylePanel.fib");
-	public static Resource TEXT_STYLE_FIB_FILE = ResourceLocator.locateResource("Fib/TextStylePanel.fib");
-	public static Resource SHADOW_STYLE_FIB_FILE = ResourceLocator.locateResource("Fib/ShadowStylePanel.fib");
-	public static Resource BACKGROUND_STYLE_FIB_FILE = ResourceLocator.locateResource("Fib/BackgroundStylePanel.fib");
-	public static Resource SHAPE_SPECIFICATION_PANEL_FIB_FILE = ResourceLocator.locateResource("Fib/ShapeSelectorPanel.fib");
-	public static Resource CONNECTOR_SPECIFICATION_PANEL_FIB_FILE = ResourceLocator.locateResource("Fib/ConnectorSelectorPanel.fib");
-	public static Resource LOCATION_SIZE_FIB_FILE = ResourceLocator.locateResource("Fib/LocationSizePanel.fib");
-	public static Resource LAYOUT_MANAGERS_FIB_FILE = ResourceLocator.locateResource("Fib/LayoutManagersPanel.fib");
-
 	@Override
 	public JDialogInspector<ForegroundStyle> getForegroundStyleInspector() {
 		if (foregroundStyleInspector == null) {
 			foregroundStyleInspector = new JDialogInspector<ForegroundStyle>(FIBLibrary.instance().retrieveFIBComponent(
-					FOREGROUND_STYLE_FIB_FILE, true), getInspectedForegroundStyle(), frame, "Foreground");
+					JDianaInspectorsResources.FOREGROUND_STYLE_FIB_FILE, true), getInspectedForegroundStyle(), frame, JDianaInspectorsResources.FOREGROUND_NAME);
 		}
 		return foregroundStyleInspector;
 	}
@@ -138,8 +129,8 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	public JDialogInspector<BackgroundStyleFactory> getBackgroundStyleInspector() {
 		if (backgroundStyleInspector == null) {
 			backgroundStyleInspector = new JDialogInspector<BackgroundStyleFactory>(FIBLibrary.instance().retrieveFIBComponent(
-					BACKGROUND_STYLE_FIB_FILE, true), (getInspectedBackgroundStyle() != null ? getInspectedBackgroundStyle()
-					.getStyleFactory() : null), frame, "Background");
+					JDianaInspectorsResources.BACKGROUND_STYLE_FIB_FILE, true), (getInspectedBackgroundStyle() != null ? getInspectedBackgroundStyle()
+					.getStyleFactory() : null), frame, JDianaInspectorsResources.BACKGROUND_NAME);
 		}
 		return backgroundStyleInspector;
 	}
@@ -147,8 +138,8 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	@Override
 	public JDialogInspector<TextStyle> getTextStyleInspector() {
 		if (textStyleInspector == null) {
-			textStyleInspector = new JDialogInspector<TextStyle>(FIBLibrary.instance().retrieveFIBComponent(TEXT_STYLE_FIB_FILE, true),
-					getInspectedTextStyle(), frame, "Text");
+			textStyleInspector = new JDialogInspector<TextStyle>(FIBLibrary.instance().retrieveFIBComponent(JDianaInspectorsResources.TEXT_STYLE_FIB_FILE, true),
+					getInspectedTextStyle(), frame, JDianaInspectorsResources.TEXT_NAME);
 		}
 		return textStyleInspector;
 	}
@@ -156,8 +147,8 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	@Override
 	public JDialogInspector<ShadowStyle> getShadowStyleInspector() {
 		if (shadowInspector == null) {
-			shadowInspector = new JDialogInspector<ShadowStyle>(FIBLibrary.instance().retrieveFIBComponent(SHADOW_STYLE_FIB_FILE, true),
-					getInspectedShadowStyle(), frame, "Shadow");
+			shadowInspector = new JDialogInspector<ShadowStyle>(FIBLibrary.instance().retrieveFIBComponent(JDianaInspectorsResources.SHADOW_STYLE_FIB_FILE, true),
+					getInspectedShadowStyle(), frame, JDianaInspectorsResources.SHADOW_NAME);
 		}
 		return shadowInspector;
 	}
@@ -166,7 +157,7 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	public JDialogInspector<InspectedLocationSizeProperties> getLocationSizeInspector() {
 		if (locationSizeInspector == null) {
 			locationSizeInspector = new JDialogInspector<InspectedLocationSizeProperties>(FIBLibrary.instance().retrieveFIBComponent(
-					LOCATION_SIZE_FIB_FILE, true), getInspectedLocationSizeProperties(), frame, "Location/Size");
+					JDianaInspectorsResources.LOCATION_SIZE_FIB_FILE, true), getInspectedLocationSizeProperties(), frame, JDianaInspectorsResources.LOCATION_NAME);
 		}
 		return locationSizeInspector;
 	}
@@ -175,8 +166,8 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	public JDialogInspector<ShapeSpecificationFactory> getShapeInspector() {
 		if (shapeInspector == null) {
 			shapeInspector = new JDialogInspector<ShapeSpecificationFactory>(FIBLibrary.instance().retrieveFIBComponent(
-					SHAPE_SPECIFICATION_PANEL_FIB_FILE, true), (getInspectedShapeSpecification() != null ? getInspectedShapeSpecification()
-					.getStyleFactory() : null), frame, "Shape");
+					JDianaInspectorsResources.SHAPE_SPECIFICATION_PANEL_FIB_FILE, true), (getInspectedShapeSpecification() != null ? getInspectedShapeSpecification()
+					.getStyleFactory() : null), frame, JDianaInspectorsResources.SHAPE_NAME);
 		}
 		return shapeInspector;
 	}
@@ -185,9 +176,9 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	public JDialogInspector<ConnectorSpecificationFactory> getConnectorInspector() {
 		if (connectorInspector == null) {
 			connectorInspector = new JDialogInspector<ConnectorSpecificationFactory>(FIBLibrary.instance().retrieveFIBComponent(
-					CONNECTOR_SPECIFICATION_PANEL_FIB_FILE, true),
+					JDianaInspectorsResources.CONNECTOR_SPECIFICATION_PANEL_FIB_FILE, true),
 					(getInspectedConnectorSpecification() != null ? getInspectedConnectorSpecification().getStyleFactory() : null), frame,
-					"Connector");
+					JDianaInspectorsResources.CONNECTOR_NAME);
 		}
 		return connectorInspector;
 	}
@@ -196,8 +187,8 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	public JDialogInspector<InspectedLayoutManagerSpecifications> getLayoutManagersInspector() {
 		if (layoutManagersInspector == null) {
 			layoutManagersInspector = new JDialogInspector<InspectedLayoutManagerSpecifications>(FIBLibrary.instance()
-					.retrieveFIBComponent(LAYOUT_MANAGERS_FIB_FILE, true), getInspectedLayoutManagerSpecifications(), frame,
-					"Layout Managers");
+					.retrieveFIBComponent(JDianaInspectorsResources.LAYOUT_MANAGERS_FIB_FILE, true), getInspectedLayoutManagerSpecifications(), frame,
+					JDianaInspectorsResources.LAYOUT_NAME);
 		}
 		return layoutManagersInspector;
 	}
