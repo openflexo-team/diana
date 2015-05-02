@@ -280,7 +280,10 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 	}
 
 	public Integer getLayer() {
-		return FGEConstants.INITIAL_LAYER + connectorNode.getGraphicalRepresentation().getLayer();
+		if (connectorNode != null && connectorNode.getGraphicalRepresentation() != null) {
+			return FGEConstants.INITIAL_LAYER + connectorNode.getGraphicalRepresentation().getLayer();
+		}
+		return 0;
 	}
 
 	@Override
@@ -305,8 +308,8 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 					}
 				} else {
 					if (FGEPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE)) {
-						FGEPaintManager.paintPrimitiveLogger.fine("JConnectorView: buffering paint, draw: " + connectorNode + " clip="
-								+ g.getClip());
+						FGEPaintManager.paintPrimitiveLogger
+								.fine("JConnectorView: buffering paint, draw: " + connectorNode + " clip=" + g.getClip());
 					}
 					getNode().paint(graphics);
 					super.paint(g);
@@ -492,8 +495,8 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 	public void activatePalette(DianaPalette<?, ?> aPalette) {
 		if (aPalette instanceof JDianaPalette) {
 			// A palette is registered, listen to drag'n'drop events
-			setDropTarget(new DropTarget(this, DnDConstants.ACTION_COPY, ((JDianaPalette) aPalette).buildPaletteDropListener(this,
-					controller), true));
+			setDropTarget(new DropTarget(this, DnDConstants.ACTION_COPY,
+					((JDianaPalette) aPalette).buildPaletteDropListener(this, controller), true));
 		}
 
 	}
