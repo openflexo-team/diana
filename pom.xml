@@ -5,7 +5,7 @@
 		<artifactId>openflexo-component</artifactId>
         <version>0.3</version>
 	</parent>
-	<version>1.3-SNAPSHOT</version>
+	<version>1.2-SNAPSHOT</version>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>diana</artifactId>
 	<name>diana</name>
@@ -20,7 +20,7 @@
 	<scm>
 		<connection>scm:git:ssh://git@github.com/openflexo-team/diana.git</connection>
 		<url>https://github.com/openflexo-team/diana</url>
-		<tag>1.3</tag>
+		<tag>1.2</tag>
 	</scm>
 	<modules>
 		<module>diana-geom</module>
