@@ -1,23 +1,42 @@
-/*
- * (c) Copyright 2010-2011 AgileBirds
- * (c) Copyright 2012-2013 Openflexo
+/**
+ * 
+ * Copyright (c) 2013-2014, Openflexo
+ * Copyright (c) 2011-2012, AgileBirds
+ * 
+ * This file is part of Diana-api, a component of the software infrastructure 
+ * developed at Openflexo.
+ * 
+ * 
+ * Openflexo is dual-licensed under the European Union Public License (EUPL, either 
+ * version 1.1 of the License, or any later version ), which is available at 
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ * and the GNU General Public License (GPL, either version 3 of the License, or any 
+ * later version), which is available at http://www.gnu.org/licenses/gpl.html .
+ * 
+ * You can redistribute it and/or modify under the terms of either of these licenses
+ * 
+ * If you choose to redistribute it and/or modify under the terms of the GNU GPL, you
+ * must include the following additional permission.
  *
- * This file is part of OpenFlexo.
+ *          Additional permission under GNU GPL version 3 section 7
  *
- * OpenFlexo is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *          If you modify this Program, or any covered work, by linking or 
+ *          combining it with software containing parts covered by the terms 
+ *          of EPL 1.0, the licensors of this Program grant you additional permission
+ *          to convey the resulting work. * 
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY 
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. 
  *
- * OpenFlexo is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with OpenFlexo. If not, see <http://www.gnu.org/licenses/>.
- *
+ * See http://www.openflexo.org/license.html for details.
+ * 
+ * 
+ * Please contact Openflexo (openflexo-contacts@openflexo.org)
+ * or visit www.openflexo.org if you need additional information.
+ * 
  */
+
 package org.openflexo.fge;
 
 import java.awt.Dimension;
@@ -26,10 +45,10 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
-import org.openflexo.antar.binding.Bindable;
-import org.openflexo.antar.binding.BindingFactory;
-import org.openflexo.antar.binding.BindingModel;
-import org.openflexo.antar.binding.DataBinding;
+import org.openflexo.connie.Bindable;
+import org.openflexo.connie.BindingFactory;
+import org.openflexo.connie.BindingModel;
+import org.openflexo.connie.DataBinding;
 import org.openflexo.fge.control.MouseClickControl;
 import org.openflexo.fge.control.MouseDragControl;
 import org.openflexo.model.annotations.Adder;
@@ -151,23 +170,25 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 		LEFT, CENTER, RIGHT, JUSTIFY;
 	}
 
+	// TODO: rename to HorizontalAlignment
 	public static enum HorizontalTextAlignment {
 		LEFT, CENTER, RIGHT
 	}
 
+	// TODO: rename to VerticalAlignment
 	public static enum VerticalTextAlignment {
 		TOP, MIDDLE, BOTTOM;
 	}
 
 	public static GRProperty<String> IDENTIFIER = GRProperty.getGRParameter(GraphicalRepresentation.class, IDENTIFIER_KEY, String.class);
 	public static GRProperty<Integer> LAYER = GRProperty.getGRParameter(GraphicalRepresentation.class, LAYER_KEY, Integer.class);
-	public static GRProperty<Double> TRANSPARENCY = GRProperty.getGRParameter(GraphicalRepresentation.class, TRANSPARENCY_KEY,
-			Double.class);
+	public static GRProperty<Double> TRANSPARENCY = GRProperty
+			.getGRParameter(GraphicalRepresentation.class, TRANSPARENCY_KEY, Double.class);
 	public static GRProperty<String> TEXT = GRProperty.getGRParameter(GraphicalRepresentation.class, TEXT_KEY, String.class);
 	public static GRProperty<TextStyle> TEXT_STYLE = GRProperty.getGRParameter(GraphicalRepresentation.class, TEXT_STYLE_KEY,
 			TextStyle.class);
-	public static GRProperty<HorizontalTextAlignment> HORIZONTAL_TEXT_ALIGNEMENT = GRProperty.getGRParameter(
-			GraphicalRepresentation.class, HORIZONTAL_TEXT_ALIGNEMENT_KEY, HorizontalTextAlignment.class);
+	public static GRProperty<HorizontalTextAlignment> HORIZONTAL_TEXT_ALIGNEMENT = GRProperty.getGRParameter(GraphicalRepresentation.class,
+			HORIZONTAL_TEXT_ALIGNEMENT_KEY, HorizontalTextAlignment.class);
 	public static GRProperty<VerticalTextAlignment> VERTICAL_TEXT_ALIGNEMENT = GRProperty.getGRParameter(GraphicalRepresentation.class,
 			VERTICAL_TEXT_ALIGNEMENT_KEY, VerticalTextAlignment.class);
 	public static GRProperty<Double> ABSOLUTE_TEXT_X = GRProperty.getGRParameter(GraphicalRepresentation.class, ABSOLUTE_TEXT_X_KEY,
@@ -194,14 +215,13 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 			Boolean.class);
 	public static GRProperty<Boolean> IS_LABEL_EDITABLE = GRProperty.getGRParameter(GraphicalRepresentation.class, IS_LABEL_EDITABLE_KEY,
 			Boolean.class);
-	public static GRProperty<Boolean> IS_VISIBLE = GRProperty
-			.getGRParameter(GraphicalRepresentation.class, IS_VISIBLE_KEY, Boolean.class);
+	public static GRProperty<Boolean> IS_VISIBLE = GRProperty.getGRParameter(GraphicalRepresentation.class, IS_VISIBLE_KEY, Boolean.class);
 	public static GRProperty<List> MOUSE_CLICK_CONTROLS = GRProperty.getGRParameter(GraphicalRepresentation.class,
 			MOUSE_CLICK_CONTROLS_KEY, List.class);
-	public static GRProperty<List> MOUSE_DRAG_CONTROLS = GRProperty.getGRParameter(GraphicalRepresentation.class,
-			MOUSE_DRAG_CONTROLS_KEY, List.class);
-	public static GRProperty<String> TOOLTIP_TEXT = GRProperty.getGRParameter(GraphicalRepresentation.class, TOOLTIP_TEXT_KEY,
-			String.class);
+	public static GRProperty<List> MOUSE_DRAG_CONTROLS = GRProperty.getGRParameter(GraphicalRepresentation.class, MOUSE_DRAG_CONTROLS_KEY,
+			List.class);
+	public static GRProperty<String> TOOLTIP_TEXT = GRProperty
+			.getGRParameter(GraphicalRepresentation.class, TOOLTIP_TEXT_KEY, String.class);
 
 	// *******************************************************************************
 	// * Model
@@ -449,6 +469,7 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 
 	public void finalizeDeserialization();
 
+	@Override
 	public boolean isDeserializing();
 
 	// *******************************************************************************

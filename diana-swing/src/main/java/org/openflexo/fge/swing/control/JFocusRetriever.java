@@ -1,22 +1,42 @@
-/*
- * (c) Copyright 2010-2011 AgileBirds
+/**
+ * 
+ * Copyright (c) 2013-2014, Openflexo
+ * Copyright (c) 2011-2012, AgileBirds
+ * 
+ * This file is part of Diana-swing, a component of the software infrastructure 
+ * developed at Openflexo.
+ * 
+ * 
+ * Openflexo is dual-licensed under the European Union Public License (EUPL, either 
+ * version 1.1 of the License, or any later version ), which is available at 
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ * and the GNU General Public License (GPL, either version 3 of the License, or any 
+ * later version), which is available at http://www.gnu.org/licenses/gpl.html .
+ * 
+ * You can redistribute it and/or modify under the terms of either of these licenses
+ * 
+ * If you choose to redistribute it and/or modify under the terms of the GNU GPL, you
+ * must include the following additional permission.
  *
- * This file is part of OpenFlexo.
+ *          Additional permission under GNU GPL version 3 section 7
  *
- * OpenFlexo is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *          If you modify this Program, or any covered work, by linking or 
+ *          combining it with software containing parts covered by the terms 
+ *          of EPL 1.0, the licensors of this Program grant you additional permission
+ *          to convey the resulting work. * 
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY 
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. 
  *
- * OpenFlexo is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with OpenFlexo. If not, see <http://www.gnu.org/licenses/>.
- *
+ * See http://www.openflexo.org/license.html for details.
+ * 
+ * 
+ * Please contact Openflexo (openflexo-contacts@openflexo.org)
+ * or visit www.openflexo.org if you need additional information.
+ * 
  */
+
 package org.openflexo.fge.swing.control;
 
 import java.awt.Component;
@@ -38,6 +58,7 @@ import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
+import org.openflexo.fge.Drawing.RootNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGEConstants;
 import org.openflexo.fge.control.DianaInteractiveEditor;
@@ -66,7 +87,7 @@ public class JFocusRetriever {
 
 	private static final Logger logger = Logger.getLogger(JFocusRetriever.class.getPackage().getName());
 
-	private JDrawingView<?> drawingView;
+	private final JDrawingView<?> drawingView;
 
 	public JFocusRetriever(JDrawingView<?> aDrawingView) {
 		drawingView = aDrawingView;
@@ -234,6 +255,19 @@ public class JFocusRetriever {
 					smallestDistance = caDistance;
 				}
 			}
+		} else if (node instanceof RootNode) {
+			RootNode<?> rootNode = (RootNode<?>) node;
+			double smallestDistance = Double.POSITIVE_INFINITY;
+			if (rootNode.getControlAreas() != null) {
+				for (ControlArea<?> ca : rootNode.getControlAreas()) {
+					double caDistance = ca.getDistanceToArea(p3, getScale());
+					if (caDistance < selectionDistance && caDistance < smallestDistance
+							&& (returned == null || getController().preferredFocusedControlArea(returned, ca) == ca)) {
+						returned = ca;
+						smallestDistance = caDistance;
+					}
+				}
+			}
 		}
 		return returned;
 	}
@@ -293,6 +327,7 @@ public class JFocusRetriever {
 	}
 
 	private DrawingTreeNode<?, ?> getFocusedObject(ContainerNode<?, ?> node, Component eventSource, Point eventLocation) {
+
 		FGEView<?, ?> view = drawingView.viewForNode(node);
 		Point p = SwingUtilities.convertPoint(eventSource, eventLocation, (Component) view);
 		double distanceToNearestConnector = Double.POSITIVE_INFINITY;
@@ -524,7 +559,7 @@ public class JFocusRetriever {
 								}
 							} else if (childNode instanceof ConnectorNode) {
 								ConnectorNode<?> connectorNode = (ConnectorNode<?>) childNode;
-								if (connectorNode.isValidated()) {
+								if (connectorNode.isValid()) {
 									for (ControlArea<?> ca : connectorNode.getControlAreas()) {
 										// Point pt1 =
 										// gr.convertNormalizedPointToViewCoordinates(ca.getPoint(),
@@ -674,6 +709,32 @@ public class JFocusRetriever {
 			}
 
 		}
+
+		if (returned == null && node instanceof RootNode) {
+
+			if (node.getControlAreas() != null) {
+				for (ControlArea<?> ca : node.getControlAreas()) {
+					// Point pt1 =
+					// gr.convertNormalizedPointToViewCoordinates(cp.getPoint(),
+					// getScale());
+					// Point pt2 =qds
+					// gr.convertNormalizedPointToViewCoordinates(p3,
+					// getScale());
+					// double cpDistance =
+					// Point2D.distance(pt1.x,pt1.y,pt2.x,pt2.y);
+
+					// Point p2 = SwingUtilities.convertPoint((Component) view, p, (Component) v);
+					FGEPoint p3 = node.convertViewCoordinatesToNormalizedPoint(p, getScale());
+
+					double caDistance = ca.getDistanceToArea(p3, getScale());
+					if (caDistance < FGEConstants.SELECTION_DISTANCE) {
+						returned = node;
+					}
+				}
+			}
+
+		}
+
 		if (logger.isLoggable(Level.FINE)) {
 			logger.fine("Focused GR: " + returned);
 		}

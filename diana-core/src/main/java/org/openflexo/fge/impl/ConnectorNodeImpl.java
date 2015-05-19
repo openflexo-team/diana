@@ -1,3 +1,41 @@
+/**
+ * 
+ * Copyright (c) 2014, Openflexo
+ * 
+ * This file is part of Diana-core, a component of the software infrastructure 
+ * developed at Openflexo.
+ * 
+ * 
+ * Openflexo is dual-licensed under the European Union Public License (EUPL, either 
+ * version 1.1 of the License, or any later version ), which is available at 
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ * and the GNU General Public License (GPL, either version 3 of the License, or any 
+ * later version), which is available at http://www.gnu.org/licenses/gpl.html .
+ * 
+ * You can redistribute it and/or modify under the terms of either of these licenses
+ * 
+ * If you choose to redistribute it and/or modify under the terms of the GNU GPL, you
+ * must include the following additional permission.
+ *
+ *          Additional permission under GNU GPL version 3 section 7
+ *
+ *          If you modify this Program, or any covered work, by linking or 
+ *          combining it with software containing parts covered by the terms 
+ *          of EPL 1.0, the licensors of this Program grant you additional permission
+ *          to convey the resulting work. * 
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY 
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. 
+ *
+ * See http://www.openflexo.org/license.html for details.
+ * 
+ * 
+ * Please contact Openflexo (openflexo-contacts@openflexo.org)
+ * or visit www.openflexo.org if you need additional information.
+ * 
+ */
+
 package org.openflexo.fge.impl;
 
 import java.awt.Point;
@@ -10,6 +48,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.ConnectorGraphicalRepresentation;
+import org.openflexo.fge.Drawing;
 import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
@@ -113,7 +152,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 
 	protected void enableStartObjectObserving(ShapeNode<?> aStartNode) {
 
-		if (aStartNode == null || !aStartNode.isValidated()) {
+		if (aStartNode == null || !aStartNode.isValid()) {
 			return;
 		}
 
@@ -155,7 +194,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 
 	protected void enableEndObjectObserving(ShapeNode<?> aEndNode) {
 
-		if (aEndNode == null || !aEndNode.isValidated()) {
+		if (aEndNode == null || !aEndNode.isValid()) {
 			return;
 		}
 
@@ -292,7 +331,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 		}
 
 		if (getParentNode() == null) {
-			logger.warning("getNormalizedBounds() called for GR " + this + " with container=null, validated=" + isValidated());
+			logger.warning("getNormalizedBounds() called for GR " + this + " with container=null, valid=" + isValid());
 		}
 
 		Rectangle startBounds = getStartNode().getViewBounds(getParentNode(), scale);
@@ -421,9 +460,20 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 		refreshConnector(true);
 	}
 
+	/**
+	 * Return boolean indicating if this {@link DrawingTreeNode} is valid.<br>
+	 * 
+	 * A {@link DrawingTreeNode} is valid when it is correctely embedded inside {@link Drawing} tree (which means that parent and child are
+	 * set and correct, and that start and end shapes are set for connectors)
+	 * 
+	 * @return
+	 */
 	@Override
-	public boolean isConnectorConsistent() {
-		// if (true) return true;
+	public boolean isValid() {
+
+		if (!super.isValid()) {
+			return false;
+		}
 		return getStartNode() != null && getEndNode() != null && !getStartNode().isDeleted() && !getEndNode().isDeleted()
 				&& FGEUtils.areElementsConnectedInGraphicalHierarchy(getStartNode(), getEndNode());
 	}
@@ -434,7 +484,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 	}
 
 	protected void refreshConnector(boolean forceRefresh) {
-		if (!isConnectorConsistent()) {
+		if (!isValid()) {
 			// Dont' go further for connector that are inconsistent (this may happen
 			// during big model restructurations (for example during a multiple delete)
 			return;
@@ -456,7 +506,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 	@Override
 	public List<? extends ControlArea<?>> getControlAreas() {
 		if (controlAreas == null) {
-			List<ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
+			List<? extends ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
 			if (customControlAreas == null) {
 				controlAreas = getConnector().getControlAreas();
 			} else {
@@ -552,16 +602,16 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 
 		if (getConnectorSpecification() != null) {
 
-			if (!isValidated()) {
+			if (!isValid()) {
 				logger.warning("paint connector requested for not validated connector graphical representation: " + this);
 				return;
 			}
-			if (getStartNode() == null || getStartNode().isDeleted() || !getStartNode().isValidated()) {
+			if (getStartNode() == null || getStartNode().isDeleted() || !getStartNode().isValid()) {
 				logger.warning("paint connector requested for invalid start object (either null, deleted or not validated) : " + this
 						+ " start=" + getStartNode());
 				return;
 			}
-			if (getEndNode() == null || getEndNode().isDeleted() || !getEndNode().isValidated()) {
+			if (getEndNode() == null || getEndNode().isDeleted() || !getEndNode().isValid()) {
 				logger.warning("paint connector requested for invalid start object (either null, deleted or not validated) : " + this
 						+ " end=" + getEndNode());
 				return;

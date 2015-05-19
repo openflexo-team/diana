@@ -3,33 +3,34 @@
 	<parent>
 		<groupId>org.openflexo</groupId>
 		<artifactId>openflexo-component</artifactId>
-        <version>0.1</version>
+        <version>0.3</version>
 	</parent>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.2-SNAPSHOT</version>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>diana</artifactId>
 	<name>diana</name>
 	<packaging>pom</packaging>
 	<properties>
-		<connie.version>1.1</connie.version>
-		<pamela.version>1.1</pamela.version>
-		<gina.version>1.1</gina.version>
-		<graphicsutils.version>1.1</graphicsutils.version>
+		<connie.version>1.2</connie.version>
+		<pamela.version>1.2</pamela.version>
+		<gina.version>1.2</gina.version>
+		<graphicsutils.version>1.2</graphicsutils.version>
+		<diana.logo>https://media.openflexo.org/images/diana_logo64x64.png</diana.logo>
 	</properties>
 	<scm>
 		<connection>scm:git:ssh://git@github.com/openflexo-team/diana.git</connection>
 		<url>https://github.com/openflexo-team/diana</url>
-	  <tag>1.1</tag>
-  </scm>
+		<tag>1.2</tag>
+	</scm>
 	<modules>
 		<module>diana-geom</module>
 		<module>diana-api</module>
 		<module>diana-core</module>
 		<module>diana-swing</module>
 		<module>diana-drawing-editor</module>
-		<!--  <module>diana-geomedit</module> --> <!--  Do not produce it yet -->
+		<!-- <module>diana-geomedit</module> --> <!-- Do not produce it yet -->
 		<module>diana-ppt-editor</module>
-    </modules>
+	</modules>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -56,12 +57,18 @@
 			<dependency>
 				<groupId>org.openflexo</groupId>
 				<artifactId>gina-core</artifactId>
-			    <version>${gina.version}</version>
+				<version>${gina.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.openflexo</groupId>
+				<artifactId>gina-core</artifactId>
+				<version>${gina.version}</version>
+				<classifier>tests</classifier>
 			</dependency>
 			<dependency>
 				<groupId>org.openflexo</groupId>
 				<artifactId>gina-swing</artifactId>
-			    <version>${gina.version}</version>
+				<version>${gina.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.openflexo</groupId>
@@ -117,8 +124,20 @@
 				<artifactId>diana-geomedit</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>net.sf.jung</groupId>
+				<artifactId>jung-graph-impl</artifactId>
+				<version>2.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.jung</groupId>
+				<artifactId>jung-algorithms</artifactId>
+				<version>2.0.1</version>
+			</dependency>
+
 		</dependencies>
-  	</dependencyManagement>
+	</dependencyManagement>
 	<build>
 		<resources>
 			<resource>
@@ -140,9 +159,7 @@
 				<excludes>
 					<exclude>**/diana.properties</exclude>
 				</excludes>
-				<!--  <includes>
-					<include>**/*</include>
-				</includes>-->
+				<!-- <includes> <include>**/*</include> </includes> -->
 			</resource>
 		</resources>
 		<pluginManagement>
@@ -152,12 +169,12 @@
 					<artifactId>maven-jar-plugin</artifactId>
 					<executions>
 						<execution>
-						    <id>default-jar</id>
+							<id>default-jar</id>
 							<goals>
 								<goal>jar</goal>
 							</goals>
 							<configuration>
-							     <skipIfEmpty>true</skipIfEmpty>
+								<skipIfEmpty>true</skipIfEmpty>
 							</configuration>
 						</execution>
 						<execution>
@@ -165,13 +182,68 @@
 								<goal>test-jar</goal>
 							</goals>
 							<configuration>
-							     <skipIfEmpty>true</skipIfEmpty>
+								<skipIfEmpty>true</skipIfEmpty>
 							</configuration>
 						</execution>
 					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
-	</build>
+	</build>     
+
+ <!-- *****************
+  	Profiles
+  	 -->
+      <profiles>
+        <profile>
+            <id>snapshot-profile</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <!-- ************
+   		Places where to upload files for component Maven site
+   		-->
+            <distributionManagement>
+                <site>
+                    <id>diana.website</id>
+                    <url>scp://server-one.openflexo.org/home/www/sites/diana/SNAPSHOT/</url>
+                </site>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>RC-profile</id>
+            <activation>
+                <property>
+                    <name>performRC</name>
+                </property>
+            </activation>
+            <!-- ************
+   		Places where to upload files for component Maven site
+		   -->
+            <distributionManagement>
+                <site>
+                    <id>diana.website</id>
+                    <url>scp://server-one.openflexo.org/home/www/sites/diana/SNAPSHOT/</url>
+                </site>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>release-profile</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                </property>
+            </activation>
+            <!-- ************
+   		Places where to upload files for component Maven site
+		   -->
+            <distributionManagement>
+                <site>
+                    <id>diana.website</id>
+                    <url>scp://server-one.openflexo.org/home/www/sites/diana/${project.version}/</url>
+                </site>
+            </distributionManagement>
+        </profile>
+      </profiles>
 </project>
 

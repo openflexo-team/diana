@@ -1,3 +1,41 @@
+/**
+ * 
+ * Copyright (c) 2014, Openflexo
+ * 
+ * This file is part of Diana-core, a component of the software infrastructure 
+ * developed at Openflexo.
+ * 
+ * 
+ * Openflexo is dual-licensed under the European Union Public License (EUPL, either 
+ * version 1.1 of the License, or any later version ), which is available at 
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ * and the GNU General Public License (GPL, either version 3 of the License, or any 
+ * later version), which is available at http://www.gnu.org/licenses/gpl.html .
+ * 
+ * You can redistribute it and/or modify under the terms of either of these licenses
+ * 
+ * If you choose to redistribute it and/or modify under the terms of the GNU GPL, you
+ * must include the following additional permission.
+ *
+ *          Additional permission under GNU GPL version 3 section 7
+ *
+ *          If you modify this Program, or any covered work, by linking or 
+ *          combining it with software containing parts covered by the terms 
+ *          of EPL 1.0, the licensors of this Program grant you additional permission
+ *          to convey the resulting work. * 
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY 
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. 
+ *
+ * See http://www.openflexo.org/license.html for details.
+ * 
+ * 
+ * Please contact Openflexo (openflexo-contacts@openflexo.org)
+ * or visit www.openflexo.org if you need additional information.
+ * 
+ */
+
 package org.openflexo.fge.impl;
 
 import java.awt.Dimension;
@@ -21,14 +59,14 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.openflexo.antar.binding.BindingEvaluationContext;
-import org.openflexo.antar.binding.BindingValueChangeListener;
-import org.openflexo.antar.binding.BindingVariable;
-import org.openflexo.antar.binding.DataBinding;
-import org.openflexo.antar.binding.TargetObject;
-import org.openflexo.antar.expr.NotSettableContextException;
-import org.openflexo.antar.expr.NullReferenceException;
-import org.openflexo.antar.expr.TypeMismatchException;
+import org.openflexo.connie.BindingEvaluationContext;
+import org.openflexo.connie.BindingVariable;
+import org.openflexo.connie.DataBinding;
+import org.openflexo.connie.binding.BindingValueChangeListener;
+import org.openflexo.connie.binding.TargetObject;
+import org.openflexo.connie.exception.NotSettableContextException;
+import org.openflexo.connie.exception.NullReferenceException;
+import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.fge.Drawing;
 import org.openflexo.fge.Drawing.ConstraintDependency;
 import org.openflexo.fge.Drawing.ContainerNode;
@@ -88,15 +126,12 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	private GR graphicalRepresentation;
 	private final GRBinding<O, GR> grBinding;
 
-	// private List<ControlArea<?>> controlAreas;
-
 	private final List<ConstraintDependency> dependancies;
 	private final List<ConstraintDependency> alterings;
 
-	// TODO: manage validated/isInvalidated: is this still required ???
 	private boolean isInvalidated = true;
 	private boolean isDeleted = false;
-	private boolean validated = true;
+
 	protected LabelMetricsProvider labelMetricsProvider;
 
 	private boolean isSelected = false;
@@ -236,23 +271,44 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		return grBinding;
 	}
 
+	/**
+	 * Return boolean indicating if this {@link DrawingTreeNode} is valid.<br>
+	 * 
+	 * A {@link DrawingTreeNode} is valid when it is correctely embedded inside {@link Drawing} tree (which means that parent and child are
+	 * set and correct, and that start and end shapes are set for connectors)
+	 * 
+	 * @return
+	 */
+	@Override
+	public boolean isValid() {
+		if (getDrawing().getDrawingTreeNode(getDrawable(), getGRBinding()) != this) {
+			return false;
+		}
+
+		DrawingTreeNode<?, ?> current = this;
+		while (current != getDrawing().getRoot()) {
+			DrawingTreeNode<?, ?> container = current.getParentNode();
+			if (container == null) {
+				return false;
+			}
+			current = container;
+		}
+		return true;
+
+	}
+
+	@Override
+	public final boolean isInvalidated() {
+		return isInvalidated;
+	}
+
 	@Override
 	public void invalidate() {
-		// System.out.println("* Invalidate " + drawable.getClass().getSimpleName() + " : " + drawable);
 		isInvalidated = true;
-		/*for (DrawingTreeNode<?, ?> dtn : childNodes) {
-			dtn.invalidate();
-		}*/
 	}
 
-	@Override
 	public void validate() {
 		isInvalidated = false;
-	}
-
-	@Override
-	public boolean isInvalidated() {
-		return isInvalidated;
 	}
 
 	@Override
@@ -384,9 +440,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		if (pcSupport.hasListeners(null)) {
 			logger.warning("WARNING: finalizeDeletion called for " + this + " while object still being observed");
 			for (PropertyChangeListener l : pcSupport.getPropertyChangeListeners()) {
-				System.out.println(" > " + l);
+				logger.info("Remaining PropertyChangeListener:  " + l);
 			}
-
 			Thread.dumpStack();
 		}
 		pcSupport = null;
@@ -752,24 +807,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	}
 
 	@Override
-	public boolean isConnectedToDrawing() {
-		if (!isValidated()) {
-			return false;
-		}
-		DrawingTreeNode<?, ?> current = this;
-		while (current != getDrawing().getRoot()) {
-			DrawingTreeNode<?, ?> container = current.getParentNode();
-			if (container == null) {
-				return false;
-			}
-			current = container;
-		}
-		return true;
-	}
-
-	@Override
 	public boolean isAncestorOf(DrawingTreeNode<?, ?> child) {
-		if (!isValidated()) {
+		if (!isValid()) {
 			return false;
 		}
 		DrawingTreeNode<?, ?> father = child.getParentNode();
@@ -784,7 +823,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	@Override
 	public FGEPoint convertRemoteViewCoordinatesToLocalNormalizedPoint(Point p, DrawingTreeNode<?, ?> source, double scale) {
-		if (!isConnectedToDrawing() || !source.isConnectedToDrawing()) {
+		if (!isValid() || !source.isValid()) {
 			return new FGEPoint(p.x / scale, p.y / scale);
 		}
 		Point pointRelativeToCurrentView = FGEUtils.convertPoint(source, p, this, scale);
@@ -793,7 +832,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	@Override
 	public FGEPoint convertLocalViewCoordinatesToRemoteNormalizedPoint(Point p, DrawingTreeNode<?, ?> destination, double scale) {
-		if (!isConnectedToDrawing() || !destination.isConnectedToDrawing()) {
+		if (!isValid() || !destination.isValid()) {
 			return new FGEPoint(p.x * scale, p.y * scale);
 		}
 		Point pointRelativeToRemoteView = FGEUtils.convertPoint(this, p, destination, scale);
@@ -850,23 +889,9 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		return new FGERectangle(0, 0, 1, 1, Filling.FILLED);
 	}
 
-	/**
-	 * Return boolean indicating if this graphical representation is validated. A validated graphical representation is a graphical
-	 * representation fully embedded in its graphical representation tree, which means that parent and child are set and correct, and that
-	 * start and end shapes are set for connectors
-	 * 
-	 * 
-	 * @return
-	 */
-	@Override
-	public boolean isValidated() {
-		return validated;
-	}
-
-	@Override
-	public void setValidated(boolean validated) {
+	/*public void setValidated(boolean validated) {
 		this.validated = validated;
-	}
+	}*/
 
 	@Override
 	public LabelMetricsProvider getLabelMetricsProvider() {
@@ -924,7 +949,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 */
 	@Override
 	public int getIndex() {
-		if (!isValidated()) {
+		if (!isValid()) {
 			return -1;
 		}
 		if (getParentNode() == null) {
@@ -946,7 +971,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 */
 	@Override
 	public boolean shouldBeDisplayed() {
-		if (!isValidated()) {
+		if (!isValid()) {
 			return false;
 		}
 		// logger.info("For " + this + " getIsVisible()=" + getGraphicalRepresentation().getIsVisible() + " getParentNode()="
@@ -1214,7 +1239,9 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 				}
 			}
 			// Since GR is prevented to fire notifications, do it myself
-			getPropertyChangeSupport().firePropertyChange(parameter.getName(), oldValue, value);
+			if (getPropertyChangeSupport() != null) {
+				getPropertyChangeSupport().firePropertyChange(parameter.getName(), oldValue, value);
+			}
 		}
 
 		// If SharedGraphicalRepresentations is active, GR should not be used to store graphical properties

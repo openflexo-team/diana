@@ -1,22 +1,39 @@
-/*
- * (c) Copyright 2010-2011 AgileBirds
- * (c) Copyright 2013-2014 Openflexo
+/**
+ * 
+ * Copyright (c) 2014, Openflexo
+ * 
+ * This file is part of Diana-core, a component of the software infrastructure 
+ * developed at Openflexo.
+ * 
+ * 
+ * Openflexo is dual-licensed under the European Union Public License (EUPL, either 
+ * version 1.1 of the License, or any later version ), which is available at 
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ * and the GNU General Public License (GPL, either version 3 of the License, or any 
+ * later version), which is available at http://www.gnu.org/licenses/gpl.html .
+ * 
+ * You can redistribute it and/or modify under the terms of either of these licenses
+ * 
+ * If you choose to redistribute it and/or modify under the terms of the GNU GPL, you
+ * must include the following additional permission.
  *
- * This file is part of OpenFlexo.
+ *          Additional permission under GNU GPL version 3 section 7
  *
- * OpenFlexo is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *          If you modify this Program, or any covered work, by linking or 
+ *          combining it with software containing parts covered by the terms 
+ *          of EPL 1.0, the licensors of this Program grant you additional permission
+ *          to convey the resulting work. * 
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY 
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. 
  *
- * OpenFlexo is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with OpenFlexo. If not, see <http://www.gnu.org/licenses/>.
- *
+ * See http://www.openflexo.org/license.html for details.
+ * 
+ * 
+ * Please contact Openflexo (openflexo-contacts@openflexo.org)
+ * or visit www.openflexo.org if you need additional information.
+ * 
  */
 
 package org.openflexo.fge;
@@ -70,6 +87,30 @@ import org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl;
 import org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl.ShapeBorderImpl;
 import org.openflexo.fge.impl.TextStyleImpl;
 import org.openflexo.fge.impl.TextureBackgroundStyleImpl;
+import org.openflexo.fge.layout.BalloonLayoutManager;
+import org.openflexo.fge.layout.BalloonLayoutManagerSpecification;
+import org.openflexo.fge.layout.ForceDirectedGraphLayoutManager;
+import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
+import org.openflexo.fge.layout.GridLayoutManager;
+import org.openflexo.fge.layout.GridLayoutManagerSpecification;
+import org.openflexo.fge.layout.ISOMGraphLayoutManager;
+import org.openflexo.fge.layout.ISOMGraphLayoutManagerSpecification;
+import org.openflexo.fge.layout.RadialTreeLayoutManager;
+import org.openflexo.fge.layout.RadialTreeLayoutManagerSpecification;
+import org.openflexo.fge.layout.TreeLayoutManager;
+import org.openflexo.fge.layout.TreeLayoutManagerSpecification;
+import org.openflexo.fge.layout.impl.BalloonLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.BalloonLayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.impl.ForceDirectedGraphLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.ForceDirectedGraphLayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.impl.GridLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.GridLayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.impl.ISOMGraphLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.ISOMGraphLayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.impl.RadialTreeLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.RadialTreeLayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.impl.TreeLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.TreeLayoutManagerSpecificationImpl;
 import org.openflexo.fge.shapes.Arc;
 import org.openflexo.fge.shapes.Chevron;
 import org.openflexo.fge.shapes.Circle;
@@ -187,6 +228,22 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		modelFactory.setImplementingClassForInterface(CurvedPolylinConnectorSpecificationImpl.class,
 				CurvedPolylinConnectorSpecification.class);
 
+		// Layout managers
+		modelFactory.setImplementingClassForInterface(GridLayoutManagerImpl.class, GridLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(GridLayoutManagerSpecificationImpl.class, GridLayoutManagerSpecification.class);
+		modelFactory.setImplementingClassForInterface(ForceDirectedGraphLayoutManagerImpl.class, ForceDirectedGraphLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(ForceDirectedGraphLayoutManagerSpecificationImpl.class,
+				ForceDirectedGraphLayoutManagerSpecification.class);
+		modelFactory.setImplementingClassForInterface(ISOMGraphLayoutManagerImpl.class, ISOMGraphLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(ISOMGraphLayoutManagerSpecificationImpl.class,
+				ISOMGraphLayoutManagerSpecification.class);
+		modelFactory.setImplementingClassForInterface(TreeLayoutManagerImpl.class, TreeLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(TreeLayoutManagerSpecificationImpl.class, TreeLayoutManagerSpecification.class);
+		modelFactory.setImplementingClassForInterface(BalloonLayoutManagerImpl.class, BalloonLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(BalloonLayoutManagerSpecificationImpl.class, BalloonLayoutManagerSpecification.class);
+		modelFactory.setImplementingClassForInterface(RadialTreeLayoutManagerImpl.class, RadialTreeLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(RadialTreeLayoutManagerSpecificationImpl.class,
+				RadialTreeLayoutManagerSpecification.class);
 	}
 
 	@Override
@@ -263,15 +320,15 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseDragControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseDragControlAction(
 			PredefinedMouseDragControlActionType actionType) {
 		switch (actionType) {
-			case MOVE:
-				return new MoveAction();
-			case RECTANGLE_SELECTING:
-				return new RectangleSelectingAction();
-			case ZOOM:
-				return new ZoomAction();
-			default:
-				LOGGER.warning("Unexpected actionType " + actionType);
-				return null;
+		case MOVE:
+			return new MoveAction();
+		case RECTANGLE_SELECTING:
+			return new RectangleSelectingAction();
+		case ZOOM:
+			return new ZoomAction();
+		default:
+			LOGGER.warning("Unexpected actionType " + actionType);
+			return null;
 		}
 	}
 
@@ -279,15 +336,15 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseClickControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseClickControlAction(
 			PredefinedMouseClickControlActionType actionType) {
 		switch (actionType) {
-			case SELECTION:
-				return new SelectionAction();
-			case CONTINUOUS_SELECTION:
-				return new ContinuousSelectionAction();
-			case MULTIPLE_SELECTION:
-				return new MultipleSelectionAction();
-			default:
-				LOGGER.warning("Unexpected actionType " + actionType);
-				return null;
+		case SELECTION:
+			return new SelectionAction();
+		case CONTINUOUS_SELECTION:
+			return new ContinuousSelectionAction();
+		case MULTIPLE_SELECTION:
+			return new MultipleSelectionAction();
+		default:
+			LOGGER.warning("Unexpected actionType " + actionType);
+			return null;
 		}
 	}
 

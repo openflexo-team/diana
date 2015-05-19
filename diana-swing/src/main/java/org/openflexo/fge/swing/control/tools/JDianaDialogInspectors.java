@@ -1,22 +1,41 @@
-/*
- * (c) Copyright 2010-2011 AgileBirds
+/**
+ * 
+ * Copyright (c) 2014, Openflexo
+ * 
+ * This file is part of Diana-swing, a component of the software infrastructure 
+ * developed at Openflexo.
+ * 
+ * 
+ * Openflexo is dual-licensed under the European Union Public License (EUPL, either 
+ * version 1.1 of the License, or any later version ), which is available at 
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ * and the GNU General Public License (GPL, either version 3 of the License, or any 
+ * later version), which is available at http://www.gnu.org/licenses/gpl.html .
+ * 
+ * You can redistribute it and/or modify under the terms of either of these licenses
+ * 
+ * If you choose to redistribute it and/or modify under the terms of the GNU GPL, you
+ * must include the following additional permission.
  *
- * This file is part of OpenFlexo.
+ *          Additional permission under GNU GPL version 3 section 7
  *
- * OpenFlexo is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *          If you modify this Program, or any covered work, by linking or 
+ *          combining it with software containing parts covered by the terms 
+ *          of EPL 1.0, the licensors of this Program grant you additional permission
+ *          to convey the resulting work. * 
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY 
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. 
  *
- * OpenFlexo is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with OpenFlexo. If not, see <http://www.gnu.org/licenses/>.
- *
+ * See http://www.openflexo.org/license.html for details.
+ * 
+ * 
+ * Please contact Openflexo (openflexo-contacts@openflexo.org)
+ * or visit www.openflexo.org if you need additional information.
+ * 
  */
+
 package org.openflexo.fge.swing.control.tools;
 
 import java.util.logging.Logger;
@@ -30,6 +49,7 @@ import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.tools.BackgroundStyleFactory;
 import org.openflexo.fge.control.tools.ConnectorSpecificationFactory;
 import org.openflexo.fge.control.tools.DianaInspectors;
+import org.openflexo.fge.control.tools.InspectedLayoutManagerSpecifications;
 import org.openflexo.fge.control.tools.InspectedLocationSizeProperties;
 import org.openflexo.fge.control.tools.ShapeSpecificationFactory;
 import org.openflexo.fge.swing.SwingViewFactory;
@@ -59,6 +79,7 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	private JDialogInspector<ShapeSpecificationFactory> shapeInspector;
 	private JDialogInspector<ConnectorSpecificationFactory> connectorInspector;
 	private JDialogInspector<InspectedLocationSizeProperties> locationSizeInspector;
+	private JDialogInspector<InspectedLayoutManagerSpecifications> layoutManagersInspector;
 
 	private final JFrame frame;
 
@@ -90,21 +111,16 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 		if (locationSizeInspector != null) {
 			locationSizeInspector.setData(getInspectedLocationSizeProperties(), true);
 		}
+		if (layoutManagersInspector != null) {
+			layoutManagersInspector.setData(getInspectedLayoutManagerSpecifications(), true);
+		}
 	}
-
-	public static Resource FOREGROUND_STYLE_FIB_FILE = ResourceLocator.locateResource("Fib/ForegroundStylePanel.fib");
-	public static Resource TEXT_STYLE_FIB_FILE = ResourceLocator.locateResource("Fib/TextStylePanel.fib");
-	public static Resource SHADOW_STYLE_FIB_FILE = ResourceLocator.locateResource("Fib/ShadowStylePanel.fib");
-	public static Resource BACKGROUND_STYLE_FIB_FILE = ResourceLocator.locateResource("Fib/BackgroundStylePanel.fib");
-	public static Resource SHAPE_SPECIFICATION_PANEL_FIB_FILE = ResourceLocator.locateResource("Fib/ShapeSelectorPanel.fib");
-	public static Resource CONNECTOR_SPECIFICATION_PANEL_FIB_FILE = ResourceLocator.locateResource("Fib/ConnectorSelectorPanel.fib");
-	public static Resource LOCATION_SIZE_FIB_FILE = ResourceLocator.locateResource("Fib/LocationSizePanel.fib");
 
 	@Override
 	public JDialogInspector<ForegroundStyle> getForegroundStyleInspector() {
 		if (foregroundStyleInspector == null) {
 			foregroundStyleInspector = new JDialogInspector<ForegroundStyle>(FIBLibrary.instance().retrieveFIBComponent(
-					FOREGROUND_STYLE_FIB_FILE, true), getInspectedForegroundStyle(), frame, "Foreground");
+					JDianaInspectorsResources.FOREGROUND_STYLE_FIB_FILE, true), getInspectedForegroundStyle(), frame, JDianaInspectorsResources.FOREGROUND_NAME);
 		}
 		return foregroundStyleInspector;
 	}
@@ -112,10 +128,9 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	@Override
 	public JDialogInspector<BackgroundStyleFactory> getBackgroundStyleInspector() {
 		if (backgroundStyleInspector == null) {
-			// bsFactory = new BackgroundStyleFactory(getEditor().getCurrentBackgroundStyle());
 			backgroundStyleInspector = new JDialogInspector<BackgroundStyleFactory>(FIBLibrary.instance().retrieveFIBComponent(
-					BACKGROUND_STYLE_FIB_FILE, true), (getInspectedBackgroundStyle() != null ? getInspectedBackgroundStyle()
-					.getStyleFactory() : null), frame, "Background");
+					JDianaInspectorsResources.BACKGROUND_STYLE_FIB_FILE, true), (getInspectedBackgroundStyle() != null ? getInspectedBackgroundStyle()
+					.getStyleFactory() : null), frame, JDianaInspectorsResources.BACKGROUND_NAME);
 		}
 		return backgroundStyleInspector;
 	}
@@ -123,8 +138,8 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	@Override
 	public JDialogInspector<TextStyle> getTextStyleInspector() {
 		if (textStyleInspector == null) {
-			textStyleInspector = new JDialogInspector<TextStyle>(FIBLibrary.instance().retrieveFIBComponent(TEXT_STYLE_FIB_FILE, true),
-					getInspectedTextStyle(), frame, "Text");
+			textStyleInspector = new JDialogInspector<TextStyle>(FIBLibrary.instance().retrieveFIBComponent(JDianaInspectorsResources.TEXT_STYLE_FIB_FILE, true),
+					getInspectedTextStyle(), frame, JDianaInspectorsResources.TEXT_NAME);
 		}
 		return textStyleInspector;
 	}
@@ -132,8 +147,8 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	@Override
 	public JDialogInspector<ShadowStyle> getShadowStyleInspector() {
 		if (shadowInspector == null) {
-			shadowInspector = new JDialogInspector<ShadowStyle>(FIBLibrary.instance().retrieveFIBComponent(SHADOW_STYLE_FIB_FILE, true),
-					getInspectedShadowStyle(), frame, "Shadow");
+			shadowInspector = new JDialogInspector<ShadowStyle>(FIBLibrary.instance().retrieveFIBComponent(JDianaInspectorsResources.SHADOW_STYLE_FIB_FILE, true),
+					getInspectedShadowStyle(), frame, JDianaInspectorsResources.SHADOW_NAME);
 		}
 		return shadowInspector;
 	}
@@ -142,7 +157,7 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	public JDialogInspector<InspectedLocationSizeProperties> getLocationSizeInspector() {
 		if (locationSizeInspector == null) {
 			locationSizeInspector = new JDialogInspector<InspectedLocationSizeProperties>(FIBLibrary.instance().retrieveFIBComponent(
-					LOCATION_SIZE_FIB_FILE, true), getInspectedLocationSizeProperties(), frame, "Location/Size");
+					JDianaInspectorsResources.LOCATION_SIZE_FIB_FILE, true), getInspectedLocationSizeProperties(), frame, JDianaInspectorsResources.LOCATION_NAME);
 		}
 		return locationSizeInspector;
 	}
@@ -151,8 +166,8 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	public JDialogInspector<ShapeSpecificationFactory> getShapeInspector() {
 		if (shapeInspector == null) {
 			shapeInspector = new JDialogInspector<ShapeSpecificationFactory>(FIBLibrary.instance().retrieveFIBComponent(
-					SHAPE_SPECIFICATION_PANEL_FIB_FILE, true), (getInspectedShapeSpecification() != null ? getInspectedShapeSpecification()
-					.getStyleFactory() : null), frame, "Shape");
+					JDianaInspectorsResources.SHAPE_SPECIFICATION_PANEL_FIB_FILE, true), (getInspectedShapeSpecification() != null ? getInspectedShapeSpecification()
+					.getStyleFactory() : null), frame, JDianaInspectorsResources.SHAPE_NAME);
 		}
 		return shapeInspector;
 	}
@@ -161,11 +176,21 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	public JDialogInspector<ConnectorSpecificationFactory> getConnectorInspector() {
 		if (connectorInspector == null) {
 			connectorInspector = new JDialogInspector<ConnectorSpecificationFactory>(FIBLibrary.instance().retrieveFIBComponent(
-					CONNECTOR_SPECIFICATION_PANEL_FIB_FILE, true),
+					JDianaInspectorsResources.CONNECTOR_SPECIFICATION_PANEL_FIB_FILE, true),
 					(getInspectedConnectorSpecification() != null ? getInspectedConnectorSpecification().getStyleFactory() : null), frame,
-					"Connector");
+					JDianaInspectorsResources.CONNECTOR_NAME);
 		}
 		return connectorInspector;
+	}
+
+	@Override
+	public JDialogInspector<InspectedLayoutManagerSpecifications> getLayoutManagersInspector() {
+		if (layoutManagersInspector == null) {
+			layoutManagersInspector = new JDialogInspector<InspectedLayoutManagerSpecifications>(FIBLibrary.instance()
+					.retrieveFIBComponent(JDianaInspectorsResources.LAYOUT_MANAGERS_FIB_FILE, true), getInspectedLayoutManagerSpecifications(), frame,
+					JDianaInspectorsResources.LAYOUT_NAME);
+		}
+		return layoutManagersInspector;
 	}
 
 	@SuppressWarnings("serial")

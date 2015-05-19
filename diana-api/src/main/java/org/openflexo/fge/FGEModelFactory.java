@@ -1,25 +1,43 @@
-/*
- * (c) Copyright 2010-2011 AgileBirds
- * (c) Copyright 2013-2014 Openflexo
+/**
+ * 
+ * Copyright (c) 2014, Openflexo
+ * 
+ * This file is part of Diana-api, a component of the software infrastructure 
+ * developed at Openflexo.
+ * 
+ * 
+ * Openflexo is dual-licensed under the European Union Public License (EUPL, either 
+ * version 1.1 of the License, or any later version ), which is available at 
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ * and the GNU General Public License (GPL, either version 3 of the License, or any 
+ * later version), which is available at http://www.gnu.org/licenses/gpl.html .
+ * 
+ * You can redistribute it and/or modify under the terms of either of these licenses
+ * 
+ * If you choose to redistribute it and/or modify under the terms of the GNU GPL, you
+ * must include the following additional permission.
  *
- * This file is part of OpenFlexo.
+ *          Additional permission under GNU GPL version 3 section 7
  *
- * OpenFlexo is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *          If you modify this Program, or any covered work, by linking or 
+ *          combining it with software containing parts covered by the terms 
+ *          of EPL 1.0, the licensors of this Program grant you additional permission
+ *          to convey the resulting work. * 
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY 
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. 
  *
- * OpenFlexo is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with OpenFlexo. If not, see <http://www.gnu.org/licenses/>.
- *
+ * See http://www.openflexo.org/license.html for details.
+ * 
+ * 
+ * Please contact Openflexo (openflexo-contacts@openflexo.org)
+ * or visit www.openflexo.org if you need additional information.
+ * 
  */
 
 package org.openflexo.fge;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -77,7 +95,6 @@ import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.model.factory.ModelFactory;
 import org.openflexo.rm.Resource;
 import org.openflexo.toolbox.ToolBox;
-
 
 /**
  * This is the default PAMELA model factory for class involved in FlexoGraphicalEngine model management<br>
@@ -141,6 +158,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 		returned.add(ShapeGraphicalRepresentation.class);
 		returned.add(ConnectorGraphicalRepresentation.class);
 		returned.add(GeometricGraphicalRepresentation.class);
+		returned.add(FGELayoutManager.class);
+		returned.add(FGELayoutManagerSpecification.class);
 		return returned.toArray(new Class<?>[returned.size()]);
 	}
 
@@ -207,6 +226,13 @@ public abstract class FGEModelFactory extends ModelFactory {
 		returned.setFactory(this);
 		// returned.setDrawable(aDrawing.getModel());
 		// returned.setDrawing(aDrawing);
+		return returned;
+	}
+
+	public <LMS extends FGELayoutManagerSpecification<?>> LMS makeLayoutManagerSpecification(String identifier,
+			Class<? extends LMS> layoutManagerSpecClass) {
+		LMS returned = newInstance(layoutManagerSpecClass);
+		returned.setIdentifier(identifier);
 		return returned;
 	}
 
@@ -282,8 +308,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
 			shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1,
 					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
-		}
-		else {
+		} else {
 			shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseControlClickControl("Multiple selection", MouseButton.LEFT,
 					1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}
@@ -385,8 +410,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
 			connectorGraphicalRepresentation.addToMouseClickControls(this.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT,
 					1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
-		}
-		else {
+		} else {
 			connectorGraphicalRepresentation.addToMouseClickControls(this.makeMouseControlClickControl("Multiple selection",
 					MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}
@@ -455,8 +479,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
 			geometricGraphicalRepresentation.addToMouseClickControls(this.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT,
 					1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
-		}
-		else {
+		} else {
 			geometricGraphicalRepresentation.addToMouseClickControls(this.makeMouseControlClickControl("Multiple selection",
 					MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}
@@ -466,14 +489,11 @@ public abstract class FGEModelFactory extends ModelFactory {
 
 		if (type == ConnectorType.LINE) {
 			return this.makeLineConnector();
-		}
-		else if (type == ConnectorType.RECT_POLYLIN) {
+		} else if (type == ConnectorType.RECT_POLYLIN) {
 			return this.makeRectPolylinConnector();
-		}
-		else if (type == ConnectorType.CURVE) {
+		} else if (type == ConnectorType.CURVE) {
 			return this.makeCurveConnector();
-		}
-		else if (type == ConnectorType.CURVED_POLYLIN) {
+		} else if (type == ConnectorType.CURVED_POLYLIN) {
 			return this.makeCurvedPolylinConnector();
 		}
 		LOGGER.warning("Unexpected type: " + type);
@@ -758,18 +778,14 @@ public abstract class FGEModelFactory extends ModelFactory {
 	public BackgroundStyle makeBackground(final BackgroundStyleType type) {
 		if (type == BackgroundStyleType.NONE) {
 			return this.makeEmptyBackground();
-		}
-		else if (type == BackgroundStyleType.COLOR) {
+		} else if (type == BackgroundStyleType.COLOR) {
 			return this.makeColoredBackground(java.awt.Color.WHITE);
-		}
-		else if (type == BackgroundStyleType.COLOR_GRADIENT) {
+		} else if (type == BackgroundStyleType.COLOR_GRADIENT) {
 			return this.makeColorGradientBackground(java.awt.Color.WHITE, java.awt.Color.BLACK,
 					ColorGradientDirection.SOUTH_EAST_NORTH_WEST);
-		}
-		else if (type == BackgroundStyleType.TEXTURE) {
+		} else if (type == BackgroundStyleType.TEXTURE) {
 			return this.makeTexturedBackground(TextureType.TEXTURE1, java.awt.Color.RED, java.awt.Color.WHITE);
-		}
-		else if (type == BackgroundStyleType.IMAGE) {
+		} else if (type == BackgroundStyleType.IMAGE) {
 			return this.makeImageBackground((Resource) null);
 		}
 		return null;
@@ -882,54 +898,54 @@ public abstract class FGEModelFactory extends ModelFactory {
 	public ShapeSpecification makeShape(final ShapeType type) {
 		ShapeSpecification returned = null;
 		switch (type) {
-			case SQUARE:
-				returned = this.newInstance(Square.class);
-				break;
-			case RECTANGLE:
-				returned = this.newInstance(Rectangle.class);
-				break;
-			case PARALLELOGRAM:
-				returned = this.newInstance(Parallelogram.class);
-				break;
-			case TRIANGLE:
-				returned = this.newInstance(Triangle.class);
-				break;
-			case ARC:
-				returned = this.newInstance(Arc.class);
-				break;
-			case CHEVRON:
-				returned = this.newInstance(Chevron.class);
-				break;
-			case CIRCLE:
-				returned = this.newInstance(Circle.class);
-				break;
-			case COMPLEX_CURVE:
-				returned = this.newInstance(ComplexCurve.class);
-				break;
-			case CUSTOM_POLYGON:
-				returned = this.newInstance(Polygon.class);
-				break;
-			case LOSANGE:
-				returned = this.newInstance(Losange.class);
-				break;
-			case OVAL:
-				returned = this.newInstance(Oval.class);
-				break;
-			case PLUS:
-				returned = this.newInstance(Plus.class);
-				break;
-			case POLYGON:
-				returned = this.newInstance(RegularPolygon.class);
-				break;
-			case RECTANGULAROCTOGON:
-				returned = this.newInstance(RectangularOctogon.class);
-				break;
-			case STAR:
-				returned = this.newInstance(Star.class);
-				break;
-			default:
-				LOGGER.warning("Unexpected ShapeType: " + type);
-				break;
+		case SQUARE:
+			returned = this.newInstance(Square.class);
+			break;
+		case RECTANGLE:
+			returned = this.newInstance(Rectangle.class);
+			break;
+		case PARALLELOGRAM:
+			returned = this.newInstance(Parallelogram.class);
+			break;
+		case TRIANGLE:
+			returned = this.newInstance(Triangle.class);
+			break;
+		case ARC:
+			returned = this.newInstance(Arc.class);
+			break;
+		case CHEVRON:
+			returned = this.newInstance(Chevron.class);
+			break;
+		case CIRCLE:
+			returned = this.newInstance(Circle.class);
+			break;
+		case COMPLEX_CURVE:
+			returned = this.newInstance(ComplexCurve.class);
+			break;
+		case CUSTOM_POLYGON:
+			returned = this.newInstance(Polygon.class);
+			break;
+		case LOSANGE:
+			returned = this.newInstance(Losange.class);
+			break;
+		case OVAL:
+			returned = this.newInstance(Oval.class);
+			break;
+		case PLUS:
+			returned = this.newInstance(Plus.class);
+			break;
+		case POLYGON:
+			returned = this.newInstance(RegularPolygon.class);
+			break;
+		case RECTANGULAROCTOGON:
+			returned = this.newInstance(RectangularOctogon.class);
+			break;
+		case STAR:
+			returned = this.newInstance(Star.class);
+			break;
+		default:
+			LOGGER.warning("Unexpected ShapeType: " + type);
+			break;
 		}
 
 		if (returned != null) {
@@ -1020,24 +1036,21 @@ public abstract class FGEModelFactory extends ModelFactory {
 			if (initWithBasicControls) {
 				this.applyBasicControls((ShapeGraphicalRepresentation) returned);
 			}
-		}
-		else if (returned instanceof ConnectorGraphicalRepresentation) {
+		} else if (returned instanceof ConnectorGraphicalRepresentation) {
 			if (initWithDefaultProperties) {
 				this.applyDefaultProperties((ConnectorGraphicalRepresentation) returned);
 			}
 			if (initWithBasicControls) {
 				this.applyBasicControls((ConnectorGraphicalRepresentation) returned);
 			}
-		}
-		else if (returned instanceof DrawingGraphicalRepresentation) {
+		} else if (returned instanceof DrawingGraphicalRepresentation) {
 			if (initWithDefaultProperties) {
 				this.applyDefaultProperties((DrawingGraphicalRepresentation) returned);
 			}
 			if (initWithBasicControls) {
 				this.applyBasicControls((DrawingGraphicalRepresentation) returned);
 			}
-		}
-		else if (returned instanceof GeometricGraphicalRepresentation) {
+		} else if (returned instanceof GeometricGraphicalRepresentation) {
 			if (initWithDefaultProperties) {
 				this.applyDefaultProperties((GeometricGraphicalRepresentation) returned);
 			}

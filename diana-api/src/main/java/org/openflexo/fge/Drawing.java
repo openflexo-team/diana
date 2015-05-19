@@ -1,26 +1,46 @@
-/*
- * (c) Copyright 2010-2011 AgileBirds
- * (c) Copyright 2012-2013 Openflexo
+/**
+ * 
+ * Copyright (c) 2013-2014, Openflexo
+ * Copyright (c) 2011-2012, AgileBirds
+ * 
+ * This file is part of Diana-api, a component of the software infrastructure 
+ * developed at Openflexo.
+ * 
+ * 
+ * Openflexo is dual-licensed under the European Union Public License (EUPL, either 
+ * version 1.1 of the License, or any later version ), which is available at 
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ * and the GNU General Public License (GPL, either version 3 of the License, or any 
+ * later version), which is available at http://www.gnu.org/licenses/gpl.html .
+ * 
+ * You can redistribute it and/or modify under the terms of either of these licenses
+ * 
+ * If you choose to redistribute it and/or modify under the terms of the GNU GPL, you
+ * must include the following additional permission.
  *
- * This file is part of OpenFlexo.
+ *          Additional permission under GNU GPL version 3 section 7
  *
- * OpenFlexo is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *          If you modify this Program, or any covered work, by linking or 
+ *          combining it with software containing parts covered by the terms 
+ *          of EPL 1.0, the licensors of this Program grant you additional permission
+ *          to convey the resulting work. * 
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY 
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. 
  *
- * OpenFlexo is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with OpenFlexo. If not, see <http://www.gnu.org/licenses/>.
- *
+ * See http://www.openflexo.org/license.html for details.
+ * 
+ * 
+ * Please contact Openflexo (openflexo-contacts@openflexo.org)
+ * or visit www.openflexo.org if you need additional information.
+ * 
  */
+
 package org.openflexo.fge;
 
 import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
@@ -42,6 +62,7 @@ import org.openflexo.fge.GRProvider.GeometricGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GraphicalRepresentation.LabelMetricsProvider;
 import org.openflexo.fge.ShapeGraphicalRepresentation.ShapeBorder;
+import org.openflexo.fge.animation.Animable;
 import org.openflexo.fge.connectors.Connector;
 import org.openflexo.fge.connectors.ConnectorSpecification;
 import org.openflexo.fge.cp.ControlArea;
@@ -56,6 +77,7 @@ import org.openflexo.fge.graph.FGEGraph;
 import org.openflexo.fge.graphics.FGEConnectorGraphics;
 import org.openflexo.fge.graphics.FGEDrawingGraphics;
 import org.openflexo.fge.graphics.FGEGeometricGraphics;
+import org.openflexo.fge.graphics.FGEGraphics;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 import org.openflexo.fge.graphics.ShapeDecorationPainter;
 import org.openflexo.fge.graphics.ShapePainter;
@@ -82,7 +104,7 @@ import org.openflexo.toolbox.HasPropertyChangeSupport;
  * @param <M>
  *            Type of object which is handled as root object: this is the model represented by the drawing
  */
-public interface Drawing<M> extends HasPropertyChangeSupport {
+public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 	/**
 	 * Encode the way the internal persistance of values for graphical properties is performed.<br>
@@ -228,17 +250,22 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		public int getDepth();
 
 		/**
-		 * Invalidate this graphical node (mark it as to be updated)
+		 * Return boolean indicating if this {@link DrawingTreeNode} is valid.<br>
+		 * 
+		 * A {@link DrawingTreeNode} is valid when it is correctely embedded inside {@link Drawing} tree (which means that parent and child
+		 * are set and correct, and that start and end shapes are set for connectors)
+		 * 
+		 * @return
+		 */
+		public boolean isValid();
+
+		/**
+		 * Called this to invalidate this {@link DrawingTreeNode} regarding to the Drawing tree hierarchy
 		 */
 		public void invalidate();
 
 		/**
-		 * Validate this graphical node
-		 */
-		public void validate();
-
-		/**
-		 * Return flag indicating if this node has been invalidated
+		 * Return boolean indicating if this {@link DrawingTreeNode} was invalidated regarding to the Drawing tree hierarchy
 		 * 
 		 * @return
 		 */
@@ -293,7 +320,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		 */
 		public <T> void setPropertyValue(GRProperty<T> parameter, T value);
 
-		public boolean isConnectedToDrawing();
+		// public boolean isConnectedToDrawing();
 
 		public boolean isAncestorOf(DrawingTreeNode<?, ?> child);
 
@@ -333,18 +360,6 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		public Rectangle getViewBounds(double scale);
 
 		public FGERectangle getNormalizedBounds();
-
-		/**
-		 * Return boolean indicating if this graphical representation is validated. A validated graphical representation is a graphical
-		 * representation fully embedded in its graphical representation tree, which means that parent and child are set and correct, and
-		 * that start and end shapes are set for connectors
-		 * 
-		 * 
-		 * @return
-		 */
-		public boolean isValidated();
-
-		public void setValidated(boolean validated);
 
 		public LabelMetricsProvider getLabelMetricsProvider();
 
@@ -440,6 +455,33 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 
 	public interface ContainerNode<O, GR extends ContainerGraphicalRepresentation> extends DrawingTreeNode<O, GR> {
 
+		public static final String LAYOUT_DECORATION_KEY = "layoutDecoration";
+
+		/**
+		 * Return default FGELayoutManager which are managed by this {@link ContainerNode} (the first one found)
+		 * 
+		 * @return
+		 */
+		public FGELayoutManager<?, O> getDefaultLayoutManager();
+
+		/**
+		 * Return all {@link FGELayoutManager} which are managed by this {@link ContainerNode} (those are not the {@link LayoutManager} used
+		 * to layout this node)
+		 * 
+		 * @return
+		 */
+		public List<FGELayoutManager<?, O>> getLayoutManagers();
+
+		/**
+		 * Return {@link FGELayoutManager} managed by this {@link ContainerNode} and identified by identifier, null when not found
+		 * 
+		 * @param identifier
+		 * @return
+		 */
+		public FGELayoutManager<?, O> getLayoutManager(String identifier);
+
+		public List<FGELayoutManagerSpecification<?>> getLayoutManagerSpecifications();
+
 		public double getWidth();
 
 		public void setWidth(double aValue);
@@ -452,6 +494,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 
 		public void setSize(FGEDimension newSize);
 
+		public List<? extends ShapeNode<?>> getShapeNodes();
+
 		public List<? extends DrawingTreeNode<?, ?>> getChildNodes();
 
 		public void addChild(DrawingTreeNode<?, ?> aChildNode);
@@ -461,6 +505,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		public int getOrder(DrawingTreeNode<?, ?> child1, DrawingTreeNode<?, ?> child2);
 
 		public ShapeNode<?> getTopLevelShapeGraphicalRepresentation(FGEPoint p);
+
+		public void notifyNodeLayoutDecorationChanged(FGELayoutManager<?, O> layoutManager);
 
 		public void notifyNodeAdded(DrawingTreeNode<?, ?> addedNode);
 
@@ -512,6 +558,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		public FGERectangle getRequiredBoundsForContents();
 
 		public FGERectangle getBounds();
+
+		public void paint(FGEGraphics g);
 
 	}
 
@@ -724,6 +772,54 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		public ShapeSpecification getShapeSpecification();
 
 		public void setShapeSpecification(ShapeSpecification shapeSpecification);
+
+		/**
+		 * Called to define FGELayoutManager for this node<br>
+		 * The layout manager should be already declared in the parent. It is identified by supplied layoutManagerIdentifier.
+		 * 
+		 * @param layoutManagerIdentifier
+		 */
+		// public void layoutedWith(String layoutManagerIdentifier);
+
+		/**
+		 * Return the layout manager responsible for the layout of this node (relating to its container)
+		 * 
+		 * @return
+		 */
+		public FGELayoutManager<?, ?> getLayoutManager();
+
+		/**
+		 * Sets the layout manager responsible for the layout of this node (relating to its container)
+		 * 
+		 * @param layoutManager
+		 */
+		// public void setLayoutManager(FGELayoutManager<?, ?> layoutManager);
+
+		/**
+		 * Invalidate this graphical node regarding to its layout manager<br>
+		 * This method might be used to relayout the node
+		 */
+		public void invalidateLayout();
+
+		/**
+		 * Return boolean indicating if this {@link DrawingTreeNode} is validated regarding to its layout manager<br>
+		 * 
+		 * @return
+		 */
+		public boolean isLayoutValidated();
+
+		/**
+		 * Return flag indicating if we are about to relayout current node<br>
+		 * This means that the relocation request was initiated from the layout manager
+		 */
+		public boolean isRelayouting();
+
+		/**
+		 * Sets flag indicating if we are about to relayout current node<br>
+		 * This means that the relocation request was initiated from the layout manager
+		 */
+		public void setRelayouting(boolean relayouting);
+
 	}
 
 	public interface GraphNode<G extends FGEGraph> extends ShapeNode<G> {
@@ -750,7 +846,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport {
 		 */
 		public Rectangle getNormalizedBounds(double scale);
 
-		public boolean isConnectorConsistent();
+		// public boolean isConnectorConsistent();
 
 		public void refreshConnector();
 

@@ -1,7 +1,46 @@
+/**
+ * 
+ * Copyright (c) 2014, Openflexo
+ * 
+ * This file is part of Diana-core, a component of the software infrastructure 
+ * developed at Openflexo.
+ * 
+ * 
+ * Openflexo is dual-licensed under the European Union Public License (EUPL, either 
+ * version 1.1 of the License, or any later version ), which is available at 
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ * and the GNU General Public License (GPL, either version 3 of the License, or any 
+ * later version), which is available at http://www.gnu.org/licenses/gpl.html .
+ * 
+ * You can redistribute it and/or modify under the terms of either of these licenses
+ * 
+ * If you choose to redistribute it and/or modify under the terms of the GNU GPL, you
+ * must include the following additional permission.
+ *
+ *          Additional permission under GNU GPL version 3 section 7
+ *
+ *          If you modify this Program, or any covered work, by linking or 
+ *          combining it with software containing parts covered by the terms 
+ *          of EPL 1.0, the licensors of this Program grant you additional permission
+ *          to convey the resulting work. * 
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY 
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. 
+ *
+ * See http://www.openflexo.org/license.html for details.
+ * 
+ * 
+ * Please contact Openflexo (openflexo-contacts@openflexo.org)
+ * or visit www.openflexo.org if you need additional information.
+ * 
+ */
+
 package org.openflexo.fge.impl;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,7 +48,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.openflexo.antar.binding.DataBinding;
+import org.apache.commons.lang3.StringUtils;
+import org.openflexo.connie.DataBinding;
 import org.openflexo.fge.ContainerGraphicalRepresentation;
 import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.ContainerNode;
@@ -17,26 +57,32 @@ import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.Drawing.GraphNode;
 import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.FGELayoutManager;
+import org.openflexo.fge.FGELayoutManagerSpecification;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.GRBinding;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
+import org.openflexo.fge.GRBinding.ContainerGRBinding;
 import org.openflexo.fge.GRBinding.GeometricGRBinding;
 import org.openflexo.fge.GRBinding.GraphGRBinding;
 import org.openflexo.fge.GRBinding.ShapeGRBinding;
 import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
+import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.FGEDimension;
 import org.openflexo.fge.geom.FGEGeometricObject;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.geom.FGESteppedDimensionConstraint;
 import org.openflexo.fge.graph.FGEGraph;
+import org.openflexo.fge.graphics.FGEGraphics;
 import org.openflexo.fge.notifications.NodeAdded;
 import org.openflexo.fge.notifications.NodeRemoved;
 import org.openflexo.fge.notifications.ObjectHasResized;
 import org.openflexo.fge.notifications.ObjectResized;
 import org.openflexo.fge.notifications.ObjectWillResize;
+import org.openflexo.toolbox.ConcatenedList;
 
 public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresentation> extends DrawingTreeNodeImpl<O, GR> implements
 		ContainerNode<O, GR> {
@@ -48,9 +94,129 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	private boolean isResizing = false;
 	private boolean isCheckingDimensionConstraints = false;
 
-	protected ContainerNodeImpl(DrawingImpl<?> drawing, O drawable, GRBinding<O, GR> grBinding, ContainerNodeImpl<?, ?> parentNode) {
+	private final List<FGELayoutManager<?, O>> layoutManagers;
+
+	protected ContainerNodeImpl(DrawingImpl<?> drawing, O drawable, ContainerGRBinding<O, GR> grBinding, ContainerNodeImpl<?, ?> parentNode) {
 		super(drawing, drawable, grBinding, parentNode);
 		childNodes = new ArrayList<DrawingTreeNodeImpl<?, ?>>();
+		layoutManagers = new ArrayList<FGELayoutManager<?, O>>();
+		/*for (FGELayoutManagerSpecification<?> spec : getGraphicalRepresentation().getLayoutManagerSpecifications()) {
+			FGELayoutManager<?, O> layoutManager = (FGELayoutManager<?, O>) spec.makeLayoutManager(this);
+			layoutManagers.add(layoutManager);
+		}*/
+		updateLayoutManagers();
+
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		super.propertyChange(evt);
+
+		if (evt.getSource() == getGraphicalRepresentation()) {
+			if (evt.getPropertyName().equals(ContainerGraphicalRepresentation.LAYOUT_MANAGER_SPECIFICATIONS_KEY)) {
+				// Detected that the layout manager specifications have changed
+				if (evt.getNewValue() == null) {
+					System.out.println("Les LMS changent: DELETE de " + evt.getOldValue());
+				} else if (evt.getOldValue() == null) {
+					System.out.println("Les LMS changent: ADD de " + evt.getNewValue());
+				}
+				updateLayoutManagers();
+			}
+		}
+	}
+
+	/**
+	 * Internally called to update instantiated {@link FGELayoutManager} from {@link FGELayoutManagerSpecification} list as defined in
+	 * {@link ContainerGraphicalRepresentation}
+	 */
+	private void updateLayoutManagers() {
+		FGELayoutManager<?, O> oldDefaultLayoutManager = getDefaultLayoutManager();
+		List<FGELayoutManager<?, O>> lmToRemove = new ArrayList<FGELayoutManager<?, O>>(getLayoutManagers());
+		for (FGELayoutManagerSpecification<?> spec : getGraphicalRepresentation().getLayoutManagerSpecifications()) {
+			boolean found = false;
+			for (FGELayoutManager<?, ?> lm : getLayoutManagers()) {
+				if (lm.getLayoutManagerSpecification() == spec) {
+					lmToRemove.remove(lm);
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				FGELayoutManager<?, O> newLayoutManager = (FGELayoutManager<?, O>) spec.makeLayoutManager(this);
+				layoutManagers.add(newLayoutManager);
+			}
+		}
+		for (FGELayoutManager<?, ?> lm : new ArrayList<FGELayoutManager<?, O>>(lmToRemove)) {
+			lm.delete();
+			layoutManagers.remove(lm);
+		}
+
+		// Now select nodes
+		/*if (getLayoutManagers().size() == 1) {
+			for (ShapeNode<?> shapeNode : getShapeNodes()) {
+				shapeNode.setLayoutManager(getDefaultLayoutManager());
+			}
+			getDefaultLayoutManager().invalidate();
+			getDefaultLayoutManager().doLayout(true);
+		}*/
+
+		getPropertyChangeSupport().firePropertyChange("layoutManagers", null, getLayoutManagers());
+		getPropertyChangeSupport().firePropertyChange("defaultLayoutManager", oldDefaultLayoutManager, getDefaultLayoutManager());
+
+		for (FGELayoutManager<?, O> lm : getLayoutManagers()) {
+			notifyNodeLayoutDecorationChanged(lm);
+		}
+
+		if (getLayoutManagers().isEmpty()) {
+			// Big hack to repaint decoration (more precisely do not paint it anymore) for a removed layout
+			getPropertyChangeSupport().firePropertyChange(LAYOUT_DECORATION_KEY, false, true);
+		}
+
+	}
+
+	/**
+	 * Convenient method used to retrieve border property value
+	 */
+	@Override
+	public List<FGELayoutManagerSpecification<?>> getLayoutManagerSpecifications() {
+		return getPropertyValue(ContainerGraphicalRepresentation.LAYOUT_MANAGER_SPECIFICATIONS);
+	}
+
+	/**
+	 * Return FGELayoutManager identified by identifier
+	 * 
+	 * @param identifier
+	 * @return
+	 */
+	@Override
+	public FGELayoutManager<?, O> getLayoutManager(String identifier) {
+		if (identifier == null) {
+			return null;
+		}
+		for (FGELayoutManager<?, O> layoutManager : layoutManagers) {
+			if (identifier.equals(layoutManager.getLayoutManagerSpecification().getIdentifier())) {
+				return layoutManager;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<FGELayoutManager<?, O>> getLayoutManagers() {
+		return layoutManagers;
+	}
+
+	/**
+	 * Return default FGELayoutManager (the first one found)
+	 * 
+	 * @return
+	 */
+	@Override
+	public FGELayoutManager<?, O> getDefaultLayoutManager() {
+		if (layoutManagers.size() > 0) {
+			return layoutManagers.get(0);
+		}
+		return null;
 	}
 
 	@Override
@@ -106,6 +272,17 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	}
 
 	@Override
+	public List<ShapeNodeImpl<?>> getShapeNodes() {
+		List<ShapeNodeImpl<?>> returned = new ArrayList<ShapeNodeImpl<?>>();
+		for (DrawingTreeNodeImpl<?, ?> child : getChildNodes()) {
+			if (child instanceof ShapeNodeImpl) {
+				returned.add((ShapeNodeImpl) child);
+			}
+		}
+		return returned;
+	}
+
+	@Override
 	public List<DrawingTreeNodeImpl<?, ?>> getChildNodes() {
 		return childNodes;
 	}
@@ -152,6 +329,14 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	}
 
 	@Override
+	public void validate() {
+		super.validate();
+		for (FGELayoutManager<?, O> layoutManager : layoutManagers) {
+			layoutManager.doLayout(true);
+		}
+	}
+
+	@Override
 	public void invalidate() {
 		super.invalidate();
 		for (DrawingTreeNode<?, ?> dtn : childNodes) {
@@ -180,12 +365,39 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	}
 
 	@Override
+	public void notifyNodeLayoutDecorationChanged(FGELayoutManager<?, O> layoutManager) {
+		getPropertyChangeSupport().firePropertyChange(LAYOUT_DECORATION_KEY, new Boolean(!layoutManager.paintDecoration()),
+				new Boolean(layoutManager.paintDecoration()));
+
+	}
+
+	@Override
 	public void notifyNodeAdded(DrawingTreeNode<?, ?> addedNode) {
+
+		if ((addedNode instanceof ShapeNode)
+				&& StringUtils.isEmpty(((ShapeNode<?>) addedNode).getGraphicalRepresentation().getLayoutManagerIdentifier())
+				&& getLayoutManagers().size() == 1) {
+			// Only one layout manager defined in container
+			// This new ShapeNode has no layout manager, we force the default one
+
+			System.out.println("OK, pour le nouveau noeud, je le mets a " + getLayoutManagers().get(0));
+
+			((ShapeNode<?>) addedNode).getGraphicalRepresentation().setLayoutManagerIdentifier(getLayoutManagers().get(0).getIdentifier());
+
+			getLayoutManagers().get(0).invalidate();
+			getLayoutManagers().get(0).doLayout(true);
+		}
+
 		if (addedNode.getGraphicalRepresentation() != null) {
 			addedNode.getGraphicalRepresentation().updateBindingModel();
 		}
 		setChanged();
 		notifyObservers(new NodeAdded(addedNode, this));
+
+		for (FGELayoutManager<?, O> lm : getLayoutManagers()) {
+			lm.invalidate();
+			lm.doLayout(true);
+		}
 	}
 
 	@Override
@@ -195,6 +407,12 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		}
 		setChanged();
 		notifyObservers(new NodeRemoved(removedNode, this));
+
+		for (FGELayoutManager<?, O> lm : getLayoutManagers()) {
+			lm.invalidate();
+			lm.doLayout(true);
+		}
+
 	}
 
 	@Override
@@ -721,6 +939,64 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		if (parameter == ShapeGraphicalRepresentation.WIDTH || parameter == ShapeGraphicalRepresentation.HEIGHT) {
 			notifyObjectResized();
 		}
+	}
+
+	@Override
+	public void paint(FGEGraphics g) {
+
+		for (FGELayoutManager<?, ?> layoutManager : layoutManagers) {
+			// System.out.println("Paint LayoutManager " + layoutManager + " supportDecoration=" + layoutManager.supportDecoration()
+			// + " paintDecoration=" + layoutManager.paintDecoration());
+			if (layoutManager.supportDecoration() && layoutManager.paintDecoration()) {
+				((FGELayoutManagerImpl<?, ?>) layoutManager).paintDecoration(g);
+			}
+			if (layoutManager.getControlAreas() != null) {
+				for (ControlArea<?> ca : layoutManager.getControlAreas()) {
+					ca.paint(g);
+				}
+			}
+		}
+	}
+
+	private List<? extends ControlArea<?>> controlAreas = null;
+
+	@Override
+	public List<? extends ControlArea<?>> getControlAreas() {
+		if (controlAreas == null) {
+			List<? extends ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
+			List<ControlArea<?>> layoutManagerAreas = null;
+
+			if (getLayoutManagers().size() > 0) {
+				for (FGELayoutManager<?, O> layoutManager : getLayoutManagers()) {
+					if (layoutManagerAreas == null) {
+						layoutManagerAreas = layoutManager.getControlAreas();
+					} else if (layoutManagerAreas instanceof ConcatenedList) {
+						((ConcatenedList<ControlArea<?>>) layoutManagerAreas).addElementList(layoutManager.getControlAreas());
+					} else {
+						controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, layoutManager.getControlAreas());
+					}
+				}
+			}
+			if (customControlAreas != null && customControlAreas.size() > 0) {
+				if (controlAreas == null) {
+					controlAreas = customControlAreas;
+				} else if (controlAreas instanceof ConcatenedList) {
+					((ConcatenedList<ControlArea<?>>) controlAreas).addElementList(customControlAreas);
+				} else {
+					controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, customControlAreas);
+				}
+			}
+			if (layoutManagerAreas != null && layoutManagerAreas.size() > 0) {
+				if (controlAreas == null) {
+					controlAreas = layoutManagerAreas;
+				} else if (controlAreas instanceof ConcatenedList) {
+					((ConcatenedList<ControlArea<?>>) controlAreas).addElementList(layoutManagerAreas);
+				} else {
+					controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, layoutManagerAreas);
+				}
+			}
+		}
+		return controlAreas;
 	}
 
 }

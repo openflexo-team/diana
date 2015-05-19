@@ -1,11 +1,47 @@
+/**
+ * 
+ * Copyright (c) 2014, Openflexo
+ * 
+ * This file is part of Diana-core, a component of the software infrastructure 
+ * developed at Openflexo.
+ * 
+ * 
+ * Openflexo is dual-licensed under the European Union Public License (EUPL, either 
+ * version 1.1 of the License, or any later version ), which is available at 
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ * and the GNU General Public License (GPL, either version 3 of the License, or any 
+ * later version), which is available at http://www.gnu.org/licenses/gpl.html .
+ * 
+ * You can redistribute it and/or modify under the terms of either of these licenses
+ * 
+ * If you choose to redistribute it and/or modify under the terms of the GNU GPL, you
+ * must include the following additional permission.
+ *
+ *          Additional permission under GNU GPL version 3 section 7
+ *
+ *          If you modify this Program, or any covered work, by linking or 
+ *          combining it with software containing parts covered by the terms 
+ *          of EPL 1.0, the licensors of this Program grant you additional permission
+ *          to convey the resulting work. * 
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY 
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. 
+ *
+ * See http://www.openflexo.org/license.html for details.
+ * 
+ * 
+ * Please contact Openflexo (openflexo-contacts@openflexo.org)
+ * or visit www.openflexo.org if you need additional information.
+ * 
+ */
+
 package org.openflexo.fge.impl;
 
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.beans.PropertyChangeEvent;
-import java.util.Collections;
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.BackgroundStyle;
@@ -13,9 +49,8 @@ import org.openflexo.fge.ColorBackgroundStyle;
 import org.openflexo.fge.Drawing.RootNode;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.ForegroundStyle;
-import org.openflexo.fge.GRBinding;
+import org.openflexo.fge.GRBinding.DrawingGRBinding;
 import org.openflexo.fge.GraphicalRepresentation;
-import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.FGEDimension;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGERectangle;
@@ -40,7 +75,7 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 		}
 	}
 
-	protected RootNodeImpl(DrawingImpl<M> drawing, M drawable, GRBinding<M, DrawingGraphicalRepresentation> grBinding) {
+	protected RootNodeImpl(DrawingImpl<M> drawing, M drawable, DrawingGRBinding<M> grBinding) {
 		super(drawing, drawable, grBinding, null);
 		startDrawableObserving();
 	}
@@ -130,11 +165,11 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 		return false;
 	}
 
-	@Override
+	/*@Override
 	public List<ControlArea<?>> getControlAreas() {
 		// No control areas are declared for the root node
 		return Collections.emptyList();
-	}
+	}*/
 
 	/**
 	 * Return flag indicating if this node should be displayed, relatively to the value returned by visible feature in
@@ -143,7 +178,7 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 	 */
 	@Override
 	public boolean shouldBeDisplayed() {
-		if (!isValidated()) {
+		if (!isValid()) {
 			return false;
 		}
 		return getGraphicalRepresentation().getIsVisible();
@@ -176,6 +211,9 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 
 	@Override
 	public void paint(FGEDrawingGraphics g) {
+
+		// Paint container properties (layout managers)
+		super.paint(g);
 
 		// If there is a decoration painter and decoration should be painted BEFORE shape, fo it now
 		if (getGraphicalRepresentation().getDecorationPainter() != null

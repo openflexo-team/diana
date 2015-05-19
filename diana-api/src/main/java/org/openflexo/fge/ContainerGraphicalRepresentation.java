@@ -1,31 +1,55 @@
-/*
- * (c) Copyright 2010-2011 AgileBirds
- * (c) Copyright 2012-2013 Openflexo
+/**
+ * 
+ * Copyright (c) 2013-2014, Openflexo
+ * Copyright (c) 2011-2012, AgileBirds
+ * 
+ * This file is part of Diana-api, a component of the software infrastructure 
+ * developed at Openflexo.
+ * 
+ * 
+ * Openflexo is dual-licensed under the European Union Public License (EUPL, either 
+ * version 1.1 of the License, or any later version ), which is available at 
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ * and the GNU General Public License (GPL, either version 3 of the License, or any 
+ * later version), which is available at http://www.gnu.org/licenses/gpl.html .
+ * 
+ * You can redistribute it and/or modify under the terms of either of these licenses
+ * 
+ * If you choose to redistribute it and/or modify under the terms of the GNU GPL, you
+ * must include the following additional permission.
  *
- * This file is part of OpenFlexo.
+ *          Additional permission under GNU GPL version 3 section 7
  *
- * OpenFlexo is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *          If you modify this Program, or any covered work, by linking or 
+ *          combining it with software containing parts covered by the terms 
+ *          of EPL 1.0, the licensors of this Program grant you additional permission
+ *          to convey the resulting work. * 
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY 
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. 
  *
- * OpenFlexo is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with OpenFlexo. If not, see <http://www.gnu.org/licenses/>.
- *
+ * See http://www.openflexo.org/license.html for details.
+ * 
+ * 
+ * Please contact Openflexo (openflexo-contacts@openflexo.org)
+ * or visit www.openflexo.org if you need additional information.
+ * 
  */
+
 package org.openflexo.fge;
+
+import java.util.List;
 
 import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.fge.geom.FGEDimension;
 import org.openflexo.fge.geom.FGESteppedDimensionConstraint;
+import org.openflexo.model.annotations.Adder;
 import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.Getter.Cardinality;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Remover;
 import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLAttribute;
 
@@ -69,30 +93,35 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 	public static final String ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH_KEY = "adjustMaximalWidthToLabelWidth";
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT_KEY = "adjustMaximalHeightToLabelHeight";
+	@PropertyIdentifier(type = FGELayoutManagerSpecification.class, cardinality = Cardinality.LIST)
+	public static final String LAYOUT_MANAGER_SPECIFICATIONS_KEY = "layoutManagerSpecifications";
 
 	public static GRProperty<Double> WIDTH = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class, WIDTH_KEY, Double.TYPE);
 	public static GRProperty<Double> HEIGHT = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class, HEIGHT_KEY, Double.TYPE);
 
-	public static GRProperty<Boolean> ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT = GRProperty.getGRParameter(
-			ShapeGraphicalRepresentation.class, ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT_KEY, Boolean.class);
-	public static GRProperty<Boolean> ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
-			ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH_KEY, Boolean.class);
-	public static GRProperty<Boolean> ADJUST_MINIMAL_HEIGHT_TO_LABEL_HEIGHT = GRProperty.getGRParameter(
-			ShapeGraphicalRepresentation.class, ADJUST_MINIMAL_HEIGHT_TO_LABEL_HEIGHT_KEY, Boolean.class);
-	public static GRProperty<Boolean> ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
-			ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH_KEY, Boolean.class);
-	public static GRProperty<Double> MINIMAL_WIDTH = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, MINIMAL_WIDTH_KEY,
+	public static GRProperty<Boolean> ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
+			ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT_KEY, Boolean.class);
+	public static GRProperty<Boolean> ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH = GRProperty.getGRParameter(
+			ContainerGraphicalRepresentation.class, ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH_KEY, Boolean.class);
+	public static GRProperty<Boolean> ADJUST_MINIMAL_HEIGHT_TO_LABEL_HEIGHT = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
+			ADJUST_MINIMAL_HEIGHT_TO_LABEL_HEIGHT_KEY, Boolean.class);
+	public static GRProperty<Boolean> ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH = GRProperty.getGRParameter(
+			ContainerGraphicalRepresentation.class, ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH_KEY, Boolean.class);
+	public static GRProperty<Double> MINIMAL_WIDTH = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class, MINIMAL_WIDTH_KEY,
 			Double.class);
-	public static GRProperty<Double> MINIMAL_HEIGHT = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, MINIMAL_HEIGHT_KEY,
+	public static GRProperty<Double> MINIMAL_HEIGHT = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class, MINIMAL_HEIGHT_KEY,
 			Double.class);
-	public static GRProperty<Double> MAXIMAL_WIDTH = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, MAXIMAL_WIDTH_KEY,
+	public static GRProperty<Double> MAXIMAL_WIDTH = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class, MAXIMAL_WIDTH_KEY,
 			Double.class);
-	public static GRProperty<Double> MAXIMAL_HEIGHT = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, MAXIMAL_HEIGHT_KEY,
+	public static GRProperty<Double> MAXIMAL_HEIGHT = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class, MAXIMAL_HEIGHT_KEY,
 			Double.class);
-	public static GRProperty<DimensionConstraints> DIMENSION_CONSTRAINTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
-			DIMENSION_CONSTRAINTS_KEY, DimensionConstraints.class);
+	public static GRProperty<DimensionConstraints> DIMENSION_CONSTRAINTS = GRProperty.getGRParameter(
+			ContainerGraphicalRepresentation.class, DIMENSION_CONSTRAINTS_KEY, DimensionConstraints.class);
 	public static GRProperty<FGESteppedDimensionConstraint> DIMENSION_CONSTRAINT_STEP = GRProperty.getGRParameter(
-			ShapeGraphicalRepresentation.class, DIMENSION_CONSTRAINT_STEP_KEY, FGESteppedDimensionConstraint.class);
+			ContainerGraphicalRepresentation.class, DIMENSION_CONSTRAINT_STEP_KEY, FGESteppedDimensionConstraint.class);
+
+	public static GRProperty<List> LAYOUT_MANAGER_SPECIFICATIONS = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class,
+			LAYOUT_MANAGER_SPECIFICATIONS_KEY, List.class);
 
 	/*public static enum ContainerParameters implements GRProperty {
 		width, height;
@@ -187,5 +216,17 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 
 	@Setter(value = ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT_KEY)
 	public void setAdjustMaximalHeightToLabelHeight(boolean adjustMaximalHeightToLabelHeight);
+
+	@Getter(value = LAYOUT_MANAGER_SPECIFICATIONS_KEY, cardinality = Cardinality.LIST, ignoreType = true)
+	public List<FGELayoutManagerSpecification<?>> getLayoutManagerSpecifications();
+
+	@Setter(value = LAYOUT_MANAGER_SPECIFICATIONS_KEY)
+	public void setLayoutManagerSpecifications(List<FGELayoutManagerSpecification<?>> layoutManagerSpecifications);
+
+	@Adder(value = LAYOUT_MANAGER_SPECIFICATIONS_KEY)
+	public void addToLayoutManagerSpecifications(FGELayoutManagerSpecification<?> layoutManagerSpecification);
+
+	@Remover(value = LAYOUT_MANAGER_SPECIFICATIONS_KEY)
+	public void removeFromLayoutManagerSpecifications(FGELayoutManagerSpecification<?> layoutManagerSpecification);
 
 }

@@ -1,3 +1,42 @@
+/**
+ * 
+ * Copyright (c) 2013-2014, Openflexo
+ * Copyright (c) 2011-2012, AgileBirds
+ * 
+ * This file is part of Diana-swing, a component of the software infrastructure 
+ * developed at Openflexo.
+ * 
+ * 
+ * Openflexo is dual-licensed under the European Union Public License (EUPL, either 
+ * version 1.1 of the License, or any later version ), which is available at 
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ * and the GNU General Public License (GPL, either version 3 of the License, or any 
+ * later version), which is available at http://www.gnu.org/licenses/gpl.html .
+ * 
+ * You can redistribute it and/or modify under the terms of either of these licenses
+ * 
+ * If you choose to redistribute it and/or modify under the terms of the GNU GPL, you
+ * must include the following additional permission.
+ *
+ *          Additional permission under GNU GPL version 3 section 7
+ *
+ *          If you modify this Program, or any covered work, by linking or 
+ *          combining it with software containing parts covered by the terms 
+ *          of EPL 1.0, the licensors of this Program grant you additional permission
+ *          to convey the resulting work. * 
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY 
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. 
+ *
+ * See http://www.openflexo.org/license.html for details.
+ * 
+ * 
+ * Please contact Openflexo (openflexo-contacts@openflexo.org)
+ * or visit www.openflexo.org if you need additional information.
+ * 
+ */
+
 package org.openflexo.fge.swing.graphics;
 
 import java.awt.AlphaComposite;
@@ -126,6 +165,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 		g2d.setStroke(aStroke);
 	}
 
+	@Override
 	protected void applyCurrentForegroundStyle() {
 		if (g2d == null) {
 			return; // Strange...
@@ -155,6 +195,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 				+ stroke.getLineJoin() + ")-(cap=" + stroke.getEndCap() + ")-(dash=" + stroke.getDashPhase() + ")";
 	}
 
+	@Override
 	protected void applyCurrentBackgroundStyle() {
 		if (g2d == null) {
 			return; // Strange...
@@ -177,6 +218,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 		}
 	}
 
+	@Override
 	protected void applyCurrentTextStyle() {
 		g2d.setColor(getCurrentTextStyle().getColor());
 		g2d.setFont(getCurrentTextStyle().getFont());
@@ -366,7 +408,9 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 
 	@Override
 	public void drawLine(double x1, double y1, double x2, double y2) {
-		// logger.info("drawLine("+x1+","+y1+","+x2+","+y2+")"+" with "+debugForegroundStyle());
+		// logger.info("drawLine(" + x1 + "," + y1 + "," + x2 + "," + y2 + ")" + " with " + debugForegroundStyle());
+		// logger.info("clipbounds=" + g2d.getClipBounds());
+
 		if (getCurrentForeground() == null || getCurrentForeground().getNoStroke()) {
 			return;
 		}
@@ -545,6 +589,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 		}
 	}
 
+	@Override
 	public FGERectangle drawString(String text, double x, double y, int orientation, HorizontalTextAlignment alignment) {
 		if (text == null || text.length() == 0) {
 			return new FGERectangle();
@@ -773,10 +818,10 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 	}
 
 	static class ColorSwapFilter extends RGBImageFilter {
-		private int target1;
-		private int replacement1;
-		private int target2;
-		private int replacement2;
+		private final int target1;
+		private final int replacement1;
+		private final int target2;
+		private final int replacement2;
 
 		public ColorSwapFilter(java.awt.Color target1, java.awt.Color replacement1, java.awt.Color target2, java.awt.Color replacement2) {
 			this.target1 = target1.getRGB();

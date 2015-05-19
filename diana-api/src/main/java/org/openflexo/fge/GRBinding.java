@@ -1,23 +1,41 @@
-/*
- * (c) Copyright 2010-2011 AgileBirds
- * (c) Copyright 2012-2013 Openflexo
+/**
+ * 
+ * Copyright (c) 2014, Openflexo
+ * 
+ * This file is part of Diana-api, a component of the software infrastructure 
+ * developed at Openflexo.
+ * 
+ * 
+ * Openflexo is dual-licensed under the European Union Public License (EUPL, either 
+ * version 1.1 of the License, or any later version ), which is available at 
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ * and the GNU General Public License (GPL, either version 3 of the License, or any 
+ * later version), which is available at http://www.gnu.org/licenses/gpl.html .
+ * 
+ * You can redistribute it and/or modify under the terms of either of these licenses
+ * 
+ * If you choose to redistribute it and/or modify under the terms of the GNU GPL, you
+ * must include the following additional permission.
  *
- * This file is part of OpenFlexo.
+ *          Additional permission under GNU GPL version 3 section 7
  *
- * OpenFlexo is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *          If you modify this Program, or any covered work, by linking or 
+ *          combining it with software containing parts covered by the terms 
+ *          of EPL 1.0, the licensors of this Program grant you additional permission
+ *          to convey the resulting work. * 
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY 
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. 
  *
- * OpenFlexo is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with OpenFlexo. If not, see <http://www.gnu.org/licenses/>.
- *
+ * See http://www.openflexo.org/license.html for details.
+ * 
+ * 
+ * Please contact Openflexo (openflexo-contacts@openflexo.org)
+ * or visit www.openflexo.org if you need additional information.
+ * 
  */
+
 package org.openflexo.fge;
 
 import java.util.ArrayList;
@@ -27,13 +45,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.openflexo.antar.binding.BindingFactory;
-import org.openflexo.antar.binding.BindingModel;
-import org.openflexo.antar.binding.BindingVariable;
-import org.openflexo.antar.binding.DataBinding;
-import org.openflexo.antar.binding.DataBinding.BindingDefinitionType;
-import org.openflexo.antar.binding.DefaultBindable;
-import org.openflexo.antar.binding.JavaBindingFactory;
+import org.openflexo.connie.BindingFactory;
+import org.openflexo.connie.BindingModel;
+import org.openflexo.connie.BindingVariable;
+import org.openflexo.connie.DataBinding;
+import org.openflexo.connie.DataBinding.BindingDefinitionType;
+import org.openflexo.connie.DefaultBindable;
+import org.openflexo.connie.java.JavaBindingFactory;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.GRProvider.ConnectorGRProvider;
 import org.openflexo.fge.GRProvider.ContainerGRProvider;
@@ -154,15 +172,28 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 
 	}
 
-	public List<ControlArea<?>> makeControlAreasFor(DrawingTreeNode<O, GR> dtn) {
+	public List<? extends ControlArea<?>> makeControlAreasFor(DrawingTreeNode<O, GR> dtn) {
 		return grProvider.makeControlAreasFor(dtn);
 	}
 
 	public static abstract class ContainerGRBinding<O, GR extends ContainerGraphicalRepresentation> extends GRBinding<O, GR> {
 
+		// private final Map<String, FGELayoutManagerSpecification<?>> layoutManagerSpecifications;
+
 		public ContainerGRBinding(String name, Class<?> drawableClass, ContainerGRProvider<O, GR> grProvider) {
 			super(name, drawableClass, grProvider);
+			// layoutManagerSpecifications = new HashMap<String, FGELayoutManagerSpecification<?>>();
 		}
+
+		/*public FGELayoutManagerSpecification<?> addLayoutManager(FGELayoutManagerSpecification<?> layoutManagerSpec) {
+			layoutManagerSpecifications.put(layoutManagerSpec.getIdentifier(), layoutManagerSpec);
+			return layoutManagerSpec;
+		}
+
+		public Map<String, FGELayoutManagerSpecification<?>> getLayoutManagerSpecifications() {
+			return layoutManagerSpecifications;
+		}*/
+
 	}
 
 	public static class DrawingGRBinding<M> extends ContainerGRBinding<M, DrawingGraphicalRepresentation> {
@@ -199,7 +230,7 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 		}
 	}
 
-	public static class GraphGRBinding<O extends FGEGraph> extends GRBinding<O, ShapeGraphicalRepresentation> {
+	public static class GraphGRBinding<O extends FGEGraph> extends ShapeGRBinding<O> {
 
 		public GraphGRBinding(String name, Class<? extends O> graphClass, ShapeGRProvider<O> grProvider) {
 			super(name, graphClass, grProvider);

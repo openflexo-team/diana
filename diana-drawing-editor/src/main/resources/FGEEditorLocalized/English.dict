@@ -35,6 +35,7 @@ greater_than_or_equals_operator='greater than or equals' operator
 help=Help
 inspect=Inspect
 italic=italic
+layout_manager_inspector=layout_manager_inspector
 less_than_operator='less than' operator
 less_than_or_equals_operator='less than or equals' operator
 localized_editor=Localization Editor

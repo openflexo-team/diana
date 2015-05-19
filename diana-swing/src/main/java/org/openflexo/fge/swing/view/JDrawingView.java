@@ -1,22 +1,42 @@
-/*
- * (c) Copyright 2010-2011 AgileBirds
+/**
+ * 
+ * Copyright (c) 2013-2014, Openflexo
+ * Copyright (c) 2011-2012, AgileBirds
+ * 
+ * This file is part of Diana-swing, a component of the software infrastructure 
+ * developed at Openflexo.
+ * 
+ * 
+ * Openflexo is dual-licensed under the European Union Public License (EUPL, either 
+ * version 1.1 of the License, or any later version ), which is available at 
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ * and the GNU General Public License (GPL, either version 3 of the License, or any 
+ * later version), which is available at http://www.gnu.org/licenses/gpl.html .
+ * 
+ * You can redistribute it and/or modify under the terms of either of these licenses
+ * 
+ * If you choose to redistribute it and/or modify under the terms of the GNU GPL, you
+ * must include the following additional permission.
  *
- * This file is part of OpenFlexo.
+ *          Additional permission under GNU GPL version 3 section 7
  *
- * OpenFlexo is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *          If you modify this Program, or any covered work, by linking or 
+ *          combining it with software containing parts covered by the terms 
+ *          of EPL 1.0, the licensors of this Program grant you additional permission
+ *          to convey the resulting work. * 
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY 
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. 
  *
- * OpenFlexo is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with OpenFlexo. If not, see <http://www.gnu.org/licenses/>.
- *
+ * See http://www.openflexo.org/license.html for details.
+ * 
+ * 
+ * Please contact Openflexo (openflexo-contacts@openflexo.org)
+ * or visit www.openflexo.org if you need additional information.
+ * 
  */
+
 package org.openflexo.fge.swing.view;
 
 import java.awt.Color;
@@ -386,10 +406,10 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			} else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.IS_RESIZABLE.getName())) {
 				if (getDrawing().getRoot().getGraphicalRepresentation().isResizable()) {
 					removeMouseListener(mouseListener); // We remove the mouse
-														// listener, so that the
-														// mouse resizer is
-														// called before
-														// mouseListener
+					// listener, so that the
+					// mouse resizer is
+					// called before
+					// mouseListener
 					if (resizer == null) {
 						resizer = new DrawingViewResizer();
 					} else {
@@ -403,6 +423,9 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
 			} else if (evt.getSource() instanceof GeometricGraphicalRepresentation) {
+				getPaintManager().invalidate(getDrawing().getRoot());
+				getPaintManager().repaint(this);
+			} else if (evt.getPropertyName().equals(ContainerNode.LAYOUT_DECORATION_KEY)) {
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
 			}
@@ -572,6 +595,13 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 			if (getController() instanceof DianaInteractiveViewer) {
 				// Don't paint those things in case of buffering
+
+				// System.out.println("focused: " + ((DianaInteractiveViewer<?, ?, ?>) getController()).getFocusedObjects());
+
+				if (((DianaInteractiveViewer<?, ?, ?>) getController()).getFocusedObjects().size() == 0) {
+					paintFocused(getDrawing().getRoot(), graphics);
+				}
+
 				for (DrawingTreeNode<?, ?> o : new ArrayList<DrawingTreeNode<?, ?>>(
 						((DianaInteractiveViewer<?, ?, ?>) getController()).getFocusedObjects())) {
 					// logger.info("Paint focused " + o);
@@ -706,11 +736,13 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		Graphics2D oldGraphics = graphics.cloneGraphics();
 		graphics.setDefaultForeground(PAINT_FACTORY.makeForegroundStyle(getGraphicalRepresentation().getSelectionColor()));
 
-		if (selected instanceof ShapeNode) {
+		if (selected instanceof ShapeNode && selected != null) {
 			ShapeNode<?> shapeNode = (ShapeNode<?>) selected;
-			for (ControlArea<?> ca : shapeNode.getControlAreas()) {
-				if (selected.isConnectedToDrawing()) {
-					paintControlArea(ca, graphics);
+			if (shapeNode.getControlAreas() != null) {
+				for (ControlArea<?> ca : shapeNode.getControlAreas()) {
+					if (selected.isValid()) {
+						paintControlArea(ca, graphics);
+					}
 				}
 			}
 		}
@@ -730,9 +762,11 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 				return;
 			}
 
-			for (ControlArea<?> ca : connectorNode.getControlAreas()) {
-				if (selected.isConnectedToDrawing()) {
-					paintControlArea(ca, graphics);
+			if (connectorNode.getControlAreas() != null) {
+				for (ControlArea<?> ca : connectorNode.getControlAreas()) {
+					if (selected.isValid()) {
+						paintControlArea(ca, graphics);
+					}
 				}
 			}
 		}
@@ -840,11 +874,23 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		Graphics2D oldGraphics = graphics.cloneGraphics();
 		graphics.setDefaultForeground(PAINT_FACTORY.makeForegroundStyle(getGraphicalRepresentation().getFocusColor()));
 
+		/*if (focused instanceof RootNode) {
+			if (focused.getControlAreas() != null) {
+				for (ControlArea<?> ca : focused.getControlAreas()) {
+					if (focused.isValid()) {
+						paintControlArea(ca, graphics);
+					}
+				}
+			}
+		}*/
+
 		if (focused instanceof ShapeNode) {
 			ShapeNode<?> shapeNode = (ShapeNode<?>) focused;
-			for (ControlArea<?> ca : shapeNode.getControlAreas()) {
-				if (focused.isConnectedToDrawing()) {
-					paintControlArea(ca, graphics);
+			if (shapeNode.getControlAreas() != null) {
+				for (ControlArea<?> ca : shapeNode.getControlAreas()) {
+					if (focused.isValid()) {
+						paintControlArea(ca, graphics);
+					}
 				}
 			}
 		} else if (focused instanceof ConnectorNode) {
@@ -860,9 +906,11 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 				return;
 			}
 
-			for (ControlArea<?> ca : connectorNode.getControlAreas()) {
-				if (focused.isConnectedToDrawing()) {
-					paintControlArea(ca, graphics);
+			if (connectorNode.getControlAreas() != null) {
+				for (ControlArea<?> ca : connectorNode.getControlAreas()) {
+					if (focused.isValid()) {
+						paintControlArea(ca, graphics);
+					}
 				}
 			}
 		}
@@ -980,7 +1028,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		}
 
 		drawing.getRoot().getPropertyChangeSupport().removePropertyChangeListener(this);
-		
+
 		isDeleted = true;
 	}
 

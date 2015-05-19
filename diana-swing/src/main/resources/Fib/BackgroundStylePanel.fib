@@ -12,11 +12,11 @@
     <Dependancy componentName="dropdown" />
   </Panel>
   <Panel layout="twocols" border="rounded3d" borderTitle="" borderTop="2" borderBottom="2" borderLeft="10" borderRight="10" titleFont="SansSerif,0,11" darkLevel="0" index="2" data="($org.openflexo.fge.ColorBackgroundStyle)data.backgroundStyle" dataClassName="org.openflexo.fge.ColorBackgroundStyle" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=2;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)" visible="(data.styleType.name = &quot;COLOR&quot;)" opaque="false" name="ColorBackgroundPanel">
-    <Label label="color1" index="0" constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true">
+    <Label label="color_1" index="0" constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true">
       <LocalizedDictionary />
     </Label>
     <Color allowsNull="false" index="1" data="ColorBackgroundPanel.data.color" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=center)" localize="true" />
-    <Label label="color2" index="2" constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true" enable="false">
+    <Label label="color_2" index="2" constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true" enable="false">
       <LocalizedDictionary />
     </Label>
     <Color allowsNull="false" index="3" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=right)" localize="true" enable="false" />
@@ -36,11 +36,11 @@
     <LocalizedDictionary />
   </Panel>
   <Panel layout="twocols" border="rounded3d" borderTitle="" borderTop="2" borderBottom="2" borderLeft="10" borderRight="10" titleFont="SansSerif,0,11" darkLevel="0" index="3" data="($org.openflexo.fge.ColorGradientBackgroundStyle)data.backgroundStyle" dataClassName="org.openflexo.fge.ColorGradientBackgroundStyle" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=3;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)" visible="(data.styleType.name = &quot;COLOR_GRADIENT&quot;)" opaque="false" name="ColorGradientBackgroundPanel">
-    <Label label="color1" index="0" constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true">
+    <Label label="color_1" index="0" constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true">
       <LocalizedDictionary />
     </Label>
     <Color allowsNull="false" index="1" data="ColorGradientBackgroundPanel.data.color1" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=right)" localize="true" />
-    <Label label="color2" index="2" constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true">
+    <Label label="color_2" index="2" constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true">
       <LocalizedDictionary />
     </Label>
     <Color allowsNull="false" index="3" data="ColorGradientBackgroundPanel.data.color2" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=right)" localize="true" />
@@ -58,11 +58,11 @@
     <LocalizedDictionary />
   </Panel>
   <Panel layout="twocols" border="rounded3d" borderTitle="" borderTop="2" borderBottom="2" borderLeft="10" borderRight="10" titleFont="SansSerif,0,11" darkLevel="0" index="4" data="($org.openflexo.fge.TextureBackgroundStyle)data.backgroundStyle" dataClassName="org.openflexo.fge.TextureBackgroundStyle" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=4;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)" visible="(data.styleType.name = &quot;TEXTURE&quot;)" opaque="false" name="TextureBackgroundPanel">
-    <Label label="color1" index="0" constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true">
+    <Label label="color_1" index="0" constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true">
       <LocalizedDictionary />
     </Label>
     <Color allowsNull="false" index="1" data="TextureBackgroundPanel.data.color1" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=right)" localize="true" />
-    <Label label="color2" index="2" constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true">
+    <Label label="color_2" index="2" constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true">
       <LocalizedDictionary />
     </Label>
     <Color allowsNull="false" index="3" data="TextureBackgroundPanel.data.color2" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=right)" localize="true" />
@@ -125,17 +125,19 @@
     <Dependancy componentName="dropdown" />
     <LocalizedDictionary />
   </Panel>
-  <Panel layout="twocols" border="rounded3d" borderTitle="Transparency" borderTop="2" borderBottom="2" borderLeft="10" borderRight="10" titleFont="SansSerif,0,11" darkLevel="0" index="6" constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)" opaque="false" width="80" height="90" name="TransparencyPanel">
+  <Panel layout="twocols" border="rounded3d" borderTitle="transparency" localize="true"  borderTop="2" borderBottom="2" borderLeft="10" borderRight="10" titleFont="SansSerif,0,11" darkLevel="0" index="6" constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)" opaque="false" width="80" height="90" name="TransparencyPanel">
     <Label label="use_transparency" index="0" constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true" enable="(data.styleType != &quot;NONE&quot;)">
       <LocalizedDictionary />
     </Label>
     <CheckBox selected="true" index="1" data="data.backgroundStyle.useTransparency" constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" name="checkbox" localize="true" enable="(data.styleType != &quot;NONE&quot;)" />
-    <Label label="transparency level" index="2" constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true" enable="((data.styleType.name != &quot;NONE&quot;) &amp; data.backgroundStyle.useTransparency)">
+    <Label label="transparency_level" index="2" constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true" enable="((data.styleType.name != &quot;NONE&quot;) &amp; data.backgroundStyle.useTransparency)">
       <LocalizedDictionary />
     </Label>
     <Number allowsNull="false" minValue="0" maxValue="1" increment="0.05" numberType="FloatType" columns="3" index="3" data="data.backgroundStyle.transparencyLevel" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=8;insetsRight=2;insetsTop=0;location=right)" name="Integer" localize="true" enable="((data.styleType != &quot;NONE&quot;) &amp; data.backgroundStyle.useTransparency)" />
   </Panel>
   <LocalizedDictionary>
+    <Localized key="transparency" lang="French" value="Transparence" />
+    <Localized key="transparency" lang="English" value="Transparency" />
     <Localized key="background" lang="English" value="Background" />
     <Localized key="none" lang="English" value="None" />
     <Localized key="color" lang="English" value="Color" />

@@ -1,3 +1,41 @@
+/**
+ * 
+ * Copyright (c) 2014, Openflexo
+ * 
+ * This file is part of Diana-core, a component of the software infrastructure 
+ * developed at Openflexo.
+ * 
+ * 
+ * Openflexo is dual-licensed under the European Union Public License (EUPL, either 
+ * version 1.1 of the License, or any later version ), which is available at 
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ * and the GNU General Public License (GPL, either version 3 of the License, or any 
+ * later version), which is available at http://www.gnu.org/licenses/gpl.html .
+ * 
+ * You can redistribute it and/or modify under the terms of either of these licenses
+ * 
+ * If you choose to redistribute it and/or modify under the terms of the GNU GPL, you
+ * must include the following additional permission.
+ *
+ *          Additional permission under GNU GPL version 3 section 7
+ *
+ *          If you modify this Program, or any covered work, by linking or 
+ *          combining it with software containing parts covered by the terms 
+ *          of EPL 1.0, the licensors of this Program grant you additional permission
+ *          to convey the resulting work. * 
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY 
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. 
+ *
+ * See http://www.openflexo.org/license.html for details.
+ * 
+ * 
+ * Please contact Openflexo (openflexo-contacts@openflexo.org)
+ * or visit www.openflexo.org if you need additional information.
+ * 
+ */
+
 package org.openflexo.fge.impl;
 
 import java.awt.Dimension;
@@ -10,19 +48,22 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.openflexo.antar.binding.DataBinding;
-import org.openflexo.antar.binding.TypeUtils;
-import org.openflexo.antar.expr.NullReferenceException;
-import org.openflexo.antar.expr.TypeMismatchException;
+import org.openflexo.connie.DataBinding;
+import org.openflexo.connie.exception.NullReferenceException;
+import org.openflexo.connie.exception.TypeMismatchException;
+import org.openflexo.connie.type.TypeUtils;
 import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.ContainerGraphicalRepresentation;
 import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.ConstraintDependency;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.FGELayoutManager;
+import org.openflexo.fge.FGELayoutManagerSpecification;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.GRBinding;
+import org.openflexo.fge.GRBinding.ShapeGRBinding;
 import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.ShadowStyle;
@@ -58,15 +99,11 @@ import org.openflexo.fge.shapes.ShapeSpecification;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.fge.shapes.impl.ShapeImpl;
 import org.openflexo.toolbox.ConcatenedList;
+import org.openflexo.toolbox.StringUtils;
 
 public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalRepresentation> implements ShapeNode<O> {
 
 	private static final Logger logger = Logger.getLogger(ShapeNodeImpl.class.getPackage().getName());
-
-	// private double x = 0;
-	// private double y = 0;
-	// private double width = 0;
-	// private double height = 0;
 
 	private boolean isMoving = false;
 
@@ -79,14 +116,18 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	private ShapeImpl<?> shape;
 
+	private FGELayoutManager<?, ?> layoutManager;
+
+	private boolean layoutValidated = false;
+
 	// TODO: change to protected
-	public ShapeNodeImpl(DrawingImpl<?> drawingImpl, O drawable, GRBinding<O, ShapeGraphicalRepresentation> grBinding,
-			ContainerNodeImpl<?, ?> parentNode) {
+	public ShapeNodeImpl(DrawingImpl<?> drawingImpl, O drawable, ShapeGRBinding<O> grBinding, ContainerNodeImpl<?, ?> parentNode) {
 		super(drawingImpl, drawable, grBinding, parentNode);
 		startDrawableObserving();
 		// graphics = new FGEShapeGraphicsImpl(this);
 		// width = getGraphicalRepresentation().getMinimalWidth();
 		// height = getGraphicalRepresentation().getMinimalHeight();
+		relayoutNode();
 	}
 
 	@Override
@@ -194,10 +235,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public Rectangle getViewBounds(DrawingTreeNode<?, ?> aContainer, double scale) {
 		Rectangle bounds = getViewBounds(scale);
 		if (getParentNode() == null) {
-			logger.warning("Container is null for " + this + " validated=" + isValidated());
+			logger.warning("Container is null for " + this + " valid=" + isValid());
 		}
 		if (aContainer == null) {
-			logger.warning("Container is null for " + this + " validated=" + isValidated());
+			logger.warning("Container is null for " + this + " valid=" + isValid());
 		}
 		bounds = FGEUtils.convertRectangle(getParentNode(), bounds, aContainer, scale);
 		return bounds;
@@ -403,6 +444,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			} else if (evt.getPropertyName() == ShapeGraphicalRepresentation.SHAPE.getName()
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.SHAPE_TYPE.getName()) {
 				fireShapeSpecificationChanged();
+			} else if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.LAYOUT_MANAGER_IDENTIFIER_KEY)) {
+				relayoutNode();
 			}
 
 			/*if (notif instanceof BindingChanged) {
@@ -497,7 +540,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 		// Relocate
 		if (needsRelocate) {
-			System.out.println("Relocate with deltaX=" + deltaX + " deltaY=" + deltaY);
+			// System.out.println("Relocate with deltaX=" + deltaX + " deltaY=" + deltaY);
 			newPosition.x = newPosition.x - deltaX;
 			newPosition.y = newPosition.y - deltaY;
 			setLocation(newPosition);
@@ -604,6 +647,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		// Prelude of update, first select new location respecting contextual constraints
 		FGEPoint newLocation = getConstrainedLocation(requestedLocation);
 
+		// Now the newLocation respect required constraints, we might apply it
 		FGEPoint oldLocation = getLocation();
 		if (!newLocation.equals(oldLocation)) {
 			double oldX = getX();
@@ -614,6 +658,21 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				setXNoNotification(newLocation.x);
 				setYNoNotification(newLocation.y);
 			}
+
+			if (!isRelayouting && getLayoutManager() != null && getLayoutManager().supportAutolayout()
+					&& !getLayoutManager().isLayoutInProgress()) {
+				boolean performLayout;
+				if (isMoving() || isResizing()) {
+					// We are inside a drag operation
+					performLayout = getLayoutManager().getDraggingMode().relayoutOnDrag();
+				} else {
+					performLayout = getLayoutManager().getDraggingMode().relayoutAfterDrag();
+				}
+				if (performLayout) {
+					performLayout();
+				}
+			}
+
 			notifyObjectMoved(oldLocation);
 			notifyAttributeChanged(ShapeGraphicalRepresentation.X, oldX, getX());
 			notifyAttributeChanged(ShapeGraphicalRepresentation.Y, oldY, getY());
@@ -622,8 +681,44 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					logger.fine("setLocation() lead shape going outside it's parent view");
 				}
 			}
+
 		}
 
+	}
+
+	private void performLayout() {
+		setRelayouting(true);
+
+		getLayoutManager().attemptToPlaceNodeManually(this);
+		if (getLayoutManager().isFullyLayouted()) {
+			getLayoutManager().computeLayout();
+		}
+		getLayoutManager().doLayout(this, true);
+		setRelayouting(false);
+	}
+
+	/**
+	 * Flag indicating if we are about to relayout current node<br>
+	 * This means that the relocation request was initiated from the layout manager
+	 */
+	private boolean isRelayouting = false;
+
+	/**
+	 * Return flag indicating if we are about to relayout current node<br>
+	 * This means that the relocation request was initiated from the layout manager
+	 */
+	@Override
+	public boolean isRelayouting() {
+		return isRelayouting;
+	}
+
+	/**
+	 * Sets flag indicating if we are about to relayout current node<br>
+	 * This means that the relocation request was initiated from the layout manager
+	 */
+	@Override
+	public void setRelayouting(boolean relayouting) {
+		isRelayouting = relayouting;
 	}
 
 	/**
@@ -635,6 +730,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	private FGEPoint getConstrainedLocation(FGEPoint requestedLocation) {
 
 		if (isParentLayoutedAsContainer()) {
+			return requestedLocation;
+		}
+
+		if (getGraphicalRepresentation() == null) {
 			return requestedLocation;
 		}
 
@@ -1184,6 +1283,11 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public void notifyObjectMoved(FGEPoint oldLocation) {
+
+		if (getLayoutManager() != null) {
+			getLayoutManager().shapeMoved(oldLocation, getLocation());
+		}
+
 		setChanged();
 		notifyObservers(new ObjectMove(oldLocation, getLocation()));
 	}
@@ -1198,6 +1302,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public void notifyObjectHasMoved() {
 		isMoving = false;
+
+		if (getLayoutManager() != null) {
+			if (getLayoutManager().getDraggingMode().relayoutAfterDrag()) {
+				performLayout();
+			}
+		}
+
 		setChanged();
 		notifyObservers(new ObjectHasMoved());
 	}
@@ -1217,6 +1328,18 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	}
 
 	@Override
+	public void notifyObjectHasResized() {
+		super.notifyObjectHasResized();
+
+		if (getLayoutManager() != null) {
+			if (getLayoutManager().getDraggingMode().relayoutAfterDrag()) {
+				performLayout();
+			}
+		}
+
+	}
+
+	@Override
 	public void notifyShapeChanged() {
 		setChanged();
 		notifyObservers(new ShapeChanged());
@@ -1233,22 +1356,21 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public List<? extends ControlArea<?>> getControlAreas() {
 		if (controlAreas == null) {
-			List<ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
-			if (customControlAreas == null) {
-				if (getShape() != null) {
-					controlAreas = getShape().getControlAreas();
-				} else {
+			controlAreas = super.getControlAreas();
 
+			List<ControlPoint> shapeControlAreas = getShape().getControlAreas();
+
+			if (shapeControlAreas != null && shapeControlAreas.size() > 0) {
+				if (controlAreas == null) {
+					controlAreas = shapeControlAreas;
+				} else if (controlAreas instanceof ConcatenedList) {
+					((ConcatenedList<ControlArea<?>>) controlAreas).addElementList(shapeControlAreas);
+				} else {
+					controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, shapeControlAreas);
 				}
-			} else {
-				ConcatenedList<ControlArea<?>> concatenedControlAreas = new ConcatenedList<ControlArea<?>>();
-				concatenedControlAreas.addElementList(getShape().getControlAreas());
-				concatenedControlAreas.addElementList(customControlAreas);
-				controlAreas = concatenedControlAreas;
 			}
 		}
 		return controlAreas;
-		// return getShape().getControlAreas();
 	}
 
 	/**
@@ -1303,11 +1425,12 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public String toString() {
 
-		if (isDeleted()) {
-			return "[" + Integer.toHexString(hashCode()) + "]Shape-" + getIndex() + " [DELETED] ";
-		}
-		return "[" + Integer.toHexString(hashCode()) + "]Shape-" + getIndex() + "[" + getX() + ";" + getY() + "][" + getWidth() + "x"
-				+ getHeight() + "][" + getFGEShape() + "]:" + getDrawable();
+		/*	if (isDeleted()) {
+				return "[" + Integer.toHexString(hashCode()) + "]Shape-" + getIndex() + " [DELETED] ";
+			}
+			return "[" + Integer.toHexString(hashCode()) + "]Shape-" + getIndex() + "[" + getX() + ";" + getY() + "][" + getWidth() + "x"
+					+ getHeight() + "][" + getFGEShape() + "]:" + getDrawable();*/
+		return "ShapeNodeImpl[" + getText() + "/" + Integer.toHexString(hashCode()) + "]";
 	}
 
 	@Override
@@ -1503,6 +1626,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public void paint(FGEShapeGraphics g) {
+
+		// Paint container properties (layout managers)
+		super.paint(g);
+
 		// If there is a decoration painter and decoration should be painted BEFORE shape, do it now
 		if (decorationPainter != null && decorationPainter.paintBeforeShape()) {
 			decorationPainter.paintDecoration(g.getShapeDecorationGraphics());
@@ -1709,4 +1836,65 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		}
 	}
 
+	/**
+	 * Called to define FGELayoutManager for this node<br>
+	 * The layout manager should be already declared in the parent. It is identified by supplied layoutManagerIdentifier.
+	 * 
+	 * @param layoutManagerIdentifier
+	 */
+	public void layoutedWith(String layoutManagerIdentifier) {
+		setLayoutManager(getParentNode().getLayoutManager(layoutManagerIdentifier));
+	}
+
+	/**
+	 * Return the layout manager responsible for the layout of this node (relating to its container)
+	 * 
+	 * @return
+	 */
+	@Override
+	public FGELayoutManager<?, ?> getLayoutManager() {
+		return layoutManager;
+	}
+
+	private void setLayoutManager(FGELayoutManager<?, ?> layoutManager) {
+		if ((layoutManager != this.layoutManager)) {
+			FGELayoutManager<?, ?> oldValue = this.layoutManager;
+			this.layoutManager = layoutManager;
+			getPropertyChangeSupport().firePropertyChange("layoutManager", oldValue, layoutManager);
+		}
+	}
+
+	/**
+	 * Called when changed FGELayoutManager for this node<br>
+	 * The layout manager is retrieved from layout identifier defined in {@link ShapeGraphicalRepresentation}, asserting that related
+	 * {@link FGELayoutManagerSpecification} is defined in {@link ContainerGraphicalRepresentation}
+	 */
+	public void relayoutNode() {
+
+		// System.out.println("************* relayoutNode called for " + this);
+
+		FGELayoutManager<?, ?> layoutManager = null;
+		if (StringUtils.isNotEmpty(getGraphicalRepresentation().getLayoutManagerIdentifier())) {
+			layoutManager = getParentNode().getLayoutManager(getGraphicalRepresentation().getLayoutManagerIdentifier());
+		}
+		setLayoutManager(layoutManager);
+		if (layoutManager != null) {
+			layoutManager.invalidate(this);
+			layoutManager.doLayout(this, true);
+		}
+	}
+
+	@Override
+	public boolean isLayoutValidated() {
+		return layoutValidated;
+	}
+
+	@Override
+	public void invalidateLayout() {
+		layoutValidated = false;
+	}
+
+	public void validateLayout() {
+		layoutValidated = true;
+	}
 }
