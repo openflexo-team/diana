@@ -486,6 +486,11 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 
 	}
 
+	public void performSuperAdder(String propertyIdentifier, Object value, int index) {
+		// Not relevant
+
+	}
+
 	public void performSuperRemover(String propertyIdentifier, Object value) {
 		// Not relevant
 
