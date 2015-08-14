@@ -39,8 +39,11 @@
 
 package org.openflexo.fge.geom.area;
 
+import org.openflexo.fge.geom.FGEGeometricObject.Filling;
+import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
+import org.openflexo.fge.graphics.AbstractFGEGraphics;
 
 public class FGEFiniteGrid extends FGEGrid {
 
@@ -79,6 +82,31 @@ public class FGEFiniteGrid extends FGEGrid {
 	@Override
 	public FGEPoint getNearestPoint(FGEPoint point) {
 		return super.getNearestPoint(bounds.getNearestPoint(point));
+	}
+
+	@Override
+	public void paint(AbstractFGEGraphics g) {
+		FGERectangle drawingBounds = bounds.clone();
+		drawingBounds.setIsFilled(true);
+
+		int iStart = (int) Math.ceil((bounds.getMinX() - origin.x) / hStep);
+		int iEnd = (int) Math.floor((bounds.getMaxX() - origin.x) / hStep);
+		int jStart = (int) Math.ceil((bounds.getMinY() - origin.y) / hStep);
+		int jEnd = (int) Math.floor((bounds.getMaxY() - origin.y) / hStep);
+
+		for (int i = iStart; i < iEnd + 1; i++) {
+			FGELine l = new FGELine(new FGEPoint(origin.x + i * hStep, 0), new FGEPoint(origin.x + i * hStep, 1));
+			drawingBounds.intersect(l).paint(g);
+		}
+		for (int j = jStart; j < jEnd + 1; j++) {
+			FGELine l = new FGELine(new FGEPoint(0, origin.y + j * vStep), new FGEPoint(1, origin.y + j * vStep));
+			drawingBounds.intersect(l).paint(g);
+		}
+
+		for (int[] cell : filledCells) {
+			FGERectangle r = new FGERectangle((cell[0] - 1) * hStep, cell[1] * vStep, hStep, vStep, Filling.FILLED);
+			drawingBounds.intersect(r).paint(g);
+		}
 	}
 
 }

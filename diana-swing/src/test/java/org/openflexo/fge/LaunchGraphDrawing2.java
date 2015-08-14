@@ -56,6 +56,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 
+import org.openflexo.fge.layout.GridLayoutManagerDrawing;
 import org.openflexo.fge.swing.JDianaInteractiveEditor;
 import org.openflexo.fge.swing.JDianaInteractiveViewer;
 import org.openflexo.fge.swing.SwingViewFactory;
@@ -66,9 +67,9 @@ import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 
-public class LaunchGraphDrawing {
+public class LaunchGraphDrawing2 {
 
-	private static final Logger LOGGER = FlexoLogger.getLogger(LaunchGraphDrawing.class.getPackage().getName());
+	private static final Logger LOGGER = FlexoLogger.getLogger(LaunchGraphDrawing2.class.getPackage().getName());
 
 	public static void main(String[] args) {
 		try {
@@ -88,7 +89,7 @@ public class LaunchGraphDrawing {
 		private final JPopupMenu contextualMenu;
 		private final JDianaScaleSelector scaleSelector;
 
-		public TestDrawingController(GraphDrawing1 aDrawing) {
+		public TestDrawingController(GridLayoutManagerDrawing aDrawing) {
 			super(aDrawing, aDrawing.getFactory(), SwingViewFactory.INSTANCE, SwingToolFactory.DEFAULT);
 			scaleSelector = (JDianaScaleSelector) getToolFactory().makeDianaScaleSelector(this);
 			contextualMenu = new JPopupMenu();
@@ -156,7 +157,7 @@ public class LaunchGraphDrawing {
 
 		// final TestInspector inspector = new TestInspector();
 
-		final GraphDrawing1 d = makeDrawing();
+		final GridLayoutManagerDrawing d = makeDrawing();
 		final TestDrawingController dc = new TestDrawingController(d);
 		// dc.disablePaintingCache();
 		dc.getDrawingView().setName("[NO_CACHE]");
@@ -238,7 +239,7 @@ public class LaunchGraphDrawing {
 		// inspector.getWindow().setVisible(true);
 	}
 
-	public static GraphDrawing1 makeDrawing() {
+	public static GridLayoutManagerDrawing makeDrawing() {
 		FGEModelFactory factory = null;
 		try {
 			factory = new FGEModelFactoryImpl();
@@ -252,7 +253,7 @@ public class LaunchGraphDrawing {
 		node1.connectTo(node2);
 		node1.connectTo(node3);
 		node3.connectTo(node2);
-		GraphDrawing1 returned = new GraphDrawing1(graph, factory);
+		GridLayoutManagerDrawing returned = new GridLayoutManagerDrawing(graph, factory);
 		returned.printGraphicalObjectHierarchy();
 		return returned;
 	}

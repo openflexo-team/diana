@@ -40,10 +40,12 @@
 package org.openflexo.fge.geom.area;
 
 import java.awt.geom.AffineTransform;
+import java.util.LinkedList;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.geom.FGEAbstractLine;
 import org.openflexo.fge.geom.FGEGeometricObject;
+import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.FGEPoint;
@@ -57,6 +59,7 @@ public class FGEGrid implements FGEArea {
 	public FGEPoint origin;
 	public double hStep;
 	public double vStep;
+	public LinkedList<int[]> filledCells;// liste des cases remplies et backgroundassocies
 
 	public FGEGrid() {
 		this(new FGEPoint(0, 0), 1.0, 1.0);
@@ -66,6 +69,7 @@ public class FGEGrid implements FGEArea {
 		this.origin = origin;
 		this.hStep = hStep;
 		this.vStep = vStep;
+		this.filledCells = new LinkedList<>();
 	}
 
 	public double getHorizontalStep() {
@@ -128,15 +132,18 @@ public class FGEGrid implements FGEArea {
 		if (distanceUL <= distanceUR && distanceUL <= distanceLL && distanceUL <= distanceLR) {
 			// Upper left is closest
 			return ulPoint;
-		} else if (distanceUR <= distanceUL && distanceUR <= distanceLL && distanceUR <= distanceLR) {
+		}
+		else if (distanceUR <= distanceUL && distanceUR <= distanceLL && distanceUR <= distanceLR) {
 			// Upper right is closest
 			ulPoint.x += hStep;
 			return ulPoint;
-		} else if (distanceLL <= distanceUR && distanceLL <= distanceUL && distanceLL <= distanceLR) {
+		}
+		else if (distanceLL <= distanceUR && distanceLL <= distanceUL && distanceLL <= distanceLR) {
 			// Lower left is closest
 			ulPoint.y += vStep;
 			return ulPoint;
-		} else {
+		}
+		else {
 			// Lower right is closest
 			ulPoint.x += hStep;
 			ulPoint.y += vStep;
@@ -169,17 +176,27 @@ public class FGEGrid implements FGEArea {
 	public void paint(AbstractFGEGraphics g) {
 
 		FGERectangle bounds = g.getNodeNormalizedBounds();
+		bounds.setIsFilled(true);
 
+		int iStart = (int) Math.ceil((bounds.getMinX() - origin.x) / hStep);
+		int iEnd = (int) Math.floor((bounds.getMaxX() - origin.x) / hStep);
+		int jStart = (int) Math.ceil((bounds.getMinY() - origin.y) / hStep);
+		int jEnd = (int) Math.floor((bounds.getMaxY() - origin.y) / hStep);
 		int nx = (int) (bounds.getWidth() / hStep);
 		int ny = (int) (bounds.getHeight() / vStep);
 
-		for (int i = 0; i < nx; i++) {
-			FGELine l = new FGELine(new FGEPoint(i * hStep, 0), new FGEPoint(i * hStep, 1));
+		for (int i = iStart; i < iEnd + 1; i++) {
+			FGELine l = new FGELine(new FGEPoint(origin.x + i * hStep, 0), new FGEPoint(origin.x + i * hStep, 1));
 			bounds.intersect(l).paint(g);
 		}
-		for (int j = 0; j < ny; j++) {
-			FGELine l = new FGELine(new FGEPoint(0, j * vStep), new FGEPoint(1, j * vStep));
+		for (int j = jStart; j < jEnd + 1; j++) {
+			FGELine l = new FGELine(new FGEPoint(0, origin.y + j * vStep), new FGEPoint(1, origin.y + j * vStep));
 			bounds.intersect(l).paint(g);
+		}
+
+		for (int[] cell : filledCells) {
+			FGERectangle r = new FGERectangle((cell[0] - 1) * hStep, cell[1] * vStep, hStep, vStep, Filling.FILLED);
+			bounds.intersect(r).paint(g);
 		}
 
 	}
@@ -202,6 +219,11 @@ public class FGEGrid implements FGEArea {
 	@Override
 	public FGEGrid clone() {
 		return new FGEGrid(new FGEPoint(origin), hStep, vStep);
+	}
+
+	public void fillCell(int x, int y) {
+		int[] cell = { x, y };
+		filledCells.add(cell);
 	}
 
 }
