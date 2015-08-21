@@ -36,7 +36,6 @@
  * 
  */
 
-
 package org.openflexo.fge.swing;
 
 import javax.swing.JComponent;
@@ -61,6 +60,7 @@ public class JDianaViewer<M> extends DianaViewer<M, SwingViewFactory, JComponent
 	public JDianaViewer(Drawing<M> aDrawing, FGEModelFactory factory, SwingToolFactory toolFactory) {
 		super(aDrawing, factory, SwingViewFactory.INSTANCE, toolFactory);
 		setDelegate(new SwingEditorDelegate(this));
+		System.out.println("Viewer");
 	}
 
 	public JDianaViewer(Drawing<M> aDrawing, FGEModelFactory factory, SwingViewFactory viewFactory, SwingToolFactory toolFactory) {
@@ -85,11 +85,11 @@ public class JDianaViewer<M> extends DianaViewer<M, SwingViewFactory, JComponent
 		}
 		return null;
 	}
-
+	
 	public void enablePaintingCache() {
 		getPaintManager().enablePaintingCache();
 	}
-
+	
 	public void disablePaintingCache() {
 		getPaintManager().disablePaintingCache();
 	}*/

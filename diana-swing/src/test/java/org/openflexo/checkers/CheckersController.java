@@ -16,7 +16,11 @@ public class CheckersController {
 		UI = new CheckersUI(board);
 	}
 
-	public PieceAndCoordinates getPieceAndCoordinates() {
+	/*public PieceAndCoordinates getPieceAndCoordinates() {
 		return null;
+	}*/
+
+	public void clickPiece(CheckersPiece piece) {
+		// if ()
 	}
 }

@@ -2,6 +2,13 @@ package org.openflexo.diana.vaadin;
 
 import javax.servlet.annotation.WebServlet;
 
+import org.openflexo.checkers.CheckersBoard;
+import org.openflexo.checkers.CheckersDrawing;
+import org.openflexo.diana.vaadin.control.VaadinToolFactory;
+import org.openflexo.fge.FGEModelFactory;
+import org.openflexo.fge.FGEModelFactoryImpl;
+import org.openflexo.model.exceptions.ModelDefinitionException;
+
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
@@ -23,9 +30,24 @@ public class MyUI extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {
+		FGEModelFactory factory = null;
+		try {
+			factory = new FGEModelFactoryImpl();
+		} catch (ModelDefinitionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		CheckersBoard board = new CheckersBoard();
+		CheckersDrawing d = new CheckersDrawing(board, factory);
+
+		VDianaViewer<CheckersBoard> viewer = new VDianaViewer<CheckersBoard>(d, d.getFactory(), VaadinToolFactory.DEFAULT);
+
 		final VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(true);
 		setContent(layout);
+
+		layout.addComponent(viewer.getDrawingView());
 
 		Button button = new Button("Click Me");
 		button.addClickListener(new Button.ClickListener() {
@@ -36,7 +58,6 @@ public class MyUI extends UI {
 		});
 		layout.addComponent(button);
 	}
-
 }
 
 /**

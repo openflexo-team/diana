@@ -16,6 +16,7 @@ import org.openflexo.fge.control.tools.DianaPalette;
 import org.openflexo.fge.control.tools.PaletteController;
 import org.openflexo.fge.control.tools.ShapeSpecificationFactory;
 import org.openflexo.fge.shapes.ShapeSpecification;
+import org.openflexo.fge.vaadin.view.VDrawingView;
 import org.openflexo.fge.view.ConnectorView;
 import org.openflexo.fge.view.DianaViewFactory;
 import org.openflexo.fge.view.DrawingView;
@@ -38,7 +39,7 @@ public class VaadinViewFactory implements DianaViewFactory<VaadinViewFactory, Ab
 	public <M> DrawingView<M, ? extends AbstractComponent> makeDrawingView(
 			AbstractDianaEditor<M, VaadinViewFactory, AbstractComponent> controller) {
 		// TODO Auto-generated method stub
-		return null;
+		return new VDrawingView<M>(controller);
 	}
 
 	@Override

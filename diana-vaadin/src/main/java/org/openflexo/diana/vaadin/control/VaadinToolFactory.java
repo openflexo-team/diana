@@ -1,4 +1,4 @@
-package org.openflexo.diana.vaadin;
+package org.openflexo.diana.vaadin.control;
 
 import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.DianaInteractiveEditor;

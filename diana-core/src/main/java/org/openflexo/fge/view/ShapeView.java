@@ -44,8 +44,10 @@ import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 public interface ShapeView<O, C> extends FGEContainerView<O, C> {
 
+	@Override
 	public abstract ShapeNode<O> getNode();
 
+	@Override
 	public FGEShapeGraphics getFGEGraphics();
 
 }

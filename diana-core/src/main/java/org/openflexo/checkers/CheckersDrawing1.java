@@ -120,7 +120,7 @@ public class CheckersDrawing1 extends DrawingImpl<CheckersBoard> {
 
 						CheckersPiece piece = board.getContent()[i][j];
 						if (piece != null) {
-							PieceAndCoordinates pieceAndCoordinates = new PieceAndCoordinates(piece, coordinates);
+							PieceAndCoordinates pieceAndCoordinates = new PieceAndCoordinates(piece, i, j);
 							drawShape(pieceBinding, pieceAndCoordinates);
 						}
 					}

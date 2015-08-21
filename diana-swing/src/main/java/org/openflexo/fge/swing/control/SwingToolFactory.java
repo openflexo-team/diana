@@ -36,7 +36,6 @@
  * 
  */
 
-
 package org.openflexo.fge.swing.control;
 
 import javax.swing.JComponent;

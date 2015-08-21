@@ -4,12 +4,12 @@ import javax.swing.JDialog;
 
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
-import org.openflexo.fge.swing.JDianaInteractiveViewer;
+import org.openflexo.fge.swing.JDianaViewer;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 
 public class CheckersUI extends JDialog {
-	private final JDianaInteractiveViewer<CheckersBoard> viewer;
+	private final JDianaViewer<CheckersBoard> viewer;
 
 	public CheckersUI(CheckersBoard board) {
 		FGEModelFactory factory = null;
@@ -21,7 +21,7 @@ public class CheckersUI extends JDialog {
 		}
 
 		CheckersDrawing d = new CheckersDrawing(board, factory);
-		viewer = new JDianaInteractiveViewer<>(d, d.getFactory(), SwingToolFactory.DEFAULT);
+		viewer = new JDianaViewer<>(d, d.getFactory(), SwingToolFactory.DEFAULT);
 
 		this.getContentPane().add(viewer.getDrawingView());
 

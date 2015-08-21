@@ -6,8 +6,13 @@ public class CheckersPiece {
 	};
 
 	private final Color color;
+	private boolean king;
 
 	public CheckersPiece(Color color) {
 		this.color = color;
+	}
+
+	public boolean isKing() {
+		return king;
 	}
 }

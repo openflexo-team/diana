@@ -58,6 +58,8 @@ import org.openflexo.fge.control.MouseClickControl;
 import org.openflexo.fge.control.MouseClickControlAction;
 import org.openflexo.fge.control.MouseControl.MouseButton;
 import org.openflexo.fge.control.MouseControlContext;
+import org.openflexo.fge.control.MouseDragControl;
+import org.openflexo.fge.control.MouseDragControlAction;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.geom.area.FGEFiniteGrid;
@@ -102,6 +104,37 @@ public class CheckersDrawing extends DrawingImpl<CheckersBoard> {
 
 		MouseClickControl<DianaEditor<CheckersBoard>> click = (MouseClickControl<DianaEditor<CheckersBoard>>) getFactory()
 				.makeMouseClickControl("click_piece", MouseButton.LEFT, 1);
+		MouseDragControl<DianaEditor<CheckersBoard>> drag = (MouseDragControl<DianaEditor<CheckersBoard>>) getFactory()
+				.makeMouseDragControl("drag_piece", MouseButton.LEFT);
+		drag.setControlAction(new MouseDragControlAction<DianaEditor<CheckersBoard>>() {
+
+			@Override
+			public boolean isApplicable(DrawingTreeNode<?, ?> node, DianaEditor<CheckersBoard> controller, MouseControlContext context) {
+				// TODO Auto-generated method stub
+				return true;
+			}
+
+			@Override
+			public boolean handleMouseReleased(DrawingTreeNode<?, ?> node, DianaEditor<CheckersBoard> controller,
+					MouseControlContext context, boolean isSignificativeDrag) {
+
+				return false;
+			}
+
+			@Override
+			public boolean handleMousePressed(DrawingTreeNode<?, ?> node, DianaEditor<CheckersBoard> controller,
+					MouseControlContext context) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean handleMouseDragged(DrawingTreeNode<?, ?> node, DianaEditor<CheckersBoard> controller,
+					MouseControlContext context) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
 
 		click.setControlAction(new MouseClickControlAction<DianaEditor<CheckersBoard>>() {
 
@@ -167,7 +200,7 @@ public class CheckersDrawing extends DrawingImpl<CheckersBoard> {
 
 						CheckersPiece piece = board.getContent()[i][j];
 						if (piece != null) {
-							PieceAndCoordinates pieceAndCoordinates = new PieceAndCoordinates(piece, coordinates);
+							PieceAndCoordinates pieceAndCoordinates = new PieceAndCoordinates(piece, i, j);
 							drawShape(pieceBinding, pieceAndCoordinates);
 						}
 					}
