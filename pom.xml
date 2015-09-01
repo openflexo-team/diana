@@ -16,6 +16,7 @@
 		<gina.version>1.3-SNAPSHOT</gina.version>
 		<graphicsutils.version>1.3-SNAPSHOT</graphicsutils.version>
 		<diana.logo>https://media.openflexo.org/images/diana_logo64x64.png</diana.logo>
+		<maven.sourceplugin.version>2.4</maven.sourceplugin.version>
 	</properties>
 	<scm>
 		<connection>scm:git:ssh://git@github.com/openflexo-team/diana.git</connection>
@@ -129,6 +130,11 @@
 				<groupId>net.sf.jung</groupId>
 				<artifactId>jung-algorithms</artifactId>
 				<version>2.0.1</version>
+			</dependency>
+			<dependency>
+               			<groupId>org.apache.maven.plugins</groupId>
+              			<artifactId>maven-source-plugin</artifactId>
+              			<version>${maven.sourceplugin.version}</version>
 			</dependency>
 
 		</dependencies>
