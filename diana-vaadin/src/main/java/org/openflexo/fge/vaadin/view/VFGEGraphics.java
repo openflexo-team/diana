@@ -4,6 +4,8 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Stroke;
 
+import org.openflexo.diana.vaadin.VDianaViewer;
+import org.openflexo.diana.vaadin.client.vdianaviewercomponent.VDianaViewerComponentClientRpc;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.fge.geom.FGECubicCurve;
@@ -14,10 +16,28 @@ import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.graphics.FGEGraphicsImpl;
 import org.openflexo.fge.view.FGEView;
 
+import com.google.gwt.canvas.dom.client.Context2d;
+
 public class VFGEGraphics extends FGEGraphicsImpl {
+
+	private Context2d ctx;
+	// private VDianaViewerComponentClientRpc rpc;
 
 	protected VFGEGraphics(DrawingTreeNode<?, ?> dtn, FGEView<?, ?> view) {
 		super(dtn, view);
+	}
+
+	public Context2d getContext() {
+		return ctx;
+	}
+
+	public VDianaViewerComponentClientRpc getRpc() {
+		return getController().getComponent().getRpc();
+	}
+
+	@Override
+	public VDianaViewer<?> getController() {
+		return (VDianaViewer) super.getController();
 	}
 
 	@Override
@@ -34,7 +54,7 @@ public class VFGEGraphics extends FGEGraphicsImpl {
 
 	@Override
 	public void drawPoint(double x, double y) {
-		// TODO Auto-generated method stub
+		getRpc().drawPoint(x, y);
 
 	}
 
@@ -46,8 +66,7 @@ public class VFGEGraphics extends FGEGraphicsImpl {
 
 	@Override
 	public void drawRect(double x, double y, double width, double height) {
-		// TODO Auto-generated method stub
-
+		getRpc().drawRect(x, y, width, height);
 	}
 
 	@Override

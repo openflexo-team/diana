@@ -53,16 +53,8 @@ import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
-import org.openflexo.fge.control.DianaEditor;
-import org.openflexo.fge.control.MouseClickControl;
-import org.openflexo.fge.control.MouseClickControlAction;
-import org.openflexo.fge.control.MouseControl.MouseButton;
-import org.openflexo.fge.control.MouseControlContext;
-import org.openflexo.fge.control.MouseDragControl;
-import org.openflexo.fge.control.MouseDragControlAction;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
-import org.openflexo.fge.geom.area.FGEFiniteGrid;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 
@@ -70,7 +62,7 @@ public class CheckersDrawing extends DrawingImpl<CheckersBoard> {
 
 	private DrawingGraphicalRepresentation boardRepresentation;
 	private GeometricGraphicalRepresentation gridRepresentation;
-	private ShapeGraphicalRepresentation pieceRepresentation;
+	private ShapeGraphicalRepresentation pieceRepresentation, blackPieceRepresentation;
 
 	private FGECheckersBoard grid;
 
@@ -101,33 +93,37 @@ public class CheckersDrawing extends DrawingImpl<CheckersBoard> {
 		pieceRepresentation.setWidth(30);
 		pieceRepresentation.setHeight(30);
 		pieceRepresentation.setDimensionConstraints(DimensionConstraints.UNRESIZABLE);
+		pieceRepresentation.setBackground(getFactory().makeColoredBackground(Color.WHITE));
 
-		MouseClickControl<DianaEditor<CheckersBoard>> click = (MouseClickControl<DianaEditor<CheckersBoard>>) getFactory()
+		blackPieceRepresentation = getFactory().makeShapeGraphicalRepresentation(pieceRepresentation);
+		blackPieceRepresentation.setBackground(getFactory().makeColoredBackground(Color.BLACK));
+
+		/*MouseClickControl<DianaEditor<CheckersBoard>> click = (MouseClickControl<DianaEditor<CheckersBoard>>) getFactory()
 				.makeMouseClickControl("click_piece", MouseButton.LEFT, 1);
 		MouseDragControl<DianaEditor<CheckersBoard>> drag = (MouseDragControl<DianaEditor<CheckersBoard>>) getFactory()
 				.makeMouseDragControl("drag_piece", MouseButton.LEFT);
 		drag.setControlAction(new MouseDragControlAction<DianaEditor<CheckersBoard>>() {
-
+		
 			@Override
 			public boolean isApplicable(DrawingTreeNode<?, ?> node, DianaEditor<CheckersBoard> controller, MouseControlContext context) {
 				// TODO Auto-generated method stub
 				return true;
 			}
-
+		
 			@Override
 			public boolean handleMouseReleased(DrawingTreeNode<?, ?> node, DianaEditor<CheckersBoard> controller,
 					MouseControlContext context, boolean isSignificativeDrag) {
-
+		
 				return false;
 			}
-
+		
 			@Override
 			public boolean handleMousePressed(DrawingTreeNode<?, ?> node, DianaEditor<CheckersBoard> controller,
 					MouseControlContext context) {
 				// TODO Auto-generated method stub
 				return false;
 			}
-
+		
 			@Override
 			public boolean handleMouseDragged(DrawingTreeNode<?, ?> node, DianaEditor<CheckersBoard> controller,
 					MouseControlContext context) {
@@ -135,23 +131,23 @@ public class CheckersDrawing extends DrawingImpl<CheckersBoard> {
 				return false;
 			}
 		});
-
+		
 		click.setControlAction(new MouseClickControlAction<DianaEditor<CheckersBoard>>() {
-
+		
 			@Override
 			public boolean handleClick(org.openflexo.fge.Drawing.DrawingTreeNode<?, ?> node, DianaEditor<CheckersBoard> controller,
 					MouseControlContext context) {
 				System.out.println("hello");
 				return true;
 			}
-
+		
 			@Override
 			public boolean isApplicable(org.openflexo.fge.Drawing.DrawingTreeNode<?, ?> node, DianaEditor<CheckersBoard> controller,
 					MouseControlContext context) {
 				return true;
 			}
 		});
-		pieceRepresentation.addToMouseClickControls(click);
+		pieceRepresentation.addToMouseClickControls(click);*/
 
 		/*MouseClickControl<DianaEditor<CheckersBoard>> click = (MouseClickControl<DianaEditor<CheckersBoard>>) getFactory()
 				.makeMouseClickControl("click_piece", MouseButton.LEFT, 1);
@@ -181,50 +177,26 @@ public class CheckersDrawing extends DrawingImpl<CheckersBoard> {
 					}
 				});
 
-		final ShapeGRBinding<PieceAndCoordinates> pieceBinding = bindShape(PieceAndCoordinates.class, "piece",
-				new ShapeGRProvider<PieceAndCoordinates>() {
-					@Override
-					public ShapeGraphicalRepresentation provideGR(PieceAndCoordinates drawable, FGEModelFactory factory) {
-						return pieceRepresentation;
-					}
-				});
+		final ShapeGRBinding<CheckersPiece> pieceBinding = bindShape(CheckersPiece.class, "piece", new ShapeGRProvider<CheckersPiece>() {
+			@Override
+			public ShapeGraphicalRepresentation provideGR(CheckersPiece drawable, FGEModelFactory factory) {
+				return (drawable.getColor() == CheckersPiece.Color.WHITE) ? pieceRepresentation : blackPieceRepresentation;
+			}
+		});
 
 		boardBinding.addToWalkers(new GRStructureVisitor<CheckersBoard>() {
 
 			@Override
 			public void visit(CheckersBoard board) {
 				drawGeometricObject(gridBinding, grid);
-				for (int i = 0; i < board.getContent().length; i++) {
-					for (int j = 0; j < board.getContent()[i].length; j++) {
-						BoardCoordinates coordinates = new BoardCoordinates(i * 40 + 2.5, j * 40 + 2.5);
-
-						CheckersPiece piece = board.getContent()[i][j];
-						if (piece != null) {
-							PieceAndCoordinates pieceAndCoordinates = new PieceAndCoordinates(piece, i, j);
-							drawShape(pieceBinding, pieceAndCoordinates);
-						}
-					}
+				for (CheckersPiece piece : board.getPieces()) {
+					ShapeNode<CheckersPiece> node = drawShape(pieceBinding, piece);
+					node.setX(piece.getX() * 40 + 2.5);
+					node.setY(piece.getY() * 40 + 2.5);
 				}
-
 			}
 		});
 
-		pieceBinding.setDynamicPropertyValue(ShapeGraphicalRepresentation.X, new DataBinding<Double>("drawable.coordinates.x"), true);
-		pieceBinding.setDynamicPropertyValue(ShapeGraphicalRepresentation.Y, new DataBinding<Double>("drawable.coordinates.y"), true);
-		// pieceBinding.setDynamicPropertyValue(ShapeGraphicalRepresentation.BACKGROUND, new DataBinding<ColorBackgroundStyle>(""), false);
-	}
-
-	public class FGECheckersBoard extends FGEFiniteGrid {
-
-		public FGECheckersBoard(FGEPoint origin, double hStep, double vStep, FGERectangle bounds) {
-			super(origin, hStep, vStep, bounds);
-			for (int i = 0; i < 9; i++) {
-				for (int j = 0; j < 8; j++) {
-					if (((i + j) % 2) == 0) {
-						fillCell(i, j);
-					}
-				}
-			}
-		}
+		pieceBinding.setDynamicPropertyValue(ShapeGraphicalRepresentation.X, new DataBinding<Double>("drawable.x"), false);
 	}
 }

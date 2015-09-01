@@ -170,7 +170,6 @@ public class JDrawingView<M> extends JDianaLayeredView<M>implements Autoscroll, 
 	private boolean isDeleted = false;
 
 	public JDrawingView(AbstractDianaEditor<M, SwingViewFactory, JComponent> controller) {
-		System.out.println("DrawingView");
 		this.controller = controller;
 		drawing = controller.getDrawing();
 		drawing.getRoot().getGraphicalRepresentation().updateBindingModel();
@@ -569,6 +568,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M>implements Autoscroll, 
 		}
 
 		long startTime = System.currentTimeMillis();
+
 		if (getPaintManager().isPaintingCacheEnabled()) {
 			if (isBuffering) {
 				// Buffering painting

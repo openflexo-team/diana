@@ -39,7 +39,6 @@
 
 package org.openflexo.fge.geom.area;
 
-import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
@@ -103,9 +102,13 @@ public class FGEFiniteGrid extends FGEGrid {
 			drawingBounds.intersect(l).paint(g);
 		}
 
-		for (int[] cell : filledCells) {
+		/*for (int[] cell : filledCells) {
 			FGERectangle r = new FGERectangle((cell[0] - 1) * hStep, cell[1] * vStep, hStep, vStep, Filling.FILLED);
 			drawingBounds.intersect(r).paint(g);
+		}*/
+
+		for (FGEGridCell cell : cells.values()) {
+			drawingBounds.intersect(cell).paint(g);
 		}
 	}
 

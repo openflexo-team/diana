@@ -40,12 +40,14 @@
 package org.openflexo.fge.geom.area;
 
 import java.awt.geom.AffineTransform;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.geom.FGEAbstractLine;
 import org.openflexo.fge.geom.FGEGeometricObject;
-import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.FGEPoint;
@@ -59,7 +61,8 @@ public class FGEGrid implements FGEArea {
 	public FGEPoint origin;
 	public double hStep;
 	public double vStep;
-	public LinkedList<int[]> filledCells;// liste des cases remplies et backgroundassocies
+	public List<int[]> filledCells;
+	public Map<FGEGridCoordinates, FGEGridCell> cells;
 
 	public FGEGrid() {
 		this(new FGEPoint(0, 0), 1.0, 1.0);
@@ -70,6 +73,7 @@ public class FGEGrid implements FGEArea {
 		this.hStep = hStep;
 		this.vStep = vStep;
 		this.filledCells = new LinkedList<>();
+		this.cells = new HashMap<>();
 	}
 
 	public double getHorizontalStep() {
@@ -194,9 +198,8 @@ public class FGEGrid implements FGEArea {
 			bounds.intersect(l).paint(g);
 		}
 
-		for (int[] cell : filledCells) {
-			FGERectangle r = new FGERectangle((cell[0] - 1) * hStep, cell[1] * vStep, hStep, vStep, Filling.FILLED);
-			bounds.intersect(r).paint(g);
+		for (FGEGridCell cell : cells.values()) {
+			bounds.intersect(cell).paint(g);
 		}
 
 	}
@@ -221,9 +224,99 @@ public class FGEGrid implements FGEArea {
 		return new FGEGrid(new FGEPoint(origin), hStep, vStep);
 	}
 
+	public void fillCell(FGEGridCoordinates coordinates) {
+		getCell(coordinates).setIsFilled(true);
+	}
+
 	public void fillCell(int x, int y) {
+		getCell(x, y).setIsFilled(true);
+
 		int[] cell = { x, y };
 		filledCells.add(cell);
 	}
 
+	public FGEGridCell getCell(FGEGridCoordinates coordinates) {
+		if (cells.containsKey(coordinates)) {
+			return cells.get(coordinates);
+		}
+		else {
+			FGEGridCell cell = new FGEGridCell(coordinates, this);
+			cells.put(coordinates, cell);
+			return cell;
+		}
+	}
+
+	public FGEGridCell getCell(int x, int y) {
+		FGEGridCoordinates coordinates = new FGEGridCoordinates(x, y);
+
+		return getCell(coordinates);
+	}
+
+	public FGEGridCell getCell(FGEPoint point) {
+		int x = (int) Math.floor(point.getX() / hStep);
+		int y = (int) Math.floor(point.getY() / vStep);
+
+		return getCell(x, y);
+	}
+
+	public class FGEGridCell extends FGERectangle {
+		private final FGEGridCoordinates coordinates;
+		private final FGEGrid grid;
+
+		protected FGEGridCell(FGEGridCoordinates coord, FGEGrid grid) {
+			super(coord.x * hStep, coord.y * vStep, hStep, vStep);
+			this.coordinates = coord;
+			this.grid = grid;
+		}
+
+		protected FGEGridCell(int xInGrid, int yInGrid, FGEGrid grid) {
+			this(new FGEGridCoordinates(xInGrid, yInGrid), grid);
+		}
+
+		public int getXInGrid() {
+			return coordinates.x;
+		}
+
+		public int getYInGrid() {
+			return coordinates.y;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (!(obj instanceof FGEGridCoordinates))
+				return false;
+			if (obj == this)
+				return true;
+
+			FGEGridCell cell = (FGEGridCell) obj;
+			return (cell.coordinates == this.coordinates) && (cell.grid == this.grid);
+		}
+	}
+
+	public class FGEGridCoordinates {
+		public final int x, y;
+
+		public FGEGridCoordinates(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (!(obj instanceof FGEGridCoordinates))
+				return false;
+			if (obj == this)
+				return true;
+
+			FGEGridCoordinates coordinates = (FGEGridCoordinates) obj;
+			return (coordinates.x == this.x) && (coordinates.y == this.y);
+		}
+
+		@Override
+		public int hashCode() {
+			int result = x;
+			result = 421 * result + y;
+			return result;
+		}
+	}
 }

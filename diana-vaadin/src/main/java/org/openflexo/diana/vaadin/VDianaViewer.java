@@ -10,14 +10,21 @@ import com.vaadin.ui.AbstractComponent;
 
 public class VDianaViewer<M> extends DianaViewer<M, VaadinViewFactory, AbstractComponent> {
 
+	private final VDianaViewerComponent<M> component;
+
 	public VDianaViewer(Drawing<M> aDrawing, FGEModelFactory factory, VaadinToolFactory toolFactory) {
 		super(aDrawing, factory, VaadinViewFactory.INSTANCE, toolFactory);
 		// no "delegate" implemented
+		component = new VDianaViewerComponent(this);
 		System.out.println("Viewer");
 	}
 
 	@Override
 	public VDrawingView<M> getDrawingView() {
 		return (VDrawingView<M>) drawingView;
+	}
+
+	public VDianaViewerComponent<M> getComponent() {
+		return component;
 	}
 }

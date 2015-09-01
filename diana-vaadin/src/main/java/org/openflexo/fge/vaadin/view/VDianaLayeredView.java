@@ -3,7 +3,6 @@ package org.openflexo.fge.vaadin.view;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
-import org.openflexo.diana.vaadin.Canvas;
 import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.tools.DianaPalette;
 import org.openflexo.fge.graphics.FGEGraphics;
@@ -13,8 +12,7 @@ import org.openflexo.fge.view.FGEView;
 import com.vaadin.ui.AbstractComponent;
 
 // TODO : Decline vaadin Canvas into LayeredCanvas
-public abstract class VDianaLayeredView<O> extends Canvas
-		implements FGEContainerView<O, AbstractComponent>, VFGEView<O, AbstractComponent> {
+public abstract class VDianaLayeredView<O> implements FGEContainerView<O, AbstractComponent>, VFGEView<O, AbstractComponent> {
 
 	@Override
 	public AbstractDianaEditor<?, ?, ? super AbstractComponent> getController() {

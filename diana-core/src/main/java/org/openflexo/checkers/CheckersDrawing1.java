@@ -48,7 +48,6 @@ import org.openflexo.fge.GRBinding.DrawingGRBinding;
 import org.openflexo.fge.GRBinding.ShapeGRBinding;
 import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
-import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation.LocationConstraints;
 import org.openflexo.fge.impl.DrawingImpl;
@@ -109,15 +108,14 @@ public class CheckersDrawing1 extends DrawingImpl<CheckersBoard> {
 					}
 				});
 
-		boardBinding.addToWalkers(new GRStructureVisitor<CheckersBoard>() {
-
+		/*boardBinding.addToWalkers(new GRStructureVisitor<CheckersBoard>() {
+		
 			@Override
 			public void visit(CheckersBoard board) {
-				for (int i = 0; i < board.getContent().length; i++) {
-					for (int j = 0; j < board.getContent()[i].length; j++) {
+				for (CheckersPiece piece : board.getContent()) {
 						BoardCoordinates coordinates = new BoardCoordinates(i, j);
 						drawShape(cellBinding, coordinates);
-
+		
 						CheckersPiece piece = board.getContent()[i][j];
 						if (piece != null) {
 							PieceAndCoordinates pieceAndCoordinates = new PieceAndCoordinates(piece, i, j);
@@ -125,9 +123,9 @@ public class CheckersDrawing1 extends DrawingImpl<CheckersBoard> {
 						}
 					}
 				}
-
+		
 			}
-		});
+		});*/
 
 		cellBinding.setDynamicPropertyValue(ShapeGraphicalRepresentation.X, new DataBinding<Double>("drawable.drawingX"), false);
 		cellBinding.setDynamicPropertyValue(ShapeGraphicalRepresentation.Y, new DataBinding<Double>("drawable.drawingY"), false);

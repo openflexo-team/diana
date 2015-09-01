@@ -11,6 +11,7 @@ import org.openflexo.model.exceptions.ModelDefinitionException;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
@@ -20,6 +21,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
+@Widgetset("org.openflexo.diana.vaadin.MyAppWidgetset")
 @Theme("mytheme")
 public class MyUI extends UI {
 
@@ -47,7 +49,9 @@ public class MyUI extends UI {
 		layout.setMargin(true);
 		setContent(layout);
 
-		layout.addComponent(viewer.getDrawingView());
+		// layout.addComponent(viewer.getDrawingView()); // DrawingView n'est pas un widget
+
+		layout.addComponent(viewer.getComponent());
 
 		Button button = new Button("Click Me");
 		button.addClickListener(new Button.ClickListener() {
