@@ -1116,7 +1116,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 		DrawUtils.setRenderQuality(g2);
 		DrawUtils.setColorRenderQuality(g2);
 	}
-	*/
+	 */
 
 	/*@Override
 	public String getInspectorName() {
@@ -1264,6 +1264,16 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	}
 
 	@Override
+	public MouseClickControl<?> getMouseClickControl(String name) {
+		for (MouseClickControl<?> c : getMouseClickControls()) {
+			if (c.getName().equals(name)) {
+				return c;
+			}
+		}
+		return null;
+	}
+
+	@Override
 	public List<MouseDragControl<?>> getMouseDragControls() {
 		return mouseDragControls;
 	}
@@ -1298,6 +1308,16 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 		mouseDragControls.remove(mouseDragControl);
 		setChanged();
 		notifyObservers(new FGEAttributeNotification(MOUSE_DRAG_CONTROLS, mouseDragControls, mouseDragControls));
+	}
+
+	@Override
+	public MouseDragControl<?> getMouseDragControl(String name) {
+		for (MouseDragControl<?> c : getMouseDragControls()) {
+			if (c.getName().equals(name)) {
+				return c;
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -1731,7 +1751,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	public void deleteVariable(GRVariable v) {
 		removeFromVariables(v);
 	}
-	*/
+	 */
 	/*	private boolean validated = false;
 		protected LabelMetricsProvider labelMetricsProvider;
 
@@ -1759,7 +1779,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 		public int getAvailableLabelWidth(double scale) {
 			return Integer.MAX_VALUE;
 		}
-	*/
+	 */
 	/*protected void updateDependanciesForBinding(DataBinding<?> binding) {
 		if (binding == null) {
 			return;
