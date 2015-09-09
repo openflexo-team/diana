@@ -1,7 +1,5 @@
 package org.openflexo.diana.vaadin.client.vdianaviewercomponent;
 
-import org.openflexo.fge.geom.FGEPoint;
-
 import com.vaadin.shared.communication.ClientRpc;
 
 /* Separate in several RPC
@@ -12,5 +10,5 @@ public interface VDianaViewerComponentClientRpc extends ClientRpc {
 
 	public void drawPoint(double x, double y);
 
-	public void drawPoint(FGEPoint point);
+	public void drawRoundRect(double x, double y, double width, double height, double arcwidth, double archeight);
 }

@@ -1,7 +1,5 @@
 package org.openflexo.diana.vaadin.client.vdianaviewercomponent;
 
-import org.openflexo.fge.geom.FGEPoint;
-
 public class VDianaViewerComponentClientRpcImpl implements VDianaViewerComponentClientRpc {
 	private final VDianaViewerComponentConnector connector;
 
@@ -21,8 +19,7 @@ public class VDianaViewerComponentClientRpcImpl implements VDianaViewerComponent
 	}
 
 	@Override
-	public void drawPoint(FGEPoint point) {
-		// TODO Auto-generated method stub
-
+	public void drawRoundRect(double x, double y, double width, double height, double arcwidth, double archeight) {
+		connector.getGraphics().drawRoundRect(x, y, width, height, arcwidth, archeight);
 	}
 }

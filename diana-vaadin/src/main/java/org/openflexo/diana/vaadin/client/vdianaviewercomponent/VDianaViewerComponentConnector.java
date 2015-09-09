@@ -1,12 +1,10 @@
 package org.openflexo.diana.vaadin.client.vdianaviewercomponent;
 
-import java.util.LinkedList;
-import java.util.List;
+import org.openflexo.axel.Axel;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.client.MouseEventDetailsBuilder;
 import com.vaadin.client.communication.RpcProxy;
@@ -20,14 +18,21 @@ public class VDianaViewerComponentConnector extends AbstractComponentConnector {
 
 	VDianaViewerComponentServerRpc rpc = RpcProxy.create(VDianaViewerComponentServerRpc.class, this);
 	private final DistantGraphics graphics;
-	private final List<Command> commands;
+	// private final List<Command> commands;
 
 	public VDianaViewerComponentConnector() {
 		registerRpc(VDianaViewerComponentClientRpc.class, new VDianaViewerComponentClientRpcImpl(this));
-
 		graphics = new DistantGraphicsImpl(getWidget().getContext2d());
 
-		commands = new LinkedList<>();
+		Axel a = new Axel(90, 60);
+		/*rpc.message(String.valueOf(a.getX()));*/
+
+		graphics.drawRect(2, 2, a.getX(), 60);
+
+		/*FGERectangle rect = new FGERectangle(20, 30, 60, 50);
+		graphics.drawRect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+		*/
+		// commands = new LinkedList<>();
 		// TODO ServerRpc usage example, do something useful instead
 		getWidget().addClickHandler(new ClickHandler() {
 			@Override
@@ -67,11 +72,11 @@ public class VDianaViewerComponentConnector extends AbstractComponentConnector {
 		final String text = getState().text;
 	}
 
-	public void runCommand(Command command) {
+	/*public void runCommand(Command command) {
 		rpc.message("runCommand");
 		// if (commands.add(command))
 		command.execute();
-	}
+	}*/
 
 	public void message(String string) {
 		rpc.message(string);
