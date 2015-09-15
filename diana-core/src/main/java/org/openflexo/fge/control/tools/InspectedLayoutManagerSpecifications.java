@@ -211,8 +211,6 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 	 */
 	public FGELayoutManager<?, ?> getDefaultLayoutManager() {
 		if (layoutedAsMode()) {
-			System.out.println("JE retourne le layout manager de la shape " + getContainerNode() + " qui est "
-					+ ((ShapeNode<?>) getContainerNode()).getLayoutManager());
 			return ((ShapeNode<?>) getContainerNode()).getLayoutManager();
 		} else if (getLayoutManagers() != null && getLayoutManagers().size() > 0) {
 			return getLayoutManagers().get(0);
