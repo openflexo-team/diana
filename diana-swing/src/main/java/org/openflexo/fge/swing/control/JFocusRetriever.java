@@ -714,21 +714,12 @@ public class JFocusRetriever {
 
 			if (node.getControlAreas() != null) {
 				for (ControlArea<?> ca : node.getControlAreas()) {
-					// Point pt1 =
-					// gr.convertNormalizedPointToViewCoordinates(cp.getPoint(),
-					// getScale());
-					// Point pt2 =qds
-					// gr.convertNormalizedPointToViewCoordinates(p3,
-					// getScale());
-					// double cpDistance =
-					// Point2D.distance(pt1.x,pt1.y,pt2.x,pt2.y);
-
-					// Point p2 = SwingUtilities.convertPoint((Component) view, p, (Component) v);
-					FGEPoint p3 = node.convertViewCoordinatesToNormalizedPoint(p, getScale());
-
-					double caDistance = ca.getDistanceToArea(p3, getScale());
-					if (caDistance < FGEConstants.SELECTION_DISTANCE) {
-						returned = node;
+					if (ca != null) {
+						FGEPoint p3 = node.convertViewCoordinatesToNormalizedPoint(p, getScale());
+						double caDistance = ca.getDistanceToArea(p3, getScale());
+						if (caDistance < FGEConstants.SELECTION_DISTANCE) {
+							returned = node;
+						}
 					}
 				}
 			}
