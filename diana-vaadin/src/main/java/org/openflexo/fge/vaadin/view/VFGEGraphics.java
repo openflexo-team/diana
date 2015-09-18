@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 import java.awt.Stroke;
 
 import org.openflexo.diana.vaadin.VDianaViewer;
-import org.openflexo.diana.vaadin.client.vdianaviewercomponent.VDianaViewerComponentClientRpc;
+import org.openflexo.diana.vaadin.client.vdianaviewercomponentsvg.VDianaViewerComponentSVGClientRpc;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.fge.geom.FGECubicCurve;
@@ -27,11 +27,15 @@ public class VFGEGraphics extends FGEGraphicsImpl {
 		super(dtn, view);
 	}
 
-	public Context2d getContext() {
+	/*public Context2d getContext() {
 		return ctx;
 	}
-
+	
 	public VDianaViewerComponentClientRpc getRpc() {
+		return getController().getComponent().getRpc();
+	}*/
+
+	public VDianaViewerComponentSVGClientRpc getRpc() {
 		return getController().getComponent().getRpc();
 	}
 

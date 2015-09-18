@@ -2,9 +2,6 @@ package org.openflexo.diana.vaadin;
 
 import javax.servlet.annotation.WebServlet;
 
-import org.openflexo.checkers.CheckersBoard;
-import org.openflexo.checkers.CheckersDrawing;
-import org.openflexo.diana.vaadin.control.VaadinToolFactory;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
 import org.openflexo.model.exceptions.ModelDefinitionException;
@@ -40,18 +37,20 @@ public class MyUI extends UI {
 			e.printStackTrace();
 		}
 
-		CheckersBoard board = new CheckersBoard();
-		CheckersDrawing d = new CheckersDrawing(board, factory);
-
+		/*CheckersBoard board = new CheckersBoard();
+		CheckersDrawing d = new CheckersDrawing(game, factory);
+		
 		VDianaViewer<CheckersBoard> viewer = new VDianaViewer<CheckersBoard>(d, d.getFactory(), VaadinToolFactory.DEFAULT);
-
+		*/
 		final VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(true);
 		setContent(layout);
 
 		// layout.addComponent(viewer.getDrawingView()); // DrawingView n'est pas un widget
 
-		layout.addComponent(viewer.getComponent());
+		// layout.addComponent(viewer.getComponent());
+
+		// viewer.getComponent().getRpc().drawRect(new FGERectangle(10, 10, 120, 30));
 
 		Button button = new Button("Click Me");
 		button.addClickListener(new Button.ClickListener() {

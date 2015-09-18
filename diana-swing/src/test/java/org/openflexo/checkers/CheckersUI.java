@@ -2,27 +2,14 @@ package org.openflexo.checkers;
 
 import javax.swing.JDialog;
 
-import org.openflexo.fge.FGEModelFactory;
-import org.openflexo.fge.FGEModelFactoryImpl;
 import org.openflexo.fge.swing.JDianaInteractiveViewer;
-import org.openflexo.fge.swing.control.SwingToolFactory;
-import org.openflexo.model.exceptions.ModelDefinitionException;
 
 public class CheckersUI extends JDialog {
-	private final JDianaInteractiveViewer<CheckersBoard> viewer;
 
-	public CheckersUI(CheckersBoard board) {
-		FGEModelFactory factory = null;
-		try {
-			factory = new FGEModelFactoryImpl();
-		} catch (ModelDefinitionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	private final JDianaInteractiveViewer<CheckersGame> viewer;
 
-		CheckersDrawing d = new CheckersDrawing(board, factory);
-		viewer = new JDianaInteractiveViewer<>(d, d.getFactory(), SwingToolFactory.DEFAULT);
-
+	public CheckersUI(JDianaInteractiveViewer<CheckersGame> viewer) {
+		this.viewer = viewer;
 		this.getContentPane().add(viewer.getDrawingView());
 
 		this.setTitle("Checkers");

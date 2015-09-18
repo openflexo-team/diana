@@ -39,6 +39,8 @@
 package org.openflexo.checkers;
 
 import java.awt.Color;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.openflexo.connie.DataBinding;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
@@ -53,26 +55,36 @@ import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
+import org.openflexo.fge.control.DianaInteractiveViewer;
+import org.openflexo.fge.control.MouseControl.MouseButton;
+import org.openflexo.fge.control.MouseControlContext;
+import org.openflexo.fge.control.actions.MouseDragControlImpl;
+import org.openflexo.fge.control.actions.MoveAction;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 
-public class CheckersDrawing extends DrawingImpl<CheckersBoard> {
+public class CheckersDrawing extends DrawingImpl<CheckersGame> {
 
-	private DrawingGraphicalRepresentation boardRepresentation;
+	private DrawingGraphicalRepresentation gameRepresentation;
 	private GeometricGraphicalRepresentation gridRepresentation;
 	private ShapeGraphicalRepresentation pieceRepresentation, blackPieceRepresentation;
+	private ShapeGraphicalRepresentation stepRepresentation;
+
+	private GRStructureVisitor<CheckersGame> moveVisitor;
+	private final List<ShapeNode<Cell>> moveStepNodes;
 
 	private FGECheckersBoard grid;
 
-	public CheckersDrawing(CheckersBoard board, FGEModelFactory factory) {
+	public CheckersDrawing(CheckersGame board, FGEModelFactory factory) {
 		super(board, factory, PersistenceMode.SharedGraphicalRepresentations);
+		moveStepNodes = new LinkedList<ShapeNode<Cell>>();
 	}
 
 	@Override
 	public void init() {
-		boardRepresentation = getFactory().makeDrawingGraphicalRepresentation();
+		gameRepresentation = getFactory().makeDrawingGraphicalRepresentation();
 
 		grid = new FGECheckersBoard(new FGEPoint(0, 0), 40, 40, new FGERectangle(0, 0, 8 * 40, 8 * 40));
 		gridRepresentation = getFactory().makeGeometricGraphicalRepresentation(grid);
@@ -98,76 +110,23 @@ public class CheckersDrawing extends DrawingImpl<CheckersBoard> {
 		blackPieceRepresentation = getFactory().makeShapeGraphicalRepresentation(pieceRepresentation);
 		blackPieceRepresentation.setBackground(getFactory().makeColoredBackground(Color.BLACK));
 
-		/*MouseClickControl<DianaEditor<CheckersBoard>> click = (MouseClickControl<DianaEditor<CheckersBoard>>) getFactory()
-				.makeMouseClickControl("click_piece", MouseButton.LEFT, 1);
-		MouseDragControl<DianaEditor<CheckersBoard>> drag = (MouseDragControl<DianaEditor<CheckersBoard>>) getFactory()
-				.makeMouseDragControl("drag_piece", MouseButton.LEFT);
-		drag.setControlAction(new MouseDragControlAction<DianaEditor<CheckersBoard>>() {
-		
-			@Override
-			public boolean isApplicable(DrawingTreeNode<?, ?> node, DianaEditor<CheckersBoard> controller, MouseControlContext context) {
-				// TODO Auto-generated method stub
-				return true;
-			}
-		
-			@Override
-			public boolean handleMouseReleased(DrawingTreeNode<?, ?> node, DianaEditor<CheckersBoard> controller,
-					MouseControlContext context, boolean isSignificativeDrag) {
-		
-				return false;
-			}
-		
-			@Override
-			public boolean handleMousePressed(DrawingTreeNode<?, ?> node, DianaEditor<CheckersBoard> controller,
-					MouseControlContext context) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-		
-			@Override
-			public boolean handleMouseDragged(DrawingTreeNode<?, ?> node, DianaEditor<CheckersBoard> controller,
-					MouseControlContext context) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-		});
-		
-		click.setControlAction(new MouseClickControlAction<DianaEditor<CheckersBoard>>() {
-		
-			@Override
-			public boolean handleClick(org.openflexo.fge.Drawing.DrawingTreeNode<?, ?> node, DianaEditor<CheckersBoard> controller,
-					MouseControlContext context) {
-				System.out.println("hello");
-				return true;
-			}
-		
-			@Override
-			public boolean isApplicable(org.openflexo.fge.Drawing.DrawingTreeNode<?, ?> node, DianaEditor<CheckersBoard> controller,
-					MouseControlContext context) {
-				return true;
-			}
-		});
-		pieceRepresentation.addToMouseClickControls(click);*/
+		// moveRepresentation = getFactory().;
 
-		/*MouseClickControl<DianaEditor<CheckersBoard>> click = (MouseClickControl<DianaEditor<CheckersBoard>>) getFactory()
-				.makeMouseClickControl("click_piece", MouseButton.LEFT, 1);
-		click.setControlAction(new MouseClickControlActionImpl<CheckersBoard>() {
+		stepRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.SQUARE);
+		stepRepresentation.setWidth(40);
+		stepRepresentation.setHeight(40);
+		stepRepresentation.setIsSelectable(false);
+		stepRepresentation.setDimensionConstraints(DimensionConstraints.UNRESIZABLE);
+		// stepRepresentation.setLocationConstraints(LocationConstraints.UNMOVABLE);
+		stepRepresentation.setBackground(getFactory().makeColoredBackground(new Color(1.f, 1.f, 0.f, 0.2f)));
+		stepRepresentation.setShadowStyle(getFactory().makeNoneShadowStyle());
+
+		final DrawingGRBinding<CheckersGame> gameBinding = bindDrawing(CheckersGame.class, "game", new DrawingGRProvider<CheckersGame>() {
 			@Override
-			public boolean handleClick(DrawingTreeNode<?, ?> node, DianaEditor<CheckersBoard> controller, MouseControlContext context) {
-				// TODO Auto-generated method stub
-				return false;
+			public DrawingGraphicalRepresentation provideGR(CheckersGame drawable, FGEModelFactory factory) {
+				return gameRepresentation;
 			}
 		});
-		pieceRepresentation.getMouseClickControls().clear();
-		pieceRepresentation.addToMouseClickControls(click);*/
-
-		final DrawingGRBinding<CheckersBoard> boardBinding = bindDrawing(CheckersBoard.class, "board",
-				new DrawingGRProvider<CheckersBoard>() {
-					@Override
-					public DrawingGraphicalRepresentation provideGR(CheckersBoard drawable, FGEModelFactory factory) {
-						return boardRepresentation;
-					}
-				});
 
 		final GeometricGRBinding<FGECheckersBoard> gridBinding = bindGeometric(FGECheckersBoard.class, "grid",
 				new GeometricGRProvider<FGECheckersBoard>() {
@@ -184,12 +143,27 @@ public class CheckersDrawing extends DrawingImpl<CheckersBoard> {
 			}
 		});
 
-		boardBinding.addToWalkers(new GRStructureVisitor<CheckersBoard>() {
+		/*final ConnectorGRBinding<CheckersMove> moveBinding = bindConnector(CheckersMove.class, "move",
+				new ConnectorGRProvider<CheckersMove>() {
+					@Override
+					public ConnectorGraphicalRepresentation provideGR(CheckersMove drawable, FGEModelFactory factory) {
+						return moveRepresentation;
+					}
+				});*/
+
+		final ShapeGRBinding<Cell> stepBinding = bindShape(Cell.class, "step", new ShapeGRProvider<Cell>() {
+			@Override
+			public ShapeGraphicalRepresentation provideGR(Cell drawable, FGEModelFactory factory) {
+				return stepRepresentation;
+			}
+		});
+
+		gameBinding.addToWalkers(new GRStructureVisitor<CheckersGame>() {
 
 			@Override
-			public void visit(CheckersBoard board) {
+			public void visit(CheckersGame game) {
 				drawGeometricObject(gridBinding, grid);
-				for (CheckersPiece piece : board.getPieces()) {
+				for (CheckersPiece piece : game.getBoard().getPieces()) {
 					ShapeNode<CheckersPiece> node = drawShape(pieceBinding, piece);
 					node.setX(piece.getX() * 40 + 2.5);
 					node.setY(piece.getY() * 40 + 2.5);
@@ -197,6 +171,141 @@ public class CheckersDrawing extends DrawingImpl<CheckersBoard> {
 			}
 		});
 
-		pieceBinding.setDynamicPropertyValue(ShapeGraphicalRepresentation.X, new DataBinding<Double>("drawable.x"), false);
+		moveVisitor = new GRStructureVisitor<CheckersGame>() {
+
+			@Override
+			public void visit(CheckersGame game) {
+				CheckersMove move = getModel().getController().getPlayerMove();
+
+				List<ShapeNode<Cell>> nodesToDelete = new LinkedList<>();
+
+				if (move != null) {
+					System.out.println(moveStepNodes);
+					for (ShapeNode<Cell> stepNode : moveStepNodes) {
+						boolean found = false;
+						for (CheckersStep step : move.getSteps()) {
+							if (step.getEndCell().equals(stepNode.getDrawable())) {
+								found = true;
+								break;
+							}
+						}
+
+						if (!found) {
+							nodesToDelete.add(stepNode);
+						}
+					}
+
+					for (ShapeNode<Cell> node : nodesToDelete) {
+						node.delete();
+						moveStepNodes.remove(node);
+					}
+
+					for (CheckersStep step : move.getSteps()) {
+						boolean found = false;
+						for (ShapeNode<Cell> stepNode : moveStepNodes) {
+							if (step.equals(stepNode.getDrawable())) {
+								found = true;
+								break;
+							}
+						}
+
+						if (!found) {
+							ShapeNode<Cell> node = drawShape(stepBinding, step.getEndCell());
+							if (node != null)
+								moveStepNodes.add(node);
+						}
+					}
+				}
+			}
+		};
+		gameBinding.addToWalkers(moveVisitor);
+
+		/*moveBinding.addToWalkers(new GRStructureVisitor<CheckersMove>() {
+		
+			@Override
+			public void visit(CheckersMove drawable) {
+				for (Cell step : drawable.getSteps()) {
+					drawShape(stepBinding, step);
+				}
+			}
+		});*/
+
+		/*gameBinding.addToWalkers(new GRStructureVisitor<CheckersGame>() {
+		
+			@Override
+			public void visit(CheckersGame game) {
+				for(Cell cell : game.getController().getPlayerMove().getSteps()) {
+					
+				}
+			}
+		});*/
+
+		stepBinding.setDynamicPropertyValue(ShapeGraphicalRepresentation.X, new DataBinding<Double>("40.0 * drawable.x"), false);
+		stepBinding.setDynamicPropertyValue(ShapeGraphicalRepresentation.Y, new DataBinding<Double>("40.0 * drawable.y"), false);
+
+		pieceRepresentation.getMouseDragControls().clear();
+		pieceRepresentation.addToMouseDragControls(new MouseDragControlImpl("dragPiece", MouseButton.LEFT, new MoveAction() {
+
+			@Override
+			public boolean handleMousePressed(org.openflexo.fge.Drawing.DrawingTreeNode<?, ?> node,
+					org.openflexo.fge.control.DianaInteractiveViewer<?, ?, ?> editor, MouseControlContext context) {
+				boolean returned = super.handleMousePressed(node, editor, context);
+				CheckersPiece piece = (CheckersPiece) node.getDrawable();
+				getModel().getController().pickPiece(piece);
+				return returned;
+			}
+
+			@Override
+			public boolean handleMouseDragged(org.openflexo.fge.Drawing.DrawingTreeNode<?, ?> node,
+					org.openflexo.fge.control.DianaInteractiveViewer<?, ?, ?> editor, MouseControlContext context) {
+				boolean returned = super.handleMouseDragged(node, editor, context);
+
+				int cellX = (int) Math.floor(node.getViewX(1) / 40);
+				int cellY = (int) Math.floor(node.getViewY(1) / 40);
+
+				CheckersPiece piece = (CheckersPiece) node.getDrawable();
+				getModel().getController().trackDraggedPiece(piece, cellX, cellY);
+				moveVisitor.visit(getModel());
+				return returned;
+			}
+
+			@Override
+			public boolean handleMouseReleased(org.openflexo.fge.Drawing.DrawingTreeNode<?, ?> node, DianaInteractiveViewer<?, ?, ?> editor,
+					MouseControlContext context, boolean isSignificativeDrag) {
+				boolean returned = super.handleMouseReleased(node, editor, context, isSignificativeDrag);
+
+				int cellX = (int) Math.floor(node.getViewX(1) / 40);
+				int cellY = (int) Math.floor(node.getViewY(1) / 40);
+
+				CheckersPiece piece = (CheckersPiece) node.getDrawable();
+				getModel().getController().dropPiece(piece, cellX, cellY);
+				return returned;
+			}
+		}, false, false, false, false, getFactory().getEditingContext()));
+
 	}
+	/*
+		public synchronized void drawPlayerMove() {
+			CheckersMove move = getModel().getController().getPlayerMove();
+	
+			for (ShapeNode<Cell> stepNode : moveStepNodes) {
+				if (!move.getSteps().contains(stepNode.getDrawable()))
+					stepNode.delete();
+				moveStepNodes.remove(stepNode);
+			}
+	
+			for (Cell step : move.getSteps()) {
+				boolean found = false;
+				for (ShapeNode<Cell> stepNode : moveStepNodes) {
+					if (step.equals(stepNode.getDrawable())) {
+						found = true;
+						break;
+					}
+				}
+	
+				if (!found) {
+					// moveStepNodes.add(drawShape(stepBinding, step));
+				}
+			}
+		}*/
 }

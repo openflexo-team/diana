@@ -22,4 +22,9 @@ public class VDianaViewerComponentClientRpcImpl implements VDianaViewerComponent
 	public void drawRoundRect(double x, double y, double width, double height, double arcwidth, double archeight) {
 		connector.getGraphics().drawRoundRect(x, y, width, height, arcwidth, archeight);
 	}
+
+	/*@Override
+	public void drawRect(FGERectangle rectangle) {
+		drawRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+	}*/
 }

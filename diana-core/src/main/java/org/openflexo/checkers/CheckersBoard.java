@@ -7,10 +7,10 @@ import org.openflexo.checkers.CheckersPiece.Color;
 
 public class CheckersBoard {
 	private final List<CheckersPiece> pieces;
-	private Color turn;
 
 	public CheckersBoard() {
 		pieces = new LinkedList<CheckersPiece>();
+		init();
 	}
 
 	public void init() {
@@ -45,5 +45,14 @@ public class CheckersBoard {
 
 	public List<CheckersPiece> getPieces() {
 		return pieces;
+	}
+
+	public boolean isEmpty(int x, int y) {
+		for (CheckersPiece piece : pieces) {
+			if (piece.getX() == x && piece.getY() == y)
+				return false;
+		}
+
+		return true;
 	}
 }

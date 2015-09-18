@@ -10,12 +10,12 @@ import com.vaadin.ui.AbstractComponent;
 
 public class VDianaViewer<M> extends DianaViewer<M, VaadinViewFactory, AbstractComponent> {
 
-	private final VDianaViewerComponent<M> component;
+	private final VDianaViewerComponentSVG<M> component;
 
 	public VDianaViewer(Drawing<M> aDrawing, FGEModelFactory factory, VaadinToolFactory toolFactory) {
 		super(aDrawing, factory, VaadinViewFactory.INSTANCE, toolFactory);
 		// no "delegate" implemented
-		component = new VDianaViewerComponent(this);
+		component = new VDianaViewerComponentSVG(this);
 		System.out.println("Viewer");
 	}
 
@@ -24,7 +24,7 @@ public class VDianaViewer<M> extends DianaViewer<M, VaadinViewFactory, AbstractC
 		return (VDrawingView<M>) drawingView;
 	}
 
-	public VDianaViewerComponent<M> getComponent() {
+	public VDianaViewerComponentSVG<M> getComponent() {
 		return component;
 	}
 }

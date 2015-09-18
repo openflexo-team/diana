@@ -1,7 +1,5 @@
 package org.openflexo.diana.vaadin.client.vdianaviewercomponent;
 
-import org.openflexo.axel.Axel;
-
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -23,11 +21,6 @@ public class VDianaViewerComponentConnector extends AbstractComponentConnector {
 	public VDianaViewerComponentConnector() {
 		registerRpc(VDianaViewerComponentClientRpc.class, new VDianaViewerComponentClientRpcImpl(this));
 		graphics = new DistantGraphicsImpl(getWidget().getContext2d());
-
-		Axel a = new Axel(90, 60);
-		/*rpc.message(String.valueOf(a.getX()));*/
-
-		graphics.drawRect(2, 2, a.getX(), 60);
 
 		/*FGERectangle rect = new FGERectangle(20, 30, 60, 50);
 		graphics.drawRect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());

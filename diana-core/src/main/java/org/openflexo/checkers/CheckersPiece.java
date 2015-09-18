@@ -5,7 +5,7 @@ public class CheckersPiece {
 		BLACK, WHITE
 	};
 
-	private final CheckersBoard board;
+	private final CheckersBoard board; // necessaire ?
 	private int x, y;
 	private final Color color;
 	private boolean king;
@@ -15,6 +15,12 @@ public class CheckersPiece {
 		this.y = y;
 		this.color = color;
 		this.board = board;
+	}
+
+	public void move(int x, int y) {
+		setX(x);
+		setY(y);
+		System.out.println("piece moved " + getX() + ", " + getY());
 	}
 
 	public boolean isKing() {
@@ -30,7 +36,8 @@ public class CheckersPiece {
 	}
 
 	public void setX(int x) {
-		this.x = x;
+		if (x >= 0 && x < 8)
+			this.x = x;
 	}
 
 	public int getY() {
@@ -38,6 +45,7 @@ public class CheckersPiece {
 	}
 
 	public void setY(int y) {
-		this.y = y;
+		if (y >= 0 && y < 8)
+			this.y = y;
 	}
 }

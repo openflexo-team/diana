@@ -11,4 +11,6 @@ public interface VDianaViewerComponentClientRpc extends ClientRpc {
 	public void drawPoint(double x, double y);
 
 	public void drawRoundRect(double x, double y, double width, double height, double arcwidth, double archeight);
+
+	// public void drawRect(FGERectangle rectangle);
 }

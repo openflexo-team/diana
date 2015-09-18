@@ -59,8 +59,7 @@ public class DistantGraphicsImpl implements DistantGraphics {
 		ctx.stroke();
 	}
 
-	@Override
-	public void drawRoundRect(double x, double y, double width, double height, double arcwidth, double archeight) {
+	public void pathRoundRect(double x, double y, double width, double height, double arcwidth, double archeight) {
 		ctx.moveTo(x + arcwidth, y);
 		ctx.lineTo(x + width - arcwidth, y);
 		ctx.quadraticCurveTo(x + width, y, x + width, y + archeight);
@@ -70,31 +69,47 @@ public class DistantGraphicsImpl implements DistantGraphics {
 		ctx.quadraticCurveTo(x, y + height, x, y + height - archeight);
 		ctx.lineTo(x, y + archeight);
 		ctx.quadraticCurveTo(x, y, x + arcwidth, y);
+	}
+
+	@Override
+	public void drawRoundRect(double x, double y, double width, double height, double arcwidth, double archeight) {
+		pathRoundRect(x, y, width, height, arcwidth, archeight);
 		ctx.stroke();
 	}
 
 	@Override
 	public void fillRoundRect(double x, double y, double width, double height, double arcwidth, double archeight) {
-		// TODO Auto-generated method stub
+		pathRoundRect(x, y, width, height, arcwidth, archeight);
+		ctx.fill();
+	}
 
+	public void pathCircle(double x, double y, double width, double height) {
+		ctx.moveTo(x + width / 2, y);
+		ctx.quadraticCurveTo(x + width / 2, y - width / 2, x, y - width / 2);
+		ctx.quadraticCurveTo(x - width / 2, y - height / 2, x - width / 2, y);
+		ctx.quadraticCurveTo(x - width / 2, y + height / 2, x, y + width / 2);
+		ctx.quadraticCurveTo(x + width / 2, y + height / 2, x + width / 2, y);
 	}
 
 	@Override
 	public void drawCircle(double x, double y, double width, double height) {
-		// TODO Auto-generated method stub
-
+		pathCircle(x, y, width, height);
+		ctx.stroke();
 	}
 
 	@Override
 	public void fillCircle(double x, double y, double width, double height) {
-		// TODO Auto-generated method stub
-
+		pathCircle(x, y, width, height);
+		ctx.fill();
 	}
 
 	@Override
 	public void drawArc(double x, double y, double width, double height, double angleStart, double arcAngle) {
-		// TODO Auto-generated method stub
-
+		ctx.save();
+		ctx.scale(width, height);
+		ctx.arc(x, y, 1, angleStart, angleStart + arcAngle);
+		ctx.restore();
+		ctx.stroke();
 	}
 
 	@Override
