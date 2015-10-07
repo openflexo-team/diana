@@ -39,7 +39,6 @@
 
 package org.openflexo.fge.swing.view;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -1258,13 +1257,14 @@ public class JDrawingView<M> extends JDianaLayeredView<M>implements Autoscroll, 
 			if (gc == null) {
 				gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 			}
-			screenshot = gc.createCompatibleImage(bounds.width, bounds.height, Transparency.TRANSLUCENT);// buffered image
+			// screenshot = gc.createCompatibleImage(bounds.width, bounds.height, Transparency.TRANSLUCENT);// buffered image
+			screenshot = gc.createCompatibleImage(bounds.width, bounds.height, Transparency.OPAQUE);// buffered image
 			// reference passing
 			// the label's ht
 			// and width
 			Graphics2D graphics = screenshot.createGraphics();// creating the graphics for buffered image
-			graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f)); // Sets the Composite for the Graphics2D
-																								// context
+			// graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f)); // Sets the Composite for the Graphics2D
+			// context
 			lbl.print(graphics); // painting the graphics to label
 			/*if (this.getGraphicalRepresentation().getBackground() instanceof BackgroundImage) {
 				graphics.drawImage(((BackgroundImage)this.getGraphicalRepresentation().getBackground()).getImage(),0,0,null);
