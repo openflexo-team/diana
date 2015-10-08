@@ -40,6 +40,7 @@ package org.openflexo.fge.animation.impl;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -51,6 +52,9 @@ import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.model.undo.CompoundEdit;
 
 public class AnimationImpl implements Animation {
+
+	private static final Logger logger = Logger.getLogger(AnimationImpl.class.getPackage().getName());
+
 	private int currentStep = 0;
 	private final int steps;
 	private final List<? extends Transition> transitions;
@@ -74,12 +78,10 @@ public class AnimationImpl implements Animation {
 		this.transitions = transitions;
 		this.edit = edit;
 		this.editor = editor;
-		System.out.println("!!!!!!!!!!!!!!!!!!!! Performing animation");
+		logger.info("Performing animation with following transitions:");
 		for (Transition t : transitions) {
-			System.out.println(" > " + t);
+			logger.info(" > " + t);
 		}
-		// Thread.dumpStack();
-
 	}
 
 	@Override
