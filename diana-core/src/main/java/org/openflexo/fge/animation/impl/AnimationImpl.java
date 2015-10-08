@@ -50,6 +50,7 @@ import org.openflexo.fge.animation.Animation;
 import org.openflexo.fge.animation.Transition;
 import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.model.undo.UndoManager;
 
 public class AnimationImpl implements Animation {
 
@@ -61,23 +62,27 @@ public class AnimationImpl implements Animation {
 	private Timer timer;
 	private final CompoundEdit edit;
 	private final AbstractDianaEditor<?, ?, ?> editor;
+	private final UndoManager undoManager;
 
 	public static void performTransitions(final List<? extends Transition> transitions, int steps, Animable animable) {
-		new AnimationImpl(transitions, steps, null, null).performAnimation(animable);
+		new AnimationImpl(transitions, steps, null, null, animable.getUndoManager()).performAnimation(animable);
 	}
 
 	public static void performTransitions(final List<? extends Transition> transitions, int steps, CompoundEdit edit,
 			AbstractDianaEditor<?, ?, ?> editor, Animable animable) {
-		new AnimationImpl(transitions, steps, edit, editor).performAnimation(animable);
+		new AnimationImpl(transitions, steps, edit, editor, editor != null ? editor.getUndoManager() : animable.getUndoManager())
+				.performAnimation(animable);
 	}
 
-	private AnimationImpl(List<? extends Transition> transitions, int steps, CompoundEdit edit, AbstractDianaEditor<?, ?, ?> editor) {
+	private AnimationImpl(List<? extends Transition> transitions, int steps, CompoundEdit edit, AbstractDianaEditor<?, ?, ?> editor,
+			UndoManager undoManager) {
 		super();
 		this.currentStep = 0;
 		this.steps = steps;
 		this.transitions = transitions;
 		this.edit = edit;
 		this.editor = editor;
+		this.undoManager = undoManager;
 		logger.info("Performing animation with following transitions:");
 		for (Transition t : transitions) {
 			logger.info(" > " + t);
@@ -109,6 +114,8 @@ public class AnimationImpl implements Animation {
 		return editor;
 	}
 
+	private CompoundEdit animationCompoundEdit = null;
+
 	@Override
 	public void performAnimation(final Animable animable) {
 		animable.startAnimation(AnimationImpl.this);
@@ -124,6 +131,10 @@ public class AnimationImpl implements Animation {
 					timer.stop();
 					stopRecordEdit(edit);
 					animable.stopAnimation(AnimationImpl.this);
+					if (undoManager != null && animationCompoundEdit != null) {
+						undoManager.stopRecording(animationCompoundEdit);
+					}
+					logger.info("Stopping animation, undoManager=" + undoManager);
 				}
 			}
 		});
@@ -131,6 +142,10 @@ public class AnimationImpl implements Animation {
 
 			@Override
 			public void run() {
+				logger.info("Starting animation, undoManager=" + undoManager);
+				if (undoManager != null && !undoManager.isBeeingRecording()) {
+					animationCompoundEdit = undoManager.startRecording("animation");
+				}
 				timer.start();
 			}
 		});
