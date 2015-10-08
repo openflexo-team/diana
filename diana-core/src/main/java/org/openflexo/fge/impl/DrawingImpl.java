@@ -47,6 +47,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.Drawing;
+import org.openflexo.fge.FGELayoutManager;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.GRBinding;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
@@ -143,7 +144,8 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 			Hashtable<Object, DrawingTreeNode<?, ?>> hash = retrieveHash(drawingBinding);
 			hash.put(model, _root);
 			return _root;
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -378,14 +380,37 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 		getPropertyChangeSupport().firePropertyChange(notification.propertyName(), notification.oldValue, notification.newValue);
 	}
 
+	private boolean isUpdatingGraphicalObjectsHierarchy = false;
+	private final List<FGELayoutManager<?, ?>> layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating = new ArrayList<>();
+
+	@Override
+	public boolean isUpdatingGraphicalObjectsHierarchy() {
+		return isUpdatingGraphicalObjectsHierarchy;
+	}
+
 	private void fireGraphicalObjectHierarchyRebuildStarted() {
+		isUpdatingGraphicalObjectsHierarchy = true;
+		layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating.clear();
 		setChanged();
 		notifyObservers(new DrawingTreeNodeHierarchyRebuildStarted(this));
 	}
 
 	private void fireGraphicalObjectHierarchyRebuildEnded() {
+		isUpdatingGraphicalObjectsHierarchy = false;
+		for (FGELayoutManager<?, ?> layoutManager : layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating) {
+			layoutManager.invalidate();
+			layoutManager.doLayout(true);
+		}
+		layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating.clear();
 		setChanged();
 		notifyObservers(new DrawingTreeNodeHierarchyRebuildEnded(this));
+	}
+
+	@Override
+	public void invokeLayoutAfterGraphicalObjectsHierarchyUpdating(FGELayoutManager<?, ?> layoutManager) {
+		if (!layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating.contains(layoutManager)) {
+			layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating.add(layoutManager);
+		}
 	}
 
 	/**
@@ -396,6 +421,10 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 	 */
 	@Override
 	public final void updateGraphicalObjectsHierarchy() {
+
+		if (logger.isLoggable(Level.FINE)) {
+			System.out.println("UPDATE HIERARCHY for ROOT " + this);
+		}
 
 		fireGraphicalObjectHierarchyRebuildStarted();
 		updateGraphicalObjectsHierarchy(getRoot());
@@ -412,12 +441,21 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 	 */
 	@Override
 	public final <O> void updateGraphicalObjectsHierarchy(O drawable) {
-		fireGraphicalObjectHierarchyRebuildStarted();
+
+		if (logger.isLoggable(Level.FINE)) {
+			logger.fine("UPDATE HIERARCHY for DRAWABLE " + drawable);
+		}
+
+		// SGU: We commented this out because this must be done if and only if this is the root node
+		// fireGraphicalObjectHierarchyRebuildStarted();
+
 		for (DrawingTreeNode<O, ?> dtn : getDrawingTreeNodes(drawable)) {
 			// dtn.invalidate();
 			updateGraphicalObjectsHierarchy(dtn);
 		}
-		fireGraphicalObjectHierarchyRebuildEnded();
+
+		// SGU: We commented this out because this must be done if and only if this is the root node
+		// fireGraphicalObjectHierarchyRebuildEnded();
 	}
 
 	/**
@@ -460,7 +498,8 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 		logger.info("Graphical object hierarchy");
 		if (getRoot() != null) {
 			_printGraphicalObjectHierarchy((RootNodeImpl<?>) getRoot(), 0);
-		} else {
+		}
+		else {
 			logger.info(" > Root node is null !");
 		}
 	}
@@ -600,14 +639,16 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 				if (pendingConnector.tryToResolve(this)) {
 					// System.out.println("Resolved " + pendingConnector);
 					pendingConnectors.remove(pendingConnector);
-				} else {
+				}
+				else {
 					// System.out.println("I cannot resolve " + pendingConnector);
 				}
 			}
 
 			((DrawingTreeNodeImpl<?, ?>) dtn).validate();
 
-		} else {
+		}
+		else {
 			if (dtn instanceof ContainerNode) {
 				for (DrawingTreeNode<?, ?> child : ((ContainerNode<?, ?>) dtn).getChildNodes()) {
 					updateGraphicalObjectsHierarchy(child);

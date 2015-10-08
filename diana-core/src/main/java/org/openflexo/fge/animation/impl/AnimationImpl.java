@@ -74,6 +74,12 @@ public class AnimationImpl implements Animation {
 		this.transitions = transitions;
 		this.edit = edit;
 		this.editor = editor;
+		System.out.println("!!!!!!!!!!!!!!!!!!!! Performing animation");
+		for (Transition t : transitions) {
+			System.out.println(" > " + t);
+		}
+		// Thread.dumpStack();
+
 	}
 
 	@Override

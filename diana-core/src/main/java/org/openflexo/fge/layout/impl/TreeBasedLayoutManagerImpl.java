@@ -73,8 +73,8 @@ import edu.uci.ics.jung.graph.Forest;
  * @author sylvain
  * 
  */
-public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutManagerSpecification<?>, O> extends
-		FGELayoutManagerImpl<LMS, O> implements TreeBasedLayoutManager<LMS, O> {
+public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutManagerSpecification<?>, O> extends FGELayoutManagerImpl<LMS, O>
+		implements TreeBasedLayoutManager<LMS, O> {
 
 	private DirectedGraph<ShapeNode<?>, ConnectorNode<?>> graph;
 	private Forest<ShapeNode<?>, ConnectorNode<?>> forest;
@@ -112,8 +112,8 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 	 */
 	protected FGEPoint locationForNode(ShapeNode<?> node) {
 		Point2D newLocation = getLayout().transform(node);
-		return new FGEPoint(newLocation.getX() - node.getWidth() / 2 - node.getBorder().getLeft(), newLocation.getY() - node.getHeight()
-				/ 2 - node.getBorder().getTop());
+		return new FGEPoint(newLocation.getX() - node.getWidth() / 2 - node.getBorder().getLeft(),
+				newLocation.getY() - node.getHeight() / 2 - node.getBorder().getTop());
 	}
 
 	/**
@@ -151,7 +151,8 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 				if (graph.containsVertex((connectorNode.getStartNode())) && graph.containsVertex((connectorNode.getEndNode()))) {
 					if (getFirstCommonAncestor(connectorNode.getStartNode(), connectorNode.getEndNode()) == null) {
 						graph.addEdge(connectorNode, connectorNode.getStartNode(), connectorNode.getEndNode());
-					} else {
+					}
+					else {
 						// Will not connect those two nodes otherwise a cycle will be created
 					}
 				}
@@ -227,10 +228,15 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 			List<TranslationTransition> transitions = new ArrayList<TranslationTransition>();
 			for (ShapeNode<?> shapeNode : getLayoutedNodes()) {
 				FGEPoint newLocation = locationForNode(shapeNode);
-				transitions.add(new TranslationTransition(shapeNode, new FGEPoint(xMap.get(shapeNode), yMap.get(shapeNode)), newLocation));
+				FGEPoint oldLocation = new FGEPoint(xMap.get(shapeNode), yMap.get(shapeNode));
+				if (!newLocation.equals(oldLocation)) {
+					transitions.add(new TranslationTransition(shapeNode, oldLocation, newLocation));
+				}
 			}
 
-			AnimationImpl.performTransitions(transitions, getAnimationStepsNumber(), getContainerNode().getDrawing());
+			if (transitions.size() > 0) {
+				AnimationImpl.performTransitions(transitions, getAnimationStepsNumber(), getContainerNode().getDrawing());
+			}
 		}
 	}
 
@@ -240,7 +246,8 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 		if (evt.getPropertyName().equals(TreeBasedLayoutManagerSpecification.HORIZONTAL_ALIGNEMENT_KEY)) {
 			invalidate();
 			doLayout(true);
-		} else if (evt.getPropertyName().equals(TreeBasedLayoutManagerSpecification.VERTICAL_ALIGNEMENT_KEY)) {
+		}
+		else if (evt.getPropertyName().equals(TreeBasedLayoutManagerSpecification.VERTICAL_ALIGNEMENT_KEY)) {
 			invalidate();
 			doLayout(true);
 		}

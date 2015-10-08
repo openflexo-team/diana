@@ -144,8 +144,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 	 * @param <GR>
 	 *            Type of GraphicalRepresentation represented by this node
 	 */
-	public interface DrawingTreeNode<O, GR extends GraphicalRepresentation> extends PropertyChangeListener, Observer,
-			HasPropertyChangeSupport /*, KeyValueCoding*/{
+	public interface DrawingTreeNode<O, GR extends GraphicalRepresentation>
+			extends PropertyChangeListener, Observer, HasPropertyChangeSupport /*, KeyValueCoding*/ {
 
 		public static GRProperty<Boolean> IS_FOCUSED = GRProperty.getGRParameter(DrawingTreeNode.class, DrawingTreeNode.IS_FOCUSED_KEY,
 				Boolean.class);
@@ -943,6 +943,20 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 	 */
 	public <O> void invalidateGraphicalObjectsHierarchy(O drawable);
 
+	/**
+	 * Return flag indicating if graphical objects hierarchy is beeing running
+	 * 
+	 * @return
+	 */
+	public boolean isUpdatingGraphicalObjectsHierarchy();
+
+	/**
+	 * Notify that supplied layout manager must be run after end of graphical object hierarchy updating
+	 * 
+	 * @param layoutManager
+	 */
+	public void invokeLayoutAfterGraphicalObjectsHierarchyUpdating(FGELayoutManager<?, ?> layoutManager);
+
 	public DrawingGRBinding<M> bindDrawing(Class<M> drawingClass, String name, DrawingGRProvider<M> grProvider);
 
 	public <R> ShapeGRBinding<R> bindShape(Class<R> shapeObjectClass, String name, ShapeGRProvider<R> grProvider);
@@ -988,7 +1002,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 	// public <O> ShapeNode<O> drawShape(ShapeNode<?> parent, ShapeGRBinding<O> binding, O representable);
 
 	/*public DrawingTreeNode<?> getContainer(DrawingTreeNode<?> node);
-
+	
 	public List<DrawingTreeNode<?>> getContainedNodes(DrawingTreeNode<?> parentNode);*/
 
 	/**
@@ -1185,14 +1199,16 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 				if (other.drawable != null) {
 					return false;
 				}
-			} else if (!drawable.equals(other.drawable)) {
+			}
+			else if (!drawable.equals(other.drawable)) {
 				return false;
 			}
 			if (grBinding == null) {
 				if (other.grBinding != null) {
 					return false;
 				}
-			} else if (!grBinding.equals(other.grBinding)) {
+			}
+			else if (!grBinding.equals(other.grBinding)) {
 				return false;
 			}
 			return true;

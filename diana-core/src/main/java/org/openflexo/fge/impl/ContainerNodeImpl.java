@@ -84,8 +84,8 @@ import org.openflexo.fge.notifications.ObjectResized;
 import org.openflexo.fge.notifications.ObjectWillResize;
 import org.openflexo.toolbox.ConcatenedList;
 
-public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresentation> extends DrawingTreeNodeImpl<O, GR> implements
-		ContainerNode<O, GR> {
+public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresentation> extends DrawingTreeNodeImpl<O, GR>
+		implements ContainerNode<O, GR> {
 
 	private static final Logger logger = Logger.getLogger(ContainerNodeImpl.class.getPackage().getName());
 
@@ -96,7 +96,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 
 	private final List<FGELayoutManager<?, O>> layoutManagers;
 
-	protected ContainerNodeImpl(DrawingImpl<?> drawing, O drawable, ContainerGRBinding<O, GR> grBinding, ContainerNodeImpl<?, ?> parentNode) {
+	protected ContainerNodeImpl(DrawingImpl<?> drawing, O drawable, ContainerGRBinding<O, GR> grBinding,
+			ContainerNodeImpl<?, ?> parentNode) {
 		super(drawing, drawable, grBinding, parentNode);
 		childNodes = new ArrayList<DrawingTreeNodeImpl<?, ?>>();
 		layoutManagers = new ArrayList<FGELayoutManager<?, O>>();
@@ -117,7 +118,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 				// Detected that the layout manager specifications have changed
 				if (evt.getNewValue() == null) {
 					System.out.println("Les LMS changent: DELETE de " + evt.getOldValue());
-				} else if (evt.getOldValue() == null) {
+				}
+				else if (evt.getOldValue() == null) {
 					System.out.println("Les LMS changent: ADD de " + evt.getNewValue());
 				}
 				updateLayoutManagers();
@@ -233,7 +235,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 				ShapeNode<?> child = (ShapeNode<?>) dtn;
 				if (child.getShape().getShape().containsPoint(FGEUtils.convertNormalizedPoint(this, p, child))) {
 					enclosingShapes.add(child);
-				} else {
+				}
+				else {
 					// Look if we are not contained in a child shape outside current shape
 					ShapeNode<?> insideFocusedShape = getTopLevelShapeGraphicalRepresentation(child, p);
 					if (insideFocusedShape != null && insideFocusedShape instanceof ShapeGraphicalRepresentation) {
@@ -262,7 +265,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 
 			if (insideFocusedShape != null) {
 				return insideFocusedShape;
-			} else {
+			}
+			else {
 				return focusedShape;
 			}
 		}
@@ -295,7 +299,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		}
 		if (childNodes.contains(aChildNode)) {
 			logger.warning("Node already present");
-		} else {
+		}
+		else {
 			// System.out.println("Add child " + aChildNode + " as child as " + this);
 			((DrawingTreeNodeImpl<?, ?>) aChildNode).setParentNode(this);
 			childNodes.add((DrawingTreeNodeImpl<?, ?>) aChildNode);
@@ -310,7 +315,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		}
 		if (childNodes.contains(aChildNode)) {
 			childNodes.remove(aChildNode);
-		} else {
+		}
+		else {
 			DrawingImpl.logger.warning("Cannot remove node: not present");
 		}
 		notifyNodeRemoved(aChildNode);
@@ -331,9 +337,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	@Override
 	public void validate() {
 		super.validate();
-		for (FGELayoutManager<?, O> layoutManager : layoutManagers) {
-			layoutManager.doLayout(true);
-		}
+		performRelayout(false);
 	}
 
 	@Override
@@ -394,10 +398,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		setChanged();
 		notifyObservers(new NodeAdded(addedNode, this));
 
-		for (FGELayoutManager<?, O> lm : getLayoutManagers()) {
-			lm.invalidate();
-			lm.doLayout(true);
-		}
+		performRelayout(true);
 	}
 
 	@Override
@@ -408,11 +409,20 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		setChanged();
 		notifyObservers(new NodeRemoved(removedNode, this));
 
-		for (FGELayoutManager<?, O> lm : getLayoutManagers()) {
-			lm.invalidate();
-			lm.doLayout(true);
-		}
+		performRelayout(true);
 
+	}
+
+	private void performRelayout(boolean invalidate) {
+		for (FGELayoutManager<?, O> lm : getLayoutManagers()) {
+			if (getDrawing().isUpdatingGraphicalObjectsHierarchy()) {
+				getDrawing().invokeLayoutAfterGraphicalObjectsHierarchyUpdating(lm);
+			}
+			else {
+				lm.invalidate();
+				lm.doLayout(true);
+			}
+		}
 	}
 
 	@Override
@@ -815,7 +825,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 
 			if (minWidth > maxWidth) {
 				logger.warning("Minimal width > maximal width, cannot proceed");
-			} else {
+			}
+			else {
 				if (newDimension.width < minWidth) {
 					newDimension.width = minWidth;
 				}
@@ -825,7 +836,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 			}
 			if (minHeight > maxHeight) {
 				logger.warning("Minimal height > maximal height, cannot proceed");
-			} else {
+			}
+			else {
 				if (newDimension.height < minHeight) {
 					newDimension.height = minHeight;
 				}
@@ -869,7 +881,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	public Dimension getNormalizedLabelSize() {
 		if (labelMetricsProvider != null) {
 			return labelMetricsProvider.getScaledPreferredDimension(1.0);
-		} else {
+		}
+		else {
 			return new Dimension(0, 0);
 		}
 	}
@@ -885,9 +898,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	public FGERectangle getRequiredBoundsForContents() {
 		FGERectangle requiredBounds = null;
 		if (getChildNodes() == null) {
-			return new FGERectangle(getGraphicalRepresentation().getMinimalWidth() / 2,
-					getGraphicalRepresentation().getMinimalHeight() / 2, getGraphicalRepresentation().getMinimalWidth(),
-					getGraphicalRepresentation().getMinimalHeight());
+			return new FGERectangle(getGraphicalRepresentation().getMinimalWidth() / 2, getGraphicalRepresentation().getMinimalHeight() / 2,
+					getGraphicalRepresentation().getMinimalWidth(), getGraphicalRepresentation().getMinimalHeight());
 		}
 		for (DrawingTreeNode<?, ?> gr : getChildNodes()) {
 			if (gr instanceof ShapeNode) {
@@ -901,16 +913,18 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 
 				if (requiredBounds == null) {
 					requiredBounds = bounds;
-				} else {
+				}
+				else {
 					requiredBounds = requiredBounds.rectangleUnion(bounds);
 				}
 			}
 		}
 		if (requiredBounds == null) {
-			requiredBounds = new FGERectangle(getGraphicalRepresentation().getMinimalWidth() / 2, getGraphicalRepresentation()
-					.getMinimalHeight() / 2, getGraphicalRepresentation().getMinimalWidth(), getGraphicalRepresentation()
-					.getMinimalHeight());
-		} else {
+			requiredBounds = new FGERectangle(getGraphicalRepresentation().getMinimalWidth() / 2,
+					getGraphicalRepresentation().getMinimalHeight() / 2, getGraphicalRepresentation().getMinimalWidth(),
+					getGraphicalRepresentation().getMinimalHeight());
+		}
+		else {
 			if (requiredBounds.width < getGraphicalRepresentation().getMinimalWidth()) {
 				requiredBounds.x = requiredBounds.x - (int) ((getGraphicalRepresentation().getMinimalWidth() - requiredBounds.width) / 2.0);
 				requiredBounds.width = getGraphicalRepresentation().getMinimalWidth();
@@ -970,9 +984,11 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 				for (FGELayoutManager<?, O> layoutManager : getLayoutManagers()) {
 					if (layoutManagerAreas == null) {
 						layoutManagerAreas = layoutManager.getControlAreas();
-					} else if (layoutManagerAreas instanceof ConcatenedList) {
+					}
+					else if (layoutManagerAreas instanceof ConcatenedList) {
 						((ConcatenedList<ControlArea<?>>) layoutManagerAreas).addElementList(layoutManager.getControlAreas());
-					} else {
+					}
+					else {
 						controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, layoutManager.getControlAreas());
 					}
 				}
@@ -980,18 +996,22 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 			if (customControlAreas != null && customControlAreas.size() > 0) {
 				if (controlAreas == null) {
 					controlAreas = customControlAreas;
-				} else if (controlAreas instanceof ConcatenedList) {
+				}
+				else if (controlAreas instanceof ConcatenedList) {
 					((ConcatenedList<ControlArea<?>>) controlAreas).addElementList(customControlAreas);
-				} else {
+				}
+				else {
 					controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, customControlAreas);
 				}
 			}
 			if (layoutManagerAreas != null && layoutManagerAreas.size() > 0) {
 				if (controlAreas == null) {
 					controlAreas = layoutManagerAreas;
-				} else if (controlAreas instanceof ConcatenedList) {
+				}
+				else if (controlAreas instanceof ConcatenedList) {
 					((ConcatenedList<ControlArea<?>>) controlAreas).addElementList(layoutManagerAreas);
-				} else {
+				}
+				else {
 					controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, layoutManagerAreas);
 				}
 			}

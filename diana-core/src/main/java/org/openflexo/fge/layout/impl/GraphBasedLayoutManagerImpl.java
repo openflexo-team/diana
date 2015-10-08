@@ -68,8 +68,8 @@ import edu.uci.ics.jung.graph.Graph;
  * @author sylvain
  * 
  */
-public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutManagerSpecification<?>, O> extends
-		FGELayoutManagerImpl<LMS, O> implements GraphBasedLayoutManager<LMS, O> {
+public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutManagerSpecification<?>, O>
+		extends FGELayoutManagerImpl<LMS, O>implements GraphBasedLayoutManager<LMS, O> {
 
 	private static final Logger logger = Logger.getLogger(GraphBasedLayoutManagerImpl.class.getPackage().getName());
 
@@ -197,8 +197,10 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 		if (animateLayout() && !layoutInProgress) {
 			List<TranslationTransition> transitions = new ArrayList<TranslationTransition>();
 			for (ShapeNode<?> shapeNode : getLayoutedNodes()) {
-				transitions.add(new TranslationTransition(shapeNode, new FGEPoint(xMap.get(shapeNode), yMap.get(shapeNode)), new FGEPoint(
-						getLayout().getX(shapeNode), getLayout().getY(shapeNode))));
+				transitions.add(new TranslationTransition(shapeNode, new FGEPoint(xMap.get(shapeNode), yMap.get(shapeNode)),
+						new FGEPoint(getLayout().getX(shapeNode), getLayout().getY(shapeNode))));
+				//System.out.println("-----------> Node " + shapeNode + " moved from " + xMap.get(shapeNode) + "," + yMap.get(shapeNode)
+				//		+ " to " + getLayout().getX(shapeNode) + "," + getLayout().getY(shapeNode));
 			}
 
 			AnimationImpl.performTransitions(transitions, getAnimationStepsNumber(), getContainerNode().getDrawing());
@@ -211,10 +213,12 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 		if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.STEPS_NUMBER_KEY)) {
 			invalidate();
 			doLayout(true);
-		} else if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.LAYOUT_WIDTH_KEY)) {
+		}
+		else if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.LAYOUT_WIDTH_KEY)) {
 			invalidate();
 			doLayout(true);
-		} else if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.LAYOUT_HEIGHT_KEY)) {
+		}
+		else if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.LAYOUT_HEIGHT_KEY)) {
 			invalidate();
 			doLayout(true);
 		}

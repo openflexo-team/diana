@@ -54,10 +54,16 @@ public class TranslationTransition implements Transition {
 		this.newLocation = newLocation;
 	}
 
+	@Override
 	public void performStep(int step, int totalSteps) {
 		shapeNode.setRelayouting(true);
-		shapeNode.setLocation(new FGEPoint(oldLocation.x - (oldLocation.x - newLocation.x) * step / totalSteps, oldLocation.y
-				- (oldLocation.y - newLocation.y) * step / totalSteps));
+		shapeNode.setLocation(new FGEPoint(oldLocation.x - (oldLocation.x - newLocation.x) * step / totalSteps,
+				oldLocation.y - (oldLocation.y - newLocation.y) * step / totalSteps));
 		shapeNode.setRelayouting(false);
+	}
+
+	@Override
+	public String toString() {
+		return "TranslationTransition node=" + shapeNode + " from " + oldLocation + " to " + newLocation;
 	}
 }
