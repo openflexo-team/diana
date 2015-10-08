@@ -137,6 +137,7 @@ public class AnimationImpl implements Animation {
 					animable.stopAnimation(AnimationImpl.this);
 					if (undoManager != null && animationCompoundEdit != null) {
 						undoManager.stopRecording(animationCompoundEdit);
+						animationCompoundEdit = null;
 					}
 					logger.info("Stopping animation, undoManager=" + undoManager);
 				}
