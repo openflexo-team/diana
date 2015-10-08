@@ -124,6 +124,7 @@ public class AnimationImpl implements Animation {
 		timer = new Timer(0, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// System.out.println("Perform animation step, currentStep=" + currentStep);
 				if (animationCompoundEdit == null && undoManager != null && !undoManager.isBeeingRecording()) {
 					animationCompoundEdit = undoManager.startRecording("animation");
 				}
@@ -139,7 +140,7 @@ public class AnimationImpl implements Animation {
 						undoManager.stopRecording(animationCompoundEdit);
 						animationCompoundEdit = null;
 					}
-					logger.info("Stopping animation, undoManager=" + undoManager);
+					logger.info("Stopping animation");
 				}
 			}
 		});
@@ -147,7 +148,7 @@ public class AnimationImpl implements Animation {
 
 			@Override
 			public void run() {
-				logger.info("Starting animation, undoManager=" + undoManager);
+				logger.info("Starting animation");
 				timer.start();
 			}
 		});
