@@ -87,6 +87,7 @@ public class AnimationImpl implements Animation {
 		for (Transition t : transitions) {
 			logger.info(" > " + t);
 		}
+		// Thread.dumpStack();
 	}
 
 	@Override
@@ -123,6 +124,9 @@ public class AnimationImpl implements Animation {
 		timer = new Timer(0, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (animationCompoundEdit == null && undoManager != null && !undoManager.isBeeingRecording()) {
+					animationCompoundEdit = undoManager.startRecording("animation");
+				}
 				for (final Transition tt : transitions) {
 					tt.performStep(currentStep, steps);
 				}
@@ -143,9 +147,6 @@ public class AnimationImpl implements Animation {
 			@Override
 			public void run() {
 				logger.info("Starting animation, undoManager=" + undoManager);
-				if (undoManager != null && !undoManager.isBeeingRecording()) {
-					animationCompoundEdit = undoManager.startRecording("animation");
-				}
 				timer.start();
 			}
 		});
