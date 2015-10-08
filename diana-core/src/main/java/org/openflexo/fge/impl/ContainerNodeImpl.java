@@ -409,7 +409,9 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		setChanged();
 		notifyObservers(new NodeRemoved(removedNode, this));
 
-		performRelayout(true);
+		if (!getDrawing().isDeleting()) {
+			performRelayout(true);
+		}
 
 	}
 

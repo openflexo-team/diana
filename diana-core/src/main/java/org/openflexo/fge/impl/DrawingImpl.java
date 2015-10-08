@@ -826,6 +826,8 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 		return "Drawing of " + model;
 	}
 
+	private boolean isDeleting = false;
+
 	/**
 	 * Delete this {@link Drawing} implementation, by deleting all {@link DrawingTreeNode}
 	 */
@@ -835,6 +837,9 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 		if (logger.isLoggable(Level.INFO)) {
 			logger.info("deleting " + this);
 		}
+
+		isDeleting = true;
+
 		if (nodes != null) {
 			List<GRBinding> grBindingsToDelete = new ArrayList<GRBinding>(nodes.keySet());
 			List<GRBinding> connectorGRBindingsToDelete = new ArrayList<GRBinding>();
@@ -858,7 +863,15 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 
 			nodes.clear();
 		}
+
+		isDeleting = false;
+
 		model = null;
+	}
+
+	@Override
+	public boolean isDeleting() {
+		return isDeleting;
 	}
 
 	// Delete nodes

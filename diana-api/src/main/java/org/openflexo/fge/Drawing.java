@@ -957,6 +957,13 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 	 */
 	public void invokeLayoutAfterGraphicalObjectsHierarchyUpdating(FGELayoutManager<?, ?> layoutManager);
 
+	/**
+	 * Return boolean indicating if this {@link Drawing} is about to be deleted
+	 * 
+	 * @return
+	 */
+	public boolean isDeleting();
+
 	public DrawingGRBinding<M> bindDrawing(Class<M> drawingClass, String name, DrawingGRProvider<M> grProvider);
 
 	public <R> ShapeGRBinding<R> bindShape(Class<R> shapeObjectClass, String name, ShapeGRProvider<R> grProvider);
