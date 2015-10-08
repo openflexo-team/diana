@@ -68,6 +68,10 @@ import org.openflexo.fge.graph.FGEGraph;
 import org.openflexo.fge.notifications.DrawingTreeNodeHierarchyRebuildEnded;
 import org.openflexo.fge.notifications.DrawingTreeNodeHierarchyRebuildStarted;
 import org.openflexo.fge.notifications.FGENotification;
+import org.openflexo.model.factory.ProxyMethodHandler;
+import org.openflexo.model.undo.UndoManager;
+
+import javassist.util.proxy.ProxyObject;
 
 /**
  * This class is the default implementation for all objects representing a graphical drawing, that is a complex graphical representation
@@ -914,6 +918,17 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 	@Override
 	public boolean isAnimationRunning() {
 		return isAnimationRunning;
+	}
+
+	@Override
+	public UndoManager getUndoManager() {
+		if (getModel() instanceof ProxyObject) {
+			ProxyMethodHandler<?> proxyMethodHandler = (ProxyMethodHandler<?>) ((ProxyObject) getModel()).getHandler();
+			if (proxyMethodHandler != null) {
+				return proxyMethodHandler.getUndoManager();
+			}
+		}
+		return null;
 	}
 
 }
