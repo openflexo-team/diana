@@ -303,21 +303,31 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param shapeGraphicalRepresentation
 	 */
 	public void applyBasicControls(final ShapeGraphicalRepresentation shapeGraphicalRepresentation) {
-		shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Selection", MouseButton.LEFT, 1,
-				PredefinedMouseClickControlActionType.SELECTION));
-		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
-			shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1,
-					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
-		} else {
-			shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseControlClickControl("Multiple selection", MouseButton.LEFT,
-					1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+		if (shapeGraphicalRepresentation.getMouseClickControl("Selection") == null) {
+			shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Selection", MouseButton.LEFT, 1,
+					PredefinedMouseClickControlActionType.SELECTION));
 		}
-		shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Move", MouseButton.LEFT,
-				PredefinedMouseDragControlActionType.MOVE));
-		shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Zoom", MouseButton.RIGHT,
-				PredefinedMouseDragControlActionType.ZOOM));
-		shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseShiftDragControl("Rectangle selection", MouseButton.LEFT,
-				PredefinedMouseDragControlActionType.RECTANGLE_SELECTING));
+		if (shapeGraphicalRepresentation.getMouseClickControl("Multiple selection") == null) {
+			if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
+				shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT,
+						1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			} else {
+				shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseControlClickControl("Multiple selection",
+						MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			}
+		}
+		if (shapeGraphicalRepresentation.getMouseDragControl("Move") == null) {
+			shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Move", MouseButton.LEFT,
+					PredefinedMouseDragControlActionType.MOVE));
+		}
+		if (shapeGraphicalRepresentation.getMouseDragControl("Zoom") == null) {
+			shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Zoom", MouseButton.RIGHT,
+					PredefinedMouseDragControlActionType.ZOOM));
+		}
+		if (shapeGraphicalRepresentation.getMouseDragControl("Rectangle selection") == null) {
+			shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseShiftDragControl("Rectangle selection", MouseButton.LEFT,
+					PredefinedMouseDragControlActionType.RECTANGLE_SELECTING));
+		}
 	}
 
 	/**

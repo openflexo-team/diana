@@ -46,6 +46,12 @@ import org.openflexo.fge.GRProvider.ConnectorGRProvider;
 import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.connectors.ConnectorSpecification.ConnectorType;
+import org.openflexo.fge.control.DianaInteractiveViewer;
+import org.openflexo.fge.control.MouseControl.MouseButton;
+import org.openflexo.fge.control.MouseControlContext;
+import org.openflexo.fge.control.MouseDragControl;
+import org.openflexo.fge.control.actions.MouseDragControlImpl;
+import org.openflexo.fge.control.actions.MoveAction;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 
@@ -59,6 +65,7 @@ public class GraphDrawing1 extends DrawingImpl<TestGraph> {
 		super(graph, factory, PersistenceMode.SharedGraphicalRepresentations);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void init() {
 		graphRepresentation = getFactory().makeDrawingGraphicalRepresentation();
@@ -71,6 +78,19 @@ public class GraphDrawing1 extends DrawingImpl<TestGraph> {
 		nodeRepresentation.setAbsoluteTextX(30);
 		nodeRepresentation.setAbsoluteTextY(0);
 		edgeRepresentation = getFactory().makeConnectorGraphicalRepresentation(ConnectorType.LINE);
+
+		MouseDragControl moveControl = nodeRepresentation.getMouseDragControl("Move");
+		nodeRepresentation.removeFromMouseDragControls(moveControl);
+		nodeRepresentation.addToMouseDragControls(new MouseDragControlImpl("dragNode", MouseButton.LEFT, new MoveAction() {
+
+			@Override
+			public boolean handleMouseReleased(org.openflexo.fge.Drawing.DrawingTreeNode<?, ?> node,
+					DianaInteractiveViewer<?, ?, ?> editor, MouseControlContext context, boolean isSignificativeDrag) {
+				boolean returned = super.handleMouseReleased(node, editor, context, isSignificativeDrag);
+				System.out.println("Detected mouse released");
+				return returned;
+			}
+		}, false, false, false, false, getFactory().getEditingContext()));
 
 		final DrawingGRBinding<TestGraph> graphBinding = bindDrawing(TestGraph.class, "graph", new DrawingGRProvider<TestGraph>() {
 			@Override

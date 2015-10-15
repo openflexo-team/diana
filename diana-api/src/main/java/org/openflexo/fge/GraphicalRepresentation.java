@@ -419,6 +419,8 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	@Remover(value = MOUSE_CLICK_CONTROLS_KEY)
 	public void removeFromMouseClickControls(MouseClickControl<?> mouseClickControl);
 
+	public MouseClickControl<?> getMouseClickControl(String name);
+
 	@Getter(value = MOUSE_DRAG_CONTROLS_KEY, cardinality = Cardinality.LIST, ignoreType = true)
 	public List<MouseDragControl<?>> getMouseDragControls();
 
@@ -432,6 +434,8 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 
 	@Remover(value = MOUSE_DRAG_CONTROLS_KEY)
 	public void removeFromMouseDragControls(MouseDragControl<?> mouseDragControl);
+
+	public MouseDragControl<?> getMouseDragControl(String name);
 
 	@Getter(value = TOOLTIP_TEXT_KEY)
 	@XMLAttribute

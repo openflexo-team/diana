@@ -453,9 +453,9 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	}
 
 	/*Vector<DrawingTreeNode<?>> nodesToRemove = new Vector<DrawingTreeNode<?>>();
-
+	
 	protected void beginUpdateObjectHierarchy() {
-
+	
 		// Invalidated nodes are to be removed rigth now
 		// (we are sure that we don't want to keep it)
 		if (childNodes != null) {
@@ -465,7 +465,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 				}
 			}
 		}
-
+	
 		// Remaining nodes are marked to potential deletion
 		if (childNodes != null) {
 			for (DrawingTreeNode<?> n : childNodes) {
@@ -473,7 +473,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			}
 		}
 	}
-
+	
 	protected void endUpdateObjectHierarchy() {
 		// Nodes that keep marked for deletion are deleted now
 		for (DrawingTreeNode<?> n : nodesToRemove) {
@@ -507,9 +507,9 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 					try {
 						node.declareDependantOf(c, param, param);
 					} catch (DependencyLoopException e) {
-						logger.warning("DependancyLoopException raised while declaring dependancy (data lookup)"
-								+ "in the context of binding: " + binding.toString() + " node: " + node + " dependancy: " + c
-								+ " message: " + e.getMessage());
+						logger.warning(
+								"DependancyLoopException raised while declaring dependancy (data lookup)" + "in the context of binding: "
+										+ binding.toString() + " node: " + node + " dependancy: " + c + " message: " + e.getMessage());
 					}
 				}
 			}
@@ -605,7 +605,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		// Now start to observe drawable for drawing structural modifications
 		if (drawable instanceof Observable) {
 			((Observable) drawable).addObserver(this);
-		} else if (drawable instanceof HasPropertyChangeSupport) {
+		}
+		else if (drawable instanceof HasPropertyChangeSupport) {
 			((HasPropertyChangeSupport) drawable).getPropertyChangeSupport().addPropertyChangeListener(this);
 		}
 		isObservingDrawable = true;
@@ -619,7 +620,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		// Now start to observe drawable for drawing structural modifications
 		if (drawable instanceof Observable) {
 			((Observable) drawable).deleteObserver(this);
-		} else if (drawable instanceof HasPropertyChangeSupport) {
+		}
+		else if (drawable instanceof HasPropertyChangeSupport) {
 			((HasPropertyChangeSupport) drawable).getPropertyChangeSupport().removePropertyChangeListener(this);
 		}
 		isObservingDrawable = false;
@@ -724,7 +726,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	public void notifyObservers(FGENotification notification) {
 		if ((!(notification instanceof NodeDeleted)) && isDeleted()) {
 			logger.warning("notifyObservers() called by a deleted DrawingTreeNode");
-			Thread.dumpStack();
+			// Thread.dumpStack();
 			return;
 		}
 		getPropertyChangeSupport().firePropertyChange(notification.propertyName(), notification.oldValue, notification.newValue);
@@ -846,7 +848,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	}
 
 	@Override
-	public Rectangle convertLocalNormalizedRectangleToRemoteViewCoordinates(FGERectangle r, DrawingTreeNode<?, ?> destination, double scale) {
+	public Rectangle convertLocalNormalizedRectangleToRemoteViewCoordinates(FGERectangle r, DrawingTreeNode<?, ?> destination,
+			double scale) {
 		FGEPoint p1 = new FGEPoint(r.x, r.y);
 		FGEPoint p2 = new FGEPoint(r.x + r.width, r.y + r.height);
 		Point pp1 = convertLocalNormalizedPointToRemoteViewCoordinates(p1, destination, scale);
@@ -925,7 +928,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		Dimension d;
 		if (labelMetricsProvider != null) {
 			d = labelMetricsProvider.getScaledPreferredDimension(scale);
-		} else {
+		}
+		else {
 			d = new Dimension(0, 0);
 		}
 		return d;
@@ -1162,7 +1166,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			}
 			if (getGraphicalRepresentation().hasKey(parameter.getName())) {
 				return (T) getGraphicalRepresentation().objectForKey(parameter.getName());
-			} else {
+			}
+			else {
 				return null;
 			}
 		}
@@ -1180,7 +1185,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 				// Init default value with GR
 				if (getGraphicalRepresentation().hasKey(parameter.getName())) {
 					returned = (T) getGraphicalRepresentation().objectForKey(parameter.getName());
-				} else {
+				}
+				else {
 					returned = null;
 				}
 				if (returned != null) {
@@ -1270,13 +1276,17 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		public Object getValue(BindingVariable variable) {
 			if (variable.getVariableName().equals("this")) {
 				return getGraphicalRepresentation();
-			} else if (variable.getVariableName().equals("parent")) {
+			}
+			else if (variable.getVariableName().equals("parent")) {
 				return getParentNode().getGraphicalRepresentation();
-			} else if (variable.getVariableName().equals("drawable")) {
+			}
+			else if (variable.getVariableName().equals("drawable")) {
 				return getDrawable();
-			} else if (variable.getVariableName().equals("gr")) {
+			}
+			else if (variable.getVariableName().equals("gr")) {
 				return getGraphicalRepresentation();
-			} else {
+			}
+			else {
 				DrawingImpl.logger.warning("Could not find variable named " + variable);
 				return null;
 			}
@@ -1321,7 +1331,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 				}
 				System.out.println("valeur=" + value);
 			}
-
+		
 		}*/
 
 		return getPropertyValue(GraphicalRepresentation.TEXT);
@@ -1376,19 +1386,19 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	public boolean hasKey(String key) {
 		return KeyValueDecoder.hasKey(this, key);
 	}
-
+	
 	@Override
 	public Object objectForKey(String key) {
 		return KeyValueDecoder.objectForKey(this, key);
 	}
-
+	
 	@Override
 	public void setObjectForKey(Object value, String key) {
 		KeyValueCoder.setObjectForKey(this, value, key);
 	}
-
+	
 	// Retrieving type
-
+	
 	@Override
 	public Class getTypeForKey(String key) {
 		return KeyValueDecoder.getTypeForKey(this, key);
