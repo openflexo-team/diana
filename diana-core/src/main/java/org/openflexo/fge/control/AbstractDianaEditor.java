@@ -71,7 +71,7 @@ import org.openflexo.toolbox.HasPropertyChangeSupport;
  * @param <M>
  *            type of model beeing represented
  * @param <F>
- *            type of {@link DianaViewFactory} (the technology used in this editor)
+ *            type of {@link GinaViewFactory} (the technology used in this editor)
  * @param <C>
  *            type of components beeing managed as view (DianaView)
  */

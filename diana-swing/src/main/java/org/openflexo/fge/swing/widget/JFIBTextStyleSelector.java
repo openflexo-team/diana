@@ -69,7 +69,7 @@ import org.openflexo.fib.FIBLibrary;
 import org.openflexo.fib.controller.FIBController;
 import org.openflexo.fib.model.FIBComponent;
 import org.openflexo.fib.model.FIBCustom;
-import org.openflexo.fib.view.FIBView;
+import org.openflexo.fib.swing.view.FIBView;
 import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.swing.CustomPopup;
 import org.openflexo.swing.JFontChooser;
@@ -160,7 +160,7 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 
 	public class TextStyleDetailsPanel extends ResizablePanel {
 		private FIBComponent fibComponent;
-		private FIBView<?, ?, ?> fibView;
+		private FIBView<?, ?> fibView;
 		private CustomFIBController controller;
 
 		protected TextStyleDetailsPanel(TextStyle textStyle) {

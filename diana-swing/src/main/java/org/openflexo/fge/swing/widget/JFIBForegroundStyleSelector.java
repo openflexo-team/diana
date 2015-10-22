@@ -69,7 +69,7 @@ import org.openflexo.fib.FIBLibrary;
 import org.openflexo.fib.controller.FIBController;
 import org.openflexo.fib.model.FIBComponent;
 import org.openflexo.fib.model.FIBCustom;
-import org.openflexo.fib.view.FIBView;
+import org.openflexo.fib.swing.view.FIBView;
 import org.openflexo.swing.CustomPopup;
 
 /**
@@ -169,7 +169,7 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 
 	public class ForegroundStyleDetailsPanel extends ResizablePanel {
 		private FIBComponent fibComponent;
-		private FIBView<?, ?, ?> fibView;
+		private FIBView<?, ?> fibView;
 		private CustomFIBController controller;
 
 		protected ForegroundStyleDetailsPanel(ForegroundStyle fs) {

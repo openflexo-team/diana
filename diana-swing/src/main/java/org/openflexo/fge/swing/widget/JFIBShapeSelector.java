@@ -54,8 +54,8 @@ import org.openflexo.fib.FIBLibrary;
 import org.openflexo.fib.controller.FIBController;
 import org.openflexo.fib.model.FIBComponent;
 import org.openflexo.fib.model.FIBCustom;
-import org.openflexo.fib.view.FIBView;
-import org.openflexo.fib.view.widget.FIBCustomWidget;
+import org.openflexo.fib.swing.view.FIBView;
+import org.openflexo.fib.swing.view.widget.FIBCustomWidget;
 import org.openflexo.swing.CustomPopup;
 
 /**
@@ -146,7 +146,7 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implement
 
 	public class ShapeDetailsPanel extends ResizablePanel {
 		private FIBComponent fibComponent;
-		private FIBView<?, ?, ?> fibView;
+		private FIBView<?, ?> fibView;
 		private CustomFIBController controller;
 
 		protected ShapeDetailsPanel(ShapeSpecification backgroundStyle) {
@@ -204,7 +204,7 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implement
 				getFrontComponent().setShape(getFactory().getShapeSpecification());
 				// getFrontComponent().update();
 
-				FIBView<?, ?, ?> previewComponent = viewForComponent(fibComponent.getComponentNamed("PreviewPanel"));
+				FIBView<?, ?> previewComponent = viewForComponent(fibComponent.getComponentNamed("PreviewPanel"));
 				if (previewComponent instanceof FIBCustomWidget) {
 					JComponent customComponent = ((FIBCustomWidget<?, ?>) previewComponent).getJComponent();
 					if (customComponent instanceof ShapePreviewPanel) {

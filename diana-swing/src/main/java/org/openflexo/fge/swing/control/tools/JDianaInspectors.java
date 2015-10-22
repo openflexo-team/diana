@@ -54,7 +54,7 @@ import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.tools.JDianaInspectors.JInspector;
 import org.openflexo.fib.FIBLibrary;
 import org.openflexo.fib.model.FIBComponent;
-import org.openflexo.fib.swing.FIBJPanel;
+import org.openflexo.fib.swing.utils.FIBJPanel;
 import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.swing.FlexoCollabsiblePanelGroup;
 
