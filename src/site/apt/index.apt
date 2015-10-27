@@ -8,6 +8,8 @@
 
 Introduction to DIANA
 
+TODO: to be rewritten
+
   Diana can be considered as a box and arrow drawing framework. 
   
   It takes its originality by beeing able to associate a graph of interconnected objects with adapted graphical representations. 
@@ -38,11 +40,12 @@ Contents of this package
   
   * {{{./diana-swing/index.html}Diana-swing component}}, which is a Swing rendering engine (Swing implementation for Diana-core)
 
+
   Three other components are also provided, as application use cases of Diana (or experimentations):
 
   * {{{./diana-drawing-editor/index.html}Diana-DrawingEditor}}, which is a stand-alone implementation of a Swing basic diagram editor
 
   * {{{./diana-ppt-editor/index.html}Diana-PowerPointEditor}}, which is an experimentation for a stand-alone powerpoint editor (limited to one slide)
     
-   * {{{./diana-geomedit/index.html}Diana-GeomEdit}}, which is an experimental stand alone Swing application dedicated to 2D geometry buildings
+  * {{{./diana-geomedit/index.html}Diana-GeomEdit}}, which is an experimental stand alone Swing application dedicated to 2D geometry buildings
   
