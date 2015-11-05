@@ -65,13 +65,13 @@ import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.fge.swing.JDianaViewer;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.view.widget.FIBShadowStyleSelector;
-import org.openflexo.fib.FIBLibrary;
-import org.openflexo.fib.controller.FIBController;
-import org.openflexo.fib.model.FIBComponent;
-import org.openflexo.fib.model.FIBCustom;
-import org.openflexo.fib.swing.view.SwingViewFactory;
-import org.openflexo.fib.view.FIBView;
-import org.openflexo.fib.view.GinaViewFactory;
+import org.openflexo.gina.FIBLibrary;
+import org.openflexo.gina.controller.FIBController;
+import org.openflexo.gina.model.FIBComponent;
+import org.openflexo.gina.model.widget.FIBCustom;
+import org.openflexo.gina.swing.view.SwingViewFactory;
+import org.openflexo.gina.view.FIBView;
+import org.openflexo.gina.view.GinaViewFactory;
 import org.openflexo.swing.CustomPopup;
 
 /**

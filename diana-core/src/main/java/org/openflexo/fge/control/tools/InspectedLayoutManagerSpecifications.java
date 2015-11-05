@@ -55,8 +55,8 @@ import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.control.DianaInteractiveViewer;
-import org.openflexo.fib.utils.FIBInspector;
-import org.openflexo.fib.utils.InspectorGroup;
+import org.openflexo.gina.utils.FIBInspector;
+import org.openflexo.gina.utils.InspectorGroup;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.toolbox.StringUtils;
 

@@ -40,7 +40,7 @@
 package org.openflexo.fge.view.widget;
 
 import org.openflexo.fge.connectors.ConnectorSpecification;
-import org.openflexo.fib.model.FIBCustom.FIBCustomComponent;
+import org.openflexo.gina.model.widget.FIBCustom.FIBCustomComponent;
 
 public interface ConnectorPreviewPanel extends FIBCustomComponent<ConnectorSpecification> {
 

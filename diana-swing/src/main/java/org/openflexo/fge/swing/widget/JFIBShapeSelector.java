@@ -50,14 +50,14 @@ import org.openflexo.fge.control.tools.ShapeSpecificationFactory;
 import org.openflexo.fge.shapes.ShapeSpecification;
 import org.openflexo.fge.view.widget.FIBShapeSelector;
 import org.openflexo.fge.view.widget.ShapePreviewPanel;
-import org.openflexo.fib.FIBLibrary;
-import org.openflexo.fib.controller.FIBController;
-import org.openflexo.fib.model.FIBComponent;
-import org.openflexo.fib.model.FIBCustom;
-import org.openflexo.fib.swing.view.SwingViewFactory;
-import org.openflexo.fib.view.FIBView;
-import org.openflexo.fib.view.GinaViewFactory;
-import org.openflexo.fib.view.widget.FIBCustomWidget;
+import org.openflexo.gina.FIBLibrary;
+import org.openflexo.gina.controller.FIBController;
+import org.openflexo.gina.model.FIBComponent;
+import org.openflexo.gina.model.widget.FIBCustom;
+import org.openflexo.gina.swing.view.SwingViewFactory;
+import org.openflexo.gina.view.FIBView;
+import org.openflexo.gina.view.GinaViewFactory;
+import org.openflexo.gina.view.widget.FIBCustomWidget;
 import org.openflexo.swing.CustomPopup;
 
 /**

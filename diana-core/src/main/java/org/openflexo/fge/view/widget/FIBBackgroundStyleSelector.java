@@ -40,7 +40,7 @@
 package org.openflexo.fge.view.widget;
 
 import org.openflexo.fge.BackgroundStyle;
-import org.openflexo.fib.model.FIBCustom.FIBCustomComponent;
+import org.openflexo.gina.model.widget.FIBCustom.FIBCustomComponent;
 import org.openflexo.rm.Resource;
 import org.openflexo.rm.ResourceLocator;
 

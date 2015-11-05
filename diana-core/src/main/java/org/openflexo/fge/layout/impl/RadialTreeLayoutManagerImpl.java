@@ -53,7 +53,7 @@ import org.openflexo.fge.graphics.FGEGraphics;
 import org.openflexo.fge.layout.BalloonLayoutManager;
 import org.openflexo.fge.layout.RadialTreeLayoutManager;
 import org.openflexo.fge.layout.RadialTreeLayoutManagerSpecification;
-import org.openflexo.fib.annotation.FIBPanel;
+import org.openflexo.gina.annotation.FIBPanel;
 
 import edu.uci.ics.jung.algorithms.layout.PolarPoint;
 import edu.uci.ics.jung.algorithms.layout.RadialTreeLayout;

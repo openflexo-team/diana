@@ -58,7 +58,7 @@ import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.DianaInteractiveViewer;
 import org.openflexo.fge.control.MouseControlContext;
 import org.openflexo.fge.view.FGEView;
-import org.openflexo.fib.utils.FIBIconLibrary;
+import org.openflexo.gina.utils.FIBIconLibrary;
 import org.openflexo.toolbox.ToolBox;
 
 public class MoveAction extends MouseDragControlActionImpl<DianaInteractiveViewer<?, ?, ?>> {
