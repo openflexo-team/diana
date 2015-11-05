@@ -55,8 +55,8 @@ import org.openflexo.fge.control.tools.ShapeSpecificationFactory;
 import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.tools.JDianaDialogInspectors.JDialogInspector;
 import org.openflexo.fib.FIBLibrary;
-import org.openflexo.fib.controller.FIBDialog;
 import org.openflexo.fib.model.FIBComponent;
+import org.openflexo.fib.swing.utils.JFIBDialog;
 import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.rm.Resource;
 import org.openflexo.rm.ResourceLocator;
@@ -194,7 +194,7 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	}
 
 	@SuppressWarnings("serial")
-	public static class JDialogInspector<T> extends FIBDialog<T> implements DianaInspectors.Inspector<T> {
+	public static class JDialogInspector<T> extends JFIBDialog<T> implements DianaInspectors.Inspector<T> {
 
 		protected JDialogInspector(FIBComponent fibComponent, T data, JFrame frame, String title) {
 			super(fibComponent, data, frame, false, (LocalizedDelegate) null);

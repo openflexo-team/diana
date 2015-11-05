@@ -39,8 +39,6 @@
 
 package org.openflexo.fge.view.widget;
 
-import javax.swing.JComponent;
-
 import org.openflexo.fge.shapes.ShapeSpecification;
 import org.openflexo.fib.model.FIBCustom.FIBCustomComponent;
 import org.openflexo.rm.Resource;
@@ -52,9 +50,8 @@ import org.openflexo.rm.ResourceLocator;
  * @author sguerin
  * 
  */
-// TODO: suppress reference to Swing (when FIB library will be independant from SWING technology)
-public interface FIBShapeSelector<C extends JComponent> extends FIBCustomComponent<ShapeSpecification, C> {
+public interface FIBShapeSelector extends FIBCustomComponent<ShapeSpecification> {
 
-	public static  Resource FIB_FILE = ResourceLocator.locateResource("Fib/ShapeSelector.fib");
+	public static Resource FIB_FILE = ResourceLocator.locateResource("Fib/ShapeSelector.fib");
 
 }

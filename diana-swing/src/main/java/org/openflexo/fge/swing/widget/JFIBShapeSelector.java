@@ -54,8 +54,9 @@ import org.openflexo.fib.FIBLibrary;
 import org.openflexo.fib.controller.FIBController;
 import org.openflexo.fib.model.FIBComponent;
 import org.openflexo.fib.model.FIBCustom;
-import org.openflexo.fib.swing.view.FIBView;
-import org.openflexo.fib.swing.view.widget.FIBCustomWidget;
+import org.openflexo.fib.view.FIBView;
+import org.openflexo.fib.view.GinaViewFactory;
+import org.openflexo.fib.view.widget.FIBCustomWidget;
 import org.openflexo.swing.CustomPopup;
 
 /**
@@ -65,7 +66,7 @@ import org.openflexo.swing.CustomPopup;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implements FIBShapeSelector<JFIBShapeSelector> {
+public class JFIBShapeSelector extends CustomPopup<ShapeSpecification>implements FIBShapeSelector<JFIBShapeSelector> {
 
 	static final Logger logger = Logger.getLogger(JFIBShapeSelector.class.getPackage().getName());
 
@@ -112,7 +113,8 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implement
 		// !!!
 		if (oldValue != null) {
 			_revertValue = (ShapeSpecification) oldValue.clone();
-		} else {
+		}
+		else {
 			_revertValue = null;
 		}
 		if (logger.isLoggable(Level.FINE)) {
@@ -152,7 +154,7 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implement
 		protected ShapeDetailsPanel(ShapeSpecification backgroundStyle) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE,true);
+			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
 			controller = new CustomFIBController(fibComponent);
 			fibView = controller.buildView(fibComponent);
 
@@ -186,8 +188,8 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implement
 		}
 
 		public class CustomFIBController extends FIBController {
-			public CustomFIBController(FIBComponent component) {
-				super(component);
+			public CustomFIBController(FIBComponent component, GinaViewFactory<?> viewFactory) {
+				super(component, viewFactory);
 			}
 
 			public void apply() {

@@ -39,12 +39,9 @@
 
 package org.openflexo.fge.view.widget;
 
-import javax.swing.JComponent;
-
 import org.openflexo.fge.connectors.ConnectorSpecification;
 import org.openflexo.fib.model.FIBCustom.FIBCustomComponent;
 
-//TODO: suppress reference to Swing (when FIB library will be independant from SWING technology)
-public interface ConnectorPreviewPanel<C extends JComponent> extends FIBCustomComponent<ConnectorSpecification, C> {
+public interface ConnectorPreviewPanel extends FIBCustomComponent<ConnectorSpecification> {
 
 }

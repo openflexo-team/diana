@@ -69,7 +69,8 @@ import org.openflexo.fib.FIBLibrary;
 import org.openflexo.fib.controller.FIBController;
 import org.openflexo.fib.model.FIBComponent;
 import org.openflexo.fib.model.FIBCustom;
-import org.openflexo.fib.swing.view.FIBView;
+import org.openflexo.fib.view.FIBView;
+import org.openflexo.fib.view.GinaViewFactory;
 import org.openflexo.swing.CustomPopup;
 
 /**
@@ -79,7 +80,7 @@ import org.openflexo.swing.CustomPopup;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements FIBShadowStyleSelector<JFIBShadowStyleSelector> {
+public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle>implements FIBShadowStyleSelector<JFIBShadowStyleSelector> {
 
 	static final Logger logger = Logger.getLogger(JFIBShadowStyleSelector.class.getPackage().getName());
 
@@ -125,7 +126,8 @@ public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements
 		// WARNING: we need here to clone to keep track back of previous data !!!
 		if (oldValue != null) {
 			_revertValue = (ShadowStyle) oldValue.clone();
-		} else {
+		}
+		else {
 			_revertValue = null;
 		}
 		if (logger.isLoggable(Level.FINE)) {
@@ -193,8 +195,8 @@ public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements
 		}
 
 		public class CustomFIBController extends FIBController {
-			public CustomFIBController(FIBComponent component) {
-				super(component);
+			public CustomFIBController(FIBComponent component, GinaViewFactory<?> viewFactory) {
+				super(component, viewFactory);
 			}
 
 			public void apply() {
@@ -293,18 +295,18 @@ public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements
 				public void init() {
 					final DrawingGRBinding<ShadowStylePreviewPanel> previewPanelBinding = bindDrawing(ShadowStylePreviewPanel.class,
 							"previewPanel", new DrawingGRProvider<ShadowStylePreviewPanel>() {
-								@Override
-								public DrawingGraphicalRepresentation provideGR(ShadowStylePreviewPanel drawable, FGEModelFactory factory) {
-									return drawingGR;
-								}
-							});
+						@Override
+						public DrawingGraphicalRepresentation provideGR(ShadowStylePreviewPanel drawable, FGEModelFactory factory) {
+							return drawingGR;
+						}
+					});
 					final ShapeGRBinding<ShadowStylePreviewPanel> shapeBinding = bindShape(ShadowStylePreviewPanel.class, "line",
 							new ShapeGRProvider<ShadowStylePreviewPanel>() {
-								@Override
-								public ShapeGraphicalRepresentation provideGR(ShadowStylePreviewPanel drawable, FGEModelFactory factory) {
-									return shapeGR;
-								}
-							});
+						@Override
+						public ShapeGraphicalRepresentation provideGR(ShadowStylePreviewPanel drawable, FGEModelFactory factory) {
+							return shapeGR;
+						}
+					});
 
 					previewPanelBinding.addToWalkers(new GRStructureVisitor<ShadowStylePreviewPanel>() {
 

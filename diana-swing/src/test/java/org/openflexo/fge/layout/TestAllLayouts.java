@@ -51,8 +51,8 @@ import org.junit.runner.RunWith;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
 import org.openflexo.fge.TestGraph;
-import org.openflexo.fib.swing.toolbox.JFIBInspectorController;
-import org.openflexo.fib.testutils.GraphicalContextDelegate;
+import org.openflexo.fib.swing.utils.JFIBInspectorController;
+import org.openflexo.fib.swing.utils.SwingGraphicalContextDelegate;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.rm.ResourceLocator;
@@ -68,7 +68,7 @@ import org.openflexo.test.TestOrder;
 @RunWith(OrderedRunner.class)
 public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 
-	private static GraphicalContextDelegate gcDelegate;
+	private static SwingGraphicalContextDelegate gcDelegate;
 
 	private static JFIBInspectorController inspector;
 
@@ -205,7 +205,7 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 	}*/
 
 	public static void initGUI() {
-		gcDelegate = new GraphicalContextDelegate(TestAllLayouts.class.getSimpleName()) {
+		gcDelegate = new SwingGraphicalContextDelegate(TestAllLayouts.class.getSimpleName()) {
 
 			@Override
 			public void selectedTab(int index, Component selectedComponent) {

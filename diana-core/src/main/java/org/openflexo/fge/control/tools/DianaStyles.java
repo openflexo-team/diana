@@ -73,18 +73,18 @@ public abstract class DianaStyles<C, F extends DianaViewFactory<F, ? super C>> e
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(DianaStyles.class.getPackage().getName());
 
-	private FIBForegroundStyleSelector<?> foregroundSelector;
-	private FIBBackgroundStyleSelector<?> backgroundSelector;
-	private FIBTextStyleSelector<?> textStyleSelector;
-	private FIBShadowStyleSelector<?> shadowStyleSelector;
-	private FIBShapeSelector<?> shapeSelector;
+	private FIBForegroundStyleSelector foregroundSelector;
+	private FIBBackgroundStyleSelector backgroundSelector;
+	private FIBTextStyleSelector textStyleSelector;
+	private FIBShadowStyleSelector shadowStyleSelector;
+	private FIBShapeSelector shapeSelector;
 
 	// protected InspectedForegroundStyle inspectedForegroundStyle;
 	// private ForegroundStyle defaultForegroundStyle;
-	private BackgroundStyle defaultBackgroundStyle;
+	private final BackgroundStyle defaultBackgroundStyle;
 	// private TextStyle defaultTextStyle;
 	// private ShadowStyle defaultShadowStyle;
-	private ShapeSpecification defaultShape;
+	private final ShapeSpecification defaultShape;
 
 	// protected BackgroundStyleFactory bsFactory;
 	protected ShapeSpecificationFactory shapeFactory;
@@ -188,10 +188,10 @@ public abstract class DianaStyles<C, F extends DianaViewFactory<F, ? super C>> e
 		return null;
 	}
 
-	public FIBForegroundStyleSelector<?> getForegroundSelector() {
+	public FIBForegroundStyleSelector getForegroundSelector() {
 		if (foregroundSelector == null) {
-			foregroundSelector = getDianaFactory().makeFIBForegroundStyleSelector(
-					getEditor() != null ? getEditor().getInspectedForegroundStyle() : null);
+			foregroundSelector = getDianaFactory()
+					.makeFIBForegroundStyleSelector(getEditor() != null ? getEditor().getInspectedForegroundStyle() : null);
 			foregroundSelector.addApplyCancelListener(new ApplyCancelListener() {
 				@Override
 				public void fireApplyPerformed() {
@@ -217,7 +217,7 @@ public abstract class DianaStyles<C, F extends DianaViewFactory<F, ? super C>> e
 		return foregroundSelector;
 	}
 
-	public FIBBackgroundStyleSelector<?> getBackgroundSelector() {
+	public FIBBackgroundStyleSelector getBackgroundSelector() {
 		if (backgroundSelector == null) {
 			// bsFactory = new BackgroundStyleFactory(getInspectedBackgroundStyle());
 			backgroundSelector = getDianaFactory().makeFIBBackgroundStyleSelector(
@@ -243,7 +243,7 @@ public abstract class DianaStyles<C, F extends DianaViewFactory<F, ? super C>> e
 		return backgroundSelector;
 	}
 
-	public FIBTextStyleSelector<?> getTextStyleSelector() {
+	public FIBTextStyleSelector getTextStyleSelector() {
 		if (textStyleSelector == null) {
 			textStyleSelector = getDianaFactory()
 					.makeFIBTextStyleSelector(getEditor() != null ? getEditor().getInspectedTextStyle() : null);
@@ -267,10 +267,10 @@ public abstract class DianaStyles<C, F extends DianaViewFactory<F, ? super C>> e
 		return textStyleSelector;
 	}
 
-	public FIBShadowStyleSelector<?> getShadowStyleSelector() {
+	public FIBShadowStyleSelector getShadowStyleSelector() {
 		if (shadowStyleSelector == null) {
-			shadowStyleSelector = getDianaFactory().makeFIBShadowStyleSelector(
-					getEditor() != null ? getEditor().getInspectedShadowStyle() : null);
+			shadowStyleSelector = getDianaFactory()
+					.makeFIBShadowStyleSelector(getEditor() != null ? getEditor().getInspectedShadowStyle() : null);
 			shadowStyleSelector.addApplyCancelListener(new ApplyCancelListener() {
 				@Override
 				public void fireApplyPerformed() {
@@ -291,7 +291,7 @@ public abstract class DianaStyles<C, F extends DianaViewFactory<F, ? super C>> e
 		return shadowStyleSelector;
 	}
 
-	public FIBShapeSelector<?> getShapeSelector() {
+	public FIBShapeSelector getShapeSelector() {
 		if (shapeSelector == null) {
 			shapeSelector = getDianaFactory().makeFIBShapeSelector(
 					getInspectedShapeSpecification() != null ? getInspectedShapeSpecification().getStyleFactory() : null);
@@ -303,7 +303,7 @@ public abstract class DianaStyles<C, F extends DianaViewFactory<F, ? super C>> e
 							shape.getGraphicalRepresentation().setShapeSpecification(
 									(ShapeSpecification) shapeSelector.getEditedObject().clone());
 						}
-
+					
 					} else {
 						getEditor().setCurrentShape((ShapeSpecification) shapeSelector.getEditedObject().clone());
 					}*/
@@ -369,7 +369,8 @@ public abstract class DianaStyles<C, F extends DianaViewFactory<F, ? super C>> e
 			} else if (getSelectedConnectors().size() > 0) {
 				getForegroundSelector().setEditedObject(getSelectedConnectors().get(0).getGraphicalRepresentation().getForeground());
 			}*/
-		} else {
+		}
+		else {
 			// getTextStyleSelector().setEditedObject(getEditor().getCurrentTextStyle());
 			// getForegroundSelector().setEditedObject(getEditor().getCurrentForegroundStyle());
 		}
@@ -379,7 +380,8 @@ public abstract class DianaStyles<C, F extends DianaViewFactory<F, ? super C>> e
 			// bsFactory.setBackgroundStyle(getSelectedShapes().get(0).getGraphicalRepresentation().getBackground());
 			// getBackgroundSelector().setEditedObject(getSelectedShapes().get(0).getGraphicalRepresentation().getBackground());
 			// getShadowStyleSelector().setEditedObject(getSelectedShapes().get(0).getGraphicalRepresentation().getShadowStyle());
-		} else {
+		}
+		else {
 			// shapeFactory.setShape(getEditor().getCurrentShape());
 			// getShapeSelector().setEditedObject(getEditor().getCurrentShape());
 			// bsFactory.setBackgroundStyle(getEditor().getCurrentBackgroundStyle());

@@ -69,7 +69,8 @@ import org.openflexo.fib.FIBLibrary;
 import org.openflexo.fib.controller.FIBController;
 import org.openflexo.fib.model.FIBComponent;
 import org.openflexo.fib.model.FIBCustom;
-import org.openflexo.fib.swing.view.FIBView;
+import org.openflexo.fib.view.FIBView;
+import org.openflexo.fib.view.GinaViewFactory;
 import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.swing.CustomPopup;
 import org.openflexo.swing.JFontChooser;
@@ -81,7 +82,7 @@ import org.openflexo.swing.JFontChooser;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIBTextStyleSelector<JFIBTextStyleSelector> {
+public class JFIBTextStyleSelector extends CustomPopup<TextStyle>implements FIBTextStyleSelector<JFIBTextStyleSelector> {
 
 	static final Logger logger = Logger.getLogger(JFIBTextStyleSelector.class.getPackage().getName());
 
@@ -127,7 +128,8 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 		// WARNING: we need here to clone to keep track back of previous data !!!
 		if (oldValue != null) {
 			_revertValue = (TextStyle) oldValue.clone();
-		} else {
+		}
+		else {
 			_revertValue = null;
 		}
 		if (logger.isLoggable(Level.FINE)) {
@@ -195,8 +197,8 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 		}
 
 		public class CustomFIBController extends FIBController {
-			public CustomFIBController(FIBComponent component) {
-				super(component);
+			public CustomFIBController(FIBComponent component, GinaViewFactory<?> viewFactory) {
+				super(component, viewFactory);
 			}
 
 			public void apply() {
@@ -295,18 +297,18 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 				public void init() {
 					final DrawingGRBinding<TextStylePreviewPanel> previewPanelBinding = bindDrawing(TextStylePreviewPanel.class,
 							"previewPanel", new DrawingGRProvider<TextStylePreviewPanel>() {
-								@Override
-								public DrawingGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
-									return drawingGR;
-								}
-							});
+						@Override
+						public DrawingGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
+							return drawingGR;
+						}
+					});
 					final ShapeGRBinding<TextStylePreviewPanel> shapeBinding = bindShape(TextStylePreviewPanel.class, "line",
 							new ShapeGRProvider<TextStylePreviewPanel>() {
-								@Override
-								public ShapeGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
-									return textGR;
-								}
-							});
+						@Override
+						public ShapeGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
+							return textGR;
+						}
+					});
 
 					previewPanelBinding.addToWalkers(new GRStructureVisitor<TextStylePreviewPanel>() {
 
