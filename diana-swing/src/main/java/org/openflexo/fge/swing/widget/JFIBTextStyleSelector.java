@@ -69,6 +69,7 @@ import org.openflexo.fib.FIBLibrary;
 import org.openflexo.fib.controller.FIBController;
 import org.openflexo.fib.model.FIBComponent;
 import org.openflexo.fib.model.FIBCustom;
+import org.openflexo.fib.swing.view.SwingViewFactory;
 import org.openflexo.fib.view.FIBView;
 import org.openflexo.fib.view.GinaViewFactory;
 import org.openflexo.localization.FlexoLocalization;
@@ -82,7 +83,7 @@ import org.openflexo.swing.JFontChooser;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBTextStyleSelector extends CustomPopup<TextStyle>implements FIBTextStyleSelector<JFIBTextStyleSelector> {
+public class JFIBTextStyleSelector extends CustomPopup<TextStyle>implements FIBTextStyleSelector {
 
 	static final Logger logger = Logger.getLogger(JFIBTextStyleSelector.class.getPackage().getName());
 
@@ -169,7 +170,7 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle>implements FIBT
 			super();
 
 			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
-			controller = new CustomFIBController(fibComponent);
+			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
 			fibView = controller.buildView(fibComponent);
 
 			controller.setDataObject(textStyle);
@@ -368,11 +369,6 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle>implements FIBT
 			textGR.setText(JFontChooser.fontDescription(getEditedObject().getFont()));
 		}
 
-	}
-
-	@Override
-	public JFIBTextStyleSelector getJComponent() {
-		return this;
 	}
 
 	@Override

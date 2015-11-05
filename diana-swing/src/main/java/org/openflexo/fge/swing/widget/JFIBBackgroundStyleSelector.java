@@ -71,6 +71,7 @@ import org.openflexo.fib.FIBLibrary;
 import org.openflexo.fib.controller.FIBController;
 import org.openflexo.fib.model.FIBComponent;
 import org.openflexo.fib.model.FIBCustom;
+import org.openflexo.fib.swing.view.SwingViewFactory;
 import org.openflexo.fib.view.FIBView;
 import org.openflexo.fib.view.GinaViewFactory;
 import org.openflexo.swing.CustomPopup;
@@ -82,8 +83,7 @@ import org.openflexo.swing.CustomPopup;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle>
-		implements FIBBackgroundStyleSelector<JFIBBackgroundStyleSelector> {
+public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle>implements FIBBackgroundStyleSelector {
 
 	static final Logger logger = Logger.getLogger(JFIBBackgroundStyleSelector.class.getPackage().getName());
 
@@ -191,7 +191,7 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle>
 			super();
 
 			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
-			controller = new CustomFIBController(fibComponent);
+			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
 			fibView = controller.buildView(fibComponent);
 
 			controller.setDataObject(getFactory());
@@ -412,11 +412,6 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle>
 			});
 		}
 
-	}
-
-	@Override
-	public JFIBBackgroundStyleSelector getJComponent() {
-		return this;
 	}
 
 	@Override

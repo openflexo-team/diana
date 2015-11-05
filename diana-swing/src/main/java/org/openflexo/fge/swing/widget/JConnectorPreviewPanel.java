@@ -42,7 +42,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import org.openflexo.fge.BackgroundStyle;
@@ -75,7 +74,7 @@ import org.openflexo.fib.model.FIBCustom;
 import org.openflexo.swing.CustomPopup.ApplyCancelListener;
 
 @SuppressWarnings("serial")
-public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPanel<JConnectorPreviewPanel> {
+public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPanel {
 
 	private Drawing<JConnectorPreviewPanel> drawing;
 	private DrawingGraphicalRepresentation drawingGR;
@@ -85,7 +84,7 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 	private ShapeGraphicalRepresentation endShapeGR;
 	private ConnectorGraphicalRepresentation connectorGR;
 
-	private int border = 10;
+	private final int border = 10;
 	private int width = 250;
 	private int height = 80;
 	private static final float RATIO = 0.6f;
@@ -120,32 +119,32 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 			public void init() {
 				final DrawingGRBinding<JConnectorPreviewPanel> previewPanelBinding = bindDrawing(JConnectorPreviewPanel.class,
 						"previewPanel", new DrawingGRProvider<JConnectorPreviewPanel>() {
-							@Override
-							public DrawingGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
-								return drawingGR;
-							}
-						});
+					@Override
+					public DrawingGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
+						return drawingGR;
+					}
+				});
 				final ShapeGRBinding<JConnectorPreviewPanel> startShapeBinding = bindShape(JConnectorPreviewPanel.class, "startShape",
 						new ShapeGRProvider<JConnectorPreviewPanel>() {
-							@Override
-							public ShapeGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
-								return startShapeGR;
-							}
-						});
+					@Override
+					public ShapeGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
+						return startShapeGR;
+					}
+				});
 				final ShapeGRBinding<JConnectorPreviewPanel> endShapeBinding = bindShape(JConnectorPreviewPanel.class, "endShape",
 						new ShapeGRProvider<JConnectorPreviewPanel>() {
-							@Override
-							public ShapeGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
-								return endShapeGR;
-							}
-						});
-				final ConnectorGRBinding<JConnectorPreviewPanel> connectorBinding = bindConnector(JConnectorPreviewPanel.class,
-						"connector", new ConnectorGRProvider<JConnectorPreviewPanel>() {
-							@Override
-							public ConnectorGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
-								return connectorGR;
-							}
-						});
+					@Override
+					public ShapeGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
+						return endShapeGR;
+					}
+				});
+				final ConnectorGRBinding<JConnectorPreviewPanel> connectorBinding = bindConnector(JConnectorPreviewPanel.class, "connector",
+						new ConnectorGRProvider<JConnectorPreviewPanel>() {
+					@Override
+					public ConnectorGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
+						return connectorGR;
+					}
+				});
 
 				previewPanelBinding.addToWalkers(new GRStructureVisitor<JConnectorPreviewPanel>() {
 
@@ -202,7 +201,7 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 		connectorGR.setIsReadOnly(false);
 
 		controller = new JDianaInteractiveViewer<JConnectorPreviewPanel>(drawing, factory, SwingToolFactory.DEFAULT);
-		add((JComponent) controller.getDrawingView());
+		add(controller.getDrawingView());
 	}
 
 	@Override
@@ -234,8 +233,8 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 
 		// getShape().updateShape();
 
-		connectorGR.setConnectorSpecification(getConnectorSpecification() != null ? getConnectorSpecification() : factory
-				.makeConnector(ConnectorType.LINE));
+		connectorGR.setConnectorSpecification(
+				getConnectorSpecification() != null ? getConnectorSpecification() : factory.makeConnector(ConnectorType.LINE));
 		connectorGR.notifyConnectorModified();
 
 		controller.getDelegate().repaintAll();
@@ -247,9 +246,8 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 	}
 
 	public void setConnectorSpecification(ConnectorSpecification connectorSpecification) {
-		if (connectorSpecification != null
-				&& (connectorSpecification != connectorGR.getConnectorSpecification() || !connectorSpecification.equals(connectorGR
-						.getConnectorSpecification()))) {
+		if (connectorSpecification != null && (connectorSpecification != connectorGR.getConnectorSpecification()
+				|| !connectorSpecification.equals(connectorGR.getConnectorSpecification()))) {
 			connectorGR.setConnectorSpecification(/*(ConnectorSpecification)*/connectorSpecification/*.clone()*/);
 			/*
 			 * if (shape.getShapeType() == ShapeType.CUSTOM_POLYGON) {
@@ -260,11 +258,6 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 			 */
 			update();
 		}
-	}
-
-	@Override
-	public JConnectorPreviewPanel getJComponent() {
-		return this;
 	}
 
 	@Override
@@ -305,7 +298,7 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 
 	/*public class RepresentedDrawing {
 	}
-
+	
 	public class RepresentedShape {
 		public ShapeSpecification getRepresentedShape() {
 			return getShape();

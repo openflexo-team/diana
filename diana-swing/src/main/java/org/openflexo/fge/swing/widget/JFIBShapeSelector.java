@@ -54,6 +54,7 @@ import org.openflexo.fib.FIBLibrary;
 import org.openflexo.fib.controller.FIBController;
 import org.openflexo.fib.model.FIBComponent;
 import org.openflexo.fib.model.FIBCustom;
+import org.openflexo.fib.swing.view.SwingViewFactory;
 import org.openflexo.fib.view.FIBView;
 import org.openflexo.fib.view.GinaViewFactory;
 import org.openflexo.fib.view.widget.FIBCustomWidget;
@@ -66,7 +67,7 @@ import org.openflexo.swing.CustomPopup;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBShapeSelector extends CustomPopup<ShapeSpecification>implements FIBShapeSelector<JFIBShapeSelector> {
+public class JFIBShapeSelector extends CustomPopup<ShapeSpecification>implements FIBShapeSelector {
 
 	static final Logger logger = Logger.getLogger(JFIBShapeSelector.class.getPackage().getName());
 
@@ -155,7 +156,7 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification>implements
 			super();
 
 			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
-			controller = new CustomFIBController(fibComponent);
+			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
 			fibView = controller.buildView(fibComponent);
 
 			controller.setDataObject(getFactory());
@@ -286,11 +287,6 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification>implements
 	 * BorderFactory.createBevelBorder(BevelBorder.LOWERED); //return
 	 * BorderFactory.createBevelBorder(BevelBorder.LOWERED); }
 	 */
-
-	@Override
-	public JFIBShapeSelector getJComponent() {
-		return this;
-	}
 
 	@Override
 	public Class<ShapeSpecification> getRepresentedType() {
