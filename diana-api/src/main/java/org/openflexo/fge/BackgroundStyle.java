@@ -39,6 +39,7 @@
 
 package org.openflexo.fge;
 
+import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
@@ -112,5 +113,5 @@ public interface BackgroundStyle extends FGEStyle {
 	public void setUseTransparency(boolean aFlag);
 
 	// public BackgroundStyle clone();
-
+	public void accept(DrawingVisitor visitor, DrawingTreeNode<?, ?> dtn);
 }

@@ -63,6 +63,7 @@ public class CheckersController {
 					if (step.getCaptured() != null) {
 						board.removePiece(step.getCaptured());
 					}
+					playerMove = null;
 				}
 			}
 		}

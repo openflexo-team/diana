@@ -162,7 +162,8 @@ public class CheckersDrawing extends DrawingImpl<CheckersGame> {
 
 			@Override
 			public void visit(CheckersGame game) {
-				drawGeometricObject(gridBinding, grid);
+				GeometricNode<FGECheckersBoard> gNode = drawGeometricObject(gridBinding, grid);
+
 				for (CheckersPiece piece : game.getBoard().getPieces()) {
 					ShapeNode<CheckersPiece> node = drawShape(pieceBinding, piece);
 					node.setX(piece.getX() * 40 + 2.5);
@@ -203,12 +204,12 @@ public class CheckersDrawing extends DrawingImpl<CheckersGame> {
 					for (CheckersStep step : move.getSteps()) {
 						boolean found = false;
 						for (ShapeNode<Cell> stepNode : moveStepNodes) {
-							if (step.equals(stepNode.getDrawable())) {
+							if (step.getEndCell().equals(stepNode.getDrawable())) {
 								found = true;
 								break;
 							}
 						}
-
+						System.out.println(found);
 						if (!found) {
 							ShapeNode<Cell> node = drawShape(stepBinding, step.getEndCell());
 							if (node != null)
@@ -220,6 +221,54 @@ public class CheckersDrawing extends DrawingImpl<CheckersGame> {
 		};
 		gameBinding.addToWalkers(moveVisitor);
 
+		/*getModel().getController().addMoveListener(new PropertyChangeListener() {
+		
+		@Override
+				public void propertyChange(PropertyChangeEvent evt) {
+					CheckersMove move = getModel().getController().getPlayerMove();
+		
+					List<ShapeNode<Cell>> nodesToDelete = new LinkedList<>();
+		
+					if (move != null) {
+						System.out.println(moveStepNodes);
+						for (ShapeNode<Cell> stepNode : moveStepNodes) {
+							boolean found = false;
+							for (CheckersStep step : move.getSteps()) {
+								if (step.getEndCell().equals(stepNode.getDrawable())) {
+									found = true;
+									break;
+								}
+							}
+		
+							if (!found) {
+								nodesToDelete.add(stepNode);
+							}
+						}
+		
+						for (ShapeNode<Cell> node : nodesToDelete) {
+							node.delete();
+							moveStepNodes.remove(node);
+						}
+		
+						for (CheckersStep step : move.getSteps()) {
+							boolean found = false;
+							for (ShapeNode<Cell> stepNode : moveStepNodes) {
+								if (step.getEndCell().equals(stepNode.getDrawable())) {
+									found = true;
+									break;
+								}
+							}
+							System.out.println(found);
+							if (!found) {
+								ShapeNode<Cell> node = drawShape(stepBinding, step.getEndCell());
+								if (node != null)
+									moveStepNodes.add(node);
+							}
+						}
+					}
+				}
+			});
+		*/
 		/*moveBinding.addToWalkers(new GRStructureVisitor<CheckersMove>() {
 		
 			@Override
@@ -279,6 +328,9 @@ public class CheckersDrawing extends DrawingImpl<CheckersGame> {
 
 				CheckersPiece piece = (CheckersPiece) node.getDrawable();
 				getModel().getController().dropPiece(piece, cellX, cellY);
+				/*((ShapeNode<CheckersPiece>) node).setX(piece.getX() * 40 + 2.5);
+				((ShapeNode<CheckersPiece>) node).setY(piece.getY() * 40 + 2.5);*/
+				// moveVisitor.visit(getModel());
 				return returned;
 			}
 		}, false, false, false, false, getFactory().getEditingContext()));

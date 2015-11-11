@@ -39,6 +39,8 @@
 package org.openflexo.fge.impl;
 
 import org.openflexo.fge.ColorBackgroundStyle;
+import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.DrawingVisitor;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 
 public abstract class ColorBackgroundStyleImpl extends BackgroundStyleImpl implements ColorBackgroundStyle {
@@ -82,11 +84,16 @@ public abstract class ColorBackgroundStyleImpl extends BackgroundStyleImpl imple
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;
-			} else {
+			}
+			else {
 				return true;
 			}
 		}
 		return !oldObject.equals(newObject);
 	}
 
+	@Override
+	public void accept(DrawingVisitor visitor, DrawingTreeNode<?, ?> dtn) {
+		visitor.visit(this, dtn);
+	}
 }

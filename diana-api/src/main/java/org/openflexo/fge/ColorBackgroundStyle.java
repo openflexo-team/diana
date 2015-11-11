@@ -40,6 +40,7 @@ package org.openflexo.fge;
 
 import java.awt.Color;
 
+import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
@@ -68,5 +69,7 @@ public interface ColorBackgroundStyle extends BackgroundStyle {
 
 	@Setter(value = COLOR_KEY)
 	public void setColor(java.awt.Color aColor);
+
+	public void accept(DrawingVisitor visitor, DrawingTreeNode<?, ?> dtn);
 
 }
