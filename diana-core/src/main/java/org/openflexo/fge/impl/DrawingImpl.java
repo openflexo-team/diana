@@ -47,6 +47,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.Drawing;
+import org.openflexo.fge.DrawingVisitor;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.GRBinding;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
@@ -143,7 +144,8 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 			Hashtable<Object, DrawingTreeNode<?, ?>> hash = retrieveHash(drawingBinding);
 			hash.put(model, _root);
 			return _root;
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -460,7 +462,8 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 		logger.info("Graphical object hierarchy");
 		if (getRoot() != null) {
 			_printGraphicalObjectHierarchy((RootNodeImpl<?>) getRoot(), 0);
-		} else {
+		}
+		else {
 			logger.info(" > Root node is null !");
 		}
 	}
@@ -600,14 +603,16 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 				if (pendingConnector.tryToResolve(this)) {
 					// System.out.println("Resolved " + pendingConnector);
 					pendingConnectors.remove(pendingConnector);
-				} else {
+				}
+				else {
 					// System.out.println("I cannot resolve " + pendingConnector);
 				}
 			}
 
 			((DrawingTreeNodeImpl<?, ?>) dtn).validate();
 
-		} else {
+		}
+		else {
 			if (dtn instanceof ContainerNode) {
 				for (DrawingTreeNode<?, ?> child : ((ContainerNode<?, ?>) dtn).getChildNodes()) {
 					updateGraphicalObjectsHierarchy(child);
@@ -862,4 +867,9 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 		return isAnimationRunning;
 	}
 
+	@Override
+	public void accept(DrawingVisitor visitor) {
+		visitor.visit(this);
+		this.getRoot().accept(visitor);
+	}
 }

@@ -1,9 +1,10 @@
 /// <reference path="MyNode.ts" />
 // <reference path="Background.ts />"
 /// <reference path="Deserializable.ts" />
-/// <reference path="GraphicalProperty.ts" />
 
 class ShapeNode extends MyNode implements Deserializable<ShapeNode> {
+    //public enum Shape {OVAL, RECTANGLE, TRIANGLE};
+    
     private x: number;
     private y: number;
     private shape: string;
@@ -11,12 +12,12 @@ class ShapeNode extends MyNode implements Deserializable<ShapeNode> {
     private height: number;
     private background: Background;
 
-    deserialize(input: any): ShapeNode {
+    public deserialize(input: any): ShapeNode {
         super.deserialize(input);
         this.x = input.x;
         this.y = input.y;
         this.shape = input.shape;
-        this.width = GraphicalProperty.getDeserializationFunction()(input.width);
+        this.width = input.width;
         this.height = input.height;
         this.background.deserialize(input.background);
         return this;
@@ -26,38 +27,68 @@ class ShapeNode extends MyNode implements Deserializable<ShapeNode> {
         super();
         this.background = new Background();
     }
-
+    
+    public getX(): number{
+        return this.x;
+    }
+    
+    public getY(): number{
+        return this.y;
+    }
+    
+    public getWidth(): number{
+        return this.width;
+    }
+    
+    public getHeight(): number{
+        return this.height;
+    }
+    
+    public setX(x: number): void{
+        this.x = x;
+        this.getGraphic().setX(this.x);
+    }
+    
+    public setY(y: number): void{
+        this.y = y;
+        this.getGraphic().setY(this.y);
+    }
+    
+    public setWidth(width: number): void{
+        this.width = width;
+    }
+    
+    public setHeight(height: number): void{
+        this.width = height;
+    }
+    
     public createSVG(s: Snap.Paper = null): void {
-        this.graphic = s.rect(0, 0, this.width, this.height);
-        this.graphic.attr({
-            x: this.x,
-            y: this.y,
-            fill: this.background.toAttribute()
+        if(this.shape === "triangle") {
+            var path: string = "M" + (this.x + this.width /2) + "," + this.y;
+            path += "L" + this.x + "," + (this.y + this.height);
+            path += "L" + (this.x + this.width) + "," + (this.y + this.height);
+            path += "L" + (this.x + this.width /2) + "," + this.y;
+            this.graphic = new TriangleGraphicalElement(this, s.path(path));
+        }
+        else if(this.shape === "oval") {
+            this.graphic = new OvalGraphicalElement(this, s.ellipse(0, 0, this.width/2, this.height/2));
+        }
+        else {
+            this.graphic = new ShapeGraphicalElement(this, s.rect(0, 0, this.width, this.height));
+        }
+        this.getGraphic().setX(this.x);
+        this.getGraphic().setY(this.y);
+        this.graphic.native.attr({
+            fill: this.background.toAttribute() // to replace with a correct Graphic.setBackground
         });
         
-        var move = function(dx: number, dy: number) {
-            this.data('moveMatrix', Snap.matrix(1,0, 0, 1, dx, dy));
-            this.attr({
-                transform:  this.data('origTransform') + this.data('moveMatrix').toTransformString()
-            }); //doesn't quite work if there is already a transform. Partial solution, store original transform
-        };
-        var start = function() {
-            this.data('origTransform', this.transform().local);
-            this.data('moveMatrix', Snap.matrix(1, 0, 0, 1, 0, 0));
-            this.data('origTransformMtx', this.transform().localMatrix);
-        };
-        var stop = function() {
-            this.attr({
-                x: parseInt(this.attr('x'), 10) + parseInt(this.data('moveMatrix').e, 10),
-                y:  parseInt(this.attr('y'), 10) + parseInt(this.data('moveMatrix').f, 10),
-                transform: this.data('origTransform')
-            });
-        };
-
-        this.graphic.drag(move, start, stop);
         super.createSVG();
     }
-
+    
+    public getGraphic(): ShapeGraphicalElement {
+        return <ShapeGraphicalElement>super.getGraphic();
+    }
+    
     public print(depth: number = 0): void {
         var toPrint: string = this.getId().toString();
         toPrint = toPrint + ' : ' + this.shape + ':' + this.x;
@@ -65,7 +96,6 @@ class ShapeNode extends MyNode implements Deserializable<ShapeNode> {
             toPrint = '   ' + toPrint;
         }
         console.log(toPrint);
-        this.background.print();
 
         for (var child of this.getChildren()) {
             child.print(depth + 1);

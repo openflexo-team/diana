@@ -144,8 +144,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 	 * @param <GR>
 	 *            Type of GraphicalRepresentation represented by this node
 	 */
-	public interface DrawingTreeNode<O, GR extends GraphicalRepresentation> extends PropertyChangeListener, Observer,
-			HasPropertyChangeSupport /*, KeyValueCoding*/{
+	public interface DrawingTreeNode<O, GR extends GraphicalRepresentation>
+			extends PropertyChangeListener, Observer, HasPropertyChangeSupport /*, KeyValueCoding*/ {
 
 		public static GRProperty<Boolean> IS_FOCUSED = GRProperty.getGRParameter(DrawingTreeNode.class, DrawingTreeNode.IS_FOCUSED_KEY,
 				Boolean.class);
@@ -451,6 +451,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public void setContinuousTextEditing(boolean continuousTextEditing);
 
+		public void accept(DrawingVisitor visitor);
 	}
 
 	public interface ContainerNode<O, GR extends ContainerGraphicalRepresentation> extends DrawingTreeNode<O, GR> {
@@ -560,7 +561,6 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		public FGERectangle getBounds();
 
 		public void paint(FGEGraphics g);
-
 	}
 
 	public interface RootNode<M> extends ContainerNode<M, DrawingGraphicalRepresentation> {
@@ -581,7 +581,6 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		 * Convenient method used to set 'drawWorkingArea' property value
 		 */
 		public void setDrawWorkingArea(boolean drawWorkingArea);
-
 	}
 
 	public interface ShapeNode<O> extends ContainerNode<O, ShapeGraphicalRepresentation> {
@@ -988,7 +987,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 	// public <O> ShapeNode<O> drawShape(ShapeNode<?> parent, ShapeGRBinding<O> binding, O representable);
 
 	/*public DrawingTreeNode<?> getContainer(DrawingTreeNode<?> node);
-
+	
 	public List<DrawingTreeNode<?>> getContainedNodes(DrawingTreeNode<?> parentNode);*/
 
 	/**
@@ -1068,6 +1067,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 	 * @return
 	 */
 	public <O> ConnectorNode<O> getConnectorNode(DrawingTreeNodeIdentifier<O> identifier);
+
+	public void accept(DrawingVisitor visitor);
 
 	/**
 	 * Encodes the dependancy between two {@link DrawingTreeNode}
@@ -1185,14 +1186,16 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 				if (other.drawable != null) {
 					return false;
 				}
-			} else if (!drawable.equals(other.drawable)) {
+			}
+			else if (!drawable.equals(other.drawable)) {
 				return false;
 			}
 			if (grBinding == null) {
 				if (other.grBinding != null) {
 					return false;
 				}
-			} else if (!grBinding.equals(other.grBinding)) {
+			}
+			else if (!grBinding.equals(other.grBinding)) {
 				return false;
 			}
 			return true;
