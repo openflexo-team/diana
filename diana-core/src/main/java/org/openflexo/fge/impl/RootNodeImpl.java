@@ -46,8 +46,10 @@ import java.util.logging.Logger;
 
 import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.ColorBackgroundStyle;
+import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.RootNode;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
+import org.openflexo.fge.DrawingVisitor;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.GRBinding.DrawingGRBinding;
 import org.openflexo.fge.GraphicalRepresentation;
@@ -57,7 +59,7 @@ import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.graphics.FGEDrawingGraphics;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 
-public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepresentation> implements RootNode<M> {
+public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepresentation>implements RootNode<M> {
 
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(RootNodeImpl.class.getPackage().getName());
@@ -256,4 +258,11 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 		setPropertyValue(DrawingGraphicalRepresentation.DRAW_WORKING_AREA, drawWorkingArea);
 	}
 
+	@Override
+	public void accept(DrawingVisitor visitor) {
+		visitor.visit(this);
+		for (DrawingTreeNode<?, ?> dtn : getChildNodes()) {
+			dtn.accept(visitor);
+		}
+	}
 }

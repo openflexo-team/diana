@@ -28,8 +28,4 @@ class Background implements Deserializable<Background> {
     public toAttribute(): string {
         return "rgb(" + this.getRed() + ", " + this.getGreen() + ", " + this.getBlue() + ")";
     }
-    
-    public print() : void {
-        console.log("Ce BG : " + this.getRed() + ", " + this.getGreen() + ", " + this.getBlue());
-    }
 }

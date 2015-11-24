@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+  	"module": "commonjs",
+    "noImplicitAny": true,
+    "target": "ES5",
+    "declaration": true,
+    "sourceMap": true,
+    "out": "build/all.js"
+  },
+  "files": [
+    "bower_components/DefinitelyTyped/angularjs/angular.d.ts",
+    "node_modules/typescript/bin/lib.es6.d.ts",
+
+    "app/app.ts",
+    "app/hello1.ts",
+    "app/hello2.ts",
+    "lib/directives/hello3.ts"
+  ]
+}

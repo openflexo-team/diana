@@ -1,16 +1,18 @@
-/// <reference path="MyNode.ts" />
-/// <reference path="Deserializable.ts" />
-
 class RootNode extends MyNode implements Deserializable<RootNode> {
     
-    deserialize(input:any) : RootNode {
+    public constructor() {
+        super();
+        console.log("let's build a root node");
+    }
+    
+    public deserialize(input:any) : RootNode {
         super.deserialize(input);
         return this;
     }
     
     public createSVG(s: Snap.Paper = null) : void {
         s = Snap('svg');
-        this.graphic = s;
+        this.graphic = new GraphicalElement(this, s);
         super.createSVG(s);
     }
     

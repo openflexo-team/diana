@@ -1,5 +1,3 @@
-/// <reference path="Deserializable.ts" />
-
 abstract class MyNode implements Deserializable<MyNode> {
     
     public static deserialize (input:any) : MyNode {
@@ -15,10 +13,11 @@ abstract class MyNode implements Deserializable<MyNode> {
     }
 
     private id: number;
+    private drawing: Drawing;
     private children: MyNode[];
-    protected graphic: Snap.Element;
+    protected graphic: GraphicalElement;
 
-    deserialize(input:any) : MyNode {
+    public deserialize(input:any) : MyNode {
         this.id = input.id;
         if (input.children !== undefined) {
             for(var child of input.children) {
@@ -40,6 +39,7 @@ abstract class MyNode implements Deserializable<MyNode> {
     }
     
     public addChildNode (node: MyNode) {
+        node.setDrawing(this.drawing);
         this.children.push(node);
     }
     
@@ -49,6 +49,18 @@ abstract class MyNode implements Deserializable<MyNode> {
     
     public getChildren():Array<MyNode> {
         return this.children;
+    }
+    
+    public getGraphic(): GraphicalElement {
+        return this.graphic;
+    }
+    
+    public getDrawing(): Drawing {
+        return this.drawing;
+    }
+    
+    public setDrawing(aDrawing: Drawing) {
+        this.drawing = aDrawing;
     }
     
     public print (depth: number = 0): void {
