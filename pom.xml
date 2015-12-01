@@ -30,6 +30,8 @@
 		<module>diana-drawing-editor</module>
 		<!-- <module>diana-geomedit</module> --> <!-- Do not produce it yet -->
 		<module>diana-ppt-editor</module>
+		<module>diana-web</module>
+		<module>diana-webclient</module>
 	</modules>
 	<dependencyManagement>
 		<dependencies>
