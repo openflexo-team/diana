@@ -1,3 +1,6 @@
+/**
+ * Client-side equivalent of the RootNode.
+ */
 class RootNode extends MyNode implements Deserializable<RootNode> {
     
     public constructor() {
@@ -10,10 +13,13 @@ class RootNode extends MyNode implements Deserializable<RootNode> {
         return this;
     }
     
-    public createSVG(s: Snap.Paper = null) : void {
-        s = Snap('svg');
-        this.graphic = new GraphicalElement(this, s);
-        super.createSVG(s);
+    public createGraphic(parentGraphic: GraphicalElement = null) : void {
+        this.graphic = new RootGraphicalElement(this);
+        super.createGraphic();
+    }
+    
+    public getGraphic(): RootGraphicalElement {
+        return <RootGraphicalElement>super.getGraphic();
     }
     
     public print(depth: number = 0): void {

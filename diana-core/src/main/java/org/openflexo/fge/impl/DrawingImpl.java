@@ -138,7 +138,7 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 		return rootNode;
 	}
 
-	private RootNodeImpl<M> buildRoot() {
+	protected RootNodeImpl<M> buildRoot() {
 		if (drawingBinding != null) {
 			RootNodeImpl<M> _root = new RootNodeImpl<M>(this, model, drawingBinding);
 			Hashtable<Object, DrawingTreeNode<?, ?>> hash = retrieveHash(drawingBinding);

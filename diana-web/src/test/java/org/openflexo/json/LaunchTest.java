@@ -16,9 +16,13 @@ public class LaunchTest {
 
 	public static void main(String[] args) {
 		Diagram diagram = new Diagram();
-		diagram.add(new Shape(ShapeType.RECTANGLE, 20, 40, 120, 80));
-		diagram.add(new Shape(ShapeType.TRIANGLE, 80, 20, 150, 100));
-		diagram.add(new Shape(ShapeType.OVAL, 50, 30, 90, 90));
+		Shape rectangle = new Shape(ShapeType.RECTANGLE, 20, 40, 200, 200);
+		rectangle.addChild(new Shape(ShapeType.RECTANGLE, 10, 10, 40, 30));
+		diagram.add(rectangle);
+
+		diagram.add(new Shape(ShapeType.TRIANGLE, 80, 250, 150, 100));
+		// diagram.add(new Shape(ShapeType.TRIANGLE, 400, 320, 90, 200));
+		// diagram.add(new Shape(ShapeType.OVAL, 50, 30, 90, 90));
 
 		FGEModelFactory factory = null;
 		try {
@@ -36,7 +40,7 @@ public class LaunchTest {
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
 
-		JsonVisitor visitor = new JsonVisitor();
+		JsonVisitor visitor = JsonFactory.INSTANCE.makeJsonVisitor();
 		d.accept(visitor);
 
 		visitor.printJson(System.out);

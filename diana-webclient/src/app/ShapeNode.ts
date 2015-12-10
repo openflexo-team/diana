@@ -1,7 +1,6 @@
-/// <reference path="MyNode.ts" />
-// <reference path="Background.ts />"
-/// <reference path="Deserializable.ts" />
-
+/**
+ * Client-side equivalent of the ShapeNode.
+ */
 class ShapeNode extends MyNode implements Deserializable<ShapeNode> {
     //public enum Shape {OVAL, RECTANGLE, TRIANGLE};
     
@@ -19,7 +18,9 @@ class ShapeNode extends MyNode implements Deserializable<ShapeNode> {
         this.shape = input.shape;
         this.width = input.width;
         this.height = input.height;
-        this.background.deserialize(input.background);
+        if(input.background !== undefined) {
+            this.background.deserialize(input.background);
+        }
         return this;
     }
 
@@ -44,49 +45,76 @@ class ShapeNode extends MyNode implements Deserializable<ShapeNode> {
         return this.height;
     }
     
+    public getBackground(): Background {
+        return this.background;
+    }
+    
     public setX(x: number): void{
+        var oldValue = this.x;
         this.x = x;
-        this.getGraphic().setX(this.x);
+        this.getPropertyChangeSupport().firePropertyChange('x', oldValue, this.x);
+        //this.getGraphic().setX(this.x);
+        if(this.selected){
+            this.getGraphic().updateControlPoints();
+        }
     }
     
     public setY(y: number): void{
+        var oldValue = this.y;
         this.y = y;
-        this.getGraphic().setY(this.y);
+        this.getPropertyChangeSupport().firePropertyChange('y', oldValue, this.y);
+        //this.getGraphic().setY(this.y);
+        if(this.selected){
+            this.getGraphic().updateControlPoints();
+        }
     }
     
-    public setWidth(width: number): void{
-        this.width = width;
+    public setWidth(width: number): void {
+        var oldValue = this.width;
+        this.width = (width > 0) ? width : 0;
+        this.getPropertyChangeSupport().firePropertyChange('width', oldValue, this.width);
+        //this.getGraphic().setWidth(this.width);
+        if(this.selected){
+            this.getGraphic().updateControlPoints();
+        }
     }
     
     public setHeight(height: number): void{
-        this.width = height;
+        var oldValue = this.height;
+        this.height = (height > 0) ? height : 0;
+        this.getPropertyChangeSupport().firePropertyChange('height', oldValue, this.height);
+        //this.getGraphic().setHeight(this.height);
+        if(this.selected) {
+            this.getGraphic().updateControlPoints();
+        }
     }
     
-    public createSVG(s: Snap.Paper = null): void {
+    public createGraphic(parentGraphic: GraphicalElement): void {
         if(this.shape === "triangle") {
-            var path: string = "M" + (this.x + this.width /2) + "," + this.y;
-            path += "L" + this.x + "," + (this.y + this.height);
-            path += "L" + (this.x + this.width) + "," + (this.y + this.height);
-            path += "L" + (this.x + this.width /2) + "," + this.y;
-            this.graphic = new TriangleGraphicalElement(this, s.path(path));
+            this.graphic = new TriangleGraphicalElement(this, parentGraphic.getPaper());
         }
         else if(this.shape === "oval") {
-            this.graphic = new OvalGraphicalElement(this, s.ellipse(0, 0, this.width/2, this.height/2));
+            this.graphic = new OvalGraphicalElement(this, parentGraphic.getPaper());
         }
         else {
-            this.graphic = new ShapeGraphicalElement(this, s.rect(0, 0, this.width, this.height));
+            this.graphic = new RectangleGraphicalElement(this, parentGraphic.getPaper());
         }
-        this.getGraphic().setX(this.x);
-        this.getGraphic().setY(this.y);
-        this.graphic.native.attr({
-            fill: this.background.toAttribute() // to replace with a correct Graphic.setBackground
-        });
-        
-        super.createSVG();
+        super.createGraphic(parentGraphic);
     }
     
     public getGraphic(): ShapeGraphicalElement {
         return <ShapeGraphicalElement>super.getGraphic();
+    }
+    
+    public publishEndMove(startX: number, startY: number): void {
+        if(startX !== this.getX()) {
+            var Xchange = new UpdateChange(this.getId(), "x", this.getX());
+            this.getDrawing().publishChange(Xchange);
+        }
+        if(startY !== this.getY()) {
+            var Ychange = new UpdateChange(this.getId(), "y", this.getY());
+            this.getDrawing().publishChange(Ychange);
+        }
     }
     
     public print(depth: number = 0): void {

@@ -35,6 +35,7 @@ public class DiagramDrawing extends DrawingImpl<Diagram> {
 
 		rectangleRepresentation = getFactory().makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
 		rectangleRepresentation.setBackground(getFactory().makeColoredBackground(Color.RED));
+		// rectangleRepresentation.setBackground(getFactory().makeEmptyBackground());
 
 		final DrawingGRBinding<Diagram> diagramBinding = bindDrawing(Diagram.class, "diagram", new DrawingGRProvider<Diagram>() {
 			@Override
@@ -65,6 +66,13 @@ public class DiagramDrawing extends DrawingImpl<Diagram> {
 			public void visit(Diagram drawable) {
 				for (Shape shape : drawable.getShapes()) {
 					drawShape(shapeBinding, shape);
+					System.out.println(shape.getChildren());
+					for (Shape child : shape.getChildren()) {
+						drawShape(shapeBinding, child);
+						/*System.out.println("drawing child : " + child.getX() + " " + child.getY() + " " + child.getWidth() + " "
+								+ child.getHeight() + "" + child.getType());
+						drawShape(shapeBinding, child, shapeBinding, shape);*/
+					}
 				}
 			}
 		});

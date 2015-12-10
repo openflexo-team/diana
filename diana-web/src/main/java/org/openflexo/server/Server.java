@@ -1,5 +1,7 @@
 package org.openflexo.server;
 
+import javax.swing.JDialog;
+
 import org.openflexo.diagram.Diagram;
 import org.openflexo.diagram.DiagramDrawing;
 import org.openflexo.diagram.Shape;
@@ -7,6 +9,9 @@ import org.openflexo.diagram.Shape.ShapeType;
 import org.openflexo.fge.Drawing;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
+import org.openflexo.fge.swing.JDianaInteractiveViewer;
+import org.openflexo.fge.swing.control.SwingToolFactory;
+import org.openflexo.json.JsonFactory;
 import org.openflexo.json.JsonVisitor;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.vertx.java.core.Handler;
@@ -16,29 +21,33 @@ import org.vertx.java.core.http.HttpServer;
 import org.vertx.java.core.http.HttpServerRequest;
 import org.vertx.java.core.json.JsonArray;
 import org.vertx.java.core.json.JsonObject;
-import org.vertx.java.core.json.impl.Json;
 import org.vertx.java.core.logging.Logger;
 import org.vertx.java.platform.Verticle;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class Server extends Verticle {
+	private static Logger logger;
 	private EventBus eb;
 	private HttpServer server;
 
-	Drawing<Diagram> drawing;
-	JsonVisitor jsonVisitor;
+	private final JsonFactory jsonFactory;
+	private final Drawing<Diagram> drawing;
+	private final ChangeManager changeManager;
+	private final JsonVisitor jsonVisitor;
 
 	public Server() {
 		super();
 
-		// For test purpose
 		Diagram diagram = new Diagram();
-		diagram.add(new Shape(ShapeType.RECTANGLE, 20, 40, 120, 80));
+		Shape rectangle = new Shape(ShapeType.RECTANGLE, 20, 40, 200, 200);
+		rectangle.addChild(new Shape(ShapeType.OVAL, 100, 100, 40, 30));
+		diagram.add(rectangle);
+
 		diagram.add(new Shape(ShapeType.TRIANGLE, 80, 20, 150, 100));
-		diagram.add(new Shape(ShapeType.OVAL, 50, 30, 90, 90));
+		diagram.add(new Shape(ShapeType.TRIANGLE, 400, 320, 90, 200));
+		// diagram.add(new Shape(ShapeType.OVAL, 50, 30, 90, 90));
 
 		FGEModelFactory factory = null;
 		try {
@@ -48,9 +57,21 @@ public class Server extends Verticle {
 		}
 
 		drawing = new DiagramDrawing(diagram, factory);
-		jsonVisitor = new JsonVisitor();
+
+		jsonFactory = JsonFactory.INSTANCE;
+		jsonVisitor = jsonFactory.makeJsonVisitor();
 		drawing.accept(jsonVisitor);
-		jsonVisitor.printJson(System.out);
+
+		changeManager = new ChangeManager(this);
+		drawing.accept(changeManager);
+
+		JDianaInteractiveViewer<Diagram> viewer = new JDianaInteractiveViewer<>(drawing, drawing.getFactory(), SwingToolFactory.DEFAULT);
+
+		JDialog dialog = new JDialog();
+		dialog.setContentPane(viewer.getDrawingView());
+		dialog.setSize(800, 600);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.setVisible(true);
 	}
 
 	@Override
@@ -75,13 +96,12 @@ public class Server extends Verticle {
 			}
 		});
 
-		Handler<Message<Json>> clientHandler = new Handler<Message<Json>>() {
+		Handler<Message<JsonObject>> clientHandler = new Handler<Message<JsonObject>>() {
 			@Override
-			public void handle(Message<Json> message) {
+			public void handle(Message<JsonObject> message) {
 				container.logger().info("Received on client.query : " + message.body());
-				ObjectNode messageNode = jsonVisitor.getMapper().createObjectNode();
 				CreateChange change = new CreateChange(drawing.getRoot(), null, jsonVisitor);
-				JsonNode changeNode = change.toJson();
+				JsonNode changeNode = jsonFactory.toJson(change);
 				try {
 					JsonObject json = new JsonObject(jsonVisitor.getMapper().writeValueAsString(changeNode));
 					message.reply(json);
@@ -93,6 +113,20 @@ public class Server extends Verticle {
 			}
 		};
 		eb.registerHandler("client.query", clientHandler);
+
+		Handler<Message<JsonObject>> changeHandler = new Handler<Message<JsonObject>>() {
+			@Override
+			public void handle(Message<JsonObject> message) {
+				container.logger().info("Received on client.changes : " + message.body());
+
+				UpdateChange<?> change = jsonFactory.deserialize(message.body().toString());
+				changeManager.apply(change);
+				// UpdateChange<?> bChange = new UpdateChange<?>(updatedNodeId, changedProperty, newValue)
+				// eb.publish("server.changes", change);
+				// publishChange("server.changes", change);
+			}
+		};
+		eb.registerHandler("client.changes", changeHandler);
 
 		// Utilisation d'un server SockJS, creation d'un bridge
 		JsonObject config = new JsonObject().putString("prefix", "/eventbus");
@@ -106,4 +140,10 @@ public class Server extends Verticle {
 		server.listen(8080);
 	}
 
+	public void publishChange(String address, Change change) {
+		String jsonString = jsonFactory.toJsonString(jsonFactory.toJson(change));
+		JsonObject json = new JsonObject(jsonString);
+		eb.publish(address, json);
+		// container.logger().info("sent : " + json.toString());
+	}
 }

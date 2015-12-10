@@ -452,6 +452,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		public void setContinuousTextEditing(boolean continuousTextEditing);
 
 		public void accept(DrawingVisitor visitor);
+
+		public int getId();
 	}
 
 	public interface ContainerNode<O, GR extends ContainerGraphicalRepresentation> extends DrawingTreeNode<O, GR> {

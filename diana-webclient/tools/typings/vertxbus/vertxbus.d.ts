@@ -1,3 +1,6 @@
+/**
+ * Typescript definition for the library vertxbus.js provided by Vertx.
+ */
 declare module Vertx {
     export interface EventBus {
         onopen: () => void;

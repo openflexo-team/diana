@@ -318,7 +318,7 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	@Getter(value = WIDTH_KEY, defaultValue = "60.0")
 	@XMLAttribute
 	public double getWidth();
-
+	
 	@Override
 	@Getter(value = HEIGHT_KEY, defaultValue = "20.0")
 	@XMLAttribute
@@ -586,23 +586,23 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	// public void notifyShapeNeedsToBeRedrawn();
 
 	/*public void notifyObjectMoved();
-
+	
 	public void notifyObjectMoved(FGEPoint oldLocation);
-
+	
 	public void notifyObjectWillMove();
-
+	
 	public void notifyObjectHasMoved();
-
+	
 	public boolean isMoving();
-
+	
 	public void notifyObjectResized();
-
+	
 	public void notifyObjectResized(FGEDimension oldSize);
-
+	
 	public void notifyObjectWillResize();
-
+	
 	public void notifyObjectHasResized();
-
+	
 	public boolean isResizing();*/
 
 	// public double getUnscaledViewWidth();
@@ -643,11 +643,11 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	// public boolean isPointInsideShape(FGEPoint aPoint);
 
 	/*public ShapeDecorationPainter getDecorationPainter();
-
+	
 	public void setDecorationPainter(ShapeDecorationPainter aPainter);
-
+	
 	public ShapePainter getShapePainter();
-
+	
 	public void setShapePainter(ShapePainter aPainter);*/
 
 	// Override for a custom view management
@@ -737,5 +737,4 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	 */
 	@Setter(value = LAYOUT_MANAGER_IDENTIFIER_KEY)
 	public void setLayoutManagerIdentifier(String identifier);
-
 }

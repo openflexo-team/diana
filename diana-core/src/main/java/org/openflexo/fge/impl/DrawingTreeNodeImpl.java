@@ -72,6 +72,7 @@ import org.openflexo.fge.Drawing.ConstraintDependency;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DependencyLoopException;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.Drawing.DrawingTreeNodeIdentifier;
 import org.openflexo.fge.Drawing.PersistenceMode;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEUtils;
@@ -1382,6 +1383,11 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		setPropertyValue(GraphicalRepresentation.CONTINUOUS_TEXT_EDITING, continuousTextEditing);
 	}
 
+	@Override
+	public int getId() {
+		DrawingTreeNodeIdentifier<O> id = new DrawingTreeNodeIdentifier<>(getDrawable(), getGRBinding());
+		return id.hashCode();
+	}
 	/*@Override
 	public void accept(DrawingVisitor visitor) {
 		visitor.visit(this);

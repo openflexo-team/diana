@@ -1,5 +1,3 @@
-/*/// <reference path="Change.ts" />
-
 class CreateChange extends Change {
     private createdNode: MyNode;
     private parentId: number;
@@ -9,9 +7,10 @@ class CreateChange extends Change {
         if(input.parent !== undefined) {
             this.parentId = input.parent;
         }
+        return this;
     }
     
     public apply(drawing: Drawing): void {
-        drawing.getNode(parentId).addChild(createdNode);
+        drawing.addNode(this.parentId, this.createdNode);
     }
-}*/
+}

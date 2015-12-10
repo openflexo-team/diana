@@ -1,28 +1,18 @@
 /// <reference path="MyNode.ts"/>
 
-class Change implements Deserializable<Change> {
+abstract class Change implements Deserializable<Change> {
     static deserialize(input: any): Change {
         if(input.type !== undefined){
             if(input.type === "CREATE") {
-                return new Change().deserialize(input);
+                return new CreateChange().deserialize(input);
+            }
+            else if(input.type === "UPDATE") {
+                return new UpdateChange().deserialize(input);
             }
         }
     }
     
-    private createdNode: MyNode;
-    private parentId: number;
+    public abstract apply(drawing: Drawing): void;
     
-    public deserialize(input: any): Change {
-        this.createdNode = MyNode.deserialize(input.created);
-        if(input.parent !== undefined) {
-            this.parentId = input.parent;
-        }
-        console.log("change deserialized");
-        return this;
-    }
-    
-    public apply(drawing: Drawing): void {
-        drawing.addNode(this.parentId, this.createdNode);
-        this.createdNode.createSVG();
-    }
+    public abstract deserialize(input: any): Change;
 }

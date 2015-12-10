@@ -1,8 +1,8 @@
-/// <reference path="Viewer.ts" />
+/// <reference path="Drawing.ts" />
 
 window.onload = function() {
     console.log("__ start main __");
-    var viewer : Viewer = new Viewer();
-    viewer.setupCommunication();
+    var drawing : Drawing = new Drawing();
+    drawing.setupCommunication();
     console.log("__ end main __");
 };

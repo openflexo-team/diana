@@ -1,7 +1,5 @@
 package org.openflexo.json;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashMap;
@@ -25,21 +23,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-public class JsonVisitor implements DrawingVisitor, PropertyChangeListener {
+public class JsonVisitor implements DrawingVisitor {
 	private final Map<DrawingTreeNode<?, ?>, ObjectNode> nodeMap;
 
 	// TODO: use a shared object Mapper
 	private final ObjectMapper mapper;
 	private JsonNode rootNode;
 
-	public JsonVisitor() {
+	public JsonVisitor(ObjectMapper mapper) {
 		nodeMap = new HashMap<>();
-		mapper = new ObjectMapper();
+		this.mapper = mapper;
 	}
 
 	@Override
 	public void visit(Drawing drawing) {
-		System.out.println("Drawing");
 	}
 
 	@Override
@@ -55,7 +52,6 @@ public class JsonVisitor implements DrawingVisitor, PropertyChangeListener {
 	@Override
 	public void visit(ShapeNode<?> dtn) {
 		ObjectNode node = createNode(dtn);
-		dtn.getPropertyChangeSupport().addPropertyChangeListener(this);
 	}
 
 	@Override
@@ -169,11 +165,5 @@ public class JsonVisitor implements DrawingVisitor, PropertyChangeListener {
 		}
 
 		return "";
-	}
-
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		// ((DrawingTreeNode<?, ?>) evt.getSource());
-		printJson(System.out);
 	}
 }

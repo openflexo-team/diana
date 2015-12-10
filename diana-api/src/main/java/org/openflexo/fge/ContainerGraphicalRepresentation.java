@@ -101,12 +101,12 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 
 	public static GRProperty<Boolean> ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT_KEY, Boolean.class);
-	public static GRProperty<Boolean> ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH = GRProperty.getGRParameter(
-			ContainerGraphicalRepresentation.class, ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH_KEY, Boolean.class);
+	public static GRProperty<Boolean> ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH = GRProperty
+			.getGRParameter(ContainerGraphicalRepresentation.class, ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH_KEY, Boolean.class);
 	public static GRProperty<Boolean> ADJUST_MINIMAL_HEIGHT_TO_LABEL_HEIGHT = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			ADJUST_MINIMAL_HEIGHT_TO_LABEL_HEIGHT_KEY, Boolean.class);
-	public static GRProperty<Boolean> ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH = GRProperty.getGRParameter(
-			ContainerGraphicalRepresentation.class, ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH_KEY, Boolean.class);
+	public static GRProperty<Boolean> ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH = GRProperty
+			.getGRParameter(ContainerGraphicalRepresentation.class, ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH_KEY, Boolean.class);
 	public static GRProperty<Double> MINIMAL_WIDTH = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class, MINIMAL_WIDTH_KEY,
 			Double.class);
 	public static GRProperty<Double> MINIMAL_HEIGHT = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class, MINIMAL_HEIGHT_KEY,
@@ -115,10 +115,10 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 			Double.class);
 	public static GRProperty<Double> MAXIMAL_HEIGHT = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class, MAXIMAL_HEIGHT_KEY,
 			Double.class);
-	public static GRProperty<DimensionConstraints> DIMENSION_CONSTRAINTS = GRProperty.getGRParameter(
-			ContainerGraphicalRepresentation.class, DIMENSION_CONSTRAINTS_KEY, DimensionConstraints.class);
-	public static GRProperty<FGESteppedDimensionConstraint> DIMENSION_CONSTRAINT_STEP = GRProperty.getGRParameter(
-			ContainerGraphicalRepresentation.class, DIMENSION_CONSTRAINT_STEP_KEY, FGESteppedDimensionConstraint.class);
+	public static GRProperty<DimensionConstraints> DIMENSION_CONSTRAINTS = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class,
+			DIMENSION_CONSTRAINTS_KEY, DimensionConstraints.class);
+	public static GRProperty<FGESteppedDimensionConstraint> DIMENSION_CONSTRAINT_STEP = GRProperty
+			.getGRParameter(ContainerGraphicalRepresentation.class, DIMENSION_CONSTRAINT_STEP_KEY, FGESteppedDimensionConstraint.class);
 
 	public static GRProperty<List> LAYOUT_MANAGER_SPECIFICATIONS = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class,
 			LAYOUT_MANAGER_SPECIFICATIONS_KEY, List.class);
@@ -228,5 +228,4 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 
 	@Remover(value = LAYOUT_MANAGER_SPECIFICATIONS_KEY)
 	public void removeFromLayoutManagerSpecifications(FGELayoutManagerSpecification<?> layoutManagerSpecification);
-
 }

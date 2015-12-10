@@ -52,6 +52,7 @@ import org.openflexo.fge.Drawing;
 import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.DrawingVisitor;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.GRBinding;
@@ -76,7 +77,7 @@ import org.openflexo.fge.notifications.ObjectWillResize;
 import org.openflexo.fge.notifications.ShapeChanged;
 import org.openflexo.toolbox.ConcatenedList;
 
-public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphicalRepresentation> implements ConnectorNode<O> {
+public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphicalRepresentation>implements ConnectorNode<O> {
 
 	private static final Logger logger = Logger.getLogger(ConnectorNodeImpl.class.getPackage().getName());
 
@@ -368,8 +369,8 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 
 		// return AffineTransform.getScaleInstance(bounds.width, bounds.height);
 
-		AffineTransform returned = AffineTransform.getTranslateInstance(minX < 0 ? -minX * bounds.width : 0, minY < 0 ? -minY
-				* bounds.height : 0);
+		AffineTransform returned = AffineTransform.getTranslateInstance(minX < 0 ? -minX * bounds.width : 0,
+				minY < 0 ? -minY * bounds.height : 0);
 
 		returned.concatenate(AffineTransform.getScaleInstance(bounds.width, bounds.height));
 
@@ -383,8 +384,8 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 
 		// return AffineTransform.getScaleInstance(1.0/bounds.width, 1.0/bounds.height);
 
-		AffineTransform returned = AffineTransform.getTranslateInstance(minX < 0 ? minX * bounds.width : 0, minY < 0 ? minY * bounds.height
-				: 0);
+		AffineTransform returned = AffineTransform.getTranslateInstance(minX < 0 ? minX * bounds.width : 0,
+				minY < 0 ? minY * bounds.height : 0);
 
 		returned.preConcatenate(AffineTransform.getScaleInstance(1.0 / bounds.width, 1.0 / bounds.height));
 
@@ -509,7 +510,8 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 			List<? extends ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
 			if (customControlAreas == null) {
 				controlAreas = getConnector().getControlAreas();
-			} else {
+			}
+			else {
 				ConcatenedList<ControlArea<?>> concatenedControlAreas = new ConcatenedList<ControlArea<?>>();
 				concatenedControlAreas.addElementList(getConnector().getControlAreas());
 				concatenedControlAreas.addElementList(customControlAreas);
@@ -653,6 +655,11 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 			setPropertyValue(ConnectorGraphicalRepresentation.CONNECTOR, connectorSpecification);
 			fireConnectorSpecificationChanged();
 		}
+	}
+
+	@Override
+	public void accept(DrawingVisitor visitor) {
+		visitor.visit(this);
 	}
 
 }

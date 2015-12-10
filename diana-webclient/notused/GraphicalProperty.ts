@@ -1,5 +1,6 @@
 class GraphicalProperty {
     public static deserializationFunctionDict: {[key: string]: (input:any)=>any;} = {
+        'background' : Background.deserialize,
         'default' : function (input:any) : any { return input;}
     };
     

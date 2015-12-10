@@ -1,5 +1,8 @@
 package org.openflexo.diagram;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Shape {
 	public enum ShapeType {
 		OVAL, RECTANGLE, TRIANGLE
@@ -9,13 +12,15 @@ public class Shape {
 	private double width;
 	private double height;
 	private final ShapeType type;
+	private final List<Shape> children;
 
 	public Shape(ShapeType type, double x, double y, double width, double height) {
 		this.type = type;
 		this.x = x;
 		this.y = y;
-		this.width = x;
-		this.height = y;
+		this.width = width;
+		this.height = height;
+		this.children = new ArrayList<>();
 	}
 
 	public double getX() {
@@ -52,5 +57,13 @@ public class Shape {
 
 	public ShapeType getType() {
 		return type;
+	}
+
+	public List<Shape> getChildren() {
+		return children;
+	}
+
+	public void addChild(Shape shape) {
+		children.add(shape);
 	}
 }

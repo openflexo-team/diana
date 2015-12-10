@@ -60,7 +60,7 @@ import org.openflexo.fge.view.FGEView;
 
 public class SwingEditorDelegate implements DianaEditorDelegate {
 
-	private AbstractDianaEditor<?, SwingViewFactory, JComponent> controller;
+	private final AbstractDianaEditor<?, SwingViewFactory, JComponent> controller;
 
 	private MoveInfo keyDrivenMovingSession;
 	private KeyDrivenMovingSessionTimer keyDrivenMovingSessionTimer = null;
@@ -89,6 +89,7 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 		return null;
 	}
 
+	@Override
 	public void objectStartMoving(DrawingTreeNode<?, ?> node) {
 		if (getPaintManager().isPaintingCacheEnabled()) {
 			getPaintManager().addToTemporaryObjects(node);
@@ -97,6 +98,7 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 
 	}
 
+	@Override
 	public void objectStopMoving(DrawingTreeNode<?, ?> node) {
 		if (getPaintManager().isPaintingCacheEnabled()) {
 			getPaintManager().removeFromTemporaryObjects(node);
@@ -126,6 +128,7 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 		}
 	}
 
+	@Override
 	public void focusedObjectChanged(DrawingTreeNode<?, ?> oldFocusedObject, DrawingTreeNode<?, ?> newFocusedObject) {
 		if (getPaintManager().isPaintingCacheEnabled()) {
 			// Just repaint old and eventual new focused object
@@ -135,13 +138,15 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 			if (newFocusedObject != null) {
 				getPaintManager().repaint(newFocusedObject);
 			}
-		} else {
+		}
+		else {
 			// @brutal mode
 			getPaintManager().repaint(getDrawingView());
 		}
 
 	}
 
+	@Override
 	public void repaintAll() {
 		getPaintManager().repaint(getDrawingView());
 	}
@@ -201,7 +206,8 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 				return true;
 			}
 			return false;
-		} else if (keyDrivenMovingSessionTimer != null) {
+		}
+		else if (keyDrivenMovingSessionTimer != null) {
 			doMoveInSession(deltaX, deltaY);
 			return true;
 		}
@@ -228,7 +234,8 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 			// notifyWillMove(keyDrivenMovingSession);
 			objectsStartMoving(keyDrivenMovingSession.getMovedObjects());
 			return true;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -282,6 +289,7 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 	 * @param node
 	 * @return
 	 */
+	@Override
 	public BufferedImage makeScreenshot(DrawingTreeNode<?, ?> node) {
 		return getPaintManager().getScreenshot(node);
 	}

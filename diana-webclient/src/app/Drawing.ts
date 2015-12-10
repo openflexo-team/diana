@@ -1,14 +1,22 @@
 /// <reference path="MyVertx.ts" />
 /// <reference path="RootNode.ts" />
 
+/**
+ * Client-side representation of a drawing.<br />
+ * 
+ * Contains a tree-like structure similar to the server-side Drawing, and keeps them synchronized.
+ * Communicates with the server through the Vertx eventbus.
+ */
 class Drawing {
     private rootNode: RootNode;
     private eventBus: Vertx.EventBus;
     private nodes: Array<MyNode>;
+    private selectedNodes: Array<MyNode>;
     //private handlers: Array<Vertx.Handler>;
     
     public constructor() {
-        this.nodes = new Array<MyNode>;
+        this.nodes = new Array<MyNode>();
+        this.selectedNodes = new Array<MyNode>();
         console.log("a new Drawing");
     }
     
@@ -24,7 +32,6 @@ class Drawing {
             change.apply(drawing);
         };
         
-        
         this.eventBus = MyVertx.eventBus();
         var eb: Vertx.EventBus = this.eventBus;
         eb.onopen = function() {
@@ -33,6 +40,7 @@ class Drawing {
                         console.log('received a message: ' + JSON.stringify(message));
                     });
             
+            eb.registerHandler('server.changes', messageHandler);
             //eb.send('some-address', {name: 'tim', age: 587});
             eb.publish('org.openflexo.server.Server.announcements', 'TS client here, bus opened');
             
@@ -48,10 +56,37 @@ class Drawing {
     public addNode(parentId: number, node: MyNode) {
         if(parentId === undefined) {
             this.setRootNode(<RootNode>node);
+            node.setDrawing(this);
         }
         else {
             this.getNode(parentId).addChildNode(node);
         }
+        node.createGraphic();
+    }
+    
+    public select(selectedNode: MyNode):void {
+        for(var node of this.selectedNodes) {
+            if(node !== selectedNode) {
+                (<MyNode>node).setSelected(false);
+            }
+            else {
+                var alreadySelected: boolean = true;
+            }
+        }
+        if(!alreadySelected) {
+            selectedNode.setSelected(true);
+        }
+        this.selectedNodes = new Array<MyNode>();
+        this.selectedNodes.push(selectedNode);
+    }
+    
+    public refNode(node: MyNode) {
         this.nodes[node.getId()] = node;
+    }
+    
+    public publishChange(change: UpdateChange) {
+        var json: any = change.toJson();
+        console.log("sending : " + JSON.stringify(json));
+        this.eventBus.publish("client.changes", change.toJson());
     }
 }
