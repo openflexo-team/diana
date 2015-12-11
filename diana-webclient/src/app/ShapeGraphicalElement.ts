@@ -104,25 +104,25 @@ abstract class ShapeGraphicalElement extends GraphicalElement {
         return this.controlPoints;
     }
     
-    public controlPointHasMoved(dX: number, dY: number, point: ControlPoint) {
+    public controlPointHasMoved(dX: number, dY: number, point: ControlPoint, stateWhenGrabbed: any) {
         if(point.getControlType() === "NORTH" || point.getControlType() === "NORTHWEST" || point.getControlType() === "NORTHEAST") {
             var startHeight = this.getNode().getHeight();
-            this.getNode().setHeight(this.getNode().getHeight() - dY);
+            this.getNode().setHeight(stateWhenGrabbed.height - dY);
             var dHeight = this.getNode().getHeight() - startHeight;
             this.getNode().setY(this.getNode().getY() - dHeight);
             
         }
         else if(point.getControlType() === "SOUTH" || point.getControlType() === "SOUTHWEST" || point.getControlType() === "SOUTHEAST") {
-            this.getNode().setHeight(this.getNode().getHeight() + dY);
+            this.getNode().setHeight(stateWhenGrabbed.height + dY);
         }
         if(point.getControlType() === "WEST" || point.getControlType() === "NORTHWEST" || point.getControlType() === "SOUTHWEST") {
             var startWidth = this.getNode().getWidth();
-            this.getNode().setWidth(this.getNode().getWidth() - dX);
+            this.getNode().setWidth(stateWhenGrabbed.width - dX);
             var dWidth = this.getNode().getWidth() - startWidth;
             this.getNode().setX(this.getNode().getX() - dWidth);
         }
         else if(point.getControlType() === "EAST" || point.getControlType() === "NORTHEAST" || point.getControlType() === "SOUTHEAST") {
-            this.getNode().setWidth(this.getNode().getWidth() + dX);
+            this.getNode().setWidth(stateWhenGrabbed.width + dX);
         }
     }
     

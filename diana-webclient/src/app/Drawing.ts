@@ -80,6 +80,13 @@ class Drawing {
         this.selectedNodes.push(selectedNode);
     }
     
+    public deselectAll(): void {
+        console.log("deselect");
+        for(var node of this.selectedNodes) {
+            (<MyNode>node).setSelected(false);
+        }
+    }
+    
     public refNode(node: MyNode) {
         this.nodes[node.getId()] = node;
     }

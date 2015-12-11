@@ -6,6 +6,11 @@ class RootGraphicalElement extends GraphicalElement {
     public createSVG() {
         this.paper = Snap('100%', '100%');
         this.native = this.paper;
+        this.setControls();
+    }
+    
+    public setControls() {
+        //this.getNative().mousedown(() => this.getNode().getDrawing().deselectAll());
     }
     
     public propertyChange(event: PropertyChangeEvent): void {

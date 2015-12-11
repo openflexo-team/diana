@@ -32,7 +32,7 @@ class ControlPoint extends ShapeGraphicalElement {
         var move = function(dx: number, dy: number) {
             var ddx = dx - this.data('lastDX');
             var ddy = dy - this.data('lastDY');
-            that.getNode().getGraphic().controlPointHasMoved(ddx, ddy, that);
+            that.getNode().getGraphic().controlPointHasMoved(dx, dy, that, this.data('shapeStateWhenGrabbed'));
             that.update();
             this.data('lastDX', dx);
             this.data('lastDY', dy);
@@ -45,8 +45,12 @@ class ControlPoint extends ShapeGraphicalElement {
             */
         };
         var start = function() {
-            this.data('lastDX', 0);
-            this.data('lastDY', 0);
+            this.data('shapeStateWhenGrabbed', 
+                        {'x': that.getNode().getX(),
+                         'y': that.getNode().getY(),
+                         'width': that.getNode().getWidth(),
+                         'height': that.getNode().getHeight()}
+                        );
             //this.data('startY', that.getNode().getY());
             /*this.data('origTransform', this.transform().local);
             this.data('moveMatrix', Snap.matrix(1, 0, 0, 1, 0, 0));

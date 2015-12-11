@@ -10,7 +10,8 @@ var gulp = require('gulp'),
     Config = require('./gulpfile.config'),
     tsProject = tsc.createProject('tsconfig.json'),
     browserSync = require('browser-sync'),
-    superstatic = require( 'superstatic' );
+    superstatic = require( 'superstatic' ),
+    typedoc = require("gulp-typedoc");
 
 var config = new Config();
 
@@ -45,7 +46,7 @@ gulp.task('compile-ts', function () {
                         
 
     var tsResult = gulp.src(sourceTsFiles)
-                       .pipe(sourcemaps.init())
+                       //.pipe(sourcemaps.init())
                        .pipe(tsc(tsProject));
 
         tsResult.dts.pipe(gulp.dest(config.tsOutputPath));
@@ -89,5 +90,29 @@ gulp.task('serve', ['compile-ts', 'watch'], function() {
     }
   });
 });
+
+gulp.task("gen-doc", function() {
+    return gulp
+        .src([config.allTypeScript,                //path to typescript files
+              config.libraryTypeScriptDefinitions])
+        .pipe(typedoc({ 
+            // TypeScript options (see typescript docs) 
+            module: "commonjs", 
+            target: "es6",
+            includeDeclarations: true,
+            
+            // Output options (see typedoc docs) 
+            out: "./doc/", 
+            //json: "output/to/file.json",
+ 
+            // TypeDoc options (see typedoc docs) 
+            name: "my-project", 
+            theme: "default",
+            //plugins: ["my", "plugins"],
+            ignoreCompilerErrors: true,
+            version: true,
+        }))
+    }
+);
 
 gulp.task('default', ['ts-lint', 'compile-ts']);
