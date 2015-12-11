@@ -39,6 +39,8 @@
 
 package org.openflexo.fge.view.widget;
 
+import javax.swing.JComponent;
+
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fib.model.FIBCustom.FIBCustomComponent;
 import org.openflexo.rm.Resource;
@@ -51,7 +53,7 @@ import org.openflexo.rm.ResourceLocator;
  * 
  */
 // TODO: suppress reference to Swing (when FIB library will be independant from SWING technology)
-public interface FIBForegroundStyleSelector<C> extends FIBCustomComponent<ForegroundStyle, C> {
+public interface FIBForegroundStyleSelector<C extends JComponent> extends FIBCustomComponent<ForegroundStyle, C> {
 
 	public static Resource FIB_FILE = ResourceLocator.locateResource("Fib/ForegroundStyleSelector.fib");
 
