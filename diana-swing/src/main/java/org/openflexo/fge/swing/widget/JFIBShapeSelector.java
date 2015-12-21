@@ -54,6 +54,7 @@ import org.openflexo.gina.FIBLibrary;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.FIBComponent;
 import org.openflexo.gina.model.widget.FIBCustom;
+import org.openflexo.gina.swing.view.JFIBView;
 import org.openflexo.gina.swing.view.SwingViewFactory;
 import org.openflexo.gina.view.FIBView;
 import org.openflexo.gina.view.GinaViewFactory;
@@ -149,7 +150,7 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification>implements
 
 	public class ShapeDetailsPanel extends ResizablePanel {
 		private FIBComponent fibComponent;
-		private FIBView<?, ?> fibView;
+		private JFIBView<?, ?> fibView;
 		private CustomFIBController controller;
 
 		protected ShapeDetailsPanel(ShapeSpecification backgroundStyle) {
@@ -157,7 +158,7 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification>implements
 
 			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
 			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
-			fibView = controller.buildView(fibComponent);
+			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent);
 
 			controller.setDataObject(getFactory());
 
@@ -209,7 +210,7 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification>implements
 
 				FIBView<?, ?> previewComponent = viewForComponent(fibComponent.getComponentNamed("PreviewPanel"));
 				if (previewComponent instanceof FIBCustomWidget) {
-					JComponent customComponent = ((FIBCustomWidget<?, ?>) previewComponent).getJComponent();
+					JComponent customComponent = (JComponent) ((FIBCustomWidget<?, ?>) previewComponent).getTechnologyComponent();
 					if (customComponent instanceof ShapePreviewPanel) {
 						((JShapePreviewPanel) customComponent).setShape(getFactory().getShapeSpecification());
 						// ((ShapePreviewPanel) customComponent).update();

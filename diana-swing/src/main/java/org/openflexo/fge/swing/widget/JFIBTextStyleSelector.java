@@ -69,8 +69,8 @@ import org.openflexo.gina.FIBLibrary;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.FIBComponent;
 import org.openflexo.gina.model.widget.FIBCustom;
+import org.openflexo.gina.swing.view.JFIBView;
 import org.openflexo.gina.swing.view.SwingViewFactory;
-import org.openflexo.gina.view.FIBView;
 import org.openflexo.gina.view.GinaViewFactory;
 import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.swing.CustomPopup;
@@ -163,7 +163,7 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle>implements FIBT
 
 	public class TextStyleDetailsPanel extends ResizablePanel {
 		private FIBComponent fibComponent;
-		private FIBView<?, ?> fibView;
+		private JFIBView<?, ?> fibView;
 		private CustomFIBController controller;
 
 		protected TextStyleDetailsPanel(TextStyle textStyle) {
@@ -171,7 +171,7 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle>implements FIBT
 
 			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
 			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
-			fibView = controller.buildView(fibComponent);
+			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent);
 
 			controller.setDataObject(textStyle);
 

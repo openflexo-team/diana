@@ -69,8 +69,8 @@ import org.openflexo.gina.FIBLibrary;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.FIBComponent;
 import org.openflexo.gina.model.widget.FIBCustom;
+import org.openflexo.gina.swing.view.JFIBView;
 import org.openflexo.gina.swing.view.SwingViewFactory;
-import org.openflexo.gina.view.FIBView;
 import org.openflexo.gina.view.GinaViewFactory;
 import org.openflexo.swing.CustomPopup;
 
@@ -166,7 +166,7 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle>imp
 
 	public class ForegroundStyleDetailsPanel extends ResizablePanel {
 		private FIBComponent fibComponent;
-		private FIBView<?, ?> fibView;
+		private JFIBView<?, ?> fibView;
 		private CustomFIBController controller;
 
 		protected ForegroundStyleDetailsPanel(ForegroundStyle fs) {
@@ -174,7 +174,7 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle>imp
 
 			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
 			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
-			fibView = controller.buildView(fibComponent);
+			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent);
 
 			controller.setDataObject(fs);
 
