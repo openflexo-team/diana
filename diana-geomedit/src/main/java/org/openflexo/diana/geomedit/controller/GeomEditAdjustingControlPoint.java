@@ -37,16 +37,27 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.construction;
+package org.openflexo.diana.geomedit.controller;
 
+import org.openflexo.fge.Drawing.GeometricNode;
+import org.openflexo.fge.cp.GeometryAdjustingControlPoint;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geom.area.FGEArea;
 
-public abstract class PointConstruction extends GeometricConstruction<FGEPoint> {
+public abstract class GeomEditAdjustingControlPoint<O extends FGEArea> extends GeometryAdjustingControlPoint<O> {
 
-	public final FGEPoint getPoint() {
-		return getData();
+	private String name;
+
+	public GeomEditAdjustingControlPoint(GeometricNode<?> node, String aName, FGEPoint pt) {
+		super(node, aName, pt);
+		name = aName;
 	}
 
 	@Override
-	protected abstract FGEPoint computeData();
+	public abstract void update(O geometricObject);
+
+	@Override
+	public String getName() {
+		return name;
+	}
 }

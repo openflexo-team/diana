@@ -37,56 +37,39 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.construction;
+package org.openflexo.diana.geomedit.model.construction;
 
-import org.openflexo.fge.cp.ControlPoint;
+import java.awt.Color;
+
+import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
+import org.openflexo.diana.geomedit.model.construction.PointConstruction.PointConstructionImpl;
+import org.openflexo.diana.geomedit.model.gr.PointGraphicalRepresentation;
+import org.openflexo.fge.TextureBackgroundStyle.TextureType;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.ComputedControlPoint;
-import org.openflexo.fge.geomedit.gr.GeometricObjectGraphicalRepresentation;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
 
-public class ControlPointReference extends PointConstruction {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(PointConstructionImpl.class)
+public interface PointConstruction extends GeometricConstruction<FGEPoint> {
 
-	public GeometricObjectGraphicalRepresentation<?, ?> reference;
-	public String cpName;
+	public FGEPoint getPoint();
 
-	public ControlPointReference() {
-		super();
-	}
+	public static abstract class PointConstructionImpl extends GeometricConstructionImpl<FGEPoint>implements PointConstruction {
 
-	public ControlPointReference(GeometricObjectGraphicalRepresentation<?, ?> aReference, String controlPointName) {
-		this();
-		this.reference = aReference;
-		this.cpName = controlPointName;
-	}
-
-	protected ComputedControlPoint getControlPoint() {
-		for (ControlPoint cp : reference.getControlPoints()) {
-			if (cp instanceof ComputedControlPoint && ((ComputedControlPoint) cp).getName().equals(cpName)) {
-				return (ComputedControlPoint) cp;
-			}
+		@Override
+		public final FGEPoint getPoint() {
+			return getData();
 		}
-		return null;
-	}
 
-	@Override
-	protected FGEPoint computeData() {
-		if (getControlPoint() != null) {
-			return getControlPoint().getPoint();
+		@Override
+		protected abstract FGEPoint computeData();
+
+		@Override
+		public PointGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			PointGraphicalRepresentation returned = factory.newInstance(PointGraphicalRepresentation.class);
+			returned.setBackground(factory.makeTexturedBackground(TextureType.TEXTURE1, Color.RED, Color.WHITE));
+			return returned;
 		}
-		System.out.println("computeData() for ControlPointReference: cannot find cp " + cpName + " for " + reference);
-		setModified();
-		return new FGEPoint(0, 0);
 	}
-
-	@Override
-	public String toString() {
-		return "ControlPointReference[" + cpName + "," + reference.getDrawable().getConstruction() + "]";
-	}
-
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { reference.getDrawable().getConstruction() };
-		return returned;
-	}
-
 }

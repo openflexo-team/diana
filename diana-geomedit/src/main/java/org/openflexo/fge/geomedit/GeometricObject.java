@@ -43,10 +43,10 @@ import java.util.Enumeration;
 
 import javax.swing.tree.TreeNode;
 
+import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.GeometricConstruction;
-import org.openflexo.fge.geomedit.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.inspector.DefaultInspectableObject;
 import org.openflexo.xmlcode.XMLSerializable;
 

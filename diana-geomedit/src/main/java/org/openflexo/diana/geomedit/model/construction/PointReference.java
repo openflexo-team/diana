@@ -37,56 +37,47 @@
  * 
  */
 
-package org.openflexo.fge.geomedit;
+package org.openflexo.diana.geomedit.model.construction;
 
-import java.awt.event.MouseEvent;
-
-import org.openflexo.fge.GeometricGraphicalRepresentation;
-import org.openflexo.fge.GraphicalRepresentation;
-import org.openflexo.fge.control.AbstractDianaEditor;
-import org.openflexo.fge.cp.GeometryAdjustingControlPoint;
+import org.openflexo.diana.geomedit.model.construction.PointReference.PointReferenceImpl;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLElement;
 
-public abstract class GeomEditAdjustingControlPoint<O extends FGEArea> extends GeometryAdjustingControlPoint<O> {
+@ModelEntity
+@ImplementationClass(PointReferenceImpl.class)
+@XMLElement
+public interface PointReference extends PointConstruction {
 
-	private String name;
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String REFERENCE_KEY = "reference";
 
-	public GeomEditAdjustingControlPoint(GeometricGraphicalRepresentation gr, String aName, FGEPoint pt) {
-		super(gr, aName, pt);
-		name = aName;
-	}
+	@Getter(value = REFERENCE_KEY)
+	public PointConstruction getReference();
 
-	@Override
-	public GeometricGraphicalRepresentation getGraphicalRepresentation() {
-		return super.getGraphicalRepresentation();
-	}
+	@Setter(value = REFERENCE_KEY)
+	public void setReference(PointConstruction reference);
 
-	@Override
-	public boolean isDraggable() {
-		return true;
-	}
+	public static abstract class PointReferenceImpl extends GeometricConstructionImpl<FGEPoint>implements PointReference {
 
-	@Override
-	public void startDragging(AbstractDianaEditor controller, FGEPoint startPoint) {
-	}
+		@Override
+		protected FGEPoint computeData() {
+			return getReference().getData();
+		}
 
-	@Override
-	public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-			FGEPoint initialPoint, MouseEvent event) {
-		return true;
-	}
+		@Override
+		public String toString() {
+			return "PointReference[" + getReference().toString() + "]";
+		}
 
-	@Override
-	public void stopDragging(AbstractDianaEditor controller, GraphicalRepresentation focusedGR) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public abstract void update(O geometricObject);
-
-	@Override
-	public String getName() {
-		return name;
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { getReference() };
+			return returned;
+		}
 	}
 }

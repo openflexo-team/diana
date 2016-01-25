@@ -41,6 +41,8 @@ package org.openflexo.fge.geomedit.edition;
 
 import java.awt.Color;
 
+import org.openflexo.diana.geomedit.edition.Edition;
+import org.openflexo.diana.geomedit.edition.ObtainPoint;
 import org.openflexo.fge.ForegroundStyle.DashStyle;
 import org.openflexo.fge.geom.FGECircle;
 import org.openflexo.fge.geom.FGELine;

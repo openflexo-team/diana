@@ -41,6 +41,8 @@ package org.openflexo.fge.geomedit.edition;
 
 import java.awt.event.MouseEvent;
 
+import org.openflexo.diana.geomedit.edition.EditionInput;
+import org.openflexo.diana.geomedit.edition.EditionInputMethod;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.geom.FGELine;

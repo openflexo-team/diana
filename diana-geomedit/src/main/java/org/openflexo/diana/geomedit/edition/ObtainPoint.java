@@ -37,34 +37,33 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.edition;
+package org.openflexo.diana.geomedit.edition;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 
+import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
+import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
+import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
+import org.openflexo.diana.geomedit.model.construction.GeometricConstruction;
+import org.openflexo.diana.geomedit.model.construction.PointConstruction;
+import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.FGEConstants;
-import org.openflexo.fge.GeometricGraphicalRepresentation;
-import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.ComputedControlPoint;
-import org.openflexo.fge.geomedit.DraggableControlPoint;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.construction.ControlPointReference;
-import org.openflexo.fge.geomedit.construction.ExplicitPointConstruction;
 import org.openflexo.fge.geomedit.construction.LineIntersectionPointConstruction;
-import org.openflexo.fge.geomedit.construction.PointConstruction;
-import org.openflexo.fge.geomedit.construction.PointReference;
+import org.openflexo.fge.geomedit.edition.ObtainLine;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
-import org.openflexo.xmlcode.StringEncoder;
+import org.openflexo.model.StringEncoder;
 
 public class ObtainPoint extends EditionInput<FGEPoint> {
 	public static int preferredMethodIndex = 0;
 
 	private boolean endOnRightClick = false;
 
-	public ObtainPoint(String anInputLabel, GeomEditController controller) {
+	public ObtainPoint(String anInputLabel, GeomEditDrawingEditor controller) {
 		super(anInputLabel, controller);
 
 		availableMethods.add(new CursorSelection());
@@ -73,7 +72,7 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 		availableMethods.add(new KeyboardSelection());
 	}
 
-	public ObtainPoint(String anInputLabel, GeomEditController controller, boolean appendEndSelection) {
+	public ObtainPoint(String anInputLabel, GeomEditDrawingEditor controller, boolean appendEndSelection) {
 		this(anInputLabel, controller);
 		if (appendEndSelection) {
 			availableMethods.add(new EndEditionSelection());
@@ -100,7 +99,7 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			setConstruction(new ExplicitPointConstruction(getPointLocation(e)));
+			setConstruction(getFactory().makeExplicitPointConstruction(getPointLocation(e)));
 			done();
 			if (endOnRightClick && e.getButton() == MouseEvent.BUTTON3) {
 				endEdition();
@@ -117,7 +116,7 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 	public class ControlPointSelection extends EditionInputMethod<FGEPoint, ObtainPoint> {
 
 		private ControlPoint focusedControlPoint;
-		private GeometricGraphicalRepresentation focusedObject;
+		private GeometricNode<?> focusedObject;
 
 		public ControlPointSelection() {
 			super("As control point", ObtainPoint.this);
@@ -130,13 +129,16 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 					focusedObject.setIsFocused(false);
 				}
 				if (focusedControlPoint instanceof DraggableControlPoint) {
-					setConstruction(new PointReference(((DraggableControlPoint) focusedControlPoint).getExplicitPointConstruction()));
+					setConstruction(
+							getFactory().makePointReference(((DraggableControlPoint) focusedControlPoint).getExplicitPointConstruction()));
 					done();
-				} else if (focusedControlPoint instanceof ComputedControlPoint) {
-					setConstruction(new ControlPointReference(((ComputedControlPoint) focusedControlPoint).getGraphicalRepresentation(),
+				}
+				else if (focusedControlPoint instanceof ComputedControlPoint) {
+					setConstruction(getFactory().makeControlPointReference((GeometricConstruction<?>) focusedObject.getDrawable(),
 							((ComputedControlPoint) focusedControlPoint).getName()));
 					done();
-				} else {
+				}
+				else {
 					System.err.println("Don't know what to do with a " + focusedControlPoint);
 				}
 			}
@@ -144,14 +146,14 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			GraphicalRepresentation focused = getFocusRetriever().getFocusedObject(e);
+			DrawingTreeNode<?, ?> focused = getFocusRetriever().getFocusedObject(e);
 
 			if (focusedObject != null && focusedObject != focused) {
 				focusedObject.setIsFocused(false);
 			}
 
-			if (focused instanceof GeometricGraphicalRepresentation) {
-				focusedObject = (GeometricGraphicalRepresentation) focused;
+			if (focused instanceof GeometricNode) {
+				focusedObject = (GeometricNode<?>) focused;
 				focusedObject.setIsFocused(true);
 			}
 
@@ -210,7 +212,8 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 		public void paint(JFGEDrawingGraphics graphics) {
 			if (currentChildInputStep == 0) {
 				// Nothing to draw
-			} else if (currentChildInputStep == 1 && ((ObtainLine) childInputs.get(0)).getReferencedLine() != null) {
+			}
+			else if (currentChildInputStep == 1 && ((ObtainLine) childInputs.get(0)).getReferencedLine() != null) {
 				((ObtainLine) childInputs.get(0)).getReferencedLine().getGraphicalRepresentation().setIsSelected(true);
 			}
 		}

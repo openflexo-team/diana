@@ -3,7 +3,7 @@
  * Copyright (c) 2013-2014, Openflexo
  * Copyright (c) 2011-2012, AgileBirds
  * 
- * This file is part of Diana-geomedit, a component of the software infrastructure 
+ * This file is part of Diana-drawing-editor, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -37,41 +37,38 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.construction;
+package org.openflexo.diana.geomedit.model;
 
-import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
+import org.openflexo.model.factory.AccessibleProxyObject;
+import org.openflexo.model.factory.CloneableProxyObject;
+import org.openflexo.model.factory.DeletableProxyObject;
 
-public class ExplicitPointConstruction extends PointConstruction {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(GeometricElement.GeometricElementImpl.class)
+public interface GeometricElement extends Cloneable, AccessibleProxyObject, DeletableProxyObject, CloneableProxyObject {
 
-	public FGEPoint point;
+	@PropertyIdentifier(type = String.class)
+	public static final String NAME_KEY = "name";
 
-	public ExplicitPointConstruction() {
-		super();
+	@Getter(value = NAME_KEY)
+	@XMLAttribute
+	public String getName();
+
+	@Setter(value = NAME_KEY)
+	public void setName(String aName);
+
+	public GeometricDiagram getGeometricDrawing();
+
+	public void setChanged();
+
+	public boolean hasChanged();
+
+	public static abstract class GeometricElementImpl implements GeometricElement {
 	}
-
-	public ExplicitPointConstruction(FGEPoint aPoint) {
-		this();
-		point = aPoint;
-	}
-
-	public void setPoint(FGEPoint p) {
-		point = p;
-		setModified();
-	}
-
-	@Override
-	protected FGEPoint computeData() {
-		return point;
-	}
-
-	@Override
-	public String toString() {
-		return "ExplicitPointConstruction[" + point.toString() + "]";
-	}
-
-	@Override
-	public GeometricConstruction[] getDepends() {
-		return null;
-	}
-
 }

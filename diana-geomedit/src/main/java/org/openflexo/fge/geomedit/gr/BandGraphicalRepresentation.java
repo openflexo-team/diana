@@ -39,6 +39,7 @@
 
 package org.openflexo.fge.geomedit.gr;
 
+import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEBand;
 import org.openflexo.fge.geomedit.Band;
 import org.openflexo.fge.geomedit.GeometricDrawing;

@@ -43,14 +43,15 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Vector;
 
+import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
+import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
+import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEGeometricObject.CardinalQuadrant;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.geom.area.FGEQuarterPlane;
-import org.openflexo.fge.geomedit.ComputedControlPoint;
-import org.openflexo.fge.geomedit.DraggableControlPoint;
 import org.openflexo.fge.geomedit.GeometricDrawing;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.Rectangle;

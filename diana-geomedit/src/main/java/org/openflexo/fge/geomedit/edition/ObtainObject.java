@@ -53,6 +53,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import org.openflexo.diana.geomedit.edition.EditionInput;
+import org.openflexo.diana.geomedit.edition.EditionInputMethod;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.geom.FGEGeometricObject;

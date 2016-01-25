@@ -42,6 +42,8 @@ package org.openflexo.fge.geomedit.edition;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import org.openflexo.diana.geomedit.edition.Edition;
+import org.openflexo.diana.geomedit.edition.EditionInput;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geomedit.GeomEditController;
 import org.openflexo.fge.geomedit.ObjectIntersection;

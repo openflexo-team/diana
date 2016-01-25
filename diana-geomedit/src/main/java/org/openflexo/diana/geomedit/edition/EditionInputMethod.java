@@ -37,7 +37,7 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.edition;
+package org.openflexo.diana.geomedit.edition;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -53,17 +53,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import org.openflexo.diana.geomedit.model.construction.GeometricConstruction;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.construction.GeometricConstruction;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
-import org.openflexo.fge.view.listener.DrawingViewMouseListener;
+import org.openflexo.fge.swing.view.FGEViewMouseListener;
+import org.openflexo.fge.swing.view.JDrawingView;
 
-public abstract class EditionInputMethod<O extends Object, I extends EditionInput<O>> extends DrawingViewMouseListener {
+public abstract class EditionInputMethod<O extends Object, I extends EditionInput<O>> extends FGEViewMouseListener {
 	private String methodLabel;
 	private I editionInput;
 
 	public EditionInputMethod(String aMethodLabel, I anInput) {
-		super(anInput.getController().getDrawingGraphicalRepresentation(), anInput.getController().getDrawingView());
+		super(anInput.getController().getDrawing().getRoot(), anInput.getController().getDrawingView());
 		methodLabel = aMethodLabel;
 		editionInput = anInput;
 	}
@@ -105,7 +106,8 @@ public abstract class EditionInputMethod<O extends Object, I extends EditionInpu
 	}
 
 	public FGEPoint getPointLocation(MouseEvent e) {
-		Point ptInView = SwingUtilities.convertPoint((Component) e.getSource(), e.getPoint(), getController().getDrawingView());
+		Point ptInView = SwingUtilities.convertPoint((Component) e.getSource(), e.getPoint(),
+				(JDrawingView<?>) getController().getDrawingView());
 		FGEPoint returned = new FGEPoint();
 		returned.x = ptInView.x / getController().getScale();
 		returned.y = ptInView.y / getController().getScale();
@@ -293,7 +295,7 @@ public abstract class EditionInputMethod<O extends Object, I extends EditionInpu
 		return false;
 	}
 
-	public GeometricConstruction<O> retrieveInputDataFromChildInputs() {
+	public GeometricConstruction<?> retrieveInputDataFromChildInputs() {
 		return null;
 	}
 

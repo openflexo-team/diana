@@ -39,6 +39,8 @@
 
 package org.openflexo.fge.geomedit.edition;
 
+import org.openflexo.diana.geomedit.edition.Edition;
+import org.openflexo.diana.geomedit.edition.ObtainPoint;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.geomedit.GeomEditController;

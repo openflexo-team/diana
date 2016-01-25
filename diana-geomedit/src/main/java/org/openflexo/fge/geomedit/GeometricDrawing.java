@@ -39,8 +39,8 @@
 
 package org.openflexo.fge.geomedit;
 
+import org.openflexo.diana.geomedit.model.gr.GeometricDrawingGraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation;
-import org.openflexo.fge.geomedit.gr.GeometricDrawingGraphicalRepresentation;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 

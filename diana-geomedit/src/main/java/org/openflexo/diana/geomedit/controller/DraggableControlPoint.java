@@ -37,34 +37,26 @@
  * 
  */
 
-package org.openflexo.fge.geomedit;
+package org.openflexo.diana.geomedit.controller;
 
 import java.awt.event.MouseEvent;
 
+import org.openflexo.diana.geomedit.model.construction.ExplicitPointConstruction;
+import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.FGEConstants;
-import org.openflexo.fge.GraphicalRepresentation;
-import org.openflexo.fge.control.AbstractDianaEditor;
-import org.openflexo.fge.cp.GeometryAdjustingControlPoint;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.geom.area.FGEPlane;
-import org.openflexo.fge.geomedit.construction.ExplicitPointConstruction;
-import org.openflexo.fge.geomedit.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.fge.graphics.FGEGraphics;
 
-public abstract class DraggableControlPoint<O extends FGEArea> extends GeometryAdjustingControlPoint<O> {
+public abstract class DraggableControlPoint<O extends FGEArea> extends GeomEditAdjustingControlPoint<O> {
 
 	private ExplicitPointConstruction explicitPointConstruction;
 
-	public DraggableControlPoint(GeometricObjectGraphicalRepresentation<O, ?> gr, String aName, FGEPoint pt, ExplicitPointConstruction pc) {
-		super(gr, aName, pt);
+	public DraggableControlPoint(GeometricNode<?> node, String aName, FGEPoint pt, ExplicitPointConstruction pc) {
+		super(node, aName, pt);
 		explicitPointConstruction = pc;
 		setDraggingAuthorizedArea(new FGEPlane());
-	}
-
-	@Override
-	public GeometricObjectGraphicalRepresentation<O, ?> getGraphicalRepresentation() {
-		return (GeometricObjectGraphicalRepresentation<O, ?>) super.getGraphicalRepresentation();
 	}
 
 	@Override
@@ -73,16 +65,8 @@ public abstract class DraggableControlPoint<O extends FGEArea> extends GeometryA
 	}
 
 	@Override
-	public void startDragging(AbstractDianaEditor controller, FGEPoint startPoint) {
-	}
-
-	@Override
 	public abstract boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
 			FGEPoint initialPoint, MouseEvent event);
-
-	@Override
-	public void stopDragging(AbstractDianaEditor controller, GraphicalRepresentation focusedGR) {
-	}
 
 	@Override
 	public abstract void update(O geometricObject);

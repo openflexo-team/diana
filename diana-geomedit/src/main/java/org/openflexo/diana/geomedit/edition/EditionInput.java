@@ -37,7 +37,7 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.edition;
+package org.openflexo.diana.geomedit.edition;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -51,22 +51,23 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.construction.GeometricConstruction;
-import org.openflexo.fge.geomedit.edition.EditionInputMethod.InputComponent;
+import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
+import org.openflexo.diana.geomedit.edition.EditionInputMethod.InputComponent;
+import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
+import org.openflexo.diana.geomedit.model.construction.GeometricConstruction;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
-public abstract class EditionInput<O extends Object> {
+public abstract class EditionInput<O> {
 	private String inputLabel;
 
 	public Vector<EditionInputMethod> availableMethods;
 	public EditionInputMethod activeMethod;
 
-	private GeomEditController controller;
+	private GeomEditDrawingEditor controller;
 
-	private GeometricConstruction<O> contruction;
+	private GeometricConstruction<?> contruction;
 
-	public EditionInput(String anInputLabel, GeomEditController aController) {
+	public EditionInput(String anInputLabel, GeomEditDrawingEditor aController) {
 		super();
 		controller = aController;
 		inputLabel = anInputLabel;
@@ -96,7 +97,8 @@ public abstract class EditionInput<O extends Object> {
 			availableMethodsPanel.add((JComponent) inputComponent);
 			if (method == getActiveMethod()) {
 				inputComponent.enableInputComponent();
-			} else {
+			}
+			else {
 				inputComponent.disableInputComponent();
 			}
 		}
@@ -106,7 +108,8 @@ public abstract class EditionInput<O extends Object> {
 			subPanel.add(flowPanel, BorderLayout.WEST);
 			controlPanel.add(subPanel, BorderLayout.SOUTH);
 			getActiveMethod().getCurrentInput().updateControlPanel(subPanel, flowPanel);
-		} else if (subPanel != null) {
+		}
+		else if (subPanel != null) {
 			controlPanel.remove(subPanel);
 			subPanel = null;
 		}
@@ -139,20 +142,25 @@ public abstract class EditionInput<O extends Object> {
 	public EditionInputMethod getDerivedActiveMethod() {
 		if (activeMethod.hasChildInputs()) {
 			return activeMethod.getCurrentInput().getDerivedActiveMethod();
-		} else {
+		}
+		else {
 			return activeMethod;
 		}
 	}
 
-	public GeomEditController getController() {
+	public GeomEditDrawingEditor getController() {
 		return controller;
+	}
+
+	public GeometricConstructionFactory getFactory() {
+		return getController().getFactory();
 	}
 
 	private O inputData;
 
 	public O getInputData() {
 		if (contruction != null) {
-			return contruction.getData();
+			return (O) contruction.getData();
 		}
 		return inputData;
 	}
@@ -161,18 +169,19 @@ public abstract class EditionInput<O extends Object> {
 		inputData = data;
 	}
 
-	public void setConstruction(GeometricConstruction<O> aContruction) {
+	public void setConstruction(GeometricConstruction<?> aContruction) {
 		contruction = aContruction;
 	}
 
-	public GeometricConstruction<? extends O> getConstruction() {
+	public GeometricConstruction<?> getConstruction() {
 		return contruction;
 	}
 
 	public void done() {
 		if (getParentInputMethod() != null) {
 			getParentInputMethod().nextChildInput();
-		} else {
+		}
+		else {
 			getController().currentInputGiven();
 		}
 	}

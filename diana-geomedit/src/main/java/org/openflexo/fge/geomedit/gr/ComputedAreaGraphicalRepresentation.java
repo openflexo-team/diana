@@ -42,6 +42,7 @@ package org.openflexo.fge.geomedit.gr;
 import java.util.List;
 import java.util.Vector;
 
+import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.geomedit.GeometricDrawing;

@@ -37,37 +37,38 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.construction;
+package org.openflexo.diana.geomedit.model.construction;
 
 import org.openflexo.fge.geom.FGEPoint;
 
-public class PointReference extends PointConstruction {
+public interface ExplicitPointConstruction extends PointConstruction {
 
-	public PointConstruction reference;
+	public void setPoint(FGEPoint p);
 
-	public PointReference() {
-		super();
-	}
+	public static abstract class ExplicitPointConstructionImpl extends PointConstructionImpl implements ExplicitPointConstruction {
 
-	public PointReference(PointConstruction aReference) {
-		this();
-		this.reference = aReference;
-	}
+		public FGEPoint point;
 
-	@Override
-	protected FGEPoint computeData() {
-		return reference.getData();
-	}
+		@Override
+		public void setPoint(FGEPoint p) {
+			point = p;
+			setModified(true);
+		}
 
-	@Override
-	public String toString() {
-		return "PointReference[" + reference.toString() + "]";
-	}
+		@Override
+		protected FGEPoint computeData() {
+			return point;
+		}
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { reference };
-		return returned;
+		@Override
+		public String toString() {
+			return "ExplicitPointConstruction[" + point.toString() + "]";
+		}
+
+		@Override
+		public GeometricConstruction<?>[] getDepends() {
+			return null;
+		}
 	}
 
 }

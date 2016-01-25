@@ -37,51 +37,19 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.gr;
+package org.openflexo.diana.geomedit.model.gr;
 
-import org.openflexo.fge.geomedit.GeometricDrawing;
-import org.openflexo.fge.geomedit.GeometricSet;
-import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
-import org.openflexo.fge.geomedit.ShowContextualMenuControl;
+import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.impl.DrawingGraphicalRepresentationImpl;
-import org.openflexo.xmlcode.XMLSerializable;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
-public class GeometricDrawingGraphicalRepresentation extends DrawingGraphicalRepresentationImpl<GeometricSet> implements XMLSerializable {
+@ModelEntity
+@XMLElement
+public interface GeometricDrawingGraphicalRepresentation extends DrawingGraphicalRepresentation {
 
-	// Called for LOAD
-	public GeometricDrawingGraphicalRepresentation(GeomEditBuilder builder) {
-		this(builder.drawing);
-		initializeDeserialization();
-	}
-
-	// Called for NEW
-	public GeometricDrawingGraphicalRepresentation(GeometricDrawing editedDrawing) {
-		super();
-		setDiagram(editedDrawing);
-		setWidth(10000);
-		setHeight(10000);
-
-		/*MouseClickControlImpl showContextualMenu 
-		= MouseClickControlImpl.makeMouseClickControl("Show contextual menu", MouseButton.RIGHT, 1,
-				new CustomClickControlAction() {
-			@Override
-			public boolean handleClick(GraphicalRepresentation graphicalRepresentation, AbstractDianaEditor controller, java.awt.event.MouseEvent event)
-			{
-				FGEView view = controller.getDrawingView().viewForObject(graphicalRepresentation);
-				Point newPoint = SwingUtilities.convertPoint(
-						(Component)event.getSource(), 
-
-						(Component)view);
-				((DiagramEditorController)controller).showContextualMenu(graphicalRepresentation,view,newPoint);
-				return false;
-			}
-		});*/
-		addToMouseClickControls(new ShowContextualMenuControl());
-	}
-
-	@Override
-	public String getInspectorName() {
-		return "Drawing.inspector";
+	public static abstract class GeometricObjectGraphicalRepresentationImpl extends DrawingGraphicalRepresentationImpl
+			implements GeometricDrawingGraphicalRepresentation {
 	}
 
 }

@@ -48,7 +48,7 @@ import java.util.logging.Logger;
 
 import javax.swing.tree.TreeNode;
 
-import org.openflexo.fge.geomedit.gr.GeometricDrawingGraphicalRepresentation;
+import org.openflexo.diana.geomedit.model.gr.GeometricDrawingGraphicalRepresentation;
 import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.toolbox.FileResource;

@@ -39,6 +39,8 @@
 
 package org.openflexo.fge.geomedit.edition;
 
+import org.openflexo.diana.geomedit.edition.EditionInput;
+import org.openflexo.diana.geomedit.edition.EditionInputMethod;
 import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.fge.geomedit.GeomEditController;
 

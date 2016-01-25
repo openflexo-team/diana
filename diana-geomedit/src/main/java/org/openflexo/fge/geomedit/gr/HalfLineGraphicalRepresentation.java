@@ -43,12 +43,13 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Vector;
 
+import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
+import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
+import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEAbstractLine;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.area.FGEHalfLine;
-import org.openflexo.fge.geomedit.ComputedControlPoint;
-import org.openflexo.fge.geomedit.DraggableControlPoint;
 import org.openflexo.fge.geomedit.GeometricDrawing;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.HalfLine;

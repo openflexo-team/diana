@@ -60,6 +60,9 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
+import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
+import org.openflexo.diana.geomedit.edition.Edition;
+import org.openflexo.diana.geomedit.edition.EditionInput;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.control.AbstractDianaEditor;
@@ -89,8 +92,6 @@ import org.openflexo.fge.geomedit.edition.CreateRoundRectangleFromPoints;
 import org.openflexo.fge.geomedit.edition.CreateSegmentFromPoints;
 import org.openflexo.fge.geomedit.edition.CreateTangentLineWithCircleAndPoint;
 import org.openflexo.fge.geomedit.edition.CreateVerticalLineWithPoint;
-import org.openflexo.fge.geomedit.edition.Edition;
-import org.openflexo.fge.geomedit.edition.EditionInput;
 import org.openflexo.fge.view.DrawingView;
 import org.openflexo.inspector.selection.EmptySelection;
 import org.openflexo.inspector.selection.MultipleSelection;

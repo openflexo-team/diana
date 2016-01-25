@@ -37,44 +37,28 @@
  * 
  */
 
-package org.openflexo.fge.geomedit;
+package org.openflexo.diana.geomedit;
 
-import java.awt.Cursor;
+import java.awt.Point;
 
-import org.openflexo.fge.cp.GeometryAdjustingControlPoint;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.geom.area.FGEEmptyArea;
-import org.openflexo.fge.geomedit.gr.GeometricObjectGraphicalRepresentation;
+import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.control.MouseControlContext;
+import org.openflexo.fge.control.actions.MouseClickControlActionImpl;
+import org.openflexo.fge.control.actions.MouseClickControlImpl;
+import org.openflexo.fge.view.FGEView;
+import org.openflexo.model.factory.EditingContext;
 
-public abstract class ComputedControlPoint<O extends FGEArea> extends GeometryAdjustingControlPoint<O> {
+public class ShowContextualMenuControl extends MouseClickControlImpl<GeomEditDrawingEditor> {
 
-	public ComputedControlPoint(GeometricObjectGraphicalRepresentation<O, ?> gr, String aName, FGEPoint pt) {
-		super(gr, aName, pt);
-		setDraggingAuthorizedArea(new FGEEmptyArea());
-	}
-
-	@Override
-	public GeometricObjectGraphicalRepresentation<O, ?> getGraphicalRepresentation() {
-		return (GeometricObjectGraphicalRepresentation<O, ?>) super.getGraphicalRepresentation();
-	}
-
-	@Override
-	public boolean isDraggable() {
-		return false;
-	}
-
-	@Override
-	public Cursor getDraggingCursor() {
-		return Cursor.getDefaultCursor();
-	}
-
-	@Override
-	public abstract void update(O geometricObject);
-
-	@Override
-	public FGEPoint getPoint() {
-		update(((GeometricObject<O>) getGraphicalRepresentation().getDrawable()).getGeometricObject());
-		return super.getPoint();
+	public ShowContextualMenuControl(EditingContext editingContext) {
+		super("Show contextual menu", MouseButton.RIGHT, 1, new MouseClickControlActionImpl<GeomEditDrawingEditor>() {
+			@Override
+			public boolean handleClick(DrawingTreeNode<?, ?> dtn, GeomEditDrawingEditor controller, MouseControlContext context) {
+				FGEView view = controller.getDrawingView().viewForNode(dtn);
+				Point newPoint = getPointInView(dtn, controller, context);
+				controller.showContextualMenu(dtn, view, newPoint);
+				return false;
+			}
+		}, false, false, false, false, editingContext);
 	}
 }

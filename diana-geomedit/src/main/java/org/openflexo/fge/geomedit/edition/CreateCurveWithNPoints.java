@@ -41,6 +41,9 @@ package org.openflexo.fge.geomedit.edition;
 
 import java.util.Vector;
 
+import org.openflexo.diana.geomedit.edition.Edition;
+import org.openflexo.diana.geomedit.edition.EditionInput;
+import org.openflexo.diana.geomedit.edition.ObtainPoint;
 import org.openflexo.fge.geom.FGEComplexCurve;
 import org.openflexo.fge.geom.FGEGeneralShape.Closure;
 import org.openflexo.fge.geom.FGEPoint;

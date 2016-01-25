@@ -39,14 +39,15 @@
 
 package org.openflexo.fge.geomedit.edition;
 
+import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
+import org.openflexo.diana.geomedit.edition.Edition;
+import org.openflexo.diana.geomedit.edition.ObtainPoint;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.Point;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreatePoint extends Edition {
 
-	public CreatePoint(GeomEditController controller) {
+	public CreatePoint(GeomEditDrawingEditor controller) {
 		super("Create point", controller);
 		inputs.add(new ObtainPoint("Select position", controller));
 	}
@@ -55,8 +56,8 @@ public class CreatePoint extends Edition {
 	public void performEdition() {
 		ObtainPoint p = (ObtainPoint) inputs.get(0);
 
-		addObject(new Point(getController().getDrawing().getModel(), p.getConstruction()));
-
+		// addObject(new Point(getController().getDrawing().getModel(), p.getConstruction()));
+		addConstruction(p.getConstruction());
 	}
 
 	/*public void addObject(GeometricObject object)

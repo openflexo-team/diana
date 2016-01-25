@@ -37,29 +37,29 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.edition;
+package org.openflexo.diana.geomedit.edition;
 
 import java.awt.Color;
 import java.util.Vector;
 
+import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
+import org.openflexo.diana.geomedit.model.construction.GeometricConstruction;
 import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.TextureBackgroundStyle.TextureType;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.GeometricObject;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public abstract class Edition {
 	public int currentStep;
 	public Vector<EditionInput> inputs;
 	private String label;
-	private GeomEditController controller;
+	private GeomEditDrawingEditor controller;
 
 	protected ForegroundStyle focusedForegroundStyle;
 	protected BackgroundStyle focusedBackgroundStyle;
 
-	public Edition(String aLabel, GeomEditController aController) {
+	public Edition(String aLabel, GeomEditDrawingEditor aController) {
 		super();
 		controller = aController;
 		focusedForegroundStyle = aController.getFactory().makeForegroundStyle(Color.RED);
@@ -74,12 +74,13 @@ public abstract class Edition {
 		return label;
 	}
 
-	public GeomEditController getController() {
+	public GeomEditDrawingEditor getController() {
 		return controller;
 	}
 
-	public final void addObject(GeometricObject object) {
-		getController().getDrawing().getModel().addToChilds(object);
+	public final void addConstruction(GeometricConstruction<?> object) {
+		System.out.println("TODO: implement adding of " + object);
+		// getController().getDrawing().getModel().addToChilds(object);
 	}
 
 	public boolean next() {
