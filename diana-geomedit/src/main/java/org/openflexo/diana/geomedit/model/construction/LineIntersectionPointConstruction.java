@@ -39,45 +39,57 @@
 
 package org.openflexo.diana.geomedit.model.construction;
 
-import org.openflexo.diana.geomedit.model.construction.ExplicitPointConstruction.ExplicitPointConstructionImpl;
+import org.openflexo.diana.geomedit.model.construction.LineIntersectionPointConstruction.LineIntersectionPointConstructionImpl;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
-@ImplementationClass(ExplicitPointConstructionImpl.class)
+@ImplementationClass(LineIntersectionPointConstructionImpl.class)
 @XMLElement
-public interface ExplicitPointConstruction extends PointConstruction {
+public interface LineIntersectionPointConstruction extends PointConstruction {
 
-	public void setPoint(FGEPoint p);
+	@PropertyIdentifier(type = LineConstruction.class)
+	public static final String LINE_CONSTRUCTION_1_KEY = "lineConstruction1";
+	@PropertyIdentifier(type = LineConstruction.class)
+	public static final String LINE_CONSTRUCTION_2_KEY = "lineConstruction2";
 
-	public static abstract class ExplicitPointConstructionImpl extends PointConstructionImpl implements ExplicitPointConstruction {
+	@Getter(value = LINE_CONSTRUCTION_1_KEY)
+	public LineConstruction getLineConstruction1();
 
-		public FGEPoint point;
+	@Setter(value = LINE_CONSTRUCTION_1_KEY)
+	public void setLineConstruction1(LineConstruction lineConstruction1);
 
-		@Override
-		public void setPoint(FGEPoint p) {
-			point = p;
-			System.out.println("Je mets le point a " + p);
-			setModified(true);
-		}
+	@Getter(value = LINE_CONSTRUCTION_2_KEY)
+	public LineConstruction getLineConstruction2();
+
+	@Setter(value = LINE_CONSTRUCTION_2_KEY)
+	public void setLineConstruction2(LineConstruction lineConstruction2);
+
+	public static abstract class LineIntersectionPointConstructionImpl extends PointConstructionImpl
+			implements LineIntersectionPointConstruction {
 
 		@Override
 		protected FGEPoint computeData() {
-			System.out.println("Voila j'ai mon point: " + point);
-			return point;
+			return getLineConstruction1().getData().getLineIntersection(getLineConstruction2().getData());
 		}
 
 		@Override
 		public String toString() {
-			return "ExplicitPointConstruction[" + point.toString() + "]";
+			return "LineIntersectionPointConstruction[\n" + "> " + getLineConstruction1().toString() + "\n> "
+					+ getLineConstruction2().toString() + "\n]";
 		}
 
 		@Override
-		public GeometricConstruction<?>[] getDepends() {
-			return null;
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { getLineConstruction1(), getLineConstruction2() };
+			return returned;
 		}
+
 	}
 
 }

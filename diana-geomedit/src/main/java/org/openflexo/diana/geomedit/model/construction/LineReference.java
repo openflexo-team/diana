@@ -37,50 +37,47 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.edition;
+package org.openflexo.diana.geomedit.model.construction;
 
-import org.openflexo.diana.geomedit.edition.Edition;
-import org.openflexo.diana.geomedit.edition.ObtainPoint;
+import org.openflexo.diana.geomedit.model.construction.LineReference.LineReferenceImpl;
 import org.openflexo.fge.geom.FGELine;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.Line;
-import org.openflexo.fge.geomedit.construction.LineWithTwoPointsConstruction;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLElement;
 
-public class CreateLineFromPoints extends Edition {
+@ModelEntity
+@ImplementationClass(LineReferenceImpl.class)
+@XMLElement
+public interface LineReference extends LineConstruction {
 
-	public CreateLineFromPoints(GeomEditController controller) {
-		super("Create line from points", controller);
-		inputs.add(new ObtainPoint("Select first point", controller));
-		inputs.add(new ObtainPoint("Select second point", controller));
-	}
+	@PropertyIdentifier(type = LineConstruction.class)
+	public static final String REFERENCE_KEY = "reference";
 
-	@Override
-	public void performEdition() {
-		ObtainPoint p1 = (ObtainPoint) inputs.get(0);
-		ObtainPoint p2 = (ObtainPoint) inputs.get(1);
+	@Getter(value = REFERENCE_KEY)
+	public LineConstruction getReference();
 
-		addObject(new Line(getController().getDrawing().getModel(), new LineWithTwoPointsConstruction(p1.getConstruction(),
-				p2.getConstruction())));
+	@Setter(value = REFERENCE_KEY)
+	public void setReference(LineConstruction reference);
 
-	}
+	public static abstract class LineReferenceImpl extends LineConstructionImpl implements LineReference {
 
-	/*public void addObject(GeometricObject object)
-	{
-		getController().getDrawing().getModel().addToChilds(object);
-	}*/
+		@Override
+		protected FGELine computeData() {
+			return getReference().getData();
+		}
 
-	@Override
-	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
-		if (currentStep == 0) {
-			// Nothing to draw
-		} else if (currentStep == 1) {
-			// Nothing to draw
-			FGEPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
-			graphics.setDefaultForeground(focusedForegroundStyle);
-			p1.paint(graphics);
-			new FGELine(p1, lastMouseLocation).paint(graphics);
+		@Override
+		public String toString() {
+			return "LineReference[" + getReference().toString() + "]";
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { getReference() };
+			return returned;
 		}
 	}
 }

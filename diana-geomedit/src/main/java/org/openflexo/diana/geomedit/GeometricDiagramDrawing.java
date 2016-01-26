@@ -38,6 +38,7 @@
 
 package org.openflexo.diana.geomedit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openflexo.connie.DataBinding;
@@ -54,6 +55,8 @@ import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.cp.ControlArea;
+import org.openflexo.fge.cp.ControlPoint;
+import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.model.factory.EditingContextImpl;
@@ -100,7 +103,15 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 							DrawingTreeNode<GeometricConstruction, GeometricGraphicalRepresentation> dtn) {
 						// TODO
 						System.out.println("Ici, initialiser les control areas !!!");
-						return dtn.getDrawable().getGraphicalRepresentation().makeControlAreasFor(dtn);
+						List<? extends ControlArea<?>> returned = dtn.getDrawable().getGraphicalRepresentation().makeControlAreasFor(dtn);
+						List<ControlPoint> controlPoints = new ArrayList<ControlPoint>();
+						for (ControlArea<?> ca : returned) {
+							if (ca instanceof ControlPoint) {
+								controlPoints.add((ControlPoint) ca);
+							}
+						}
+						dtn.getDrawable().setControlPoints(controlPoints);
+						return returned;
 					}
 				});
 		drawingBinding.addToWalkers(new GRStructureVisitor<GeometricDiagram>() {
@@ -114,6 +125,8 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 		});
 
 		constructionBinding.setDynamicPropertyValue(GraphicalRepresentation.TEXT, new DataBinding<String>("drawable.name"), true);
+		constructionBinding.setDynamicPropertyValue(GeometricGraphicalRepresentation.GEOMETRIC_OBJECT,
+				new DataBinding<FGEArea>("drawable.data"), true);
 
 	}
 

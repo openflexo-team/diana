@@ -76,7 +76,7 @@ public interface ControlPointReference extends PointConstruction {
 
 		protected ComputedControlPoint getControlPoint() {
 			for (ControlPoint cp : getReference().getControlPoints()) {
-				if (cp instanceof ComputedControlPoint && ((ComputedControlPoint) cp).getName().equals(cpName)) {
+				if (cp instanceof ComputedControlPoint && ((ComputedControlPoint) cp).getName().equals(getControlPointName())) {
 					return (ComputedControlPoint) cp;
 				}
 			}
@@ -88,19 +88,20 @@ public interface ControlPointReference extends PointConstruction {
 			if (getControlPoint() != null) {
 				return getControlPoint().getPoint();
 			}
-			System.out.println("computeData() for ControlPointReference: cannot find cp " + cpName + " for " + reference);
-			setModified();
+			System.out
+					.println("computeData() for ControlPointReference: cannot find cp " + getControlPointName() + " for " + getReference());
+			setModified(true);
 			return new FGEPoint(0, 0);
 		}
 
 		@Override
 		public String toString() {
-			return "ControlPointReference[" + cpName + "," + reference.getDrawable().getConstruction() + "]";
+			return "ControlPointReference[" + getControlPointName() + "," + getReference() + "]";
 		}
 
 		@Override
 		public GeometricConstruction[] getDepends() {
-			GeometricConstruction[] returned = { reference.getDrawable().getConstruction() };
+			GeometricConstruction[] returned = { getReference() };
 			return returned;
 		}
 	}

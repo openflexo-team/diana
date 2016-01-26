@@ -39,6 +39,7 @@
 
 package org.openflexo.fge.geomedit.construction;
 
+import org.openflexo.diana.geomedit.model.construction.LineConstruction;
 import org.openflexo.fge.geom.area.FGEBand;
 
 public class BandWithTwoLinesConstruction extends BandConstruction {

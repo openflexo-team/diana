@@ -50,13 +50,11 @@ import org.openflexo.diana.geomedit.model.construction.PointConstruction;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.FGEConstants;
+import org.openflexo.fge.converter.PointConverter;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.construction.LineIntersectionPointConstruction;
-import org.openflexo.fge.geomedit.edition.ObtainLine;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
-import org.openflexo.model.StringEncoder;
 
 public class ObtainPoint extends EditionInput<FGEPoint> {
 	public static int preferredMethodIndex = 0;
@@ -203,8 +201,10 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 
 		@Override
 		public PointConstruction retrieveInputDataFromChildInputs() {
-			((ObtainLine) childInputs.get(0)).getReferencedLine().getGraphicalRepresentation().setIsSelected(false);
-			return new LineIntersectionPointConstruction(((ObtainLine) childInputs.get(0)).getConstruction(),
+			// TODO
+			System.out.println("Faire un truc ici pour deselectionner la ligne !");
+			// ((ObtainLine) childInputs.get(0)).getConstruction().getGraphicalRepresentation().setIsSelected(false);
+			return getFactory().makeLineIntersectionPointConstruction(((ObtainLine) childInputs.get(0)).getConstruction(),
 					((ObtainLine) childInputs.get(1)).getConstruction());
 		}
 
@@ -214,7 +214,9 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 				// Nothing to draw
 			}
 			else if (currentChildInputStep == 1 && ((ObtainLine) childInputs.get(0)).getReferencedLine() != null) {
-				((ObtainLine) childInputs.get(0)).getReferencedLine().getGraphicalRepresentation().setIsSelected(true);
+				// TODO
+				System.out.println("Faire un truc ici pour selectionner la ligne !");
+				// ((ObtainLine) childInputs.get(0)).getReferencedLine().getGraphicalRepresentation().setIsSelected(true);
 			}
 		}
 
@@ -238,15 +240,6 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 			if (inputComponent == null) {
 				inputComponent = new InputComponentTextField<FGEPoint>(KeyboardSelection.this, new FGEPoint(0, 0)) {
 
-					private StringEncoder.Converter<FGEPoint> converter;
-
-					private StringEncoder.Converter<FGEPoint> getConverter() {
-						if (converter == null) {
-							converter = StringEncoder.getDefaultInstance()._converterForClass(FGEPoint.class);
-						}
-						return converter;
-					}
-
 					@Override
 					public int getColumnSize() {
 						return 8;
@@ -257,7 +250,7 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 						if (data == null) {
 							return "";
 						}
-						return getConverter().convertToString(data);
+						return (new PointConverter(FGEPoint.class)).convertToString(data);
 					}
 
 					@Override
@@ -265,12 +258,12 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 						if (string == null || string.trim().equals("")) {
 							return null;
 						}
-						return getConverter().convertFromString(string);
+						return (new PointConverter(FGEPoint.class)).convertFromString(string, null);
 					}
 
 					@Override
 					public void dataEntered(FGEPoint data) {
-						setConstruction(new ExplicitPointConstruction(data));
+						setConstruction(getFactory().makeExplicitPointConstruction(data));
 						done();
 					}
 

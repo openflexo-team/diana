@@ -42,6 +42,10 @@ import org.openflexo.diana.geomedit.ShowContextualMenuControl;
 import org.openflexo.diana.geomedit.model.construction.ControlPointReference;
 import org.openflexo.diana.geomedit.model.construction.ExplicitPointConstruction;
 import org.openflexo.diana.geomedit.model.construction.GeometricConstruction;
+import org.openflexo.diana.geomedit.model.construction.LineConstruction;
+import org.openflexo.diana.geomedit.model.construction.LineIntersectionPointConstruction;
+import org.openflexo.diana.geomedit.model.construction.LineReference;
+import org.openflexo.diana.geomedit.model.construction.LineWithTwoPointsConstruction;
 import org.openflexo.diana.geomedit.model.construction.PointConstruction;
 import org.openflexo.diana.geomedit.model.construction.PointReference;
 import org.openflexo.diana.geomedit.model.gr.GeometricDrawingGraphicalRepresentation;
@@ -61,7 +65,7 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 	private int objectIndex = 0;
 
 	public GeometricConstructionFactory(EditingContext editingContext) throws ModelDefinitionException {
-		super(GeometricDiagram.class);
+		super(GeometricDiagram.class, GeometricObjectGraphicalRepresentation.class);
 		setEditingContext(editingContext);
 	}
 
@@ -122,6 +126,12 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
+	public LineReference makeLineReference(LineConstruction construction) {
+		LineReference returned = newInstance(LineReference.class);
+		returned.setReference(construction);
+		return returned;
+	}
+
 	public ControlPointReference makeControlPointReference(GeometricConstruction<?> construction, String name) {
 		ControlPointReference returned = newInstance(ControlPointReference.class);
 		returned.setReference(construction);
@@ -129,4 +139,19 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
+	public LineIntersectionPointConstruction makeLineIntersectionPointConstruction(LineConstruction lineConstruction1,
+			LineConstruction lineConstruction2) {
+		LineIntersectionPointConstruction returned = newInstance(LineIntersectionPointConstruction.class);
+		returned.setLineConstruction1(lineConstruction1);
+		returned.setLineConstruction2(lineConstruction2);
+		return returned;
+	}
+
+	public LineWithTwoPointsConstruction makeLineWithTwoPointsConstruction(PointConstruction pointConstruction1,
+			PointConstruction pointConstruction2) {
+		LineWithTwoPointsConstruction returned = newInstance(LineWithTwoPointsConstruction.class);
+		returned.setPointConstruction1(pointConstruction1);
+		returned.setPointConstruction2(pointConstruction2);
+		return returned;
+	}
 }

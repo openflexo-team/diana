@@ -37,39 +37,46 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.construction;
+package org.openflexo.diana.geomedit.edition;
 
+import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
 import org.openflexo.fge.geom.FGELine;
+import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
-public class LineWithTwoPointsConstruction extends LineConstruction {
+public class CreateLineFromPoints extends Edition {
 
-	public PointConstruction pointConstruction1;
-	public PointConstruction pointConstruction2;
-
-	public LineWithTwoPointsConstruction() {
-		super();
-	}
-
-	public LineWithTwoPointsConstruction(PointConstruction pointConstruction1, PointConstruction pointConstruction2) {
-		this();
-		this.pointConstruction1 = pointConstruction1;
-		this.pointConstruction2 = pointConstruction2;
+	public CreateLineFromPoints(GeomEditDrawingEditor controller) {
+		super("Create line from points", controller);
+		inputs.add(new ObtainPoint("Select first point", controller));
+		inputs.add(new ObtainPoint("Select second point", controller));
 	}
 
 	@Override
-	protected FGELine computeData() {
-		return new FGELine(pointConstruction1.getPoint(), pointConstruction2.getPoint());
+	public void performEdition() {
+		ObtainPoint p1 = (ObtainPoint) inputs.get(0);
+		ObtainPoint p2 = (ObtainPoint) inputs.get(1);
+
+		addConstruction(getController().getFactory().makeLineWithTwoPointsConstruction(p1.getConstruction(), p2.getConstruction()));
+
 	}
+
+	/*public void addObject(GeometricObject object)
+	{
+		getController().getDrawing().getModel().addToChilds(object);
+	}*/
 
 	@Override
-	public String toString() {
-		return "LineWithTwoPointsConstruction[\n" + "> " + pointConstruction1.toString() + "\n> " + pointConstruction2.toString() + "\n]";
+	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
+		if (currentStep == 0) {
+			// Nothing to draw
+		}
+		else if (currentStep == 1) {
+			// Nothing to draw
+			FGEPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
+			graphics.setDefaultForeground(focusedForegroundStyle);
+			p1.paint(graphics);
+			new FGELine(p1, lastMouseLocation).paint(graphics);
+		}
 	}
-
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { pointConstruction1, pointConstruction2 };
-		return returned;
-	}
-
 }

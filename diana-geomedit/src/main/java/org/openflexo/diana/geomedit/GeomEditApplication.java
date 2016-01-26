@@ -61,7 +61,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -69,7 +68,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
@@ -77,6 +75,7 @@ import javax.swing.event.ChangeListener;
 
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
+import org.openflexo.diana.geomedit.view.GeometricDiagramView;
 import org.openflexo.fge.control.DianaInteractiveViewer;
 import org.openflexo.fge.control.exceptions.CopyException;
 import org.openflexo.fge.control.exceptions.CutException;
@@ -126,7 +125,7 @@ public class GeomEditApplication {
 	private static final int META_MASK = ToolBox.getPLATFORM() == ToolBox.MACOS ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
 
 	private final JFrame frame;
-	private final JDialog paletteDialog;
+	// private final JDialog paletteDialog;
 	private final FlexoFileChooser fileChooser;
 	private final SwingToolFactory toolFactory;
 
@@ -217,12 +216,12 @@ public class GeomEditApplication {
 		commonPaletteModel = new DiagramEditorPalette();
 		commonPalette = toolFactory.makeDianaPalette(commonPaletteModel);
 
-		paletteDialog = new JDialog(frame, "Palette", false);
+		/*paletteDialog = new JDialog(frame, "Palette", false);
 		paletteDialog.getContentPane().add(commonPalette.getComponent());
 		paletteDialog.setLocation(1010, 0);
 		paletteDialog.pack();
 		paletteDialog.setVisible(true);
-		paletteDialog.setFocusableWindowState(false);
+		paletteDialog.setFocusableWindowState(false);*/
 
 		manager = new PropertyChangeListenerRegistrationManager();
 
@@ -410,7 +409,7 @@ public class GeomEditApplication {
 		WindowMenuItem layoutManagerInspectorItem = new WindowMenuItem(
 				FlexoLocalization.localizedForKey(LOCALIZATION, "layout_manager_inspector"), inspectors.getLayoutManagersInspector());
 
-		WindowMenuItem paletteItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "palette"), paletteDialog);
+		// WindowMenuItem paletteItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "palette"), paletteDialog);
 
 		viewMenu.add(foregroundInspectorItem);
 		viewMenu.add(backgroundInspectorItem);
@@ -421,7 +420,7 @@ public class GeomEditApplication {
 		viewMenu.add(locationSizeInspectorItem);
 		viewMenu.add(layoutManagerInspectorItem);
 		viewMenu.addSeparator();
-		viewMenu.add(paletteItem);
+		// viewMenu.add(paletteItem);
 
 		JMenuItem logsItem = new JMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "logs"));
 		logsItem.addActionListener(new ActionListener() {
@@ -463,14 +462,14 @@ public class GeomEditApplication {
 		return editingContext;
 	}
 
-	private class MyDrawingViewScrollPane extends JScrollPane {
+	/*private class MyDrawingViewScrollPane extends JScrollPane {
 		private final GeomEditDrawingView drawingView;
-
+	
 		private MyDrawingViewScrollPane(GeomEditDrawingView v) {
 			super(v);
 			drawingView = v;
 		}
-	}
+	}*/
 
 	public GeometricConstructionFactory getFactory() {
 		return factory;
@@ -490,9 +489,9 @@ public class GeomEditApplication {
 			tabbedPane.addChangeListener(new ChangeListener() {
 				@Override
 				public void stateChanged(ChangeEvent e) {
-					MyDrawingViewScrollPane c = (MyDrawingViewScrollPane) tabbedPane.getSelectedComponent();
+					GeometricDiagramView c = (GeometricDiagramView) tabbedPane.getSelectedComponent();
 					if (c != null) {
-						drawingSwitched(c.drawingView.getDrawing().getModel());
+						drawingSwitched(c.getDrawing().getModel());
 					}
 				}
 			});
@@ -504,7 +503,7 @@ public class GeomEditApplication {
 		// DianaEditor controller = new DianaEditor(diagramEditor.getEditedDrawing(), diagramEditor.getFactory());
 		// AbstractDianaEditor<GeometricDiagramDrawing> controller = new AbstractDianaEditor<GeometricDiagramDrawing>(aDrawing, factory)
 
-		tabbedPane.add(diagramEditor.getTitle(), new MyDrawingViewScrollPane(diagramEditor.getController().getDrawingView()));
+		tabbedPane.add(diagramEditor.getTitle(), new GeometricDiagramView(diagramEditor.getController()));
 		// diagramEditor.getController().getToolbox().getForegroundInspector().setVisible(true);
 		switchToDiagramEditor(diagramEditor);
 

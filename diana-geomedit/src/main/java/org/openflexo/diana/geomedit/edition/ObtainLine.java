@@ -37,24 +37,23 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.edition;
+package org.openflexo.diana.geomedit.edition;
 
 import java.awt.event.MouseEvent;
 
-import org.openflexo.diana.geomedit.edition.EditionInput;
-import org.openflexo.diana.geomedit.edition.EditionInputMethod;
+import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
+import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
+import org.openflexo.diana.geomedit.model.construction.LineConstruction;
+import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.geom.FGELine;
-import org.openflexo.fge.geomedit.GeomEditController;
 import org.openflexo.fge.geomedit.Line;
-import org.openflexo.fge.geomedit.construction.LineConstruction;
-import org.openflexo.fge.geomedit.construction.LineReference;
 
 public class ObtainLine extends EditionInput<FGELine> {
 	public static int preferredMethodIndex = 0;
 
-	public ObtainLine(String anInputLabel, GeomEditController controller) {
+	public ObtainLine(String anInputLabel, GeomEditDrawingEditor controller) {
 		super(anInputLabel, controller);
 
 		availableMethods.add(new LineSelection());
@@ -73,7 +72,7 @@ public class ObtainLine extends EditionInput<FGELine> {
 
 	public class LineSelection extends EditionInputMethod<FGELine, ObtainLine> {
 
-		private GeometricGraphicalRepresentation focusedObject;
+		private GeometricNode<?> focusedObject;
 
 		public LineSelection() {
 			super("With mouse", ObtainLine.this);
@@ -84,7 +83,9 @@ public class ObtainLine extends EditionInput<FGELine> {
 			if (focusedObject != null) {
 				focusedObject.setIsFocused(false);
 				referencedLine = (Line) focusedObject.getDrawable();
-				setConstruction(new LineReference(referencedLine.getConstruction()));
+				setConstruction(
+						getFactory().makeLineReference(((DraggableControlPoint) focusedControlPoint).getExplicitPointConstruction()));
+				setConstruction(makeLineReference(referencedLine.getConstruction()));
 				done();
 			}
 		}
@@ -101,7 +102,8 @@ public class ObtainLine extends EditionInput<FGELine> {
 					&& ((GeometricGraphicalRepresentation) focused).getGeometricObject() instanceof FGELine) {
 				focusedObject = (GeometricGraphicalRepresentation) focused;
 				focusedObject.setIsFocused(true);
-			} else {
+			}
+			else {
 				focusedObject = null;
 			}
 

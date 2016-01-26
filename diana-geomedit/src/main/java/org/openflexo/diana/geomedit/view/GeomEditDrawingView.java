@@ -37,7 +37,7 @@
  * 
  */
 
-package org.openflexo.diana.geomedit;
+package org.openflexo.diana.geomedit.view;
 
 import java.awt.Component;
 import java.awt.Graphics;
@@ -49,6 +49,7 @@ import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 
+import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
 import org.openflexo.diana.geomedit.edition.EditionInputMethod;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
 import org.openflexo.fge.geom.FGEPoint;

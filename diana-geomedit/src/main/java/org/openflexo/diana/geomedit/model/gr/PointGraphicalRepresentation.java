@@ -54,7 +54,13 @@ import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
+@ModelEntity
+@ImplementationClass(PointGraphicalRepresentation.PointGraphicalRepresentationImpl.class)
+@XMLElement
 public interface PointGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEPoint> {
 
 	public static abstract class PointGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEPoint>

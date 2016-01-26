@@ -47,10 +47,14 @@ import org.openflexo.diana.geomedit.model.gr.PointGraphicalRepresentation;
 import org.openflexo.fge.TextureBackgroundStyle.TextureType;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(PointConstructionImpl.class)
+@Imports({ @Import(PointReference.class), @Import(ExplicitPointConstruction.class), @Import(ControlPointReference.class),
+		@Import(LineIntersectionPointConstruction.class) })
 public interface PointConstruction extends GeometricConstruction<FGEPoint> {
 
 	public FGEPoint getPoint();

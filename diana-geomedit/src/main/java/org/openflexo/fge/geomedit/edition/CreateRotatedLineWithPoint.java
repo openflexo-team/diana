@@ -40,12 +40,13 @@
 package org.openflexo.fge.geomedit.edition;
 
 import org.openflexo.diana.geomedit.edition.Edition;
+import org.openflexo.diana.geomedit.edition.ObtainLine;
 import org.openflexo.diana.geomedit.edition.ObtainPoint;
+import org.openflexo.diana.geomedit.model.construction.LineConstruction;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geomedit.GeomEditController;
 import org.openflexo.fge.geomedit.Line;
-import org.openflexo.fge.geomedit.construction.LineConstruction;
 import org.openflexo.fge.geomedit.construction.PointConstruction;
 import org.openflexo.fge.geomedit.construction.RotatedLineWithPointConstruction;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;

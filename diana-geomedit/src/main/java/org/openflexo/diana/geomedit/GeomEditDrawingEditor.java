@@ -54,10 +54,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import org.openflexo.diana.geomedit.edition.CreateLineFromPoints;
 import org.openflexo.diana.geomedit.edition.Edition;
 import org.openflexo.diana.geomedit.edition.EditionInput;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
+import org.openflexo.diana.geomedit.view.GeomEditDrawingView;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.control.exceptions.CopyException;
 import org.openflexo.fge.control.exceptions.CutException;
@@ -122,36 +124,8 @@ public class GeomEditDrawingEditor extends JDianaInteractiveEditor<GeometricDiag
 
 		resetCurrentInput();
 
-		JMenu createPointItem = new JMenu("Create point");
-
-		JMenuItem createExplicitPoint = new JMenuItem("As explicit position");
-		createExplicitPoint.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setCurrentEdition(new CreatePoint(GeomEditDrawingEditor.this));
-			}
-		});
-		createPointItem.add(createExplicitPoint);
-
-		/*JMenuItem createPointAsMiddleFromPointsItem = new JMenuItem("As middle of two other points");
-		createPointAsMiddleFromPointsItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setCurrentEdition(new CreatePointMiddleOfPoints(GeomEditDrawingEditor.this));
-			}
-		});
-		createPointItem.add(createPointAsMiddleFromPointsItem);
-		
-		JMenuItem createPointSymetricOfPointItem = new JMenuItem("Symetric to an other point");
-		createPointSymetricOfPointItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setCurrentEdition(new CreatePointSymetricOfPoint(GeomEditDrawingEditor.this));
-			}
-		});
-		createPointItem.add(createPointSymetricOfPointItem);*/
-
-		contextualMenu.add(createPointItem);
+		contextualMenu.add(makeCreatePointMenu());
+		contextualMenu.add(makeCreateLineMenu());
 
 		contextualMenu.addSeparator();
 		JMenuItem copyItem = new JMenuItem("Copy");
@@ -210,6 +184,108 @@ public class GeomEditDrawingEditor extends JDianaInteractiveEditor<GeometricDiag
 		});
 		contextualMenu.add(redoItem);
 		// initPalette();
+	}
+
+	private JMenu makeCreatePointMenu() {
+		JMenu createPointItem = new JMenu("Create point");
+
+		JMenuItem createExplicitPoint = new JMenuItem("As explicit position");
+		createExplicitPoint.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreatePoint(GeomEditDrawingEditor.this));
+			}
+		});
+		createPointItem.add(createExplicitPoint);
+
+		/*JMenuItem createPointAsMiddleFromPointsItem = new JMenuItem("As middle of two other points");
+		createPointAsMiddleFromPointsItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreatePointMiddleOfPoints(GeomEditDrawingEditor.this));
+			}
+		});
+		createPointItem.add(createPointAsMiddleFromPointsItem);
+		
+		JMenuItem createPointSymetricOfPointItem = new JMenuItem("Symetric to an other point");
+		createPointSymetricOfPointItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreatePointSymetricOfPoint(GeomEditDrawingEditor.this));
+			}
+		});
+		createPointItem.add(createPointSymetricOfPointItem);*/
+
+		return createPointItem;
+	}
+
+	private JMenu makeCreateLineMenu() {
+		JMenu createLineItem = new JMenu("Create line");
+
+		JMenuItem createLineFromPointsItem = new JMenuItem("From points");
+		createLineFromPointsItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateLineFromPoints(GeomEditDrawingEditor.this));
+			}
+		});
+		createLineItem.add(createLineFromPointsItem);
+
+		/*JMenuItem createHorizontalLineWithPointItem = new JMenuItem("Horizontal crossing point");
+		createHorizontalLineWithPointItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateHorizontalLineWithPoint(GeomEditDrawingEditor.this));
+			}
+		});
+		createLineItem.add(createHorizontalLineWithPointItem);
+		
+		JMenuItem createVerticalLineWithPointItem = new JMenuItem("Vertical crossing point");
+		createVerticalLineWithPointItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateVerticalLineWithPoint(GeomEditDrawingEditor.this));
+			}
+		});
+		createLineItem.add(createVerticalLineWithPointItem);
+		
+		JMenuItem createParallelLineWithPointItem = new JMenuItem("Parallel crossing point");
+		createParallelLineWithPointItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateParallelLineWithPoint(GeomEditDrawingEditor.this));
+			}
+		});
+		createLineItem.add(createParallelLineWithPointItem);
+		
+		JMenuItem createOrthogonalLineWithPointItem = new JMenuItem("Orthogonal crossing point");
+		createOrthogonalLineWithPointItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateOrthogonalLineWithPoint(GeomEditDrawingEditor.this));
+			}
+		});
+		createLineItem.add(createOrthogonalLineWithPointItem);
+		
+		JMenuItem createRotatedLineWithPointItem = new JMenuItem("Rotated line crossing point");
+		createRotatedLineWithPointItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateRotatedLineWithPoint(GeomEditDrawingEditor.this));
+			}
+		});
+		createLineItem.add(createRotatedLineWithPointItem);
+		
+		JMenuItem createTangentLineWithCircleAndPointItem = new JMenuItem("Tangent to a circle and crossing point");
+		createTangentLineWithCircleAndPointItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateTangentLineWithCircleAndPoint(GeomEditDrawingEditor.this));
+			}
+		});
+		createLineItem.add(createTangentLineWithCircleAndPointItem);*/
+
+		return createLineItem;
 	}
 
 	@Override

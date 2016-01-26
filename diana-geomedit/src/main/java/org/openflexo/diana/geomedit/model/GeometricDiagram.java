@@ -68,7 +68,7 @@ public interface GeometricDiagram extends GeometricElement {
 	@PropertyIdentifier(type = GeometricConstruction.class, cardinality = Cardinality.LIST)
 	public static final String CONSTRUCTIONS_KEY = "constructions";
 
-	@Getter(value = CONSTRUCTIONS_KEY, cardinality = Cardinality.LIST, inverse = GeometricConstruction.GEOMETRIC_DRAWING)
+	@Getter(value = CONSTRUCTIONS_KEY, cardinality = Cardinality.LIST, inverse = GeometricConstruction.GEOMETRIC_DIAGRAM)
 	@XMLElement(primary = true)
 	@CloningStrategy(StrategyType.CLONE)
 	@Embedded
@@ -94,6 +94,11 @@ public interface GeometricDiagram extends GeometricElement {
 	public void setGraphicalRepresentation(DrawingGraphicalRepresentation graphicalRepresentation);
 
 	public static abstract class GeometricDiagramImpl extends GeometricElementImpl implements GeometricDiagram {
+
+		@Override
+		public GeometricDiagram getGeometricDiagram() {
+			return this;
+		}
 	}
 
 }

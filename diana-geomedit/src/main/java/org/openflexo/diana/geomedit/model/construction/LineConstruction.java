@@ -37,17 +37,30 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.construction;
+package org.openflexo.diana.geomedit.model.construction;
 
+import org.openflexo.diana.geomedit.model.construction.LineConstruction.LineConstructionImpl;
 import org.openflexo.fge.geom.FGELine;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
+import org.openflexo.model.annotations.ModelEntity;
 
-public abstract class LineConstruction extends GeometricConstruction<FGELine> {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(LineConstructionImpl.class)
+@Imports({ @Import(LineReference.class) })
+public interface LineConstruction extends GeometricConstruction<FGELine> {
 
-	public final FGELine getLine() {
-		return getData();
+	public FGELine getLine();
+
+	public static abstract class LineConstructionImpl extends GeometricConstructionImpl<FGELine>implements LineConstruction {
+
+		@Override
+		public final FGELine getLine() {
+			return getData();
+		}
+
+		@Override
+		protected abstract FGELine computeData();
 	}
-
-	@Override
-	protected abstract FGELine computeData();
-
 }

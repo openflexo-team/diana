@@ -48,12 +48,21 @@ import java.util.logging.Logger;
 import org.jdom2.JDOMException;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
+import org.openflexo.diana.geomedit.view.GeomEditDrawingView;
+import org.openflexo.diana.geomedit.view.GeometricDiagramView;
 import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.model.exceptions.InvalidDataException;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.model.undo.CompoundEdit;
 
+/**
+ * A complete editor allowing to view and edit a {@link GeometricDiagram}.<br>
+ * Gives access to a {@link GeometricDiagramView} containing a {@link GeomEditDrawingView}
+ * 
+ * @author sylvain
+ *
+ */
 public class GeomEditEditor {
 
 	private static final Logger logger = FlexoLogger.getLogger(GeomEditEditor.class.getPackage().getName());
@@ -61,6 +70,9 @@ public class GeomEditEditor {
 	private GeometricDiagram diagram;
 	private GeometricDiagramDrawing drawing;
 	private GeomEditDrawingEditor controller;
+
+	private GeometricDiagramView diagramView;
+
 	private int index;
 	private File file = null;
 	private final GeometricConstructionFactory factory;
@@ -138,6 +150,13 @@ public class GeomEditEditor {
 			factory.getUndoManager().stopRecording(edit);
 		}
 		return controller;
+	}
+
+	public GeometricDiagramView getDiagramView() {
+		if (diagramView == null) {
+			diagramView = new GeometricDiagramView(getController());
+		}
+		return diagramView;
 	}
 
 	public String getTitle() {

@@ -63,7 +63,7 @@ public interface GeometricElement extends Cloneable, AccessibleProxyObject, Dele
 	@Setter(value = NAME_KEY)
 	public void setName(String aName);
 
-	public GeometricDiagram getGeometricDrawing();
+	public GeometricDiagram getGeometricDiagram();
 
 	public void setChanged();
 

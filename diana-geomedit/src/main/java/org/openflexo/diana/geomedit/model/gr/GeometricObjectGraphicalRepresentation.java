@@ -46,9 +46,14 @@ import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.impl.GeometricGraphicalRepresentationImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
 
 @ModelEntity(isAbstract = true)
+@ImplementationClass(GeometricObjectGraphicalRepresentation.GeometricObjectGraphicalRepresentationImpl.class)
+@Imports({ @Import(PointGraphicalRepresentation.class) })
 public interface GeometricObjectGraphicalRepresentation<A extends FGEArea> extends GeometricGraphicalRepresentation {
 
 	public boolean getDisplayLabel();

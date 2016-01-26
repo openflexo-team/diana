@@ -284,6 +284,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 
 	@Override
 	public void paintGeometricObject(FGEGeometricGraphics graphics) {
+		pourquoi le geometric object est null ici ?
 		getGraphicalRepresentation().getGeometricObject().paint(graphics);
 	}
 

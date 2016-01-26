@@ -47,7 +47,6 @@ import org.openflexo.diana.geomedit.model.GeometricDiagram;
 import org.openflexo.diana.geomedit.model.GeometricElement;
 import org.openflexo.diana.geomedit.model.construction.GeometricConstruction.GeometricConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
-import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.model.annotations.CloningStrategy;
@@ -55,6 +54,8 @@ import org.openflexo.model.annotations.CloningStrategy.StrategyType;
 import org.openflexo.model.annotations.Embedded;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
@@ -62,19 +63,20 @@ import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(GeometricConstructionImpl.class)
+@Imports({ @Import(LineConstruction.class), @Import(PointConstruction.class) })
 public interface GeometricConstruction<A extends FGEArea> extends GeometricElement {
 
 	@PropertyIdentifier(type = GeometricObjectGraphicalRepresentation.class)
 	public static final String GRAPHICAL_REPRESENTATION = "graphicalRepresentation";
 	@PropertyIdentifier(type = GeometricDiagram.class)
-	public static final String GEOMETRIC_DRAWING = "geometricDrawing";
+	public static final String GEOMETRIC_DIAGRAM = "geometricDiagram";
 
 	@Override
-	@Getter(value = GEOMETRIC_DRAWING)
-	public GeometricDiagram getGeometricDrawing();
+	@Getter(value = GEOMETRIC_DIAGRAM)
+	public GeometricDiagram getGeometricDiagram();
 
-	@Setter(value = GEOMETRIC_DRAWING)
-	public void setGeometricDrawing(GeometricDiagram geometricDiagram);
+	@Setter(value = GEOMETRIC_DIAGRAM)
+	public void setGeometricDiagram(GeometricDiagram geometricDiagram);
 
 	@Getter(value = GRAPHICAL_REPRESENTATION)
 	@CloningStrategy(StrategyType.CLONE)
@@ -93,7 +95,9 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 
 	public A getData();
 
-	public List<ControlPoint> getControlPoints(GeometricNode<?> node);
+	public List<ControlPoint> getControlPoints();
+
+	public void setControlPoints(List<ControlPoint> controlPoints);
 
 	public static abstract class GeometricConstructionImpl<A extends FGEArea> extends GeometricElementImpl
 			implements GeometricConstruction<A> {
@@ -169,9 +173,16 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 			}
 		}
 
+		private List<ControlPoint> controlPoints;
+
 		@Override
-		public List<ControlPoint> getControlPoints(GeometricNode<?> node) {
-			return node.getControlPoints();
+		public List<ControlPoint> getControlPoints() {
+			return controlPoints;
+		}
+
+		@Override
+		public void setControlPoints(List<ControlPoint> controlPoints) {
+			this.controlPoints = controlPoints;
 		}
 	}
 
