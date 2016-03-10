@@ -17,6 +17,7 @@
 		<graphicsutils.version>1.3-SYLVAIN-SNAPSHOT</graphicsutils.version>
 		<diana.logo>https://media.openflexo.org/images/diana_logo64x64.png</diana.logo>
 		<maven.sourceplugin.version>2.4</maven.sourceplugin.version>
+	    <sitedeploy.dir>/home/www/sites/diana</sitedeploy.dir>
 	</properties>
 	<scm>
 		<connection>scm:git:ssh://git@github.com/openflexo-team/diana.git</connection>
@@ -224,7 +225,7 @@
             <distributionManagement>
                 <site>
                     <id>diana.website</id>
-                    <url>scp://server-one.openflexo.org/home/www/sites/diana/SNAPSHOT/</url>
+                    <url>scp://server-one.openflexo.org${sitedeploy.dir}/SNAPSHOT/</url>
                 </site>
             </distributionManagement>
         </profile>
@@ -241,7 +242,7 @@
             <distributionManagement>
                 <site>
                     <id>diana.website</id>
-                    <url>scp://server-one.openflexo.org/home/www/sites/diana/SNAPSHOT/</url>
+                    <url>scp://server-one.openflexo.org${sitedeploy.dir}/SNAPSHOT/</url>
                 </site>
             </distributionManagement>
         </profile>
@@ -258,7 +259,7 @@
             <distributionManagement>
                 <site>
                     <id>diana.website</id>
-                    <url>scp://server-one.openflexo.org/home/www/sites/diana/${project.version}/</url>
+                    <url>scp://server-one.openflexo.org${sitedeploy.dir}/${project.version}/</url>
                 </site>
             </distributionManagement>
         </profile>

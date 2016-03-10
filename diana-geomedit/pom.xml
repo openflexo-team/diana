@@ -10,7 +10,7 @@
         <version>1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>diana-geomedit</artifactId>
-	<name>GUI :: Diana-GeomEdit</name>
+	<name>Diana-GeomEdit</name>
 	<build>
 		<plugins>
 			<plugin>
