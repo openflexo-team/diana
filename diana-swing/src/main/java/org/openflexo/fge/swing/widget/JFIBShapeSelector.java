@@ -210,7 +210,7 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification>implements
 
 				FIBView<?, ?> previewComponent = viewForComponent(fibComponent.getComponentNamed("PreviewPanel"));
 				if (previewComponent instanceof FIBCustomWidget) {
-					JComponent customComponent = (JComponent) ((FIBCustomWidget<?, ?>) previewComponent).getTechnologyComponent();
+					JComponent customComponent = (JComponent) ((FIBCustomWidget<?, ?, ?>) previewComponent).getTechnologyComponent();
 					if (customComponent instanceof ShapePreviewPanel) {
 						((JShapePreviewPanel) customComponent).setShape(getFactory().getShapeSpecification());
 						// ((ShapePreviewPanel) customComponent).update();
