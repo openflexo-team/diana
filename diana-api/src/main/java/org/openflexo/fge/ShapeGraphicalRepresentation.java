@@ -120,16 +120,12 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	public static final String ALLOW_TO_LEAVE_BOUNDS_KEY = "allowToLeaveBounds";
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String ADAPT_BOUNDS_TO_CONTENTS_KEY = "adaptBoundsToContents";
-	@Deprecated
 	@PropertyIdentifier(type = DataBinding.class)
 	public static final String X_CONSTRAINTS_KEY = "xConstraints";
-	@Deprecated
 	@PropertyIdentifier(type = DataBinding.class)
 	public static final String Y_CONSTRAINTS_KEY = "yConstraints";
-	@Deprecated
 	@PropertyIdentifier(type = DataBinding.class)
 	public static final String WIDTH_CONSTRAINTS_KEY = "widthConstraints";
-	@Deprecated
 	@PropertyIdentifier(type = DataBinding.class)
 	public static final String HEIGHT_CONSTRAINTS_KEY = "heightConstraints";
 
@@ -318,7 +314,7 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	@Getter(value = WIDTH_KEY, defaultValue = "60.0")
 	@XMLAttribute
 	public double getWidth();
-
+	
 	@Override
 	@Getter(value = HEIGHT_KEY, defaultValue = "20.0")
 	@XMLAttribute
@@ -481,39 +477,31 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	@Setter(value = ADAPT_BOUNDS_TO_CONTENTS_KEY)
 	public void setAdaptBoundsToContents(boolean adaptBoundsToContents);
 
-	@Deprecated
 	@Getter(value = X_CONSTRAINTS_KEY, isStringConvertable = true)
 	@XMLAttribute
 	public DataBinding<Double> getXConstraints();
 
-	@Deprecated
 	@Setter(value = X_CONSTRAINTS_KEY)
 	public void setXConstraints(DataBinding<Double> xConstraints);
 
-	@Deprecated
 	@Getter(value = Y_CONSTRAINTS_KEY, isStringConvertable = true)
 	@XMLAttribute
 	public DataBinding<Double> getYConstraints();
 
-	@Deprecated
 	@Setter(value = Y_CONSTRAINTS_KEY)
 	public void setYConstraints(DataBinding<Double> yConstraints);
 
-	@Deprecated
 	@Getter(value = WIDTH_CONSTRAINTS_KEY, isStringConvertable = true)
 	@XMLAttribute
 	public DataBinding<Double> getWidthConstraints();
 
-	@Deprecated
 	@Setter(value = WIDTH_CONSTRAINTS_KEY)
 	public void setWidthConstraints(DataBinding<Double> widthConstraints);
 
-	@Deprecated
 	@Getter(value = HEIGHT_CONSTRAINTS_KEY, isStringConvertable = true)
 	@XMLAttribute
 	public DataBinding<Double> getHeightConstraints();
 
-	@Deprecated
 	@Setter(value = HEIGHT_CONSTRAINTS_KEY)
 	public void setHeightConstraints(DataBinding<Double> heightConstraints);
 
@@ -586,23 +574,23 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	// public void notifyShapeNeedsToBeRedrawn();
 
 	/*public void notifyObjectMoved();
-
+	
 	public void notifyObjectMoved(FGEPoint oldLocation);
-
+	
 	public void notifyObjectWillMove();
-
+	
 	public void notifyObjectHasMoved();
-
+	
 	public boolean isMoving();
-
+	
 	public void notifyObjectResized();
-
+	
 	public void notifyObjectResized(FGEDimension oldSize);
-
+	
 	public void notifyObjectWillResize();
-
+	
 	public void notifyObjectHasResized();
-
+	
 	public boolean isResizing();*/
 
 	// public double getUnscaledViewWidth();
@@ -643,11 +631,11 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	// public boolean isPointInsideShape(FGEPoint aPoint);
 
 	/*public ShapeDecorationPainter getDecorationPainter();
-
+	
 	public void setDecorationPainter(ShapeDecorationPainter aPainter);
-
+	
 	public ShapePainter getShapePainter();
-
+	
 	public void setShapePainter(ShapePainter aPainter);*/
 
 	// Override for a custom view management
