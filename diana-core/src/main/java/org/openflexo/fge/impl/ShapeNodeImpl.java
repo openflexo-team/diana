@@ -156,7 +156,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					// System.out.println(" bindingValueChanged() detected for xConstraints=" +
 					// getGraphicalRepresentation().getXConstraints()
 					// + " with newValue=" + newValue + " source=" + source);
-					setX(newValue);
+					if (newValue != null) {
+						setX(newValue);
+					}
 				}
 
 				@Override
@@ -181,7 +183,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					// System.out.println(" bindingValueChanged() detected for yConstraints=" +
 					// getGraphicalRepresentation().getYConstraints()
 					// + " with newValue=" + newValue + " source=" + source);
-					setY(newValue);
+					if (newValue != null) {
+						setY(newValue);
+					}
 				}
 
 				@Override
@@ -204,7 +208,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				public void bindingValueChanged(Object source, Double newValue) {
 					// System.out.println(" bindingValueChanged() detected for widthConstraints="
 					// + getGraphicalRepresentation().getWidthConstraints() + " with newValue=" + newValue + " source=" + source);
-					setWidth(newValue);
+					if (newValue != null) {
+						setWidth(newValue);
+					}
 				}
 
 				@Override
@@ -227,7 +233,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				public void bindingValueChanged(Object source, Double newValue) {
 					// System.out.println(" bindingValueChanged() detected for heightConstraints="
 					// + getGraphicalRepresentation().getHeightConstraints() + " with newValue=" + newValue + " source=" + source);
-					setHeight(newValue);
+					if (newValue != null) {
+						setHeight(newValue);
+					}
 				}
 
 				@Override
