@@ -191,6 +191,14 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		setPropertyValue(GraphicalRepresentation.PARAGRAPH_ALIGNEMENT, alignment);
 	}
 
+	public Boolean getIsFloatingLabel() {
+		return getPropertyValue(ShapeGraphicalRepresentation.IS_FLOATING_LABEL);
+	}
+
+	public void setIsFloatingLabel(Boolean flag) {
+		setPropertyValue(ShapeGraphicalRepresentation.IS_FLOATING_LABEL, flag);
+	}
+
 	public Double getAbsoluteTextX() {
 		return getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X);
 	}
@@ -261,6 +269,14 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 
 	public void setIsAllowToLeaveBounds(Boolean flag) {
 		setPropertyValue(ShapeGraphicalRepresentation.ALLOW_TO_LEAVE_BOUNDS, flag);
+	}
+
+	public Boolean getAdaptBoundsToContents() {
+		return getPropertyValue(ShapeGraphicalRepresentation.ADAPT_BOUNDS_TO_CONTENTS);
+	}
+
+	public void setAdaptBoundsToContents(Boolean flag) {
+		setPropertyValue(ShapeGraphicalRepresentation.ADAPT_BOUNDS_TO_CONTENTS, flag);
 	}
 
 	public DataBinding<Double> getXConstraints() {
