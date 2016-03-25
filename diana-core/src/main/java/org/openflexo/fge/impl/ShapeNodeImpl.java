@@ -49,6 +49,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
+import org.openflexo.connie.binding.BindingValueChangeListener;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.connie.type.TypeUtils;
@@ -117,10 +118,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	private ShapeImpl<?> shape;
 
 	private FGELayoutManager<?, ?> layoutManager;
-
 	private boolean layoutValidated = false;
 
-	// TODO: change to protected
+	private BindingValueChangeListener<Double> xConstraintsListener;
+	private BindingValueChangeListener<Double> yConstraintsListener;
+	private BindingValueChangeListener<Double> widthConstraintsListener;
+	private BindingValueChangeListener<Double> heightConstraintsListener;
+
 	public ShapeNodeImpl(DrawingImpl<?> drawingImpl, O drawable, ShapeGRBinding<O> grBinding, ContainerNodeImpl<?, ?> parentNode) {
 		super(drawingImpl, drawable, grBinding, parentNode);
 		startDrawableObserving();
@@ -128,6 +132,147 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		// width = getGraphicalRepresentation().getMinimalWidth();
 		// height = getGraphicalRepresentation().getMinimalHeight();
 		relayoutNode();
+		listenConstraintsValueChange();
+	}
+
+	private void listenConstraintsValueChange() {
+
+		listenXConstraintsValueChange();
+		listenYConstraintsValueChange();
+		listenWidthConstraintsValueChange();
+		listenHeightConstraintsValueChange();
+	}
+
+	private void listenXConstraintsValueChange() {
+
+		stopListenXConstraintsValueChange();
+
+		if (getGraphicalRepresentation().getXConstraints() != null && getGraphicalRepresentation().getXConstraints().isSet()
+				&& getGraphicalRepresentation().getXConstraints().isValid()) {
+			xConstraintsListener = new BindingValueChangeListener<Double>(getGraphicalRepresentation().getXConstraints(),
+					getBindingEvaluationContext()) {
+				@Override
+				public void bindingValueChanged(Object source, Double newValue) {
+					System.out.println(" bindingValueChanged() detected for xConstraints=" + getGraphicalRepresentation().getXConstraints()
+							+ " with newValue=" + newValue + " source=" + source);
+					setX(newValue);
+				}
+
+				@Override
+				protected Double getDefaultValue() {
+					return 0.0;
+				}
+			};
+		}
+
+	}
+
+	private void listenYConstraintsValueChange() {
+
+		stopListenYConstraintsValueChange();
+
+		if (getGraphicalRepresentation().getYConstraints() != null && getGraphicalRepresentation().getYConstraints().isSet()
+				&& getGraphicalRepresentation().getYConstraints().isValid()) {
+			yConstraintsListener = new BindingValueChangeListener<Double>(getGraphicalRepresentation().getYConstraints(),
+					getBindingEvaluationContext()) {
+				@Override
+				public void bindingValueChanged(Object source, Double newValue) {
+					System.out.println(" bindingValueChanged() detected for yConstraints=" + getGraphicalRepresentation().getYConstraints()
+							+ " with newValue=" + newValue + " source=" + source);
+					setY(newValue);
+				}
+
+				@Override
+				protected Double getDefaultValue() {
+					return 0.0;
+				}
+			};
+		}
+	}
+
+	private void listenWidthConstraintsValueChange() {
+
+		stopListenWidthConstraintsValueChange();
+
+		if (getGraphicalRepresentation().getWidthConstraints() != null && getGraphicalRepresentation().getWidthConstraints().isSet()
+				&& getGraphicalRepresentation().getWidthConstraints().isValid()) {
+			widthConstraintsListener = new BindingValueChangeListener<Double>(getGraphicalRepresentation().getWidthConstraints(),
+					getBindingEvaluationContext()) {
+				@Override
+				public void bindingValueChanged(Object source, Double newValue) {
+					System.out.println(" bindingValueChanged() detected for widthConstraints="
+							+ getGraphicalRepresentation().getWidthConstraints() + " with newValue=" + newValue + " source=" + source);
+					setWidth(newValue);
+				}
+
+				@Override
+				protected Double getDefaultValue() {
+					return 0.0;
+				}
+			};
+		}
+	}
+
+	private void listenHeightConstraintsValueChange() {
+
+		stopListenHeightConstraintsValueChange();
+
+		if (getGraphicalRepresentation().getHeightConstraints() != null && getGraphicalRepresentation().getHeightConstraints().isSet()
+				&& getGraphicalRepresentation().getHeightConstraints().isValid()) {
+			heightConstraintsListener = new BindingValueChangeListener<Double>(getGraphicalRepresentation().getHeightConstraints(),
+					getBindingEvaluationContext()) {
+				@Override
+				public void bindingValueChanged(Object source, Double newValue) {
+					System.out.println(" bindingValueChanged() detected for heightConstraints="
+							+ getGraphicalRepresentation().getHeightConstraints() + " with newValue=" + newValue + " source=" + source);
+					setHeight(newValue);
+				}
+
+				@Override
+				protected Double getDefaultValue() {
+					return 0.0;
+				}
+			};
+		}
+	}
+
+	private void stopListenConstraintsValueChange() {
+		stopListenXConstraintsValueChange();
+		stopListenYConstraintsValueChange();
+		stopListenWidthConstraintsValueChange();
+		stopListenHeightConstraintsValueChange();
+	}
+
+	private void stopListenXConstraintsValueChange() {
+		if (xConstraintsListener != null) {
+			xConstraintsListener.stopObserving();
+			xConstraintsListener.delete();
+			xConstraintsListener = null;
+		}
+	}
+
+	private void stopListenYConstraintsValueChange() {
+		if (yConstraintsListener != null) {
+			yConstraintsListener.stopObserving();
+			yConstraintsListener.delete();
+			yConstraintsListener = null;
+		}
+	}
+
+	private void stopListenWidthConstraintsValueChange() {
+		if (widthConstraintsListener != null) {
+			widthConstraintsListener.stopObserving();
+			widthConstraintsListener.delete();
+			widthConstraintsListener = null;
+		}
+	}
+
+	private void stopListenHeightConstraintsValueChange() {
+		if (heightConstraintsListener != null) {
+			heightConstraintsListener.stopObserving();
+			heightConstraintsListener.delete();
+			heightConstraintsListener = null;
+		}
 	}
 
 	@Override
@@ -135,6 +280,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		Object o = getDrawable();
 		if (!isDeleted()) {
 			// System.out.println("ShapeNode deleted");
+			stopListenConstraintsValueChange();
 			stopDrawableObserving();
 			super.delete();
 			finalizeDeletion();
@@ -202,10 +348,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public Rectangle getBounds(double scale) {
 		Rectangle bounds = new Rectangle();
 
-		bounds.x = (int) ((getX() + (getGraphicalRepresentation().getBorder() != null ? getGraphicalRepresentation().getBorder().getLeft()
-				: 0)) * scale);
-		bounds.y = (int) ((getY() + (getGraphicalRepresentation().getBorder() != null ? getGraphicalRepresentation().getBorder().getTop()
-				: 0)) * scale);
+		bounds.x = (int) ((getX()
+				+ (getGraphicalRepresentation().getBorder() != null ? getGraphicalRepresentation().getBorder().getLeft() : 0)) * scale);
+		bounds.y = (int) ((getY()
+				+ (getGraphicalRepresentation().getBorder() != null ? getGraphicalRepresentation().getBorder().getTop() : 0)) * scale);
 		bounds.width = (int) (getWidth() * scale);
 		bounds.height = (int) (getHeight() * scale);
 
@@ -293,20 +439,20 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		/*
 		double x2= (double)x;
 		double y2= (double)y;
-
+		
 		if (scale != 1) {
 			x2 = x2/scale;
 			y2 = y2/scale;
 		}
-
+		
 		if (getBorder() != null) {
 			x2 -= getBorder().left;
 			y2 -= getBorder().top;
 		}
-
+		
 		x2 = x2/getWidth();
 		y2 = y2/getHeight();
-
+		
 		return new FGEPoint(x2,y2);*/
 	}
 
@@ -338,9 +484,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			return 0.0;
 		}
 
-		return getPropertyValue(ShapeGraphicalRepresentation.WIDTH)
-				+ (getGraphicalRepresentation().getBorder() != null ? getGraphicalRepresentation().getBorder().getLeft()
-						+ getGraphicalRepresentation().getBorder().getRight() : 0);
+		return getPropertyValue(ShapeGraphicalRepresentation.WIDTH) + (getGraphicalRepresentation().getBorder() != null
+				? getGraphicalRepresentation().getBorder().getLeft() + getGraphicalRepresentation().getBorder().getRight() : 0);
 
 		/*if (getGraphicalRepresentation() == null) {
 			return 0.0;
@@ -358,9 +503,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			return 0.0;
 		}
 
-		return getPropertyValue(ShapeGraphicalRepresentation.HEIGHT)
-				+ (getGraphicalRepresentation().getBorder() != null ? getGraphicalRepresentation().getBorder().getTop()
-						+ getGraphicalRepresentation().getBorder().getBottom() : 0);
+		return getPropertyValue(ShapeGraphicalRepresentation.HEIGHT) + (getGraphicalRepresentation().getBorder() != null
+				? getGraphicalRepresentation().getBorder().getTop() + getGraphicalRepresentation().getBorder().getBottom() : 0);
 
 		/*		if (getGraphicalRepresentation() == null) {
 					return 0.0;
@@ -448,6 +592,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				relayoutNode();
 			}
 
+			if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.X_CONSTRAINTS_KEY)) {
+				System.out.println("******* HOP pour xConstraints");
+			}
+
 			/*if (notif instanceof BindingChanged) {
 				DataBinding<?> dataBinding = ((BindingChanged) notif).getBinding();
 				if (dataBinding == getGraphicalRepresentation().getXConstraints() && dataBinding.isValid()) {
@@ -459,7 +607,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				} else if (dataBinding == getGraphicalRepresentation().getHeightConstraints() && dataBinding.isValid()) {
 					updateHeightPosition();
 				}
-
+			
 			}*/
 
 		}
@@ -766,8 +914,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				ShapeNode<?> container = (ShapeNode<?>) parent;
 				FGEPoint center = new FGEPoint(container.getWidth() / 2, container.getHeight() / 2);
 				double authorizedRatio = getMoveAuthorizedRatio(requestedLocation, center);
-				return new FGEPoint(center.x + (requestedLocation.x - center.x) * authorizedRatio, center.y
-						+ (requestedLocation.y - center.y) * authorizedRatio);
+				return new FGEPoint(center.x + (requestedLocation.x - center.x) * authorizedRatio,
+						center.y + (requestedLocation.y - center.y) * authorizedRatio);
 			}
 		}
 		if (getGraphicalRepresentation().getLocationConstraints() == LocationConstraints.AREA_CONSTRAINED) {
@@ -972,12 +1120,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				}
 				getGraphicalRepresentation().setLocationConstraints(LocationConstraints.UNMOVABLE);
 			}
-			if (getGraphicalRepresentation().getWidthConstraints() != null && getGraphicalRepresentation().getWidthConstraints().isValid()) {
+			if (getGraphicalRepresentation().getWidthConstraints() != null
+					&& getGraphicalRepresentation().getWidthConstraints().isValid()) {
 				getGraphicalRepresentation().getWidthConstraints().decode();
 				try {
-					setWidth((Double) TypeUtils
-							.castTo(getGraphicalRepresentation().getWidthConstraints().getBindingValue(getBindingEvaluationContext()),
-									Double.class));
+					setWidth((Double) TypeUtils.castTo(
+							getGraphicalRepresentation().getWidthConstraints().getBindingValue(getBindingEvaluationContext()),
+							Double.class));
 				} catch (TypeMismatchException e) {
 					e.printStackTrace();
 				} catch (NullReferenceException e) {
@@ -1418,7 +1567,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * @return the area on which the given connector can end
 	 */
 	@Override
-	public FGEArea getAllowedEndAreaForConnectorForDirection(ConnectorNode<?> connector, FGEArea area, SimplifiedCardinalDirection direction) {
+	public FGEArea getAllowedEndAreaForConnectorForDirection(ConnectorNode<?> connector, FGEArea area,
+			SimplifiedCardinalDirection direction) {
 		return area;
 	}
 
@@ -1579,8 +1729,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			}
 		}
 		if (requiredBounds == null) {
-			requiredBounds = new FGERectangle(getX(), getY(), getGraphicalRepresentation().getMinimalWidth(), getGraphicalRepresentation()
-					.getMinimalHeight());
+			requiredBounds = new FGERectangle(getX(), getY(), getGraphicalRepresentation().getMinimalWidth(),
+					getGraphicalRepresentation().getMinimalHeight());
 		} else {
 			requiredBounds.x = requiredBounds.x + getX();
 			requiredBounds.y = requiredBounds.y + getY();
