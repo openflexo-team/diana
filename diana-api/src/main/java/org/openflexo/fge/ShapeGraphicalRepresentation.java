@@ -99,8 +99,8 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	public static final String HAS_FOCUSED_FOREGROUND_KEY = "hasFocusedForeground";
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String HAS_FOCUSED_BACKGROUND_KEY = "hasFocusedBackground";
-	@PropertyIdentifier(type = ShapeBorder.class)
-	public static final String BORDER_KEY = "border";
+	// @PropertyIdentifier(type = ShapeBorder.class)
+	// public static final String BORDER_KEY = "border";
 	@PropertyIdentifier(type = ShapeType.class)
 	public static final String SHAPE_TYPE_KEY = "shapeType";
 	@PropertyIdentifier(type = ShapeSpecification.class)
@@ -202,46 +202,46 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 		UNMOVABLE, RELATIVE_TO_PARENT, X_FIXED, Y_FIXED, AREA_CONSTRAINED;
 	}
 
-	@ModelEntity
+	/*@ModelEntity
 	@XMLElement(xmlTag = "ShapeBorder")
 	public static interface ShapeBorder extends FGEObject {
-
+	
 		public static final String TOP = "top";
 		public static final String BOTTOM = "bottom";
 		public static final String LEFT = "left";
 		public static final String RIGHT = "right";
-
+	
 		@Getter(value = TOP, defaultValue = "20")
 		@XMLAttribute
 		public int getTop();
-
+	
 		@Setter(value = TOP)
 		public void setTop(int top);
-
+	
 		@Getter(value = BOTTOM, defaultValue = "20")
 		@XMLAttribute
 		public int getBottom();
-
+	
 		@Setter(value = BOTTOM)
 		public void setBottom(int bottom);
-
+	
 		@Getter(value = LEFT, defaultValue = "20")
 		@XMLAttribute
 		public int getLeft();
-
+	
 		@Setter(value = LEFT)
 		public void setLeft(int left);
-
+	
 		@Getter(value = RIGHT, defaultValue = "20")
 		@XMLAttribute
 		public int getRight();
-
+	
 		@Setter(value = RIGHT)
 		public void setRight(int right);
-
+	
 		// public ShapeBorder clone();
-
-	}
+	
+	}*/
 
 	public static GRProperty<Double> X = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, X_KEY, Double.TYPE);
 	public static GRProperty<Double> Y = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, Y_KEY, Double.TYPE);
@@ -273,8 +273,8 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 			Double.class);
 	public static GRProperty<Double> RELATIVE_TEXT_Y = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, RELATIVE_TEXT_Y_KEY,
 			Double.class);
-	public static GRProperty<ShapeBorder> BORDER = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, BORDER_KEY,
-			ShapeBorder.class);
+	// public static GRProperty<ShapeBorder> BORDER = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, BORDER_KEY,
+	// ShapeBorder.class);
 	public static GRProperty<ShapeSpecification> SHAPE = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			SHAPE_SPECIFICATION_KEY, ShapeSpecification.class);
 	public static GRProperty<ShapeType> SHAPE_TYPE = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, SHAPE_TYPE_KEY,
@@ -415,14 +415,14 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	@Setter(value = HAS_FOCUSED_BACKGROUND_KEY)
 	public void setHasFocusedBackground(boolean aFlag);
 
-	@Getter(value = BORDER_KEY)
+	/*@Getter(value = BORDER_KEY)
 	@Embedded
 	@CloningStrategy(StrategyType.CLONE)
 	@XMLElement
 	public ShapeBorder getBorder();
-
+	
 	@Setter(value = BORDER_KEY)
-	public void setBorder(ShapeBorder border);
+	public void setBorder(ShapeBorder border);*/
 
 	@Getter(value = SHAPE_SPECIFICATION_KEY)
 	@XMLElement

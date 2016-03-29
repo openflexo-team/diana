@@ -112,11 +112,11 @@ public abstract class DrawConnectorToolController<ME> extends ToolController<ME>
 		// currentDraggingLocationInDrawingView = new Point();
 
 		cursorGR = getFactory().makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
-		cursorGR.setBorder(getFactory().makeShapeBorder(0, 0, 0, 0));
+		// cursorGR.setBorder(getFactory().makeShapeBorder(0, 0, 0, 0));
 		cursorGR.setWidth(1);
 		cursorGR.setHeight(1);
-		ShapeGRBinding<DrawConnectorToolController> cursorGRBinding = getController().getDrawing().bindShape(
-				DrawConnectorToolController.class, "cursor", new ShapeGRProvider<DrawConnectorToolController>() {
+		ShapeGRBinding<DrawConnectorToolController> cursorGRBinding = getController().getDrawing()
+				.bindShape(DrawConnectorToolController.class, "cursor", new ShapeGRProvider<DrawConnectorToolController>() {
 					@Override
 					public ShapeGraphicalRepresentation provideGR(DrawConnectorToolController drawable, FGEModelFactory factory) {
 						return cursorGR;
@@ -127,10 +127,10 @@ public abstract class DrawConnectorToolController<ME> extends ToolController<ME>
 		connectorGR.setForeground(getController().getInspectedForegroundStyle().getDefaultValue());
 		connectorGR.setConnectorSpecification(getController().getInspectedConnectorSpecification().getDefaultValue());
 
-		System.out.println("foreground=" + connectorGR.getForeground().toNiceString());
+		// System.out.println("foreground=" + connectorGR.getForeground().toNiceString());
 
-		ConnectorGRBinding<DrawConnectorToolController> connectorGRBinding = getController().getDrawing().bindConnector(
-				DrawConnectorToolController.class, "connector", new ConnectorGRProvider<DrawConnectorToolController>() {
+		ConnectorGRBinding<DrawConnectorToolController> connectorGRBinding = getController().getDrawing()
+				.bindConnector(DrawConnectorToolController.class, "connector", new ConnectorGRProvider<DrawConnectorToolController>() {
 					@Override
 					public ConnectorGraphicalRepresentation provideGR(DrawConnectorToolController drawable, FGEModelFactory factory) {
 						return connectorGR;
@@ -173,7 +173,8 @@ public abstract class DrawConnectorToolController<ME> extends ToolController<ME>
 	public void makeNewConnector() {
 		if (getToolAction() != null && startNode != null && endNode != null) {
 			getToolAction().performedDrawNewConnector(connectorGR, startNode, endNode);
-		} else {
+		}
+		else {
 			System.out.println("toolAction=" + getToolAction());
 			logger.warning("No DrawConnectorAction defined !");
 		}
@@ -217,7 +218,8 @@ public abstract class DrawConnectorToolController<ME> extends ToolController<ME>
 				endNode = (ShapeNode<?>) focused;
 				endNode.setIsFocused(true);
 				((ConnectorNodeImpl<?>) connectorNode).setEndNode((ShapeNodeImpl<?>) endNode);
-			} else {
+			}
+			else {
 				endNode = null;
 				((ConnectorNodeImpl<?>) connectorNode).setEndNode((ShapeNodeImpl<?>) cursorNode);
 			}
@@ -233,7 +235,8 @@ public abstract class DrawConnectorToolController<ME> extends ToolController<ME>
 		System.out.println("mouseReleased() on " + getPoint(e));
 		if (drawEdge) {
 			if (startNode != null && endNode != null) {
-				// System.out.println("Add ConnectorSpecification contextualMenuInvoker="+contextualMenuInvoker+" point="+contextualMenuClickedPoint);
+				// System.out.println("Add ConnectorSpecification contextualMenuInvoker="+contextualMenuInvoker+"
+				// point="+contextualMenuClickedPoint);
 				stopMouseEdition();
 			}
 			if (startNode != null) {

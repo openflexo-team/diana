@@ -58,7 +58,6 @@ import org.openflexo.fge.ShadowStyle;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.fge.ShapeGraphicalRepresentation.LocationConstraints;
-import org.openflexo.fge.ShapeGraphicalRepresentation.ShapeBorder;
 import org.openflexo.fge.control.DianaInteractiveViewer;
 
 /**
@@ -321,11 +320,11 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		super.fireChangedProperty(p);
 	}*/
 
-	public ShapeBorder getBorder() {
+	/*public ShapeBorder getBorder() {
 		return getPropertyValue(ShapeGraphicalRepresentation.BORDER);
 	}
-
+	
 	public void setBorder(ShapeBorder aBorder) {
 		setPropertyValue(ShapeGraphicalRepresentation.BORDER, aBorder);
-	}
+	}*/
 }

@@ -58,8 +58,8 @@ import org.openflexo.fib.annotation.FIBPanel;
  * 
  */
 @FIBPanel("Fib/Layout/GridLayoutManagerPanel.fib")
-public abstract class GridLayoutManagerImpl<O> extends FGELayoutManagerImpl<GridLayoutManagerSpecification, O> implements
-		GridLayoutManager<O> {
+public abstract class GridLayoutManagerImpl<O> extends FGELayoutManagerImpl<GridLayoutManagerSpecification, O>
+		implements GridLayoutManager<O> {
 
 	@Override
 	public double getGridX() {
@@ -99,35 +99,37 @@ public abstract class GridLayoutManagerImpl<O> extends FGELayoutManagerImpl<Grid
 		double newY = node.getY();
 
 		switch (getLayoutManagerSpecification().getHorizontalAlignment()) {
-		case CENTER:
-			newX = ((int) (((node.getX() + node.getWidth() / 2 + node.getBorder().getLeft()) / getGridX()) + 0.5) * getGridX())
-					- node.getWidth() / 2 - node.getBorder().getLeft();
-			break;
-		case LEFT:
-			newX = ((int) (((node.getX() + node.getBorder().getLeft()) / getGridX()) + 0.5) * getGridX()) - node.getBorder().getLeft();
-			break;
-		case RIGHT:
-			newX = ((int) (((node.getX() + node.getWidth() + node.getBorder().getLeft()) / getGridX()) + 0.5) * getGridX())
-					- node.getWidth() - node.getBorder().getLeft();
-			break;
-		default:
-			break;
+			case CENTER:
+				newX = ((int) (((node.getX() + node.getWidth() / 2 /*+ node.getBorder().getLeft()*/) / getGridX()) + 0.5) * getGridX())
+						- node.getWidth() / 2 /*- node.getBorder().getLeft()*/;
+				break;
+			case LEFT:
+				newX = ((int) (((node.getX() /*+ node.getBorder().getLeft()*/) / getGridX()) + 0.5)
+						* getGridX()) /*- node.getBorder().getLeft()*/;
+				break;
+			case RIGHT:
+				newX = ((int) (((node.getX() + node.getWidth() /*+ node.getBorder().getLeft()*/) / getGridX()) + 0.5) * getGridX())
+						- node.getWidth() /*- node.getBorder().getLeft()*/;
+				break;
+			default:
+				break;
 		}
 
 		switch (getLayoutManagerSpecification().getVerticalAlignment()) {
-		case MIDDLE:
-			newY = ((int) (((node.getY() + node.getHeight() / 2 + node.getBorder().getTop()) / getGridY()) + 0.5) * getGridY())
-					- node.getHeight() / 2 - node.getBorder().getTop();
-			break;
-		case TOP:
-			newY = ((int) (((node.getY() + node.getBorder().getTop()) / getGridY()) + 0.5) * getGridY()) - node.getBorder().getTop();
-			break;
-		case BOTTOM:
-			newY = ((int) (((node.getY() + node.getHeight() + node.getBorder().getTop()) / getGridY()) + 0.5) * getGridY())
-					- node.getHeight() - node.getBorder().getTop();
-			break;
-		default:
-			break;
+			case MIDDLE:
+				newY = ((int) (((node.getY() + node.getHeight() / 2 /*+ node.getBorder().getTop()*/) / getGridY()) + 0.5) * getGridY())
+						- node.getHeight() / 2 /*- node.getBorder().getTop()*/;
+				break;
+			case TOP:
+				newY = ((int) (((node.getY() /*+ node.getBorder().getTop()*/) / getGridY()) + 0.5)
+						* getGridY()) /*- node.getBorder().getTop()*/;
+				break;
+			case BOTTOM:
+				newY = ((int) (((node.getY() + node.getHeight() /*+ node.getBorder().getTop()*/) / getGridY()) + 0.5) * getGridY())
+						- node.getHeight() /*- node.getBorder().getTop()*/;
+				break;
+			default:
+				break;
 		}
 
 		node.setLocation(new FGEPoint(newX, newY));
@@ -158,15 +160,18 @@ public abstract class GridLayoutManagerImpl<O> extends FGELayoutManagerImpl<Grid
 			invalidate();
 			doLayout(true);
 			getContainerNode().notifyNodeLayoutDecorationChanged(this);
-		} else if (evt.getPropertyName().equals(GridLayoutManagerSpecification.GRID_Y_KEY)) {
+		}
+		else if (evt.getPropertyName().equals(GridLayoutManagerSpecification.GRID_Y_KEY)) {
 			invalidate();
 			doLayout(true);
 			getContainerNode().notifyNodeLayoutDecorationChanged(this);
-		} else if (evt.getPropertyName().equals(GridLayoutManagerSpecification.HORIZONTAL_ALIGNEMENT_KEY)) {
+		}
+		else if (evt.getPropertyName().equals(GridLayoutManagerSpecification.HORIZONTAL_ALIGNEMENT_KEY)) {
 			invalidate();
 			doLayout(true);
 			getContainerNode().notifyNodeLayoutDecorationChanged(this);
-		} else if (evt.getPropertyName().equals(GridLayoutManagerSpecification.VERTICAL_ALIGNEMENT_KEY)) {
+		}
+		else if (evt.getPropertyName().equals(GridLayoutManagerSpecification.VERTICAL_ALIGNEMENT_KEY)) {
 			invalidate();
 			doLayout(true);
 			getContainerNode().notifyNodeLayoutDecorationChanged(this);

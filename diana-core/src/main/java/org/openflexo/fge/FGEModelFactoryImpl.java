@@ -42,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.openflexo.fge.ShapeGraphicalRepresentation.ShapeBorder;
 import org.openflexo.fge.connectors.ConnectorSpecification;
 import org.openflexo.fge.connectors.CurveConnectorSpecification;
 import org.openflexo.fge.connectors.CurvedPolylinConnectorSpecification;
@@ -84,7 +83,6 @@ import org.openflexo.fge.impl.GraphicalRepresentationImpl;
 import org.openflexo.fge.impl.NoneBackgroundStyleImpl;
 import org.openflexo.fge.impl.ShadowStyleImpl;
 import org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl;
-import org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl.ShapeBorderImpl;
 import org.openflexo.fge.impl.TextStyleImpl;
 import org.openflexo.fge.impl.TextureBackgroundStyleImpl;
 import org.openflexo.fge.layout.BalloonLayoutManager;
@@ -191,7 +189,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		modelFactory.setImplementingClassForInterface(ContainerGraphicalRepresentationImpl.class, ContainerGraphicalRepresentation.class);
 		modelFactory.setImplementingClassForInterface(GeometricGraphicalRepresentationImpl.class, GeometricGraphicalRepresentation.class);
 
-		modelFactory.setImplementingClassForInterface(ShapeBorderImpl.class, ShapeBorder.class);
+		// modelFactory.setImplementingClassForInterface(ShapeBorderImpl.class, ShapeBorder.class);
 
 		modelFactory.setImplementingClassForInterface(FGEStyleImpl.class, FGEStyle.class);
 		modelFactory.setImplementingClassForInterface(ForegroundStyleImpl.class, ForegroundStyle.class);
@@ -320,15 +318,15 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseDragControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseDragControlAction(
 			PredefinedMouseDragControlActionType actionType) {
 		switch (actionType) {
-		case MOVE:
-			return new MoveAction();
-		case RECTANGLE_SELECTING:
-			return new RectangleSelectingAction();
-		case ZOOM:
-			return new ZoomAction();
-		default:
-			LOGGER.warning("Unexpected actionType " + actionType);
-			return null;
+			case MOVE:
+				return new MoveAction();
+			case RECTANGLE_SELECTING:
+				return new RectangleSelectingAction();
+			case ZOOM:
+				return new ZoomAction();
+			default:
+				LOGGER.warning("Unexpected actionType " + actionType);
+				return null;
 		}
 	}
 
@@ -336,15 +334,15 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseClickControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseClickControlAction(
 			PredefinedMouseClickControlActionType actionType) {
 		switch (actionType) {
-		case SELECTION:
-			return new SelectionAction();
-		case CONTINUOUS_SELECTION:
-			return new ContinuousSelectionAction();
-		case MULTIPLE_SELECTION:
-			return new MultipleSelectionAction();
-		default:
-			LOGGER.warning("Unexpected actionType " + actionType);
-			return null;
+			case SELECTION:
+				return new SelectionAction();
+			case CONTINUOUS_SELECTION:
+				return new ContinuousSelectionAction();
+			case MULTIPLE_SELECTION:
+				return new MultipleSelectionAction();
+			default:
+				LOGGER.warning("Unexpected actionType " + actionType);
+				return null;
 		}
 	}
 

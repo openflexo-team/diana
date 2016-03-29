@@ -140,9 +140,11 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 						Shape shape = sh[i];
 						if (shape instanceof Picture) {
 							drawShape(pictureBinding, (Picture) shape, slide);
-						} else if (shape instanceof AutoShape) {
+						}
+						else if (shape instanceof AutoShape) {
 							drawShape(autoShapeBinding, (AutoShape) shape, slide);
-						} else if (shape instanceof TextBox) {
+						}
+						else if (shape instanceof TextBox) {
 							drawShape(textBoxBinding, (TextBox) shape, slide);
 						}
 					}
@@ -151,9 +153,11 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 				for (Shape shape : slide.getShapes()) {
 					if (shape instanceof Picture) {
 						drawShape(pictureBinding, (Picture) shape, slide);
-					} else if (shape instanceof AutoShape) {
+					}
+					else if (shape instanceof AutoShape) {
 						drawShape(autoShapeBinding, (AutoShape) shape, slide);
-					} else if (shape instanceof TextBox) {
+					}
+					else if (shape instanceof TextBox) {
 						drawShape(textBoxBinding, (TextBox) shape, slide);
 					}
 				}
@@ -171,20 +175,22 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 		returned.setY(autoShape.getAnchor2D().getY());
 		returned.setWidth(autoShape.getAnchor2D().getWidth());
 		returned.setHeight(autoShape.getAnchor2D().getHeight());
-		returned.setBorder(getFactory().makeShapeBorder(0, 0, 0, 0));
+		// returned.setBorder(getFactory().makeShapeBorder(0, 0, 0, 0));
 
 		returned.setShadowStyle(getFactory().makeDefaultShadowStyle());
 
 		if (autoShape.getLineColor() != null) {
 			returned.setForeground(getFactory().makeForegroundStyle(autoShape.getLineColor(), (float) autoShape.getLineWidth(),
 					DashStyle.values()[autoShape.getLineDashing()]));
-		} else {
+		}
+		else {
 			returned.setForeground(getFactory().makeNoneForegroundStyle());
 		}
 
 		if (autoShape.getFillColor() != null) {
 			returned.setBackground(getFactory().makeColoredBackground(autoShape.getFillColor()));
-		} else {
+		}
+		else {
 			returned.setBackground(getFactory().makeEmptyBackground());
 			returned.setShadowStyle(getFactory().makeNoneShadowStyle());
 		}
@@ -227,58 +233,58 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 
 		try {
 			switch (textShape.getVerticalAlignment()) {
-			case TextShape.AnchorTop:
-				returned.setVerticalTextAlignment(VerticalTextAlignment.BOTTOM);
-				break;
-			case TextShape.AnchorMiddle:
-				returned.setVerticalTextAlignment(VerticalTextAlignment.MIDDLE);
-				break;
-			case TextShape.AnchorBottom:
-				returned.setVerticalTextAlignment(VerticalTextAlignment.TOP);
-				break;
-			case TextShape.AnchorTopCentered:
-				returned.setVerticalTextAlignment(VerticalTextAlignment.BOTTOM);
-				break;
-			case TextShape.AnchorMiddleCentered:
-				returned.setVerticalTextAlignment(VerticalTextAlignment.MIDDLE);
-				break;
-			case TextShape.AnchorBottomCentered:
-				returned.setVerticalTextAlignment(VerticalTextAlignment.TOP);
-				break;
-			case TextShape.AnchorTopBaseline:
-				returned.setVerticalTextAlignment(VerticalTextAlignment.BOTTOM);
-				break;
-			case TextShape.AnchorBottomBaseline:
-				returned.setVerticalTextAlignment(VerticalTextAlignment.TOP);
-				break;
-			case TextShape.AnchorTopCenteredBaseline:
-				returned.setVerticalTextAlignment(VerticalTextAlignment.BOTTOM);
-				break;
-			case TextShape.AnchorBottomCenteredBaseline:
-				returned.setVerticalTextAlignment(VerticalTextAlignment.TOP);
-				break;
+				case TextShape.AnchorTop:
+					returned.setVerticalTextAlignment(VerticalTextAlignment.BOTTOM);
+					break;
+				case TextShape.AnchorMiddle:
+					returned.setVerticalTextAlignment(VerticalTextAlignment.MIDDLE);
+					break;
+				case TextShape.AnchorBottom:
+					returned.setVerticalTextAlignment(VerticalTextAlignment.TOP);
+					break;
+				case TextShape.AnchorTopCentered:
+					returned.setVerticalTextAlignment(VerticalTextAlignment.BOTTOM);
+					break;
+				case TextShape.AnchorMiddleCentered:
+					returned.setVerticalTextAlignment(VerticalTextAlignment.MIDDLE);
+					break;
+				case TextShape.AnchorBottomCentered:
+					returned.setVerticalTextAlignment(VerticalTextAlignment.TOP);
+					break;
+				case TextShape.AnchorTopBaseline:
+					returned.setVerticalTextAlignment(VerticalTextAlignment.BOTTOM);
+					break;
+				case TextShape.AnchorBottomBaseline:
+					returned.setVerticalTextAlignment(VerticalTextAlignment.TOP);
+					break;
+				case TextShape.AnchorTopCenteredBaseline:
+					returned.setVerticalTextAlignment(VerticalTextAlignment.BOTTOM);
+					break;
+				case TextShape.AnchorBottomCenteredBaseline:
+					returned.setVerticalTextAlignment(VerticalTextAlignment.TOP);
+					break;
 			}
 		} catch (NullPointerException e) {
 			logger.warning("Unexpected POI exception while retrieving vertical alignment");
 		}
 
 		switch (textShape.getHorizontalAlignment()) {
-		case TextShape.AlignLeft:
-			returned.setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT);
-			returned.setParagraphAlignment(ParagraphAlignment.LEFT);
-			break;
-		case TextShape.AlignCenter:
-			returned.setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
-			returned.setParagraphAlignment(ParagraphAlignment.CENTER);
-			break;
-		case TextShape.AlignRight:
-			returned.setHorizontalTextAlignment(HorizontalTextAlignment.LEFT);
-			returned.setParagraphAlignment(ParagraphAlignment.RIGHT);
-			break;
-		case TextShape.AlignJustify:
-			returned.setParagraphAlignment(ParagraphAlignment.RIGHT);
-			returned.setParagraphAlignment(ParagraphAlignment.JUSTIFY);
-			break;
+			case TextShape.AlignLeft:
+				returned.setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT);
+				returned.setParagraphAlignment(ParagraphAlignment.LEFT);
+				break;
+			case TextShape.AlignCenter:
+				returned.setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
+				returned.setParagraphAlignment(ParagraphAlignment.CENTER);
+				break;
+			case TextShape.AlignRight:
+				returned.setHorizontalTextAlignment(HorizontalTextAlignment.LEFT);
+				returned.setParagraphAlignment(ParagraphAlignment.RIGHT);
+				break;
+			case TextShape.AlignJustify:
+				returned.setParagraphAlignment(ParagraphAlignment.RIGHT);
+				returned.setParagraphAlignment(ParagraphAlignment.JUSTIFY);
+				break;
 		}
 
 		returned.setLineWrap(true);
@@ -291,7 +297,7 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 		returned.setY(textBox.getAnchor2D().getY());
 		returned.setWidth(textBox.getAnchor2D().getWidth());
 		returned.setHeight(textBox.getAnchor2D().getHeight());
-		returned.setBorder(getFactory().makeShapeBorder(0, 0, 0, 0));
+		// returned.setBorder(getFactory().makeShapeBorder(0, 0, 0, 0));
 
 		returned.setForeground(getFactory().makeNoneForegroundStyle());
 
@@ -310,20 +316,20 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 		returned.setY(pictureShape.getAnchor2D().getY());
 		returned.setWidth(pictureShape.getAnchor2D().getWidth());
 		returned.setHeight(pictureShape.getAnchor2D().getHeight());
-		returned.setBorder(getFactory().makeShapeBorder(0, 0, 0, 0));
+		// returned.setBorder(getFactory().makeShapeBorder(0, 0, 0, 0));
 
 		BufferedImage image = new BufferedImage((int) pictureShape.getAnchor2D().getWidth(), (int) pictureShape.getAnchor2D().getHeight(),
 				BufferedImage.TYPE_INT_RGB);
 		Graphics2D graphics = image.createGraphics();
 		graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
 		graphics.translate(-pictureShape.getAnchor2D().getX(), -pictureShape.getAnchor2D().getY());
-		graphics.clipRect((int) pictureShape.getAnchor2D().getX(), (int) pictureShape.getAnchor2D().getY(), (int) pictureShape
-				.getAnchor2D().getWidth(), (int) pictureShape.getAnchor2D().getHeight());
+		graphics.clipRect((int) pictureShape.getAnchor2D().getX(), (int) pictureShape.getAnchor2D().getY(),
+				(int) pictureShape.getAnchor2D().getWidth(), (int) pictureShape.getAnchor2D().getHeight());
 		// graphics.transform(AffineTransform.getScaleInstance(WIDTH / d.width, WIDTH / d.width));
 
 		graphics.setPaint(Color.WHITE);
-		graphics.fillRect((int) pictureShape.getAnchor2D().getX(), (int) pictureShape.getAnchor2D().getY(), (int) pictureShape
-				.getAnchor2D().getWidth(), (int) pictureShape.getAnchor2D().getHeight());
+		graphics.fillRect((int) pictureShape.getAnchor2D().getX(), (int) pictureShape.getAnchor2D().getY(),
+				(int) pictureShape.getAnchor2D().getWidth(), (int) pictureShape.getAnchor2D().getHeight());
 
 		pictureShape.getPictureData().draw(graphics, pictureShape);
 		returned.setBackground(getFactory().makeImageBackground(image));

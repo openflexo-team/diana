@@ -112,8 +112,8 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 	 */
 	protected FGEPoint locationForNode(ShapeNode<?> node) {
 		Point2D newLocation = getLayout().transform(node);
-		return new FGEPoint(newLocation.getX() - node.getWidth() / 2 - node.getBorder().getLeft(),
-				newLocation.getY() - node.getHeight() / 2 - node.getBorder().getTop());
+		return new FGEPoint(newLocation.getX() - node.getWidth() / 2 /*- node.getBorder().getLeft()*/,
+				newLocation.getY() - node.getHeight() / 2 /*- node.getBorder().getTop()*/);
 	}
 
 	/**

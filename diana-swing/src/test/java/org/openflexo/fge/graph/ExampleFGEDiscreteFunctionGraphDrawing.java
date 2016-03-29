@@ -101,13 +101,13 @@ public class ExampleFGEDiscreteFunctionGraphDrawing extends DrawingImpl<Object> 
 		sizeFunction = graph.addNumericFunction("size", Integer.class, new DataBinding<Integer>("person.size"), GraphType.BAR_GRAPH);
 		sizeFunction.setRange(0, 200);
 		sizeFunction.setForegroundStyle(getFactory().makeForegroundStyle(Color.BLUE, 1.0f));
-		sizeFunction.setBackgroundStyle(getFactory().makeColorGradientBackground(Color.BLUE, Color.WHITE,
-				ColorGradientDirection.NORTH_SOUTH));
+		sizeFunction
+				.setBackgroundStyle(getFactory().makeColorGradientBackground(Color.BLUE, Color.WHITE, ColorGradientDirection.NORTH_SOUTH));
 
 		weightFunction = graph.addNumericFunction("weight", Double.class, new DataBinding<Double>("person.weight"), GraphType.BAR_GRAPH);
 		weightFunction.setForegroundStyle(getFactory().makeForegroundStyle(Color.ORANGE, 1.0f));
-		weightFunction.setBackgroundStyle(getFactory().makeColorGradientBackground(Color.YELLOW, Color.ORANGE,
-				ColorGradientDirection.NORTH_SOUTH));
+		weightFunction.setBackgroundStyle(
+				getFactory().makeColorGradientBackground(Color.YELLOW, Color.ORANGE, ColorGradientDirection.NORTH_SOUTH));
 		weightFunction.setRange(0.0, 100.0);
 
 		bmiFunction = graph.addNumericFunction("bmi", Double.class, new DataBinding<Double>("person.weight / (person.size * person.size)"),
@@ -139,7 +139,7 @@ public class ExampleFGEDiscreteFunctionGraphDrawing extends DrawingImpl<Object> 
 				ColorGradientDirection.SOUTH_EAST_NORTH_WEST));
 		graphGR.setForeground(getFactory().makeForegroundStyle(Color.ORANGE));
 		// Very important: give some place for labels, legend and other informations
-		graphGR.setBorder(getFactory().makeShapeBorder(20, 20, 20, 20));
+		// graphGR.setBorder(getFactory().makeShapeBorder(20, 20, 20, 20));
 
 		final GraphGRBinding<FGEDiscreteFunctionGraph> graphBinding = bindGraph(FGEDiscreteFunctionGraph.class, "graph",
 				new ShapeGRProvider<FGEDiscreteFunctionGraph>() {

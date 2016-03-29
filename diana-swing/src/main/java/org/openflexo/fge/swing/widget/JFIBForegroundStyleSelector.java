@@ -79,8 +79,8 @@ import org.openflexo.swing.CustomPopup;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> implements
-		FIBForegroundStyleSelector<JFIBForegroundStyleSelector> {
+public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle>
+		implements FIBForegroundStyleSelector<JFIBForegroundStyleSelector> {
 
 	static final Logger logger = Logger.getLogger(JFIBForegroundStyleSelector.class.getPackage().getName());
 
@@ -131,7 +131,8 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 		// WARNING: we need here to clone to keep track back of previous data !!!
 		if (oldValue != null) {
 			_revertValue = (ForegroundStyle) oldValue.clone();
-		} else {
+		}
+		else {
 			_revertValue = null;
 		}
 		if (logger.isLoggable(Level.FINE)) {
@@ -304,21 +305,20 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 			drawing = new DrawingImpl<ForegroundStylePreviewPanel>(this, factory, PersistenceMode.UniqueGraphicalRepresentations) {
 				@Override
 				public void init() {
-					final DrawingGRBinding<ForegroundStylePreviewPanel> previewPanelBinding = bindDrawing(
-							ForegroundStylePreviewPanel.class, "previewPanel", new DrawingGRProvider<ForegroundStylePreviewPanel>() {
-								@Override
-								public DrawingGraphicalRepresentation provideGR(ForegroundStylePreviewPanel drawable,
-										FGEModelFactory factory) {
-									return drawingGR;
-								}
-							});
+					final DrawingGRBinding<ForegroundStylePreviewPanel> previewPanelBinding = bindDrawing(ForegroundStylePreviewPanel.class,
+							"previewPanel", new DrawingGRProvider<ForegroundStylePreviewPanel>() {
+						@Override
+						public DrawingGraphicalRepresentation provideGR(ForegroundStylePreviewPanel drawable, FGEModelFactory factory) {
+							return drawingGR;
+						}
+					});
 					final ShapeGRBinding<ForegroundStylePreviewPanel> shapeBinding = bindShape(ForegroundStylePreviewPanel.class, "line",
 							new ShapeGRProvider<ForegroundStylePreviewPanel>() {
-								@Override
-								public ShapeGraphicalRepresentation provideGR(ForegroundStylePreviewPanel drawable, FGEModelFactory factory) {
-									return lineGR;
-								}
-							});
+						@Override
+						public ShapeGraphicalRepresentation provideGR(ForegroundStylePreviewPanel drawable, FGEModelFactory factory) {
+							return lineGR;
+						}
+					});
 
 					previewPanelBinding.addToWalkers(new GRStructureVisitor<ForegroundStylePreviewPanel>() {
 
@@ -347,7 +347,7 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 			lineGR.setIsSelectable(false);
 			lineGR.setIsFocusable(false);
 			lineGR.setIsReadOnly(true);
-			lineGR.setBorder(factory.makeShapeBorder(10, 10, 10, 10));
+			// lineGR.setBorder(factory.makeShapeBorder(10, 10, 10, 10));
 
 			System.out.println("lineGR setForeground with " + getEditedObject());
 

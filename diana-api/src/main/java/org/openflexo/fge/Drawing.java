@@ -61,7 +61,6 @@ import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.GeometricGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GraphicalRepresentation.LabelMetricsProvider;
-import org.openflexo.fge.ShapeGraphicalRepresentation.ShapeBorder;
 import org.openflexo.fge.animation.Animable;
 import org.openflexo.fge.connectors.Connector;
 import org.openflexo.fge.connectors.ConnectorSpecification;
@@ -671,6 +670,14 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public FGEPoint getLocationInDrawing();
 
+		public int getBorderTop();
+
+		public int getBorderLeft();
+
+		public int getBorderBottom();
+
+		public int getBorderRight();
+
 		public boolean isFullyContainedInContainer();
 
 		public double getMoveAuthorizedRatio(FGEPoint desiredLocation, FGEPoint initialLocation);
@@ -770,9 +777,9 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public void setFocusedBackgroundStyle(BackgroundStyle style);
 
-		public ShapeBorder getBorder();
+		// public ShapeBorder getBorder();
 
-		public void setBorder(ShapeBorder border);
+		// public void setBorder(ShapeBorder border);
 
 		public ShapeSpecification getShapeSpecification();
 
@@ -1211,14 +1218,16 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 				if (other.drawable != null) {
 					return false;
 				}
-			} else if (!drawable.equals(other.drawable)) {
+			}
+			else if (!drawable.equals(other.drawable)) {
 				return false;
 			}
 			if (grBinding == null) {
 				if (other.grBinding != null) {
 					return false;
 				}
-			} else if (!grBinding.equals(other.grBinding)) {
+			}
+			else if (!grBinding.equals(other.grBinding)) {
 				return false;
 			}
 			return true;

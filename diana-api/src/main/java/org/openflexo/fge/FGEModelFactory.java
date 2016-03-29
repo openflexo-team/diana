@@ -53,7 +53,6 @@ import org.openflexo.fge.ColorGradientBackgroundStyle.ColorGradientDirection;
 import org.openflexo.fge.ForegroundStyle.CapStyle;
 import org.openflexo.fge.ForegroundStyle.DashStyle;
 import org.openflexo.fge.ForegroundStyle.JoinStyle;
-import org.openflexo.fge.ShapeGraphicalRepresentation.ShapeBorder;
 import org.openflexo.fge.TextureBackgroundStyle.TextureType;
 import org.openflexo.fge.connectors.ConnectorSpecification;
 import org.openflexo.fge.connectors.ConnectorSpecification.ConnectorType;
@@ -254,12 +253,12 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param drawingGraphicalRepresentation
 	 */
 	public void applyBasicControls(final DrawingGraphicalRepresentation drawingGraphicalRepresentation) {
-		drawingGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Drawing selection", MouseButton.LEFT, 1,
-				PredefinedMouseClickControlActionType.SELECTION));
+		drawingGraphicalRepresentation.addToMouseClickControls(
+				this.makeMouseClickControl("Drawing selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
 		drawingGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Rectangle selection", MouseButton.LEFT,
 				PredefinedMouseDragControlActionType.RECTANGLE_SELECTING));
-		drawingGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Zoom", MouseButton.RIGHT,
-				PredefinedMouseDragControlActionType.ZOOM));
+		drawingGraphicalRepresentation
+				.addToMouseDragControls(this.makeMouseDragControl("Zoom", MouseButton.RIGHT, PredefinedMouseDragControlActionType.ZOOM));
 	}
 
 	/**
@@ -289,7 +288,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param shapeGraphicalRepresentation
 	 */
 	public void applyDefaultProperties(final ShapeGraphicalRepresentation shapeGraphicalRepresentation) {
-		shapeGraphicalRepresentation.setBorder(this.makeShapeBorder());
+		// shapeGraphicalRepresentation.setBorder(this.makeShapeBorder());
 		shapeGraphicalRepresentation.setLayer(FGEConstants.DEFAULT_SHAPE_LAYER);
 		shapeGraphicalRepresentation.setTextStyle(this.makeDefaultTextStyle());
 		shapeGraphicalRepresentation.setForeground(this.makeDefaultForegroundStyle());
@@ -304,25 +303,26 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 */
 	public void applyBasicControls(final ShapeGraphicalRepresentation shapeGraphicalRepresentation) {
 		if (shapeGraphicalRepresentation.getMouseClickControl("Selection") == null) {
-			shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Selection", MouseButton.LEFT, 1,
-					PredefinedMouseClickControlActionType.SELECTION));
+			shapeGraphicalRepresentation.addToMouseClickControls(
+					this.makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
 		}
 		if (shapeGraphicalRepresentation.getMouseClickControl("Multiple selection") == null) {
 			if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
 				shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT,
 						1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
-			} else {
+			}
+			else {
 				shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseControlClickControl("Multiple selection",
 						MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 			}
 		}
 		if (shapeGraphicalRepresentation.getMouseDragControl("Move") == null) {
-			shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Move", MouseButton.LEFT,
-					PredefinedMouseDragControlActionType.MOVE));
+			shapeGraphicalRepresentation
+					.addToMouseDragControls(this.makeMouseDragControl("Move", MouseButton.LEFT, PredefinedMouseDragControlActionType.MOVE));
 		}
 		if (shapeGraphicalRepresentation.getMouseDragControl("Zoom") == null) {
-			shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseDragControl("Zoom", MouseButton.RIGHT,
-					PredefinedMouseDragControlActionType.ZOOM));
+			shapeGraphicalRepresentation.addToMouseDragControls(
+					this.makeMouseDragControl("Zoom", MouseButton.RIGHT, PredefinedMouseDragControlActionType.ZOOM));
 		}
 		if (shapeGraphicalRepresentation.getMouseDragControl("Rectangle selection") == null) {
 			shapeGraphicalRepresentation.addToMouseDragControls(this.makeMouseShiftDragControl("Rectangle selection", MouseButton.LEFT,
@@ -378,7 +378,8 @@ public abstract class FGEModelFactory extends ModelFactory {
 	}
 
 	/**
-	 * Creates and return a new ConnectorGraphicalRepresentation, given a Drawable and a Drawing instance, initialized with default values.<br>
+	 * Creates and return a new ConnectorGraphicalRepresentation, given a Drawable and a Drawing instance, initialized with default values.
+	 * <br>
 	 * The newly created connector is also initialized with connector type, and bound to supplied start and end shapes
 	 * 
 	 * @param aDrawing
@@ -415,12 +416,13 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param connectorGraphicalRepresentation
 	 */
 	public void applyBasicControls(final ConnectorGraphicalRepresentation connectorGraphicalRepresentation) {
-		connectorGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Selection", MouseButton.LEFT, 1,
-				PredefinedMouseClickControlActionType.SELECTION));
+		connectorGraphicalRepresentation.addToMouseClickControls(
+				this.makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
 		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
 			connectorGraphicalRepresentation.addToMouseClickControls(this.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT,
 					1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
-		} else {
+		}
+		else {
 			connectorGraphicalRepresentation.addToMouseClickControls(this.makeMouseControlClickControl("Multiple selection",
 					MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}
@@ -484,12 +486,13 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @param connectorGraphicalRepresentation
 	 */
 	public void applyBasicControls(final GeometricGraphicalRepresentation geometricGraphicalRepresentation) {
-		geometricGraphicalRepresentation.addToMouseClickControls(this.makeMouseClickControl("Selection", MouseButton.LEFT, 1,
-				PredefinedMouseClickControlActionType.SELECTION));
+		geometricGraphicalRepresentation.addToMouseClickControls(
+				this.makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
 		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
 			geometricGraphicalRepresentation.addToMouseClickControls(this.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT,
 					1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
-		} else {
+		}
+		else {
 			geometricGraphicalRepresentation.addToMouseClickControls(this.makeMouseControlClickControl("Multiple selection",
 					MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}
@@ -499,11 +502,14 @@ public abstract class FGEModelFactory extends ModelFactory {
 
 		if (type == ConnectorType.LINE) {
 			return this.makeLineConnector();
-		} else if (type == ConnectorType.RECT_POLYLIN) {
+		}
+		else if (type == ConnectorType.RECT_POLYLIN) {
 			return this.makeRectPolylinConnector();
-		} else if (type == ConnectorType.CURVE) {
+		}
+		else if (type == ConnectorType.CURVE) {
 			return this.makeCurveConnector();
-		} else if (type == ConnectorType.CURVED_POLYLIN) {
+		}
+		else if (type == ConnectorType.CURVED_POLYLIN) {
 			return this.makeCurvedPolylinConnector();
 		}
 		LOGGER.warning("Unexpected type: " + type);
@@ -788,14 +794,18 @@ public abstract class FGEModelFactory extends ModelFactory {
 	public BackgroundStyle makeBackground(final BackgroundStyleType type) {
 		if (type == BackgroundStyleType.NONE) {
 			return this.makeEmptyBackground();
-		} else if (type == BackgroundStyleType.COLOR) {
+		}
+		else if (type == BackgroundStyleType.COLOR) {
 			return this.makeColoredBackground(java.awt.Color.WHITE);
-		} else if (type == BackgroundStyleType.COLOR_GRADIENT) {
+		}
+		else if (type == BackgroundStyleType.COLOR_GRADIENT) {
 			return this.makeColorGradientBackground(java.awt.Color.WHITE, java.awt.Color.BLACK,
 					ColorGradientDirection.SOUTH_EAST_NORTH_WEST);
-		} else if (type == BackgroundStyleType.TEXTURE) {
+		}
+		else if (type == BackgroundStyleType.TEXTURE) {
 			return this.makeTexturedBackground(TextureType.TEXTURE1, java.awt.Color.RED, java.awt.Color.WHITE);
-		} else if (type == BackgroundStyleType.IMAGE) {
+		}
+		else if (type == BackgroundStyleType.IMAGE) {
 			return this.makeImageBackground((Resource) null);
 		}
 		return null;
@@ -859,7 +869,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * 
 	 * @return a newly created ShapeBorder
 	 */
-	public ShapeBorder makeShapeBorder() {
+	/*public ShapeBorder makeShapeBorder() {
 		final ShapeBorder returned = this.newInstance(ShapeBorder.class);
 		returned.setFactory(this);
 		returned.setTop(FGEConstants.DEFAULT_BORDER_SIZE);
@@ -867,14 +877,14 @@ public abstract class FGEModelFactory extends ModelFactory {
 		returned.setLeft(FGEConstants.DEFAULT_BORDER_SIZE);
 		returned.setRight(FGEConstants.DEFAULT_BORDER_SIZE);
 		return returned;
-	}
+	}*/
 
 	/**
 	 * Make a new border, initialized with supplied values
 	 * 
 	 * @return a newly created ShapeBorder
 	 */
-	public ShapeBorder makeShapeBorder(final int top, final int bottom, final int left, final int right) {
+	/*public ShapeBorder makeShapeBorder(final int top, final int bottom, final int left, final int right) {
 		final ShapeBorder returned = this.newInstance(ShapeBorder.class);
 		returned.setFactory(this);
 		returned.setTop(top);
@@ -882,14 +892,14 @@ public abstract class FGEModelFactory extends ModelFactory {
 		returned.setLeft(left);
 		returned.setRight(right);
 		return returned;
-	}
+	}*/
 
 	/**
 	 * Make a new border, initialized with an other border
 	 * 
 	 * @return a newly created ShapeBorder
 	 */
-	public ShapeBorder makeShapeBorder(final ShapeBorder border) {
+	/*public ShapeBorder makeShapeBorder(final ShapeBorder border) {
 		final ShapeBorder returned = this.newInstance(ShapeBorder.class);
 		returned.setFactory(this);
 		returned.setTop(border.getTop());
@@ -897,7 +907,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 		returned.setLeft(border.getLeft());
 		returned.setRight(border.getRight());
 		return returned;
-	}
+	}*/
 
 	/**
 	 * Make a new ShapeSpecification from corresponding ShapeType
@@ -908,54 +918,54 @@ public abstract class FGEModelFactory extends ModelFactory {
 	public ShapeSpecification makeShape(final ShapeType type) {
 		ShapeSpecification returned = null;
 		switch (type) {
-		case SQUARE:
-			returned = this.newInstance(Square.class);
-			break;
-		case RECTANGLE:
-			returned = this.newInstance(Rectangle.class);
-			break;
-		case PARALLELOGRAM:
-			returned = this.newInstance(Parallelogram.class);
-			break;
-		case TRIANGLE:
-			returned = this.newInstance(Triangle.class);
-			break;
-		case ARC:
-			returned = this.newInstance(Arc.class);
-			break;
-		case CHEVRON:
-			returned = this.newInstance(Chevron.class);
-			break;
-		case CIRCLE:
-			returned = this.newInstance(Circle.class);
-			break;
-		case COMPLEX_CURVE:
-			returned = this.newInstance(ComplexCurve.class);
-			break;
-		case CUSTOM_POLYGON:
-			returned = this.newInstance(Polygon.class);
-			break;
-		case LOSANGE:
-			returned = this.newInstance(Losange.class);
-			break;
-		case OVAL:
-			returned = this.newInstance(Oval.class);
-			break;
-		case PLUS:
-			returned = this.newInstance(Plus.class);
-			break;
-		case POLYGON:
-			returned = this.newInstance(RegularPolygon.class);
-			break;
-		case RECTANGULAROCTOGON:
-			returned = this.newInstance(RectangularOctogon.class);
-			break;
-		case STAR:
-			returned = this.newInstance(Star.class);
-			break;
-		default:
-			LOGGER.warning("Unexpected ShapeType: " + type);
-			break;
+			case SQUARE:
+				returned = this.newInstance(Square.class);
+				break;
+			case RECTANGLE:
+				returned = this.newInstance(Rectangle.class);
+				break;
+			case PARALLELOGRAM:
+				returned = this.newInstance(Parallelogram.class);
+				break;
+			case TRIANGLE:
+				returned = this.newInstance(Triangle.class);
+				break;
+			case ARC:
+				returned = this.newInstance(Arc.class);
+				break;
+			case CHEVRON:
+				returned = this.newInstance(Chevron.class);
+				break;
+			case CIRCLE:
+				returned = this.newInstance(Circle.class);
+				break;
+			case COMPLEX_CURVE:
+				returned = this.newInstance(ComplexCurve.class);
+				break;
+			case CUSTOM_POLYGON:
+				returned = this.newInstance(Polygon.class);
+				break;
+			case LOSANGE:
+				returned = this.newInstance(Losange.class);
+				break;
+			case OVAL:
+				returned = this.newInstance(Oval.class);
+				break;
+			case PLUS:
+				returned = this.newInstance(Plus.class);
+				break;
+			case POLYGON:
+				returned = this.newInstance(RegularPolygon.class);
+				break;
+			case RECTANGULAROCTOGON:
+				returned = this.newInstance(RectangularOctogon.class);
+				break;
+			case STAR:
+				returned = this.newInstance(Star.class);
+				break;
+			default:
+				LOGGER.warning("Unexpected ShapeType: " + type);
+				break;
 		}
 
 		if (returned != null) {
@@ -1046,21 +1056,24 @@ public abstract class FGEModelFactory extends ModelFactory {
 			if (initWithBasicControls) {
 				this.applyBasicControls((ShapeGraphicalRepresentation) returned);
 			}
-		} else if (returned instanceof ConnectorGraphicalRepresentation) {
+		}
+		else if (returned instanceof ConnectorGraphicalRepresentation) {
 			if (initWithDefaultProperties) {
 				this.applyDefaultProperties((ConnectorGraphicalRepresentation) returned);
 			}
 			if (initWithBasicControls) {
 				this.applyBasicControls((ConnectorGraphicalRepresentation) returned);
 			}
-		} else if (returned instanceof DrawingGraphicalRepresentation) {
+		}
+		else if (returned instanceof DrawingGraphicalRepresentation) {
 			if (initWithDefaultProperties) {
 				this.applyDefaultProperties((DrawingGraphicalRepresentation) returned);
 			}
 			if (initWithBasicControls) {
 				this.applyBasicControls((DrawingGraphicalRepresentation) returned);
 			}
-		} else if (returned instanceof GeometricGraphicalRepresentation) {
+		}
+		else if (returned instanceof GeometricGraphicalRepresentation) {
 			if (initWithDefaultProperties) {
 				this.applyDefaultProperties((GeometricGraphicalRepresentation) returned);
 			}
