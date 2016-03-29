@@ -182,8 +182,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 
 			if (getCurrentForeground().getUseTransparency()) {
 				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getCurrentForeground().getTransparencyLevel()));
-			}
-			else {
+			} else {
 				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
 			}
 		}
@@ -208,12 +207,10 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 				g2d.setPaint(paint);
 				if (getCurrentBackground().getUseTransparency()) {
 					g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getCurrentBackground().getTransparencyLevel()));
-				}
-				else {
+				} else {
 					g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
 				}
-			}
-			else {
+			} else {
 				// paint was null, meaning that Paint could not been obtained yet (texture not ready yet)
 				// the best is to paint it totally transparent
 				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0));
@@ -283,8 +280,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 		// g2d.drawRect(r.x,r.y,r.width,r.height);
 		if (r.height == 0 || r.width == 0) {
 			g2d.drawLine(r.x, r.y, r.x + r.width, r.y + r.height);
-		}
-		else {
+		} else {
 			g2d.drawLine(r.x, r.y, r.x + r.width - 1, r.y);
 			g2d.drawLine(r.x + r.width, r.y, r.x + r.width, r.y + r.height - 1);
 			g2d.drawLine(r.x + r.width, r.y + r.height, r.x + 1, r.y + r.height);
@@ -305,8 +301,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 
 		if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
 			fillInShapeWithImage(r);
-		}
-		else {
+		} else {
 			g2d.fillRect(r.x, r.y, r.width, r.height);
 		}
 		if (logger.isLoggable(Level.FINER)) {
@@ -351,8 +346,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 
 		if (getCurrentBackground().getUseTransparency()) {
 			g2d.setComposite(AlphaComposite.getInstance(TRANSPARENT_COMPOSITE_RULE, getCurrentBackground().getTransparencyLevel()));
-		}
-		else {
+		} else {
 			g2d.setComposite(AlphaComposite.getInstance(TRANSPARENT_COMPOSITE_RULE));
 		}
 		g2d.drawImage(((BackgroundImageBackgroundStyle) getCurrentBackground()).getImage(), at, null);
@@ -388,8 +382,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 		if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
 			RoundRectangle2D.Double rr = new RoundRectangle2D.Double(r.x, r.y, r.width, r.height, arcRect.width, arcRect.height);
 			fillInShapeWithImage(rr);
-		}
-		else {
+		} else {
 			g2d.fillRoundRect(r.x, r.y, r.width, r.height, arcRect.width, arcRect.height);
 		}
 		if (logger.isLoggable(Level.FINER)) {
@@ -469,8 +462,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 		if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
 			Polygon p = new Polygon(xpoints, ypoints, points.length);
 			fillInShapeWithImage(p);
-		}
-		else {
+		} else {
 			g2d.fillPolygon(xpoints, ypoints, points.length);
 		}
 		if (logger.isLoggable(Level.FINER)) {
@@ -511,8 +503,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 		if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
 			Arc2D.Double a = new Arc2D.Double(r.x, r.y, r.width, r.height, 0, 360, Arc2D.CHORD);
 			fillInShapeWithImage(a);
-		}
-		else {
+		} else {
 			g2d.fillArc(r.x, r.y, r.width, r.height, 0, 360);
 		}
 		if (logger.isLoggable(Level.FINER)) {
@@ -541,8 +532,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 			Arc2D.Double a = new Arc2D.Double(r.x, r.y, r.width, r.height, (int) angleStart, (int) arcAngle,
 					chord ? Arc2D.CHORD : Arc2D.PIE);
 			fillInShapeWithImage(a);
-		}
-		else {
+		} else {
 			if (chord) {
 				Arc2D.Double a = new Arc2D.Double(r.x, r.y, r.width, r.height, (int) angleStart, (int) arcAngle, Arc2D.CHORD);
 				g2d.setClip(a);
@@ -593,8 +583,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 		GeneralPath p = transformedShape.getGeneralPath();
 		if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
 			fillInShapeWithImage(p);
-		}
-		else {
+		} else {
 			g2d.fill(p);
 		}
 	}
@@ -625,15 +614,15 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 		int x2 = (int) (p.x - bounds.getWidth() / 2);
 		int y2 = (int) (p.y + bounds.getHeight() / 2);
 		switch (alignment) {
-			case LEFT:
-				x2 = p.x;
-				break;
-			case RIGHT:
-				x2 = (int) (p.x - bounds.getWidth());
-				break;
-			case CENTER:
-			default:
-				break;
+		case LEFT:
+			x2 = p.x;
+			break;
+		case RIGHT:
+			x2 = (int) (p.x - bounds.getWidth());
+			break;
+		case CENTER:
+		default:
+			break;
 		}
 		// GPO: Je crois que c'est complètement foireux si le background est "colored"
 		if (getCurrentTextStyle().getIsBackgroundColored()) {
@@ -668,8 +657,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 		if (foregroundStyle.getDashStyle() == DashStyle.PLAIN_STROKE) {
 			cachedStroke = new BasicStroke((float) (foregroundStyle.getLineWidth() * scale), foregroundStyle.getCapStyle().ordinal(),
 					foregroundStyle.getJoinStyle().ordinal());
-		}
-		else {
+		} else {
 			float[] scaledDashArray = new float[foregroundStyle.getDashStyle().getDashArray().length];
 			for (int i = 0; i < foregroundStyle.getDashStyle().getDashArray().length; i++) {
 				scaledDashArray[i] = (float) (foregroundStyle.getDashStyle().getDashArray()[i] * scale * foregroundStyle.getLineWidth());
@@ -694,41 +682,33 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 	public Paint getPaint(BackgroundStyle backgroundStyle, double scale) {
 		if (backgroundStyle instanceof NoneBackgroundStyle) {
 			return null;
-		}
-		else if (backgroundStyle instanceof ColorBackgroundStyle) {
+		} else if (backgroundStyle instanceof ColorBackgroundStyle) {
 			return ((ColorBackgroundStyle) backgroundStyle).getColor();
-		}
-		else if (getCurrentBackground() instanceof ColorGradientBackgroundStyle) {
+		} else if (getCurrentBackground() instanceof ColorGradientBackgroundStyle) {
 			return getGradientPaint((ColorGradientBackgroundStyle) backgroundStyle, scale);
-		}
-		else if (getCurrentBackground() instanceof TextureBackgroundStyle) {
+		} else if (getCurrentBackground() instanceof TextureBackgroundStyle) {
 			return getTexturePaint((TextureBackgroundStyle) backgroundStyle, scale);
-		}
-		else if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
+		} else if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
 			return Color.WHITE;
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
 
 	private GradientPaint getGradientPaint(ColorGradientBackgroundStyle bs, double scale) {
 		switch (bs.getDirection()) {
-			case SOUTH_EAST_NORTH_WEST:
-				return new GradientPaint(0, 0, bs.getColor1(), getNode().getViewWidth(scale), getNode().getViewHeight(scale),
-						bs.getColor2());
-			case SOUTH_WEST_NORTH_EAST:
-				return new GradientPaint(0, getNode().getViewHeight(scale), bs.getColor1(), getNode().getViewWidth(scale), 0,
-						bs.getColor2());
-			case WEST_EAST:
-				return new GradientPaint(0, 0.5f * getNode().getViewHeight(scale), bs.getColor1(), getNode().getViewWidth(scale),
-						0.5f * getNode().getViewHeight(scale), bs.getColor2());
-			case NORTH_SOUTH:
-				return new GradientPaint(0.5f * getNode().getViewWidth(scale), 0, bs.getColor1(), 0.5f * getNode().getViewWidth(scale),
-						getNode().getViewHeight(scale), bs.getColor2());
-			default:
-				return new GradientPaint(0, 0, bs.getColor1(), getNode().getViewWidth(scale), getNode().getViewHeight(scale),
-						bs.getColor2());
+		case SOUTH_EAST_NORTH_WEST:
+			return new GradientPaint(0, 0, bs.getColor1(), getNode().getViewWidth(scale), getNode().getViewHeight(scale), bs.getColor2());
+		case SOUTH_WEST_NORTH_EAST:
+			return new GradientPaint(0, getNode().getViewHeight(scale), bs.getColor1(), getNode().getViewWidth(scale), 0, bs.getColor2());
+		case WEST_EAST:
+			return new GradientPaint(0, 0.5f * getNode().getViewHeight(scale), bs.getColor1(), getNode().getViewWidth(scale),
+					0.5f * getNode().getViewHeight(scale), bs.getColor2());
+		case NORTH_SOUTH:
+			return new GradientPaint(0.5f * getNode().getViewWidth(scale), 0, bs.getColor1(), 0.5f * getNode().getViewWidth(scale),
+					getNode().getViewHeight(scale), bs.getColor2());
+		default:
+			return new GradientPaint(0, 0, bs.getColor1(), getNode().getViewWidth(scale), getNode().getViewHeight(scale), bs.getColor2());
 		}
 	}
 
@@ -749,8 +729,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 			// Now it's ok, proceed repaint
 			getView().getPaintManager().invalidate(getNode());
 			getView().getPaintManager().repaint(getView());
-		}
-		else {
+		} else {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
@@ -778,8 +757,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 				|| coloredTextureMadeForThisColor1 != bs.getColor1() || coloredTextureMadeForThisColor2 != bs.getColor2()) {
 			// Texture needs to be rebuilt
 			rebuildColoredTexture(bs);
-		}
-		else {
+		} else {
 			logger.fine("Texture is still valid");
 		}
 	}
@@ -858,8 +836,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 			// if (x==15 && y==15) logger.info("Finished convert image");
 			if (rgb == target1) {
 				return replacement1;
-			}
-			else if (rgb == target2) {
+			} else if (rgb == target2) {
 				return replacement2;
 			}
 			return rgb;

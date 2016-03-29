@@ -22,13 +22,13 @@
 		<Panel layout="flow" hGap="0" vGap="0" flowAlignment="LEADING"
 			titleFont="SansSerif,0,11" darkLevel="0" index="3"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=3;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)">
-			<Number allowsNull="false" minValue="0.0" maxValue="10000.0"
+			<Number allowsNull="false" minValue="-100.0" maxValue="10000.0"
 				increment="1.0" numberType="DoubleType" columns="3" index="0" data="data.x"
 				constraints="flow(index=0)" name="X" localize="true"
 				enable="data.areLocationPropertiesApplicable" />
 			<Label label=";" index="1" constraints="flow(index=1)" name="Space"
 				localize="true" enable="data.areLocationPropertiesApplicable" />
-			<Number allowsNull="false" minValue="0.0" maxValue="10000.0"
+			<Number allowsNull="false" minValue="-100.0" maxValue="10000.0"
 				increment="1.0" numberType="DoubleType" columns="3" index="2" data="data.y"
 				constraints="flow(index=2)" name="Y" localize="true"
 				enable="data.areLocationPropertiesApplicable" />
@@ -43,7 +43,7 @@
 				increment="1.0" numberType="DoubleType" columns="3" index="0"
 				data="data.width" constraints="flow(index=0)" name="Width" localize="true" />
 			<Label label="x" index="1" constraints="flow(index=1)" name="X"
-				localize="true" />
+				localize="false" />
 			<Number allowsNull="false" minValue="0.0" maxValue="10000.0"
 				increment="1.0" numberType="DoubleType" columns="3" index="2"
 				data="data.height" constraints="flow(index=2)" name="Height"

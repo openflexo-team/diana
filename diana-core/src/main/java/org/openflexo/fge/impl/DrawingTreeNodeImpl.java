@@ -766,7 +766,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	}
 
 	@Override
-	public final Point convertNormalizedPointToViewCoordinates(double x, double y, double scale) {
+	public Point convertNormalizedPointToViewCoordinates(double x, double y, double scale) {
 		AffineTransform at = convertNormalizedPointToViewCoordinatesAT(scale);
 		FGEPoint returned = new FGEPoint();
 		at.transform(new FGEPoint(x, y), returned);
@@ -786,7 +786,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	public abstract AffineTransform convertNormalizedPointToViewCoordinatesAT(double scale);
 
 	@Override
-	public final FGEPoint convertViewCoordinatesToNormalizedPoint(int x, int y, double scale) {
+	public FGEPoint convertViewCoordinatesToNormalizedPoint(int x, int y, double scale) {
 		AffineTransform at = convertViewCoordinatesToNormalizedPointAT(scale);
 		FGEPoint returned = new FGEPoint();
 		at.transform(new FGEPoint(x, y), returned);

@@ -76,7 +76,7 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 	private static final Logger logger = Logger.getLogger(FGEGraphicsImpl.class.getPackage().getName());
 
 	private DrawingTreeNode<?, ?> dtn;
-	private FGEView<?, ?> view;
+	private final FGEView<?, ?> view;
 
 	private static final FGEModelFactory GRAPHICS_FACTORY = FGECoreUtils.TOOLS_FACTORY;
 	private static final ForegroundStyle DEFAULT_FG = GRAPHICS_FACTORY.makeDefaultForegroundStyle();
@@ -97,14 +97,17 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 		this.view = view;
 	}
 
+	@Override
 	public FGEModelFactory getFactory() {
 		return GRAPHICS_FACTORY;
 	}
 
+	@Override
 	public DrawingTreeNode<?, ?> getDrawingTreeNode() {
 		return dtn;
 	}
 
+	@Override
 	public DrawingTreeNode<?, ?> getNode() {
 		return getDrawingTreeNode();
 	}
@@ -113,30 +116,37 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 		return view;
 	}
 
+	@Override
 	public GraphicalRepresentation getGraphicalRepresentation() {
 		return dtn.getGraphicalRepresentation();
 	}
 
+	@Override
 	public AbstractDianaEditor<?, ?, ?> getController() {
 		return view.getController();
 	}
 
+	@Override
 	public double getScale() {
 		return getController().getScale();
 	}
 
+	@Override
 	public void delete() {
 		dtn = null;
 	}
 
+	@Override
 	public ForegroundStyle getDefaultForeground() {
 		return defaultForeground;
 	}
 
+	@Override
 	public ForegroundStyle getCurrentForeground() {
 		return currentForeground;
 	}
 
+	@Override
 	public void setDefaultForeground(ForegroundStyle aForegound) {
 		defaultForeground = aForegound;
 	}
@@ -146,6 +156,7 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 		useForegroundStyle(defaultForeground);
 	}
 
+	@Override
 	public void useForegroundStyle(ForegroundStyle aStyle) {
 		currentForeground = aStyle;
 		applyCurrentForegroundStyle();
@@ -153,14 +164,17 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 
 	protected abstract void applyCurrentForegroundStyle();
 
+	@Override
 	public TextStyle getCurrentTextStyle() {
 		return currentTextStyle;
 	}
 
+	@Override
 	public BackgroundStyle getDefaultBackground() {
 		return defaultBackground;
 	}
 
+	@Override
 	public void setDefaultBackground(BackgroundStyle aBackground) {
 		defaultBackground = aBackground;
 	}
@@ -174,6 +188,7 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 		useBackgroundStyle(defaultBackground);
 	}
 
+	@Override
 	public void useBackgroundStyle(BackgroundStyle aStyle) {
 		currentBackground = aStyle;
 		applyCurrentBackgroundStyle();
@@ -181,6 +196,7 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 
 	protected abstract void applyCurrentBackgroundStyle();
 
+	@Override
 	public void setDefaultTextStyle(TextStyle aTextStyle) {
 		defaultTextStyle = aTextStyle;
 	}
@@ -190,6 +206,7 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 		useTextStyle(defaultTextStyle);
 	}
 
+	@Override
 	public void useTextStyle(TextStyle aStyle) {
 		currentTextStyle = aStyle;
 		applyCurrentTextStyle();
@@ -202,38 +219,47 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 		return getNode().getNormalizedBounds();
 	}
 
+	@Override
 	public FGERectangle getNormalizedBounds() {
 		return new FGERectangle(0.0, 0.0, 1.0, 1.0);
 	}
 
+	@Override
 	public int getViewWidth() {
 		return getViewWidth(getScale());
 	}
 
+	@Override
 	public int getViewHeight() {
 		return getViewHeight(getScale());
 	}
 
+	@Override
 	public int getViewWidth(double scale) {
 		return dtn.getViewWidth(scale);
 	}
 
+	@Override
 	public int getViewHeight(double scale) {
 		return dtn.getViewHeight(scale);
 	}
 
+	@Override
 	public Point convertNormalizedPointToViewCoordinates(double x, double y) {
 		return dtn.convertNormalizedPointToViewCoordinates(x, y, getScale());
 	}
 
+	@Override
 	public final Point convertNormalizedPointToViewCoordinates(FGEPoint p) {
 		return convertNormalizedPointToViewCoordinates(p.x, p.y);
 	}
 
+	@Override
 	public final Rectangle convertNormalizedRectangleToViewCoordinates(FGERectangle r) {
 		return convertNormalizedRectangleToViewCoordinates(r.x, r.y, r.width, r.height);
 	}
 
+	@Override
 	public final Rectangle convertNormalizedRectangleToViewCoordinates(double x, double y, double width, double height) {
 		Point p1 = convertNormalizedPointToViewCoordinates(x, y);
 		Point p2 = convertNormalizedPointToViewCoordinates(x + width, y + height);
@@ -241,18 +267,22 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 		return new Rectangle(p1, d);
 	}
 
+	@Override
 	public FGEPoint convertViewCoordinatesToNormalizedPoint(int x, int y) {
 		return dtn.convertViewCoordinatesToNormalizedPoint(x, y, getScale());
 	}
 
+	@Override
 	public final FGEPoint convertViewCoordinatesToNormalizedPoint(Point p) {
 		return convertViewCoordinatesToNormalizedPoint(p.x, p.y);
 	}
 
+	@Override
 	public final FGERectangle convertViewCoordinatesToNormalizedRectangle(Rectangle r) {
 		return convertViewCoordinatesToNormalizedRectangle(r.x, r.y, r.width, r.height);
 	}
 
+	@Override
 	public final FGERectangle convertViewCoordinatesToNormalizedRectangle(int x, int y, int width, int height) {
 		FGEPoint p1 = convertViewCoordinatesToNormalizedPoint(x, y);
 		FGEPoint p2 = convertViewCoordinatesToNormalizedPoint(x + width, y + height);
@@ -335,6 +365,7 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 		fillArc(p.x, p.y, d.width, d.height, angleStart, arcAngle);
 	}
 
+	@Override
 	public FGERectangle drawString(String text, FGEPoint location, int orientation, HorizontalTextAlignment alignment) {
 		return drawString(text, location.x, location.y, orientation, alignment);
 	}
@@ -387,10 +418,12 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 
 	}
 
+	@Override
 	public FGERectangle drawString(String text, FGEPoint location, HorizontalTextAlignment alignment) {
 		return drawString(text, location.x, location.y, 0, alignment);
 	}
 
+	@Override
 	public FGERectangle drawString(String text, double x, double y, HorizontalTextAlignment alignment) {
 		return drawString(text, x, y, 0, alignment);
 	}

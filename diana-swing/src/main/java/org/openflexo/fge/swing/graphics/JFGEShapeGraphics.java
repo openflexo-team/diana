@@ -82,8 +82,29 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 	 */
 	@Override
 	public void createGraphics(Graphics2D graphics2D) {
+
+		System.out.println("******** createGraphics() with " + graphics2D + " for " + getNode().getText());
+
 		super.createGraphics(graphics2D);
 		shapeDecorationGraphics.createGraphics(graphics2D);
+		/*if (getNode().getParentNode() instanceof ShapeNode) {
+			graphics2D.translate(((ShapeNode) getNode().getParentNode()).getBorderLeft(),
+					((ShapeNode) getNode().getParentNode()).getBorderTop());
+		}*/
+
+		/*g2d.translate(getNode().getBorderLeft(), getNode().getBorderTop());
+		
+		if (getNode().getParentNode() instanceof ShapeNode) {
+			g2d.translate(((ShapeNode) getNode().getParentNode()).getBorderLeft(), ((ShapeNode) getNode().getParentNode()).getBorderTop());
+		}*/
+	}
+
+	@Override
+	public Graphics2D cloneGraphics() {
+
+		System.out.println("******** cloneGraphics() for " + getNode().getText());
+
+		return super.cloneGraphics();
 	}
 
 	@Override
@@ -143,8 +164,8 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 
 		Graphics2D oldGraphics = cloneGraphics();
 
-		Area clipArea = new Area(new java.awt.Rectangle(0, 0, getViewWidth(getController().getScale()), getViewHeight(getController()
-				.getScale())));
+		Area clipArea = new Area(
+				new java.awt.Rectangle(0, 0, getViewWidth(getController().getScale()), getViewHeight(getController().getScale())));
 		Area a = new Area(getNode().getFGEShape());
 		a.transform(getNode().convertNormalizedPointToViewCoordinatesAT(getController().getScale()));
 		clipArea.subtract(a);
@@ -169,6 +190,103 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 			getNode().getFGEShape().transform(at).paint(this);
 		}
 		releaseClonedGraphics(oldGraphics);
+
 	}
+
+	/*@Override
+	public Point convertNormalizedPointToViewCoordinates(double x, double y, double scale) {
+		Point returned = getNode().convertNormalizedPointToViewCoordinates(x, y, scale);
+		System.out.println("1. return " + returned);
+		returned.x += getNode().getBorderLeft();
+		returned.y += getNode().getBorderTop();
+		System.out.println("2. return " + returned);
+	
+		return returned;
+	}*/
+
+	/*@Override
+	public FGEPoint convertViewCoordinatesToNormalizedPoint(Point p, double scale) {
+		Point p2 = new Point(p);
+		p2.x -= getNode().getBorderLeft();
+		p2.y -= getNode().getBorderTop();
+		return getNode().convertViewCoordinatesToNormalizedPoint(p2, scale);
+	}*/
+
+	/*@Override
+	public AffineTransform convertNormalizedPointToViewCoordinatesAT(double scale) {
+		AffineTransform returned = getNode().convertNormalizedPointToViewCoordinatesAT(scale);
+		returned.concatenate(AffineTransform.getTranslateInstance(getNode().getBorderLeft(), getNode().getBorderTop()));
+		return returned;
+	}
+	
+	@Override
+	public AffineTransform convertViewCoordinatesToNormalizedPointAT(double scale) {
+		AffineTransform returned = getNode().convertViewCoordinatesToNormalizedPointAT(scale);
+		returned.preConcatenate(AffineTransform.getTranslateInstance(-getNode().getBorderLeft(), -getNode().getBorderTop()));
+		return returned;
+	}*/
+
+	/*@Override
+	public FGEPoint convertViewCoordinatesToNormalizedPoint(Point p, double scale) {
+		FGEPoint returned = getNode().convertViewCoordinatesToNormalizedPoint(p, scale);
+		returned.x -= getNode().getBorderLeft();
+		returned.y -= getNode().getBorderTop();
+		return returned;
+	}
+	
+	@Override
+	public AffineTransform convertNormalizedPointToViewCoordinatesAT(double scale) {
+		AffineTransform returned = getNode().convertNormalizedPointToViewCoordinatesAT(scale);
+		returned.concatenate(AffineTransform.getTranslateInstance(getNode().getBorderLeft(), getNode().getBorderTop()));
+		return returned;
+	}
+	
+	@Override
+	public AffineTransform convertViewCoordinatesToNormalizedPointAT(double scale) {
+		AffineTransform returned = getNode().convertViewCoordinatesToNormalizedPointAT(scale);
+		returned.preConcatenate(AffineTransform.getTranslateInstance(-getNode().getBorderLeft(), -getNode().getBorderTop()));
+		return returned;
+	}*/
+
+	/*@Override
+	public AffineTransform convertNormalizedPointToViewCoordinatesAT(double scale) {
+		AffineTransform returned = getNode().convertNormalizedPointToViewCoordinatesAT(scale);
+		returned.concatenate(AffineTransform.getTranslateInstance(getNode().getBorderLeft(), getNode().getBorderTop()));
+		return returned;
+	}*/
+
+	/*@Override
+	public void drawRoundRect(FGEPoint p, FGEDimension d, double arcwidth, double archeight) {
+		// g2d.translate(getNode().getBorderLeft(), getNode().getBorderTop());
+		// System.out.println("1- On peint un round rect origin=" + p + " dimension=" + d);
+		super.drawRoundRect(p, d, arcwidth, archeight);
+	}*/
+
+	/*@Override
+	public void drawRect(double x, double y, double width, double height) {
+		// g2d.translate(getNode().getBorderLeft(), getNode().getBorderTop());
+		super.drawRect(x, y, width, height);
+	}*/
+
+	/*@Override
+	public void fillRoundRect(FGEPoint p, FGEDimension d, double arcwidth, double archeight) {
+		// g2d.translate(getNode().getBorderLeft(), getNode().getBorderTop());
+		// System.out.println("1- On fill un round rect origin=" + p + " dimension=" + d);
+		super.fillRoundRect(p, d, arcwidth, archeight);
+	}*/
+
+	/*@Override
+	public void fillRoundRect(double x, double y, double width, double height, double arcwidth, double archeight) {
+		// g2d.translate(getNode().getBorderLeft(), getNode().getBorderTop());
+		if (!drawShadow) {
+			System.out.println(
+					"--------------------- > 2- On fill un round rect origin=" + x + "," + y + " dimension=" + width + "x" + height);
+			System.out.println("size: " + getNode().getWidth() + "x" + getNode().getHeight());
+			System.out.println("border left=" + getNode().getBorderLeft() + " top=" + getNode().getBorderTop());
+			Rectangle r = convertNormalizedRectangleToViewCoordinates(x, y, width, height);
+			System.out.println("rectangle d'arrivee: " + r);
+		}
+		super.fillRoundRect(x, y, width, height, arcwidth, archeight);
+	}*/
 
 }

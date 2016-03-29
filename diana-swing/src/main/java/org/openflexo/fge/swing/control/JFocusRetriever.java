@@ -124,12 +124,10 @@ public class JFocusRetriever {
 				cursoredComponent.setCursor(cp.getDraggingCursor());
 				cursorChanged = true;
 				getController()._setFocusedControlArea(cp);
-			}
-			else {
+			} else {
 				resetCursorIfRequired();
 			}
-		}
-		else {
+		} else {
 			if (getController().getFocusedFloatingLabel() != null) {
 				getController().setFocusedFloatingLabel(null);
 			}
@@ -187,9 +185,9 @@ public class JFocusRetriever {
 			GeometricNode<?> geometricNode = (GeometricNode<?>) node;
 			Point viewPoint = SwingUtilities.convertPoint((Component) event.getSource(), event.getPoint(),
 					(Component) drawingView.viewForNode(container));
-					// FGEPoint point =
-					// graphicalRepresentation.convertViewCoordinatesToNormalizedPoint(viewPoint,
-					// getScale());
+			// FGEPoint point =
+			// graphicalRepresentation.convertViewCoordinatesToNormalizedPoint(viewPoint,
+			// getScale());
 
 			// Look if we are near a CP
 			double distanceToNearestGeometricObject = Double.POSITIVE_INFINITY;
@@ -239,8 +237,7 @@ public class JFocusRetriever {
 					smallestDistance = cpDistance;
 				}
 			}
-		}
-		else if (node instanceof ConnectorNode) {
+		} else if (node instanceof ConnectorNode) {
 			ConnectorNode<?> connectorNode = (ConnectorNode<?>) node;
 			double smallestDistance = Double.POSITIVE_INFINITY;
 			for (ControlArea<?> ca : connectorNode.getControlAreas()) {
@@ -258,8 +255,7 @@ public class JFocusRetriever {
 					smallestDistance = caDistance;
 				}
 			}
-		}
-		else if (node instanceof RootNode) {
+		} else if (node instanceof RootNode) {
 			RootNode<?> rootNode = (RootNode<?>) node;
 			double smallestDistance = Double.POSITIVE_INFINITY;
 			if (rootNode.getControlAreas() != null) {
@@ -282,31 +278,31 @@ public class JFocusRetriever {
 		if (getController() instanceof DianaInteractiveEditor) {
 			DianaInteractiveEditor<?, ?, ?> editor = (DianaInteractiveEditor<?, ?, ?>) getController();
 			switch (editor.getCurrentTool()) {
-				case SelectionTool:
-					return getFocusedObject(drawingView.getDrawing().getRoot(), event);
-				case DrawShapeTool:
-				case DrawCustomShapeTool:
-				case DrawConnectorTool:
-				case DrawTextTool:
+			case SelectionTool:
+				return getFocusedObject(drawingView.getDrawing().getRoot(), event);
+			case DrawShapeTool:
+			case DrawCustomShapeTool:
+			case DrawConnectorTool:
+			case DrawTextTool:
+				DrawingTreeNode<?, ?> returned = getFocusedObject(drawingView.getDrawing().getRoot(), event);
+				if (returned == null) {
+					returned = drawingView.getDrawing().getRoot();
+				}
+				return returned;
+			/*if (editor.getDrawCustomShapeToolController() != null) {
+				if (editor.getDrawCustomShapeToolController().editionHasBeenStarted()
+						&& editor.getDrawCustomShapeToolController().getCurrentEditedShape() != null) {
+					return editor.getDrawCustomShapeToolController().getCurrentEditedShape();
+				} else {
 					DrawingTreeNode<?, ?> returned = getFocusedObject(drawingView.getDrawing().getRoot(), event);
 					if (returned == null) {
 						returned = drawingView.getDrawing().getRoot();
 					}
 					return returned;
-					/*if (editor.getDrawCustomShapeToolController() != null) {
-					if (editor.getDrawCustomShapeToolController().editionHasBeenStarted()
-							&& editor.getDrawCustomShapeToolController().getCurrentEditedShape() != null) {
-						return editor.getDrawCustomShapeToolController().getCurrentEditedShape();
-					} else {
-						DrawingTreeNode<?, ?> returned = getFocusedObject(drawingView.getDrawing().getRoot(), event);
-						if (returned == null) {
-							returned = drawingView.getDrawing().getRoot();
-						}
-						return returned;
-					}
-					}*/
-				default:
-					return getFocusedObject(drawingView.getDrawing().getRoot(), event);
+				}
+				}*/
+			default:
+				return getFocusedObject(drawingView.getDrawing().getRoot(), event);
 			}
 		}
 		return getFocusedObject(drawingView.getDrawing().getRoot(), event);
@@ -368,8 +364,7 @@ public class JFocusRetriever {
 
 					if (geometricNode.getGraphicalRepresentation().getGeometricObject().containsPoint(point)) {
 						enclosingGeometricObjects.add(geometricNode);
-					}
-					else {
+					} else {
 						FGEPoint nearestPoint = geometricNode.getGraphicalRepresentation().getGeometricObject().getNearestPoint(point);
 						if (nearestPoint != null) {
 							double distance = FGESegment.getLength(point, nearestPoint) * getScale();
@@ -425,8 +420,7 @@ public class JFocusRetriever {
 							}
 							if (shapeNode.isPointInsideShape(p3)) {
 								enclosingShapes.add(shapeNode);
-							}
-							else { // Look if we are near a CP
+							} else { // Look if we are near a CP
 								for (ControlArea<?> ca : shapeNode.getControlAreas()) {
 									// Point pt1 =
 									// gr.convertNormalizedPointToViewCoordinates(cp.getPoint(),
@@ -454,8 +448,7 @@ public class JFocusRetriever {
 								}
 							}
 
-						}
-						else if (childNode instanceof ConnectorNode) {
+						} else if (childNode instanceof ConnectorNode) {
 							ConnectorNode<?> connectorNode = (ConnectorNode<?>) childNode;
 							double distance = connectorNode.distanceToConnector(p3, getScale());
 							if (distance < selectionDistance) {
@@ -486,8 +479,7 @@ public class JFocusRetriever {
 									}
 									smallestDistanceToCPOfNearestConnector = updateSmallestDistanceToCPForConnector(connectorNode, p2,
 											distance);
-								}
-								else {
+								} else {
 									// We try to find a control area that is
 									// closer than the already selected
 									// connector.
@@ -542,8 +534,7 @@ public class JFocusRetriever {
 								nearestConnector = connectorNode;
 							}
 						}
-					}
-					else {
+					} else {
 						Rectangle extendedRectangle = new Rectangle((int) (r.x - selectionDistance), (int) (r.y - selectionDistance),
 								(int) (r.width + 2 * selectionDistance), (int) (r.height + 2 * selectionDistance));
 						if (extendedRectangle.contains(p)) {
@@ -553,23 +544,24 @@ public class JFocusRetriever {
 							FGEPoint p3 = childNode.convertViewCoordinatesToNormalizedPoint(p2, getScale());
 							if (childNode instanceof ShapeNode) {
 								ShapeNode<?> shapeNode = (ShapeNode<?>) childNode;
-								for (ControlArea<?> ca : shapeNode.getControlAreas()) {
-									// Point pt1 =
-									// gr.convertNormalizedPointToViewCoordinates(cp.getPoint(),
-									// getScale());
-									// Point pt2 =
-									// gr.convertNormalizedPointToViewCoordinates(p3,
-									// getScale());
-									// double cpDistance =
-									// Point2D.distance(pt1.x,pt1.y,pt2.x,pt2.y);
-									double cpDistance = ca.getDistanceToArea(p3, getScale());
-									if (cpDistance < selectionDistance) {
-										// System.out.println("Detected control point");
-										enclosingShapes.add(shapeNode);
+								if (shapeNode.getControlAreas() != null) {
+									for (ControlArea<?> ca : shapeNode.getControlAreas()) {
+										// Point pt1 =
+										// gr.convertNormalizedPointToViewCoordinates(cp.getPoint(),
+										// getScale());
+										// Point pt2 =
+										// gr.convertNormalizedPointToViewCoordinates(p3,
+										// getScale());
+										// double cpDistance =
+										// Point2D.distance(pt1.x,pt1.y,pt2.x,pt2.y);
+										double cpDistance = ca.getDistanceToArea(p3, getScale());
+										if (cpDistance < selectionDistance) {
+											// System.out.println("Detected control point");
+											enclosingShapes.add(shapeNode);
+										}
 									}
 								}
-							}
-							else if (childNode instanceof ConnectorNode) {
+							} else if (childNode instanceof ConnectorNode) {
 								ConnectorNode<?> connectorNode = (ConnectorNode<?>) childNode;
 								if (connectorNode.isValid()) {
 									for (ControlArea<?> ca : connectorNode.getControlAreas()) {
@@ -605,8 +597,7 @@ public class JFocusRetriever {
 							// System.out.println("Detected floating label");
 							if (childNode instanceof ShapeNode) {
 								enclosingShapes.add((ShapeNode<?>) childNode);
-							}
-							else if (childNode instanceof ConnectorNode) {
+							} else if (childNode instanceof ConnectorNode) {
 								nearestConnector = (ConnectorNode<?>) childNode;
 							}
 						}
@@ -655,8 +646,7 @@ public class JFocusRetriever {
 				for (ShapeNode<?> s : enclosingShapes) {
 					if (s.getIsSelected()) {
 						continue;
-					}
-					else {
+					} else {
 						layer = s.getGraphicalRepresentation().getLayer();
 						break;
 					}
@@ -666,8 +656,7 @@ public class JFocusRetriever {
 			for (ShapeNode<?> s : enclosingShapes) {
 				if (s.getGraphicalRepresentation().getLayer() == layer || s.getIsSelected()) {
 					shapesInSameLayer.add(s);
-				}
-				else {
+				} else {
 					break;
 				}
 			}
@@ -712,8 +701,7 @@ public class JFocusRetriever {
 					}
 					returned = insideFocusedShape;
 				}
-			}
-			else {
+			} else {
 				if (returned == null
 						|| returned.getGraphicalRepresentation().getLayer() < focusedShape.getGraphicalRepresentation().getLayer()
 						|| focusedShape.getIsSelected()) {
@@ -759,8 +747,7 @@ public class JFocusRetriever {
 		if (connectorNode.getConnector() != null && connectorNode.getConnector().getMiddleSymbolLocation() != null) {
 			return connectorNode.convertNormalizedPointToViewCoordinates(connectorNode.getConnector().getMiddleSymbolLocation(), getScale())
 					.distance(p2);
-		}
-		else {
+		} else {
 			return distance;
 		}
 	}
