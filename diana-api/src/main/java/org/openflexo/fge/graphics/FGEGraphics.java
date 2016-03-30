@@ -78,6 +78,8 @@ public interface FGEGraphics extends AbstractFGEGraphics {
 
 	public abstract void delete();
 
+	public abstract void translate(double tx, double ty);
+
 	// public abstract void createGraphics(Graphics2D graphics2D, DianaEditor<?> controller);
 
 	// public abstract void releaseGraphics();

@@ -49,7 +49,9 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 import org.openflexo.connie.DataBinding;
+import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.converter.PointConverter;
 import org.openflexo.fge.converter.RectPolylinConverter;
 import org.openflexo.fge.converter.SteppedDimensionConverter;
@@ -125,7 +127,8 @@ public class FGEUtils {
 				}
 				count++;
 			} while (ratio < 5 && count < 10);
-		} else {
+		}
+		else {
 			test = new Color(test.getRed() == 0 ? 5 : test.getRed(), test.getGreen() == 0 ? 5 : test.getGreen(),
 					test.getBlue() == 0 ? 5 : test.getBlue());
 			do {
@@ -246,7 +249,8 @@ public class FGEUtils {
 		if (source != destination) {
 			AffineTransform at = convertCoordinatesAT(source, destination, scale);
 			return (Point) at.transform(point, new Point());
-		} else {
+		}
+		else {
 			return new Point(point);
 		}
 	}
@@ -288,7 +292,8 @@ public class FGEUtils {
 			AffineTransform returned = convertFromDrawableToDrawingAT(source, scale);
 			returned.preConcatenate(convertFromDrawingToDrawableAT(destination, scale));
 			return returned;
-		} else {
+		}
+		else {
 			return new AffineTransform();
 		}
 	}
@@ -438,6 +443,28 @@ public class FGEUtils {
 		returned.preConcatenate(convertCoordinatesAT(source, destination, 1.0));
 		returned.preConcatenate(destination.convertViewCoordinatesToNormalizedPointAT(1.0));
 		return returned;
+	}
+
+	public static int getCumulativeLeftBorders(ContainerNode<?, ?> node) {
+		if (node instanceof ShapeNode) {
+			int returned = ((ShapeNode<?>) node).getBorderLeft();
+			if (node.getParentNode() instanceof ShapeNode) {
+				return returned + getCumulativeLeftBorders(node.getParentNode());
+			}
+			return returned;
+		}
+		return 0;
+	}
+
+	public static int getCumulativeTopBorders(ContainerNode<?, ?> node) {
+		if (node instanceof ShapeNode) {
+			int returned = ((ShapeNode<?>) node).getBorderTop();
+			if (node.getParentNode() instanceof ShapeNode) {
+				return returned + getCumulativeTopBorders(node.getParentNode());
+			}
+			return returned;
+		}
+		return 0;
 	}
 
 	public static interface HasIcon {

@@ -83,18 +83,18 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 	@Override
 	public void createGraphics(Graphics2D graphics2D) {
 
-		System.out.println("******** createGraphics() with " + graphics2D + " for " + getNode().getText());
+		// System.out.println("******** createGraphics() with " + graphics2D + " for " + getNode().getText());
 
 		super.createGraphics(graphics2D);
 		shapeDecorationGraphics.createGraphics(graphics2D);
 		/*if (getNode().getParentNode() instanceof ShapeNode) {
 			graphics2D.translate(((ShapeNode) getNode().getParentNode()).getBorderLeft(),
 					((ShapeNode) getNode().getParentNode()).getBorderTop());
-		}*/
-
-		/*g2d.translate(getNode().getBorderLeft(), getNode().getBorderTop());
+		}
 		
-		if (getNode().getParentNode() instanceof ShapeNode) {
+		g2d.translate(getNode().getBorderLeft(), getNode().getBorderTop());*/
+
+		/*if (getNode().getParentNode() instanceof ShapeNode) {
 			g2d.translate(((ShapeNode) getNode().getParentNode()).getBorderLeft(), ((ShapeNode) getNode().getParentNode()).getBorderTop());
 		}*/
 	}
@@ -102,9 +102,16 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 	@Override
 	public Graphics2D cloneGraphics() {
 
-		System.out.println("******** cloneGraphics() for " + getNode().getText());
+		// System.out.println("******** cloneGraphics() for " + getNode().getText());
 
-		return super.cloneGraphics();
+		Graphics2D graphics2D = super.cloneGraphics();
+		/*if (getNode().getParentNode() instanceof ShapeNode) {
+			graphics2D.translate(((ShapeNode) getNode().getParentNode()).getBorderLeft(),
+					((ShapeNode) getNode().getParentNode()).getBorderTop());
+		}
+		
+		g2d.translate(getNode().getBorderLeft(), getNode().getBorderTop());*/
+		return graphics2D;
 	}
 
 	@Override
