@@ -49,49 +49,6 @@
 				data="data.height" constraints="flow(index=2)" name="Height"
 				localize="true" />
 		</Panel>
-		<Label label="border" index="18"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=18;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			name="BorderLabel" localize="true" enable="data.areLocationPropertiesApplicable" />
-		<Panel layout="flow" hGap="0" vGap="0" flowAlignment="LEADING"
-			titleFont="SansSerif,0,11" darkLevel="0" index="19"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=19;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)">
-			<Label label="top" index="0"
-				constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=left)"
-				name="BorderTopLabel" localize="true"
-				enable="data.areLocationPropertiesApplicable" />
-			<Number data="data.border.top" allowsNull="false" minValue="0"
-				maxValue="255" increment="1" numberType="IntegerType" columns="2"
-				index="1"
-				constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=right)"
-				name="Bordertop" localize="true" enable="data.areLocationPropertiesApplicable" />
-			<Label label="bottom" index="2"
-				constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=left)"
-				name="BorderBottomLabel" localize="true"
-				enable="data.areLocationPropertiesApplicable" />
-			<Number data="data.border.bottom" allowsNull="false" minValue="0"
-				maxValue="255" increment="1" numberType="IntegerType" columns="2"
-				index="3"
-				constraints="flow(expandHorizontally=false;expandVertically=false;index=3;location=right)"
-				name="Borderbottom" localize="true" enable="data.areLocationPropertiesApplicable" />
-			<Label label="left" index="4"
-				constraints="flow(expandHorizontally=false;expandVertically=false;index=4;location=left)"
-				name="BorderLeftLabel" localize="true"
-				enable="data.areLocationPropertiesApplicable" />
-			<Number data="data.border.left" allowsNull="false" minValue="0"
-				maxValue="255" increment="1" numberType="IntegerType" columns="2"
-				index="5"
-				constraints="flow(expandHorizontally=false;expandVertically=false;index=5;location=right)"
-				name="Borderleft" localize="true" enable="data.areLocationPropertiesApplicable" />
-			<Label label="right" index="6"
-				constraints="flow(expandHorizontally=false;expandVertically=false;index=6;location=left)"
-				name="BorderRightLabel" localize="true"
-				enable="data.areLocationPropertiesApplicable" />
-			<Number data="data.border.right" allowsNull="false" minValue="0"
-				maxValue="255" increment="1" numberType="IntegerType" columns="2"
-				index="7"
-				constraints="flow(expandHorizontally=false;expandVertically=false;index=7;location=right)"
-				name="Borderright" localize="true" enable="data.areLocationPropertiesApplicable" />
-		</Panel>
 		<Label label="is_visible" index="20"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=20;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			name="IsVisibleLabel" localize="true" />

@@ -415,15 +415,6 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	@Setter(value = HAS_FOCUSED_BACKGROUND_KEY)
 	public void setHasFocusedBackground(boolean aFlag);
 
-	/*@Getter(value = BORDER_KEY)
-	@Embedded
-	@CloningStrategy(StrategyType.CLONE)
-	@XMLElement
-	public ShapeBorder getBorder();
-	
-	@Setter(value = BORDER_KEY)
-	public void setBorder(ShapeBorder border);*/
-
 	@Getter(value = SHAPE_SPECIFICATION_KEY)
 	@XMLElement
 	@Embedded

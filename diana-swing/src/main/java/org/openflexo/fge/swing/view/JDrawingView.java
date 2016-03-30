@@ -912,8 +912,6 @@ public class JDrawingView<M> extends JDianaLayeredView<M>implements Autoscroll, 
 
 		if (focused instanceof ShapeNode) {
 			ShapeNode<?> shapeNode = (ShapeNode<?>) focused;
-			// Not a good idea to do it here
-			// graphics.getGraphics().translate(-shapeNode.getBorderLeft() * getScale(), -shapeNode.getBorderTop() * getScale());
 			if (shapeNode.getControlAreas() != null) {
 				for (ControlArea<?> ca : shapeNode.getControlAreas()) {
 					if (focused.isValid()) {

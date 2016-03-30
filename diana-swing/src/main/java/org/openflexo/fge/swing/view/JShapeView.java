@@ -40,7 +40,6 @@
 package org.openflexo.fge.swing.view;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -56,7 +55,6 @@ import java.beans.PropertyChangeEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
 import javax.swing.SwingUtilities;
@@ -132,7 +130,7 @@ public class JShapeView<O> extends JDianaLayeredView<O>implements ShapeView<O, J
 
 		graphics = new JFGEShapeGraphics(node, this);
 
-		setBorder(BorderFactory.createLineBorder(Color.RED));
+		// setBorder(BorderFactory.createLineBorder(Color.RED));
 	}
 
 	@Override
@@ -248,59 +246,22 @@ public class JShapeView<O> extends JDianaLayeredView<O>implements ShapeView<O, J
 	}
 
 	private void relocateView() {
-		if (shapeNode != null /*&& (getX() != shapeNode.getViewX(getScale()) || getY() != shapeNode.getViewY(getScale()))*/) {
+
+		int newX = shapeNode.getViewX(getScale()) + (int) (FGEUtils.getCumulativeLeftBorders(shapeNode.getParentNode()) * getScale())
+				- (int) (shapeNode.getBorderLeft() * getScale());
+		int newY = shapeNode.getViewY(getScale()) + (int) (FGEUtils.getCumulativeTopBorders(shapeNode.getParentNode()) * getScale())
+				- (int) (shapeNode.getBorderTop() * getScale());
+
+		if (shapeNode != null && (getX() != newX || getY() != newY)) {
 			if (labelView != null) {
 				labelView.updateBounds();
 			}
-			// setLocation(shapeNode.getViewX(getScale()) /*- shapeNode.getBorderLeft()*/,
-			// shapeNode.getViewY(getScale()) /*- shapeNode.getBorderTop()*/);
-			/*if (shapeNode.getParentNode() instanceof ShapeNode) {
-				setLocation(shapeNode.getViewX(getScale()) + ((ShapeNode) shapeNode.getParentNode()).getBorderLeft(),
-						shapeNode.getViewY(getScale()) + ((ShapeNode) shapeNode.getParentNode()).getBorderTop());
-			}
-			else {*/
-
-			/*if (shapeNode.getText() != null && shapeNode.getText().equals("Shape1")) {
-				System.out.println("was: " + shapeNode.getViewX(getScale()) + "," + shapeNode.getViewY(getScale()));
-				System.out.println("cumulative borders: " + FGEUtils.getCumulativeLeftBorders(shapeNode.getParentNode()) + ","
-						+ FGEUtils.getCumulativeTopBorders(shapeNode.getParentNode()));
-			}*/
-			setLocation(
-					shapeNode.getViewX(getScale()) + FGEUtils.getCumulativeLeftBorders(shapeNode.getParentNode())
-							- (int) (shapeNode.getBorderLeft() * getScale()),
-					shapeNode.getViewY(getScale()) + FGEUtils.getCumulativeTopBorders(shapeNode.getParentNode())
-							- (int) (shapeNode.getBorderTop() * getScale()));
-			// }
-			/*if (shapeNode.getText() != null && shapeNode.getText().equals("Shape1")) {
-				System.out.println("Location of view is now: " + getLocation());
-			}*/
+			setLocation(newX, newY);
 		}
 		else {
 			// logger.info("Ignore relocateView() because unchanged");
 		}
 	}
-
-	/*private int getCumulativeLeftBorders(ContainerNode<?, ?> node) {
-		if (node instanceof ShapeNode) {
-			int returned = ((ShapeNode) node).getBorderLeft();
-			if (node.getParentNode() instanceof ShapeNode) {
-				return returned + getCumulativeLeftBorders(node.getParentNode());
-			}
-			return returned;
-		}
-		return 0;
-	}
-	
-	private int getCumulativeTopBorders(ContainerNode<?, ?> node) {
-		if (node instanceof ShapeNode) {
-			int returned = ((ShapeNode) node).getBorderTop();
-			if (node.getParentNode() instanceof ShapeNode) {
-				return returned + getCumulativeTopBorders(node.getParentNode());
-			}
-			return returned;
-		}
-		return 0;
-	}*/
 
 	private void resizeView() {
 

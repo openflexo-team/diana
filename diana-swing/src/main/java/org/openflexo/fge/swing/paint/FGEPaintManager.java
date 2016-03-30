@@ -315,38 +315,6 @@ public class FGEPaintManager {
 				parent.repaint(repaintAlsoThis.x, repaintAlsoThis.y, repaintAlsoThis.width, repaintAlsoThis.height);
 				// System.out.println("Repaint "+repaintAlsoThis+" for "+((Component)view).getParent());
 			}
-			/*if (shapeNode.getGraphicalRepresentation().getBorder() != null) {
-				if (shapeNode.getGraphicalRepresentation().getBorder().getTop() * view.getScale() < requiredControlPointSpace) {
-					Rectangle repaintAlsoThis = new Rectangle(-requiredControlPointSpace, -requiredControlPointSpace,
-							((Component) view).getWidth() + requiredControlPointSpace * 2, requiredControlPointSpace * 2);
-					repaintAlsoThis = SwingUtilities.convertRectangle((Component) view, repaintAlsoThis, parent);
-					parent.repaint(repaintAlsoThis.x, repaintAlsoThis.y, repaintAlsoThis.width, repaintAlsoThis.height);
-					// System.out.println("Repaint "+repaintAlsoThis+" for "+((Component)view).getParent());
-				}
-				if (shapeNode.getGraphicalRepresentation().getBorder().getBottom() * view.getScale() < requiredControlPointSpace) {
-					Rectangle repaintAlsoThis = new Rectangle(-requiredControlPointSpace, ((Component) view).getHeight()
-							- requiredControlPointSpace, ((Component) view).getWidth() + requiredControlPointSpace * 2,
-							requiredControlPointSpace * 2);
-					repaintAlsoThis = SwingUtilities.convertRectangle((Component) view, repaintAlsoThis, parent);
-					parent.repaint(repaintAlsoThis.x, repaintAlsoThis.y, repaintAlsoThis.width, repaintAlsoThis.height);
-					// System.out.println("Repaint "+repaintAlsoThis+" for "+((Component)view).getParent());
-				}
-				if (shapeNode.getGraphicalRepresentation().getBorder().getLeft() * view.getScale() < requiredControlPointSpace) {
-					Rectangle repaintAlsoThis = new Rectangle(-requiredControlPointSpace, -requiredControlPointSpace,
-							requiredControlPointSpace * 2, ((Component) view).getHeight() + requiredControlPointSpace * 2);
-					repaintAlsoThis = SwingUtilities.convertRectangle((Component) view, repaintAlsoThis, parent);
-					parent.repaint(repaintAlsoThis.x, repaintAlsoThis.y, repaintAlsoThis.width, repaintAlsoThis.height);
-					// System.out.println("Repaint "+repaintAlsoThis+" for "+((Component)view).getParent());
-				}
-				if (shapeNode.getGraphicalRepresentation().getBorder().getRight() * view.getScale() < requiredControlPointSpace) {
-					Rectangle repaintAlsoThis = new Rectangle(((Component) view).getWidth() - requiredControlPointSpace,
-							-requiredControlPointSpace, requiredControlPointSpace * 2, ((Component) view).getHeight()
-									+ requiredControlPointSpace * 2);
-					repaintAlsoThis = SwingUtilities.convertRectangle((Component) view, repaintAlsoThis, parent);
-					parent.repaint(repaintAlsoThis.x, repaintAlsoThis.y, repaintAlsoThis.width, repaintAlsoThis.height);
-					// System.out.println("Repaint "+repaintAlsoThis+" for "+((Component)view).getParent());
-				}
-			}*/
 		}
 	}
 

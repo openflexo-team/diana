@@ -80,23 +80,11 @@ public interface FGEGraphics extends AbstractFGEGraphics {
 
 	public abstract void translate(double tx, double ty);
 
-	// public abstract void createGraphics(Graphics2D graphics2D, DianaEditor<?> controller);
-
-	// public abstract void releaseGraphics();
-
-	// public abstract Graphics2D cloneGraphics();
-
-	// public abstract void releaseClonedGraphics(Graphics2D oldGraphics);
-
-	// public abstract Graphics2D getGraphics();
-
 	public abstract ForegroundStyle getDefaultForeground();
 
 	public abstract ForegroundStyle getCurrentForeground();
 
 	public abstract void setDefaultForeground(ForegroundStyle aForegound);
-
-	// public abstract void setStroke(Stroke aStroke);
 
 	public abstract void useForegroundStyle(ForegroundStyle aStyle);
 

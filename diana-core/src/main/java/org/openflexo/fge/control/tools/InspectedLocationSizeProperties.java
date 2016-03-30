@@ -310,21 +310,4 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		setPropertyValue(ShapeGraphicalRepresentation.HEIGHT_CONSTRAINTS, heightConstraints);
 	}
 
-	/*@Override
-	protected <T> void fireChangedProperty(GRProperty<T> p) {
-		if (p.equals(ShapeGraphicalRepresentation.BORDER)) {
-			T newValue = _getPropertyValue(p);
-			System.out.println("Fire de border pour " + newValue);
-			_doFireChangedProperty(p, null, newValue);
-		}
-		super.fireChangedProperty(p);
-	}*/
-
-	/*public ShapeBorder getBorder() {
-		return getPropertyValue(ShapeGraphicalRepresentation.BORDER);
-	}
-	
-	public void setBorder(ShapeBorder aBorder) {
-		setPropertyValue(ShapeGraphicalRepresentation.BORDER, aBorder);
-	}*/
 }

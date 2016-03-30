@@ -40,15 +40,11 @@
 package org.openflexo.fge.cp;
 
 import java.awt.Cursor;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
-import org.openflexo.fge.FGEConstants;
-import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.fge.control.DianaEditor;
 import org.openflexo.fge.geom.FGEDimension;
@@ -59,7 +55,6 @@ import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.area.FGEEmptyArea;
 import org.openflexo.fge.geom.area.FGEHalfLine;
 import org.openflexo.fge.geom.area.FGEQuarterPlane;
-import org.openflexo.fge.graphics.FGEGraphics;
 import org.openflexo.fge.shapes.ShapeSpecification;
 import org.openflexo.model.undo.CompoundEdit;
 
@@ -286,8 +281,8 @@ public class ShapeResizingControlPoint extends ControlPoint {
 			resizeEdit = getNode().getUndoManager().startRecording("Resizing shape");
 		}
 
-		initialWidth = getNode().getUnscaledViewWidth();
-		initialHeight = getNode().getUnscaledViewHeight();
+		initialWidth = getNode().getWidth();
+		initialHeight = getNode().getHeight();
 		if (initialWidth < FGEGeometricObject.EPSILON) {
 			initialWidth = 1;
 		}
@@ -416,7 +411,7 @@ public class ShapeResizingControlPoint extends ControlPoint {
 	}
 
 	// @SuppressWarnings("unchecked")
-	@Override
+	/*@Override
 	public Rectangle paint(FGEGraphics graphics) {
 		if (getNode() == null) {
 			logger.warning("Unexpected null node");
@@ -427,7 +422,7 @@ public class ShapeResizingControlPoint extends ControlPoint {
 		graphics.useDefaultForegroundStyle();
 		if (isEmbeddedInComponentHierarchy(graphics)) {
 			AffineTransform at = FGEUtils.convertNormalizedCoordinatesAT(getNode(), graphics.getNode());
-
+	
 			// VERY IMPORTANT HERE:
 			// Because we are on a ShapeNode, we have to perform border translations !
 			if (getNode().getParentNode() instanceof ShapeNode) {
@@ -437,20 +432,20 @@ public class ShapeResizingControlPoint extends ControlPoint {
 				// System.out.println("Mais " + getPoint().transform(at)
 				// .transform(AffineTransform.getTranslateInstance(parentNode.getBorderLeft(), parentNode.getBorderTop())));
 				return graphics.drawControlPoint(getPoint().transform(at)
-				/*.transform(AffineTransform.getTranslateInstance(parentNode.getBorderLeft(), parentNode.getBorderTop()))*/,
-						FGEConstants.CONTROL_POINT_SIZE);
+				// .transform(AffineTransform.getTranslateInstance(parentNode.getBorderLeft(), parentNode.getBorderTop()))
+				, FGEConstants.CONTROL_POINT_SIZE);
 			}
 			return graphics.drawControlPoint(getPoint().transform(at)
-			/*.transform(AffineTransform.getTranslateInstance(getNode().getBorderLeft(), getNode().getBorderTop()))*/,
-					FGEConstants.CONTROL_POINT_SIZE);
+			// .transform(AffineTransform.getTranslateInstance(getNode().getBorderLeft(), getNode().getBorderTop()))
+			, FGEConstants.CONTROL_POINT_SIZE);
 		}
 		else {
 			return graphics.drawControlPoint(
-					getPoint()/*.transform(AffineTransform.getTranslateInstance(getNode().getBorderLeft(), getNode().getBorderTop()))*/,
+					getPoint(),
 					FGEConstants.CONTROL_POINT_SIZE);
 		}
-
-	}
+	
+	}*/
 
 	@Override
 	public String toString() {
