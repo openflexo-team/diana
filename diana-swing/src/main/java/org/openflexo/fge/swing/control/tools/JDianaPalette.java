@@ -65,6 +65,7 @@ import org.openflexo.fge.control.DrawingPalette;
 import org.openflexo.fge.control.PaletteElement;
 import org.openflexo.fge.control.tools.DianaPalette;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.impl.ShapeNodeImpl;
 import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.JFocusRetriever;
 import org.openflexo.fge.swing.view.JDrawingView;
@@ -197,8 +198,8 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 			}
 
 			try {
-				PaletteElement element = ((TransferedPaletteElement) e.getTransferable().getTransferData(
-						PaletteElementTransferable.defaultFlavor())).getPaletteElement();
+				PaletteElement element = ((TransferedPaletteElement) e.getTransferable()
+						.getTransferData(PaletteElementTransferable.defaultFlavor())).getPaletteElement();
 				if (element == null) {
 					return false;
 				}
@@ -253,7 +254,8 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 				if (getDragSourceContext() == null) {
 					logger.warning("dragSourceContext should NOT be null for " + getPalette().getTitle()
 							+ Integer.toHexString(JDianaPalette.this.hashCode()) + " of " + JDianaPalette.this.getClass().getName());
-				} else {
+				}
+				else {
 					getDragSourceContext().setCursor(dropKO);
 				}
 				e.rejectDrag();
@@ -261,7 +263,8 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 			}
 			if (getDragSourceContext() == null) {
 				logger.warning("dragSourceContext should NOT be null");
-			} else {
+			}
+			else {
 				getDragSourceContext().setCursor(dropOK);
 			}
 			e.acceptDrag(e.getDropAction());
@@ -357,16 +360,24 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 								modelLocation.y = pt.y / ((FGEView<?, ?>) targetComponent).getScale();
 								modelLocation.x -= ((TransferedPaletteElement) data).getOffset().x;
 								modelLocation.y -= ((TransferedPaletteElement) data).getOffset().y;
-							} else {
+							}
+							else {
 								modelLocation.x -= ((TransferedPaletteElement) data).getOffset().x;
 								modelLocation.y -= ((TransferedPaletteElement) data).getOffset().y;
 							}
+
+							System.out.println("node was: " + ((FGEView<?, ?>) targetComponent).getNode());
+							System.out.println("element: " + element);
+							modelLocation.x += ShapeNodeImpl.DEFAULT_BORDER_LEFT;
+							modelLocation.y += ShapeNodeImpl.DEFAULT_BORDER_TOP;
+
 							if (element.elementDragged(focused, modelLocation)) {
 								e.acceptDrop(acceptableActions);
 								e.dropComplete(true);
 								logger.info("OK, valid drop, proceed");
 								return;
-							} else {
+							}
+							else {
 								e.rejectDrop();
 								e.dropComplete(false);
 								return;

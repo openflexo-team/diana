@@ -906,7 +906,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		for (DrawingTreeNode<?, ?> gr : getChildNodes()) {
 			if (gr instanceof ShapeNode) {
 				ShapeNodeImpl<?> shapeGR = (ShapeNodeImpl<?>) gr;
-				FGERectangle bounds = shapeGR.getBoundsNoBorder();
+				FGERectangle bounds = shapeGR.getBounds();
 				if (shapeGR.hasText()) {
 					Rectangle labelBounds = shapeGR.getNormalizedLabelBounds(); // getLabelBounds((new JLabel()), 1.0);
 					FGERectangle labelBounds2 = new FGERectangle(labelBounds.x, labelBounds.y, labelBounds.width, labelBounds.height);

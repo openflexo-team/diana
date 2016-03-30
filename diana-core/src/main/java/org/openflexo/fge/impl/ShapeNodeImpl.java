@@ -124,6 +124,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	private BindingValueChangeListener<Double> widthConstraintsListener;
 	private BindingValueChangeListener<Double> heightConstraintsListener;
 
+	public static final int DEFAULT_BORDER_TOP = 20;
+	public static final int DEFAULT_BORDER_LEFT = 20;
+
 	public ShapeNodeImpl(DrawingImpl<?> drawingImpl, O drawable, ShapeGRBinding<O> grBinding, ContainerNodeImpl<?, ?> parentNode) {
 		super(drawingImpl, drawable, grBinding, parentNode);
 		startDrawableObserving();
@@ -335,15 +338,6 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 */
 	@Override
 	public FGERectangle getBounds() {
-		return new FGERectangle(getX(), getY(), getUnscaledViewWidth(), getUnscaledViewHeight());
-	}
-
-	/**
-	 * Return bounds (including border) relative to parent container
-	 * 
-	 * @return
-	 */
-	public FGERectangle getBoundsNoBorder() {
 		return new FGERectangle(getX(), getY(), getWidth(), getHeight());
 	}
 
@@ -358,11 +352,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		Rectangle bounds = new Rectangle();
 
 		bounds.x = (int) getX();
-		// (int) ((getX() + (getGraphicalRepresentation().getBorder() != null ? getGraphicalRepresentation().getBorder().getLeft() : 0)) *
-		// scale);
 		bounds.y = (int) getY();
-		// (int) ((getY() + (getGraphicalRepresentation().getBorder() != null ? getGraphicalRepresentation().getBorder().getTop() : 0)) *
-		// scale);
 		bounds.width = (int) (getWidth() * scale);
 		bounds.height = (int) (getHeight() * scale);
 
@@ -422,7 +412,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	}
 
 	/**
-	 * Computes and return required border top, while taking under account:
+	 * Computes and return required border on top, while taking under account:
 	 * <ul>
 	 * <li>the eventual shadow to paint</li>
 	 * <li>the control areas to display</li>
@@ -431,12 +421,12 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 */
 	@Override
 	public int getBorderTop() {
-		int returned = 0;
+		int returned = DEFAULT_BORDER_TOP;
 		for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
 			if (childNode instanceof ShapeNode) {
 				ShapeNode child = (ShapeNode) childNode;
-				if (child.getY() < -returned) {
-					returned = -(int) child.getY();
+				if (child.getY() - child.getBorderTop() < -returned) {
+					returned = -(int) child.getY() + child.getBorderTop();
 				}
 			}
 		}
@@ -444,14 +434,22 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		return returned;
 	}
 
+	/**
+	 * Computes and return required border on left, while taking under account:
+	 * <ul>
+	 * <li>the eventual shadow to paint</li>
+	 * <li>the control areas to display</li>
+	 * <li>all contained elements which may be located outside of original bounds</li>
+	 * </ul>
+	 */
 	@Override
 	public int getBorderLeft() {
-		int returned = 0;
+		int returned = DEFAULT_BORDER_LEFT;
 		for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
 			if (childNode instanceof ShapeNode) {
 				ShapeNode child = (ShapeNode) childNode;
-				if (child.getX() < -returned) {
-					returned = -(int) child.getX();
+				if (child.getX() - child.getBorderLeft() < -returned) {
+					returned = -(int) child.getX() + child.getBorderLeft();
 				}
 			}
 		}
@@ -459,6 +457,14 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		return returned;
 	}
 
+	/**
+	 * Computes and return required border on bottom, while taking under account:
+	 * <ul>
+	 * <li>the eventual shadow to paint</li>
+	 * <li>the control areas to display</li>
+	 * <li>all contained elements which may be located outside of original bounds</li>
+	 * </ul>
+	 */
 	@Override
 	public int getBorderBottom() {
 		int returned = 0;
@@ -477,6 +483,14 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		return returned;
 	}
 
+	/**
+	 * Computes and return required border on right, while taking under account:
+	 * <ul>
+	 * <li>the eventual shadow to paint</li>
+	 * <li>the control areas to display</li>
+	 * <li>all contained elements which may be located outside of original bounds</li>
+	 * </ul>
+	 */
 	@Override
 	public int getBorderRight() {
 		int returned = 0;
@@ -495,18 +509,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		return returned;
 	}
 
-	@Override
-	public Point convertNormalizedPointToViewCoordinates(double x, double y, double scale) {
-		// TODO Auto-generated method stub
-		return super.convertNormalizedPointToViewCoordinates(x, y, scale);
-	}
-
-	@Override
-	public FGEPoint convertViewCoordinatesToNormalizedPoint(int x, int y, double scale) {
-		// TODO Auto-generated method stub
-		return super.convertViewCoordinatesToNormalizedPoint(x, y, scale);
-	}
-
+	/**
+	 * Note that we don't take border under account here, because computing are done relatively to local coordinates system.<br>
+	 * The border management is a technical artefact which must be handled at view level (in the rendering engine)
+	 */
 	@Override
 	public AffineTransform convertNormalizedPointToViewCoordinatesAT(double scale) {
 		AffineTransform returned = AffineTransform.getScaleInstance(getPropertyValue(ShapeGraphicalRepresentation.WIDTH),
@@ -534,6 +540,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		return returned;
 	}
 
+	/**
+	 * Note that we don't take border under account here, because computing are done relatively to local coordinates system.<br>
+	 * The border management is a technical artefact which must be handled at view level (in the rendering engine)
+	 */
 	@Override
 	public AffineTransform convertViewCoordinatesToNormalizedPointAT(double scale) {
 		AffineTransform returned = new AffineTransform();
@@ -564,54 +574,22 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public int getViewX(double scale) {
-		// return (int) (getX() * scale/*-(border!=null?border.left:0)*/);
 		return (int) ((getX() /*- getBorderLeft()*/) * scale);
 	}
 
 	@Override
 	public int getViewY(double scale) {
-		// return (int) (getY() * scale/*-(border!=null?border.top:0)*/);
 		return (int) ((getY() /*- getBorderTop()*/) * scale);
 	}
 
 	@Override
 	public int getViewWidth(double scale) {
-		return (int) ((getUnscaledViewWidth() + getBorderLeft() + getBorderRight()) * scale) + 1;
+		return (int) ((getWidth() + getBorderLeft() + getBorderRight()) * scale) + 1;
 	}
 
 	@Override
 	public int getViewHeight(double scale) {
-		return (int) ((getUnscaledViewHeight() + getBorderTop() + getBorderBottom()) * scale) + 1;
-	}
-
-	@Override
-	public double getUnscaledViewWidth() {
-
-		if (getGraphicalRepresentation() == null) {
-			// logger.warning("ShapeNode without a GraphicalRepresentation - INVESTIGATE ");
-			return 0.0;
-		}
-
-		// return getPropertyValue(ShapeGraphicalRepresentation.WIDTH) + (getGraphicalRepresentation().getBorder() != null
-		// ? getGraphicalRepresentation().getBorder().getLeft() + getGraphicalRepresentation().getBorder().getRight() : 0);
-
-		return getPropertyValue(ShapeGraphicalRepresentation.WIDTH);
-
-	}
-
-	@Override
-	public double getUnscaledViewHeight() {
-
-		if (getGraphicalRepresentation() == null) {
-			// logger.warning("ShapeNode without a GraphicalRepresentation - INVESTIGATE ");
-			return 0.0;
-		}
-
-		// return getPropertyValue(ShapeGraphicalRepresentation.HEIGHT) + (getGraphicalRepresentation().getBorder() != null
-		// ? getGraphicalRepresentation().getBorder().getTop() + getGraphicalRepresentation().getBorder().getBottom() : 0);
-
-		return getPropertyValue(ShapeGraphicalRepresentation.HEIGHT);
-
+		return (int) ((getHeight() + getBorderTop() + getBorderBottom()) * scale) + 1;
 	}
 
 	/**
@@ -750,10 +728,6 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (evt.getSource() instanceof ShadowStyle) {
 			notifyAttributeChanged(ShapeGraphicalRepresentation.SHADOW_STYLE, null, getShadowStyle());
 		}
-		/*if (evt.getSource() instanceof ShapeBorder) {
-			forward(evt);
-			notifyAttributeChanged(ShapeGraphicalRepresentation.BORDER, null, getBorder());
-		}*/
 	}
 
 	private void fireShapeSpecificationChanged() {
@@ -857,7 +831,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	}
 
 	// ********************************************
-	// Location management
+	// Location/size management
 	// ********************************************
 
 	@Override
@@ -950,7 +924,6 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				if (logger.isLoggable(Level.FINE)) {
 					logger.fine("setLocation() lead shape going outside it's parent view");
 				}
-				System.out.println("Et hop ca sort la....");
 				if (getParentNode() instanceof ShapeNodeImpl) {
 					((ShapeNodeImpl) getParentNode()).notifyObjectMoved(null);
 					((ShapeNodeImpl) getParentNode()).notifyObjectResized(null);
@@ -1462,8 +1435,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		}
 
 		// We have here to translate result to take borders into account
-		point.x += FGEUtils.getCumulativeLeftBorders(getParentNode()) /*- (int) (getBorderLeft() * scale)*/;
-		point.y += FGEUtils.getCumulativeTopBorders(getParentNode()) /*- (int) (getBorderTop() * scale)*/;
+		point.x += FGEUtils.getCumulativeLeftBorders(getParentNode()) * scale /*- (int) (getBorderLeft() * scale)*/;
+		point.y += FGEUtils.getCumulativeTopBorders(getParentNode()) * scale /*- (int) (getBorderTop() * scale)*/;
 
 		return point;
 	}
@@ -1472,8 +1445,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public void setLabelLocation(Point point, double scale) {
 
 		// First take the borders under account
-		point.x -= (FGEUtils.getCumulativeLeftBorders(getParentNode()) - (int) (getBorderLeft() * scale));
-		point.y -= (FGEUtils.getCumulativeTopBorders(getParentNode()) - (int) (getBorderTop() * scale));
+		point.x -= (FGEUtils.getCumulativeLeftBorders(getParentNode()) * scale /*- (int) (getBorderLeft() * scale)*/);
+		point.y -= (FGEUtils.getCumulativeTopBorders(getParentNode()) * scale /*- (int) (getBorderTop() * scale)*/);
 
 		if (getGraphicalRepresentation().getIsFloatingLabel()) {
 			Double oldAbsoluteTextX = getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X);
@@ -1942,7 +1915,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public void paint(FGEShapeGraphics g) {
 
-		g.translate(getBorderLeft(), getBorderTop());
+		g.translate(getBorderLeft() * g.getScale(), getBorderTop() * g.getScale());
 
 		// Paint container properties (layout managers)
 		super.paint(g);
@@ -1987,7 +1960,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			decorationPainter.paintDecoration(g.getShapeDecorationGraphics());
 		}
 
-		g.translate(-getBorderLeft(), -getBorderTop());
+		g.translate(-getBorderLeft() * g.getScale(), -getBorderTop() * g.getScale());
 
 	}
 

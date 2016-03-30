@@ -329,11 +329,6 @@ public class FGEUtils {
 			return new AffineTransform();
 		}
 
-		/*if (source instanceof ShapeNode) {
-			tx += ((ShapeNode) source).getBorderLeft();
-			ty += ((ShapeNode) source).getBorderTop();
-		}*/
-
 		DrawingTreeNode<?, ?> current = source;
 
 		while (current != source.getDrawing().getRoot()) {
@@ -347,10 +342,6 @@ public class FGEUtils {
 			}
 			tx += current.getViewX(scale);
 			ty += current.getViewY(scale);
-			/*if (current instanceof ShapeNode) {
-				tx += ((ShapeNode) current).getBorderLeft();
-				ty += ((ShapeNode) current).getBorderTop();
-			}*/
 			current = current.getParentNode();
 		}
 		return AffineTransform.getTranslateInstance(tx, ty);
@@ -394,17 +385,8 @@ public class FGEUtils {
 			}
 			tx -= current.getViewX(scale);
 			ty -= current.getViewY(scale);
-			/*if (current instanceof ShapeNode) {
-				tx -= ((ShapeNode) current).getBorderLeft();
-				ty -= ((ShapeNode) current).getBorderTop();
-			}*/
 			current = current.getParentNode();
 		}
-
-		/*if (destination instanceof ShapeNode) {
-			tx -= ((ShapeNode) destination).getBorderLeft();
-			ty -= ((ShapeNode) destination).getBorderTop();
-		}*/
 
 		return AffineTransform.getTranslateInstance(tx, ty);
 	}

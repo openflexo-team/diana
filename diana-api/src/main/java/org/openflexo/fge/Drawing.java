@@ -592,9 +592,9 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public Shape<?> getShape();
 
-		public double getUnscaledViewWidth();
+		// public double getUnscaledViewWidth();
 
-		public double getUnscaledViewHeight();
+		// public double getUnscaledViewHeight();
 
 		/**
 		 * Return bounds (including border) relative to parent container
@@ -670,12 +670,44 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public FGEPoint getLocationInDrawing();
 
+		/**
+		 * Computes and return required border on top, while taking under account:
+		 * <ul>
+		 * <li>the eventual shadow to paint</li>
+		 * <li>the control areas to display</li>
+		 * <li>all contained elements which may be located outside of original bounds</li>
+		 * </ul>
+		 */
 		public int getBorderTop();
 
+		/**
+		 * Computes and return required border on left, while taking under account:
+		 * <ul>
+		 * <li>the eventual shadow to paint</li>
+		 * <li>the control areas to display</li>
+		 * <li>all contained elements which may be located outside of original bounds</li>
+		 * </ul>
+		 */
 		public int getBorderLeft();
 
+		/**
+		 * Computes and return required border on bottom, while taking under account:
+		 * <ul>
+		 * <li>the eventual shadow to paint</li>
+		 * <li>the control areas to display</li>
+		 * <li>all contained elements which may be located outside of original bounds</li>
+		 * </ul>
+		 */
 		public int getBorderBottom();
 
+		/**
+		 * Computes and return required border on right, while taking under account:
+		 * <ul>
+		 * <li>the eventual shadow to paint</li>
+		 * <li>the control areas to display</li>
+		 * <li>all contained elements which may be located outside of original bounds</li>
+		 * </ul>
+		 */
 		public int getBorderRight();
 
 		public boolean isFullyContainedInContainer();
@@ -776,10 +808,6 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		public BackgroundStyle getFocusedBackgroundStyle();
 
 		public void setFocusedBackgroundStyle(BackgroundStyle style);
-
-		// public ShapeBorder getBorder();
-
-		// public void setBorder(ShapeBorder border);
 
 		public ShapeSpecification getShapeSpecification();
 
