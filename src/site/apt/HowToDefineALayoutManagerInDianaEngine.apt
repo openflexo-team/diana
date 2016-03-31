@@ -121,13 +121,13 @@ public abstract class OutlineLayoutManagerSpecificationImpl extends FGELayoutMan
 	}
 
 	/**
-	 * Return true indicating that this layout manager supports decoration painting<br>
+	 * Return false indicating that this layout manager does not support decoration painting<br>
 	 * 
 	 * @return
 	 */
 	@Override
 	public boolean supportDecoration() {
-		return true;
+		return false;
 	}
 
 	@Override
