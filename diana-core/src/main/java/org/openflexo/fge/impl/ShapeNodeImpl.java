@@ -2155,4 +2155,21 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public void validateLayout() {
 		layoutValidated = true;
 	}
+
+	/**
+	 * Convenient method used to retrieve 'allowsToLeaveBounds property value
+	 */
+	@Override
+	public Boolean getAllowsToLeaveBounds() {
+		return getPropertyValue(ShapeGraphicalRepresentation.ALLOW_TO_LEAVE_BOUNDS);
+	}
+
+	/**
+	 * Convenient method used to set 'allowsToLeaveBounds' property value
+	 */
+	@Override
+	public void setAllowsToLeaveBounds(Boolean aValue) {
+		setPropertyValue(ShapeGraphicalRepresentation.ALLOW_TO_LEAVE_BOUNDS, aValue);
+	}
+
 }
