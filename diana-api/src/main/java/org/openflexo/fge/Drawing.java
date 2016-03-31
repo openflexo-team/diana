@@ -860,6 +860,16 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		 */
 		public void setRelayouting(boolean relayouting);
 
+		/**
+		 * Convenient method used to retrieve 'allowsToLeaveBounds property value
+		 */
+		public Boolean getAllowsToLeaveBounds();
+
+		/**
+		 * Convenient method used to set 'allowsToLeaveBounds' property value
+		 */
+		public void setAllowsToLeaveBounds(Boolean aValue);
+
 	}
 
 	public interface GraphNode<G extends FGEGraph> extends ShapeNode<G> {
@@ -1246,16 +1256,14 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 				if (other.drawable != null) {
 					return false;
 				}
-			}
-			else if (!drawable.equals(other.drawable)) {
+			} else if (!drawable.equals(other.drawable)) {
 				return false;
 			}
 			if (grBinding == null) {
 				if (other.grBinding != null) {
 					return false;
 				}
-			}
-			else if (!grBinding.equals(other.grBinding)) {
+			} else if (!grBinding.equals(other.grBinding)) {
 				return false;
 			}
 			return true;
