@@ -40,7 +40,6 @@
 package org.openflexo.fge.swing.view;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -56,7 +55,6 @@ import java.beans.PropertyChangeEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
 import javax.swing.SwingUtilities;
@@ -132,7 +130,7 @@ public class JShapeView<O> extends JDianaLayeredView<O>implements ShapeView<O, J
 
 		graphics = new JFGEShapeGraphics(node, this);
 
-		setBorder(BorderFactory.createLineBorder(Color.RED));
+		// setBorder(BorderFactory.createLineBorder(Color.RED));
 	}
 
 	@Override

@@ -462,7 +462,6 @@ public class JFocusRetriever {
 						System.out.println("Translated to " + pRelativeToChild);
 						System.out.println("et la, ca y est ? " + r.contains(pRelativeToChild));
 					}*/
-
 					if (r.contains(p)) {
 						System.out.println("OK, we are in view " + childNode);
 						// The point is located in the view built for object
