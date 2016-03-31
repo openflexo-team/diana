@@ -62,8 +62,8 @@ import org.openflexo.fge.graphics.FGEGraphics;
  * @author sylvain
  * 
  */
-public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecification<?>, O> extends FGEObjectImpl implements
-		FGELayoutManager<LMS, O> {
+public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecification<?>, O> extends FGEObjectImpl
+		implements FGELayoutManager<LMS, O> {
 
 	private boolean invalidated = true;
 
@@ -199,6 +199,7 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 	 * Perform layout for supplied {@link ShapeNode}
 	 * 
 	 * @param node
+	 *            node to layout
 	 */
 	protected abstract void performLayout(ShapeNode<?> node);
 
