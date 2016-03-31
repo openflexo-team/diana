@@ -93,6 +93,8 @@ import org.openflexo.fge.layout.GridLayoutManager;
 import org.openflexo.fge.layout.GridLayoutManagerSpecification;
 import org.openflexo.fge.layout.ISOMGraphLayoutManager;
 import org.openflexo.fge.layout.ISOMGraphLayoutManagerSpecification;
+import org.openflexo.fge.layout.OutlineLayoutManager;
+import org.openflexo.fge.layout.OutlineLayoutManagerSpecification;
 import org.openflexo.fge.layout.RadialTreeLayoutManager;
 import org.openflexo.fge.layout.RadialTreeLayoutManagerSpecification;
 import org.openflexo.fge.layout.TreeLayoutManager;
@@ -105,6 +107,8 @@ import org.openflexo.fge.layout.impl.GridLayoutManagerImpl;
 import org.openflexo.fge.layout.impl.GridLayoutManagerSpecificationImpl;
 import org.openflexo.fge.layout.impl.ISOMGraphLayoutManagerImpl;
 import org.openflexo.fge.layout.impl.ISOMGraphLayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.impl.OutlineLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.OutlineLayoutManagerSpecificationImpl;
 import org.openflexo.fge.layout.impl.RadialTreeLayoutManagerImpl;
 import org.openflexo.fge.layout.impl.RadialTreeLayoutManagerSpecificationImpl;
 import org.openflexo.fge.layout.impl.TreeLayoutManagerImpl;
@@ -229,6 +233,8 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		// Layout managers
 		modelFactory.setImplementingClassForInterface(GridLayoutManagerImpl.class, GridLayoutManager.class);
 		modelFactory.setImplementingClassForInterface(GridLayoutManagerSpecificationImpl.class, GridLayoutManagerSpecification.class);
+		modelFactory.setImplementingClassForInterface(OutlineLayoutManagerImpl.class, OutlineLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(OutlineLayoutManagerSpecificationImpl.class, OutlineLayoutManagerSpecification.class);
 		modelFactory.setImplementingClassForInterface(ForceDirectedGraphLayoutManagerImpl.class, ForceDirectedGraphLayoutManager.class);
 		modelFactory.setImplementingClassForInterface(ForceDirectedGraphLayoutManagerSpecificationImpl.class,
 				ForceDirectedGraphLayoutManagerSpecification.class);
@@ -318,15 +324,15 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseDragControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseDragControlAction(
 			PredefinedMouseDragControlActionType actionType) {
 		switch (actionType) {
-			case MOVE:
-				return new MoveAction();
-			case RECTANGLE_SELECTING:
-				return new RectangleSelectingAction();
-			case ZOOM:
-				return new ZoomAction();
-			default:
-				LOGGER.warning("Unexpected actionType " + actionType);
-				return null;
+		case MOVE:
+			return new MoveAction();
+		case RECTANGLE_SELECTING:
+			return new RectangleSelectingAction();
+		case ZOOM:
+			return new ZoomAction();
+		default:
+			LOGGER.warning("Unexpected actionType " + actionType);
+			return null;
 		}
 	}
 
@@ -334,15 +340,15 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseClickControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseClickControlAction(
 			PredefinedMouseClickControlActionType actionType) {
 		switch (actionType) {
-			case SELECTION:
-				return new SelectionAction();
-			case CONTINUOUS_SELECTION:
-				return new ContinuousSelectionAction();
-			case MULTIPLE_SELECTION:
-				return new MultipleSelectionAction();
-			default:
-				LOGGER.warning("Unexpected actionType " + actionType);
-				return null;
+		case SELECTION:
+			return new SelectionAction();
+		case CONTINUOUS_SELECTION:
+			return new ContinuousSelectionAction();
+		case MULTIPLE_SELECTION:
+			return new MultipleSelectionAction();
+		default:
+			LOGGER.warning("Unexpected actionType " + actionType);
+			return null;
 		}
 	}
 
