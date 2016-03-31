@@ -40,7 +40,6 @@
 package org.openflexo.fge.swing.view;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -56,7 +55,6 @@ import java.beans.PropertyChangeEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
 import javax.swing.SwingUtilities;
@@ -66,7 +64,6 @@ import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGEConstants;
-import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.control.AbstractDianaEditor;
@@ -132,7 +129,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 
 		graphics = new JFGEShapeGraphics(node, this);
 
-		setBorder(BorderFactory.createLineBorder(Color.RED));
+		// setBorder(BorderFactory.createLineBorder(Color.RED));
 	}
 
 	@Override
@@ -141,7 +138,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 	}
 
 	public void disableFGEViewMouseListener() {
-		System.out.println("Disable FGEViewMouseListener ");
+		// System.out.println("Disable FGEViewMouseListener ");
 		removeMouseListener(mouseListener);
 		removeMouseMotionListener(mouseListener);
 	}
@@ -249,10 +246,15 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 
 	private void relocateView() {
 
-		int newX = shapeNode.getViewX(getScale()) + (int) (FGEUtils.getCumulativeLeftBorders(shapeNode.getParentNode()) * getScale())
+		int newX = shapeNode.getViewX(getScale()) /*+ (int) (FGEUtils.getCumulativeLeftBorders(shapeNode.getParentNode()) * getScale())*/
 				- (int) (shapeNode.getBorderLeft() * getScale());
-		int newY = shapeNode.getViewY(getScale()) + (int) (FGEUtils.getCumulativeTopBorders(shapeNode.getParentNode()) * getScale())
+		int newY = shapeNode.getViewY(getScale()) /*+ (int) (FGEUtils.getCumulativeTopBorders(shapeNode.getParentNode()) * getScale())*/
 				- (int) (shapeNode.getBorderTop() * getScale());
+
+		if (shapeNode.getParentNode() instanceof ShapeNode) {
+			newX += (((ShapeNode) shapeNode.getParentNode()).getBorderLeft()) * getScale();
+			newY += (((ShapeNode) shapeNode.getParentNode()).getBorderTop()) * getScale();
+		}
 
 		if (shapeNode != null && (getX() != newX || getY() != newY)) {
 			if (labelView != null) {

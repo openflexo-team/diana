@@ -113,12 +113,12 @@ public class JFocusRetriever {
 	public void handleMouseMove(MouseEvent event) {
 		DrawingTreeNode<?, ?> newFocusedObject = getFocusedObject(event);
 
-		System.out.println("handleMouseMove() newFocusedObject=" + newFocusedObject);
+		// System.out.println("handleMouseMove() newFocusedObject=" + newFocusedObject);
 
 		if (newFocusedObject != null) {
 			getController().setFocusedFloatingLabel(focusOnFloatingLabel(newFocusedObject, event) ? newFocusedObject : null);
 			ControlArea<?> cp = getFocusedControlAreaForDrawable(newFocusedObject, event);
-			System.out.println("Focused CP=" + cp);
+			// System.out.println("Focused CP=" + cp);
 			if (cp != null) {
 				if (cursoredComponent != null) {
 					cursoredComponent.setCursor(null);
@@ -207,22 +207,11 @@ public class JFocusRetriever {
 		FGEView<?, ?> v = drawingView.viewForNode(node);
 		Point p2 = SwingUtilities.convertPoint((Component) view, p, (Component) v);
 
-		/*if (v instanceof ShapeView) {
-			System.out.println("***** Tiens mon point vient d'une shape view, was: " + p2);
-			ShapeNode shapeNode = ((ShapeView) v).getNode();
-			// First take the borders under account
-			p2.x += (FGEUtils.getCumulativeLeftBorders(shapeNode.getParentNode()) - (int) (shapeNode.getBorderLeft() * getScale()));
-			p2.y += (FGEUtils.getCumulativeTopBorders(shapeNode.getParentNode()) - (int) (shapeNode.getBorderTop() * getScale()));
-			System.out.println("Translated to " + p2);
-		}*/
-
 		if (node instanceof ShapeNode) {
-			System.out.println("***** Tiens mon point vient d'une shape view [" + node.getText() + "], was: " + p2);
 			ShapeNode shapeNode = (ShapeNode) node;
-			// First take the borders under account
-			p2.x -= /*(FGEUtils.getCumulativeLeftBorders(shapeNode.getParentNode())*/ (int) (shapeNode.getBorderLeft() * getScale());
-			p2.y -= /*(FGEUtils.getCumulativeTopBorders(shapeNode.getParentNode())*/ (int) (shapeNode.getBorderTop() * getScale());
-			System.out.println("Translated to " + p2);
+			// Take the borders under account and translate point p2
+			p2.x -= (int) (shapeNode.getBorderLeft() * getScale());
+			p2.y -= (int) (shapeNode.getBorderTop() * getScale());
 		}
 
 		FGEPoint p3 = v.getNode().convertViewCoordinatesToNormalizedPoint(p2, getScale());
@@ -331,40 +320,12 @@ public class JFocusRetriever {
 
 	private DrawingTreeNode<?, ?> getFocusedObject(ContainerNode<?, ?> node, Component eventSource, Point eventLocation) {
 
-		System.out.println("\n--------->>>>>>>>>>> called getFocusedObject eventSource=" + eventSource + " eventLocation=" + eventLocation);
-		System.out.println("node=" + node);
-
-		/*if (node instanceof ShapeNode) {
-			System.out.println("***** Tiens mon point vient d'une shape view [" + node.getText() + "], was: " + eventLocation);
-			ShapeNode shapeNode = (ShapeNode) node;
-			// First take the borders under account
-			eventLocation.x += (FGEUtils.getCumulativeLeftBorders(shapeNode.getParentNode())
-					- (int) (shapeNode.getBorderLeft() * getScale()));
-			eventLocation.y += (FGEUtils.getCumulativeTopBorders(shapeNode.getParentNode())
-					- (int) (shapeNode.getBorderTop() * getScale()));
-			System.out.println("Translated to " + eventLocation);
-		}*/
+		// System.out.println("\n--------->>>>>>>>>>> called getFocusedObject eventSource=" + eventSource + " eventLocation=" +
+		// eventLocation);
+		// System.out.println("node=" + node);
 
 		FGEView<?, ?> view = drawingView.viewForNode(node);
 		Point p = SwingUtilities.convertPoint(eventSource, eventLocation, (Component) view);
-
-		/*if (node instanceof ShapeNode) {
-			System.out.println("***** Tiens mon point vient d'une shape view [" + node.getText() + "], was: " + p);
-			ShapeNode shapeNode = (ShapeNode) node;
-			// First take the borders under account
-			p.x -= (FGEUtils.getCumulativeLeftBorders(shapeNode.getParentNode()) - (int) (shapeNode.getBorderLeft() * getScale()));
-			p.y -= (FGEUtils.getCumulativeTopBorders(shapeNode.getParentNode()) - (int) (shapeNode.getBorderTop() * getScale()));
-			System.out.println("Translated to " + p);
-		}*/
-
-		/*if (eventSource instanceof ShapeView) {
-			ShapeNode shapeNode = ((ShapeView) eventSource).getNode();
-			System.out.println("Tiens mon point vient d'une shape view [" + shapeNode.getText() + "], was: " + p);
-			// First take the borders under account
-			// p.x -= (FGEUtils.getCumulativeLeftBorders(shapeNode.getParentNode()) - (int) (shapeNode.getBorderLeft() * getScale()));
-			// p.y -= (FGEUtils.getCumulativeTopBorders(shapeNode.getParentNode()) - (int) (shapeNode.getBorderTop() * getScale()));
-			// System.out.println("Translated to " + p);
-		}*/
 
 		double distanceToNearestConnector = Double.POSITIVE_INFINITY;
 		double smallestDistanceToCPOfNearestConnector = Double.POSITIVE_INFINITY;
@@ -415,16 +376,8 @@ public class JFocusRetriever {
 
 					// Look if we are near a CP
 					for (ControlPoint cp : geometricNode.getControlPoints()) {
-						// Point pt1 =
-						// gr.convertNormalizedPointToViewCoordinates(cp.getPoint(),
-						// getScale());
-						// double cpDistance =
-						// Point2D.distance(pt1.x,pt1.y,viewPoint.x,viewPoint.y);
 						double cpDistance = cp.getDistanceToArea(viewPoint, getScale());
 						if (cpDistance <= selectionDistance
-								// &&
-								// Math.abs(cpDistance-distanceToNearestGeometricObject)
-								// < selectionDistance
 								&& (focusedCP == null || getController().preferredFocusedControlArea(focusedCP, cp) == cp)) {
 							distanceToNearestGeometricObject = cpDistance;
 							nearestGeometricObject = geometricNode;
@@ -436,57 +389,25 @@ public class JFocusRetriever {
 
 				else {
 
-					System.out.println("On regarde si c'est pas dans " + childNode);
-
 					FGEView<?, ?> v = drawingView.viewForNode(childNode);
 					Rectangle r = childNode.getViewBounds(getScale());
 
-					System.out.println("Bounds=" + r);
-					System.out.println("p=" + p);
-					System.out.println("ca y est ? " + r.contains(p));
-
-					// We duplicate p
+					// We duplicate p as point in node view
 					Point pointInNodeView = new Point(p);
 
 					// In case of child node, perform translation caused by borders
 					if (node instanceof ShapeNode) {
-						pointInNodeView.x /*+= (FGEUtils.getCumulativeLeftBorders(((ShapeNode) childNode).getParentNode())*/
-								-= (int) (((ShapeNode) node).getBorderLeft() * getScale());
-						pointInNodeView.y /*+= (FGEUtils.getCumulativeTopBorders(((ShapeNode) childNode).getParentNode())*/
-								-= (int) (((ShapeNode) node).getBorderTop() * getScale());
-						System.out.println("Plan B, et avec pointInNodeView=" + pointInNodeView);
-						System.out.println("r.contains(pointInNodeView)=" + r.contains(pointInNodeView));
+						pointInNodeView.x -= (int) (((ShapeNode) node).getBorderLeft() * getScale());
+						pointInNodeView.y -= (int) (((ShapeNode) node).getBorderTop() * getScale());
 					}
 
-					/*if (v instanceof ShapeView) {
-						ShapeNode shapeNode = ((ShapeView) v).getNode();
-						// System.out.println("Translated point for shape view [" + shapeNode.getText() + "], was: " + pRelativeToChild);
-						// First take the borders under account
-						pRelativeToChild.x -= (FGEUtils.getCumulativeLeftBorders(shapeNode.getParentNode()) * getScale()
-								- (int) (shapeNode.getBorderLeft() * getScale()));
-						pRelativeToChild.y -= (FGEUtils.getCumulativeTopBorders(shapeNode.getParentNode()) * getScale()
-								- (int) (shapeNode.getBorderTop() * getScale()));
-						System.out.println("Translated to " + pRelativeToChild);
-						System.out.println("et la, ca y est ? " + r.contains(pRelativeToChild));
-					}*/
 					if (r.contains(pointInNodeView)) {
-						System.out.println("OK, we are in view " + childNode);
-						System.out.println("view=" + view);
 						// The point is located in the view built for object
 						// Let's see if the point is located inside shape
 						Point p2 = SwingUtilities.convertPoint((Component) view, p, (Component) v);
-						System.out.println("p2=" + p2);
-						// System.out.println("view=" + view);
 						if (childNode instanceof ShapeNode) {
-							System.out.println("childNode=" + childNode);
-							System.out.println("borderTop=" + ((ShapeNode) childNode).getBorderTop());
-							// p2.x -= ((ShapeNode) childNode).getBorderLeft();
-							// p2.y -= ((ShapeNode) childNode).getBorderTop();
-							p2.x /*+= (FGEUtils.getCumulativeLeftBorders(((ShapeNode) childNode).getParentNode())*/
-									-= (int) (((ShapeNode) childNode).getBorderLeft() * getScale());
-							p2.y /*+= (FGEUtils.getCumulativeTopBorders(((ShapeNode) childNode).getParentNode())*/
-									-= (int) (((ShapeNode) childNode).getBorderTop() * getScale());
-							System.out.println("p2 translate a =" + p2);
+							p2.x -= (int) (((ShapeNode) childNode).getBorderLeft() * getScale());
+							p2.y -= (int) (((ShapeNode) childNode).getBorderTop() * getScale());
 						}
 
 						FGEPoint p3 = childNode.convertViewCoordinatesToNormalizedPoint(p2, getScale());
@@ -499,22 +420,10 @@ public class JFocusRetriever {
 								p3.y = 0;
 							}
 
-							System.out.println("Je regarde si " + p3 + " est dans la shape " + childNode);
-
 							if (shapeNode.isPointInsideShape(p3)) {
-								System.out.println("Oui !");
 								enclosingShapes.add(shapeNode);
 							} else { // Look if we are near a CP
-								System.out.println("Non");
 								for (ControlArea<?> ca : shapeNode.getControlAreas()) {
-									// Point pt1 =
-									// gr.convertNormalizedPointToViewCoordinates(cp.getPoint(),
-									// getScale());
-									// Point pt2 =
-									// gr.convertNormalizedPointToViewCoordinates(p3,
-									// getScale());
-									// double cpDistance =
-									// Point2D.distance(pt1.x,pt1.y,pt2.x,pt2.y);
 									double caDistance = ca.getDistanceToArea(p3, getScale());
 									if (caDistance < selectionDistance) {
 										// System.out.println("Detected control point");
@@ -548,14 +457,6 @@ public class JFocusRetriever {
 									distanceToNearestConnector = distance;
 									nearestConnector = connectorNode;
 									for (ControlArea<?> ca : connectorNode.getControlAreas()) {
-										// Point pt1 =
-										// gr.convertNormalizedPointToViewCoordinates(ca.getPoint(),
-										// getScale());
-										// Point pt2 =
-										// gr.convertNormalizedPointToViewCoordinates(p3,
-										// getScale());
-										// double cpDistance =
-										// Point2D.distance(pt1.x,pt1.y,pt2.x,pt2.y);
 										double cpDistance = ca.getDistanceToArea(p3, getScale());
 										if (cpDistance < selectionDistance && cpDistance < distance) {
 											// System.out.println("Detected control point");
@@ -569,14 +470,6 @@ public class JFocusRetriever {
 									// closer than the already selected
 									// connector.
 									for (ControlArea<?> ca : connectorNode.getControlAreas()) {
-										// Point pt1 =
-										// gr.convertNormalizedPointToViewCoordinates(ca.getPoint(),
-										// getScale());
-										// Point pt2 =
-										// gr.convertNormalizedPointToViewCoordinates(p3,
-										// getScale());
-										// double cpDistance =
-										// Point2D.distance(pt1.x,pt1.y,pt2.x,pt2.y);
 										double cpDistance = ca.getDistanceToArea(p3, getScale());
 										// We have found a control area
 										// which is closer than the previous
@@ -602,16 +495,6 @@ public class JFocusRetriever {
 										}
 
 									}
-									// Look if we are inside a floating
-									// label
-									/*
-									 * if (gr.hasText()) { if
-									 * (gr.getConnector
-									 * ().getLabelBounds().contains(p3)) {
-									 * //System.out.println(
-									 * "Detected floating label");
-									 * nearestConnector = gr; } }
-									 */
 								}
 							}
 							if (focusOnFloatingLabel(connectorNode, eventSource, eventLocation)) {
@@ -632,14 +515,6 @@ public class JFocusRetriever {
 								ShapeNode<?> shapeNode = (ShapeNode<?>) childNode;
 								if (shapeNode.getControlAreas() != null) {
 									for (ControlArea<?> ca : shapeNode.getControlAreas()) {
-										// Point pt1 =
-										// gr.convertNormalizedPointToViewCoordinates(cp.getPoint(),
-										// getScale());
-										// Point pt2 =
-										// gr.convertNormalizedPointToViewCoordinates(p3,
-										// getScale());
-										// double cpDistance =
-										// Point2D.distance(pt1.x,pt1.y,pt2.x,pt2.y);
 										double cpDistance = ca.getDistanceToArea(p3, getScale());
 										if (cpDistance < selectionDistance) {
 											// System.out.println("Detected control point");
@@ -651,14 +526,6 @@ public class JFocusRetriever {
 								ConnectorNode<?> connectorNode = (ConnectorNode<?>) childNode;
 								if (connectorNode.isValid()) {
 									for (ControlArea<?> ca : connectorNode.getControlAreas()) {
-										// Point pt1 =
-										// gr.convertNormalizedPointToViewCoordinates(ca.getPoint(),
-										// getScale());
-										// Point pt2 =
-										// gr.convertNormalizedPointToViewCoordinates(p3,
-										// getScale());
-										// double cpDistance =
-										// Point2D.distance(pt1.x,pt1.y,pt2.x,pt2.y);
 										double cpDistance = ca.getDistanceToArea(p3, getScale());
 										if (cpDistance < selectionDistance && cpDistance < distanceToNearestConnector) {
 											// System.out.println("Detected control point2");
@@ -759,14 +626,6 @@ public class JFocusRetriever {
 						p3.y = 0;
 					}
 					for (ControlArea<?> ca : gr.getControlAreas()) {
-						// Point pt1 =
-						// gr.convertNormalizedPointToViewCoordinates(cp.getPoint(),
-						// getScale());
-						// Point pt2 =
-						// gr.convertNormalizedPointToViewCoordinates(p3,
-						// getScale());
-						// double cpDistance =
-						// Point2D.distance(pt1.x,pt1.y,pt2.x,pt2.y);
 						double caDistance = ca.getDistanceToArea(p3, getScale());
 						if (caDistance < distance) {
 							// System.out.println("Detected control point");

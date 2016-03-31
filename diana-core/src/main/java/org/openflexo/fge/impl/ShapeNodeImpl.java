@@ -101,7 +101,7 @@ import org.openflexo.fge.shapes.impl.ShapeImpl;
 import org.openflexo.toolbox.ConcatenedList;
 import org.openflexo.toolbox.StringUtils;
 
-public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalRepresentation>implements ShapeNode<O> {
+public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalRepresentation> implements ShapeNode<O> {
 
 	private static final Logger logger = Logger.getLogger(ShapeNodeImpl.class.getPackage().getName());
 
@@ -625,22 +625,18 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 			if (evt.getPropertyName() == GraphicalRepresentation.TEXT.getName()) {
 				checkAndUpdateDimensionIfRequired();
-			}
-			else if (evt.getPropertyName() == GraphicalRepresentation.TEXT_STYLE.getName()) {
+			} else if (evt.getPropertyName() == GraphicalRepresentation.TEXT_STYLE.getName()) {
 				checkAndUpdateDimensionIfRequired();
-			}
-			else if (evt.getPropertyName() == ShapeGraphicalRepresentation.ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT.getName()
+			} else if (evt.getPropertyName() == ShapeGraphicalRepresentation.ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT.getName()
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH.getName()
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.ADJUST_MINIMAL_HEIGHT_TO_LABEL_HEIGHT.getName()
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH.getName()) {
 				checkAndUpdateDimensionIfRequired();
-			}
-			else if (evt.getPropertyName() == ShapeGraphicalRepresentation.X.getName()
+			} else if (evt.getPropertyName() == ShapeGraphicalRepresentation.X.getName()
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.Y.getName()) {
 				forward(evt);
 				notifyObjectMoved(null);
-			}
-			else if (evt.getPropertyName() == ContainerGraphicalRepresentation.WIDTH.getName()
+			} else if (evt.getPropertyName() == ContainerGraphicalRepresentation.WIDTH.getName()
 					|| evt.getPropertyName() == ContainerGraphicalRepresentation.HEIGHT.getName()
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.MINIMAL_HEIGHT.getName()
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.MINIMAL_WIDTH.getName()
@@ -649,23 +645,19 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				checkAndUpdateDimensionIfRequired();
 				// We forward then the event to the view
 				forward(evt);
-			}
-			else if (evt.getPropertyName() == GraphicalRepresentation.HORIZONTAL_TEXT_ALIGNEMENT.getName()
+			} else if (evt.getPropertyName() == GraphicalRepresentation.HORIZONTAL_TEXT_ALIGNEMENT.getName()
 					|| evt.getPropertyName() == GraphicalRepresentation.VERTICAL_TEXT_ALIGNEMENT.getName()) {
 				checkAndUpdateDimensionIfRequired();
-			}
-			else if (evt.getPropertyName() == GraphicalRepresentation.ABSOLUTE_TEXT_X.getName()
+			} else if (evt.getPropertyName() == GraphicalRepresentation.ABSOLUTE_TEXT_X.getName()
 					|| evt.getPropertyName() == GraphicalRepresentation.ABSOLUTE_TEXT_Y.getName()) {
 				checkAndUpdateDimensionIfRequired();
-			}
-			else if (evt.getPropertyName() == ShapeGraphicalRepresentation.LOCATION_CONSTRAINTS.getName()
+			} else if (evt.getPropertyName() == ShapeGraphicalRepresentation.LOCATION_CONSTRAINTS.getName()
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.LOCATION_CONSTRAINED_AREA.getName()
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.DIMENSION_CONSTRAINT_STEP.getName()
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.DIMENSION_CONSTRAINTS.getName()) {
 				checkAndUpdateLocationIfRequired();
 				getShape().updateControlPoints();
-			}
-			else if (evt.getPropertyName() == ShapeGraphicalRepresentation.ADAPT_BOUNDS_TO_CONTENTS.getName()) {
+			} else if (evt.getPropertyName() == ShapeGraphicalRepresentation.ADAPT_BOUNDS_TO_CONTENTS.getName()) {
 				extendBoundsToHostContents();
 			}
 			/*else if (evt.getPropertyName() == ShapeGraphicalRepresentation.BORDER.getName()) {
@@ -676,21 +668,17 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			else if (evt.getPropertyName() == ShapeGraphicalRepresentation.SHAPE.getName()
 					|| evt.getPropertyName() == ShapeGraphicalRepresentation.SHAPE_TYPE.getName()) {
 				fireShapeSpecificationChanged();
-			}
-			else if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.LAYOUT_MANAGER_IDENTIFIER_KEY)) {
+			} else if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.LAYOUT_MANAGER_IDENTIFIER_KEY)) {
 				relayoutNode();
 			}
 
 			else if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.X_CONSTRAINTS_KEY)) {
 				listenXConstraintsValueChange();
-			}
-			else if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.Y_CONSTRAINTS_KEY)) {
+			} else if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.Y_CONSTRAINTS_KEY)) {
 				listenYConstraintsValueChange();
-			}
-			else if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.WIDTH_CONSTRAINTS_KEY)) {
+			} else if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.WIDTH_CONSTRAINTS_KEY)) {
 				listenWidthConstraintsValueChange();
-			}
-			else if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.HEIGHT_CONSTRAINTS_KEY)) {
+			} else if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.HEIGHT_CONSTRAINTS_KEY)) {
 				listenHeightConstraintsValueChange();
 			}
 
@@ -896,8 +884,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			double oldY = getY();
 			if (isParentLayoutedAsContainer()) {
 				setLocationForContainerLayout(newLocation);
-			}
-			else {
+			} else {
 				setXNoNotification(newLocation.x);
 				setYNoNotification(newLocation.y);
 			}
@@ -908,8 +895,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				if (isMoving() || isResizing()) {
 					// We are inside a drag operation
 					performLayout = getLayoutManager().getDraggingMode().relayoutOnDrag();
-				}
-				else {
+				} else {
 					performLayout = getLayoutManager().getDraggingMode().relayoutAfterDrag();
 				}
 				if (performLayout) {
@@ -1022,8 +1008,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			if (getGraphicalRepresentation().getLocationConstrainedArea() == null) {
 				// logger.warning("No location constrained are defined");
 				return requestedLocation;
-			}
-			else {
+			} else {
 				return getGraphicalRepresentation().getLocationConstrainedArea().getNearestPoint(requestedLocation);
 			}
 		}
@@ -1165,19 +1150,16 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					if (Math.abs(desiredCPInContainerView.x - initialCPInContainerView.x) > FGEGeometricObject.EPSILON) {
 						currentRatio = (intersect.x - initialCPInContainerView.x)
 								/ (desiredCPInContainerView.x - initialCPInContainerView.x) - FGEGeometricObject.EPSILON;
-					}
-					else if (Math.abs(desiredCPInContainerView.y - initialCPInContainerView.y) > FGEGeometricObject.EPSILON) {
+					} else if (Math.abs(desiredCPInContainerView.y - initialCPInContainerView.y) > FGEGeometricObject.EPSILON) {
 						currentRatio = (intersect.y - initialCPInContainerView.y)
 								/ (desiredCPInContainerView.y - initialCPInContainerView.y) - FGEGeometricObject.EPSILON;
-					}
-					else {
+					} else {
 						logger.warning("Unexpected unsignifiant move from " + initialCPInContainerView + " to " + desiredCPInContainerView);
 					}
 					if (currentRatio < returnedAuthorizedRatio) {
 						returnedAuthorizedRatio = currentRatio;
 					}
-				}
-				else {
+				} else {
 					logger.warning("Unexpected intersection: " + intersection);
 				}
 			}
@@ -1263,17 +1245,14 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (dependancy.requiringParameter == ShapeGraphicalRepresentation.X_CONSTRAINTS
 				&& getGraphicalRepresentation().getXConstraints() != null && getGraphicalRepresentation().getXConstraints().isValid()) {
 			updateXPosition();
-		}
-		else if (dependancy.requiringParameter == ShapeGraphicalRepresentation.Y_CONSTRAINTS
+		} else if (dependancy.requiringParameter == ShapeGraphicalRepresentation.Y_CONSTRAINTS
 				&& getGraphicalRepresentation().getYConstraints() != null && getGraphicalRepresentation().getYConstraints().isValid()) {
 			updateYPosition();
-		}
-		else if (dependancy.requiringParameter == ShapeGraphicalRepresentation.WIDTH_CONSTRAINTS
+		} else if (dependancy.requiringParameter == ShapeGraphicalRepresentation.WIDTH_CONSTRAINTS
 				&& getGraphicalRepresentation().getWidthConstraints() != null
 				&& getGraphicalRepresentation().getWidthConstraints().isValid()) {
 			updateWidthPosition();
-		}
-		else if (dependancy.requiringParameter == ShapeGraphicalRepresentation.HEIGHT_CONSTRAINTS
+		} else if (dependancy.requiringParameter == ShapeGraphicalRepresentation.HEIGHT_CONSTRAINTS
 				&& getGraphicalRepresentation().getHeightConstraints() != null
 				&& getGraphicalRepresentation().getHeightConstraints().isValid()) {
 			updateHeightPosition();
@@ -1397,8 +1376,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getGraphicalRepresentation().getIsFloatingLabel()) {
 			point = new Point((int) (getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X) * scale + getViewX(scale)),
 					(int) (getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y) * scale + getViewY(scale)));
-		}
-		else {
+		} else {
 			FGEPoint relativePosition = new FGEPoint(getPropertyValue(ShapeGraphicalRepresentation.RELATIVE_TEXT_X),
 					getPropertyValue(ShapeGraphicalRepresentation.RELATIVE_TEXT_Y));
 			point = convertLocalNormalizedPointToRemoteViewCoordinates(relativePosition, getParentNode(), scale);
@@ -1406,38 +1384,39 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		Dimension d = getLabelDimension(scale);
 		if (getGraphicalRepresentation().getHorizontalTextAlignment() != null) {
 			switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
-				case CENTER:
-					point.x -= d.width / 2;
-					break;
-				case LEFT:
-					point.x = (int) (point.x - getWidth() / 2);
-					break;
-				case RIGHT:
-					point.x = (int) (point.x + getWidth() / 2) - d.width;
-					break;
+			case CENTER:
+				point.x -= d.width / 2;
+				break;
+			case LEFT:
+				point.x = (int) (point.x - getWidth() / 2);
+				break;
+			case RIGHT:
+				point.x = (int) (point.x + getWidth() / 2) - d.width;
+				break;
 
 			}
 		}
 		if (getGraphicalRepresentation().getVerticalTextAlignment() != null) {
 			switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
-				case BOTTOM:
+			case BOTTOM:
 
-					point.y = (int) (point.y + getHeight() / 2) - d.height;
-					// point.y -= d.height;
-					break;
-				case MIDDLE:
-					point.y -= d.height / 2;
-					break;
-				case TOP:
-					point.y = (int) (point.y - getHeight() / 2);
-					break;
+				point.y = (int) (point.y + getHeight() / 2) - d.height;
+				// point.y -= d.height;
+				break;
+			case MIDDLE:
+				point.y -= d.height / 2;
+				break;
+			case TOP:
+				point.y = (int) (point.y - getHeight() / 2);
+				break;
 			}
 		}
 
 		// We have here to translate result to take borders into account
-		point.x += FGEUtils.getCumulativeLeftBorders(getParentNode()) * scale /*- (int) (getBorderLeft() * scale)*/;
-		point.y += FGEUtils.getCumulativeTopBorders(getParentNode()) * scale /*- (int) (getBorderTop() * scale)*/;
-
+		if (getParentNode() instanceof ShapeNode) {
+			point.x += ((ShapeNode) getParentNode()).getBorderLeft() * scale /*- (int) (getBorderLeft() * scale)*/;
+			point.y += ((ShapeNode) getParentNode()).getBorderTop() * scale /*- (int) (getBorderTop() * scale)*/;
+		}
 		return point;
 	}
 
@@ -1445,33 +1424,37 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public void setLabelLocation(Point point, double scale) {
 
 		// First take the borders under account
-		point.x -= (FGEUtils.getCumulativeLeftBorders(getParentNode()) * scale /*- (int) (getBorderLeft() * scale)*/);
-		point.y -= (FGEUtils.getCumulativeTopBorders(getParentNode()) * scale /*- (int) (getBorderTop() * scale)*/);
+		if (getParentNode() instanceof ShapeNode) {
+			point.x -= ((ShapeNode) getParentNode()).getBorderLeft() * scale /*- (int) (getBorderLeft() * scale)*/;
+			point.y -= ((ShapeNode) getParentNode()).getBorderTop() * scale /*- (int) (getBorderTop() * scale)*/;
+		}
+		// point.x -= (FGEUtils.getCumulativeLeftBorders(getParentNode()) * scale /*- (int) (getBorderLeft() * scale)*/);
+		// point.y -= (FGEUtils.getCumulativeTopBorders(getParentNode()) * scale /*- (int) (getBorderTop() * scale)*/);
 
 		if (getGraphicalRepresentation().getIsFloatingLabel()) {
 			Double oldAbsoluteTextX = getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X);
 			Double oldAbsoluteTextY = getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y);
 			Dimension d = getLabelDimension(scale);
 			switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
-				case CENTER:
-					point.x += d.width / 2;
-					break;
-				case LEFT:
-					break;
-				case RIGHT:
-					point.x += d.width;
-					break;
+			case CENTER:
+				point.x += d.width / 2;
+				break;
+			case LEFT:
+				break;
+			case RIGHT:
+				point.x += d.width;
+				break;
 
 			}
 			switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
-				case BOTTOM:
-					point.y += d.height;
-					break;
-				case MIDDLE:
-					point.y += d.height / 2;
-					break;
-				case TOP:
-					break;
+			case BOTTOM:
+				point.y += d.height;
+				break;
+			case MIDDLE:
+				point.y += d.height / 2;
+				break;
+			case TOP:
+				break;
 			}
 			FGEPoint p = new FGEPoint((point.x - getViewX(scale)) / scale, (point.y - getViewY(scale)) / scale);
 			setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X, p.x);
@@ -1488,45 +1471,40 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getGraphicalRepresentation().getLineWrap()) {
 			double rpx = getGraphicalRepresentation().getRelativeTextX();
 			switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
-				case RIGHT:
-					if (GeomUtils.doubleEquals(rpx, 0.0)) {
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning("Impossible to handle RIGHT alignement with relative x position set to 0!");
-						}
+			case RIGHT:
+				if (GeomUtils.doubleEquals(rpx, 0.0)) {
+					if (logger.isLoggable(Level.WARNING)) {
+						logger.warning("Impossible to handle RIGHT alignement with relative x position set to 0!");
 					}
-					else {
-						return (int) (getWidth() * rpx * scale);
+				} else {
+					return (int) (getWidth() * rpx * scale);
+				}
+			case CENTER:
+				if (GeomUtils.doubleEquals(rpx, 0.0)) {
+					if (logger.isLoggable(Level.WARNING)) {
+						logger.warning("Impossible to handle CENTER alignement with relative x position set to 0");
 					}
-				case CENTER:
-					if (GeomUtils.doubleEquals(rpx, 0.0)) {
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning("Impossible to handle CENTER alignement with relative x position set to 0");
-						}
+				} else if (GeomUtils.doubleEquals(rpx, 1.0)) {
+					if (logger.isLoggable(Level.WARNING)) {
+						logger.warning("Impossible to handle CENTER alignement with relative x position set to 1");
 					}
-					else if (GeomUtils.doubleEquals(rpx, 1.0)) {
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning("Impossible to handle CENTER alignement with relative x position set to 1");
-						}
+				} else {
+					if (rpx > 0.5) {
+						return (int) (getWidth() * 2 * (1 - rpx) * scale);
+					} else {
+						return (int) (getWidth() * 2 * rpx * scale);
 					}
-					else {
-						if (rpx > 0.5) {
-							return (int) (getWidth() * 2 * (1 - rpx) * scale);
-						}
-						else {
-							return (int) (getWidth() * 2 * rpx * scale);
-						}
+				}
+				break;
+			case LEFT:
+				if (GeomUtils.doubleEquals(rpx, 1.0)) {
+					if (logger.isLoggable(Level.WARNING)) {
+						logger.warning("Impossible to handle LEFT alignement with relative x position set to 1");
 					}
-					break;
-				case LEFT:
-					if (GeomUtils.doubleEquals(rpx, 1.0)) {
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning("Impossible to handle LEFT alignement with relative x position set to 1");
-						}
-					}
-					else {
-						return (int) (getWidth() * (1 - rpx) * scale);
-					}
-					break;
+				} else {
+					return (int) (getWidth() * (1 - rpx) * scale);
+				}
+				break;
 			}
 		}
 		return super.getAvailableLabelWidth(scale);
@@ -1634,11 +1612,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			if (shapeControlAreas != null && shapeControlAreas.size() > 0) {
 				if (controlAreas == null) {
 					controlAreas = shapeControlAreas;
-				}
-				else if (controlAreas instanceof ConcatenedList) {
+				} else if (controlAreas instanceof ConcatenedList) {
 					((ConcatenedList<ControlArea<?>>) controlAreas).addElementList(shapeControlAreas);
-				}
-				else {
+				} else {
 					controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, shapeControlAreas);
 				}
 			}
@@ -1725,89 +1701,79 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		double rh = 0, rw = 0;
 		FGEPoint rp = new FGEPoint(getGraphicalRepresentation().getRelativeTextX(), getGraphicalRepresentation().getRelativeTextY());
 		switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
-			case BOTTOM:
-				if (GeomUtils.doubleEquals(rp.y, 0.0)) {
-					if (logger.isLoggable(Level.WARNING)) {
-						logger.warning("Impossible to handle BOTTOM alignement with relative y position set to 0!");
-					}
+		case BOTTOM:
+			if (GeomUtils.doubleEquals(rp.y, 0.0)) {
+				if (logger.isLoggable(Level.WARNING)) {
+					logger.warning("Impossible to handle BOTTOM alignement with relative y position set to 0!");
 				}
-				else {
-					rh = labelHeight / rp.y;
+			} else {
+				rh = labelHeight / rp.y;
+			}
+			break;
+		case MIDDLE:
+			if (GeomUtils.doubleEquals(rp.y, 0.0)) {
+				if (logger.isLoggable(Level.WARNING)) {
+					logger.warning("Impossible to handle MIDDLE alignement with relative y position set to 0");
 				}
-				break;
-			case MIDDLE:
-				if (GeomUtils.doubleEquals(rp.y, 0.0)) {
-					if (logger.isLoggable(Level.WARNING)) {
-						logger.warning("Impossible to handle MIDDLE alignement with relative y position set to 0");
-					}
+			} else if (GeomUtils.doubleEquals(rp.y, 1.0)) {
+				if (logger.isLoggable(Level.WARNING)) {
+					logger.warning("Impossible to handle MIDDLE alignement with relative y position set to 1");
 				}
-				else if (GeomUtils.doubleEquals(rp.y, 1.0)) {
-					if (logger.isLoggable(Level.WARNING)) {
-						logger.warning("Impossible to handle MIDDLE alignement with relative y position set to 1");
-					}
+			} else {
+				if (rp.y > 0.5) {
+					rh = labelHeight / (2 * (1 - rp.y));
+				} else {
+					rh = labelHeight / (2 * rp.y);
 				}
-				else {
-					if (rp.y > 0.5) {
-						rh = labelHeight / (2 * (1 - rp.y));
-					}
-					else {
-						rh = labelHeight / (2 * rp.y);
-					}
+			}
+			break;
+		case TOP:
+			if (GeomUtils.doubleEquals(rp.x, 1.0)) {
+				if (logger.isLoggable(Level.WARNING)) {
+					logger.warning("Impossible to handle TOP alignement with relative y position set to 1!");
 				}
-				break;
-			case TOP:
-				if (GeomUtils.doubleEquals(rp.x, 1.0)) {
-					if (logger.isLoggable(Level.WARNING)) {
-						logger.warning("Impossible to handle TOP alignement with relative y position set to 1!");
-					}
-				}
-				else {
-					rh = labelHeight / (1 - rp.y);
-				}
-				break;
+			} else {
+				rh = labelHeight / (1 - rp.y);
+			}
+			break;
 
 		}
 
 		switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
-			case RIGHT:
-				if (GeomUtils.doubleEquals(rp.x, 0.0)) {
-					if (logger.isLoggable(Level.WARNING)) {
-						logger.warning("Impossible to handle RIGHT alignement with relative x position set to 0!");
-					}
+		case RIGHT:
+			if (GeomUtils.doubleEquals(rp.x, 0.0)) {
+				if (logger.isLoggable(Level.WARNING)) {
+					logger.warning("Impossible to handle RIGHT alignement with relative x position set to 0!");
 				}
-				else {
-					rw = labelWidth / rp.x;
+			} else {
+				rw = labelWidth / rp.x;
+			}
+		case CENTER:
+			if (GeomUtils.doubleEquals(rp.x, 0.0)) {
+				if (logger.isLoggable(Level.WARNING)) {
+					logger.warning("Impossible to handle CENTER alignement with relative x position set to 0");
 				}
-			case CENTER:
-				if (GeomUtils.doubleEquals(rp.x, 0.0)) {
-					if (logger.isLoggable(Level.WARNING)) {
-						logger.warning("Impossible to handle CENTER alignement with relative x position set to 0");
-					}
+			} else if (GeomUtils.doubleEquals(rp.x, 1.0)) {
+				if (logger.isLoggable(Level.WARNING)) {
+					logger.warning("Impossible to handle CENTER alignement with relative x position set to 1");
 				}
-				else if (GeomUtils.doubleEquals(rp.x, 1.0)) {
-					if (logger.isLoggable(Level.WARNING)) {
-						logger.warning("Impossible to handle CENTER alignement with relative x position set to 1");
-					}
+			} else {
+				if (rp.x > 0.5) {
+					rw = labelWidth / (2 * (1 - rp.x));
+				} else {
+					rw = labelWidth / (2 * rp.x);
 				}
-				else {
-					if (rp.x > 0.5) {
-						rw = labelWidth / (2 * (1 - rp.x));
-					}
-					else {
-						rw = labelWidth / (2 * rp.x);
-					}
+			}
+			break;
+		case LEFT:
+			if (GeomUtils.doubleEquals(rp.x, 1.0)) {
+				if (logger.isLoggable(Level.WARNING)) {
+					logger.warning("Impossible to handle LEFT alignement with relative x position set to 1!");
 				}
-				break;
-			case LEFT:
-				if (GeomUtils.doubleEquals(rp.x, 1.0)) {
-					if (logger.isLoggable(Level.WARNING)) {
-						logger.warning("Impossible to handle LEFT alignement with relative x position set to 1!");
-					}
-				}
-				else {
-					rw = labelWidth / (1 - rp.x);
-				}
-				break;
+			} else {
+				rw = labelWidth / (1 - rp.x);
+			}
+			break;
 		}
 
 		return new FGEDimension(rw, rh);
@@ -1827,8 +1793,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					FGEPoint newPoint = newChildLocation.transform(translation);
 					shapeNode.setXNoNotification(newPoint.x);
 					shapeNode.setYNoNotification(newPoint.y);
-				}
-				else {
+				} else {
 					FGEPoint newPoint = shapeNode.getLocation().transform(translation);
 					shapeNode.setXNoNotification(newPoint.x);
 					shapeNode.setYNoNotification(newPoint.y);
@@ -1858,8 +1823,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 				if (requiredBounds == null) {
 					requiredBounds = bounds;
-				}
-				else {
+				} else {
 					requiredBounds = requiredBounds.rectangleUnion(bounds);
 				}
 			}
@@ -1867,8 +1831,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (requiredBounds == null) {
 			requiredBounds = new FGERectangle(getX(), getY(), getGraphicalRepresentation().getMinimalWidth(),
 					getGraphicalRepresentation().getMinimalHeight());
-		}
-		else {
+		} else {
 			requiredBounds.x = requiredBounds.x + getX();
 			requiredBounds.y = requiredBounds.y + getY();
 			if (requiredBounds.width < getGraphicalRepresentation().getMinimalWidth()) {
@@ -1906,8 +1869,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				ShapeNode<?> first = (ShapeNode<?>) childs.get(0);
 				updateRequiredBoundsForChildGRLocation(first, first.getLocation());
 			}
-		}
-		else {
+		} else {
 			setSize(getSize());
 		}
 	}
@@ -1915,7 +1877,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public void paint(FGEShapeGraphics g) {
 
-		g.translate(getBorderLeft() * g.getScale(), getBorderTop() * g.getScale());
+		g.translate(getBorderLeft() * g.getScale() /*+ FGEUtils.getCumulativeLeftBorders(getParentNode())*/,
+				getBorderTop() * g.getScale() /*+ FGEUtils.getCumulativeTopBorders(getParentNode())*/);
 
 		// Paint container properties (layout managers)
 		super.paint(g);
