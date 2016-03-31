@@ -1,0 +1,39 @@
+ -----
+ Define Bindable context
+ -----
+ The Openflexo team
+ -----
+
+How to define a new LayoutManager in DIANA layout engine ?
+
+  Here are the steps to follow to define a new LayoutManager in DIANA layout engine.
+
+  Suppose that we want to define a very simple layout manager that for a given shape, places all its children (those layouted by layout manager), in the border (the outline) of the shape.
+  
+  We have first to think at the API ou our layout manager. What are the configuring parameters ? Should we define them for the layout manager specification, or for any instances of this layout manager ?
+
+Define bindable context
+
+  A binding is defined in the context of a {{{./apidocs/org/openflexo/connie/Bindable.html}Bindable}}. 
+  A <<<Bindable>>> basically references :
+  
+    * a <<<BindingFactory>>> (which defines how bindings are defined) and 
+    
+    * a <<<BindingModel>>> (which defines the evaluation context, also called environment). The {{{./apidocs/org/openflexo/connie/BindingModel.html}BindingModel}}
+     is the environment beeing considered at run-time. It defines :
+     
+      * a list of  {{{./apidocs/org/openflexo/connie/BindingVariable.html}BindingVariable}}. A <<<BindingVariable>>> basically has a name and a type.
+      
+Example
+
+  -- to do
+
+Reference documentation
+
+  (overview) {{{./index.html}Introduction to CONNIE}}
+  
+  (advanced) {{{./DefineBindingStrategy.html}Defining a binding strategy}}
+
+  (user) {{{./DefineDataBinding.html}Defining DataBinding objects}}
+
+  (user) {{{./ExecuteDataBinding.html}Executing DataBinding objects}}
