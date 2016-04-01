@@ -106,7 +106,7 @@ public class LaunchGraphDrawing {
 				notifyObservers(new MultipleSelection());
 			}
 		}
-
+		
 		@Override
 		public void removeFromSelectedObjects(DrawingTreeNode<?,?> anObject) {
 			super.removeFromSelectedObjects(anObject);
@@ -118,13 +118,13 @@ public class LaunchGraphDrawing {
 				notifyObservers(new MultipleSelection());
 			}
 		}
-
+		
 		@Override
 		public void clearSelection() {
 			super.clearSelection();
 			notifyObservers(new EmptySelection());
 		}
-
+		
 		@Override
 		public void selectDrawing() {
 			super.selectDrawing();
