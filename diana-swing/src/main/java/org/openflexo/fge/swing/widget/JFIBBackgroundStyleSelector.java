@@ -83,7 +83,7 @@ import org.openflexo.swing.CustomPopup;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle>implements FIBBackgroundStyleSelector {
+public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> implements FIBBackgroundStyleSelector {
 
 	static final Logger logger = Logger.getLogger(JFIBBackgroundStyleSelector.class.getPackage().getName());
 
@@ -341,18 +341,20 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle>imp
 				public void init() {
 					final DrawingGRBinding<BackgroundStylePreviewPanel> previewPanelBinding = bindDrawing(BackgroundStylePreviewPanel.class,
 							"previewPanel", new DrawingGRProvider<BackgroundStylePreviewPanel>() {
-						@Override
-						public DrawingGraphicalRepresentation provideGR(BackgroundStylePreviewPanel drawable, FGEModelFactory factory) {
-							return drawingGR;
-						}
-					});
+								@Override
+								public DrawingGraphicalRepresentation provideGR(BackgroundStylePreviewPanel drawable,
+										FGEModelFactory factory) {
+									return drawingGR;
+								}
+							});
 					final ShapeGRBinding<BackgroundStylePreviewPanel> shapeBinding = bindShape(BackgroundStylePreviewPanel.class, "line",
 							new ShapeGRProvider<BackgroundStylePreviewPanel>() {
-						@Override
-						public ShapeGraphicalRepresentation provideGR(BackgroundStylePreviewPanel drawable, FGEModelFactory factory) {
-							return rectGR;
-						}
-					});
+								@Override
+								public ShapeGraphicalRepresentation provideGR(BackgroundStylePreviewPanel drawable,
+										FGEModelFactory factory) {
+									return rectGR;
+								}
+							});
 
 					previewPanelBinding.addToWalkers(new GRStructureVisitor<BackgroundStylePreviewPanel>() {
 
@@ -381,7 +383,7 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle>imp
 			rectGR.setIsSelectable(false);
 			rectGR.setIsFocusable(false);
 			rectGR.setIsReadOnly(true);
-			rectGR.setBorder(factory.makeShapeBorder(0, 0, 0, 0));
+			// rectGR.setBorder(factory.makeShapeBorder(0, 0, 0, 0));
 
 			controller = new JDianaViewer<BackgroundStylePreviewPanel>(drawing, factory, SwingToolFactory.DEFAULT);
 			add(controller.getDrawingView());

@@ -159,7 +159,6 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification>implements
 			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
 			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
 			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent);
-
 			controller.setDataObject(getFactory());
 
 			setLayout(new BorderLayout());

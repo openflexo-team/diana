@@ -234,6 +234,8 @@ public class DiagramEditorPalette extends DrawingPalette {
 
 				CompoundEdit edit = getEditor().getFactory().getUndoManager().startRecording("Dragging new Element");
 
+				System.out.println("dropLocation=" + dropLocation);
+
 				Shape newShape = getEditor().getFactory().makeNewShape(getGraphicalRepresentation(), dropLocation, container.getDiagram());
 
 				ShapeGraphicalRepresentation shapeGR = newShape.getGraphicalRepresentation();

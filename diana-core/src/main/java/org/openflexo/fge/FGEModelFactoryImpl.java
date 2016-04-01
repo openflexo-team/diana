@@ -42,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.openflexo.fge.ShapeGraphicalRepresentation.ShapeBorder;
 import org.openflexo.fge.connectors.ConnectorSpecification;
 import org.openflexo.fge.connectors.CurveConnectorSpecification;
 import org.openflexo.fge.connectors.CurvedPolylinConnectorSpecification;
@@ -84,7 +83,6 @@ import org.openflexo.fge.impl.GraphicalRepresentationImpl;
 import org.openflexo.fge.impl.NoneBackgroundStyleImpl;
 import org.openflexo.fge.impl.ShadowStyleImpl;
 import org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl;
-import org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl.ShapeBorderImpl;
 import org.openflexo.fge.impl.TextStyleImpl;
 import org.openflexo.fge.impl.TextureBackgroundStyleImpl;
 import org.openflexo.fge.layout.BalloonLayoutManager;
@@ -95,6 +93,8 @@ import org.openflexo.fge.layout.GridLayoutManager;
 import org.openflexo.fge.layout.GridLayoutManagerSpecification;
 import org.openflexo.fge.layout.ISOMGraphLayoutManager;
 import org.openflexo.fge.layout.ISOMGraphLayoutManagerSpecification;
+import org.openflexo.fge.layout.OutlineLayoutManager;
+import org.openflexo.fge.layout.OutlineLayoutManagerSpecification;
 import org.openflexo.fge.layout.RadialTreeLayoutManager;
 import org.openflexo.fge.layout.RadialTreeLayoutManagerSpecification;
 import org.openflexo.fge.layout.TreeLayoutManager;
@@ -107,6 +107,8 @@ import org.openflexo.fge.layout.impl.GridLayoutManagerImpl;
 import org.openflexo.fge.layout.impl.GridLayoutManagerSpecificationImpl;
 import org.openflexo.fge.layout.impl.ISOMGraphLayoutManagerImpl;
 import org.openflexo.fge.layout.impl.ISOMGraphLayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.impl.OutlineLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.OutlineLayoutManagerSpecificationImpl;
 import org.openflexo.fge.layout.impl.RadialTreeLayoutManagerImpl;
 import org.openflexo.fge.layout.impl.RadialTreeLayoutManagerSpecificationImpl;
 import org.openflexo.fge.layout.impl.TreeLayoutManagerImpl;
@@ -191,7 +193,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		modelFactory.setImplementingClassForInterface(ContainerGraphicalRepresentationImpl.class, ContainerGraphicalRepresentation.class);
 		modelFactory.setImplementingClassForInterface(GeometricGraphicalRepresentationImpl.class, GeometricGraphicalRepresentation.class);
 
-		modelFactory.setImplementingClassForInterface(ShapeBorderImpl.class, ShapeBorder.class);
+		// modelFactory.setImplementingClassForInterface(ShapeBorderImpl.class, ShapeBorder.class);
 
 		modelFactory.setImplementingClassForInterface(FGEStyleImpl.class, FGEStyle.class);
 		modelFactory.setImplementingClassForInterface(ForegroundStyleImpl.class, ForegroundStyle.class);
@@ -231,6 +233,8 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		// Layout managers
 		modelFactory.setImplementingClassForInterface(GridLayoutManagerImpl.class, GridLayoutManager.class);
 		modelFactory.setImplementingClassForInterface(GridLayoutManagerSpecificationImpl.class, GridLayoutManagerSpecification.class);
+		modelFactory.setImplementingClassForInterface(OutlineLayoutManagerImpl.class, OutlineLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(OutlineLayoutManagerSpecificationImpl.class, OutlineLayoutManagerSpecification.class);
 		modelFactory.setImplementingClassForInterface(ForceDirectedGraphLayoutManagerImpl.class, ForceDirectedGraphLayoutManager.class);
 		modelFactory.setImplementingClassForInterface(ForceDirectedGraphLayoutManagerSpecificationImpl.class,
 				ForceDirectedGraphLayoutManagerSpecification.class);

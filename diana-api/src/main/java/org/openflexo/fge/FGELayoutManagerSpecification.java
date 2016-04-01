@@ -45,6 +45,7 @@ import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
 import org.openflexo.fge.layout.GraphBasedLayoutManagerSpecification;
 import org.openflexo.fge.layout.GridLayoutManagerSpecification;
 import org.openflexo.fge.layout.ISOMGraphLayoutManagerSpecification;
+import org.openflexo.fge.layout.OutlineLayoutManagerSpecification;
 import org.openflexo.fge.layout.RadialTreeLayoutManagerSpecification;
 import org.openflexo.fge.layout.TreeBasedLayoutManagerSpecification;
 import org.openflexo.fge.layout.TreeLayoutManagerSpecification;
@@ -64,8 +65,8 @@ import org.openflexo.model.factory.KeyValueCoding;
  * 
  */
 @ModelEntity(isAbstract = true)
-@Imports({ @Import(GridLayoutManagerSpecification.class), @Import(GraphBasedLayoutManagerSpecification.class),
-		@Import(TreeBasedLayoutManagerSpecification.class) })
+@Imports({ @Import(GridLayoutManagerSpecification.class), @Import(OutlineLayoutManagerSpecification.class),
+		@Import(GraphBasedLayoutManagerSpecification.class), @Import(TreeBasedLayoutManagerSpecification.class) })
 public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>> extends FGEObject, Bindable, KeyValueCoding {
 
 	/**
@@ -94,6 +95,17 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 			@Override
 			public String getDefaultLayoutManagerName() {
 				return "grid";
+			}
+		},
+		OUTLINE {
+			@Override
+			public Class<OutlineLayoutManagerSpecification> getLayoutManagerSpecificationClass() {
+				return OutlineLayoutManagerSpecification.class;
+			}
+
+			@Override
+			public String getDefaultLayoutManagerName() {
+				return "outline";
 			}
 		},
 		FORCE_DIRECTED_GRAPH {
@@ -174,8 +186,8 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 			String.class);
 	public static GRProperty<Boolean> PAINT_DECORATION = GRProperty.getGRParameter(FGELayoutManagerSpecification.class,
 			PAINT_DECORATION_KEY, Boolean.class);
-	public static GRProperty<DraggingMode> DRAGGING_MODE = GRProperty.getGRParameter(FGELayoutManagerSpecification.class,
-			DRAGGING_MODE_KEY, DraggingMode.class);
+	public static GRProperty<DraggingMode> DRAGGING_MODE = GRProperty.getGRParameter(FGELayoutManagerSpecification.class, DRAGGING_MODE_KEY,
+			DraggingMode.class);
 	public static GRProperty<Boolean> ANIMATE_LAYOUT = GRProperty.getGRParameter(FGELayoutManagerSpecification.class, ANIMATE_LAYOUT_KEY,
 			Boolean.class);
 	public static GRProperty<Integer> ANIMATION_STEPS_NUMBER = GRProperty.getGRParameter(FGELayoutManagerSpecification.class,

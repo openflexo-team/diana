@@ -157,7 +157,7 @@ public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel {
 		shapeGR.setIsSelectable(false);
 		shapeGR.setIsFocusable(false);
 		shapeGR.setIsReadOnly(true);
-		shapeGR.setBorder(factory.makeShapeBorder(getBorderSize(), getBorderSize(), getBorderSize(), getBorderSize()));
+		// shapeGR.setBorder(factory.makeShapeBorder(getBorderSize(), getBorderSize(), getBorderSize(), getBorderSize()));
 
 		controller = new JDianaViewer<JShapePreviewPanel>(drawing, factory, SwingToolFactory.DEFAULT);
 		add(controller.getDrawingView());
@@ -183,7 +183,7 @@ public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel {
 
 	public void setBorderSize(int border) {
 		this.border = border;
-		shapeGR.setBorder(factory.makeShapeBorder(getBorderSize(), getBorderSize(), getBorderSize(), getBorderSize()));
+		// shapeGR.setBorder(factory.makeShapeBorder(getBorderSize(), getBorderSize(), getBorderSize(), getBorderSize()));
 		shapeGR.setX(getShapeX());
 		shapeGR.setY(getShapeY());
 		shapeGR.setWidth(getShapeWidth());

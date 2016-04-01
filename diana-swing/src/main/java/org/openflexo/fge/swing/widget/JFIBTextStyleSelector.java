@@ -83,7 +83,7 @@ import org.openflexo.swing.JFontChooser;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBTextStyleSelector extends CustomPopup<TextStyle>implements FIBTextStyleSelector {
+public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIBTextStyleSelector {
 
 	static final Logger logger = Logger.getLogger(JFIBTextStyleSelector.class.getPackage().getName());
 
@@ -298,18 +298,18 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle>implements FIBT
 				public void init() {
 					final DrawingGRBinding<TextStylePreviewPanel> previewPanelBinding = bindDrawing(TextStylePreviewPanel.class,
 							"previewPanel", new DrawingGRProvider<TextStylePreviewPanel>() {
-						@Override
-						public DrawingGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
-							return drawingGR;
-						}
-					});
+								@Override
+								public DrawingGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
+									return drawingGR;
+								}
+							});
 					final ShapeGRBinding<TextStylePreviewPanel> shapeBinding = bindShape(TextStylePreviewPanel.class, "line",
 							new ShapeGRProvider<TextStylePreviewPanel>() {
-						@Override
-						public ShapeGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
-							return textGR;
-						}
-					});
+								@Override
+								public ShapeGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
+									return textGR;
+								}
+							});
 
 					previewPanelBinding.addToWalkers(new GRStructureVisitor<TextStylePreviewPanel>() {
 
@@ -343,7 +343,7 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle>implements FIBT
 			textGR.setIsSelectable(false);
 			textGR.setIsFocusable(false);
 			textGR.setIsReadOnly(true);
-			textGR.setBorder(factory.makeShapeBorder(0, 0, 0, 0));
+			// textGR.setBorder(factory.makeShapeBorder(0, 0, 0, 0));
 
 			controller = new JDianaViewer<TextStylePreviewPanel>(drawing, factory, SwingToolFactory.DEFAULT);
 			add(controller.getDrawingView());

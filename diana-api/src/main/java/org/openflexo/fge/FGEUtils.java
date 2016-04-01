@@ -126,8 +126,8 @@ public class FGEUtils {
 				count++;
 			} while (ratio < 5 && count < 10);
 		} else {
-			test = new Color(test.getRed() == 0 ? 5 : test.getRed(), test.getGreen() == 0 ? 5 : test.getGreen(), test.getBlue() == 0 ? 5
-					: test.getBlue());
+			test = new Color(test.getRed() == 0 ? 5 : test.getRed(), test.getGreen() == 0 ? 5 : test.getGreen(),
+					test.getBlue() == 0 ? 5 : test.getBlue());
 			do {
 				test = test.brighter();
 				ratio = ColorUtils.getContrastRatio(test, c);
@@ -323,19 +323,17 @@ public class FGEUtils {
 			LOGGER.warning("Called convertFromDrawableToDrawingAT() for null graphical representation (source)");
 			return new AffineTransform();
 		}
+
 		DrawingTreeNode<?, ?> current = source;
+
 		while (current != source.getDrawing().getRoot()) {
 			if (current.getGraphicalRepresentation() == null) {
-				throw new IllegalArgumentException(
-						"DrawingTreeNode "
-								+ current
-								+ " has no graphical representation.\nDevelopper note: Use GraphicalRepresentation.areElementsConnectedInGraphicalHierarchy(GraphicalRepresentation,GraphicalRepresentation) to prevent such cases.");
+				throw new IllegalArgumentException("DrawingTreeNode " + current
+						+ " has no graphical representation.\nDevelopper note: Use GraphicalRepresentation.areElementsConnectedInGraphicalHierarchy(GraphicalRepresentation,GraphicalRepresentation) to prevent such cases.");
 			}
 			if (current.getParentNode() == null) {
-				throw new IllegalArgumentException(
-						"DrawingTreeNode "
-								+ current
-								+ " has no container.\nDevelopper note: Use GraphicalRepresentation.areElementsConnectedInGraphicalHierarchy(GraphicalRepresentation,GraphicalRepresentation) to prevent such cases.");
+				throw new IllegalArgumentException("DrawingTreeNode " + current
+						+ " has no container.\nDevelopper note: Use GraphicalRepresentation.areElementsConnectedInGraphicalHierarchy(GraphicalRepresentation,GraphicalRepresentation) to prevent such cases.");
 			}
 			tx += current.getViewX(scale);
 			ty += current.getViewY(scale);
@@ -377,15 +375,14 @@ public class FGEUtils {
 		DrawingTreeNode<?, ?> current = destination;
 		while (current != destination.getDrawing().getRoot()) {
 			if (current.getParentNode() == null) {
-				throw new IllegalArgumentException(
-						"DrawingTreeNode "
-								+ current
-								+ " has no container.\nDevelopper note: Use GraphicalRepresentation.areElementsConnectedInGraphicalHierarchy(GraphicalRepresentation,GraphicalRepresentation) to prevent such cases.");
+				throw new IllegalArgumentException("DrawingTreeNode " + current
+						+ " has no container.\nDevelopper note: Use GraphicalRepresentation.areElementsConnectedInGraphicalHierarchy(GraphicalRepresentation,GraphicalRepresentation) to prevent such cases.");
 			}
 			tx -= current.getViewX(scale);
 			ty -= current.getViewY(scale);
 			current = current.getParentNode();
 		}
+
 		return AffineTransform.getTranslateInstance(tx, ty);
 	}
 
@@ -424,6 +421,28 @@ public class FGEUtils {
 		returned.preConcatenate(destination.convertViewCoordinatesToNormalizedPointAT(1.0));
 		return returned;
 	}
+
+	/*public static int getCumulativeLeftBorders(ContainerNode<?, ?> node) {
+		if (node instanceof ShapeNode) {
+			int returned = ((ShapeNode<?>) node).getBorderLeft();
+			if (node.getParentNode() instanceof ShapeNode) {
+				return returned + getCumulativeLeftBorders(node.getParentNode());
+			}
+			return returned;
+		}
+		return 0;
+	}
+	
+	public static int getCumulativeTopBorders(ContainerNode<?, ?> node) {
+		if (node instanceof ShapeNode) {
+			int returned = ((ShapeNode<?>) node).getBorderTop();
+			if (node.getParentNode() instanceof ShapeNode) {
+				return returned + getCumulativeTopBorders(node.getParentNode());
+			}
+			return returned;
+		}
+		return 0;
+	}*/
 
 	public static interface HasIcon {
 

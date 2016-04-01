@@ -129,6 +129,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 
 		graphics = new JFGEShapeGraphics(node, this);
 
+		// setBorder(BorderFactory.createLineBorder(Color.RED));
 	}
 
 	@Override
@@ -137,7 +138,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 	}
 
 	public void disableFGEViewMouseListener() {
-		System.out.println("Disable FGEViewMouseListener ");
+		// System.out.println("Disable FGEViewMouseListener ");
 		removeMouseListener(mouseListener);
 		removeMouseMotionListener(mouseListener);
 	}
@@ -244,11 +245,22 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 	}
 
 	private void relocateView() {
-		if (shapeNode != null && (getX() != shapeNode.getViewX(getScale()) || getY() != shapeNode.getViewY(getScale()))) {
+
+		int newX = shapeNode.getViewX(getScale()) /*+ (int) (FGEUtils.getCumulativeLeftBorders(shapeNode.getParentNode()) * getScale())*/
+				- (int) (shapeNode.getBorderLeft() * getScale());
+		int newY = shapeNode.getViewY(getScale()) /*+ (int) (FGEUtils.getCumulativeTopBorders(shapeNode.getParentNode()) * getScale())*/
+				- (int) (shapeNode.getBorderTop() * getScale());
+
+		if (shapeNode.getParentNode() instanceof ShapeNode) {
+			newX += (((ShapeNode) shapeNode.getParentNode()).getBorderLeft()) * getScale();
+			newY += (((ShapeNode) shapeNode.getParentNode()).getBorderTop()) * getScale();
+		}
+
+		if (shapeNode != null && (getX() != newX || getY() != newY)) {
 			if (labelView != null) {
 				labelView.updateBounds();
 			}
-			setLocation(shapeNode.getViewX(getScale()), shapeNode.getViewY(getScale()));
+			setLocation(newX, newY);
 		} else {
 			// logger.info("Ignore relocateView() because unchanged");
 		}
@@ -321,8 +333,8 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 					}
 				} else {
 					if (FGEPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE)) {
-						FGEPaintManager.paintPrimitiveLogger.fine("JShapeView: buffering paint, draw: " + shapeNode + " clip="
-								+ g.getClip());
+						FGEPaintManager.paintPrimitiveLogger
+								.fine("JShapeView: buffering paint, draw: " + shapeNode + " clip=" + g.getClip());
 					}
 					doPaint(g);
 				}
@@ -376,6 +388,9 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 
 	@Override
 	public void propertyChange(final PropertyChangeEvent evt) {
+
+		// System.out.println("Received " + evt.getPropertyName() + " for " + getNode().getText());
+
 		if (isDeleted) {
 			logger.warning("Received notifications for deleted view: " + evt);
 			return;
@@ -400,14 +415,18 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 				return;
 			}
 
-			if (evt.getSource() == getNode().getBorder()) {
+			/*if (evt.getSource() == getNode().getBorder()) {
 				relocateAndResizeView();
 				if (getPaintManager().isPaintingCacheEnabled()) {
 					getPaintManager().removeFromTemporaryObjects(shapeNode);
 					getPaintManager().invalidate(shapeNode);
 					getPaintManager().repaint(getParentView());
 				}
-			}
+			}*/
+
+			/*System.out.println("ShapeNode " + getNode().getText() + " viewBounds=" + getBounds() + " borderTop=" + getNode().getBorderTop()
+					+ " borderLeft=" + getNode().getBorderLeft() + " viewX=" + getNode().getViewX(getScale()) + " viewY="
+					+ getNode().getViewY(getScale()) + " location=" + getLocation());*/
 
 			if (evt.getPropertyName().equals(DrawingTreeNode.GRAPHICAL_REPRESENTATION_KEY)) {
 				// GR changed
@@ -544,8 +563,8 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 	public void activatePalette(DianaPalette<?, ?> aPalette) {
 		if (aPalette instanceof JDianaPalette) {
 			// A palette is registered, listen to drag'n'drop events
-			setDropTarget(new DropTarget(this, DnDConstants.ACTION_COPY, ((JDianaPalette) aPalette).buildPaletteDropListener(this,
-					controller), true));
+			setDropTarget(new DropTarget(this, DnDConstants.ACTION_COPY,
+					((JDianaPalette) aPalette).buildPaletteDropListener(this, controller), true));
 		}
 
 	}
@@ -585,7 +604,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 			// and width
 			Graphics2D graphics = screenshot.createGraphics();// creating the graphics for buffered image
 			graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f)); // Sets the Composite for the Graphics2D
-																								// context
+			// context
 			lbl.print(graphics); // painting the graphics to label
 			/*if (this.getGraphicalRepresentation().getBackground() instanceof BackgroundImage) {
 				graphics.drawImage(((BackgroundImage)this.getGraphicalRepresentation().getBackground()).getImage(),0,0,null);

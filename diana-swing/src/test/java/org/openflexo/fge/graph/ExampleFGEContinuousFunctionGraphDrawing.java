@@ -93,8 +93,8 @@ public class ExampleFGEContinuousFunctionGraphDrawing extends DrawingImpl<Object
 		y2Function
 				.setBackgroundStyle(getFactory().makeColorGradientBackground(Color.BLUE, Color.WHITE, ColorGradientDirection.NORTH_SOUTH));
 
-		FGENumericFunction<Integer> y3Function = graph.addNumericFunction("y3", Integer.class, new DataBinding<Integer>(
-				"($java.lang.Integer)(x*x/2+1)"), GraphType.POINTS);
+		FGENumericFunction<Integer> y3Function = graph.addNumericFunction("y3", Integer.class,
+				new DataBinding<Integer>("($java.lang.Integer)(x*x/2+1)"), GraphType.POINTS);
 		y3Function.setRange(0, 12);
 		y3Function.setForegroundStyle(getFactory().makeForegroundStyle(Color.BLACK, 1.0f));
 
@@ -127,7 +127,7 @@ public class ExampleFGEContinuousFunctionGraphDrawing extends DrawingImpl<Object
 				ColorGradientDirection.SOUTH_EAST_NORTH_WEST));
 		graphGR.setForeground(getFactory().makeForegroundStyle(Color.ORANGE));
 		// Very important: give some place for labels, legend and other informations
-		graphGR.setBorder(getFactory().makeShapeBorder(20, 20, 20, 20));
+		// graphGR.setBorder(getFactory().makeShapeBorder(20, 20, 20, 20));
 
 		final GraphGRBinding<FGEContinuousFunctionGraph> graphBinding = bindGraph(FGEContinuousFunctionGraph.class, "graph",
 				new ShapeGRProvider<FGEContinuousFunctionGraph>() {

@@ -1,9 +1,8 @@
 /**
  * 
- * Copyright (c) 2013-2014, Openflexo
- * Copyright (c) 2011-2012, AgileBirds
+ * Copyright (c) 2014, Openflexo
  * 
- * This file is part of Diana-core, a component of the software infrastructure 
+ * This file is part of Diana-api, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -37,22 +36,53 @@
  * 
  */
 
-package org.openflexo.fge.notifications;
+package org.openflexo.fge.layout.impl;
 
-import org.openflexo.connie.DataBinding;
+import org.openflexo.fge.impl.FGELayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.OutlineLayoutManager;
+import org.openflexo.fge.layout.OutlineLayoutManagerSpecification;
 
-// TODO: i think this is not used anymore, please check and remove when not necessary
-@Deprecated
-public class BindingChanged extends FGENotification {
+/**
+ * Default implementation for the specification of a {@link OutlineLayoutManager} in DIANA<br>
+ * 
+ * @author sylvain
+ * 
+ */
+public abstract class OutlineLayoutManagerSpecificationImpl extends FGELayoutManagerSpecificationImpl<OutlineLayoutManager>
+		implements OutlineLayoutManagerSpecification {
 
-	private DataBinding<?> binding;
-
-	public BindingChanged(DataBinding<?> binding) {
-		super((binding.getBindingName() != null ? binding.getBindingName() : "BindingChanged"), null, binding);
+	@Override
+	public LayoutManagerSpecificationType getLayoutManagerSpecificationType() {
+		return LayoutManagerSpecificationType.OUTLINE;
 	}
 
-	public DataBinding<?> getBinding() {
-		return binding;
+	@Override
+	public Class<OutlineLayoutManager> getLayoutManagerClass() {
+		return OutlineLayoutManager.class;
 	}
 
+	/**
+	 * Return true indicating that this layout manager supports autolayout
+	 * 
+	 * @return
+	 */
+	@Override
+	public boolean supportAutolayout() {
+		return true;
+	}
+
+	/**
+	 * Return true indicating that this layout manager supports decoration painting<br>
+	 * 
+	 * @return
+	 */
+	@Override
+	public boolean supportDecoration() {
+		return true;
+	}
+
+	@Override
+	public DraggingMode getDefaultDraggingMode() {
+		return DraggingMode.ContinuousLayout;
+	}
 }

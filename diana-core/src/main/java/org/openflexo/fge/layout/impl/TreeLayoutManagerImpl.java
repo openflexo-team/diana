@@ -66,8 +66,8 @@ import edu.uci.ics.jung.graph.util.TreeUtils;
  * 
  */
 @FIBPanel("Fib/Layout/TreeLayoutManagerPanel.fib")
-public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImpl<TreeLayoutManagerSpecification<O>, O> implements
-		TreeLayoutManager<O> {
+public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImpl<TreeLayoutManagerSpecification<O>, O>
+		implements TreeLayoutManager<O> {
 
 	private DianaTreeLayout<ShapeNode<?>, ConnectorNode<?>> layout;
 
@@ -121,15 +121,15 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 		double h = 0;
 		for (int i = 0; i < getLayout().getVerticesByRows().size(); i++) {
 			switch (getVerticalAlignment()) {
-			case TOP:
-				controlAreas.add(new TreeBaseLineAdjustingArea(this, i, h));
-				break;
-			case MIDDLE:
-				controlAreas.add(new TreeBaseLineAdjustingArea(this, i, h + getRowHeight(i) / 2));
-				break;
-			case BOTTOM:
-				controlAreas.add(new TreeBaseLineAdjustingArea(this, i, h + getRowHeight(i)));
-				break;
+				case TOP:
+					controlAreas.add(new TreeBaseLineAdjustingArea(this, i, h));
+					break;
+				case MIDDLE:
+					controlAreas.add(new TreeBaseLineAdjustingArea(this, i, h + getRowHeight(i) / 2));
+					break;
+				case BOTTOM:
+					controlAreas.add(new TreeBaseLineAdjustingArea(this, i, h + getRowHeight(i)));
+					break;
 			}
 			h += getRowHeight(i);
 		}
@@ -196,27 +196,27 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 		if (bounds != null) {
 
 			switch (getHorizontalAlignment()) {
-			case CENTER:
-				x = bounds.getCenter().getX() - node.getWidth() / 2 - node.getBorder().getLeft();
-				break;
-			case LEFT:
-				x = bounds.getX() - node.getBorder().getLeft();
-				break;
-			case RIGHT:
-				x = bounds.getX() + bounds.getWidth() - node.getWidth() - node.getBorder().getLeft();
-				break;
+				case CENTER:
+					x = bounds.getCenter().getX() - node.getWidth() / 2 /*- node.getBorder().getLeft()*/;
+					break;
+				case LEFT:
+					x = bounds.getX() /*- node.getBorder().getLeft()*/;
+					break;
+				case RIGHT:
+					x = bounds.getX() + bounds.getWidth() - node.getWidth() /*- node.getBorder().getLeft()*/;
+					break;
 			}
 
 			switch (getVerticalAlignment()) {
-			case MIDDLE:
-				y = bounds.getCenter().getY() - node.getHeight() / 2 - node.getBorder().getTop();
-				break;
-			case TOP:
-				y = bounds.getY() - node.getBorder().getTop();
-				break;
-			case BOTTOM:
-				y = bounds.getY() + bounds.getHeight() - node.getHeight() - node.getBorder().getTop();
-				break;
+				case MIDDLE:
+					y = bounds.getCenter().getY() - node.getHeight() / 2 /*- node.getBorder().getTop()*/;
+					break;
+				case TOP:
+					y = bounds.getY() /*- node.getBorder().getTop()*/;
+					break;
+				case BOTTOM:
+					y = bounds.getY() + bounds.getHeight() - node.getHeight() /*- node.getBorder().getTop()*/;
+					break;
 			}
 
 		}
@@ -240,13 +240,16 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 		if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.SPACING_X_KEY)) {
 			invalidate();
 			doLayout(true);
-		} else if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.SPACING_Y_KEY)) {
+		}
+		else if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.SPACING_Y_KEY)) {
 			invalidate();
 			doLayout(true);
-		} else if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.BORDER_X_KEY)) {
+		}
+		else if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.BORDER_X_KEY)) {
 			invalidate();
 			doLayout(true);
-		} else if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.BORDER_Y_KEY)) {
+		}
+		else if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.BORDER_Y_KEY)) {
 			invalidate();
 			doLayout(true);
 		}

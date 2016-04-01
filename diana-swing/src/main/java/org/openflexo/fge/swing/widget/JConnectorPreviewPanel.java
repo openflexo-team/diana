@@ -178,7 +178,7 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 		startShapeGR.setIsSelectable(true);
 		startShapeGR.setIsFocusable(true);
 		startShapeGR.setIsReadOnly(false);
-		startShapeGR.setBorder(factory.makeShapeBorder(0, 0, 0, 0));
+		// startShapeGR.setBorder(factory.makeShapeBorder(0, 0, 0, 0));
 
 		endShapeGR = factory.makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
 		endShapeGR.setX(getPanelWidth() - 30);
@@ -192,7 +192,7 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 		endShapeGR.setIsSelectable(true);
 		endShapeGR.setIsFocusable(true);
 		endShapeGR.setIsReadOnly(false);
-		endShapeGR.setBorder(factory.makeShapeBorder(0, 0, 0, 0));
+		// endShapeGR.setBorder(factory.makeShapeBorder(0, 0, 0, 0));
 
 		connectorGR = factory.makeConnectorGraphicalRepresentation(ConnectorType.LINE);
 		connectorGR.setForeground(foregroundStyle);

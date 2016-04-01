@@ -81,7 +81,7 @@ import org.openflexo.swing.CustomPopup;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle>implements FIBForegroundStyleSelector {
+public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> implements FIBForegroundStyleSelector {
 
 	static final Logger logger = Logger.getLogger(JFIBForegroundStyleSelector.class.getPackage().getName());
 
@@ -303,18 +303,20 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle>imp
 				public void init() {
 					final DrawingGRBinding<ForegroundStylePreviewPanel> previewPanelBinding = bindDrawing(ForegroundStylePreviewPanel.class,
 							"previewPanel", new DrawingGRProvider<ForegroundStylePreviewPanel>() {
-						@Override
-						public DrawingGraphicalRepresentation provideGR(ForegroundStylePreviewPanel drawable, FGEModelFactory factory) {
-							return drawingGR;
-						}
-					});
+								@Override
+								public DrawingGraphicalRepresentation provideGR(ForegroundStylePreviewPanel drawable,
+										FGEModelFactory factory) {
+									return drawingGR;
+								}
+							});
 					final ShapeGRBinding<ForegroundStylePreviewPanel> shapeBinding = bindShape(ForegroundStylePreviewPanel.class, "line",
 							new ShapeGRProvider<ForegroundStylePreviewPanel>() {
-						@Override
-						public ShapeGraphicalRepresentation provideGR(ForegroundStylePreviewPanel drawable, FGEModelFactory factory) {
-							return lineGR;
-						}
-					});
+								@Override
+								public ShapeGraphicalRepresentation provideGR(ForegroundStylePreviewPanel drawable,
+										FGEModelFactory factory) {
+									return lineGR;
+								}
+							});
 
 					previewPanelBinding.addToWalkers(new GRStructureVisitor<ForegroundStylePreviewPanel>() {
 
@@ -343,7 +345,7 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle>imp
 			lineGR.setIsSelectable(false);
 			lineGR.setIsFocusable(false);
 			lineGR.setIsReadOnly(true);
-			lineGR.setBorder(factory.makeShapeBorder(10, 10, 10, 10));
+			// lineGR.setBorder(factory.makeShapeBorder(10, 10, 10, 10));
 
 			System.out.println("lineGR setForeground with " + getEditedObject());
 

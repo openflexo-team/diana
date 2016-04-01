@@ -82,6 +82,9 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 	 */
 	@Override
 	public void createGraphics(Graphics2D graphics2D) {
+
+		// System.out.println("******** createGraphics() with " + graphics2D + " for " + getNode().getText());
+
 		super.createGraphics(graphics2D);
 		shapeDecorationGraphics.createGraphics(graphics2D);
 	}
@@ -143,8 +146,8 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 
 		Graphics2D oldGraphics = cloneGraphics();
 
-		Area clipArea = new Area(new java.awt.Rectangle(0, 0, getViewWidth(getController().getScale()), getViewHeight(getController()
-				.getScale())));
+		Area clipArea = new Area(
+				new java.awt.Rectangle(0, 0, getViewWidth(getController().getScale()), getViewHeight(getController().getScale())));
 		Area a = new Area(getNode().getFGEShape());
 		a.transform(getNode().convertNormalizedPointToViewCoordinatesAT(getController().getScale()));
 		clipArea.subtract(a);
@@ -169,6 +172,7 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 			getNode().getFGEShape().transform(at).paint(this);
 		}
 		releaseClonedGraphics(oldGraphics);
+
 	}
 
 }

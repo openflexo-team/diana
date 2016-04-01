@@ -58,7 +58,6 @@ import org.openflexo.fge.ShadowStyle;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.fge.ShapeGraphicalRepresentation.LocationConstraints;
-import org.openflexo.fge.ShapeGraphicalRepresentation.ShapeBorder;
 import org.openflexo.fge.control.DianaInteractiveViewer;
 
 /**
@@ -191,6 +190,14 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		setPropertyValue(GraphicalRepresentation.PARAGRAPH_ALIGNEMENT, alignment);
 	}
 
+	public Boolean getIsFloatingLabel() {
+		return getPropertyValue(ShapeGraphicalRepresentation.IS_FLOATING_LABEL);
+	}
+
+	public void setIsFloatingLabel(Boolean flag) {
+		setPropertyValue(ShapeGraphicalRepresentation.IS_FLOATING_LABEL, flag);
+	}
+
 	public Double getAbsoluteTextX() {
 		return getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X);
 	}
@@ -263,6 +270,14 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		setPropertyValue(ShapeGraphicalRepresentation.ALLOW_TO_LEAVE_BOUNDS, flag);
 	}
 
+	public Boolean getAdaptBoundsToContents() {
+		return getPropertyValue(ShapeGraphicalRepresentation.ADAPT_BOUNDS_TO_CONTENTS);
+	}
+
+	public void setAdaptBoundsToContents(Boolean flag) {
+		setPropertyValue(ShapeGraphicalRepresentation.ADAPT_BOUNDS_TO_CONTENTS, flag);
+	}
+
 	public DataBinding<Double> getXConstraints() {
 		return getPropertyValue(ShapeGraphicalRepresentation.X_CONSTRAINTS);
 	}
@@ -295,21 +310,4 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		setPropertyValue(ShapeGraphicalRepresentation.HEIGHT_CONSTRAINTS, heightConstraints);
 	}
 
-	/*@Override
-	protected <T> void fireChangedProperty(GRProperty<T> p) {
-		if (p.equals(ShapeGraphicalRepresentation.BORDER)) {
-			T newValue = _getPropertyValue(p);
-			System.out.println("Fire de border pour " + newValue);
-			_doFireChangedProperty(p, null, newValue);
-		}
-		super.fireChangedProperty(p);
-	}*/
-
-	public ShapeBorder getBorder() {
-		return getPropertyValue(ShapeGraphicalRepresentation.BORDER);
-	}
-
-	public void setBorder(ShapeBorder aBorder) {
-		setPropertyValue(ShapeGraphicalRepresentation.BORDER, aBorder);
-	}
 }

@@ -58,8 +58,8 @@ import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.fge.graphics.AbstractFGEGraphics;
 
 @SuppressWarnings("serial")
-public class FGERoundRectangle extends RoundRectangle2D.Double implements FGEGeometricObject<FGERoundRectangle>,
-		FGEShape<FGERoundRectangle> {
+public class FGERoundRectangle extends RoundRectangle2D.Double
+		implements FGEGeometricObject<FGERoundRectangle>, FGEShape<FGERoundRectangle> {
 
 	private static final Logger logger = Logger.getLogger(FGERoundRectangle.class.getPackage().getName());
 
@@ -316,18 +316,18 @@ public class FGERoundRectangle extends RoundRectangle2D.Double implements FGEGeo
 			//System.out.println("outlineIntersect() in NW");
 			return getNorthWestRound().nearestPointFrom(returned,orientation);
 		}
-
+		
 		if (getSouthWestRoundBounds().contains(returned)) {
 			//System.out.println("outlineIntersect() in SW");
 			return getSouthWestRound().nearestPointFrom(returned,orientation);
 		}
-
+		
 		if (getNorthEastRoundBounds().contains(returned)) {
 			//System.out.println("outlineIntersect() in NE");
 			return getNorthEastRound().nearestPointFrom(returned,orientation);
 		}
-
-
+		
+		
 		if (getSouthEastRoundBounds().contains(returned)) {
 			//System.out.println("outlineIntersect() in SE");
 			return getSouthEastRound().nearestPointFrom(returned,orientation);
@@ -793,8 +793,8 @@ public class FGERoundRectangle extends RoundRectangle2D.Double implements FGEGeo
 		// TODO: if transformation contains a rotation, turn into a regular polygon
 		// arcwidth,archeight must also be computed according to this rotation
 
-		return new FGERoundRectangle(Math.min(p1.x, p2.x), Math.min(p1.y, p2.y), Math.abs(p1.x - p2.x), Math.abs(p1.y - p2.y), arcwidth
-				* t.getScaleX(), archeight * t.getScaleY(), _filling);
+		return new FGERoundRectangle(Math.min(p1.x, p2.x), Math.min(p1.y, p2.y), Math.abs(p1.x - p2.x), Math.abs(p1.y - p2.y),
+				arcwidth * t.getScaleX(), archeight * t.getScaleY(), _filling);
 	}
 
 	@Override

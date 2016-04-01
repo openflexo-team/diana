@@ -61,7 +61,6 @@ import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.GeometricGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GraphicalRepresentation.LabelMetricsProvider;
-import org.openflexo.fge.ShapeGraphicalRepresentation.ShapeBorder;
 import org.openflexo.fge.animation.Animable;
 import org.openflexo.fge.connectors.Connector;
 import org.openflexo.fge.connectors.ConnectorSpecification;
@@ -146,6 +145,11 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 	 */
 	public interface DrawingTreeNode<O, GR extends GraphicalRepresentation>
 			extends PropertyChangeListener, Observer, HasPropertyChangeSupport /*, KeyValueCoding*/ {
+
+		public static final String THIS_KEY = "this";
+		public static final String PARENT_KEY = "parent";
+		public static final String DRAWABLE_KEY = "drawable";
+		public static final String GR_KEY = "gr";
 
 		public static GRProperty<Boolean> IS_FOCUSED = GRProperty.getGRParameter(DrawingTreeNode.class, DrawingTreeNode.IS_FOCUSED_KEY,
 				Boolean.class);
@@ -588,9 +592,9 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public Shape<?> getShape();
 
-		public double getUnscaledViewWidth();
+		// public double getUnscaledViewWidth();
 
-		public double getUnscaledViewHeight();
+		// public double getUnscaledViewHeight();
 
 		/**
 		 * Return bounds (including border) relative to parent container
@@ -665,6 +669,46 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		public void setLocation(FGEPoint newLocation);
 
 		public FGEPoint getLocationInDrawing();
+
+		/**
+		 * Computes and return required border on top, while taking under account:
+		 * <ul>
+		 * <li>the eventual shadow to paint</li>
+		 * <li>the control areas to display</li>
+		 * <li>all contained elements which may be located outside of original bounds</li>
+		 * </ul>
+		 */
+		public int getBorderTop();
+
+		/**
+		 * Computes and return required border on left, while taking under account:
+		 * <ul>
+		 * <li>the eventual shadow to paint</li>
+		 * <li>the control areas to display</li>
+		 * <li>all contained elements which may be located outside of original bounds</li>
+		 * </ul>
+		 */
+		public int getBorderLeft();
+
+		/**
+		 * Computes and return required border on bottom, while taking under account:
+		 * <ul>
+		 * <li>the eventual shadow to paint</li>
+		 * <li>the control areas to display</li>
+		 * <li>all contained elements which may be located outside of original bounds</li>
+		 * </ul>
+		 */
+		public int getBorderBottom();
+
+		/**
+		 * Computes and return required border on right, while taking under account:
+		 * <ul>
+		 * <li>the eventual shadow to paint</li>
+		 * <li>the control areas to display</li>
+		 * <li>all contained elements which may be located outside of original bounds</li>
+		 * </ul>
+		 */
+		public int getBorderRight();
 
 		public boolean isFullyContainedInContainer();
 
@@ -765,10 +809,6 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public void setFocusedBackgroundStyle(BackgroundStyle style);
 
-		public ShapeBorder getBorder();
-
-		public void setBorder(ShapeBorder border);
-
 		public ShapeSpecification getShapeSpecification();
 
 		public void setShapeSpecification(ShapeSpecification shapeSpecification);
@@ -819,6 +859,16 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		 * This means that the relocation request was initiated from the layout manager
 		 */
 		public void setRelayouting(boolean relayouting);
+
+		/**
+		 * Convenient method used to retrieve 'allowsToLeaveBounds property value
+		 */
+		public Boolean getAllowsToLeaveBounds();
+
+		/**
+		 * Convenient method used to set 'allowsToLeaveBounds' property value
+		 */
+		public void setAllowsToLeaveBounds(Boolean aValue);
 
 	}
 
@@ -1206,16 +1256,14 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 				if (other.drawable != null) {
 					return false;
 				}
-			}
-			else if (!drawable.equals(other.drawable)) {
+			} else if (!drawable.equals(other.drawable)) {
 				return false;
 			}
 			if (grBinding == null) {
 				if (other.grBinding != null) {
 					return false;
 				}
-			}
-			else if (!grBinding.equals(other.grBinding)) {
+			} else if (!grBinding.equals(other.grBinding)) {
 				return false;
 			}
 			return true;

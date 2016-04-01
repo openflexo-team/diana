@@ -1,9 +1,8 @@
 /**
  * 
- * Copyright (c) 2013-2014, Openflexo
- * Copyright (c) 2011-2012, AgileBirds
+ * Copyright (c) 2014, Openflexo
  * 
- * This file is part of Diana-core, a component of the software infrastructure 
+ * This file is part of Diana-api, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -37,22 +36,23 @@
  * 
  */
 
-package org.openflexo.fge.notifications;
+package org.openflexo.fge.layout;
 
-import org.openflexo.connie.DataBinding;
+import org.openflexo.fge.FGELayoutManager;
+import org.openflexo.fge.layout.OutlineLayoutManagerSpecification.OutlineLocationType;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
-// TODO: i think this is not used anymore, please check and remove when not necessary
-@Deprecated
-public class BindingChanged extends FGENotification {
+/**
+ * Represents a layout manager automatically placing the layouted nodes around the outline of container shape
+ * 
+ * @author sylvain
+ * 
+ */
+@ModelEntity
+@XMLElement
+public interface OutlineLayoutManager<O> extends FGELayoutManager<OutlineLayoutManagerSpecification, O> {
 
-	private DataBinding<?> binding;
-
-	public BindingChanged(DataBinding<?> binding) {
-		super((binding.getBindingName() != null ? binding.getBindingName() : "BindingChanged"), null, binding);
-	}
-
-	public DataBinding<?> getBinding() {
-		return binding;
-	}
+	public OutlineLocationType getOutlineLocationType();
 
 }
