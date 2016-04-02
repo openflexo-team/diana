@@ -362,8 +362,7 @@ public class DiagramEditorApplication {
 						menuItem.setEnabled(currentDiagramEditor.getController().canUndo());
 						if (currentDiagramEditor.getController().canUndo()) {
 							menuItem.setText(currentDiagramEditor.getController().getFactory().getUndoManager().getUndoPresentationName());
-						}
-						else {
+						} else {
 							menuItem.setText(FlexoLocalization.localizedForKey(LOCALIZATION, "undo"));
 						}
 					}
@@ -383,8 +382,7 @@ public class DiagramEditorApplication {
 						menuItem.setEnabled(currentDiagramEditor.getController().canRedo());
 						if (currentDiagramEditor.getController().canRedo()) {
 							menuItem.setText(currentDiagramEditor.getController().getFactory().getUndoManager().getRedoPresentationName());
-						}
-						else {
+						} else {
 							menuItem.setText(FlexoLocalization.localizedForKey(LOCALIZATION, "redo"));
 						}
 					}
@@ -446,8 +444,7 @@ public class DiagramEditorApplication {
 			if (evt.getKey().startsWith(DiagramEditorPreferences.LAST_FILE)) {
 				if (willUpdate) {
 					return;
-				}
-				else {
+				} else {
 					willUpdate = true;
 				}
 				SwingUtilities.invokeLater(new Runnable() {
@@ -524,7 +521,9 @@ public class DiagramEditorApplication {
 		fileChooser.setCurrentDirectory(DiagramEditorPreferences.getLastDirectory());
 
 		resourceLocator = new FileSystemResourceLocatorImpl();
-		resourceLocator.appendToDirectories(DiagramEditorPreferences.getLastDirectory().getAbsolutePath());
+		if (DiagramEditorPreferences.getLastDirectory() != null) {
+			resourceLocator.appendToDirectories(DiagramEditorPreferences.getLastDirectory().getAbsolutePath());
+		}
 		resourceLocator.appendToDirectories(System.getProperty("user.home"));
 		ResourceLocator.appendDelegate(resourceLocator);
 
@@ -987,15 +986,15 @@ public class DiagramEditorApplication {
 			int result = JOptionPane.showOptionDialog(frame, "Would you like to save drawing changes?", "Save changes",
 					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.YES_OPTION);
 			switch (result) {
-				case JOptionPane.YES_OPTION:
-					if (!currentDiagramEditor.save()) {
-						return;
-					}
-					break;
-				case JOptionPane.NO_OPTION:
-					break;
-				default:
+			case JOptionPane.YES_OPTION:
+				if (!currentDiagramEditor.save()) {
 					return;
+				}
+				break;
+			case JOptionPane.NO_OPTION:
+				break;
+			default:
+				return;
 			}
 		}
 		diagramEditors.remove(currentDiagramEditor);
@@ -1031,8 +1030,7 @@ public class DiagramEditorApplication {
 		}
 		if (currentDiagramEditor.getFile() == null) {
 			return saveDrawingAs();
-		}
-		else {
+		} else {
 			return currentDiagramEditor.save();
 		}
 	}
@@ -1051,8 +1049,7 @@ public class DiagramEditorApplication {
 			updateFrameTitle();
 			updateTabTitle();
 			return currentDiagramEditor.save();
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
