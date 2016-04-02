@@ -40,8 +40,6 @@ package org.openflexo.fge.drawingeditor;
 
 import java.io.File;
 
-import junit.framework.TestCase;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -61,6 +59,8 @@ import org.openflexo.model.factory.EditingContextImpl;
 import org.openflexo.model.undo.CompoundEdit;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
+
+import junit.framework.TestCase;
 
 /**
  * This test is actually testing PAMELA undo/redo features applied to Diana model<br>
@@ -142,7 +142,7 @@ public class TestUndoRedoWithDrawing extends TestCase {
 		assertFalse(factory.getUndoManager().isBeeingRecording());
 		System.out.println("PERFORMED: " + addFirstShape.getPresentationName());
 		System.out.println("edits nb=" + addFirstShape.getEdits().size());
-		assertEquals(105, addFirstShape.getEdits().size());
+		assertEquals(87, addFirstShape.getEdits().size());
 
 		addSecondShape = factory.getUndoManager().startRecording("Create second shape");
 		Shape shape2 = factory.makeNewShape(ShapeType.RECTANGLE, new FGEPoint(200, 100), diagram);
@@ -153,7 +153,7 @@ public class TestUndoRedoWithDrawing extends TestCase {
 		assertFalse(factory.getUndoManager().isBeeingRecording());
 		System.out.println("PERFORMED: " + addSecondShape.getPresentationName());
 		System.out.println("edits nb=" + addSecondShape.getEdits().size());
-		assertEquals(105, addSecondShape.getEdits().size());
+		assertEquals(87, addSecondShape.getEdits().size());
 
 		addConnector = factory.getUndoManager().startRecording("Add connector");
 		Connector connector1 = factory.makeNewConnector(shape1, shape2, diagram);
