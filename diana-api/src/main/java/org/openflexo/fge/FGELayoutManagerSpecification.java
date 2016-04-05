@@ -41,6 +41,7 @@ package org.openflexo.fge;
 import org.openflexo.connie.Bindable;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.layout.BalloonLayoutManagerSpecification;
+import org.openflexo.fge.layout.FlowLayoutManagerSpecification;
 import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
 import org.openflexo.fge.layout.GraphBasedLayoutManagerSpecification;
 import org.openflexo.fge.layout.GridLayoutManagerSpecification;
@@ -65,7 +66,7 @@ import org.openflexo.model.factory.KeyValueCoding;
  * 
  */
 @ModelEntity(isAbstract = true)
-@Imports({ @Import(GridLayoutManagerSpecification.class), @Import(OutlineLayoutManagerSpecification.class),
+@Imports({ @Import(GridLayoutManagerSpecification.class), @Import(OutlineLayoutManagerSpecification.class), @Import(FlowLayoutManagerSpecification.class),
 		@Import(GraphBasedLayoutManagerSpecification.class), @Import(TreeBasedLayoutManagerSpecification.class) })
 public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>> extends FGEObject, Bindable, KeyValueCoding {
 
@@ -161,6 +162,16 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 			@Override
 			public String getDefaultLayoutManagerName() {
 				return "radial-tree";
+			}
+		}, FLOW {
+			@Override
+			public Class<FlowLayoutManagerSpecification> getLayoutManagerSpecificationClass() {
+				return (Class) FlowLayoutManagerSpecification.class;
+			}
+
+			@Override
+			public String getDefaultLayoutManagerName() {
+				return "flow";
 			}
 		};
 
