@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Inspector
+	layout="border" titleFont="SansSerif,0,12" darkLevel="0"
+	dataClassName="org.openflexo.fge.layout.FlowLayoutManager" font="SansSerif,0,12"
+	name="Inspector">
+	<TabPanel name="Tab" index="0" constraints="border(index=0;location=center)">
+
+		<Tab title="Basic" layout="twocols" titleFont="SansSerif,0,11"
+			darkLevel="0" index="1" font="SansSerif,0,11" useScrollBar="true"
+			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
+			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="TextTab">
+			<Label label="orientation" index="16"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="VerticalOrientationLabel" localize="true" />
+			<DropDown index="17" data="data.layoutManagerSpecification.FlowOrientationType"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
+				width="150" name="FlowOrientationType" format="object.name"
+				localize="true"
+				iteratorClassName="org.openflexo.fge.layout.FlowLayoutManagerSpecification$FlowOrientationType"
+				autoSelectFirstRow="true" />
+		</Tab>
+
+	</TabPanel>
+	<LocalizedDictionary>
+	</LocalizedDictionary>
+	<Parameter name="title" value="FlowLayoutManager" />
+</Inspector>

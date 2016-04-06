@@ -87,6 +87,8 @@ import org.openflexo.fge.impl.TextStyleImpl;
 import org.openflexo.fge.impl.TextureBackgroundStyleImpl;
 import org.openflexo.fge.layout.BalloonLayoutManager;
 import org.openflexo.fge.layout.BalloonLayoutManagerSpecification;
+import org.openflexo.fge.layout.FlowLayoutManager;
+import org.openflexo.fge.layout.FlowLayoutManagerSpecification;
 import org.openflexo.fge.layout.ForceDirectedGraphLayoutManager;
 import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
 import org.openflexo.fge.layout.GridLayoutManager;
@@ -101,6 +103,8 @@ import org.openflexo.fge.layout.TreeLayoutManager;
 import org.openflexo.fge.layout.TreeLayoutManagerSpecification;
 import org.openflexo.fge.layout.impl.BalloonLayoutManagerImpl;
 import org.openflexo.fge.layout.impl.BalloonLayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.impl.FlowLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.FlowLayoutManagerSpecificationImpl;
 import org.openflexo.fge.layout.impl.ForceDirectedGraphLayoutManagerImpl;
 import org.openflexo.fge.layout.impl.ForceDirectedGraphLayoutManagerSpecificationImpl;
 import org.openflexo.fge.layout.impl.GridLayoutManagerImpl;
@@ -231,6 +235,8 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 				CurvedPolylinConnectorSpecification.class);
 
 		// Layout managers
+		modelFactory.setImplementingClassForInterface(FlowLayoutManagerImpl.class, FlowLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(FlowLayoutManagerSpecificationImpl.class, FlowLayoutManagerSpecification.class);
 		modelFactory.setImplementingClassForInterface(GridLayoutManagerImpl.class, GridLayoutManager.class);
 		modelFactory.setImplementingClassForInterface(GridLayoutManagerSpecificationImpl.class, GridLayoutManagerSpecification.class);
 		modelFactory.setImplementingClassForInterface(OutlineLayoutManagerImpl.class, OutlineLayoutManager.class);
