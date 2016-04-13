@@ -46,11 +46,11 @@ import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 
+import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.tools.ShapeSpecificationFactory;
 import org.openflexo.fge.shapes.ShapeSpecification;
 import org.openflexo.fge.view.widget.FIBShapeSelector;
 import org.openflexo.fge.view.widget.ShapePreviewPanel;
-import org.openflexo.gina.FIBLibrary;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.FIBComponent;
 import org.openflexo.gina.model.widget.FIBCustom;
@@ -156,7 +156,7 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification>implements
 		protected ShapeDetailsPanel(ShapeSpecification backgroundStyle) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
+			fibComponent = AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(FIB_FILE, true);
 			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
 			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent);
 			controller.setDataObject(getFactory());

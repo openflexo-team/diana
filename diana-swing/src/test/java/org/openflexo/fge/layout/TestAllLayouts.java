@@ -52,6 +52,7 @@ import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
 import org.openflexo.fge.TestGraph;
 import org.openflexo.fib.swing.utils.SwingGraphicalContextDelegate;
+import org.openflexo.gina.ApplicationFIBLibrary;
 import org.openflexo.gina.swing.utils.JFIBInspectorController;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.model.exceptions.ModelDefinitionException;
@@ -93,7 +94,8 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 			e.printStackTrace();
 		}
 
-		inspector = new JFIBInspectorController(null, ResourceLocator.locateResource("LayoutInspectors"), null);
+		inspector = new JFIBInspectorController(null, ResourceLocator.locateResource("LayoutInspectors"), ApplicationFIBLibrary.instance(),
+				null);
 
 		initGUI();
 	}
@@ -129,33 +131,33 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 		node7.connectTo(node13);
 		return graph;
 	}
-
+	
 	public static class TestDrawingController extends JDianaInteractiveEditor<TestGraph> {
 		// private final JPopupMenu contextualMenu;
 		private final JDianaScaleSelector scaleSelector;
-
+	
 		public TestDrawingController(Drawing aDrawing) {
 			super(aDrawing, aDrawing.getFactory(), SwingViewFactory.INSTANCE, SwingToolFactory.DEFAULT);
 			scaleSelector = (JDianaScaleSelector) getToolFactory().makeDianaScaleSelector(this);
 			// contextualMenu = new JPopupMenu();
 			// contextualMenu.add(new JMenuItem("Item"));
 		}
-
+	
 	}
-
+	
 	static class LayoutDemoPanel extends JPanel {
-
+	
 		final TestDrawingController drawingController;
-
+	
 		public LayoutDemoPanel(Drawing drawing) {
 			super(new BorderLayout());
-
+	
 			drawingController = new TestDrawingController(drawing);
-
+	
 			drawingController.getDrawingView().setName("[NO_CACHE]");
 			add(new JScrollPane(drawingController.getDrawingView()), BorderLayout.CENTER);
 			add(drawingController.scaleSelector.getComponent(), BorderLayout.NORTH);
-
+	
 			JButton inspectButton = new JButton("Inspect");
 			inspectButton.addActionListener(new ActionListener() {
 				@Override
@@ -163,7 +165,7 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 					inspector.setVisible(true);
 				}
 			});
-
+	
 			JButton logButton = new JButton("Logs");
 			logButton.addActionListener(new ActionListener() {
 				@Override
@@ -171,7 +173,7 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 					FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), gcDelegate.getFrame());
 				}
 			});
-
+	
 			JButton layoutButton = new JButton("Layout");
 			layoutButton.addActionListener(new ActionListener() {
 				@Override
@@ -180,26 +182,26 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 					drawingController.getDrawing().getRoot().getDefaultLayoutManager().doLayout(true);
 				}
 			});
-
+	
 			JPanel controlPanel = new JPanel(new FlowLayout());
 			controlPanel.add(inspectButton);
 			controlPanel.add(logButton);
 			controlPanel.add(layoutButton);
-
+	
 			add(controlPanel, BorderLayout.SOUTH);
-
+	
 		}
-
+	
 		public TestDrawingController getDrawingController() {
 			return drawingController;
 		}
-
+	
 		public FGELayoutManagerSpecification<?> getLayoutManagerSpecification() {
 			return drawingController.getDrawing().getRoot().getDefaultLayoutManager().getLayoutManagerSpecification();
 		}
-
+	
 	}
-
+	
 	public static LayoutDemoPanel makePanel(final Drawing d) {
 		return new LayoutDemoPanel(d);
 	}*/

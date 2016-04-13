@@ -96,6 +96,7 @@ import org.openflexo.fge.swing.control.tools.JDianaPalette;
 import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
 import org.openflexo.fge.swing.control.tools.JDianaStyles;
 import org.openflexo.fge.swing.control.tools.JDianaToolSelector;
+import org.openflexo.gina.ApplicationFIBLibrary;
 import org.openflexo.gina.swing.utils.localization.LocalizedEditor;
 import org.openflexo.gina.swing.utils.logging.FlexoLoggingViewer;
 import org.openflexo.localization.FlexoLocalization;
@@ -274,7 +275,7 @@ public class DiagramEditorApplication {
 			logsItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), frame);
+					FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), ApplicationFIBLibrary.instance(), frame);
 				}
 			});
 
@@ -283,7 +284,8 @@ public class DiagramEditorApplication {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (localizedEditor == null) {
-						localizedEditor = new LocalizedEditor(getFrame(), "localized_editor", LOCALIZATION, LOCALIZATION, true, false);
+						localizedEditor = new LocalizedEditor(getFrame(), "localized_editor", LOCALIZATION, LOCALIZATION,
+								ApplicationFIBLibrary.instance(), true, false);
 					}
 					localizedEditor.setVisible(true);
 				}
@@ -362,7 +364,8 @@ public class DiagramEditorApplication {
 						menuItem.setEnabled(currentDiagramEditor.getController().canUndo());
 						if (currentDiagramEditor.getController().canUndo()) {
 							menuItem.setText(currentDiagramEditor.getController().getFactory().getUndoManager().getUndoPresentationName());
-						} else {
+						}
+						else {
 							menuItem.setText(FlexoLocalization.localizedForKey(LOCALIZATION, "undo"));
 						}
 					}
@@ -382,7 +385,8 @@ public class DiagramEditorApplication {
 						menuItem.setEnabled(currentDiagramEditor.getController().canRedo());
 						if (currentDiagramEditor.getController().canRedo()) {
 							menuItem.setText(currentDiagramEditor.getController().getFactory().getUndoManager().getRedoPresentationName());
-						} else {
+						}
+						else {
 							menuItem.setText(FlexoLocalization.localizedForKey(LOCALIZATION, "redo"));
 						}
 					}
@@ -444,7 +448,8 @@ public class DiagramEditorApplication {
 			if (evt.getKey().startsWith(DiagramEditorPreferences.LAST_FILE)) {
 				if (willUpdate) {
 					return;
-				} else {
+				}
+				else {
 					willUpdate = true;
 				}
 				SwingUtilities.invokeLater(new Runnable() {
@@ -986,15 +991,15 @@ public class DiagramEditorApplication {
 			int result = JOptionPane.showOptionDialog(frame, "Would you like to save drawing changes?", "Save changes",
 					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.YES_OPTION);
 			switch (result) {
-			case JOptionPane.YES_OPTION:
-				if (!currentDiagramEditor.save()) {
+				case JOptionPane.YES_OPTION:
+					if (!currentDiagramEditor.save()) {
+						return;
+					}
+					break;
+				case JOptionPane.NO_OPTION:
+					break;
+				default:
 					return;
-				}
-				break;
-			case JOptionPane.NO_OPTION:
-				break;
-			default:
-				return;
 			}
 		}
 		diagramEditors.remove(currentDiagramEditor);
@@ -1030,7 +1035,8 @@ public class DiagramEditorApplication {
 		}
 		if (currentDiagramEditor.getFile() == null) {
 			return saveDrawingAs();
-		} else {
+		}
+		else {
 			return currentDiagramEditor.save();
 		}
 	}
@@ -1049,7 +1055,8 @@ public class DiagramEditorApplication {
 			updateFrameTitle();
 			updateTabTitle();
 			return currentDiagramEditor.save();
-		} else {
+		}
+		else {
 			return false;
 		}
 	}

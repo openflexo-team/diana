@@ -59,6 +59,7 @@ import org.openflexo.fge.swing.JDianaInteractiveEditor;
 import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
+import org.openflexo.gina.ApplicationFIBLibrary;
 import org.openflexo.gina.swing.utils.JFIBInspectorController;
 import org.openflexo.gina.swing.utils.logging.FlexoLoggingViewer;
 import org.openflexo.logging.FlexoLogger;
@@ -147,7 +148,7 @@ public class AbstractLaunchLayoutManagerExample {
 			logButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), null);
+					FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), ApplicationFIBLibrary.instance(), null);
 				}
 			});
 
@@ -204,7 +205,8 @@ public class AbstractLaunchLayoutManagerExample {
 		dialog.validate();
 		dialog.pack();
 
-		inspector = new JFIBInspectorController(null, ResourceLocator.locateResource("LayoutInspectors"), null);
+		inspector = new JFIBInspectorController(null, ResourceLocator.locateResource("LayoutInspectors"), ApplicationFIBLibrary.instance(),
+				null);
 		inspector.inspectObject(panel.getLayoutManager());
 
 		dialog.setVisible(true);

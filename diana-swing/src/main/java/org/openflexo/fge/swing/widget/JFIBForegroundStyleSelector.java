@@ -60,12 +60,12 @@ import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.fge.swing.JDianaViewer;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.view.widget.FIBForegroundStyleSelector;
-import org.openflexo.gina.FIBLibrary;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.FIBComponent;
 import org.openflexo.gina.model.widget.FIBCustom;
@@ -81,7 +81,7 @@ import org.openflexo.swing.CustomPopup;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> implements FIBForegroundStyleSelector {
+public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle>implements FIBForegroundStyleSelector {
 
 	static final Logger logger = Logger.getLogger(JFIBForegroundStyleSelector.class.getPackage().getName());
 
@@ -172,7 +172,7 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 		protected ForegroundStyleDetailsPanel(ForegroundStyle fs) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
+			fibComponent = AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(FIB_FILE, true);
 			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
 			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent);
 
@@ -303,20 +303,18 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 				public void init() {
 					final DrawingGRBinding<ForegroundStylePreviewPanel> previewPanelBinding = bindDrawing(ForegroundStylePreviewPanel.class,
 							"previewPanel", new DrawingGRProvider<ForegroundStylePreviewPanel>() {
-								@Override
-								public DrawingGraphicalRepresentation provideGR(ForegroundStylePreviewPanel drawable,
-										FGEModelFactory factory) {
-									return drawingGR;
-								}
-							});
+						@Override
+						public DrawingGraphicalRepresentation provideGR(ForegroundStylePreviewPanel drawable, FGEModelFactory factory) {
+							return drawingGR;
+						}
+					});
 					final ShapeGRBinding<ForegroundStylePreviewPanel> shapeBinding = bindShape(ForegroundStylePreviewPanel.class, "line",
 							new ShapeGRProvider<ForegroundStylePreviewPanel>() {
-								@Override
-								public ShapeGraphicalRepresentation provideGR(ForegroundStylePreviewPanel drawable,
-										FGEModelFactory factory) {
-									return lineGR;
-								}
-							});
+						@Override
+						public ShapeGraphicalRepresentation provideGR(ForegroundStylePreviewPanel drawable, FGEModelFactory factory) {
+							return lineGR;
+						}
+					});
 
 					previewPanelBinding.addToWalkers(new GRStructureVisitor<ForegroundStylePreviewPanel>() {
 

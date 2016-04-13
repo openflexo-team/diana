@@ -59,6 +59,9 @@ import org.openflexo.fge.view.DianaViewFactory;
 import org.openflexo.fge.view.DrawingView;
 import org.openflexo.fge.view.FGEView;
 import org.openflexo.fge.view.ShapeView;
+import org.openflexo.gina.ApplicationFIBLibrary;
+import org.openflexo.gina.FIBLibrary;
+import org.openflexo.gina.view.GinaViewFactory;
 import org.openflexo.model.factory.EditingContext;
 import org.openflexo.model.undo.UndoManager;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
@@ -75,10 +78,12 @@ import org.openflexo.toolbox.HasPropertyChangeSupport;
  * @param <C>
  *            type of components beeing managed as view (DianaView)
  */
-public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C> implements DianaEditor<M>, PropertyChangeListener,
-		HasPropertyChangeSupport {
+public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C>
+		implements DianaEditor<M>, PropertyChangeListener, HasPropertyChangeSupport {
 
 	private static final Logger logger = Logger.getLogger(AbstractDianaEditor.class.getPackage().getName());
+
+	public static final FIBLibrary EDITOR_FIB_LIBRARY = ApplicationFIBLibrary.instance();
 
 	private final Drawing<M> drawing;
 	protected DrawingView<M, ? extends C> drawingView;
@@ -185,7 +190,8 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 			if (dtn instanceof ShapeNode) {
 				ShapeView<?, ?> v = recursivelyBuildShapeView((ShapeNode<?>) dtn);
 				drawingView.addView(v);
-			} else if (dtn instanceof ConnectorNode) {
+			}
+			else if (dtn instanceof ConnectorNode) {
 				ConnectorView<?, ?> v = makeConnectorView((ConnectorNode<?>) dtn);
 				drawingView.addView(v);
 			}
@@ -200,7 +206,8 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 			if (dtn instanceof ShapeNode) {
 				ShapeView<?, ?> v = recursivelyBuildShapeView((ShapeNode<?>) dtn);
 				returned.addView(v);
-			} else if (dtn instanceof ConnectorNode) {
+			}
+			else if (dtn instanceof ConnectorNode) {
 				ConnectorView<?, ?> v = makeConnectorView((ConnectorNode<?>) dtn);
 				returned.addView(v);
 			}

@@ -37,7 +37,6 @@
  * 
  */
 
-
 package org.openflexo.fge.control;
 
 import java.beans.PropertyChangeEvent;
@@ -132,6 +131,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 		selectedObjects = new ArrayList<DrawingTreeNode<?, ?>>();
 	}
 
+	@Override
 	public void delete() {
 		/*if (inspectors != null) {
 			inspectors.delete();
@@ -287,7 +287,8 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 		stopEditionOfEditedLabelIfAny();
 		if (aNode.getIsSelected()) {
 			removeFromSelectedObjects(aNode);
-		} else {
+		}
+		else {
 			addToSelectedObjects(aNode);
 		}
 		// logger.info("END toggle selection with "+aGraphicalRepresentation+" with selection="+selectedObjects);
@@ -457,7 +458,8 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	public void toggleFocusSelection(DrawingTreeNode<?, ?> aNode) {
 		if (aNode.getIsFocused()) {
 			removeFromFocusedObjects(aNode);
-		} else {
+		}
+		else {
 			addToFocusedObjects(aNode);
 		}
 	}
@@ -523,12 +525,14 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 			// ControlPoint have priority on other ControlArea
 			if (ca1 instanceof ConnectorAdjustingControlPoint) {
 				return ca1;
-			} else if (ca2 instanceof ConnectorAdjustingControlPoint) {
+			}
+			else if (ca2 instanceof ConnectorAdjustingControlPoint) {
 				return ca2;
 			}
 			if (ca1 instanceof ControlPoint) {
 				return ca1;
-			} else if (ca2 instanceof ControlPoint) {
+			}
+			else if (ca2 instanceof ControlPoint) {
 				return ca2;
 			}
 		}
@@ -637,7 +641,8 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 		if (evt.getSource() == getDrawing()) {
 			if (evt.getPropertyName().equals(DrawingTreeNodeHierarchyRebuildStarted.EVENT_NAME)) {
 				storeCurrentSelection();
-			} else if (evt.getPropertyName().equals(DrawingTreeNodeHierarchyRebuildEnded.EVENT_NAME) && storedSelection != null) {
+			}
+			else if (evt.getPropertyName().equals(DrawingTreeNodeHierarchyRebuildEnded.EVENT_NAME) && storedSelection != null) {
 				restoreStoredSelection();
 			}
 		}

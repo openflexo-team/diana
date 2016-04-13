@@ -60,12 +60,12 @@ import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.ShadowStyle;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.fge.swing.JDianaViewer;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.view.widget.FIBShadowStyleSelector;
-import org.openflexo.gina.FIBLibrary;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.FIBComponent;
 import org.openflexo.gina.model.widget.FIBCustom;
@@ -81,7 +81,7 @@ import org.openflexo.swing.CustomPopup;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements FIBShadowStyleSelector {
+public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle>implements FIBShadowStyleSelector {
 
 	static final Logger logger = Logger.getLogger(JFIBShadowStyleSelector.class.getPackage().getName());
 
@@ -167,7 +167,7 @@ public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements
 		protected ShadowStyleDetailsPanel(ShadowStyle shadowStyle) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
+			fibComponent = AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(FIB_FILE, true);
 			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
 			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent);
 
@@ -296,18 +296,18 @@ public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements
 				public void init() {
 					final DrawingGRBinding<ShadowStylePreviewPanel> previewPanelBinding = bindDrawing(ShadowStylePreviewPanel.class,
 							"previewPanel", new DrawingGRProvider<ShadowStylePreviewPanel>() {
-								@Override
-								public DrawingGraphicalRepresentation provideGR(ShadowStylePreviewPanel drawable, FGEModelFactory factory) {
-									return drawingGR;
-								}
-							});
+						@Override
+						public DrawingGraphicalRepresentation provideGR(ShadowStylePreviewPanel drawable, FGEModelFactory factory) {
+							return drawingGR;
+						}
+					});
 					final ShapeGRBinding<ShadowStylePreviewPanel> shapeBinding = bindShape(ShadowStylePreviewPanel.class, "line",
 							new ShapeGRProvider<ShadowStylePreviewPanel>() {
-								@Override
-								public ShapeGraphicalRepresentation provideGR(ShadowStylePreviewPanel drawable, FGEModelFactory factory) {
-									return shapeGR;
-								}
-							});
+						@Override
+						public ShapeGraphicalRepresentation provideGR(ShadowStylePreviewPanel drawable, FGEModelFactory factory) {
+							return shapeGR;
+						}
+					});
 
 					previewPanelBinding.addToWalkers(new GRStructureVisitor<ShadowStylePreviewPanel>() {
 

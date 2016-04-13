@@ -60,12 +60,12 @@ import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.TextStyle;
+import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.fge.swing.JDianaViewer;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.view.widget.FIBTextStyleSelector;
-import org.openflexo.gina.FIBLibrary;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.FIBComponent;
 import org.openflexo.gina.model.widget.FIBCustom;
@@ -83,7 +83,7 @@ import org.openflexo.swing.JFontChooser;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIBTextStyleSelector {
+public class JFIBTextStyleSelector extends CustomPopup<TextStyle>implements FIBTextStyleSelector {
 
 	static final Logger logger = Logger.getLogger(JFIBTextStyleSelector.class.getPackage().getName());
 
@@ -169,7 +169,7 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 		protected TextStyleDetailsPanel(TextStyle textStyle) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
+			fibComponent = AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(FIB_FILE, true);
 			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
 			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent);
 
@@ -298,18 +298,18 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 				public void init() {
 					final DrawingGRBinding<TextStylePreviewPanel> previewPanelBinding = bindDrawing(TextStylePreviewPanel.class,
 							"previewPanel", new DrawingGRProvider<TextStylePreviewPanel>() {
-								@Override
-								public DrawingGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
-									return drawingGR;
-								}
-							});
+						@Override
+						public DrawingGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
+							return drawingGR;
+						}
+					});
 					final ShapeGRBinding<TextStylePreviewPanel> shapeBinding = bindShape(TextStylePreviewPanel.class, "line",
 							new ShapeGRProvider<TextStylePreviewPanel>() {
-								@Override
-								public ShapeGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
-									return textGR;
-								}
-							});
+						@Override
+						public ShapeGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
+							return textGR;
+						}
+					});
 
 					previewPanelBinding.addToWalkers(new GRStructureVisitor<TextStylePreviewPanel>() {
 
