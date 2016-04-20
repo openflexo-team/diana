@@ -240,8 +240,6 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 	 */
 	private void retrieveNodesToLayout() {
 
-		System.out.println("Hop, on recalcule les noeuds pour faire le layout");
-
 		layoutedNodes.clear();
 		for (DrawingTreeNode<?, ?> dtn : getContainerNode().getChildNodes()) {
 			if (dtn instanceof ShapeNode) {

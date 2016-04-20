@@ -422,11 +422,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public int getBorderTop() {
 		int returned = DEFAULT_BORDER_TOP;
-		for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
-			if (childNode instanceof ShapeNode) {
-				ShapeNode child = (ShapeNode) childNode;
-				if (child.getY() - child.getBorderTop() < -returned) {
-					returned = -(int) child.getY() + child.getBorderTop();
+		if (getChildNodes() != null) {
+			for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
+				if (childNode instanceof ShapeNode) {
+					ShapeNode child = (ShapeNode) childNode;
+					if (child.getY() - child.getBorderTop() < -returned) {
+						returned = -(int) child.getY() + child.getBorderTop();
+					}
 				}
 			}
 		}
@@ -445,11 +447,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public int getBorderLeft() {
 		int returned = DEFAULT_BORDER_LEFT;
-		for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
-			if (childNode instanceof ShapeNode) {
-				ShapeNode child = (ShapeNode) childNode;
-				if (child.getX() - child.getBorderLeft() < -returned) {
-					returned = -(int) child.getX() + child.getBorderLeft();
+		if (getChildNodes() != null) {
+			for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
+				if (childNode instanceof ShapeNode) {
+					ShapeNode child = (ShapeNode) childNode;
+					if (child.getX() - child.getBorderLeft() < -returned) {
+						returned = -(int) child.getX() + child.getBorderLeft();
+					}
 				}
 			}
 		}
@@ -471,12 +475,14 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getShadowStyle() != null) {
 			returned = 15;
 		}
-		for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
-			if (childNode instanceof ShapeNode) {
-				ShapeNode child = (ShapeNode) childNode;
-				int requiredBorder = (int) (child.getY() + child.getHeight() + child.getBorderBottom() - getHeight());
-				if (requiredBorder > returned) {
-					returned = requiredBorder;
+		if (getChildNodes() != null) {
+			for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
+				if (childNode instanceof ShapeNode) {
+					ShapeNode child = (ShapeNode) childNode;
+					int requiredBorder = (int) (child.getY() + child.getHeight() + child.getBorderBottom() - getHeight());
+					if (requiredBorder > returned) {
+						returned = requiredBorder;
+					}
 				}
 			}
 		}
@@ -497,12 +503,14 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getShadowStyle() != null) {
 			returned = 15;
 		}
-		for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
-			if (childNode instanceof ShapeNode) {
-				ShapeNode child = (ShapeNode) childNode;
-				int requiredBorder = (int) (child.getX() + child.getWidth() + child.getBorderRight() - getWidth());
-				if (requiredBorder > returned) {
-					returned = requiredBorder;
+		if (getChildNodes() != null) {
+			for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
+				if (childNode instanceof ShapeNode) {
+					ShapeNode child = (ShapeNode) childNode;
+					int requiredBorder = (int) (child.getX() + child.getWidth() + child.getBorderRight() - getWidth());
+					if (requiredBorder > returned) {
+						returned = requiredBorder;
+					}
 				}
 			}
 		}
