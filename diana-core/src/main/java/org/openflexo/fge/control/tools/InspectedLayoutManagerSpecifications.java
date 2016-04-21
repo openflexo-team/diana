@@ -54,14 +54,16 @@ import org.openflexo.fge.FGELayoutManagerSpecification.LayoutManagerSpecificatio
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.DianaInteractiveViewer;
-import org.openflexo.fib.utils.FIBInspector;
-import org.openflexo.fib.utils.InspectorGroup;
+import org.openflexo.gina.utils.FIBInspector;
+import org.openflexo.gina.utils.InspectorGroup;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.toolbox.StringUtils;
 
 /**
- * Proxy object manager by the controller of {@link LayoutManagerSpecification} inspector (this is the object represented by the inspector)<br>
+ * Proxy object manager by the controller of {@link LayoutManagerSpecification} inspector (this is the object represented by the inspector)
+ * <br>
  * 
  * Only one instance of {@link ContainerNode} might be accessed through this class (behaviour is here different from the other inspectors
  * managing a multiple selection)
@@ -75,7 +77,8 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 
 	public InspectedLayoutManagerSpecifications(DianaInteractiveViewer<?, ?, ?> controller) {
 		super(controller, null);
-		layoutManagerInspectorGroup = new InspectorGroup(ResourceLocator.locateResource("LayoutInspectors"));
+		layoutManagerInspectorGroup = new InspectorGroup(ResourceLocator.locateResource("LayoutInspectors"),
+				AbstractDianaEditor.EDITOR_FIB_LIBRARY);
 	}
 
 	public InspectorGroup getLayoutManagerInspectorGroup() {
@@ -212,7 +215,8 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 	public FGELayoutManager<?, ?> getDefaultLayoutManager() {
 		if (layoutedAsMode()) {
 			return ((ShapeNode<?>) getContainerNode()).getLayoutManager();
-		} else if (getLayoutManagers() != null && getLayoutManagers().size() > 0) {
+		}
+		else if (getLayoutManagers() != null && getLayoutManagers().size() > 0) {
 			return getLayoutManagers().get(0);
 		}
 		return null;
@@ -228,7 +232,8 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 	public String displayMode() {
 		if (layoutedAsMode()) {
 			return "layouted_as";
-		} else {
+		}
+		else {
 			return "define_layout";
 		}
 	}

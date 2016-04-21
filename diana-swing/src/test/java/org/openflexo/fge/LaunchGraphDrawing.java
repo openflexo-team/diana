@@ -61,7 +61,8 @@ import org.openflexo.fge.swing.JDianaInteractiveViewer;
 import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
-import org.openflexo.fib.swing.logging.FlexoLoggingViewer;
+import org.openflexo.gina.ApplicationFIBLibrary;
+import org.openflexo.gina.swing.utils.logging.FlexoLoggingViewer;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.model.exceptions.ModelDefinitionException;
@@ -106,7 +107,7 @@ public class LaunchGraphDrawing {
 				notifyObservers(new MultipleSelection());
 			}
 		}
-
+		
 		@Override
 		public void removeFromSelectedObjects(DrawingTreeNode<?,?> anObject) {
 			super.removeFromSelectedObjects(anObject);
@@ -118,13 +119,13 @@ public class LaunchGraphDrawing {
 				notifyObservers(new MultipleSelection());
 			}
 		}
-
+		
 		@Override
 		public void clearSelection() {
 			super.clearSelection();
 			notifyObservers(new EmptySelection());
 		}
-
+		
 		@Override
 		public void selectDrawing() {
 			super.selectDrawing();
@@ -184,7 +185,7 @@ public class LaunchGraphDrawing {
 		logButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), dialog);
+				FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), ApplicationFIBLibrary.instance(), dialog);
 			}
 		});
 

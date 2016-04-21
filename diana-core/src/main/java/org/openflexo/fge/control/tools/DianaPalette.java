@@ -66,7 +66,7 @@ import org.openflexo.fge.control.PaletteElement;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.view.DianaViewFactory;
 import org.openflexo.fge.view.DrawingView;
-import org.openflexo.fib.utils.FIBIconLibrary;
+import org.openflexo.gina.utils.FIBIconLibrary;
 import org.openflexo.toolbox.ToolBox;
 
 /**

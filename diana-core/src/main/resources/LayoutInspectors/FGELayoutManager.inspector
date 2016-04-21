@@ -36,7 +36,7 @@
 			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
 			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="NodesTab">
 			<CheckboxList id="200" manageDynamicModel="true" columns="1"
-				controllerClassName="org.openflexo.fib.controller.FIBController"
+				controllerClassName="org.openflexo.gina.controller.FIBController"
 				index="0" localize="false" constraints="twocols(expandHorizontally=true;expandVertically=false;location=center)"
 				format="object.text"
 				showText="true" iteratorClassName="org.openflexo.fge.Drawing$ShapeNode"

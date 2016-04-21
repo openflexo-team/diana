@@ -99,20 +99,23 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 	protected void applyCurrentBackgroundStyle() {
 		super.applyCurrentBackgroundStyle();
 
-		if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle
-				&& ((BackgroundImageBackgroundStyle) getCurrentBackground()).getFitToShape()) {
-			BackgroundImageBackgroundStyle bgImage = (BackgroundImageBackgroundStyle) getCurrentBackground();
-			bgImage.setDeltaX(0);
-			bgImage.setDeltaY(0);
-			if (bgImage.getImage() != null) {
-				// SGU: Big performance issue here
-				// I add to declare new methods without notification because in case of
-				// the inspector is shown, an instability is raising: the shape is
-				// continuously switching between two values
-				// Please investigate
-				bgImage.setScaleXNoNotification(getNode().getWidth() / bgImage.getImage().getWidth(null));
-				bgImage.setScaleYNoNotification(getNode().getHeight() / bgImage.getImage().getHeight(null));
-			}
+		if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
+			/*if (((BackgroundImageBackgroundStyle) getCurrentBackground()).getFitToShape()) {
+				BackgroundImageBackgroundStyle bgImage = (BackgroundImageBackgroundStyle) getCurrentBackground();
+				bgImage.setDeltaX(0);
+				bgImage.setDeltaY(0);
+				if (bgImage.getImage() != null) {
+					// SGU: Big performance issue here
+					// I add to declare new methods without notification because in case of
+					// the inspector is shown, an instability is raising: the shape is
+					// continuously switching between two values
+					// Please investigate
+					// bgImage.setScaleXNoNotification(getNode().getWidth() / bgImage.getImage().getWidth(null));
+					// bgImage.setScaleYNoNotification(getNode().getHeight() / bgImage.getImage().getHeight(null));
+					bgImage.setScaleX(getNode().getWidth() / bgImage.getImage().getWidth(null));
+					bgImage.setScaleY(getNode().getHeight() / bgImage.getImage().getHeight(null));
+				}
+			}*/
 		}
 
 	}

@@ -39,12 +39,9 @@
 
 package org.openflexo.fge.view.widget;
 
-import javax.swing.JComponent;
-
 import org.openflexo.fge.shapes.ShapeSpecification;
-import org.openflexo.fib.model.FIBCustom.FIBCustomComponent;
+import org.openflexo.gina.model.widget.FIBCustom.FIBCustomComponent;
 
-//TODO: suppress reference to Swing (when FIB library will be independant from SWING technology)
-public interface ShapePreviewPanel<C extends JComponent> extends FIBCustomComponent<ShapeSpecification, C> {
+public interface ShapePreviewPanel extends FIBCustomComponent<ShapeSpecification> {
 
 }

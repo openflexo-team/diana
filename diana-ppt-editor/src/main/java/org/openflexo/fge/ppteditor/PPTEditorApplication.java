@@ -86,8 +86,9 @@ import org.openflexo.fge.swing.control.tools.JDianaPalette;
 import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
 import org.openflexo.fge.swing.control.tools.JDianaStyles;
 import org.openflexo.fge.swing.control.tools.JDianaToolSelector;
-import org.openflexo.fib.swing.localization.LocalizedEditor;
-import org.openflexo.fib.swing.logging.FlexoLoggingViewer;
+import org.openflexo.gina.ApplicationFIBLibrary;
+import org.openflexo.gina.swing.utils.localization.LocalizedEditor;
+import org.openflexo.gina.swing.utils.logging.FlexoLoggingViewer;
 import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.logging.FlexoLogger;
@@ -111,13 +112,13 @@ public class PPTEditorApplication {
 
 	// Retrieve default Openflexo locales
 	public static final String LOCALIZATION_DIRNAME = "Localized";
-	private static LocalizedDelegate MAIN_LOCALIZER = FlexoLocalization.getLocalizedDelegate(
-			ResourceLocator.locateResource(LOCALIZATION_DIRNAME), null, false, false);
+	private static LocalizedDelegate MAIN_LOCALIZER = FlexoLocalization
+			.getLocalizedDelegate(ResourceLocator.locateResource(LOCALIZATION_DIRNAME), null, false, false);
 
 	// Instanciate a new localizer in directory src/dev/resources/FIBEditorLocalizer
 	// linked to parent localizer (which is Openflexo main localizer)
-	public static LocalizedDelegate LOCALIZATION = FlexoLocalization.getLocalizedDelegate(
-			ResourceLocator.locateResource("PPTEditorLocalized"), MAIN_LOCALIZER, true, true);
+	public static LocalizedDelegate LOCALIZATION = FlexoLocalization
+			.getLocalizedDelegate(ResourceLocator.locateResource("PPTEditorLocalized"), MAIN_LOCALIZER, true, true);
 
 	private static final int META_MASK = ToolBox.getPLATFORM() == ToolBox.MACOS ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
 
@@ -344,7 +345,7 @@ public class PPTEditorApplication {
 				}
 			}
 		});
-
+		
 		redoItem = makeSynchronizedMenuItem("redo", REDO_ICON, KeyStroke.getKeyStroke(KeyEvent.VK_R, META_MASK), new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -372,10 +373,10 @@ public class PPTEditorApplication {
 		// editMenu.add(undoItem);
 		// editMenu.add(redoItem);
 
-		WindowMenuItem foregroundInspectorItem = new WindowMenuItem(
-				FlexoLocalization.localizedForKey(LOCALIZATION, "foreground_inspector"), inspectors.getForegroundStyleInspector());
-		WindowMenuItem backgroundInspectorItem = new WindowMenuItem(
-				FlexoLocalization.localizedForKey(LOCALIZATION, "background_inspector"), inspectors.getBackgroundStyleInspector());
+		WindowMenuItem foregroundInspectorItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "foreground_inspector"),
+				inspectors.getForegroundStyleInspector());
+		WindowMenuItem backgroundInspectorItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "background_inspector"),
+				inspectors.getBackgroundStyleInspector());
 		WindowMenuItem textInspectorItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "text_inspector"),
 				inspectors.getTextStyleInspector());
 		WindowMenuItem shapeInspectorItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "shape_inspector"),
@@ -384,8 +385,8 @@ public class PPTEditorApplication {
 				inspectors.getConnectorInspector());
 		WindowMenuItem shadowInspectorItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "shadow_inspector"),
 				inspectors.getShadowStyleInspector());
-		WindowMenuItem locationSizeInspectorItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION,
-				"location_size_inspector"), inspectors.getLocationSizeInspector());
+		WindowMenuItem locationSizeInspectorItem = new WindowMenuItem(
+				FlexoLocalization.localizedForKey(LOCALIZATION, "location_size_inspector"), inspectors.getLocationSizeInspector());
 
 		// WindowMenuItem paletteItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "palette"), paletteDialog);
 
@@ -403,7 +404,7 @@ public class PPTEditorApplication {
 		logsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), frame);
+				FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), ApplicationFIBLibrary.instance(), frame);
 			}
 		});
 
@@ -412,7 +413,8 @@ public class PPTEditorApplication {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (localizedEditor == null) {
-					localizedEditor = new LocalizedEditor(frame, "localized_editor", LOCALIZATION, MAIN_LOCALIZER, true, false);
+					localizedEditor = new LocalizedEditor(frame, "localized_editor", LOCALIZATION, MAIN_LOCALIZER,
+							ApplicationFIBLibrary.instance(), true, false);
 				}
 				localizedEditor.setVisible(true);
 			}
@@ -570,13 +572,13 @@ public class PPTEditorApplication {
 			int result = JOptionPane.showOptionDialog(frame, "Would you like to save ppt changes?", "Save changes",
 					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.YES_OPTION);
 			switch (result) {
-			case JOptionPane.YES_OPTION:
-				// currentSlideEditor.getSlide().getSlideShow().write();
-				break;
-			case JOptionPane.NO_OPTION:
-				break;
-			default:
-				return;
+				case JOptionPane.YES_OPTION:
+					// currentSlideEditor.getSlide().getSlideShow().write();
+					break;
+				case JOptionPane.NO_OPTION:
+					break;
+				default:
+					return;
 			}
 		}
 		pptEditors.remove(currentSlideEditor);
@@ -607,7 +609,8 @@ public class PPTEditorApplication {
 		}
 		if (currentSlideShowEditor.getFile() == null) {
 			return saveDrawingAs();
-		} else {
+		}
+		else {
 			return currentSlideShowEditor.save();
 		}
 	}
@@ -625,7 +628,8 @@ public class PPTEditorApplication {
 			updateFrameTitle();
 			updateTabTitle();
 			return currentSlideShowEditor.save();
-		} else {
+		}
+		else {
 			return false;
 		}
 	}

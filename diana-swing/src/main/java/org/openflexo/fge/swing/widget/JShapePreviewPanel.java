@@ -67,12 +67,12 @@ import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.fge.swing.JDianaViewer;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.view.widget.ShapePreviewPanel;
-import org.openflexo.fib.controller.FIBController;
-import org.openflexo.fib.model.FIBCustom;
+import org.openflexo.gina.controller.FIBController;
+import org.openflexo.gina.model.widget.FIBCustom;
 import org.openflexo.swing.CustomPopup.ApplyCancelListener;
 
 @SuppressWarnings("serial")
-public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel<JShapePreviewPanel> {
+public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel {
 
 	static final Logger logger = Logger.getLogger(JShapePreviewPanel.class.getPackage().getName());
 
@@ -290,11 +290,6 @@ public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel<JSha
 			 */
 			update();
 		}
-	}
-
-	@Override
-	public JShapePreviewPanel getJComponent() {
-		return this;
 	}
 
 	@Override

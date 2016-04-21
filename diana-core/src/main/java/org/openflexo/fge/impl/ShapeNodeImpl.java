@@ -101,7 +101,7 @@ import org.openflexo.fge.shapes.impl.ShapeImpl;
 import org.openflexo.toolbox.ConcatenedList;
 import org.openflexo.toolbox.StringUtils;
 
-public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalRepresentation> implements ShapeNode<O> {
+public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalRepresentation>implements ShapeNode<O> {
 
 	private static final Logger logger = Logger.getLogger(ShapeNodeImpl.class.getPackage().getName());
 
@@ -124,8 +124,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	private BindingValueChangeListener<Double> widthConstraintsListener;
 	private BindingValueChangeListener<Double> heightConstraintsListener;
 
-	public static final int DEFAULT_BORDER_TOP = 20;
-	public static final int DEFAULT_BORDER_LEFT = 20;
+	public static final int DEFAULT_BORDER_TOP = 0;
+	public static final int DEFAULT_BORDER_LEFT = 0;
 
 	public ShapeNodeImpl(DrawingImpl<?> drawingImpl, O drawable, ShapeGRBinding<O> grBinding, ContainerNodeImpl<?, ?> parentNode) {
 		super(drawingImpl, drawable, grBinding, parentNode);

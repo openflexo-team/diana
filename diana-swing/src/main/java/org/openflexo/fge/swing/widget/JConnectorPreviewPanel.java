@@ -69,12 +69,12 @@ import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.fge.swing.JDianaInteractiveViewer;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.view.widget.ConnectorPreviewPanel;
-import org.openflexo.fib.controller.FIBController;
-import org.openflexo.fib.model.FIBCustom;
+import org.openflexo.gina.controller.FIBController;
+import org.openflexo.gina.model.widget.FIBCustom;
 import org.openflexo.swing.CustomPopup.ApplyCancelListener;
 
 @SuppressWarnings("serial")
-public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPanel<JConnectorPreviewPanel> {
+public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPanel {
 
 	private Drawing<JConnectorPreviewPanel> drawing;
 	private DrawingGraphicalRepresentation drawingGR;
@@ -84,7 +84,7 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 	private ShapeGraphicalRepresentation endShapeGR;
 	private ConnectorGraphicalRepresentation connectorGR;
 
-	private int border = 10;
+	private final int border = 10;
 	private int width = 250;
 	private int height = 80;
 	private static final float RATIO = 0.6f;
@@ -258,11 +258,6 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 			 */
 			update();
 		}
-	}
-
-	@Override
-	public JConnectorPreviewPanel getJComponent() {
-		return this;
 	}
 
 	@Override

@@ -49,7 +49,7 @@ import org.openflexo.fge.graphics.FGEGraphics;
 import org.openflexo.fge.impl.FGELayoutManagerImpl;
 import org.openflexo.fge.layout.GridLayoutManager;
 import org.openflexo.fge.layout.GridLayoutManagerSpecification;
-import org.openflexo.fib.annotation.FIBPanel;
+import org.openflexo.gina.annotation.FIBPanel;
 
 /**
  * Default implementation for {@link GridLayoutManager}

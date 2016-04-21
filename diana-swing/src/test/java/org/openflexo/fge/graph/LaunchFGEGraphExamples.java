@@ -61,7 +61,8 @@ import org.openflexo.fge.swing.JDianaInteractiveEditor;
 import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
-import org.openflexo.fib.swing.logging.FlexoLoggingViewer;
+import org.openflexo.gina.ApplicationFIBLibrary;
+import org.openflexo.gina.swing.utils.logging.FlexoLoggingViewer;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.model.exceptions.ModelDefinitionException;
@@ -139,7 +140,7 @@ public class LaunchFGEGraphExamples {
 		logButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), dialog);
+				FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), ApplicationFIBLibrary.instance(), dialog);
 			}
 		});
 

@@ -23,6 +23,10 @@
 		</dependency>
 		<dependency>
 			<groupId>org.openflexo</groupId>
+			<artifactId>gina-replay</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.openflexo</groupId>
 			<artifactId>diana-core</artifactId>
 			<classifier>tests</classifier>
 		</dependency>
@@ -40,6 +44,18 @@
 		<dependency>
 			<groupId>org.openflexo</groupId>
 			<artifactId>gina-core</artifactId>
+			<classifier>tests</classifier>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openflexo</groupId>
+			<artifactId>gina-swing</artifactId>
+			<classifier>tests</classifier>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openflexo</groupId>
+			<artifactId>gina-replay</artifactId>
 			<classifier>tests</classifier>
 			<scope>test</scope>
 		</dependency>
