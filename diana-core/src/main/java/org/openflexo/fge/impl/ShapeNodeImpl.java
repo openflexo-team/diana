@@ -1235,9 +1235,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					&& getGraphicalRepresentation().getWidthConstraints().isValid()) {
 				getGraphicalRepresentation().getWidthConstraints().decode();
 				try {
-					setWidth((Double) TypeUtils.castTo(
-							getGraphicalRepresentation().getWidthConstraints().getBindingValue(getBindingEvaluationContext()),
-							Double.class));
+					Object bdv = getGraphicalRepresentation().getWidthConstraints().getBindingValue(getBindingEvaluationContext());
+					if (bdv != null) {
+						setWidth((Double) TypeUtils.castTo(bdv, Double.class));
+					}
 				} catch (TypeMismatchException e) {
 					e.printStackTrace();
 				} catch (NullReferenceException e) {
@@ -1251,9 +1252,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					&& getGraphicalRepresentation().getHeightConstraints().isValid()) {
 				getGraphicalRepresentation().getHeightConstraints().decode();
 				try {
-					setHeight((Double) TypeUtils.castTo(
-							getGraphicalRepresentation().getHeightConstraints().getBindingValue(getBindingEvaluationContext()),
-							Double.class));
+					Object bdv = getGraphicalRepresentation().getHeightConstraints().getBindingValue(getBindingEvaluationContext());
+					if (bdv != null) {
+						setHeight((Double) TypeUtils.castTo(bdv, Double.class));
+					}
 				} catch (TypeMismatchException e) {
 					e.printStackTrace();
 				} catch (NullReferenceException e) {
