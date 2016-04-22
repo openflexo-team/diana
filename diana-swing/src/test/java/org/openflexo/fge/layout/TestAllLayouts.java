@@ -52,7 +52,7 @@ import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
 import org.openflexo.fge.TestGraph;
 import org.openflexo.fib.swing.utils.SwingGraphicalContextDelegate;
-import org.openflexo.gina.ApplicationFIBLibrary;
+import org.openflexo.gina.ApplicationFIBLibrary.ApplicationFIBLibraryImpl;
 import org.openflexo.gina.swing.utils.JFIBInspectorController;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.model.exceptions.ModelDefinitionException;
@@ -94,8 +94,8 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 			e.printStackTrace();
 		}
 
-		inspector = new JFIBInspectorController(null, ResourceLocator.locateResource("LayoutInspectors"), ApplicationFIBLibrary.instance(),
-				null);
+		inspector = new JFIBInspectorController(null, ResourceLocator.locateResource("LayoutInspectors"),
+				ApplicationFIBLibraryImpl.instance(), null);
 
 		initGUI();
 	}

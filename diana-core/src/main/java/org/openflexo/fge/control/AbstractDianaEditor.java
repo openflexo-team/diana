@@ -59,7 +59,7 @@ import org.openflexo.fge.view.DianaViewFactory;
 import org.openflexo.fge.view.DrawingView;
 import org.openflexo.fge.view.FGEView;
 import org.openflexo.fge.view.ShapeView;
-import org.openflexo.gina.ApplicationFIBLibrary;
+import org.openflexo.gina.ApplicationFIBLibrary.ApplicationFIBLibraryImpl;
 import org.openflexo.gina.FIBLibrary;
 import org.openflexo.gina.view.GinaViewFactory;
 import org.openflexo.model.factory.EditingContext;
@@ -83,7 +83,7 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 
 	private static final Logger logger = Logger.getLogger(AbstractDianaEditor.class.getPackage().getName());
 
-	public static final FIBLibrary EDITOR_FIB_LIBRARY = ApplicationFIBLibrary.instance();
+	public static final FIBLibrary EDITOR_FIB_LIBRARY = ApplicationFIBLibraryImpl.instance();
 
 	private final Drawing<M> drawing;
 	protected DrawingView<M, ? extends C> drawingView;
