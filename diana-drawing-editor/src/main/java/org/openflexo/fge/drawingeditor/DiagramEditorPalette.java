@@ -106,8 +106,7 @@ public class DiagramEditorPalette extends DrawingPalette {
 			gr.setY(py * GRID_HEIGHT + 10);
 			gr.setWidth(50);
 			gr.setHeight(50);
-		}
-		else {
+		} else {
 			gr.setX(px * GRID_WIDTH + 10);
 			gr.setY(py * GRID_HEIGHT + 10);
 			gr.setWidth(60);
