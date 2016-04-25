@@ -140,16 +140,16 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		DrawLine, DrawCurve, DrawRectPolylin, DrawCurvedPolylin;
 		public ConnectorType getConnectorType() {
 			switch (this) {
-			case DrawLine:
-				return ConnectorType.LINE;
-			case DrawCurve:
-				return ConnectorType.CURVE;
-			case DrawRectPolylin:
-				return ConnectorType.RECT_POLYLIN;
-			case DrawCurvedPolylin:
-				return ConnectorType.CURVED_POLYLIN;
-			default:
-				return null;
+				case DrawLine:
+					return ConnectorType.LINE;
+				case DrawCurve:
+					return ConnectorType.CURVE;
+				case DrawRectPolylin:
+					return ConnectorType.RECT_POLYLIN;
+				case DrawCurvedPolylin:
+					return ConnectorType.CURVED_POLYLIN;
+				default:
+					return null;
 			}
 		}
 	}
@@ -278,21 +278,21 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 			EditorTool oldTool = currentTool;
 			logger.fine("Switch to tool " + aTool);
 			switch (aTool) {
-			case SelectionTool:
-				/*if (currentTool == EditorTool.DrawShapeTool && drawShapeToolController != null) {
-					drawShapeToolController.makeNewShape();
-				}*/
-				break;
-			case DrawShapeTool:
-				break;
-			case DrawCustomShapeTool:
-				break;
-			case DrawConnectorTool:
-				break;
-			case DrawTextTool:
-				break;
-			default:
-				break;
+				case SelectionTool:
+					/*if (currentTool == EditorTool.DrawShapeTool && drawShapeToolController != null) {
+						drawShapeToolController.makeNewShape();
+					}*/
+					break;
+				case DrawShapeTool:
+					break;
+				case DrawCustomShapeTool:
+					break;
+				case DrawConnectorTool:
+					break;
+				case DrawTextTool:
+					break;
+				default:
+					break;
 			}
 			currentTool = aTool;
 			notifyObservers(new ToolChanged(oldTool, currentTool));
@@ -331,17 +331,17 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		}
 		if (drawCustomShapeAction != null && getToolFactory() != null) {
 			switch (getDrawCustomShapeToolOption()) {
-			case DrawPolygon:
-				drawCustomShapeToolController = getToolFactory().makeDrawPolygonToolController(this, drawCustomShapeAction);
-				break;
-			case DrawClosedCurve:
-				drawCustomShapeToolController = getToolFactory().makeDrawClosedCurveToolController(this, drawCustomShapeAction, true);
-				break;
-			case DrawOpenedCurve:
-				drawCustomShapeToolController = getToolFactory().makeDrawClosedCurveToolController(this, drawCustomShapeAction, false);
-				break;
-			default:
-				logger.warning("Not implemented: " + getDrawCustomShapeToolOption());
+				case DrawPolygon:
+					drawCustomShapeToolController = getToolFactory().makeDrawPolygonToolController(this, drawCustomShapeAction);
+					break;
+				case DrawClosedCurve:
+					drawCustomShapeToolController = getToolFactory().makeDrawClosedCurveToolController(this, drawCustomShapeAction, true);
+					break;
+				case DrawOpenedCurve:
+					drawCustomShapeToolController = getToolFactory().makeDrawClosedCurveToolController(this, drawCustomShapeAction, false);
+					break;
+				default:
+					logger.warning("Not implemented: " + getDrawCustomShapeToolOption());
 			}
 		}
 
@@ -355,8 +355,8 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 			System.out.println("Preparing the prepareDrawShapeToolController");
 			drawShapeToolController = getToolFactory().makeDrawShapeToolController(this, drawShapeAction);
 			switch (getDrawShapeToolOption()) {
-			default:
-				logger.warning("Not implemented: " + getDrawShapeToolOption());
+				default:
+					logger.warning("Not implemented: " + getDrawShapeToolOption());
 			}
 		}
 
@@ -370,8 +370,8 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 			System.out.println("Preparing the DrawConnectorToolController");
 			drawConnectorToolController = getToolFactory().makeDrawConnectorToolController(this, drawConnectorAction);
 			switch (getDrawConnectorToolOption()) {
-			default:
-				logger.warning("Not implemented: " + getDrawConnectorToolOption());
+				default:
+					logger.warning("Not implemented: " + getDrawConnectorToolOption());
 			}
 		}
 
@@ -565,7 +565,8 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 				clearSelection();
 				if (clipboard.isSingleObject()) {
 					addToSelectedObjects(getDrawing().getDrawingTreeNode(pasted));
-				} else {
+				}
+				else {
 					for (Object o : (List<?>) pasted) {
 						addToSelectedObjects(getDrawing().getDrawingTreeNode(o));
 					}
@@ -637,7 +638,8 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		if (getUndoManager().canUndo()) {
 			logger.info("Undoing: " + getUndoManager().editToBeUndone().getPresentationName());
 			getUndoManager().undo();
-		} else {
+		}
+		else {
 			if (getUndoManager().canUndoIfStoppingCurrentEdition()) {
 				getUndoManager().stopRecording(getUndoManager().getCurrentEdition());
 				if (getUndoManager().canUndo()) {
