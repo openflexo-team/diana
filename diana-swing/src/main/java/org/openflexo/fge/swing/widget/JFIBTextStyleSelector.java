@@ -83,7 +83,7 @@ import org.openflexo.swing.JFontChooser;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBTextStyleSelector extends CustomPopup<TextStyle>implements FIBTextStyleSelector {
+public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIBTextStyleSelector {
 
 	static final Logger logger = Logger.getLogger(JFIBTextStyleSelector.class.getPackage().getName());
 
@@ -129,8 +129,7 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle>implements FIBT
 		// WARNING: we need here to clone to keep track back of previous data !!!
 		if (oldValue != null) {
 			_revertValue = (TextStyle) oldValue.clone();
-		}
-		else {
+		} else {
 			_revertValue = null;
 		}
 		if (logger.isLoggable(Level.FINE)) {
@@ -171,7 +170,7 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle>implements FIBT
 
 			fibComponent = AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(FIB_FILE, true);
 			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
-			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent);
+			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent, true);
 
 			controller.setDataObject(textStyle);
 
@@ -298,18 +297,18 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle>implements FIBT
 				public void init() {
 					final DrawingGRBinding<TextStylePreviewPanel> previewPanelBinding = bindDrawing(TextStylePreviewPanel.class,
 							"previewPanel", new DrawingGRProvider<TextStylePreviewPanel>() {
-						@Override
-						public DrawingGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
-							return drawingGR;
-						}
-					});
+								@Override
+								public DrawingGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
+									return drawingGR;
+								}
+							});
 					final ShapeGRBinding<TextStylePreviewPanel> shapeBinding = bindShape(TextStylePreviewPanel.class, "line",
 							new ShapeGRProvider<TextStylePreviewPanel>() {
-						@Override
-						public ShapeGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
-							return textGR;
-						}
-					});
+								@Override
+								public ShapeGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
+									return textGR;
+								}
+							});
 
 					previewPanelBinding.addToWalkers(new GRStructureVisitor<TextStylePreviewPanel>() {
 

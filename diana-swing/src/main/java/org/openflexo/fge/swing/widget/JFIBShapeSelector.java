@@ -68,7 +68,7 @@ import org.openflexo.swing.CustomPopup;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBShapeSelector extends CustomPopup<ShapeSpecification>implements FIBShapeSelector {
+public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implements FIBShapeSelector {
 
 	static final Logger logger = Logger.getLogger(JFIBShapeSelector.class.getPackage().getName());
 
@@ -115,8 +115,7 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification>implements
 		// !!!
 		if (oldValue != null) {
 			_revertValue = (ShapeSpecification) oldValue.clone();
-		}
-		else {
+		} else {
 			_revertValue = null;
 		}
 		if (logger.isLoggable(Level.FINE)) {
@@ -158,7 +157,7 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification>implements
 
 			fibComponent = AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(FIB_FILE, true);
 			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
-			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent);
+			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent, true);
 			controller.setDataObject(getFactory());
 
 			setLayout(new BorderLayout());
