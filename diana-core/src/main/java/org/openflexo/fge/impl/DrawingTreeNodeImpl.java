@@ -605,7 +605,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		// Now start to observe drawable for drawing structural modifications
 		if (drawable instanceof Observable) {
 			((Observable) drawable).addObserver(this);
-		} else if (drawable instanceof HasPropertyChangeSupport) {
+		}
+		else if (drawable instanceof HasPropertyChangeSupport) {
 			((HasPropertyChangeSupport) drawable).getPropertyChangeSupport().addPropertyChangeListener(this);
 		}
 		isObservingDrawable = true;
@@ -619,7 +620,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		// Now start to observe drawable for drawing structural modifications
 		if (drawable instanceof Observable) {
 			((Observable) drawable).deleteObserver(this);
-		} else if (drawable instanceof HasPropertyChangeSupport) {
+		}
+		else if (drawable instanceof HasPropertyChangeSupport) {
 			((HasPropertyChangeSupport) drawable).getPropertyChangeSupport().removePropertyChangeListener(this);
 		}
 		isObservingDrawable = false;
@@ -926,7 +928,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		Dimension d;
 		if (labelMetricsProvider != null) {
 			d = labelMetricsProvider.getScaledPreferredDimension(scale);
-		} else {
+		}
+		else {
 			d = new Dimension(0, 0);
 		}
 		return d;
@@ -1163,7 +1166,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			}
 			if (getGraphicalRepresentation().hasKey(parameter.getName())) {
 				return (T) getGraphicalRepresentation().objectForKey(parameter.getName());
-			} else {
+			}
+			else {
 				return null;
 			}
 		}
@@ -1181,7 +1185,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 				// Init default value with GR
 				if (getGraphicalRepresentation().hasKey(parameter.getName())) {
 					returned = (T) getGraphicalRepresentation().objectForKey(parameter.getName());
-				} else {
+				}
+				else {
 					returned = null;
 				}
 				if (returned != null) {
@@ -1271,13 +1276,17 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		public Object getValue(BindingVariable variable) {
 			if (variable.getVariableName().equals(THIS_KEY)) {
 				return getGraphicalRepresentation();
-			} else if (variable.getVariableName().equals(PARENT_KEY)) {
+			}
+			else if (variable.getVariableName().equals(PARENT_KEY)) {
 				return getParentNode().getGraphicalRepresentation();
-			} else if (variable.getVariableName().equals(DRAWABLE_KEY)) {
+			}
+			else if (variable.getVariableName().equals(DRAWABLE_KEY)) {
 				return getDrawable();
-			} else if (variable.getVariableName().equals(GR_KEY)) {
+			}
+			else if (variable.getVariableName().equals(GR_KEY)) {
 				return getGraphicalRepresentation();
-			} else {
+			}
+			else {
 				DrawingImpl.logger.warning("Could not find variable named " + variable);
 				return null;
 			}
@@ -1339,6 +1348,31 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	@Override
 	public boolean hasText() {
+
+		// Tried to optimize this computation
+
+		if (hasDynamicPropertyValue(GraphicalRepresentation.TEXT)) {
+			return true;
+		}
+
+		if (getDrawing().getPersistenceMode() == PersistenceMode.UniqueGraphicalRepresentations) {
+			if (getGraphicalRepresentation() == null) {
+				return false;
+			}
+			if (getGraphicalRepresentation().hasKey(GraphicalRepresentation.TEXT.getName())) {
+				return true;
+			}
+		}
+
+		else if (getDrawing().getPersistenceMode() == PersistenceMode.SharedGraphicalRepresentations) {
+
+			if (getGraphicalRepresentation() == null) {
+				return false;
+			}
+
+			return propertyValues != null && propertyValues.get(GraphicalRepresentation.TEXT) != null;
+		}
+
 		return getText() != null && !getText().trim().equals("");
 	}
 
