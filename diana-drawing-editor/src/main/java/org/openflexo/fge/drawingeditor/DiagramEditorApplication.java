@@ -284,8 +284,7 @@ public class DiagramEditorApplication {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (localizedEditor == null) {
-						localizedEditor = new LocalizedEditor(getFrame(), "localized_editor", LOCALIZATION, LOCALIZATION,
-								ApplicationFIBLibraryImpl.instance(), true, false);
+						localizedEditor = new LocalizedEditor(getFrame(), "localized_editor", LOCALIZATION, LOCALIZATION, true, false);
 					}
 					localizedEditor.setVisible(true);
 				}
