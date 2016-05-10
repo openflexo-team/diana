@@ -145,7 +145,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 					System.out.println("parameter.getDeclaringClass()=" + parameter.getDeclaringClass());
 					System.out.println("style.getClass()=" + style.getClass());
 				}*/
-				returned = null;
+				returned = (T) storedPropertyValues.get(parameter); // XTOF: attempt to fix infinite loop when setting style on Object being deleted
 			}
 		}
 		if (parameter.getType() != null && parameter.getType().isPrimitive() && returned == null) {
