@@ -106,7 +106,7 @@ public class LaunchCircularLayoutExample {
 
 		// final TestInspector inspector = new TestInspector();
 
-		final Drawing d = makeDrawing();
+		final Drawing<?> d = makeDrawing();
 		final TestDrawingController dc = new TestDrawingController(d);
 		// dc.disablePaintingCache();
 		dc.getDrawingView().setName("[NO_CACHE]");

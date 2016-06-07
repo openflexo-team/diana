@@ -74,7 +74,7 @@ public class RadialTreeLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 	public void init() {
 		graphRepresentation = getFactory().makeDrawingGraphicalRepresentation();
 		// graphRepresentation.setBackgroundColor(Color.RED);
-		RadialTreeLayoutManagerSpecification layoutManager = getFactory().makeLayoutManagerSpecification("radial-tree",
+		RadialTreeLayoutManagerSpecification<?> layoutManager = getFactory().makeLayoutManagerSpecification("radial-tree",
 				RadialTreeLayoutManagerSpecification.class);
 
 		graphRepresentation.addToLayoutManagerSpecifications(layoutManager);

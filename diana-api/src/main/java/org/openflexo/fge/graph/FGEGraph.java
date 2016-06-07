@@ -104,8 +104,8 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 
 	public <T extends Number> FGENumericFunction<T> addNumericFunction(String functionName, Class<T> functionType,
 			DataBinding<T> functionExpression, GraphType type, T minValue, T maxValue) {
-		FGENumericFunction<T> returned = new FGENumericFunction<T>(functionName, functionType, functionExpression, type, minValue,
-				maxValue, this);
+		FGENumericFunction<T> returned = new FGENumericFunction<T>(functionName, functionType, functionExpression, type, minValue, maxValue,
+				this);
 		functions.add(returned);
 		return returned;
 	}
@@ -144,7 +144,7 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 	 * @param function
 	 * @return
 	 */
-	public int getIndexOfFunctionsOfType(FGEFunction function) {
+	public int getIndexOfFunctionsOfType(FGEFunction<?> function) {
 		int returned = 0;
 		for (FGEFunction<?> f : functions) {
 			if (f == function) {

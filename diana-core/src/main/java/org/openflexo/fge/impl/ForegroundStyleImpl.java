@@ -86,26 +86,26 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 	public static ForegroundStyleImpl makeDefault() {
 		return new ForegroundStyleImpl();
 	}
-
+	
 	@Deprecated
 	public static ForegroundStyleImpl makeNone() {
 		ForegroundStyleImpl returned = new ForegroundStyleImpl();
 		returned.setNoStroke(true);
 		return returned;
 	}
-
+	
 	@Deprecated
 	public static ForegroundStyleImpl makeStyle(Color aColor) {
 		return new ForegroundStyleImpl(aColor);
 	}
-
+	
 	@Deprecated
 	public static ForegroundStyleImpl makeStyle(Color aColor, float aLineWidth) {
 		ForegroundStyleImpl returned = new ForegroundStyleImpl(aColor);
 		returned.setLineWidth(aLineWidth);
 		return returned;
 	}
-
+	
 	@Deprecated
 	public static ForegroundStyleImpl makeStyle(Color aColor, float aLineWidth, JoinStyle joinStyle, CapStyle capStyle, DashStyle dashStyle) {
 		ForegroundStyleImpl returned = new ForegroundStyleImpl(aColor);
@@ -115,7 +115,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 		returned.setDashStyle(dashStyle);
 		return returned;
 	}
-
+	
 	@Deprecated
 	public static ForegroundStyleImpl makeStyle(Color aColor, float aLineWidth, DashStyle dashStyle) {
 		ForegroundStyleImpl returned = new ForegroundStyleImpl(aColor);
@@ -136,7 +136,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 			this.capStyle = aCapStyle;
 			// stroke = null;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(CAP_STYLE, oldCapStyle, aCapStyle));
+			notifyObservers(new FGEAttributeNotification<CapStyle>(CAP_STYLE, oldCapStyle, aCapStyle));
 		}
 	}
 
@@ -151,7 +151,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 			java.awt.Color oldColor = color;
 			this.color = aColor;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(COLOR, oldColor, aColor));
+			notifyObservers(new FGEAttributeNotification<Color>(COLOR, oldColor, aColor));
 		}
 	}
 
@@ -172,7 +172,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 			this.dashStyle = aDashStyle;
 			// stroke = null;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(DASH_STYLE, oldDashStyle, dashStyle));
+			notifyObservers(new FGEAttributeNotification<DashStyle>(DASH_STYLE, oldDashStyle, dashStyle));
 		}
 	}
 
@@ -188,7 +188,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 			this.joinStyle = aJoinStyle;
 			// stroke = null;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(JOIN_STYLE, oldJoinStyle, aJoinStyle));
+			notifyObservers(new FGEAttributeNotification<JoinStyle>(JOIN_STYLE, oldJoinStyle, aJoinStyle));
 		}
 	}
 
@@ -204,7 +204,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 			lineWidth = aLineWidth;
 			// stroke = null;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(LINE_WIDTH, oldLineWidth, aLineWidth));
+			notifyObservers(new FGEAttributeNotification<Double>(LINE_WIDTH, oldLineWidth, aLineWidth));
 		}
 	}
 
@@ -219,7 +219,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 			boolean oldValue = noStroke;
 			this.noStroke = aFlag;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(NO_STROKE, oldValue, aFlag));
+			notifyObservers(new FGEAttributeNotification<Boolean>(NO_STROKE, oldValue, aFlag));
 		}
 	}
 
@@ -253,7 +253,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 			float oldValue = transparencyLevel;
 			this.transparencyLevel = aLevel;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(TRANSPARENCY_LEVEL, oldValue, aLevel));
+			notifyObservers(new FGEAttributeNotification<Float>(TRANSPARENCY_LEVEL, oldValue, aLevel));
 		}
 	}
 
@@ -268,7 +268,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 			boolean oldValue = useTransparency;
 			this.useTransparency = aFlag;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(USE_TRANSPARENCY, oldValue, aFlag));
+			notifyObservers(new FGEAttributeNotification<Boolean>(USE_TRANSPARENCY, oldValue, aFlag));
 		}
 	}
 
@@ -295,7 +295,8 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 	public String toNiceString() {
 		if (getNoStroke()) {
 			return FlexoLocalization.localizedForKey(FGECoreUtils.LOCALIZATION, "no_stroke");
-		} else {
+		}
+		else {
 			return lineWidth + "pt, " + color;
 		}
 	}
@@ -316,7 +317,8 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;
-			} else {
+			}
+			else {
 				return true;
 			}
 		}

@@ -127,7 +127,7 @@ public class AbstractLaunchLayoutManagerExample {
 
 		final TestDrawingController drawingController;
 
-		public LayoutDemoPanel(Drawing drawing) {
+		public LayoutDemoPanel(Drawing<?> drawing) {
 			super(new BorderLayout());
 
 			drawingController = new TestDrawingController(drawing);
@@ -191,11 +191,11 @@ public class AbstractLaunchLayoutManagerExample {
 
 	}
 
-	public static LayoutDemoPanel makePanel(final Drawing d) {
+	public static LayoutDemoPanel makePanel(final Drawing<?> d) {
 		return new LayoutDemoPanel(d);
 	}
 
-	public static void showPanel(final Drawing d) {
+	public static void showPanel(final Drawing<?> d) {
 		final JDialog dialog = new JDialog((Frame) null, false);
 
 		LayoutDemoPanel panel = new LayoutDemoPanel(d);

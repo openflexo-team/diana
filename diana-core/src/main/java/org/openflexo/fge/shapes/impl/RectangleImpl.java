@@ -101,7 +101,7 @@ public abstract class RectangleImpl extends ShapeSpecificationImpl implements Re
 	 */
 	@Override
 	public void setArcSize(double anArcSize) {
-		FGEAttributeNotification notification = requireChange(ARC_SIZE, anArcSize);
+		FGEAttributeNotification<?> notification = requireChange(ARC_SIZE, anArcSize);
 		if (notification != null) {
 			arcSize = anArcSize;
 			hasChanged(notification);
@@ -115,7 +115,7 @@ public abstract class RectangleImpl extends ShapeSpecificationImpl implements Re
 
 	@Override
 	public void setIsRounded(boolean aFlag) {
-		FGEAttributeNotification notification = requireChange(IS_ROUNDED, aFlag);
+		FGEAttributeNotification<?> notification = requireChange(IS_ROUNDED, aFlag);
 		if (notification != null) {
 			isRounded = aFlag;
 			hasChanged(notification);

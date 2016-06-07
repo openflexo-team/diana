@@ -73,7 +73,7 @@ public class TreeLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 	@Override
 	public void init() {
 		graphRepresentation = getFactory().makeDrawingGraphicalRepresentation();
-		TreeLayoutManagerSpecification fdgraphLayoutManager = getFactory().makeLayoutManagerSpecification("tree",
+		TreeLayoutManagerSpecification<?> fdgraphLayoutManager = getFactory().makeLayoutManagerSpecification("tree",
 				TreeLayoutManagerSpecification.class);
 
 		graphRepresentation.addToLayoutManagerSpecifications(fdgraphLayoutManager);

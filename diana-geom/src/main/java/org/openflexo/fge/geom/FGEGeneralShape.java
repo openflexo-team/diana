@@ -112,12 +112,14 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 				beginAtPoint(((FGESegment) element).getP1());
 			}
 			addSegment(((FGESegment) element).getP2());
-		} else if (element instanceof FGEQuadCurve) {
+		}
+		else if (element instanceof FGEQuadCurve) {
 			if (currentPoint == null) {
 				beginAtPoint(((FGEQuadCurve) element).getP1());
 			}
 			addQuadCurve(((FGEQuadCurve) element).getCtrlPoint(), ((FGEQuadCurve) element).getP2());
-		} else if (element instanceof FGECubicCurve) {
+		}
+		else if (element instanceof FGECubicCurve) {
 			if (currentPoint == null) {
 				beginAtPoint(((FGECubicCurve) element).getP1());
 			}
@@ -196,13 +198,16 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 		if (filled) {
 			if (getClosure() == Closure.OPEN_NOT_FILLED) {
 				setClosure(Closure.OPEN_FILLED);
-			} else if (getClosure() == Closure.CLOSED_NOT_FILLED) {
+			}
+			else if (getClosure() == Closure.CLOSED_NOT_FILLED) {
 				setClosure(Closure.CLOSED_FILLED);
 			}
-		} else {
+		}
+		else {
 			if (getClosure() == Closure.OPEN_FILLED) {
 				setClosure(Closure.OPEN_NOT_FILLED);
-			} else if (getClosure() == Closure.CLOSED_FILLED) {
+			}
+			else if (getClosure() == Closure.CLOSED_FILLED) {
 				setClosure(Closure.CLOSED_NOT_FILLED);
 			}
 		}
@@ -226,7 +231,8 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 				current = ((FGESegment) e).getP2();
 				_controlPoints.add(current);
 				_generalPath.lineTo((float) current.x, (float) current.y);
-			} else if (e instanceof FGEQuadCurve) {
+			}
+			else if (e instanceof FGEQuadCurve) {
 				if (current == null) {
 					current = ((FGEQuadCurve) e).getP1();
 					_generalPath.moveTo((float) current.x, (float) current.y);
@@ -236,7 +242,8 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 				current = ((FGEQuadCurve) e).getP2();
 				_controlPoints.add(current);
 				_generalPath.quadTo((float) cp.x, (float) cp.y, (float) current.x, (float) current.y);
-			} else if (e instanceof FGECubicCurve) {
+			}
+			else if (e instanceof FGECubicCurve) {
 				if (current == null) {
 					current = ((FGECubicCurve) e).getP1();
 					_generalPath.moveTo((float) current.x, (float) current.y);
@@ -330,7 +337,8 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 		FGEIntersectionArea returned = new FGEIntersectionArea(this, area);
 		if (returned.isDevelopable()) {
 			return returned.makeDevelopped();
-		} else {
+		}
+		else {
 			return returned;
 		}
 	}
@@ -471,11 +479,11 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 		}
 		return res;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEGeneralShape) {
-			FGEGeneralShape p = (FGEGeneralShape) obj;
+			FGEGeneralShape<?> p = (FGEGeneralShape<?>) obj;
 			if (getClosure() != p.getClosure()) {
 				return false;
 			}

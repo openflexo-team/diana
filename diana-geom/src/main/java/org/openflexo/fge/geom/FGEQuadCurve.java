@@ -59,7 +59,6 @@ import org.openflexo.fge.graphics.AbstractFGEGraphics;
 @SuppressWarnings("serial")
 public class FGEQuadCurve extends Double implements FGEGeneralShape.GeneralShapePathElement<FGEQuadCurve> {
 
-	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(FGEQuadCurve.class.getPackage().getName());
 
 	/**
@@ -235,10 +234,10 @@ public class FGEQuadCurve extends Double implements FGEGeneralShape.GeneralShape
 		while (!f.isDone()) {
 			float[] pts = new float[6];
 			switch (f.currentSegment(pts)) {
-			case PathIterator.SEG_MOVETO:
-				// returned.addToPoints(new FGEPoint(pts[0],pts[1]));
-			case PathIterator.SEG_LINETO:
-				returned.addToPoints(new FGEPoint(pts[0], pts[1]));
+				case PathIterator.SEG_MOVETO:
+					// returned.addToPoints(new FGEPoint(pts[0],pts[1]));
+				case PathIterator.SEG_LINETO:
+					returned.addToPoints(new FGEPoint(pts[0], pts[1]));
 			}
 			f.next();
 		}
@@ -306,7 +305,8 @@ public class FGEQuadCurve extends Double implements FGEGeneralShape.GeneralShape
 		FGEIntersectionArea returned = new FGEIntersectionArea(this, area);
 		if (returned.isDevelopable()) {
 			return returned.makeDevelopped();
-		} else {
+		}
+		else {
 			return returned;
 		}
 	}
@@ -337,7 +337,7 @@ public class FGEQuadCurve extends Double implements FGEGeneralShape.GeneralShape
 	public int hashCode() {
 		return getP1().hashCode() + getP2().hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEQuadCurve) {
@@ -451,32 +451,32 @@ public class FGEQuadCurve extends Double implements FGEGeneralShape.GeneralShape
 		int nRoots = QuadCurve2D.solveQuadratic(eqn);
 		boolean result;
 		switch (nRoots) {
-		case 1:
-			result = eqn[0] >= 0 && eqn[0] <= 1;
-			if (result) {
-				double intersection = evalQuadraticCurve(pb0, pb1, pb2, eqn[0]);
-				result = intersection >= from && intersection <= to;
-			}
-			break;
-		case 2:
-			result = eqn[0] >= 0 && eqn[0] <= 1;
-			if (result) {
-				double intersection = evalQuadraticCurve(pb0, pb1, pb2, eqn[0]);
-				result = intersection >= from && intersection <= to;
-			}
-
-			// If the first root is not a valid intersection, try the other one
-			if (!result) {
-				result = eqn[1] >= 0 && eqn[1] <= 1;
+			case 1:
+				result = eqn[0] >= 0 && eqn[0] <= 1;
 				if (result) {
-					double intersection = evalQuadraticCurve(pb0, pb1, pb2, eqn[1]);
+					double intersection = evalQuadraticCurve(pb0, pb1, pb2, eqn[0]);
 					result = intersection >= from && intersection <= to;
 				}
-			}
+				break;
+			case 2:
+				result = eqn[0] >= 0 && eqn[0] <= 1;
+				if (result) {
+					double intersection = evalQuadraticCurve(pb0, pb1, pb2, eqn[0]);
+					result = intersection >= from && intersection <= to;
+				}
 
-			break;
-		default:
-			result = false;
+				// If the first root is not a valid intersection, try the other one
+				if (!result) {
+					result = eqn[1] >= 0 && eqn[1] <= 1;
+					if (result) {
+						double intersection = evalQuadraticCurve(pb0, pb1, pb2, eqn[1]);
+						result = intersection >= from && intersection <= to;
+					}
+				}
+
+				break;
+			default:
+				result = false;
 		}
 		return result;
 	}

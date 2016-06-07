@@ -64,7 +64,7 @@ public abstract class ShadowStyleImpl extends FGEStyleImpl implements ShadowStyl
 		returned.shadowDepth = 0;
 		return returned;
 	}
-
+	
 	@SuppressWarnings("unused")
 	@Deprecated
 	private static ShadowStyleImpl makeDefault() {
@@ -82,7 +82,7 @@ public abstract class ShadowStyleImpl extends FGEStyleImpl implements ShadowStyl
 			boolean oldValue = drawShadow;
 			this.drawShadow = aFlag;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(DRAW_SHADOW, oldValue, aFlag));
+			notifyObservers(new FGEAttributeNotification<Boolean>(DRAW_SHADOW, oldValue, aFlag));
 		}
 	}
 
@@ -97,7 +97,7 @@ public abstract class ShadowStyleImpl extends FGEStyleImpl implements ShadowStyl
 			int oldShadowDarkness = shadowDarkness;
 			shadowDarkness = aValue;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(SHADOW_DARKNESS, oldShadowDarkness, aValue));
+			notifyObservers(new FGEAttributeNotification<Integer>(SHADOW_DARKNESS, oldShadowDarkness, aValue));
 		}
 	}
 
@@ -117,7 +117,7 @@ public abstract class ShadowStyleImpl extends FGEStyleImpl implements ShadowStyl
 			int oldShadowDeep = shadowDepth;
 			shadowDepth = aValue;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(SHADOW_DEPTH, oldShadowDeep, aValue));
+			notifyObservers(new FGEAttributeNotification<Integer>(SHADOW_DEPTH, oldShadowDeep, aValue));
 		}
 	}
 
@@ -132,7 +132,7 @@ public abstract class ShadowStyleImpl extends FGEStyleImpl implements ShadowStyl
 			int oldShadowBlur = shadowBlur;
 			shadowBlur = aValue;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(SHADOW_BLUR, oldShadowBlur, aValue));
+			notifyObservers(new FGEAttributeNotification<Integer>(SHADOW_BLUR, oldShadowBlur, aValue));
 		}
 	}
 
@@ -151,7 +151,8 @@ public abstract class ShadowStyleImpl extends FGEStyleImpl implements ShadowStyl
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;
-			} else {
+			}
+			else {
 				return true;
 			}
 		}

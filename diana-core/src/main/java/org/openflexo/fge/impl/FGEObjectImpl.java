@@ -138,7 +138,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 		if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
 			return;
 		}
-		hasChanged(new FGEAttributeNotification(parameter, oldValue, newValue));
+		hasChanged(new FGEAttributeNotification<T>(parameter, oldValue, newValue));
 		/*propagateConstraintsAfterModification(parameter);
 		setChanged();
 		notifyObservers(new FGENotification(parameter, oldValue, newValue));*/
@@ -163,7 +163,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 	 * @param useEquals
 	 * @return
 	 */
-	protected <T> FGEAttributeNotification requireChange(GRProperty<T> parameter, T value) {
+	protected <T> FGEAttributeNotification<T> requireChange(GRProperty<T> parameter, T value) {
 		return requireChange(parameter, value, true);
 	}
 
@@ -181,7 +181,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 	 * @param useEquals
 	 * @return
 	 */
-	protected <T> FGEAttributeNotification requireChange(GRProperty<T> parameter, T value, boolean useEquals) {
+	protected <T> FGEAttributeNotification<T> requireChange(GRProperty<T> parameter, T value, boolean useEquals) {
 		T oldValue = valueForParameter(parameter);
 		if (value == oldValue && value != null && !value.getClass().isEnum()) {
 			// logger.warning(parameter.name() + ": require change called for same object: aren't you wrong ???");
@@ -190,21 +190,26 @@ public abstract class FGEObjectImpl implements FGEObject {
 		if (oldValue == null) {
 			if (value == null) {
 				return null; // No change
-			} else {
-				return new FGEAttributeNotification(parameter, oldValue, value);
 			}
-		} else {
+			else {
+				return new FGEAttributeNotification<T>(parameter, oldValue, value);
+			}
+		}
+		else {
 			if (useEquals) {
 				if (oldValue.equals(value)) {
 					return null; // No change
-				} else {
-					return new FGEAttributeNotification(parameter, oldValue, value);
 				}
-			} else {
+				else {
+					return new FGEAttributeNotification<T>(parameter, oldValue, value);
+				}
+			}
+			else {
 				if (oldValue == value) {
 					return null; // No change
-				} else {
-					return new FGEAttributeNotification(parameter, oldValue, value);
+				}
+				else {
+					return new FGEAttributeNotification<T>(parameter, oldValue, value);
 				}
 			}
 		}
@@ -274,7 +279,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 	 * 
 	 * @param notification
 	 */
-	protected void hasChanged(FGEAttributeNotification notification) {
+	protected void hasChanged(FGEAttributeNotification<?> notification) {
 		if (logger.isLoggable(Level.FINE)) {
 			logger.fine("Change attribute " + notification.parameter + " for object " + this + " was: " + notification.oldValue
 					+ " is now: " + notification.newValue);

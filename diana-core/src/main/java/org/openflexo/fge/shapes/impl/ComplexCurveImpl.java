@@ -89,7 +89,8 @@ public abstract class ComplexCurveImpl extends ShapeSpecificationImpl implements
 	public void setPoints(List<FGEPoint> points) {
 		if (points != null) {
 			this.points = new ArrayList<FGEPoint>(points);
-		} else {
+		}
+		else {
 			this.points = null;
 		}
 		notifyChange(POINTS);
@@ -119,7 +120,7 @@ public abstract class ComplexCurveImpl extends ShapeSpecificationImpl implements
 
 	@Override
 	public void setClosure(Closure aClosure) {
-		FGEAttributeNotification notification = requireChange(CLOSURE, aClosure);
+		FGEAttributeNotification<?> notification = requireChange(CLOSURE, aClosure);
 		if (notification != null) {
 			closure = aClosure;
 			hasChanged(notification);

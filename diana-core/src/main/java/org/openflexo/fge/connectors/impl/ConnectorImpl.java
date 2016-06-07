@@ -141,7 +141,6 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public CS getConnectorSpecification() {
 		/*if (connectorNode != null) {
 			return (CS) connectorNode.getConnectorSpecification();
@@ -255,14 +254,18 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		if (connectorNode.getIsSelected()) {
 			if (connectorNode.getGraphicalRepresentation().getHasSelectedForeground()) {
 				g.setDefaultForeground(connectorNode.getGraphicalRepresentation().getSelectedForeground());
-			} else if (connectorNode.getGraphicalRepresentation().getHasFocusedForeground()) {
+			}
+			else if (connectorNode.getGraphicalRepresentation().getHasFocusedForeground()) {
 				g.setDefaultForeground(connectorNode.getGraphicalRepresentation().getFocusedForeground());
-			} else {
+			}
+			else {
 				g.setDefaultForeground(connectorNode.getGraphicalRepresentation().getForeground());
 			}
-		} else if (connectorNode.getIsFocused() && connectorNode.getGraphicalRepresentation().getHasFocusedForeground()) {
+		}
+		else if (connectorNode.getIsFocused() && connectorNode.getGraphicalRepresentation().getHasFocusedForeground()) {
 			g.setDefaultForeground(connectorNode.getGraphicalRepresentation().getFocusedForeground());
-		} else {
+		}
+		else {
 			g.setDefaultForeground(connectorNode.getGraphicalRepresentation().getForeground());
 		}
 
@@ -359,17 +362,18 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 
 	private boolean layoutOfStartOrEndObjectHasChanged(ConnectorNode<?> connectorNode) {
 		// if (true) return true;
-		if (startShape == null || startShape != null && startShape.getShapeType() != connectorNode.getStartNode().getShape().getShapeType()) {
+		if (startShape == null
+				|| startShape != null && startShape.getShapeType() != connectorNode.getStartNode().getShape().getShapeType()) {
 			// logger.info("Layout has changed because start shape change");
 			return true;
 		}
-		if (startShapeDimension == null || startShapeDimension != null
-				&& !startShapeDimension.equals(connectorNode.getStartNode().getSize())) {
+		if (startShapeDimension == null
+				|| startShapeDimension != null && !startShapeDimension.equals(connectorNode.getStartNode().getSize())) {
 			// logger.info("Layout has changed because start shape dimension change");
 			return true;
 		}
-		if (startShapeLocation == null || startShapeLocation != null
-				&& !startShapeLocation.equals(connectorNode.getStartNode().getLocationInDrawing())) {
+		if (startShapeLocation == null
+				|| startShapeLocation != null && !startShapeLocation.equals(connectorNode.getStartNode().getLocationInDrawing())) {
 			// logger.info("Layout has changed because start shape location change");
 			return true;
 		}
@@ -381,13 +385,13 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 			// logger.info("Layout has changed because end shape dimension change");
 			return true;
 		}
-		if (endShapeLocation == null || endShapeLocation != null
-				&& !endShapeLocation.equals(connectorNode.getEndNode().getLocationInDrawing())) {
+		if (endShapeLocation == null
+				|| endShapeLocation != null && !endShapeLocation.equals(connectorNode.getEndNode().getLocationInDrawing())) {
 			// logger.info("Layout has changed because end shape location change");
 			return true;
 		}
-		if (knownConnectorUsedBounds == null || knownConnectorUsedBounds != null
-				&& !knownConnectorUsedBounds.equals(getConnectorUsedBounds())) {
+		if (knownConnectorUsedBounds == null
+				|| knownConnectorUsedBounds != null && !knownConnectorUsedBounds.equals(getConnectorUsedBounds())) {
 			// logger.info("Layout has changed because knownConnectorUsedBounds change");
 			return true;
 		}
@@ -420,10 +424,10 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 
 	}
 
-/**
+	/**
 	 * Returns the property value for supplied parameter<br>
-	 * If many Connectors share same ConnectorSpecification (as indicated by {@link Drawing#getPersistenceMode()), do not store value in ConnectorSpecification, but store it in the Connector itself.<br>
-	 * This implies that this value is not persistent (not serializable)
+	 * If many Connectors share same ConnectorSpecification (as indicated by {@link Drawing#getPersistenceMode()), do not store value in
+	 * ConnectorSpecification, but store it in the Connector itself.<br> This implies that this value is not persistent (not serializable)
 	 * 
 	 * @param parameter
 	 * @return
@@ -438,7 +442,8 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		if (getConnectorNode() == null) {
 			LOGGER.warning("Called getPropertyValue() for null ConnectorNode");
 			return null;
-		} else if (getConnectorNode().isDeleted()) {
+		}
+		else if (getConnectorNode().isDeleted()) {
 			LOGGER.warning("Called getPropertyValue() for deleted ConnectorNode");
 			return null;
 		}
@@ -472,10 +477,10 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		}
 	}
 
-/**
+	/**
 	 * Sets the property value for supplied parameter<br>
-	 * If many Connectors share same ConnectorSpecification (as indicated by {@link Drawing#getPersistenceMode()), do not store value in ConnectorSpecification, but store it in the Connector itself.<br>
-	 * This implies that this value is not persistent (not serializable)
+	 * If many Connectors share same ConnectorSpecification (as indicated by {@link Drawing#getPersistenceMode()), do not store value in
+	 * ConnectorSpecification, but store it in the Connector itself.<br> This implies that this value is not persistent (not serializable)
 	 * 
 	 * @param parameter
 	 * @return

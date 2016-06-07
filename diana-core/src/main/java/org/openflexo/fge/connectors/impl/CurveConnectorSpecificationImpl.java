@@ -73,7 +73,7 @@ public abstract class CurveConnectorSpecificationImpl extends ConnectorSpecifica
 
 	@Override
 	public void setCp1RelativeToStartObject(FGEPoint aPoint) {
-		FGEAttributeNotification notification = requireChange(CP1_RELATIVE_TO_START_OBJECT, aPoint);
+		FGEAttributeNotification<?> notification = requireChange(CP1_RELATIVE_TO_START_OBJECT, aPoint);
 		if (notification != null) {
 			this.cp1RelativeToStartObject = aPoint;
 			hasChanged(notification);
@@ -87,7 +87,7 @@ public abstract class CurveConnectorSpecificationImpl extends ConnectorSpecifica
 
 	@Override
 	public void setCp2RelativeToEndObject(FGEPoint aPoint) {
-		FGEAttributeNotification notification = requireChange(CP2_RELATIVE_TO_END_OBJECT, aPoint);
+		FGEAttributeNotification<?> notification = requireChange(CP2_RELATIVE_TO_END_OBJECT, aPoint);
 		if (notification != null) {
 			this.cp2RelativeToEndObject = aPoint;
 			hasChanged(notification);
@@ -101,7 +101,7 @@ public abstract class CurveConnectorSpecificationImpl extends ConnectorSpecifica
 
 	@Override
 	public void setCpPosition(FGEPoint aPoint) {
-		FGEAttributeNotification notification = requireChange(CP_POSITION, aPoint);
+		FGEAttributeNotification<?> notification = requireChange(CP_POSITION, aPoint);
 		if (notification != null) {
 			this.cpPosition = aPoint;
 			hasChanged(notification);
@@ -115,7 +115,7 @@ public abstract class CurveConnectorSpecificationImpl extends ConnectorSpecifica
 
 	@Override
 	public void setAreBoundsAdjustable(boolean aFlag) {
-		FGEAttributeNotification notification = requireChange(ARE_BOUNDS_ADJUSTABLE, aFlag);
+		FGEAttributeNotification<?> notification = requireChange(ARE_BOUNDS_ADJUSTABLE, aFlag);
 		if (notification != null) {
 			areBoundsAdjustable = aFlag;
 			hasChanged(notification);

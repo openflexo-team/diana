@@ -36,7 +36,6 @@
  * 
  */
 
-
 package org.openflexo.fge.control.tools;
 
 import java.beans.PropertyChangeSupport;
@@ -120,21 +119,22 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		this.rectangle = new InspectedRectangle<Rectangle>(controller, (Rectangle) controller.getFactory().makeShape(ShapeType.RECTANGLE));
 		this.square = new InspectedSquare(controller, (Square) controller.getFactory().makeShape(ShapeType.SQUARE));
 		this.polygon = new InspectedPolygon<Polygon>(controller, (Polygon) controller.getFactory().makeShape(ShapeType.CUSTOM_POLYGON));
-		this.regularPolygon = new InspectedRegularPolygon<RegularPolygon>(controller, (RegularPolygon) controller.getFactory().makeShape(
-				ShapeType.POLYGON));
-		this.rectangularOctogon = new InspectedRectangularOctogon(controller, (RectangularOctogon) controller.getFactory().makeShape(
-				ShapeType.RECTANGULAROCTOGON));
+		this.regularPolygon = new InspectedRegularPolygon<RegularPolygon>(controller,
+				(RegularPolygon) controller.getFactory().makeShape(ShapeType.POLYGON));
+		this.rectangularOctogon = new InspectedRectangularOctogon(controller,
+				(RectangularOctogon) controller.getFactory().makeShape(ShapeType.RECTANGULAROCTOGON));
 		this.losange = new InspectedLosange(controller, (Losange) controller.getFactory().makeShape(ShapeType.LOSANGE));
 		this.triangle = new InspectedTriangle(controller, (Triangle) controller.getFactory().makeShape(ShapeType.TRIANGLE));
 		this.oval = new InspectedOval<Oval>(controller, (Oval) controller.getFactory().makeShape(ShapeType.OVAL));
 		this.circle = new InspectedCircle(controller, (Circle) controller.getFactory().makeShape(ShapeType.CIRCLE));
 		this.arc = new InspectedArc(controller, (Arc) controller.getFactory().makeShape(ShapeType.ARC));
 		this.star = new InspectedStar(controller, (Star) controller.getFactory().makeShape(ShapeType.STAR));
-		this.complexCurve = new InspectedComplexCurve(controller, (ComplexCurve) controller.getFactory().makeShape(ShapeType.COMPLEX_CURVE));
+		this.complexCurve = new InspectedComplexCurve(controller,
+				(ComplexCurve) controller.getFactory().makeShape(ShapeType.COMPLEX_CURVE));
 		this.plus = new InspectedPlus(controller, (Plus) controller.getFactory().makeShape(ShapeType.PLUS));
 		this.chevron = new InspectedChevron(controller, (Chevron) controller.getFactory().makeShape(ShapeType.CHEVRON));
-		this.parallelogram = new InspectedParallelogram(controller, (Parallelogram) controller.getFactory().makeShape(
-				ShapeType.PARALLELOGRAM));
+		this.parallelogram = new InspectedParallelogram(controller,
+				(Parallelogram) controller.getFactory().makeShape(ShapeType.PARALLELOGRAM));
 	}
 
 	public DianaInteractiveViewer<?, ?, ?> getController() {
@@ -295,8 +295,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 	}
 
-	protected abstract class AbstractInspectedShapeSpecification<SS extends ShapeSpecification> extends InspectedStyle<SS> implements
-			ShapeSpecification {
+	protected abstract class AbstractInspectedShapeSpecification<SS extends ShapeSpecification> extends InspectedStyle<SS>
+			implements ShapeSpecification {
 
 		protected AbstractInspectedShapeSpecification(final DianaInteractiveViewer<?, ?, ?> controller, final SS defaultValue) {
 			super(controller, defaultValue);
@@ -309,7 +309,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 		@Override
 		public ShapeImpl<?> makeShape(final ShapeNode<?> node) {
-			final ShapeImpl returned = new ShapeImpl(node);
+			final ShapeImpl<?> returned = new ShapeImpl(node);
 			this.getPropertyChangeSupport().addPropertyChangeListener(returned);
 			return returned;
 		}
@@ -633,8 +633,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	}
 
-	protected class InspectedRectangularOctogon extends AbstractInspectedShapeSpecification<RectangularOctogon> implements
-			RectangularOctogon {
+	protected class InspectedRectangularOctogon extends AbstractInspectedShapeSpecification<RectangularOctogon>
+			implements RectangularOctogon {
 
 		protected InspectedRectangularOctogon(final DianaInteractiveViewer<?, ?, ?> controller, final RectangularOctogon defaultValue) {
 			super(controller, defaultValue);
@@ -881,8 +881,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			for (int i = 0; i < this.getNPoints(); i++) {
 				final double angle = i * angleInterval + startA;
 				final double angle1 = (i - 0.5) * angleInterval + startA;
-				returned.addToPoints(new FGEPoint(Math.cos(angle1) * 0.5 * this.getRatio() + 0.5, Math.sin(angle1) * 0.5 * this.getRatio()
-						+ 0.5));
+				returned.addToPoints(
+						new FGEPoint(Math.cos(angle1) * 0.5 * this.getRatio() + 0.5, Math.sin(angle1) * 0.5 * this.getRatio() + 0.5));
 				returned.addToPoints(new FGEPoint(Math.cos(angle) * 0.5 + 0.5, Math.sin(angle) * 0.5 + 0.5));
 			}
 			return returned;

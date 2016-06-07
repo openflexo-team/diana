@@ -252,8 +252,8 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 				- (int) (shapeNode.getBorderTop() * getScale());
 
 		if (shapeNode.getParentNode() instanceof ShapeNode) {
-			newX += (((ShapeNode) shapeNode.getParentNode()).getBorderLeft()) * getScale();
-			newY += (((ShapeNode) shapeNode.getParentNode()).getBorderTop()) * getScale();
+			newX += (((ShapeNode<?>) shapeNode.getParentNode()).getBorderLeft()) * getScale();
+			newY += (((ShapeNode<?>) shapeNode.getParentNode()).getBorderTop()) * getScale();
 		}
 
 		if (shapeNode != null && (getX() != newX || getY() != newY)) {
@@ -261,7 +261,8 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 				labelView.updateBounds();
 			}
 			setLocation(newX, newY);
-		} else {
+		}
+		else {
 			// logger.info("Ignore relocateView() because unchanged");
 		}
 	}
@@ -273,7 +274,8 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 				labelView.updateBounds();
 			}
 			setSize(shapeNode.getViewWidth(getScale()), shapeNode.getViewHeight(getScale()));
-		} else {
+		}
+		else {
 			// logger.info("Ignore resizeView() because unchanged");
 		}
 	}
@@ -302,7 +304,8 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 			getParentView().remove(getLabelView());
 			labelView.delete();
 			labelView = null;
-		} else if (shapeNode.hasText() && labelView == null) {
+		}
+		else if (shapeNode.hasText() && labelView == null) {
 			labelView = new JLabelView<O>(getNode(), getController(), this);
 			if (getParentView() != null) {
 				getParentView().add(getLabelView(), getLayer(), -1);
@@ -331,14 +334,16 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 					if (FGEPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE)) {
 						FGEPaintManager.paintPrimitiveLogger.fine("JShapeView: buffering paint, ignore: " + shapeNode);
 					}
-				} else {
+				}
+				else {
 					if (FGEPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE)) {
 						FGEPaintManager.paintPrimitiveLogger
 								.fine("JShapeView: buffering paint, draw: " + shapeNode + " clip=" + g.getClip());
 					}
 					doPaint(g);
 				}
-			} else {
+			}
+			else {
 				if (!getPaintManager().renderUsingBuffer((Graphics2D) g, g.getClipBounds(), shapeNode, getScale())) {
 					doPaint(g);
 				}
@@ -361,7 +366,8 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 						null);
 				 */
 			}
-		} else {
+		}
+		else {
 			// Normal painting
 			doPaint(g);
 		}
@@ -409,7 +415,8 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 					propertyChange(evt);
 				}
 			});
-		} else {
+		}
+		else {
 			// logger.info("Received for " + getNode().getDrawable() + " in JShapeView: " + evt.getPropertyName() + " evt=" + evt);
 			if (evt.getPropertyName() == null) {
 				return;
@@ -444,32 +451,39 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 
 			if (evt.getPropertyName().equals(NodeAdded.EVENT_NAME)) {
 				handleNodeAdded((DrawingTreeNode<?, ?>) evt.getNewValue());
-			} else if (evt.getPropertyName().equals(NodeRemoved.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(NodeRemoved.EVENT_NAME)) {
 				handleNodeRemoved((DrawingTreeNode<?, ?>) evt.getOldValue(), (ContainerNode<?, ?>) evt.getNewValue());
-			} else if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) {
 				delete();
-			} else if (evt.getPropertyName().equals(ObjectWillMove.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(ObjectWillMove.EVENT_NAME)) {
 				if (getPaintManager().isPaintingCacheEnabled()) {
 					getPaintManager().addToTemporaryObjects(shapeNode);
 					getPaintManager().invalidate(shapeNode);
 				}
-			} else if (evt.getPropertyName().equals(ObjectMove.PROPERTY_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(ObjectMove.PROPERTY_NAME)) {
 				relocateView();
 				if (getParentView() != null) {
 					getPaintManager().repaint(this);
 				}
-			} else if (evt.getPropertyName().equals(ObjectHasMoved.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(ObjectHasMoved.EVENT_NAME)) {
 				if (getPaintManager().isPaintingCacheEnabled()) {
 					getPaintManager().removeFromTemporaryObjects(shapeNode);
 					getPaintManager().invalidate(shapeNode);
 					getPaintManager().repaint(getParentView());
 				}
-			} else if (evt.getPropertyName().equals(ObjectWillResize.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(ObjectWillResize.EVENT_NAME)) {
 				if (getPaintManager().isPaintingCacheEnabled()) {
 					getPaintManager().addToTemporaryObjects(shapeNode);
 					getPaintManager().invalidate(shapeNode);
 				}
-			} else if (evt.getPropertyName().equals(ObjectResized.PROPERTY_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(ObjectResized.PROPERTY_NAME)) {
 				// TODO: (sylvain) those two cases may be joined ??? Please check
 				resizeView();
 				/*if (getParentView() != null) {
@@ -481,7 +495,8 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 					getPaintManager().invalidate(shapeNode);
 					getPaintManager().repaint(getParentView());
 				}
-			} else if (evt.getPropertyName().equals(ObjectHasResized.EVENT_NAME)
+			}
+			else if (evt.getPropertyName().equals(ObjectHasResized.EVENT_NAME)
 					|| evt.getPropertyName().equals(ContainerGraphicalRepresentation.WIDTH_KEY)
 					|| evt.getPropertyName().equals(ContainerGraphicalRepresentation.HEIGHT_KEY)) {
 				resizeView();
@@ -490,7 +505,8 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 					getPaintManager().invalidate(shapeNode);
 					getPaintManager().repaint(getParentView());
 				}
-			} else if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.X_KEY)
+			}
+			else if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.X_KEY)
 					|| evt.getPropertyName().equals(ShapeGraphicalRepresentation.Y_KEY)) {
 				// System.out.println("Relocating view");
 				relocateView();
@@ -499,27 +515,33 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 					getPaintManager().invalidate(shapeNode);
 					getPaintManager().repaint(getParentView());
 				}
-			} else if (evt.getPropertyName().equals(ShapeNeedsToBeRedrawn.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(ShapeNeedsToBeRedrawn.EVENT_NAME)) {
 				getPaintManager().invalidate(shapeNode);
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(ShapeChanged.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(ShapeChanged.EVENT_NAME)) {
 				getPaintManager().invalidate(shapeNode);
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(GraphicalRepresentation.LAYER.getName())) {
+			}
+			else if (evt.getPropertyName().equals(GraphicalRepresentation.LAYER.getName())) {
 				updateLayer();
 				if (!getPaintManager().isTemporaryObjectOrParentIsTemporaryObject(shapeNode)) {
 					getPaintManager().invalidate(shapeNode);
 				}
 				getPaintManager().repaint(this);
 
-			} else if (evt.getPropertyName().equals(DrawingTreeNode.IS_FOCUSED.getName())) {
+			}
+			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_FOCUSED.getName())) {
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(GraphicalRepresentation.TEXT.getName())) {
+			}
+			else if (evt.getPropertyName().equals(GraphicalRepresentation.TEXT.getName())) {
 				// System.out.println("Updating label view");
 				// updateLabelView();
 				getPaintManager().invalidate(shapeNode);
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(DrawingTreeNode.IS_SELECTED.getName())) {
+			}
+			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_SELECTED.getName())) {
 				if (getParent() != null) {
 					getParent().moveToFront(this);
 				}
@@ -531,7 +553,8 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 					requestFocusInWindow();
 					// requestFocus();
 				}
-			} else if (evt.getPropertyName().equals(GraphicalRepresentation.IS_VISIBLE.getName())) {
+			}
+			else if (evt.getPropertyName().equals(GraphicalRepresentation.IS_VISIBLE.getName())) {
 				updateVisibility();
 				if (getPaintManager().isPaintingCacheEnabled()) {
 					if (!getPaintManager().isTemporaryObjectOrParentIsTemporaryObject(shapeNode)) {
@@ -540,7 +563,8 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 				}
 				getPaintManager().repaint(this);
 
-			} else {
+			}
+			else {
 				// revalidate();
 				if (getPaintManager().isPaintingCacheEnabled()) {
 					if (!getPaintManager().isTemporaryObjectOrParentIsTemporaryObject(shapeNode)) {

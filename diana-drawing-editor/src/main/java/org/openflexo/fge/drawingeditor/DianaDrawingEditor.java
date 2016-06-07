@@ -98,8 +98,8 @@ public class DianaDrawingEditor extends JDianaInteractiveEditor<Diagram> {
 			@Override
 			public void performedDrawNewConnector(ConnectorGraphicalRepresentation graphicalRepresentation, ShapeNode<?> startNode,
 					ShapeNode<?> endNode) {
-				System.out.println("OK, perform draw new connector with " + graphicalRepresentation + " start: " + startNode + " end: "
-						+ endNode);
+				System.out.println(
+						"OK, perform draw new connector with " + graphicalRepresentation + " start: " + startNode + " end: " + endNode);
 				Connector newConnector = getFactory().makeNewConnector(graphicalRepresentation, (Shape) startNode.getDrawable(),
 						(Shape) endNode.getDrawable(), getDrawing().getModel());
 				DrawingTreeNode<?, ?> fatherNode = FGEUtils.getFirstCommonAncestor(startNode, endNode);
@@ -225,7 +225,7 @@ public class DianaDrawingEditor extends JDianaInteractiveEditor<Diagram> {
 		father.addToConnectors(aConnector);
 	}
 
-	public void showContextualMenu(DrawingTreeNode<?, ?> dtn, FGEView view, Point p) {
+	public void showContextualMenu(DrawingTreeNode<?, ?> dtn, FGEView<?, ?> view, Point p) {
 		// contextualMenuInvoker = dtn;
 		// contextualMenuClickedPoint = p;
 		contextualMenu.show((Component) view, p.x, p.y);
@@ -246,6 +246,7 @@ public class DianaDrawingEditor extends JDianaInteractiveEditor<Diagram> {
 		return (DiagramEditorView) super.getDrawingView();
 	}
 
+	@Override
 	protected void prepareClipboardForPasting(FGEPoint proposedPastingLocation) {
 		logger.info("Pasting in " + getPastingContext().getDrawable() + " at " + proposedPastingLocation);
 		if (getClipboard().isSingleObject()) {
@@ -254,17 +255,20 @@ public class DianaDrawingEditor extends JDianaInteractiveEditor<Diagram> {
 				shapeBeingPasted.setName(shapeBeingPasted.getName() + "-new");
 				shapeBeingPasted.getGraphicalRepresentation().setX(proposedPastingLocation.x);
 				shapeBeingPasted.getGraphicalRepresentation().setY(proposedPastingLocation.y);
-			} else if (getClipboard().getSingleContents() instanceof Connector) {
+			}
+			else if (getClipboard().getSingleContents() instanceof Connector) {
 				Connector connectorBeingPasted = (Connector) getClipboard().getSingleContents();
 				connectorBeingPasted.setName(connectorBeingPasted.getName() + "-new");
 			}
-		} else {
+		}
+		else {
 			for (Object o : getClipboard().getMultipleContents()) {
 				if (o instanceof Shape) {
 					((Shape) o).getGraphicalRepresentation().setX(((Shape) o).getGraphicalRepresentation().getX() + PASTE_DELTA);
 					((Shape) o).getGraphicalRepresentation().setY(((Shape) o).getGraphicalRepresentation().getY() + PASTE_DELTA);
 					((Shape) o).setName(((Shape) o).getName() + "-new");
-				} else if (o instanceof Connector) {
+				}
+				else if (o instanceof Connector) {
 					((Connector) o).setName(((Connector) o).getName() + "-new");
 				}
 			}

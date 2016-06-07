@@ -101,7 +101,7 @@ import org.openflexo.fge.shapes.impl.ShapeImpl;
 import org.openflexo.toolbox.ConcatenedList;
 import org.openflexo.toolbox.StringUtils;
 
-public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalRepresentation>implements ShapeNode<O> {
+public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalRepresentation> implements ShapeNode<O> {
 
 	private static final Logger logger = Logger.getLogger(ShapeNodeImpl.class.getPackage().getName());
 
@@ -289,7 +289,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public boolean delete() {
-		Object o = getDrawable();
+		// Object o = getDrawable();
 		if (!isDeleted()) {
 			// System.out.println("ShapeNode deleted");
 			stopListenConstraintsValueChange();
@@ -425,7 +425,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getChildNodes() != null) {
 			for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
 				if (childNode instanceof ShapeNode) {
-					ShapeNode child = (ShapeNode) childNode;
+					ShapeNode<?> child = (ShapeNode<?>) childNode;
 					if (child.getY() - child.getBorderTop() < -returned) {
 						returned = -(int) child.getY() + child.getBorderTop();
 					}
@@ -450,7 +450,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getChildNodes() != null) {
 			for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
 				if (childNode instanceof ShapeNode) {
-					ShapeNode child = (ShapeNode) childNode;
+					ShapeNode<?> child = (ShapeNode<?>) childNode;
 					if (child.getX() - child.getBorderLeft() < -returned) {
 						returned = -(int) child.getX() + child.getBorderLeft();
 					}
@@ -478,7 +478,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getChildNodes() != null) {
 			for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
 				if (childNode instanceof ShapeNode) {
-					ShapeNode child = (ShapeNode) childNode;
+					ShapeNode<?> child = (ShapeNode<?>) childNode;
 					int requiredBorder = (int) (child.getY() + child.getHeight() + child.getBorderBottom() - getHeight());
 					if (requiredBorder > returned) {
 						returned = requiredBorder;
@@ -506,7 +506,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getChildNodes() != null) {
 			for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
 				if (childNode instanceof ShapeNode) {
-					ShapeNode child = (ShapeNode) childNode;
+					ShapeNode<?> child = (ShapeNode<?>) childNode;
 					int requiredBorder = (int) (child.getX() + child.getWidth() + child.getBorderRight() - getWidth());
 					if (requiredBorder > returned) {
 						returned = requiredBorder;
@@ -754,7 +754,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public void extendParentBoundsToHostThisShape() {
 		if (getParentNode() instanceof ShapeNode) {
-			ShapeNode parent = (ShapeNode) getParentNode();
+			ShapeNode<?> parent = (ShapeNode<?>) getParentNode();
 			parent.extendBoundsToHostContents();
 		}
 	}
@@ -776,7 +776,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		// First compute the delta to be applied (max of all required delta)
 		for (DrawingTreeNode<?, ?> child : getChildNodes()) {
 			if (child instanceof ShapeNode) {
-				ShapeNode gr = (ShapeNode) child;
+				ShapeNode<?> gr = (ShapeNode<?>) child;
 				if (gr.getX() < -deltaX) {
 					deltaX = -gr.getX();
 					needsRelocate = true;
@@ -798,7 +798,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			newDimension = new FGEDimension(getWidth() + deltaX, getHeight() + deltaY);
 			for (DrawingTreeNode<?, ?> child : getChildNodes()) {
 				if (child instanceof ShapeNode && child != this) {
-					ShapeNode c = (ShapeNode) child;
+					ShapeNode<?> c = (ShapeNode<?>) child;
 					c.setLocation(new FGEPoint(c.getX() + deltaX, c.getY() + deltaY));
 				}
 			}
@@ -807,7 +807,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		// First compute the resize to be applied
 		for (DrawingTreeNode<?, ?> child : getChildNodes()) {
 			if (child instanceof ShapeNode) {
-				ShapeNode gr = (ShapeNode) child;
+				ShapeNode<?> gr = (ShapeNode<?>) child;
 				if (gr.getX() + gr.getWidth() > getWidth()) {
 					newDimension.width = gr.getX() + gr.getWidth();
 					needsResize = true;
@@ -933,8 +933,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					logger.fine("setLocation() lead shape going outside it's parent view");
 				}
 				if (getParentNode() instanceof ShapeNodeImpl) {
-					((ShapeNodeImpl) getParentNode()).notifyObjectMoved(null);
-					((ShapeNodeImpl) getParentNode()).notifyObjectResized(null);
+					((ShapeNodeImpl<?>) getParentNode()).notifyObjectMoved(null);
+					((ShapeNodeImpl<?>) getParentNode()).notifyObjectResized(null);
 				}
 			}
 
@@ -1446,8 +1446,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 		// We have here to translate result to take borders into account
 		if (getParentNode() instanceof ShapeNode) {
-			point.x += ((ShapeNode) getParentNode()).getBorderLeft() * scale /*- (int) (getBorderLeft() * scale)*/;
-			point.y += ((ShapeNode) getParentNode()).getBorderTop() * scale /*- (int) (getBorderTop() * scale)*/;
+			point.x += ((ShapeNode<?>) getParentNode()).getBorderLeft() * scale /*- (int) (getBorderLeft() * scale)*/;
+			point.y += ((ShapeNode<?>) getParentNode()).getBorderTop() * scale /*- (int) (getBorderTop() * scale)*/;
 		}
 		return point;
 	}
@@ -1457,8 +1457,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 		// First take the borders under account
 		if (getParentNode() instanceof ShapeNode) {
-			point.x -= ((ShapeNode) getParentNode()).getBorderLeft() * scale /*- (int) (getBorderLeft() * scale)*/;
-			point.y -= ((ShapeNode) getParentNode()).getBorderTop() * scale /*- (int) (getBorderTop() * scale)*/;
+			point.x -= ((ShapeNode<?>) getParentNode()).getBorderLeft() * scale /*- (int) (getBorderLeft() * scale)*/;
+			point.y -= ((ShapeNode<?>) getParentNode()).getBorderTop() * scale /*- (int) (getBorderTop() * scale)*/;
 		}
 		// point.x -= (FGEUtils.getCumulativeLeftBorders(getParentNode()) * scale /*- (int) (getBorderLeft() * scale)*/);
 		// point.y -= (FGEUtils.getCumulativeTopBorders(getParentNode()) * scale /*- (int) (getBorderTop() * scale)*/);
@@ -1835,7 +1835,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		double deltaX = -newBounds.x + oldBounds.x;
 		double deltaY = -newBounds.y + oldBounds.y;
 		AffineTransform translation = AffineTransform.getTranslateInstance(deltaX, deltaY);
-		for (DrawingTreeNode childNode : getChildNodes()) {
+		for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
 			if (childNode instanceof ShapeNode) {
 				ShapeNodeImpl<?> shapeNode = (ShapeNodeImpl<?>) childNode;
 				if (shapeNode == child) {
@@ -1859,7 +1859,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		FGERectangle requiredBounds = null;
 		for (DrawingTreeNode<?, ?> gr : getChildNodes()) {
 			if (gr instanceof ShapeNode) {
-				ShapeNode shapeGR = (ShapeNode) gr;
+				ShapeNode<?> shapeGR = (ShapeNode<?>) gr;
 				FGERectangle bounds = shapeGR.getBounds();
 				if (shapeGR == child) {
 					bounds.x = newChildLocation.x;

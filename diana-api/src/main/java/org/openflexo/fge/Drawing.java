@@ -1251,19 +1251,21 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 			if (getClass() != obj.getClass()) {
 				return false;
 			}
-			DrawingTreeNodeIdentifier other = (DrawingTreeNodeIdentifier) obj;
+			DrawingTreeNodeIdentifier<?> other = (DrawingTreeNodeIdentifier<?>) obj;
 			if (drawable == null) {
 				if (other.drawable != null) {
 					return false;
 				}
-			} else if (!drawable.equals(other.drawable)) {
+			}
+			else if (!drawable.equals(other.drawable)) {
 				return false;
 			}
 			if (grBinding == null) {
 				if (other.grBinding != null) {
 					return false;
 				}
-			} else if (!grBinding.equals(other.grBinding)) {
+			}
+			else if (!grBinding.equals(other.grBinding)) {
 				return false;
 			}
 			return true;

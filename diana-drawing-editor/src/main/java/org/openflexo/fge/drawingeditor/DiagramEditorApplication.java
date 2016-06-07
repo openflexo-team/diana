@@ -482,7 +482,6 @@ public class DiagramEditorApplication {
 
 	private MenuBar menuBar;
 
-	@SuppressWarnings("serial")
 	public DiagramEditorApplication() {
 		super();
 
@@ -906,9 +905,10 @@ public class DiagramEditorApplication {
 		});*/
 	}
 
-	private void removeDiagramEditor(DiagramEditor diagramEditor) {
+	// FD : never used
+	// private void removeDiagramEditor(DiagramEditor diagramEditor) {
 
-	}
+	// }
 
 	public void switchToDiagramEditor(DiagramEditor diagramEditor) {
 		tabbedPane.setSelectedIndex(diagramEditors.indexOf(diagramEditor));
@@ -1060,16 +1060,17 @@ public class DiagramEditorApplication {
 		}
 	}
 
-	private JMenuItem makeJMenuItem(String actionName, Icon icon, KeyStroke accelerator, AbstractAction action) {
+	// FD : never used
+	// private JMenuItem makeJMenuItem(String actionName, Icon icon, KeyStroke accelerator, AbstractAction action) {
 
-		JMenuItem returned = new JMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, actionName));
-		returned.addActionListener(action);
-		returned.setIcon(icon);
-		returned.setAccelerator(accelerator);
-		frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(accelerator, actionName);
-		frame.getRootPane().getActionMap().put(actionName, action);
-		return returned;
-	}
+	// JMenuItem returned = new JMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, actionName));
+	// returned.addActionListener(action);
+	// returned.setIcon(icon);
+	// returned.setAccelerator(accelerator);
+	// frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(accelerator, actionName);
+	// frame.getRootPane().getActionMap().put(actionName, action);
+	// return returned;
+	// }
 
 	private SynchronizedMenuItem makeSynchronizedMenuItem(String actionName, Icon icon, KeyStroke accelerator, AbstractAction action,
 			Synchronizer synchronizer) {

@@ -162,7 +162,7 @@ public class FGEFunction<T> {
 	protected FGEArea buildRepresentation() {
 
 		if (getGraph() instanceof FGEFunctionGraph) {
-			return buildRepresentationForFunctionGraph((FGEFunctionGraph) getGraph());
+			return buildRepresentationForFunctionGraph((FGEFunctionGraph<?>) getGraph());
 		}
 		return null;
 	}
@@ -182,7 +182,8 @@ public class FGEFunction<T> {
 
 		if (valueSamples != null) {
 			valueSamples.clear();
-		} else {
+		}
+		else {
 			valueSamples = new ArrayList<T>();
 		}
 
@@ -229,7 +230,8 @@ public class FGEFunction<T> {
 			FGEPoint pt;
 			if (graph.getParameterOrientation() == Orientation.HORIZONTAL) {
 				pt = new FGEPoint(graph.getNormalizedPosition(s.p), getNormalizedPosition(s.value));
-			} else {
+			}
+			else {
 				pt = new FGEPoint(getNormalizedPosition(s.value), graph.getNormalizedPosition(s.p));
 			}
 
@@ -240,46 +242,48 @@ public class FGEFunction<T> {
 		}
 
 		switch (graphType) {
-		case POINTS:
-			return FGEUnionArea.makeUnion(points);
-		case POLYLIN:
-			return new FGEPolylin(points);
-		case RECT_POLYLIN:
-			List<FGEPoint> rectPoints = new ArrayList<FGEPoint>();
-			double delta = (double) 1 / points.size() / 2;
-			for (FGEPoint pt : points) {
-				if (graph.getParameterOrientation() == Orientation.HORIZONTAL) {
-					rectPoints.add(new FGEPoint(pt.x - delta, pt.y));
-					rectPoints.add(new FGEPoint(pt.x + delta, pt.y));
-				} else { // Vertical
-					rectPoints.add(new FGEPoint(pt.x, pt.y - delta));
-					rectPoints.add(new FGEPoint(pt.x, pt.y + delta));
+			case POINTS:
+				return FGEUnionArea.makeUnion(points);
+			case POLYLIN:
+				return new FGEPolylin(points);
+			case RECT_POLYLIN:
+				List<FGEPoint> rectPoints = new ArrayList<FGEPoint>();
+				double delta = (double) 1 / points.size() / 2;
+				for (FGEPoint pt : points) {
+					if (graph.getParameterOrientation() == Orientation.HORIZONTAL) {
+						rectPoints.add(new FGEPoint(pt.x - delta, pt.y));
+						rectPoints.add(new FGEPoint(pt.x + delta, pt.y));
+					}
+					else { // Vertical
+						rectPoints.add(new FGEPoint(pt.x, pt.y - delta));
+						rectPoints.add(new FGEPoint(pt.x, pt.y + delta));
+					}
 				}
-			}
-			return new FGEPolylin(rectPoints);
-		case CURVE:
-			return new FGEComplexCurve(Closure.OPEN_NOT_FILLED, points);
-		case BAR_GRAPH:
-			List<FGERectangle> rectangles = new ArrayList<FGERectangle>();
-			double sampleSize = (double) 1 / points.size();
-			double barWidth = 0.8 * sampleSize / graph.getNumberOfFunctionsOfType(GraphType.BAR_GRAPH);
-			double barSpacing = sampleSize / 10;
-			int index = graph.getIndexOfFunctionsOfType(this);
-			for (FGEPoint pt : points) {
-				if (graph.getParameterOrientation() == Orientation.HORIZONTAL) {
-					FGERectangle r = new FGERectangle(new FGEPoint(pt.x - sampleSize / 2 + barSpacing + (index * barWidth), 0),
-							new FGEDimension(barWidth, pt.y), Filling.FILLED);
-					rectangles.add(r);
-				} else {
-					FGERectangle r = new FGERectangle(new FGEPoint(0, pt.y - sampleSize / 2 + barSpacing + (index * barWidth)),
-							new FGEDimension(pt.x, barWidth), Filling.FILLED);
-					rectangles.add(r);
+				return new FGEPolylin(rectPoints);
+			case CURVE:
+				return new FGEComplexCurve(Closure.OPEN_NOT_FILLED, points);
+			case BAR_GRAPH:
+				List<FGERectangle> rectangles = new ArrayList<FGERectangle>();
+				double sampleSize = (double) 1 / points.size();
+				double barWidth = 0.8 * sampleSize / graph.getNumberOfFunctionsOfType(GraphType.BAR_GRAPH);
+				double barSpacing = sampleSize / 10;
+				int index = graph.getIndexOfFunctionsOfType(this);
+				for (FGEPoint pt : points) {
+					if (graph.getParameterOrientation() == Orientation.HORIZONTAL) {
+						FGERectangle r = new FGERectangle(new FGEPoint(pt.x - sampleSize / 2 + barSpacing + (index * barWidth), 0),
+								new FGEDimension(barWidth, pt.y), Filling.FILLED);
+						rectangles.add(r);
+					}
+					else {
+						FGERectangle r = new FGERectangle(new FGEPoint(0, pt.y - sampleSize / 2 + barSpacing + (index * barWidth)),
+								new FGEDimension(pt.x, barWidth), Filling.FILLED);
+						rectangles.add(r);
+					}
 				}
-			}
-			return FGEUnionArea.makeUnion(rectangles);
+				return FGEUnionArea.makeUnion(rectangles);
 
-		default:
-			break;
+			default:
+				break;
 		}
 		return null;
 	}

@@ -84,7 +84,8 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 	private ShapeGraphicalRepresentation endShapeGR;
 	private ConnectorGraphicalRepresentation connectorGR;
 
-	private final int border = 10;
+	// FD : unused
+	// private final int border = 10;
 	private int width = 250;
 	private int height = 80;
 	private static final float RATIO = 0.6f;
@@ -119,32 +120,32 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 			public void init() {
 				final DrawingGRBinding<JConnectorPreviewPanel> previewPanelBinding = bindDrawing(JConnectorPreviewPanel.class,
 						"previewPanel", new DrawingGRProvider<JConnectorPreviewPanel>() {
-					@Override
-					public DrawingGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
-						return drawingGR;
-					}
-				});
+							@Override
+							public DrawingGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
+								return drawingGR;
+							}
+						});
 				final ShapeGRBinding<JConnectorPreviewPanel> startShapeBinding = bindShape(JConnectorPreviewPanel.class, "startShape",
 						new ShapeGRProvider<JConnectorPreviewPanel>() {
-					@Override
-					public ShapeGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
-						return startShapeGR;
-					}
-				});
+							@Override
+							public ShapeGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
+								return startShapeGR;
+							}
+						});
 				final ShapeGRBinding<JConnectorPreviewPanel> endShapeBinding = bindShape(JConnectorPreviewPanel.class, "endShape",
 						new ShapeGRProvider<JConnectorPreviewPanel>() {
-					@Override
-					public ShapeGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
-						return endShapeGR;
-					}
-				});
+							@Override
+							public ShapeGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
+								return endShapeGR;
+							}
+						});
 				final ConnectorGRBinding<JConnectorPreviewPanel> connectorBinding = bindConnector(JConnectorPreviewPanel.class, "connector",
 						new ConnectorGRProvider<JConnectorPreviewPanel>() {
-					@Override
-					public ConnectorGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
-						return connectorGR;
-					}
-				});
+							@Override
+							public ConnectorGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
+								return connectorGR;
+							}
+						});
 
 				previewPanelBinding.addToWalkers(new GRStructureVisitor<JConnectorPreviewPanel>() {
 

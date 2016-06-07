@@ -101,12 +101,13 @@ public abstract class GeometricGraphicalRepresentationImpl extends GraphicalRepr
 
 		setGeometricObject(anObject);
 
-		addToMouseClickControls(getFactory().makeMouseClickControl("Selection", MouseButton.LEFT, 1,
-				PredefinedMouseClickControlActionType.SELECTION));
+		addToMouseClickControls(
+				getFactory().makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
 		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
 			addToMouseClickControls(getFactory().makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1,
 					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
-		} else {
+		}
+		else {
 			addToMouseClickControls(getFactory().makeMouseControlClickControl("Multiple selection", MouseButton.LEFT, 1,
 					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}
@@ -148,7 +149,7 @@ public abstract class GeometricGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setForeground(ForegroundStyle aForeground) {
-		FGEAttributeNotification notification = requireChange(FOREGROUND, aForeground, false);
+		FGEAttributeNotification<?> notification = requireChange(FOREGROUND, aForeground, false);
 		if (notification != null) {
 			if (foreground != null) {
 				foreground.getPropertyChangeSupport().removePropertyChangeListener(this);
@@ -178,7 +179,7 @@ public abstract class GeometricGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setBackground(BackgroundStyle aBackground) {
-		FGEAttributeNotification notification = requireChange(BACKGROUND, aBackground, false);
+		FGEAttributeNotification<?> notification = requireChange(BACKGROUND, aBackground, false);
 		if (notification != null) {
 			// background = aBackground.clone();
 			if (background != null) {
@@ -209,7 +210,7 @@ public abstract class GeometricGraphicalRepresentationImpl extends GraphicalRepr
 	public int getLayer() {
 		return layer;
 	}
-
+	
 	@Override
 	public void setLayer(int layer) {
 		FGENotification notification = requireChange(Parameters.layer, layer);
@@ -242,7 +243,7 @@ public abstract class GeometricGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setGeometricObject(FGEArea geometricObject) {
-		FGEAttributeNotification notification = requireChange(GEOMETRIC_OBJECT, geometricObject);
+		FGEAttributeNotification<?> notification = requireChange(GEOMETRIC_OBJECT, geometricObject);
 		if (notification != null) {
 			this.geometricObject = geometricObject;
 			hasChanged(notification);

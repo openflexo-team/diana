@@ -116,7 +116,8 @@ public abstract class GRStructureVisitor<R> {
 	public <O> ShapeNode<O> drawShape(ShapeGRBinding<O> binding, O drawable) {
 		if (node instanceof ContainerNode) {
 			return drawShape((ContainerNode<O, ?>) node, binding, drawable);
-		} else {
+		}
+		else {
 			LOGGER.warning("Cannot add shape in non-container node");
 			return null;
 		}
@@ -138,9 +139,11 @@ public abstract class GRStructureVisitor<R> {
 		if (parentNode == null) {
 			LOGGER.warning("Cannot add shape: null container node");
 			return null;
-		} else if (parentNode instanceof ContainerNode) {
+		}
+		else if (parentNode instanceof ContainerNode) {
 			return drawShape((ContainerNode<O, ?>) parentNode, binding, drawable);
-		} else {
+		}
+		else {
 			LOGGER.warning("Cannot add shape in non-container node");
 			return null;
 		}
@@ -162,9 +165,11 @@ public abstract class GRStructureVisitor<R> {
 		if (parentNode == null) {
 			LOGGER.warning("Cannot add shape: null container node");
 			return null;
-		} else if (parentNode instanceof ContainerNode) {
+		}
+		else if (parentNode instanceof ContainerNode) {
 			return drawShape((ContainerNode<O, ?>) parentNode, binding, drawable);
-		} else {
+		}
+		else {
 			LOGGER.warning("Cannot add shape in non-container node");
 			return null;
 		}
@@ -194,7 +199,8 @@ public abstract class GRStructureVisitor<R> {
 			updatedNodes.add(returned);
 			// deletedNodes.remove(returned);
 			return returned;
-		} else {
+		}
+		else {
 			// System.out.println("% Creating new node for " + drawable);
 			ShapeNode<O> returned = drawing.createNewShapeNode(parent, binding, drawable);
 			// New node
@@ -213,7 +219,8 @@ public abstract class GRStructureVisitor<R> {
 	public <O> GeometricNode<O> drawGeometricObject(GeometricGRBinding<O> binding, O drawable) {
 		if (node instanceof ContainerNode) {
 			return drawGeometricObject((ContainerNode<O, ?>) node, binding, drawable);
-		} else {
+		}
+		else {
 			LOGGER.warning("Cannot add shape in non-container node");
 			return null;
 		}
@@ -237,7 +244,8 @@ public abstract class GRStructureVisitor<R> {
 			updatedNodes.add(returned);
 			// deletedNodes.remove(returned);
 			return returned;
-		} else {
+		}
+		else {
 			// System.out.println("% Creating new node for " + drawable);
 			GeometricNode<O> returned = drawing.createNewGeometricNode(parent, binding, drawable);
 			// New node
@@ -278,13 +286,14 @@ public abstract class GRStructureVisitor<R> {
 		}
 		if (node instanceof ContainerNode) {
 			return drawConnector((ContainerNode<O, ?>) node, binding, drawable, (ShapeNode<?>) fromNode, (ShapeNode<?>) toNode);
-		} else {
+		}
+		else {
 			LOGGER.warning("Cannot add shape in non-container node");
 			return null;
 		}
 	}
 
-/**
+	/**
 	 * Called to specify the drawing of a connector representing supplied drawable using supplied {@link GRBinding} This method should not
 	 * be used if fromDrawable and/or toDrawable and/or parentDrawable is/are represented using many GRBinding. In this case, use
 	 * {@link #drawConnector(ConnectorGRBinding, Object, ShapeGRBinding, Object, ShapeGRBinding, Object, ContainerGRBinding, Object) instead
@@ -319,9 +328,11 @@ public abstract class GRStructureVisitor<R> {
 		if (parentNode == null) {
 			LOGGER.warning("Cannot add shape: null container node");
 			return null;
-		} else if (parentNode instanceof ContainerNode) {
+		}
+		else if (parentNode instanceof ContainerNode) {
 			return drawConnector((ContainerNode<O, ?>) parentNode, binding, drawable, (ShapeNode<?>) fromNode, (ShapeNode<?>) toNode);
-		} else {
+		}
+		else {
 			LOGGER.warning("Cannot add shape in non-container node");
 			return null;
 		}
@@ -360,7 +371,8 @@ public abstract class GRStructureVisitor<R> {
 		}
 		if (node instanceof ContainerNode) {
 			return drawConnector((ContainerNode<O, ?>) node, binding, drawable, (ShapeNode<?>) fromNode, (ShapeNode<?>) toNode);
-		} else {
+		}
+		else {
 			LOGGER.warning("Cannot add shape in non-container node");
 			return null;
 		}
@@ -404,9 +416,11 @@ public abstract class GRStructureVisitor<R> {
 		if (parentNode == null) {
 			LOGGER.warning("Cannot add shape: null container node");
 			return null;
-		} else if (parentNode instanceof ContainerNode) {
+		}
+		else if (parentNode instanceof ContainerNode) {
 			return drawConnector((ContainerNode<O, ?>) parentNode, binding, drawable, (ShapeNode<?>) fromNode, (ShapeNode<?>) toNode);
-		} else {
+		}
+		else {
 			LOGGER.warning("Cannot add shape in non-container node");
 			return null;
 		}
@@ -420,8 +434,8 @@ public abstract class GRStructureVisitor<R> {
 	 * @param drawable
 	 * @return
 	 */
-	private <O> ConnectorNode<O> drawConnector(ContainerNode<?, ?> parent, ConnectorGRBinding<O> binding, O drawable,
-			ShapeNode<?> fromNode, ShapeNode<?> toNode) {
+	private <O> ConnectorNode<O> drawConnector(ContainerNode<?, ?> parent, ConnectorGRBinding<O> binding, O drawable, ShapeNode<?> fromNode,
+			ShapeNode<?> toNode) {
 		Drawing<?> drawing = node.getDrawing();
 
 		if (parent.hasConnectorFor(binding, drawable)) {
@@ -432,7 +446,8 @@ public abstract class GRStructureVisitor<R> {
 				deletedNodes.add(returned);
 				returned = drawing.createNewConnectorNode(parent, binding, drawable, fromNode, toNode);
 				createdNodes.add(returned);
-			} else {
+			}
+			else {
 				if (returned.getGraphicalRepresentation() == null) {
 					// The ShapeNode is already existing BUT its graphical representation is null
 					// Gives a chance for graphical representation to be retrieved here
@@ -442,7 +457,8 @@ public abstract class GRStructureVisitor<R> {
 				updatedNodes.add(returned);
 			}
 			return returned;
-		} else {
+		}
+		else {
 			// System.out.println("***** New ConnectorNode !!!! " + parent.getChildNodes());
 			ConnectorNode<O> returned = drawing.createNewConnectorNode(parent, binding, drawable, fromNode, toNode);
 			createdNodes.add(returned);
@@ -465,7 +481,8 @@ public abstract class GRStructureVisitor<R> {
 
 		if (drawing.hasPendingConnector(binding, drawable, parentNodeIdentifier, startNodeIdentifier, endNodeIdentifier)) {
 			return drawing.getPendingConnector(binding, drawable, parentNodeIdentifier, startNodeIdentifier, endNodeIdentifier);
-		} else {
+		}
+		else {
 			PendingConnector<O> returned = drawing.createPendingConnector(binding, drawable, parentNodeIdentifier, startNodeIdentifier,
 					endNodeIdentifier);
 			pendingConnectors.add(returned);
@@ -483,7 +500,8 @@ public abstract class GRStructureVisitor<R> {
 	public <G extends FGEGraph> GraphNode<G> drawGraph(GraphGRBinding<G> binding, G drawable) {
 		if (node instanceof ContainerNode) {
 			return drawGraph((ContainerNode<G, ?>) node, binding, drawable);
-		} else {
+		}
+		else {
 			LOGGER.warning("Cannot add shape in non-container node");
 			return null;
 		}
@@ -507,7 +525,8 @@ public abstract class GRStructureVisitor<R> {
 			updatedNodes.add(returned);
 			// deletedNodes.remove(returned);
 			return returned;
-		} else {
+		}
+		else {
 			// System.out.println("% Creating new node for " + drawable);
 			GraphNode<G> returned = drawing.createNewGraphNode(parent, binding, drawable);
 			// New node

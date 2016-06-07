@@ -82,7 +82,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setWidth(double aValue) {
-		FGEAttributeNotification notification = requireChange(WIDTH, aValue);
+		FGEAttributeNotification<?> notification = requireChange(WIDTH, aValue);
 		if (notification != null) {
 			// FGEDimension oldSize = getSize();
 			width = aValue;
@@ -99,7 +99,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setHeight(double aValue) {
-		FGEAttributeNotification notification = requireChange(HEIGHT, aValue);
+		FGEAttributeNotification<?> notification = requireChange(HEIGHT, aValue);
 		if (notification != null) {
 			// FGEDimension oldSize = getSize();
 			height = aValue;
@@ -120,7 +120,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setAdjustMinimalWidthToLabelWidth(boolean adjustMinimalWidthToLabelWidth) {
-		FGEAttributeNotification notification = requireChange(ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH, adjustMinimalWidthToLabelWidth);
+		FGEAttributeNotification<?> notification = requireChange(ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH, adjustMinimalWidthToLabelWidth);
 		if (notification != null) {
 			this.adjustMinimalWidthToLabelWidth = adjustMinimalWidthToLabelWidth;
 			// checkAndUpdateDimensionBoundsIfRequired();
@@ -135,7 +135,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setAdjustMinimalHeightToLabelHeight(boolean adjustMinimalHeightToLabelHeight) {
-		FGEAttributeNotification notification = requireChange(ADJUST_MINIMAL_HEIGHT_TO_LABEL_HEIGHT, adjustMinimalHeightToLabelHeight);
+		FGEAttributeNotification<?> notification = requireChange(ADJUST_MINIMAL_HEIGHT_TO_LABEL_HEIGHT, adjustMinimalHeightToLabelHeight);
 		if (notification != null) {
 			this.adjustMinimalHeightToLabelHeight = adjustMinimalHeightToLabelHeight;
 			// checkAndUpdateDimensionBoundsIfRequired();
@@ -150,7 +150,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setAdjustMaximalWidthToLabelWidth(boolean adjustMaximalWidthToLabelWidth) {
-		FGEAttributeNotification notification = requireChange(ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH, adjustMaximalWidthToLabelWidth);
+		FGEAttributeNotification<?> notification = requireChange(ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH, adjustMaximalWidthToLabelWidth);
 		if (notification != null) {
 			this.adjustMaximalWidthToLabelWidth = adjustMaximalWidthToLabelWidth;
 			// checkAndUpdateDimensionBoundsIfRequired();
@@ -165,7 +165,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setAdjustMaximalHeightToLabelHeight(boolean adjustMaximalHeightToLabelHeight) {
-		FGEAttributeNotification notification = requireChange(ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT, adjustMaximalHeightToLabelHeight);
+		FGEAttributeNotification<?> notification = requireChange(ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT, adjustMaximalHeightToLabelHeight);
 		if (notification != null) {
 			this.adjustMaximalHeightToLabelHeight = adjustMaximalHeightToLabelHeight;
 			// checkAndUpdateDimensionBoundsIfRequired();
@@ -268,7 +268,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public final void setMinimalWidth(double minimalWidth) {
-		FGEAttributeNotification notification = requireChange(MINIMAL_WIDTH, minimalWidth);
+		FGEAttributeNotification<?> notification = requireChange(MINIMAL_WIDTH, minimalWidth);
 		if (notification != null) {
 			this.minimalWidth = minimalWidth;
 			// checkAndUpdateDimensionBoundsIfRequired();
@@ -283,7 +283,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public final void setMinimalHeight(double minimalHeight) {
-		FGEAttributeNotification notification = requireChange(MINIMAL_HEIGHT, minimalHeight);
+		FGEAttributeNotification<?> notification = requireChange(MINIMAL_HEIGHT, minimalHeight);
 		if (notification != null) {
 			this.minimalHeight = minimalHeight;
 			// checkAndUpdateDimensionBoundsIfRequired();
@@ -298,7 +298,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public final void setMaximalHeight(double maximalHeight) {
-		FGEAttributeNotification notification = requireChange(MAXIMAL_HEIGHT, maximalHeight);
+		FGEAttributeNotification<?> notification = requireChange(MAXIMAL_HEIGHT, maximalHeight);
 		if (notification != null) {
 			this.maximalHeight = maximalHeight;
 			// checkAndUpdateDimensionBoundsIfRequired();
@@ -313,7 +313,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public final void setMaximalWidth(double maximalWidth) {
-		FGEAttributeNotification notification = requireChange(MAXIMAL_WIDTH, maximalWidth);
+		FGEAttributeNotification<?> notification = requireChange(MAXIMAL_WIDTH, maximalWidth);
 		if (notification != null) {
 			this.maximalWidth = maximalWidth;
 			// checkAndUpdateDimensionBoundsIfRequired();
@@ -339,7 +339,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setDimensionConstraints(DimensionConstraints dimensionConstraints) {
-		FGEAttributeNotification notification = requireChange(DIMENSION_CONSTRAINTS, dimensionConstraints);
+		FGEAttributeNotification<?> notification = requireChange(DIMENSION_CONSTRAINTS, dimensionConstraints);
 		if (notification != null /*&& getShape() != null*/) {
 			this.dimensionConstraints = dimensionConstraints;
 			hasChanged(notification);
@@ -353,7 +353,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setDimensionConstraintStep(FGESteppedDimensionConstraint dimensionConstraintStep) {
-		FGEAttributeNotification notification = requireChange(DIMENSION_CONSTRAINT_STEP, dimensionConstraintStep);
+		FGEAttributeNotification<?> notification = requireChange(DIMENSION_CONSTRAINT_STEP, dimensionConstraintStep);
 		if (notification != null) {
 			this.dimensionConstraintStep = dimensionConstraintStep;
 			hasChanged(notification);

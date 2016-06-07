@@ -38,6 +38,8 @@
 
 package org.openflexo.fge.impl;
 
+import java.awt.Color;
+
 import org.openflexo.fge.ColorBackgroundStyle;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 
@@ -69,7 +71,7 @@ public abstract class ColorBackgroundStyleImpl extends BackgroundStyleImpl imple
 			java.awt.Color oldColor = color;
 			this.color = aColor;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(COLOR, oldColor, aColor));
+			notifyObservers(new FGEAttributeNotification<Color>(COLOR, oldColor, aColor));
 		}
 	}
 

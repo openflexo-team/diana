@@ -1041,7 +1041,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		if (aFlag != isFocused) {
 			isFocused = aFlag;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(IS_FOCUSED, !isFocused, isFocused));
+			notifyObservers(new FGEAttributeNotification<Boolean>(IS_FOCUSED, !isFocused, isFocused));
 		}
 	}
 
@@ -1055,7 +1055,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		if (aFlag != isSelected) {
 			isSelected = aFlag;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(IS_SELECTED, !isSelected, isSelected));
+			notifyObservers(new FGEAttributeNotification<Boolean>(IS_SELECTED, !isSelected, isSelected));
 		}
 	}
 

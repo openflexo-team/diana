@@ -66,8 +66,9 @@ import org.openflexo.model.factory.KeyValueCoding;
  * 
  */
 @ModelEntity(isAbstract = true)
-@Imports({ @Import(GridLayoutManagerSpecification.class), @Import(OutlineLayoutManagerSpecification.class), @Import(FlowLayoutManagerSpecification.class),
-		@Import(GraphBasedLayoutManagerSpecification.class), @Import(TreeBasedLayoutManagerSpecification.class) })
+@Imports({ @Import(GridLayoutManagerSpecification.class), @Import(OutlineLayoutManagerSpecification.class),
+		@Import(FlowLayoutManagerSpecification.class), @Import(GraphBasedLayoutManagerSpecification.class),
+		@Import(TreeBasedLayoutManagerSpecification.class) })
 public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>> extends FGEObject, Bindable, KeyValueCoding {
 
 	/**
@@ -163,10 +164,11 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 			public String getDefaultLayoutManagerName() {
 				return "radial-tree";
 			}
-		}, FLOW {
+		},
+		FLOW {
 			@Override
 			public Class<FlowLayoutManagerSpecification> getLayoutManagerSpecificationClass() {
-				return (Class) FlowLayoutManagerSpecification.class;
+				return FlowLayoutManagerSpecification.class;
 			}
 
 			@Override

@@ -329,14 +329,18 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 		if (shapeNode.getIsSelected()) {
 			if (shapeNode.getHasSelectedBackgroundStyle()) {
 				g.setDefaultBackground(shapeNode.getSelectedBackgroundStyle());
-			} else if (shapeNode.getHasFocusedBackgroundStyle()) {
+			}
+			else if (shapeNode.getHasFocusedBackgroundStyle()) {
 				g.setDefaultBackground(shapeNode.getFocusedBackgroundStyle());
-			} else {
+			}
+			else {
 				g.setDefaultBackground(shapeNode.getBackgroundStyle());
 			}
-		} else if (shapeNode.getIsFocused() && shapeNode.getHasFocusedBackgroundStyle()) {
+		}
+		else if (shapeNode.getIsFocused() && shapeNode.getHasFocusedBackgroundStyle()) {
 			g.setDefaultBackground(shapeNode.getFocusedBackgroundStyle());
-		} else {
+		}
+		else {
 			g.setDefaultBackground(shapeNode.getBackgroundStyle());
 		}
 
@@ -344,14 +348,18 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 		if (shapeNode.getIsSelected()) {
 			if (shapeNode.getHasSelectedForegroundStyle()) {
 				g.setDefaultForeground(shapeNode.getSelectedForegroundStyle());
-			} else if (shapeNode.getHasFocusedForegroundStyle()) {
+			}
+			else if (shapeNode.getHasFocusedForegroundStyle()) {
 				g.setDefaultForeground(shapeNode.getFocusedForegroundStyle());
-			} else {
+			}
+			else {
 				g.setDefaultForeground(shapeNode.getForegroundStyle());
 			}
-		} else if (shapeNode.getIsFocused() && shapeNode.getHasFocusedForegroundStyle()) {
+		}
+		else if (shapeNode.getIsFocused() && shapeNode.getHasFocusedForegroundStyle()) {
 			g.setDefaultForeground(shapeNode.getFocusedForegroundStyle());
-		} else {
+		}
+		else {
 			g.setDefaultForeground(shapeNode.getForegroundStyle());
 		}
 
@@ -361,26 +369,26 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 
 	/*	@Override
 		public final void paintShadow(FGEShapeGraphics g) {
-
+	
 			if (g instanceof FGEShapeGraphicsImpl) {
-
+	
 				double deep = shapeNode.getGraphicalRepresentation().getShadowStyle().getShadowDepth();
 				int blur = shapeNode.getGraphicalRepresentation().getShadowStyle().getShadowBlur();
 				double viewWidth = shapeNode.getViewWidth(1.0);
 				double viewHeight = shapeNode.getViewHeight(1.0);
 				AffineTransform shadowTranslation = AffineTransform.getTranslateInstance(deep / viewWidth, deep / viewHeight);
-
+	
 				int darkness = shapeNode.getGraphicalRepresentation().getShadowStyle().getShadowDarkness();
-
+	
 				Graphics2D oldGraphics = ((FGEShapeGraphicsImpl) g).cloneGraphics();
-
+	
 				Area clipArea = new Area(new java.awt.Rectangle(0, 0, shapeNode.getViewWidth(g.getScale()), shapeNode.getViewHeight(g
 						.getScale())));
 				Area a = new Area(getShape());
 				a.transform(shapeNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
 				clipArea.subtract(a);
 				((FGEShapeGraphicsImpl) g).getGraphics().clip(clipArea);
-
+	
 				Color shadowColor = new Color(darkness, darkness, darkness);
 				ForegroundStyle foreground = SHADOW_FACTORY.makeForegroundStyle(shadowColor);
 				foreground.setUseTransparency(true);
@@ -390,7 +398,7 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 				background.setTransparencyLevel(0.5f);
 				g.setDefaultForeground(foreground);
 				g.setDefaultBackground(background);
-
+	
 				for (int i = blur - 1; i >= 0; i--) {
 					float transparency = 0.4f - i * 0.4f / blur;
 					foreground.setTransparencyLevel(transparency);
@@ -399,7 +407,7 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 					at.concatenate(shadowTranslation);
 					getShape().transform(at).paint(g);
 				}
-
+	
 				((FGEShapeGraphicsImpl) g).releaseClonedGraphics(oldGraphics);
 			} else {
 				logger.warning("Not support FGEGraphics: " + g);
@@ -416,7 +424,7 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 	@Override
 	public ShapeImpl clone() {
 		try {
-			ShapeImpl returned = (ShapeImpl) super.clone();
+			ShapeImpl<?> returned = (ShapeImpl<?>) super.clone();
 			// returned._controlPoints = null;
 			// returned.graphicalRepresentation = null;
 			// returned.updateShape();

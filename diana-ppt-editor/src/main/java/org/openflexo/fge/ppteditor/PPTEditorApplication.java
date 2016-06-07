@@ -496,9 +496,10 @@ public class PPTEditorApplication {
 
 	}
 
-	private void removeDiagramEditor(SlideShowEditor diagramEditor) {
+	// FD : unused
+	// private void removeDiagramEditor(SlideShowEditor diagramEditor) {
 
-	}
+	// }
 
 	public void switchToSlideShowEditor(SlideShowEditor slideShowEditor) {
 		System.out.println("Switch to " + slideShowEditor.getFile());
