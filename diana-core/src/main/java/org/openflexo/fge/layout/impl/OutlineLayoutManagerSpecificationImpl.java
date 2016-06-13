@@ -48,7 +48,7 @@ import org.openflexo.fge.layout.OutlineLayoutManagerSpecification;
  * @author sylvain
  * 
  */
-public abstract class OutlineLayoutManagerSpecificationImpl extends FGELayoutManagerSpecificationImpl<OutlineLayoutManager>
+public abstract class OutlineLayoutManagerSpecificationImpl extends FGELayoutManagerSpecificationImpl<OutlineLayoutManager<?>>
 		implements OutlineLayoutManagerSpecification {
 
 	@Override
@@ -57,8 +57,8 @@ public abstract class OutlineLayoutManagerSpecificationImpl extends FGELayoutMan
 	}
 
 	@Override
-	public Class<OutlineLayoutManager> getLayoutManagerClass() {
-		return OutlineLayoutManager.class;
+	public Class<OutlineLayoutManager<?>> getLayoutManagerClass() {
+		return (Class) OutlineLayoutManager.class;
 	}
 
 	/**

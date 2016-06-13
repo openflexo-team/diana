@@ -39,10 +39,6 @@
 
 package org.openflexo.fge.drawingeditor;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.util.logging.Logger;
-
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.FGEConstants;
@@ -57,6 +53,9 @@ import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.model.undo.CompoundEdit;
+
+import java.awt.*;
+import java.util.logging.Logger;
 
 public class DiagramEditorPalette extends DrawingPalette {
 
@@ -273,7 +272,6 @@ public class DiagramEditorPalette extends DrawingPalette {
 				return null;
 			}
 
-			@Override
 			public void delete(Object... context) {
 				gr.delete();
 			}

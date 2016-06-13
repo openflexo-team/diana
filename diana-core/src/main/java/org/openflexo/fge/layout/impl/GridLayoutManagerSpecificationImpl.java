@@ -48,7 +48,7 @@ import org.openflexo.fge.layout.GridLayoutManagerSpecification;
  * @author sylvain
  * 
  */
-public abstract class GridLayoutManagerSpecificationImpl extends FGELayoutManagerSpecificationImpl<GridLayoutManager>
+public abstract class GridLayoutManagerSpecificationImpl extends FGELayoutManagerSpecificationImpl<GridLayoutManager<?>>
 		implements GridLayoutManagerSpecification {
 
 	@Override
@@ -57,8 +57,8 @@ public abstract class GridLayoutManagerSpecificationImpl extends FGELayoutManage
 	}
 
 	@Override
-	public Class<GridLayoutManager> getLayoutManagerClass() {
-		return GridLayoutManager.class;
+	public Class<GridLayoutManager<?>> getLayoutManagerClass() {
+		return (Class) GridLayoutManager.class;
 	}
 
 	/**

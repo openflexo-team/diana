@@ -59,7 +59,7 @@ import org.openflexo.model.annotations.XMLElement;
 @ModelEntity
 @XMLElement
 @Imports({ @Import(GridLayoutManager.class) })
-public interface GridLayoutManagerSpecification extends FGELayoutManagerSpecification<GridLayoutManager> {
+public interface GridLayoutManagerSpecification extends FGELayoutManagerSpecification<GridLayoutManager<?>> {
 
 	@PropertyIdentifier(type = double.class)
 	public static final String GRID_X_KEY = "gridX";

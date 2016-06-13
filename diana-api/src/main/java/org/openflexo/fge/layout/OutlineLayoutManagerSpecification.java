@@ -58,7 +58,7 @@ import org.openflexo.model.annotations.XMLElement;
 @ModelEntity
 @XMLElement
 @Imports({ @Import(OutlineLayoutManager.class) })
-public interface OutlineLayoutManagerSpecification extends FGELayoutManagerSpecification<OutlineLayoutManager> {
+public interface OutlineLayoutManagerSpecification extends FGELayoutManagerSpecification<OutlineLayoutManager<?>> {
 
 	@PropertyIdentifier(type = OutlineLocationType.class)
 	public static final String OUTLINE_LOCATION_TYPE_KEY = "outlineLocationType";

@@ -58,7 +58,7 @@ import org.openflexo.model.annotations.XMLElement;
 @ModelEntity
 @XMLElement
 @Imports({ @Import(FlowLayoutManager.class) })
-public interface FlowLayoutManagerSpecification extends FGELayoutManagerSpecification<FlowLayoutManager> {
+public interface FlowLayoutManagerSpecification extends FGELayoutManagerSpecification<FlowLayoutManager<?>> {
 
 	@PropertyIdentifier(type = FlowOrientationType.class)
 	public static final String FLOW_ORIENTATION_TYPE_KEY = "flowOrientationType";

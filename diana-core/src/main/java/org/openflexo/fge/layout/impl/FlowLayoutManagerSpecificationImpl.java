@@ -48,7 +48,7 @@ import org.openflexo.fge.layout.FlowLayoutManagerSpecification;
  * @author fabien
  * 
  */
-public abstract class FlowLayoutManagerSpecificationImpl extends FGELayoutManagerSpecificationImpl<FlowLayoutManager>
+public abstract class FlowLayoutManagerSpecificationImpl extends FGELayoutManagerSpecificationImpl<FlowLayoutManager<?>>
 		implements FlowLayoutManagerSpecification {
 
 	@Override
@@ -57,8 +57,8 @@ public abstract class FlowLayoutManagerSpecificationImpl extends FGELayoutManage
 	}
 
 	@Override
-	public Class<FlowLayoutManager> getLayoutManagerClass() {
-		return FlowLayoutManager.class;
+	public Class<FlowLayoutManager<?>> getLayoutManagerClass() {
+		return (Class) FlowLayoutManager.class;
 	}
 
 	/**
