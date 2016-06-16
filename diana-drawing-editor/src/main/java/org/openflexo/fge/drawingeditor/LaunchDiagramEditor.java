@@ -69,7 +69,7 @@ public class LaunchDiagramEditor {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
-			FlexoLocalization.initWith(DiagramEditorApplication.LOCALIZATION);
+			FlexoLocalization.initWith(DiagramEditorApplication.DIAGRAM_EDITOR_LOCALIZATION);
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

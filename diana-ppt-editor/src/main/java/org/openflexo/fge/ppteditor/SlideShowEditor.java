@@ -65,7 +65,6 @@ import javax.swing.JScrollPane;
 import org.apache.poi.hslf.model.Shape;
 import org.apache.poi.hslf.model.Slide;
 import org.apache.poi.hslf.usermodel.SlideShow;
-import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.swing.VerticalLayout;
@@ -119,8 +118,9 @@ public class SlideShowEditor extends JPanel {
 	public String getTitle() {
 		if (file != null) {
 			return file.getName();
-		} else {
-			return FlexoLocalization.localizedForKey(PPTEditorApplication.LOCALIZATION, "untitled") + "-" + index;
+		}
+		else {
+			return PPTEditorApplication.PPT_EDITOR_LOCALIZATION.localizedForKey("untitled") + "-" + index;
 		}
 	}
 
@@ -178,7 +178,6 @@ public class SlideShowEditor extends JPanel {
 	public static void main(String[] args) {
 		InputStream fis;
 
-		
 		try {
 			fis = (ResourceLocator.locateResource("TestPPT2.ppt")).openInputStream();
 			SlideShow ssOpenned = new SlideShow(fis);

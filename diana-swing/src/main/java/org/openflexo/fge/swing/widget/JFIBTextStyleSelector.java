@@ -72,7 +72,6 @@ import org.openflexo.gina.model.widget.FIBCustom;
 import org.openflexo.gina.swing.view.JFIBView;
 import org.openflexo.gina.swing.view.SwingViewFactory;
 import org.openflexo.gina.view.GinaViewFactory;
-import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.swing.CustomPopup;
 import org.openflexo.swing.JFontChooser;
 
@@ -83,7 +82,7 @@ import org.openflexo.swing.JFontChooser;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIBTextStyleSelector {
+public class JFIBTextStyleSelector extends CustomPopup<TextStyle>implements FIBTextStyleSelector {
 
 	static final Logger logger = Logger.getLogger(JFIBTextStyleSelector.class.getPackage().getName());
 
@@ -129,7 +128,8 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 		// WARNING: we need here to clone to keep track back of previous data !!!
 		if (oldValue != null) {
 			_revertValue = (TextStyle) oldValue.clone();
-		} else {
+		}
+		else {
 			_revertValue = null;
 		}
 		if (logger.isLoggable(Level.FINE)) {
@@ -297,18 +297,18 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 				public void init() {
 					final DrawingGRBinding<TextStylePreviewPanel> previewPanelBinding = bindDrawing(TextStylePreviewPanel.class,
 							"previewPanel", new DrawingGRProvider<TextStylePreviewPanel>() {
-								@Override
-								public DrawingGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
-									return drawingGR;
-								}
-							});
+						@Override
+						public DrawingGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
+							return drawingGR;
+						}
+					});
 					final ShapeGRBinding<TextStylePreviewPanel> shapeBinding = bindShape(TextStylePreviewPanel.class, "line",
 							new ShapeGRProvider<TextStylePreviewPanel>() {
-								@Override
-								public ShapeGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
-									return textGR;
-								}
-							});
+						@Override
+						public ShapeGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
+							return textGR;
+						}
+					});
 
 					previewPanelBinding.addToWalkers(new GRStructureVisitor<TextStylePreviewPanel>() {
 
@@ -331,7 +331,7 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 			textGR.setHeight(20);
 			textGR.setX(0);
 			textGR.setY(0);
-			textGR.setText(FlexoLocalization.localizedForKey(FGECoreUtils.LOCALIZATION, "no_font_selected"));
+			textGR.setText(FGECoreUtils.DIANA_LOCALIZATION.localizedForKey("no_font_selected"));
 			textGR.setIsFloatingLabel(false);
 			textGR.setRelativeTextX(0.5);
 			textGR.setRelativeTextY(0.35);

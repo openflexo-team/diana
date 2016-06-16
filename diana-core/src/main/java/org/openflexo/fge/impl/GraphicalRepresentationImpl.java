@@ -66,42 +66,12 @@ import org.openflexo.fge.control.MouseDragControl;
 import org.openflexo.fge.notifications.BindingChanged;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 import org.openflexo.fge.notifications.GRDeleted;
-import org.openflexo.localization.FlexoLocalization;
-import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.model.factory.CloneableProxyObject;
 import org.openflexo.model.factory.ProxyMethodHandler;
-import org.openflexo.rm.Resource;
-import org.openflexo.rm.ResourceLocator;
 
 public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implements GraphicalRepresentation {
 
 	private static final Logger logger = Logger.getLogger(GraphicalRepresentation.class.getPackage().getName());
-
-	// TODO: Localizer for Diana, should be refactored
-	public static LocalizedDelegate LOCALIZATION;
-
-	static {
-		Resource generalLocalizedDelegate = ResourceLocator.locateResource("Localized");
-		Resource fgeLocalizedDelegate = ResourceLocator.locateResource("FGELocalized");
-
-		if (fgeLocalizedDelegate != null) {
-			if (generalLocalizedDelegate != null) {
-				LOCALIZATION = FlexoLocalization.getLocalizedDelegate(fgeLocalizedDelegate,
-						FlexoLocalization.getLocalizedDelegate(generalLocalizedDelegate, null, false, false), true, true);
-			}
-			else {
-				LOCALIZATION = FlexoLocalization.getLocalizedDelegate(fgeLocalizedDelegate, null, true, true);
-			}
-		}
-		else {
-			if (generalLocalizedDelegate != null) {
-				LOCALIZATION = FlexoLocalization.getLocalizedDelegate(generalLocalizedDelegate, null, true, true);
-			}
-			else {
-				LOCALIZATION = FlexoLocalization.getLocalizedDelegate(generalLocalizedDelegate, null, false, false);
-			}
-		}
-	}
 
 	private Stroke specificStroke = null;
 
@@ -1548,9 +1518,9 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 		// if (getParentGraphicalRepresentation() != null) {
 		_bindingModel.addToBindingVariables(new BindingVariable(DrawingTreeNode.PARENT_KEY,
 				ContainerGraphicalRepresentation.class/*getParentGraphicalRepresentation().getClass()*/));
-		// }
-		/*_bindingModel.addToBindingVariables(new BindingVariable("components", new ParameterizedTypeImpl(List.class,
-				GraphicalRepresentation.class)));*/
+				// }
+				/*_bindingModel.addToBindingVariables(new BindingVariable("components", new ParameterizedTypeImpl(List.class,
+						GraphicalRepresentation.class)));*/
 
 		/*_bindingModel.addToBindingVariables(new GRBindingFactory.ComponentPathElement("this", this, this));
 		if (getParentGraphicalRepresentation() != null) {

@@ -75,6 +75,7 @@ import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.openflexo.fge.FGECoreUtils;
 import org.openflexo.fge.control.DianaInteractiveViewer;
 import org.openflexo.fge.control.exceptions.CopyException;
 import org.openflexo.fge.control.exceptions.CutException;
@@ -89,8 +90,8 @@ import org.openflexo.fge.swing.control.tools.JDianaToolSelector;
 import org.openflexo.gina.ApplicationFIBLibrary.ApplicationFIBLibraryImpl;
 import org.openflexo.gina.swing.utils.localization.LocalizedEditor;
 import org.openflexo.gina.swing.utils.logging.FlexoLoggingViewer;
-import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.localization.LocalizedDelegate;
+import org.openflexo.localization.LocalizedDelegateImpl;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.rm.ResourceLocator;
@@ -110,15 +111,8 @@ public class PPTEditorApplication {
 
 	private static final Logger logger = FlexoLogger.getLogger(PPTEditorApplication.class.getPackage().getName());
 
-	// Retrieve default Openflexo locales
-	public static final String LOCALIZATION_DIRNAME = "Localized";
-	private static LocalizedDelegate MAIN_LOCALIZER = FlexoLocalization
-			.getLocalizedDelegate(ResourceLocator.locateResource(LOCALIZATION_DIRNAME), null, false, false);
-
-	// Instanciate a new localizer in directory src/dev/resources/FIBEditorLocalizer
-	// linked to parent localizer (which is Openflexo main localizer)
-	public static LocalizedDelegate LOCALIZATION = FlexoLocalization
-			.getLocalizedDelegate(ResourceLocator.locateResource("PPTEditorLocalized"), MAIN_LOCALIZER, true, true);
+	public static LocalizedDelegate PPT_EDITOR_LOCALIZATION = new LocalizedDelegateImpl(
+			ResourceLocator.locateResource("FlexoLocalization/PPTEditor"), FGECoreUtils.DIANA_LOCALIZATION, true, true);
 
 	private static final int META_MASK = ToolBox.getPLATFORM() == ToolBox.MACOS ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
 
@@ -208,11 +202,11 @@ public class PPTEditorApplication {
 		manager = new PropertyChangeListenerRegistrationManager();
 
 		JMenuBar mb = new JMenuBar();
-		JMenu fileMenu = new JMenu(FlexoLocalization.localizedForKey(LOCALIZATION, "file"));
-		JMenu editMenu = new JMenu(FlexoLocalization.localizedForKey(LOCALIZATION, "edit"));
-		JMenu viewMenu = new JMenu(FlexoLocalization.localizedForKey(LOCALIZATION, "view"));
-		JMenu toolsMenu = new JMenu(FlexoLocalization.localizedForKey(LOCALIZATION, "tools"));
-		JMenu helpMenu = new JMenu(FlexoLocalization.localizedForKey(LOCALIZATION, "help"));
+		JMenu fileMenu = new JMenu(PPT_EDITOR_LOCALIZATION.localizedForKey("file"));
+		JMenu editMenu = new JMenu(PPT_EDITOR_LOCALIZATION.localizedForKey("edit"));
+		JMenu viewMenu = new JMenu(PPT_EDITOR_LOCALIZATION.localizedForKey("view"));
+		JMenu toolsMenu = new JMenu(PPT_EDITOR_LOCALIZATION.localizedForKey("tools"));
+		JMenu helpMenu = new JMenu(PPT_EDITOR_LOCALIZATION.localizedForKey("help"));
 
 		JMenuItem newItem = makeJMenuItem("new_slideshow", NEW_ICON, KeyStroke.getKeyStroke(KeyEvent.VK_N, META_MASK),
 				new AbstractAction() {
@@ -373,20 +367,20 @@ public class PPTEditorApplication {
 		// editMenu.add(undoItem);
 		// editMenu.add(redoItem);
 
-		WindowMenuItem foregroundInspectorItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "foreground_inspector"),
+		WindowMenuItem foregroundInspectorItem = new WindowMenuItem(PPT_EDITOR_LOCALIZATION.localizedForKey("foreground_inspector"),
 				inspectors.getForegroundStyleInspector());
-		WindowMenuItem backgroundInspectorItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "background_inspector"),
+		WindowMenuItem backgroundInspectorItem = new WindowMenuItem(PPT_EDITOR_LOCALIZATION.localizedForKey("background_inspector"),
 				inspectors.getBackgroundStyleInspector());
-		WindowMenuItem textInspectorItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "text_inspector"),
+		WindowMenuItem textInspectorItem = new WindowMenuItem(PPT_EDITOR_LOCALIZATION.localizedForKey("text_inspector"),
 				inspectors.getTextStyleInspector());
-		WindowMenuItem shapeInspectorItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "shape_inspector"),
+		WindowMenuItem shapeInspectorItem = new WindowMenuItem(PPT_EDITOR_LOCALIZATION.localizedForKey("shape_inspector"),
 				inspectors.getShapeInspector());
-		WindowMenuItem connectorInspectorItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "connector_inspector"),
+		WindowMenuItem connectorInspectorItem = new WindowMenuItem(PPT_EDITOR_LOCALIZATION.localizedForKey("connector_inspector"),
 				inspectors.getConnectorInspector());
-		WindowMenuItem shadowInspectorItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "shadow_inspector"),
+		WindowMenuItem shadowInspectorItem = new WindowMenuItem(PPT_EDITOR_LOCALIZATION.localizedForKey("shadow_inspector"),
 				inspectors.getShadowStyleInspector());
-		WindowMenuItem locationSizeInspectorItem = new WindowMenuItem(
-				FlexoLocalization.localizedForKey(LOCALIZATION, "location_size_inspector"), inspectors.getLocationSizeInspector());
+		WindowMenuItem locationSizeInspectorItem = new WindowMenuItem(PPT_EDITOR_LOCALIZATION.localizedForKey("location_size_inspector"),
+				inspectors.getLocationSizeInspector());
 
 		// WindowMenuItem paletteItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "palette"), paletteDialog);
 
@@ -400,7 +394,7 @@ public class PPTEditorApplication {
 		viewMenu.addSeparator();
 		// viewMenu.add(paletteItem);
 
-		JMenuItem logsItem = new JMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "logs"));
+		JMenuItem logsItem = new JMenuItem(PPT_EDITOR_LOCALIZATION.localizedForKey("logs"));
 		logsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -408,12 +402,12 @@ public class PPTEditorApplication {
 			}
 		});
 
-		JMenuItem localizedItem = new JMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "localized_editor"));
+		JMenuItem localizedItem = new JMenuItem(PPT_EDITOR_LOCALIZATION.localizedForKey("localized_editor"));
 		localizedItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (localizedEditor == null) {
-					localizedEditor = new LocalizedEditor(frame, "localized_editor", LOCALIZATION, MAIN_LOCALIZER, true, false);
+					localizedEditor = new LocalizedEditor(frame, "localized_editor", PPT_EDITOR_LOCALIZATION, null, true, false);
 				}
 				localizedEditor.setVisible(true);
 			}
@@ -636,7 +630,7 @@ public class PPTEditorApplication {
 
 	private JMenuItem makeJMenuItem(String actionName, Icon icon, KeyStroke accelerator, AbstractAction action) {
 
-		JMenuItem returned = new JMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, actionName));
+		JMenuItem returned = new JMenuItem(PPT_EDITOR_LOCALIZATION.localizedForKey(actionName));
 		returned.addActionListener(action);
 		returned.setIcon(icon);
 		returned.setAccelerator(accelerator);
@@ -648,7 +642,7 @@ public class PPTEditorApplication {
 	private SynchronizedMenuItem makeSynchronizedMenuItem(String actionName, Icon icon, KeyStroke accelerator, AbstractAction action,
 			Synchronizer synchronizer) {
 
-		String localizedName = FlexoLocalization.localizedForKey(LOCALIZATION, actionName);
+		String localizedName = PPT_EDITOR_LOCALIZATION.localizedForKey(actionName);
 		SynchronizedMenuItem returned = new SynchronizedMenuItem(localizedName, synchronizer);
 		action.putValue(Action.NAME, localizedName);
 		returned.setAction(action);
@@ -664,6 +658,7 @@ public class PPTEditorApplication {
 		public void synchronize(HasPropertyChangeSupport observable, SynchronizedMenuItem menuItem);
 	}
 
+	@SuppressWarnings("serial")
 	public class SynchronizedMenuItem extends JMenuItem implements PropertyChangeListener {
 
 		private HasPropertyChangeSupport observable;
@@ -696,6 +691,7 @@ public class PPTEditorApplication {
 
 	}
 
+	@SuppressWarnings("serial")
 	public class WindowMenuItem extends JCheckBoxMenuItem implements WindowListener {
 
 		private final Window window;

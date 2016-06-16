@@ -41,8 +41,8 @@ package org.openflexo.fge;
 
 import java.util.logging.Logger;
 
-import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.localization.LocalizedDelegate;
+import org.openflexo.localization.LocalizedDelegateImpl;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.rm.ResourceLocator;
 
@@ -50,11 +50,10 @@ public class FGECoreUtils {
 
 	static final Logger LOGGER = Logger.getLogger(FGECoreUtils.class.getPackage().getName());
 
-	// Instantiate a new localizer in directory src/dev/resources/FGELocalized
-	// Little hack to be removed: linked to parent localizer (which is Openflexo main localizer)
-	public static LocalizedDelegate LOCALIZATION = FlexoLocalization.getLocalizedDelegate(ResourceLocator.locateResource("FGELocalized"),
-			FlexoLocalization.getLocalizedDelegate(ResourceLocator.locateResource("Localized"), null, false, false), true, true);
-
+	// Locales for DIANA
+	// (based on deprecated resources, to be removed)
+	public static LocalizedDelegate DIANA_LOCALIZATION = new LocalizedDelegateImpl(ResourceLocator.locateResource("DianaLocalization"),
+			new LocalizedDelegateImpl(ResourceLocator.locateResource("FlexoLocalization/Deprecated"), null, false, false), true, true);
 	/**
 	 * This is the FGE model factory shared by all FGE tools
 	 */

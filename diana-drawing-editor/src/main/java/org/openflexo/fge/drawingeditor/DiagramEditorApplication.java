@@ -83,6 +83,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 
+import org.openflexo.fge.FGECoreUtils;
 import org.openflexo.fge.control.DianaInteractiveViewer;
 import org.openflexo.fge.control.exceptions.CopyException;
 import org.openflexo.fge.control.exceptions.CutException;
@@ -99,8 +100,8 @@ import org.openflexo.fge.swing.control.tools.JDianaToolSelector;
 import org.openflexo.gina.ApplicationFIBLibrary.ApplicationFIBLibraryImpl;
 import org.openflexo.gina.swing.utils.localization.LocalizedEditor;
 import org.openflexo.gina.swing.utils.logging.FlexoLoggingViewer;
-import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.localization.LocalizedDelegate;
+import org.openflexo.localization.LocalizedDelegateImpl;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.model.exceptions.ModelDefinitionException;
@@ -124,15 +125,8 @@ public class DiagramEditorApplication {
 
 	private static final Logger logger = FlexoLogger.getLogger(DiagramEditorApplication.class.getPackage().getName());
 
-	// Retrieve default Openflexo locales
-	public static final String LOCALIZATION_DIRNAME = "Localized";
-	private static LocalizedDelegate MAIN_LOCALIZER = FlexoLocalization
-			.getLocalizedDelegate(ResourceLocator.locateResource(LOCALIZATION_DIRNAME), null, false, false);
-
-	// Instanciate a new localizer in directory src/dev/resources/FIBEditorLocalizer
-	// linked to parent localizer (which is Openflexo main localizer)
-	public static LocalizedDelegate LOCALIZATION = FlexoLocalization
-			.getLocalizedDelegate(ResourceLocator.locateResource("FGEEditorLocalized"), MAIN_LOCALIZER, true, true);
+	public static LocalizedDelegate DIAGRAM_EDITOR_LOCALIZATION = new LocalizedDelegateImpl(
+			ResourceLocator.locateResource("FlexoLocalization/DrawingEditor"), FGECoreUtils.DIANA_LOCALIZATION, true, true);
 
 	private static final int META_MASK = ToolBox.getPLATFORM() == ToolBox.MACOS ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
 
@@ -196,13 +190,13 @@ public class DiagramEditorApplication {
 		private final JMenuItem showPaletteItem;
 
 		public MenuBar() {
-			fileMenu = new JMenu(FlexoLocalization.localizedForKey(LOCALIZATION, "file"));
-			editMenu = new JMenu(FlexoLocalization.localizedForKey(LOCALIZATION, "edit"));
-			viewMenu = new JMenu(FlexoLocalization.localizedForKey(LOCALIZATION, "view"));
-			toolsMenu = new JMenu(FlexoLocalization.localizedForKey(LOCALIZATION, "tools"));
-			helpMenu = new JMenu(FlexoLocalization.localizedForKey(LOCALIZATION, "help"));
+			fileMenu = new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("file"));
+			editMenu = new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("edit"));
+			viewMenu = new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("view"));
+			toolsMenu = new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("tools"));
+			helpMenu = new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("help"));
 
-			newItem = new JMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "new_diagram"));
+			newItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("new_diagram"));
 			newItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -210,7 +204,7 @@ public class DiagramEditorApplication {
 				}
 			});
 
-			loadItem = new JMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "open_diagram"));
+			loadItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("open_diagram"));
 			loadItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -218,10 +212,10 @@ public class DiagramEditorApplication {
 				}
 			});
 
-			openRecent = new JMenu(FlexoLocalization.localizedForKey(LOCALIZATION, "open_recent"));
+			openRecent = new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("open_recent"));
 			DiagramEditorPreferences.addPreferenceChangeListener(this);
 			updateOpenRecent();
-			saveItem = new JMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "save_diagram"));
+			saveItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("save_diagram"));
 			saveItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -229,7 +223,7 @@ public class DiagramEditorApplication {
 				}
 			});
 
-			saveAsItem = new JMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "save_diagram_as"));
+			saveAsItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("save_diagram_as"));
 			saveAsItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -237,7 +231,7 @@ public class DiagramEditorApplication {
 				}
 			});
 
-			closeItem = new JMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "close"));
+			closeItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("close"));
 			closeItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -245,7 +239,7 @@ public class DiagramEditorApplication {
 				}
 			});
 
-			quitItem = new JMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "quit"));
+			quitItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("quit"));
 			quitItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -263,7 +257,7 @@ public class DiagramEditorApplication {
 
 			fileMenu.add(quitItem);
 
-			showPaletteItem = new JMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "show_palette"));
+			showPaletteItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("show_palette"));
 			showPaletteItem.addActionListener(new ActionListener() {
 
 				@Override
@@ -271,7 +265,7 @@ public class DiagramEditorApplication {
 					paletteDialog.setVisible(true);
 				}
 			});
-			logsItem = new JMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "logs"));
+			logsItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("logs"));
 			logsItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -279,12 +273,13 @@ public class DiagramEditorApplication {
 				}
 			});
 
-			localizedItem = new JMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "localized_editor"));
+			localizedItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("localized_editor"));
 			localizedItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (localizedEditor == null) {
-						localizedEditor = new LocalizedEditor(getFrame(), "localized_editor", LOCALIZATION, LOCALIZATION, true, false);
+						localizedEditor = new LocalizedEditor(getFrame(), "localized_editor", DIAGRAM_EDITOR_LOCALIZATION,
+								DIAGRAM_EDITOR_LOCALIZATION, true, false);
 					}
 					localizedEditor.setVisible(true);
 				}
@@ -365,7 +360,7 @@ public class DiagramEditorApplication {
 							menuItem.setText(currentDiagramEditor.getController().getFactory().getUndoManager().getUndoPresentationName());
 						}
 						else {
-							menuItem.setText(FlexoLocalization.localizedForKey(LOCALIZATION, "undo"));
+							menuItem.setText(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("undo"));
 						}
 					}
 				}
@@ -386,7 +381,7 @@ public class DiagramEditorApplication {
 							menuItem.setText(currentDiagramEditor.getController().getFactory().getUndoManager().getRedoPresentationName());
 						}
 						else {
-							menuItem.setText(FlexoLocalization.localizedForKey(LOCALIZATION, "redo"));
+							menuItem.setText(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("redo"));
 						}
 					}
 				}
@@ -399,24 +394,24 @@ public class DiagramEditorApplication {
 			editMenu.add(undoItem);
 			editMenu.add(redoItem);
 
-			WindowMenuItem foregroundInspectorItem = new WindowMenuItem(
-					FlexoLocalization.localizedForKey(LOCALIZATION, "foreground_inspector"), inspectors.getForegroundStyleInspector());
-			WindowMenuItem backgroundInspectorItem = new WindowMenuItem(
-					FlexoLocalization.localizedForKey(LOCALIZATION, "background_inspector"), inspectors.getBackgroundStyleInspector());
-			WindowMenuItem textInspectorItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "text_inspector"),
+			WindowMenuItem foregroundInspectorItem = new WindowMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("foreground_inspector"),
+					inspectors.getForegroundStyleInspector());
+			WindowMenuItem backgroundInspectorItem = new WindowMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("background_inspector"),
+					inspectors.getBackgroundStyleInspector());
+			WindowMenuItem textInspectorItem = new WindowMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("text_inspector"),
 					inspectors.getTextStyleInspector());
-			WindowMenuItem shapeInspectorItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "shape_inspector"),
+			WindowMenuItem shapeInspectorItem = new WindowMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("shape_inspector"),
 					inspectors.getShapeInspector());
-			WindowMenuItem connectorInspectorItem = new WindowMenuItem(
-					FlexoLocalization.localizedForKey(LOCALIZATION, "connector_inspector"), inspectors.getConnectorInspector());
-			WindowMenuItem shadowInspectorItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "shadow_inspector"),
+			WindowMenuItem connectorInspectorItem = new WindowMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("connector_inspector"),
+					inspectors.getConnectorInspector());
+			WindowMenuItem shadowInspectorItem = new WindowMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("shadow_inspector"),
 					inspectors.getShadowStyleInspector());
 			WindowMenuItem locationSizeInspectorItem = new WindowMenuItem(
-					FlexoLocalization.localizedForKey(LOCALIZATION, "location_size_inspector"), inspectors.getLocationSizeInspector());
+					DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("location_size_inspector"), inspectors.getLocationSizeInspector());
 			WindowMenuItem layoutManagerInspectorItem = new WindowMenuItem(
-					FlexoLocalization.localizedForKey(LOCALIZATION, "layout_manager_inspector"), inspectors.getLayoutManagersInspector());
+					DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("layout_manager_inspector"), inspectors.getLayoutManagersInspector());
 
-			WindowMenuItem paletteItem = new WindowMenuItem(FlexoLocalization.localizedForKey(LOCALIZATION, "palette"), paletteDialog);
+			WindowMenuItem paletteItem = new WindowMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("palette"), paletteDialog);
 
 			viewMenu.add(foregroundInspectorItem);
 			viewMenu.add(backgroundInspectorItem);
@@ -1075,7 +1070,7 @@ public class DiagramEditorApplication {
 	private SynchronizedMenuItem makeSynchronizedMenuItem(String actionName, Icon icon, KeyStroke accelerator, AbstractAction action,
 			Synchronizer synchronizer) {
 
-		String localizedName = FlexoLocalization.localizedForKey(LOCALIZATION, actionName);
+		String localizedName = DIAGRAM_EDITOR_LOCALIZATION.localizedForKey(actionName);
 		SynchronizedMenuItem returned = new SynchronizedMenuItem(localizedName, synchronizer);
 		action.putValue(Action.NAME, localizedName);
 		returned.setAction(action);

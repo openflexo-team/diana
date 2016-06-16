@@ -40,6 +40,7 @@ package org.openflexo.fge.swing.control.tools;
 
 import java.util.logging.Logger;
 
+import org.openflexo.fge.FGECoreUtils;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.ShadowStyle;
 import org.openflexo.fge.TextStyle;
@@ -54,7 +55,6 @@ import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.tools.JDianaInspectors.JInspector;
 import org.openflexo.gina.model.FIBComponent;
 import org.openflexo.gina.swing.utils.FIBJPanel;
-import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.swing.FlexoCollabsiblePanelGroup;
 
 /**
@@ -219,7 +219,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 		private final Class<T> representedType;
 
 		protected JInspector(FIBComponent fibComponent, T data, String title, final Class<T> representedType) {
-			super(fibComponent, data, (LocalizedDelegate) null);
+			super(fibComponent, data, FGECoreUtils.DIANA_LOCALIZATION);
 			this.representedType = representedType;
 			this.title = title;
 		}

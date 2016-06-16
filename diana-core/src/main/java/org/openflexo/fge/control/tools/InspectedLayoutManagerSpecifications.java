@@ -48,6 +48,7 @@ import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
+import org.openflexo.fge.FGECoreUtils;
 import org.openflexo.fge.FGELayoutManager;
 import org.openflexo.fge.FGELayoutManagerSpecification;
 import org.openflexo.fge.FGELayoutManagerSpecification.LayoutManagerSpecificationType;
@@ -78,7 +79,7 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 	public InspectedLayoutManagerSpecifications(DianaInteractiveViewer<?, ?, ?> controller) {
 		super(controller, null);
 		layoutManagerInspectorGroup = new InspectorGroup(ResourceLocator.locateResource("LayoutInspectors"),
-				AbstractDianaEditor.EDITOR_FIB_LIBRARY);
+				AbstractDianaEditor.EDITOR_FIB_LIBRARY, FGECoreUtils.DIANA_LOCALIZATION);
 	}
 
 	public InspectorGroup getLayoutManagerInspectorGroup() {

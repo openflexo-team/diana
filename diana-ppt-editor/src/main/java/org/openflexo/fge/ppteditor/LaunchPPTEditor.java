@@ -69,7 +69,7 @@ public class LaunchPPTEditor {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
-			FlexoLocalization.initWith(PPTEditorApplication.LOCALIZATION);
+			FlexoLocalization.initWith(PPTEditorApplication.PPT_EDITOR_LOCALIZATION);
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
