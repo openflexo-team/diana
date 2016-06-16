@@ -53,7 +53,8 @@ public class FGECoreUtils {
 	// Locales for DIANA
 	// (based on deprecated resources, to be removed)
 	public static LocalizedDelegate DIANA_LOCALIZATION = new LocalizedDelegateImpl(ResourceLocator.locateResource("DianaLocalization"),
-			new LocalizedDelegateImpl(ResourceLocator.locateResource("FlexoLocalization/Deprecated"), null, false, false), true, true);
+			/*new LocalizedDelegateImpl(ResourceLocator.locateResource("FlexoLocalization/Deprecated"), null, false, false)*/null, true,
+			true);
 	/**
 	 * This is the FGE model factory shared by all FGE tools
 	 */
