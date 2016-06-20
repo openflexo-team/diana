@@ -52,8 +52,8 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(DrawingGraphicalRepresentation.class.getPackage().getName());
 
-	private double width;
-	private double height;
+	private double width = DEFAULT_WIDTH;
+	private double height = DEFAULT_HEIGHT;
 
 	private double minimalWidth = 0;
 	private double minimalHeight = 0;
