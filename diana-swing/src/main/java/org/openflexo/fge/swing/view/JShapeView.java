@@ -95,7 +95,7 @@ import org.openflexo.fge.view.ShapeView;
  * @param <O>
  */
 @SuppressWarnings("serial")
-public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, JLayeredPane> {
+public class JShapeView<O> extends JDianaLayeredView<O>implements ShapeView<O, JLayeredPane> {
 
 	private static final Logger logger = Logger.getLogger(JShapeView.class.getPackage().getName());
 
