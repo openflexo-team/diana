@@ -101,7 +101,7 @@ import org.openflexo.fge.shapes.impl.ShapeImpl;
 import org.openflexo.toolbox.ConcatenedList;
 import org.openflexo.toolbox.StringUtils;
 
-public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalRepresentation> implements ShapeNode<O> {
+public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalRepresentation>implements ShapeNode<O> {
 
 	private static final Logger logger = Logger.getLogger(ShapeNodeImpl.class.getPackage().getName());
 
@@ -422,6 +422,21 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public int getBorderTop() {
 		int returned = DEFAULT_BORDER_TOP;
+
+		// Handle control areas
+		if (getControlAreas() != null) {
+			for (ControlArea<?> ca : getControlAreas()) {
+				FGEArea a = ca.getArea();
+				if (a instanceof FGEShape) {
+					FGERectangle bb = ((FGEShape) a).getBoundingBox();
+					if (bb.getY() < 0) {
+						returned = Math.max(returned, (int) (-getHeight() * bb.getY() + 2));
+					}
+				}
+			}
+		}
+
+		// Handle child nodes
 		if (getChildNodes() != null) {
 			for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
 				if (childNode instanceof ShapeNode) {
@@ -447,6 +462,21 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public int getBorderLeft() {
 		int returned = DEFAULT_BORDER_LEFT;
+
+		// Handle control areas
+		if (getControlAreas() != null) {
+			for (ControlArea<?> ca : getControlAreas()) {
+				FGEArea a = ca.getArea();
+				if (a instanceof FGEShape) {
+					FGERectangle bb = ((FGEShape) a).getBoundingBox();
+					if (bb.getX() < 0) {
+						returned = Math.max(returned, (int) (-getWidth() * bb.getX() + 2));
+					}
+				}
+			}
+		}
+
+		// Handle child nodes
 		if (getChildNodes() != null) {
 			for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
 				if (childNode instanceof ShapeNode) {
@@ -472,9 +502,26 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public int getBorderBottom() {
 		int returned = 0;
+
+		// What about shadow ?
 		if (getShadowStyle() != null) {
 			returned = 15;
 		}
+
+		// Handle control areas
+		if (getControlAreas() != null) {
+			for (ControlArea<?> ca : getControlAreas()) {
+				FGEArea a = ca.getArea();
+				if (a instanceof FGEShape) {
+					FGERectangle bb = ((FGEShape) a).getBoundingBox();
+					if (bb.getY() + bb.getHeight() > 1) {
+						returned = Math.max(returned, (int) (getWidth() * (bb.getY() + bb.getHeight() - 1.0) + 2));
+					}
+				}
+			}
+		}
+
+		// Handle child nodes
 		if (getChildNodes() != null) {
 			for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
 				if (childNode instanceof ShapeNode) {
@@ -500,9 +547,26 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public int getBorderRight() {
 		int returned = 0;
+
+		// What about shadow ?
 		if (getShadowStyle() != null) {
 			returned = 15;
 		}
+
+		// Handle control areas
+		if (getControlAreas() != null) {
+			for (ControlArea<?> ca : getControlAreas()) {
+				FGEArea a = ca.getArea();
+				if (a instanceof FGEShape) {
+					FGERectangle bb = ((FGEShape) a).getBoundingBox();
+					if (bb.getX() + bb.getWidth() > 1) {
+						returned = Math.max(returned, (int) (getWidth() * (bb.getX() + bb.getWidth() - 1.0) + 2));
+					}
+				}
+			}
+		}
+
+		// Handle child nodes
 		if (getChildNodes() != null) {
 			for (DrawingTreeNode<?, ?> childNode : getChildNodes()) {
 				if (childNode instanceof ShapeNode) {
