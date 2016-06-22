@@ -1706,6 +1706,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public List<? extends ControlArea<?>> getControlAreas() {
 		if (controlAreas == null) {
+
 			controlAreas = super.getControlAreas();
 
 			List<ControlPoint> shapeControlAreas = getShape().getControlAreas();
@@ -1718,9 +1719,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					((ConcatenedList<ControlArea<?>>) controlAreas).addElementList(shapeControlAreas);
 				}
 				else {
-					controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, shapeControlAreas);
+					controlAreas = new ConcatenedList<ControlArea<?>>(shapeControlAreas, controlAreas);
 				}
 			}
+
 		}
 		return controlAreas;
 	}

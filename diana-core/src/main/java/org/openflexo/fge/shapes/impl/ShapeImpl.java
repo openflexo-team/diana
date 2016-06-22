@@ -125,6 +125,10 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 	 */
 	@Override
 	public List<ControlPoint> getControlAreas() {
+		if (shape == null) {
+			shape = makeShape();
+			updateControlPoints();
+		}
 		return controlPoints;
 	}
 
