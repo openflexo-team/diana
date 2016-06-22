@@ -77,7 +77,8 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 	 */
 	public DrawingGraphicalRepresentationImpl() {
 		super();
-		// graphics = new FGEDrawingGraphicsImpl(this);
+		width = DEFAULT_DRAWING_WIDTH;
+		height = DEFAULT_DRAWING_HEIGHT;
 	}
 
 	@Deprecated

@@ -52,8 +52,8 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(DrawingGraphicalRepresentation.class.getPackage().getName());
 
-	private double width = DEFAULT_WIDTH;
-	private double height = DEFAULT_HEIGHT;
+	protected double width;
+	protected double height;
 
 	private double minimalWidth = 0;
 	private double minimalHeight = 0;
@@ -72,7 +72,8 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 	 */
 	public ContainerGraphicalRepresentationImpl() {
 		super();
-		// graphics = new FGEDrawingGraphicsImpl(this);
+		width = DEFAULT_WIDTH;
+		height = DEFAULT_HEIGHT;
 	}
 
 	@Override
