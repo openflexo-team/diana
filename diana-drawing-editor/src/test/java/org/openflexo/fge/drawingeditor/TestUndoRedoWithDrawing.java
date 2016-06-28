@@ -131,7 +131,7 @@ public class TestUndoRedoWithDrawing extends TestCase {
 		System.out.println("PERFORMED: " + initDiagram.getPresentationName());
 		System.out.println("edits nb=" + initDiagram.getEdits().size());
 		System.out.println(initDiagram.describe());
-		assertEquals(17, initDiagram.getEdits().size());
+		assertEquals(15, initDiagram.getEdits().size());
 
 		addFirstShape = factory.getUndoManager().startRecording("Create first shape");
 		Shape shape1 = factory.makeNewShape(ShapeType.RECTANGLE, new FGEPoint(100, 100), diagram);
