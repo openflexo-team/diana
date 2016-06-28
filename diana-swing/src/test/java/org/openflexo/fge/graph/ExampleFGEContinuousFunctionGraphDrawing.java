@@ -118,8 +118,9 @@ public class ExampleFGEContinuousFunctionGraphDrawing extends DrawingImpl<Object
 		graphGR.setY(50);
 		graphGR.setWidth(600);
 		graphGR.setHeight(400);
-		graphGR.setAbsoluteTextX(20);
-		graphGR.setAbsoluteTextY(5);
+		graphGR.setIsFloatingLabel(true);
+		graphGR.setAbsoluteTextX(500);
+		graphGR.setAbsoluteTextY(-10);
 		graphGR.setHorizontalTextAlignment(HorizontalTextAlignment.LEFT);
 		graphGR.setTextStyle(getFactory().makeTextStyle(Color.BLACK, FGEConstants.DEFAULT_TEXT_FONT));
 		graphGR.setShadowStyle(getFactory().makeNoneShadowStyle());
