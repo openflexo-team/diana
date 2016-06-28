@@ -139,14 +139,14 @@ public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 	private T computedMaxValue;
 
 	@Override
-	protected <X> List<FunctionSample<X>> retrieveSamples(FGEFunctionGraph<X> graph) {
+	protected <X> List<FunctionSample<X, T>> retrieveSamples(FGEFunctionGraph<X> graph) {
 
-		List<FunctionSample<X>> samples = super.retrieveSamples(graph);
+		List<FunctionSample<X, T>> samples = super.retrieveSamples(graph);
 
 		computedMinValue = null;
 		computedMaxValue = null;
 
-		for (FunctionSample<X> s : samples) {
+		for (FunctionSample<X, T> s : samples) {
 			T value = s.value;
 			if (value instanceof Double) {
 				if (computedMinValue == null || (Double) value < (Double) computedMinValue) {
@@ -155,35 +155,40 @@ public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 				if (computedMaxValue == null || (Double) value > (Double) computedMaxValue) {
 					computedMaxValue = value;
 				}
-			} else if (value instanceof Float) {
+			}
+			else if (value instanceof Float) {
 				if (computedMinValue == null || (Float) value < (Float) computedMinValue) {
 					computedMinValue = value;
 				}
 				if (computedMaxValue == null || (Float) value > (Float) computedMaxValue) {
 					computedMaxValue = value;
 				}
-			} else if (value instanceof Long) {
+			}
+			else if (value instanceof Long) {
 				if (computedMinValue == null || (Long) value < (Long) computedMinValue) {
 					computedMinValue = value;
 				}
 				if (computedMaxValue == null || (Long) value > (Long) computedMaxValue) {
 					computedMaxValue = value;
 				}
-			} else if (value instanceof Integer) {
+			}
+			else if (value instanceof Integer) {
 				if (computedMinValue == null || (Integer) value < (Integer) computedMinValue) {
 					computedMinValue = value;
 				}
 				if (computedMaxValue == null || (Integer) value > (Integer) computedMaxValue) {
 					computedMaxValue = value;
 				}
-			} else if (value instanceof Short) {
+			}
+			else if (value instanceof Short) {
 				if (computedMinValue == null || (Short) value < (Short) computedMinValue) {
 					computedMinValue = value;
 				}
 				if (computedMaxValue == null || (Short) value > (Short) computedMaxValue) {
 					computedMaxValue = value;
 				}
-			} else if (value instanceof Byte) {
+			}
+			else if (value instanceof Byte) {
 				if (computedMinValue == null || (Byte) value < (Byte) computedMinValue) {
 					computedMinValue = value;
 				}

@@ -39,10 +39,22 @@
 package org.openflexo.fge.graph;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
+import org.openflexo.fge.geom.FGEComplexCurve;
+import org.openflexo.fge.geom.FGEDimension;
+import org.openflexo.fge.geom.FGEGeneralShape.Closure;
+import org.openflexo.fge.geom.FGEGeometricObject.Filling;
+import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geom.FGEPolylin;
+import org.openflexo.fge.geom.FGERectangle;
+import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.fge.geom.area.FGEUnionArea;
+import org.openflexo.fge.graph.FGEFunction.FunctionSample;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
@@ -96,8 +108,8 @@ public abstract class FGEFunctionGraph<X> extends FGEGraph {
 		this.parameterOrientation = orientation;
 	}
 
-	public <Y> Y evaluateFunction(FGEFunction<Y> function, X value) throws TypeMismatchException, NullReferenceException,
-			InvocationTargetException {
+	public <Y> Y evaluateFunction(FGEFunction<Y> function, X value)
+			throws TypeMismatchException, NullReferenceException, InvocationTargetException {
 		getEvaluator().set(getParameter(), value);
 		return function.evaluate();
 	}
@@ -132,5 +144,74 @@ public abstract class FGEFunctionGraph<X> extends FGEGraph {
 	}
 
 	public abstract void paintParameters(FGEShapeGraphics g);
+
+	@Override
+	protected <T> FGEArea buildRepresentationForFunction(FGEFunction<T> function) {
+
+		List<FunctionSample<X, T>> samples = function.retrieveSamples(this);
+
+		List<FGEPoint> points = new ArrayList<FGEPoint>();
+
+		for (FunctionSample<X, T> s : samples) {
+			FGEPoint pt;
+			if (getParameterOrientation() == Orientation.HORIZONTAL) {
+				pt = new FGEPoint(getNormalizedPosition(s.x), function.getNormalizedPosition(s.value));
+			}
+			else {
+				pt = new FGEPoint(function.getNormalizedPosition(s.value), getNormalizedPosition(s.x));
+			}
+
+			// System.out.println("Sampling function " + getFunctionName() + "(" + s.p + ") = " + s.value + " normalizedValue="
+			// + getNormalizedPosition(s.value));
+
+			points.add(pt);
+		}
+
+		switch (function.getGraphType()) {
+			case POINTS:
+				return FGEUnionArea.makeUnion(points);
+			case POLYLIN:
+				return new FGEPolylin(points);
+			case RECT_POLYLIN:
+				List<FGEPoint> rectPoints = new ArrayList<FGEPoint>();
+				double delta = (double) 1 / points.size() / 2;
+				for (FGEPoint pt : points) {
+					if (getParameterOrientation() == Orientation.HORIZONTAL) {
+						rectPoints.add(new FGEPoint(pt.x - delta, pt.y));
+						rectPoints.add(new FGEPoint(pt.x + delta, pt.y));
+					}
+					else { // Vertical
+						rectPoints.add(new FGEPoint(pt.x, pt.y - delta));
+						rectPoints.add(new FGEPoint(pt.x, pt.y + delta));
+					}
+				}
+				return new FGEPolylin(rectPoints);
+			case CURVE:
+				return new FGEComplexCurve(Closure.OPEN_NOT_FILLED, points);
+			case BAR_GRAPH:
+				List<FGERectangle> rectangles = new ArrayList<FGERectangle>();
+				double sampleSize = (double) 1 / points.size();
+				double barWidth = 0.8 * sampleSize / getNumberOfFunctionsOfType(GraphType.BAR_GRAPH);
+				double barSpacing = sampleSize / 10;
+				int index = getIndexOfFunctionsOfType(function);
+				for (FGEPoint pt : points) {
+					if (getParameterOrientation() == Orientation.HORIZONTAL) {
+						FGERectangle r = new FGERectangle(new FGEPoint(pt.x - sampleSize / 2 + barSpacing + (index * barWidth), 0),
+								new FGEDimension(barWidth, pt.y), Filling.FILLED);
+						rectangles.add(r);
+					}
+					else {
+						FGERectangle r = new FGERectangle(new FGEPoint(0, pt.y - sampleSize / 2 + barSpacing + (index * barWidth)),
+								new FGEDimension(pt.x, barWidth), Filling.FILLED);
+						rectangles.add(r);
+					}
+				}
+				return FGEUnionArea.makeUnion(rectangles);
+
+			default:
+				break;
+		}
+		return null;
+	}
 
 }

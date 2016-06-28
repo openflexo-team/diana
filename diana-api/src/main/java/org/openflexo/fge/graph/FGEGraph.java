@@ -51,6 +51,7 @@ import org.openflexo.connie.BindingVariable;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.DefaultBindable;
 import org.openflexo.connie.java.JavaBindingFactory;
+import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
@@ -187,6 +188,8 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 	public FGEGraphEvaluator getEvaluator() {
 		return evaluator;
 	}
+
+	protected abstract <T> FGEArea buildRepresentationForFunction(FGEFunction<T> function);
 
 	public class FGEGraphEvaluator implements BindingEvaluationContext {
 

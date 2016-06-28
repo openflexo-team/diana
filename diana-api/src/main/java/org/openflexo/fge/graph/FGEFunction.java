@@ -51,17 +51,7 @@ import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.ForegroundStyle;
-import org.openflexo.fge.geom.FGEComplexCurve;
-import org.openflexo.fge.geom.FGEDimension;
-import org.openflexo.fge.geom.FGEGeneralShape.Closure;
-import org.openflexo.fge.geom.FGEGeometricObject.Filling;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGEPolylin;
-import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.geom.area.FGEUnionArea;
-import org.openflexo.fge.graph.FGEFunctionGraph.Orientation;
-import org.openflexo.fge.graph.FGEGraph.GraphType;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
@@ -161,24 +151,26 @@ public class FGEFunction<T> {
 
 	protected FGEArea buildRepresentation() {
 
-		if (getGraph() instanceof FGEFunctionGraph) {
+		return getGraph().buildRepresentationForFunction(this);
+
+		/*if (getGraph() instanceof FGEFunctionGraph) {
 			return buildRepresentationForFunctionGraph((FGEFunctionGraph<?>) getGraph());
 		}
-		return null;
+		return null;*/
 	}
 
-	class FunctionSample<P> {
-		P p;
+	static class FunctionSample<X, T> {
+		X x;
 		T value;
 
-		public FunctionSample(P p, T value) {
+		public FunctionSample(X x, T value) {
 			super();
-			this.p = p;
+			this.x = x;
 			this.value = value;
 		}
 	}
 
-	protected <X> List<FunctionSample<X>> retrieveSamples(FGEFunctionGraph<X> graph) {
+	protected <X> List<FunctionSample<X, T>> retrieveSamples(FGEFunctionGraph<X> graph) {
 
 		if (valueSamples != null) {
 			valueSamples.clear();
@@ -187,7 +179,7 @@ public class FGEFunction<T> {
 			valueSamples = new ArrayList<T>();
 		}
 
-		List<FunctionSample<X>> samples = new ArrayList<FunctionSample<X>>();
+		List<FunctionSample<X, T>> samples = new ArrayList<FunctionSample<X, T>>();
 		Iterator<X> it = graph.iterateParameter();
 
 		while (it.hasNext()) {
@@ -207,7 +199,7 @@ public class FGEFunction<T> {
 				e.printStackTrace();
 			}
 
-			samples.add(new FunctionSample<X>(p, value));
+			samples.add(new FunctionSample<X, T>(p, value));
 
 			// System.out.println("Sampling function " + getFunctionName() + "(" + p + ") = " + value);
 
@@ -220,27 +212,27 @@ public class FGEFunction<T> {
 		return samples;
 	}
 
-	protected <X> FGEArea buildRepresentationForFunctionGraph(FGEFunctionGraph<X> graph) {
-
-		List<FunctionSample<X>> samples = retrieveSamples(graph);
-
+	/*protected <X> FGEArea buildRepresentationForFunctionGraph(FGEFunctionGraph<X> graph) {
+	
+		List<FunctionSample<X, T>> samples = retrieveSamples(graph);
+	
 		List<FGEPoint> points = new ArrayList<FGEPoint>();
-
-		for (FunctionSample<X> s : samples) {
+	
+		for (FunctionSample<X, T> s : samples) {
 			FGEPoint pt;
 			if (graph.getParameterOrientation() == Orientation.HORIZONTAL) {
-				pt = new FGEPoint(graph.getNormalizedPosition(s.p), getNormalizedPosition(s.value));
+				pt = new FGEPoint(graph.getNormalizedPosition(s.x), getNormalizedPosition(s.value));
 			}
 			else {
-				pt = new FGEPoint(getNormalizedPosition(s.value), graph.getNormalizedPosition(s.p));
+				pt = new FGEPoint(getNormalizedPosition(s.value), graph.getNormalizedPosition(s.x));
 			}
-
+	
 			// System.out.println("Sampling function " + getFunctionName() + "(" + s.p + ") = " + s.value + " normalizedValue="
 			// + getNormalizedPosition(s.value));
-
+	
 			points.add(pt);
 		}
-
+	
 		switch (graphType) {
 			case POINTS:
 				return FGEUnionArea.makeUnion(points);
@@ -281,12 +273,12 @@ public class FGEFunction<T> {
 					}
 				}
 				return FGEUnionArea.makeUnion(rectangles);
-
+	
 			default:
 				break;
 		}
 		return null;
-	}
+	}*/
 
 	protected Double getNormalizedPosition(T value) {
 
