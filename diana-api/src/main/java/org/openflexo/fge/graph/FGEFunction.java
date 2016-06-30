@@ -70,7 +70,7 @@ public class FGEFunction<T> {
 	private final String functionName;
 	private final Class<T> functionType;
 	private final DataBinding<T> functionExpression;
-	private final FGEFunctionGraph.GraphType graphType;
+	private final FGESimpleFunctionGraph.GraphType graphType;
 
 	private ForegroundStyle foregroundStyle;
 	private BackgroundStyle backgroundStyle;
@@ -81,8 +81,8 @@ public class FGEFunction<T> {
 
 	protected List<T> valueSamples;
 
-	public FGEFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression, FGEFunctionGraph.GraphType graphType,
-			FGEGraph graph) {
+	public FGEFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression,
+			FGESimpleFunctionGraph.GraphType graphType, FGEGraph graph) {
 		super();
 		this.functionName = functionName;
 		this.functionType = functionType;
@@ -114,7 +114,7 @@ public class FGEFunction<T> {
 		return graph;
 	}
 
-	public FGEFunctionGraph.GraphType getGraphType() {
+	public FGESimpleFunctionGraph.GraphType getGraphType() {
 		return graphType;
 	}
 
@@ -170,7 +170,7 @@ public class FGEFunction<T> {
 		}
 	}
 
-	protected <X> List<FunctionSample<X, T>> retrieveSamples(FGEFunctionGraph<X> graph) {
+	protected <X> List<FunctionSample<X, T>> retrieveSamples(FGESingleParameteredGraph<X> graph) {
 
 		if (valueSamples != null) {
 			valueSamples.clear();

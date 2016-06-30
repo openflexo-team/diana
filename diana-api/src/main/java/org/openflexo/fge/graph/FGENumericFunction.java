@@ -59,12 +59,12 @@ public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 	private T majorTickSpacing = null;
 
 	public FGENumericFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression,
-			FGEFunctionGraph.GraphType graphType, FGEGraph graph) {
+			FGESimpleFunctionGraph.GraphType graphType, FGEGraph graph) {
 		super(functionName, functionType, functionExpression, graphType, graph);
 	}
 
 	public FGENumericFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression,
-			FGEFunctionGraph.GraphType graphType, T minValue, T maxValue, FGEGraph graph) {
+			FGESimpleFunctionGraph.GraphType graphType, T minValue, T maxValue, FGEGraph graph) {
 		super(functionName, functionType, functionExpression, graphType, graph);
 		this.minValue = minValue;
 		this.maxValue = maxValue;
@@ -139,7 +139,7 @@ public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 	private T computedMaxValue;
 
 	@Override
-	protected <X> List<FunctionSample<X, T>> retrieveSamples(FGEFunctionGraph<X> graph) {
+	protected <X> List<FunctionSample<X, T>> retrieveSamples(FGESingleParameteredGraph<X> graph) {
 
 		List<FunctionSample<X, T>> samples = super.retrieveSamples(graph);
 

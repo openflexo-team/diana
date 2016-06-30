@@ -38,13 +38,10 @@
 
 package org.openflexo.fge.graph;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.openflexo.connie.exception.NullReferenceException;
-import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.fge.geom.FGEComplexCurve;
 import org.openflexo.fge.geom.FGEDimension;
 import org.openflexo.fge.geom.FGEGeneralShape.Closure;
@@ -71,7 +68,7 @@ import org.openflexo.fge.graphics.FGEShapeGraphics;
  * @param <X>
  *            type of value which plays iterator role
  */
-public abstract class FGEFunctionGraph<X> extends FGEGraph {
+public abstract class FGESimpleFunctionGraph<X> extends FGESingleParameteredGraph<X> {
 
 	public static enum Orientation {
 		HORIZONTAL, VERTICAL;
@@ -79,25 +76,8 @@ public abstract class FGEFunctionGraph<X> extends FGEGraph {
 
 	private Orientation parameterOrientation = Orientation.HORIZONTAL;
 
-	public FGEFunctionGraph() {
+	public FGESimpleFunctionGraph() {
 		super();
-	}
-
-	public String getParameter() {
-		if (parameterTypes.size() > 0) {
-			return parameterTypes.keySet().iterator().next();
-		}
-		return null;
-	}
-
-	@Override
-	public void setParameter(String parameterName, Class<?> parameterType) {
-
-		if (parameterTypes.size() > 0) {
-			throw new IllegalArgumentException("FGEFunctionGraph could not have more than one parameter: existing parameter "
-					+ getParameter() + " while adding " + parameterName);
-		}
-		super.setParameter(parameterName, parameterType);
 	}
 
 	public Orientation getParameterOrientation() {
@@ -108,12 +88,7 @@ public abstract class FGEFunctionGraph<X> extends FGEGraph {
 		this.parameterOrientation = orientation;
 	}
 
-	public <Y> Y evaluateFunction(FGEFunction<Y> function, X value)
-			throws TypeMismatchException, NullReferenceException, InvocationTargetException {
-		getEvaluator().set(getParameter(), value);
-		return function.evaluate();
-	}
-
+	@Override
 	protected abstract Iterator<X> iterateParameter();
 
 	protected abstract Double getNormalizedPosition(X value);

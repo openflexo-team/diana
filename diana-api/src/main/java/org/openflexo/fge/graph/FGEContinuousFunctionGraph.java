@@ -52,7 +52,7 @@ import org.openflexo.fge.graphics.FGEShapeGraphics;
  * @param <O>
  *            the represented type
  */
-public class FGEContinuousFunctionGraph<X extends Number> extends FGEFunctionGraph<X> {
+public class FGEContinuousFunctionGraph<X extends Number> extends FGESimpleFunctionGraph<X> {
 
 	private final Class<X> numberClass;
 

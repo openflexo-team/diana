@@ -83,7 +83,7 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 		evaluator = new FGEGraphEvaluator();
 	}
 
-	public void setParameter(String parameterName, Class<?> parameterType) {
+	protected void setParameter(String parameterName, Class<?> parameterType) {
 		parameterTypes.put(parameterName, parameterType);
 		bindingModel.addToBindingVariables(new BindingVariable(parameterName, parameterType));
 	}
@@ -177,12 +177,12 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 
 	@Override
 	public void notifiedBindingChanged(DataBinding<?> dataBinding) {
-		System.out.println("On s'en fout que le binding ait change ??? " + dataBinding);
+		// System.out.println("On s'en fout que le binding ait change ??? " + dataBinding);
 	}
 
 	@Override
 	public void notifiedBindingDecoded(DataBinding<?> dataBinding) {
-		System.out.println("On s'en fout que le binding ait ete decode ??? " + dataBinding);
+		// System.out.println("On s'en fout que le binding ait ete decode ??? " + dataBinding);
 	}
 
 	public FGEGraphEvaluator getEvaluator() {
