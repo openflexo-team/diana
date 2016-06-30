@@ -186,7 +186,23 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 			T t = it.next();
 			String label = getLabel(t);
 			Double angle = getNormalizedAngle(t);
-			g.drawString(label, new FGEPoint(Math.cos(angle) * 0.5 + 0.5, 0.5 - Math.sin(angle) * 0.5), HorizontalTextAlignment.CENTER);
+			Double radius = 0.5;
+			if (getFunctions().size() == 1) {
+				FGEFunction function = getFunctions().get(0);
+				Object value = null;
+				try {
+					value = evaluateFunction(function, t);
+				} catch (TypeMismatchException e) {
+					e.printStackTrace();
+				} catch (NullReferenceException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				}
+				radius = function.getNormalizedPosition(value) / 2 + 0.05;
+			}
+			g.drawString(label, new FGEPoint(Math.cos(angle) * radius + 0.5, 0.5 - Math.sin(angle) * radius),
+					HorizontalTextAlignment.CENTER);
 		}
 	}
 }

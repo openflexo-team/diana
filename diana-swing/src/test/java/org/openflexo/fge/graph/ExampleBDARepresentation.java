@@ -86,9 +86,9 @@ public class ExampleBDARepresentation extends DrawingImpl<Object> {
 		themes.add(territoire = new Theme("Territoire", 12, 5.7f));
 		themes.add(eau = new Theme("Eau", 5, 5.6f));
 		themes.add(confort = new Theme("Confort", 8, 3.4f));
-		themes.add(energie = new Theme("Energie", 20, 6.8f));
+		themes.add(energie = new Theme("Energie", 15, 6.8f));
 		themes.add(social = new Theme("Social", 10, 2.1f));
-		themes.add(materiaux = new Theme("Materiaux", 7, 0.1f));
+		themes.add(materiaux = new Theme("Materiaux", 7, 6.1f));
 
 		graph = new FGEDiscretePolarFunctionGraph<Theme>();
 

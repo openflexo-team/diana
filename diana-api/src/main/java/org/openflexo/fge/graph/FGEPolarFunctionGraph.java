@@ -58,7 +58,6 @@ import org.openflexo.fge.geom.FGEPolygon;
 import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.fge.graph.FGEFunction.FunctionSample;
-import org.openflexo.fge.graph.FGEFunction.GraphType;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
@@ -112,14 +111,14 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 
 		super.paint(g);
 
-		// Paint parameters
-		paintParameters(g);
-
 		for (FGEFunction<?> f : getFunctions()) {
 
 			f.paint(g);
 
 		}
+
+		// Paint parameters
+		paintParameters(g);
 
 	}
 
@@ -144,6 +143,9 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 			points.add(pt);
 		}
 
+		int numberOfFunctions = getNumberOfFunctionsOfType(function.getGraphType());
+		int functionIndex = getIndexOfFunctionsOfType(function);
+
 		switch (function.getGraphType()) {
 			case POINTS:
 				return new FunctionRepresentation(FGEUnionArea.makeUnion(points), function.getForegroundStyle(),
@@ -158,20 +160,16 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 						function.getBackgroundStyle());
 			case BAR_GRAPH:
 				List<FGEPolygon> polygons = new ArrayList<FGEPolygon>();
-				double sampleSize = (double) 1 / points.size() * 2 * Math.PI;
-				double barWidth = 0.8 * sampleSize / getNumberOfFunctionsOfType(GraphType.BAR_GRAPH);
-				double barSpacing = sampleSize / 10;
-				int index = getIndexOfFunctionsOfType(function);
 				for (FunctionSample<A, T> s : samples) {
-					Double angle = getNormalizedAngle(s.x);
-					double startAngle = angle - sampleSize / 2 + barSpacing + (index * barWidth);
-					// double endAngle = startAngle + barWidth;
-					int requiredSteps = (int) (barWidth * 20);
+					Double angle = getNormalizedAngle(s.x); // Middle of angle
+					Double angleExtent = getNormalizedAngleExtent(s.x) / numberOfFunctions - 0.1;
+					double startAngle = angle - angleExtent / 2 + functionIndex * angleExtent;
+					int requiredSteps = (int) (angleExtent * 20);
 					Double radius = function.getNormalizedPosition(s.value) / 2;
 					List<FGEPoint> pts = new ArrayList<FGEPoint>();
 					pts.add(new FGEPoint(0.5, 0.5));
 					for (int i = 0; i <= requiredSteps; i++) {
-						double a = startAngle + barWidth * i / requiredSteps;
+						double a = startAngle + angleExtent * i / requiredSteps;
 						pts.add(new FGEPoint(radius * Math.cos(a) + 0.5, radius * Math.sin(a) + 0.5));
 					}
 					polygons.add(new FGEPolygon(Filling.FILLED, pts));
@@ -183,13 +181,6 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 				if (function instanceof FGENumericFunction) {
 					FGENumericFunction numFunction = (FGENumericFunction) function;
 					List<ElementRepresentation> elements = new ArrayList<ElementRepresentation>();
-					int numberOfFunctions = getNumberOfFunctionsOfType(GraphType.COLORED_STEPS);
-					int functionIndex = getIndexOfFunctionsOfType(function);
-
-					// double sampleSize2 = (double) 1 / points.size() * 2 * Math.PI;
-					// double barWidth2 = 0.8 * sampleSize2 / getNumberOfFunctionsOfType(GraphType.COLORED_STEPS);
-					// double barSpacing2 = sampleSize2 / 10;
-					// int index2 = getIndexOfFunctionsOfType(function);
 					Color color1 = Color.RED;
 					Color color2 = Color.GREEN;
 					for (FunctionSample<A, T> s : samples) {
