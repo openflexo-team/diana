@@ -54,7 +54,7 @@ import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
-import org.openflexo.fge.graph.FGEFunctionGraph.Orientation;
+import org.openflexo.fge.graph.FGESimpleFunctionGraph.Orientation;
 import org.openflexo.fge.graph.FGEGraph.GraphType;
 import org.openflexo.fge.graph.TestFGEDiscreteFunctionGraph.Person;
 import org.openflexo.fge.impl.DrawingImpl;
