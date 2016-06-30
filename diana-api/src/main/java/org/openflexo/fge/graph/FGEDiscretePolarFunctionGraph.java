@@ -46,7 +46,9 @@ import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.DataBinding.BindingDefinitionType;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
+import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.fge.TextStyle;
+import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
@@ -61,6 +63,7 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 
 	private List<T> discreteValues;
 	private DataBinding<String> labelBinding;
+	private DataBinding<Double> weightBinding;
 
 	public FGEDiscretePolarFunctionGraph() {
 		super();
@@ -85,13 +88,16 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 		this.labelBinding.setBindingDefinitionType(BindingDefinitionType.GET);
 	}
 
-	/*public double getDiscreteValuesSpacing() {
-		return spacing;
+	public DataBinding<Double> getWeight() {
+		return weightBinding;
 	}
-	
-	public void setDiscreteValuesSpacing(double spacing) {
-		this.spacing = spacing;
-	}*/
+
+	public void setWeight(DataBinding<Double> weightBinding) {
+		this.weightBinding = weightBinding;
+		this.weightBinding.setOwner(this);
+		this.weightBinding.setDeclaredType(Double.class);
+		this.weightBinding.setBindingDefinitionType(BindingDefinitionType.GET);
+	}
 
 	@Override
 	protected Iterator<T> iterateParameter() {
@@ -100,7 +106,39 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 
 	@Override
 	public Double getNormalizedAngle(T value) {
+		if (weightBinding != null && weightBinding.isSet() && weightBinding.isValid()) {
+			System.out.println("OK faut que je regarde le poids respectif de chaque valeur");
+			Iterator<T> it = iterateParameter();
+			double cumulatedWeight = 0;
+			while (it.hasNext()) {
+				T t = it.next();
+				double angleExtent = getNormalizedAngleExtent(t);
+				if (t == value) {
+					return cumulatedWeight + angleExtent / 2;
+				}
+				else {
+					cumulatedWeight += angleExtent;
+				}
+			}
+
+		}
 		return (discreteValues.indexOf(value) + 0.5) / (discreteValues.size()) * 2 * Math.PI;
+	}
+
+	@Override
+	public Double getNormalizedAngleExtent(T parameterValue) {
+		if (weightBinding != null && weightBinding.isSet() && weightBinding.isValid()) {
+			double totalWeight = 0;
+			Iterator<T> it = iterateParameter();
+			while (it.hasNext()) {
+				T t = it.next();
+				Double weight = getWeight(t);
+				System.out.println("For " + t + " weight=" + weight);
+				totalWeight += weight;
+			}
+			return getWeight(parameterValue) / totalWeight * 2 * Math.PI;
+		}
+		return 2 * Math.PI / getDiscreteValues().size();
 	}
 
 	public String getLabel(T param) {
@@ -117,6 +155,22 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 		return param.toString();
 	}
 
+	public Double getWeight(T param) {
+		if (weightBinding != null && weightBinding.isSet() && weightBinding.isValid()) {
+			getEvaluator().set(getParameter(), param);
+			try {
+				return getWeight().getBindingValue(getEvaluator());
+			} catch (TypeMismatchException e) {
+				e.printStackTrace();
+			} catch (NullReferenceException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+		return 2 * Math.PI / getDiscreteValues().size();
+	}
+
 	@Override
 	public void paintParameters(FGEShapeGraphics g) {
 
@@ -128,16 +182,11 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 		g.useTextStyle(ts);
 
 		Iterator<T> it = iterateParameter();
-
 		while (it.hasNext()) {
 			T t = it.next();
 			String label = getLabel(t);
-			/*if (getParameterOrientation() == Orientation.HORIZONTAL) {
-				g.drawString(label, new FGEPoint(getNormalizedPosition(t), 1.0 + relativeTextHeight), HorizontalTextAlignment.CENTER);
-			}
-			else {
-				g.drawString(label, new FGEPoint(-relativeTextWidth, getNormalizedPosition(t)), HorizontalTextAlignment.CENTER);
-			}*/
+			Double angle = getNormalizedAngle(t);
+			g.drawString(label, new FGEPoint(Math.cos(angle) * 0.5 + 0.5, 0.5 - Math.sin(angle) * 0.5), HorizontalTextAlignment.CENTER);
 		}
 	}
 }

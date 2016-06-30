@@ -91,6 +91,11 @@ public class FGEContinuousPolarFunctionGraph extends FGEPolarFunctionGraph<Doubl
 		return angle;
 	}
 
+	@Override
+	public Double getNormalizedAngleExtent(Double parameterValue) {
+		return 2 * Math.PI / getStepsNumber();
+	}
+
 	/**
 	 * This method returns the minor tick spacing. The number that is returned represents the distance, measured in values, between each
 	 * minor tick mark.

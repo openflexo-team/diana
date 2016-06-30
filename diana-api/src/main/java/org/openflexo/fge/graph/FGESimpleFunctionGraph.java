@@ -49,9 +49,9 @@ import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geom.FGERectangle;
-import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.fge.graph.FGEFunction.FunctionSample;
+import org.openflexo.fge.graph.FGEFunction.GraphType;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
@@ -121,7 +121,7 @@ public abstract class FGESimpleFunctionGraph<X> extends FGESingleParameteredGrap
 	public abstract void paintParameters(FGEShapeGraphics g);
 
 	@Override
-	protected <T> FGEArea buildRepresentationForFunction(FGEFunction<T> function) {
+	protected <T> FunctionRepresentation buildRepresentationForFunction(FGEFunction<T> function) {
 
 		List<FunctionSample<X, T>> samples = function.retrieveSamples(this);
 
@@ -144,9 +144,10 @@ public abstract class FGESimpleFunctionGraph<X> extends FGESingleParameteredGrap
 
 		switch (function.getGraphType()) {
 			case POINTS:
-				return FGEUnionArea.makeUnion(points);
+				return new FunctionRepresentation(FGEUnionArea.makeUnion(points), function.getForegroundStyle(),
+						function.getBackgroundStyle());
 			case POLYLIN:
-				return new FGEPolylin(points);
+				return new FunctionRepresentation(new FGEPolylin(points), function.getForegroundStyle(), function.getBackgroundStyle());
 			case RECT_POLYLIN:
 				List<FGEPoint> rectPoints = new ArrayList<FGEPoint>();
 				double delta = (double) 1 / points.size() / 2;
@@ -160,9 +161,10 @@ public abstract class FGESimpleFunctionGraph<X> extends FGESingleParameteredGrap
 						rectPoints.add(new FGEPoint(pt.x, pt.y + delta));
 					}
 				}
-				return new FGEPolylin(rectPoints);
+				return new FunctionRepresentation(new FGEPolylin(rectPoints), function.getForegroundStyle(), function.getBackgroundStyle());
 			case CURVE:
-				return new FGEComplexCurve(Closure.OPEN_NOT_FILLED, points);
+				return new FunctionRepresentation(new FGEComplexCurve(Closure.OPEN_NOT_FILLED, points), function.getForegroundStyle(),
+						function.getBackgroundStyle());
 			case BAR_GRAPH:
 				List<FGERectangle> rectangles = new ArrayList<FGERectangle>();
 				double sampleSize = (double) 1 / points.size();
@@ -181,7 +183,8 @@ public abstract class FGESimpleFunctionGraph<X> extends FGESingleParameteredGrap
 						rectangles.add(r);
 					}
 				}
-				return FGEUnionArea.makeUnion(rectangles);
+				return new FunctionRepresentation(FGEUnionArea.makeUnion(rectangles), function.getForegroundStyle(),
+						function.getBackgroundStyle());
 
 			default:
 				break;

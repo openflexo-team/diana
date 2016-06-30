@@ -51,7 +51,10 @@ import org.openflexo.connie.BindingVariable;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.DefaultBindable;
 import org.openflexo.connie.java.JavaBindingFactory;
+import org.openflexo.fge.BackgroundStyle;
+import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.fge.graph.FGEFunction.GraphType;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
@@ -63,10 +66,6 @@ import org.openflexo.fge.graphics.FGEShapeGraphics;
 public abstract class FGEGraph extends DefaultBindable implements Bindable {
 
 	private static BindingFactory JAVA_BINDING_FACTORY = new JavaBindingFactory();
-
-	public static enum GraphType {
-		POINTS, POLYLIN, RECT_POLYLIN, CURVE, BAR_GRAPH
-	}
 
 	private BindingModel bindingModel = null;
 	private BindingFactory bindingFactory = null;
@@ -189,7 +188,7 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 		return evaluator;
 	}
 
-	protected abstract <T> FGEArea buildRepresentationForFunction(FGEFunction<T> function);
+	protected abstract <T> FunctionRepresentation buildRepresentationForFunction(FGEFunction<T> function);
 
 	public class FGEGraphEvaluator implements BindingEvaluationContext {
 
@@ -206,6 +205,38 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 		@Override
 		public Object getValue(BindingVariable variable) {
 			return values.get(variable.getVariableName());
+		}
+
+	}
+
+	public class ElementRepresentation {
+		public FGEArea area;
+		public ForegroundStyle foregroundStyle;
+		public BackgroundStyle backgroundStyle;
+
+		public ElementRepresentation(FGEArea area, ForegroundStyle foregroundStyle, BackgroundStyle backgroundStyle) {
+			super();
+			this.area = area;
+			this.foregroundStyle = foregroundStyle;
+			this.backgroundStyle = backgroundStyle;
+		}
+	}
+
+	public class FunctionRepresentation {
+		public List<ElementRepresentation> elements;
+
+		public FunctionRepresentation() {
+			elements = new ArrayList<>();
+		}
+
+		public FunctionRepresentation(FGEArea area, ForegroundStyle foregroundStyle, BackgroundStyle backgroundStyle) {
+			this();
+			elements.add(new ElementRepresentation(area, foregroundStyle, backgroundStyle));
+		}
+
+		public FunctionRepresentation(List<ElementRepresentation> elements) {
+			super();
+			this.elements = elements;
 		}
 
 	}

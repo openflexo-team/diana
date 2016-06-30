@@ -39,6 +39,8 @@
 package org.openflexo.fge.graph;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.openflexo.connie.DataBinding;
 import org.openflexo.fge.ColorGradientBackgroundStyle.ColorGradientDirection;
@@ -57,51 +59,50 @@ import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 
 /**
- * This is an example of drawing containing a {@link FGEContinuousSimpleFunctionGraph} showing 4 functions with different representations
+ * This is an example of drawing containing a {@link FGEDiscreteSimpleFunctionGraph} showing 2 functions represented as bar graphs
  * 
  * @author sylvain
  * 
  */
-public class ExampleFGEContinuousSimpleFunctionGraphDrawing extends DrawingImpl<Object> {
+public class ExampleBDARepresentation extends DrawingImpl<Object> {
 
-	private FGEContinuousSimpleFunctionGraph<Double> graph;
+	private FGEDiscretePolarFunctionGraph<Theme> graph;
+	private FGENumericFunction<Float> evaluationFunction;
 
 	private DrawingGraphicalRepresentation drawingRepresentation;
 	private ShapeGraphicalRepresentation graphGR;
 
-	public ExampleFGEContinuousSimpleFunctionGraphDrawing(Object obj, FGEModelFactory factory) {
+	private Theme gouvernance, territoire, eau, confort, energie, social, materiaux;
+
+	public ExampleBDARepresentation(Object obj, FGEModelFactory factory) {
 		super(obj, factory, PersistenceMode.SharedGraphicalRepresentations);
 	}
 
 	@Override
 	public void init() {
 
-		graph = new FGEContinuousSimpleFunctionGraph<Double>(Double.class);
-		graph.setParameter("x", Double.class);
-		graph.setParameterRange(-10.0, 10.0);
-		graph.setStepsNumber(100);
+		List<Theme> themes = new ArrayList<Theme>();
+		themes.add(gouvernance = new Theme("Gouvernance", 10, 3.2f));
+		themes.add(territoire = new Theme("Territoire", 12, 5.7f));
+		themes.add(eau = new Theme("Eau", 5, 5.6f));
+		themes.add(confort = new Theme("Confort", 8, 3.4f));
+		themes.add(energie = new Theme("Energie", 20, 6.8f));
+		themes.add(social = new Theme("Social", 10, 2.1f));
+		themes.add(materiaux = new Theme("Materiaux", 7, 0.1f));
 
-		FGENumericFunction<Double> y1Function = graph.addNumericFunction("y1", Double.class, new DataBinding<Double>("x*x-2*x+1"),
-				GraphType.POLYLIN);
-		y1Function.setRange(0.0, 100.0);
-		y1Function.setForegroundStyle(getFactory().makeForegroundStyle(Color.BLUE, 1.0f));
+		graph = new FGEDiscretePolarFunctionGraph<Theme>();
 
-		FGENumericFunction<Double> y2Function = graph.addNumericFunction("y2", Double.class, new DataBinding<Double>("cos(x)"),
-				GraphType.CURVE);
-		y2Function.setRange(-1.0, 1.0);
-		y2Function.setForegroundStyle(getFactory().makeForegroundStyle(Color.RED, 1.0f));
-		y2Function
-				.setBackgroundStyle(getFactory().makeColorGradientBackground(Color.BLUE, Color.WHITE, ColorGradientDirection.NORTH_SOUTH));
+		graph.setParameter("theme", Theme.class);
+		graph.setDiscreteValues(themes);
+		graph.setDiscreteValuesLabel(new DataBinding<String>("theme.name"));
+		graph.setWeight(new DataBinding<Double>("theme.weight"));
 
-		FGENumericFunction<Integer> y3Function = graph.addNumericFunction("y3", Integer.class,
-				new DataBinding<Integer>("($java.lang.Integer)(x*x/2+1)"), GraphType.POINTS);
-		y3Function.setRange(0, 12);
-		y3Function.setForegroundStyle(getFactory().makeForegroundStyle(Color.BLACK, 1.0f));
-
-		FGENumericFunction<Double> y4Function = graph.addNumericFunction("y", Double.class, new DataBinding<Double>("-3*x*(x-10)+20"),
-				GraphType.RECT_POLYLIN);
-		y4Function.setRange(0.0, 100.0);
-		y4Function.setForegroundStyle(getFactory().makeForegroundStyle(Color.PINK, 1.0f));
+		evaluationFunction = graph.addNumericFunction("size", Float.class, new DataBinding<Float>("theme.value"), GraphType.COLORED_STEPS);
+		evaluationFunction.setStepsNb(7);
+		evaluationFunction.setRange(0f, 7.0f);
+		evaluationFunction.setForegroundStyle(getFactory().makeForegroundStyle(Color.GREEN, 1.0f));
+		evaluationFunction
+				.setBackgroundStyle(getFactory().makeColorGradientBackground(Color.GREEN, Color.WHITE, ColorGradientDirection.NORTH_SOUTH));
 
 		drawingRepresentation = getFactory().makeDrawingGraphicalRepresentation();
 
@@ -113,13 +114,13 @@ public class ExampleFGEContinuousSimpleFunctionGraphDrawing extends DrawingImpl<
 		});
 
 		graphGR = getFactory().makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
-		graphGR.setText("This is an example of 4 continuous functions");
+		graphGR.setText("This is an example of BDA representation");
 		graphGR.setX(50);
 		graphGR.setY(50);
-		graphGR.setWidth(600);
-		graphGR.setHeight(400);
+		graphGR.setWidth(500);
+		graphGR.setHeight(500);
 		graphGR.setIsFloatingLabel(true);
-		graphGR.setAbsoluteTextX(500);
+		graphGR.setAbsoluteTextX(400);
 		graphGR.setAbsoluteTextY(-10);
 		graphGR.setHorizontalTextAlignment(HorizontalTextAlignment.LEFT);
 		graphGR.setTextStyle(getFactory().makeTextStyle(Color.BLACK, FGEConstants.DEFAULT_TEXT_FONT));
@@ -130,10 +131,10 @@ public class ExampleFGEContinuousSimpleFunctionGraphDrawing extends DrawingImpl<
 		// Very important: give some place for labels, legend and other informations
 		// graphGR.setBorder(getFactory().makeShapeBorder(20, 20, 20, 20));
 
-		final GraphGRBinding<FGEContinuousSimpleFunctionGraph> graphBinding = bindGraph(FGEContinuousSimpleFunctionGraph.class, "graph",
-				new ShapeGRProvider<FGEContinuousSimpleFunctionGraph>() {
+		final GraphGRBinding<FGEDiscretePolarFunctionGraph> graphBinding = bindGraph(FGEDiscretePolarFunctionGraph.class, "graph",
+				new ShapeGRProvider<FGEDiscretePolarFunctionGraph>() {
 					@Override
-					public ShapeGraphicalRepresentation provideGR(FGEContinuousSimpleFunctionGraph drawable, FGEModelFactory factory) {
+					public ShapeGraphicalRepresentation provideGR(FGEDiscretePolarFunctionGraph drawable, FGEModelFactory factory) {
 						return graphGR;
 					}
 				});
@@ -147,4 +148,43 @@ public class ExampleFGEContinuousSimpleFunctionGraphDrawing extends DrawingImpl<
 		});
 
 	}
+
+	public static class Theme {
+		public String name;
+		public double weight;
+		public List<Objectif> objectifs;
+		public float value;
+
+		public Theme(String name, double weight, float value) {
+			super();
+			this.name = name;
+			this.weight = weight;
+			this.value = value;
+			objectifs = new ArrayList<>();
+		}
+
+		@Override
+		public String toString() {
+			return "Theme:" + name;
+		}
+	}
+
+	public static class Objectif {
+		public String name;
+		public double weight;
+		public float value;
+
+		public Objectif(String name, double weight, float value) {
+			super();
+			this.name = name;
+			this.weight = weight;
+			this.value = value;
+		}
+
+		@Override
+		public String toString() {
+			return "Objectif:" + name;
+		}
+	}
+
 }

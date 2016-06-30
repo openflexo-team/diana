@@ -58,7 +58,7 @@ import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.fge.ColorGradientBackgroundStyle.ColorGradientDirection;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
-import org.openflexo.fge.graph.FGEGraph.GraphType;
+import org.openflexo.fge.graph.FGEFunction.GraphType;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
