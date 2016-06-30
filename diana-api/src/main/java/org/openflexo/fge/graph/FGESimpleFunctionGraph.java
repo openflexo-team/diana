@@ -55,7 +55,7 @@ import org.openflexo.fge.graph.FGEFunction.FunctionSample;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
- * Represents a 2D-base graph representing functions where:
+ * Represents a 2D-base graph [y=f(x)] representing functions where:
  * <ul>
  * <li>a coordinate is iterated over continuous or discrete values</li>
  * <li>a coordinates is based on an expression using opposite coordinate (iterated value, which can be discrete or continuous)</li><br>

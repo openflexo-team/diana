@@ -46,9 +46,7 @@ import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.DataBinding.BindingDefinitionType;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
-import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.fge.TextStyle;
-import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
@@ -59,14 +57,12 @@ import org.openflexo.fge.graphics.FGEShapeGraphics;
  * @param <T>
  *            type of discrete values
  */
-public class FGEDiscreteFunctionGraph<T> extends FGESimpleFunctionGraph<T> {
+public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 
 	private List<T> discreteValues;
 	private DataBinding<String> labelBinding;
 
-	// private double spacing = 10;
-
-	public FGEDiscreteFunctionGraph() {
+	public FGEDiscretePolarFunctionGraph() {
 		super();
 	}
 
@@ -92,7 +88,7 @@ public class FGEDiscreteFunctionGraph<T> extends FGESimpleFunctionGraph<T> {
 	/*public double getDiscreteValuesSpacing() {
 		return spacing;
 	}
-
+	
 	public void setDiscreteValuesSpacing(double spacing) {
 		this.spacing = spacing;
 	}*/
@@ -103,8 +99,8 @@ public class FGEDiscreteFunctionGraph<T> extends FGESimpleFunctionGraph<T> {
 	}
 
 	@Override
-	protected Double getNormalizedPosition(T value) {
-		return (discreteValues.indexOf(value) + 0.5) / (discreteValues.size());
+	public Double getNormalizedAngle(T value) {
+		return (discreteValues.indexOf(value) + 0.5) / (discreteValues.size()) * 2 * Math.PI;
 	}
 
 	public String getLabel(T param) {
@@ -126,8 +122,8 @@ public class FGEDiscreteFunctionGraph<T> extends FGESimpleFunctionGraph<T> {
 
 		TextStyle ts = g.getNode().getTextStyle();
 
-		double relativeTextWidth = (double) ts.getFont().getSize() / g.getViewWidth();
-		double relativeTextHeight = (double) ts.getFont().getSize() / g.getViewHeight();
+		// double relativeTextWidth = (double) ts.getFont().getSize() / g.getViewWidth();
+		// double relativeTextHeight = (double) ts.getFont().getSize() / g.getViewHeight();
 
 		g.useTextStyle(ts);
 
@@ -136,11 +132,12 @@ public class FGEDiscreteFunctionGraph<T> extends FGESimpleFunctionGraph<T> {
 		while (it.hasNext()) {
 			T t = it.next();
 			String label = getLabel(t);
-			if (getParameterOrientation() == Orientation.HORIZONTAL) {
+			/*if (getParameterOrientation() == Orientation.HORIZONTAL) {
 				g.drawString(label, new FGEPoint(getNormalizedPosition(t), 1.0 + relativeTextHeight), HorizontalTextAlignment.CENTER);
-			} else {
-				g.drawString(label, new FGEPoint(-relativeTextWidth, getNormalizedPosition(t)), HorizontalTextAlignment.CENTER);
 			}
+			else {
+				g.drawString(label, new FGEPoint(-relativeTextWidth, getNormalizedPosition(t)), HorizontalTextAlignment.CENTER);
+			}*/
 		}
 	}
 }

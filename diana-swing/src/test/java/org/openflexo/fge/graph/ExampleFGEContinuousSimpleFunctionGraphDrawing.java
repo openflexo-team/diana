@@ -57,26 +57,26 @@ import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 
 /**
- * This is an example of drawing containing a FGEContinuousFunctionGraph showing 4 functions with different representations
+ * This is an example of drawing containing a {@link FGEContinuousSimpleFunctionGraph} showing 4 functions with different representations
  * 
  * @author sylvain
  * 
  */
-public class ExampleFGEContinuousFunctionGraphDrawing extends DrawingImpl<Object> {
+public class ExampleFGEContinuousSimpleFunctionGraphDrawing extends DrawingImpl<Object> {
 
-	private FGEContinuousFunctionGraph<Double> graph;
+	private FGEContinuousSimpleFunctionGraph<Double> graph;
 
 	private DrawingGraphicalRepresentation drawingRepresentation;
 	private ShapeGraphicalRepresentation graphGR;
 
-	public ExampleFGEContinuousFunctionGraphDrawing(Object obj, FGEModelFactory factory) {
+	public ExampleFGEContinuousSimpleFunctionGraphDrawing(Object obj, FGEModelFactory factory) {
 		super(obj, factory, PersistenceMode.SharedGraphicalRepresentations);
 	}
 
 	@Override
 	public void init() {
 
-		graph = new FGEContinuousFunctionGraph<Double>(Double.class);
+		graph = new FGEContinuousSimpleFunctionGraph<Double>(Double.class);
 		graph.setParameter("x", Double.class);
 		graph.setParameterRange(-10.0, 10.0);
 		graph.setStepsNumber(100);
@@ -130,10 +130,10 @@ public class ExampleFGEContinuousFunctionGraphDrawing extends DrawingImpl<Object
 		// Very important: give some place for labels, legend and other informations
 		// graphGR.setBorder(getFactory().makeShapeBorder(20, 20, 20, 20));
 
-		final GraphGRBinding<FGEContinuousFunctionGraph> graphBinding = bindGraph(FGEContinuousFunctionGraph.class, "graph",
-				new ShapeGRProvider<FGEContinuousFunctionGraph>() {
+		final GraphGRBinding<FGEContinuousSimpleFunctionGraph> graphBinding = bindGraph(FGEContinuousSimpleFunctionGraph.class, "graph",
+				new ShapeGRProvider<FGEContinuousSimpleFunctionGraph>() {
 					@Override
-					public ShapeGraphicalRepresentation provideGR(FGEContinuousFunctionGraph drawable, FGEModelFactory factory) {
+					public ShapeGraphicalRepresentation provideGR(FGEContinuousSimpleFunctionGraph drawable, FGEModelFactory factory) {
 						return graphGR;
 					}
 				});

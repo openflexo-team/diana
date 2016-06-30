@@ -69,7 +69,7 @@ public class TestFGEDiscreteFunctionGraph {
 
 	private static FGEModelFactory FACTORY;
 
-	private static FGEDiscreteFunctionGraph<Person> graph;
+	private static FGEDiscreteSimpleFunctionGraph<Person> graph;
 	private static FGENumericFunction<Integer> sizeFunction;
 	private static FGENumericFunction<Double> weightFunction;
 
@@ -118,7 +118,7 @@ public class TestFGEDiscreteFunctionGraph {
 		persons.add(john = new Person("John", 107, 26.3));
 		persons.add(martinJr = new Person("Martin Jr", 97, 19.2));
 
-		graph = new FGEDiscreteFunctionGraph<Person>();
+		graph = new FGEDiscreteSimpleFunctionGraph<Person>();
 
 		graph.setParameter("person", Person.class);
 		graph.setDiscreteValues(persons);

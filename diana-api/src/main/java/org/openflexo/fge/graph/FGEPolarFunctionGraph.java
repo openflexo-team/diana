@@ -39,15 +39,26 @@
 package org.openflexo.fge.graph;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
+import org.openflexo.fge.geom.FGEComplexCurve;
+import org.openflexo.fge.geom.FGEGeneralShape.Closure;
+import org.openflexo.fge.geom.FGEGeometricObject.Filling;
+import org.openflexo.fge.geom.FGELine;
+import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geom.FGEPolygon;
+import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.fge.geom.area.FGEUnionArea;
+import org.openflexo.fge.graph.FGEFunction.FunctionSample;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
- * Represents a polar graph representing functions where:
+ * Represents a polar graph [R=f(A)] representing functions where:
  * <ul>
  * <li>angle is iterated over continuous or discrete values</li>
  * <li>functions are computed with expressions using angle as parameter (iterated value, which can be discrete or continuous)</li><br>
@@ -66,7 +77,8 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 		super();
 	}
 
-	public <Y> Y evaluateFunction(FGEFunction<Y> function, A value)
+	@Override
+	public <R> R evaluateFunction(FGEFunction<R> function, A value)
 			throws TypeMismatchException, NullReferenceException, InvocationTargetException {
 		getEvaluator().set(getParameter(), value);
 		return function.evaluate();
@@ -74,8 +86,6 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 
 	@Override
 	protected abstract Iterator<A> iterateParameter();
-
-	protected abstract Double getNormalizedPosition(A value);
 
 	/**
 	 * Called for graph painting
@@ -88,6 +98,13 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 		// System.out.println("Painting graph");
 		// System.out.println("width = " + g.getViewWidth());
 		// System.out.println("height = " + g.getViewHeight());
+
+		FGELine horizontalCoordinates = new FGELine(0, 0.5, 1, 0.5);
+		FGELine verticalCoordinates = new FGELine(0.5, 0, 0.5, 1);
+
+		// g.setDefaultForeground(get);
+		horizontalCoordinates.paint(g);
+		verticalCoordinates.paint(g);
 
 		super.paint(g);
 
@@ -104,12 +121,61 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 
 	public abstract void paintParameters(FGEShapeGraphics g);
 
+	public abstract Double getNormalizedAngle(A angle);
+
 	@Override
 	protected <T> FGEArea buildRepresentationForFunction(FGEFunction<T> function) {
 
-		/*List<FunctionSample<A, T>> samples = function.retrieveSamples(this);
-		
+		List<FunctionSample<A, T>> samples = function.retrieveSamples(this);
+
 		List<FGEPoint> points = new ArrayList<FGEPoint>();
+		for (FunctionSample<A, T> s : samples) {
+			Double angle = getNormalizedAngle(s.x);
+			Double radius = function.getNormalizedPosition(s.value) / 2;
+			// System.out.println("x:" + s.x + " v:" + s.value + " radius=" + radius);
+			FGEPoint pt = new FGEPoint(radius * Math.cos(angle) + 0.5, radius * Math.sin(angle) + 0.5);
+			// System.out.println("Point: " + pt);
+			points.add(pt);
+		}
+
+		switch (function.getGraphType()) {
+			case POINTS:
+				return FGEUnionArea.makeUnion(points);
+			case POLYLIN:
+				return new FGEPolylin(points);
+			case RECT_POLYLIN:
+				// Not supported for polar functions
+				return new FGEPolylin(points);
+			case CURVE:
+				return new FGEComplexCurve(Closure.OPEN_NOT_FILLED, points);
+			case BAR_GRAPH:
+				List<FGEPolygon> polygons = new ArrayList<FGEPolygon>();
+				double sampleSize = (double) 1 / points.size() * 2 * Math.PI;
+				double barWidth = 0.8 * sampleSize / getNumberOfFunctionsOfType(GraphType.BAR_GRAPH);
+				double barSpacing = sampleSize / 10;
+				int index = getIndexOfFunctionsOfType(function);
+				for (FunctionSample<A, T> s : samples) {
+					Double angle = getNormalizedAngle(s.x);
+					double startAngle = angle - sampleSize / 2 + barSpacing + (index * barWidth);
+					// double endAngle = startAngle + barWidth;
+					int requiredSteps = (int) (barWidth * 20);
+					Double radius = function.getNormalizedPosition(s.value) / 2;
+					List<FGEPoint> pts = new ArrayList<FGEPoint>();
+					pts.add(new FGEPoint(0.5, 0.5));
+					for (int i = 0; i <= requiredSteps; i++) {
+						double a = startAngle + barWidth * i / requiredSteps;
+						pts.add(new FGEPoint(radius * Math.cos(a) + 0.5, radius * Math.sin(a) + 0.5));
+					}
+					polygons.add(new FGEPolygon(Filling.FILLED, pts));
+				}
+
+				return FGEUnionArea.makeUnion(polygons);
+
+			default:
+				break;
+		}
+
+		/*List<FGEPoint> points = new ArrayList<FGEPoint>();
 		
 		for (FunctionSample<A, T> s : samples) {
 			FGEPoint pt;

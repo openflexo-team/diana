@@ -68,7 +68,7 @@ public class TestFGEContinuousFunctionGraph {
 
 	private static FGEModelFactory FACTORY;
 
-	private static FGEContinuousFunctionGraph<Double> graph;
+	private static FGEContinuousSimpleFunctionGraph<Double> graph;
 	private static FGENumericFunction<Double> yFunction;
 
 	@BeforeClass
@@ -92,7 +92,7 @@ public class TestFGEContinuousFunctionGraph {
 	@Test
 	@TestOrder(1)
 	public void test1InitGraph() {
-		graph = new FGEContinuousFunctionGraph<Double>(Double.class);
+		graph = new FGEContinuousSimpleFunctionGraph<Double>(Double.class);
 		graph.setParameter("x", Double.class);
 		graph.setParameterRange(-10.0, 10.0);
 

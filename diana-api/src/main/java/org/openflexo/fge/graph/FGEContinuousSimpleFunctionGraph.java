@@ -49,10 +49,10 @@ import org.openflexo.fge.graphics.FGEShapeGraphics;
  * 
  * @author sylvain
  * 
- * @param <O>
+ * @param <X>
  *            the represented type
  */
-public class FGEContinuousFunctionGraph<X extends Number> extends FGESimpleFunctionGraph<X> {
+public class FGEContinuousSimpleFunctionGraph<X extends Number> extends FGESimpleFunctionGraph<X> {
 
 	private final Class<X> numberClass;
 
@@ -62,7 +62,7 @@ public class FGEContinuousFunctionGraph<X extends Number> extends FGESimpleFunct
 	private X majorTickSpacing = null;
 	private Integer stepsNumber = null;
 
-	public FGEContinuousFunctionGraph(Class<X> numberClass) {
+	public FGEContinuousSimpleFunctionGraph(Class<X> numberClass) {
 		super();
 		this.numberClass = numberClass;
 	}
@@ -79,7 +79,8 @@ public class FGEContinuousFunctionGraph<X extends Number> extends FGESimpleFunct
 		if (stepsNumber == null) {
 			if (isFloatingType()) {
 				return 20;
-			} else {
+			}
+			else {
 				return -1;
 			}
 		}
@@ -118,15 +119,20 @@ public class FGEContinuousFunctionGraph<X extends Number> extends FGESimpleFunct
 	private X getDefaultMinValue() {
 		if (getNumberClass().equals(Double.class)) {
 			return (X) (Double) Double.MIN_VALUE;
-		} else if (getNumberClass().equals(Float.class)) {
+		}
+		else if (getNumberClass().equals(Float.class)) {
 			return (X) (Float) Float.MIN_VALUE;
-		} else if (getNumberClass().equals(Long.class)) {
+		}
+		else if (getNumberClass().equals(Long.class)) {
 			return (X) (Long) Long.MIN_VALUE;
-		} else if (getNumberClass().equals(Integer.class)) {
+		}
+		else if (getNumberClass().equals(Integer.class)) {
 			return (X) (Integer) Integer.MIN_VALUE;
-		} else if (getNumberClass().equals(Short.class)) {
+		}
+		else if (getNumberClass().equals(Short.class)) {
 			return (X) (Short) Short.MIN_VALUE;
-		} else if (getNumberClass().equals(Byte.class)) {
+		}
+		else if (getNumberClass().equals(Byte.class)) {
 			return (X) (Byte) Byte.MIN_VALUE;
 		}
 		return null;
@@ -140,15 +146,20 @@ public class FGEContinuousFunctionGraph<X extends Number> extends FGESimpleFunct
 	private X getDefaultMaxValue() {
 		if (getNumberClass().equals(Double.class)) {
 			return (X) (Double) Double.MAX_VALUE;
-		} else if (getNumberClass().equals(Float.class)) {
+		}
+		else if (getNumberClass().equals(Float.class)) {
 			return (X) (Float) Float.MAX_VALUE;
-		} else if (getNumberClass().equals(Long.class)) {
+		}
+		else if (getNumberClass().equals(Long.class)) {
 			return (X) (Long) Long.MAX_VALUE;
-		} else if (getNumberClass().equals(Integer.class)) {
+		}
+		else if (getNumberClass().equals(Integer.class)) {
 			return (X) (Integer) Integer.MAX_VALUE;
-		} else if (getNumberClass().equals(Short.class)) {
+		}
+		else if (getNumberClass().equals(Short.class)) {
 			return (X) (Short) Short.MAX_VALUE;
-		} else if (getNumberClass().equals(Byte.class)) {
+		}
+		else if (getNumberClass().equals(Byte.class)) {
 			return (X) (Byte) Byte.MAX_VALUE;
 		}
 		return null;
@@ -238,41 +249,48 @@ public class FGEContinuousFunctionGraph<X extends Number> extends FGESimpleFunct
 				if (getNumberClass().equals(Double.class)) {
 					value = (X) (new Double(getParameterMinValue().doubleValue()
 							+ ((getParameterMaxValue().doubleValue() - getParameterMinValue().doubleValue()) * i / getStepsNumber())));
-				} else if (getNumberClass().equals(Float.class)) {
+				}
+				else if (getNumberClass().equals(Float.class)) {
 					value = (X) (new Float(getParameterMinValue().floatValue()
 							+ ((getParameterMaxValue().floatValue() - getParameterMinValue().floatValue()) * i / getStepsNumber())));
-				} else if (getNumberClass().equals(Long.class)) {
+				}
+				else if (getNumberClass().equals(Long.class)) {
 					value = (X) (new Long(getParameterMinValue().longValue()
 							+ ((getParameterMaxValue().longValue() - getParameterMinValue().longValue()) * i / getStepsNumber())));
-				} else if (getNumberClass().equals(Integer.class)) {
+				}
+				else if (getNumberClass().equals(Integer.class)) {
 					value = (X) (new Integer(getParameterMinValue().intValue()
 							+ ((getParameterMaxValue().intValue() - getParameterMinValue().intValue()) * i / getStepsNumber())));
-				} else if (getNumberClass().equals(Short.class)) {
-					value = (X) (new Short(
-							(short) (getParameterMinValue().shortValue() + ((getParameterMaxValue().shortValue() - getParameterMinValue()
-									.shortValue()) * i / getStepsNumber()))));
-				} else if (getNumberClass().equals(Byte.class)) {
-					value = (X) (new Byte(
-							(byte) (getParameterMinValue().byteValue() + ((getParameterMaxValue().byteValue() - getParameterMinValue()
-									.byteValue()) * i / getStepsNumber()))));
+				}
+				else if (getNumberClass().equals(Short.class)) {
+					value = (X) (new Short((short) (getParameterMinValue().shortValue()
+							+ ((getParameterMaxValue().shortValue() - getParameterMinValue().shortValue()) * i / getStepsNumber()))));
+				}
+				else if (getNumberClass().equals(Byte.class)) {
+					value = (X) (new Byte((byte) (getParameterMinValue().byteValue()
+							+ ((getParameterMaxValue().byteValue() - getParameterMinValue().byteValue()) * i / getStepsNumber()))));
 				}
 				returned.add(value);
 			}
-		} else {
+		}
+		else {
 			// Type can be only long/int/short/byte
 			if (getNumberClass().equals(Long.class)) {
 				for (long i = getParameterMinValue().longValue(); i <= getParameterMaxValue().longValue(); i++) {
 					returned.add((X) (Long) i);
 				}
-			} else if (getNumberClass().equals(Integer.class)) {
+			}
+			else if (getNumberClass().equals(Integer.class)) {
 				for (int i = getParameterMinValue().intValue(); i <= getParameterMaxValue().intValue(); i++) {
 					returned.add((X) (Integer) i);
 				}
-			} else if (getNumberClass().equals(Short.class)) {
+			}
+			else if (getNumberClass().equals(Short.class)) {
 				for (short i = getParameterMinValue().shortValue(); i <= getParameterMaxValue().shortValue(); i++) {
 					returned.add((X) (Short) i);
 				}
-			} else if (getNumberClass().equals(Byte.class)) {
+			}
+			else if (getNumberClass().equals(Byte.class)) {
 				for (byte i = getParameterMinValue().byteValue(); i <= getParameterMaxValue().byteValue(); i++) {
 					returned.add((X) (Byte) i);
 				}
@@ -286,19 +304,24 @@ public class FGEContinuousFunctionGraph<X extends Number> extends FGESimpleFunct
 		if (getNumberClass().equals(Double.class)) {
 			return (value.doubleValue() - getParameterMinValue().doubleValue())
 					/ (getParameterMaxValue().doubleValue() - getParameterMinValue().doubleValue());
-		} else if (getNumberClass().equals(Float.class)) {
+		}
+		else if (getNumberClass().equals(Float.class)) {
 			return (double) (value.floatValue() - getParameterMinValue().floatValue())
 					/ (getParameterMaxValue().floatValue() - getParameterMinValue().floatValue());
-		} else if (getNumberClass().equals(Long.class)) {
+		}
+		else if (getNumberClass().equals(Long.class)) {
 			return (double) (value.longValue() - getParameterMinValue().longValue())
 					/ (getParameterMaxValue().longValue() - getParameterMinValue().longValue());
-		} else if (getNumberClass().equals(Integer.class)) {
+		}
+		else if (getNumberClass().equals(Integer.class)) {
 			return (double) (value.intValue() - getParameterMinValue().intValue())
 					/ (getParameterMaxValue().intValue() - getParameterMinValue().intValue());
-		} else if (getNumberClass().equals(Short.class)) {
+		}
+		else if (getNumberClass().equals(Short.class)) {
 			return (double) (value.shortValue() - getParameterMinValue().shortValue())
 					/ (getParameterMaxValue().shortValue() - getParameterMinValue().shortValue());
-		} else if (getNumberClass().equals(Byte.class)) {
+		}
+		else if (getNumberClass().equals(Byte.class)) {
 			return (double) (value.byteValue() - getParameterMinValue().byteValue())
 					/ (getParameterMaxValue().byteValue() - getParameterMinValue().byteValue());
 		}
