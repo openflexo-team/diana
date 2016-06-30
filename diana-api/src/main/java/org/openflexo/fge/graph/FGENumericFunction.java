@@ -57,14 +57,15 @@ public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 	private T maxValue = null;
 	private T minorTickSpacing = null;
 	private T majorTickSpacing = null;
+	private int stepsNb = 10;
 
-	public FGENumericFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression,
-			FGESimpleFunctionGraph.GraphType graphType, FGEGraph graph) {
+	public FGENumericFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression, GraphType graphType,
+			FGEGraph graph) {
 		super(functionName, functionType, functionExpression, graphType, graph);
 	}
 
-	public FGENumericFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression,
-			FGESimpleFunctionGraph.GraphType graphType, T minValue, T maxValue, FGEGraph graph) {
+	public FGENumericFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression, GraphType graphType,
+			T minValue, T maxValue, FGEGraph graph) {
 		super(functionName, functionType, functionExpression, graphType, graph);
 		this.minValue = minValue;
 		this.maxValue = maxValue;
@@ -133,6 +134,23 @@ public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 	 */
 	public void setMinorTickSpacing(T minorTickSpacing) {
 		this.minorTickSpacing = minorTickSpacing;
+	}
+
+	/**
+	 * Return the number of steps to represent for the function when graph type is relevant (values are rounded and put to adequate step)
+	 * 
+	 * @return
+	 */
+	public int getStepsNb() {
+		return stepsNb;
+	}
+
+	public void setStepsNb(int stepsNb) {
+		if (stepsNb != this.stepsNb) {
+			// int oldValue = this.stepsNb;
+			this.stepsNb = stepsNb;
+			// getPropertyChangeSupport().firePropertyChange("stepsNb", oldValue, stepsNb);
+		}
 	}
 
 	private T computedMinValue;

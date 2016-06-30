@@ -39,6 +39,8 @@
 package org.openflexo.fge.graph;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.openflexo.connie.DataBinding;
 import org.openflexo.fge.ColorGradientBackgroundStyle.ColorGradientDirection;
@@ -52,56 +54,66 @@ import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
-import org.openflexo.fge.graph.FGEGraph.GraphType;
+import org.openflexo.fge.graph.FGEFunction.GraphType;
+import org.openflexo.fge.graph.FGESimpleFunctionGraph.Orientation;
+import org.openflexo.fge.graph.TestFGEDiscreteFunctionGraph.Person;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 
 /**
- * This is an example of drawing containing a FGEContinuousFunctionGraph showing 4 functions with different representations
+ * This is an example of drawing containing a {@link FGEDiscreteSimpleFunctionGraph} showing 2 functions represented as bar graphs
  * 
  * @author sylvain
  * 
  */
-public class ExampleFGEContinuousFunctionGraphDrawing extends DrawingImpl<Object> {
+public class ExampleFGEDiscreteSimpleFunctionGraphDrawing extends DrawingImpl<Object> {
 
-	private FGEContinuousFunctionGraph<Double> graph;
+	private FGEDiscreteSimpleFunctionGraph<Person> graph;
+	private FGENumericFunction<Integer> sizeFunction;
+	private FGENumericFunction<Double> weightFunction;
+	private FGENumericFunction<Double> bmiFunction;
 
 	private DrawingGraphicalRepresentation drawingRepresentation;
 	private ShapeGraphicalRepresentation graphGR;
 
-	public ExampleFGEContinuousFunctionGraphDrawing(Object obj, FGEModelFactory factory) {
+	private Person martin, mary, john, martinJr;
+
+	public ExampleFGEDiscreteSimpleFunctionGraphDrawing(Object obj, FGEModelFactory factory) {
 		super(obj, factory, PersistenceMode.SharedGraphicalRepresentations);
 	}
 
 	@Override
 	public void init() {
 
-		graph = new FGEContinuousFunctionGraph<Double>(Double.class);
-		graph.setParameter("x", Double.class);
-		graph.setParameterRange(-10.0, 10.0);
-		graph.setStepsNumber(100);
+		List<Person> persons = new ArrayList<Person>();
+		persons.add(martin = new Person("Martin", 173, 73.7));
+		persons.add(mary = new Person("Mary", 165, 57.0));
+		persons.add(john = new Person("John", 107, 26.3));
+		persons.add(martinJr = new Person("Martin Jr", 97, 19.2));
 
-		FGENumericFunction<Double> y1Function = graph.addNumericFunction("y1", Double.class, new DataBinding<Double>("x*x-2*x+1"),
-				GraphType.POLYLIN);
-		y1Function.setRange(0.0, 100.0);
-		y1Function.setForegroundStyle(getFactory().makeForegroundStyle(Color.BLUE, 1.0f));
+		graph = new FGEDiscreteSimpleFunctionGraph<Person>();
 
-		FGENumericFunction<Double> y2Function = graph.addNumericFunction("y2", Double.class, new DataBinding<Double>("cos(x)"),
-				GraphType.CURVE);
-		y2Function.setRange(-1.0, 1.0);
-		y2Function.setForegroundStyle(getFactory().makeForegroundStyle(Color.RED, 1.0f));
-		y2Function
+		graph.setParameter("person", Person.class);
+		graph.setDiscreteValues(persons);
+		graph.setDiscreteValuesLabel(new DataBinding<String>("person.name"));
+		graph.setParameterOrientation(Orientation.HORIZONTAL);
+
+		sizeFunction = graph.addNumericFunction("size", Integer.class, new DataBinding<Integer>("person.size"), GraphType.BAR_GRAPH);
+		sizeFunction.setRange(0, 200);
+		sizeFunction.setForegroundStyle(getFactory().makeForegroundStyle(Color.BLUE, 1.0f));
+		sizeFunction
 				.setBackgroundStyle(getFactory().makeColorGradientBackground(Color.BLUE, Color.WHITE, ColorGradientDirection.NORTH_SOUTH));
 
-		FGENumericFunction<Integer> y3Function = graph.addNumericFunction("y3", Integer.class,
-				new DataBinding<Integer>("($java.lang.Integer)(x*x/2+1)"), GraphType.POINTS);
-		y3Function.setRange(0, 12);
-		y3Function.setForegroundStyle(getFactory().makeForegroundStyle(Color.BLACK, 1.0f));
+		weightFunction = graph.addNumericFunction("weight", Double.class, new DataBinding<Double>("person.weight"), GraphType.BAR_GRAPH);
+		weightFunction.setForegroundStyle(getFactory().makeForegroundStyle(Color.ORANGE, 1.0f));
+		weightFunction.setBackgroundStyle(
+				getFactory().makeColorGradientBackground(Color.YELLOW, Color.ORANGE, ColorGradientDirection.NORTH_SOUTH));
+		weightFunction.setRange(0.0, 100.0);
 
-		FGENumericFunction<Double> y4Function = graph.addNumericFunction("y", Double.class, new DataBinding<Double>("-3*x*(x-10)+20"),
-				GraphType.RECT_POLYLIN);
-		y4Function.setRange(0.0, 100.0);
-		y4Function.setForegroundStyle(getFactory().makeForegroundStyle(Color.PINK, 1.0f));
+		bmiFunction = graph.addNumericFunction("bmi", Double.class, new DataBinding<Double>("person.weight / (person.size * person.size)"),
+				GraphType.POLYLIN);
+		bmiFunction.setForegroundStyle(getFactory().makeForegroundStyle(Color.RED, 3.0f));
+		bmiFunction.setRange(0.001, 0.004);
 
 		drawingRepresentation = getFactory().makeDrawingGraphicalRepresentation();
 
@@ -113,13 +125,13 @@ public class ExampleFGEContinuousFunctionGraphDrawing extends DrawingImpl<Object
 		});
 
 		graphGR = getFactory().makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
-		graphGR.setText("This is an example of 4 continuous functions");
+		graphGR.setText("This is an example of 2 discretes functions represented as bargraph");
 		graphGR.setX(50);
 		graphGR.setY(50);
 		graphGR.setWidth(600);
 		graphGR.setHeight(400);
 		graphGR.setIsFloatingLabel(true);
-		graphGR.setAbsoluteTextX(500);
+		graphGR.setAbsoluteTextX(400);
 		graphGR.setAbsoluteTextY(-10);
 		graphGR.setHorizontalTextAlignment(HorizontalTextAlignment.LEFT);
 		graphGR.setTextStyle(getFactory().makeTextStyle(Color.BLACK, FGEConstants.DEFAULT_TEXT_FONT));
@@ -130,10 +142,10 @@ public class ExampleFGEContinuousFunctionGraphDrawing extends DrawingImpl<Object
 		// Very important: give some place for labels, legend and other informations
 		// graphGR.setBorder(getFactory().makeShapeBorder(20, 20, 20, 20));
 
-		final GraphGRBinding<FGEContinuousFunctionGraph> graphBinding = bindGraph(FGEContinuousFunctionGraph.class, "graph",
-				new ShapeGRProvider<FGEContinuousFunctionGraph>() {
+		final GraphGRBinding<FGEDiscreteSimpleFunctionGraph> graphBinding = bindGraph(FGEDiscreteSimpleFunctionGraph.class, "graph",
+				new ShapeGRProvider<FGEDiscreteSimpleFunctionGraph>() {
 					@Override
-					public ShapeGraphicalRepresentation provideGR(FGEContinuousFunctionGraph drawable, FGEModelFactory factory) {
+					public ShapeGraphicalRepresentation provideGR(FGEDiscreteSimpleFunctionGraph drawable, FGEModelFactory factory) {
 						return graphGR;
 					}
 				});

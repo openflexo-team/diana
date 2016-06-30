@@ -59,14 +59,14 @@ import org.openflexo.fge.graphics.FGEShapeGraphics;
  * @param <T>
  *            type of discrete values
  */
-public class FGEDiscreteFunctionGraph<T> extends FGESimpleFunctionGraph<T> {
+public class FGEDiscreteSimpleFunctionGraph<T> extends FGESimpleFunctionGraph<T> {
 
 	private List<T> discreteValues;
 	private DataBinding<String> labelBinding;
 
 	// private double spacing = 10;
 
-	public FGEDiscreteFunctionGraph() {
+	public FGEDiscreteSimpleFunctionGraph() {
 		super();
 	}
 

@@ -51,7 +51,8 @@ import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.ForegroundStyle;
-import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.fge.graph.FGEGraph.ElementRepresentation;
+import org.openflexo.fge.graph.FGEGraph.FunctionRepresentation;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
@@ -67,22 +68,25 @@ public class FGEFunction<T> {
 
 	private static final Logger logger = Logger.getLogger(FGEFunction.class.getPackage().getName());
 
+	public static enum GraphType {
+		POINTS, POLYLIN, RECT_POLYLIN, CURVE, BAR_GRAPH, COLORED_STEPS
+	}
+
 	private final String functionName;
 	private final Class<T> functionType;
 	private final DataBinding<T> functionExpression;
-	private final FGESimpleFunctionGraph.GraphType graphType;
+	private final GraphType graphType;
 
 	private ForegroundStyle foregroundStyle;
 	private BackgroundStyle backgroundStyle;
 
 	private final FGEGraph graph;
 
-	private FGEArea representation = null;
+	private FunctionRepresentation representation = null;
 
 	protected List<T> valueSamples;
 
-	public FGEFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression,
-			FGESimpleFunctionGraph.GraphType graphType, FGEGraph graph) {
+	public FGEFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression, GraphType graphType, FGEGraph graph) {
 		super();
 		this.functionName = functionName;
 		this.functionType = functionType;
@@ -114,7 +118,7 @@ public class FGEFunction<T> {
 		return graph;
 	}
 
-	public FGESimpleFunctionGraph.GraphType getGraphType() {
+	public GraphType getGraphType() {
 		return graphType;
 	}
 
@@ -140,7 +144,7 @@ public class FGEFunction<T> {
 		return returned;
 	}
 
-	public FGEArea getRepresentation() {
+	public FunctionRepresentation getRepresentation() {
 
 		if (representation == null) {
 			representation = buildRepresentation();
@@ -149,7 +153,7 @@ public class FGEFunction<T> {
 		return representation;
 	}
 
-	protected FGEArea buildRepresentation() {
+	protected FunctionRepresentation buildRepresentation() {
 
 		return getGraph().buildRepresentationForFunction(this);
 
@@ -299,13 +303,14 @@ public class FGEFunction<T> {
 		// y-axis order is reversed
 		AffineTransform at = new AffineTransform(new double[] { 1.0, 0.0, 0.0, -1.0, 0.0, 1.0 });
 
-		g.setDefaultForeground(getForegroundStyle());
-		g.setDefaultBackground(getBackgroundStyle());
+		FunctionRepresentation functionRepresentation = getRepresentation();
 
-		FGEArea functionRepresentation = getRepresentation();
-
-		if (functionRepresentation != null) {
-			functionRepresentation.transform(at).paint(g);
+		for (ElementRepresentation e : functionRepresentation.elements) {
+			if (e.area != null) {
+				g.setDefaultForeground(e.foregroundStyle);
+				g.setDefaultBackground(e.backgroundStyle);
+				e.area.transform(at).paint(g);
+			}
 		}
 
 	}
