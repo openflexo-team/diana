@@ -45,7 +45,8 @@ import java.util.List;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
- * Represents a 2D-base graph, where a coordinates is based on an expression using opposite coordinate
+ * Represents a 2D-base graph, where a coordinates is defined on a continuous number range defined with min and max value<br>
+ * Sampling is defined by stepNumber property
  * 
  * @author sylvain
  * 

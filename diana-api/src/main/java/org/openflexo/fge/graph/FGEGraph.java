@@ -96,8 +96,9 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 
 	}
 
-	public <T> FGEFunction<T> addFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression, GraphType type) {
-		FGEFunction<T> returned = new FGEFunction<T>(functionName, functionType, functionExpression, type, this);
+	public <T> FGEFunction<T> addDiscreteFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression,
+			GraphType type) {
+		FGEFunction<T> returned = new FGEDiscreteFunction<T>(functionName, functionType, functionExpression, type, this);
 		functions.add(returned);
 		return returned;
 	}

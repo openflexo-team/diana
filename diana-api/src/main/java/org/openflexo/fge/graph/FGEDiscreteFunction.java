@@ -2,7 +2,7 @@
  * 
  * Copyright (c) 2014, Openflexo
  * 
- * This file is part of Diana-core, a component of the software infrastructure 
+ * This file is part of Diana-api, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -36,37 +36,22 @@
  * 
  */
 
-package org.openflexo.fge.impl;
+package org.openflexo.fge.graph;
 
-import java.util.logging.Logger;
+import org.openflexo.connie.DataBinding;
 
-import org.openflexo.fge.Drawing.GraphNode;
-import org.openflexo.fge.GRBinding.GraphGRBinding;
-import org.openflexo.fge.graph.FGEGraph;
-import org.openflexo.fge.graphics.FGEShapeGraphics;
+/**
+ * Represents a discrete function as a typed expression<br>
+ * 
+ * @author sylvain
+ * 
+ * @param <T>
+ *            type of values given by the expression (can be of any class)
+ */
+public class FGEDiscreteFunction<T> extends FGEFunction<T> {
 
-public class GraphNodeImpl<G extends FGEGraph> extends ShapeNodeImpl<G>implements GraphNode<G> {
-
-	private static final Logger logger = Logger.getLogger(GraphNodeImpl.class.getPackage().getName());
-
-	// TODO: change to protected
-	public GraphNodeImpl(DrawingImpl<?> drawingImpl, G graph, GraphGRBinding<G> grBinding, ContainerNodeImpl<?, ?> parentNode) {
-		super(drawingImpl, graph, grBinding, parentNode);
+	public FGEDiscreteFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression, GraphType graphType,
+			FGEGraph graph) {
+		super(functionName, functionType, functionExpression, graphType, graph);
 	}
-
-	@Override
-	public boolean delete() {
-		return super.delete();
-	}
-
-	@Override
-	public void paint(FGEShapeGraphics g) {
-		// First draw outline (fg and bg)
-		super.paint(g);
-
-		// Paint the graph
-		getDrawable().paint(g);
-
-	}
-
 }

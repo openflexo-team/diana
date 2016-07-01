@@ -64,7 +64,7 @@ import org.openflexo.fge.graphics.FGEShapeGraphics;
  * @param <T>
  *            type of values given by the expression
  */
-public class FGEFunction<T> {
+public abstract class FGEFunction<T> {
 
 	private static final Logger logger = Logger.getLogger(FGEFunction.class.getPackage().getName());
 
