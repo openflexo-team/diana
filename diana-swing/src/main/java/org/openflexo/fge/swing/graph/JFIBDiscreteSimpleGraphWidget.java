@@ -98,8 +98,13 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 					e.printStackTrace();
 				}
 			}
-			System.out.println("values=" + values);
+			// System.out.println("values=" + values);
 			returned.setDiscreteValues((List) values);
+
+			// Labels of discrete values
+			if (fibGraph.getLabels() != null && fibGraph.getLabels().isSet() && fibGraph.getLabels().isValid()) {
+				returned.setDiscreteValuesLabel(fibGraph.getLabels());
+			}
 
 			appendFunctions(fibGraph, returned, getController());
 
@@ -110,7 +115,7 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 		public void propertyChange(PropertyChangeEvent evt) {
 			super.propertyChange(evt);
 			if (evt.getPropertyName().equals(FIBDiscreteSimpleFunctionGraph.VALUES_KEY)
-			/*|| evt.getPropertyName().equals(FIBDiscreteSimpleFunctionGraph.DISPLAY_GRID_KEY)*/) {
+					|| evt.getPropertyName().equals(FIBDiscreteSimpleFunctionGraph.LABELS_KEY)) {
 				System.out.println("---------------> On reconstruit le graphe entierement a cause de " + evt.getPropertyName());
 				updateGraph();
 			}
