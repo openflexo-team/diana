@@ -49,11 +49,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.openflexo.fge.Drawing;
-import org.openflexo.fge.graph.FGEGraph;
 import org.openflexo.fge.swing.JDianaInteractiveEditor;
 import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.swing.graph.JFIBGraphWidget.GraphDrawing;
+import org.openflexo.gina.model.graph.FIBGraph;
 
 /**
  * Default base implementation for a widget with a button<br>
@@ -64,7 +64,7 @@ import org.openflexo.fge.swing.graph.JFIBGraphWidget.GraphDrawing;
  * @author sylvain
  */
 @SuppressWarnings("serial")
-public class JFIBGraphPanel<G extends FGEGraph> extends JPanel {
+public class JFIBGraphPanel<G extends FIBGraph> extends JPanel {
 
 	private static final Logger logger = Logger.getLogger(JFIBGraphPanel.class.getPackage().getName());
 
@@ -72,6 +72,8 @@ public class JFIBGraphPanel<G extends FGEGraph> extends JPanel {
 
 	public JFIBGraphPanel(GraphDrawing<G> aDrawing) {
 		super(new BorderLayout());
+
+		setMinimumSize(new Dimension(10, 10));
 
 		this.drawing = aDrawing;
 
@@ -96,10 +98,10 @@ public class JFIBGraphPanel<G extends FGEGraph> extends JPanel {
 		validate();
 	}
 
-	public static class GraphDrawingController extends JDianaInteractiveEditor<Object> {
+	public static class GraphDrawingController<G extends FIBGraph> extends JDianaInteractiveEditor<G> {
 		// protected final JDianaScaleSelector scaleSelector;
 
-		public GraphDrawingController(Drawing<Object> aDrawing) {
+		public GraphDrawingController(Drawing<G> aDrawing) {
 			super(aDrawing, aDrawing.getFactory(), SwingViewFactory.INSTANCE, SwingToolFactory.DEFAULT);
 			// scaleSelector = (JDianaScaleSelector) getToolFactory().makeDianaScaleSelector(this);
 		}

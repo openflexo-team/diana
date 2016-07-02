@@ -40,6 +40,7 @@ package org.openflexo.fge.graph;
 
 import java.awt.geom.AffineTransform;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -54,6 +55,7 @@ import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.graph.FGEGraph.ElementRepresentation;
 import org.openflexo.fge.graph.FGEGraph.FunctionRepresentation;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
+import org.openflexo.toolbox.PropertyChangedSupportDefaultImplementation;
 
 /**
  * Represents a function as a typed expression<br>
@@ -64,18 +66,18 @@ import org.openflexo.fge.graphics.FGEShapeGraphics;
  * @param <T>
  *            type of values given by the expression
  */
-public abstract class FGEFunction<T> {
+public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplementation {
 
 	private static final Logger logger = Logger.getLogger(FGEFunction.class.getPackage().getName());
 
-	public static enum GraphType {
+	public static enum FGEGraphType {
 		POINTS, POLYLIN, RECT_POLYLIN, CURVE, BAR_GRAPH, COLORED_STEPS
 	}
 
 	private final String functionName;
-	private final Class<T> functionType;
+	private final Type functionType;
 	private final DataBinding<T> functionExpression;
-	private final GraphType graphType;
+	private final FGEGraphType graphType;
 
 	private ForegroundStyle foregroundStyle;
 	private BackgroundStyle backgroundStyle;
@@ -86,7 +88,7 @@ public abstract class FGEFunction<T> {
 
 	protected List<T> valueSamples;
 
-	public FGEFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression, GraphType graphType, FGEGraph graph) {
+	public FGEFunction(String functionName, Type functionType, DataBinding<T> functionExpression, FGEGraphType graphType, FGEGraph graph) {
 		super();
 		this.functionName = functionName;
 		this.functionType = functionType;
@@ -106,7 +108,7 @@ public abstract class FGEFunction<T> {
 		return functionName;
 	}
 
-	public Class<T> getFunctionType() {
+	public Type getFunctionType() {
 		return functionType;
 	}
 
@@ -118,7 +120,7 @@ public abstract class FGEFunction<T> {
 		return graph;
 	}
 
-	public GraphType getGraphType() {
+	public FGEGraphType getGraphType() {
 		return graphType;
 	}
 
@@ -183,12 +185,17 @@ public abstract class FGEFunction<T> {
 			valueSamples = new ArrayList<T>();
 		}
 
+		// System.out.println("On calcule les samples");
+
 		List<FunctionSample<X, T>> samples = new ArrayList<FunctionSample<X, T>>();
 		Iterator<X> it = graph.iterateParameter();
 
 		while (it.hasNext()) {
 
 			X p = it.next();
+
+			// System.out.println("pour la valeur " + p);
+
 			T value = null;
 			try {
 				value = graph.evaluateFunction(this, p);
@@ -202,6 +209,8 @@ public abstract class FGEFunction<T> {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
+			// System.out.println("value=" + value);
 
 			samples.add(new FunctionSample<X, T>(p, value));
 

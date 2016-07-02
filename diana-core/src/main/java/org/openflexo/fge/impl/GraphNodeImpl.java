@@ -69,4 +69,24 @@ public class GraphNodeImpl<G extends FGEGraph> extends ShapeNodeImpl<G>implement
 
 	}
 
+	@Override
+	public int getBorderTop() {
+		return getDrawable().getBorderTop();
+	}
+
+	@Override
+	public int getBorderBottom() {
+		return getDrawable().getBorderBottom();
+	}
+
+	@Override
+	public int getBorderLeft() {
+		return getDrawable().getBorderLeft();
+	}
+
+	@Override
+	public int getBorderRight() {
+		return getDrawable().getBorderRight();
+	}
+
 }

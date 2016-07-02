@@ -58,7 +58,7 @@ import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.fge.ColorGradientBackgroundStyle.ColorGradientDirection;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
-import org.openflexo.fge.graph.FGEFunction.GraphType;
+import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
 import org.openflexo.fge.graph.FGESimpleFunctionGraph.Orientation;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.test.OrderedRunner;
@@ -126,12 +126,12 @@ public class TestFGEDiscreteFunctionGraph {
 		graph.setParameterOrientation(Orientation.HORIZONTAL);
 		// graph.setDiscreteValuesSpacing(80.0);
 
-		sizeFunction = graph.addNumericFunction("size", Integer.class, new DataBinding<Integer>("person.size"), GraphType.BAR_GRAPH);
+		sizeFunction = graph.addNumericFunction("size", Integer.class, new DataBinding<Integer>("person.size"), FGEGraphType.BAR_GRAPH);
 		sizeFunction.setRange(0, 100);
 		sizeFunction.setForegroundStyle(FACTORY.makeForegroundStyle(Color.BLUE, 1.0f));
 		sizeFunction.setBackgroundStyle(FACTORY.makeColorGradientBackground(Color.BLUE, Color.WHITE, ColorGradientDirection.NORTH_SOUTH));
 
-		weightFunction = graph.addNumericFunction("weight", Double.class, new DataBinding<Double>("person.weight"), GraphType.POLYLIN);
+		weightFunction = graph.addNumericFunction("weight", Double.class, new DataBinding<Double>("person.weight"), FGEGraphType.POLYLIN);
 		weightFunction.setForegroundStyle(FACTORY.makeForegroundStyle(Color.GREEN, 1.0f));
 		weightFunction.setBackgroundStyle(FACTORY.makeColoredBackground(Color.YELLOW));
 

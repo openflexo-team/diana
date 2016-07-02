@@ -42,6 +42,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
+import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
@@ -62,6 +64,11 @@ public class FGEContinuousSimpleFunctionGraph<X extends Number> extends FGESimpl
 	private X minorTickSpacing = null;
 	private X majorTickSpacing = null;
 	private Integer stepsNumber = null;
+	private boolean displayMajorTicks = true;
+	private boolean displayMinorTicks = false;
+	private boolean displayReferenceMarks = true;
+	private boolean displayLabels = true;
+	private boolean displayGrid = false;
 
 	public FGEContinuousSimpleFunctionGraph(Class<X> numberClass) {
 		super();
@@ -244,6 +251,10 @@ public class FGEContinuousSimpleFunctionGraph<X extends Number> extends FGESimpl
 
 		List<X> returned = new ArrayList<X>();
 
+		// System.out.println("On itere pour FGEContinuousSimpleFunctionGraph");
+		// System.out.println("stepsNumber=" + getStepsNumber());
+		// System.out.println("numberClass=" + getNumberClass());
+
 		if (getStepsNumber() > -1) {
 			for (int i = 0; i < getStepsNumber() + 1; i++) {
 				X value = null;
@@ -270,6 +281,10 @@ public class FGEContinuousSimpleFunctionGraph<X extends Number> extends FGESimpl
 				else if (getNumberClass().equals(Byte.class)) {
 					value = (X) (new Byte((byte) (getParameterMinValue().byteValue()
 							+ ((getParameterMaxValue().byteValue() - getParameterMinValue().byteValue()) * i / getStepsNumber()))));
+				}
+				else {
+					value = (X) (new Double(getParameterMinValue().doubleValue()
+							+ ((getParameterMaxValue().doubleValue() - getParameterMinValue().doubleValue()) * i / getStepsNumber())));
 				}
 				returned.add(value);
 			}
@@ -302,7 +317,7 @@ public class FGEContinuousSimpleFunctionGraph<X extends Number> extends FGESimpl
 
 	@Override
 	protected Double getNormalizedPosition(X value) {
-		if (getNumberClass().equals(Double.class)) {
+		/*if (getNumberClass().equals(Double.class)) {
 			return (value.doubleValue() - getParameterMinValue().doubleValue())
 					/ (getParameterMaxValue().doubleValue() - getParameterMinValue().doubleValue());
 		}
@@ -325,18 +340,134 @@ public class FGEContinuousSimpleFunctionGraph<X extends Number> extends FGESimpl
 		else if (getNumberClass().equals(Byte.class)) {
 			return (double) (value.byteValue() - getParameterMinValue().byteValue())
 					/ (getParameterMaxValue().byteValue() - getParameterMinValue().byteValue());
-		}
-		return 0.0;
+		}*/
+		return (value.doubleValue() - getParameterMinValue().doubleValue())
+				/ (getParameterMaxValue().doubleValue() - getParameterMinValue().doubleValue());
 	}
 
 	@Override
 	public void paintParameters(FGEShapeGraphics g) {
+
+		if (getParameterOrientation() == Orientation.HORIZONTAL) {
+			// System.out.println("Major tick spacing = " + getParameterMajorTickSpacing());
+			// System.out.println("Minor tick spacing = " + getParameterMinorTickSpacing());
+
+			double y0 = getNormalizedPosition((X) new Double(0));
+
+			if (getDisplayMinorTicks()) {
+				double minMTS = ((int) getParameterMinValue().doubleValue() / getParameterMinorTickSpacing().doubleValue())
+						* getParameterMinorTickSpacing().doubleValue();
+				double maxMTS = ((int) getParameterMaxValue().doubleValue() / getParameterMinorTickSpacing().doubleValue())
+						* getParameterMinorTickSpacing().doubleValue();
+
+				for (double ts = minMTS; ts <= maxMTS; ts += getParameterMinorTickSpacing().doubleValue()) {
+					double nts = getNormalizedPosition((X) new Double(ts));
+					// System.out.println("ts: on " + ts + " on nts=" + nts);
+					g.drawLine(new FGEPoint(nts, 0.995), new FGEPoint(nts, 1.005));
+				}
+			}
+
+			if (getDisplayMajorTicks() && getParameterMajorTickSpacing() != null) {
+				double minMTS = ((int) getParameterMinValue().doubleValue() / getParameterMajorTickSpacing().doubleValue())
+						* getParameterMajorTickSpacing().doubleValue();
+				double maxMTS = ((int) getParameterMaxValue().doubleValue() / getParameterMajorTickSpacing().doubleValue())
+						* getParameterMajorTickSpacing().doubleValue();
+
+				for (double ts = minMTS; ts <= maxMTS; ts += getParameterMajorTickSpacing().doubleValue()) {
+					double nts = getNormalizedPosition((X) new Double(ts));
+					// System.out.println("ts: on " + ts + " on nts=" + nts);
+					g.drawLine(new FGEPoint(nts, 0.99), new FGEPoint(nts, 1.01));
+				}
+			}
+
+			if (getDisplayLabels() && getParameterMajorTickSpacing() != null) {
+				double minMTS = ((int) getParameterMinValue().doubleValue() / getParameterMajorTickSpacing().doubleValue())
+						* getParameterMajorTickSpacing().doubleValue();
+				double maxMTS = ((int) getParameterMaxValue().doubleValue() / getParameterMajorTickSpacing().doubleValue())
+						* getParameterMajorTickSpacing().doubleValue();
+				g.useTextStyle(g.getFactory().makeTextStyle(g.getCurrentForeground().getColor().darker(),
+						g.getCurrentTextStyle().getFont().deriveFont(8.0f)));
+				for (double ts = minMTS; ts <= maxMTS; ts += getParameterMajorTickSpacing().doubleValue()) {
+					double nts = getNormalizedPosition((X) new Double(ts));
+					g.drawString("" + ts, new FGEPoint(nts, 0.99), HorizontalTextAlignment.CENTER);
+				}
+
+			}
+		}
 
 		// System.out.println("Major tick spacing = " + getParameterMajorTickSpacing());
 		// System.out.println("Minor tick spacing = " + getParameterMinorTickSpacing());
 
 		// g.setDefaultTextStyle(aTextStyle);
 
+	}
+
+	@Override
+	public void paint(FGEShapeGraphics g) {
+
+		/*FGELine horizontalCoordinates = new FGELine(0, 0.5, 1, 0.5);
+		FGELine verticalCoordinates = new FGELine(0.5, 0, 0.5, 1);
+		
+		// g.setDefaultForeground(get);
+		horizontalCoordinates.paint(g);
+		verticalCoordinates.paint(g);*/
+
+		super.paint(g);
+	}
+
+	public boolean getDisplayMajorTicks() {
+		return displayMajorTicks;
+	}
+
+	public void setDisplayMajorTicks(boolean displayMajorTicks) {
+		if (displayMajorTicks != this.displayMajorTicks) {
+			this.displayMajorTicks = displayMajorTicks;
+			getPropertyChangeSupport().firePropertyChange("displayMajorTicks", !displayMajorTicks, displayMajorTicks);
+		}
+	}
+
+	public boolean getDisplayMinorTicks() {
+		return displayMinorTicks;
+	}
+
+	public void setDisplayMinorTicks(boolean displayMinorTicks) {
+		if (displayMinorTicks != this.displayMinorTicks) {
+			this.displayMinorTicks = displayMinorTicks;
+			getPropertyChangeSupport().firePropertyChange("displayMinorTicks", !displayMinorTicks, displayMinorTicks);
+		}
+	}
+
+	public boolean getDisplayReferenceMarks() {
+		return displayReferenceMarks;
+	}
+
+	public void setDisplayReferenceMarks(boolean displayReferenceMarks) {
+		if (displayReferenceMarks != this.displayReferenceMarks) {
+			this.displayReferenceMarks = displayReferenceMarks;
+			getPropertyChangeSupport().firePropertyChange("displayReferenceMarks", !displayReferenceMarks, displayReferenceMarks);
+		}
+	}
+
+	public boolean getDisplayLabels() {
+		return displayLabels;
+	}
+
+	public void setDisplayLabels(boolean displayLabels) {
+		if (displayLabels != this.displayLabels) {
+			this.displayLabels = displayLabels;
+			getPropertyChangeSupport().firePropertyChange("displayLabels", !displayLabels, displayLabels);
+		}
+	}
+
+	public boolean getDisplayGrid() {
+		return displayGrid;
+	}
+
+	public void setDisplayGrid(boolean displayGrid) {
+		if (displayGrid != this.displayGrid) {
+			this.displayGrid = displayGrid;
+			getPropertyChangeSupport().firePropertyChange("displayGrid", !displayGrid, displayGrid);
+		}
 	}
 
 }

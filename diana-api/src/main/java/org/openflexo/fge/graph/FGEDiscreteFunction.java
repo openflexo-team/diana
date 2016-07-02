@@ -50,7 +50,7 @@ import org.openflexo.connie.DataBinding;
  */
 public class FGEDiscreteFunction<T> extends FGEFunction<T> {
 
-	public FGEDiscreteFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression, GraphType graphType,
+	public FGEDiscreteFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression, FGEGraphType graphType,
 			FGEGraph graph) {
 		super(functionName, functionType, functionExpression, graphType, graph);
 	}

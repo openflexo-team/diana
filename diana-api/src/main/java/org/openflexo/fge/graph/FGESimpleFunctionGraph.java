@@ -49,9 +49,10 @@ import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geom.FGERectangle;
+import org.openflexo.fge.geom.area.FGEEmptyArea;
 import org.openflexo.fge.geom.area.FGEUnionArea;
+import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
 import org.openflexo.fge.graph.FGEFunction.FunctionSample;
-import org.openflexo.fge.graph.FGEFunction.GraphType;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
@@ -123,6 +124,11 @@ public abstract class FGESimpleFunctionGraph<X> extends FGESingleParameteredGrap
 	@Override
 	protected <T> FunctionRepresentation buildRepresentationForFunction(FGEFunction<T> function) {
 
+		if (function.getFunctionExpression() == null || !function.getFunctionExpression().isSet()
+				|| !function.getFunctionExpression().isValid()) {
+			return new FunctionRepresentation(new FGEEmptyArea(), function.getForegroundStyle(), function.getBackgroundStyle());
+		}
+
 		List<FunctionSample<X, T>> samples = function.retrieveSamples(this);
 
 		List<FGEPoint> points = new ArrayList<FGEPoint>();
@@ -168,7 +174,7 @@ public abstract class FGESimpleFunctionGraph<X> extends FGESingleParameteredGrap
 			case BAR_GRAPH:
 				List<FGERectangle> rectangles = new ArrayList<FGERectangle>();
 				double sampleSize = (double) 1 / points.size();
-				double barWidth = 0.8 * sampleSize / getNumberOfFunctionsOfType(GraphType.BAR_GRAPH);
+				double barWidth = 0.8 * sampleSize / getNumberOfFunctionsOfType(FGEGraphType.BAR_GRAPH);
 				double barSpacing = sampleSize / 10;
 				int index = getIndexOfFunctionsOfType(function);
 				for (FGEPoint pt : points) {

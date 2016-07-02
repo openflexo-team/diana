@@ -42,10 +42,12 @@ package org.openflexo.fge.swing.graph;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 
+import org.openflexo.connie.DataBinding;
 import org.openflexo.fge.ColorGradientBackgroundStyle.ColorGradientDirection;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.FGEConstants;
@@ -57,11 +59,17 @@ import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
 import org.openflexo.fge.graph.FGEGraph;
+import org.openflexo.fge.graph.FGENumericFunction;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.gina.controller.FIBController;
+import org.openflexo.gina.model.graph.FIBContinuousSimpleFunctionGraph;
 import org.openflexo.gina.model.graph.FIBGraph;
+import org.openflexo.gina.model.graph.FIBGraphFunction;
+import org.openflexo.gina.model.graph.FIBGraphFunction.GraphType;
+import org.openflexo.gina.model.graph.FIBNumericFunction;
 import org.openflexo.gina.swing.view.JFIBView;
 import org.openflexo.gina.swing.view.SwingRenderingAdapter;
 import org.openflexo.gina.view.impl.FIBWidgetViewImpl;
@@ -151,12 +159,10 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 		return getRenderingAdapter().getResultingJComponent(this);
 	}
 
-	protected abstract <G extends FGEGraph> GraphDrawing<G> makeGraphDrawing();
+	protected abstract <G extends FIBGraph> GraphDrawing<FIBGraph> makeGraphDrawing();
 
-	public static abstract class GraphDrawing<G extends FGEGraph> extends DrawingImpl<Object> {
+	public static abstract class GraphDrawing<G extends FIBGraph> extends DrawingImpl<G>implements PropertyChangeListener {
 
-		public static final int HORIZONTAL_BORDER = 10;
-		public static final int VERTICAL_BORDER = 10;
 		public static final int DEFAULT_WIDTH = 400;
 		public static final int DEFAULT_HEIGHT = 300;
 
@@ -170,44 +176,220 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			}
 		}
 
-		private G graph;
+		private FGEGraph graph;
+		private JFIBGraphWidget<G> widget;
 
 		private DrawingGraphicalRepresentation drawingRepresentation;
 		private ShapeGraphicalRepresentation graphGR;
 
-		public GraphDrawing() {
-			super(new Object(), GRAPH_FACTORY, PersistenceMode.UniqueGraphicalRepresentations);
+		public GraphDrawing(G fibGraph, JFIBGraphWidget<G> widget) {
+			super(fibGraph, GRAPH_FACTORY, PersistenceMode.UniqueGraphicalRepresentations);
+			fibGraph.getPropertyChangeSupport().addPropertyChangeListener(this);
+			for (FIBGraphFunction f : fibGraph.getFunctions()) {
+				f.getPropertyChangeSupport().addPropertyChangeListener(this);
+			}
+			this.widget = widget;
 		}
 
-		protected abstract G makeGraph();
+		@Override
+		public void delete() {
+			if (getModel() != null) {
+				getModel().getPropertyChangeSupport().removePropertyChangeListener(this);
+				for (FIBGraphFunction f : getModel().getFunctions()) {
+					f.getPropertyChangeSupport().removePropertyChangeListener(this);
+				}
+			}
+			super.delete();
+		}
+
+		protected abstract FGEGraph makeGraph(G fibGraph);
+
+		protected FGEGraph appendFunctions(FIBGraph fibGraph, FGEGraph graph, FIBController controller) {
+
+			for (FIBGraphFunction function : fibGraph.getFunctions()) {
+				if (function instanceof FIBNumericFunction) {
+					FIBNumericFunction fibNumericFunction = (FIBNumericFunction) function;
+					FGENumericFunction numericFunction = graph.addNumericFunction(function.getName(), function.getType(),
+							(DataBinding) function.getExpression(), getGraphType(function.getGraphType()));
+					// numericFunction.setRange(0.0, 100.0);
+					numericFunction.setForegroundStyle(getFactory().makeForegroundStyle(function.getForegroundColor(), 1.0f));
+					switch (function.getBackgroundType()) {
+						case COLORED:
+							numericFunction.setBackgroundStyle(getFactory().makeColoredBackground(function.getBackgroundColor1()));
+							break;
+						case GRADIENT:
+							numericFunction.setBackgroundStyle(getFactory().makeColorGradientBackground(function.getBackgroundColor1(),
+									function.getBackgroundColor2(), ColorGradientDirection.SOUTH_EAST_NORTH_WEST));
+							break;
+						case NONE:
+							numericFunction.setBackgroundStyle(getFactory().makeEmptyBackground());
+							break;
+					}
+
+					numericFunction.setDisplayMajorTicks(fibNumericFunction.getDisplayMajorTicks());
+					numericFunction.setDisplayMinorTicks(fibNumericFunction.getDisplayMinorTicks());
+					numericFunction.setDisplayLabels(fibNumericFunction.getDisplayLabels());
+
+					// Sets parameter range
+					Number minValue = FIBNumericFunction.DEFAULT_MIN_VALUE;
+					Number maxValue = FIBNumericFunction.DEFAULT_MAX_VALUE;
+					if (fibNumericFunction.getMinValue() != null && fibNumericFunction.getMinValue().isSet()
+							&& fibNumericFunction.getMinValue().isValid()) {
+						try {
+							minValue = fibNumericFunction.getMinValue().getBindingValue(controller);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					if (fibNumericFunction.getMaxValue() != null && fibNumericFunction.getMaxValue().isSet()
+							&& fibNumericFunction.getMaxValue().isValid()) {
+						try {
+							maxValue = fibNumericFunction.getMaxValue().getBindingValue(controller);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					// System.out.println("minValue=" + minValue + " maxValue=" + maxValue);
+					numericFunction.setRange(minValue, maxValue);
+
+					// Sets step number
+					int stepsNumber = FIBContinuousSimpleFunctionGraph.DEFAULT_STEPS_NUMBER;
+					if (fibNumericFunction.getStepsNumber() != null && fibNumericFunction.getStepsNumber().isSet()
+							&& fibNumericFunction.getStepsNumber().isValid()) {
+						try {
+							stepsNumber = fibNumericFunction.getStepsNumber().getBindingValue(controller);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					// System.out.println("stepsNumber=" + stepsNumber);
+					numericFunction.setStepsNb(stepsNumber);
+
+					// Sets major tick spacing
+					Number majorTickSpacing = FIBContinuousSimpleFunctionGraph.DEFAULT_MAJOR_TICK_SPACING;
+					if (fibNumericFunction.getMajorTickSpacing() != null && fibNumericFunction.getMajorTickSpacing().isSet()
+							&& fibNumericFunction.getMajorTickSpacing().isValid()) {
+						try {
+							majorTickSpacing = fibNumericFunction.getMajorTickSpacing().getBindingValue(controller);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					// System.out.println("majorTickSpacing=" + majorTickSpacing);
+					numericFunction.setMajorTickSpacing(majorTickSpacing);
+
+					// Sets minor tick spacing
+					Number minorTickSpacing = FIBContinuousSimpleFunctionGraph.DEFAULT_MINOR_TICK_SPACING;
+					if (fibNumericFunction.getMinorTickSpacing() != null && fibNumericFunction.getMinorTickSpacing().isSet()
+							&& fibNumericFunction.getMinorTickSpacing().isValid()) {
+						try {
+							minorTickSpacing = fibNumericFunction.getMinorTickSpacing().getBindingValue(controller);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					// System.out.println("minorTickSpacing=" + minorTickSpacing);
+					numericFunction.setMinorTickSpacing(minorTickSpacing);
+
+				}
+			}
+
+			return graph;
+		}
+
+		// protected abstract FGEGraph updateGraph(G fibGraph);
+
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			if (evt.getPropertyName().equals(FIBGraph.FUNCTIONS_KEY)) {
+				if (evt.getNewValue() instanceof FIBGraphFunction) {
+					((FIBGraphFunction) evt.getNewValue()).getPropertyChangeSupport().addPropertyChangeListener(this);
+				}
+				if (evt.getOldValue() instanceof FIBGraphFunction) {
+					((FIBGraphFunction) evt.getOldValue()).getPropertyChangeSupport().removePropertyChangeListener(this);
+				}
+				updateGraph();
+			}
+			if (evt.getPropertyName().equals(FIBGraph.BORDER_TOP_KEY) || evt.getPropertyName().equals(FIBGraph.BORDER_BOTTOM_KEY)
+					|| evt.getPropertyName().equals(FIBGraph.BORDER_LEFT_KEY) || evt.getPropertyName().equals(FIBGraph.BORDER_RIGHT_KEY)) {
+				updateBorders();
+			}
+			if (evt.getSource() instanceof FIBGraphFunction) {
+				System.out.println("On reconstruit la graphe a cause de la fonction qui change: " + evt.getPropertyName());
+				updateGraph();
+			}
+		}
+
+		protected void updateGraph() {
+			// updateGraph(getModel());
+			graph = makeGraph(getModel());
+			invalidateGraphicalObjectsHierarchy();
+			updateGraphicalObjectsHierarchy();
+			widget.getRenderingAdapter().revalidateAndRepaint(widget.getTechnologyComponent());
+		}
 
 		public void resizeTo(Dimension newSize) {
 			drawingRepresentation.setWidth(newSize.getWidth());
 			drawingRepresentation.setHeight(newSize.getHeight());
-			graphGR.setWidth(newSize.getWidth() - 2 * HORIZONTAL_BORDER);
-			graphGR.setHeight(newSize.getHeight() - 2 * VERTICAL_BORDER);
+			graphGR.setX(getModel().getBorderLeft());
+			graphGR.setY(getModel().getBorderTop());
+			graphGR.setWidth(newSize.getWidth() - getModel().getBorderRight() - getModel().getBorderLeft());
+			graphGR.setHeight(newSize.getHeight() - getModel().getBorderTop() - getModel().getBorderBottom());
+		}
+
+		private void updateBorders() {
+			// Sets borders
+			graph.setBorderTop(getModel().getBorderTop());
+			graph.setBorderBottom(getModel().getBorderBottom());
+			graph.setBorderLeft(getModel().getBorderLeft());
+			graph.setBorderRight(getModel().getBorderRight());
+			graphGR.setX(getModel().getBorderLeft());
+			graphGR.setY(getModel().getBorderTop());
+			graphGR.setWidth(widget.getTechnologyComponent().getWidth() - getModel().getBorderRight() - getModel().getBorderLeft());
+			graphGR.setHeight(widget.getTechnologyComponent().getHeight() - getModel().getBorderTop() - getModel().getBorderBottom());
+		}
+
+		protected FGEGraphType getGraphType(GraphType graphType) {
+			if (graphType == null) {
+				return FGEGraphType.CURVE;
+			}
+			switch (graphType) {
+				case POINTS:
+					return FGEGraphType.POINTS;
+				case POLYLIN:
+					return FGEGraphType.POLYLIN;
+				case RECT_POLYLIN:
+					return FGEGraphType.RECT_POLYLIN;
+				case CURVE:
+					return FGEGraphType.CURVE;
+				case BAR_GRAPH:
+					return FGEGraphType.BAR_GRAPH;
+				case COLORED_STEPS:
+					return FGEGraphType.COLORED_STEPS;
+			}
+			return FGEGraphType.CURVE;
 		}
 
 		@Override
 		public void init() {
 
-			graph = makeGraph();
+			graph = makeGraph(getModel());
 
 			drawingRepresentation = getFactory().makeDrawingGraphicalRepresentation();
-			drawingRepresentation.setWidth(DEFAULT_WIDTH + 2 * HORIZONTAL_BORDER);
-			drawingRepresentation.setHeight(DEFAULT_HEIGHT + 2 * VERTICAL_BORDER);
+			drawingRepresentation.setWidth(DEFAULT_WIDTH + getModel().getBorderRight() + getModel().getBorderLeft());
+			drawingRepresentation.setHeight(DEFAULT_HEIGHT + getModel().getBorderTop() + getModel().getBorderBottom());
 			drawingRepresentation.setDrawWorkingArea(false);
 
-			final DrawingGRBinding<Object> drawingBinding = bindDrawing(Object.class, "drawing", new DrawingGRProvider<Object>() {
+			final DrawingGRBinding<G> drawingBinding = bindDrawing((Class<G>) getModel().getClass(), "drawing", new DrawingGRProvider<G>() {
 				@Override
-				public DrawingGraphicalRepresentation provideGR(Object drawable, FGEModelFactory factory) {
+				public DrawingGraphicalRepresentation provideGR(G drawable, FGEModelFactory factory) {
 					return drawingRepresentation;
 				}
 			});
 
 			graphGR = getFactory().makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
-			graphGR.setX(HORIZONTAL_BORDER);
-			graphGR.setY(VERTICAL_BORDER);
+			graphGR.setX(getModel().getBorderLeft());
+			graphGR.setY(getModel().getBorderTop());
 			graphGR.setWidth(DEFAULT_WIDTH);
 			graphGR.setHeight(DEFAULT_HEIGHT);
 			graphGR.setShadowStyle(getFactory().makeNoneShadowStyle());
@@ -217,17 +399,17 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			graphGR.setIsFocusable(false);
 			graphGR.setIsSelectable(false);
 
-			final GraphGRBinding<G> graphBinding = bindGraph((Class<G>) graph.getClass(), "graph", new ShapeGRProvider<G>() {
+			final GraphGRBinding<FGEGraph> graphBinding = bindGraph(FGEGraph.class, "graph", new ShapeGRProvider<FGEGraph>() {
 				@Override
-				public ShapeGraphicalRepresentation provideGR(G drawable, FGEModelFactory factory) {
+				public ShapeGraphicalRepresentation provideGR(FGEGraph drawable, FGEModelFactory factory) {
 					return graphGR;
 				}
 			});
 
-			drawingBinding.addToWalkers(new GRStructureVisitor<Object>() {
+			drawingBinding.addToWalkers(new GRStructureVisitor<G>() {
 
 				@Override
-				public void visit(Object route) {
+				public void visit(G fibGraph) {
 					drawGraph(graphBinding, graph);
 				}
 			});

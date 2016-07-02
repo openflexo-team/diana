@@ -54,7 +54,7 @@ import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
-import org.openflexo.fge.graph.FGEFunction.GraphType;
+import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 
@@ -97,7 +97,7 @@ public class ExampleBDARepresentation extends DrawingImpl<Object> {
 		graph.setDiscreteValuesLabel(new DataBinding<String>("theme.name"));
 		graph.setWeight(new DataBinding<Double>("theme.weight"));
 
-		evaluationFunction = graph.addNumericFunction("size", Float.class, new DataBinding<Float>("theme.value"), GraphType.COLORED_STEPS);
+		evaluationFunction = graph.addNumericFunction("size", Float.class, new DataBinding<Float>("theme.value"), FGEGraphType.COLORED_STEPS);
 		evaluationFunction.setStepsNb(7);
 		evaluationFunction.setRange(0f, 7.0f);
 		evaluationFunction.setForegroundStyle(getFactory().makeForegroundStyle(Color.GREEN, 1.0f));

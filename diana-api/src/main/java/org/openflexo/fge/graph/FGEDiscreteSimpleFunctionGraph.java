@@ -92,7 +92,7 @@ public class FGEDiscreteSimpleFunctionGraph<T> extends FGESimpleFunctionGraph<T>
 	/*public double getDiscreteValuesSpacing() {
 		return spacing;
 	}
-
+	
 	public void setDiscreteValuesSpacing(double spacing) {
 		this.spacing = spacing;
 	}*/
@@ -109,14 +109,16 @@ public class FGEDiscreteSimpleFunctionGraph<T> extends FGESimpleFunctionGraph<T>
 
 	public String getLabel(T param) {
 		getEvaluator().set(getParameter(), param);
-		try {
-			return getDiscreteValuesLabel().getBindingValue(getEvaluator());
-		} catch (TypeMismatchException e) {
-			e.printStackTrace();
-		} catch (NullReferenceException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		if (getDiscreteValuesLabel() != null && getDiscreteValuesLabel().isSet() && getDiscreteValuesLabel().isValid()) {
+			try {
+				return getDiscreteValuesLabel().getBindingValue(getEvaluator());
+			} catch (TypeMismatchException e) {
+				e.printStackTrace();
+			} catch (NullReferenceException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
 		}
 		return param.toString();
 	}
@@ -138,7 +140,8 @@ public class FGEDiscreteSimpleFunctionGraph<T> extends FGESimpleFunctionGraph<T>
 			String label = getLabel(t);
 			if (getParameterOrientation() == Orientation.HORIZONTAL) {
 				g.drawString(label, new FGEPoint(getNormalizedPosition(t), 1.0 + relativeTextHeight), HorizontalTextAlignment.CENTER);
-			} else {
+			}
+			else {
 				g.drawString(label, new FGEPoint(-relativeTextWidth, getNormalizedPosition(t)), HorizontalTextAlignment.CENTER);
 			}
 		}

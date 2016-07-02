@@ -39,14 +39,11 @@
 
 package org.openflexo.fge.swing.graph;
 
-import java.awt.Color;
+import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
-import org.openflexo.connie.DataBinding;
-import org.openflexo.fge.ColorGradientBackgroundStyle.ColorGradientDirection;
+import org.openflexo.connie.type.TypeUtils;
 import org.openflexo.fge.graph.FGEContinuousSimpleFunctionGraph;
-import org.openflexo.fge.graph.FGEFunction.GraphType;
-import org.openflexo.fge.graph.FGENumericFunction;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.graph.FIBContinuousSimpleFunctionGraph;
 
@@ -55,7 +52,7 @@ import org.openflexo.gina.model.graph.FIBContinuousSimpleFunctionGraph;
  * 
  * @author sylvain
  */
-public class JFIBContinuousSimpleGraphWidget extends JFIBGraphWidget<FIBContinuousSimpleFunctionGraph> {
+public class JFIBContinuousSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBContinuousSimpleFunctionGraph> {
 
 	private static final Logger logger = Logger.getLogger(JFIBContinuousSimpleGraphWidget.class.getPackage().getName());
 
@@ -65,41 +62,119 @@ public class JFIBContinuousSimpleGraphWidget extends JFIBGraphWidget<FIBContinuo
 
 	@Override
 	protected FGEContinuousSimpleFunctionGraphDrawing makeGraphDrawing() {
-		return new FGEContinuousSimpleFunctionGraphDrawing();
+		return new FGEContinuousSimpleFunctionGraphDrawing(getWidget());
 	}
 
-	public static class FGEContinuousSimpleFunctionGraphDrawing extends GraphDrawing<FGEContinuousSimpleFunctionGraph<Double>> {
+	public class FGEContinuousSimpleFunctionGraphDrawing extends FGESimpleFunctionGraphDrawing<FIBContinuousSimpleFunctionGraph> {
+
+		public FGEContinuousSimpleFunctionGraphDrawing(FIBContinuousSimpleFunctionGraph fibGraph) {
+			super(fibGraph, JFIBContinuousSimpleGraphWidget.this);
+		}
 
 		@Override
-		protected FGEContinuousSimpleFunctionGraph<Double> makeGraph() {
-			FGEContinuousSimpleFunctionGraph<Double> returned = new FGEContinuousSimpleFunctionGraph<Double>(Double.class);
-			returned.setParameter("x", Double.class);
-			returned.setParameterRange(-10.0, 10.0);
-			returned.setStepsNumber(100);
+		protected FGEContinuousSimpleFunctionGraph<?> makeGraph(FIBContinuousSimpleFunctionGraph fibGraph) {
 
-			FGENumericFunction<Double> y1Function = returned.addNumericFunction("y1", Double.class, new DataBinding<Double>("x*x-2*x+1"),
-					GraphType.POLYLIN);
-			y1Function.setRange(0.0, 100.0);
-			y1Function.setForegroundStyle(getFactory().makeForegroundStyle(Color.BLUE, 1.0f));
+			// System.out.println("Type=" + TypeUtils.getBaseClass(fibGraph.getParameterType()));
 
-			FGENumericFunction<Double> y2Function = returned.addNumericFunction("y2", Double.class, new DataBinding<Double>("cos(x)"),
-					GraphType.CURVE);
-			y2Function.setRange(-1.0, 1.0);
-			y2Function.setForegroundStyle(getFactory().makeForegroundStyle(Color.RED, 1.0f));
-			y2Function.setBackgroundStyle(
-					getFactory().makeColorGradientBackground(Color.BLUE, Color.WHITE, ColorGradientDirection.NORTH_SOUTH));
+			// Create the FGEGraph
+			FGEContinuousSimpleFunctionGraph<Number> returned = new FGEContinuousSimpleFunctionGraph<Number>(
+					(Class) TypeUtils.getBaseClass(fibGraph.getParameterType()));
 
-			FGENumericFunction<Integer> y3Function = returned.addNumericFunction("y3", Integer.class,
-					new DataBinding<Integer>("($java.lang.Integer)(x*x/2+1)"), GraphType.POINTS);
-			y3Function.setRange(0, 12);
-			y3Function.setForegroundStyle(getFactory().makeForegroundStyle(Color.BLACK, 1.0f));
+			// Sets borders
+			returned.setBorderTop(fibGraph.getBorderTop());
+			returned.setBorderBottom(fibGraph.getBorderBottom());
+			returned.setBorderLeft(fibGraph.getBorderLeft());
+			returned.setBorderRight(fibGraph.getBorderRight());
 
-			FGENumericFunction<Double> y4Function = returned.addNumericFunction("y", Double.class,
-					new DataBinding<Double>("-3*x*(x-10)+20"), GraphType.RECT_POLYLIN);
-			y4Function.setRange(0.0, 100.0);
-			y4Function.setForegroundStyle(getFactory().makeForegroundStyle(Color.PINK, 1.0f));
+			// Set parameter name and type
+			// System.out.println("Parameter " + fibGraph.getParameterName() + " type=" + fibGraph.getParameterType());
+			returned.setParameter(fibGraph.getParameterName(), fibGraph.getParameterType());
+
+			returned.setDisplayMajorTicks(fibGraph.getDisplayMajorTicks());
+			returned.setDisplayMinorTicks(fibGraph.getDisplayMinorTicks());
+			returned.setDisplayReferenceMarks(fibGraph.getDisplayReferenceMarks());
+			returned.setDisplayLabels(fibGraph.getDisplayLabels());
+			returned.setDisplayGrid(fibGraph.getDisplayGrid());
+
+			// Sets parameter range
+			Number minValue = FIBContinuousSimpleFunctionGraph.DEFAULT_MIN_VALUE;
+			Number maxValue = FIBContinuousSimpleFunctionGraph.DEFAULT_MAX_VALUE;
+			if (fibGraph.getMinValue() != null && fibGraph.getMinValue().isSet() && fibGraph.getMinValue().isValid()) {
+				try {
+					minValue = fibGraph.getMinValue().getBindingValue(getController());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (fibGraph.getMaxValue() != null && fibGraph.getMaxValue().isSet() && fibGraph.getMaxValue().isValid()) {
+				try {
+					maxValue = fibGraph.getMaxValue().getBindingValue(getController());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			// System.out.println("minValue=" + minValue + " maxValue=" + maxValue);
+			returned.setParameterRange(minValue, maxValue);
+
+			// Sets step number
+			int stepsNumber = FIBContinuousSimpleFunctionGraph.DEFAULT_STEPS_NUMBER;
+			if (fibGraph.getStepsNumber() != null && fibGraph.getStepsNumber().isSet() && fibGraph.getStepsNumber().isValid()) {
+				try {
+					stepsNumber = fibGraph.getStepsNumber().getBindingValue(getController());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			// System.out.println("stepsNumber=" + stepsNumber);
+			returned.setStepsNumber(stepsNumber);
+
+			// Sets major tick spacing
+			Number majorTickSpacing = FIBContinuousSimpleFunctionGraph.DEFAULT_MAJOR_TICK_SPACING;
+			if (fibGraph.getMajorTickSpacing() != null && fibGraph.getMajorTickSpacing().isSet()
+					&& fibGraph.getMajorTickSpacing().isValid()) {
+				try {
+					majorTickSpacing = fibGraph.getMajorTickSpacing().getBindingValue(getController());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			// System.out.println("majorTickSpacing=" + majorTickSpacing);
+			returned.setParameterMajorTickSpacing(majorTickSpacing);
+
+			// Sets minor tick spacing
+			Number minorTickSpacing = FIBContinuousSimpleFunctionGraph.DEFAULT_MINOR_TICK_SPACING;
+			if (fibGraph.getMinorTickSpacing() != null && fibGraph.getMinorTickSpacing().isSet()
+					&& fibGraph.getMinorTickSpacing().isValid()) {
+				try {
+					minorTickSpacing = fibGraph.getMinorTickSpacing().getBindingValue(getController());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			// System.out.println("minorTickSpacing=" + minorTickSpacing);
+			returned.setParameterMinorTickSpacing(minorTickSpacing);
+
+			appendFunctions(fibGraph, returned, getController());
 
 			return returned;
+		}
+
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			super.propertyChange(evt);
+			if (evt.getPropertyName().equals(FIBContinuousSimpleFunctionGraph.MIN_VALUE_KEY)
+					|| evt.getPropertyName().equals(FIBContinuousSimpleFunctionGraph.MAX_VALUE_KEY)
+					|| evt.getPropertyName().equals(FIBContinuousSimpleFunctionGraph.MAJOR_TICK_SPACING_KEY)
+					|| evt.getPropertyName().equals(FIBContinuousSimpleFunctionGraph.MINOR_TICK_SPACING_KEY)
+					|| evt.getPropertyName().equals(FIBContinuousSimpleFunctionGraph.STEPS_NUMBER_KEY)
+					|| evt.getPropertyName().equals(FIBContinuousSimpleFunctionGraph.DISPLAY_MAJOR_TICKS_KEY)
+					|| evt.getPropertyName().equals(FIBContinuousSimpleFunctionGraph.DISPLAY_MINOR_TICKS_KEY)
+					|| evt.getPropertyName().equals(FIBContinuousSimpleFunctionGraph.DISPLAY_REFERENCE_MARKS_KEY)
+					|| evt.getPropertyName().equals(FIBContinuousSimpleFunctionGraph.DISPLAY_LABELS_KEY)
+					|| evt.getPropertyName().equals(FIBContinuousSimpleFunctionGraph.DISPLAY_GRID_KEY)) {
+				System.out.println("---------------> On reconstruit le graphe entierement a cause de " + evt.getPropertyName());
+				updateGraph();
+			}
 		}
 
 	}

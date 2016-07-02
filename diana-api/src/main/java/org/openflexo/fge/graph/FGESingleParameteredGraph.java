@@ -39,6 +39,7 @@
 package org.openflexo.fge.graph;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Type;
 import java.util.Iterator;
 
 import org.openflexo.connie.exception.NullReferenceException;
@@ -48,7 +49,8 @@ import org.openflexo.connie.exception.TypeMismatchException;
  * A graph determined by a unique parameter on which we iterate<br>
  * This parameter might be continuous or take values on a discrete set of values
  * 
- * @param <P>
+ * @param
+ * 			<P>
  *            type of parameter which plays iterator role
  */
 public abstract class FGESingleParameteredGraph<P> extends FGEGraph {
@@ -65,7 +67,7 @@ public abstract class FGESingleParameteredGraph<P> extends FGEGraph {
 	}
 
 	@Override
-	public final void setParameter(String parameterName, Class<?> parameterType) {
+	public final void setParameter(String parameterName, Type parameterType) {
 
 		if (parameterTypes.size() > 0) {
 			throw new IllegalArgumentException("FGESingleParameteredGraph could not have more than one parameter: existing parameter "

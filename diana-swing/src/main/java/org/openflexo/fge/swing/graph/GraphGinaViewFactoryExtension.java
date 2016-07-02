@@ -45,6 +45,7 @@ import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.FIBContainer;
 import org.openflexo.gina.model.FIBWidget;
 import org.openflexo.gina.model.graph.FIBContinuousSimpleFunctionGraph;
+import org.openflexo.gina.model.graph.FIBDiscreteSimpleFunctionGraph;
 import org.openflexo.gina.model.graph.FIBGraph;
 import org.openflexo.gina.view.FIBContainerView;
 import org.openflexo.gina.view.FIBWidgetView;
@@ -88,6 +89,9 @@ public class GraphGinaViewFactoryExtension implements GinaViewFactoryExtension {
 	public <W extends FIBWidget> FIBWidgetView<W, ?, ?> makeWidget(W fibWidget, FIBController controller) {
 		if (fibWidget instanceof FIBContinuousSimpleFunctionGraph) {
 			return (FIBWidgetView<W, ?, ?>) new JFIBContinuousSimpleGraphWidget((FIBContinuousSimpleFunctionGraph) fibWidget, controller);
+		}
+		else if (fibWidget instanceof FIBDiscreteSimpleFunctionGraph) {
+			return (FIBWidgetView<W, ?, ?>) new JFIBDiscreteSimpleGraphWidget((FIBDiscreteSimpleFunctionGraph) fibWidget, controller);
 		}
 		return null;
 	}
