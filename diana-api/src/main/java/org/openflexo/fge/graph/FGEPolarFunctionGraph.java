@@ -76,6 +76,8 @@ import org.openflexo.fge.graphics.FGEShapeGraphics;
  */
 public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph<A> {
 
+	private boolean displayReferenceMarks = true;
+
 	public FGEPolarFunctionGraph() {
 		super();
 	}
@@ -102,14 +104,15 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 		// System.out.println("width = " + g.getViewWidth());
 		// System.out.println("height = " + g.getViewHeight());
 
-		FGELine horizontalCoordinates = new FGELine(0, 0.5, 1, 0.5);
-		FGELine verticalCoordinates = new FGELine(0.5, 0, 0.5, 1);
-
-		// g.setDefaultForeground(get);
-		horizontalCoordinates.paint(g);
-		verticalCoordinates.paint(g);
-
 		super.paint(g);
+
+		if (getDisplayReferenceMarks()) {
+			g.useForegroundStyle(g.getCurrentForeground());
+			FGELine horizontalCoordinates = new FGELine(0, 0.5, 1, 0.5);
+			FGELine verticalCoordinates = new FGELine(0.5, 0, 0.5, 1);
+			horizontalCoordinates.paint(g);
+			verticalCoordinates.paint(g);
+		}
 
 		for (FGEFunction<?> f : getFunctions()) {
 
@@ -123,6 +126,17 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 	}
 
 	public abstract void paintParameters(FGEShapeGraphics g);
+
+	public boolean getDisplayReferenceMarks() {
+		return displayReferenceMarks;
+	}
+
+	public void setDisplayReferenceMarks(boolean displayReferenceMarks) {
+		if (displayReferenceMarks != this.displayReferenceMarks) {
+			this.displayReferenceMarks = displayReferenceMarks;
+			getPropertyChangeSupport().firePropertyChange("displayReferenceMarks", !displayReferenceMarks, displayReferenceMarks);
+		}
+	}
 
 	public abstract Double getNormalizedAngle(A parameterValue);
 

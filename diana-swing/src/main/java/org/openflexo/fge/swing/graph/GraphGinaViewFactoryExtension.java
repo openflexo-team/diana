@@ -44,6 +44,7 @@ import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.FIBContainer;
 import org.openflexo.gina.model.FIBWidget;
+import org.openflexo.gina.model.graph.FIBContinuousPolarFunctionGraph;
 import org.openflexo.gina.model.graph.FIBContinuousSimpleFunctionGraph;
 import org.openflexo.gina.model.graph.FIBDiscreteSimpleFunctionGraph;
 import org.openflexo.gina.model.graph.FIBGraph;
@@ -92,6 +93,9 @@ public class GraphGinaViewFactoryExtension implements GinaViewFactoryExtension {
 		}
 		else if (fibWidget instanceof FIBDiscreteSimpleFunctionGraph) {
 			return (FIBWidgetView<W, ?, ?>) new JFIBDiscreteSimpleGraphWidget((FIBDiscreteSimpleFunctionGraph) fibWidget, controller);
+		}
+		else if (fibWidget instanceof FIBContinuousPolarFunctionGraph) {
+			return (FIBWidgetView<W, ?, ?>) new JFIBContinuousPolarGraphWidget((FIBContinuousPolarFunctionGraph) fibWidget, controller);
 		}
 		return null;
 	}

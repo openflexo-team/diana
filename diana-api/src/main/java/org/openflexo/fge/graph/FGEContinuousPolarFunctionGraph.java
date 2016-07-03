@@ -57,6 +57,10 @@ public class FGEContinuousPolarFunctionGraph extends FGEPolarFunctionGraph<Doubl
 	private Double angleTickSpacing = null;
 	private Integer stepsNumber = null;
 
+	private boolean displayAngleTicks = true;
+	private boolean displayLabels = true;
+	private boolean displayGrid = false;
+
 	public FGEContinuousPolarFunctionGraph() {
 		super();
 	}
@@ -141,6 +145,39 @@ public class FGEContinuousPolarFunctionGraph extends FGEPolarFunctionGraph<Doubl
 
 		// g.setDefaultTextStyle(aTextStyle);
 
+	}
+
+	public boolean getDisplayAngleTicks() {
+		return displayAngleTicks;
+	}
+
+	public void setDisplayAngleTicks(boolean displayAngleTicks) {
+		if (displayAngleTicks != this.displayAngleTicks) {
+			this.displayAngleTicks = displayAngleTicks;
+			getPropertyChangeSupport().firePropertyChange("displayAngleTicks", !displayAngleTicks, displayAngleTicks);
+		}
+	}
+
+	public boolean getDisplayLabels() {
+		return displayLabels;
+	}
+
+	public void setDisplayLabels(boolean displayLabels) {
+		if (displayLabels != this.displayLabels) {
+			this.displayLabels = displayLabels;
+			getPropertyChangeSupport().firePropertyChange("displayLabels", !displayLabels, displayLabels);
+		}
+	}
+
+	public boolean getDisplayGrid() {
+		return displayGrid;
+	}
+
+	public void setDisplayGrid(boolean displayGrid) {
+		if (displayGrid != this.displayGrid) {
+			this.displayGrid = displayGrid;
+			getPropertyChangeSupport().firePropertyChange("displayGrid", !displayGrid, displayGrid);
+		}
 	}
 
 }
