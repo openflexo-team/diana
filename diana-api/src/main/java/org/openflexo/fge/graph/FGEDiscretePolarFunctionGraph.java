@@ -143,14 +143,16 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 
 	public String getLabel(T param) {
 		getEvaluator().set(getParameter(), param);
-		try {
-			return getDiscreteValuesLabel().getBindingValue(getEvaluator());
-		} catch (TypeMismatchException e) {
-			e.printStackTrace();
-		} catch (NullReferenceException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		if (getDiscreteValuesLabel() != null && getDiscreteValuesLabel().isSet() && getDiscreteValuesLabel().isValid()) {
+			try {
+				return getDiscreteValuesLabel().getBindingValue(getEvaluator());
+			} catch (TypeMismatchException e) {
+				e.printStackTrace();
+			} catch (NullReferenceException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
 		}
 		return param.toString();
 	}
