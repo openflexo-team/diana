@@ -267,7 +267,9 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 			}
 		}
 		if (node != null) {
-			node.getPropertyChangeSupport().removePropertyChangeListener(this);
+			if (node.getPropertyChangeSupport() != null) {
+				node.getPropertyChangeSupport().removePropertyChangeListener(this);
+			}
 			node.setLabelMetricsProvider(null);
 		}
 		isDeleted = true;
