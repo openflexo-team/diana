@@ -52,7 +52,7 @@ import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
-import org.openflexo.fge.graph.FGEFunction.GraphType;
+import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 
@@ -81,7 +81,7 @@ public class ExampleFGEContinuousPolarFunctionGraphDrawing extends DrawingImpl<O
 		graph.setStepsNumber(100);
 
 		FGENumericFunction<Double> function1 = graph.addNumericFunction("function1", Double.class, new DataBinding<Double>("a"),
-				GraphType.POLYLIN);
+				FGEGraphType.POLYLIN);
 		function1.setRange(0.0, 10.0);
 		function1.setForegroundStyle(getFactory().makeForegroundStyle(Color.BLUE, 1.0f));
 

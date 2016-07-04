@@ -58,7 +58,7 @@ import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.fge.ColorGradientBackgroundStyle.ColorGradientDirection;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
-import org.openflexo.fge.graph.FGEFunction.GraphType;
+import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
@@ -96,7 +96,7 @@ public class TestFGEContinuousFunctionGraph {
 		graph.setParameter("x", Double.class);
 		graph.setParameterRange(-10.0, 10.0);
 
-		yFunction = graph.addNumericFunction("y", Double.class, new DataBinding<Double>("x*x-2*x+1"), GraphType.CURVE);
+		yFunction = graph.addNumericFunction("y", Double.class, new DataBinding<Double>("x*x-2*x+1"), FGEGraphType.CURVE);
 		yFunction.setRange(0.0, 100.0);
 		yFunction.setForegroundStyle(FACTORY.makeForegroundStyle(Color.RED, 1.0f));
 		yFunction.setBackgroundStyle(FACTORY.makeColorGradientBackground(Color.BLUE, Color.WHITE, ColorGradientDirection.NORTH_SOUTH));

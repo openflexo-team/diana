@@ -45,7 +45,7 @@ import java.util.List;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
- * Represents a polar graph [R=f(A)] where A is a Double and takes its values from 0 to 2*PI
+ * Represents a polar graph [R=f(A)] where A is a Double and takes its values from -180 to 180
  * 
  * @author sylvain
  * 
@@ -56,6 +56,10 @@ public class FGEContinuousPolarFunctionGraph extends FGEPolarFunctionGraph<Doubl
 
 	private Double angleTickSpacing = null;
 	private Integer stepsNumber = null;
+
+	private boolean displayAngleTicks = true;
+	private boolean displayLabels = true;
+	private boolean displayGrid = false;
 
 	public FGEContinuousPolarFunctionGraph() {
 		super();
@@ -93,7 +97,7 @@ public class FGEContinuousPolarFunctionGraph extends FGEPolarFunctionGraph<Doubl
 
 	@Override
 	public Double getNormalizedAngleExtent(Double parameterValue) {
-		return 2 * Math.PI / getStepsNumber();
+		return 360.0 / getStepsNumber();
 	}
 
 	/**
@@ -127,7 +131,7 @@ public class FGEContinuousPolarFunctionGraph extends FGEPolarFunctionGraph<Doubl
 
 		if (getStepsNumber() > -1) {
 			for (int i = 0; i < getStepsNumber() + 1; i++) {
-				returned.add(i * 2 * Math.PI / getStepsNumber());
+				returned.add(i * 360.0 / getStepsNumber());
 			}
 		}
 		return returned.iterator();
@@ -141,6 +145,39 @@ public class FGEContinuousPolarFunctionGraph extends FGEPolarFunctionGraph<Doubl
 
 		// g.setDefaultTextStyle(aTextStyle);
 
+	}
+
+	public boolean getDisplayAngleTicks() {
+		return displayAngleTicks;
+	}
+
+	public void setDisplayAngleTicks(boolean displayAngleTicks) {
+		if (displayAngleTicks != this.displayAngleTicks) {
+			this.displayAngleTicks = displayAngleTicks;
+			getPropertyChangeSupport().firePropertyChange("displayAngleTicks", !displayAngleTicks, displayAngleTicks);
+		}
+	}
+
+	public boolean getDisplayLabels() {
+		return displayLabels;
+	}
+
+	public void setDisplayLabels(boolean displayLabels) {
+		if (displayLabels != this.displayLabels) {
+			this.displayLabels = displayLabels;
+			getPropertyChangeSupport().firePropertyChange("displayLabels", !displayLabels, displayLabels);
+		}
+	}
+
+	public boolean getDisplayGrid() {
+		return displayGrid;
+	}
+
+	public void setDisplayGrid(boolean displayGrid) {
+		if (displayGrid != this.displayGrid) {
+			this.displayGrid = displayGrid;
+			getPropertyChangeSupport().firePropertyChange("displayGrid", !displayGrid, displayGrid);
+		}
 	}
 
 }

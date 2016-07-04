@@ -45,7 +45,7 @@ import org.openflexo.fge.GRBinding.GraphGRBinding;
 import org.openflexo.fge.graph.FGEGraph;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
-public class GraphNodeImpl<G extends FGEGraph> extends ShapeNodeImpl<G> implements GraphNode<G> {
+public class GraphNodeImpl<G extends FGEGraph> extends ShapeNodeImpl<G>implements GraphNode<G> {
 
 	private static final Logger logger = Logger.getLogger(GraphNodeImpl.class.getPackage().getName());
 
@@ -68,4 +68,25 @@ public class GraphNodeImpl<G extends FGEGraph> extends ShapeNodeImpl<G> implemen
 		getDrawable().paint(g);
 
 	}
+
+	@Override
+	public int getBorderTop() {
+		return getDrawable().getBorderTop();
+	}
+
+	@Override
+	public int getBorderBottom() {
+		return getDrawable().getBorderBottom();
+	}
+
+	@Override
+	public int getBorderLeft() {
+		return getDrawable().getBorderLeft();
+	}
+
+	@Override
+	public int getBorderRight() {
+		return getDrawable().getBorderRight();
+	}
+
 }

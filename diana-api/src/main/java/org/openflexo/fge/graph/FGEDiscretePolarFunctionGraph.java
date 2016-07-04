@@ -49,10 +49,15 @@ import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.fge.TextStyle;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
- * Represents a 2D-base graph, where parameter takes discrete values
+ * Represents a polar graph [R=f(A)] representing functions where:
+ * <ul>
+ * <li>angle is iterated over discrete values</li>
+ * <li>functions are computed with expressions using angle as parameter (iterated value, which can be discrete or continuous)</li><br>
+ * </ul>
  * 
  * @author sylvain
  * 
@@ -107,7 +112,6 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 	@Override
 	public Double getNormalizedAngle(T value) {
 		if (weightBinding != null && weightBinding.isSet() && weightBinding.isValid()) {
-			System.out.println("OK faut que je regarde le poids respectif de chaque valeur");
 			Iterator<T> it = iterateParameter();
 			double cumulatedWeight = 0;
 			while (it.hasNext()) {
@@ -122,7 +126,7 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 			}
 
 		}
-		return (discreteValues.indexOf(value) + 0.5) / (discreteValues.size()) * 2 * Math.PI;
+		return (discreteValues.indexOf(value) + 0.5) / (discreteValues.size()) * 360;
 	}
 
 	@Override
@@ -133,24 +137,25 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 			while (it.hasNext()) {
 				T t = it.next();
 				Double weight = getWeight(t);
-				System.out.println("For " + t + " weight=" + weight);
 				totalWeight += weight;
 			}
-			return getWeight(parameterValue) / totalWeight * 2 * Math.PI;
+			return getWeight(parameterValue) / totalWeight * 360;
 		}
-		return 2 * Math.PI / getDiscreteValues().size();
+		return 360.0 / getDiscreteValues().size();
 	}
 
 	public String getLabel(T param) {
 		getEvaluator().set(getParameter(), param);
-		try {
-			return getDiscreteValuesLabel().getBindingValue(getEvaluator());
-		} catch (TypeMismatchException e) {
-			e.printStackTrace();
-		} catch (NullReferenceException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		if (getDiscreteValuesLabel() != null && getDiscreteValuesLabel().isSet() && getDiscreteValuesLabel().isValid()) {
+			try {
+				return getDiscreteValuesLabel().getBindingValue(getEvaluator());
+			} catch (TypeMismatchException e) {
+				e.printStackTrace();
+			} catch (NullReferenceException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
 		}
 		return param.toString();
 	}
@@ -168,41 +173,80 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 				e.printStackTrace();
 			}
 		}
-		return 2 * Math.PI / getDiscreteValues().size();
+		return 360.0 / getDiscreteValues().size();
 	}
 
 	@Override
 	public void paintParameters(FGEShapeGraphics g) {
 
-		TextStyle ts = g.getNode().getTextStyle();
-
-		// double relativeTextWidth = (double) ts.getFont().getSize() / g.getViewWidth();
-		// double relativeTextHeight = (double) ts.getFont().getSize() / g.getViewHeight();
-
-		g.useTextStyle(ts);
-
-		Iterator<T> it = iterateParameter();
-		while (it.hasNext()) {
-			T t = it.next();
-			String label = getLabel(t);
-			Double angle = getNormalizedAngle(t);
-			Double radius = 0.5;
-			if (getFunctions().size() == 1) {
-				FGEFunction function = getFunctions().get(0);
-				Object value = null;
-				try {
-					value = evaluateFunction(function, t);
-				} catch (TypeMismatchException e) {
-					e.printStackTrace();
-				} catch (NullReferenceException e) {
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					e.printStackTrace();
-				}
-				radius = function.getNormalizedPosition(value) / 2 + 0.05;
-			}
-			g.drawString(label, new FGEPoint(Math.cos(angle) * radius + 0.5, 0.5 - Math.sin(angle) * radius),
-					HorizontalTextAlignment.CENTER);
+		// TODO: find first numeric function
+		if (getFunctions().size() >= 1 && getFunctions().get(0) instanceof FGENumericFunction) {
+			FGENumericFunction<?> function = (FGENumericFunction<?>) getFunctions().get(0);
+			paintParametersForFunction(g, function);
 		}
 	}
+
+	private <N extends Number> void paintParametersForFunction(FGEShapeGraphics g, FGENumericFunction<N> function) {
+
+		if (function.getDisplayLabels()) {
+
+			TextStyle ts = g.getNode().getTextStyle();
+
+			g.useTextStyle(ts);
+
+			Iterator<T> it = iterateParameter();
+			while (it.hasNext()) {
+				T t = it.next();
+				String label = getLabel(t);
+				Double angle = null;
+				Double radius = null;
+				N value = null;
+				if (function.getGraphType() == FGEGraphType.SECTORS) {
+					radius = 0.25;
+					angle = getNormalizedAngleForSectors(t, function);
+				}
+				else {
+					try {
+						angle = getNormalizedAngle(t);
+						value = evaluateFunction(function, t);
+						radius = function.getNormalizedPosition(value) / 2 + 0.05;
+					} catch (Exception e) {
+						e.printStackTrace();
+						radius = 0.5;
+					}
+				}
+				g.drawString(label,
+						new FGEPoint(Math.cos(angle * Math.PI / 180) * radius + 0.5, 0.5 - Math.sin(angle * Math.PI / 180) * radius),
+						HorizontalTextAlignment.CENTER);
+			}
+		}
+	}
+
+	@Override
+	protected <N extends Number> Double getNormalizedAngleForSectors(T parameterValue, FGENumericFunction<N> function) {
+		if (function.getFunctionExpression() != null && function.getFunctionExpression().isSet()
+				&& function.getFunctionExpression().isValid()) {
+			return super.getNormalizedAngleForSectors(parameterValue, function);
+		}
+		return (discreteValues.indexOf(parameterValue) + 0.5) / (discreteValues.size()) * 360;
+	}
+
+	@Override
+	protected <N extends Number> Double getNormalizedAngleExtentForSectors(T parameterValue, FGENumericFunction<N> function) {
+		if (function.getFunctionExpression() != null && function.getFunctionExpression().isSet()
+				&& function.getFunctionExpression().isValid()) {
+			return super.getNormalizedAngleExtentForSectors(parameterValue, function);
+		}
+		return 360.0 / getDiscreteValues().size();
+	}
+
+	@Override
+	protected <N extends Number> Double getAngleExtent(T parameterValue, FGENumericFunction<N> function) {
+		if (function.getFunctionExpression() != null && function.getFunctionExpression().isSet()
+				&& function.getFunctionExpression().isValid()) {
+			return super.getAngleExtent(parameterValue, function);
+		}
+		return 360.0 / getDiscreteValues().size();
+	}
+
 }

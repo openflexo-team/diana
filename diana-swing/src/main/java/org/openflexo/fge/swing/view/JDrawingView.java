@@ -381,7 +381,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M>implements Autoscroll, 
 			});
 		}
 		else {
-			// logger.info("Received: "+notification);
+			// logger.info("Received: " + evt.getPropertyName() + " evt=" + evt);
 
 			if (evt.getPropertyName().equals(NodeAdded.EVENT_NAME)) {
 				handleNodeAdded((DrawingTreeNode<?, ?>) evt.getNewValue());

@@ -38,49 +38,20 @@
 
 package org.openflexo.fge.graph;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
-import java.util.Iterator;
-
-import org.openflexo.connie.exception.NullReferenceException;
-import org.openflexo.connie.exception.TypeMismatchException;
+import org.openflexo.connie.DataBinding;
 
 /**
- * A graph determined by a unique parameter on which we iterate<br>
- * This parameter might be continuous or take values on a discrete set of values
+ * Represents a discrete function as a typed expression<br>
  * 
- * @param
- * 			<P>
- *            type of parameter which plays iterator role
+ * @author sylvain
+ * 
+ * @param <T>
+ *            type of values given by the expression (can be of any class)
  */
-public abstract class FGESingleParameteredGraph<P> extends FGEGraph {
+public class FGEDiscreteFunction<T> extends FGEFunction<T> {
 
-	public FGESingleParameteredGraph() {
-		super();
+	public FGEDiscreteFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression, FGEGraphType graphType,
+			FGEGraph graph) {
+		super(functionName, functionType, functionExpression, graphType, graph);
 	}
-
-	public final String getParameter() {
-		if (parameterTypes.size() > 0) {
-			return parameterTypes.keySet().iterator().next();
-		}
-		return null;
-	}
-
-	@Override
-	public final void setParameter(String parameterName, Type parameterType) {
-
-		if (parameterTypes.size() > 0) {
-			throw new IllegalArgumentException("FGESingleParameteredGraph could not have more than one parameter: existing parameter "
-					+ getParameter() + " while adding " + parameterName);
-		}
-		super.setParameter(parameterName, parameterType);
-	}
-
-	public <Y> Y evaluateFunction(FGEFunction<Y> function, P value)
-			throws TypeMismatchException, NullReferenceException, InvocationTargetException {
-		getEvaluator().set(getParameter(), value);
-		return function.evaluate();
-	}
-
-	protected abstract Iterator<P> iterateParameter();
 }

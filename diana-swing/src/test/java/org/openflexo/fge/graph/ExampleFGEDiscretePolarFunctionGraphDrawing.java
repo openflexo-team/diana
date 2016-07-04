@@ -54,7 +54,7 @@ import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
-import org.openflexo.fge.graph.FGEFunction.GraphType;
+import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
 import org.openflexo.fge.graph.TestFGEDiscreteFunctionGraph.Person;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
@@ -101,20 +101,20 @@ public class ExampleFGEDiscretePolarFunctionGraphDrawing extends DrawingImpl<Obj
 		graph.setDiscreteValues(persons);
 		graph.setDiscreteValuesLabel(new DataBinding<String>("person.name"));
 
-		sizeFunction = graph.addNumericFunction("size", Integer.class, new DataBinding<Integer>("person.size"), GraphType.BAR_GRAPH);
+		sizeFunction = graph.addNumericFunction("size", Integer.class, new DataBinding<Integer>("person.size"), FGEGraphType.BAR_GRAPH);
 		sizeFunction.setRange(0, 200);
 		sizeFunction.setForegroundStyle(getFactory().makeForegroundStyle(Color.BLUE, 1.0f));
 		sizeFunction
 				.setBackgroundStyle(getFactory().makeColorGradientBackground(Color.BLUE, Color.WHITE, ColorGradientDirection.NORTH_SOUTH));
 
-		weightFunction = graph.addNumericFunction("weight", Double.class, new DataBinding<Double>("person.weight"), GraphType.BAR_GRAPH);
+		weightFunction = graph.addNumericFunction("weight", Double.class, new DataBinding<Double>("person.weight"), FGEGraphType.BAR_GRAPH);
 		weightFunction.setForegroundStyle(getFactory().makeForegroundStyle(Color.ORANGE, 1.0f));
 		weightFunction.setBackgroundStyle(
 				getFactory().makeColorGradientBackground(Color.YELLOW, Color.ORANGE, ColorGradientDirection.NORTH_SOUTH));
 		weightFunction.setRange(0.0, 100.0);
 
 		bmiFunction = graph.addNumericFunction("bmi", Double.class, new DataBinding<Double>("person.weight / (person.size * person.size)"),
-				GraphType.POLYLIN);
+				FGEGraphType.POLYLIN);
 		bmiFunction.setForegroundStyle(getFactory().makeForegroundStyle(Color.RED, 3.0f));
 		bmiFunction.setRange(0.001, 0.004);
 

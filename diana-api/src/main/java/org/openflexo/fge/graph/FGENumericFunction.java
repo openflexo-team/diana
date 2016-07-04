@@ -38,6 +38,7 @@
 
 package org.openflexo.fge.graph;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import org.openflexo.connie.DataBinding;
@@ -59,13 +60,17 @@ public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 	private T majorTickSpacing = null;
 	private int stepsNb = 10;
 
-	public FGENumericFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression, GraphType graphType,
+	private boolean displayMajorTicks = true;
+	private boolean displayMinorTicks = false;
+	private boolean displayLabels = true;
+
+	public FGENumericFunction(String functionName, Type functionType, DataBinding<T> functionExpression, FGEGraphType graphType,
 			FGEGraph graph) {
 		super(functionName, functionType, functionExpression, graphType, graph);
 	}
 
-	public FGENumericFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression, GraphType graphType,
-			T minValue, T maxValue, FGEGraph graph) {
+	public FGENumericFunction(String functionName, Type functionType, DataBinding<T> functionExpression, FGEGraphType graphType, T minValue,
+			T maxValue, FGEGraph graph) {
 		super(functionName, functionType, functionExpression, graphType, graph);
 		this.minValue = minValue;
 		this.maxValue = maxValue;
@@ -153,6 +158,39 @@ public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 		}
 	}
 
+	public boolean getDisplayMajorTicks() {
+		return displayMajorTicks;
+	}
+
+	public void setDisplayMajorTicks(boolean displayMajorTicks) {
+		if (displayMajorTicks != this.displayMajorTicks) {
+			this.displayMajorTicks = displayMajorTicks;
+			getPropertyChangeSupport().firePropertyChange("displayMajorTicks", !displayMajorTicks, displayMajorTicks);
+		}
+	}
+
+	public boolean getDisplayMinorTicks() {
+		return displayMinorTicks;
+	}
+
+	public void setDisplayMinorTicks(boolean displayMinorTicks) {
+		if (displayMinorTicks != this.displayMinorTicks) {
+			this.displayMinorTicks = displayMinorTicks;
+			getPropertyChangeSupport().firePropertyChange("displayMinorTicks", !displayMinorTicks, displayMinorTicks);
+		}
+	}
+
+	public boolean getDisplayLabels() {
+		return displayLabels;
+	}
+
+	public void setDisplayLabels(boolean displayLabels) {
+		if (displayLabels != this.displayLabels) {
+			this.displayLabels = displayLabels;
+			getPropertyChangeSupport().firePropertyChange("displayLabels", !displayLabels, displayLabels);
+		}
+	}
+
 	private T computedMinValue;
 	private T computedMaxValue;
 
@@ -221,6 +259,13 @@ public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 
 	@Override
 	protected Double getNormalizedPosition(T value) {
+		if (value == null) {
+			System.out.println("Bizarre on m'envoie une valeur null a normaliser");
+			return 0.0;
+		}
+		if (getMinValue() == null || getMaxValue() == null) {
+			return 0.0;
+		}
 		return (value.doubleValue() - getMinValue().doubleValue()) / (getMaxValue().doubleValue() - getMinValue().doubleValue());
 	}
 }
