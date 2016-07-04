@@ -71,7 +71,7 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 	private static final Logger logger = Logger.getLogger(FGEFunction.class.getPackage().getName());
 
 	public static enum FGEGraphType {
-		POINTS, POLYLIN, RECT_POLYLIN, CURVE, BAR_GRAPH, COLORED_STEPS
+		POINTS, POLYLIN, RECT_POLYLIN, CURVE, BAR_GRAPH, COLORED_STEPS, SECTORS
 	}
 
 	private final String functionName;

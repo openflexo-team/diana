@@ -179,8 +179,8 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 		private FGEGraph graph;
 		private JFIBGraphWidget<G> widget;
 
-		private DrawingGraphicalRepresentation drawingRepresentation;
-		private ShapeGraphicalRepresentation graphGR;
+		protected DrawingGraphicalRepresentation drawingRepresentation;
+		protected ShapeGraphicalRepresentation graphGR;
 
 		public GraphDrawing(G fibGraph, JFIBGraphWidget<G> widget) {
 			super(fibGraph, GRAPH_FACTORY, PersistenceMode.UniqueGraphicalRepresentations);
@@ -366,6 +366,8 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 					return FGEGraphType.BAR_GRAPH;
 				case COLORED_STEPS:
 					return FGEGraphType.COLORED_STEPS;
+				case SECTORS:
+					return FGEGraphType.SECTORS;
 			}
 			return FGEGraphType.CURVE;
 		}

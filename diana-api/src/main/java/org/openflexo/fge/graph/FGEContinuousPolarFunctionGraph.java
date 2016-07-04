@@ -45,7 +45,7 @@ import java.util.List;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
- * Represents a polar graph [R=f(A)] where A is a Double and takes its values from 0 to 2*PI
+ * Represents a polar graph [R=f(A)] where A is a Double and takes its values from -180 to 180
  * 
  * @author sylvain
  * 
@@ -97,7 +97,7 @@ public class FGEContinuousPolarFunctionGraph extends FGEPolarFunctionGraph<Doubl
 
 	@Override
 	public Double getNormalizedAngleExtent(Double parameterValue) {
-		return 2 * Math.PI / getStepsNumber();
+		return 360.0 / getStepsNumber();
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class FGEContinuousPolarFunctionGraph extends FGEPolarFunctionGraph<Doubl
 
 		if (getStepsNumber() > -1) {
 			for (int i = 0; i < getStepsNumber() + 1; i++) {
-				returned.add(i * 2 * Math.PI / getStepsNumber());
+				returned.add(i * 360.0 / getStepsNumber());
 			}
 		}
 		return returned.iterator();

@@ -89,8 +89,8 @@ public class JFIBGraphPanel<G extends FIBGraph> extends JPanel {
 				// Check if it is relevant for other OS
 				// Anyway, we should find a better solution
 				drawing.resizeTo(new Dimension(getSize().width - 5, getSize().height - 5));
-				revalidate();
-				repaint();
+				// revalidate();
+				// repaint();
 			}
 
 		});

@@ -39,13 +39,13 @@
 
 package org.openflexo.fge.swing.graph;
 
+import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.graph.FIBContinuousSimpleFunctionGraph;
 import org.openflexo.gina.model.graph.FIBPolarFunctionGraph;
-import org.openflexo.gina.model.graph.FIBSimpleFunctionGraph;
 
 /**
  * Swing implementation for a {@link FIBContinuousSimpleFunctionGraph} view<br>
@@ -67,9 +67,36 @@ public abstract class JFIBPolarGraphWidget<W extends FIBPolarFunctionGraph> exte
 		}
 
 		@Override
+		public void resizeTo(Dimension newSize) {
+			// We want here to keep ratio
+			Double requiredGraphWidth = newSize.getWidth() - getModel().getBorderRight() - getModel().getBorderLeft();
+			Double requiredGraphHeight = newSize.getHeight() - getModel().getBorderTop() - getModel().getBorderBottom();
+			if (requiredGraphWidth >= requiredGraphHeight) {
+				// We add left/right borders
+				double extraHBorder = (requiredGraphWidth - requiredGraphHeight) / 2;
+				drawingRepresentation.setWidth(newSize.getWidth());
+				drawingRepresentation.setHeight(newSize.getHeight());
+				graphGR.setX(getModel().getBorderLeft() + extraHBorder);
+				graphGR.setY(getModel().getBorderTop());
+				graphGR.setWidth(newSize.getWidth() - getModel().getBorderRight() - getModel().getBorderLeft() - 2 * extraHBorder);
+				graphGR.setHeight(newSize.getHeight() - getModel().getBorderTop() - getModel().getBorderBottom());
+			}
+			else {
+				// We add top/bottom borders
+				double extraVBorder = (requiredGraphHeight - requiredGraphWidth) / 2;
+				drawingRepresentation.setWidth(newSize.getWidth());
+				drawingRepresentation.setHeight(newSize.getHeight());
+				graphGR.setX(getModel().getBorderLeft());
+				graphGR.setY(getModel().getBorderTop() + extraVBorder);
+				graphGR.setWidth(newSize.getWidth() - getModel().getBorderRight() - getModel().getBorderLeft());
+				graphGR.setHeight(newSize.getHeight() - getModel().getBorderTop() - getModel().getBorderBottom() - 2 * extraVBorder);
+			}
+		}
+
+		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			super.propertyChange(evt);
-			if (evt.getPropertyName().equals(FIBSimpleFunctionGraph.PARAMETER_NAME_KEY)) {
+			if (evt.getPropertyName().equals(FIBPolarFunctionGraph.PARAMETER_NAME_KEY)) {
 				System.out.println("---------------> On reconstruit le graphe entierement a cause de " + evt.getPropertyName());
 				updateGraph();
 			}

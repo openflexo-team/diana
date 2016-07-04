@@ -105,6 +105,11 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 				returned.setDiscreteValuesLabel(fibGraph.getLabels());
 			}
 
+			// Angle extent for discrete values
+			if (fibGraph.getAngleExtent() != null && fibGraph.getAngleExtent().isSet() && fibGraph.getAngleExtent().isValid()) {
+				returned.setWeight(fibGraph.getAngleExtent());
+			}
+
 			appendFunctions(fibGraph, returned, getController());
 
 			return returned;
@@ -114,7 +119,8 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 		public void propertyChange(PropertyChangeEvent evt) {
 			super.propertyChange(evt);
 			if (evt.getPropertyName().equals(FIBDiscretePolarFunctionGraph.VALUES_KEY)
-					|| evt.getPropertyName().equals(FIBDiscretePolarFunctionGraph.LABELS_KEY)) {
+					|| evt.getPropertyName().equals(FIBDiscretePolarFunctionGraph.LABELS_KEY)
+					|| evt.getPropertyName().equals(FIBDiscretePolarFunctionGraph.ANGLE_EXTENT_KEY)) {
 				System.out.println("---------------> On reconstruit le graphe entierement a cause de " + evt.getPropertyName());
 				updateGraph();
 			}
