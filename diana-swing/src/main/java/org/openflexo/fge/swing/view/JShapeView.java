@@ -122,7 +122,12 @@ public class JShapeView<O> extends JDianaLayeredView<O>implements ShapeView<O, J
 		mouseListener = controller.getDianaFactory().makeViewMouseListener(node, this, controller);
 		addMouseListener(mouseListener);
 		addMouseMotionListener(mouseListener);
-		shapeNode.getPropertyChangeSupport().addPropertyChangeListener(this);
+		if (shapeNode.getPropertyChangeSupport() != null) {
+			shapeNode.getPropertyChangeSupport().addPropertyChangeListener(this);
+		}
+		else {
+			logger.warning("JShapeView() constructor called for a deleted shape node !!!");
+		}
 		setOpaque(false);
 		updateVisibility();
 		setFocusable(true);
@@ -169,7 +174,9 @@ public class JShapeView<O> extends JDianaLayeredView<O>implements ShapeView<O, J
 			}
 		}
 		if (shapeNode != null) {
-			shapeNode.getPropertyChangeSupport().removePropertyChangeListener(this);
+			if (shapeNode.getPropertyChangeSupport() != null) {
+				shapeNode.getPropertyChangeSupport().removePropertyChangeListener(this);
+			}
 		}
 		getController().unreferenceViewForDrawingTreeNode(shapeNode);
 		setDropTarget(null);
