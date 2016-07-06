@@ -39,6 +39,7 @@
 package org.openflexo.fge.graph;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -106,7 +107,10 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 
 	@Override
 	protected Iterator<T> iterateParameter() {
-		return discreteValues.iterator();
+		if (discreteValues != null) {
+			return discreteValues.iterator();
+		}
+		return ((List<T>) Collections.emptyList()).iterator();
 	}
 
 	@Override
@@ -195,29 +199,32 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 			g.useTextStyle(ts);
 
 			Iterator<T> it = iterateParameter();
-			while (it.hasNext()) {
-				T t = it.next();
-				String label = getLabel(t);
-				Double angle = null;
-				Double radius = null;
-				N value = null;
-				if (function.getGraphType() == FGEGraphType.SECTORS) {
-					radius = 0.25;
-					angle = getNormalizedAngleForSectors(t, function);
-				}
-				else {
-					try {
-						angle = getNormalizedAngle(t);
-						value = evaluateFunction(function, t);
-						radius = function.getNormalizedPosition(value) / 2 + 0.05;
-					} catch (Exception e) {
-						e.printStackTrace();
-						radius = 0.5;
+
+			if (it != null) {
+				while (it.hasNext()) {
+					T t = it.next();
+					String label = getLabel(t);
+					Double angle = null;
+					Double radius = null;
+					N value = null;
+					if (function.getGraphType() == FGEGraphType.SECTORS) {
+						radius = 0.25;
+						angle = getNormalizedAngleForSectors(t, function);
 					}
+					else {
+						try {
+							angle = getNormalizedAngle(t);
+							value = evaluateFunction(function, t);
+							radius = function.getNormalizedPosition(value) / 2 + 0.05;
+						} catch (Exception e) {
+							e.printStackTrace();
+							radius = 0.5;
+						}
+					}
+					g.drawString(label,
+							new FGEPoint(Math.cos(angle * Math.PI / 180) * radius + 0.5, 0.5 - Math.sin(angle * Math.PI / 180) * radius),
+							HorizontalTextAlignment.CENTER);
 				}
-				g.drawString(label,
-						new FGEPoint(Math.cos(angle * Math.PI / 180) * radius + 0.5, 0.5 - Math.sin(angle * Math.PI / 180) * radius),
-						HorizontalTextAlignment.CENTER);
 			}
 		}
 	}

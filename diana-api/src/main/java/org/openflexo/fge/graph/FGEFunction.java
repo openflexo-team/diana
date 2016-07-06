@@ -99,6 +99,11 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 		if (!this.functionExpression.isValid()) {
 			logger.warning("Invalid expression in FGEFunction:" + this.functionExpression + " reason="
 					+ this.functionExpression.invalidBindingReason());
+			logger.warning("BM=" + graph.getBindingModel());
+			logger.warning("BF=" + graph.getBindingFactory());
+			for (int i = 0; i < graph.getBindingModel().getBindingVariablesCount(); i++) {
+				System.out.println("> " + graph.getBindingModel().getBindingVariableAt(i));
+			}
 		}
 		this.graph = graph;
 		this.graphType = graphType;
@@ -190,36 +195,37 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 		List<FunctionSample<X, T>> samples = new ArrayList<FunctionSample<X, T>>();
 		Iterator<X> it = graph.iterateParameter();
 
-		while (it.hasNext()) {
+		if (it != null) {
+			while (it.hasNext()) {
 
-			X p = it.next();
+				X p = it.next();
 
-			// System.out.println("pour la valeur " + p);
+				// System.out.println("pour la valeur " + p);
 
-			T value = null;
-			try {
-				value = graph.evaluateFunction(this, p);
-			} catch (TypeMismatchException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NullReferenceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				T value = null;
+				try {
+					value = graph.evaluateFunction(this, p);
+				} catch (TypeMismatchException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NullReferenceException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				// System.out.println("value=" + value);
+
+				samples.add(new FunctionSample<X, T>(p, value));
+
+				// System.out.println("Sampling function " + getFunctionName() + "(" + p + ") = " + value);
+
+				if (!valueSamples.contains(value)) {
+					valueSamples.add(value);
+				}
 			}
-
-			// System.out.println("value=" + value);
-
-			samples.add(new FunctionSample<X, T>(p, value));
-
-			// System.out.println("Sampling function " + getFunctionName() + "(" + p + ") = " + value);
-
-			if (!valueSamples.contains(value)) {
-				valueSamples.add(value);
-			}
-
 		}
 
 		return samples;

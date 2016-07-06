@@ -98,6 +98,12 @@ public class JFIBGraphPanel<G extends FIBGraph> extends JPanel {
 		validate();
 	}
 
+	public void updateGraph() {
+		System.out.println("OK on met vraiment a jour le graphe");
+		// drawing.resizeTo(new Dimension(getSize().width - 5, getSize().height - 5));
+		drawing.updateGraph();
+	}
+
 	public static class GraphDrawingController<G extends FIBGraph> extends JDianaInteractiveEditor<G> {
 		// protected final JDianaScaleSelector scaleSelector;
 

@@ -77,6 +77,7 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 
 			// Create the FGEGraph
 			FGEDiscretePolarFunctionGraph<?> returned = new FGEDiscretePolarFunctionGraph<Object>();
+			returned.setBindingFactory(fibGraph.getBindingFactory());
 
 			// Sets borders
 			returned.setBorderTop(fibGraph.getBorderTop());
