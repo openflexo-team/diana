@@ -162,6 +162,9 @@ public class JShapeView<O> extends JDianaLayeredView<O>implements ShapeView<O, J
 
 	@Override
 	public synchronized void delete() {
+		if (isDeleted()) {
+			return;
+		}
 		logger.fine("Delete JShapeView " + Integer.toHexString(hashCode()) + " for " + shapeNode);
 		if (getParentView() != null) {
 			JDianaLayeredView<?> parentView = getParentView();
@@ -409,6 +412,12 @@ public class JShapeView<O> extends JDianaLayeredView<O>implements ShapeView<O, J
 			return;
 		}
 
+		if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME) && !isDeleted()) {
+			//System.out.println("Je recois bien l'ordre de deletion, je supprime maintenant !!!");
+			delete();
+			return;
+		}
+
 		if ((!evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) && getNode().isDeleted()) {
 			logger.warning("Received notifications for deleted ShapeNode " + evt);
 			return;
@@ -462,9 +471,10 @@ public class JShapeView<O> extends JDianaLayeredView<O>implements ShapeView<O, J
 			else if (evt.getPropertyName().equals(NodeRemoved.EVENT_NAME)) {
 				handleNodeRemoved((DrawingTreeNode<?, ?>) evt.getOldValue(), (ContainerNode<?, ?>) evt.getNewValue());
 			}
-			else if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) {
+			/*else if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) {
+				System.out.println("OK on supprime la shape view pour " + getNode());
 				delete();
-			}
+			}*/
 			else if (evt.getPropertyName().equals(ObjectWillMove.EVENT_NAME)) {
 				if (getPaintManager().isPaintingCacheEnabled()) {
 					getPaintManager().addToTemporaryObjects(shapeNode);
