@@ -39,6 +39,7 @@
 package org.openflexo.fge.graph;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -99,7 +100,10 @@ public class FGEDiscreteSimpleFunctionGraph<T> extends FGESimpleFunctionGraph<T>
 
 	@Override
 	protected Iterator<T> iterateParameter() {
-		return discreteValues.iterator();
+		if (discreteValues != null) {
+			return discreteValues.iterator();
+		}
+		return ((List<T>) Collections.emptyList()).iterator();
 	}
 
 	@Override

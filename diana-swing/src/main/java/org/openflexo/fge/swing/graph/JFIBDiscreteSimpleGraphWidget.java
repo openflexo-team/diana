@@ -78,6 +78,7 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 
 			// Create the FGEGraph
 			FGEDiscreteSimpleFunctionGraph<?> returned = new FGEDiscreteSimpleFunctionGraph<Object>();
+			returned.setBindingFactory(fibGraph.getBindingFactory());
 
 			// Sets borders
 			returned.setBorderTop(fibGraph.getBorderTop());

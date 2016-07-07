@@ -338,30 +338,33 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 		if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
 			BackgroundImageBackgroundStyle imageBGStyle = (BackgroundImageBackgroundStyle) getCurrentBackground();
 
-			if (!imageBGStyle.getFitToShape()) {
-				at.concatenate(AffineTransform.getTranslateInstance(imageBGStyle.getDeltaX(), imageBGStyle.getDeltaY()));
-			}
-			if (imageBGStyle.getImageBackgroundType() == BackgroundImageBackgroundStyle.ImageBackgroundType.OPAQUE) {
-				g2d.setColor(imageBGStyle.getImageBackgroundColor());
-				g2d.fill(aShape);
-			}
-			if (imageBGStyle.getFitToShape() && getNode() instanceof ContainerNode) {
-				at.concatenate(
-						AffineTransform.getScaleInstance(((ContainerNode) getNode()).getWidth() / imageBGStyle.getImage().getWidth(null),
-								((ContainerNode) getNode()).getHeight() / imageBGStyle.getImage().getHeight(null)));
-			}
-			else {
-				at.concatenate(AffineTransform.getScaleInstance(imageBGStyle.getScaleX(), imageBGStyle.getScaleY()));
-			}
-		}
+			if (imageBGStyle.getImage() != null) {
+				if (!imageBGStyle.getFitToShape()) {
+					at.concatenate(AffineTransform.getTranslateInstance(imageBGStyle.getDeltaX(), imageBGStyle.getDeltaY()));
+				}
+				if (imageBGStyle.getImageBackgroundType() == BackgroundImageBackgroundStyle.ImageBackgroundType.OPAQUE) {
+					g2d.setColor(imageBGStyle.getImageBackgroundColor());
+					g2d.fill(aShape);
+				}
+				if (imageBGStyle.getFitToShape() && getNode() instanceof ContainerNode) {
+					// System.out.println("imageBGStyle.getImage()=" + imageBGStyle.getImage());
+					at.concatenate(AffineTransform.getScaleInstance(
+							((ContainerNode) getNode()).getWidth() / imageBGStyle.getImage().getWidth(null),
+							((ContainerNode) getNode()).getHeight() / imageBGStyle.getImage().getHeight(null)));
+				}
+				else {
+					at.concatenate(AffineTransform.getScaleInstance(imageBGStyle.getScaleX(), imageBGStyle.getScaleY()));
+				}
 
-		if (getCurrentBackground().getUseTransparency()) {
-			g2d.setComposite(AlphaComposite.getInstance(TRANSPARENT_COMPOSITE_RULE, getCurrentBackground().getTransparencyLevel()));
+				if (getCurrentBackground().getUseTransparency()) {
+					g2d.setComposite(AlphaComposite.getInstance(TRANSPARENT_COMPOSITE_RULE, getCurrentBackground().getTransparencyLevel()));
+				}
+				else {
+					g2d.setComposite(AlphaComposite.getInstance(TRANSPARENT_COMPOSITE_RULE));
+				}
+				g2d.drawImage(((BackgroundImageBackgroundStyle) getCurrentBackground()).getImage(), at, null);
+			}
 		}
-		else {
-			g2d.setComposite(AlphaComposite.getInstance(TRANSPARENT_COMPOSITE_RULE));
-		}
-		g2d.drawImage(((BackgroundImageBackgroundStyle) getCurrentBackground()).getImage(), at, null);
 
 		releaseClonedGraphics(oldGraphics);
 	}

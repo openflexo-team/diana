@@ -78,6 +78,7 @@ public class JFIBContinuousPolarGraphWidget extends JFIBPolarGraphWidget<FIBCont
 
 			// Create the FGEGraph
 			FGEContinuousPolarFunctionGraph returned = new FGEContinuousPolarFunctionGraph();
+			returned.setBindingFactory(fibGraph.getBindingFactory());
 
 			// Sets borders
 			returned.setBorderTop(fibGraph.getBorderTop());

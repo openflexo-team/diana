@@ -234,8 +234,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	@Override
 	public String getDeletedProperty() {
-		// TODO check this
-		return null;
+		return NodeDeleted.EVENT_NAME;
 	}
 
 	@Override

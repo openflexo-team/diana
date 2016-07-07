@@ -41,6 +41,7 @@ package org.openflexo.fge.swing.graph;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
@@ -59,11 +60,17 @@ import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.control.AbstractDianaEditor;
+import org.openflexo.fge.control.MouseControl.MouseButton;
+import org.openflexo.fge.control.MouseControlContext;
+import org.openflexo.fge.control.actions.MouseClickControlActionImpl;
+import org.openflexo.fge.control.actions.MouseClickControlImpl;
 import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
 import org.openflexo.fge.graph.FGEGraph;
 import org.openflexo.fge.graph.FGENumericFunction;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
+import org.openflexo.fge.view.FGEView;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.graph.FIBContinuousSimpleFunctionGraph;
 import org.openflexo.gina.model.graph.FIBGraph;
@@ -129,6 +136,9 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 
 	protected void updateGraph() {
 		System.out.println("Ce serait bien de mettre a jour le graphe");
+		if (getTechnologyComponent() != null) {
+			getTechnologyComponent().updateGraph();
+		}
 	}
 
 	@Override
@@ -328,6 +338,21 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			widget.getRenderingAdapter().revalidateAndRepaint(widget.getTechnologyComponent());
 		}
 
+		protected void updateGraph2() {
+			// updateGraph(getModel());
+			invalidateGraphicalObjectsHierarchy();
+			updateGraphicalObjectsHierarchy();
+			widget.getRenderingAdapter().revalidateAndRepaint(widget.getTechnologyComponent());
+		}
+
+		/*protected void updateGraphWithoutRe() {
+			// updateGraph(getModel());
+			graph = makeGraph(getModel());
+			invalidateGraphicalObjectsHierarchy();
+			updateGraphicalObjectsHierarchy();
+			widget.getRenderingAdapter().revalidateAndRepaint(widget.getTechnologyComponent());
+		}*/
+
 		public void resizeTo(Dimension newSize) {
 			drawingRepresentation.setWidth(newSize.getWidth());
 			drawingRepresentation.setHeight(newSize.getHeight());
@@ -372,6 +397,21 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			return FGEGraphType.CURVE;
 		}
 
+		/*public sclass ShowContextualMenuControl extends MouseClickControlImpl<DianaDrawingEditor> {
+		
+			public ShowContextualMenuControl(EditingContext editingContext) {
+				super("Show contextual menu", MouseButton.RIGHT, 1, new MouseClickControlActionImpl<DianaDrawingEditor>() {
+					@Override
+					public boolean handleClick(DrawingTreeNode<?, ?> dtn, DianaDrawingEditor controller, MouseControlContext context) {
+						FGEView<?, ?> view = controller.getDrawingView().viewForNode(dtn);
+						Point newPoint = getPointInView(dtn, controller, context);
+						controller.showContextualMenu(dtn, view, newPoint);
+						return false;
+					}
+				}, false, false, false, false, editingContext);
+			}
+		}*/
+
 		@Override
 		public void init() {
 
@@ -381,6 +421,19 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			drawingRepresentation.setWidth(DEFAULT_WIDTH + getModel().getBorderRight() + getModel().getBorderLeft());
 			drawingRepresentation.setHeight(DEFAULT_HEIGHT + getModel().getBorderTop() + getModel().getBorderBottom());
 			drawingRepresentation.setDrawWorkingArea(false);
+			drawingRepresentation.addToMouseClickControls(new MouseClickControlImpl<>("update", MouseButton.LEFT, 2,
+					new MouseClickControlActionImpl<AbstractDianaEditor<?, ?, ?>>() {
+						@Override
+						public boolean handleClick(DrawingTreeNode<?, ?> dtn, AbstractDianaEditor<?, ?, ?> controller,
+								MouseControlContext context) {
+							FGEView<?, ?> view = controller.getDrawingView().viewForNode(dtn);
+							Point newPoint = getPointInView(dtn, controller, context);
+							// controller.showContextualMenu(dtn, view, newPoint);
+							System.out.println("OK on doit faire l'update du graphe");
+							updateGraph();
+							return false;
+						}
+					}, false, false, false, false, null));
 
 			final DrawingGRBinding<G> drawingBinding = bindDrawing((Class<G>) getModel().getClass(), "drawing", new DrawingGRProvider<G>() {
 				@Override
