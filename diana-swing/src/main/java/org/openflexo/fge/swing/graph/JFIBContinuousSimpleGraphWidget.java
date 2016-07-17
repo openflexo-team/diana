@@ -102,14 +102,14 @@ public class JFIBContinuousSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBCo
 			Number maxValue = FIBContinuousSimpleFunctionGraph.DEFAULT_MAX_VALUE;
 			if (fibGraph.getMinValue() != null && fibGraph.getMinValue().isSet() && fibGraph.getMinValue().isValid()) {
 				try {
-					minValue = fibGraph.getMinValue().getBindingValue(getController());
+					minValue = fibGraph.getMinValue().getBindingValue(JFIBContinuousSimpleGraphWidget.this);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 			if (fibGraph.getMaxValue() != null && fibGraph.getMaxValue().isSet() && fibGraph.getMaxValue().isValid()) {
 				try {
-					maxValue = fibGraph.getMaxValue().getBindingValue(getController());
+					maxValue = fibGraph.getMaxValue().getBindingValue(JFIBContinuousSimpleGraphWidget.this);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -121,7 +121,7 @@ public class JFIBContinuousSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBCo
 			int stepsNumber = FIBContinuousSimpleFunctionGraph.DEFAULT_STEPS_NUMBER;
 			if (fibGraph.getStepsNumber() != null && fibGraph.getStepsNumber().isSet() && fibGraph.getStepsNumber().isValid()) {
 				try {
-					stepsNumber = fibGraph.getStepsNumber().getBindingValue(getController());
+					stepsNumber = fibGraph.getStepsNumber().getBindingValue(JFIBContinuousSimpleGraphWidget.this);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -134,7 +134,7 @@ public class JFIBContinuousSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBCo
 			if (fibGraph.getMajorTickSpacing() != null && fibGraph.getMajorTickSpacing().isSet()
 					&& fibGraph.getMajorTickSpacing().isValid()) {
 				try {
-					majorTickSpacing = fibGraph.getMajorTickSpacing().getBindingValue(getController());
+					majorTickSpacing = fibGraph.getMajorTickSpacing().getBindingValue(JFIBContinuousSimpleGraphWidget.this);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -147,7 +147,7 @@ public class JFIBContinuousSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBCo
 			if (fibGraph.getMinorTickSpacing() != null && fibGraph.getMinorTickSpacing().isSet()
 					&& fibGraph.getMinorTickSpacing().isValid()) {
 				try {
-					minorTickSpacing = fibGraph.getMinorTickSpacing().getBindingValue(getController());
+					minorTickSpacing = fibGraph.getMinorTickSpacing().getBindingValue(JFIBContinuousSimpleGraphWidget.this);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

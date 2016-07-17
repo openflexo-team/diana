@@ -94,7 +94,7 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 			List<?> values = new ArrayList<>();
 			if (fibGraph.getValues() != null && fibGraph.getValues().isSet() && fibGraph.getValues().isValid()) {
 				try {
-					values = fibGraph.getValues().getBindingValue(getController());
+					values = fibGraph.getValues().getBindingValue(JFIBDiscreteSimpleGraphWidget.this);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

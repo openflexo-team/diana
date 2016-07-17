@@ -246,7 +246,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 					if (fibNumericFunction.getMinValue() != null && fibNumericFunction.getMinValue().isSet()
 							&& fibNumericFunction.getMinValue().isValid()) {
 						try {
-							minValue = fibNumericFunction.getMinValue().getBindingValue(controller);
+							minValue = fibNumericFunction.getMinValue().getBindingValue(widget);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -254,7 +254,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 					if (fibNumericFunction.getMaxValue() != null && fibNumericFunction.getMaxValue().isSet()
 							&& fibNumericFunction.getMaxValue().isValid()) {
 						try {
-							maxValue = fibNumericFunction.getMaxValue().getBindingValue(controller);
+							maxValue = fibNumericFunction.getMaxValue().getBindingValue(widget);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -267,7 +267,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 					if (fibNumericFunction.getStepsNumber() != null && fibNumericFunction.getStepsNumber().isSet()
 							&& fibNumericFunction.getStepsNumber().isValid()) {
 						try {
-							stepsNumber = fibNumericFunction.getStepsNumber().getBindingValue(controller);
+							stepsNumber = fibNumericFunction.getStepsNumber().getBindingValue(widget);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -280,7 +280,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 					if (fibNumericFunction.getMajorTickSpacing() != null && fibNumericFunction.getMajorTickSpacing().isSet()
 							&& fibNumericFunction.getMajorTickSpacing().isValid()) {
 						try {
-							majorTickSpacing = fibNumericFunction.getMajorTickSpacing().getBindingValue(controller);
+							majorTickSpacing = fibNumericFunction.getMajorTickSpacing().getBindingValue(widget);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -293,7 +293,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 					if (fibNumericFunction.getMinorTickSpacing() != null && fibNumericFunction.getMinorTickSpacing().isSet()
 							&& fibNumericFunction.getMinorTickSpacing().isValid()) {
 						try {
-							minorTickSpacing = fibNumericFunction.getMinorTickSpacing().getBindingValue(controller);
+							minorTickSpacing = fibNumericFunction.getMinorTickSpacing().getBindingValue(widget);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

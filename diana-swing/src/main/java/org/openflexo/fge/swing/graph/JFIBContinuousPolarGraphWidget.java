@@ -99,7 +99,7 @@ public class JFIBContinuousPolarGraphWidget extends JFIBPolarGraphWidget<FIBCont
 			int stepsNumber = FIBContinuousPolarFunctionGraph.DEFAULT_STEPS_NUMBER;
 			if (fibGraph.getStepsNumber() != null && fibGraph.getStepsNumber().isSet() && fibGraph.getStepsNumber().isValid()) {
 				try {
-					stepsNumber = fibGraph.getStepsNumber().getBindingValue(getController());
+					stepsNumber = fibGraph.getStepsNumber().getBindingValue(JFIBContinuousPolarGraphWidget.this);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -112,7 +112,7 @@ public class JFIBContinuousPolarGraphWidget extends JFIBPolarGraphWidget<FIBCont
 			if (fibGraph.getAngleTickSpacing() != null && fibGraph.getAngleTickSpacing().isSet()
 					&& fibGraph.getAngleTickSpacing().isValid()) {
 				try {
-					angleTickSpacing = fibGraph.getAngleTickSpacing().getBindingValue(getController());
+					angleTickSpacing = fibGraph.getAngleTickSpacing().getBindingValue(JFIBContinuousPolarGraphWidget.this);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
