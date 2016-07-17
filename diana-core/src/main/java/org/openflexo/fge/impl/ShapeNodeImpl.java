@@ -466,11 +466,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		// Handle control areas
 		if (getControlAreas() != null) {
 			for (ControlArea<?> ca : getControlAreas()) {
-				FGEArea a = ca.getArea();
-				if (a instanceof FGEShape) {
-					FGERectangle bb = ((FGEShape) a).getBoundingBox();
-					if (bb.getX() < 0) {
-						returned = Math.max(returned, (int) (-getWidth() * bb.getX() + 2));
+				if (ca != null) {
+					FGEArea a = ca.getArea();
+					if (a instanceof FGEShape) {
+						FGERectangle bb = ((FGEShape) a).getBoundingBox();
+						if (bb.getX() < 0) {
+							returned = Math.max(returned, (int) (-getWidth() * bb.getX() + 2));
+						}
 					}
 				}
 			}
