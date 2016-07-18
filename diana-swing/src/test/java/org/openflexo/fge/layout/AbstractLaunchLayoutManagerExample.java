@@ -60,7 +60,7 @@ import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
 import org.openflexo.gina.ApplicationFIBLibrary.ApplicationFIBLibraryImpl;
-import org.openflexo.gina.swing.utils.JFIBInspectorController;
+import org.openflexo.gina.swing.utils.JFIBDialogInspectorController;
 import org.openflexo.gina.swing.utils.logging.FlexoLoggingViewer;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
@@ -76,7 +76,7 @@ public class AbstractLaunchLayoutManagerExample {
 
 	private static final Logger LOGGER = FlexoLogger.getLogger(AbstractLaunchLayoutManagerExample.class.getPackage().getName());
 
-	private static JFIBInspectorController inspector;
+	private static JFIBDialogInspectorController inspector;
 
 	public static TestGraph makeTestGraph() {
 		TestGraph graph = new TestGraph();
@@ -205,7 +205,7 @@ public class AbstractLaunchLayoutManagerExample {
 		dialog.validate();
 		dialog.pack();
 
-		inspector = new JFIBInspectorController(null, ResourceLocator.locateResource("LayoutInspectors"),
+		inspector = new JFIBDialogInspectorController(null, ResourceLocator.locateResource("LayoutInspectors"),
 				ApplicationFIBLibraryImpl.instance(), null);
 		inspector.inspectObject(panel.getLayoutManager());
 

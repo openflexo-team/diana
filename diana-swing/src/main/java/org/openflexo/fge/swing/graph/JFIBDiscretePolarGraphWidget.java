@@ -93,7 +93,7 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 			List<?> values = new ArrayList<>();
 			if (fibGraph.getValues() != null && fibGraph.getValues().isSet() && fibGraph.getValues().isValid()) {
 				try {
-					values = fibGraph.getValues().getBindingValue(getController());
+					values = fibGraph.getValues().getBindingValue(JFIBDiscretePolarGraphWidget.this);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
