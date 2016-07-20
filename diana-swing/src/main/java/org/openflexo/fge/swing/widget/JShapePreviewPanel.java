@@ -197,19 +197,19 @@ public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel {
 
 	private int getShapeX() {
 		if (sizeConstrainedWithWidth()) {
-			return 0;
+			return getBorderSize();
 		}
 		else {
-			return (getPanelWidth() - getShapeWidth()) / 2 - getBorderSize();
+			return (getPanelWidth() - getShapeWidth()) / 2/* - getBorderSize()*/;
 		}
 	}
 
 	private int getShapeY() {
 		if (sizeConstrainedWithWidth()) {
-			return (getPanelHeight() - getShapeHeight()) / 2 - getBorderSize();
+			return (getPanelHeight() - getShapeHeight()) / 2/* - getBorderSize()*/;
 		}
 		else {
-			return 0;
+			return getBorderSize();
 		}
 	}
 
