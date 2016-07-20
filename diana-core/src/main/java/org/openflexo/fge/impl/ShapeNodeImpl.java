@@ -426,11 +426,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		// Handle control areas
 		if (getControlAreas() != null) {
 			for (ControlArea<?> ca : getControlAreas()) {
-				FGEArea a = ca.getArea();
-				if (a instanceof FGEShape) {
-					FGERectangle bb = ((FGEShape) a).getBoundingBox();
-					if (bb.getY() < 0) {
-						returned = Math.max(returned, (int) (-getHeight() * bb.getY() + 2));
+				if (ca != null) {
+					FGEArea a = ca.getArea();
+					if (a instanceof FGEShape) {
+						FGERectangle bb = ((FGEShape) a).getBoundingBox();
+						if (bb.getY() < 0) {
+							returned = Math.max(returned, (int) (-getHeight() * bb.getY() + 2));
+						}
 					}
 				}
 			}
@@ -513,11 +515,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		// Handle control areas
 		if (getControlAreas() != null) {
 			for (ControlArea<?> ca : getControlAreas()) {
-				FGEArea a = ca.getArea();
-				if (a instanceof FGEShape) {
-					FGERectangle bb = ((FGEShape) a).getBoundingBox();
-					if (bb.getY() + bb.getHeight() > 1) {
-						returned = Math.max(returned, (int) (getWidth() * (bb.getY() + bb.getHeight() - 1.0) + 2));
+				if (ca != null) {
+					FGEArea a = ca.getArea();
+					if (a instanceof FGEShape) {
+						FGERectangle bb = ((FGEShape) a).getBoundingBox();
+						if (bb.getY() + bb.getHeight() > 1) {
+							returned = Math.max(returned, (int) (getWidth() * (bb.getY() + bb.getHeight() - 1.0) + 2));
+						}
 					}
 				}
 			}
@@ -558,11 +562,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		// Handle control areas
 		if (getControlAreas() != null) {
 			for (ControlArea<?> ca : getControlAreas()) {
-				FGEArea a = ca.getArea();
-				if (a instanceof FGEShape) {
-					FGERectangle bb = ((FGEShape) a).getBoundingBox();
-					if (bb.getX() + bb.getWidth() > 1) {
-						returned = Math.max(returned, (int) (getWidth() * (bb.getX() + bb.getWidth() - 1.0) + 2));
+				if (ca != null) {
+					FGEArea a = ca.getArea();
+					if (a instanceof FGEShape) {
+						FGERectangle bb = ((FGEShape) a).getBoundingBox();
+						if (bb.getX() + bb.getWidth() > 1) {
+							returned = Math.max(returned, (int) (getWidth() * (bb.getX() + bb.getWidth() - 1.0) + 2));
+						}
 					}
 				}
 			}
