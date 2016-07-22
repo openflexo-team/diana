@@ -466,7 +466,9 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				updateBounds(true);
+				if (!isDeleted()) {
+					updateBounds(true);
+				}
 			}
 		});
 	}
