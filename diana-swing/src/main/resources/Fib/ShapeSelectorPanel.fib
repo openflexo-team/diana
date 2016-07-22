@@ -357,7 +357,7 @@
 			backgroundSecondarySelectionColor="173,215,255"
 			backgroundNonSelectionColor="255,255,255" localize="true"
 			manageDynamicModel="true" name="ComplexCurvePointTable" index="5"
-			data="polygon.points"
+			data="curve.points"
 			constraints="twocols(expandHorizontally=true;expandVertically=true;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=center)">
 			<LabelColumn data="curve.points.indexOf(iterator)"
 				title="id" columnWidth="15" resizable="true" displayTitle="true"
