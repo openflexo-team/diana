@@ -1165,11 +1165,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		boolean isFullyContained = true;
 		FGERectangle containerViewBounds = new FGERectangle(0, 0, getParentNode().getWidth(), getParentNode().getHeight(), Filling.FILLED);
 		for (ControlPoint cp : getShape().getControlPoints()) {
-			Point cpInContainerView = convertLocalNormalizedPointToRemoteViewCoordinates(cp.getPoint(), getParentNode(), 1);
-			FGEPoint preciseCPInContainerView = new FGEPoint(cpInContainerView.x, cpInContainerView.y);
-			if (!containerViewBounds.containsPoint(preciseCPInContainerView)) {
-				// System.out.println("Going outside: point=" + preciseCPInContainerView + " bounds=" + containerViewBounds);
-				isFullyContained = false;
+			if (cp != null) {
+				Point cpInContainerView = convertLocalNormalizedPointToRemoteViewCoordinates(cp.getPoint(), getParentNode(), 1);
+				FGEPoint preciseCPInContainerView = new FGEPoint(cpInContainerView.x, cpInContainerView.y);
+				if (!containerViewBounds.containsPoint(preciseCPInContainerView)) {
+					// System.out.println("Going outside: point=" + preciseCPInContainerView + " bounds=" + containerViewBounds);
+					isFullyContained = false;
+				}
 			}
 		}
 		return isFullyContained;
@@ -1184,11 +1186,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				drawingViewSelection.getWidth(), drawingViewSelection.getHeight(), Filling.FILLED);
 		boolean isFullyContained = true;
 		for (ControlPoint cp : getShape().getControlPoints()) {
-			Point cpInContainerView = convertLocalNormalizedPointToRemoteViewCoordinates(cp.getPoint(), getParentNode(), scale);
-			FGEPoint preciseCPInContainerView = new FGEPoint(cpInContainerView.x, cpInContainerView.y);
-			if (!drawingViewBounds.containsPoint(preciseCPInContainerView)) {
-				// System.out.println("Going outside: point="+preciseCPInContainerView+" bounds="+containerViewBounds);
-				isFullyContained = false;
+			if (cp != null) {
+				Point cpInContainerView = convertLocalNormalizedPointToRemoteViewCoordinates(cp.getPoint(), getParentNode(), scale);
+				FGEPoint preciseCPInContainerView = new FGEPoint(cpInContainerView.x, cpInContainerView.y);
+				if (!drawingViewBounds.containsPoint(preciseCPInContainerView)) {
+					// System.out.println("Going outside: point="+preciseCPInContainerView+" bounds="+containerViewBounds);
+					isFullyContained = false;
+				}
 			}
 		}
 		return isFullyContained;
@@ -1208,57 +1212,45 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		FGERectangle containerViewBounds = new FGERectangle(0, 0, getParentNode().getViewWidth(1), getParentNode().getViewHeight(1),
 				Filling.NOT_FILLED);
 
-		/*boolean wasInside = true;
-		FGERectangle containerViewBounds = new FGERectangle(0,0,
-				getContainerGraphicalRepresentation().getViewWidth(1),
-				getContainerGraphicalRepresentation().getViewHeight(1));
 		for (ControlPoint cp : getShape().getControlPoints()) {
-			Point cpInContainerView = convertLocalNormalizedPointToRemoteViewCoordinates(
-					cp.getPoint(),
-					getContainerGraphicalRepresentation(),
-					1);
-			if (!containerViewBounds.contains(cpInContainerView)) wasInside = false;
-		}
-		if (!wasInside) {
-			logger.warning("getMoveAuthorizedRatio() called for a shape whose initial location wasn't in container shape");
-			return 1;
-		}*/
-		for (ControlPoint cp : getShape().getControlPoints()) {
-			Point currentCPInContainerView = convertLocalNormalizedPointToRemoteViewCoordinates(cp.getPoint(), getParentNode(), 1);
-			FGEPoint initialCPInContainerView = new FGEPoint((int) (currentCPInContainerView.x + initialLocation.x - getX()),
-					(int) (currentCPInContainerView.y + initialLocation.y - getY()));
-			FGEPoint desiredCPInContainerView = new FGEPoint((int) (currentCPInContainerView.x + desiredLocation.x - getX()),
-					(int) (currentCPInContainerView.y + desiredLocation.y - getY()));
-			if (!containerViewArea.containsPoint(initialCPInContainerView)) {
-				logger.warning("getMoveAuthorizedRatio() called for a shape whose initial location wasn't in container shape");
-				return 1;
-			}
-			if (!containerViewArea.containsPoint(desiredCPInContainerView)) {
-				// We are now sure that desired move will make the shape
-				// go outside parent bounds
-				FGESegment segment = new FGESegment(initialCPInContainerView, desiredCPInContainerView);
-				FGEArea intersection = FGEIntersectionArea.makeIntersection(segment, containerViewBounds);
-				if (intersection instanceof FGEPoint) {
-					// Intersection is normally a point
-					FGEPoint intersect = (FGEPoint) intersection;
-					double currentRatio = 1;
-					if (Math.abs(desiredCPInContainerView.x - initialCPInContainerView.x) > FGEGeometricObject.EPSILON) {
-						currentRatio = (intersect.x - initialCPInContainerView.x)
-								/ (desiredCPInContainerView.x - initialCPInContainerView.x) - FGEGeometricObject.EPSILON;
-					}
-					else if (Math.abs(desiredCPInContainerView.y - initialCPInContainerView.y) > FGEGeometricObject.EPSILON) {
-						currentRatio = (intersect.y - initialCPInContainerView.y)
-								/ (desiredCPInContainerView.y - initialCPInContainerView.y) - FGEGeometricObject.EPSILON;
+			if (cp != null) {
+				Point currentCPInContainerView = convertLocalNormalizedPointToRemoteViewCoordinates(cp.getPoint(), getParentNode(), 1);
+				FGEPoint initialCPInContainerView = new FGEPoint((int) (currentCPInContainerView.x + initialLocation.x - getX()),
+						(int) (currentCPInContainerView.y + initialLocation.y - getY()));
+				FGEPoint desiredCPInContainerView = new FGEPoint((int) (currentCPInContainerView.x + desiredLocation.x - getX()),
+						(int) (currentCPInContainerView.y + desiredLocation.y - getY()));
+				if (!containerViewArea.containsPoint(initialCPInContainerView)) {
+					logger.warning("getMoveAuthorizedRatio() called for a shape whose initial location wasn't in container shape");
+					return 1;
+				}
+				if (!containerViewArea.containsPoint(desiredCPInContainerView)) {
+					// We are now sure that desired move will make the shape
+					// go outside parent bounds
+					FGESegment segment = new FGESegment(initialCPInContainerView, desiredCPInContainerView);
+					FGEArea intersection = FGEIntersectionArea.makeIntersection(segment, containerViewBounds);
+					if (intersection instanceof FGEPoint) {
+						// Intersection is normally a point
+						FGEPoint intersect = (FGEPoint) intersection;
+						double currentRatio = 1;
+						if (Math.abs(desiredCPInContainerView.x - initialCPInContainerView.x) > FGEGeometricObject.EPSILON) {
+							currentRatio = (intersect.x - initialCPInContainerView.x)
+									/ (desiredCPInContainerView.x - initialCPInContainerView.x) - FGEGeometricObject.EPSILON;
+						}
+						else if (Math.abs(desiredCPInContainerView.y - initialCPInContainerView.y) > FGEGeometricObject.EPSILON) {
+							currentRatio = (intersect.y - initialCPInContainerView.y)
+									/ (desiredCPInContainerView.y - initialCPInContainerView.y) - FGEGeometricObject.EPSILON;
+						}
+						else {
+							logger.warning(
+									"Unexpected unsignifiant move from " + initialCPInContainerView + " to " + desiredCPInContainerView);
+						}
+						if (currentRatio < returnedAuthorizedRatio) {
+							returnedAuthorizedRatio = currentRatio;
+						}
 					}
 					else {
-						logger.warning("Unexpected unsignifiant move from " + initialCPInContainerView + " to " + desiredCPInContainerView);
+						logger.warning("Unexpected intersection: " + intersection);
 					}
-					if (currentRatio < returnedAuthorizedRatio) {
-						returnedAuthorizedRatio = currentRatio;
-					}
-				}
-				else {
-					logger.warning("Unexpected intersection: " + intersection);
 				}
 			}
 		}
