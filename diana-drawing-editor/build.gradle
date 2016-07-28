@@ -1,0 +1,6 @@
+dependencies {
+  compile relativeProject(':diana-api')
+  compile relativeProject(':diana-core')
+  compile relativeProject(':diana-swing')
+  compile group: "org.openflexo", name: "flexoutils", version: "1.+"
+}
