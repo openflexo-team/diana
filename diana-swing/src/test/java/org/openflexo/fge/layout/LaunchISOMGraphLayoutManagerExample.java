@@ -44,8 +44,8 @@ import java.util.logging.Logger;
 
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
-import org.openflexo.fge.TestGraph;
-import org.openflexo.fge.layout.ISOMGraphLayoutManagerDrawing;
+import org.openflexo.fge.test.TestGraph;
+import org.openflexo.fge.test.layout.ISOMGraphLayoutManagerDrawing;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.model.exceptions.ModelDefinitionException;

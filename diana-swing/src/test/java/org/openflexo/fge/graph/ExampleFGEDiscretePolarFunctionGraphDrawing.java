@@ -55,9 +55,9 @@ import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
-import org.openflexo.fge.graph.TestFGEDiscreteFunctionGraph.Person;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
+import org.openflexo.fge.test.Person;
 
 /**
  * This is an example of drawing containing a {@link FGEDiscreteSimpleFunctionGraph} showing 2 functions represented as bar graphs

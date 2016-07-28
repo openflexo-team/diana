@@ -36,7 +36,7 @@
  * 
  */
 
-package org.openflexo.fge.layout;
+package org.openflexo.fge.test.layout;
 
 import java.awt.Color;
 
@@ -57,9 +57,6 @@ import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
-import org.openflexo.fge.TestEdge;
-import org.openflexo.fge.TestGraph;
-import org.openflexo.fge.TestGraphNode;
 import org.openflexo.fge.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.fge.geom.FGECircle;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
@@ -68,6 +65,9 @@ import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
+import org.openflexo.fge.test.TestEdge;
+import org.openflexo.fge.test.TestGraph;
+import org.openflexo.fge.test.TestGraphNode;
 
 public class CircularDrawing extends DrawingImpl<TestGraph> {
 

@@ -60,6 +60,7 @@ import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
 import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
 import org.openflexo.fge.graph.FGESimpleFunctionGraph.Orientation;
+import org.openflexo.fge.test.Person;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
@@ -94,19 +95,6 @@ public class TestFGEDiscreteFunctionGraph {
 
 	@After
 	public void after() {
-	}
-
-	public static class Person {
-		public String name;
-		public int size;
-		public double weight;
-
-		public Person(String name, int size, double weight) {
-			super();
-			this.name = name;
-			this.size = size;
-			this.weight = weight;
-		}
 	}
 
 	@Test

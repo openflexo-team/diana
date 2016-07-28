@@ -36,7 +36,7 @@
  * 
  */
 
-package org.openflexo.fge;
+package org.openflexo.fge.test;
 
 import java.util.Observable;
 

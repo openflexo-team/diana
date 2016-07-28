@@ -56,21 +56,21 @@ import javax.swing.JScrollPane;
 
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
-import org.openflexo.fge.GraphDrawing1;
-import org.openflexo.fge.TestGraph;
-import org.openflexo.fge.TestGraphNode;
 import org.openflexo.fge.swing.JDianaInteractiveEditor;
 import org.openflexo.fge.swing.JDianaInteractiveViewer;
 import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
+import org.openflexo.fge.test.GraphDrawing1;
+import org.openflexo.fge.test.TestGraph;
+import org.openflexo.fge.test.TestGraphNode;
 import org.openflexo.gina.ApplicationFIBLibrary.ApplicationFIBLibraryImpl;
 import org.openflexo.gina.swing.utils.logging.FlexoLoggingViewer;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.model.exceptions.ModelDefinitionException;
-import org.openflexo.replay.utils.Case;
-import org.openflexo.replay.utils.Window;
+import org.openflexo.replay.test.Case;
+import org.openflexo.replay.test.Window;
 
 public class DrawingTreeNodeCase extends Case {
 

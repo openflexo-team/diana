@@ -36,15 +36,21 @@
  * 
  */
 
-package org.openflexo.fge;
+package org.openflexo.fge.test;
 
 import org.openflexo.connie.DataBinding;
+import org.openflexo.fge.ConnectorGraphicalRepresentation;
+import org.openflexo.fge.DrawingGraphicalRepresentation;
+import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
 import org.openflexo.fge.GRBinding.DrawingGRBinding;
 import org.openflexo.fge.GRBinding.ShapeGRBinding;
 import org.openflexo.fge.GRProvider.ConnectorGRProvider;
 import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
+import org.openflexo.fge.GRStructureVisitor;
+import org.openflexo.fge.GraphicalRepresentation;
+import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.fge.control.DianaInteractiveViewer;
 import org.openflexo.fge.control.MouseControl.MouseButton;
@@ -84,8 +90,8 @@ public class GraphDrawing1 extends DrawingImpl<TestGraph> {
 		nodeRepresentation.addToMouseDragControls(new MouseDragControlImpl("dragNode", MouseButton.LEFT, new MoveAction() {
 
 			@Override
-			public boolean handleMouseReleased(org.openflexo.fge.Drawing.DrawingTreeNode<?, ?> node,
-					DianaInteractiveViewer<?, ?, ?> editor, MouseControlContext context, boolean isSignificativeDrag) {
+			public boolean handleMouseReleased(org.openflexo.fge.Drawing.DrawingTreeNode<?, ?> node, DianaInteractiveViewer<?, ?, ?> editor,
+					MouseControlContext context, boolean isSignificativeDrag) {
 				boolean returned = super.handleMouseReleased(node, editor, context, isSignificativeDrag);
 				System.out.println("Detected mouse released");
 				return returned;
