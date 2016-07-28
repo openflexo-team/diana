@@ -59,7 +59,7 @@ import org.openflexo.fge.geom.FGESteppedDimensionConstraint;
 import org.openflexo.model.StringConverterLibrary.Converter;
 import org.openflexo.model.annotations.StringConverter;
 import org.openflexo.model.converter.DataBindingConverter;
-import org.openflexo.toolbox.ColorUtils;
+import org.openflexo.uicst.ColorUtils;
 
 public class FGEUtils {
 
@@ -125,7 +125,8 @@ public class FGEUtils {
 				}
 				count++;
 			} while (ratio < 5 && count < 10);
-		} else {
+		}
+		else {
 			test = new Color(test.getRed() == 0 ? 5 : test.getRed(), test.getGreen() == 0 ? 5 : test.getGreen(),
 					test.getBlue() == 0 ? 5 : test.getBlue());
 			do {
@@ -246,7 +247,8 @@ public class FGEUtils {
 		if (source != destination) {
 			AffineTransform at = convertCoordinatesAT(source, destination, scale);
 			return (Point) at.transform(point, new Point());
-		} else {
+		}
+		else {
 			return new Point(point);
 		}
 	}
@@ -288,7 +290,8 @@ public class FGEUtils {
 			AffineTransform returned = convertFromDrawableToDrawingAT(source, scale);
 			returned.preConcatenate(convertFromDrawingToDrawableAT(destination, scale));
 			return returned;
-		} else {
+		}
+		else {
 			return new AffineTransform();
 		}
 	}

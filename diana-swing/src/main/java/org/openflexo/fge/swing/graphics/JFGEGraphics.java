@@ -794,7 +794,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 	}
 
 	/**
-	 * Internnly called to rebuild colored texture
+	 * Internally called to rebuild colored texture
 	 * 
 	 * @param bs
 	 */
