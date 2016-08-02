@@ -60,24 +60,24 @@ import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
 import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
 import org.openflexo.fge.graph.FGESimpleFunctionGraph.Orientation;
-import org.openflexo.fge.test.Person;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
+import org.openflexo.test.data.SimplePerson;
 
 @RunWith(OrderedRunner.class)
 public class TestFGEDiscreteFunctionGraph {
 
 	private static FGEModelFactory FACTORY;
 
-	private static FGEDiscreteSimpleFunctionGraph<Person> graph;
+	private static FGEDiscreteSimpleFunctionGraph<SimplePerson> graph;
 	private static FGENumericFunction<Integer> sizeFunction;
 	private static FGENumericFunction<Double> weightFunction;
 
-	private static Person martin;
-	private static Person mary;
-	private static Person john;
-	private static Person martinJr;
+	private static SimplePerson martin;
+	private static SimplePerson mary;
+	private static SimplePerson john;
+	private static SimplePerson martinJr;
 
 	@BeforeClass
 	public static void beforeClass() throws ModelDefinitionException {
@@ -100,15 +100,15 @@ public class TestFGEDiscreteFunctionGraph {
 	@Test
 	@TestOrder(1)
 	public void test1InitGraph() {
-		List<Person> persons = new ArrayList<Person>();
-		persons.add(martin = new Person("Martin", 173, 73.7));
-		persons.add(mary = new Person("Mary", 165, 57.0));
-		persons.add(john = new Person("John", 107, 26.3));
-		persons.add(martinJr = new Person("Martin Jr", 97, 19.2));
+		List<SimplePerson> persons = new ArrayList<>();
+		persons.add(martin = new SimplePerson("Martin", 173, 73.7));
+		persons.add(mary = new SimplePerson("Mary", 165, 57.0));
+		persons.add(john = new SimplePerson("John", 107, 26.3));
+		persons.add(martinJr = new SimplePerson("Martin Jr", 97, 19.2));
 
-		graph = new FGEDiscreteSimpleFunctionGraph<Person>();
+		graph = new FGEDiscreteSimpleFunctionGraph<>();
 
-		graph.setParameter("person", Person.class);
+		graph.setParameter("person", SimplePerson.class);
 		graph.setDiscreteValues(persons);
 		graph.setDiscreteValuesLabel(new DataBinding<String>("person.name"));
 		graph.setParameterOrientation(Orientation.HORIZONTAL);
@@ -142,9 +142,9 @@ public class TestFGEDiscreteFunctionGraph {
 	@TestOrder(3)
 	public void testIterate() throws TypeMismatchException, NullReferenceException, InvocationTargetException {
 		int i = 0;
-		Iterator<Person> it = graph.iterateParameter();
+		Iterator<SimplePerson> it = graph.iterateParameter();
 		while (it.hasNext()) {
-			Person p = it.next();
+			SimplePerson p = it.next();
 			System.out.println("For " + p + " age is " + graph.evaluateFunction(sizeFunction, p) + " waight is "
 					+ graph.evaluateFunction(weightFunction, p));
 			i++;
