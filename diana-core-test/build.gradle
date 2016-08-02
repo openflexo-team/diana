@@ -1,0 +1,4 @@
+dependencies {
+  compile relativeProject(':diana-core')
+  compile group: "org.openflexo", name: "testutils", version: "1.+"
+}
