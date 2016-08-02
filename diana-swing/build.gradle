@@ -2,12 +2,15 @@ dependencies {
   compile relativeProject(':diana-geom')
   compile relativeProject(':diana-api')
   compile relativeProject(':diana-core')
+  testCompile relativeProject(':diana-core-test')
+
   compile group: "org.openflexo", name: "gina-swing", version: "1.+"
   testCompile group: "org.openflexo", name: "gina-test", version: "1.+"
-  testCompile group: "org.openflexo", name: "gina-replay", version: "1.+"
-
-  //  compile group: "org.openflexo", name: "gina-api", version: "1.+"
-
-  //  compile group: 'net.sf.jung', name: 'jung-graph-impl', version: '2.0.1'
-  //  compile group: 'net.sf.jung', name: 'jung-algorithms', version: '2.0.1'
+  testCompile group: "org.openflexo", name: "gina-replay-test", version: "1.+"
+}
+// To be able to use private apple api
+compileJava {
+    options.compilerArgs << "-XDignore.symbol.file=true"
+    options.fork = true
+    options.forkOptions.executable = 'javac'
 }
