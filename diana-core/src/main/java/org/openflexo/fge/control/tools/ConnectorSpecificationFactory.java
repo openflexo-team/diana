@@ -195,8 +195,8 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		this.connectorType = connectorType;
 		if (pcSupport != null) {
 			pcSupport.firePropertyChange(STYLE_CLASS_CHANGED, oldConnectorType, getStyleType());
-			pcSupport.firePropertyChange("connectorSpecification", oldCS, getConnectorSpecification());
 			pcSupport.firePropertyChange("styleType", oldConnectorType, getStyleType());
+			pcSupport.firePropertyChange("connectorSpecification", oldCS, getConnectorSpecification());
 		}
 
 		// Applying some values to new inspected connector specification
