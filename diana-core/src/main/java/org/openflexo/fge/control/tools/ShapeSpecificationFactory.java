@@ -249,8 +249,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 		this.shapeType = shapeType;
 		this.pcSupport.firePropertyChange(STYLE_CLASS_CHANGED, oldShapeType, this.getStyleType());
-		this.pcSupport.firePropertyChange("shapeSpecification", oldSS, this.getShapeSpecification());
 		this.pcSupport.firePropertyChange("styleType", oldShapeType, this.getStyleType());
+		this.pcSupport.firePropertyChange("shapeSpecification", oldSS, this.getShapeSpecification());
 	}
 
 	public boolean isSingleSelection() {
@@ -316,7 +316,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	}
 
-	protected class InspectedRectangle<SS extends Rectangle> extends AbstractInspectedShapeSpecification<SS> implements Rectangle {
+	protected class InspectedRectangle<SS extends Rectangle> extends AbstractInspectedShapeSpecification<SS>implements Rectangle {
 
 		protected InspectedRectangle(final DianaInteractiveViewer<?, ?, ?> controller, final SS defaultValue) {
 			super(controller, defaultValue);
@@ -374,7 +374,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	}
 
-	protected class InspectedSquare extends InspectedRectangle<Square> implements Square {
+	protected class InspectedSquare extends InspectedRectangle<Square>implements Square {
 
 		protected InspectedSquare(final DianaInteractiveViewer<?, ?, ?> controller, final Square defaultValue) {
 			super(controller, defaultValue);
@@ -402,7 +402,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	}
 
-	protected class InspectedPolygon<SS extends Polygon> extends AbstractInspectedShapeSpecification<SS> implements Polygon {
+	protected class InspectedPolygon<SS extends Polygon> extends AbstractInspectedShapeSpecification<SS>implements Polygon {
 
 		// private List<FGEPoint> points;
 
@@ -506,7 +506,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 	}
 
-	protected class InspectedComplexCurve extends AbstractInspectedShapeSpecification<ComplexCurve> implements ComplexCurve {
+	protected class InspectedComplexCurve extends AbstractInspectedShapeSpecification<ComplexCurve>implements ComplexCurve {
 
 		// private List<FGEPoint> points;
 
@@ -582,7 +582,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	}
 
-	protected class InspectedRegularPolygon<SS extends RegularPolygon> extends InspectedPolygon<SS> implements RegularPolygon {
+	protected class InspectedRegularPolygon<SS extends RegularPolygon> extends InspectedPolygon<SS>implements RegularPolygon {
 
 		protected InspectedRegularPolygon(final DianaInteractiveViewer<?, ?, ?> controller, final SS defaultValue) {
 			super(controller, defaultValue);
@@ -687,7 +687,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	}
 
-	protected class InspectedLosange extends InspectedRegularPolygon<Losange> implements Losange {
+	protected class InspectedLosange extends InspectedRegularPolygon<Losange>implements Losange {
 
 		protected InspectedLosange(final DianaInteractiveViewer<?, ?, ?> controller, final Losange defaultValue) {
 			super(controller, defaultValue);
@@ -710,7 +710,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	}
 
-	protected class InspectedTriangle extends InspectedRegularPolygon<Triangle> implements Triangle {
+	protected class InspectedTriangle extends InspectedRegularPolygon<Triangle>implements Triangle {
 
 		protected InspectedTriangle(final DianaInteractiveViewer<?, ?, ?> controller, final Triangle defaultValue) {
 			super(controller, defaultValue);
@@ -733,7 +733,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	}
 
-	protected class InspectedOval<SS extends Oval> extends AbstractInspectedShapeSpecification<SS> implements Oval {
+	protected class InspectedOval<SS extends Oval> extends AbstractInspectedShapeSpecification<SS>implements Oval {
 
 		protected InspectedOval(final DianaInteractiveViewer<?, ?, ?> controller, final SS defaultValue) {
 			super(controller, defaultValue);
@@ -766,7 +766,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	}
 
-	protected class InspectedCircle extends InspectedOval<Circle> implements Circle {
+	protected class InspectedCircle extends InspectedOval<Circle>implements Circle {
 
 		protected InspectedCircle(final DianaInteractiveViewer<?, ?, ?> controller, final Circle defaultValue) {
 			super(controller, defaultValue);
@@ -794,7 +794,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	}
 
-	protected class InspectedArc extends AbstractInspectedShapeSpecification<Arc> implements Arc {
+	protected class InspectedArc extends AbstractInspectedShapeSpecification<Arc>implements Arc {
 
 		protected InspectedArc(final DianaInteractiveViewer<?, ?, ?> controller, final Arc defaultValue) {
 			super(controller, defaultValue);
@@ -857,7 +857,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	}
 
-	protected class InspectedStar extends AbstractInspectedShapeSpecification<Star> implements Star {
+	protected class InspectedStar extends AbstractInspectedShapeSpecification<Star>implements Star {
 
 		protected InspectedStar(final DianaInteractiveViewer<?, ?, ?> controller, final Star defaultValue) {
 			super(controller, defaultValue);
@@ -929,7 +929,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 	}
 
-	protected class InspectedPlus extends AbstractInspectedShapeSpecification<Plus> implements Plus {
+	protected class InspectedPlus extends AbstractInspectedShapeSpecification<Plus>implements Plus {
 
 		protected InspectedPlus(final DianaInteractiveViewer<?, ?, ?> controller, final Plus defaultValue) {
 			super(controller, defaultValue);
@@ -984,7 +984,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 	}
 
-	protected class InspectedChevron extends AbstractInspectedShapeSpecification<Chevron> implements Chevron {
+	protected class InspectedChevron extends AbstractInspectedShapeSpecification<Chevron>implements Chevron {
 
 		protected InspectedChevron(final DianaInteractiveViewer<?, ?, ?> controller, final Chevron defaultValue) {
 			super(controller, defaultValue);
@@ -1033,7 +1033,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 	}
 
-	protected class InspectedParallelogram extends AbstractInspectedShapeSpecification<Parallelogram> implements Parallelogram {
+	protected class InspectedParallelogram extends AbstractInspectedShapeSpecification<Parallelogram>implements Parallelogram {
 
 		protected InspectedParallelogram(final DianaInteractiveViewer<?, ?, ?> controller, final Parallelogram defaultValue) {
 			super(controller, defaultValue);
