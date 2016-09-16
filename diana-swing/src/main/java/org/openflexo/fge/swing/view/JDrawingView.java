@@ -1292,10 +1292,10 @@ public class JDrawingView<M> extends JDianaLayeredView<M>implements Autoscroll, 
 				requiredBounds.width = 100;
 			if (requiredBounds.height < 100)
 				requiredBounds.height = 100;
-			System.out.println("requiredBounds: " + requiredBounds);
 			Rectangle croppedBounds = new Rectangle((int) requiredBounds.x, (int) requiredBounds.y, (int) (requiredBounds.width),
 					(int) (requiredBounds.height));
-			System.out.println("croppedBounds: " + croppedBounds);
+
+			croppedBounds = croppedBounds.intersection(new Rectangle(0, 0, screenshot.getWidth(), screenshot.getHeight()));
 			screenshot = screenshot.getSubimage(croppedBounds.x, croppedBounds.y, croppedBounds.width, croppedBounds.height);
 
 			if (logger.isLoggable(Level.INFO)) {
