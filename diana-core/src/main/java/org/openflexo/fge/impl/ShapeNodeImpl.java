@@ -44,6 +44,7 @@ import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.beans.PropertyChangeEvent;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -425,7 +426,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 		// Handle control areas
 		if (getControlAreas() != null) {
-			for (ControlArea<?> ca : getControlAreas()) {
+			for (ControlArea<?> ca : new ArrayList<>(getControlAreas())) {
 				if (ca != null) {
 					FGEArea a = ca.getArea();
 					if (a instanceof FGEShape) {
@@ -467,7 +468,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 		// Handle control areas
 		if (getControlAreas() != null) {
-			for (ControlArea<?> ca : getControlAreas()) {
+			for (ControlArea<?> ca : new ArrayList<>(getControlAreas())) {
 				if (ca != null) {
 					FGEArea a = ca.getArea();
 					if (a instanceof FGEShape) {
@@ -514,7 +515,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 		// Handle control areas
 		if (getControlAreas() != null) {
-			for (ControlArea<?> ca : getControlAreas()) {
+			for (ControlArea<?> ca : new ArrayList<>(getControlAreas())) {
 				if (ca != null) {
 					FGEArea a = ca.getArea();
 					if (a instanceof FGEShape) {
@@ -561,7 +562,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 		// Handle control areas
 		if (getControlAreas() != null) {
-			for (ControlArea<?> ca : getControlAreas()) {
+			for (ControlArea<?> ca : new ArrayList<>(getControlAreas())) {
 				if (ca != null) {
 					FGEArea a = ca.getArea();
 					if (a instanceof FGEShape) {
