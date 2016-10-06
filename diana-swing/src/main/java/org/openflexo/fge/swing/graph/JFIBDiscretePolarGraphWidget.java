@@ -123,7 +123,7 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 			super(fibGraph, JFIBDiscretePolarGraphWidget.this);
 		}
 
-		private final List<HasPropertyChangeSupport> discreteValuesBeeingListened = new ArrayList<>();
+		private List<HasPropertyChangeSupport> discreteValuesBeeingListened;
 
 		protected void updateDiscreteValues(List<?> values) {
 			stopListenDiscreteValues();
@@ -142,6 +142,9 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 		}
 
 		private void stopListenDiscreteValues() {
+			if (discreteValuesBeeingListened == null) {
+				discreteValuesBeeingListened = new ArrayList<>();
+			}
 			for (HasPropertyChangeSupport o : discreteValuesBeeingListened) {
 				o.getPropertyChangeSupport().removePropertyChangeListener(this);
 			}
