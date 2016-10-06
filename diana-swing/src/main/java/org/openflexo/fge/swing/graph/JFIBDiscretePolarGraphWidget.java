@@ -68,8 +68,9 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 
 	@Override
 	protected void componentBecomesVisible() {
-		listenDiscreteValuesChange();
 		super.componentBecomesVisible();
+		listenDiscreteValuesChange();
+		getGraphDrawing().updateGraph();
 	}
 
 	@Override
@@ -206,8 +207,10 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 				updateGraph();
 			}
 			if (discreteValuesBeeingListened.contains(evt.getSource())) {
-				System.out.println("Updating graph because property " + evt.getPropertyName() + " changed for " + evt.getSource());
-				updateGraph();
+				if (!evt.getPropertyName().equals("serializing")) {
+					System.out.println("Updating graph because property " + evt.getPropertyName() + " changed for " + evt.getSource());
+					updateGraph();
+				}
 			}
 		}
 
