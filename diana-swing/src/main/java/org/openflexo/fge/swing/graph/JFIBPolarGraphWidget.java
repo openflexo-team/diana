@@ -43,6 +43,7 @@ import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
+import org.openflexo.fge.graph.FGEPolarFunctionGraph;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.graph.FIBContinuousSimpleFunctionGraph;
 import org.openflexo.gina.model.graph.FIBPolarFunctionGraph;
@@ -60,7 +61,8 @@ public abstract class JFIBPolarGraphWidget<W extends FIBPolarFunctionGraph> exte
 		super(model, controller);
 	}
 
-	public abstract static class FGEPolarFunctionGraphDrawing<W extends FIBPolarFunctionGraph> extends GraphDrawing<W> {
+	public abstract static class FGEPolarFunctionGraphDrawing<W extends FIBPolarFunctionGraph, G extends FGEPolarFunctionGraph<?>>
+			extends GraphDrawing<W, G> {
 
 		public FGEPolarFunctionGraphDrawing(W fibGraph, JFIBPolarGraphWidget<W> widget) {
 			super(fibGraph, widget);

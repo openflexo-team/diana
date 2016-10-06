@@ -95,6 +95,8 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 
 	private static final Logger logger = Logger.getLogger(JFIBGraphWidget.class.getPackage().getName());
 
+	private GraphDrawing<W, ?> graphDrawing;
+
 	/**
 	 * A {@link RenderingAdapter} implementation dedicated for Swing JLabel<br>
 	 * (based on generic SwingTextRenderingAdapter)
@@ -129,13 +131,23 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 	}
 
 	@Override
+	protected void componentBecomesVisible() {
+		super.componentBecomesVisible();
+		getGraphDrawing().updateGraph();
+	}
+
+	@Override
+	protected void componentBecomesInvisible() {
+		super.componentBecomesInvisible();
+	}
+
+	@Override
 	protected void performUpdate() {
 		super.performUpdate();
 		updateGraph();
 	}
 
 	protected void updateGraph() {
-		System.out.println("Ce serait bien de mettre a jour le graphe");
 		if (getTechnologyComponent() != null) {
 			getTechnologyComponent().updateGraph();
 		}
@@ -144,19 +156,13 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 
-		/*if (evt.getPropertyName().equals(FIBButton.LABEL_KEY)) {
-			updateLabel();
-		}
-		if (evt.getPropertyName().equals(FIBButton.BUTTON_ICON_KEY)) {
-			updateIcon();
-		}*/
-
 		super.propertyChange(evt);
 	}
 
 	@Override
 	protected JFIBGraphPanel makeTechnologyComponent() {
-		return new JFIBGraphPanel(makeGraphDrawing());
+		graphDrawing = makeGraphDrawing();
+		return new JFIBGraphPanel(graphDrawing);
 	}
 
 	@Override
@@ -169,9 +175,25 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 		return getRenderingAdapter().getResultingJComponent(this);
 	}
 
-	protected abstract <G extends FIBGraph> GraphDrawing<FIBGraph> makeGraphDrawing();
+	protected abstract <G extends FGEGraph> GraphDrawing<W, G> makeGraphDrawing();
 
-	public static abstract class GraphDrawing<G extends FIBGraph> extends DrawingImpl<G>implements PropertyChangeListener {
+	public <G extends FGEGraph> GraphDrawing<W, ? extends G> getGraphDrawing() {
+		return (GraphDrawing<W, G>) graphDrawing;
+	}
+
+	/**
+	 * Drawing used by the JFIBGraphWidget to display a graph using Diana framework
+	 * 
+	 * 
+	 * @author sylvain
+	 *
+	 * @param <W>
+	 *            type of widget beeing represented
+	 * @param <G>
+	 *            type of FGEGraph (Diana framework) used to represent the widget
+	 */
+	public static abstract class GraphDrawing<W extends FIBGraph, G extends FGEGraph> extends DrawingImpl<W>
+			implements PropertyChangeListener {
 
 		public static final int DEFAULT_WIDTH = 400;
 		public static final int DEFAULT_HEIGHT = 300;
@@ -186,19 +208,23 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			}
 		}
 
-		private FGEGraph graph;
-		private JFIBGraphWidget<G> widget;
+		protected G graph;
+		private JFIBGraphWidget<W> widget;
 
 		protected DrawingGraphicalRepresentation drawingRepresentation;
 		protected ShapeGraphicalRepresentation graphGR;
 
-		public GraphDrawing(G fibGraph, JFIBGraphWidget<G> widget) {
+		public GraphDrawing(W fibGraph, JFIBGraphWidget<W> widget) {
 			super(fibGraph, GRAPH_FACTORY, PersistenceMode.UniqueGraphicalRepresentations);
 			fibGraph.getPropertyChangeSupport().addPropertyChangeListener(this);
 			for (FIBGraphFunction f : fibGraph.getFunctions()) {
 				f.getPropertyChangeSupport().addPropertyChangeListener(this);
 			}
 			this.widget = widget;
+		}
+
+		public G getGraph() {
+			return graph;
 		}
 
 		@Override
@@ -212,9 +238,9 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			super.delete();
 		}
 
-		protected abstract FGEGraph makeGraph(G fibGraph);
+		protected abstract G makeGraph(W fibGraph);
 
-		protected FGEGraph appendFunctions(FIBGraph fibGraph, FGEGraph graph, FIBController controller) {
+		protected G appendFunctions(W fibGraph, G graph, FIBController controller) {
 
 			for (FIBGraphFunction function : fibGraph.getFunctions()) {
 				if (function instanceof FIBNumericFunction) {
@@ -307,8 +333,6 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			return graph;
 		}
 
-		// protected abstract FGEGraph updateGraph(G fibGraph);
-
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			if (evt.getPropertyName().equals(FIBGraph.FUNCTIONS_KEY)) {
@@ -325,33 +349,24 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 				updateBorders();
 			}
 			if (evt.getSource() instanceof FIBGraphFunction) {
-				System.out.println("On reconstruit la graphe a cause de la fonction qui change: " + evt.getPropertyName());
+				// System.out.println("On reconstruit la graphe a cause de la fonction qui change: " + evt.getPropertyName());
 				updateGraph();
 			}
 		}
 
 		protected void updateGraph() {
-			// updateGraph(getModel());
-			graph = makeGraph(getModel());
-			invalidateGraphicalObjectsHierarchy();
-			updateGraphicalObjectsHierarchy();
+			graph.update();
+
+			GraphNode<FGEGraph> graphNode = (GraphNode) getDrawingTreeNode(graph);
+			if (graphNode != null) {
+				graphNode.notifyGraphNeedsToBeRedrawn();
+			}
+			else {
+				logger.warning("Inconsistent data: could not retrieve node for graph");
+			}
+
 			widget.getRenderingAdapter().revalidateAndRepaint(widget.getTechnologyComponent());
 		}
-
-		protected void updateGraph2() {
-			// updateGraph(getModel());
-			invalidateGraphicalObjectsHierarchy();
-			updateGraphicalObjectsHierarchy();
-			widget.getRenderingAdapter().revalidateAndRepaint(widget.getTechnologyComponent());
-		}
-
-		/*protected void updateGraphWithoutRe() {
-			// updateGraph(getModel());
-			graph = makeGraph(getModel());
-			invalidateGraphicalObjectsHierarchy();
-			updateGraphicalObjectsHierarchy();
-			widget.getRenderingAdapter().revalidateAndRepaint(widget.getTechnologyComponent());
-		}*/
 
 		public void resizeTo(Dimension newSize) {
 			drawingRepresentation.setWidth(newSize.getWidth());
@@ -429,15 +444,15 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 							FGEView<?, ?> view = controller.getDrawingView().viewForNode(dtn);
 							Point newPoint = getPointInView(dtn, controller, context);
 							// controller.showContextualMenu(dtn, view, newPoint);
-							System.out.println("OK on doit faire l'update du graphe");
+							// System.out.println("OK on doit faire l'update du graphe");
 							updateGraph();
 							return false;
 						}
 					}, false, false, false, false, null));
 
-			final DrawingGRBinding<G> drawingBinding = bindDrawing((Class<G>) getModel().getClass(), "drawing", new DrawingGRProvider<G>() {
+			final DrawingGRBinding<W> drawingBinding = bindDrawing((Class<W>) getModel().getClass(), "drawing", new DrawingGRProvider<W>() {
 				@Override
-				public DrawingGraphicalRepresentation provideGR(G drawable, FGEModelFactory factory) {
+				public DrawingGraphicalRepresentation provideGR(W drawable, FGEModelFactory factory) {
 					return drawingRepresentation;
 				}
 			});
@@ -461,10 +476,10 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 				}
 			});
 
-			drawingBinding.addToWalkers(new GRStructureVisitor<G>() {
+			drawingBinding.addToWalkers(new GRStructureVisitor<W>() {
 
 				@Override
-				public void visit(G fibGraph) {
+				public void visit(W fibGraph) {
 					drawGraph(graphBinding, graph);
 				}
 			});

@@ -49,6 +49,8 @@ public class GraphNodeImpl<G extends FGEGraph> extends ShapeNodeImpl<G>implement
 
 	private static final Logger logger = Logger.getLogger(GraphNodeImpl.class.getPackage().getName());
 
+	public static final String GRAPH_NEEDS_TO_BE_REDRAWN = "GraphNeedsToBeRedrawn";
+
 	// TODO: change to protected
 	public GraphNodeImpl(DrawingImpl<?> drawingImpl, G graph, GraphGRBinding<G> grBinding, ContainerNodeImpl<?, ?> parentNode) {
 		super(drawingImpl, graph, grBinding, parentNode);
@@ -67,6 +69,11 @@ public class GraphNodeImpl<G extends FGEGraph> extends ShapeNodeImpl<G>implement
 		// Paint the graph
 		getDrawable().paint(g);
 
+	}
+
+	@Override
+	public void notifyGraphNeedsToBeRedrawn() {
+		getPropertyChangeSupport().firePropertyChange(GRAPH_NEEDS_TO_BE_REDRAWN, false, true);
 	}
 
 	@Override
@@ -101,4 +108,8 @@ public class GraphNodeImpl<G extends FGEGraph> extends ShapeNodeImpl<G>implement
 		return 10;
 	}
 
+	@Override
+	public String toString() {
+		return "GraphNodeImpl[" + Integer.toHexString(hashCode()) + "]";
+	}
 }

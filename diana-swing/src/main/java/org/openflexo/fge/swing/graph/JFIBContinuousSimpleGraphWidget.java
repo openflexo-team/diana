@@ -65,14 +65,15 @@ public class JFIBContinuousSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBCo
 		return new FGEContinuousSimpleFunctionGraphDrawing(getWidget());
 	}
 
-	public class FGEContinuousSimpleFunctionGraphDrawing extends FGESimpleFunctionGraphDrawing<FIBContinuousSimpleFunctionGraph> {
+	public class FGEContinuousSimpleFunctionGraphDrawing
+			extends FGESimpleFunctionGraphDrawing<FIBContinuousSimpleFunctionGraph, FGEContinuousSimpleFunctionGraph<Number>> {
 
 		public FGEContinuousSimpleFunctionGraphDrawing(FIBContinuousSimpleFunctionGraph fibGraph) {
 			super(fibGraph, JFIBContinuousSimpleGraphWidget.this);
 		}
 
 		@Override
-		protected FGEContinuousSimpleFunctionGraph<?> makeGraph(FIBContinuousSimpleFunctionGraph fibGraph) {
+		protected FGEContinuousSimpleFunctionGraph<Number> makeGraph(FIBContinuousSimpleFunctionGraph fibGraph) {
 
 			// System.out.println("Type=" + TypeUtils.getBaseClass(fibGraph.getParameterType()));
 

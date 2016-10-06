@@ -44,9 +44,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.openflexo.connie.DataBinding;
+import org.openflexo.connie.binding.BindingValueListChangeListener;
 import org.openflexo.fge.graph.FGEDiscretePolarFunctionGraph;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.graph.FIBDiscretePolarFunctionGraph;
+import org.openflexo.toolbox.HasPropertyChangeSupport;
 
 /**
  * Swing implementation for a {@link FIBDiscretePolarFunctionGraph} view<br>
@@ -57,8 +60,49 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 
 	private static final Logger logger = Logger.getLogger(JFIBDiscretePolarGraphWidget.class.getPackage().getName());
 
+	private BindingValueListChangeListener<Object, List<Object>> valuesBindingValueChangeListener;
+
 	public JFIBDiscretePolarGraphWidget(FIBDiscretePolarFunctionGraph model, FIBController controller) {
 		super(model, controller);
+	}
+
+	@Override
+	protected void componentBecomesVisible() {
+		listenDiscreteValuesChange();
+		super.componentBecomesVisible();
+	}
+
+	@Override
+	protected void componentBecomesInvisible() {
+		stopListenDiscreteValuesChange();
+		super.componentBecomesInvisible();
+	}
+
+	private void listenDiscreteValuesChange() {
+		if (valuesBindingValueChangeListener != null) {
+			valuesBindingValueChangeListener.stopObserving();
+			valuesBindingValueChangeListener.delete();
+		}
+		if (getComponent().getValues() != null && getComponent().getValues().isValid()) {
+			valuesBindingValueChangeListener = new BindingValueListChangeListener<Object, List<Object>>(
+					((DataBinding) getComponent().getValues()), getBindingEvaluationContext()) {
+
+				@Override
+				public void bindingValueChanged(Object source, List<Object> newValues) {
+					// System.out.println(" bindingValueChanged() detected for values=" + getComponent().getValues() + " with newValue="
+					// + newValues + " source=" + source);
+					getGraphDrawing().updateDiscreteValues(newValues);
+				}
+			};
+		}
+	}
+
+	private void stopListenDiscreteValuesChange() {
+		if (valuesBindingValueChangeListener != null) {
+			valuesBindingValueChangeListener.stopObserving();
+			valuesBindingValueChangeListener.delete();
+			valuesBindingValueChangeListener = null;
+		}
 	}
 
 	@Override
@@ -66,54 +110,90 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 		return new FGEDiscretePolarFunctionGraphDrawing(getWidget());
 	}
 
-	public class FGEDiscretePolarFunctionGraphDrawing extends FGEPolarFunctionGraphDrawing<FIBDiscretePolarFunctionGraph> {
+	@Override
+	public FGEDiscretePolarFunctionGraphDrawing getGraphDrawing() {
+		return (FGEDiscretePolarFunctionGraphDrawing) super.getGraphDrawing();
+	}
+
+	public class FGEDiscretePolarFunctionGraphDrawing
+			extends FGEPolarFunctionGraphDrawing<FIBDiscretePolarFunctionGraph, FGEDiscretePolarFunctionGraph<?>> {
 
 		public FGEDiscretePolarFunctionGraphDrawing(FIBDiscretePolarFunctionGraph fibGraph) {
 			super(fibGraph, JFIBDiscretePolarGraphWidget.this);
+		}
+
+		private final List<HasPropertyChangeSupport> discreteValuesBeeingListened = new ArrayList<>();
+
+		protected void updateDiscreteValues(List<?> values) {
+			stopListenDiscreteValues();
+			if (values != null) {
+				for (Object o : values) {
+					if (o instanceof HasPropertyChangeSupport) {
+						discreteValuesBeeingListened.add((HasPropertyChangeSupport) o);
+						((HasPropertyChangeSupport) o).getPropertyChangeSupport().addPropertyChangeListener(this);
+					}
+				}
+			}
+
+			// System.out.println("values=" + values);
+			getGraph().setDiscreteValues((List) values);
+
+		}
+
+		private void stopListenDiscreteValues() {
+			for (HasPropertyChangeSupport o : discreteValuesBeeingListened) {
+				o.getPropertyChangeSupport().removePropertyChangeListener(this);
+			}
+			discreteValuesBeeingListened.clear();
+		}
+
+		@Override
+		public void delete() {
+			stopListenDiscreteValues();
+			super.delete();
 		}
 
 		@Override
 		protected FGEDiscretePolarFunctionGraph<?> makeGraph(FIBDiscretePolarFunctionGraph fibGraph) {
 
 			// Create the FGEGraph
-			FGEDiscretePolarFunctionGraph<?> returned = new FGEDiscretePolarFunctionGraph<Object>();
-			returned.setBindingFactory(fibGraph.getBindingFactory());
+			graph = new FGEDiscretePolarFunctionGraph<Object>();
+			graph.setBindingFactory(fibGraph.getBindingFactory());
 
 			// Sets borders
-			returned.setBorderTop(fibGraph.getBorderTop());
-			returned.setBorderBottom(fibGraph.getBorderBottom());
-			returned.setBorderLeft(fibGraph.getBorderLeft());
-			returned.setBorderRight(fibGraph.getBorderRight());
+			graph.setBorderTop(fibGraph.getBorderTop());
+			graph.setBorderBottom(fibGraph.getBorderBottom());
+			graph.setBorderLeft(fibGraph.getBorderLeft());
+			graph.setBorderRight(fibGraph.getBorderRight());
 
 			// Set parameter name and type
 			// System.out.println("Parameter " + fibGraph.getParameterName() + " type=" + fibGraph.getParameterType());
-			returned.setParameter(fibGraph.getParameterName(), fibGraph.getParameterType());
+			graph.setParameter(fibGraph.getParameterName(), fibGraph.getParameterType());
 
 			// Set discrete values
 			List<?> values = new ArrayList<>();
 			if (fibGraph.getValues() != null && fibGraph.getValues().isSet() && fibGraph.getValues().isValid()) {
 				try {
 					values = fibGraph.getValues().getBindingValue(JFIBDiscretePolarGraphWidget.this);
+					updateDiscreteValues(values);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-			// System.out.println("values=" + values);
-			returned.setDiscreteValues((List) values);
 
 			// Labels of discrete values
 			if (fibGraph.getLabels() != null && fibGraph.getLabels().isSet() && fibGraph.getLabels().isValid()) {
-				returned.setDiscreteValuesLabel(fibGraph.getLabels());
+				graph.setDiscreteValuesLabel(fibGraph.getLabels());
 			}
 
 			// Angle extent for discrete values
 			if (fibGraph.getAngleExtent() != null && fibGraph.getAngleExtent().isSet() && fibGraph.getAngleExtent().isValid()) {
-				returned.setWeight(fibGraph.getAngleExtent());
+				graph.setWeight(fibGraph.getAngleExtent());
 			}
 
-			appendFunctions(fibGraph, returned, getController());
+			appendFunctions(fibGraph, graph, getController());
 
-			return returned;
+			return graph;
 		}
 
 		@Override
@@ -122,7 +202,11 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 			if (evt.getPropertyName().equals(FIBDiscretePolarFunctionGraph.VALUES_KEY)
 					|| evt.getPropertyName().equals(FIBDiscretePolarFunctionGraph.LABELS_KEY)
 					|| evt.getPropertyName().equals(FIBDiscretePolarFunctionGraph.ANGLE_EXTENT_KEY)) {
-				System.out.println("---------------> On reconstruit le graphe entierement a cause de " + evt.getPropertyName());
+				// System.out.println("---------------> On reconstruit le graphe entierement a cause de " + evt.getPropertyName());
+				updateGraph();
+			}
+			if (discreteValuesBeeingListened.contains(evt.getSource())) {
+				System.out.println("Updating graph because property " + evt.getPropertyName() + " changed for " + evt.getSource());
 				updateGraph();
 			}
 		}

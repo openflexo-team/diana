@@ -65,7 +65,8 @@ public class JFIBContinuousPolarGraphWidget extends JFIBPolarGraphWidget<FIBCont
 		return new FGEContinuousPolarFunctionGraphDrawing(getWidget());
 	}
 
-	public class FGEContinuousPolarFunctionGraphDrawing extends FGEPolarFunctionGraphDrawing<FIBContinuousPolarFunctionGraph> {
+	public class FGEContinuousPolarFunctionGraphDrawing
+			extends FGEPolarFunctionGraphDrawing<FIBContinuousPolarFunctionGraph, FGEContinuousPolarFunctionGraph> {
 
 		public FGEContinuousPolarFunctionGraphDrawing(FIBContinuousPolarFunctionGraph fibGraph) {
 			super(fibGraph, JFIBContinuousPolarGraphWidget.this);

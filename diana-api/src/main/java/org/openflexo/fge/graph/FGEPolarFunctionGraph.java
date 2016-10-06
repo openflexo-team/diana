@@ -101,10 +101,6 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 	@Override
 	public void paint(FGEShapeGraphics g) {
 
-		// System.out.println("Painting graph");
-		// System.out.println("width = " + g.getViewWidth());
-		// System.out.println("height = " + g.getViewHeight());
-
 		super.paint(g);
 
 		if (getDisplayReferenceMarks()) {

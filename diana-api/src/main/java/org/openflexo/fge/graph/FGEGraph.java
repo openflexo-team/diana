@@ -83,6 +83,13 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 		evaluator = new FGEGraphEvaluator();
 	}
 
+	public void update() {
+		//System.out.println("Updating graph " + this);
+		for (FGEFunction<?> f : functions) {
+			f.updateRepresentation();
+		}
+	}
+
 	protected void setParameter(String parameterName, Type parameterType) {
 		parameterTypes.put(parameterName, parameterType);
 		bindingModel.addToBindingVariables(new BindingVariable(parameterName, parameterType));

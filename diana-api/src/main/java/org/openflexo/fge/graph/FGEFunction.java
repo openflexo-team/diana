@@ -160,6 +160,13 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 		return representation;
 	}
 
+	protected void updateRepresentation() {
+		if (representation != null) {
+			//System.out.println("Updating function " + this);
+			representation = buildRepresentation();
+		}
+	}
+
 	protected FunctionRepresentation buildRepresentation() {
 
 		return getGraph().buildRepresentationForFunction(this);
