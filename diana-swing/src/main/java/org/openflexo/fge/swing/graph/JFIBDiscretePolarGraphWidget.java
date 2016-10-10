@@ -136,8 +136,22 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 				}
 			}
 
+			/*if (getModel().getSecondaryValues().isSet() && getModel().getSecondaryValues().isValid()) {
+				System.out.println("hopala, on a des valeurs secondaires...");
+				graph.setSecondaryValues((DataBinding) getModel().getSecondaryValues());
+				List<?> primaryValues = values;
+				if (values != null) {
+					for (Object o : primaryValues) {
+						List<?> secondaryValues = graph.getSecondaryValues(o);
+						System.out.println("Pour l'objet " + o + " j'ai " + secondaryValues);
+					}
+				}
+			}*/
+
+			// else {
 			// System.out.println("values=" + values);
 			getGraph().setDiscreteValues((List) values);
+			// }
 
 		}
 
