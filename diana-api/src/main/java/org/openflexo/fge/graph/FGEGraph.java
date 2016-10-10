@@ -84,8 +84,9 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 	}
 
 	public void update() {
-		//System.out.println("Updating graph " + this);
+		// System.out.println("Updating graph " + this);
 		for (FGEFunction<?> f : functions) {
+			//System.out.println("On recalcule la representation de la fonction " + f.getFunctionExpression());
 			f.updateRepresentation();
 		}
 	}
@@ -125,6 +126,15 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 		FGENumericFunction<T> returned = new FGENumericFunction<T>(functionName, functionType, functionExpression, type, this);
 		functions.add(returned);
 		return returned;
+	}
+
+	public FGEFunction<?> getFunction(String functionName) {
+		for (FGEFunction<?> f : getFunctions()) {
+			if (f.getFunctionName() != null && f.getFunctionName().equals(functionName)) {
+				return f;
+			}
+		}
+		return null;
 	}
 
 	public List<FGEFunction<?>> getFunctions() {

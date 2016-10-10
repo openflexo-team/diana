@@ -48,6 +48,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.fge.ColorGradientBackgroundStyle.ColorGradientDirection;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
@@ -65,6 +66,7 @@ import org.openflexo.fge.control.MouseControl.MouseButton;
 import org.openflexo.fge.control.MouseControlContext;
 import org.openflexo.fge.control.actions.MouseClickControlActionImpl;
 import org.openflexo.fge.control.actions.MouseClickControlImpl;
+import org.openflexo.fge.graph.FGEFunction;
 import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
 import org.openflexo.fge.graph.FGEGraph;
 import org.openflexo.fge.graph.FGENumericFunction;
@@ -243,10 +245,18 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 		protected G appendFunctions(W fibGraph, G graph, FIBController controller) {
 
 			for (FIBGraphFunction function : fibGraph.getFunctions()) {
+
+				if (StringUtils.isEmpty(function.getName())) {
+					function.setName("function" + fibGraph.getFunctions().indexOf(function));
+				}
+
 				if (function instanceof FIBNumericFunction) {
 					FIBNumericFunction fibNumericFunction = (FIBNumericFunction) function;
 					FGENumericFunction numericFunction = graph.addNumericFunction(function.getName(), function.getType(),
 							(DataBinding) function.getExpression(), getGraphType(function.getGraphType()));
+
+					// function.getPropertyChangeSupport().addPropertyChangeListener(this);
+
 					// numericFunction.setRange(0.0, 100.0);
 					numericFunction.setForegroundStyle(getFactory().makeForegroundStyle(function.getForegroundColor(), 1.0f));
 					switch (function.getBackgroundType()) {
@@ -349,8 +359,18 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 				updateBorders();
 			}
 			if (evt.getSource() instanceof FIBGraphFunction) {
-				// System.out.println("On reconstruit la graphe a cause de la fonction qui change: " + evt.getPropertyName());
-				updateGraph();
+				FIBGraphFunction fibFunction = (FIBGraphFunction) evt.getSource();
+				FGEFunction<?> fgeFunction = graph.getFunction(fibFunction.getName());
+				if (evt.getPropertyName().equals(FIBGraphFunction.EXPRESSION_KEY)) {
+					//System.out.println("On reconstruit la graphe a cause de la fonction qui change: " + evt.getPropertyName());
+					if (fgeFunction != null) {
+						fgeFunction.setFunctionExpression((DataBinding) fibFunction.getExpression());
+					}
+					else {
+						logger.warning("Inconsistent data : could not find FGEFunction matching " + fibFunction);
+					}
+					updateGraph();
+				}
 			}
 		}
 

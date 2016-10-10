@@ -76,7 +76,7 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 
 	private final String functionName;
 	private final Type functionType;
-	private final DataBinding<T> functionExpression;
+	private DataBinding<T> functionExpression;
 	private final FGEGraphType graphType;
 
 	private ForegroundStyle foregroundStyle;
@@ -121,6 +121,10 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 		return functionExpression;
 	}
 
+	public void setFunctionExpression(DataBinding<T> functionExpression) {
+		this.functionExpression = functionExpression;
+	}
+
 	public FGEGraph getGraph() {
 		return graph;
 	}
@@ -162,7 +166,7 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 
 	protected void updateRepresentation() {
 		if (representation != null) {
-			//System.out.println("Updating function " + this);
+			// System.out.println("Updating function " + this);
 			representation = buildRepresentation();
 		}
 	}
@@ -186,6 +190,17 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 			this.x = x;
 			this.value = value;
 		}
+
+	}
+
+	static class SecondaryFunctionSample<X, T1, T2> extends FunctionSample<X, T1> {
+		List<T2> secondaryValues;
+
+		public SecondaryFunctionSample(X x, T1 value, List<T2> secondaryValues) {
+			super(x, value);
+			this.secondaryValues = secondaryValues;
+		}
+
 	}
 
 	protected <X> List<FunctionSample<X, T>> retrieveSamples(FGESingleParameteredGraph<X> graph) {
@@ -197,7 +212,7 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 			valueSamples = new ArrayList<T>();
 		}
 
-		// System.out.println("On calcule les samples");
+		System.out.println("On calcule les samples pour " + getFunctionExpression());
 
 		List<FunctionSample<X, T>> samples = new ArrayList<FunctionSample<X, T>>();
 		Iterator<X> it = graph.iterateParameter();
@@ -239,11 +254,11 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 	}
 
 	/*protected <X> FGEArea buildRepresentationForFunctionGraph(FGEFunctionGraph<X> graph) {
-	
+
 		List<FunctionSample<X, T>> samples = retrieveSamples(graph);
-	
+
 		List<FGEPoint> points = new ArrayList<FGEPoint>();
-	
+
 		for (FunctionSample<X, T> s : samples) {
 			FGEPoint pt;
 			if (graph.getParameterOrientation() == Orientation.HORIZONTAL) {
@@ -252,13 +267,13 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 			else {
 				pt = new FGEPoint(getNormalizedPosition(s.value), graph.getNormalizedPosition(s.x));
 			}
-	
+
 			// System.out.println("Sampling function " + getFunctionName() + "(" + s.p + ") = " + s.value + " normalizedValue="
 			// + getNormalizedPosition(s.value));
-	
+
 			points.add(pt);
 		}
-	
+
 		switch (graphType) {
 			case POINTS:
 				return FGEUnionArea.makeUnion(points);
@@ -299,7 +314,7 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 					}
 				}
 				return FGEUnionArea.makeUnion(rectangles);
-	
+
 			default:
 				break;
 		}
