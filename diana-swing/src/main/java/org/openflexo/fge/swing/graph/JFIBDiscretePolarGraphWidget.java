@@ -186,9 +186,7 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 			}
 
 			// Labels of discrete values
-			if (fibGraph.getLabels() != null && fibGraph.getLabels().isSet() && fibGraph.getLabels().isValid()) {
-				graph.setDiscreteValuesLabel(fibGraph.getLabels());
-			}
+			updateDiscreteValuesLabel();
 
 			// Angle extent for discrete values
 			if (fibGraph.getAngleExtent() != null && fibGraph.getAngleExtent().isSet() && fibGraph.getAngleExtent().isValid()) {
@@ -200,13 +198,33 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 			return graph;
 		}
 
+		private void updateDiscreteValuesLabel() {
+			if (getModel().getLabels() != null && getModel().getLabels().isSet() && getModel().getLabels().isValid()) {
+				graph.setDiscreteValuesLabel(getModel().getLabels());
+			}
+			else {
+				if (getModel().getLabels() != null && getModel().getLabels().isSet() && !getModel().getLabels().isValid()) {
+					logger.warning("Invalid discrete values label : invalid binding " + getModel().getLabels() + " reason: "
+							+ getModel().getLabels().invalidBindingReason());
+					// System.out.println("bindable: " + getModel().getLabels().getOwner());
+					// System.out.println("bm: " + getModel().getLabels().getOwner().getBindingModel());
+				}
+			}
+		}
+
+		@Override
+		protected void performUpdateGraph() {
+			super.performUpdateGraph();
+			updateDiscreteValuesLabel();
+		}
+
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			super.propertyChange(evt);
 			if (evt.getPropertyName().equals(FIBDiscretePolarFunctionGraph.VALUES_KEY)
-					|| evt.getPropertyName().equals(FIBDiscretePolarFunctionGraph.LABELS_KEY)
+					|| (evt.getPropertyName().equals(FIBDiscretePolarFunctionGraph.LABELS_KEY))
 					|| evt.getPropertyName().equals(FIBDiscretePolarFunctionGraph.ANGLE_EXTENT_KEY)) {
-				// System.out.println("---------------> On reconstruit le graphe entierement a cause de " + evt.getPropertyName());
+				System.out.println("Rebuilding graph because of " + evt.getPropertyName() + " changed for " + evt.getSource());
 				updateGraph();
 			}
 			if (discreteValuesBeeingListened.contains(evt.getSource())) {

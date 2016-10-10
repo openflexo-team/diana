@@ -355,7 +355,8 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 		}
 
 		protected void updateGraph() {
-			graph.update();
+
+			performUpdateGraph();
 
 			GraphNode<FGEGraph> graphNode = (GraphNode) getDrawingTreeNode(graph);
 			if (graphNode != null) {
@@ -366,6 +367,10 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			}
 
 			widget.getRenderingAdapter().revalidateAndRepaint(widget.getTechnologyComponent());
+		}
+
+		protected void performUpdateGraph() {
+			graph.update();
 		}
 
 		public void resizeTo(Dimension newSize) {
