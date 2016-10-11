@@ -79,7 +79,7 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 	private final String functionName;
 	private final Type functionType;
 	private DataBinding<T> functionExpression;
-	private final FGEGraphType graphType;
+	private FGEGraphType graphType;
 
 	private ForegroundStyle foregroundStyle;
 	private BackgroundStyle backgroundStyle;
@@ -136,6 +136,14 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 		return graphType;
 	}
 
+	public void setGraphType(FGEGraphType graphType) {
+		if ((graphType == null && this.graphType != null) || (graphType != null && !graphType.equals(this.graphType))) {
+			FGEGraphType oldValue = this.graphType;
+			this.graphType = graphType;
+			getPropertyChangeSupport().firePropertyChange("graphType", oldValue, graphType);
+		}
+	}
+
 	public ForegroundStyle getForegroundStyle() {
 		return foregroundStyle;
 	}
@@ -153,6 +161,8 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 	}
 
 	public T evaluate() throws TypeMismatchException, NullReferenceException, InvocationTargetException {
+		//System.out.println("on evalue " + functionExpression + " valid=" + functionExpression.isValid() + " reason: "
+		//		+ functionExpression.invalidBindingReason());
 		T returned = functionExpression.getBindingValue(getGraph().getEvaluator());
 		getGraph().getEvaluator().set(functionName, returned);
 		return returned;
@@ -270,7 +280,7 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 			twoLevelsValueSamples = new HashMap<>();
 		}
 
-		System.out.println("On calcule les two-levels samples pour " + getFunctionExpression());
+		//System.out.println("On calcule les two-levels samples pour " + getFunctionExpression());
 
 		List<TwoLevelsFunctionSample<T1, T2, T>> samples = new ArrayList<TwoLevelsFunctionSample<T1, T2, T>>();
 		Iterator<T1> it = graph.iteratePrimaryParameter();
@@ -279,22 +289,17 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 
 			while (it.hasNext()) {
 
-				T1 p = it.next();
-
-				System.out.println("pour la valeur " + p);
-
-				List<T2> secondaryValues = graph.getSecondaryDiscreteValues().get(p);
-
-				System.out.println("secondary values = " + secondaryValues);
-
+				T1 primaryValue = it.next();
+				List<T2> secondaryValues = graph.getSecondaryDiscreteValues().get(primaryValue);
 				List<T> values = new ArrayList<>();
-				TwoLevelsFunctionSample<T1, T2, T> newSample = new TwoLevelsFunctionSample<T1, T2, T>(p, secondaryValues, values);
+				TwoLevelsFunctionSample<T1, T2, T> newSample = new TwoLevelsFunctionSample<T1, T2, T>(primaryValue, secondaryValues,
+						values);
 
 				if (secondaryValues != null) {
 					for (T2 secondaryValue : secondaryValues) {
 						T value = null;
 						try {
-							value = graph.evaluateFunction(this, secondaryValue);
+							value = graph.evaluateFunction(this, primaryValue, secondaryValue);
 						} catch (TypeMismatchException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

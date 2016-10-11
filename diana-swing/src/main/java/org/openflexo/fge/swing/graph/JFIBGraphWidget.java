@@ -362,13 +362,25 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 				FIBGraphFunction fibFunction = (FIBGraphFunction) evt.getSource();
 				FGEFunction<?> fgeFunction = graph.getFunction(fibFunction.getName());
 				if (evt.getPropertyName().equals(FIBGraphFunction.EXPRESSION_KEY)) {
-					//System.out.println("On reconstruit la graphe a cause de la fonction qui change: " + evt.getPropertyName());
+					// System.out.println("On reconstruit la graphe a cause de la fonction qui change: " + evt.getPropertyName());
 					if (fgeFunction != null) {
 						fgeFunction.setFunctionExpression((DataBinding) fibFunction.getExpression());
 					}
 					else {
 						logger.warning("Inconsistent data : could not find FGEFunction matching " + fibFunction);
 					}
+					updateGraph();
+				}
+				else if (evt.getPropertyName().equals(FIBGraphFunction.GRAPH_TYPE_KEY)) {
+					fgeFunction.setGraphType(getGraphType(fibFunction.getGraphType()));
+					updateGraph();
+				}
+			}
+			if (evt.getSource() instanceof FIBNumericFunction) {
+				if (evt.getPropertyName().equals(FIBNumericFunction.MAX_VALUE_KEY)
+						|| evt.getPropertyName().equals(FIBNumericFunction.MIN_VALUE_KEY)
+						|| evt.getPropertyName().equals(FIBNumericFunction.MAJOR_TICK_SPACING_KEY)
+						|| evt.getPropertyName().equals(FIBNumericFunction.MINOR_TICK_SPACING_KEY)) {
 					updateGraph();
 				}
 			}

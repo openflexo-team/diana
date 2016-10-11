@@ -95,7 +95,7 @@ public class JFIBDiscreteTwoLevelsPolarGraphWidget extends JFIBPolarGraphWidget<
 				public void bindingValueChanged(Object source, List<Object> newValues) {
 					// System.out.println(" bindingValueChanged() detected for values=" + getComponent().getValues() + " with newValue="
 					// + newValues + " source=" + source);
-					getGraphDrawing().updateDiscreteValues(getGraphDrawing().retrieveValues(getWidget()));
+					getGraphDrawing().updateDiscreteValues();
 				}
 			};
 		}
@@ -128,8 +128,10 @@ public class JFIBDiscreteTwoLevelsPolarGraphWidget extends JFIBPolarGraphWidget<
 
 		private List<HasPropertyChangeSupport> discreteValuesBeeingListened;
 
-		protected <T1, T2> void updateDiscreteValues(Map<T1, List<T2>> values) {
+		protected <T1, T2> void updateDiscreteValues() {
 			stopListenDiscreteValues();
+
+			Map<T1, List<T2>> values = retrieveValues(getWidget());
 			if (values != null) {
 				for (Object o1 : values.keySet()) {
 					if (o1 instanceof HasPropertyChangeSupport) {
@@ -146,7 +148,6 @@ public class JFIBDiscreteTwoLevelsPolarGraphWidget extends JFIBPolarGraphWidget<
 					}
 				}
 			}
-
 			getGraph().setSecondaryDiscreteValues((Map) values);
 
 		}
@@ -178,10 +179,8 @@ public class JFIBDiscreteTwoLevelsPolarGraphWidget extends JFIBPolarGraphWidget<
 				try {
 					primaryValues = (List<T1>) fibGraph.getValues().getBindingValue(JFIBDiscreteTwoLevelsPolarGraphWidget.this);
 					for (T1 primaryValue : primaryValues) {
-						System.out.println("Pour " + primaryValue);
-						graph.getEvaluator().set(graph.getParameter(), primaryValue);
+						graph.getEvaluator().set(graph.getPrimaryParameterName(), primaryValue);
 						List<T2> secondaryValues = (List<T2>) fibGraph.getSecondaryValues().getBindingValue(graph.getEvaluator());
-						System.out.println("Je trouve " + secondaryValues);
 						returned.put(primaryValue, secondaryValues);
 					}
 				} catch (Exception e) {
@@ -209,10 +208,12 @@ public class JFIBDiscreteTwoLevelsPolarGraphWidget extends JFIBPolarGraphWidget<
 			// Set parameter name and type
 			// System.out.println("Parameter " + fibGraph.getParameterName() + " type=" + fibGraph.getParameterType());
 			graph.setParameter(fibGraph.getParameterName(), fibGraph.getParameterType());
-			graph.setSecondaryParameter(fibGraph.getSecondaryParameterName());
+			graph.setPrimaryParameterName(fibGraph.getParameterName());
+			graph.setParameter(fibGraph.getSecondaryParameterName(), fibGraph.getSecondaryParameterType());
+			graph.setSecondaryParameterName(fibGraph.getSecondaryParameterName());
 
 			// Set discrete values
-			updateDiscreteValues(retrieveValues(fibGraph));
+			updateDiscreteValues();
 
 			/*List<?> values = new ArrayList<>();
 			if (fibGraph.getValues() != null && fibGraph.getValues().isSet() && fibGraph.getValues().isValid()) {
@@ -245,6 +246,19 @@ public class JFIBDiscreteTwoLevelsPolarGraphWidget extends JFIBPolarGraphWidget<
 				if (getModel().getLabels() != null && getModel().getLabels().isSet() && !getModel().getLabels().isValid()) {
 					logger.warning("Invalid discrete values label : invalid binding " + getModel().getLabels() + " reason: "
 							+ getModel().getLabels().invalidBindingReason());
+					// System.out.println("bindable: " + getModel().getLabels().getOwner());
+					// System.out.println("bm: " + getModel().getLabels().getOwner().getBindingModel());
+				}
+			}
+			if (getModel().getSecondaryLabels() != null && getModel().getSecondaryLabels().isSet()
+					&& getModel().getSecondaryLabels().isValid()) {
+				graph.setSecondaryDiscreteValuesLabel(getModel().getSecondaryLabels());
+			}
+			else {
+				if (getModel().getSecondaryLabels() != null && getModel().getSecondaryLabels().isSet()
+						&& !getModel().getSecondaryLabels().isValid()) {
+					logger.warning("Invalid discrete values label : invalid binding " + getModel().getSecondaryLabels() + " reason: "
+							+ getModel().getSecondaryLabels().invalidBindingReason());
 					// System.out.println("bindable: " + getModel().getLabels().getOwner());
 					// System.out.println("bm: " + getModel().getLabels().getOwner().getBindingModel());
 				}

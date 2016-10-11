@@ -46,12 +46,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.openflexo.connie.BindingModel;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.ForegroundStyle;
+import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
+import org.openflexo.fge.TextStyle;
 import org.openflexo.fge.geom.FGEComplexCurve;
 import org.openflexo.fge.geom.FGEGeneralShape.Closure;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
@@ -84,21 +87,35 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 	private DataBinding<String> secondaryLabelBinding;
 	private DataBinding<Double> secondaryWeightBinding;
 
-	private String secondaryParameter;
+	private String primaryParameterName;
+	private String secondaryParameterName;
 
 	public FGEDiscreteTwoLevelsPolarFunctionGraph() {
 		super();
 	}
 
-	public String getSecondaryParameter() {
-		return secondaryParameter;
+	public String getPrimaryParameterName() {
+		return primaryParameterName;
 	}
 
-	public void setSecondaryParameter(String secondaryParameter) {
-		if ((secondaryParameter == null && this.secondaryParameter != null)
-				|| (secondaryParameter != null && !secondaryParameter.equals(this.secondaryParameter))) {
-			String oldValue = this.secondaryParameter;
-			this.secondaryParameter = secondaryParameter;
+	public void setPrimaryParameterName(String primaryParameterName) {
+		if ((primaryParameterName == null && this.primaryParameterName != null)
+				|| (primaryParameterName != null && !primaryParameterName.equals(this.primaryParameterName))) {
+			String oldValue = this.primaryParameterName;
+			this.primaryParameterName = primaryParameterName;
+			getPropertyChangeSupport().firePropertyChange("secondaryParameter", oldValue, primaryParameterName);
+		}
+	}
+
+	public String getSecondaryParameterName() {
+		return secondaryParameterName;
+	}
+
+	public void setSecondaryParameterName(String secondaryParameter) {
+		if ((secondaryParameter == null && this.secondaryParameterName != null)
+				|| (secondaryParameter != null && !secondaryParameter.equals(this.secondaryParameterName))) {
+			String oldValue = this.secondaryParameterName;
+			this.secondaryParameterName = secondaryParameter;
 			getPropertyChangeSupport().firePropertyChange("secondaryParameter", oldValue, secondaryParameter);
 		}
 	}
@@ -115,8 +132,7 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 		return secondaryLabelBinding;
 	}
 
-	@Override
-	public void setDiscreteValuesLabel(DataBinding<String> secondaryLabelBinding) {
+	public void setSecondaryDiscreteValuesLabel(DataBinding<String> secondaryLabelBinding) {
 		this.secondaryLabelBinding = secondaryLabelBinding;
 		/*this.secondaryLabelBinding.setOwner(this);
 		this.secondaryLabelBinding.setDeclaredType(String.class);
@@ -205,8 +221,24 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 		return getNormalizedPrimaryAngleExtent(primaryValue) / secondaryValues.size();
 	}
 
+	public String getPrimaryLabel(T1 primaryValue) {
+		getEvaluator().set(getPrimaryParameterName(), primaryValue);
+		if (getDiscreteValuesLabel() != null && getDiscreteValuesLabel().isSet() && getDiscreteValuesLabel().isValid()) {
+			try {
+				return getDiscreteValuesLabel().getBindingValue(getEvaluator());
+			} catch (TypeMismatchException e) {
+				e.printStackTrace();
+			} catch (NullReferenceException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+		return primaryValue.toString();
+	}
+
 	public String getSecondaryLabel(T2 secondaryValue) {
-		getEvaluator().set(getSecondaryParameter(), secondaryValue);
+		getEvaluator().set(getSecondaryParameterName(), secondaryValue);
 		if (getSecondaryDiscreteValuesLabel() != null && getSecondaryDiscreteValuesLabel().isSet()
 				&& getSecondaryDiscreteValuesLabel().isValid()) {
 			try {
@@ -240,7 +272,7 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 
 	public Double getSecondaryWeight(T1 primaryValue, T2 secondaryValue) {
 		if (secondaryWeightBinding != null && secondaryWeightBinding.isSet() && secondaryWeightBinding.isValid()) {
-			getEvaluator().set(getSecondaryParameter(), secondaryValue);
+			getEvaluator().set(getSecondaryParameterName(), secondaryValue);
 			try {
 				return getWeight().getBindingValue(getEvaluator());
 			} catch (TypeMismatchException e) {
@@ -253,6 +285,15 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 		}
 		List<T2> allSecondaryValues = secondaryDiscreteValues.get(primaryValue);
 		return getPrimaryWeight(primaryValue) / allSecondaryValues.size();
+	}
+
+	public <R> R evaluateFunction(FGEFunction<R> function, T1 primaryValue, T2 secondaryValue)
+			throws TypeMismatchException, NullReferenceException, InvocationTargetException {
+		getEvaluator().set(getParameter(), primaryValue);
+		getEvaluator().set(getSecondaryParameterName(), secondaryValue);
+		// System.out.println(getParameter() + "=" + primaryValue);
+		// System.out.println(getSecondaryParameterName() + "=" + secondaryValue);
+		return function.evaluate();
 	}
 
 	@Override
@@ -270,67 +311,71 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 
 		super.paintParametersForFunction(g, function);
 
-		/*if (function.getDisplayLabels()) {
-		
+		if (function.getDisplayLabels()) {
+
 			TextStyle ts = g.getNode().getTextStyle();
-		
+
 			g.useTextStyle(ts);
-		
-			Iterator<T> it = iterateParameter();
-		
+
+			Iterator<T1> it = iteratePrimaryParameter();
+
 			if (it != null) {
 				while (it.hasNext()) {
-					T t = it.next();
-					String label = getLabel(t);
-					Double angle = null;
+					T1 primaryValue = it.next();
+					String label = getPrimaryLabel(primaryValue);
+					Double startAngle = null;
+					Double middleAngle = null;
 					Double radius = null;
-					N value = null;
-					if (function.getGraphType() == FGEGraphType.SECTORS) {
+					// N value = null;
+					/*if (function.getGraphType() == FGEGraphType.SECTORS) {
 						radius = 0.25;
-						angle = getNormalizedAngleForSectors(t, function);
+						angle = getNormalizedAngleForSectors(primaryValue, function);
 					}
-					else {
-						try {
-							angle = getNormalizedAngle(t);
-							value = evaluateFunction(function, t);
-							radius = function.getNormalizedPosition(value) / 2 + 0.05;
-						} catch (Exception e) {
-							e.printStackTrace();
-							radius = 0.5;
-						}
+					else {*/
+					try {
+						startAngle = getPrimaryNormalizedAngle(primaryValue);
+						middleAngle = startAngle + getNormalizedPrimaryAngleExtent(primaryValue) / 2;
+						// value = evaluateFunction(function, primaryValue);
+						// radius = function.getNormalizedPosition(value) / 2 + 0.05;
+						radius = 0.5;
+					} catch (Exception e) {
+						e.printStackTrace();
+						radius = 0.5;
 					}
-					g.drawString(label,
-							new FGEPoint(Math.cos(angle * Math.PI / 180) * radius + 0.5, 0.5 - Math.sin(angle * Math.PI / 180) * radius),
-							HorizontalTextAlignment.CENTER);
+					// }
+					g.drawString(label, new FGEPoint(Math.cos(middleAngle * Math.PI / 180) * radius + 0.5,
+							0.5 - Math.sin(middleAngle * Math.PI / 180) * radius), HorizontalTextAlignment.CENTER);
+
+					g.useDefaultForegroundStyle();
+					g.drawLine(new FGEPoint(0.5, 0.5), new FGEPoint(Math.cos(startAngle * Math.PI / 180) * radius + 0.5,
+							0.5 - Math.sin(startAngle * Math.PI / 180) * radius));
 				}
 			}
-		}*/
+		}
 	}
 
 	@Override
 	protected <T> FunctionRepresentation buildRepresentationForFunction(FGEFunction<T> function) {
 
-		System.out.println("Alors la faut choper les bons echantillons");
-
 		List<TwoLevelsFunctionSample<T1, T2, T>> samples = function.retrieveTwoLevelsSamples(this);
 
-		System.out.println("OK voila mes echantillons: " + samples);
+		/*System.out.println("OK voila mes echantillons: " + samples);
 		for (TwoLevelsFunctionSample<T1, T2, T> s : samples) {
 			System.out.println(" > " + s.primaryValue + " secondary values=" + s.secondaryValues + " values=" + s.values);
-		}
+		}*/
 
 		List<FGEPoint> points = new ArrayList<FGEPoint>();
 		for (TwoLevelsFunctionSample<T1, T2, T> s : samples) {
-			System.out.println("Pour " + s.primaryValue);
-			Double primaryValueAngle = getPrimaryNormalizedAngle(s.primaryValue);
-			System.out.println("Angle = " + primaryValueAngle);
-			System.out.println("Extent = " + getNormalizedPrimaryAngleExtent(s.primaryValue));
+			// System.out.println("Pour " + s.primaryValue);
+			// Double primaryValueAngle = getPrimaryNormalizedAngle(s.primaryValue);
+			// System.out.println("Angle = " + primaryValueAngle);
+			// System.out.println("Extent = " + getNormalizedPrimaryAngleExtent(s.primaryValue));
 			if (s.secondaryValues != null) {
 				for (int i = 0; i < s.secondaryValues.size(); i++) {
 					T2 secondaryValue = s.secondaryValues.get(i);
 					T value = s.values.get(i);
 					Double angle = getSecondaryNormalizedAngle(s.primaryValue, secondaryValue);
-					System.out.println("   > child " + secondaryValue + " value=" + value + " angle=" + angle);
+					// System.out.println(" > child " + secondaryValue + " value=" + value + " angle=" + angle);
 					Double radius = function.getNormalizedPosition(value) / 2;
 					// System.out.println("x:" + s.x + " v:" + s.value + " radius=" + radius);
 					FGEPoint pt = new FGEPoint(radius * Math.cos(angle * Math.PI / 180) + 0.5,
@@ -343,6 +388,8 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 
 		int numberOfFunctions = getNumberOfFunctionsOfType(function.getGraphType());
 		int functionIndex = getIndexOfFunctionsOfType(function);
+
+		double ANGLE_SPACING = 3;
 
 		switch (function.getGraphType()) {
 			case POINTS:
@@ -396,7 +443,7 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 								T value = s.values.get(i);
 								Double angle = getSecondaryNormalizedAngle(s.primaryValue, secondaryValue); // Middle of angle
 								Double angleExtent = getNormalizedSecondaryAngleExtent(s.primaryValue, secondaryValue) / numberOfFunctions
-										- 5;
+										- ANGLE_SPACING;
 								double startAngle = angle - angleExtent / 2 + functionIndex * angleExtent;
 								int requiredSteps = (int) (angleExtent / 3);// Draw all 3 degrees
 								int stepsToShow = (int) (function.getNormalizedPosition(value).doubleValue() * numFunction.getStepsNb()
@@ -408,7 +455,7 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 									int blue = color1.getBlue() + (color2.getBlue() - color1.getBlue()) * step / numFunction.getStepsNb();
 									Color color = new Color(red, green, blue);
 									double startRadius = (double) step / numFunction.getStepsNb() / 2;
-									double endRadius = (step + 0.8) / numFunction.getStepsNb() / 2;
+									double endRadius = (step + 0.7) / numFunction.getStepsNb() / 2;
 									// System.out.println("step=" + step + " startRadius=" + startRadius + " endRadius=" + endRadius);
 									List<FGEPoint> pts = new ArrayList<FGEPoint>();
 									for (int j = 0; j <= requiredSteps; j++) {
@@ -465,4 +512,9 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 		return null;
 	}
 
+	@Override
+	public BindingModel getBindingModel() {
+		// TODO Auto-generated method stub
+		return super.getBindingModel();
+	}
 }
