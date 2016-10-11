@@ -42,8 +42,10 @@ import java.awt.geom.AffineTransform;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
@@ -87,6 +89,7 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 	private FunctionRepresentation representation = null;
 
 	protected List<T> valueSamples;
+	protected Map<?, List<T>> twoLevelsValueSamples;
 
 	public FGEFunction(String functionName, Type functionType, DataBinding<T> functionExpression, FGEGraphType graphType, FGEGraph graph) {
 		super();
@@ -193,12 +196,16 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 
 	}
 
-	static class SecondaryFunctionSample<X, T1, T2> extends FunctionSample<X, T1> {
+	static class TwoLevelsFunctionSample<T1, T2, V> {
+		T1 primaryValue;
 		List<T2> secondaryValues;
+		List<V> values;
 
-		public SecondaryFunctionSample(X x, T1 value, List<T2> secondaryValues) {
-			super(x, value);
+		public TwoLevelsFunctionSample(T1 primaryValue, List<T2> secondaryValues, List<V> values) {
+			super();
+			this.primaryValue = primaryValue;
 			this.secondaryValues = secondaryValues;
+			this.values = values;
 		}
 
 	}
@@ -253,12 +260,69 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 		return samples;
 	}
 
+	protected <T1, T2> List<TwoLevelsFunctionSample<T1, T2, T>> retrieveTwoLevelsSamples(
+			FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> graph) {
+
+		if (twoLevelsValueSamples != null) {
+			twoLevelsValueSamples.clear();
+		}
+		else {
+			twoLevelsValueSamples = new HashMap<>();
+		}
+
+		System.out.println("On calcule les two-levels samples pour " + getFunctionExpression());
+
+		List<TwoLevelsFunctionSample<T1, T2, T>> samples = new ArrayList<TwoLevelsFunctionSample<T1, T2, T>>();
+		Iterator<T1> it = graph.iteratePrimaryParameter();
+
+		if (it != null) {
+
+			while (it.hasNext()) {
+
+				T1 p = it.next();
+
+				System.out.println("pour la valeur " + p);
+
+				List<T2> secondaryValues = graph.getSecondaryDiscreteValues().get(p);
+
+				System.out.println("secondary values = " + secondaryValues);
+
+				List<T> values = new ArrayList<>();
+				TwoLevelsFunctionSample<T1, T2, T> newSample = new TwoLevelsFunctionSample<T1, T2, T>(p, secondaryValues, values);
+
+				if (secondaryValues != null) {
+					for (T2 secondaryValue : secondaryValues) {
+						T value = null;
+						try {
+							value = graph.evaluateFunction(this, secondaryValue);
+						} catch (TypeMismatchException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (NullReferenceException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (InvocationTargetException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						values.add(value);
+					}
+				}
+
+				samples.add(newSample);
+
+			}
+		}
+
+		return samples;
+	}
+
 	/*protected <X> FGEArea buildRepresentationForFunctionGraph(FGEFunctionGraph<X> graph) {
-
+	
 		List<FunctionSample<X, T>> samples = retrieveSamples(graph);
-
+	
 		List<FGEPoint> points = new ArrayList<FGEPoint>();
-
+	
 		for (FunctionSample<X, T> s : samples) {
 			FGEPoint pt;
 			if (graph.getParameterOrientation() == Orientation.HORIZONTAL) {
@@ -267,13 +331,13 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 			else {
 				pt = new FGEPoint(getNormalizedPosition(s.value), graph.getNormalizedPosition(s.x));
 			}
-
+	
 			// System.out.println("Sampling function " + getFunctionName() + "(" + s.p + ") = " + s.value + " normalizedValue="
 			// + getNormalizedPosition(s.value));
-
+	
 			points.add(pt);
 		}
-
+	
 		switch (graphType) {
 			case POINTS:
 				return FGEUnionArea.makeUnion(points);
@@ -314,7 +378,7 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 					}
 				}
 				return FGEUnionArea.makeUnion(rectangles);
-
+	
 			default:
 				break;
 		}

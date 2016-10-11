@@ -215,7 +215,7 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 		}
 	}
 
-	private <N extends Number> void paintParametersForFunction(FGEShapeGraphics g, FGENumericFunction<N> function) {
+	protected <N extends Number> void paintParametersForFunction(FGEShapeGraphics g, FGENumericFunction<N> function) {
 
 		if (function.getDisplayLabels()) {
 

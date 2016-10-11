@@ -146,10 +146,10 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 
 		List<FunctionSample<A, T>> samples = function.retrieveSamples(this);
 
-		System.out.println("OK voila mes echantillons: ");
+		/*System.out.println("OK voila mes echantillons: ");
 		for (FunctionSample<A, T> s : samples) {
 			System.out.println(" > " + s.x + " value=" + s.value);
-		}
+		}*/
 
 		List<FGEPoint> points = new ArrayList<FGEPoint>();
 		for (FunctionSample<A, T> s : samples) {
