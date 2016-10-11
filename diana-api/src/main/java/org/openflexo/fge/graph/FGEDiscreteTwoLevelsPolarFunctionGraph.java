@@ -38,7 +38,9 @@
 
 package org.openflexo.fge.graph;
 
+import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -47,6 +49,16 @@ import java.util.Map;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
+import org.openflexo.fge.BackgroundStyle;
+import org.openflexo.fge.FGEModelFactory;
+import org.openflexo.fge.ForegroundStyle;
+import org.openflexo.fge.geom.FGEComplexCurve;
+import org.openflexo.fge.geom.FGEGeneralShape.Closure;
+import org.openflexo.fge.geom.FGEGeometricObject.Filling;
+import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geom.FGEPolygon;
+import org.openflexo.fge.geom.FGEPolylin;
+import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.fge.graph.FGEFunction.TwoLevelsFunctionSample;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
@@ -141,25 +153,27 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 			}
 
 		}
-		return (getDiscreteValues().indexOf(value) + 0.5) / (getDiscreteValues().size()) * 360;
+		List<T1> primaryValues = new ArrayList<>(secondaryDiscreteValues.keySet());
+		return (primaryValues.indexOf(value) + 0.5) / (primaryValues.size()) * 360;
 	}
 
 	public Double getSecondaryNormalizedAngle(T1 primaryValue, T2 secondaryValue) {
+		Double primaryValueAngle = getPrimaryNormalizedAngle(primaryValue);
 		List<T2> allSecondaryValues = secondaryDiscreteValues.get(primaryValue);
 		if (secondaryWeightBinding != null && secondaryWeightBinding.isSet() && secondaryWeightBinding.isValid()) {
 			double cumulatedWeight = 0;
 			for (T2 t2 : allSecondaryValues) {
 				double angleExtent = getNormalizedSecondaryAngleExtent(primaryValue, t2);
 				if (t2 == secondaryValue) {
-					return cumulatedWeight + angleExtent / 2;
+					return primaryValueAngle + cumulatedWeight + angleExtent / 2;
 				}
 				else {
 					cumulatedWeight += angleExtent;
 				}
 			}
 		}
-		return (allSecondaryValues.indexOf(secondaryValue) + 0.5) / (allSecondaryValues.size())
-				* getNormalizedPrimaryAngleExtent(primaryValue) / 360;
+		return primaryValueAngle + ((allSecondaryValues.indexOf(secondaryValue) + 0.5) / (allSecondaryValues.size())
+				* getNormalizedPrimaryAngleExtent(primaryValue));
 	}
 
 	public Double getNormalizedPrimaryAngleExtent(T1 primaryValue) {
@@ -173,7 +187,7 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 			}
 			return getPrimaryWeight(primaryValue) / totalWeight * 360;
 		}
-		return 360.0 / getDiscreteValues().size();
+		return 360.0 / secondaryDiscreteValues.size();
 	}
 
 	public Double getNormalizedSecondaryAngleExtent(T1 primaryValue, T2 secondaryValue) {
@@ -187,7 +201,8 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 			}
 			return getPrimaryWeight(primaryValue) / totalWeight * getNormalizedPrimaryAngleExtent(primaryValue);
 		}
-		return getNormalizedPrimaryAngleExtent(primaryValue) / getDiscreteValues().size();
+		List<T2> secondaryValues = new ArrayList<>(secondaryDiscreteValues.get(primaryValue));
+		return getNormalizedPrimaryAngleExtent(primaryValue) / secondaryValues.size();
 	}
 
 	public String getSecondaryLabel(T2 secondaryValue) {
@@ -220,7 +235,7 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 				e.printStackTrace();
 			}
 		}
-		return 360.0 / getDiscreteValues().size();
+		return 360.0 / secondaryDiscreteValues.size();
 	}
 
 	public Double getSecondaryWeight(T1 primaryValue, T2 secondaryValue) {
@@ -292,15 +307,6 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 		}*/
 	}
 
-	/*@Override
-	protected <N extends Number> Double getAngleExtent(T2 parameterValue, FGENumericFunction<N> function) {
-		if (function.getFunctionExpression() != null && function.getFunctionExpression().isSet()
-				&& function.getFunctionExpression().isValid()) {
-			return super.getAngleExtent(parameterValue, function);
-		}
-		return 360.0 / getDiscreteValues().size();
-	}*/
-
 	@Override
 	protected <T> FunctionRepresentation buildRepresentationForFunction(FGEFunction<T> function) {
 
@@ -313,30 +319,31 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 			System.out.println(" > " + s.primaryValue + " secondary values=" + s.secondaryValues + " values=" + s.values);
 		}
 
-		return super.buildRepresentationForFunction(function);
-
-	}
-
-	/*@Override
-	protected FunctionRepresentation buildRepresentationForFunction(FGEFunction<T2> function) {
-	
-		System.out.println("On recalcule la representation");
-	
-		List<FunctionSample<A, T>> samples = function.retrieveSamples(this);
-	
 		List<FGEPoint> points = new ArrayList<FGEPoint>();
-		for (FunctionSample<A, T> s : samples) {
-			Double angle = getNormalizedAngle(s.x);
-			Double radius = function.getNormalizedPosition(s.value) / 2;
-			// System.out.println("x:" + s.x + " v:" + s.value + " radius=" + radius);
-			FGEPoint pt = new FGEPoint(radius * Math.cos(angle * Math.PI / 180) + 0.5, radius * Math.sin(angle * Math.PI / 180) + 0.5);
-			// System.out.println("Point: " + pt);
-			points.add(pt);
+		for (TwoLevelsFunctionSample<T1, T2, T> s : samples) {
+			System.out.println("Pour " + s.primaryValue);
+			Double primaryValueAngle = getPrimaryNormalizedAngle(s.primaryValue);
+			System.out.println("Angle = " + primaryValueAngle);
+			System.out.println("Extent = " + getNormalizedPrimaryAngleExtent(s.primaryValue));
+			if (s.secondaryValues != null) {
+				for (int i = 0; i < s.secondaryValues.size(); i++) {
+					T2 secondaryValue = s.secondaryValues.get(i);
+					T value = s.values.get(i);
+					Double angle = getSecondaryNormalizedAngle(s.primaryValue, secondaryValue);
+					System.out.println("   > child " + secondaryValue + " value=" + value + " angle=" + angle);
+					Double radius = function.getNormalizedPosition(value) / 2;
+					// System.out.println("x:" + s.x + " v:" + s.value + " radius=" + radius);
+					FGEPoint pt = new FGEPoint(radius * Math.cos(angle * Math.PI / 180) + 0.5,
+							radius * Math.sin(angle * Math.PI / 180) + 0.5);
+					// System.out.println("Point: " + pt);
+					points.add(pt);
+				}
+			}
 		}
-	
+
 		int numberOfFunctions = getNumberOfFunctionsOfType(function.getGraphType());
 		int functionIndex = getIndexOfFunctionsOfType(function);
-	
+
 		switch (function.getGraphType()) {
 			case POINTS:
 				return new FunctionRepresentation(FGEUnionArea.makeUnion(points), function.getForegroundStyle(),
@@ -351,21 +358,29 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 						function.getBackgroundStyle());
 			case BAR_GRAPH:
 				List<FGEPolygon> polygons = new ArrayList<FGEPolygon>();
-				for (FunctionSample<A, T> s : samples) {
-					Double angle = getNormalizedAngle(s.x); // Middle of angle
-					Double angleExtent = getNormalizedAngleExtent(s.x) / numberOfFunctions - 5;
-					double startAngle = angle - angleExtent / 2 + functionIndex * angleExtent;
-					int requiredSteps = (int) (angleExtent / 3); // Draw all 3 degrees
-					Double radius = function.getNormalizedPosition(s.value) / 2;
-					List<FGEPoint> pts = new ArrayList<FGEPoint>();
-					pts.add(new FGEPoint(0.5, 0.5));
-					for (int i = 0; i <= requiredSteps; i++) {
-						double a = startAngle + angleExtent * i / requiredSteps;
-						pts.add(new FGEPoint(radius * Math.cos(a * Math.PI / 180) + 0.5, radius * Math.sin(a * Math.PI / 180) + 0.5));
+				for (TwoLevelsFunctionSample<T1, T2, T> s : samples) {
+					if (s.secondaryValues != null) {
+						for (int i = 0; i < s.secondaryValues.size(); i++) {
+							T2 secondaryValue = s.secondaryValues.get(i);
+							T value = s.values.get(i);
+							Double angle = getSecondaryNormalizedAngle(s.primaryValue, secondaryValue); // Middle of angle
+							Double angleExtent = getNormalizedSecondaryAngleExtent(s.primaryValue, secondaryValue) / numberOfFunctions - 5;
+							double startAngle = angle - angleExtent / 2 + functionIndex * angleExtent;
+							int requiredSteps = (int) (angleExtent / 3); // Draw all 3 degrees
+							// System.out.println(" > child " + secondaryValue + " value=" + value + " angle=" + angle);
+							Double radius = function.getNormalizedPosition(value) / 2;
+							List<FGEPoint> pts = new ArrayList<FGEPoint>();
+							pts.add(new FGEPoint(0.5, 0.5));
+							for (int j = 0; j <= requiredSteps; j++) {
+								double a = startAngle + angleExtent * j / requiredSteps;
+								pts.add(new FGEPoint(radius * Math.cos(a * Math.PI / 180) + 0.5,
+										radius * Math.sin(a * Math.PI / 180) + 0.5));
+							}
+							polygons.add(new FGEPolygon(Filling.FILLED, pts));
+						}
 					}
-					polygons.add(new FGEPolygon(Filling.FILLED, pts));
 				}
-	
+
 				return new FunctionRepresentation(FGEUnionArea.makeUnion(polygons), function.getForegroundStyle(),
 						function.getBackgroundStyle());
 			case COLORED_STEPS:
@@ -374,74 +389,80 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 					List<ElementRepresentation> elements = new ArrayList<ElementRepresentation>();
 					Color color1 = Color.RED;
 					Color color2 = Color.GREEN;
-					for (FunctionSample<A, T> s : samples) {
-						Double angle = getNormalizedAngle(s.x); // Middle of angle
-						Double angleExtent = getNormalizedAngleExtent(s.x) / numberOfFunctions - 5;
-						double startAngle = angle - angleExtent / 2 + functionIndex * angleExtent;
-						int requiredSteps = (int) (angleExtent / 3);// Draw all 3 degrees
-						int stepsToShow = (int) (function.getNormalizedPosition(s.value).doubleValue() * numFunction.getStepsNb() + 0.5);
-						// System.out.println(" pour " + s.x + " value=" + s.value + " n_value=" + function.getNormalizedPosition(s.value)
-						// + " stepsToShow=" + stepsToShow);
-						for (int step = 0; step < stepsToShow; step++) {
-							int red = color1.getRed() + (color2.getRed() - color1.getRed()) * step / numFunction.getStepsNb();
-							int green = color1.getGreen() + (color2.getGreen() - color1.getGreen()) * step / numFunction.getStepsNb();
-							int blue = color1.getBlue() + (color2.getBlue() - color1.getBlue()) * step / numFunction.getStepsNb();
-							Color color = new Color(red, green, blue);
-							double startRadius = (double) step / numFunction.getStepsNb() / 2;
-							double endRadius = (step + 0.8) / numFunction.getStepsNb() / 2;
-							// System.out.println("step=" + step + " startRadius=" + startRadius + " endRadius=" + endRadius);
-							List<FGEPoint> pts = new ArrayList<FGEPoint>();
-							for (int i = 0; i <= requiredSteps; i++) {
-								double a = startAngle + angleExtent * i / requiredSteps;
-								pts.add(new FGEPoint(startRadius * Math.cos(a * Math.PI / 180) + 0.5,
-										startRadius * Math.sin(a * Math.PI / 180) + 0.5));
+					for (TwoLevelsFunctionSample<T1, T2, T> s : samples) {
+						if (s.secondaryValues != null) {
+							for (int i = 0; i < s.secondaryValues.size(); i++) {
+								T2 secondaryValue = s.secondaryValues.get(i);
+								T value = s.values.get(i);
+								Double angle = getSecondaryNormalizedAngle(s.primaryValue, secondaryValue); // Middle of angle
+								Double angleExtent = getNormalizedSecondaryAngleExtent(s.primaryValue, secondaryValue) / numberOfFunctions
+										- 5;
+								double startAngle = angle - angleExtent / 2 + functionIndex * angleExtent;
+								int requiredSteps = (int) (angleExtent / 3);// Draw all 3 degrees
+								int stepsToShow = (int) (function.getNormalizedPosition(value).doubleValue() * numFunction.getStepsNb()
+										+ 0.5);
+								for (int step = 0; step < stepsToShow; step++) {
+									int red = color1.getRed() + (color2.getRed() - color1.getRed()) * step / numFunction.getStepsNb();
+									int green = color1.getGreen()
+											+ (color2.getGreen() - color1.getGreen()) * step / numFunction.getStepsNb();
+									int blue = color1.getBlue() + (color2.getBlue() - color1.getBlue()) * step / numFunction.getStepsNb();
+									Color color = new Color(red, green, blue);
+									double startRadius = (double) step / numFunction.getStepsNb() / 2;
+									double endRadius = (step + 0.8) / numFunction.getStepsNb() / 2;
+									// System.out.println("step=" + step + " startRadius=" + startRadius + " endRadius=" + endRadius);
+									List<FGEPoint> pts = new ArrayList<FGEPoint>();
+									for (int j = 0; j <= requiredSteps; j++) {
+										double a = startAngle + angleExtent * j / requiredSteps;
+										pts.add(new FGEPoint(startRadius * Math.cos(a * Math.PI / 180) + 0.5,
+												startRadius * Math.sin(a * Math.PI / 180) + 0.5));
+									}
+									for (int j = requiredSteps; j >= 0; j--) {
+										double a = startAngle + angleExtent * j / requiredSteps;
+										pts.add(new FGEPoint(endRadius * Math.cos(a * Math.PI / 180) + 0.5,
+												endRadius * Math.sin(a * Math.PI / 180) + 0.5));
+									}
+									FGEModelFactory factory = function.getBackgroundStyle().getFactory();
+									ForegroundStyle fg = factory.makeForegroundStyle(color);
+									BackgroundStyle bg = factory.makeColoredBackground(color.brighter());
+									elements.add(new ElementRepresentation(new FGEPolygon(Filling.FILLED, pts), fg, bg));
+								}
 							}
-							for (int i = requiredSteps; i >= 0; i--) {
-								double a = startAngle + angleExtent * i / requiredSteps;
-								pts.add(new FGEPoint(endRadius * Math.cos(a * Math.PI / 180) + 0.5,
-										endRadius * Math.sin(a * Math.PI / 180) + 0.5));
-							}
-							FGEModelFactory factory = function.getBackgroundStyle().getFactory();
-							ForegroundStyle fg = factory.makeForegroundStyle(color);
-							BackgroundStyle bg = factory.makeColoredBackground(color.brighter());
-							elements.add(new ElementRepresentation(new FGEPolygon(Filling.FILLED, pts), fg, bg));
 						}
-	
 					}
 					return new FunctionRepresentation(elements);
 				}
 				break;
-			case SECTORS:
-				if (function instanceof FGENumericFunction) {
-					List<ElementRepresentation> elements = new ArrayList<ElementRepresentation>();
-					byte[] bytes = new byte[3];
-					Random r = new Random(0);
-					for (FunctionSample<A, T> s : samples) {
-						Double angle = getNormalizedAngleForSectors(s.x, (FGENumericFunction) function); // Middle of angle
-						Double angleExtent = getNormalizedAngleExtentForSectors(s.x, (FGENumericFunction) function) / numberOfFunctions - 0;
-						double startAngle = angle - angleExtent / 2 + functionIndex * angleExtent;
-						int requiredSteps = (int) (angleExtent / 3); // Draw all 3 degrees
-						Double radius = 0.45;
-						List<FGEPoint> pts = new ArrayList<FGEPoint>();
-						pts.add(new FGEPoint(0.5, 0.5));
-						for (int i = 0; i <= requiredSteps; i++) {
-							double a = startAngle + angleExtent * i / requiredSteps;
-							pts.add(new FGEPoint(radius * Math.cos(a * Math.PI / 180) + 0.5, radius * Math.sin(a * Math.PI / 180) + 0.5));
-						}
-						FGEModelFactory factory = function.getBackgroundStyle().getFactory();
-						r.nextBytes(bytes);
-						Color color = new Color(bytes[0] + 128, bytes[1] + 128, bytes[2] + 128);
-						ForegroundStyle fg = factory.makeForegroundStyle(color);
-						BackgroundStyle bg = factory.makeColoredBackground(color.brighter());
-						elements.add(new ElementRepresentation(new FGEPolygon(Filling.FILLED, pts), fg, bg));
-					}
-					return new FunctionRepresentation(elements);
-				}
+			/*case SECTORS:
+			if (function instanceof FGENumericFunction) {
+			List<ElementRepresentation> elements = new ArrayList<ElementRepresentation>();
+			byte[] bytes = new byte[3];
+			Random r = new Random(0);
+			for (FunctionSample<A, T> s : samples) {
+			Double angle = getNormalizedAngleForSectors(s.x, (FGENumericFunction) function); // Middle of angle
+			Double angleExtent = getNormalizedAngleExtentForSectors(s.x, (FGENumericFunction) function) / numberOfFunctions - 0;
+			double startAngle = angle - angleExtent / 2 + functionIndex * angleExtent;
+			int requiredSteps = (int) (angleExtent / 3); // Draw all 3 degrees
+			Double radius = 0.45;
+			List<FGEPoint> pts = new ArrayList<FGEPoint>();
+			pts.add(new FGEPoint(0.5, 0.5));
+			for (int i = 0; i <= requiredSteps; i++) {
+			double a = startAngle + angleExtent * i / requiredSteps;
+			pts.add(new FGEPoint(radius * Math.cos(a * Math.PI / 180) + 0.5, radius * Math.sin(a * Math.PI / 180) + 0.5));
+			}
+			FGEModelFactory factory = function.getBackgroundStyle().getFactory();
+			r.nextBytes(bytes);
+			Color color = new Color(bytes[0] + 128, bytes[1] + 128, bytes[2] + 128);
+			ForegroundStyle fg = factory.makeForegroundStyle(color);
+			BackgroundStyle bg = factory.makeColoredBackground(color.brighter());
+			elements.add(new ElementRepresentation(new FGEPolygon(Filling.FILLED, pts), fg, bg));
+			}
+			return new FunctionRepresentation(elements);
+			}*/
 			default:
 				break;
 		}
-	
+
 		return null;
-	}*/
+	}
 
 }

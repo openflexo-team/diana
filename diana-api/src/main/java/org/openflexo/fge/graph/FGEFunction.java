@@ -406,11 +406,13 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 
 		FunctionRepresentation functionRepresentation = getRepresentation();
 
-		for (ElementRepresentation e : functionRepresentation.elements) {
-			if (e.area != null) {
-				g.setDefaultForeground(e.foregroundStyle);
-				g.setDefaultBackground(e.backgroundStyle);
-				e.area.transform(at).paint(g);
+		if (functionRepresentation != null) {
+			for (ElementRepresentation e : functionRepresentation.elements) {
+				if (e.area != null) {
+					g.setDefaultForeground(e.foregroundStyle);
+					g.setDefaultBackground(e.backgroundStyle);
+					e.area.transform(at).paint(g);
+				}
 			}
 		}
 
