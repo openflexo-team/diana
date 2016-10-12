@@ -280,6 +280,13 @@ public class JFIBDiscreteTwoLevelsPolarGraphWidget extends JFIBPolarGraphWidget<
 				System.out.println("Rebuilding graph because of " + evt.getPropertyName() + " changed for " + evt.getSource());
 				updateGraph();
 			}
+			else if (evt.getPropertyName().equals(FIBDiscreteTwoLevelsPolarFunctionGraph.SECONDARY_PARAMETER_NAME_KEY)) {
+				//System.out.println("parameter name changed from " + evt.getOldValue() + " to " + evt.getNewValue() + " property="
+				//		+ evt.getPropertyName());
+				getGraph().clearParameter((String) evt.getOldValue());
+				getGraph().setParameter(getModel().getSecondaryParameterName(), getModel().getSecondaryParameterType());
+				updateGraph();
+			}
 			if (discreteValuesBeeingListened.contains(evt.getSource())) {
 				if (!evt.getPropertyName().equals("serializing")) {
 					System.out.println("Updating graph because property " + evt.getPropertyName() + " changed for " + evt.getSource());

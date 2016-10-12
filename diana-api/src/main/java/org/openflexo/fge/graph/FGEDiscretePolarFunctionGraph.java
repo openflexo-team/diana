@@ -90,9 +90,9 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 
 	public void setDiscreteValuesLabel(DataBinding<String> labelBinding) {
 		this.labelBinding = labelBinding;
-		this.labelBinding.setOwner(this);
+		/*this.labelBinding.setOwner(this);
 		this.labelBinding.setDeclaredType(String.class);
-		this.labelBinding.setBindingDefinitionType(BindingDefinitionType.GET);
+		this.labelBinding.setBindingDefinitionType(BindingDefinitionType.GET);*/
 	}
 
 	/*public DataBinding<List<T>> getSecondaryValues() {
