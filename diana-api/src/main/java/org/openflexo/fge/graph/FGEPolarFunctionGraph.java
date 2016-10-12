@@ -203,7 +203,7 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 					Color color2 = Color.GREEN;
 					for (FunctionSample<A, T> s : samples) {
 						Double angle = getNormalizedAngle(s.x); // Middle of angle
-						Double angleExtent = getNormalizedAngleExtent(s.x) / numberOfFunctions - 5;
+						Double angleExtent = getNormalizedAngleExtent(s.x) / numberOfFunctions - numFunction.getAngleSpacing();
 						double startAngle = angle - angleExtent / 2 + functionIndex * angleExtent;
 						int requiredSteps = (int) (angleExtent / 3);// Draw all 3 degrees
 						int stepsToShow = (int) (function.getNormalizedPosition(s.value).doubleValue() * numFunction.getStepsNb() + 0.5);
@@ -215,7 +215,7 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 							int blue = color1.getBlue() + (color2.getBlue() - color1.getBlue()) * step / numFunction.getStepsNb();
 							Color color = new Color(red, green, blue);
 							double startRadius = (double) step / numFunction.getStepsNb() / 2;
-							double endRadius = (step + 0.8) / numFunction.getStepsNb() / 2;
+							double endRadius = (step + (1 - numFunction.getStepsSpacing())) / numFunction.getStepsNb() / 2;
 							// System.out.println("step=" + step + " startRadius=" + startRadius + " endRadius=" + endRadius);
 							List<FGEPoint> pts = new ArrayList<FGEPoint>();
 							for (int i = 0; i <= requiredSteps; i++) {

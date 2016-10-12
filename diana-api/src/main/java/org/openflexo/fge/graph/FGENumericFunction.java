@@ -260,8 +260,8 @@ public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 	@Override
 	protected Double getNormalizedPosition(T value) {
 		if (value == null) {
-			System.out.println("Bizarre on m'envoie une valeur null a normaliser");
-			Thread.dumpStack();
+			// System.out.println("Bizarre on m'envoie une valeur null a normaliser");
+			// Thread.dumpStack();
 			return 0.0;
 		}
 		if (getMinValue() == null || getMaxValue() == null) {

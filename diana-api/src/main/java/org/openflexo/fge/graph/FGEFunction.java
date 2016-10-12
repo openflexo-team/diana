@@ -86,6 +86,12 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 
 	private final FGEGraph graph;
 
+	double DEFAULT_ANGLE_SPACING = 2; // 2 degrees
+	double DEFAULT_STEPS_SPACING = 0.2; // 20% spacing
+
+	private double angleSpacing = DEFAULT_ANGLE_SPACING;
+	private double stepsSpacing = DEFAULT_STEPS_SPACING;
+
 	private FunctionRepresentation representation = null;
 
 	protected List<T> valueSamples;
@@ -160,9 +166,35 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 		this.backgroundStyle = backgroundStyle;
 	}
 
+	// Angle in degree
+	public double getAngleSpacing() {
+		return angleSpacing;
+	}
+
+	public void setAngleSpacing(double angleSpacing) {
+		if (angleSpacing != this.angleSpacing) {
+			double oldValue = this.angleSpacing;
+			this.angleSpacing = angleSpacing;
+			getPropertyChangeSupport().firePropertyChange("angleSpacing", oldValue, angleSpacing);
+		}
+	}
+
+	// Between 0.0 and 1.0
+	public double getStepsSpacing() {
+		return stepsSpacing;
+	}
+
+	public void setStepsSpacing(double stepsSpacing) {
+		if (stepsSpacing != this.stepsSpacing) {
+			double oldValue = this.stepsSpacing;
+			this.stepsSpacing = stepsSpacing;
+			getPropertyChangeSupport().firePropertyChange("stepsSpacing", oldValue, stepsSpacing);
+		}
+	}
+
 	public T evaluate() throws TypeMismatchException, NullReferenceException, InvocationTargetException {
-		//System.out.println("on evalue " + functionExpression + " valid=" + functionExpression.isValid() + " reason: "
-		//		+ functionExpression.invalidBindingReason());
+		// System.out.println("on evalue " + functionExpression + " valid=" + functionExpression.isValid() + " reason: "
+		// + functionExpression.invalidBindingReason());
 		T returned = functionExpression.getBindingValue(getGraph().getEvaluator());
 		getGraph().getEvaluator().set(functionName, returned);
 		return returned;
@@ -280,7 +312,7 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 			twoLevelsValueSamples = new HashMap<>();
 		}
 
-		//System.out.println("On calcule les two-levels samples pour " + getFunctionExpression());
+		// System.out.println("On calcule les two-levels samples pour " + getFunctionExpression());
 
 		List<TwoLevelsFunctionSample<T1, T2, T>> samples = new ArrayList<TwoLevelsFunctionSample<T1, T2, T>>();
 		Iterator<T1> it = graph.iteratePrimaryParameter();
