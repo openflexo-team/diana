@@ -184,6 +184,10 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 			graph.setBorderLeft(fibGraph.getBorderLeft());
 			graph.setBorderRight(fibGraph.getBorderRight());
 
+			graph.setDisplayReferenceMarks(fibGraph.getDisplayReferenceMarks());
+			graph.setDisplayLabels(fibGraph.getDisplayLabels());
+			graph.setDisplayGrid(fibGraph.getDisplayGrid());
+
 			// Set parameter name and type
 			// System.out.println("Parameter " + fibGraph.getParameterName() + " type=" + fibGraph.getParameterType());
 			graph.setParameter(fibGraph.getParameterName(), fibGraph.getParameterType());

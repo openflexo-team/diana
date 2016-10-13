@@ -99,10 +99,22 @@ public abstract class JFIBPolarGraphWidget<W extends FIBPolarFunctionGraph> exte
 		public void propertyChange(PropertyChangeEvent evt) {
 			super.propertyChange(evt);
 			if (evt.getPropertyName().equals(FIBPolarFunctionGraph.PARAMETER_NAME_KEY)) {
-				//System.out.println("parameter name changed from " + evt.getOldValue() + " to " + evt.getNewValue() + " property="
-				//		+ evt.getPropertyName());
+				// System.out.println("parameter name changed from " + evt.getOldValue() + " to " + evt.getNewValue() + " property="
+				// + evt.getPropertyName());
 				getGraph().clearParameter((String) evt.getOldValue());
 				getGraph().setParameter(getModel().getParameterName(), getModel().getParameterType());
+				updateGraph();
+			}
+			else if (evt.getPropertyName().equals(FIBPolarFunctionGraph.DISPLAY_REFERENCE_MARKS_KEY)) {
+				getGraph().setDisplayReferenceMarks(getModel().getDisplayReferenceMarks());
+				updateGraph();
+			}
+			else if (evt.getPropertyName().equals(FIBPolarFunctionGraph.DISPLAY_GRID_KEY)) {
+				getGraph().setDisplayGrid(getModel().getDisplayGrid());
+				updateGraph();
+			}
+			else if (evt.getPropertyName().equals(FIBPolarFunctionGraph.DISPLAY_LABELS_KEY)) {
+				getGraph().setDisplayLabels(getModel().getDisplayLabels());
 				updateGraph();
 			}
 		}

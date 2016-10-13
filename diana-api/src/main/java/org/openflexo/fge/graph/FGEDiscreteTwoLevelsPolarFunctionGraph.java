@@ -54,7 +54,6 @@ import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
-import org.openflexo.fge.TextStyle;
 import org.openflexo.fge.geom.FGEComplexCurve;
 import org.openflexo.fge.geom.FGEGeneralShape.Closure;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
@@ -90,8 +89,21 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 	private String primaryParameterName;
 	private String secondaryParameterName;
 
+	private boolean displaySecondaryLabels = false;
+
 	public FGEDiscreteTwoLevelsPolarFunctionGraph() {
 		super();
+	}
+
+	public boolean getDisplaySecondaryLabels() {
+		return displaySecondaryLabels;
+	}
+
+	public void setDisplaySecondaryLabels(boolean displaySecondaryLabels) {
+		if (displaySecondaryLabels != this.displaySecondaryLabels) {
+			this.displaySecondaryLabels = displaySecondaryLabels;
+			getPropertyChangeSupport().firePropertyChange("displaySecondaryLabels", !displaySecondaryLabels, displaySecondaryLabels);
+		}
 	}
 
 	public String getPrimaryParameterName() {
@@ -159,7 +171,7 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 			double cumulatedWeight = 0;
 			while (it.hasNext()) {
 				T1 t1 = it.next();
-				double angleExtent = getNormalizedPrimaryAngleExtent(t1);
+				double angleExtent = getPrimaryNormalizedAngleExtent(t1);
 				if (t1 == value) {
 					return cumulatedWeight + angleExtent / 2;
 				}
@@ -179,7 +191,7 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 		if (secondaryWeightBinding != null && secondaryWeightBinding.isSet() && secondaryWeightBinding.isValid()) {
 			double cumulatedWeight = 0;
 			for (T2 t2 : allSecondaryValues) {
-				double angleExtent = getNormalizedSecondaryAngleExtent(primaryValue, t2);
+				double angleExtent = getSecondaryNormalizedAngleExtent(primaryValue, t2);
 				if (t2 == secondaryValue) {
 					return primaryValueAngle + cumulatedWeight + angleExtent / 2;
 				}
@@ -189,10 +201,10 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 			}
 		}
 		return primaryValueAngle + ((allSecondaryValues.indexOf(secondaryValue) + 0.5) / (allSecondaryValues.size())
-				* getNormalizedPrimaryAngleExtent(primaryValue));
+				* getPrimaryNormalizedAngleExtent(primaryValue));
 	}
 
-	public Double getNormalizedPrimaryAngleExtent(T1 primaryValue) {
+	public Double getPrimaryNormalizedAngleExtent(T1 primaryValue) {
 		if (getWeight() != null && getWeight().isSet() && getWeight().isValid()) {
 			double totalWeight = 0;
 			Iterator<T1> it = iteratePrimaryParameter();
@@ -206,7 +218,7 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 		return 360.0 / secondaryDiscreteValues.size();
 	}
 
-	public Double getNormalizedSecondaryAngleExtent(T1 primaryValue, T2 secondaryValue) {
+	public Double getSecondaryNormalizedAngleExtent(T1 primaryValue, T2 secondaryValue) {
 		if (secondaryWeightBinding != null && secondaryWeightBinding.isSet() && secondaryWeightBinding.isValid()) {
 			double totalWeight = 0;
 			Iterator<T2> it = iterateSecondaryParameter(primaryValue);
@@ -215,10 +227,10 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 				Double weight = getSecondaryWeight(primaryValue, t2);
 				totalWeight += weight;
 			}
-			return getPrimaryWeight(primaryValue) / totalWeight * getNormalizedPrimaryAngleExtent(primaryValue);
+			return getPrimaryWeight(primaryValue) / totalWeight * getPrimaryNormalizedAngleExtent(primaryValue);
 		}
 		List<T2> secondaryValues = new ArrayList<>(secondaryDiscreteValues.get(primaryValue));
-		return getNormalizedPrimaryAngleExtent(primaryValue) / secondaryValues.size();
+		return getPrimaryNormalizedAngleExtent(primaryValue) / secondaryValues.size();
 	}
 
 	public String getPrimaryLabel(T1 primaryValue) {
@@ -311,47 +323,74 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 
 		super.paintParametersForFunction(g, function);
 
-		if (function.getDisplayLabels()) {
+		// Display separators
+		ForegroundStyle fg = g.getDefaultForeground();
+		Color c = fg.getColor();
+		fg.setColor(Color.GRAY);
+		g.useDefaultForegroundStyle();
+		Iterator<T1> iterator = iteratePrimaryParameter();
+		if (iterator != null) {
+			while (iterator.hasNext()) {
+				T1 primaryValue = iterator.next();
+				Double startAngle = getPrimaryNormalizedAngle(primaryValue);
+				Double radius = 0.6;
+				g.drawLine(new FGEPoint(0.5, 0.5), new FGEPoint(Math.cos(startAngle * Math.PI / 180) * radius + 0.5,
+						0.5 - Math.sin(startAngle * Math.PI / 180) * radius));
+			}
+		}
+		fg.setColor(c);
 
-			TextStyle ts = g.getNode().getTextStyle();
-
-			g.useTextStyle(ts);
-
+		// Display primary labels
+		if (getDisplayLabels() && function.getDisplayLabels()) {
+			g.useDefaultTextStyle();
 			Iterator<T1> it = iteratePrimaryParameter();
-
 			if (it != null) {
 				while (it.hasNext()) {
 					T1 primaryValue = it.next();
 					String label = getPrimaryLabel(primaryValue);
-					Double startAngle = null;
-					Double middleAngle = null;
-					Double radius = null;
-					// N value = null;
-					/*if (function.getGraphType() == FGEGraphType.SECTORS) {
-						radius = 0.25;
-						angle = getNormalizedAngleForSectors(primaryValue, function);
-					}
-					else {*/
-					try {
-						startAngle = getPrimaryNormalizedAngle(primaryValue);
-						middleAngle = startAngle + getNormalizedPrimaryAngleExtent(primaryValue) / 2;
-						// value = evaluateFunction(function, primaryValue);
-						// radius = function.getNormalizedPosition(value) / 2 + 0.05;
-						radius = 0.5;
-					} catch (Exception e) {
-						e.printStackTrace();
-						radius = 0.5;
-					}
-					// }
+					Double startAngle = getPrimaryNormalizedAngle(primaryValue);
+					Double middleAngle = startAngle + getPrimaryNormalizedAngleExtent(primaryValue) / 2;
+					Double radius = 0.5;
 					g.drawString(label, new FGEPoint(Math.cos(middleAngle * Math.PI / 180) * radius + 0.5,
 							0.5 - Math.sin(middleAngle * Math.PI / 180) * radius), HorizontalTextAlignment.CENTER);
-
-					g.useDefaultForegroundStyle();
-					g.drawLine(new FGEPoint(0.5, 0.5), new FGEPoint(Math.cos(startAngle * Math.PI / 180) * radius + 0.5,
-							0.5 - Math.sin(startAngle * Math.PI / 180) * radius));
 				}
 			}
 		}
+
+		// Display secondary labels
+		if (getDisplaySecondaryLabels() && function.getDisplayLabels()) {
+			g.useDefaultTextStyle();
+			Iterator<T1> it = iteratePrimaryParameter();
+			if (it != null) {
+				while (it.hasNext()) {
+					T1 primaryValue = it.next();
+					Iterator<T2> it2 = iterateSecondaryParameter(primaryValue);
+					if (it2 != null) {
+						while (it2.hasNext()) {
+							T2 secondaryValue = it2.next();
+							String label = getSecondaryLabel(secondaryValue);
+							Double startAngle = null;
+							Double middleAngle = null;
+							Double radius = null;
+							N value = null;
+							try {
+								startAngle = getSecondaryNormalizedAngle(primaryValue, secondaryValue);
+								middleAngle = startAngle /*+ getSecondaryNormalizedAngleExtent(primaryValue, secondaryValue) / 2*/;
+								value = evaluateFunction(function, primaryValue, secondaryValue);
+								radius = function.getNormalizedPosition(value) / 2 + 0.05;
+							} catch (Exception e) {
+								e.printStackTrace();
+								radius = 0.5;
+							}
+							g.drawString(label, new FGEPoint(Math.cos(middleAngle * Math.PI / 180) * radius + 0.5,
+									0.5 - Math.sin(middleAngle * Math.PI / 180) * radius), HorizontalTextAlignment.CENTER);
+
+						}
+					}
+				}
+			}
+		}
+
 	}
 
 	@Override
@@ -409,7 +448,7 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 							T2 secondaryValue = s.secondaryValues.get(i);
 							T value = s.values.get(i);
 							Double angle = getSecondaryNormalizedAngle(s.primaryValue, secondaryValue); // Middle of angle
-							Double angleExtent = getNormalizedSecondaryAngleExtent(s.primaryValue, secondaryValue) / numberOfFunctions - 5;
+							Double angleExtent = getSecondaryNormalizedAngleExtent(s.primaryValue, secondaryValue) / numberOfFunctions - 5;
 							double startAngle = angle - angleExtent / 2 + functionIndex * angleExtent;
 							int requiredSteps = (int) (angleExtent / 3); // Draw all 3 degrees
 							// System.out.println(" > child " + secondaryValue + " value=" + value + " angle=" + angle);
@@ -440,7 +479,7 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 								T2 secondaryValue = s.secondaryValues.get(i);
 								T value = s.values.get(i);
 								Double angle = getSecondaryNormalizedAngle(s.primaryValue, secondaryValue); // Middle of angle
-								Double angleExtent = getNormalizedSecondaryAngleExtent(s.primaryValue, secondaryValue) / numberOfFunctions
+								Double angleExtent = getSecondaryNormalizedAngleExtent(s.primaryValue, secondaryValue) / numberOfFunctions
 										- numFunction.getAngleSpacing();
 								double startAngle = angle - angleExtent / 2 + functionIndex * angleExtent;
 								int requiredSteps = (int) (angleExtent / 3);// Draw all 3 degrees

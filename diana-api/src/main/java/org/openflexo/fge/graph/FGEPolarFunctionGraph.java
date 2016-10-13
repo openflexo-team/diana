@@ -78,6 +78,8 @@ import org.openflexo.fge.graphics.FGEShapeGraphics;
 public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph<A> {
 
 	private boolean displayReferenceMarks = true;
+	private boolean displayGrid = false;
+	private boolean displayLabels = false;
 
 	public FGEPolarFunctionGraph() {
 		super();
@@ -322,6 +324,28 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 			}
 		}
 		return 10.0;
+	}
+
+	public boolean getDisplayGrid() {
+		return displayGrid;
+	}
+
+	public void setDisplayGrid(boolean displayGrid) {
+		if (displayGrid != this.displayGrid) {
+			this.displayGrid = displayGrid;
+			getPropertyChangeSupport().firePropertyChange("displayGrid", !displayGrid, displayGrid);
+		}
+	}
+
+	public boolean getDisplayLabels() {
+		return displayLabels;
+	}
+
+	public void setDisplayLabels(boolean displayLabels) {
+		if (displayLabels != this.displayLabels) {
+			this.displayLabels = displayLabels;
+			getPropertyChangeSupport().firePropertyChange("displayLabels", !displayLabels, displayLabels);
+		}
 	}
 
 }

@@ -429,6 +429,10 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 					updateStepsNumber(fibNumericFunction, fgeFunction);
 					updateGraph();
 				}
+				if (evt.getPropertyName().equals(FIBNumericFunction.DISPLAY_LABELS_KEY)) {
+					fgeFunction.setDisplayLabels(fibNumericFunction.getDisplayLabels());
+					updateGraph();
+				}
 			}
 		}
 

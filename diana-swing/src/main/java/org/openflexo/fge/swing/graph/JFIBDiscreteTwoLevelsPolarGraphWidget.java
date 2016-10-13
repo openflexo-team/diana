@@ -205,6 +205,11 @@ public class JFIBDiscreteTwoLevelsPolarGraphWidget extends JFIBPolarGraphWidget<
 			graph.setBorderLeft(fibGraph.getBorderLeft());
 			graph.setBorderRight(fibGraph.getBorderRight());
 
+			graph.setDisplayReferenceMarks(fibGraph.getDisplayReferenceMarks());
+			graph.setDisplayLabels(fibGraph.getDisplayLabels());
+			graph.setDisplayGrid(fibGraph.getDisplayGrid());
+			graph.setDisplaySecondaryLabels(fibGraph.getDisplaySecondaryLabels());
+
 			// Set parameter name and type
 			// System.out.println("Parameter " + fibGraph.getParameterName() + " type=" + fibGraph.getParameterType());
 			graph.setParameter(fibGraph.getParameterName(), fibGraph.getParameterType());
@@ -281,10 +286,14 @@ public class JFIBDiscreteTwoLevelsPolarGraphWidget extends JFIBPolarGraphWidget<
 				updateGraph();
 			}
 			else if (evt.getPropertyName().equals(FIBDiscreteTwoLevelsPolarFunctionGraph.SECONDARY_PARAMETER_NAME_KEY)) {
-				//System.out.println("parameter name changed from " + evt.getOldValue() + " to " + evt.getNewValue() + " property="
-				//		+ evt.getPropertyName());
+				// System.out.println("parameter name changed from " + evt.getOldValue() + " to " + evt.getNewValue() + " property="
+				// + evt.getPropertyName());
 				getGraph().clearParameter((String) evt.getOldValue());
 				getGraph().setParameter(getModel().getSecondaryParameterName(), getModel().getSecondaryParameterType());
+				updateGraph();
+			}
+			else if (evt.getPropertyName().equals(FIBDiscreteTwoLevelsPolarFunctionGraph.DISPLAY_SECONDARY_LABELS_KEY)) {
+				getGraph().setDisplaySecondaryLabels(getModel().getDisplaySecondaryLabels());
 				updateGraph();
 			}
 			if (discreteValuesBeeingListened.contains(evt.getSource())) {
