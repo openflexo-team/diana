@@ -47,6 +47,7 @@ import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openflexo.connie.DataBinding;
@@ -436,10 +437,33 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			}
 		}
 
+		private boolean updateHasBeenRequested = false;
+
 		protected void updateGraph() {
 
-			System.out.println("*************** UPDATE GRAPH");
-			System.out.println("widget visible = " + widget.getRenderingAdapter().isVisible(widget.getTechnologyComponent()));
+			//System.out
+			//		.println("updateGraph(), widget visible = " + widget.getRenderingAdapter().isVisible(widget.getTechnologyComponent()));
+
+			if (!widget.getRenderingAdapter().isVisible(widget.getTechnologyComponent())) {
+				// TODO: invoke later !
+				if (!updateHasBeenRequested) {
+					updateHasBeenRequested = true;
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							updateGraphNow();
+						}
+					});
+				}
+				return;
+			}
+
+			updateGraphNow();
+		}
+
+		protected void updateGraphNow() {
+
+			//System.out.println("*************** UPDATE GRAPH");
 
 			performUpdateGraph();
 
@@ -452,6 +476,8 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			}
 
 			widget.getRenderingAdapter().revalidateAndRepaint(widget.getTechnologyComponent());
+
+			updateHasBeenRequested = false;
 		}
 
 		protected void performUpdateGraph() {
