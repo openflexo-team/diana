@@ -178,10 +178,12 @@ public class JFIBDiscreteTwoLevelsPolarGraphWidget extends JFIBPolarGraphWidget<
 					&& fibGraph.getSecondaryValues().isValid()) {
 				try {
 					primaryValues = (List<T1>) fibGraph.getValues().getBindingValue(JFIBDiscreteTwoLevelsPolarGraphWidget.this);
-					for (T1 primaryValue : primaryValues) {
-						graph.getEvaluator().set(graph.getPrimaryParameterName(), primaryValue);
-						List<T2> secondaryValues = (List<T2>) fibGraph.getSecondaryValues().getBindingValue(graph.getEvaluator());
-						returned.put(primaryValue, secondaryValues);
+					if (primaryValues != null) {
+						for (T1 primaryValue : primaryValues) {
+							graph.getEvaluator().set(graph.getPrimaryParameterName(), primaryValue);
+							List<T2> secondaryValues = (List<T2>) fibGraph.getSecondaryValues().getBindingValue(graph.getEvaluator());
+							returned.put(primaryValue, secondaryValues);
+						}
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

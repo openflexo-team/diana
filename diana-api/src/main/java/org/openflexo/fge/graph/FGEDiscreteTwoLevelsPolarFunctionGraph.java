@@ -382,8 +382,10 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 								e.printStackTrace();
 								radius = 0.5;
 							}
-							g.drawString(label, new FGEPoint(Math.cos(middleAngle * Math.PI / 180) * radius + 0.5,
-									0.5 - Math.sin(middleAngle * Math.PI / 180) * radius), HorizontalTextAlignment.CENTER);
+							if (value != null && value.doubleValue() > 0) {
+								g.drawString(label, new FGEPoint(Math.cos(middleAngle * Math.PI / 180) * radius + 0.5,
+										0.5 - Math.sin(middleAngle * Math.PI / 180) * radius), HorizontalTextAlignment.CENTER);
+							}
 
 						}
 					}

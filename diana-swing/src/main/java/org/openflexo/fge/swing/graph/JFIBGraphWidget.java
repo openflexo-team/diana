@@ -438,6 +438,9 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 
 		protected void updateGraph() {
 
+			System.out.println("*************** UPDATE GRAPH");
+			System.out.println("widget visible = " + widget.getRenderingAdapter().isVisible(widget.getTechnologyComponent()));
+
 			performUpdateGraph();
 
 			GraphNode<FGEGraph> graphNode = (GraphNode) getDrawingTreeNode(graph);
