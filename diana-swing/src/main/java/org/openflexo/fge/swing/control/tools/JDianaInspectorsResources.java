@@ -8,7 +8,7 @@ public class JDianaInspectorsResources {
 	public static Resource FOREGROUND_STYLE_FIB_FILE = ResourceLocator.locateResource("Fib/ForegroundStylePanel.fib");
 	public static String FOREGROUND_NAME = FGECoreUtils.DIANA_LOCALIZATION.localizedForKey("foreground");
 
-	public static Resource TEXT_STYLE_FIB_FILE = ResourceLocator.locateResource("Fib/TextStylePanel.fib");
+	public static Resource TEXT_PROPERTIES_FIB_FILE = ResourceLocator.locateResource("Fib/TextPropertiesPanel.fib");
 	public static String TEXT_NAME = FGECoreUtils.DIANA_LOCALIZATION.localizedForKey("text");
 
 	public static Resource SHADOW_STYLE_FIB_FILE = ResourceLocator.locateResource("Fib/ShadowStylePanel.fib");

@@ -399,7 +399,7 @@ public class DiagramEditorApplication {
 			WindowMenuItem backgroundInspectorItem = new WindowMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("background_inspector"),
 					inspectors.getBackgroundStyleInspector());
 			WindowMenuItem textInspectorItem = new WindowMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("text_inspector"),
-					inspectors.getTextStyleInspector());
+					inspectors.getTextPropertiesInspector());
 			WindowMenuItem shapeInspectorItem = new WindowMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("shape_inspector"),
 					inspectors.getShapeInspector());
 			WindowMenuItem connectorInspectorItem = new WindowMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("connector_inspector"),
@@ -542,7 +542,7 @@ public class DiagramEditorApplication {
 		inspectors = toolFactory.makeDianaDialogInspectors();
 
 		inspectors.getForegroundStyleInspector().setLocation(1000, 100);
-		inspectors.getTextStyleInspector().setLocation(1000, 300);
+		inspectors.getTextPropertiesInspector().setLocation(1000, 300);
 		inspectors.getShadowStyleInspector().setLocation(1000, 400);
 		inspectors.getBackgroundStyleInspector().setLocation(1000, 500);
 		inspectors.getShapeInspector().setLocation(1000, 600);
