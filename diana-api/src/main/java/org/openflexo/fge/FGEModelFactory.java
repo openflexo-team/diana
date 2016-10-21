@@ -800,7 +800,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 		}
 		else if (type == BackgroundStyleType.COLOR_GRADIENT) {
 			return this.makeColorGradientBackground(java.awt.Color.WHITE, java.awt.Color.BLACK,
-					ColorGradientDirection.SOUTH_EAST_NORTH_WEST);
+					ColorGradientDirection.NORTH_WEST_SOUTH_EAST);
 		}
 		else if (type == BackgroundStyleType.TEXTURE) {
 			return this.makeTexturedBackground(TextureType.TEXTURE1, java.awt.Color.RED, java.awt.Color.WHITE);

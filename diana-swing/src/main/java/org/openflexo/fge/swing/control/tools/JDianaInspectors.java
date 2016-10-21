@@ -213,7 +213,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 	}
 
 	@SuppressWarnings("serial")
-	public static class JInspector<T> extends FIBJPanel<T>implements DianaInspectors.Inspector<T> {
+	public static class JInspector<T> extends FIBJPanel<T> implements DianaInspectors.Inspector<T> {
 
 		private final String title;
 		private final Class<T> representedType;

@@ -78,25 +78,25 @@ public interface ColorGradientBackgroundStyle extends BackgroundStyle {
 		NORTH_SOUTH {
 			@Override
 			public ImageIcon getIcon() {
-				return new ImageIconResource(ResourceLocator.locateResource("Gradient/NorthSouth.png"));
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Gradient/NorthSouth.png"));
 			}
 		},
 		WEST_EAST {
 			@Override
 			public ImageIcon getIcon() {
-				return new ImageIconResource(ResourceLocator.locateResource("Gradient/WestEast.png"));
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Gradient/WestEast.png"));
 			}
 		},
 		NORTH_WEST_SOUTH_EAST {
 			@Override
 			public ImageIcon getIcon() {
-				return new ImageIconResource(ResourceLocator.locateResource("Gradient/NorthWestSouthEast.png"));
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Gradient/NorthWestSouthEast.png"));
 			}
 		},
 		SOUTH_WEST_NORTH_EAST {
 			@Override
 			public ImageIcon getIcon() {
-				return new ImageIconResource(ResourceLocator.locateResource("Gradient/SouthWestNorthEast.png"));
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Gradient/SouthWestNorthEast.png"));
 			}
 		}
 	}
