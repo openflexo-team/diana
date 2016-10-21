@@ -137,7 +137,7 @@ public class ExampleFGEDiscreteSimpleFunctionGraphDrawing extends DrawingImpl<Ob
 		graphGR.setTextStyle(getFactory().makeTextStyle(Color.BLACK, FGEConstants.DEFAULT_TEXT_FONT));
 		graphGR.setShadowStyle(getFactory().makeNoneShadowStyle());
 		graphGR.setBackground(getFactory().makeColorGradientBackground(FGEConstants.DEFAULT_BACKGROUND_COLOR, Color.white,
-				ColorGradientDirection.SOUTH_EAST_NORTH_WEST));
+				ColorGradientDirection.NORTH_WEST_SOUTH_EAST));
 		graphGR.setForeground(getFactory().makeForegroundStyle(Color.ORANGE));
 		// Very important: give some place for labels, legend and other informations
 		// graphGR.setBorder(getFactory().makeShapeBorder(20, 20, 20, 20));

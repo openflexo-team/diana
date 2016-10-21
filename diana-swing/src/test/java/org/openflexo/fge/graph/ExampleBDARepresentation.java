@@ -97,7 +97,8 @@ public class ExampleBDARepresentation extends DrawingImpl<Object> {
 		graph.setDiscreteValuesLabel(new DataBinding<String>("theme.name"));
 		graph.setWeight(new DataBinding<Double>("theme.weight"));
 
-		evaluationFunction = graph.addNumericFunction("size", Float.class, new DataBinding<Float>("theme.value"), FGEGraphType.COLORED_STEPS);
+		evaluationFunction = graph.addNumericFunction("size", Float.class, new DataBinding<Float>("theme.value"),
+				FGEGraphType.COLORED_STEPS);
 		evaluationFunction.setStepsNb(7);
 		evaluationFunction.setRange(0f, 7.0f);
 		evaluationFunction.setForegroundStyle(getFactory().makeForegroundStyle(Color.GREEN, 1.0f));
@@ -126,7 +127,7 @@ public class ExampleBDARepresentation extends DrawingImpl<Object> {
 		graphGR.setTextStyle(getFactory().makeTextStyle(Color.BLACK, FGEConstants.DEFAULT_TEXT_FONT));
 		graphGR.setShadowStyle(getFactory().makeNoneShadowStyle());
 		graphGR.setBackground(getFactory().makeColorGradientBackground(FGEConstants.DEFAULT_BACKGROUND_COLOR, Color.white,
-				ColorGradientDirection.SOUTH_EAST_NORTH_WEST));
+				ColorGradientDirection.NORTH_WEST_SOUTH_EAST));
 		graphGR.setForeground(getFactory().makeForegroundStyle(Color.ORANGE));
 		// Very important: give some place for labels, legend and other informations
 		// graphGR.setBorder(getFactory().makeShapeBorder(20, 20, 20, 20));

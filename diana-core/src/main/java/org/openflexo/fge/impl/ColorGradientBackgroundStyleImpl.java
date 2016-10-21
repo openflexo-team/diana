@@ -41,7 +41,6 @@ package org.openflexo.fge.impl;
 import java.awt.Color;
 
 import org.openflexo.fge.ColorGradientBackgroundStyle;
-import org.openflexo.fge.ColorGradientBackgroundStyle.ColorGradientDirection;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 
 public abstract class ColorGradientBackgroundStyleImpl extends BackgroundStyleImpl implements ColorGradientBackgroundStyle {
@@ -52,7 +51,7 @@ public abstract class ColorGradientBackgroundStyleImpl extends BackgroundStyleIm
 
 	public ColorGradientBackgroundStyleImpl() {
 		this(java.awt.Color.WHITE, java.awt.Color.BLACK,
-				org.openflexo.fge.ColorGradientBackgroundStyle.ColorGradientDirection.SOUTH_EAST_NORTH_WEST);
+				org.openflexo.fge.ColorGradientBackgroundStyle.ColorGradientDirection.NORTH_WEST_SOUTH_EAST);
 	}
 
 	public ColorGradientBackgroundStyleImpl(java.awt.Color aColor1, java.awt.Color aColor2,
@@ -122,7 +121,8 @@ public abstract class ColorGradientBackgroundStyleImpl extends BackgroundStyleIm
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;
-			} else {
+			}
+			else {
 				return true;
 			}
 		}

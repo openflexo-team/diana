@@ -342,7 +342,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 							break;
 						case GRADIENT:
 							numericFunction.setBackgroundStyle(getFactory().makeColorGradientBackground(function.getBackgroundColor1(),
-									function.getBackgroundColor2(), ColorGradientDirection.SOUTH_EAST_NORTH_WEST));
+									function.getBackgroundColor2(), ColorGradientDirection.NORTH_WEST_SOUTH_EAST));
 							break;
 						case NONE:
 							numericFunction.setBackgroundStyle(getFactory().makeEmptyBackground());
@@ -441,8 +441,8 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 
 		protected void updateGraph() {
 
-			//System.out
-			//		.println("updateGraph(), widget visible = " + widget.getRenderingAdapter().isVisible(widget.getTechnologyComponent()));
+			// System.out
+			// .println("updateGraph(), widget visible = " + widget.getRenderingAdapter().isVisible(widget.getTechnologyComponent()));
 
 			if (!widget.getRenderingAdapter().isVisible(widget.getTechnologyComponent())) {
 				// TODO: invoke later !
@@ -463,7 +463,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 
 		protected void updateGraphNow() {
 
-			//System.out.println("*************** UPDATE GRAPH");
+			// System.out.println("*************** UPDATE GRAPH");
 
 			performUpdateGraph();
 
@@ -580,7 +580,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			graphGR.setHeight(DEFAULT_HEIGHT);
 			graphGR.setShadowStyle(getFactory().makeNoneShadowStyle());
 			graphGR.setBackground(getFactory().makeColorGradientBackground(FGEConstants.DEFAULT_BACKGROUND_COLOR, Color.white,
-					ColorGradientDirection.SOUTH_EAST_NORTH_WEST));
+					ColorGradientDirection.NORTH_WEST_SOUTH_EAST));
 			graphGR.setForeground(getFactory().makeForegroundStyle(Color.ORANGE));
 			graphGR.setIsFocusable(false);
 			graphGR.setIsSelectable(false);
