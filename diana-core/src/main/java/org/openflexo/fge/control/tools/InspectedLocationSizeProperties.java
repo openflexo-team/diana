@@ -187,14 +187,6 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		setPropertyValue(ShapeGraphicalRepresentation.ALLOW_TO_LEAVE_BOUNDS, flag);
 	}
 
-	public Boolean getAdaptBoundsToContents() {
-		return getPropertyValue(ShapeGraphicalRepresentation.ADAPT_BOUNDS_TO_CONTENTS);
-	}
-
-	public void setAdaptBoundsToContents(Boolean flag) {
-		setPropertyValue(ShapeGraphicalRepresentation.ADAPT_BOUNDS_TO_CONTENTS, flag);
-	}
-
 	public DataBinding<Double> getXConstraints() {
 		return getPropertyValue(ShapeGraphicalRepresentation.X_CONSTRAINTS);
 	}

@@ -40,12 +40,19 @@ package org.openflexo.fge.control.tools;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.openflexo.fge.ConnectorGraphicalRepresentation;
 import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.DrawingGraphicalRepresentation;
+import org.openflexo.fge.GRProperty;
+import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.fge.GraphicalRepresentation.ParagraphAlignment;
@@ -66,14 +73,35 @@ public class InspectedTextProperties extends InspectedStyle<GraphicalRepresentat
 	private final InspectedTextStyle inspectedTextStyle;
 
 	public InspectedTextProperties(DianaInteractiveViewer<?, ?, ?> controller) {
-		super(controller, null);
+		super(controller, controller != null ? controller.getFactory().makeShapeGraphicalRepresentation() : null);
 		inspectedTextStyle = new InspectedTextStyle(controller);
+	}
+
+	@Override
+	protected void fireChangedProperties() {
+		// We replace here super code, because we have to fire changed properties for all properties
+		// as the union of properties of all possible types
+		List<GRProperty<?>> paramsList = new ArrayList<GRProperty<?>>();
+		paramsList.addAll(GRProperty.getGRParameters(DrawingGraphicalRepresentation.class));
+		paramsList.addAll(GRProperty.getGRParameters(GeometricGraphicalRepresentation.class));
+		paramsList.addAll(GRProperty.getGRParameters(ShapeGraphicalRepresentation.class));
+		paramsList.addAll(GRProperty.getGRParameters(ConnectorGraphicalRepresentation.class));
+		Set<GRProperty<?>> allParams = new HashSet<GRProperty<?>>(paramsList);
+		for (GRProperty<?> p : allParams) {
+			fireChangedProperty(p);
+		}
+	}
+
+	public boolean areShapePropertiesApplicable() {
+		return getController().getSelectedShapes().size() > 0;
 	}
 
 	@Override
 	public void fireSelectionUpdated() {
 		super.fireSelectionUpdated();
 		inspectedTextStyle.fireSelectionUpdated();
+		getPropertyChangeSupport().firePropertyChange("areShapePropertiesApplicable", !areShapePropertiesApplicable(),
+				areShapePropertiesApplicable());
 	}
 
 	@Override
@@ -208,6 +236,14 @@ public class InspectedTextProperties extends InspectedStyle<GraphicalRepresentat
 
 	public void setLineWrap(Boolean flag) {
 		setPropertyValue(GraphicalRepresentation.LINE_WRAP, flag);
+	}
+
+	public Boolean getAdaptBoundsToContents() {
+		return getPropertyValue(ShapeGraphicalRepresentation.ADAPT_BOUNDS_TO_CONTENTS);
+	}
+
+	public void setAdaptBoundsToContents(Boolean flag) {
+		setPropertyValue(ShapeGraphicalRepresentation.ADAPT_BOUNDS_TO_CONTENTS, flag);
 	}
 
 }

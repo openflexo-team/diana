@@ -1,78 +1,244 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Panel id="0" borderLeft="0" sizeAdjustment="OriginalSize" opaque="false" controllerClassName="org.openflexo.gina.controller.FIBController" borderRight="0" border="empty" trackViewPortWidth="true" font="SansSerif,0,11" align="left" borderBottom="5" titleFont="SansSerif,0,11" borderTop="5" trackViewPortHeight="true" layout="twocols" name="TextStylePanel">
-  <Panel id="1" borderLeft="10" sizeAdjustment="OriginalSize" opaque="false" borderRight="10" border="rounded3d" trackViewPortWidth="true" index="0" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center)" borderBottom="2" titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true" layout="twocols" name="MainPanel">
-    <Label id="2" name="FontLabel" index="0" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left;x=0;y=0)" label="font" />
-    <Font id="3" name="FontSelector" data="data.inspectedTextStyle.font" index="1" localize="true" sampleText="Sample for this font" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=2;insetsLeft=2;insetsRight=2;insetsTop=0;location=right;x=0;y=0)" allowsNullText="define_color" />
-    <Label id="4" name="ForegroundColorLabel" index="4" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=10;insetsRight=2;insetsTop=5;location=left;x=0;y=0)" label="foreground_color" />
-    <Color id="5" name="ColorSelector" data="data.inspectedTextStyle.color" index="0" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=2;insetsLeft=2;insetsRight=2;insetsTop=0;location=right;x=0;y=0)" allowsNullText="define_color" />
-    <Label id="6" name="BackgroundColorLabel" index="2" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left;x=0;y=0)" label="background_color" />
-    <Panel id="7" vGap="1" borderLeft="0" hGap="-1" sizeAdjustment="OriginalSize" opaque="false" borderRight="0" border="empty" trackViewPortWidth="true" index="3" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=5;insetsBottom=2;insetsLeft=2;insetsRight=2;insetsTop=0;location=right;x=0;y=0)" borderBottom="0" borderTitle="Panel" titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true" layout="flow" name="FIBPanel" flowAlignment="LEADING">
-      <Color id="8" enable="data.inspectedTextStyle.isBackgroundColored" name="ColorSelector" data="data.inspectedTextStyle.backgroundColor" index="0" localize="true" constraints="flow(index=0)" allowsNullText="define_color" />
-      <CheckBox id="9" selected="true" name="checkbox" data="data.inspectedTextStyle.isBackgroundColored" index="1" negate="true" localize="true" constraints="flow(index=1)" />
-      <Label id="10" name="TransparentLabel" index="2" localize="true" align="left" constraints="flow(index=2)" label="transparent" />
-    </Panel>
-    <Label id="11" name="OrientationLabel" index="6" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left;x=0;y=0)" label="orientation" />
-    <Number id="12" minValue="-180" columns="3" name="LineWidth" data="data.inspectedTextStyle.orientation" maxValue="180" increment="5" index="7" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right;x=0;y=0)" numberType="IntegerType" />
-  </Panel>
-  <Panel id="13" borderLeft="10" sizeAdjustment="OriginalSize" opaque="false" borderRight="10" border="rounded3d" trackViewPortWidth="true" index="0" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center)" borderBottom="2" borderTitle="alignment" titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true" layout="twocols" name="AlignmentPanel">
-    <Label id="14" name="LocationConstraintsLabel" index="4" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="horizontal" />
-    <DropDown id="15" data="data.horizontalTextAlignment" index="5" localize="true" width="150" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.GraphicalRepresentation$HorizontalTextAlignment" showIcon="false" name="HorizontalAlignment" />
-    <Label id="16" name="LocationConstraintsLabel" index="6" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="vertical" />
-    <DropDown id="17" data="data.verticalTextAlignment" index="7" localize="true" width="150" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.GraphicalRepresentation$VerticalTextAlignment" showIcon="false" name="VerticalAlignment" />
-    <Label id="18" name="LocationConstraintsLabel" index="8" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="paragraph" />
-    <DropDown id="19" data="data.paragraphAlignment" index="9" localize="true" width="150" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.GraphicalRepresentation$ParagraphAlignment" showIcon="false" name="ParagraphAlignment" />
-  </Panel>
-  <Panel id="20" borderLeft="10" sizeAdjustment="OriginalSize" opaque="false" borderRight="10" border="rounded3d" trackViewPortWidth="true" index="0" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center)" borderBottom="2" borderTitle="label" titleFont="SansSerif,0,11" borderTop="10" trackViewPortHeight="true" layout="twocols" name="LabelPanel">
-    <CheckBox id="21" name="IsFloatingLabelCB" data="data.isFloatingLabel" index="11" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=23;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" />
-    <Label id="22" name="IsFloatingLabelLabel" index="10" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" label="is_floating_label" />
-    <Label id="23" visible="data.isFloatingLabel" name="BorderRightLabel" index="12" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)" label="x" />
-    <Number id="24" visible="data.isFloatingLabel" minValue="-10000" columns="4" name="NumberSelector" data="data.absoluteTextX" maxValue="10000" increment="1" index="13" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" numberType="DoubleType" />
-    <Label id="25" visible="data.isFloatingLabel" name="BorderRightLabel" index="14" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)" label="y" />
-    <Number id="26" visible="data.isFloatingLabel" minValue="-10000" columns="4" name="NumberSelector2" data="data.absoluteTextY" maxValue="10000" increment="1" index="15" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" numberType="DoubleType" />
-    <Label id="27" visible="(!(data.isFloatingLabel))" name="BorderRightLabel" index="16" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)" label="relative_text_x" />
-    <Number id="28" visible="(!(data.isFloatingLabel))" minValue="0" columns="4" name="NumberSelector3" data="data.relativeTextX" maxValue="1" increment="0.05" index="17" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" numberType="DoubleType" />
-    <Label id="29" visible="(!(data.isFloatingLabel))" name="BorderRightLabel" index="18" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)" label="relative_text_y" />
-    <Number id="30" visible="(!(data.isFloatingLabel))" minValue="0" columns="4" name="NumberSelector4" data="data.relativeTextY" maxValue="1" increment="0.05" index="19" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" numberType="DoubleType" />
-  </Panel>
-  <Panel id="31" borderLeft="10" sizeAdjustment="OriginalSize" opaque="false" borderRight="10" border="rounded3d" trackViewPortWidth="true" index="3" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center)" borderBottom="2" borderTitle="options" titleFont="SansSerif,0,11" borderTop="10" trackViewPortHeight="true" layout="twocols" name="OptionsPanel">
-    <CheckBox id="32" name="IsMultilineAllowed" data="data.isMultilineAllowed" index="21" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=21;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" />
-    <Label id="33" name="IsMultilineAllowedLabel" index="20" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=20;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" label="is_multiline_allowed" />
-    <CheckBox id="34" name="LineWrap" data="data.lineWrap" index="21" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=23;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" />
-    <Label id="35" name="LineWrapLabel" index="20" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=22;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" label="line_wrap" />
-    <CheckBox id="36" name="AdaptBoundsToContentsCB" data="data.adaptBoundsToContents" index="23" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=23;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" />
-    <Label id="37" name="AdaptBoundsToContentsLabel" index="22" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=22;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" label="adapt_bounds_to_contents" />
-  </Panel>
-  <FIBVariable id="38" name="data" type="org.openflexo.fge.control.tools.InspectedTextProperties" />
-  <LocalizedDictionary id="39">
-    <Localized id="40" value="Font" lang="English" key="font" />
-    <Localized id="41" value="Color" lang="English" key="color" />
-    <Localized id="42" value="Orient." lang="English" key="orientation" />
-    <Localized id="43" value="Apply" lang="English" key="apply" />
-    <Localized id="44" value="Cancel" lang="English" key="cancel" />
-    <Localized id="45" value="Police" lang="French" key="font" />
-    <Localized id="46" value="Couleur" lang="French" key="color" />
-    <Localized id="47" value="Orient." lang="French" key="orientation" />
-    <Localized id="48" value="Appliquer" lang="French" key="apply" />
-    <Localized id="49" value="Annuler" lang="French" key="cancel" />
-    <Localized id="50" value="Font" lang="Dutch" key="font" />
-    <Localized id="51" value="Color" lang="Dutch" key="color" />
-    <Localized id="52" value="Orientation" lang="Dutch" key="orientation" />
-    <Localized id="53" value="Apply" lang="Dutch" key="apply" />
-    <Localized id="54" value="Cancel" lang="Dutch" key="cancel" />
-    <Localized id="55" value="Background" lang="English" key="background" />
-    <Localized id="56" value="Arrière-p" lang="French" key="background" />
-    <Localized id="57" value="Background" lang="Dutch" key="background" />
-    <Localized id="58" value="transp." lang="English" key="transparent" />
-    <Localized id="59" value="transp." lang="French" key="transparent" />
-    <Localized id="60" value="transparent" lang="Dutch" key="transparent" />
-    <Localized id="61" value="Foreground" lang="English" key="foreground" />
-    <Localized id="62" value="Avant-p" lang="French" key="foreground" />
-    <Localized id="63" value="Foreground" lang="Dutch" key="foreground" />
-    <Localized id="64" value="Foreground" lang="English" key="foreground_color" />
-    <Localized id="65" value="Foreground" lang="Dutch" key="foreground_color" />
-    <Localized id="66" value="Avant-p" lang="French" key="foreground_color" />
-    <Localized id="67" value="Background" lang="English" key="background_color" />
-    <Localized id="68" value="Background" lang="Dutch" key="background_color" />
-    <Localized id="69" value="Arrière-p" lang="French" key="background_color" />
-  </LocalizedDictionary>
+<Panel id="0" borderLeft="0" sizeAdjustment="OriginalSize" opaque="false"
+	controllerClassName="org.openflexo.gina.controller.FIBController"
+	borderRight="0" border="empty" trackViewPortWidth="true" font="SansSerif,0,11"
+	align="left" borderBottom="5" titleFont="SansSerif,0,11" borderTop="5"
+	trackViewPortHeight="true" layout="twocols" name="TextStylePanel">
+	<Panel id="1" borderLeft="10" sizeAdjustment="OriginalSize"
+		opaque="false" borderRight="10" border="rounded3d" trackViewPortWidth="true"
+		index="0" align="left"
+		constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center)"
+		borderBottom="2" titleFont="SansSerif,0,11" borderTop="2"
+		trackViewPortHeight="true" layout="twocols" name="MainPanel">
+		<Label id="2" name="FontLabel" index="0" localize="true" align="left"
+			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left;x=0;y=0)"
+			label="font" />
+		<Font id="3" name="FontSelector" data="data.inspectedTextStyle.font"
+			index="1" localize="true" sampleText="Sample for this font"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=2;insetsLeft=4;insetsRight=2;insetsTop=0;location=right;x=0;y=0)"
+			allowsNullText="define_color" />
+		<Label id="4" name="ForegroundColorLabel" index="4" localize="true"
+			align="left"
+			constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=10;insetsRight=2;insetsTop=5;location=left;x=0;y=0)"
+			label="foreground_color" />
+		<Color id="5" name="ColorSelector" data="data.inspectedTextStyle.color"
+			index="0" localize="true"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=2;insetsLeft=4;insetsRight=2;insetsTop=0;location=right;x=0;y=0)"
+			allowsNullText="define_color" />
+		<Label id="6" name="BackgroundColorLabel" index="2" localize="true"
+			align="left"
+			constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left;x=0;y=0)"
+			label="background_color" />
+		<Panel id="7" vGap="1" borderLeft="0" hGap="-1" sizeAdjustment="OriginalSize"
+			opaque="false" borderRight="0" border="empty" trackViewPortWidth="true"
+			index="3" align="left"
+			constraints="twocols(expandHorizontally=true;expandVertically=false;index=5;insetsBottom=2;insetsLeft=4;insetsRight=2;insetsTop=0;location=right;x=0;y=0)"
+			borderBottom="0" borderTitle="Panel" titleFont="SansSerif,0,11"
+			borderTop="0" trackViewPortHeight="true" layout="flow" name="FIBPanel"
+			flowAlignment="LEADING">
+			<Color id="8" enable="data.inspectedTextStyle.isBackgroundColored"
+				name="ColorSelector" data="data.inspectedTextStyle.backgroundColor"
+				index="0" localize="true" constraints="flow(index=0)"
+				allowsNullText="define_color" />
+			<CheckBox id="9" selected="true" name="checkbox"
+				data="data.inspectedTextStyle.isBackgroundColored" index="1" negate="true"
+				localize="true" constraints="flow(index=1)" />
+			<Label id="10" name="TransparentLabel" index="2" localize="true"
+				align="left" constraints="flow(index=2)" label="transparent" />
+		</Panel>
+		<Label id="11" name="OrientationLabel" index="6" localize="true"
+			align="left"
+			constraints="twocols(expandHorizontally=true;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left;x=0;y=0)"
+			label="orientation" />
+		<Number id="12" minValue="-180" columns="3" name="LineWidth"
+			data="data.inspectedTextStyle.orientation" maxValue="180" increment="5"
+			index="7" localize="true"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right;x=0;y=0)"
+			numberType="IntegerType" />
+		<Label id="13" name="LocationConstraintsLabel" index="4"
+			localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
+			label="horizontal" />
+		<DropDown id="14" data="data.horizontalTextAlignment" index="5"
+			localize="true" width="150"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
+			format="object.name.toLowerCase" showText="true"
+			iteratorClassName="org.openflexo.fge.GraphicalRepresentation$HorizontalTextAlignment"
+			showIcon="true" name="HorizontalAlignment" icon="object.icon" />
+		<Label id="15" name="LocationConstraintsLabel" index="6"
+			localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
+			label="vertical" />
+		<DropDown id="16" data="data.verticalTextAlignment" index="7"
+			localize="true" width="150"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
+			format="object.name.toLowerCase" showText="true"
+			iteratorClassName="org.openflexo.fge.GraphicalRepresentation$VerticalTextAlignment"
+			showIcon="true" name="VerticalAlignment" icon="object.icon" />
+		<Label id="17" name="LocationConstraintsLabel" index="8"
+			localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
+			label="paragraph" />
+		<DropDown id="18" data="data.paragraphAlignment" index="9"
+			localize="true" width="150"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
+			format="object.name.toLowerCase" showText="true"
+			iteratorClassName="org.openflexo.fge.GraphicalRepresentation$ParagraphAlignment"
+			showIcon="true" name="ParagraphAlignment" icon="object.icon" />
+	</Panel>
+	<Panel id="19" borderLeft="10" sizeAdjustment="OriginalSize"
+		opaque="false" borderRight="10" border="rounded3d" trackViewPortWidth="true"
+		index="0" align="left"
+		constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center)"
+		borderBottom="2" titleFont="SansSerif,0,11" borderTop="10"
+		trackViewPortHeight="true" layout="twocols" name="LabelPanel">
+		<CheckBox id="20" visible="data.areShapePropertiesApplicable"
+			name="IsFloatingLabelCB" data="data.isFloatingLabel" index="11"
+			localize="true"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=23;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" />
+		<Label id="21" visible="data.areShapePropertiesApplicable" name="IsFloatingLabelLabel"
+			index="10" localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)"
+			label="is_floating_label" />
+		<Label id="22" visible="data.isFloatingLabel" name="BorderRightLabel"
+			index="12" localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)"
+			label="x" />
+		<Number id="23" visible="data.isFloatingLabel" minValue="-10000"
+			columns="4" name="NumberSelector" data="data.absoluteTextX" maxValue="10000"
+			increment="1" index="13"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)"
+			numberType="DoubleType" />
+		<Label id="24" visible="data.isFloatingLabel" name="BorderRightLabel"
+			index="14" localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)"
+			label="y" />
+		<Number id="25" visible="data.isFloatingLabel" minValue="-10000"
+			columns="4" name="NumberSelector2" data="data.absoluteTextY"
+			maxValue="10000" increment="1" index="15"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)"
+			numberType="DoubleType" />
+		<Label id="26" visible="(!(data.isFloatingLabel))" name="BorderRightLabel"
+			index="16" localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)"
+			label="relative_text_x" />
+		<Number id="27" visible="(!(data.isFloatingLabel))" minValue="0"
+			columns="4" name="NumberSelector3" data="data.relativeTextX"
+			maxValue="1" increment="0.05" index="17"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)"
+			numberType="DoubleType" />
+		<Label id="28" visible="(!(data.isFloatingLabel))" name="BorderRightLabel"
+			index="18" localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)"
+			label="relative_text_y" />
+		<Number id="29" visible="(!(data.isFloatingLabel))" minValue="0"
+			columns="4" name="NumberSelector4" data="data.relativeTextY"
+			maxValue="1" increment="0.05" index="19"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)"
+			numberType="DoubleType" />
+		<CheckBox id="30" name="IsMultilineAllowed" data="data.isMultilineAllowed"
+			index="21" localize="true"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=21;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" />
+		<Label id="31" enable="" name="IsMultilineAllowedLabel" index="20"
+			localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=20;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
+			label="is_multiline_allowed" />
+		<CheckBox id="32" enable="(!(data.isFloatingLabel))" name="LineWrap"
+			data="data.lineWrap" index="21" localize="true"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=23;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" />
+		<Label id="33" enable="(!(data.isFloatingLabel))" name="LineWrapLabel"
+			index="20" localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=22;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
+			label="line_wrap" />
+		<CheckBox id="34" enable="(!(data.isFloatingLabel))" name="AdaptBoundsToContentsCB"
+			data="data.adaptBoundsToContents" index="23" localize="true"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=23;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" />
+		<Label id="35"
+			enable="((!(data.isFloatingLabel)) &amp; data.areShapePropertiesApplicable)"
+			name="AdaptBoundsToContentsLabel" index="22" localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=22;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
+			label="adapt_bounds_to_contents" />
+	</Panel>
+	<FIBVariable id="36" name="data"
+		type="org.openflexo.fge.control.tools.InspectedTextProperties" />
+	<LocalizedDictionary id="37">
+		<Localized id="38" value="Font" lang="English" key="font" />
+		<Localized id="39" value="Color" lang="English" key="color" />
+		<Localized id="40" value="Orient." lang="English" key="orientation" />
+		<Localized id="41" value="Apply" lang="English" key="apply" />
+		<Localized id="42" value="Cancel" lang="English" key="cancel" />
+		<Localized id="43" value="Police" lang="French" key="font" />
+		<Localized id="44" value="Couleur" lang="French" key="color" />
+		<Localized id="45" value="Orient." lang="French" key="orientation" />
+		<Localized id="46" value="Appliquer" lang="French" key="apply" />
+		<Localized id="47" value="Annuler" lang="French" key="cancel" />
+		<Localized id="48" value="Font" lang="Dutch" key="font" />
+		<Localized id="49" value="Color" lang="Dutch" key="color" />
+		<Localized id="50" value="Orientation" lang="Dutch" key="orientation" />
+		<Localized id="51" value="Apply" lang="Dutch" key="apply" />
+		<Localized id="52" value="Cancel" lang="Dutch" key="cancel" />
+		<Localized id="53" value="Background" lang="English" key="background" />
+		<Localized id="54" value="Arrière-plan" lang="French" key="background" />
+		<Localized id="55" value="Background" lang="Dutch" key="background" />
+		<Localized id="56" value="transp." lang="English" key="transparent" />
+		<Localized id="57" value="transp." lang="French" key="transparent" />
+		<Localized id="58" value="transparent" lang="Dutch" key="transparent" />
+		<Localized id="59" value="Foreground" lang="English" key="foreground" />
+		<Localized id="60" value="Avant-plan" lang="French" key="foreground" />
+		<Localized id="61" value="Foreground" lang="Dutch" key="foreground" />
+		<Localized id="62" value="Foreground" lang="English"
+			key="foreground_color" />
+		<Localized id="63" value="Foreground" lang="Dutch"
+			key="foreground_color" />
+		<Localized id="64" value="Avant-plan" lang="French"
+			key="foreground_color" />
+		<Localized id="65" value="Background" lang="English"
+			key="background_color" />
+		<Localized id="66" value="Background" lang="Dutch"
+			key="background_color" />
+		<Localized id="67" value="Arrière-plan" lang="French"
+			key="background_color" />
+		<Localized id="68" value="Horizontal" lang="English" key="horizontal" />
+		<Localized id="69" value="Horizontal" lang="Dutch" key="horizontal" />
+		<Localized id="70" value="Horizontal" lang="French" key="horizontal" />
+		<Localized id="71" value="Vertical" lang="English" key="vertical" />
+		<Localized id="72" value="Vertical" lang="Dutch" key="vertical" />
+		<Localized id="73" value="Vertical" lang="French" key="vertical" />
+		<Localized id="74" value="Paragraph" lang="English" key="paragraph" />
+		<Localized id="75" value="Paragraph" lang="Dutch" key="paragraph" />
+		<Localized id="76" value="Paragraph" lang="French" key="paragraph" />
+		<Localized id="77" value="Is floating label" lang="English"
+			key="is_floating_label" />
+		<Localized id="78" value="Is floating label" lang="Dutch"
+			key="is_floating_label" />
+		<Localized id="79" value="Label flottant" lang="French"
+			key="is_floating_label" />
+		<Localized id="80" value="x" lang="English" key="x" />
+		<Localized id="81" value="x" lang="Dutch" key="x" />
+		<Localized id="82" value="x" lang="French" key="x" />
+		<Localized id="83" value="y" lang="English" key="y" />
+		<Localized id="84" value="y" lang="Dutch" key="y" />
+		<Localized id="85" value="y" lang="French" key="y" />
+		<Localized id="86" value="x" lang="English" key="relative_text_x" />
+		<Localized id="87" value="x" lang="Dutch" key="relative_text_x" />
+		<Localized id="88" value="x" lang="French" key="relative_text_x" />
+		<Localized id="89" value="y" lang="English" key="relative_text_y" />
+		<Localized id="90" value="y" lang="Dutch" key="relative_text_y" />
+		<Localized id="91" value="y" lang="French" key="relative_text_y" />
+		<Localized id="92" value="Is multiline allowed" lang="English"
+			key="is_multiline_allowed" />
+		<Localized id="93" value="Is multiline allowed" lang="Dutch"
+			key="is_multiline_allowed" />
+		<Localized id="94" value="Multilignes autorisé" lang="French"
+			key="is_multiline_allowed" />
+		<Localized id="95" value="Line wrap" lang="English" key="line_wrap" />
+		<Localized id="96" value="Line wrap" lang="Dutch" key="line_wrap" />
+		<Localized id="97" value="Ligne wrap" lang="French" key="line_wrap" />
+		<Localized id="98" value="Adapt bounds to contents" lang="English"
+			key="adapt_bounds_to_contents" />
+		<Localized id="99" value="Adapt bounds to contents" lang="Dutch"
+			key="adapt_bounds_to_contents" />
+		<Localized id="100" value="Adapter la taille au contenu"
+			lang="French" key="adapt_bounds_to_contents" />
+	</LocalizedDictionary>
 </Panel>

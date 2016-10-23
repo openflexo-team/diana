@@ -45,10 +45,13 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+
 import org.openflexo.connie.Bindable;
 import org.openflexo.connie.BindingFactory;
 import org.openflexo.connie.BindingModel;
 import org.openflexo.connie.DataBinding;
+import org.openflexo.fge.FGEUtils.HasIcon;
 import org.openflexo.fge.control.MouseClickControl;
 import org.openflexo.fge.control.MouseDragControl;
 import org.openflexo.model.annotations.Adder;
@@ -63,6 +66,8 @@ import org.openflexo.model.annotations.Remover;
 import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLAttribute;
 import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.rm.ResourceLocator;
+import org.openflexo.toolbox.ImageIconResource;
 
 /**
  * This is the common super interfaces for all graphical representation object encoded in a diagram<br>
@@ -129,55 +134,80 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	@PropertyIdentifier(type = String.class)
 	public static final String TOOLTIP_TEXT_KEY = "toolTipText";
 
-	// public static final String VARIABLES = "variables";
-
-	// *******************************************************************************
-	// * Inner concepts
-	// *******************************************************************************
-
 	public static interface LabelMetricsProvider {
 		public Dimension getScaledPreferredDimension(double scale);
 
 	}
 
-	/*public static interface GRProperty {
-		public String name();
-	}
-	
-	public static enum Parameters implements GRProperty {
-		identifier, layer, hasText, text, isMultilineAllowed, lineWrap, continuousTextEditing, textStyle, absoluteTextX, // TODO: remove ?
-		absoluteTextY, // TODO: remove ?
-		horizontalTextAlignment,
-		verticalTextAlignment,
-		paragraphAlignment,
-		isSelectable,
-		isFocusable,
-		// isSelected,
-		// isFocused,
-		drawControlPointsWhenFocused,
-		drawControlPointsWhenSelected,
-		isReadOnly,
-		isLabelEditable,
-		isVisible, // TODO: remove ?
-		mouseClickControls,
-		mouseDragControls,
-		toolTipText,
-		variables;
-	
-	}*/
-
-	public static enum ParagraphAlignment {
-		LEFT, CENTER, RIGHT, JUSTIFY;
+	public static enum ParagraphAlignment implements HasIcon {
+		LEFT {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignLeft.png"));
+			}
+		},
+		CENTER {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignCenter.png"));
+			}
+		},
+		RIGHT {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignRight.png"));
+			}
+		},
+		JUSTIFY {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignJustify.png"));
+			}
+		};
 	}
 
 	// TODO: rename to HorizontalAlignment
-	public static enum HorizontalTextAlignment {
-		LEFT, CENTER, RIGHT
+	public static enum HorizontalTextAlignment implements HasIcon {
+		LEFT {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignLeft.png"));
+			}
+		},
+		CENTER {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignCenter.png"));
+			}
+		},
+		RIGHT {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignRight.png"));
+			}
+		}
 	}
 
 	// TODO: rename to VerticalAlignment
-	public static enum VerticalTextAlignment {
-		TOP, MIDDLE, BOTTOM;
+	public static enum VerticalTextAlignment implements HasIcon {
+		TOP {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignTop.png"));
+			}
+		},
+		MIDDLE {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignMiddle.png"));
+			}
+		},
+		BOTTOM {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignBottom.png"));
+			}
+		};
 	}
 
 	public static GRProperty<String> IDENTIFIER = GRProperty.getGRParameter(GraphicalRepresentation.class, IDENTIFIER_KEY, String.class);
