@@ -368,8 +368,8 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 
 		// return AffineTransform.getScaleInstance(bounds.width, bounds.height);
 
-		AffineTransform returned = AffineTransform.getTranslateInstance(minX < 0 ? -minX * bounds.width : 0, minY < 0 ? -minY
-				* bounds.height : 0);
+		AffineTransform returned = AffineTransform.getTranslateInstance(minX < 0 ? -minX * bounds.width : 0,
+				minY < 0 ? -minY * bounds.height : 0);
 
 		returned.concatenate(AffineTransform.getScaleInstance(bounds.width, bounds.height));
 
@@ -383,8 +383,8 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 
 		// return AffineTransform.getScaleInstance(1.0/bounds.width, 1.0/bounds.height);
 
-		AffineTransform returned = AffineTransform.getTranslateInstance(minX < 0 ? minX * bounds.width : 0, minY < 0 ? minY * bounds.height
-				: 0);
+		AffineTransform returned = AffineTransform.getTranslateInstance(minX < 0 ? minX * bounds.width : 0,
+				minY < 0 ? minY * bounds.height : 0);
 
 		returned.preConcatenate(AffineTransform.getScaleInstance(1.0 / bounds.width, 1.0 / bounds.height));
 
@@ -474,6 +474,9 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 		if (!super.isValid()) {
 			return false;
 		}
+		// System.out.println("startNode=" + getStartNode() + " deleted=" + getStartNode().isDeleted());
+		// System.out.println("endNode=" + getEndNode() + " deleted=" + getEndNode().isDeleted());
+		// System.out.println("connected=" + FGEUtils.areElementsConnectedInGraphicalHierarchy(getStartNode(), getEndNode()));
 		return getStartNode() != null && getEndNode() != null && !getStartNode().isDeleted() && !getEndNode().isDeleted()
 				&& FGEUtils.areElementsConnectedInGraphicalHierarchy(getStartNode(), getEndNode());
 	}
@@ -509,7 +512,8 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 			List<? extends ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
 			if (customControlAreas == null) {
 				controlAreas = getConnector().getControlAreas();
-			} else {
+			}
+			else {
 				ConcatenedList<ControlArea<?>> concatenedControlAreas = new ConcatenedList<ControlArea<?>>();
 				concatenedControlAreas.addElementList(getConnector().getControlAreas());
 				concatenedControlAreas.addElementList(customControlAreas);
