@@ -69,6 +69,7 @@ import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.DianaInteractiveViewer;
 import org.openflexo.fge.control.tools.DianaPalette;
+import org.openflexo.fge.impl.GraphNodeImpl;
 import org.openflexo.fge.notifications.NodeAdded;
 import org.openflexo.fge.notifications.NodeDeleted;
 import org.openflexo.fge.notifications.NodeRemoved;
@@ -413,7 +414,7 @@ public class JShapeView<O> extends JDianaLayeredView<O>implements ShapeView<O, J
 		}
 
 		if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME) && !isDeleted()) {
-			//System.out.println("Je recois bien l'ordre de deletion, je supprime maintenant !!!");
+			// System.out.println("Je recois bien l'ordre de deletion, je supprime maintenant !!!");
 			delete();
 			return;
 		}
@@ -438,18 +439,10 @@ public class JShapeView<O> extends JDianaLayeredView<O>implements ShapeView<O, J
 				return;
 			}
 
-			/*if (evt.getSource() == getNode().getBorder()) {
-				relocateAndResizeView();
-				if (getPaintManager().isPaintingCacheEnabled()) {
-					getPaintManager().removeFromTemporaryObjects(shapeNode);
-					getPaintManager().invalidate(shapeNode);
-					getPaintManager().repaint(getParentView());
-				}
-			}*/
-
-			/*System.out.println("ShapeNode " + getNode().getText() + " viewBounds=" + getBounds() + " borderTop=" + getNode().getBorderTop()
-					+ " borderLeft=" + getNode().getBorderLeft() + " viewX=" + getNode().getViewX(getScale()) + " viewY="
-					+ getNode().getViewY(getScale()) + " location=" + getLocation());*/
+			if (evt.getPropertyName().equals(GraphNodeImpl.GRAPH_NEEDS_TO_BE_REDRAWN)) {
+				// Graph updated
+				getPaintManager().repaint(this);
+			}
 
 			if (evt.getPropertyName().equals(DrawingTreeNode.GRAPHICAL_REPRESENTATION_KEY)) {
 				// GR changed

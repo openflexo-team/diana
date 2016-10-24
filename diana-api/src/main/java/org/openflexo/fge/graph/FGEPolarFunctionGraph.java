@@ -78,6 +78,8 @@ import org.openflexo.fge.graphics.FGEShapeGraphics;
 public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph<A> {
 
 	private boolean displayReferenceMarks = true;
+	private boolean displayGrid = false;
+	private boolean displayLabels = false;
 
 	public FGEPolarFunctionGraph() {
 		super();
@@ -100,10 +102,6 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 	 */
 	@Override
 	public void paint(FGEShapeGraphics g) {
-
-		// System.out.println("Painting graph");
-		// System.out.println("width = " + g.getViewWidth());
-		// System.out.println("height = " + g.getViewHeight());
 
 		super.paint(g);
 
@@ -149,6 +147,11 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 		System.out.println("On recalcule la representation");
 
 		List<FunctionSample<A, T>> samples = function.retrieveSamples(this);
+
+		/*System.out.println("OK voila mes echantillons: ");
+		for (FunctionSample<A, T> s : samples) {
+			System.out.println(" > " + s.x + " value=" + s.value);
+		}*/
 
 		List<FGEPoint> points = new ArrayList<FGEPoint>();
 		for (FunctionSample<A, T> s : samples) {
@@ -202,7 +205,7 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 					Color color2 = Color.GREEN;
 					for (FunctionSample<A, T> s : samples) {
 						Double angle = getNormalizedAngle(s.x); // Middle of angle
-						Double angleExtent = getNormalizedAngleExtent(s.x) / numberOfFunctions - 5;
+						Double angleExtent = getNormalizedAngleExtent(s.x) / numberOfFunctions - numFunction.getAngleSpacing();
 						double startAngle = angle - angleExtent / 2 + functionIndex * angleExtent;
 						int requiredSteps = (int) (angleExtent / 3);// Draw all 3 degrees
 						int stepsToShow = (int) (function.getNormalizedPosition(s.value).doubleValue() * numFunction.getStepsNb() + 0.5);
@@ -214,7 +217,7 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 							int blue = color1.getBlue() + (color2.getBlue() - color1.getBlue()) * step / numFunction.getStepsNb();
 							Color color = new Color(red, green, blue);
 							double startRadius = (double) step / numFunction.getStepsNb() / 2;
-							double endRadius = (step + 0.8) / numFunction.getStepsNb() / 2;
+							double endRadius = (step + (1 - numFunction.getStepsSpacing())) / numFunction.getStepsNb() / 2;
 							// System.out.println("step=" + step + " startRadius=" + startRadius + " endRadius=" + endRadius);
 							List<FGEPoint> pts = new ArrayList<FGEPoint>();
 							for (int i = 0; i <= requiredSteps; i++) {
@@ -321,6 +324,28 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 			}
 		}
 		return 10.0;
+	}
+
+	public boolean getDisplayGrid() {
+		return displayGrid;
+	}
+
+	public void setDisplayGrid(boolean displayGrid) {
+		if (displayGrid != this.displayGrid) {
+			this.displayGrid = displayGrid;
+			getPropertyChangeSupport().firePropertyChange("displayGrid", !displayGrid, displayGrid);
+		}
+	}
+
+	public boolean getDisplayLabels() {
+		return displayLabels;
+	}
+
+	public void setDisplayLabels(boolean displayLabels) {
+		if (displayLabels != this.displayLabels) {
+			this.displayLabels = displayLabels;
+			getPropertyChangeSupport().firePropertyChange("displayLabels", !displayLabels, displayLabels);
+		}
 	}
 
 }

@@ -1,321 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Panel id="0" borderLeft="0" height="290" opaque="false"
-	name="BackgroundStylePanel" layout="gridbag"
-	controllerClassName="org.openflexo.gina.controller.FIBController"
-	border="empty" borderRight="0" trackViewPortWidth="true" font="SansSerif,0,11"
-	width="280" borderBottom="5" titleFont="SansSerif,0,11" borderTop="5"
-	trackViewPortHeight="true">
-	<FIBVariable id="158" name="data"
-		type="org.openflexo.fge.control.tools.BackgroundStyleFactory" />
-	<LocalizedDictionary id="1">
-	</LocalizedDictionary>
-	<Panel id="58" borderLeft="10" opaque="false" name="FIBPanel"
-		layout="twocols" border="empty" borderRight="10" trackViewPortWidth="true"
-		index="0"
-		constraints="gridbag(anchor=center;fill=horizontal;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=0;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=0.0;weightY=0.0)"
-		borderBottom="2" borderTitle="" titleFont="SansSerif,0,11" borderTop="2"
-		trackViewPortHeight="true">
-		<Label id="59" name="BackgroundLabel" index="0" localize="true"
-			align="left"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)"
-			label="background">
-		</Label>
-		<DropDown id="61" index="1" localize="true"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
-			format="object.name.toLowerCase" showText="true"
-			iteratorClassName="org.openflexo.fge.BackgroundStyle$BackgroundStyleType"
-			showIcon="false" data="data.styleType" staticList=""
-			autoSelectFirstRow="true" name="dropdown">
-		</DropDown>
-	</Panel>
-	<Panel id="63" visible="(data.styleType.name = &quot;NONE&quot;)"
-		borderLeft="10" opaque="false" name="NoneBackgroundPanel" layout="twocols"
-		border="rounded3d" borderRight="10" trackViewPortWidth="true" index="1"
-		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		borderBottom="2" borderTitle="" titleFont="SansSerif,0,11" borderTop="2"
-		trackViewPortHeight="true">
-		<FIBVariable id="65" name="noneBackgroundStyle"
-			value="($org.openflexo.fge.NoneBackgroundStyle)data.backgroundStyle"
-			type="org.openflexo.fge.NoneBackgroundStyle" />
-	</Panel>
-	<Panel id="66" visible="(data.styleType.name = &quot;COLOR&quot;)"
-		borderLeft="10" opaque="false" name="ColorBackgroundPanel" layout="twocols"
-		border="rounded3d" borderRight="10" trackViewPortWidth="true" index="2"
-		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=2;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		borderBottom="2" borderTitle="" titleFont="SansSerif,0,11" borderTop="2"
-		trackViewPortHeight="true">
-		<FIBVariable name="colorBackgroundStyle"
-			value="($org.openflexo.fge.ColorBackgroundStyle)data.backgroundStyle"
-			type="org.openflexo.fge.ColorBackgroundStyle" />
-		<Label id="69" name="Color1Label" index="0" localize="true"
-			align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			label="color_1">
-		</Label>
-		<Color id="71" data="colorBackgroundStyle.color" name="ColorSelector1"
-			index="1" localize="true"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=right)"
-			allowsNullText="define_color" />
-		<Label id="72" enable="false" name="Color2Label" index="2"
-			localize="true" align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			label="color_2">
-		</Label>
-		<Color id="74" enable="false" name="ColorSelector2" index="3"
-			localize="true"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=right)"
-			allowsNullText="define_color" />
-		<Label id="75" enable="false" name="ColorGradientLabel" index="4"
-			localize="true" align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			label="color_gradient">
-		</Label>
-		<DropDown id="77" enable="false" index="5" localize="true"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
-			showText="true" iteratorClassName="java.lang.String" showIcon="false"
-			staticList="not_applicable" autoSelectFirstRow="true" name="dropdown">
-		</DropDown>
-		<Label id="79" enable="false" name="TextureLabel" index="6"
-			localize="true" align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			label="texture">
-		</Label>
-		<DropDown id="81" enable="false" index="7" localize="true"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
-			showText="true" iteratorClassName="java.lang.String" showIcon="false"
-			staticList="not_applicable" autoSelectFirstRow="true" name="dropdown">
-		</DropDown>
-	</Panel>
-	<Panel id="84" visible="(data.styleType.name = &quot;COLOR_GRADIENT&quot;)"
-		borderLeft="10" opaque="false" name="ColorGradientBackgroundPanel"
-		layout="twocols" border="rounded3d" borderRight="10"
-		trackViewPortWidth="true" index="3"
-		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=3;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		borderBottom="2" borderTitle="" titleFont="SansSerif,0,11" borderTop="2"
-		trackViewPortHeight="true">
-		<FIBVariable id="100" name="colorGradientBackgroundStyle"
-			value="($org.openflexo.fge.ColorGradientBackgroundStyle)data.backgroundStyle"
-			type="org.openflexo.fge.ColorGradientBackgroundStyle" />
-		<Label id="87" name="Color1Label" index="0" localize="true"
-			align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			label="color_1">
-			<LocalizedDictionary id="88" />
-		</Label>
-		<Color id="89" data="colorGradientBackgroundStyle.color1" name="ColorSelector3"
-			index="1" localize="true"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=right)"
-			allowsNullText="define_color" />
-		<Label id="90" name="Color2Label" index="2" localize="true"
-			align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			label="color_2">
-		</Label>
-		<Color id="92" data="colorGradientBackgroundStyle.color2" name="ColorSelector4"
-			index="3" localize="true"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=right)"
-			allowsNullText="define_color" />
-		<Label id="93" name="ColorGradientLabel" index="4" localize="true"
-			align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			label="color_gradient">
-		</Label>
-		<DropDown id="95" index="5" localize="true"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
-			format="object.name.toLowerCase" showText="true"
-			iteratorClassName="org.openflexo.fge.ColorGradientBackgroundStyle$ColorGradientDirection"
-			showIcon="false" data="colorGradientBackgroundStyle.direction" name="dropdown" />
-		<Label id="96" enable="false" name="TextureLabel" index="6"
-			localize="true" align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			label="texture">
-		</Label>
-		<DropDown id="98" enable="false" index="7" localize="true"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
-			showText="true" iteratorClassName="java.lang.String" showIcon="false"
-			staticList="not_applicable" autoSelectFirstRow="true" name="dropdown">
-		</DropDown>
-	</Panel>
-	<Panel id="101" visible="(data.styleType.name = &quot;TEXTURE&quot;)"
-		borderLeft="10" opaque="false" name="TextureBackgroundPanel" layout="twocols"
-		border="rounded3d" borderRight="10" trackViewPortWidth="true" index="4"
-		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=4;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		borderBottom="2" borderTitle="" titleFont="SansSerif,0,11" borderTop="2"
-		trackViewPortHeight="true">
-		<FIBVariable id="116" name="textureBackgroundStyle"
-			value="($org.openflexo.fge.TextureBackgroundStyle)data.backgroundStyle"
-			type="org.openflexo.fge.TextureBackgroundStyle" />
-		<Label id="103" name="Color1Label" index="0" localize="true"
-			align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			label="color_1">
-		</Label>
-		<Color id="105" data="textureBackgroundStyle.color1" name="ColorSelector5"
-			index="1" localize="true"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=right)"
-			allowsNullText="define_color" />
-		<Label id="106" name="Color2Label" index="2" localize="true"
-			align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			label="color_2">
-		</Label>
-		<Color id="108" data="textureBackgroundStyle.color2" name="ColorSelector6"
-			index="3" localize="true"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=right)"
-			allowsNullText="define_color" />
-		<Label id="109" enable="false" name="ColorGradientLabel" index="4"
-			localize="true" align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			label="color_gradient">
-		</Label>
-		<DropDown id="111" enable="false" index="5" localize="true"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
-			showText="true" iteratorClassName="java.lang.String" showIcon="false"
-			staticList="not_applicable" autoSelectFirstRow="true" name="dropdown">
-		</DropDown>
-		<Label id="113" name="TextureLabel" index="6" localize="true"
-			align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			label="texture">
-			<LocalizedDictionary id="114" />
-		</Label>
-		<DropDown id="115" index="7" localize="true"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
-			format="object.name.toLowerCase" showText="false"
-			iteratorClassName="org.openflexo.fge.TextureBackgroundStyle$TextureType"
-			showIcon="true" data="textureBackgroundStyle.textureType" name="dropdown"
-			icon="object.icon" />
-	</Panel>
-	<Panel id="117" visible="(data.styleType.name = &quot;IMAGE&quot;)"
-		borderLeft="10" opaque="false" name="ImageBackgroundPanel" layout="twocols"
-		border="rounded3d" borderRight="10" trackViewPortWidth="true" index="5"
-		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=5;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		borderBottom="2" borderTitle="" titleFont="SansSerif,0,11" borderTop="2"
-		trackViewPortHeight="true">
-		<FIBVariable id="150" name="backgroundImageBackgroundStyle"
-			value="($org.openflexo.fge.BackgroundImageBackgroundStyle)data.backgroundStyle"
-			type="org.openflexo.fge.BackgroundImageBackgroundStyle" />
-		<Label id="120" name="ImageLabel" index="0" localize="true"
-			align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			label="image">
-		</Label>
-		<File id="122" data="backgroundImageBackgroundStyle.imageFile" mode="OpenMode" columns="5"
-			title="select_an_image" name="FileSelector" index="1" localize="true"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;insetsBottom=0;insetsLeft=5;insetsRight=2;insetsTop=0;location=right)"
-			filter="" />
-		<Label id="123" name="FitToShapeLabel" index="4" localize="true"
-			align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			label="fit_to_shape">
-		</Label>
-		<CheckBox id="125" data="backgroundImageBackgroundStyle.fitToShape"
-			selected="true" name="checkbox" index="5" localize="true"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=5;insetsBottom=0;insetsLeft=5;insetsRight=2;insetsTop=0;location=right)" />
-		<Label id="126" visible="(!(backgroundImageBackgroundStyle.fitToShape))"
-			name="ScaleLabel" index="6" localize="true" align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=7;location=left)"
-			label="scale">
-		</Label>
-		<Panel id="128" visible="(!(backgroundImageBackgroundStyle.fitToShape))"
-			vGap="0" borderLeft="0" hGap="0" opaque="false" name="FIBPanel"
-			layout="flow" border="empty" borderRight="0" flowAlignment="LEADING"
-			trackViewPortWidth="true" index="7"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=7;insetsRight=2;insetsTop=0;location=right)"
-			borderBottom="0" borderTitle="Panel" titleFont="SansSerif,0,11"
-			borderTop="0" trackViewPortHeight="true">
-			<Label id="129" name="XLabel" index="0" localize="true" align="left"
-				constraints="flow(index=0)" label="x">
-			</Label>
-			<Number id="131" minValue="0" columns="2"
-				data="backgroundImageBackgroundStyle.scaleX" name="Integer" maxValue="1024"
-				increment="0.2" index="1" localize="true" constraints="flow(index=1)"
-				numberType="DoubleType" />
-			<Label id="132" name="YLabel" index="2" localize="true" align="left"
-				constraints="flow(index=2)" label="y">
-			</Label>
-			<Number id="134" minValue="0" columns="2"
-				data="backgroundImageBackgroundStyle.scaleY" name="Integer" maxValue="1024"
-				increment="0.2" index="3" localize="true" constraints="flow(index=3)"
-				numberType="DoubleType" />
-		</Panel>
-		<Label id="135" visible="(!(backgroundImageBackgroundStyle.fitToShape))"
-			name="DeltaLabel" index="8" localize="true" align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=8;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=7;location=left)"
-			label="delta">
-		</Label>
-		<Panel id="137" visible="(!(backgroundImageBackgroundStyle.fitToShape))"
-			vGap="0" borderLeft="0" hGap="0" opaque="false" name="FIBPanel2"
-			layout="flow" border="empty" borderRight="0" flowAlignment="LEADING"
-			trackViewPortWidth="true" index="9"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=9;insetsBottom=0;insetsLeft=7;insetsRight=2;insetsTop=0;location=right)"
-			borderBottom="0" borderTitle="Panel" titleFont="SansSerif,0,11"
-			borderTop="0" trackViewPortHeight="true">
-			<Label id="138" name="XLabel" index="0" localize="true" align="left"
-				constraints="flow(index=0)" label="x">
-			</Label>
-			<Number id="140" minValue="-1024" columns="2"
-				data="backgroundImageBackgroundStyle.deltaX" name="Integer" maxValue="1024"
-				increment="1" index="1" localize="true" constraints="flow(index=1)"
-				numberType="DoubleType" />
-			<Label id="141" name="YLabel" index="2" localize="true" align="left"
-				constraints="flow(index=2)" label="y">
-			</Label>
-			<Number id="143" minValue="-1024" columns="2"
-				data="backgroundImageBackgroundStyle.deltaY" name="Integer" maxValue="1024"
-				increment="1" index="3" localize="true" constraints="flow(index=3)"
-				numberType="DoubleType" />
-		</Panel>
-		<Label id="144" name="BackgroundLabel" index="3" localize="true"
-			align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			label="background">
-		</Label>
-		<Panel id="146" vGap="0" borderLeft="0" hGap="0" opaque="false"
-			name="FIBPanel3" layout="flow" border="empty" borderRight="0"
-			flowAlignment="LEADING" trackViewPortWidth="true" index="3"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
-			borderBottom="0" borderTitle="Panel" titleFont="SansSerif,0,11"
-			borderTop="0" trackViewPortHeight="true">
-			<DropDown id="147" index="0" localize="true" constraints="flow(index=0)"
-				format="object.name.toLowerCase" showText="true"
-				iteratorClassName="org.openflexo.fge.BackgroundImageBackgroundStyle$ImageBackgroundType"
-				showIcon="false" data="backgroundImageBackgroundStyle.imageBackgroundType"
-				name="backgroundStyleDD" />
-			<Color id="148"
-				visible="(backgroundImageBackgroundStyle.imageBackgroundType = &quot;OPAQUE&quot;)"
-				data="backgroundImageBackgroundStyle.imageBackgroundColor" name="ColorSelector7"
-				index="1" localize="true" constraints="flow(index=1)"
-				allowsNullText="define_color">
-			</Color>
-		</Panel>
-	</Panel>
-	<Panel id="151" borderLeft="10" height="90" opaque="false"
-		name="TransparencyPanel" layout="twocols" border="rounded3d"
-		borderRight="10" trackViewPortWidth="true" index="6" width="80"
-		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)"
-		borderBottom="2" borderTitle="transparency" titleFont="SansSerif,0,11"
-		borderTop="2" trackViewPortHeight="true">
-		<Label id="152" enable="(data.styleType != &quot;NONE&quot;)"
-			name="UseTransparencyLabel" index="0" localize="true" align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			label="use_transparency">
-		</Label>
-		<CheckBox id="154" data="data.backgroundStyle.useTransparency"
-			enable="(data.styleType != &quot;NONE&quot;)" selected="true" name="checkbox"
-			index="1" localize="true"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
-		<Label id="155"
-			enable="((data.styleType.name != &quot;NONE&quot;) &amp; data.backgroundStyle.useTransparency)"
-			name="TransparencyLevelLabel" index="2" localize="true" align="left"
-			constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			label="transparency_level">
-		</Label>
-		<Number id="157" minValue="0" columns="3"
-			data="data.backgroundStyle.transparencyLevel"
-			enable="((data.styleType != &quot;NONE&quot;) &amp; data.backgroundStyle.useTransparency)"
-			name="Integer" maxValue="1" increment="0.05" index="3" localize="true"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=8;insetsRight=2;insetsTop=0;location=right)"
-			numberType="FloatType" />
-	</Panel>
+<Panel id="0" borderLeft="0" sizeAdjustment="OriginalSize" opaque="false" controllerClassName="org.openflexo.gina.controller.FIBController" borderRight="0" border="empty" trackViewPortWidth="true" font="SansSerif,0,11" align="left" borderBottom="5" titleFont="SansSerif,0,11" borderTop="5" trackViewPortHeight="true" layout="gridbag" name="BackgroundStylePanel">
+  <Panel id="1" borderLeft="10" sizeAdjustment="OriginalSize" opaque="false" borderRight="10" border="empty" trackViewPortWidth="true" index="0" align="left" constraints="gridbag(anchor=center;fill=horizontal;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=0;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=0.0;weightY=0.0)" borderBottom="2" borderTitle="" titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true" layout="twocols" name="FIBPanel">
+    <Label id="2" name="BackgroundLabel" index="0" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" label="background" />
+    <DropDown id="3" data="data.styleType" index="1" localize="true" constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.BackgroundStyle$BackgroundStyleType" showIcon="false" staticList="" autoSelectFirstRow="true" name="dropdown" />
+  </Panel>
+  <Panel id="4" visible="(data.styleType.name = &quot;NONE&quot;)" borderLeft="10" sizeAdjustment="OriginalSize" opaque="false" borderRight="10" border="rounded3d" trackViewPortWidth="true" index="1" align="left" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)" borderBottom="2" borderTitle="" titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true" layout="twocols" name="NoneBackgroundPanel">
+    <FIBVariable id="5" name="noneBackgroundStyle" value="($org.openflexo.fge.NoneBackgroundStyle)data.backgroundStyle" type="org.openflexo.fge.NoneBackgroundStyle" />
+  </Panel>
+  <Panel id="6" visible="(data.styleType.name = &quot;COLOR&quot;)" borderLeft="10" sizeAdjustment="OriginalSize" opaque="false" borderRight="10" border="rounded3d" trackViewPortWidth="true" index="2" align="left" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=2;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)" borderBottom="2" borderTitle="" titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true" layout="twocols" name="ColorBackgroundPanel">
+    <Label id="7" name="Color1Label" index="0" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="color_1" />
+    <Color id="8" name="ColorSelector1" data="colorBackgroundStyle.color" index="1" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=right)" allowsNullText="define_color" />
+    <Label id="9" enable="false" name="Color2Label" index="2" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="color_2" />
+    <Color id="10" enable="false" name="ColorSelector2" index="3" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=right)" allowsNullText="define_color" />
+    <Label id="11" enable="false" name="ColorGradientLabel" index="4" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="gradient" />
+    <DropDown id="12" enable="false" index="5" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" showText="true" iteratorClassName="java.lang.String" showIcon="false" staticList="not_applicable" autoSelectFirstRow="true" name="dropdown" />
+    <Label id="13" enable="false" name="TextureLabel" index="6" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="texture" />
+    <DropDown id="14" enable="false" index="7" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" showText="true" iteratorClassName="java.lang.String" showIcon="false" staticList="not_applicable" autoSelectFirstRow="true" name="dropdown" />
+    <FIBVariable id="15" name="colorBackgroundStyle" value="($org.openflexo.fge.ColorBackgroundStyle)data.backgroundStyle" type="org.openflexo.fge.ColorBackgroundStyle" />
+  </Panel>
+  <Panel id="16" visible="(data.styleType.name = &quot;COLOR_GRADIENT&quot;)" borderLeft="10" sizeAdjustment="OriginalSize" opaque="false" borderRight="10" border="rounded3d" trackViewPortWidth="true" index="3" align="left" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=3;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)" borderBottom="2" borderTitle="" titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true" layout="twocols" name="ColorGradientBackgroundPanel">
+    <Label id="17" name="Color1Label" index="0" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="color_1">
+      <LocalizedDictionary id="18" />
+    </Label>
+    <Color id="19" name="ColorSelector3" data="colorGradientBackgroundStyle.color1" index="1" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=right)" allowsNullText="define_color" />
+    <Label id="20" name="Color2Label" index="2" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="color_2" />
+    <Color id="21" name="ColorSelector4" data="colorGradientBackgroundStyle.color2" index="3" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=right)" allowsNullText="define_color" />
+    <Label id="22" name="ColorGradientLabel" index="4" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="color_gradient" />
+    <DropDown id="23" data="colorGradientBackgroundStyle.direction" index="5" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="false" iteratorClassName="org.openflexo.fge.ColorGradientBackgroundStyle$ColorGradientDirection" showIcon="true" name="dropdown" icon="object.icon" />
+    <Label id="24" enable="false" name="TextureLabel" index="6" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="texture" />
+    <DropDown id="25" enable="false" index="7" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" showText="true" iteratorClassName="java.lang.String" showIcon="false" staticList="not_applicable" autoSelectFirstRow="true" name="dropdown" />
+    <FIBVariable id="26" name="colorGradientBackgroundStyle" value="($org.openflexo.fge.ColorGradientBackgroundStyle)data.backgroundStyle" type="org.openflexo.fge.ColorGradientBackgroundStyle" />
+  </Panel>
+  <Panel id="27" visible="(data.styleType.name = &quot;TEXTURE&quot;)" borderLeft="10" sizeAdjustment="OriginalSize" opaque="false" borderRight="10" border="rounded3d" trackViewPortWidth="true" index="4" align="left" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=4;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)" borderBottom="2" borderTitle="" titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true" layout="twocols" name="TextureBackgroundPanel">
+    <Label id="28" name="Color1Label" index="0" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="color_1" />
+    <Color id="29" name="ColorSelector5" data="textureBackgroundStyle.color1" index="1" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=right)" allowsNullText="define_color" />
+    <Label id="30" name="Color2Label" index="2" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="color_2" />
+    <Color id="31" name="ColorSelector6" data="textureBackgroundStyle.color2" index="3" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=2;insetsLeft=6;insetsRight=2;insetsTop=0;location=right)" allowsNullText="define_color" />
+    <Label id="32" enable="false" name="ColorGradientLabel" index="4" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="color_gradient" />
+    <DropDown id="33" enable="false" index="5" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" showText="true" iteratorClassName="java.lang.String" showIcon="false" staticList="not_applicable" autoSelectFirstRow="true" name="dropdown" />
+    <Label id="34" name="TextureLabel" index="6" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="texture">
+      <LocalizedDictionary id="35" />
+    </Label>
+    <DropDown id="36" data="textureBackgroundStyle.textureType" index="7" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="false" iteratorClassName="org.openflexo.fge.TextureBackgroundStyle$TextureType" showIcon="true" name="dropdown" icon="object.icon" />
+    <FIBVariable id="37" name="textureBackgroundStyle" value="($org.openflexo.fge.TextureBackgroundStyle)data.backgroundStyle" type="org.openflexo.fge.TextureBackgroundStyle" />
+  </Panel>
+  <Panel id="38" visible="(data.styleType.name = &quot;IMAGE&quot;)" borderLeft="10" sizeAdjustment="OriginalSize" opaque="false" borderRight="10" border="rounded3d" trackViewPortWidth="true" index="5" align="left" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=5;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)" borderBottom="2" borderTitle="" titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true" layout="twocols" name="ImageBackgroundPanel">
+    <Label id="39" name="ImageLabel" index="0" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="image" />
+    <File id="40" columns="5" mode="OpenMode" title="select_an_image" name="FileSelector" data="backgroundImageBackgroundStyle.imageFile" index="1" localize="true" constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;insetsBottom=0;insetsLeft=5;insetsRight=2;insetsTop=0;location=right)" filter="" />
+    <Label id="41" name="BackgroundLabel" index="3" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="background" />
+    <Panel id="42" vGap="0" borderLeft="0" hGap="0" sizeAdjustment="OriginalSize" opaque="false" borderRight="0" border="empty" trackViewPortWidth="true" index="3" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" borderBottom="0" borderTitle="Panel" titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true" layout="flow" name="FIBPanel3" flowAlignment="LEADING">
+      <DropDown id="43" data="backgroundImageBackgroundStyle.imageBackgroundType" index="0" localize="true" constraints="flow(index=0)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.BackgroundImageBackgroundStyle$ImageBackgroundType" showIcon="false" name="backgroundStyleDD" />
+      <Color id="44" visible="(backgroundImageBackgroundStyle.imageBackgroundType = &quot;OPAQUE&quot;)" name="ColorSelector7" data="backgroundImageBackgroundStyle.imageBackgroundColor" index="1" localize="true" constraints="flow(index=1)" allowsNullText="define_color" />
+    </Panel>
+    <CheckBox id="45" selected="true" name="checkbox" data="backgroundImageBackgroundStyle.fitToShape" index="3" localize="true" constraints="twocols(expandHorizontally=true;expandVertically=false;index=5;insetsBottom=0;insetsLeft=5;insetsRight=2;insetsTop=0;location=left)" />
+    <Label id="46" name="FitToShapeLabel" index="3" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=5;insetsRight=2;insetsTop=0;location=right)" label="fit_to_shape" />
+    <Label id="47" visible="(!(backgroundImageBackgroundStyle.fitToShape))" name="ScaleLabel" index="6" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="scale" />
+    <Panel id="48" visible="(!(backgroundImageBackgroundStyle.fitToShape))" vGap="0" borderLeft="0" hGap="0" sizeAdjustment="OriginalSize" opaque="false" borderRight="0" border="empty" trackViewPortWidth="true" index="7" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=7;insetsRight=2;insetsTop=0;location=right)" borderBottom="0" borderTitle="Panel" titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true" layout="flow" name="FIBPanel" flowAlignment="LEADING">
+      <Number id="49" minValue="0" columns="2" name="Integer" data="backgroundImageBackgroundStyle.scaleX" maxValue="1024" increment="0.2" index="1" localize="true" constraints="flow(index=1)" numberType="DoubleType" />
+      <Label id="50" name="YLabel" index="2" align="left" constraints="flow(index=2)" label="x" />
+      <Number id="51" minValue="0" columns="2" name="Integer" data="backgroundImageBackgroundStyle.scaleY" maxValue="1024" increment="0.2" index="3" localize="true" constraints="flow(index=3)" numberType="DoubleType" />
+    </Panel>
+    <Label id="52" visible="(!(backgroundImageBackgroundStyle.fitToShape))" name="DeltaLabel" index="8" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=8;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="delta" />
+    <Panel id="53" visible="(!(backgroundImageBackgroundStyle.fitToShape))" vGap="0" borderLeft="0" hGap="0" sizeAdjustment="OriginalSize" opaque="false" borderRight="0" border="empty" trackViewPortWidth="true" index="9" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=9;insetsBottom=0;insetsLeft=7;insetsRight=2;insetsTop=0;location=right)" borderBottom="0" borderTitle="Panel" titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true" layout="flow" name="FIBPanel2" flowAlignment="LEADING">
+      <Number id="54" minValue="-1024" columns="2" name="Integer" data="backgroundImageBackgroundStyle.deltaX" maxValue="1024" increment="1" index="1" localize="true" constraints="flow(index=1)" numberType="DoubleType" />
+      <Label id="55" name="YLabel" index="2" align="left" constraints="flow(index=2)" label="x" />
+      <Number id="56" minValue="-1024" columns="2" name="Integer" data="backgroundImageBackgroundStyle.deltaY" maxValue="1024" increment="1" index="3" localize="true" constraints="flow(index=3)" numberType="DoubleType" />
+    </Panel>
+    <FIBVariable id="57" name="backgroundImageBackgroundStyle" value="($org.openflexo.fge.BackgroundImageBackgroundStyle)data.backgroundStyle" type="org.openflexo.fge.BackgroundImageBackgroundStyle" />
+  </Panel>
+  <Panel id="58" borderLeft="10" height="90" sizeAdjustment="OriginalSize" opaque="false" borderRight="10" border="rounded3d" trackViewPortWidth="true" index="6" align="left" width="80" constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)" borderBottom="2" borderTitle="transparency" titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true" layout="twocols" name="TransparencyPanel">
+    <Label id="59" enable="(data.styleType != &quot;NONE&quot;)" name="UseTransparencyLabel" index="0" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="use_transparency" />
+    <CheckBox id="60" enable="(data.styleType != &quot;NONE&quot;)" selected="true" name="checkbox" data="data.backgroundStyle.useTransparency" index="1" localize="true" constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+    <Label id="61" enable="((data.styleType.name != &quot;NONE&quot;) &amp; data.backgroundStyle.useTransparency)" name="TransparencyLevelLabel" index="2" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="transparency_level" />
+    <Number id="62" minValue="0" columns="3" enable="((data.styleType != &quot;NONE&quot;) &amp; data.backgroundStyle.useTransparency)" name="Integer" data="data.backgroundStyle.transparencyLevel" maxValue="1" increment="0.05" index="3" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=8;insetsRight=2;insetsTop=0;location=right)" numberType="FloatType" />
+  </Panel>
+  <FIBVariable id="63" name="data" type="org.openflexo.fge.control.tools.BackgroundStyleFactory" />
+  <LocalizedDictionary id="64">
+    <Localized id="65" value="Background" lang="English" key="background" />
+    <Localized id="66" value="Background" lang="Dutch" key="background" />
+    <Localized id="67" value="Arr.plan" lang="French" key="background" />
+    <Localized id="68" value="Color 1" lang="English" key="color_1" />
+    <Localized id="69" value="Color 1" lang="Dutch" key="color_1" />
+    <Localized id="70" value="Couleur 1" lang="French" key="color_1" />
+    <Localized id="71" value="Color 2" lang="English" key="color_2" />
+    <Localized id="72" value="Color 2" lang="Dutch" key="color_2" />
+    <Localized id="73" value="Couleur 2" lang="French" key="color_2" />
+    <Localized id="74" value="Gradient" lang="English" key="gradient" />
+    <Localized id="75" value="Gradient" lang="Dutch" key="gradient" />
+    <Localized id="76" value="Gradient" lang="French" key="gradient" />
+    <Localized id="77" value="Not applicable" lang="English" key="not_applicable" />
+    <Localized id="78" value="Not applicable" lang="Dutch" key="not_applicable" />
+    <Localized id="79" value="N/A" lang="French" key="not_applicable" />
+    <Localized id="80" value="Texture" lang="English" key="texture" />
+    <Localized id="81" value="Texture" lang="Dutch" key="texture" />
+    <Localized id="82" value="Texture" lang="French" key="texture" />
+    <Localized id="83" value="Color gradient" lang="English" key="color_gradient" />
+    <Localized id="84" value="Color gradient" lang="Dutch" key="color_gradient" />
+    <Localized id="85" value="Gradient" lang="French" key="color_gradient" />
+    <Localized id="86" value="Image" lang="English" key="image" />
+    <Localized id="87" value="Image" lang="Dutch" key="image" />
+    <Localized id="88" value="Image" lang="French" key="image" />
+    <Localized id="89" value="Select an image" lang="English" key="select_an_image" />
+    <Localized id="90" value="Select an image" lang="Dutch" key="select_an_image" />
+    <Localized id="91" value="Selectionner une image" lang="French" key="select_an_image" />
+    <Localized id="92" value="Fit to shape" lang="English" key="fit_to_shape" />
+    <Localized id="93" value="Fit to shape" lang="Dutch" key="fit_to_shape" />
+    <Localized id="94" value="Adapter à la place disponible" lang="French" key="fit_to_shape" />
+    <Localized id="95" value="Scale" lang="English" key="scale" />
+    <Localized id="96" value="Scale" lang="Dutch" key="scale" />
+    <Localized id="97" value="Echelle" lang="French" key="scale" />
+    <Localized id="98" value="X" lang="English" key="x" />
+    <Localized id="99" value="X" lang="Dutch" key="x" />
+    <Localized id="100" value="X" lang="French" key="x" />
+    <Localized id="101" value="Y" lang="English" key="y" />
+    <Localized id="102" value="Y" lang="Dutch" key="y" />
+    <Localized id="103" value="Y" lang="French" key="y" />
+    <Localized id="104" value="Delta" lang="English" key="delta" />
+    <Localized id="105" value="Delta" lang="Dutch" key="delta" />
+    <Localized id="106" value="Delta" lang="French" key="delta" />
+    <Localized id="107" value="Use transparency" lang="English" key="use_transparency" />
+    <Localized id="108" value="Use transparency" lang="Dutch" key="use_transparency" />
+    <Localized id="109" value="Transparence" lang="French" key="use_transparency" />
+    <Localized id="110" value="Transp. level" lang="English" key="transparency_level" />
+    <Localized id="111" value="Transparency level" lang="Dutch" key="transparency_level" />
+    <Localized id="112" value="Niveau" lang="French" key="transparency_level" />
+  </LocalizedDictionary>
 </Panel>

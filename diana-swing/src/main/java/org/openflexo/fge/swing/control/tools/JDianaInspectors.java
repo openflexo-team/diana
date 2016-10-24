@@ -43,13 +43,13 @@ import java.util.logging.Logger;
 import org.openflexo.fge.FGECoreUtils;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.ShadowStyle;
-import org.openflexo.fge.TextStyle;
 import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.tools.BackgroundStyleFactory;
 import org.openflexo.fge.control.tools.ConnectorSpecificationFactory;
 import org.openflexo.fge.control.tools.DianaInspectors;
 import org.openflexo.fge.control.tools.InspectedLayoutManagerSpecifications;
 import org.openflexo.fge.control.tools.InspectedLocationSizeProperties;
+import org.openflexo.fge.control.tools.InspectedTextProperties;
 import org.openflexo.fge.control.tools.ShapeSpecificationFactory;
 import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.tools.JDianaInspectors.JInspector;
@@ -70,7 +70,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 
 	private JInspector<ForegroundStyle> foregroundStyleInspector;
 	private JInspector<BackgroundStyleFactory> backgroundStyleInspector;
-	private JInspector<TextStyle> textStyleInspector;
+	private JInspector<InspectedTextProperties> textPropertiesInspector;
 	private JInspector<ShadowStyle> shadowInspector;
 	private JInspector<ShapeSpecificationFactory> shapeInspector;
 	private JInspector<ConnectorSpecificationFactory> connectorInspector;
@@ -83,7 +83,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 		panelGroup = new FlexoCollabsiblePanelGroup();
 		panelGroup.addContents(getForegroundStyleInspector().getTitle(), getForegroundStyleInspector());
 		panelGroup.addContents(getBackgroundStyleInspector().getTitle(), getBackgroundStyleInspector());
-		panelGroup.addContents(getTextStyleInspector().getTitle(), getTextStyleInspector());
+		panelGroup.addContents(getTextPropertiesInspector().getTitle(), getTextPropertiesInspector());
 		panelGroup.addContents(getShadowStyleInspector().getTitle(), getShadowStyleInspector());
 		panelGroup.addContents(getLocationSizeInspector().getTitle(), getLocationSizeInspector());
 		panelGroup.addContents(getLayoutManagersInspector().getTitle(), getLayoutManagersInspector());
@@ -102,8 +102,8 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 		if (foregroundStyleInspector != null) {
 			foregroundStyleInspector.setData(getInspectedForegroundStyle());
 		}
-		if (textStyleInspector != null) {
-			textStyleInspector.setData(getInspectedTextStyle());
+		if (textPropertiesInspector != null) {
+			textPropertiesInspector.setData(getInspectedTextProperties());
 		}
 		if (shadowInspector != null) {
 			shadowInspector.setData(getInspectedShadowStyle());
@@ -148,13 +148,13 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 	}
 
 	@Override
-	public JInspector<TextStyle> getTextStyleInspector() {
-		if (textStyleInspector == null) {
-			textStyleInspector = new JInspector<TextStyle>(
-					AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(JDianaInspectorsResources.TEXT_STYLE_FIB_FILE, true),
-					getInspectedTextStyle(), JDianaInspectorsResources.TEXT_NAME, TextStyle.class);
+	public JInspector<InspectedTextProperties> getTextPropertiesInspector() {
+		if (textPropertiesInspector == null) {
+			textPropertiesInspector = new JInspector<InspectedTextProperties>(
+					AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(JDianaInspectorsResources.TEXT_PROPERTIES_FIB_FILE, true),
+					getInspectedTextProperties(), JDianaInspectorsResources.TEXT_NAME, InspectedTextProperties.class);
 		}
-		return textStyleInspector;
+		return textPropertiesInspector;
 	}
 
 	@Override
@@ -213,7 +213,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 	}
 
 	@SuppressWarnings("serial")
-	public static class JInspector<T> extends FIBJPanel<T>implements DianaInspectors.Inspector<T> {
+	public static class JInspector<T> extends FIBJPanel<T> implements DianaInspectors.Inspector<T> {
 
 		private final String title;
 		private final Class<T> representedType;

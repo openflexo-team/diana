@@ -75,6 +75,11 @@ public class TestDianaFibs extends GenericFIBTestCase {
 	}
 
 	@Test
+	public void testLayoutManagersPanel() {
+		validateFIB("Fib/LayoutManagersPanel.fib");
+	}
+
+	@Test
 	public void testLocationSizePanel() {
 		validateFIB("Fib/LocationSizePanel.fib");
 	}
@@ -95,6 +100,11 @@ public class TestDianaFibs extends GenericFIBTestCase {
 	}
 
 	@Test
+	public void testTextPropertiesPanel() {
+		validateFIB("Fib/TextPropertiesPanel.fib");
+	}
+
+	@Test
 	public void testTextStylePanel() {
 		validateFIB("Fib/TextStylePanel.fib");
 	}
@@ -103,4 +113,5 @@ public class TestDianaFibs extends GenericFIBTestCase {
 	public void testTextStyleSelector() {
 		validateFIB("Fib/TextStyleSelector.fib");
 	}
+
 }

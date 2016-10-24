@@ -874,6 +874,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 	public interface GraphNode<G extends FGEGraph> extends ShapeNode<G> {
 
+		public void notifyGraphNeedsToBeRedrawn();
+
 	}
 
 	public interface ConnectorNode<O> extends DrawingTreeNode<O, ConnectorGraphicalRepresentation> {

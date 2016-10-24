@@ -49,6 +49,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.openflexo.fge.Drawing;
+import org.openflexo.fge.graph.FGEGraph;
 import org.openflexo.fge.swing.JDianaInteractiveEditor;
 import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.SwingToolFactory;
@@ -64,13 +65,13 @@ import org.openflexo.gina.model.graph.FIBGraph;
  * @author sylvain
  */
 @SuppressWarnings("serial")
-public class JFIBGraphPanel<G extends FIBGraph> extends JPanel {
+public class JFIBGraphPanel<W extends FIBGraph, G extends FGEGraph> extends JPanel {
 
 	private static final Logger logger = Logger.getLogger(JFIBGraphPanel.class.getPackage().getName());
 
-	private GraphDrawing<G> drawing;
+	private GraphDrawing<W, G> drawing;
 
-	public JFIBGraphPanel(GraphDrawing<G> aDrawing) {
+	public JFIBGraphPanel(GraphDrawing<W, G> aDrawing) {
 		super(new BorderLayout());
 
 		setMinimumSize(new Dimension(10, 10));
@@ -99,7 +100,7 @@ public class JFIBGraphPanel<G extends FIBGraph> extends JPanel {
 	}
 
 	public void updateGraph() {
-		System.out.println("OK on met vraiment a jour le graphe");
+		System.out.println("updateGraph()");
 		// drawing.resizeTo(new Dimension(getSize().width - 5, getSize().height - 5));
 		drawing.updateGraph();
 	}

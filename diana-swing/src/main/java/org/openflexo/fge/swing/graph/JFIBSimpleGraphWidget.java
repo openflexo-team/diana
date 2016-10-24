@@ -42,6 +42,7 @@ package org.openflexo.fge.swing.graph;
 import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
+import org.openflexo.fge.graph.FGESimpleFunctionGraph;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.graph.FIBContinuousSimpleFunctionGraph;
 import org.openflexo.gina.model.graph.FIBSimpleFunctionGraph;
@@ -59,7 +60,8 @@ public abstract class JFIBSimpleGraphWidget<W extends FIBSimpleFunctionGraph> ex
 		super(model, controller);
 	}
 
-	public abstract static class FGESimpleFunctionGraphDrawing<W extends FIBSimpleFunctionGraph> extends GraphDrawing<W> {
+	public abstract static class FGESimpleFunctionGraphDrawing<W extends FIBSimpleFunctionGraph, G extends FGESimpleFunctionGraph<?>>
+			extends GraphDrawing<W, G> {
 
 		public FGESimpleFunctionGraphDrawing(W fibGraph, JFIBSimpleGraphWidget<W> widget) {
 			super(fibGraph, widget);

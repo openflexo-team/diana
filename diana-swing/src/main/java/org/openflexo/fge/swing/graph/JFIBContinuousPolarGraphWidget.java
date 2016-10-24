@@ -65,7 +65,8 @@ public class JFIBContinuousPolarGraphWidget extends JFIBPolarGraphWidget<FIBCont
 		return new FGEContinuousPolarFunctionGraphDrawing(getWidget());
 	}
 
-	public class FGEContinuousPolarFunctionGraphDrawing extends FGEPolarFunctionGraphDrawing<FIBContinuousPolarFunctionGraph> {
+	public class FGEContinuousPolarFunctionGraphDrawing
+			extends FGEPolarFunctionGraphDrawing<FIBContinuousPolarFunctionGraph, FGEContinuousPolarFunctionGraph> {
 
 		public FGEContinuousPolarFunctionGraphDrawing(FIBContinuousPolarFunctionGraph fibGraph) {
 			super(fibGraph, JFIBContinuousPolarGraphWidget.this);
@@ -77,23 +78,23 @@ public class JFIBContinuousPolarGraphWidget extends JFIBPolarGraphWidget<FIBCont
 			// System.out.println("Type=" + TypeUtils.getBaseClass(fibGraph.getParameterType()));
 
 			// Create the FGEGraph
-			FGEContinuousPolarFunctionGraph returned = new FGEContinuousPolarFunctionGraph();
-			returned.setBindingFactory(fibGraph.getBindingFactory());
+			graph = new FGEContinuousPolarFunctionGraph();
+			graph.setBindingFactory(fibGraph.getBindingFactory());
 
 			// Sets borders
-			returned.setBorderTop(fibGraph.getBorderTop());
-			returned.setBorderBottom(fibGraph.getBorderBottom());
-			returned.setBorderLeft(fibGraph.getBorderLeft());
-			returned.setBorderRight(fibGraph.getBorderRight());
+			graph.setBorderTop(fibGraph.getBorderTop());
+			graph.setBorderBottom(fibGraph.getBorderBottom());
+			graph.setBorderLeft(fibGraph.getBorderLeft());
+			graph.setBorderRight(fibGraph.getBorderRight());
 
 			// Set parameter name and type
 			// System.out.println("Parameter " + fibGraph.getParameterName() + " type=" + fibGraph.getParameterType());
-			returned.setParameter(fibGraph.getParameterName(), fibGraph.getParameterType());
+			graph.setParameter(fibGraph.getParameterName(), fibGraph.getParameterType());
 
-			returned.setDisplayAngleTicks(fibGraph.getDisplayAngleTicks());
-			returned.setDisplayReferenceMarks(fibGraph.getDisplayReferenceMarks());
-			returned.setDisplayLabels(fibGraph.getDisplayLabels());
-			returned.setDisplayGrid(fibGraph.getDisplayGrid());
+			graph.setDisplayAngleTicks(fibGraph.getDisplayAngleTicks());
+			graph.setDisplayReferenceMarks(fibGraph.getDisplayReferenceMarks());
+			graph.setDisplayLabels(fibGraph.getDisplayLabels());
+			graph.setDisplayGrid(fibGraph.getDisplayGrid());
 
 			// Sets step number
 			int stepsNumber = FIBContinuousPolarFunctionGraph.DEFAULT_STEPS_NUMBER;
@@ -105,7 +106,7 @@ public class JFIBContinuousPolarGraphWidget extends JFIBPolarGraphWidget<FIBCont
 				}
 			}
 			// System.out.println("stepsNumber=" + stepsNumber);
-			returned.setStepsNumber(stepsNumber);
+			graph.setStepsNumber(stepsNumber);
 
 			// Sets angle tick spacing
 			Double angleTickSpacing = FIBContinuousPolarFunctionGraph.DEFAULT_ANGLE_TICK_SPACING;
@@ -118,11 +119,11 @@ public class JFIBContinuousPolarGraphWidget extends JFIBPolarGraphWidget<FIBCont
 				}
 			}
 			// System.out.println("majorTickSpacing=" + majorTickSpacing);
-			returned.setAngleTickSpacing(angleTickSpacing);
+			graph.setAngleTickSpacing(angleTickSpacing);
 
-			appendFunctions(fibGraph, returned, getController());
+			appendFunctions(fibGraph, graph, getController());
 
-			return returned;
+			return graph;
 		}
 
 		@Override

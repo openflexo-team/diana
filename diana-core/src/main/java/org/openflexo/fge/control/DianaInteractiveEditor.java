@@ -70,6 +70,7 @@ import org.openflexo.fge.control.tools.InspectedLayoutManagerSpecifications;
 import org.openflexo.fge.control.tools.InspectedLocationSizeProperties;
 import org.openflexo.fge.control.tools.InspectedShadowStyle;
 import org.openflexo.fge.control.tools.InspectedShapeSpecification;
+import org.openflexo.fge.control.tools.InspectedTextProperties;
 import org.openflexo.fge.control.tools.InspectedTextStyle;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.view.DianaViewFactory;
@@ -174,6 +175,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 	private final InspectedForegroundStyle inspectedForegroundStyle;
 	private final InspectedBackgroundStyle inspectedBackgroundStyle;
 	private final InspectedTextStyle inspectedTextStyle;
+	private final InspectedTextProperties inspectedTextProperties;
 	private final InspectedShadowStyle inspectedShadowStyle;
 	private final InspectedShapeSpecification inspectedShapeSpecification;
 	private final InspectedConnectorSpecification inspectedConnectorSpecification;
@@ -202,6 +204,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		inspectedForegroundStyle = new InspectedForegroundStyle(this);
 		inspectedBackgroundStyle = new InspectedBackgroundStyle(this);
 		inspectedTextStyle = new InspectedTextStyle(this);
+		inspectedTextProperties = new InspectedTextProperties(this);
 		inspectedShadowStyle = new InspectedShadowStyle(this);
 		inspectedShapeSpecification = new InspectedShapeSpecification(this);
 		inspectedConnectorSpecification = new InspectedConnectorSpecification(this);
@@ -233,6 +236,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 	protected void fireSelectionUpdated() {
 		inspectedForegroundStyle.fireSelectionUpdated();
 		inspectedTextStyle.fireSelectionUpdated();
+		inspectedTextProperties.fireSelectionUpdated();
 		inspectedShadowStyle.fireSelectionUpdated();
 		inspectedBackgroundStyle.fireSelectionUpdated();
 		inspectedShapeSpecification.fireSelectionUpdated();
@@ -412,6 +416,10 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 
 	public InspectedTextStyle getInspectedTextStyle() {
 		return inspectedTextStyle;
+	}
+
+	public InspectedTextProperties getInspectedTextProperties() {
+		return inspectedTextProperties;
 	}
 
 	public InspectedShadowStyle getInspectedShadowStyle() {

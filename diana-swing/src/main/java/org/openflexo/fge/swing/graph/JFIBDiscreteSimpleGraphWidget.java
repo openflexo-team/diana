@@ -67,7 +67,8 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 		return new FGEDiscreteSimpleFunctionGraphDrawing(getWidget());
 	}
 
-	public class FGEDiscreteSimpleFunctionGraphDrawing extends FGESimpleFunctionGraphDrawing<FIBDiscreteSimpleFunctionGraph> {
+	public class FGEDiscreteSimpleFunctionGraphDrawing
+			extends FGESimpleFunctionGraphDrawing<FIBDiscreteSimpleFunctionGraph, FGEDiscreteSimpleFunctionGraph<?>> {
 
 		public FGEDiscreteSimpleFunctionGraphDrawing(FIBDiscreteSimpleFunctionGraph fibGraph) {
 			super(fibGraph, JFIBDiscreteSimpleGraphWidget.this);

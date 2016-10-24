@@ -44,13 +44,13 @@ import javax.swing.JFrame;
 
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.ShadowStyle;
-import org.openflexo.fge.TextStyle;
 import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.tools.BackgroundStyleFactory;
 import org.openflexo.fge.control.tools.ConnectorSpecificationFactory;
 import org.openflexo.fge.control.tools.DianaInspectors;
 import org.openflexo.fge.control.tools.InspectedLayoutManagerSpecifications;
 import org.openflexo.fge.control.tools.InspectedLocationSizeProperties;
+import org.openflexo.fge.control.tools.InspectedTextProperties;
 import org.openflexo.fge.control.tools.ShapeSpecificationFactory;
 import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.tools.JDianaDialogInspectors.JDialogInspector;
@@ -71,7 +71,7 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 
 	private JDialogInspector<ForegroundStyle> foregroundStyleInspector;
 	private JDialogInspector<BackgroundStyleFactory> backgroundStyleInspector;
-	private JDialogInspector<TextStyle> textStyleInspector;
+	private JDialogInspector<InspectedTextProperties> textPropertiesInspector;
 	private JDialogInspector<ShadowStyle> shadowInspector;
 	private JDialogInspector<ShapeSpecificationFactory> shapeInspector;
 	private JDialogInspector<ConnectorSpecificationFactory> connectorInspector;
@@ -90,8 +90,8 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 		if (foregroundStyleInspector != null) {
 			foregroundStyleInspector.setData(getInspectedForegroundStyle(), true);
 		}
-		if (textStyleInspector != null) {
-			textStyleInspector.setData(getInspectedTextStyle(), true);
+		if (textPropertiesInspector != null) {
+			textPropertiesInspector.setData(getInspectedTextProperties(), true);
 		}
 		if (shadowInspector != null) {
 			shadowInspector.setData(getInspectedShadowStyle(), true);
@@ -135,13 +135,13 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	}
 
 	@Override
-	public JDialogInspector<TextStyle> getTextStyleInspector() {
-		if (textStyleInspector == null) {
-			textStyleInspector = new JDialogInspector<TextStyle>(
-					AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(JDianaInspectorsResources.TEXT_STYLE_FIB_FILE, true),
-					getInspectedTextStyle(), frame, JDianaInspectorsResources.TEXT_NAME);
+	public JDialogInspector<InspectedTextProperties> getTextPropertiesInspector() {
+		if (textPropertiesInspector == null) {
+			textPropertiesInspector = new JDialogInspector<InspectedTextProperties>(
+					AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(JDianaInspectorsResources.TEXT_PROPERTIES_FIB_FILE, true),
+					getInspectedTextProperties(), frame, JDianaInspectorsResources.TEXT_NAME);
 		}
-		return textStyleInspector;
+		return textPropertiesInspector;
 	}
 
 	@Override
@@ -199,7 +199,7 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	}
 
 	@SuppressWarnings("serial")
-	public static class JDialogInspector<T> extends JFIBDialog<T>implements DianaInspectors.Inspector<T> {
+	public static class JDialogInspector<T> extends JFIBDialog<T> implements DianaInspectors.Inspector<T> {
 
 		protected JDialogInspector(FIBComponent fibComponent, T data, JFrame frame, String title) {
 			super(fibComponent, data, frame, false, (LocalizedDelegate) null);

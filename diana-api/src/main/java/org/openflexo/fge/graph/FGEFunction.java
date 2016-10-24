@@ -42,8 +42,10 @@ import java.awt.geom.AffineTransform;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
@@ -76,17 +78,24 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 
 	private final String functionName;
 	private final Type functionType;
-	private final DataBinding<T> functionExpression;
-	private final FGEGraphType graphType;
+	private DataBinding<T> functionExpression;
+	private FGEGraphType graphType;
 
 	private ForegroundStyle foregroundStyle;
 	private BackgroundStyle backgroundStyle;
 
 	private final FGEGraph graph;
 
+	double DEFAULT_ANGLE_SPACING = 2; // 2 degrees
+	double DEFAULT_STEPS_SPACING = 0.2; // 20% spacing
+
+	private double angleSpacing = DEFAULT_ANGLE_SPACING;
+	private double stepsSpacing = DEFAULT_STEPS_SPACING;
+
 	private FunctionRepresentation representation = null;
 
 	protected List<T> valueSamples;
+	protected Map<?, List<T>> twoLevelsValueSamples;
 
 	public FGEFunction(String functionName, Type functionType, DataBinding<T> functionExpression, FGEGraphType graphType, FGEGraph graph) {
 		super();
@@ -121,12 +130,24 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 		return functionExpression;
 	}
 
+	public void setFunctionExpression(DataBinding<T> functionExpression) {
+		this.functionExpression = functionExpression;
+	}
+
 	public FGEGraph getGraph() {
 		return graph;
 	}
 
 	public FGEGraphType getGraphType() {
 		return graphType;
+	}
+
+	public void setGraphType(FGEGraphType graphType) {
+		if ((graphType == null && this.graphType != null) || (graphType != null && !graphType.equals(this.graphType))) {
+			FGEGraphType oldValue = this.graphType;
+			this.graphType = graphType;
+			getPropertyChangeSupport().firePropertyChange("graphType", oldValue, graphType);
+		}
 	}
 
 	public ForegroundStyle getForegroundStyle() {
@@ -145,7 +166,35 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 		this.backgroundStyle = backgroundStyle;
 	}
 
+	// Angle in degree
+	public double getAngleSpacing() {
+		return angleSpacing;
+	}
+
+	public void setAngleSpacing(double angleSpacing) {
+		if (angleSpacing != this.angleSpacing) {
+			double oldValue = this.angleSpacing;
+			this.angleSpacing = angleSpacing;
+			getPropertyChangeSupport().firePropertyChange("angleSpacing", oldValue, angleSpacing);
+		}
+	}
+
+	// Between 0.0 and 1.0
+	public double getStepsSpacing() {
+		return stepsSpacing;
+	}
+
+	public void setStepsSpacing(double stepsSpacing) {
+		if (stepsSpacing != this.stepsSpacing) {
+			double oldValue = this.stepsSpacing;
+			this.stepsSpacing = stepsSpacing;
+			getPropertyChangeSupport().firePropertyChange("stepsSpacing", oldValue, stepsSpacing);
+		}
+	}
+
 	public T evaluate() throws TypeMismatchException, NullReferenceException, InvocationTargetException {
+		// System.out.println("on evalue " + functionExpression + " valid=" + functionExpression.isValid() + " reason: "
+		// + functionExpression.invalidBindingReason());
 		T returned = functionExpression.getBindingValue(getGraph().getEvaluator());
 		getGraph().getEvaluator().set(functionName, returned);
 		return returned;
@@ -158,6 +207,13 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 		}
 
 		return representation;
+	}
+
+	protected void updateRepresentation() {
+		if (representation != null) {
+			// System.out.println("Updating function " + this);
+			representation = buildRepresentation();
+		}
 	}
 
 	protected FunctionRepresentation buildRepresentation() {
@@ -179,6 +235,21 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 			this.x = x;
 			this.value = value;
 		}
+
+	}
+
+	static class TwoLevelsFunctionSample<T1, T2, V> {
+		T1 primaryValue;
+		List<T2> secondaryValues;
+		List<V> values;
+
+		public TwoLevelsFunctionSample(T1 primaryValue, List<T2> secondaryValues, List<V> values) {
+			super();
+			this.primaryValue = primaryValue;
+			this.secondaryValues = secondaryValues;
+			this.values = values;
+		}
+
 	}
 
 	protected <X> List<FunctionSample<X, T>> retrieveSamples(FGESingleParameteredGraph<X> graph) {
@@ -190,7 +261,7 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 			valueSamples = new ArrayList<T>();
 		}
 
-		// System.out.println("On calcule les samples");
+		System.out.println("On calcule les samples pour " + getFunctionExpression());
 
 		List<FunctionSample<X, T>> samples = new ArrayList<FunctionSample<X, T>>();
 		Iterator<X> it = graph.iterateParameter();
@@ -225,6 +296,58 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 				if (!valueSamples.contains(value)) {
 					valueSamples.add(value);
 				}
+			}
+		}
+
+		return samples;
+	}
+
+	protected <T1, T2> List<TwoLevelsFunctionSample<T1, T2, T>> retrieveTwoLevelsSamples(
+			FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> graph) {
+
+		if (twoLevelsValueSamples != null) {
+			twoLevelsValueSamples.clear();
+		}
+		else {
+			twoLevelsValueSamples = new HashMap<>();
+		}
+
+		// System.out.println("On calcule les two-levels samples pour " + getFunctionExpression());
+
+		List<TwoLevelsFunctionSample<T1, T2, T>> samples = new ArrayList<TwoLevelsFunctionSample<T1, T2, T>>();
+		Iterator<T1> it = graph.iteratePrimaryParameter();
+
+		if (it != null) {
+
+			while (it.hasNext()) {
+
+				T1 primaryValue = it.next();
+				List<T2> secondaryValues = graph.getSecondaryDiscreteValues().get(primaryValue);
+				List<T> values = new ArrayList<>();
+				TwoLevelsFunctionSample<T1, T2, T> newSample = new TwoLevelsFunctionSample<T1, T2, T>(primaryValue, secondaryValues,
+						values);
+
+				if (secondaryValues != null) {
+					for (T2 secondaryValue : secondaryValues) {
+						T value = null;
+						try {
+							value = graph.evaluateFunction(this, primaryValue, secondaryValue);
+						} catch (TypeMismatchException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (NullReferenceException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (InvocationTargetException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						values.add(value);
+					}
+				}
+
+				samples.add(newSample);
+
 			}
 		}
 
@@ -320,11 +443,13 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 
 		FunctionRepresentation functionRepresentation = getRepresentation();
 
-		for (ElementRepresentation e : functionRepresentation.elements) {
-			if (e.area != null) {
-				g.setDefaultForeground(e.foregroundStyle);
-				g.setDefaultBackground(e.backgroundStyle);
-				e.area.transform(at).paint(g);
+		if (functionRepresentation != null) {
+			for (ElementRepresentation e : functionRepresentation.elements) {
+				if (e.area != null) {
+					g.setDefaultForeground(e.foregroundStyle);
+					g.setDefaultBackground(e.backgroundStyle);
+					e.area.transform(at).paint(g);
+				}
 			}
 		}
 

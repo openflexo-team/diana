@@ -51,9 +51,6 @@ import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation;
-import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
-import org.openflexo.fge.GraphicalRepresentation.ParagraphAlignment;
-import org.openflexo.fge.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.fge.ShadowStyle;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
@@ -166,86 +163,6 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		setPropertyValue(ContainerGraphicalRepresentation.HEIGHT, value);
 	}
 
-	public HorizontalTextAlignment getHorizontalTextAlignment() {
-		return getPropertyValue(GraphicalRepresentation.HORIZONTAL_TEXT_ALIGNEMENT);
-	}
-
-	public void setHorizontalTextAlignment(HorizontalTextAlignment alignment) {
-		setPropertyValue(GraphicalRepresentation.HORIZONTAL_TEXT_ALIGNEMENT, alignment);
-	}
-
-	public VerticalTextAlignment getVerticalTextAlignment() {
-		return getPropertyValue(GraphicalRepresentation.VERTICAL_TEXT_ALIGNEMENT);
-	}
-
-	public void setVerticalTextAlignment(VerticalTextAlignment alignment) {
-		setPropertyValue(GraphicalRepresentation.VERTICAL_TEXT_ALIGNEMENT, alignment);
-	}
-
-	public ParagraphAlignment getParagraphAlignment() {
-		return getPropertyValue(GraphicalRepresentation.PARAGRAPH_ALIGNEMENT);
-	}
-
-	public void setParagraphAlignment(ParagraphAlignment alignment) {
-		setPropertyValue(GraphicalRepresentation.PARAGRAPH_ALIGNEMENT, alignment);
-	}
-
-	public Boolean getIsFloatingLabel() {
-		return getPropertyValue(ShapeGraphicalRepresentation.IS_FLOATING_LABEL);
-	}
-
-	public void setIsFloatingLabel(Boolean flag) {
-		setPropertyValue(ShapeGraphicalRepresentation.IS_FLOATING_LABEL, flag);
-	}
-
-	public Double getAbsoluteTextX() {
-		return getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X);
-	}
-
-	public void setAbsoluteTextX(Double x) {
-		setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X, x);
-	}
-
-	public Double getAbsoluteTextY() {
-		return getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y);
-	}
-
-	public void setAbsoluteTextY(Double y) {
-		setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y, y);
-	}
-
-	public Double getRelativeTextX() {
-		return getPropertyValue(ShapeGraphicalRepresentation.RELATIVE_TEXT_X);
-	}
-
-	public void setRelativeTextX(Double x) {
-		setPropertyValue(ShapeGraphicalRepresentation.RELATIVE_TEXT_X, x);
-	}
-
-	public Double getRelativeTextY() {
-		return getPropertyValue(ShapeGraphicalRepresentation.RELATIVE_TEXT_Y);
-	}
-
-	public void setRelativeTextY(Double y) {
-		setPropertyValue(ShapeGraphicalRepresentation.RELATIVE_TEXT_Y, y);
-	}
-
-	public Boolean getIsMultilineAllowed() {
-		return getPropertyValue(GraphicalRepresentation.IS_MULTILINE_ALLOWED);
-	}
-
-	public void setIsMultilineAllowed(Boolean flag) {
-		setPropertyValue(GraphicalRepresentation.IS_MULTILINE_ALLOWED, flag);
-	}
-
-	public Boolean getLineWrap() {
-		return getPropertyValue(GraphicalRepresentation.LINE_WRAP);
-	}
-
-	public void setLineWrap(Boolean flag) {
-		setPropertyValue(GraphicalRepresentation.LINE_WRAP, flag);
-	}
-
 	public LocationConstraints getLocationConstraints() {
 		return getPropertyValue(ShapeGraphicalRepresentation.LOCATION_CONSTRAINTS);
 	}
@@ -268,14 +185,6 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 
 	public void setIsAllowToLeaveBounds(Boolean flag) {
 		setPropertyValue(ShapeGraphicalRepresentation.ALLOW_TO_LEAVE_BOUNDS, flag);
-	}
-
-	public Boolean getAdaptBoundsToContents() {
-		return getPropertyValue(ShapeGraphicalRepresentation.ADAPT_BOUNDS_TO_CONTENTS);
-	}
-
-	public void setAdaptBoundsToContents(Boolean flag) {
-		setPropertyValue(ShapeGraphicalRepresentation.ADAPT_BOUNDS_TO_CONTENTS, flag);
 	}
 
 	public DataBinding<Double> getXConstraints() {

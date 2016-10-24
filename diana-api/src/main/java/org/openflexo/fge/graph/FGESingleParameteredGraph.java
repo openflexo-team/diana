@@ -39,7 +39,6 @@
 package org.openflexo.fge.graph;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
 import java.util.Iterator;
 
 import org.openflexo.connie.exception.NullReferenceException;
@@ -66,15 +65,16 @@ public abstract class FGESingleParameteredGraph<P> extends FGEGraph {
 		return null;
 	}
 
-	@Override
+	// Do not uncomment: we need that for two-levels graphs
+	/*@Override
 	public final void setParameter(String parameterName, Type parameterType) {
-
+	
 		if (parameterTypes.size() > 0) {
 			throw new IllegalArgumentException("FGESingleParameteredGraph could not have more than one parameter: existing parameter "
 					+ getParameter() + " while adding " + parameterName);
 		}
 		super.setParameter(parameterName, parameterType);
-	}
+	}*/
 
 	public <Y> Y evaluateFunction(FGEFunction<Y> function, P value)
 			throws TypeMismatchException, NullReferenceException, InvocationTargetException {

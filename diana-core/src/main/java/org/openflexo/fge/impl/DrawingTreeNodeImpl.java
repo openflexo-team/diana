@@ -281,7 +281,18 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	@Override
 	public boolean isValid() {
 		if (getDrawing().getDrawingTreeNode(getDrawable(), getGRBinding()) != this) {
-			return false;
+			logger.warning(
+					"Please investigate here: something strange at this point, see isValid() in DrawingTreeNode. More informations in the console");
+			System.out.println("drawable=" + getDrawable());
+			System.out.println("grBinding=" + getGRBinding());
+			DrawingTreeNode<?, ?> dtn = getDrawing().getDrawingTreeNode(getDrawable(), getGRBinding());
+			if (dtn != null) {
+				System.out.println("dtn.drawable=" + dtn.getDrawable());
+				System.out.println("dtn.grBinding=" + dtn.getGRBinding());
+			}
+			else {
+				System.out.println("dtn=null");
+			}
 		}
 
 		DrawingTreeNode<?, ?> current = this;

@@ -47,7 +47,9 @@ import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.fge.ColorGradientBackgroundStyle.ColorGradientDirection;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
@@ -65,6 +67,7 @@ import org.openflexo.fge.control.MouseControl.MouseButton;
 import org.openflexo.fge.control.MouseControlContext;
 import org.openflexo.fge.control.actions.MouseClickControlActionImpl;
 import org.openflexo.fge.control.actions.MouseClickControlImpl;
+import org.openflexo.fge.graph.FGEFunction;
 import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
 import org.openflexo.fge.graph.FGEGraph;
 import org.openflexo.fge.graph.FGENumericFunction;
@@ -94,6 +97,8 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 		implements JFIBView<W, JFIBGraphPanel> {
 
 	private static final Logger logger = Logger.getLogger(JFIBGraphWidget.class.getPackage().getName());
+
+	private GraphDrawing<W, ?> graphDrawing;
 
 	/**
 	 * A {@link RenderingAdapter} implementation dedicated for Swing JLabel<br>
@@ -129,13 +134,23 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 	}
 
 	@Override
+	protected void componentBecomesVisible() {
+		super.componentBecomesVisible();
+		getGraphDrawing().updateGraph();
+	}
+
+	@Override
+	protected void componentBecomesInvisible() {
+		super.componentBecomesInvisible();
+	}
+
+	@Override
 	protected void performUpdate() {
 		super.performUpdate();
 		updateGraph();
 	}
 
 	protected void updateGraph() {
-		System.out.println("Ce serait bien de mettre a jour le graphe");
 		if (getTechnologyComponent() != null) {
 			getTechnologyComponent().updateGraph();
 		}
@@ -144,19 +159,13 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 
-		/*if (evt.getPropertyName().equals(FIBButton.LABEL_KEY)) {
-			updateLabel();
-		}
-		if (evt.getPropertyName().equals(FIBButton.BUTTON_ICON_KEY)) {
-			updateIcon();
-		}*/
-
 		super.propertyChange(evt);
 	}
 
 	@Override
 	protected JFIBGraphPanel makeTechnologyComponent() {
-		return new JFIBGraphPanel(makeGraphDrawing());
+		graphDrawing = makeGraphDrawing();
+		return new JFIBGraphPanel(graphDrawing);
 	}
 
 	@Override
@@ -169,9 +178,25 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 		return getRenderingAdapter().getResultingJComponent(this);
 	}
 
-	protected abstract <G extends FIBGraph> GraphDrawing<FIBGraph> makeGraphDrawing();
+	protected abstract <G extends FGEGraph> GraphDrawing<W, G> makeGraphDrawing();
 
-	public static abstract class GraphDrawing<G extends FIBGraph> extends DrawingImpl<G>implements PropertyChangeListener {
+	public <G extends FGEGraph> GraphDrawing<W, ? extends G> getGraphDrawing() {
+		return (GraphDrawing<W, G>) graphDrawing;
+	}
+
+	/**
+	 * Drawing used by the JFIBGraphWidget to display a graph using Diana framework
+	 * 
+	 * 
+	 * @author sylvain
+	 *
+	 * @param <W>
+	 *            type of widget beeing represented
+	 * @param <G>
+	 *            type of FGEGraph (Diana framework) used to represent the widget
+	 */
+	public static abstract class GraphDrawing<W extends FIBGraph, G extends FGEGraph> extends DrawingImpl<W>
+			implements PropertyChangeListener {
 
 		public static final int DEFAULT_WIDTH = 400;
 		public static final int DEFAULT_HEIGHT = 300;
@@ -186,19 +211,23 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			}
 		}
 
-		private FGEGraph graph;
-		private JFIBGraphWidget<G> widget;
+		protected G graph;
+		private final JFIBGraphWidget<W> widget;
 
 		protected DrawingGraphicalRepresentation drawingRepresentation;
 		protected ShapeGraphicalRepresentation graphGR;
 
-		public GraphDrawing(G fibGraph, JFIBGraphWidget<G> widget) {
+		public GraphDrawing(W fibGraph, JFIBGraphWidget<W> widget) {
 			super(fibGraph, GRAPH_FACTORY, PersistenceMode.UniqueGraphicalRepresentations);
 			fibGraph.getPropertyChangeSupport().addPropertyChangeListener(this);
 			for (FIBGraphFunction f : fibGraph.getFunctions()) {
 				f.getPropertyChangeSupport().addPropertyChangeListener(this);
 			}
 			this.widget = widget;
+		}
+
+		public G getGraph() {
+			return graph;
 		}
 
 		@Override
@@ -212,15 +241,99 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			super.delete();
 		}
 
-		protected abstract FGEGraph makeGraph(G fibGraph);
+		protected abstract G makeGraph(W fibGraph);
 
-		protected FGEGraph appendFunctions(FIBGraph fibGraph, FGEGraph graph, FIBController controller) {
+		private <N extends Number> void updateMinAndMax(FIBNumericFunction fibNumericFunction, FGENumericFunction<N> fgeFunction) {
+			N minValue = (N) FIBNumericFunction.DEFAULT_MIN_VALUE;
+			N maxValue = (N) FIBNumericFunction.DEFAULT_MAX_VALUE;
+			if (fibNumericFunction.getMinValue() != null && fibNumericFunction.getMinValue().isSet()
+					&& fibNumericFunction.getMinValue().isValid()) {
+				try {
+					minValue = (N) fibNumericFunction.getMinValue().getBindingValue(widget);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (fibNumericFunction.getMaxValue() != null && fibNumericFunction.getMaxValue().isSet()
+					&& fibNumericFunction.getMaxValue().isValid()) {
+				try {
+					maxValue = (N) fibNumericFunction.getMaxValue().getBindingValue(widget);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			// System.out.println("minValue=" + minValue + " maxValue=" + maxValue);
+			fgeFunction.setRange(minValue, maxValue);
+		}
+
+		private <N extends Number> void updateStepsNumber(FIBNumericFunction fibNumericFunction, FGENumericFunction<N> fgeFunction) {
+			// Sets step number
+			int stepsNumber = FIBContinuousSimpleFunctionGraph.DEFAULT_STEPS_NUMBER;
+			if (fibNumericFunction.getStepsNumber() != null && fibNumericFunction.getStepsNumber().isSet()
+					&& fibNumericFunction.getStepsNumber().isValid()) {
+				try {
+					stepsNumber = fibNumericFunction.getStepsNumber().getBindingValue(widget);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			// System.out.println("stepsNumber=" + stepsNumber);
+			fgeFunction.setStepsNb(stepsNumber);
+
+		}
+
+		private <N extends Number> void updateMajorTickSpacing(FIBNumericFunction fibNumericFunction, FGENumericFunction<N> fgeFunction) {
+			// Sets major tick spacing
+			N majorTickSpacing = (N) FIBContinuousSimpleFunctionGraph.DEFAULT_MAJOR_TICK_SPACING;
+			if (fibNumericFunction.getMajorTickSpacing() != null && fibNumericFunction.getMajorTickSpacing().isSet()
+					&& fibNumericFunction.getMajorTickSpacing().isValid()) {
+				try {
+					majorTickSpacing = (N) fibNumericFunction.getMajorTickSpacing().getBindingValue(widget);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			// System.out.println("majorTickSpacing=" + majorTickSpacing);
+			fgeFunction.setMajorTickSpacing(majorTickSpacing);
+
+		}
+
+		private <N extends Number> void updateMinorTickSpacing(FIBNumericFunction fibNumericFunction, FGENumericFunction<N> fgeFunction) {
+			// Sets minor tick spacing
+			N minorTickSpacing = (N) FIBContinuousSimpleFunctionGraph.DEFAULT_MINOR_TICK_SPACING;
+			if (fibNumericFunction.getMinorTickSpacing() != null && fibNumericFunction.getMinorTickSpacing().isSet()
+					&& fibNumericFunction.getMinorTickSpacing().isValid()) {
+				try {
+					minorTickSpacing = (N) fibNumericFunction.getMinorTickSpacing().getBindingValue(widget);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			// System.out.println("minorTickSpacing=" + minorTickSpacing);
+			fgeFunction.setMinorTickSpacing(minorTickSpacing);
+
+		}
+
+		protected G appendFunctions(W fibGraph, G graph, FIBController controller) {
 
 			for (FIBGraphFunction function : fibGraph.getFunctions()) {
+
+				if (StringUtils.isEmpty(function.getName())) {
+					function.setName("function" + fibGraph.getFunctions().indexOf(function));
+				}
+
 				if (function instanceof FIBNumericFunction) {
 					FIBNumericFunction fibNumericFunction = (FIBNumericFunction) function;
 					FGENumericFunction numericFunction = graph.addNumericFunction(function.getName(), function.getType(),
 							(DataBinding) function.getExpression(), getGraphType(function.getGraphType()));
+
+					if (fibNumericFunction.getGraphType() == GraphType.COLORED_STEPS) {
+						numericFunction.setAngleSpacing(fibNumericFunction.getAngleSpacing());
+						numericFunction.setStepsSpacing(fibNumericFunction.getStepsSpacing());
+					}
+
+					// function.getPropertyChangeSupport().addPropertyChangeListener(this);
+
 					// numericFunction.setRange(0.0, 100.0);
 					numericFunction.setForegroundStyle(getFactory().makeForegroundStyle(function.getForegroundColor(), 1.0f));
 					switch (function.getBackgroundType()) {
@@ -229,7 +342,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 							break;
 						case GRADIENT:
 							numericFunction.setBackgroundStyle(getFactory().makeColorGradientBackground(function.getBackgroundColor1(),
-									function.getBackgroundColor2(), ColorGradientDirection.SOUTH_EAST_NORTH_WEST));
+									function.getBackgroundColor2(), ColorGradientDirection.NORTH_WEST_SOUTH_EAST));
 							break;
 						case NONE:
 							numericFunction.setBackgroundStyle(getFactory().makeEmptyBackground());
@@ -240,74 +353,17 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 					numericFunction.setDisplayMinorTicks(fibNumericFunction.getDisplayMinorTicks());
 					numericFunction.setDisplayLabels(fibNumericFunction.getDisplayLabels());
 
-					// Sets parameter range
-					Number minValue = FIBNumericFunction.DEFAULT_MIN_VALUE;
-					Number maxValue = FIBNumericFunction.DEFAULT_MAX_VALUE;
-					if (fibNumericFunction.getMinValue() != null && fibNumericFunction.getMinValue().isSet()
-							&& fibNumericFunction.getMinValue().isValid()) {
-						try {
-							minValue = fibNumericFunction.getMinValue().getBindingValue(widget);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-					if (fibNumericFunction.getMaxValue() != null && fibNumericFunction.getMaxValue().isSet()
-							&& fibNumericFunction.getMaxValue().isValid()) {
-						try {
-							maxValue = fibNumericFunction.getMaxValue().getBindingValue(widget);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-					// System.out.println("minValue=" + minValue + " maxValue=" + maxValue);
-					numericFunction.setRange(minValue, maxValue);
-
-					// Sets step number
-					int stepsNumber = FIBContinuousSimpleFunctionGraph.DEFAULT_STEPS_NUMBER;
-					if (fibNumericFunction.getStepsNumber() != null && fibNumericFunction.getStepsNumber().isSet()
-							&& fibNumericFunction.getStepsNumber().isValid()) {
-						try {
-							stepsNumber = fibNumericFunction.getStepsNumber().getBindingValue(widget);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-					// System.out.println("stepsNumber=" + stepsNumber);
-					numericFunction.setStepsNb(stepsNumber);
-
-					// Sets major tick spacing
-					Number majorTickSpacing = FIBContinuousSimpleFunctionGraph.DEFAULT_MAJOR_TICK_SPACING;
-					if (fibNumericFunction.getMajorTickSpacing() != null && fibNumericFunction.getMajorTickSpacing().isSet()
-							&& fibNumericFunction.getMajorTickSpacing().isValid()) {
-						try {
-							majorTickSpacing = fibNumericFunction.getMajorTickSpacing().getBindingValue(widget);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-					// System.out.println("majorTickSpacing=" + majorTickSpacing);
-					numericFunction.setMajorTickSpacing(majorTickSpacing);
-
-					// Sets minor tick spacing
-					Number minorTickSpacing = FIBContinuousSimpleFunctionGraph.DEFAULT_MINOR_TICK_SPACING;
-					if (fibNumericFunction.getMinorTickSpacing() != null && fibNumericFunction.getMinorTickSpacing().isSet()
-							&& fibNumericFunction.getMinorTickSpacing().isValid()) {
-						try {
-							minorTickSpacing = fibNumericFunction.getMinorTickSpacing().getBindingValue(widget);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-					// System.out.println("minorTickSpacing=" + minorTickSpacing);
-					numericFunction.setMinorTickSpacing(minorTickSpacing);
+					// Sets parameters
+					updateMinAndMax(fibNumericFunction, numericFunction);
+					updateStepsNumber(fibNumericFunction, numericFunction);
+					updateMajorTickSpacing(fibNumericFunction, numericFunction);
+					updateMinorTickSpacing(fibNumericFunction, numericFunction);
 
 				}
 			}
 
 			return graph;
 		}
-
-		// protected abstract FGEGraph updateGraph(G fibGraph);
 
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
@@ -325,33 +381,108 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 				updateBorders();
 			}
 			if (evt.getSource() instanceof FIBGraphFunction) {
-				System.out.println("On reconstruit la graphe a cause de la fonction qui change: " + evt.getPropertyName());
-				updateGraph();
+				FIBGraphFunction fibFunction = (FIBGraphFunction) evt.getSource();
+				FGEFunction<?> fgeFunction = graph.getFunction(fibFunction.getName());
+				if (evt.getPropertyName().equals(FIBGraphFunction.EXPRESSION_KEY)) {
+					// System.out.println("On reconstruit la graphe a cause de la fonction qui change: " + evt.getPropertyName());
+					if (fgeFunction != null) {
+						fgeFunction.setFunctionExpression((DataBinding) fibFunction.getExpression());
+					}
+					else {
+						logger.warning("Inconsistent data : could not find FGEFunction matching " + fibFunction);
+					}
+					updateGraph();
+				}
+				else if (evt.getPropertyName().equals(FIBGraphFunction.GRAPH_TYPE_KEY)) {
+					fgeFunction.setGraphType(getGraphType(fibFunction.getGraphType()));
+					if (fibFunction.getGraphType() == GraphType.COLORED_STEPS) {
+						fgeFunction.setAngleSpacing(fibFunction.getAngleSpacing());
+						fgeFunction.setStepsSpacing(fibFunction.getStepsSpacing());
+					}
+					updateGraph();
+				}
+				else if (evt.getPropertyName().equals(FIBGraphFunction.ANGLE_SPACING_KEY)) {
+					fgeFunction.setAngleSpacing(fibFunction.getAngleSpacing());
+					updateGraph();
+				}
+				else if (evt.getPropertyName().equals(FIBGraphFunction.STEPS_SPACING_KEY)) {
+					fgeFunction.setStepsSpacing(fibFunction.getStepsSpacing());
+					updateGraph();
+				}
+			}
+			if (evt.getSource() instanceof FIBNumericFunction) {
+				FIBNumericFunction fibNumericFunction = (FIBNumericFunction) evt.getSource();
+				FGENumericFunction fgeFunction = (FGENumericFunction<?>) graph.getFunction(fibNumericFunction.getName());
+				if (evt.getPropertyName().equals(FIBNumericFunction.MAX_VALUE_KEY)
+						|| evt.getPropertyName().equals(FIBNumericFunction.MIN_VALUE_KEY)) {
+					updateMinAndMax(fibNumericFunction, fgeFunction);
+					updateGraph();
+				}
+				if (evt.getPropertyName().equals(FIBNumericFunction.MAJOR_TICK_SPACING_KEY)) {
+					updateMajorTickSpacing(fibNumericFunction, fgeFunction);
+					updateGraph();
+				}
+				if (evt.getPropertyName().equals(FIBNumericFunction.MINOR_TICK_SPACING_KEY)) {
+					updateMinorTickSpacing(fibNumericFunction, fgeFunction);
+					updateGraph();
+				}
+				if (evt.getPropertyName().equals(FIBNumericFunction.STEPS_NUMBER_KEY)) {
+					updateStepsNumber(fibNumericFunction, fgeFunction);
+					updateGraph();
+				}
+				if (evt.getPropertyName().equals(FIBNumericFunction.DISPLAY_LABELS_KEY)) {
+					fgeFunction.setDisplayLabels(fibNumericFunction.getDisplayLabels());
+					updateGraph();
+				}
 			}
 		}
 
+		private boolean updateHasBeenRequested = false;
+
 		protected void updateGraph() {
-			// updateGraph(getModel());
-			graph = makeGraph(getModel());
-			invalidateGraphicalObjectsHierarchy();
-			updateGraphicalObjectsHierarchy();
-			widget.getRenderingAdapter().revalidateAndRepaint(widget.getTechnologyComponent());
+
+			// System.out
+			// .println("updateGraph(), widget visible = " + widget.getRenderingAdapter().isVisible(widget.getTechnologyComponent()));
+
+			if (!widget.getRenderingAdapter().isVisible(widget.getTechnologyComponent())) {
+				// TODO: invoke later !
+				if (!updateHasBeenRequested) {
+					updateHasBeenRequested = true;
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							updateGraphNow();
+						}
+					});
+				}
+				return;
+			}
+
+			updateGraphNow();
 		}
 
-		protected void updateGraph2() {
-			// updateGraph(getModel());
-			invalidateGraphicalObjectsHierarchy();
-			updateGraphicalObjectsHierarchy();
+		protected void updateGraphNow() {
+
+			// System.out.println("*************** UPDATE GRAPH");
+
+			performUpdateGraph();
+
+			GraphNode<FGEGraph> graphNode = (GraphNode) getDrawingTreeNode(graph);
+			if (graphNode != null) {
+				graphNode.notifyGraphNeedsToBeRedrawn();
+			}
+			else {
+				logger.warning("Inconsistent data: could not retrieve node for graph");
+			}
+
 			widget.getRenderingAdapter().revalidateAndRepaint(widget.getTechnologyComponent());
+
+			updateHasBeenRequested = false;
 		}
 
-		/*protected void updateGraphWithoutRe() {
-			// updateGraph(getModel());
-			graph = makeGraph(getModel());
-			invalidateGraphicalObjectsHierarchy();
-			updateGraphicalObjectsHierarchy();
-			widget.getRenderingAdapter().revalidateAndRepaint(widget.getTechnologyComponent());
-		}*/
+		protected void performUpdateGraph() {
+			graph.update();
+		}
 
 		public void resizeTo(Dimension newSize) {
 			drawingRepresentation.setWidth(newSize.getWidth());
@@ -429,15 +560,15 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 							FGEView<?, ?> view = controller.getDrawingView().viewForNode(dtn);
 							Point newPoint = getPointInView(dtn, controller, context);
 							// controller.showContextualMenu(dtn, view, newPoint);
-							System.out.println("OK on doit faire l'update du graphe");
+							// System.out.println("OK on doit faire l'update du graphe");
 							updateGraph();
 							return false;
 						}
 					}, false, false, false, false, null));
 
-			final DrawingGRBinding<G> drawingBinding = bindDrawing((Class<G>) getModel().getClass(), "drawing", new DrawingGRProvider<G>() {
+			final DrawingGRBinding<W> drawingBinding = bindDrawing((Class<W>) getModel().getClass(), "drawing", new DrawingGRProvider<W>() {
 				@Override
-				public DrawingGraphicalRepresentation provideGR(G drawable, FGEModelFactory factory) {
+				public DrawingGraphicalRepresentation provideGR(W drawable, FGEModelFactory factory) {
 					return drawingRepresentation;
 				}
 			});
@@ -449,7 +580,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			graphGR.setHeight(DEFAULT_HEIGHT);
 			graphGR.setShadowStyle(getFactory().makeNoneShadowStyle());
 			graphGR.setBackground(getFactory().makeColorGradientBackground(FGEConstants.DEFAULT_BACKGROUND_COLOR, Color.white,
-					ColorGradientDirection.SOUTH_EAST_NORTH_WEST));
+					ColorGradientDirection.NORTH_WEST_SOUTH_EAST));
 			graphGR.setForeground(getFactory().makeForegroundStyle(Color.ORANGE));
 			graphGR.setIsFocusable(false);
 			graphGR.setIsSelectable(false);
@@ -461,10 +592,10 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 				}
 			});
 
-			drawingBinding.addToWalkers(new GRStructureVisitor<G>() {
+			drawingBinding.addToWalkers(new GRStructureVisitor<W>() {
 
 				@Override
-				public void visit(G fibGraph) {
+				public void visit(W fibGraph) {
 					drawGraph(graphBinding, graph);
 				}
 			});

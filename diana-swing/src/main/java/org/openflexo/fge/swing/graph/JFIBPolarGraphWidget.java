@@ -43,6 +43,7 @@ import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
+import org.openflexo.fge.graph.FGEPolarFunctionGraph;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.graph.FIBContinuousSimpleFunctionGraph;
 import org.openflexo.gina.model.graph.FIBPolarFunctionGraph;
@@ -60,7 +61,8 @@ public abstract class JFIBPolarGraphWidget<W extends FIBPolarFunctionGraph> exte
 		super(model, controller);
 	}
 
-	public abstract static class FGEPolarFunctionGraphDrawing<W extends FIBPolarFunctionGraph> extends GraphDrawing<W> {
+	public abstract static class FGEPolarFunctionGraphDrawing<W extends FIBPolarFunctionGraph, G extends FGEPolarFunctionGraph<?>>
+			extends GraphDrawing<W, G> {
 
 		public FGEPolarFunctionGraphDrawing(W fibGraph, JFIBPolarGraphWidget<W> widget) {
 			super(fibGraph, widget);
@@ -97,7 +99,22 @@ public abstract class JFIBPolarGraphWidget<W extends FIBPolarFunctionGraph> exte
 		public void propertyChange(PropertyChangeEvent evt) {
 			super.propertyChange(evt);
 			if (evt.getPropertyName().equals(FIBPolarFunctionGraph.PARAMETER_NAME_KEY)) {
-				System.out.println("---------------> On reconstruit le graphe entierement a cause de " + evt.getPropertyName());
+				// System.out.println("parameter name changed from " + evt.getOldValue() + " to " + evt.getNewValue() + " property="
+				// + evt.getPropertyName());
+				getGraph().clearParameter((String) evt.getOldValue());
+				getGraph().setParameter(getModel().getParameterName(), getModel().getParameterType());
+				updateGraph();
+			}
+			else if (evt.getPropertyName().equals(FIBPolarFunctionGraph.DISPLAY_REFERENCE_MARKS_KEY)) {
+				getGraph().setDisplayReferenceMarks(getModel().getDisplayReferenceMarks());
+				updateGraph();
+			}
+			else if (evt.getPropertyName().equals(FIBPolarFunctionGraph.DISPLAY_GRID_KEY)) {
+				getGraph().setDisplayGrid(getModel().getDisplayGrid());
+				updateGraph();
+			}
+			else if (evt.getPropertyName().equals(FIBPolarFunctionGraph.DISPLAY_LABELS_KEY)) {
+				getGraph().setDisplayLabels(getModel().getDisplayLabels());
 				updateGraph();
 			}
 		}

@@ -40,7 +40,6 @@ package org.openflexo.fge.graph;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
@@ -104,7 +103,8 @@ public class TestFGEContinuousFunctionGraph {
 		assertTrue(yFunction.getFunctionExpression().isValid());
 	}
 
-	@Test
+	// It is now possible to have multiple parameters for a FGESimpleFunctionGraph
+	/*@Test
 	@TestOrder(2)
 	public void testRedefineParameter() {
 		try {
@@ -113,7 +113,7 @@ public class TestFGEContinuousFunctionGraph {
 		} catch (IllegalArgumentException e) {
 			// Normal
 		}
-	}
+	}*/
 
 	@Test
 	@TestOrder(3)

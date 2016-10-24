@@ -723,7 +723,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 
 	private GradientPaint getGradientPaint(ColorGradientBackgroundStyle bs, double scale) {
 		switch (bs.getDirection()) {
-			case SOUTH_EAST_NORTH_WEST:
+			case NORTH_WEST_SOUTH_EAST:
 				return new GradientPaint(0, 0, bs.getColor1(), getNode().getViewWidth(scale), getNode().getViewHeight(scale),
 						bs.getColor2());
 			case SOUTH_WEST_NORTH_EAST:

@@ -68,6 +68,7 @@ import org.openflexo.fge.graphics.FGEShapeGraphics;
 public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 
 	private List<T> discreteValues;
+	// private DataBinding<List<T>> secondaryValuesBinding;
 	private DataBinding<String> labelBinding;
 	private DataBinding<Double> weightBinding;
 
@@ -89,10 +90,18 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 
 	public void setDiscreteValuesLabel(DataBinding<String> labelBinding) {
 		this.labelBinding = labelBinding;
-		this.labelBinding.setOwner(this);
+		/*this.labelBinding.setOwner(this);
 		this.labelBinding.setDeclaredType(String.class);
-		this.labelBinding.setBindingDefinitionType(BindingDefinitionType.GET);
+		this.labelBinding.setBindingDefinitionType(BindingDefinitionType.GET);*/
 	}
+
+	/*public DataBinding<List<T>> getSecondaryValues() {
+		return secondaryValuesBinding;
+	}
+	
+	public void setSecondaryValues(DataBinding<List<T>> secondaryValuesBinding) {
+		this.secondaryValuesBinding = secondaryValuesBinding;
+	}*/
 
 	public DataBinding<Double> getWeight() {
 		return weightBinding;
@@ -164,6 +173,22 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 		return param.toString();
 	}
 
+	/*public List<T> getSecondaryValues(Object primaryValue) {
+		getEvaluator().set(getParameter(), primaryValue);
+		if (getSecondaryValues() != null && getSecondaryValues().isSet() && getSecondaryValues().isValid()) {
+			try {
+				return getSecondaryValues().getBindingValue(getEvaluator());
+			} catch (TypeMismatchException e) {
+				e.printStackTrace();
+			} catch (NullReferenceException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}*/
+
 	public Double getWeight(T param) {
 		if (weightBinding != null && weightBinding.isSet() && weightBinding.isValid()) {
 			getEvaluator().set(getParameter(), param);
@@ -190,7 +215,7 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 		}
 	}
 
-	private <N extends Number> void paintParametersForFunction(FGEShapeGraphics g, FGENumericFunction<N> function) {
+	protected <N extends Number> void paintParametersForFunction(FGEShapeGraphics g, FGENumericFunction<N> function) {
 
 		if (function.getDisplayLabels()) {
 

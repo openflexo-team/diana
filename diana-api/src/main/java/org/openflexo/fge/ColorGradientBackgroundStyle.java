@@ -40,12 +40,17 @@ package org.openflexo.fge;
 
 import java.awt.Color;
 
+import javax.swing.ImageIcon;
+
+import org.openflexo.fge.FGEUtils.HasIcon;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLAttribute;
 import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.rm.ResourceLocator;
+import org.openflexo.toolbox.ImageIconResource;
 
 /**
  * Represents a background colored with a linear gradient between two colors
@@ -69,8 +74,31 @@ public interface ColorGradientBackgroundStyle extends BackgroundStyle {
 	public static GRProperty<ColorGradientDirection> DIRECTION = GRProperty.getGRParameter(ColorGradientBackgroundStyle.class,
 			DIRECTION_KEY, ColorGradientDirection.class);
 
-	public static enum ColorGradientDirection {
-		NORTH_SOUTH, WEST_EAST, SOUTH_EAST_NORTH_WEST, SOUTH_WEST_NORTH_EAST
+	public static enum ColorGradientDirection implements HasIcon {
+		NORTH_SOUTH {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Gradient/NorthSouth.png"));
+			}
+		},
+		WEST_EAST {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Gradient/WestEast.png"));
+			}
+		},
+		NORTH_WEST_SOUTH_EAST {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Gradient/NorthWestSouthEast.png"));
+			}
+		},
+		SOUTH_WEST_NORTH_EAST {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Gradient/SouthWestNorthEast.png"));
+			}
+		}
 	}
 
 	@Getter(value = COLOR1_KEY)
