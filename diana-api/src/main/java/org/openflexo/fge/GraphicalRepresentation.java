@@ -54,6 +54,7 @@ import org.openflexo.connie.DataBinding;
 import org.openflexo.fge.FGEUtils.HasIcon;
 import org.openflexo.fge.control.MouseClickControl;
 import org.openflexo.fge.control.MouseDragControl;
+import org.openflexo.icon.ImageIconResource;
 import org.openflexo.model.annotations.Adder;
 import org.openflexo.model.annotations.CloningStrategy;
 import org.openflexo.model.annotations.CloningStrategy.StrategyType;
@@ -67,7 +68,6 @@ import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLAttribute;
 import org.openflexo.model.annotations.XMLElement;
 import org.openflexo.rm.ResourceLocator;
-import org.openflexo.toolbox.ImageIconResource;
 
 /**
  * This is the common super interfaces for all graphical representation object encoded in a diagram<br>
