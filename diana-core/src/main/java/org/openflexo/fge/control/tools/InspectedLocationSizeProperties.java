@@ -84,6 +84,10 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		return getController().getSelectedShapes().size() > 0;
 	}
 
+	public boolean areDimensionPropertiesApplicable() {
+		return getController().getSelectedContainers().size() > 0;
+	}
+
 	@Override
 	protected void fireChangedProperties() {
 		// We replace here super code, because we have to fire changed properties for all properties
@@ -104,6 +108,8 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		super.fireSelectionUpdated();
 		getPropertyChangeSupport().firePropertyChange("areLocationPropertiesApplicable", !areLocationPropertiesApplicable(),
 				areLocationPropertiesApplicable());
+		getPropertyChangeSupport().firePropertyChange("areDimensionPropertiesApplicable", !areDimensionPropertiesApplicable(),
+				areDimensionPropertiesApplicable());
 	}
 
 	public Boolean getIsVisible() {
@@ -217,6 +223,22 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 
 	public void setHeightConstraints(DataBinding<Double> heightConstraints) {
 		setPropertyValue(ShapeGraphicalRepresentation.HEIGHT_CONSTRAINTS, heightConstraints);
+	}
+
+	public Boolean getIsSelectable() {
+		return getPropertyValue(GraphicalRepresentation.IS_SELECTABLE);
+	}
+
+	public void setIsSelectable(Boolean flag) {
+		setPropertyValue(GraphicalRepresentation.IS_SELECTABLE, flag);
+	}
+
+	public Boolean getIsFocusable() {
+		return getPropertyValue(GraphicalRepresentation.IS_FOCUSABLE);
+	}
+
+	public void setIsFocusable(Boolean flag) {
+		setPropertyValue(GraphicalRepresentation.IS_FOCUSABLE, flag);
 	}
 
 }
