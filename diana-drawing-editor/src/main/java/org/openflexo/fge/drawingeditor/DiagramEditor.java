@@ -52,6 +52,7 @@ import org.openflexo.logging.FlexoLogger;
 import org.openflexo.model.exceptions.InvalidDataException;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.rm.FileSystemResourceLocatorImpl;
 
 public class DiagramEditor {
 
@@ -79,6 +80,7 @@ public class DiagramEditor {
 		DiagramEditor returned = new DiagramEditor(factory, application);
 
 		try {
+			factory.getResourceConverter().setContainerResource(FS_RESOURCE_LOCATOR.retrieveResource(file.getParentFile()));
 			returned.diagram = (Diagram) factory.deserialize(new FileInputStream(file));
 			returned.file = file;
 			System.out.println("Loaded " + factory.stringRepresentation(returned.diagram));
@@ -148,10 +150,13 @@ public class DiagramEditor {
 		}
 	}
 
+	private static final FileSystemResourceLocatorImpl FS_RESOURCE_LOCATOR = new FileSystemResourceLocatorImpl();
+
 	public boolean save() {
 		System.out.println("Saving " + file);
 
 		try {
+			factory.getResourceConverter().setContainerResource(FS_RESOURCE_LOCATOR.retrieveResource(file.getParentFile()));
 			factory.serialize(diagram, new FileOutputStream(file));
 			System.out.println("Saved " + file.getAbsolutePath());
 			System.out.println(factory.stringRepresentation(diagram));
