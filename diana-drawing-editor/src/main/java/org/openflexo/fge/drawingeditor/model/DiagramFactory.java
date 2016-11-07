@@ -48,6 +48,7 @@ import org.openflexo.fge.drawingeditor.DrawEdgeControl;
 import org.openflexo.fge.drawingeditor.ShowContextualMenuControl;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
+import org.openflexo.model.converter.RelativePathResourceConverter;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.model.factory.EditingContext;
 import org.openflexo.model.undo.CompoundEdit;
@@ -58,9 +59,17 @@ public class DiagramFactory extends FGEModelFactoryImpl {
 	private int shapeIndex = 0;
 	private int connectorIndex = 0;
 
+	private RelativePathResourceConverter resourceConverter;
+
 	public DiagramFactory(EditingContext editingContext) throws ModelDefinitionException {
 		super(Diagram.class, Shape.class, Connector.class);
 		setEditingContext(editingContext);
+		addConverter(resourceConverter = new RelativePathResourceConverter(null));
+
+	}
+
+	public RelativePathResourceConverter getResourceConverter() {
+		return resourceConverter;
 	}
 
 	public UndoManager getUndoManager() {
