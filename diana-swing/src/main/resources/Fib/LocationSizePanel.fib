@@ -7,11 +7,11 @@
       <Label id="5" enable="data.areLocationPropertiesApplicable" name="Space" index="1" localize="true" align="left" constraints="flow(index=1)" label=" ;" />
       <Number id="6" minValue="-100.0" columns="3" enable="data.areLocationPropertiesApplicable" name="Y" data="data.y" maxValue="10000.0" increment="1.0" index="2" localize="true" constraints="flow(index=2)" numberType="DoubleType" />
     </Panel>
-    <Label id="7" name="DimensionLabel" index="6" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="size" />
+    <Label id="7" enable="data.areDimensionPropertiesApplicable" name="DimensionLabel" index="6" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="size" />
     <Panel id="8" vGap="0" borderLeft="0" hGap="0" sizeAdjustment="OriginalSize" borderRight="0" border="empty" trackViewPortWidth="true" index="7" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" borderBottom="0" titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true" layout="flow" name="FIBPanel2" flowAlignment="LEADING">
-      <Number id="9" minValue="0.0" columns="3" name="Width" data="data.width" maxValue="10000.0" increment="1.0" index="0" localize="true" constraints="flow(index=0)" numberType="DoubleType" />
-      <Label id="10" name="X" index="1" align="left" constraints="flow(index=1)" label="x" />
-      <Number id="11" minValue="0.0" columns="3" name="Height" data="data.height" maxValue="10000.0" increment="1.0" index="2" localize="true" constraints="flow(index=2)" numberType="DoubleType" />
+      <Number id="9" minValue="0.0" columns="3" enable="data.areDimensionPropertiesApplicable" name="Width" data="data.width" maxValue="10000.0" increment="1.0" index="0" localize="true" constraints="flow(index=0)" numberType="DoubleType" />
+      <Label id="10" enable="data.areDimensionPropertiesApplicable" name="X" index="1" align="left" constraints="flow(index=1)" label="x" />
+      <Number id="11" minValue="0.0" columns="3" enable="data.areDimensionPropertiesApplicable" name="Height" data="data.height" maxValue="10000.0" increment="1.0" index="2" localize="true" constraints="flow(index=2)" numberType="DoubleType" />
     </Panel>
     <Label id="12" name="IsVisibleLabel" index="20" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=20;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="is_visible" />
     <CheckBox id="13" name="IsVisible" data="data.isVisible" index="21" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=21;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
@@ -22,103 +22,107 @@
     <LocalizedDictionary id="18" />
   </Panel>
   <Panel id="19" borderLeft="10" sizeAdjustment="OriginalSize" opaque="false" borderRight="10" border="rounded3d" trackViewPortWidth="true" index="0" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center)" borderBottom="2" borderTitle="constraints" titleFont="SansSerif,0,11" borderTop="10" trackViewPortHeight="true" layout="twocols" name="ConstraintsPanel">
-    <Label id="20" name="LocationConstraintsLabel" index="4" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="position" />
-    <DropDown id="21" data="data.locationConstraints" index="5" localize="true" width="150" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.ShapeGraphicalRepresentation$LocationConstraints" showIcon="false" name="LocationConstraints" />
-    <Label id="22" name="DimensionConstraintsLabel" index="8" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="dimensions" />
-    <DropDown id="23" data="data.dimensionConstraints" index="9" localize="true" width="150" constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.ShapeGraphicalRepresentation$DimensionConstraints" showIcon="false" name="DimensionConstraints" />
-    <Label id="24" name="XConstraintsLabel" index="10" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=10;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="x" />
-    <Custom id="25" manageDynamicModel="true" dataClassForComponent="org.openflexo.connie.DataBinding" componentClassName="org.openflexo.gina.swing.utils.BindingSelector" name="xConstraints" data="data.xConstraints" index="11" localize="true" constraints="twocols(expandHorizontally=true;expandVertically=false;index=11;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)">
+    <Label id="20" enable="data.areLocationPropertiesApplicable" name="LocationConstraintsLabel" index="4" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="position" />
+    <DropDown id="21" enable="data.areLocationPropertiesApplicable" data="data.locationConstraints" index="5" localize="true" width="150" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.ShapeGraphicalRepresentation$LocationConstraints" showIcon="false" name="LocationConstraints" />
+    <Label id="22" enable="data.areDimensionPropertiesApplicable" name="DimensionConstraintsLabel" index="8" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="dimensions" />
+    <DropDown id="23" enable="data.areDimensionPropertiesApplicable" data="data.dimensionConstraints" index="9" localize="true" width="150" constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.ShapeGraphicalRepresentation$DimensionConstraints" showIcon="false" name="DimensionConstraints" />
+    <Label id="24" enable="data.areLocationPropertiesApplicable" name="XConstraintsLabel" index="10" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=10;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="x" />
+    <Custom id="25" manageDynamicModel="true" enable="data.areLocationPropertiesApplicable" dataClassForComponent="org.openflexo.connie.DataBinding" componentClassName="org.openflexo.gina.swing.utils.BindingSelector" name="xConstraints" data="data.xConstraints" index="11" localize="true" constraints="twocols(expandHorizontally=true;expandVertically=false;index=11;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)">
       <Assignment id="26" mandatory="true" variable="component.bindable" />
     </Custom>
-    <Label id="27" name="YConstraintsLabel" index="12" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=12;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="y" />
-    <Custom id="28" manageDynamicModel="true" dataClassForComponent="org.openflexo.connie.DataBinding" componentClassName="org.openflexo.gina.swing.utils.BindingSelector" name="CustomSelector" data="data.yConstraints" index="13" localize="true" constraints="twocols(expandHorizontally=true;expandVertically=false;index=13;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)">
+    <Label id="27" enable="data.areLocationPropertiesApplicable" name="YConstraintsLabel" index="12" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=12;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="y" />
+    <Custom id="28" manageDynamicModel="true" enable="data.areLocationPropertiesApplicable" dataClassForComponent="org.openflexo.connie.DataBinding" componentClassName="org.openflexo.gina.swing.utils.BindingSelector" name="CustomSelector" data="data.yConstraints" index="13" localize="true" constraints="twocols(expandHorizontally=true;expandVertically=false;index=13;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)">
       <Assignment id="29" mandatory="true" variable="component.bindable" />
     </Custom>
-    <Label id="30" name="WidthConstraintsLabel" index="14" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=14;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="width" />
-    <Custom id="31" manageDynamicModel="true" dataClassForComponent="org.openflexo.connie.DataBinding" componentClassName="org.openflexo.gina.swing.utils.BindingSelector" name="CustomSelector2" data="data.widthConstraints" index="15" localize="true" constraints="twocols(expandHorizontally=true;expandVertically=false;index=15;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)">
+    <Label id="30" enable="data.areDimensionPropertiesApplicable" name="WidthConstraintsLabel" index="14" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=14;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="width" />
+    <Custom id="31" manageDynamicModel="true" enable="data.areDimensionPropertiesApplicable" dataClassForComponent="org.openflexo.connie.DataBinding" componentClassName="org.openflexo.gina.swing.utils.BindingSelector" name="CustomSelector2" data="data.widthConstraints" index="15" localize="true" constraints="twocols(expandHorizontally=true;expandVertically=false;index=15;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)">
       <Assignment id="32" mandatory="true" variable="component.bindable" />
     </Custom>
-    <Label id="33" name="HeightConstraintsLabel" index="16" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=16;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="height" />
-    <Custom id="34" manageDynamicModel="true" dataClassForComponent="org.openflexo.connie.DataBinding" componentClassName="org.openflexo.gina.swing.utils.BindingSelector" name="CustomSelector3" data="data.heightConstraints" index="17" localize="true" constraints="twocols(expandHorizontally=true;expandVertically=false;index=17;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)">
+    <Label id="33" enable="data.areDimensionPropertiesApplicable" name="HeightConstraintsLabel" index="16" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=16;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="height" />
+    <Custom id="34" manageDynamicModel="true" enable="data.areDimensionPropertiesApplicable" dataClassForComponent="org.openflexo.connie.DataBinding" componentClassName="org.openflexo.gina.swing.utils.BindingSelector" name="CustomSelector3" data="data.heightConstraints" index="17" localize="true" constraints="twocols(expandHorizontally=true;expandVertically=false;index=17;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)">
       <Assignment id="35" mandatory="true" variable="component.bindable" />
     </Custom>
-    <CheckBox id="36" name="checkbox" data="data.isAllowToLeaveBounds" index="22" localize="true" constraints="twocols(expandHorizontally=true;expandVertically=false;index=23;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" />
+    <CheckBox id="36" name="checkbox" data="data.isAllowToLeaveBounds" index="22" localize="true" constraints="twocols(expandHorizontally=true;expandVertically=false;index=23;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)" />
     <Label id="37" name="AllowsToLeaveBoundsLabel" index="22" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=22;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=right)" label="allows_to_leave_bounds" />
-    <LocalizedDictionary id="38" />
+    <CheckBox id="38" selected="true" name="checkbox" data="data.isSelectable" constraints="twocols(expandHorizontally=true;expandVertically=false;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)" />
+    <Label id="39" name="Label" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" label="is_selectable" />
+    <CheckBox id="40" selected="true" name="checkbox" data="data.isFocusable" constraints="twocols(expandHorizontally=true;expandVertically=false;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)" />
+    <Label id="41" name="Label2" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" label="is_focusable" />
+    <LocalizedDictionary id="42" />
   </Panel>
-  <FIBVariable id="39" name="data" type="org.openflexo.fge.control.tools.InspectedLocationSizeProperties" />
-  <LocalizedDictionary id="40">
-    <Localized id="41" value="Layer" lang="English" key="layer" />
-    <Localized id="42" value="Layer" lang="Dutch" key="layer" />
-    <Localized id="43" value="Couche" lang="French" key="layer" />
-    <Localized id="44" value="Position" lang="English" key="position" />
-    <Localized id="45" value="Position" lang="Dutch" key="position" />
-    <Localized id="46" value="Position" lang="French" key="position" />
-    <Localized id="47" value=";" lang="English" key=";" />
-    <Localized id="48" value=";" lang="Dutch" key=";" />
-    <Localized id="49" value=";" lang="French" key=";" />
-    <Localized id="50" value="Size" lang="English" key="size" />
-    <Localized id="51" value="Size" lang="Dutch" key="size" />
-    <Localized id="52" value="Taille" lang="French" key="size" />
-    <Localized id="53" value="X" lang="English" key="x" />
-    <Localized id="54" value="X" lang="Dutch" key="x" />
-    <Localized id="55" value="X" lang="French" key="x" />
-    <Localized id="56" value="Is visible" lang="English" key="is_visible" />
-    <Localized id="57" value="Is visible" lang="Dutch" key="is_visible" />
-    <Localized id="58" value="Visible" lang="French" key="is_visible" />
-    <Localized id="59" value="Index" lang="English" key="index" />
-    <Localized id="60" value="Index" lang="Dutch" key="index" />
-    <Localized id="61" value="Index" lang="French" key="index" />
-    <Localized id="62" value="Location/Size" lang="English" key="Location/Size" />
-    <Localized id="63" value="Location/Size" lang="Dutch" key="Location/Size" />
-    <Localized id="64" value="Position/Taille" lang="French" key="Location/Size" />
-    <Localized id="65" value="Horizontal" lang="English" key="horizontal" />
-    <Localized id="66" value="Horizontal" lang="Dutch" key="horizontal" />
-    <Localized id="67" value="Horizontal" lang="French" key="horizontal" />
-    <Localized id="68" value="Vertical" lang="English" key="vertical" />
-    <Localized id="69" value="Vertical" lang="Dutch" key="vertical" />
-    <Localized id="70" value="Vertical" lang="French" key="vertical" />
-    <Localized id="71" value="Paragraph" lang="English" key="paragraph" />
-    <Localized id="72" value="Paragraph" lang="Dutch" key="paragraph" />
-    <Localized id="73" value="Paragraphe" lang="French" key="paragraph" />
-    <Localized id="74" value="Is floating label" lang="English" key="is_floating_label" />
-    <Localized id="75" value="Is floating label" lang="Dutch" key="is_floating_label" />
-    <Localized id="76" value="Label floattant" lang="French" key="is_floating_label" />
-    <Localized id="77" value="Y" lang="English" key="y" />
-    <Localized id="78" value="Y" lang="Dutch" key="y" />
-    <Localized id="79" value="Y" lang="French" key="y" />
-    <Localized id="80" value="Relative text x" lang="English" key="relative_text_x" />
-    <Localized id="81" value="Relative text x" lang="Dutch" key="relative_text_x" />
-    <Localized id="82" value="Texte X" lang="French" key="relative_text_x" />
-    <Localized id="83" value="Relative text y" lang="English" key="relative_text_y" />
-    <Localized id="84" value="Relative text y" lang="Dutch" key="relative_text_y" />
-    <Localized id="85" value="Texte Y" lang="French" key="relative_text_y" />
-    <Localized id="86" value="Is multiline allowed" lang="English" key="is_multiline_allowed" />
-    <Localized id="87" value="Is multiline allowed" lang="Dutch" key="is_multiline_allowed" />
-    <Localized id="88" value="Multi-lignes autorisé" lang="French" key="is_multiline_allowed" />
-    <Localized id="89" value="Line wrap" lang="English" key="line_wrap" />
-    <Localized id="90" value="Line wrap" lang="Dutch" key="line_wrap" />
-    <Localized id="91" value="Line wrap" lang="French" key="line_wrap" />
-    <Localized id="92" value="Adapt bounds to contents" lang="English" key="adapt_bounds_to_contents" />
-    <Localized id="93" value="Adapt bounds to contents" lang="Dutch" key="adapt_bounds_to_contents" />
-    <Localized id="94" value="Adapter la taille au contenu" lang="French" key="adapt_bounds_to_contents" />
-    <Localized id="95" value="Text" lang="English" key="Text" />
-    <Localized id="96" value="Text" lang="Dutch" key="Text" />
-    <Localized id="97" value="Texte" lang="French" key="Text" />
-    <Localized id="98" value="Dimensions" lang="English" key="dimensions" />
-    <Localized id="99" value="Dimensions" lang="Dutch" key="dimensions" />
-    <Localized id="100" value="Taille" lang="French" key="dimensions" />
-    <Localized id="101" value="Width" lang="English" key="width" />
-    <Localized id="102" value="Width" lang="Dutch" key="width" />
-    <Localized id="103" value="Largeur" lang="French" key="width" />
-    <Localized id="104" value="Height" lang="English" key="height" />
-    <Localized id="105" value="Height" lang="Dutch" key="height" />
-    <Localized id="106" value="Hauteur" lang="French" key="height" />
-    <Localized id="107" value="Allows to leave bounds" lang="English" key="allows_to_leave_bounds" />
-    <Localized id="108" value="Allows to leave bounds" lang="Dutch" key="allows_to_leave_bounds" />
-    <Localized id="109" value="Autorisé à sortir" lang="French" key="allows_to_leave_bounds" />
-    <Localized id="110" value="Constraints" lang="English" key="Constraints" />
-    <Localized id="111" value="Constraints" lang="Dutch" key="Constraints" />
-    <Localized id="112" value="Contraintes" lang="French" key="Constraints" />
+  <FIBVariable id="43" name="data" type="org.openflexo.fge.control.tools.InspectedLocationSizeProperties" />
+  <LocalizedDictionary id="44">
+    <Localized id="45" value="Layer" lang="English" key="layer" />
+    <Localized id="46" value="Layer" lang="Dutch" key="layer" />
+    <Localized id="47" value="Couche" lang="French" key="layer" />
+    <Localized id="48" value="Position" lang="English" key="position" />
+    <Localized id="49" value="Position" lang="Dutch" key="position" />
+    <Localized id="50" value="Position" lang="French" key="position" />
+    <Localized id="51" value=";" lang="English" key=";" />
+    <Localized id="52" value=";" lang="Dutch" key=";" />
+    <Localized id="53" value=";" lang="French" key=";" />
+    <Localized id="54" value="Size" lang="English" key="size" />
+    <Localized id="55" value="Size" lang="Dutch" key="size" />
+    <Localized id="56" value="Taille" lang="French" key="size" />
+    <Localized id="57" value="X" lang="English" key="x" />
+    <Localized id="58" value="X" lang="Dutch" key="x" />
+    <Localized id="59" value="X" lang="French" key="x" />
+    <Localized id="60" value="Is visible" lang="English" key="is_visible" />
+    <Localized id="61" value="Is visible" lang="Dutch" key="is_visible" />
+    <Localized id="62" value="Visible" lang="French" key="is_visible" />
+    <Localized id="63" value="Index" lang="English" key="index" />
+    <Localized id="64" value="Index" lang="Dutch" key="index" />
+    <Localized id="65" value="Index" lang="French" key="index" />
+    <Localized id="66" value="Location/Size" lang="English" key="Location/Size" />
+    <Localized id="67" value="Location/Size" lang="Dutch" key="Location/Size" />
+    <Localized id="68" value="Position/Taille" lang="French" key="Location/Size" />
+    <Localized id="69" value="Horizontal" lang="English" key="horizontal" />
+    <Localized id="70" value="Horizontal" lang="Dutch" key="horizontal" />
+    <Localized id="71" value="Horizontal" lang="French" key="horizontal" />
+    <Localized id="72" value="Vertical" lang="English" key="vertical" />
+    <Localized id="73" value="Vertical" lang="Dutch" key="vertical" />
+    <Localized id="74" value="Vertical" lang="French" key="vertical" />
+    <Localized id="75" value="Paragraph" lang="English" key="paragraph" />
+    <Localized id="76" value="Paragraph" lang="Dutch" key="paragraph" />
+    <Localized id="77" value="Paragraphe" lang="French" key="paragraph" />
+    <Localized id="78" value="Is floating label" lang="English" key="is_floating_label" />
+    <Localized id="79" value="Is floating label" lang="Dutch" key="is_floating_label" />
+    <Localized id="80" value="Label floattant" lang="French" key="is_floating_label" />
+    <Localized id="81" value="Y" lang="English" key="y" />
+    <Localized id="82" value="Y" lang="Dutch" key="y" />
+    <Localized id="83" value="Y" lang="French" key="y" />
+    <Localized id="84" value="Relative text x" lang="English" key="relative_text_x" />
+    <Localized id="85" value="Relative text x" lang="Dutch" key="relative_text_x" />
+    <Localized id="86" value="Texte X" lang="French" key="relative_text_x" />
+    <Localized id="87" value="Relative text y" lang="English" key="relative_text_y" />
+    <Localized id="88" value="Relative text y" lang="Dutch" key="relative_text_y" />
+    <Localized id="89" value="Texte Y" lang="French" key="relative_text_y" />
+    <Localized id="90" value="Is multiline allowed" lang="English" key="is_multiline_allowed" />
+    <Localized id="91" value="Is multiline allowed" lang="Dutch" key="is_multiline_allowed" />
+    <Localized id="92" value="Multi-lignes autorisé" lang="French" key="is_multiline_allowed" />
+    <Localized id="93" value="Line wrap" lang="English" key="line_wrap" />
+    <Localized id="94" value="Line wrap" lang="Dutch" key="line_wrap" />
+    <Localized id="95" value="Line wrap" lang="French" key="line_wrap" />
+    <Localized id="96" value="Adapt bounds to contents" lang="English" key="adapt_bounds_to_contents" />
+    <Localized id="97" value="Adapt bounds to contents" lang="Dutch" key="adapt_bounds_to_contents" />
+    <Localized id="98" value="Adapter la taille au contenu" lang="French" key="adapt_bounds_to_contents" />
+    <Localized id="99" value="Text" lang="English" key="Text" />
+    <Localized id="100" value="Text" lang="Dutch" key="Text" />
+    <Localized id="101" value="Texte" lang="French" key="Text" />
+    <Localized id="102" value="Dimensions" lang="English" key="dimensions" />
+    <Localized id="103" value="Dimensions" lang="Dutch" key="dimensions" />
+    <Localized id="104" value="Taille" lang="French" key="dimensions" />
+    <Localized id="105" value="Width" lang="English" key="width" />
+    <Localized id="106" value="Width" lang="Dutch" key="width" />
+    <Localized id="107" value="Largeur" lang="French" key="width" />
+    <Localized id="108" value="Height" lang="English" key="height" />
+    <Localized id="109" value="Height" lang="Dutch" key="height" />
+    <Localized id="110" value="Hauteur" lang="French" key="height" />
+    <Localized id="111" value="Allows to leave bounds" lang="English" key="allows_to_leave_bounds" />
+    <Localized id="112" value="Allows to leave bounds" lang="Dutch" key="allows_to_leave_bounds" />
+    <Localized id="113" value="Autorisé à sortir" lang="French" key="allows_to_leave_bounds" />
+    <Localized id="114" value="Constraints" lang="English" key="Constraints" />
+    <Localized id="115" value="Constraints" lang="Dutch" key="Constraints" />
+    <Localized id="116" value="Contraintes" lang="French" key="Constraints" />
   </LocalizedDictionary>
 </Panel>
