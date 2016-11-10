@@ -1520,7 +1520,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 				ContainerGraphicalRepresentation.class/*getParentGraphicalRepresentation().getClass()*/));
 				// }
 				/*_bindingModel.addToBindingVariables(new BindingVariable("components", new ParameterizedTypeImpl(List.class,
-						GraphicalRepresentation.class)));*/
+								GraphicalRepresentation.class)));*/
 
 		/*_bindingModel.addToBindingVariables(new GRBindingFactory.ComponentPathElement("this", this, this));
 		if (getParentGraphicalRepresentation() != null) {
@@ -1789,13 +1789,17 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void notifiedBindingDecoded(DataBinding<?> binding) {
-		setChanged();
-		notifyObservers(new BindingChanged(binding));
+		if (binding != null) {
+			setChanged();
+			notifyObservers(new BindingChanged(binding));
+		}
 	}
 
 	@Override
 	public void notifiedBindingChanged(DataBinding<?> binding) {
-		setChanged();
-		notifyObservers(new BindingChanged(binding));
+		if (binding != null) {
+			setChanged();
+			notifyObservers(new BindingChanged(binding));
+		}
 	}
 }
