@@ -280,6 +280,9 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 */
 	@Override
 	public boolean isValid() {
+		if (getDrawable() == null) {
+			return false;
+		}
 		if (getDrawing().getDrawingTreeNode(getDrawable(), getGRBinding()) != this) {
 			logger.warning(
 					"Please investigate here: something strange at this point, see isValid() in DrawingTreeNode. More informations in the console");
@@ -293,6 +296,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			else {
 				System.out.println("dtn=null");
 			}
+			// Thread.dumpStack();
+			// return false;
 		}
 
 		DrawingTreeNode<?, ?> current = this;
