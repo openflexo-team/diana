@@ -278,10 +278,17 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	@Override
 	public List<ShapeNodeImpl<?>> getShapeNodes() {
 		List<ShapeNodeImpl<?>> returned = new ArrayList<ShapeNodeImpl<?>>();
-		for (DrawingTreeNodeImpl<?, ?> child : getChildNodes()) {
-			if (child instanceof ShapeNodeImpl) {
-				returned.add((ShapeNodeImpl) child);
+
+		List<DrawingTreeNodeImpl<?, ?>> children = getChildNodes();
+		if (children != null) {
+			for (DrawingTreeNodeImpl<?, ?> child : getChildNodes()) {
+				if (child instanceof ShapeNodeImpl) {
+					returned.add((ShapeNodeImpl) child);
+				}
 			}
+		}
+		else {
+			logger.warning("INVESTIGATE: found a container with no child");
 		}
 		return returned;
 	}

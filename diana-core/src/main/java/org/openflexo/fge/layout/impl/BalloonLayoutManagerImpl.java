@@ -65,8 +65,8 @@ import edu.uci.ics.jung.algorithms.layout.BalloonLayout;
  * 
  */
 @FIBPanel("Fib/Layout/BalloonLayoutManagerPanel.fib")
-public abstract class BalloonLayoutManagerImpl<O> extends TreeBasedLayoutManagerImpl<BalloonLayoutManagerSpecification<O>, O> implements
-		BalloonLayoutManager<O> {
+public abstract class BalloonLayoutManagerImpl<O> extends TreeBasedLayoutManagerImpl<BalloonLayoutManagerSpecification<O>, O>
+		implements BalloonLayoutManager<O> {
 
 	private BalloonLayout<ShapeNode<?>, ConnectorNode<?>> layout;
 
@@ -76,7 +76,8 @@ public abstract class BalloonLayoutManagerImpl<O> extends TreeBasedLayoutManager
 	protected BalloonLayout<ShapeNode<?>, ConnectorNode<?>> buildLayout() {
 		if (baseCircles == null) {
 			baseCircles = new ArrayList<FGECircle>();
-		} else {
+		}
+		else {
 			baseCircles.clear();
 		}
 		layout = new BalloonLayout<ShapeNode<?>, ConnectorNode<?>>(getForest()) {
@@ -130,16 +131,19 @@ public abstract class BalloonLayoutManagerImpl<O> extends TreeBasedLayoutManager
 		g.setDefaultForeground(getFactory().makeForegroundStyle(Color.GRAY, 1, DashStyle.DOTS_DASHES));
 		g.useDefaultForegroundStyle();
 
-		for (FGECircle circle : baseCircles) {
-			circle.paint(g);
+		// NPE Protection
+		if (baseCircles != null) {
+			for (FGECircle circle : baseCircles) {
+				circle.paint(g);
+			}
 		}
 
 		/*	FGECircle circle1 = new FGECircle(getContainerNode().getBounds().getCenter(), 185 * 2 - 60, Filling.NOT_FILLED);
-
+		
 			circle1.paint(g);
-
+		
 			System.out.println("radii=" + getLayout().getRadii());
-
+		
 			for (ShapeNode<?> n : getLayout().getRadii().keySet()) {
 				System.out.println("Node " + n.getText() + " radius=" + getLayout().getRadii().get(n));
 			}*/
