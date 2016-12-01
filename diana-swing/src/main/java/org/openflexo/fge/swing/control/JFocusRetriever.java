@@ -153,7 +153,7 @@ public class JFocusRetriever {
 	private boolean focusOnFloatingLabel(DrawingTreeNode<?, ?> node, Component eventSource, Point eventLocation) {
 		// if (!graphicalRepresentation.hasText()) return false;
 
-		if (node instanceof GeometricNode) {
+		if (node instanceof GeometricNode || node.isDeleted()) {
 			return false;
 		}
 
@@ -169,7 +169,7 @@ public class JFocusRetriever {
 		FGEView<?, ?> parenttView = node == drawingView.getDrawing().getRoot() ? drawingView
 				: drawingView.viewForNode(node.getParentNode());
 		Point p = SwingUtilities.convertPoint(eventSource, eventLocation, (Component) parenttView);
-		if (node.hasText()) {
+		if (node.hasText() && view != null) {
 			JLabelView<?> labelView = view.getLabelView();
 			if (labelView != null) {
 				return labelView.getBounds().contains(p);
