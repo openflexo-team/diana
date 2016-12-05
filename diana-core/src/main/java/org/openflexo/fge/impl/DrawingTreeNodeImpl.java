@@ -1292,7 +1292,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			if (variable.getVariableName().equals(THIS_KEY)) {
 				return getGraphicalRepresentation();
 			}
-			else if (variable.getVariableName().equals(PARENT_KEY)) {
+			else if (variable.getVariableName().equals(PARENT_KEY) && getParentNode() != null) {
 				return getParentNode().getGraphicalRepresentation();
 			}
 			else if (variable.getVariableName().equals(DRAWABLE_KEY)) {
