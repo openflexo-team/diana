@@ -229,7 +229,7 @@ public class FGEPaintManager {
 	public void repaint(final JFGEView<?, ?> view) {
 
 		if (view == null) {
-			logger.warning("Cannot paint null view");
+			// logger.warning("Cannot paint null view");
 			return;
 		}
 		if (view.isDeleted()) {
