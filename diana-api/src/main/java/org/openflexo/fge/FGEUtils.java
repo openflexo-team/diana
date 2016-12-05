@@ -125,7 +125,8 @@ public class FGEUtils {
 				}
 				count++;
 			} while (ratio < 5 && count < 10);
-		} else {
+		}
+		else {
 			test = new Color(test.getRed() == 0 ? 5 : test.getRed(), test.getGreen() == 0 ? 5 : test.getGreen(),
 					test.getBlue() == 0 ? 5 : test.getBlue());
 			do {
@@ -246,7 +247,8 @@ public class FGEUtils {
 		if (source != destination) {
 			AffineTransform at = convertCoordinatesAT(source, destination, scale);
 			return (Point) at.transform(point, new Point());
-		} else {
+		}
+		else {
 			return new Point(point);
 		}
 	}
@@ -288,7 +290,8 @@ public class FGEUtils {
 			AffineTransform returned = convertFromDrawableToDrawingAT(source, scale);
 			returned.preConcatenate(convertFromDrawingToDrawableAT(destination, scale));
 			return returned;
-		} else {
+		}
+		else {
 			return new AffineTransform();
 		}
 	}
@@ -328,12 +331,12 @@ public class FGEUtils {
 
 		while (current != source.getDrawing().getRoot()) {
 			if (current.getGraphicalRepresentation() == null) {
-				throw new IllegalArgumentException("DrawingTreeNode " + current
-						+ " has no graphical representation.\nDevelopper note: Use GraphicalRepresentation.areElementsConnectedInGraphicalHierarchy(GraphicalRepresentation,GraphicalRepresentation) to prevent such cases.");
+				throw new IllegalArgumentException("DrawingTreeNode " + current + " has no graphical representation. (source=" + source
+						+ ")\nDevelopper note: Use FGEUtils.areElementsConnectedInGraphicalHierarchy(DrawingTreeNode<?,?>,DrawingTreeNode<?,?>) to prevent such cases.");
 			}
 			if (current.getParentNode() == null) {
 				throw new IllegalArgumentException("DrawingTreeNode " + current
-						+ " has no container.\nDevelopper note: Use GraphicalRepresentation.areElementsConnectedInGraphicalHierarchy(GraphicalRepresentation,GraphicalRepresentation) to prevent such cases.");
+						+ " has no container.\nDevelopper note: Use FGEUtils.areElementsConnectedInGraphicalHierarchy(DrawingTreeNode<?,?>,DrawingTreeNode<?,?>) to prevent such cases.");
 			}
 			tx += current.getViewX(scale);
 			ty += current.getViewY(scale);
