@@ -331,12 +331,12 @@ public class FGEUtils {
 
 		while (current != source.getDrawing().getRoot()) {
 			if (current.getGraphicalRepresentation() == null) {
-				throw new IllegalArgumentException("DrawingTreeNode " + current
-						+ " has no graphical representation.\nDevelopper note: Use GraphicalRepresentation.areElementsConnectedInGraphicalHierarchy(GraphicalRepresentation,GraphicalRepresentation) to prevent such cases.");
+				throw new IllegalArgumentException("DrawingTreeNode " + current + " has no graphical representation. (source=" + source
+						+ ")\nDevelopper note: Use FGEUtils.areElementsConnectedInGraphicalHierarchy(DrawingTreeNode<?,?>,DrawingTreeNode<?,?>) to prevent such cases.");
 			}
 			if (current.getParentNode() == null) {
 				throw new IllegalArgumentException("DrawingTreeNode " + current
-						+ " has no container.\nDevelopper note: Use GraphicalRepresentation.areElementsConnectedInGraphicalHierarchy(GraphicalRepresentation,GraphicalRepresentation) to prevent such cases.");
+						+ " has no container.\nDevelopper note: Use FGEUtils.areElementsConnectedInGraphicalHierarchy(DrawingTreeNode<?,?>,DrawingTreeNode<?,?>) to prevent such cases.");
 			}
 			tx += current.getViewX(scale);
 			ty += current.getViewY(scale);

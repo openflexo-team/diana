@@ -1786,7 +1786,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			}
 			return "[" + Integer.toHexString(hashCode()) + "]Shape-" + getIndex() + "[" + getX() + ";" + getY() + "][" + getWidth() + "x"
 					+ getHeight() + "][" + getFGEShape() + "]:" + getDrawable();*/
-		return "ShapeNodeImpl[" + getText() + "/" + Integer.toHexString(hashCode()) + "]";
+		return "ShapeNodeImpl[" + getText() + "/" + Integer.toHexString(hashCode()) + "/" + getDrawable() + "]";
 	}
 
 	@Override

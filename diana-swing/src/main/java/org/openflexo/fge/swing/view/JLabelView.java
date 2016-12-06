@@ -82,6 +82,7 @@ import javax.swing.text.StyledDocument;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.FGEConstants;
 import org.openflexo.fge.FGECoreUtils;
+import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation.LabelMetricsProvider;
 import org.openflexo.fge.GraphicalRepresentation.ParagraphAlignment;
@@ -438,6 +439,21 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		if (node == null || node.isDeleted()) {
 			return;
 		}
+		// System.out.println("JLabelView " + Integer.toHexString(hashCode()) + " for " + node);
+
+		if (node.getDrawable() == null) {
+			return;
+		}
+		if (node.getGraphicalRepresentation() == null) {
+			return;
+		}
+		
+		// Fixed TA-128
+		if (!FGEUtils.areElementsConnectedInGraphicalHierarchy(node, getDrawingView().getDrawing().getRoot())) {
+			logger.warning("Calling updateBounds() for element is not connected to the drawing. Abort.");
+			return;
+		}
+
 		if (!SwingUtilities.isEventDispatchThread()) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
@@ -447,7 +463,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 			});
 			return;
 		}
-		// System.out.println("JLabelView " + Integer.toHexString(hashCode()) + " for " + node);
+
 		Rectangle bounds = node.getLabelBounds(getScale());
 		if (bounds.isEmpty() || bounds.width < 5) {
 			bounds.width = 20;
@@ -463,10 +479,23 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 	}
 
 	public void updateBoundsLater() {
+
+		/*System.out.println("Thread: " + Thread.currentThread() + " called updateBoundsLater() for " + getDrawable());
+		System.out.println("drawable=" + getDrawable());
+		System.out.println("node=" + getNode());
+		System.out.println("drawable=" + getNode().getDrawable());
+		System.out.println("node=" + getNode().getGraphicalRepresentation());*/
+
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				if (!isDeleted()) {
+				/*System.out.println("Thread: " + Thread.currentThread() + " on execute le updateBoundsLater() for " + getDrawable());
+				System.out.println("drawable=" + getDrawable());
+				System.out.println("node=" + getNode());
+				if (getNode() != null) {
+					System.out.println("node.gr=" + getNode().getGraphicalRepresentation());
+				}*/
+				if (getNode() != null && !isDeleted()) {
 					updateBounds(true);
 				}
 			}

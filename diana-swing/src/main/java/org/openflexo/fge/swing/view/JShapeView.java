@@ -198,7 +198,10 @@ public class JShapeView<O> extends JDianaLayeredView<O>implements ShapeView<O, J
 
 	@Override
 	public O getDrawable() {
-		return shapeNode.getDrawable();
+		if (shapeNode != null) {
+			return shapeNode.getDrawable();
+		}
+		return null;
 	}
 
 	@Override
