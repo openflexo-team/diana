@@ -457,7 +457,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			for (PropertyChangeListener l : pcSupport.getPropertyChangeListeners()) {
 				logger.info("Remaining PropertyChangeListener:  " + l);
 			}
-			Thread.dumpStack();
+			// Thread.dumpStack();
 		}
 		pcSupport = null;
 	}
