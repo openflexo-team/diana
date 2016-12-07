@@ -76,7 +76,7 @@ import org.openflexo.fge.notifications.ObjectWillResize;
 import org.openflexo.fge.notifications.ShapeChanged;
 import org.openflexo.toolbox.ConcatenedList;
 
-public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphicalRepresentation> implements ConnectorNode<O> {
+public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphicalRepresentation>implements ConnectorNode<O> {
 
 	private static final Logger logger = Logger.getLogger(ConnectorNodeImpl.class.getPackage().getName());
 
@@ -394,9 +394,12 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 
 	@Override
 	public Point getLabelLocation(double scale) {
-		Point connectorCenter = convertNormalizedPointToViewCoordinates(getConnector().getMiddleSymbolLocation(), scale);
-		return new Point((int) (connectorCenter.x + getGraphicalRepresentation().getAbsoluteTextX() * scale + getViewX(scale)),
-				(int) (connectorCenter.y + getGraphicalRepresentation().getAbsoluteTextY() * scale + getViewY(scale)));
+		if (getConnector() != null) {
+			Point connectorCenter = convertNormalizedPointToViewCoordinates(getConnector().getMiddleSymbolLocation(), scale);
+			return new Point((int) (connectorCenter.x + getGraphicalRepresentation().getAbsoluteTextX() * scale + getViewX(scale)),
+					(int) (connectorCenter.y + getGraphicalRepresentation().getAbsoluteTextY() * scale + getViewY(scale)));
+		}
+		return null;
 	}
 
 	@Override
@@ -411,6 +414,10 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 
 		if (temporaryIgnoredObservables.contains(evt.getSource())) {
 			// System.out.println("IGORE NOTIFICATION " + notification);
+			return;
+		}
+
+		if (getConnector() == null) {
 			return;
 		}
 
@@ -508,7 +515,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 
 	@Override
 	public List<? extends ControlArea<?>> getControlAreas() {
-		if (controlAreas == null) {
+		if (controlAreas == null && getConnector() != null) {
 			List<? extends ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
 			if (customControlAreas == null) {
 				controlAreas = getConnector().getControlAreas();

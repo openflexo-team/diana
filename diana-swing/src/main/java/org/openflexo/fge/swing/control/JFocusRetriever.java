@@ -283,18 +283,18 @@ public class JFocusRetriever {
 						returned = drawingView.getDrawing().getRoot();
 					}
 					return returned;
-				/*if (editor.getDrawCustomShapeToolController() != null) {
-				if (editor.getDrawCustomShapeToolController().editionHasBeenStarted()
-						&& editor.getDrawCustomShapeToolController().getCurrentEditedShape() != null) {
-					return editor.getDrawCustomShapeToolController().getCurrentEditedShape();
-				} else {
-					DrawingTreeNode<?, ?> returned = getFocusedObject(drawingView.getDrawing().getRoot(), event);
-					if (returned == null) {
-						returned = drawingView.getDrawing().getRoot();
+					/*if (editor.getDrawCustomShapeToolController() != null) {
+					if (editor.getDrawCustomShapeToolController().editionHasBeenStarted()
+							&& editor.getDrawCustomShapeToolController().getCurrentEditedShape() != null) {
+						return editor.getDrawCustomShapeToolController().getCurrentEditedShape();
+					} else {
+						DrawingTreeNode<?, ?> returned = getFocusedObject(drawingView.getDrawing().getRoot(), event);
+						if (returned == null) {
+							returned = drawingView.getDrawing().getRoot();
+						}
+						return returned;
 					}
-					return returned;
-				}
-				}*/
+					}*/
 				default:
 					return getFocusedObject(drawingView.getDrawing().getRoot(), event);
 			}
@@ -534,7 +534,7 @@ public class JFocusRetriever {
 							}
 							else if (childNode instanceof ConnectorNode) {
 								ConnectorNode<?> connectorNode = (ConnectorNode<?>) childNode;
-								if (connectorNode.isValid()) {
+								if (connectorNode.isValid() && connectorNode.getControlAreas() != null) {
 									for (ControlArea<?> ca : connectorNode.getControlAreas()) {
 										double cpDistance = ca.getDistanceToArea(p3, getScale());
 										if (cpDistance < selectionDistance && cpDistance < distanceToNearestConnector) {

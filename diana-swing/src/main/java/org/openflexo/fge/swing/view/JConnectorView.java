@@ -275,7 +275,7 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 			labelView.delete();
 			labelView = null;
 		}
-		else if (connectorNode.hasText() && labelView == null) {
+		else if (connectorNode.hasText() && labelView == null && connectorNode.getConnector() != null) {
 			labelView = new JLabelView<O>(getNode(), getController(), this);
 			if (getParentView() != null) {
 				getParentView().add(getLabelView());
