@@ -1,12 +1,12 @@
 dependencies {
-  compile relativeProject(':diana-geom')
-  compile relativeProject(':diana-api')
-  compile relativeProject(':diana-core')
-  testCompile relativeProject(':diana-core-test')
+  compile project(':diana-geom')
+  compile project(':diana-api')
+  compile project(':diana-core')
+  testCompile project(':diana-core-test')
 
-  compile group: "org.openflexo", name: "gina-swing", version: "1.+"
-  testCompile group: "org.openflexo", name: "gina-test", version: "1.+"
-  testCompile group: "org.openflexo", name: "gina-replay-test", version: "1.+"
+  compile group: "org.openflexo", name: "gina-swing", version: "2.+"
+  testCompile group: "org.openflexo", name: "gina-test", version: "2.+"
+  testCompile group: "org.openflexo", name: "gina-replay-test", version: "2.+"
 }
 // To be able to use private apple api
 compileJava {

@@ -1,5 +1,5 @@
 dependencies {
-  compile relativeProject(':diana-geom')
-  compile group: "org.openflexo", name: "flexographicutils", version: "1.+"
+  compile project(':diana-geom')
+  compile group: "org.openflexo", name: "flexographicutils", version: "2.+"
   compile group: "org.openflexo", name: "pamela-core", version: "1.+"
 }
