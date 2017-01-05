@@ -1,10 +1,10 @@
 dependencies {
   compile project(':diana-api')
-  compile group: "org.openflexo", name: "gina-api", version: "2.+"
-  compile group: "org.openflexo", name: "gina-core", version: "2.+"
+  compile group: "org.openflexo", name: "gina-api", version: "2.1-SNAPSHOT"
+  compile group: "org.openflexo", name: "gina-core", version: "2.1-SNAPSHOT"
 
   compile group: 'net.sf.jung', name: 'jung-graph-impl', version: '2.0.1'
   compile group: 'net.sf.jung', name: 'jung-algorithms', version: '2.0.1'
 
-  testCompile group: "org.openflexo", name: "testutils", version: "1.+"
+  testCompile group: "org.openflexo", name: "testutils", version: "1.4-SNAPSHOT"
 }
