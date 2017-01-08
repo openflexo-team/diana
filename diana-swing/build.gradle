@@ -4,9 +4,9 @@ dependencies {
   compile project(':diana-core')
   testCompile project(':diana-core-test')
 
-  compile group: "org.openflexo", name: "gina-swing", version: "2.1-SNAPSHOT"
-  testCompile group: "org.openflexo", name: "gina-test", version: "2.1-SNAPSHOT"
-  testCompile group: "org.openflexo", name: "gina-replay-test", version: "2.1-SNAPSHOT"
+  compile ginaSwing()
+  testCompile ginaTest()
+  testCompile ginaReplayTest()
 }
 // To be able to use private apple api
 compileJava {
