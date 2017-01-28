@@ -53,12 +53,12 @@ import javax.swing.JScrollPane;
 
 import org.openflexo.fge.Drawing;
 import org.openflexo.fge.FGELayoutManager;
-import org.openflexo.fge.TestGraph;
-import org.openflexo.fge.TestGraphNode;
 import org.openflexo.fge.swing.JDianaInteractiveEditor;
 import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
+import org.openflexo.fge.test.TestGraph;
+import org.openflexo.fge.test.TestGraphNode;
 import org.openflexo.gina.ApplicationFIBLibrary.ApplicationFIBLibraryImpl;
 import org.openflexo.gina.swing.utils.JFIBDialogInspectorController;
 import org.openflexo.gina.swing.utils.logging.FlexoLoggingViewer;

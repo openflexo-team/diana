@@ -59,7 +59,7 @@ import org.openflexo.fge.geom.FGESteppedDimensionConstraint;
 import org.openflexo.model.StringConverterLibrary.Converter;
 import org.openflexo.model.annotations.StringConverter;
 import org.openflexo.model.converter.DataBindingConverter;
-import org.openflexo.toolbox.ColorUtils;
+import org.openflexo.uicst.ColorUtils;
 
 public class FGEUtils {
 

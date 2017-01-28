@@ -1,0 +1,4 @@
+dependencies {
+  compile project(':diana-core')
+  compile testUtils()
+}

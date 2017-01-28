@@ -102,7 +102,7 @@ import org.openflexo.fge.shapes.impl.ShapeImpl;
 import org.openflexo.toolbox.ConcatenedList;
 import org.openflexo.toolbox.StringUtils;
 
-public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalRepresentation>implements ShapeNode<O> {
+public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalRepresentation> implements ShapeNode<O> {
 
 	private static final Logger logger = Logger.getLogger(ShapeNodeImpl.class.getPackage().getName());
 

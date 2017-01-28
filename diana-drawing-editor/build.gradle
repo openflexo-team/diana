@@ -1,0 +1,7 @@
+dependencies {
+  compile project(':diana-api')
+  compile project(':diana-core')
+  compile project(':diana-swing')
+  compile flexoUtils()
+  testCompile testUtils()
+}

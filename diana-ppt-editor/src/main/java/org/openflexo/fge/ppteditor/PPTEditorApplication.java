@@ -90,6 +90,7 @@ import org.openflexo.fge.swing.control.tools.JDianaToolSelector;
 import org.openflexo.gina.ApplicationFIBLibrary.ApplicationFIBLibraryImpl;
 import org.openflexo.gina.swing.utils.localization.LocalizedEditor;
 import org.openflexo.gina.swing.utils.logging.FlexoLoggingViewer;
+import org.openflexo.icon.ImageIconResource;
 import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.localization.LocalizedDelegateImpl;
 import org.openflexo.logging.FlexoLogger;
@@ -97,7 +98,6 @@ import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.swing.FlexoFileChooser;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
-import org.openflexo.toolbox.ImageIconResource;
 import org.openflexo.toolbox.PropertyChangeListenerRegistrationManager;
 import org.openflexo.toolbox.ToolBox;
 

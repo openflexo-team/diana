@@ -41,7 +41,7 @@ package org.openflexo.fge.fib;
 import java.io.File;
 
 import org.junit.Test;
-import org.openflexo.gina.utils.GenericFIBTestCase;
+import org.openflexo.gina.test.GenericFIBTestCase;
 
 public class TestDianaFibs extends GenericFIBTestCase {
 

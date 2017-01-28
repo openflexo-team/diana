@@ -1,0 +1,8 @@
+dependencies {
+  compile project(':diana-api')
+  compile project(':diana-swing')
+  compile connie()
+  compile group: 'org.apache.poi', name: 'poi', version: '3.12'
+  compile group: 'org.apache.poi', name: 'poi-scratchpad', version: '3.12'
+  // Beware major changes of API after 3.12
+}

@@ -55,9 +55,9 @@ import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
-import org.openflexo.fge.graph.TestFGEDiscreteFunctionGraph.Person;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
+import org.openflexo.test.data.SimplePerson;
 
 /**
  * This is an example of drawing containing a {@link FGEDiscreteSimpleFunctionGraph} showing 2 functions represented as bar graphs
@@ -67,7 +67,7 @@ import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
  */
 public class ExampleFGEDiscretePolarFunctionGraphDrawing extends DrawingImpl<Object> {
 
-	private FGEDiscretePolarFunctionGraph<Person> graph;
+	private FGEDiscretePolarFunctionGraph<SimplePerson> graph;
 	private FGENumericFunction<Integer> sizeFunction;
 	private FGENumericFunction<Double> weightFunction;
 	private FGENumericFunction<Double> bmiFunction;
@@ -75,7 +75,7 @@ public class ExampleFGEDiscretePolarFunctionGraphDrawing extends DrawingImpl<Obj
 	private DrawingGraphicalRepresentation drawingRepresentation;
 	private ShapeGraphicalRepresentation graphGR;
 
-	private Person martin, mary, john, martinJr1, martinJr2, martinJr3, martinJr4, martinJr5, martinJr6;
+	private SimplePerson martin, mary, john, martinJr1, martinJr2, martinJr3, martinJr4, martinJr5, martinJr6;
 
 	public ExampleFGEDiscretePolarFunctionGraphDrawing(Object obj, FGEModelFactory factory) {
 		super(obj, factory, PersistenceMode.SharedGraphicalRepresentations);
@@ -84,20 +84,20 @@ public class ExampleFGEDiscretePolarFunctionGraphDrawing extends DrawingImpl<Obj
 	@Override
 	public void init() {
 
-		List<Person> persons = new ArrayList<Person>();
-		persons.add(martin = new Person("Martin", 173, 73.7));
-		persons.add(mary = new Person("Mary", 165, 57.0));
-		persons.add(john = new Person("John", 107, 26.3));
-		persons.add(martinJr1 = new Person("Martin Jr 1", 97, 19.2));
-		persons.add(martinJr2 = new Person("Martin Jr 2", 95, 18.7));
-		persons.add(martinJr3 = new Person("Martin Jr 3", 74, 10.2));
-		persons.add(martinJr4 = new Person("Martin Jr 4", 57, 5.2));
-		persons.add(martinJr5 = new Person("Martin Jr 5", 56, 3.7));
-		persons.add(martinJr6 = new Person("Martin Jr 6", 51, 3.3));
+		List<SimplePerson> persons = new ArrayList<>();
+		persons.add(martin = new SimplePerson("Martin", 173, 73.7));
+		persons.add(mary = new SimplePerson("Mary", 165, 57.0));
+		persons.add(john = new SimplePerson("John", 107, 26.3));
+		persons.add(martinJr1 = new SimplePerson("Martin Jr 1", 97, 19.2));
+		persons.add(martinJr2 = new SimplePerson("Martin Jr 2", 95, 18.7));
+		persons.add(martinJr3 = new SimplePerson("Martin Jr 3", 74, 10.2));
+		persons.add(martinJr4 = new SimplePerson("Martin Jr 4", 57, 5.2));
+		persons.add(martinJr5 = new SimplePerson("Martin Jr 5", 56, 3.7));
+		persons.add(martinJr6 = new SimplePerson("Martin Jr 6", 51, 3.3));
 
-		graph = new FGEDiscretePolarFunctionGraph<Person>();
+		graph = new FGEDiscretePolarFunctionGraph<>();
 
-		graph.setParameter("person", Person.class);
+		graph.setParameter("person", SimplePerson.class);
 		graph.setDiscreteValues(persons);
 		graph.setDiscreteValuesLabel(new DataBinding<String>("person.name"));
 

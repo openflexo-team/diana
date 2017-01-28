@@ -45,11 +45,10 @@ import java.io.File;
 import javax.swing.ImageIcon;
 
 import org.openflexo.fge.BackgroundImageBackgroundStyle;
-import org.openflexo.fge.BackgroundImageBackgroundStyle.ImageBackgroundType;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
+import org.openflexo.icon.ImageIconResource;
 import org.openflexo.rm.Resource;
 import org.openflexo.rm.ResourceLocator;
-import org.openflexo.toolbox.ImageIconResource;
 
 public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyleImpl implements BackgroundImageBackgroundStyle {
 
@@ -102,7 +101,8 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 			imageResource = anImageResource;
 			if (anImageResource != null) {
 				image = new ImageIconResource(anImageResource).getImage();
-			} else {
+			}
+			else {
 				image = null;
 			}
 			setChanged();
@@ -184,7 +184,8 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 			BackgroundImageBackgroundStyle.ImageBackgroundType oldImageBackgroundType = this.imageBackgroundType;
 			this.imageBackgroundType = anImageBackgroundType;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification<ImageBackgroundType>(IMAGE_BACKGROUND_TYPE, oldImageBackgroundType, anImageBackgroundType));
+			notifyObservers(new FGEAttributeNotification<ImageBackgroundType>(IMAGE_BACKGROUND_TYPE, oldImageBackgroundType,
+					anImageBackgroundType));
 		}
 	}
 
@@ -258,7 +259,8 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;
-			} else {
+			}
+			else {
 				return true;
 			}
 		}

@@ -54,7 +54,7 @@ import org.openflexo.fge.swing.JDianaInteractiveEditor;
 import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
-import org.openflexo.fib.swing.utils.SwingGraphicalContextDelegate;
+import org.openflexo.gina.test.SwingGraphicalContextDelegate;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.model.exceptions.ModelDefinitionException;

@@ -56,9 +56,9 @@ import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
 import org.openflexo.fge.graph.FGESimpleFunctionGraph.Orientation;
-import org.openflexo.fge.graph.TestFGEDiscreteFunctionGraph.Person;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
+import org.openflexo.test.data.SimplePerson;
 
 /**
  * This is an example of drawing containing a {@link FGEDiscreteSimpleFunctionGraph} showing 2 functions represented as bar graphs
@@ -68,7 +68,7 @@ import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
  */
 public class ExampleFGEDiscreteSimpleFunctionGraphDrawing extends DrawingImpl<Object> {
 
-	private FGEDiscreteSimpleFunctionGraph<Person> graph;
+	private FGEDiscreteSimpleFunctionGraph<SimplePerson> graph;
 	private FGENumericFunction<Integer> sizeFunction;
 	private FGENumericFunction<Double> weightFunction;
 	private FGENumericFunction<Double> bmiFunction;
@@ -76,7 +76,7 @@ public class ExampleFGEDiscreteSimpleFunctionGraphDrawing extends DrawingImpl<Ob
 	private DrawingGraphicalRepresentation drawingRepresentation;
 	private ShapeGraphicalRepresentation graphGR;
 
-	private Person martin, mary, john, martinJr;
+	private SimplePerson martin, mary, john, martinJr;
 
 	public ExampleFGEDiscreteSimpleFunctionGraphDrawing(Object obj, FGEModelFactory factory) {
 		super(obj, factory, PersistenceMode.SharedGraphicalRepresentations);
@@ -85,15 +85,15 @@ public class ExampleFGEDiscreteSimpleFunctionGraphDrawing extends DrawingImpl<Ob
 	@Override
 	public void init() {
 
-		List<Person> persons = new ArrayList<Person>();
-		persons.add(martin = new Person("Martin", 173, 73.7));
-		persons.add(mary = new Person("Mary", 165, 57.0));
-		persons.add(john = new Person("John", 107, 26.3));
-		persons.add(martinJr = new Person("Martin Jr", 97, 19.2));
+		List<SimplePerson> persons = new ArrayList<>();
+		persons.add(martin = new SimplePerson("Martin", 173, 73.7));
+		persons.add(mary = new SimplePerson("Mary", 165, 57.0));
+		persons.add(john = new SimplePerson("John", 107, 26.3));
+		persons.add(martinJr = new SimplePerson("Martin Jr", 97, 19.2));
 
-		graph = new FGEDiscreteSimpleFunctionGraph<Person>();
+		graph = new FGEDiscreteSimpleFunctionGraph<>();
 
-		graph.setParameter("person", Person.class);
+		graph.setParameter("person", SimplePerson.class);
 		graph.setDiscreteValues(persons);
 		graph.setDiscreteValuesLabel(new DataBinding<String>("person.name"));
 		graph.setParameterOrientation(Orientation.HORIZONTAL);
