@@ -42,6 +42,7 @@ package org.openflexo.fge.swing.graph;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -170,7 +171,7 @@ public class JFIBDiscreteTwoLevelsPolarGraphWidget extends JFIBPolarGraphWidget<
 
 		private <T1, T2> Map<T1, List<T2>> retrieveValues(FIBDiscreteTwoLevelsPolarFunctionGraph fibGraph) {
 
-			Map<T1, List<T2>> returned = new HashMap<>();
+			Map<T1, List<T2>> returned = new LinkedHashMap<>();
 			List<T1> primaryValues = null;
 
 			if (fibGraph.getValues() != null && fibGraph.getValues().isSet() && fibGraph.getValues().isValid()
