@@ -169,16 +169,12 @@
     <Localized key="constrained_dimensions" lang="English" value="Constrained dimensions" />
     <Localized key="constrained_dimensions" lang="French" value="Dimensions contraintes" />
     <Localized key="constrained_dimensions" lang="Dutch" value="Constrained dimensions" />
-    <Localized key="step_constrained" lang="English" value="step constrained" />
-    <Localized key="step_constrained" lang="French" value="pas contraint" />
-    <Localized key="step_constrained" lang="Dutch" value="step constrained" />
     <Localized key="width_fixed" lang="English" value="Fixed width" />
     <Localized key="width_fixed" lang="French" value="Largeur fixe" />
     <Localized key="width_fixed" lang="Dutch" value="Fixed width" />
     <Localized key="height_fixed" lang="English" value="Fixed height" />
     <Localized key="height_fixed" lang="French" value="Hauteur fixe" />
     <Localized key="height_fixed" lang="Dutch" value="Fixed height" />
-    <Localized key="container" lang="French" value="conteneur" />
     <Localized key="dimensions_constraints" lang="English" value="Dimensions contraints" />
     <Localized key="dimensions_constraints" lang="French" value="Contraintes de dimensionnement" />
     <Localized key="dimensions_constraints" lang="Dutch" value="Dimensions contraints" />
