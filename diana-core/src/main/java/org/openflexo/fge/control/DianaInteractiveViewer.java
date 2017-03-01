@@ -127,8 +127,8 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 		this.objectsAreSelectable = objectsAreSelectable;
 		this.objectsAreInspectable = objectsAreInspectable;
 		// inspectors = new DianaInspectors(this);
-		focusedObjects = new ArrayList<DrawingTreeNode<?, ?>>();
-		selectedObjects = new ArrayList<DrawingTreeNode<?, ?>>();
+		focusedObjects = new ArrayList<>();
+		selectedObjects = new ArrayList<>();
 	}
 
 	@Override
@@ -328,7 +328,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	 * @return
 	 */
 	public List<DrawingTreeNode<?, ?>> getSelectedObjects(Class<?>... types) {
-		List<DrawingTreeNode<?, ?>> returned = new ArrayList<DrawingTreeNode<?, ?>>();
+		List<DrawingTreeNode<?, ?>> returned = new ArrayList<>();
 		for (DrawingTreeNode<?, ?> node : selectedObjects) {
 			boolean takeIt = false;
 			for (Class<?> t : types) {
@@ -351,7 +351,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	 * @return
 	 */
 	public <T> List<T> getSelectedDrawables(Class<? extends T>... types) {
-		List<T> returned = new ArrayList<T>();
+		List<T> returned = new ArrayList<>();
 		for (DrawingTreeNode<?, ?> node : selectedObjects) {
 			boolean takeIt = false;
 			for (Class<? extends T> t : types) {
@@ -369,7 +369,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 
 	public List<ShapeNode<?>> getSelectedShapes() {
 		if (selectedShapes == null) {
-			selectedShapes = new ArrayList<ShapeNode<?>>();
+			selectedShapes = new ArrayList<>();
 			for (DrawingTreeNode<?, ?> node : selectedObjects) {
 				if (node instanceof ShapeNode) {
 					selectedShapes.add((ShapeNode<?>) node);
@@ -381,7 +381,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 
 	public List<ConnectorNode<?>> getSelectedConnectors() {
 		if (selectedConnectors == null) {
-			selectedConnectors = new ArrayList<ConnectorNode<?>>();
+			selectedConnectors = new ArrayList<>();
 			for (DrawingTreeNode<?, ?> node : selectedObjects) {
 				if (node instanceof ConnectorNode) {
 					selectedConnectors.add((ConnectorNode<?>) node);
@@ -393,7 +393,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 
 	public List<ContainerNode<?, ?>> getSelectedContainers() {
 		if (selectedContainers == null) {
-			selectedContainers = new ArrayList<ContainerNode<?, ?>>();
+			selectedContainers = new ArrayList<>();
 			for (DrawingTreeNode<?, ?> node : selectedObjects) {
 				if (node instanceof ContainerNode) {
 					selectedContainers.add((ContainerNode<?, ?>) node);
@@ -628,7 +628,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 				}
 				return;
 			}
-			storedSelection = new ArrayList<DrawingTreeNodeIdentifier<?>>();
+			storedSelection = new ArrayList<>();
 			for (DrawingTreeNode<?, ?> node : getSelectedObjects()) {
 				storedSelection.add(new DrawingTreeNodeIdentifier(node.getDrawable(), node.getGRBinding()));
 			}

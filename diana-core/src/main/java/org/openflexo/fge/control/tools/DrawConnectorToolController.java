@@ -137,10 +137,10 @@ public abstract class DrawConnectorToolController<ME> extends ToolController<ME>
 					}
 				});
 
-		cursorNode = new ShapeNodeImpl<DrawConnectorToolController>((DrawingImpl<?>) getController().getDrawing(), this, cursorGRBinding,
+		cursorNode = new ShapeNodeImpl<>((DrawingImpl<?>) getController().getDrawing(), this, cursorGRBinding,
 				(ContainerNodeImpl<?, ?>) getController().getDrawing().getRoot());
-		connectorNode = new ConnectorNodeImpl<DrawConnectorToolController>((DrawingImpl<?>) getController().getDrawing(), this,
-				connectorGRBinding, (ContainerNodeImpl<?, ?>) getController().getDrawing().getRoot(), (ShapeNodeImpl<?>) startNode,
+		connectorNode = new ConnectorNodeImpl<>((DrawingImpl<?>) getController().getDrawing(), this, connectorGRBinding,
+				(ContainerNodeImpl<?, ?>) getController().getDrawing().getRoot(), (ShapeNodeImpl<?>) startNode,
 				(ShapeNodeImpl<?>) cursorNode);
 
 		graphics = makeGraphics(getFactory().makeDefaultForegroundStyle());

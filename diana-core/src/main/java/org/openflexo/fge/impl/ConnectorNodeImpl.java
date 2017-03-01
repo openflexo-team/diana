@@ -76,7 +76,7 @@ import org.openflexo.fge.notifications.ObjectWillResize;
 import org.openflexo.fge.notifications.ShapeChanged;
 import org.openflexo.toolbox.ConcatenedList;
 
-public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphicalRepresentation>implements ConnectorNode<O> {
+public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphicalRepresentation> implements ConnectorNode<O> {
 
 	private static final Logger logger = Logger.getLogger(ConnectorNodeImpl.class.getPackage().getName());
 
@@ -145,10 +145,10 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 	}
 
 	private boolean enabledStartObjectObserving = false;
-	private final List<DrawingTreeNode<?, ?>> observedStartObjects = new ArrayList<DrawingTreeNode<?, ?>>();
+	private final List<DrawingTreeNode<?, ?>> observedStartObjects = new ArrayList<>();
 
 	private boolean enabledEndObjectObserving = false;
-	private final List<DrawingTreeNode<?, ?>> observedEndObjects = new ArrayList<DrawingTreeNode<?, ?>>();
+	private final List<DrawingTreeNode<?, ?>> observedEndObjects = new ArrayList<>();
 
 	protected void enableStartObjectObserving(ShapeNode<?> aStartNode) {
 
@@ -521,7 +521,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 				controlAreas = getConnector().getControlAreas();
 			}
 			else {
-				ConcatenedList<ControlArea<?>> concatenedControlAreas = new ConcatenedList<ControlArea<?>>();
+				ConcatenedList<ControlArea<?>> concatenedControlAreas = new ConcatenedList<>();
 				concatenedControlAreas.addElementList(getConnector().getControlAreas());
 				concatenedControlAreas.addElementList(customControlAreas);
 				controlAreas = concatenedControlAreas;

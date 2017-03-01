@@ -97,7 +97,7 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 		super();
 		this.shapeNode = shapeNode;
 		shapeSpecification = (SS) shapeNode.getShapeSpecification();
-		controlPoints = new ArrayList<ControlPoint>();
+		controlPoints = new ArrayList<>();
 	}
 
 	public void delete() {

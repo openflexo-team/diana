@@ -99,8 +99,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	protected ContainerNodeImpl(DrawingImpl<?> drawing, O drawable, ContainerGRBinding<O, GR> grBinding,
 			ContainerNodeImpl<?, ?> parentNode) {
 		super(drawing, drawable, grBinding, parentNode);
-		childNodes = new ArrayList<DrawingTreeNodeImpl<?, ?>>();
-		layoutManagers = new ArrayList<FGELayoutManager<?, O>>();
+		childNodes = new ArrayList<>();
+		layoutManagers = new ArrayList<>();
 		/*for (FGELayoutManagerSpecification<?> spec : getGraphicalRepresentation().getLayoutManagerSpecifications()) {
 			FGELayoutManager<?, O> layoutManager = (FGELayoutManager<?, O>) spec.makeLayoutManager(this);
 			layoutManagers.add(layoutManager);
@@ -133,7 +133,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	 */
 	private void updateLayoutManagers() {
 		FGELayoutManager<?, O> oldDefaultLayoutManager = getDefaultLayoutManager();
-		List<FGELayoutManager<?, O>> lmToRemove = new ArrayList<FGELayoutManager<?, O>>(getLayoutManagers());
+		List<FGELayoutManager<?, O>> lmToRemove = new ArrayList<>(getLayoutManagers());
 		for (FGELayoutManagerSpecification<?> spec : getGraphicalRepresentation().getLayoutManagerSpecifications()) {
 			boolean found = false;
 			for (FGELayoutManager<?, ?> lm : getLayoutManagers()) {
@@ -148,7 +148,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 				layoutManagers.add(newLayoutManager);
 			}
 		}
-		for (FGELayoutManager<?, ?> lm : new ArrayList<FGELayoutManager<?, O>>(lmToRemove)) {
+		for (FGELayoutManager<?, ?> lm : new ArrayList<>(lmToRemove)) {
 			lm.delete();
 			layoutManagers.remove(lm);
 		}
@@ -228,7 +228,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 
 	private ShapeNode<?> getTopLevelShapeGraphicalRepresentation(ContainerNode<?, ?> container, FGEPoint p) {
 
-		List<ShapeNode<?>> enclosingShapes = new ArrayList<ShapeNode<?>>();
+		List<ShapeNode<?>> enclosingShapes = new ArrayList<>();
 
 		for (DrawingTreeNode<?, ?> dtn : container.getChildNodes()) {
 			if (dtn instanceof ShapeNode) {
@@ -277,7 +277,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 
 	@Override
 	public List<ShapeNodeImpl<?>> getShapeNodes() {
-		List<ShapeNodeImpl<?>> returned = new ArrayList<ShapeNodeImpl<?>>();
+		List<ShapeNodeImpl<?>> returned = new ArrayList<>();
 
 		List<DrawingTreeNodeImpl<?, ?>> children = getChildNodes();
 		if (children != null) {
@@ -998,7 +998,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 						((ConcatenedList<ControlArea<?>>) layoutManagerAreas).addElementList(layoutManager.getControlAreas());
 					}
 					else {
-						controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, layoutManager.getControlAreas());
+						controlAreas = new ConcatenedList<>(controlAreas, layoutManager.getControlAreas());
 					}
 				}
 			}
@@ -1010,7 +1010,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 					((ConcatenedList<ControlArea<?>>) controlAreas).addElementList(customControlAreas);
 				}
 				else {
-					controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, customControlAreas);
+					controlAreas = new ConcatenedList<>(controlAreas, customControlAreas);
 				}
 			}
 			if (layoutManagerAreas != null && layoutManagerAreas.size() > 0) {
@@ -1021,7 +1021,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 					((ConcatenedList<ControlArea<?>>) controlAreas).addElementList(layoutManagerAreas);
 				}
 				else {
-					controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, layoutManagerAreas);
+					controlAreas = new ConcatenedList<>(controlAreas, layoutManagerAreas);
 				}
 			}
 		}

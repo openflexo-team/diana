@@ -77,8 +77,8 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 	private final FGEGraphEvaluator evaluator;
 
 	public FGEGraph() {
-		functions = new ArrayList<FGEFunction<?>>();
-		parameterTypes = new HashMap<String, Type>();
+		functions = new ArrayList<>();
+		parameterTypes = new HashMap<>();
 		bindingModel = new BindingModel();
 		evaluator = new FGEGraphEvaluator();
 	}
@@ -112,14 +112,14 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 
 	public <T> FGEFunction<T> addDiscreteFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression,
 			FGEGraphType type) {
-		FGEFunction<T> returned = new FGEDiscreteFunction<T>(functionName, functionType, functionExpression, type, this);
+		FGEFunction<T> returned = new FGEDiscreteFunction<>(functionName, functionType, functionExpression, type, this);
 		functions.add(returned);
 		return returned;
 	}
 
 	public <T extends Number> FGENumericFunction<T> addNumericFunction(String functionName, Type functionType,
 			DataBinding<T> functionExpression, FGEGraphType type, T minValue, T maxValue) {
-		FGENumericFunction<T> returned = new FGENumericFunction<T>(functionName, functionType, functionExpression, type, minValue, maxValue,
+		FGENumericFunction<T> returned = new FGENumericFunction<>(functionName, functionType, functionExpression, type, minValue, maxValue,
 				this);
 		functions.add(returned);
 		return returned;
@@ -127,7 +127,7 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 
 	public <T extends Number> FGENumericFunction<T> addNumericFunction(String functionName, Type functionType,
 			DataBinding<T> functionExpression, FGEGraphType type) {
-		FGENumericFunction<T> returned = new FGENumericFunction<T>(functionName, functionType, functionExpression, type, this);
+		FGENumericFunction<T> returned = new FGENumericFunction<>(functionName, functionType, functionExpression, type, this);
 		functions.add(returned);
 		return returned;
 	}
@@ -264,7 +264,7 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 
 	public class FGEGraphEvaluator implements BindingEvaluationContext {
 
-		private final Map<String, Object> values = new HashMap<String, Object>();
+		private final Map<String, Object> values = new HashMap<>();
 
 		public Object get(String parameter) {
 			return values.get(parameter);

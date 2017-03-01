@@ -359,7 +359,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	@Override
 	public DataBinding<Double> getXConstraints() {
 		if (xConstraints == null) {
-			xConstraints = new DataBinding<Double>(this, Double.class, DataBinding.BindingDefinitionType.GET);
+			xConstraints = new DataBinding<>(this, Double.class, DataBinding.BindingDefinitionType.GET);
 			xConstraints.setBindingName(X_CONSTRAINTS_KEY);
 		}
 		return xConstraints;
@@ -370,8 +370,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 		FGEAttributeNotification<?> notification = requireChange(X_CONSTRAINTS, xConstraints);
 		if (notification != null) {
 			if (xConstraints != null) {
-				this.xConstraints = new DataBinding<Double>(xConstraints.toString(), this, Double.class,
-						DataBinding.BindingDefinitionType.GET);
+				this.xConstraints = new DataBinding<>(xConstraints.toString(), this, Double.class, DataBinding.BindingDefinitionType.GET);
 				this.xConstraints.setBindingName(X_CONSTRAINTS_KEY);
 			}
 			notifiedBindingChanged(this.xConstraints);
@@ -382,7 +381,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	@Override
 	public DataBinding<Double> getYConstraints() {
 		if (yConstraints == null) {
-			yConstraints = new DataBinding<Double>(this, Double.class, DataBinding.BindingDefinitionType.GET);
+			yConstraints = new DataBinding<>(this, Double.class, DataBinding.BindingDefinitionType.GET);
 			yConstraints.setBindingName(Y_CONSTRAINTS_KEY);
 		}
 		return yConstraints;
@@ -393,8 +392,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 		FGEAttributeNotification<?> notification = requireChange(Y_CONSTRAINTS, yConstraints);
 		if (notification != null) {
 			if (yConstraints != null) {
-				this.yConstraints = new DataBinding<Double>(yConstraints.toString(), this, Double.class,
-						DataBinding.BindingDefinitionType.GET);
+				this.yConstraints = new DataBinding<>(yConstraints.toString(), this, Double.class, DataBinding.BindingDefinitionType.GET);
 				this.yConstraints.setBindingName(Y_CONSTRAINTS_KEY);
 			}
 			notifiedBindingChanged(this.yConstraints);
@@ -405,7 +403,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	@Override
 	public DataBinding<Double> getWidthConstraints() {
 		if (widthConstraints == null) {
-			widthConstraints = new DataBinding<Double>(this, Double.class, DataBinding.BindingDefinitionType.GET);
+			widthConstraints = new DataBinding<>(this, Double.class, DataBinding.BindingDefinitionType.GET);
 			widthConstraints.setBindingName(WIDTH_CONSTRAINTS_KEY);
 		}
 		return widthConstraints;
@@ -416,7 +414,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 		FGEAttributeNotification<?> notification = requireChange(WIDTH_CONSTRAINTS, widthConstraints);
 		if (notification != null) {
 			if (widthConstraints != null) {
-				this.widthConstraints = new DataBinding<Double>(widthConstraints.toString(), this, Double.class,
+				this.widthConstraints = new DataBinding<>(widthConstraints.toString(), this, Double.class,
 						DataBinding.BindingDefinitionType.GET);
 				this.widthConstraints.setBindingName(WIDTH_CONSTRAINTS_KEY);
 			}
@@ -428,7 +426,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	@Override
 	public DataBinding<Double> getHeightConstraints() {
 		if (heightConstraints == null) {
-			heightConstraints = new DataBinding<Double>(this, Double.class, DataBinding.BindingDefinitionType.GET);
+			heightConstraints = new DataBinding<>(this, Double.class, DataBinding.BindingDefinitionType.GET);
 			heightConstraints.setBindingName(HEIGHT_CONSTRAINTS_KEY);
 		}
 		return heightConstraints;
@@ -439,7 +437,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 		FGEAttributeNotification<?> notification = requireChange(HEIGHT_CONSTRAINTS, heightConstraints);
 		if (notification != null) {
 			if (heightConstraints != null) {
-				this.heightConstraints = new DataBinding<Double>(heightConstraints.toString(), this, Double.class,
+				this.heightConstraints = new DataBinding<>(heightConstraints.toString(), this, Double.class,
 						DataBinding.BindingDefinitionType.GET);
 				this.heightConstraints.setBindingName(HEIGHT_CONSTRAINTS_KEY);
 			}
@@ -699,8 +697,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 				this.shape = aShape;
 				// shape.rebuildControlPoints();
 				hasChanged(notification);
-				notifyObservers(
-						new FGEAttributeNotification<ShapeType>(SHAPE_TYPE, oldType, (aShape != null ? aShape.getShapeType() : null)));
+				notifyObservers(new FGEAttributeNotification<>(SHAPE_TYPE, oldType, (aShape != null ? aShape.getShapeType() : null)));
 				// notifyShapeChanged();
 			}
 		}

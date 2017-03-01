@@ -58,14 +58,14 @@ import edu.uci.ics.jung.algorithms.layout.ISOMLayout;
  * 
  */
 @FIBPanel("Fib/Layout/ISOMGraphLayoutManagerPanel.fib")
-public abstract class ISOMGraphLayoutManagerImpl<O> extends GraphBasedLayoutManagerImpl<ISOMGraphLayoutManagerSpecification, O> implements
-		ISOMGraphLayoutManager<O> {
+public abstract class ISOMGraphLayoutManagerImpl<O> extends GraphBasedLayoutManagerImpl<ISOMGraphLayoutManagerSpecification, O>
+		implements ISOMGraphLayoutManager<O> {
 
 	private ISOMLayout<ShapeNode<?>, ConnectorNode<?>> layout;
 
 	@Override
 	protected AbstractLayout<ShapeNode<?>, ConnectorNode<?>> buildLayout() {
-		layout = new ISOMLayout<ShapeNode<?>, ConnectorNode<?>>(getGraph());
+		layout = new ISOMLayout<>(getGraph());
 		layout.setSize(new Dimension((int) getContainerNode().getWidth(), (int) getContainerNode().getHeight()));
 		return layout;
 	}

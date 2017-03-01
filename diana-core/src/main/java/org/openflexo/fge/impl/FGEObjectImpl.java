@@ -138,7 +138,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 		if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
 			return;
 		}
-		hasChanged(new FGEAttributeNotification<T>(parameter, oldValue, newValue));
+		hasChanged(new FGEAttributeNotification<>(parameter, oldValue, newValue));
 		/*propagateConstraintsAfterModification(parameter);
 		setChanged();
 		notifyObservers(new FGENotification(parameter, oldValue, newValue));*/
@@ -192,7 +192,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 				return null; // No change
 			}
 			else {
-				return new FGEAttributeNotification<T>(parameter, oldValue, value);
+				return new FGEAttributeNotification<>(parameter, oldValue, value);
 			}
 		}
 		else {
@@ -201,7 +201,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 					return null; // No change
 				}
 				else {
-					return new FGEAttributeNotification<T>(parameter, oldValue, value);
+					return new FGEAttributeNotification<>(parameter, oldValue, value);
 				}
 			}
 			else {
@@ -209,7 +209,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 					return null; // No change
 				}
 				else {
-					return new FGEAttributeNotification<T>(parameter, oldValue, value);
+					return new FGEAttributeNotification<>(parameter, oldValue, value);
 				}
 			}
 		}
@@ -317,8 +317,6 @@ public abstract class FGEObjectImpl implements FGEObject {
 			ModelEntity<?> entity = getFactory().getModelEntityForInstance(this);
 			if (entity != null) {
 				try {
-					String returned = entity.getImplementedInterface().getSimpleName() + index
-							+ (entity.getImplementingClass() != null ? "[" + entity.getImplementingClass().getSimpleName() + "]" : "");
 					return entity.getImplementedInterface().getSimpleName() + index
 							+ (entity.getImplementingClass() != null ? "[" + entity.getImplementingClass().getSimpleName() + "]" : "");
 				} catch (ModelDefinitionException e) {

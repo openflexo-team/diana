@@ -151,7 +151,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	public abstract void installImplementingClasses() throws ModelDefinitionException;
 
 	private static Class<?>[] appendGRClasses(final Collection<Class<?>> classes) {
-		final Set<Class<?>> returned = new HashSet<Class<?>>(classes);
+		final Set<Class<?>> returned = new HashSet<>(classes);
 		returned.add(GraphicalRepresentation.class);
 		returned.add(DrawingGraphicalRepresentation.class);
 		returned.add(ShapeGraphicalRepresentation.class);

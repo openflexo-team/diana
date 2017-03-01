@@ -119,7 +119,7 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 		this.dianaFactory = dianaFactory;
 		this.toolFactory = toolFactory;
 
-		contents = new Hashtable<DrawingTreeNode<?, ?>, FGEView<?, ? extends C>>();
+		contents = new Hashtable<>();
 
 		drawing = aDrawing;
 		if (drawing instanceof DrawingImpl<?>) {

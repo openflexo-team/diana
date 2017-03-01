@@ -101,7 +101,7 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 		super();
 		this.functionName = functionName;
 		this.functionType = functionType;
-		this.functionExpression = new DataBinding<T>(functionExpression.toString());
+		this.functionExpression = new DataBinding<>(functionExpression.toString());
 		this.functionExpression.setOwner(graph);
 		this.functionExpression.setDeclaredType(functionType);
 		this.functionExpression.setBindingDefinitionType(BindingDefinitionType.GET);
@@ -258,12 +258,12 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 			valueSamples.clear();
 		}
 		else {
-			valueSamples = new ArrayList<T>();
+			valueSamples = new ArrayList<>();
 		}
 
 		System.out.println("On calcule les samples pour " + getFunctionExpression());
 
-		List<FunctionSample<X, T>> samples = new ArrayList<FunctionSample<X, T>>();
+		List<FunctionSample<X, T>> samples = new ArrayList<>();
 		Iterator<X> it = graph.iterateParameter();
 
 		if (it != null) {
@@ -277,19 +277,16 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 				try {
 					value = graph.evaluateFunction(this, p);
 				} catch (TypeMismatchException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (NullReferenceException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
 				// System.out.println("value=" + value);
 
-				samples.add(new FunctionSample<X, T>(p, value));
+				samples.add(new FunctionSample<>(p, value));
 
 				// System.out.println("Sampling function " + getFunctionName() + "(" + p + ") = " + value);
 
@@ -314,7 +311,7 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 
 		// System.out.println("On calcule les two-levels samples pour " + getFunctionExpression());
 
-		List<TwoLevelsFunctionSample<T1, T2, T>> samples = new ArrayList<TwoLevelsFunctionSample<T1, T2, T>>();
+		List<TwoLevelsFunctionSample<T1, T2, T>> samples = new ArrayList<>();
 		Iterator<T1> it = graph.iteratePrimaryParameter();
 
 		if (it != null) {
@@ -324,8 +321,7 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 				T1 primaryValue = it.next();
 				List<T2> secondaryValues = graph.getSecondaryDiscreteValues().get(primaryValue);
 				List<T> values = new ArrayList<>();
-				TwoLevelsFunctionSample<T1, T2, T> newSample = new TwoLevelsFunctionSample<T1, T2, T>(primaryValue, secondaryValues,
-						values);
+				TwoLevelsFunctionSample<T1, T2, T> newSample = new TwoLevelsFunctionSample<>(primaryValue, secondaryValues, values);
 
 				if (secondaryValues != null) {
 					for (T2 secondaryValue : secondaryValues) {
@@ -333,13 +329,10 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 						try {
 							value = graph.evaluateFunction(this, primaryValue, secondaryValue);
 						} catch (TypeMismatchException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (NullReferenceException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (InvocationTargetException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						values.add(value);

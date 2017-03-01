@@ -259,8 +259,8 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	@Override
 	public MouseClickControl<AbstractDianaEditor<?, ?, ?>> makeMouseClickControl(String aName, MouseButton button, int clickCount,
 			boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed) {
-		return new MouseClickControlImpl<AbstractDianaEditor<?, ?, ?>>(aName, button, clickCount, null, shiftPressed, ctrlPressed,
-				metaPressed, altPressed, getEditingContext());
+		return new MouseClickControlImpl<>(aName, button, clickCount, null, shiftPressed, ctrlPressed, metaPressed, altPressed,
+				getEditingContext());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -268,7 +268,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseClickControl<AbstractDianaEditor<?, ?, ?>> makeMouseClickControl(String aName, MouseButton button, int clickCount,
 			PredefinedMouseClickControlActionType actionType, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed,
 			boolean altPressed) {
-		return new MouseClickControlImpl<AbstractDianaEditor<?, ?, ?>>(aName, button, clickCount,
+		return new MouseClickControlImpl<>(aName, button, clickCount,
 				(MouseClickControlAction<AbstractDianaEditor<?, ?, ?>>) makeMouseClickControlAction(actionType), shiftPressed, ctrlPressed,
 				metaPressed, altPressed, getEditingContext());
 	}
@@ -288,15 +288,14 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	private <E2 extends AbstractDianaEditor<?, ?, ?>> MouseClickControl<E2> makeMouseClickControl2(String aName, MouseButton button,
 			int clickCount, MouseClickControlAction<E2> action, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed,
 			boolean altPressed) {
-		return new MouseClickControlImpl<E2>(aName, button, clickCount, action, shiftPressed, ctrlPressed, metaPressed, altPressed,
+		return new MouseClickControlImpl<>(aName, button, clickCount, action, shiftPressed, ctrlPressed, metaPressed, altPressed,
 				getEditingContext());
 	}
 
 	@Override
 	public MouseDragControl<? extends AbstractDianaEditor<?, ?, ?>> makeMouseDragControl(String aName, MouseButton button,
 			boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed) {
-		return new MouseDragControlImpl<AbstractDianaEditor<?, ?, ?>>(aName, button, null, shiftPressed, ctrlPressed, metaPressed,
-				altPressed, getEditingContext());
+		return new MouseDragControlImpl<>(aName, button, null, shiftPressed, ctrlPressed, metaPressed, altPressed, getEditingContext());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -304,7 +303,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseDragControl<AbstractDianaEditor<?, ?, ?>> makeMouseDragControl(String aName, MouseButton button,
 			PredefinedMouseDragControlActionType actionType, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed,
 			boolean altPressed) {
-		return new MouseDragControlImpl<AbstractDianaEditor<?, ?, ?>>(aName, button,
+		return new MouseDragControlImpl<>(aName, button,
 				(MouseDragControlAction<AbstractDianaEditor<?, ?, ?>>) makeMouseDragControlAction(actionType), shiftPressed, ctrlPressed,
 				metaPressed, altPressed, getEditingContext());
 	}
@@ -323,22 +322,22 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	// ?>)
 	private <E2 extends AbstractDianaEditor<?, ?, ?>> MouseDragControl<E2> makeMouseDragControl2(String aName, MouseButton button,
 			MouseDragControlAction<E2> action, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed) {
-		return new MouseDragControlImpl<E2>(aName, button, action, shiftPressed, ctrlPressed, metaPressed, altPressed, getEditingContext());
+		return new MouseDragControlImpl<>(aName, button, action, shiftPressed, ctrlPressed, metaPressed, altPressed, getEditingContext());
 	}
 
 	@Override
 	public MouseDragControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseDragControlAction(
 			PredefinedMouseDragControlActionType actionType) {
 		switch (actionType) {
-		case MOVE:
-			return new MoveAction();
-		case RECTANGLE_SELECTING:
-			return new RectangleSelectingAction();
-		case ZOOM:
-			return new ZoomAction();
-		default:
-			LOGGER.warning("Unexpected actionType " + actionType);
-			return null;
+			case MOVE:
+				return new MoveAction();
+			case RECTANGLE_SELECTING:
+				return new RectangleSelectingAction();
+			case ZOOM:
+				return new ZoomAction();
+			default:
+				LOGGER.warning("Unexpected actionType " + actionType);
+				return null;
 		}
 	}
 
@@ -346,15 +345,15 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseClickControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseClickControlAction(
 			PredefinedMouseClickControlActionType actionType) {
 		switch (actionType) {
-		case SELECTION:
-			return new SelectionAction();
-		case CONTINUOUS_SELECTION:
-			return new ContinuousSelectionAction();
-		case MULTIPLE_SELECTION:
-			return new MultipleSelectionAction();
-		default:
-			LOGGER.warning("Unexpected actionType " + actionType);
-			return null;
+			case SELECTION:
+				return new SelectionAction();
+			case CONTINUOUS_SELECTION:
+				return new ContinuousSelectionAction();
+			case MULTIPLE_SELECTION:
+				return new MultipleSelectionAction();
+			default:
+				LOGGER.warning("Unexpected actionType " + actionType);
+				return null;
 		}
 	}
 

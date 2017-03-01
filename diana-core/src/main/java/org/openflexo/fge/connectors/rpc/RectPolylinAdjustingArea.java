@@ -62,7 +62,7 @@ import org.openflexo.fge.graphics.FGEGraphics;
 
 public class RectPolylinAdjustingArea extends ControlArea<FGERectPolylin> {
 
-	private static final Hashtable<Integer, Image> PIN_CACHE = new Hashtable<Integer, Image>();
+	private static final Hashtable<Integer, Image> PIN_CACHE = new Hashtable<>();
 	protected FGERectPolylin initialPolylin;
 	private RectPolylinConnector connector;
 

@@ -60,8 +60,8 @@ public class FGECachedModelFactory extends FGEModelFactoryImpl {
 
 	public FGECachedModelFactory() throws ModelDefinitionException {
 		super();
-		foregroundStyles = new HashMap<Color, ForegroundStyle>();
-		colorBackgroundStyles = new HashMap<Color, ColorBackgroundStyle>();
+		foregroundStyles = new HashMap<>();
+		colorBackgroundStyles = new HashMap<>();
 	}
 
 	@Override

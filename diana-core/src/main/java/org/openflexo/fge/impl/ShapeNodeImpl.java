@@ -1720,7 +1720,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					((ConcatenedList<ControlArea<?>>) controlAreas).addElementList(shapeControlAreas);
 				}
 				else {
-					controlAreas = new ConcatenedList<ControlArea<?>>(shapeControlAreas, controlAreas);
+					controlAreas = new ConcatenedList<>(shapeControlAreas, controlAreas);
 				}
 			}
 

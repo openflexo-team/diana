@@ -405,7 +405,7 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 			System.out.println(" > " + s.primaryValue + " secondary values=" + s.secondaryValues + " values=" + s.values);
 		}*/
 
-		List<FGEPoint> points = new ArrayList<FGEPoint>();
+		List<FGEPoint> points = new ArrayList<>();
 		for (TwoLevelsFunctionSample<T1, T2, T> s : samples) {
 			// System.out.println("Pour " + s.primaryValue);
 			// Double primaryValueAngle = getPrimaryNormalizedAngle(s.primaryValue);
@@ -443,7 +443,7 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 				return new FunctionRepresentation(new FGEComplexCurve(Closure.OPEN_NOT_FILLED, points), function.getForegroundStyle(),
 						function.getBackgroundStyle());
 			case BAR_GRAPH:
-				List<FGEPolygon> polygons = new ArrayList<FGEPolygon>();
+				List<FGEPolygon> polygons = new ArrayList<>();
 				for (TwoLevelsFunctionSample<T1, T2, T> s : samples) {
 					if (s.secondaryValues != null) {
 						for (int i = 0; i < s.secondaryValues.size(); i++) {
@@ -455,7 +455,7 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 							int requiredSteps = (int) (angleExtent / 3); // Draw all 3 degrees
 							// System.out.println(" > child " + secondaryValue + " value=" + value + " angle=" + angle);
 							Double radius = function.getNormalizedPosition(value) / 2;
-							List<FGEPoint> pts = new ArrayList<FGEPoint>();
+							List<FGEPoint> pts = new ArrayList<>();
 							pts.add(new FGEPoint(0.5, 0.5));
 							for (int j = 0; j <= requiredSteps; j++) {
 								double a = startAngle + angleExtent * j / requiredSteps;
@@ -472,7 +472,7 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 			case COLORED_STEPS:
 				if (function instanceof FGENumericFunction) {
 					FGENumericFunction numFunction = (FGENumericFunction) function;
-					List<ElementRepresentation> elements = new ArrayList<ElementRepresentation>();
+					List<ElementRepresentation> elements = new ArrayList<>();
 					Color color1 = Color.RED;
 					Color color2 = Color.GREEN;
 					for (TwoLevelsFunctionSample<T1, T2, T> s : samples) {
@@ -501,7 +501,7 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 									double startRadius = (double) step / numFunction.getStepsNb() / 2;
 									double endRadius = (step + (1 - numFunction.getStepsSpacing())) / numFunction.getStepsNb() / 2;
 									// System.out.println("step=" + step + " startRadius=" + startRadius + " endRadius=" + endRadius);
-									List<FGEPoint> pts = new ArrayList<FGEPoint>();
+									List<FGEPoint> pts = new ArrayList<>();
 									for (int j = 0; j <= requiredSteps; j++) {
 										double a = startAngle + angleExtent * j / requiredSteps;
 										pts.add(new FGEPoint(startRadius * Math.cos(a * Math.PI / 180) + 0.5,

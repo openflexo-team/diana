@@ -75,7 +75,7 @@ public abstract class BalloonLayoutManagerImpl<O> extends TreeBasedLayoutManager
 	@Override
 	protected BalloonLayout<ShapeNode<?>, ConnectorNode<?>> buildLayout() {
 		if (baseCircles == null) {
-			baseCircles = new ArrayList<FGECircle>();
+			baseCircles = new ArrayList<>();
 		}
 		else {
 			baseCircles.clear();

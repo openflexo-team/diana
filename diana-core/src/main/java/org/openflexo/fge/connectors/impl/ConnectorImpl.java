@@ -104,13 +104,13 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	/**
 	 * Store temporary properties that may not be serialized
 	 */
-	private Map<GRProperty, Object> propertyValues = new HashMap<GRProperty, Object>();
+	private Map<GRProperty, Object> propertyValues = new HashMap<>();
 
 	public ConnectorImpl(ConnectorNode<?> connectorNode) {
 		super();
 		this.connectorNode = connectorNode;
 		connectorSpecification = (CS) connectorNode.getConnectorSpecification();
-		propertyValues = new HashMap<GRProperty, Object>();
+		propertyValues = new HashMap<>();
 		if (connectorSpecification != null && connectorSpecification.getPropertyChangeSupport() != null) {
 			connectorSpecification.getPropertyChangeSupport().addPropertyChangeListener(this);
 		}
@@ -520,7 +520,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 
 	}
 
-	protected Set<HasPropertyChangeSupport> temporaryIgnoredObservables = new HashSet<HasPropertyChangeSupport>();
+	protected Set<HasPropertyChangeSupport> temporaryIgnoredObservables = new HashSet<>();
 
 	/**
 	 * 

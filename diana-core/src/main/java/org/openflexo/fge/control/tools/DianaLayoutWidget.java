@@ -75,7 +75,7 @@ public abstract class DianaLayoutWidget<C, F extends DianaViewFactory<F, ? super
 				newX = gr.getX();
 			}
 		}
-		List<TranslationTransition> tts = new ArrayList<TranslationTransition>();
+		List<TranslationTransition> tts = new ArrayList<>();
 		for (ShapeNode<?> gr : getSelectedShapes()) {
 			tts.add(new TranslationTransition(gr, gr.getLocation(), new FGEPoint(newX, gr.getY())));
 		}
@@ -89,7 +89,7 @@ public abstract class DianaLayoutWidget<C, F extends DianaViewFactory<F, ? super
 			totalX += gr.getX() + gr.getWidth() / 2;
 		}
 		double newX = totalX / getSelectedShapes().size();
-		List<TranslationTransition> tts = new ArrayList<TranslationTransition>();
+		List<TranslationTransition> tts = new ArrayList<>();
 		for (ShapeNode<?> gr : getSelectedShapes()) {
 			tts.add(new TranslationTransition(gr, gr.getLocation(), new FGEPoint(newX - gr.getWidth() / 2, gr.getY())));
 		}
@@ -104,7 +104,7 @@ public abstract class DianaLayoutWidget<C, F extends DianaViewFactory<F, ? super
 				newX = gr.getX() + gr.getWidth();
 			}
 		}
-		List<TranslationTransition> tts = new ArrayList<TranslationTransition>();
+		List<TranslationTransition> tts = new ArrayList<>();
 		for (ShapeNode<?> gr : getSelectedShapes()) {
 			tts.add(new TranslationTransition(gr, gr.getLocation(), new FGEPoint(newX - gr.getWidth(), gr.getY())));
 		}
@@ -119,7 +119,7 @@ public abstract class DianaLayoutWidget<C, F extends DianaViewFactory<F, ? super
 				newY = gr.getY();
 			}
 		}
-		List<TranslationTransition> tts = new ArrayList<TranslationTransition>();
+		List<TranslationTransition> tts = new ArrayList<>();
 		for (ShapeNode<?> gr : getSelectedShapes()) {
 			tts.add(new TranslationTransition(gr, gr.getLocation(), new FGEPoint(gr.getX(), newY)));
 		}
@@ -133,7 +133,7 @@ public abstract class DianaLayoutWidget<C, F extends DianaViewFactory<F, ? super
 			totalY += gr.getY() + gr.getHeight() / 2;
 		}
 		double newY = totalY / getSelectedShapes().size();
-		List<TranslationTransition> tts = new ArrayList<TranslationTransition>();
+		List<TranslationTransition> tts = new ArrayList<>();
 		for (ShapeNode<?> gr : getSelectedShapes()) {
 			tts.add(new TranslationTransition(gr, gr.getLocation(), new FGEPoint(gr.getX(), newY - gr.getHeight() / 2)));
 		}
@@ -148,7 +148,7 @@ public abstract class DianaLayoutWidget<C, F extends DianaViewFactory<F, ? super
 				newY = gr.getY() + gr.getHeight();
 			}
 		}
-		List<TranslationTransition> tts = new ArrayList<TranslationTransition>();
+		List<TranslationTransition> tts = new ArrayList<>();
 		for (ShapeNode<?> gr : getSelectedShapes()) {
 			tts.add(new TranslationTransition(gr, gr.getLocation(), new FGEPoint(gr.getX(), newY - gr.getHeight())));
 		}

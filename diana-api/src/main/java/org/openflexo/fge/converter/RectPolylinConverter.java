@@ -57,7 +57,7 @@ public class RectPolylinConverter extends Converter<FGERectPolylin> {
 	@Override
 	public FGERectPolylin convertFromString(String value, ModelFactory factory) {
 		try {
-			List<FGEPoint> points = new ArrayList<FGEPoint>();
+			List<FGEPoint> points = new ArrayList<>();
 			StringTokenizer st = new StringTokenizer(value, ";");
 			while (st.hasMoreTokens()) {
 				String nextPoint = st.nextToken();
@@ -88,7 +88,8 @@ public class RectPolylinConverter extends Converter<FGERectPolylin> {
 				isFirst = false;
 			}
 			return sb.toString();
-		} else {
+		}
+		else {
 			return null;
 		}
 	}

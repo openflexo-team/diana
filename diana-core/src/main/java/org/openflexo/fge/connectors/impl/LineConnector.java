@@ -87,7 +87,7 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 	// Used for deserialization
 	public LineConnector(ConnectorNode<?> connectorNode) {
 		super(connectorNode);
-		controlPoints = new ArrayList<ControlPoint>();
+		controlPoints = new ArrayList<>();
 		if (getLineConnectorType() == null) {
 			setLineConnectorType(getConnectorSpecification().getLineConnectorType());
 		}

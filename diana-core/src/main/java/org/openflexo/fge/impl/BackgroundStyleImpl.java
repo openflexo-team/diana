@@ -67,29 +67,29 @@ public abstract class BackgroundStyleImpl extends FGEStyleImpl implements Backgr
 	public static BackgroundStyle makeEmptyBackground() {
 		return new NoneBackgroundStyleImpl();
 	}
-
+	
 	@Deprecated
 	public static BackgroundStyle makeColoredBackground(java.awt.Color aColor) {
 		return new ColorBackgroundStyleImpl(aColor);
 	}
-
+	
 	@Deprecated
 	public static BackgroundStyle makeColorGradientBackground(java.awt.Color color1, java.awt.Color color2,
 			ColorGradientBackgroundStyle.ColorGradientDirection direction) {
 		return new ColorGradientBackgroundStyleImpl(color1, color2, direction);
 	}
-
+	
 	@Deprecated
 	public static BackgroundStyle makeTexturedBackground(TextureBackgroundStyle.TextureType type, java.awt.Color aColor1,
 			java.awt.Color aColor2) {
 		return new TextureBackgroundStyleImpl(type, aColor1, aColor2);
 	}
-
+	
 	@Deprecated
 	public static BackgroundImageBackgroundStyle makeImageBackground(File imageFile) {
 		return new BackgroundImageBackgroundStyleImpl(imageFile);
 	}
-
+	
 	@Deprecated
 	public static BackgroundImageBackgroundStyle makeImageBackground(ImageIcon image) {
 		return new BackgroundImageBackgroundStyleImpl(image);
@@ -122,7 +122,7 @@ public abstract class BackgroundStyleImpl extends FGEStyleImpl implements Backgr
 	{
 		return graphicalRepresentation;
 	}
-
+	
 	public void setGraphicalRepresentation(
 			GraphicalRepresentation graphicalRepresentation)
 	{
@@ -143,7 +143,7 @@ public abstract class BackgroundStyleImpl extends FGEStyleImpl implements Backgr
 			float oldValue = transparencyLevel;
 			this.transparencyLevel = aLevel;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification<Float>(TRANSPARENCY_LEVEL, oldValue, aLevel));
+			notifyObservers(new FGEAttributeNotification<>(TRANSPARENCY_LEVEL, oldValue, aLevel));
 		}
 	}
 
@@ -158,7 +158,7 @@ public abstract class BackgroundStyleImpl extends FGEStyleImpl implements Backgr
 			boolean oldValue = useTransparency;
 			this.useTransparency = aFlag;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification<Boolean>(USE_TRANSPARENCY, oldValue, aFlag));
+			notifyObservers(new FGEAttributeNotification<>(USE_TRANSPARENCY, oldValue, aFlag));
 		}
 	}
 
@@ -179,7 +179,8 @@ public abstract class BackgroundStyleImpl extends FGEStyleImpl implements Backgr
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;
-			} else {
+			}
+			else {
 				return true;
 			}
 		}

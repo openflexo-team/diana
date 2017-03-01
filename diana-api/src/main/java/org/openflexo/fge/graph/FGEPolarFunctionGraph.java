@@ -153,7 +153,7 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 			System.out.println(" > " + s.x + " value=" + s.value);
 		}*/
 
-		List<FGEPoint> points = new ArrayList<FGEPoint>();
+		List<FGEPoint> points = new ArrayList<>();
 		for (FunctionSample<A, T> s : samples) {
 			Double angle = getNormalizedAngle(s.x);
 			Double radius = function.getNormalizedPosition(s.value) / 2;
@@ -179,14 +179,14 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 				return new FunctionRepresentation(new FGEComplexCurve(Closure.OPEN_NOT_FILLED, points), function.getForegroundStyle(),
 						function.getBackgroundStyle());
 			case BAR_GRAPH:
-				List<FGEPolygon> polygons = new ArrayList<FGEPolygon>();
+				List<FGEPolygon> polygons = new ArrayList<>();
 				for (FunctionSample<A, T> s : samples) {
 					Double angle = getNormalizedAngle(s.x); // Middle of angle
 					Double angleExtent = getNormalizedAngleExtent(s.x) / numberOfFunctions - 5;
 					double startAngle = angle - angleExtent / 2 + functionIndex * angleExtent;
 					int requiredSteps = (int) (angleExtent / 3); // Draw all 3 degrees
 					Double radius = function.getNormalizedPosition(s.value) / 2;
-					List<FGEPoint> pts = new ArrayList<FGEPoint>();
+					List<FGEPoint> pts = new ArrayList<>();
 					pts.add(new FGEPoint(0.5, 0.5));
 					for (int i = 0; i <= requiredSteps; i++) {
 						double a = startAngle + angleExtent * i / requiredSteps;
@@ -200,7 +200,7 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 			case COLORED_STEPS:
 				if (function instanceof FGENumericFunction) {
 					FGENumericFunction numFunction = (FGENumericFunction) function;
-					List<ElementRepresentation> elements = new ArrayList<ElementRepresentation>();
+					List<ElementRepresentation> elements = new ArrayList<>();
 					Color color1 = Color.RED;
 					Color color2 = Color.GREEN;
 					for (FunctionSample<A, T> s : samples) {
@@ -219,7 +219,7 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 							double startRadius = (double) step / numFunction.getStepsNb() / 2;
 							double endRadius = (step + (1 - numFunction.getStepsSpacing())) / numFunction.getStepsNb() / 2;
 							// System.out.println("step=" + step + " startRadius=" + startRadius + " endRadius=" + endRadius);
-							List<FGEPoint> pts = new ArrayList<FGEPoint>();
+							List<FGEPoint> pts = new ArrayList<>();
 							for (int i = 0; i <= requiredSteps; i++) {
 								double a = startAngle + angleExtent * i / requiredSteps;
 								pts.add(new FGEPoint(startRadius * Math.cos(a * Math.PI / 180) + 0.5,
@@ -242,7 +242,7 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 				break;
 			case SECTORS:
 				if (function instanceof FGENumericFunction) {
-					List<ElementRepresentation> elements = new ArrayList<ElementRepresentation>();
+					List<ElementRepresentation> elements = new ArrayList<>();
 					byte[] bytes = new byte[3];
 					Random r = new Random(0);
 					for (FunctionSample<A, T> s : samples) {
@@ -251,7 +251,7 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 						double startAngle = angle - angleExtent / 2 + functionIndex * angleExtent;
 						int requiredSteps = (int) (angleExtent / 3); // Draw all 3 degrees
 						Double radius = 0.45;
-						List<FGEPoint> pts = new ArrayList<FGEPoint>();
+						List<FGEPoint> pts = new ArrayList<>();
 						pts.add(new FGEPoint(0.5, 0.5));
 						for (int i = 0; i <= requiredSteps; i++) {
 							double a = startAngle + angleExtent * i / requiredSteps;

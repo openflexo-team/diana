@@ -92,12 +92,12 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 	protected void fireChangedProperties() {
 		// We replace here super code, because we have to fire changed properties for all properties
 		// as the union of properties of all possible types
-		List<GRProperty<?>> paramsList = new ArrayList<GRProperty<?>>();
+		List<GRProperty<?>> paramsList = new ArrayList<>();
 		paramsList.addAll(GRProperty.getGRParameters(DrawingGraphicalRepresentation.class));
 		paramsList.addAll(GRProperty.getGRParameters(GeometricGraphicalRepresentation.class));
 		paramsList.addAll(GRProperty.getGRParameters(ShapeGraphicalRepresentation.class));
 		paramsList.addAll(GRProperty.getGRParameters(ConnectorGraphicalRepresentation.class));
-		Set<GRProperty<?>> allParams = new HashSet<GRProperty<?>>(paramsList);
+		Set<GRProperty<?>> allParams = new HashSet<>(paramsList);
 		for (GRProperty<?> p : allParams) {
 			fireChangedProperty(p);
 		}

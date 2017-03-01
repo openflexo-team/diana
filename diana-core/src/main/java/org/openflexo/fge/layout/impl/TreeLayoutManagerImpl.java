@@ -77,17 +77,17 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 
 	public TreeLayoutManagerImpl() {
 		super();
-		controlAreas = new ArrayList<ControlArea<?>>();
-		fixedRowHeights = new HashMap<Integer, Double>();
+		controlAreas = new ArrayList<>();
+		fixedRowHeights = new HashMap<>();
 	}
 
 	@Override
 	protected TreeLayout<ShapeNode<?>, ConnectorNode<?>> buildLayout() {
-		layout = new DianaTreeLayout<ShapeNode<?>, ConnectorNode<?>>(getForest(), getSpacingX(), getSpacingY(), getBorderX(), getBorderY());
+		layout = new DianaTreeLayout<>(getForest(), getSpacingX(), getSpacingY(), getBorderX(), getBorderY());
 		// layout.setSize(new Dimension((int) getContainerNode().getWidth(), (int) getContainerNode().getHeight()));
 
-		layoutPositions = new HashMap<ShapeNode<?>, FGERectangle>();
-		rowHeights = new HashMap<Integer, Double>();
+		layoutPositions = new HashMap<>();
+		rowHeights = new HashMap<>();
 
 		for (Integer i : getLayout().getVerticesByRows().keySet()) {
 			double height = getLayout().getSpacingY();

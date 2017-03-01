@@ -75,8 +75,8 @@ import org.openflexo.toolbox.HasPropertyChangeSupport;
  * @param <ME>
  *            technology-specific controlling events type
  */
-public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> extends ToolController<ME> implements
-		PropertyChangeListener, HasPropertyChangeSupport {
+public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> extends ToolController<ME>
+		implements PropertyChangeListener, HasPropertyChangeSupport {
 
 	private static final Logger logger = Logger.getLogger(DrawCustomShapeToolController.class.getPackage().getName());
 
@@ -123,14 +123,14 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 		shape = makeDefaultShape(e);
 		Class<S> shapeClass = (Class<S>) TypeUtils.getTypeArgument(getClass(), DrawCustomShapeToolController.class, 0);
 		geomGR = getFactory().makeGeometricGraphicalRepresentation(shape);
-		GeometricGRBinding<S> editedGeometricObjectBinding = getController().getDrawing().bindGeometric(shapeClass,
-				"editedGeometricObject", new GeometricGRProvider<S>() {
+		GeometricGRBinding<S> editedGeometricObjectBinding = getController().getDrawing().bindGeometric(shapeClass, "editedGeometricObject",
+				new GeometricGRProvider<S>() {
 					@Override
 					public GeometricGraphicalRepresentation provideGR(S drawable, FGEModelFactory factory) {
 						return geomGR;
 					}
 				});
-		currentEditedShapeGeometricNode = new GeometricNodeImpl<S>((DrawingImpl<?>) getController().getDrawing(), shape,
+		currentEditedShapeGeometricNode = new GeometricNodeImpl<>((DrawingImpl<?>) getController().getDrawing(), shape,
 				editedGeometricObjectBinding, (ContainerNodeImpl<?, ?>) getController().getDrawing().getRoot());
 		currentEditedShapeGeometricNode.getPropertyChangeSupport().addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
@@ -151,10 +151,10 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 				geometryChanged();
 			}
 		};*/
-		currentEditedShapeGeometricNode.getGraphicalRepresentation().setBackground(
-				getController().getInspectedBackgroundStyle().cloneStyle());
-		currentEditedShapeGeometricNode.getGraphicalRepresentation().setForeground(
-				getController().getInspectedForegroundStyle().cloneStyle());
+		currentEditedShapeGeometricNode.getGraphicalRepresentation()
+				.setBackground(getController().getInspectedBackgroundStyle().cloneStyle());
+		currentEditedShapeGeometricNode.getGraphicalRepresentation()
+				.setForeground(getController().getInspectedForegroundStyle().cloneStyle());
 		geometryChanged();
 	}
 
@@ -209,7 +209,8 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 		if (getToolAction() != null && parentNode instanceof ContainerNode) {
 			ShapeGraphicalRepresentation newShapeGraphicalRepresentation = buildShapeGraphicalRepresentation();
 			getToolAction().performedDrawNewShape(newShapeGraphicalRepresentation, (ContainerNode<?, ?>) parentNode);
-		} else {
+		}
+		else {
 			System.out.println("toolAction=" + getToolAction());
 			System.out.println("parentNode=" + parentNode);
 			logger.warning("No DrawShapeAction defined !");

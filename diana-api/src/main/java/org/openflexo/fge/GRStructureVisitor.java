@@ -94,10 +94,10 @@ public abstract class GRStructureVisitor<R> {
 	public void startVisiting(DrawingTreeNode<R, ?> node) {
 		this.node = node;
 		drawing = node.getDrawing();
-		createdNodes = new ArrayList<Drawing.DrawingTreeNode<?, ?>>();
-		deletedNodes = new ArrayList<Drawing.DrawingTreeNode<?, ?>>();
-		updatedNodes = new ArrayList<Drawing.DrawingTreeNode<?, ?>>();
-		pendingConnectors = new ArrayList<PendingConnector<?>>();
+		createdNodes = new ArrayList<>();
+		deletedNodes = new ArrayList<>();
+		updatedNodes = new ArrayList<>();
+		pendingConnectors = new ArrayList<>();
 	}
 
 	/**

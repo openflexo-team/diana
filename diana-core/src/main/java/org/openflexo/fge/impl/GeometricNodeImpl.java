@@ -119,7 +119,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 				controlAreas = getControlPoints();
 			}
 			else {
-				ConcatenedList<ControlArea<?>> concatenedControlAreas = new ConcatenedList<ControlArea<?>>();
+				ConcatenedList<ControlArea<?>> concatenedControlAreas = new ConcatenedList<>();
 				concatenedControlAreas.addElementList(getControlPoints());
 				concatenedControlAreas.addElementList(customControlAreas);
 				controlAreas = concatenedControlAreas;
@@ -302,7 +302,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	}
 
 	protected List<ControlPoint> buildControlPointsForPoint(FGEPoint point) {
-		Vector<ControlPoint> returned = new Vector<ControlPoint>();
+		Vector<ControlPoint> returned = new Vector<>();
 		returned.add(new GeometryAdjustingControlPoint<FGEPoint>(this, "point", point.clone()) {
 			@Override
 			public FGEArea getDraggingAuthorizedArea() {
@@ -328,7 +328,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	}
 
 	protected List<ControlPoint> buildControlPointsForLine(FGEAbstractLine<?> line) {
-		Vector<ControlPoint> returned = new Vector<ControlPoint>();
+		Vector<ControlPoint> returned = new Vector<>();
 		returned.add(new GeometryAdjustingControlPoint<FGELine>(this, "p1", line.getP1()) {
 			@Override
 			public FGEArea getDraggingAuthorizedArea() {
@@ -373,7 +373,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	}
 
 	protected List<ControlPoint> buildControlPointsForCurve(FGEQuadCurve curve) {
-		Vector<ControlPoint> returned = new Vector<ControlPoint>();
+		Vector<ControlPoint> returned = new Vector<>();
 		returned.add(new GeometryAdjustingControlPoint<FGEQuadCurve>(this, "p1", curve.getP1()) {
 			@Override
 			public FGEArea getDraggingAuthorizedArea() {
@@ -458,7 +458,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	}
 
 	protected List<ControlPoint> buildControlPointsForCurve(FGECubicCurve curve) {
-		Vector<ControlPoint> returned = new Vector<ControlPoint>();
+		Vector<ControlPoint> returned = new Vector<>();
 		returned.add(new GeometryAdjustingControlPoint<FGECubicCurve>(this, "p1", curve.getP1()) {
 			@Override
 			public FGEArea getDraggingAuthorizedArea() {
@@ -543,7 +543,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	}
 
 	protected List<ControlPoint> buildControlPointsForPolygon(FGEPolygon polygon) {
-		Vector<ControlPoint> returned = new Vector<ControlPoint>();
+		Vector<ControlPoint> returned = new Vector<>();
 
 		for (int i = 0; i < polygon.getPointsNb(); i++) {
 			final int index = i;
@@ -577,7 +577,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	}
 
 	protected List<ControlPoint> buildControlPointsForPolylin(FGEPolylin polylin) {
-		Vector<ControlPoint> returned = new Vector<ControlPoint>();
+		Vector<ControlPoint> returned = new Vector<>();
 
 		for (int i = 0; i < polylin.getPointsNb(); i++) {
 			final int index = i;
@@ -608,13 +608,13 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	}
 
 	protected List<ControlPoint> buildControlPointsForEllips(FGEEllips ellips) {
-		Vector<ControlPoint> returned = new Vector<ControlPoint>();
+		Vector<ControlPoint> returned = new Vector<>();
 		// TODO
 		return returned;
 	}
 
 	protected List<ControlPoint> buildControlPointsForRectangle(FGERectangle rectangle) {
-		Vector<ControlPoint> returned = new Vector<ControlPoint>();
+		Vector<ControlPoint> returned = new Vector<>();
 		returned.add(new GeometryAdjustingControlPoint<FGERectangle>(this, "northWest", rectangle.getNorthWestPt()) {
 			private double initialWidth;
 			private double initialHeight;
@@ -743,7 +743,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	}
 
 	protected List<ControlPoint> buildControlPointsForGeneralShape(FGEGeneralShape<?> shape) {
-		Vector<ControlPoint> returned = new Vector<ControlPoint>();
+		Vector<ControlPoint> returned = new Vector<>();
 
 		returned.add(new GeometryAdjustingControlPoint<FGEGeneralShape<?>>(this, "p0", shape.getPathElements().firstElement().getP1()) {
 			@Override
@@ -823,7 +823,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	@Override
 	public List<ControlPoint> rebuildControlPoints() {
 		if (controlPoints == null) {
-			controlPoints = new Vector<ControlPoint>();
+			controlPoints = new Vector<>();
 		}
 		controlPoints.clear();
 

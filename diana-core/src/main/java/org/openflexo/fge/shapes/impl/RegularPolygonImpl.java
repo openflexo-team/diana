@@ -71,7 +71,7 @@ public abstract class RegularPolygonImpl extends PolygonImpl implements RegularP
 
 	public RegularPolygonImpl(ShapeGraphicalRepresentation aGraphicalRepresentation, List<FGEPoint> points) {
 		this();
-		setPoints(new ArrayList<FGEPoint>(points));
+		setPoints(new ArrayList<>(points));
 	}
 
 	public RegularPolygonImpl(ShapeGraphicalRepresentation aGraphicalRepresentation, int pointsNb) {

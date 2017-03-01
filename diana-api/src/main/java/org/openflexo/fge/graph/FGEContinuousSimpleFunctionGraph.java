@@ -249,7 +249,7 @@ public class FGEContinuousSimpleFunctionGraph<X extends Number> extends FGESimpl
 	@Override
 	protected Iterator<X> iterateParameter() {
 
-		List<X> returned = new ArrayList<X>();
+		List<X> returned = new ArrayList<>();
 
 		// System.out.println("On itere pour FGEContinuousSimpleFunctionGraph");
 		// System.out.println("stepsNumber=" + getStepsNumber());

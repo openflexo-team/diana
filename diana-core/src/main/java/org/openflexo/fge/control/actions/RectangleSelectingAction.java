@@ -114,7 +114,8 @@ public class RectangleSelectingAction extends MouseDragControlActionImpl<DianaIn
 			List<DrawingTreeNode<?, ?>> newFocusSelection;
 			if (node instanceof ContainerNode) {
 				newFocusSelection = buildCurrentSelection((ContainerNode<?, ?>) node, controller);
-			} else {
+			}
+			else {
 				newFocusSelection = Collections.emptyList();
 			}
 			controller.setFocusedObjects(newFocusSelection);
@@ -134,7 +135,7 @@ public class RectangleSelectingAction extends MouseDragControlActionImpl<DianaIn
 		if (getRectangleSelection() == null) {
 			return null;
 		}
-		List<DrawingTreeNode<?, ?>> returned = new Vector<DrawingTreeNode<?, ?>>();
+		List<DrawingTreeNode<?, ?>> returned = new Vector<>();
 		for (DrawingTreeNode<?, ?> child : node.getChildNodes()) {
 			if (child.getGraphicalRepresentation().getIsVisible()) {
 				if (child.isContainedInSelection(getRectangleSelection(), controller.getScale())) {
@@ -161,19 +162,22 @@ public class RectangleSelectingAction extends MouseDragControlActionImpl<DianaIn
 			if (rectangleSelectingOriginInDrawingView.x <= currentMousePositionInDrawingView.x) {
 				origin.x = rectangleSelectingOriginInDrawingView.x;
 				dim.width = currentMousePositionInDrawingView.x - rectangleSelectingOriginInDrawingView.x;
-			} else {
+			}
+			else {
 				origin.x = currentMousePositionInDrawingView.x;
 				dim.width = rectangleSelectingOriginInDrawingView.x - currentMousePositionInDrawingView.x;
 			}
 			if (rectangleSelectingOriginInDrawingView.y <= currentMousePositionInDrawingView.y) {
 				origin.y = rectangleSelectingOriginInDrawingView.y;
 				dim.height = currentMousePositionInDrawingView.y - rectangleSelectingOriginInDrawingView.y;
-			} else {
+			}
+			else {
 				origin.y = currentMousePositionInDrawingView.y;
 				dim.height = rectangleSelectingOriginInDrawingView.y - currentMousePositionInDrawingView.y;
 			}
 			return new Rectangle(origin, dim);
-		} else {
+		}
+		else {
 			return null;
 		}
 	}

@@ -93,7 +93,7 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 
 	public CurveConnector(ConnectorNode<?> connectorNode) {
 		super(connectorNode);
-		controlPoints = new ArrayList<ControlPoint>();
+		controlPoints = new ArrayList<>();
 	}
 
 	@Override
@@ -232,11 +232,12 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 			public FGEArea getDraggingAuthorizedArea() {
 				if (getAreBoundsAdjustable()) {
 					FGEShape<?> shape = getStartNode().getFGEShape();
-					FGEShape<?> returned = (FGEShape<?>) shape.transform(FGEUtils.convertNormalizedCoordinatesAT(getStartNode(),
-							connectorNode));
+					FGEShape<?> returned = (FGEShape<?>) shape
+							.transform(FGEUtils.convertNormalizedCoordinatesAT(getStartNode(), connectorNode));
 					returned.setIsFilled(false);
 					return returned;
-				} else {
+				}
+				else {
 					return new FGEEmptyArea();
 				}
 			}
@@ -261,11 +262,12 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 			public FGEArea getDraggingAuthorizedArea() {
 				if (getAreBoundsAdjustable()) {
 					FGEShape<?> shape = getEndNode().getFGEShape();
-					FGEShape<?> returned = (FGEShape<?>) shape.transform(FGEUtils.convertNormalizedCoordinatesAT(getEndNode(),
-							connectorNode));
+					FGEShape<?> returned = (FGEShape<?>) shape
+							.transform(FGEUtils.convertNormalizedCoordinatesAT(getEndNode(), connectorNode));
 					returned.setIsFilled(false);
 					return returned;
-				} else {
+				}
+				else {
 					return new FGEEmptyArea();
 				}
 			}
@@ -525,7 +527,8 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 		if (getConnectorNode() == null) {
 			// logger.warning("Called getPropertyValue() for null ConnectorNode");
 			return;
-		} else if (getConnectorNode().isDeleted()) {
+		}
+		else if (getConnectorNode().isDeleted()) {
 			// logger.warning("Called getPropertyValue() for deleted ConnectorNode");
 			return;
 		}

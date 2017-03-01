@@ -145,8 +145,8 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	public GraphicalRepresentationImpl() {
 		super();
 
-		mouseClickControls = new ArrayList<MouseClickControl<?>>();
-		mouseDragControls = new ArrayList<MouseDragControl<?>>();
+		mouseClickControls = new ArrayList<>();
+		mouseDragControls = new ArrayList<>();
 
 	}
 
@@ -1229,14 +1229,14 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 			mouseClickControls.add(mouseClickControl);
 		}
 		setChanged();
-		notifyObservers(new FGEAttributeNotification<List>(MOUSE_CLICK_CONTROLS, mouseClickControls, mouseClickControls));
+		notifyObservers(new FGEAttributeNotification<>(MOUSE_CLICK_CONTROLS, mouseClickControls, mouseClickControls));
 	}
 
 	@Override
 	public void removeFromMouseClickControls(MouseClickControl<?> mouseClickControl) {
 		mouseClickControls.remove(mouseClickControl);
 		setChanged();
-		notifyObservers(new FGEAttributeNotification<List>(MOUSE_CLICK_CONTROLS, mouseClickControls, mouseClickControls));
+		notifyObservers(new FGEAttributeNotification<>(MOUSE_CLICK_CONTROLS, mouseClickControls, mouseClickControls));
 	}
 
 	@Override
@@ -1277,14 +1277,14 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 			mouseDragControls.add(mouseDragControl);
 		}
 		setChanged();
-		notifyObservers(new FGEAttributeNotification<List>(MOUSE_DRAG_CONTROLS, mouseDragControls, mouseDragControls));
+		notifyObservers(new FGEAttributeNotification<>(MOUSE_DRAG_CONTROLS, mouseDragControls, mouseDragControls));
 	}
 
 	@Override
 	public void removeFromMouseDragControls(MouseDragControl<?> mouseDragControl) {
 		mouseDragControls.remove(mouseDragControl);
 		setChanged();
-		notifyObservers(new FGEAttributeNotification<List>(MOUSE_DRAG_CONTROLS, mouseDragControls, mouseDragControls));
+		notifyObservers(new FGEAttributeNotification<>(MOUSE_DRAG_CONTROLS, mouseDragControls, mouseDragControls));
 	}
 
 	@Override
@@ -1518,9 +1518,9 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 		// if (getParentGraphicalRepresentation() != null) {
 		_bindingModel.addToBindingVariables(new BindingVariable(DrawingTreeNode.PARENT_KEY,
 				ContainerGraphicalRepresentation.class/*getParentGraphicalRepresentation().getClass()*/));
-				// }
-				/*_bindingModel.addToBindingVariables(new BindingVariable("components", new ParameterizedTypeImpl(List.class,
-								GraphicalRepresentation.class)));*/
+		// }
+		/*_bindingModel.addToBindingVariables(new BindingVariable("components", new ParameterizedTypeImpl(List.class,
+						GraphicalRepresentation.class)));*/
 
 		/*_bindingModel.addToBindingVariables(new GRBindingFactory.ComponentPathElement("this", this, this));
 		if (getParentGraphicalRepresentation() != null) {

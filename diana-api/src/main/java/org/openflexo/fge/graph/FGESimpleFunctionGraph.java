@@ -131,7 +131,7 @@ public abstract class FGESimpleFunctionGraph<X> extends FGESingleParameteredGrap
 
 		List<FunctionSample<X, T>> samples = function.retrieveSamples(this);
 
-		List<FGEPoint> points = new ArrayList<FGEPoint>();
+		List<FGEPoint> points = new ArrayList<>();
 
 		for (FunctionSample<X, T> s : samples) {
 			FGEPoint pt;
@@ -155,7 +155,7 @@ public abstract class FGESimpleFunctionGraph<X> extends FGESingleParameteredGrap
 			case POLYLIN:
 				return new FunctionRepresentation(new FGEPolylin(points), function.getForegroundStyle(), function.getBackgroundStyle());
 			case RECT_POLYLIN:
-				List<FGEPoint> rectPoints = new ArrayList<FGEPoint>();
+				List<FGEPoint> rectPoints = new ArrayList<>();
 				double delta = (double) 1 / points.size() / 2;
 				for (FGEPoint pt : points) {
 					if (getParameterOrientation() == Orientation.HORIZONTAL) {
@@ -172,7 +172,7 @@ public abstract class FGESimpleFunctionGraph<X> extends FGESingleParameteredGrap
 				return new FunctionRepresentation(new FGEComplexCurve(Closure.OPEN_NOT_FILLED, points), function.getForegroundStyle(),
 						function.getBackgroundStyle());
 			case BAR_GRAPH:
-				List<FGERectangle> rectangles = new ArrayList<FGERectangle>();
+				List<FGERectangle> rectangles = new ArrayList<>();
 				double sampleSize = (double) 1 / points.size();
 				double barWidth = 0.8 * sampleSize / getNumberOfFunctionsOfType(FGEGraphType.BAR_GRAPH);
 				double barSpacing = sampleSize / 10;

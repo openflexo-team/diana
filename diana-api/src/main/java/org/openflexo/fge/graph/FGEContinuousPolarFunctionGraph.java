@@ -127,7 +127,7 @@ public class FGEContinuousPolarFunctionGraph extends FGEPolarFunctionGraph<Doubl
 	@Override
 	protected Iterator<Double> iterateParameter() {
 
-		List<Double> returned = new ArrayList<Double>();
+		List<Double> returned = new ArrayList<>();
 
 		if (getStepsNumber() > -1) {
 			for (int i = 0; i < getStepsNumber() + 1; i++) {

@@ -142,7 +142,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	/**
 	 * Store temporary properties that may not be serialized
 	 */
-	private Map<GRProperty, Object> propertyValues = new HashMap<GRProperty, Object>();
+	private Map<GRProperty, Object> propertyValues = new HashMap<>();
 
 	protected DrawingTreeNodeImpl(DrawingImpl<?> drawingImpl, O drawable, GRBinding<O, GR> grBinding, ContainerNodeImpl<?, ?> parentNode) {
 
@@ -159,12 +159,12 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 		hash.put(drawable, this);
 
-		propertyValues = new HashMap<GRProperty, Object>();
+		propertyValues = new HashMap<>();
 
 		retrieveGraphicalRepresentation();
 
-		dependancies = new ArrayList<ConstraintDependency>();
-		alterings = new ArrayList<ConstraintDependency>();
+		dependancies = new ArrayList<>();
+		alterings = new ArrayList<>();
 
 		// controlAreas = new ArrayList<ControlArea<?>>();
 
@@ -199,7 +199,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		private Map<DynamicPropertyValue<?>, BindingValueChangeListener<?>> listeners;
 
 		public BindingValueObserver() {
-			listeners = new HashMap<GRBinding.DynamicPropertyValue<?>, BindingValueChangeListener<?>>();
+			listeners = new HashMap<>();
 			for (final DynamicPropertyValue<?> dpv : getGRBinding().getDynamicPropertyValues()) {
 				registerBindingValueChangeListener(dpv);
 			}
@@ -337,7 +337,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	@Override
 	public List<DrawingTreeNode<?, ?>> getAncestors() {
-		List<DrawingTreeNode<?, ?>> ancestors = new ArrayList<DrawingTreeNode<?, ?>>();
+		List<DrawingTreeNode<?, ?>> ancestors = new ArrayList<>();
 		ancestors.add(this);
 		if (parentNode != null) {
 			ancestors.addAll(parentNode.getAncestors());
@@ -552,7 +552,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		}
 		// Look if this dependancy may cause a loop in dependancies
 		try {
-			List<DrawingTreeNode<?, ?>> actualDependancies = new Vector<DrawingTreeNode<?, ?>>();
+			List<DrawingTreeNode<?, ?>> actualDependancies = new Vector<>();
 			actualDependancies.add(aNode);
 			searchLoopInDependenciesWith(aNode, actualDependancies);
 		} catch (DependencyLoopException e) {
@@ -579,7 +579,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			if (c == this) {
 				throw new DependencyLoopException(actualDependancies);
 			}
-			Vector<DrawingTreeNode<?, ?>> newVector = new Vector<DrawingTreeNode<?, ?>>();
+			Vector<DrawingTreeNode<?, ?>> newVector = new Vector<>();
 			newVector.addAll(actualDependancies);
 			newVector.add(c);
 			searchLoopInDependenciesWith(c, newVector);
@@ -590,7 +590,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	// * Observer implementation *
 	// *******************************************************************************
 
-	protected Set<HasPropertyChangeSupport> temporaryIgnoredObservables = new HashSet<HasPropertyChangeSupport>();
+	protected Set<HasPropertyChangeSupport> temporaryIgnoredObservables = new HashSet<>();
 
 	/**
 	 * 
@@ -756,7 +756,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	public <T> void notifyAttributeChanged(GRProperty<T> parameter, T oldValue, T newValue) {
 		propagateConstraintsAfterModification(parameter);
 		setChanged();
-		notifyObservers(new FGEAttributeNotification<T>(parameter, oldValue, newValue));
+		notifyObservers(new FGEAttributeNotification<>(parameter, oldValue, newValue));
 	}
 
 	public void forward(PropertyChangeEvent evt) {
@@ -1056,7 +1056,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		if (aFlag != isFocused) {
 			isFocused = aFlag;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification<Boolean>(IS_FOCUSED, !isFocused, isFocused));
+			notifyObservers(new FGEAttributeNotification<>(IS_FOCUSED, !isFocused, isFocused));
 		}
 	}
 
@@ -1070,7 +1070,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		if (aFlag != isSelected) {
 			isSelected = aFlag;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification<Boolean>(IS_SELECTED, !isSelected, isSelected));
+			notifyObservers(new FGEAttributeNotification<>(IS_SELECTED, !isSelected, isSelected));
 		}
 	}
 
@@ -1335,13 +1335,10 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 					value = getGRBinding().getDynamicPropertyValue(GraphicalRepresentation.TEXT).dataBinding
 							.getBindingValue(getBindingEvaluationContext());
 				} catch (TypeMismatchException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (NullReferenceException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				System.out.println("valeur=" + value);

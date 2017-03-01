@@ -72,7 +72,7 @@ public abstract class RadialTreeLayoutManagerImpl<O> extends TreeBasedLayoutMana
 
 	@Override
 	protected RadialTreeLayout<ShapeNode<?>, ConnectorNode<?>> buildLayout() {
-		layout = new RadialTreeLayout<ShapeNode<?>, ConnectorNode<?>>(getForest());
+		layout = new RadialTreeLayout<>(getForest());
 		layout.setSize(new Dimension((int) getContainerNode().getWidth(), (int) getContainerNode().getHeight()));
 		return layout;
 	}
@@ -108,7 +108,7 @@ public abstract class RadialTreeLayoutManagerImpl<O> extends TreeBasedLayoutMana
 		g.setDefaultForeground(getFactory().makeForegroundStyle(Color.GRAY, 1, DashStyle.DOTS_DASHES));
 		g.useDefaultForegroundStyle();
 
-		Set<Double> radiuses = new HashSet<Double>();
+		Set<Double> radiuses = new HashSet<>();
 
 		for (ShapeNode<?> n : getGraph().getVertices()) {
 			PolarPoint pp = getLayout().getPolarLocations().get(n);

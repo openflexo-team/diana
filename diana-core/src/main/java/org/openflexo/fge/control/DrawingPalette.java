@@ -94,7 +94,7 @@ public class DrawingPalette implements HasPropertyChangeSupport {
 		this.width = width;
 		this.height = height;
 		this.title = title;
-		elements = new ArrayList<PaletteElement>();
+		elements = new ArrayList<>();
 		if (logger.isLoggable(Level.FINE)) {
 			logger.fine("Build palette " + title + " " + Integer.toHexString(hashCode()) + " of " + getClass().getName());
 		}
