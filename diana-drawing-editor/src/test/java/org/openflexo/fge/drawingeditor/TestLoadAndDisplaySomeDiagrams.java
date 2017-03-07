@@ -88,7 +88,6 @@ public class TestLoadAndDisplaySomeDiagrams {
 						((EditingContextImpl) EDITING_CONTEXT).createUndoManager();
 						FACTORY = new DiagramFactory(EDITING_CONTEXT);
 					} catch (ModelDefinitionException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					/*tabbedPane = new JTabbedPane();
@@ -156,122 +155,122 @@ public class TestLoadAndDisplaySomeDiagrams {
 	public void testExampleEOModel() {
 		deserialize(new FileResource("DrawingExamples/ExampleEOModel.drw"));
 	}
-
+	
 	@Test
 	public void testTestFocusSelection() {
 		deserialize(new FileResource("DrawingExamples/TestFocusSelection.drw"));
 	}
-
+	
 	@Test
 	public void testTestInspector() {
 		deserialize(new FileResource("DrawingExamples/TestInspector.drw"));
 	}
-
+	
 	@Test
 	public void testExampleEOModel2() {
 		deserialize(new FileResource("DrawingExamples/ExampleEOModel2.drw"));
 	}
-
+	
 	@Test
 	public void testTestInspector2() {
 		deserialize(new FileResource("DrawingExamples/TestInspector2.drw"));
 	}
-
+	
 	@Test
 	public void testNewPolylinDragging() {
 		deserialize(new FileResource("DrawingExamples/NewPolylinDragging.drw"));
 	}
-
+	
 	@Test
 	public void testTestLabel() {
 		deserialize(new FileResource("DrawingExamples/TestLabel.drw"));
 	}
-
+	
 	@Test
 	public void testShapeGraphicalRepresentation() {
 		deserialize(new FileResource("DrawingExamples/ShapeGraphicalRepresentation.drw"));
 	}
-
+	
 	@Test
 	public void testTestLayout1() {
 		deserialize(new FileResource("DrawingExamples/TestLayout1.drw"));
 	}
-
+	
 	@Test
 	public void testShapes() {
 		deserialize(new FileResource("DrawingExamples/Shapes.drw"));
 	}
-
+	
 	@Test
 	public void testTestLayout2() {
 		deserialize(new FileResource("DrawingExamples/TestLayout2.drw"));
 	}
-
+	
 	@Test
 	public void testTestAdjustableRectPolylinConnector() {
 		deserialize(new FileResource("DrawingExamples/TestAdjustableRectPolylinConnector.drw"));
 	}
-
+	
 	@Test
 	public void testTestLayout3() {
 		deserialize(new FileResource("DrawingExamples/TestLayout3.drw"));
 	}
-
+	
 	@Test
 	public void testTestConnectorSymbols() {
 		deserialize(new FileResource("DrawingExamples/TestConnectorSymbols.drw"));
 	}
-
+	
 	@Test
 	public void testTestOrthogonalLayout() {
 		deserialize(new FileResource("DrawingExamples/TestOrthogonalLayout.drw"));
 	}
-
+	
 	@Test
 	public void testTestConnectors() {
 		deserialize(new FileResource("DrawingExamples/TestConnectors.drw"));
 	}
-
+	
 	@Test
 	public void testTestConnectors2() {
 		deserialize(new FileResource("DrawingExamples/TestConnectors2.drw"));
 	}
-
+	
 	@Test
 	public void testTestRectPolylinConnector() {
 		deserialize(new FileResource("DrawingExamples/TestRectPolylinConnector.drw"));
 	}
-
+	
 	@Test
 	public void testTestCurve() {
 		deserialize(new FileResource("DrawingExamples/TestCurve.drw"));
 	}
-
+	
 	@Test
 	public void testTestRepaint() {
 		deserialize(new FileResource("DrawingExamples/TestRepaint.drw"));
 	}
-
+	
 	@Test
 	public void testTestCurvedConnector() {
 		deserialize(new FileResource("DrawingExamples/TestCurvedConnector.drw"));
 	}
-
+	
 	@Test
 	public void testTestShape1() {
 		deserialize(new FileResource("DrawingExamples/TestShape1.drw"));
 	}
-
+	
 	@Test
 	public void testTestDrag() {
 		deserialize(new FileResource("DrawingExamples/TestDrag.drw"));
 	}
-
+	
 	@Test
 	public void testTestDragMiddleSymbol() {
 		deserialize(new FileResource("DrawingExamples/TestDragMiddleSymbol.drw"));
 	}
-
+	
 	@Test
 	public void testVoitureDeLouise() {
 		deserialize(new FileResource("DrawingExamples/VoitureDeLouise.drw"));

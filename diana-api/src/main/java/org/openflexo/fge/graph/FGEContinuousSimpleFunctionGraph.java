@@ -352,7 +352,8 @@ public class FGEContinuousSimpleFunctionGraph<X extends Number> extends FGESimpl
 			// System.out.println("Major tick spacing = " + getParameterMajorTickSpacing());
 			// System.out.println("Minor tick spacing = " + getParameterMinorTickSpacing());
 
-			double y0 = getNormalizedPosition((X) new Double(0));
+			// Unused double y0 =
+			getNormalizedPosition((X) new Double(0));
 
 			if (getDisplayMinorTicks()) {
 				double minMTS = ((int) getParameterMinValue().doubleValue() / getParameterMinorTickSpacing().doubleValue())

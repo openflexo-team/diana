@@ -77,10 +77,8 @@ public class LaunchCircularLayoutExample {
 		try {
 			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -91,7 +89,7 @@ public class LaunchCircularLayoutExample {
 		// private final JPopupMenu contextualMenu;
 		private final JDianaScaleSelector scaleSelector;
 
-		public TestDrawingController(Drawing aDrawing) {
+		public TestDrawingController(Drawing<TestGraph> aDrawing) {
 			super(aDrawing, aDrawing.getFactory(), SwingViewFactory.INSTANCE, SwingToolFactory.DEFAULT);
 			scaleSelector = (JDianaScaleSelector) getToolFactory().makeDianaScaleSelector(this);
 			// contextualMenu = new JPopupMenu();
@@ -107,7 +105,7 @@ public class LaunchCircularLayoutExample {
 
 		// final TestInspector inspector = new TestInspector();
 
-		final Drawing<?> d = makeDrawing();
+		final Drawing<TestGraph> d = makeDrawing();
 		final TestDrawingController dc = new TestDrawingController(d);
 		// dc.disablePaintingCache();
 		dc.getDrawingView().setName("[NO_CACHE]");

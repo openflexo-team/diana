@@ -558,7 +558,6 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 
 	@Override
 	public BindingModel getBindingModel() {
-		// TODO Auto-generated method stub
 		return super.getBindingModel();
 	}
 

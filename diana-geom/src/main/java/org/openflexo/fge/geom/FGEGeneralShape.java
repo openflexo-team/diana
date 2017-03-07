@@ -274,7 +274,6 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 
 	@Override
 	public boolean containsArea(FGEArea a) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -294,19 +293,16 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 
 	@Override
 	public FGEArea exclusiveOr(FGEArea area) {
-		// TODO Auto-generated method stub
 		return this;
 	}
 
 	@Override
 	public FGEArea getAnchorAreaFrom(org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection direction) {
-		// TODO Auto-generated method stub
 		return this;
 	}
 
 	@Override
 	public FGEPoint getNearestPoint(FGEPoint aPoint) {
-		// TODO Auto-generated method stub
 		return aPoint;
 	}
 
@@ -404,7 +400,6 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 
 	@Override
 	public boolean contains(Rectangle2D r) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

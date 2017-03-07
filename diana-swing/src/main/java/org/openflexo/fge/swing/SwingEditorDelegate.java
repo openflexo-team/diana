@@ -135,7 +135,8 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 			if (newFocusedObject != null) {
 				getPaintManager().repaint(newFocusedObject);
 			}
-		} else {
+		}
+		else {
 			// @brutal mode
 			getPaintManager().repaint(getDrawingView());
 		}
@@ -201,7 +202,8 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 				return true;
 			}
 			return false;
-		} else if (keyDrivenMovingSessionTimer != null) {
+		}
+		else if (keyDrivenMovingSessionTimer != null) {
 			doMoveInSession(deltaX, deltaY);
 			return true;
 		}
@@ -228,7 +230,8 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 			// notifyWillMove(keyDrivenMovingSession);
 			objectsStartMoving(keyDrivenMovingSession.getMovedObjects());
 			return true;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -253,7 +256,6 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 				try {
 					sleep(500);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

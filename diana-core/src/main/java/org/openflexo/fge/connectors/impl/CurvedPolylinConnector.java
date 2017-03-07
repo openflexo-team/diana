@@ -148,7 +148,6 @@ public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnector
 
 	@Override
 	public FGEPoint getMiddleSymbolLocation() {
-		// TODO Auto-generated method stub
 		return new FGEPoint(0.5, 0.5);
 	}
 
