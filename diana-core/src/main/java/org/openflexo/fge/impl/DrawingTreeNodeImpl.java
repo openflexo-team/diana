@@ -38,9 +38,7 @@
 
 package org.openflexo.fge.impl;
 
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -58,7 +56,6 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.openflexo.connie.BindingEvaluationContext;
 import org.openflexo.connie.BindingVariable;
 import org.openflexo.connie.DataBinding;
@@ -669,10 +666,15 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 * @return
 	 */
 	private boolean eventMightRequireStructureModification(PropertyChangeEvent evt, O drawable) {
-		if (evt.getPropertyName().equals(ProxyMethodHandler.MODIFIED)) {
-			return false;
+		String propertyName = evt.getPropertyName();
+		switch (propertyName) {
+			case ProxyMethodHandler.MODIFIED:
+			case ProxyMethodHandler.SERIALIZING:
+			case ProxyMethodHandler.DESERIALIZING:
+				return false;
+			default:
+				return true;
 		}
-		return true;
 	}
 
 	@Override

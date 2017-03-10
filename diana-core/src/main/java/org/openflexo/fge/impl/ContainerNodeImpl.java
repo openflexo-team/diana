@@ -38,8 +38,7 @@
 
 package org.openflexo.fge.impl;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,7 +46,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.fge.ContainerGraphicalRepresentation;
@@ -135,6 +133,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		FGELayoutManager<?, O> oldDefaultLayoutManager = getDefaultLayoutManager();
 		List<FGELayoutManager<?, O>> lmToRemove = new ArrayList<>(getLayoutManagers());
 		for (FGELayoutManagerSpecification<?> spec : getGraphicalRepresentation().getLayoutManagerSpecifications()) {
+			if (spec.isDeleted()) continue;
+
 			boolean found = false;
 			for (FGELayoutManager<?, ?> lm : getLayoutManagers()) {
 				if (lm.getLayoutManagerSpecification() == spec) {
