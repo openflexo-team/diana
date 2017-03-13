@@ -59,7 +59,6 @@ import org.openflexo.model.exceptions.ModelDefinitionException;
 
 public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepresentation> implements RootNode<M> {
 
-	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(RootNodeImpl.class.getPackage().getName());
 
 	private BackgroundStyle bgStyle;

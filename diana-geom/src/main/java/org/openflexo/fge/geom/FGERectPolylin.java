@@ -98,7 +98,7 @@ public class FGERectPolylin extends FGEPolylin {
 	}
 
 	private static List<FGEPoint> makeList(FGEPoint... points) {
-		Vector<FGEPoint> returned = new Vector<FGEPoint>();
+		Vector<FGEPoint> returned = new Vector<>();
 		for (FGEPoint pt : points) {
 			returned.add(pt);
 		}
@@ -148,7 +148,7 @@ public class FGERectPolylin extends FGEPolylin {
 		this.endOrientation = endOrientation;
 		this.straightWhenPossible = straightWhenPossible;
 
-		// logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  FGERectPolylin BEGIN");
+		// logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FGERectPolylin BEGIN");
 
 		if (overlapX < 0) {
 			logger.warning("Called FGERectPolylin with negative overlapX: " + overlapX);
@@ -268,7 +268,8 @@ public class FGERectPolylin extends FGEPolylin {
 							returned = tried;
 							bestNbOfPoints = tried.getPointsNb();
 							bestLength = tried.getLength();
-						} else if (tried.doesRespectAllConstraints() && tried.getPointsNb() == bestNbOfPoints) {
+						}
+						else if (tried.doesRespectAllConstraints() && tried.getPointsNb() == bestNbOfPoints) {
 							if (tried.getLength() < bestLength) {
 								returned = tried;
 								bestNbOfPoints = tried.getPointsNb();
@@ -303,8 +304,8 @@ public class FGERectPolylin extends FGEPolylin {
 					if (excludedEndOrientations == null || !excludedEndOrientations.contains(endOrientation)) {
 						FGERectPolylin tried = new FGERectPolylin(startArea, startOrientation, endArea, endOrientation,
 								straightWhenPossible, overlapX, overlapY);
-						double distance = FGEPoint
-								.distance(tried.getNearestPoint(minimizeDistanceToThisPoint), minimizeDistanceToThisPoint);
+						double distance = FGEPoint.distance(tried.getNearestPoint(minimizeDistanceToThisPoint),
+								minimizeDistanceToThisPoint);
 						if (tried.doesRespectAllConstraints() && distance < bestDistance) {
 							returned = tried;
 							bestDistance = distance;
@@ -413,7 +414,8 @@ public class FGERectPolylin extends FGEPolylin {
 							returned = tried;
 							bestNbOfPoints = tried.getPointsNb();
 							bestLength = tried.getLength();
-						} else if (tried.doesRespectAllConstraints() && tried.getPointsNb() == bestNbOfPoints) {
+						}
+						else if (tried.doesRespectAllConstraints() && tried.getPointsNb() == bestNbOfPoints) {
 							if (tried.getLength() < bestLength) {
 								returned = tried;
 								bestNbOfPoints = tried.getPointsNb();
@@ -451,8 +453,8 @@ public class FGERectPolylin extends FGEPolylin {
 						FGEArea endArea = endAreaProvider.getArea(endOrientation);
 						FGERectPolylin tried = new FGERectPolylin(startArea, startOrientation, endArea, endOrientation,
 								straightWhenPossible, overlapX, overlapY);
-						double distance = FGEPoint
-								.distance(tried.getNearestPoint(minimizeDistanceToThisPoint), minimizeDistanceToThisPoint);
+						double distance = FGEPoint.distance(tried.getNearestPoint(minimizeDistanceToThisPoint),
+								minimizeDistanceToThisPoint);
 						if (tried.doesRespectAllConstraints() && distance < bestDistance) {
 							returned = tried;
 							bestDistance = distance;
@@ -519,7 +521,7 @@ public class FGERectPolylin extends FGEPolylin {
 	 {
 	     System.out.println("excludedStartOrientations="+excludedStartOrientations);
 	     System.out.println("excludedEndOrientations="+excludedEndOrientations);
-
+	
 	     FGERectPolylin polylin = makeShortestRectPolylin(
 	             startArea,
 	             endArea,
@@ -535,7 +537,7 @@ public class FGERectPolylin extends FGEPolylin {
 	     = SimplifiedCardinalDirection.allDirectionsExcept(orientation.getOpposite());
 	     Vector<SimplifiedCardinalDirection> polylin2ExcludedStartOrientations
 	     = SimplifiedCardinalDirection.allDirectionsExcept(orientation);
-
+	
 	     FGERectPolylin polylin1 = makeShortestRectPolylin(
 	             startArea,
 	             crossedPoint,
@@ -608,7 +610,7 @@ public class FGERectPolylin extends FGEPolylin {
 					     = SimplifiedCardinalDirection.allDirectionsExcept(orientation1);
 					     Vector<SimplifiedCardinalDirection> polylin2ExcludedStartOrientations
 					     = SimplifiedCardinalDirection.allDirectionsExcept(orientation2);
-
+					
 					     FGERectPolylin polylin1 = makeShortestRectPolylin(
 					             startArea,
 					             crossedPoint,
@@ -638,7 +640,8 @@ public class FGERectPolylin extends FGEPolylin {
 							// In this case, crossedPoint is belonging to a segment
 							cornerChoosen = false;
 							tried = mergePolylins(polylin1, 0, polylin1.getPointsNb() - 2, polylin2, 1, polylin2.getPointsNb() - 1);
-						} else {
+						}
+						else {
 							// In this case, crossedPoint is a corner, take all points of polylin1 and concatenate it
 							// with all points of polylin2 except the first one (which is also crossedPoint)
 							cornerChoosen = true;
@@ -758,7 +761,7 @@ public class FGERectPolylin extends FGEPolylin {
 					     = SimplifiedCardinalDirection.allDirectionsExcept(orientation1);
 					     Vector<SimplifiedCardinalDirection> polylin2ExcludedStartOrientations
 					     = SimplifiedCardinalDirection.allDirectionsExcept(orientation2);
-
+					
 					     FGERectPolylin polylin1 = makeShortestRectPolylin(
 					             startArea,
 					             crossedPoint,
@@ -788,7 +791,8 @@ public class FGERectPolylin extends FGEPolylin {
 							// In this case, crossedPoint is belonging to a segment
 							cornerChoosen = false;
 							tried = mergePolylins(polylin1, 0, polylin1.getPointsNb() - 2, polylin2, 1, polylin2.getPointsNb() - 1);
-						} else {
+						}
+						else {
 							// In this case, crossedPoint is a corner, take all points of polylin1 and concatenate it
 							// with all points of polylin2 except the first one (which is also crossedPoint)
 							cornerChoosen = true;
@@ -875,7 +879,7 @@ public class FGERectPolylin extends FGEPolylin {
 	     FGERectPolylin returned = null;
 	     int bestNbOfPoints = Integer.MAX_VALUE;
 	     double bestLength = Double.POSITIVE_INFINITY;
-
+	
 	     for (SimplifiedCardinalDirection orientation : SimplifiedCardinalDirection.values()) {
 	         Vector<SimplifiedCardinalDirection> polylin1ExcludedEndOrientations
 	         = SimplifiedCardinalDirection.allDirectionsExcept(orientation.getOpposite());
@@ -923,10 +927,9 @@ public class FGERectPolylin extends FGEPolylin {
 	public boolean crossedItSelf() {
 		for (FGESegment s1 : getSegments()) {
 			for (FGESegment s2 : getSegments()) {
-				if (s1 != s2
-						&& (s1.overlap(s2) || s1.intersectsInsideSegment(s2) && !s1.getLineIntersection(s2).equals(s1.getP1())
-								&& !s1.getLineIntersection(s2).equals(s1.getP2()) && !s1.getLineIntersection(s2).equals(s2.getP1())
-								&& !s1.getLineIntersection(s2).equals(s2.getP2()))) {
+				if (s1 != s2 && (s1.overlap(s2) || s1.intersectsInsideSegment(s2) && !s1.getLineIntersection(s2).equals(s1.getP1())
+						&& !s1.getLineIntersection(s2).equals(s1.getP2()) && !s1.getLineIntersection(s2).equals(s2.getP1())
+						&& !s1.getLineIntersection(s2).equals(s2.getP2()))) {
 					return true;
 				}
 			}
@@ -954,7 +957,8 @@ public class FGERectPolylin extends FGEPolylin {
 		for (int i = startIndex1; i <= endIndex1; i++) {
 			if (previous != null && previous.equals(p1.getPointAt(i))) {
 				// System.out.println("ignore point: "+previous);
-			} else {
+			}
+			else {
 				returned.addToPoints(p1.getPointAt(i));
 			}
 			previous = p1.getPointAt(i);
@@ -962,7 +966,8 @@ public class FGERectPolylin extends FGEPolylin {
 		for (int i = startIndex2; i <= endIndex2; i++) {
 			if (previous != null && previous.equals(p2.getPointAt(i))) {
 				// System.out.println("ignore point: "+previous);
-			} else {
+			}
+			else {
 				returned.addToPoints(p2.getPointAt(i));
 			}
 			previous = p2.getPointAt(i);
@@ -973,7 +978,8 @@ public class FGERectPolylin extends FGEPolylin {
 	private void computeResultingOrthogonalPerspectiveAreas() {
 		if (startOrientation != null) {
 			resultingStartArea = startArea.getOrthogonalPerspectiveArea(startOrientation);
-		} else {
+		}
+		else {
 			resultingStartArea = new FGEEmptyArea();
 		}
 
@@ -985,7 +991,8 @@ public class FGERectPolylin extends FGEPolylin {
 			   System.out.println("north2="+north2);
 			   System.out.println("result="+resultingEndArea.intersect(north2));*/
 			// resultingEndArea = resultingEndArea.intersect(north2);
-		} else {
+		}
+		else {
 			resultingEndArea = new FGEEmptyArea();
 		}
 
@@ -1001,7 +1008,7 @@ public class FGERectPolylin extends FGEPolylin {
 		  else {
 		      logger.warning("What to do with a "+startArea+" ?");
 		  }
-
+		
 		  if (endArea instanceof FGEPoint) {
 		      resultingEndArea = ((FGEPoint)endArea).getOrthogonalPerspectiveArea(endOrientation);
 		  }
@@ -1050,10 +1057,12 @@ public class FGERectPolylin extends FGEPolylin {
 			if (next == null) {
 				if (current == null) {
 					s.paint(g);
-				} else {
+				}
+				else {
 					new FGESegment(current, s.getP2()).paint(g);
 				}
-			} else {
+			}
+			else {
 				FGEPoint p = s.getP2();
 				SimplifiedCardinalDirection currentOrientation;
 				SimplifiedCardinalDirection nextOrientation;
@@ -1076,7 +1085,8 @@ public class FGERectPolylin extends FGEPolylin {
 						arcWidth = next.getLength() / 2;
 						arcHeight = arcWidth / arcRatio;
 					}
-				} else if (s.isHorizontal() && next.isVertical()) {
+				}
+				else if (s.isHorizontal() && next.isVertical()) {
 					if (s.getLength() < requestedArcWidth * 2) {
 						arcWidth = s.getLength() / 2;
 						arcHeight = arcWidth / arcRatio;
@@ -1096,21 +1106,24 @@ public class FGERectPolylin extends FGEPolylin {
 							circleCenter = new FGEPoint(p.x + arcWidth, p.y - arcHeight);
 							angleStart = -180;
 							clockWise = false;
-						} else {
+						}
+						else {
 							currentOrientation = SimplifiedCardinalDirection.NORTH;
 							nextOrientation = SimplifiedCardinalDirection.EAST;
 							circleCenter = new FGEPoint(p.x + arcWidth, p.y + arcHeight);
 							angleStart = 90;
 							clockWise = true;
 						}
-					} else {
+					}
+					else {
 						if (s.getP1().y < s.getP2().y) {
 							currentOrientation = SimplifiedCardinalDirection.SOUTH;
 							nextOrientation = SimplifiedCardinalDirection.WEST;
 							circleCenter = new FGEPoint(p.x - arcWidth, p.y - arcHeight);
 							angleStart = -90;
 							clockWise = true;
-						} else {
+						}
+						else {
 							currentOrientation = SimplifiedCardinalDirection.NORTH;
 							nextOrientation = SimplifiedCardinalDirection.WEST;
 							circleCenter = new FGEPoint(p.x - arcWidth, p.y + arcHeight);
@@ -1118,7 +1131,8 @@ public class FGERectPolylin extends FGEPolylin {
 							clockWise = false;
 						}
 					}
-				} else if (s.isHorizontal() && next.isVertical()) {
+				}
+				else if (s.isHorizontal() && next.isVertical()) {
 					displayArc = true;
 					if (next.getP1().y < next.getP2().y) {
 						if (s.getP1().x < s.getP2().x) {
@@ -1127,21 +1141,24 @@ public class FGERectPolylin extends FGEPolylin {
 							circleCenter = new FGEPoint(p.x - arcWidth, p.y + arcHeight);
 							angleStart = 0;
 							clockWise = true;
-						} else {
+						}
+						else {
 							currentOrientation = SimplifiedCardinalDirection.WEST;
 							nextOrientation = SimplifiedCardinalDirection.SOUTH;
 							circleCenter = new FGEPoint(p.x + arcWidth, p.y + arcHeight);
 							angleStart = 90;
 							clockWise = false;
 						}
-					} else {
+					}
+					else {
 						if (s.getP1().x < s.getP2().x) {
 							currentOrientation = SimplifiedCardinalDirection.EAST;
 							nextOrientation = SimplifiedCardinalDirection.NORTH;
 							circleCenter = new FGEPoint(p.x - arcWidth, p.y - arcHeight);
 							angleStart = -90;
 							clockWise = false;
-						} else {
+						}
+						else {
 							currentOrientation = SimplifiedCardinalDirection.WEST;
 							nextOrientation = SimplifiedCardinalDirection.NORTH;
 							circleCenter = new FGEPoint(p.x + arcWidth, p.y - arcHeight);
@@ -1149,7 +1166,8 @@ public class FGERectPolylin extends FGEPolylin {
 							clockWise = true;
 						}
 					}
-				} else {
+				}
+				else {
 					logger.warning("Unexpected situation while drawing rounded RectPolylin connectors");
 					displayArc = false;
 					// return;
@@ -1171,12 +1189,14 @@ public class FGERectPolylin extends FGEPolylin {
 
 					if (current == null) {
 						new FGESegment(s.getP1(), startRound).paint(g);
-					} else {
+					}
+					else {
 						new FGESegment(current, startRound).paint(g);
 					}
 					arc.paint(g);
 					current = endRound;
-				} else {
+				}
+				else {
 					// For some reasons (for example 2 continuous colinear segments)
 					// cannot display round
 
@@ -1198,7 +1218,7 @@ public class FGERectPolylin extends FGEPolylin {
 		/*FGEHalfPlane north1 = new FGEHalfPlane(FGELine.makeHorizontalLine(new FGEPoint(0,getMinYFor(startArea))),new FGEPoint(0,
 		getMinYFor(startArea)-1));
 		  //resultingStartArea = resultingStartArea.intersect(north1);
-
+		
 		  FGEHalfPlane north2 = new FGEHalfPlane(FGELine.makeHorizontalLine(new FGEPoint(0,getMinYFor(endArea))),new FGEPoint(0,
 		  getMinYFor(endArea)-1));
 		  System.out.println("resultingEndArea="+resultingEndArea);
@@ -1219,39 +1239,42 @@ public class FGERectPolylin extends FGEPolylin {
 			// FGEPoint p_start = startArea.getNearestPoint(p);
 			// FGEPoint p_end = endArea.getNearestPoint(p);
 
-			FGEPoint p_start = startOrientation.isHorizontal() ? nearestPointOnHorizontalLine(p, startArea) : nearestPointOnVerticalLine(p,
-					startArea);
+			FGEPoint p_start = startOrientation.isHorizontal() ? nearestPointOnHorizontalLine(p, startArea)
+					: nearestPointOnVerticalLine(p, startArea);
 
-			FGEPoint p_end = endOrientation.isHorizontal() ? nearestPointOnHorizontalLine(p, endArea) : nearestPointOnVerticalLine(p,
-					endArea);
+			FGEPoint p_end = endOrientation.isHorizontal() ? nearestPointOnHorizontalLine(p, endArea)
+					: nearestPointOnVerticalLine(p, endArea);
 
 			addToPoints(p_start);
 			addToPoints(p);
 			addToPoints(p_end);
 			return;
-		} else if (intersect instanceof FGESegment) {
+		}
+		else if (intersect instanceof FGESegment) {
 			FGEPoint p = ((FGESegment) intersect).getMiddle();
 
 			// FGEPoint p_start = startArea.getNearestPoint(p);
 			// FGEPoint p_end = endArea.getNearestPoint(p);
 
-			FGEPoint p_start = startOrientation.isHorizontal() ? nearestPointOnHorizontalLine(p, startArea) : nearestPointOnVerticalLine(p,
-					startArea);
+			FGEPoint p_start = startOrientation.isHorizontal() ? nearestPointOnHorizontalLine(p, startArea)
+					: nearestPointOnVerticalLine(p, startArea);
 
-			FGEPoint p_end = endOrientation.isHorizontal() ? nearestPointOnHorizontalLine(p, endArea) : nearestPointOnVerticalLine(p,
-					endArea);
+			FGEPoint p_end = endOrientation.isHorizontal() ? nearestPointOnHorizontalLine(p, endArea)
+					: nearestPointOnVerticalLine(p, endArea);
 
 			if (FGEPoint.areAligned(p_start, p, p_end) && straightWhenPossible) {
 				addToPoints(p_start);
 				addToPoints(p_end);
 				return;
-			} else {
+			}
+			else {
 				addToPoints(p_start);
 				addToPoints(p);
 				addToPoints(p_end);
 				return;
 			}
-		} else if (intersect instanceof FGEShape || intersect.isFinite() && intersect.getEmbeddingBounds() != null) {
+		}
+		else if (intersect instanceof FGEShape || intersect.isFinite() && intersect.getEmbeddingBounds() != null) {
 
 			FGEPoint center;
 
@@ -1265,15 +1288,16 @@ public class FGERectPolylin extends FGEPolylin {
 
 			if (intersect instanceof FGEShape) {
 				center = ((FGEShape<?>) intersect).getCenter();
-			} else { // intersect is finite with non-null bounds
+			}
+			else { // intersect is finite with non-null bounds
 				center = intersect.getEmbeddingBounds().getCenter();
 			}
 
 			FGEPoint p_start = startOrientation.isHorizontal() ? nearestPointOnHorizontalLine(center, startArea)
 					: nearestPointOnVerticalLine(center, startArea);
 
-			FGEPoint p_end = endOrientation.isHorizontal() ? nearestPointOnHorizontalLine(center, endArea) : nearestPointOnVerticalLine(
-					center, endArea);
+			FGEPoint p_end = endOrientation.isHorizontal() ? nearestPointOnHorizontalLine(center, endArea)
+					: nearestPointOnVerticalLine(center, endArea);
 
 			// FGEPoint p_start = FGEPoint.getNearestPoint(center,startArea.nearestPointFrom(center,
 			// startOrientation.getOpposite()),startArea.nearestPointFrom(center, startOrientation));
@@ -1290,7 +1314,7 @@ public class FGERectPolylin extends FGEPolylin {
 			       p_start = startArea.getNearestPoint(center);
 			       logger.warning("Cound not find nearest point on start area along axis, selecting nearest.");
 			   }
-
+			
 			   if (p_end == null) {
 			       p_end = endArea.getNearestPoint(center);
 			       logger.warning("Cound not find nearest point on end area along axis, selecting nearest.");
@@ -1305,7 +1329,8 @@ public class FGERectPolylin extends FGEPolylin {
 					addToPoints(p_start);
 					addToPoints(p_end);
 					return;
-				} else {
+				}
+				else {
 					addToPoints(p_start);
 					addToPoints(center);
 					addToPoints(p_end);
@@ -1319,37 +1344,53 @@ public class FGERectPolylin extends FGEPolylin {
 
 		if (startOrientation == SimplifiedCardinalDirection.EAST && endOrientation == SimplifiedCardinalDirection.EAST) {
 			restoreDefaultLayoutForEastEast();
-		} else if (startOrientation == SimplifiedCardinalDirection.WEST && endOrientation == SimplifiedCardinalDirection.WEST) {
+		}
+		else if (startOrientation == SimplifiedCardinalDirection.WEST && endOrientation == SimplifiedCardinalDirection.WEST) {
 			restoreDefaultLayoutForWestWest();
-		} else if (startOrientation == SimplifiedCardinalDirection.NORTH && endOrientation == SimplifiedCardinalDirection.NORTH) {
+		}
+		else if (startOrientation == SimplifiedCardinalDirection.NORTH && endOrientation == SimplifiedCardinalDirection.NORTH) {
 			restoreDefaultLayoutForNorthNorth();
-		} else if (startOrientation == SimplifiedCardinalDirection.SOUTH && endOrientation == SimplifiedCardinalDirection.SOUTH) {
+		}
+		else if (startOrientation == SimplifiedCardinalDirection.SOUTH && endOrientation == SimplifiedCardinalDirection.SOUTH) {
 			restoreDefaultLayoutForSouthSouth();
-		} else if (startOrientation == SimplifiedCardinalDirection.EAST && endOrientation == SimplifiedCardinalDirection.WEST) {
+		}
+		else if (startOrientation == SimplifiedCardinalDirection.EAST && endOrientation == SimplifiedCardinalDirection.WEST) {
 			restoreDefaultLayoutForEastWest();
-		} else if (startOrientation == SimplifiedCardinalDirection.SOUTH && endOrientation == SimplifiedCardinalDirection.NORTH) {
+		}
+		else if (startOrientation == SimplifiedCardinalDirection.SOUTH && endOrientation == SimplifiedCardinalDirection.NORTH) {
 			restoreDefaultLayoutForSouthNorth();
-		} else if (startOrientation == SimplifiedCardinalDirection.EAST && endOrientation == SimplifiedCardinalDirection.NORTH) {
+		}
+		else if (startOrientation == SimplifiedCardinalDirection.EAST && endOrientation == SimplifiedCardinalDirection.NORTH) {
 			restoreDefaultLayoutForEastNorth();
-		} else if (startOrientation == SimplifiedCardinalDirection.EAST && endOrientation == SimplifiedCardinalDirection.SOUTH) {
+		}
+		else if (startOrientation == SimplifiedCardinalDirection.EAST && endOrientation == SimplifiedCardinalDirection.SOUTH) {
 			restoreDefaultLayoutForEastSouth();
-		} else if (startOrientation == SimplifiedCardinalDirection.WEST && endOrientation == SimplifiedCardinalDirection.NORTH) {
+		}
+		else if (startOrientation == SimplifiedCardinalDirection.WEST && endOrientation == SimplifiedCardinalDirection.NORTH) {
 			restoreDefaultLayoutForWestNorth();
-		} else if (startOrientation == SimplifiedCardinalDirection.WEST && endOrientation == SimplifiedCardinalDirection.SOUTH) {
+		}
+		else if (startOrientation == SimplifiedCardinalDirection.WEST && endOrientation == SimplifiedCardinalDirection.SOUTH) {
 			restoreDefaultLayoutForWestSouth();
-		} else if (startOrientation == SimplifiedCardinalDirection.WEST && endOrientation == SimplifiedCardinalDirection.EAST) {
+		}
+		else if (startOrientation == SimplifiedCardinalDirection.WEST && endOrientation == SimplifiedCardinalDirection.EAST) {
 			computeAs(new FGERectPolylin(endArea, endOrientation, startArea, startOrientation, straightWhenPossible, overlapX, overlapY));
-		} else if (startOrientation == SimplifiedCardinalDirection.NORTH && endOrientation == SimplifiedCardinalDirection.SOUTH) {
+		}
+		else if (startOrientation == SimplifiedCardinalDirection.NORTH && endOrientation == SimplifiedCardinalDirection.SOUTH) {
 			computeAs(new FGERectPolylin(endArea, endOrientation, startArea, startOrientation, straightWhenPossible, overlapX, overlapY));
-		} else if (startOrientation == SimplifiedCardinalDirection.NORTH && endOrientation == SimplifiedCardinalDirection.EAST) {
+		}
+		else if (startOrientation == SimplifiedCardinalDirection.NORTH && endOrientation == SimplifiedCardinalDirection.EAST) {
 			computeAs(new FGERectPolylin(endArea, endOrientation, startArea, startOrientation, straightWhenPossible, overlapX, overlapY));
-		} else if (startOrientation == SimplifiedCardinalDirection.SOUTH && endOrientation == SimplifiedCardinalDirection.EAST) {
+		}
+		else if (startOrientation == SimplifiedCardinalDirection.SOUTH && endOrientation == SimplifiedCardinalDirection.EAST) {
 			computeAs(new FGERectPolylin(endArea, endOrientation, startArea, startOrientation, straightWhenPossible, overlapX, overlapY));
-		} else if (startOrientation == SimplifiedCardinalDirection.NORTH && endOrientation == SimplifiedCardinalDirection.WEST) {
+		}
+		else if (startOrientation == SimplifiedCardinalDirection.NORTH && endOrientation == SimplifiedCardinalDirection.WEST) {
 			computeAs(new FGERectPolylin(endArea, endOrientation, startArea, startOrientation, straightWhenPossible, overlapX, overlapY));
-		} else if (startOrientation == SimplifiedCardinalDirection.SOUTH && endOrientation == SimplifiedCardinalDirection.WEST) {
+		}
+		else if (startOrientation == SimplifiedCardinalDirection.SOUTH && endOrientation == SimplifiedCardinalDirection.WEST) {
 			computeAs(new FGERectPolylin(endArea, endOrientation, startArea, startOrientation, straightWhenPossible, overlapX, overlapY));
-		} else {
+		}
+		else {
 			logger.warning("Unexpected case: startOrientation=" + startOrientation + " endOrientation=" + endOrientation);
 			new Exception("???").printStackTrace();
 		}
@@ -1362,7 +1403,7 @@ public class FGERectPolylin extends FGEPolylin {
 		}
 	}
 
-	private FGEPoint nearestPointOnHorizontalLine(FGEPoint p, FGEArea area) {
+	private static FGEPoint nearestPointOnHorizontalLine(FGEPoint p, FGEArea area) {
 		FGEPoint returned = FGEPoint.getNearestPoint(p, area.nearestPointFrom(p, SimplifiedCardinalDirection.EAST),
 				area.nearestPointFrom(p, SimplifiedCardinalDirection.WEST));
 		if (returned == null) {
@@ -1373,7 +1414,7 @@ public class FGERectPolylin extends FGEPolylin {
 
 	}
 
-	private FGEPoint nearestPointOnVerticalLine(FGEPoint p, FGEArea area) {
+	private static FGEPoint nearestPointOnVerticalLine(FGEPoint p, FGEArea area) {
 		FGEPoint returned = FGEPoint.getNearestPoint(p, area.nearestPointFrom(p, SimplifiedCardinalDirection.NORTH),
 				area.nearestPointFrom(p, SimplifiedCardinalDirection.SOUTH));
 		if (returned == null) {
@@ -1505,10 +1546,10 @@ public class FGERectPolylin extends FGEPolylin {
 			addToPoints(p3);
 			addToPoints(p4);
 			addToPoints(p_end);
-		} else {
-			FGELine line = FGELine.makeVerticalLine(new FGEPoint(
-					significativeStartLocation.x <= significativeEndLocation.x ? (getMaxXFor(startArea) + getMinXFor(endArea)) / 2
-							: (getMinXFor(startArea) + getMaxXFor(endArea)) / 2, 0));
+		}
+		else {
+			FGELine line = FGELine.makeVerticalLine(new FGEPoint(significativeStartLocation.x <= significativeEndLocation.x
+					? (getMaxXFor(startArea) + getMinXFor(endArea)) / 2 : (getMinXFor(startArea) + getMaxXFor(endArea)) / 2, 0));
 
 			FGEPoint p1 = getLocationFor(resultingStartArea.intersect(line));
 			FGEPoint p2 = getLocationFor(resultingEndArea.intersect(line));
@@ -1562,13 +1603,13 @@ public class FGERectPolylin extends FGEPolylin {
 			addToPoints(p3);
 			addToPoints(p4);
 			addToPoints(p_end);
-		} else {
+		}
+		else {
 
-			FGELine line = FGELine.makeHorizontalLine(new FGEPoint(0,
-					significativeStartLocation.y <= significativeEndLocation.y ? (getMaxYFor(startArea) + getMinYFor(endArea)) / 2
-							: (getMinYFor(startArea) + getMaxYFor(endArea)) / 2));
-			FGELine alternativeLine = FGELine.makeHorizontalLine(new FGEPoint(0,
-					(significativeStartLocation.y + significativeEndLocation.y) / 2));
+			FGELine line = FGELine.makeHorizontalLine(new FGEPoint(0, significativeStartLocation.y <= significativeEndLocation.y
+					? (getMaxYFor(startArea) + getMinYFor(endArea)) / 2 : (getMinYFor(startArea) + getMaxYFor(endArea)) / 2));
+			FGELine alternativeLine = FGELine
+					.makeHorizontalLine(new FGEPoint(0, (significativeStartLocation.y + significativeEndLocation.y) / 2));
 
 			FGEArea i1 = resultingStartArea.intersect(line);
 			FGEArea i2 = resultingEndArea.intersect(line);
@@ -1627,17 +1668,20 @@ public class FGERectPolylin extends FGEPolylin {
 		if (quadrant == CardinalQuadrant.SOUTH_EAST) {
 			logger.warning("Unexpected call to restoreDefaultForEastNorth() while quadrant is SOUTH_EAST");
 			return;
-		} else if (quadrant == CardinalQuadrant.NORTH_EAST) {
+		}
+		else if (quadrant == CardinalQuadrant.NORTH_EAST) {
 			useAlternativeLine1 = getMaxXFor(startArea) > getMinXFor(endArea);
 			line1 = FGELine.makeVerticalLine(new FGEPoint((getMaxXFor(startArea) + getMinXFor(endArea)) / 2, 0));
 			alternativeLine1 = FGELine.makeVerticalLine(new FGEPoint((significativeStartLocation.x + significativeEndLocation.x) / 2, 0));
 			line2 = FGELine.makeHorizontalLine(new FGEPoint(0, getMinYFor(endArea) - overlapY));
-		} else if (quadrant == CardinalQuadrant.SOUTH_WEST) {
+		}
+		else if (quadrant == CardinalQuadrant.SOUTH_WEST) {
 			line1 = FGELine.makeVerticalLine(new FGEPoint(getMaxXFor(startArea) + overlapX, 0));
 			useAlternativeLine2 = getMaxYFor(startArea) > getMinYFor(endArea);
 			line2 = FGELine.makeHorizontalLine(new FGEPoint(0, (getMaxYFor(startArea) + getMinYFor(endArea)) / 2));
 			alternativeLine2 = FGELine.makeHorizontalLine(new FGEPoint(0, (significativeStartLocation.y + significativeEndLocation.y) / 2));
-		} else if (quadrant == CardinalQuadrant.NORTH_WEST) {
+		}
+		else if (quadrant == CardinalQuadrant.NORTH_WEST) {
 			line1 = FGELine.makeVerticalLine(new FGEPoint(getMaxXFor(startArea) + overlapX, 0));
 			line2 = FGELine.makeHorizontalLine(new FGEPoint(0, getMinYFor(endArea) - overlapY));
 		}
@@ -1700,17 +1744,20 @@ public class FGERectPolylin extends FGEPolylin {
 		if (quadrant == CardinalQuadrant.NORTH_EAST) {
 			logger.warning("Unexpected call to restoreDefaultForEastSouth() while quadrant is NORTH_EAST");
 			return;
-		} else if (quadrant == CardinalQuadrant.SOUTH_EAST) {
+		}
+		else if (quadrant == CardinalQuadrant.SOUTH_EAST) {
 			useAlternativeLine1 = getMaxXFor(startArea) > getMinXFor(endArea);
 			line1 = FGELine.makeVerticalLine(new FGEPoint((getMaxXFor(startArea) + getMinXFor(endArea)) / 2, 0));
 			alternativeLine1 = FGELine.makeVerticalLine(new FGEPoint((significativeStartLocation.x + significativeEndLocation.x) / 2, 0));
 			line2 = FGELine.makeHorizontalLine(new FGEPoint(0, getMaxYFor(endArea) + overlapY));
-		} else if (quadrant == CardinalQuadrant.NORTH_WEST) {
+		}
+		else if (quadrant == CardinalQuadrant.NORTH_WEST) {
 			line1 = FGELine.makeVerticalLine(new FGEPoint(getMaxXFor(startArea) + overlapX, 0));
 			useAlternativeLine2 = getMinYFor(startArea) < getMaxYFor(endArea);
 			line2 = FGELine.makeHorizontalLine(new FGEPoint(0, (getMinYFor(startArea) + getMaxYFor(endArea)) / 2));
 			alternativeLine2 = FGELine.makeHorizontalLine(new FGEPoint(0, (significativeStartLocation.y + significativeEndLocation.y) / 2));
-		} else if (quadrant == CardinalQuadrant.SOUTH_WEST) {
+		}
+		else if (quadrant == CardinalQuadrant.SOUTH_WEST) {
 			line1 = FGELine.makeVerticalLine(new FGEPoint(getMaxXFor(startArea) + overlapX, 0));
 			line2 = FGELine.makeHorizontalLine(new FGEPoint(0, getMaxYFor(endArea) + overlapY));
 		}
@@ -1771,17 +1818,20 @@ public class FGERectPolylin extends FGEPolylin {
 		if (quadrant == CardinalQuadrant.SOUTH_WEST) {
 			logger.warning("Unexpected call to restoreDefaultForWestNorth() while quadrant is SOUTH_WEST");
 			return;
-		} else if (quadrant == CardinalQuadrant.NORTH_WEST) {
+		}
+		else if (quadrant == CardinalQuadrant.NORTH_WEST) {
 			useAlternativeLine1 = getMinXFor(startArea) < getMaxXFor(endArea);
 			line1 = FGELine.makeVerticalLine(new FGEPoint((getMinXFor(startArea) + getMaxXFor(endArea)) / 2, 0));
 			alternativeLine1 = FGELine.makeVerticalLine(new FGEPoint((significativeStartLocation.x + significativeEndLocation.x) / 2, 0));
 			line2 = FGELine.makeHorizontalLine(new FGEPoint(0, getMinYFor(endArea) - overlapY));
-		} else if (quadrant == CardinalQuadrant.SOUTH_EAST) {
+		}
+		else if (quadrant == CardinalQuadrant.SOUTH_EAST) {
 			line1 = FGELine.makeVerticalLine(new FGEPoint(getMinXFor(startArea) - overlapX, 0));
 			useAlternativeLine2 = getMaxYFor(startArea) > getMinYFor(endArea);
 			line2 = FGELine.makeHorizontalLine(new FGEPoint(0, (getMaxYFor(startArea) + getMinYFor(endArea)) / 2));
 			alternativeLine2 = FGELine.makeHorizontalLine(new FGEPoint(0, (significativeStartLocation.y + significativeEndLocation.y) / 2));
-		} else if (quadrant == CardinalQuadrant.NORTH_EAST) {
+		}
+		else if (quadrant == CardinalQuadrant.NORTH_EAST) {
 			line1 = FGELine.makeVerticalLine(new FGEPoint(getMinXFor(startArea) - overlapX, 0));
 			line2 = FGELine.makeHorizontalLine(new FGEPoint(0, getMinYFor(endArea) - overlapY));
 		}
@@ -1844,17 +1894,20 @@ public class FGERectPolylin extends FGEPolylin {
 		if (quadrant == CardinalQuadrant.NORTH_WEST) {
 			logger.warning("Unexpected call to restoreDefaultForWestSouth() while quadrant is NORTH_WEST");
 			return;
-		} else if (quadrant == CardinalQuadrant.SOUTH_WEST) {
+		}
+		else if (quadrant == CardinalQuadrant.SOUTH_WEST) {
 			useAlternativeLine1 = getMinXFor(startArea) < getMaxXFor(endArea);
 			line1 = FGELine.makeVerticalLine(new FGEPoint((getMinXFor(startArea) + getMaxXFor(endArea)) / 2, 0));
 			alternativeLine1 = FGELine.makeVerticalLine(new FGEPoint((significativeStartLocation.x + significativeEndLocation.x) / 2, 0));
 			line2 = FGELine.makeHorizontalLine(new FGEPoint(0, getMaxYFor(endArea) + overlapY));
-		} else if (quadrant == CardinalQuadrant.NORTH_EAST) {
+		}
+		else if (quadrant == CardinalQuadrant.NORTH_EAST) {
 			line1 = FGELine.makeVerticalLine(new FGEPoint(getMinXFor(startArea) - overlapX, 0));
 			useAlternativeLine2 = getMinYFor(startArea) < getMaxYFor(endArea);
 			line2 = FGELine.makeHorizontalLine(new FGEPoint(0, (getMinYFor(startArea) + getMaxYFor(endArea)) / 2));
 			alternativeLine2 = FGELine.makeHorizontalLine(new FGEPoint(0, (significativeStartLocation.y + significativeEndLocation.y) / 2));
-		} else if (quadrant == CardinalQuadrant.SOUTH_EAST) {
+		}
+		else if (quadrant == CardinalQuadrant.SOUTH_EAST) {
 			line1 = FGELine.makeVerticalLine(new FGEPoint(getMinXFor(startArea) - overlapX, 0));
 			line2 = FGELine.makeHorizontalLine(new FGEPoint(0, getMaxYFor(endArea) + overlapY));
 		}
@@ -1940,7 +1993,7 @@ public class FGERectPolylin extends FGEPolylin {
 		/*if (anchorArea instanceof FGEUnionArea && ((FGEUnionArea)anchorArea).isUnionOfSegments()) {
 		      anchorArea = ((FGEUnionArea)anchorArea).getObjects().firstElement();
 		  }
-
+		
 		  logger.info("Anchor area for "+a+" is "+anchorArea);*/
 
 		if (anchorArea instanceof FGEPoint) {
@@ -1968,7 +2021,7 @@ public class FGERectPolylin extends FGEPolylin {
 		return new FGEPoint(0, 0);
 	}
 
-	private double getMaxXFor(FGEArea a) {
+	private static double getMaxXFor(FGEArea a) {
 		if (a instanceof FGEPoint) {
 			return ((FGEPoint) a).x;
 		}
@@ -2001,7 +2054,7 @@ public class FGERectPolylin extends FGEPolylin {
 		return 0;
 	}
 
-	private double getMinXFor(FGEArea a) {
+	private static double getMinXFor(FGEArea a) {
 		if (a instanceof FGEPoint) {
 			return ((FGEPoint) a).x;
 		}
@@ -2034,7 +2087,7 @@ public class FGERectPolylin extends FGEPolylin {
 		return 0;
 	}
 
-	private double getMaxYFor(FGEArea a) {
+	private static double getMaxYFor(FGEArea a) {
 		if (a instanceof FGEPoint) {
 			return ((FGEPoint) a).y;
 		}
@@ -2067,7 +2120,7 @@ public class FGERectPolylin extends FGEPolylin {
 		return 0;
 	}
 
-	private double getMinYFor(FGEArea a) {
+	private static double getMinYFor(FGEArea a) {
 		if (a instanceof FGEPoint) {
 			return ((FGEPoint) a).y;
 		}
@@ -2136,7 +2189,8 @@ public class FGERectPolylin extends FGEPolylin {
 		FGEArc arc = getArcForNearestPointLocatedOnRoundedRepresentation(p, arcWidth, arcHeight);
 		if (arc == null) {
 			return getNearestPoint(p); // Point located outside arc
-		} else {
+		}
+		else {
 			return arc.getNearestPoint(p);
 		}
 	}
@@ -2212,7 +2266,8 @@ public class FGERectPolylin extends FGEPolylin {
 				arcWidth = s2.getLength() / 2;
 				arcHeight = arcWidth / arcRatio;
 			}
-		} else if (s1.isHorizontal() && s2.isVertical()) {
+		}
+		else if (s1.isHorizontal() && s2.isVertical()) {
 			if (s1.getLength() < arcWidth * 2) {
 				arcWidth = s1.getLength() / 2;
 				arcHeight = arcWidth / arcRatio;
@@ -2245,10 +2300,12 @@ public class FGERectPolylin extends FGEPolylin {
 		}
 		if (orientation1 == SimplifiedCardinalDirection.EAST) {
 			if (orientation2 == SimplifiedCardinalDirection.NORTH) {
-				return new FGEArc(new FGEPoint(s1.x2 - arcWidth, s1.y2 - arcHeight), new FGEDimension(arcWidth * 2, arcHeight * 2), -90, 90);
+				return new FGEArc(new FGEPoint(s1.x2 - arcWidth, s1.y2 - arcHeight), new FGEDimension(arcWidth * 2, arcHeight * 2), -90,
+						90);
 			}
 			if (orientation2 == SimplifiedCardinalDirection.SOUTH) {
-				return new FGEArc(new FGEPoint(s1.x2 - arcWidth, s1.y2 + arcHeight), new FGEDimension(arcWidth * 2, arcHeight * 2), 90, -90);
+				return new FGEArc(new FGEPoint(s1.x2 - arcWidth, s1.y2 + arcHeight), new FGEDimension(arcWidth * 2, arcHeight * 2), 90,
+						-90);
 			}
 			return null;
 		}
@@ -2293,7 +2350,7 @@ public class FGERectPolylin extends FGEPolylin {
 		return null;
 
 		/*double angle = segment.getAngle();
-
+		
 		  if (Math.abs(angle) < EPSILON) return SimplifiedCardinalDirection.WEST;
 		  else if ((Math.abs(angle-Math.PI) < EPSILON)
 		          || (Math.abs(angle+Math.PI) < EPSILON)) return SimplifiedCardinalDirection.EAST;
@@ -2311,14 +2368,14 @@ public class FGERectPolylin extends FGEPolylin {
 
 		/*SimplifiedCardinalDirection returned = getOrientationOfSegment(index);
 		  if (returned != null) return returned;
-
+		
 		  FGESegment segment = getSegmentAt(index);
 		  return FGEPoint.getSimplifiedOrientation(segment.getP1(), segment.getP2());*/
 	}
 
 	@Override
 	public FGERectPolylin transform(AffineTransform t) {
-		Vector<FGEPoint> points = new Vector<FGEPoint>();
+		Vector<FGEPoint> points = new Vector<>();
 		for (FGEPoint p : _points) {
 			points.add(p.transform(t));
 		}
@@ -2502,7 +2559,8 @@ public class FGERectPolylin extends FGEPolylin {
 					currentPointStartingSide.x = previousPointStartingSide.x;
 					updatedPolylin.updatePointAt(i, currentPointStartingSide);
 				}
-			} else if (orientation.isHorizontal()) {
+			}
+			else if (orientation.isHorizontal()) {
 				if (currentPointStartingSide.y != previousPointStartingSide.y) {
 					if (logger.isLoggable(Level.FINEST)) {
 						logger.finest("Updating point at " + i + " for horizontal orientation");
@@ -2520,8 +2578,8 @@ public class FGERectPolylin extends FGEPolylin {
 
 			FGEPoint previousPointEndingSide = updatedPolylin.getPointAt(updatedPolylin.getPointsNb() - i);
 			currentPointEndingSide = updatedPolylin.getPointAt(updatedPolylin.getPointsNb() - i - 1);
-			SimplifiedCardinalDirection orientation2 = updatedPolylin.getApproximatedOrientationOfSegment(updatedPolylin.getPointsNb() - i
-					- 1);
+			SimplifiedCardinalDirection orientation2 = updatedPolylin
+					.getApproximatedOrientationOfSegment(updatedPolylin.getPointsNb() - i - 1);
 			if (orientation2.isVertical()) {
 				if (currentPointEndingSide.x != previousPointEndingSide.x) {
 					if (logger.isLoggable(Level.FINEST)) {
@@ -2530,7 +2588,8 @@ public class FGERectPolylin extends FGEPolylin {
 					currentPointEndingSide.x = previousPointEndingSide.x;
 					updatedPolylin.updatePointAt(updatedPolylin.getPointsNb() - i - 1, currentPointEndingSide);
 				}
-			} else if (orientation2.isHorizontal()) {
+			}
+			else if (orientation2.isHorizontal()) {
 				if (currentPointEndingSide.y != previousPointEndingSide.y) {
 					if (logger.isLoggable(Level.FINEST)) {
 						logger.finest("Updating point at " + (updatedPolylin.getPointsNb() - i - 1) + " for horizontal orientation");
@@ -2549,9 +2608,10 @@ public class FGERectPolylin extends FGEPolylin {
 				|| Math.abs(currentPointEndingSide.x - currentPointStartingSide.x) < EPSILON
 				|| Math.abs(currentPointEndingSide.y - currentPointStartingSide.y) < EPSILON) {
 			// No need to append extra path
-		} else {
-			Vector<SimplifiedCardinalDirection> excludedStartOrientations = new Vector<SimplifiedCardinalDirection>();
-			Vector<SimplifiedCardinalDirection> excludedEndOrientations = new Vector<SimplifiedCardinalDirection>();
+		}
+		else {
+			Vector<SimplifiedCardinalDirection> excludedStartOrientations = new Vector<>();
+			Vector<SimplifiedCardinalDirection> excludedEndOrientations = new Vector<>();
 			if (currentStartIndex - 1 >= 0 && currentStartIndex - 1 < updatedPolylin.getSegmentNb()) {
 				excludedStartOrientations.add(updatedPolylin.getApproximatedOrientationOfSegment(currentStartIndex - 1).getOpposite());
 				// System.out.println("excludedStartOrientations="+excludedStartOrientations);
@@ -2568,7 +2628,8 @@ public class FGERectPolylin extends FGEPolylin {
 				for (int i = 1; i < missingPath.getPointsNb() - 1; i++) {
 					updatedPolylin.insertPointAtIndex(missingPath.getPointAt(i), currentStartIndex + i);
 				}
-			} else if (currentEndIndex - currentStartIndex == 2) {
+			}
+			else if (currentEndIndex - currentStartIndex == 2) {
 				/*FGERectPolylin*/// missingPath = makeShortestRectPolylin(currentPointStartingSide, currentPointEndingSide, true, overlap,
 				// updatedPolylin.getPointAt(currentStartIndex+1), excludedStartOrientations, excludedEndOrientations);
 				missingPath = makeRectPolylinCrossingPoint(currentPointStartingSide, currentPointEndingSide,
