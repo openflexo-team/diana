@@ -45,7 +45,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import javassist.util.proxy.ProxyObject;
 import org.openflexo.fge.Drawing;
 import org.openflexo.fge.FGELayoutManager;
 import org.openflexo.fge.FGEModelFactory;
@@ -71,8 +71,6 @@ import org.openflexo.fge.notifications.FGENotification;
 import org.openflexo.model.factory.ProxyMethodHandler;
 import org.openflexo.model.undo.UndoManager;
 
-import javassist.util.proxy.ProxyObject;
-
 /**
  * This class is the default implementation for all objects representing a graphical drawing, that is a complex graphical representation
  * involving an object tree where all objects have their own graphical representation.
@@ -95,7 +93,7 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 
 	private boolean editable = true;
 
-	private final FGEModelFactory factory;
+	protected final FGEModelFactory factory;
 	private final PersistenceMode persistenceMode;
 
 	private final PropertyChangeSupport pcSupport;
