@@ -38,10 +38,9 @@
 
 package org.openflexo.fge;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-
+import java.util.Collections;
 import org.openflexo.fge.connectors.ConnectorSpecification;
 import org.openflexo.fge.connectors.CurveConnectorSpecification;
 import org.openflexo.fge.connectors.CurvedPolylinConnectorSpecification;
@@ -160,7 +159,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	 * @throws ModelDefinitionException
 	 */
 	public FGEModelFactoryImpl() throws ModelDefinitionException {
-		this(new ArrayList<Class<?>>());
+		this(Collections.emptyList());
 	}
 
 	/**
