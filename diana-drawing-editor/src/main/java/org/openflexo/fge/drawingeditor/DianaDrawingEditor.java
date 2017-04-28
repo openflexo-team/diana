@@ -39,15 +39,14 @@
 
 package org.openflexo.fge.drawingeditor;
 
-import java.awt.Component;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
-
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-
+import javax.swing.*;
+import org.openflexo.exceptions.CopyException;
+import org.openflexo.exceptions.CutException;
+import org.openflexo.exceptions.PasteException;
 import org.openflexo.fge.ConnectorGraphicalRepresentation;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
@@ -56,9 +55,6 @@ import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.control.actions.DrawConnectorAction;
 import org.openflexo.fge.control.actions.DrawShapeAction;
-import org.openflexo.fge.control.exceptions.CopyException;
-import org.openflexo.fge.control.exceptions.CutException;
-import org.openflexo.fge.control.exceptions.PasteException;
 import org.openflexo.fge.drawingeditor.model.Connector;
 import org.openflexo.fge.drawingeditor.model.Diagram;
 import org.openflexo.fge.drawingeditor.model.DiagramElement;

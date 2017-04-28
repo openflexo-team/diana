@@ -43,7 +43,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import org.openflexo.exceptions.CopyException;
+import org.openflexo.exceptions.CutException;
+import org.openflexo.exceptions.PasteException;
 import org.openflexo.fge.Drawing;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
@@ -52,9 +54,6 @@ import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.fge.control.actions.DrawConnectorAction;
 import org.openflexo.fge.control.actions.DrawShapeAction;
-import org.openflexo.fge.control.exceptions.CopyException;
-import org.openflexo.fge.control.exceptions.CutException;
-import org.openflexo.fge.control.exceptions.PasteException;
 import org.openflexo.fge.control.notifications.SelectionCopied;
 import org.openflexo.fge.control.notifications.ToolChanged;
 import org.openflexo.fge.control.notifications.ToolOptionChanged;
@@ -519,7 +518,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		try {
 			clipboard = getFactory().copy(objectsToBeCopied);
 		} catch (Throwable e) {
-			throw new CopyException(e, getFactory());
+			throw new CopyException(e);
 		}
 
 		// System.out.println(clipboard.debug());
@@ -580,7 +579,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 					}
 				}
 			} catch (Throwable e) {
-				throw new PasteException(e, getFactory());
+				throw new PasteException(e);
 			}
 
 			// OK, now we can track again new selection to set pastingContext
@@ -617,7 +616,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		try {
 			clipboard = getFactory().cut(objectsToBeCopied);
 		} catch (Throwable e) {
-			throw new CutException(e, getFactory());
+			throw new CutException(e);
 		}
 
 		// System.out.println(clipboard.debug());
