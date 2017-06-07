@@ -108,13 +108,13 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 		if (shadowInspector != null) {
 			shadowInspector.setData(getInspectedShadowStyle());
 		}
-		if (backgroundStyleInspector != null) {
+		if (backgroundStyleInspector != null && getInspectedBackgroundStyle() != null) {
 			backgroundStyleInspector.setData(getInspectedBackgroundStyle().getStyleFactory());
 		}
-		if (shapeInspector != null) {
+		if (shapeInspector != null && getInspectedShapeSpecification() != null) {
 			shapeInspector.setData(getInspectedShapeSpecification().getStyleFactory());
 		}
-		if (connectorInspector != null) {
+		if (connectorInspector != null && getInspectedConnectorSpecification() != null) {
 			connectorInspector.setData(getInspectedConnectorSpecification().getStyleFactory());
 		}
 		if (locationSizeInspector != null) {

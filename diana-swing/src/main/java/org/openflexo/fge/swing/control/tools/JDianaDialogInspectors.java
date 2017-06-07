@@ -96,13 +96,13 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 		if (shadowInspector != null) {
 			shadowInspector.setData(getInspectedShadowStyle(), true);
 		}
-		if (backgroundStyleInspector != null) {
+		if (backgroundStyleInspector != null && getInspectedBackgroundStyle() != null) {
 			backgroundStyleInspector.setData(getInspectedBackgroundStyle().getStyleFactory(), true);
 		}
-		if (shapeInspector != null) {
+		if (shapeInspector != null && getInspectedShapeSpecification() != null) {
 			shapeInspector.setData(getInspectedShapeSpecification().getStyleFactory(), true);
 		}
-		if (connectorInspector != null) {
+		if (connectorInspector != null && getInspectedConnectorSpecification() != null) {
 			connectorInspector.setData(getInspectedConnectorSpecification().getStyleFactory(), true);
 		}
 		if (locationSizeInspector != null) {
