@@ -957,62 +957,66 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 */
 	private void updateLocation(FGEPoint requestedLocation) {
 
-		// If no value supplied, just ignore
-		if (requestedLocation == null) {
-			return;
-		}
+		try {
 
-		// If value is same, also ignore
-		if (requestedLocation.equals(getLocation())) {
-			return;
-		}
-
-		// Prelude of update, first select new location respecting contextual constraints
-		FGEPoint newLocation = getConstrainedLocation(requestedLocation);
-
-		// Now the newLocation respect required constraints, we might apply it
-		FGEPoint oldLocation = getLocation();
-		if (!newLocation.equals(oldLocation)) {
-			double oldX = getX();
-			double oldY = getY();
-			if (isParentLayoutedAsContainer()) {
-				setLocationForContainerLayout(newLocation);
-			}
-			else {
-				setXNoNotification(newLocation.x);
-				setYNoNotification(newLocation.y);
+			// If no value supplied, just ignore
+			if (requestedLocation == null) {
+				return;
 			}
 
-			if (!isRelayouting && getLayoutManager() != null && getLayoutManager().supportAutolayout()
-					&& !getLayoutManager().isLayoutInProgress()) {
-				boolean performLayout;
-				if (isMoving() || isResizing()) {
-					// We are inside a drag operation
-					performLayout = getLayoutManager().getDraggingMode().relayoutOnDrag();
+			// If value is same, also ignore
+			if (requestedLocation.equals(getLocation())) {
+				return;
+			}
+
+			// Prelude of update, first select new location respecting contextual constraints
+			FGEPoint newLocation = getConstrainedLocation(requestedLocation);
+
+			// Now the newLocation respect required constraints, we might apply it
+			FGEPoint oldLocation = getLocation();
+			if (!newLocation.equals(oldLocation)) {
+				double oldX = getX();
+				double oldY = getY();
+				if (isParentLayoutedAsContainer()) {
+					setLocationForContainerLayout(newLocation);
 				}
 				else {
-					performLayout = getLayoutManager().getDraggingMode().relayoutAfterDrag();
+					setXNoNotification(newLocation.x);
+					setYNoNotification(newLocation.y);
 				}
-				if (performLayout) {
-					performLayout();
-				}
-			}
 
-			notifyObjectMoved(oldLocation);
-			notifyAttributeChanged(ShapeGraphicalRepresentation.X, oldX, getX());
-			notifyAttributeChanged(ShapeGraphicalRepresentation.Y, oldY, getY());
-			if (!isFullyContainedInContainer()) {
-				if (logger.isLoggable(Level.FINE)) {
-					logger.fine("setLocation() lead shape going outside it's parent view");
+				if (!isRelayouting && getLayoutManager() != null && getLayoutManager().supportAutolayout()
+						&& !getLayoutManager().isLayoutInProgress()) {
+					boolean performLayout;
+					if (isMoving() || isResizing()) {
+						// We are inside a drag operation
+						performLayout = getLayoutManager().getDraggingMode().relayoutOnDrag();
+					}
+					else {
+						performLayout = getLayoutManager().getDraggingMode().relayoutAfterDrag();
+					}
+					if (performLayout) {
+						performLayout();
+					}
 				}
-				if (getParentNode() instanceof ShapeNodeImpl) {
-					((ShapeNodeImpl<?>) getParentNode()).notifyObjectMoved(null);
-					((ShapeNodeImpl<?>) getParentNode()).notifyObjectResized(null);
-				}
-			}
 
+				notifyObjectMoved(oldLocation);
+				notifyAttributeChanged(ShapeGraphicalRepresentation.X, oldX, getX());
+				notifyAttributeChanged(ShapeGraphicalRepresentation.Y, oldY, getY());
+				if (!isFullyContainedInContainer()) {
+					if (logger.isLoggable(Level.FINE)) {
+						logger.fine("setLocation() lead shape going outside it's parent view");
+					}
+					if (getParentNode() instanceof ShapeNodeImpl) {
+						((ShapeNodeImpl<?>) getParentNode()).notifyObjectMoved(null);
+						((ShapeNodeImpl<?>) getParentNode()).notifyObjectResized(null);
+					}
+				}
+
+			}
+		} catch (IllegalArgumentException e) {
+			logger.warning("Unexpected exception " + e.getMessage());
 		}
-
 	}
 
 	private void performLayout() {
