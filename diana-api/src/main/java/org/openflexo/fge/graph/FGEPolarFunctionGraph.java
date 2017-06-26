@@ -141,12 +141,16 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 
 	public abstract Double getNormalizedAngleExtent(A parameterValue);
 
+	protected <T> List<FunctionSample<A, T>> retrieveSamples(FGEFunction<T> function) {
+		return function.retrieveSamples(this);
+	}
+
 	@Override
 	protected <T> FunctionRepresentation buildRepresentationForFunction(FGEFunction<T> function) {
 
-		System.out.println("On recalcule la representation");
+		// System.out.println("On recalcule la representation");
 
-		List<FunctionSample<A, T>> samples = function.retrieveSamples(this);
+		List<FunctionSample<A, T>> samples = retrieveSamples(function);
 
 		/*System.out.println("OK voila mes echantillons: ");
 		for (FunctionSample<A, T> s : samples) {

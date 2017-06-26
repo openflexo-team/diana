@@ -39,6 +39,7 @@
 package org.openflexo.fge.graph;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -51,6 +52,7 @@ import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.fge.TextStyle;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
+import org.openflexo.fge.graph.FGEFunction.FunctionSample;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
@@ -120,6 +122,21 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 			return discreteValues.iterator();
 		}
 		return ((List<T>) Collections.emptyList()).iterator();
+	}
+
+	@Override
+	protected <U> List<FunctionSample<T, U>> retrieveSamples(FGEFunction<U> function) {
+		List<FunctionSample<T, U>> returned = super.retrieveSamples(function);
+		if (function.getGraphType() == FGEGraphType.SECTORS && function instanceof FGENumericFunction) {
+			// In this case, we should discard data with null values
+			for (FunctionSample<T, U> s : new ArrayList<>(returned)) {
+				if (((Number) s.value).doubleValue() <= 0) {
+					// Discard it
+					returned.remove(s);
+				}
+			}
+		}
+		return returned;
 	}
 
 	@Override
@@ -235,6 +252,11 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 					if (function.getGraphType() == FGEGraphType.SECTORS) {
 						radius = 0.25;
 						angle = getNormalizedAngleForSectors(t, function);
+						try {
+							value = evaluateFunction(function, t);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 					else {
 						try {
@@ -246,9 +268,13 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 							radius = 0.5;
 						}
 					}
-					g.drawString(label,
-							new FGEPoint(Math.cos(angle * Math.PI / 180) * radius + 0.5, 0.5 - Math.sin(angle * Math.PI / 180) * radius),
-							HorizontalTextAlignment.CENTER);
+					if (value != null && value.doubleValue() > 0) {
+						g.drawString(label, new FGEPoint(Math.cos(angle * Math.PI / 180) * radius + 0.5,
+								0.5 - Math.sin(angle * Math.PI / 180) * radius), HorizontalTextAlignment.CENTER);
+					}
+					else {
+						// Do not display empty sectors (TODO: should it be configurable ?)
+					}
 				}
 			}
 		}

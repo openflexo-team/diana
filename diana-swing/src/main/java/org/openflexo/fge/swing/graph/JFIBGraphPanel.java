@@ -100,7 +100,7 @@ public class JFIBGraphPanel<W extends FIBGraph, G extends FGEGraph> extends JPan
 	}
 
 	public void updateGraph() {
-		System.out.println("updateGraph()");
+		//System.out.println("updateGraph()");
 		// drawing.resizeTo(new Dimension(getSize().width - 5, getSize().height - 5));
 		drawing.updateGraph();
 	}

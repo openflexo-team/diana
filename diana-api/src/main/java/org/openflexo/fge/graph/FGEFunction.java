@@ -261,7 +261,7 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 			valueSamples = new ArrayList<>();
 		}
 
-		System.out.println("On calcule les samples pour " + getFunctionExpression());
+		// System.out.println("On calcule les samples pour " + getFunctionExpression());
 
 		List<FunctionSample<X, T>> samples = new ArrayList<>();
 		Iterator<X> it = graph.iterateParameter();

@@ -54,4 +54,20 @@ public class FGEDiscreteFunction<T> extends FGEFunction<T> {
 			FGEGraph graph) {
 		super(functionName, functionType, functionExpression, graphType, graph);
 	}
+
+	/*@Override
+	protected <X> List<org.openflexo.fge.graph.FGEFunction.FunctionSample<X, T>> retrieveSamples(FGESingleParameteredGraph<X> graph) {
+		System.out.println("Pour les samples, je devrais pas trier par valeur ???");
+		List<FunctionSample<X, T>> returned = super.retrieveSamples(graph);
+		for (FunctionSample<X, T> s : returned) {
+			if (TypeUtils.isInteger(s.value.getClass()) || TypeUtils.isFloat(s.value.getClass()) || TypeUtils.isDouble(s.value.getClass())
+					|| TypeUtils.isLong(s.value.getClass())) {
+				Number n = (Number) s.value;
+				if (n.doubleValue() == 0) {
+					System.out.println("Je ne prends pas " + s.x);
+				}
+			}
+		}
+		return returned;
+	}*/
 }
