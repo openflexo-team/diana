@@ -252,14 +252,18 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 					for (FunctionSample<A, T> s : samples) {
 						Double angle = getNormalizedAngleForSectors(s.x, (FGENumericFunction) function); // Middle of angle
 						Double angleExtent = getNormalizedAngleExtentForSectors(s.x, (FGENumericFunction) function) / numberOfFunctions - 0;
-						double startAngle = angle - angleExtent / 2 + functionIndex * angleExtent;
-						int requiredSteps = (int) (angleExtent / 3); // Draw all 3 degrees
+						double startAngle = angle - angleExtent / 2.0 + functionIndex * angleExtent;
+						int requiredSteps = (int) (angleExtent / 3.0); // Draw all 3 degrees
+						if (requiredSteps == 0) {
+							requiredSteps = 1;
+						}
 						Double radius = 0.45;
 						List<FGEPoint> pts = new ArrayList<>();
 						pts.add(new FGEPoint(0.5, 0.5));
 						for (int i = 0; i <= requiredSteps; i++) {
 							double a = startAngle + angleExtent * i / requiredSteps;
-							pts.add(new FGEPoint(radius * Math.cos(a * Math.PI / 180) + 0.5, radius * Math.sin(a * Math.PI / 180) + 0.5));
+							pts.add(new FGEPoint(radius * Math.cos(a * Math.PI / 180.0) + 0.5,
+									radius * Math.sin(a * Math.PI / 180.0) + 0.5));
 						}
 						FGEModelFactory factory = function.getBackgroundStyle().getFactory();
 						r.nextBytes(bytes);
