@@ -113,6 +113,7 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 			for (int i = 0; i < graph.getBindingModel().getBindingVariablesCount(); i++) {
 				System.out.println("> " + graph.getBindingModel().getBindingVariableAt(i));
 			}
+			Thread.dumpStack();
 		}
 		this.graph = graph;
 		this.graphType = graphType;

@@ -44,10 +44,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.openflexo.connie.DataBinding;
+import org.openflexo.connie.binding.BindingValueListChangeListener;
 import org.openflexo.fge.graph.FGEDiscreteSimpleFunctionGraph;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.graph.FIBDiscreteSimpleFunctionGraph;
-import org.openflexo.gina.model.graph.FIBDiscreteSimpleFunctionGraph;
+import org.openflexo.toolbox.HasPropertyChangeSupport;
 
 /**
  * Swing implementation for a {@link FIBDiscreteSimpleFunctionGraph} view<br>
@@ -58,14 +60,69 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 
 	private static final Logger logger = Logger.getLogger(JFIBDiscreteSimpleGraphWidget.class.getPackage().getName());
 
+	private BindingValueListChangeListener<Object, List<Object>> valuesBindingValueChangeListener;
+
 	public JFIBDiscreteSimpleGraphWidget(FIBDiscreteSimpleFunctionGraph model, FIBController controller) {
 		super(model, controller);
+	}
+
+	@Override
+	protected void componentBecomesVisible() {
+		super.componentBecomesVisible();
+		listenDiscreteValuesChange();
+		getGraphDrawing().updateGraph();
+	}
+
+	@Override
+	protected void componentBecomesInvisible() {
+		stopListenDiscreteValuesChange();
+		super.componentBecomesInvisible();
+	}
+
+	private void listenDiscreteValuesChange() {
+		if (valuesBindingValueChangeListener != null) {
+			valuesBindingValueChangeListener.stopObserving();
+			valuesBindingValueChangeListener.delete();
+		}
+		if (getComponent().getValues() != null && getComponent().getValues().isValid()) {
+			valuesBindingValueChangeListener = new BindingValueListChangeListener<Object, List<Object>>(
+					((DataBinding) getComponent().getValues()), getBindingEvaluationContext()) {
+
+				@Override
+				public void bindingValueChanged(Object source, List<Object> newValues) {
+					// System.out.println(" bindingValueChanged() detected for values=" + getComponent().getValues() + " with newValue="
+					// + newValues + " source=" + source);
+					getGraphDrawing().updateDiscreteValues(newValues);
+				}
+			};
+		}
+	}
+
+	private void stopListenDiscreteValuesChange() {
+		if (valuesBindingValueChangeListener != null) {
+			valuesBindingValueChangeListener.stopObserving();
+			valuesBindingValueChangeListener.delete();
+			valuesBindingValueChangeListener = null;
+		}
 	}
 
 	@Override
 	protected FGEDiscreteSimpleFunctionGraphDrawing makeGraphDrawing() {
 		return new FGEDiscreteSimpleFunctionGraphDrawing(getWidget());
 	}
+
+	@Override
+	public FGEDiscreteSimpleFunctionGraphDrawing getGraphDrawing() {
+		return (FGEDiscreteSimpleFunctionGraphDrawing) super.getGraphDrawing();
+	}
+
+	/*@Override
+	public Object getValue(BindingVariable variable) {
+		if (variable.getVariableName().equals("data")) {
+			System.out.println("*** Pour " + variable + " je retourne " + super.getValue(variable));
+		}
+		return super.getValue(variable);
+	}*/
 
 	public class FGEDiscreteSimpleFunctionGraphDrawing
 			extends FGESimpleFunctionGraphDrawing<FIBDiscreteSimpleFunctionGraph, FGEDiscreteSimpleFunctionGraph<?>> {
@@ -78,39 +135,60 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 		protected FGEDiscreteSimpleFunctionGraph<?> makeGraph(FIBDiscreteSimpleFunctionGraph fibGraph) {
 
 			// Create the FGEGraph
-			FGEDiscreteSimpleFunctionGraph<?> returned = new FGEDiscreteSimpleFunctionGraph<Object>();
-			returned.setBindingFactory(fibGraph.getBindingFactory());
+
+			graph = new FGEDiscreteSimpleFunctionGraph<Object>();
+			graph.getBindingModel().setBaseBindingModel(fibGraph.getBindingModel());
+			graph.getEvaluator().setEvaluationContext(getBindingEvaluationContext());
+			graph.setBindingFactory(fibGraph.getBindingFactory());
 
 			// Sets borders
-			returned.setBorderTop(fibGraph.getBorderTop());
-			returned.setBorderBottom(fibGraph.getBorderBottom());
-			returned.setBorderLeft(fibGraph.getBorderLeft());
-			returned.setBorderRight(fibGraph.getBorderRight());
+			graph.setBorderTop(fibGraph.getBorderTop());
+			graph.setBorderBottom(fibGraph.getBorderBottom());
+			graph.setBorderLeft(fibGraph.getBorderLeft());
+			graph.setBorderRight(fibGraph.getBorderRight());
 
 			// Set parameter name and type
 			// System.out.println("Parameter " + fibGraph.getParameterName() + " type=" + fibGraph.getParameterType());
-			returned.setParameter(fibGraph.getParameterName(), fibGraph.getParameterType());
+			graph.setParameter(fibGraph.getParameterName(), fibGraph.getParameterType());
 
 			// Set discrete values
-			List<?> values = new ArrayList<>();
+			/*List<?> values = new ArrayList<>();
+			
+			System.out.println("les values c'est " + fibGraph.getValues());
+			
 			if (fibGraph.getValues() != null && fibGraph.getValues().isSet() && fibGraph.getValues().isValid()) {
 				try {
 					values = fibGraph.getValues().getBindingValue(JFIBDiscreteSimpleGraphWidget.this);
+					System.out.println("et on a: " + values);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 			// System.out.println("values=" + values);
 			returned.setDiscreteValues((List) values);
-
+			
 			// Labels of discrete values
 			if (fibGraph.getLabels() != null && fibGraph.getLabels().isSet() && fibGraph.getLabels().isValid()) {
 				returned.setDiscreteValuesLabel(fibGraph.getLabels());
+			}*/
+
+			// Set discrete values
+			List<?> values = new ArrayList<>();
+			if (fibGraph.getValues() != null && fibGraph.getValues().isSet() && fibGraph.getValues().isValid()) {
+				try {
+					values = fibGraph.getValues().getBindingValue(JFIBDiscreteSimpleGraphWidget.this);
+					updateDiscreteValues(values);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 
-			appendFunctions(fibGraph, returned, getController());
+			// Labels of discrete values
+			updateDiscreteValuesLabel();
 
-			return returned;
+			appendFunctions(fibGraph, graph, getController());
+
+			return graph;
 		}
 
 		@Override
@@ -121,6 +199,80 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 				System.out.println("---------------> On reconstruit le graphe entierement a cause de " + evt.getPropertyName());
 				updateGraph();
 			}
+			if (discreteValuesBeeingListened != null && discreteValuesBeeingListened.contains(evt.getSource())) {
+				if (!evt.getPropertyName().equals("serializing")) {
+					System.out.println("Updating graph because property " + evt.getPropertyName() + " changed for " + evt.getSource());
+					updateGraph();
+				}
+			}
+		}
+
+		private List<HasPropertyChangeSupport> discreteValuesBeeingListened;
+
+		protected void updateDiscreteValues(List<?> values) {
+			stopListenDiscreteValues();
+			if (values != null) {
+				for (Object o : values) {
+					if (o instanceof HasPropertyChangeSupport) {
+						discreteValuesBeeingListened.add((HasPropertyChangeSupport) o);
+						((HasPropertyChangeSupport) o).getPropertyChangeSupport().addPropertyChangeListener(this);
+					}
+				}
+			}
+
+			/*if (getModel().getSecondaryValues().isSet() && getModel().getSecondaryValues().isValid()) {
+				System.out.println("hopala, on a des valeurs secondaires...");
+				graph.setSecondaryValues((DataBinding) getModel().getSecondaryValues());
+				List<?> primaryValues = values;
+				if (values != null) {
+					for (Object o : primaryValues) {
+						List<?> secondaryValues = graph.getSecondaryValues(o);
+						System.out.println("Pour l'objet " + o + " j'ai " + secondaryValues);
+					}
+				}
+			}*/
+
+			// else {
+			// System.out.println("values=" + values);
+			getGraph().setDiscreteValues((List) values);
+			// }
+
+		}
+
+		private void stopListenDiscreteValues() {
+			if (discreteValuesBeeingListened == null) {
+				discreteValuesBeeingListened = new ArrayList<>();
+			}
+			for (HasPropertyChangeSupport o : discreteValuesBeeingListened) {
+				o.getPropertyChangeSupport().removePropertyChangeListener(this);
+			}
+			discreteValuesBeeingListened.clear();
+		}
+
+		@Override
+		public void delete() {
+			stopListenDiscreteValues();
+			super.delete();
+		}
+
+		private void updateDiscreteValuesLabel() {
+			if (graph != null && getModel().getLabels() != null && getModel().getLabels().isSet() && getModel().getLabels().isValid()) {
+				graph.setDiscreteValuesLabel(getModel().getLabels());
+			}
+			else {
+				if (getModel().getLabels() != null && getModel().getLabels().isSet() && !getModel().getLabels().isValid()) {
+					logger.warning("Invalid discrete values label : invalid binding " + getModel().getLabels() + " reason: "
+							+ getModel().getLabels().invalidBindingReason());
+					// System.out.println("bindable: " + getModel().getLabels().getOwner());
+					// System.out.println("bm: " + getModel().getLabels().getOwner().getBindingModel());
+				}
+			}
+		}
+
+		@Override
+		protected void performUpdateGraph() {
+			super.performUpdateGraph();
+			updateDiscreteValuesLabel();
 		}
 
 	}

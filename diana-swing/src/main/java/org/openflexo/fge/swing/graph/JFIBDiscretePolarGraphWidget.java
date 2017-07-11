@@ -245,7 +245,7 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 				System.out.println("Rebuilding graph because of " + evt.getPropertyName() + " changed for " + evt.getSource());
 				updateGraph();
 			}
-			if (discreteValuesBeeingListened.contains(evt.getSource())) {
+			if (discreteValuesBeeingListened != null && discreteValuesBeeingListened.contains(evt.getSource())) {
 				if (!evt.getPropertyName().equals("serializing")) {
 					System.out.println("Updating graph because property " + evt.getPropertyName() + " changed for " + evt.getSource());
 					updateGraph();

@@ -265,6 +265,20 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 	public class FGEGraphEvaluator implements BindingEvaluationContext {
 
 		private final Map<String, Object> values = new HashMap<>();
+		private BindingEvaluationContext evaluationContext;
+
+		public BindingEvaluationContext getEvaluationContext() {
+			return evaluationContext;
+		}
+
+		public void setEvaluationContext(BindingEvaluationContext evaluationContext) {
+			if ((evaluationContext == null && this.evaluationContext != null)
+					|| (evaluationContext != null && !evaluationContext.equals(this.evaluationContext))) {
+				BindingEvaluationContext oldValue = this.evaluationContext;
+				this.evaluationContext = evaluationContext;
+				getPropertyChangeSupport().firePropertyChange("evaluationContext", oldValue, evaluationContext);
+			}
+		}
 
 		public Object get(String parameter) {
 			return values.get(parameter);
@@ -276,7 +290,11 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 
 		@Override
 		public Object getValue(BindingVariable variable) {
-			return values.get(variable.getVariableName());
+			Object returned = values.get(variable.getVariableName());
+			if (returned == null && getEvaluationContext() != null) {
+				returned = getEvaluationContext().getValue(variable);
+			}
+			return returned;
 		}
 
 	}

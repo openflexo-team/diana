@@ -383,56 +383,60 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			if (evt.getSource() instanceof FIBGraphFunction) {
 				FIBGraphFunction fibFunction = (FIBGraphFunction) evt.getSource();
 				FGEFunction<?> fgeFunction = graph.getFunction(fibFunction.getName());
-				if (evt.getPropertyName().equals(FIBGraphFunction.EXPRESSION_KEY)) {
-					// System.out.println("On reconstruit la graphe a cause de la fonction qui change: " + evt.getPropertyName());
-					if (fgeFunction != null) {
-						fgeFunction.setFunctionExpression((DataBinding) fibFunction.getExpression());
+				if (fgeFunction != null) {
+					if (evt.getPropertyName().equals(FIBGraphFunction.EXPRESSION_KEY)) {
+						// System.out.println("On reconstruit la graphe a cause de la fonction qui change: " + evt.getPropertyName());
+						if (fgeFunction != null) {
+							fgeFunction.setFunctionExpression((DataBinding) fibFunction.getExpression());
+						}
+						else {
+							logger.warning("Inconsistent data : could not find FGEFunction matching " + fibFunction);
+						}
+						updateGraph();
 					}
-					else {
-						logger.warning("Inconsistent data : could not find FGEFunction matching " + fibFunction);
+					else if (evt.getPropertyName().equals(FIBGraphFunction.GRAPH_TYPE_KEY)) {
+						fgeFunction.setGraphType(getGraphType(fibFunction.getGraphType()));
+						if (fibFunction.getGraphType() == GraphType.COLORED_STEPS) {
+							fgeFunction.setAngleSpacing(fibFunction.getAngleSpacing());
+							fgeFunction.setStepsSpacing(fibFunction.getStepsSpacing());
+						}
+						updateGraph();
 					}
-					updateGraph();
-				}
-				else if (evt.getPropertyName().equals(FIBGraphFunction.GRAPH_TYPE_KEY)) {
-					fgeFunction.setGraphType(getGraphType(fibFunction.getGraphType()));
-					if (fibFunction.getGraphType() == GraphType.COLORED_STEPS) {
+					else if (evt.getPropertyName().equals(FIBGraphFunction.ANGLE_SPACING_KEY)) {
 						fgeFunction.setAngleSpacing(fibFunction.getAngleSpacing());
-						fgeFunction.setStepsSpacing(fibFunction.getStepsSpacing());
+						updateGraph();
 					}
-					updateGraph();
-				}
-				else if (evt.getPropertyName().equals(FIBGraphFunction.ANGLE_SPACING_KEY)) {
-					fgeFunction.setAngleSpacing(fibFunction.getAngleSpacing());
-					updateGraph();
-				}
-				else if (evt.getPropertyName().equals(FIBGraphFunction.STEPS_SPACING_KEY)) {
-					fgeFunction.setStepsSpacing(fibFunction.getStepsSpacing());
-					updateGraph();
+					else if (evt.getPropertyName().equals(FIBGraphFunction.STEPS_SPACING_KEY)) {
+						fgeFunction.setStepsSpacing(fibFunction.getStepsSpacing());
+						updateGraph();
+					}
 				}
 			}
 			if (evt.getSource() instanceof FIBNumericFunction) {
 				FIBNumericFunction fibNumericFunction = (FIBNumericFunction) evt.getSource();
 				FGENumericFunction fgeFunction = (FGENumericFunction<?>) graph.getFunction(fibNumericFunction.getName());
-				if (evt.getPropertyName().equals(FIBNumericFunction.MAX_VALUE_KEY)
-						|| evt.getPropertyName().equals(FIBNumericFunction.MIN_VALUE_KEY)) {
-					updateMinAndMax(fibNumericFunction, fgeFunction);
-					updateGraph();
-				}
-				if (evt.getPropertyName().equals(FIBNumericFunction.MAJOR_TICK_SPACING_KEY)) {
-					updateMajorTickSpacing(fibNumericFunction, fgeFunction);
-					updateGraph();
-				}
-				if (evt.getPropertyName().equals(FIBNumericFunction.MINOR_TICK_SPACING_KEY)) {
-					updateMinorTickSpacing(fibNumericFunction, fgeFunction);
-					updateGraph();
-				}
-				if (evt.getPropertyName().equals(FIBNumericFunction.STEPS_NUMBER_KEY)) {
-					updateStepsNumber(fibNumericFunction, fgeFunction);
-					updateGraph();
-				}
-				if (evt.getPropertyName().equals(FIBNumericFunction.DISPLAY_LABELS_KEY)) {
-					fgeFunction.setDisplayLabels(fibNumericFunction.getDisplayLabels());
-					updateGraph();
+				if (fgeFunction != null) {
+					if (evt.getPropertyName().equals(FIBNumericFunction.MAX_VALUE_KEY)
+							|| evt.getPropertyName().equals(FIBNumericFunction.MIN_VALUE_KEY)) {
+						updateMinAndMax(fibNumericFunction, fgeFunction);
+						updateGraph();
+					}
+					if (evt.getPropertyName().equals(FIBNumericFunction.MAJOR_TICK_SPACING_KEY)) {
+						updateMajorTickSpacing(fibNumericFunction, fgeFunction);
+						updateGraph();
+					}
+					if (evt.getPropertyName().equals(FIBNumericFunction.MINOR_TICK_SPACING_KEY)) {
+						updateMinorTickSpacing(fibNumericFunction, fgeFunction);
+						updateGraph();
+					}
+					if (evt.getPropertyName().equals(FIBNumericFunction.STEPS_NUMBER_KEY)) {
+						updateStepsNumber(fibNumericFunction, fgeFunction);
+						updateGraph();
+					}
+					if (evt.getPropertyName().equals(FIBNumericFunction.DISPLAY_LABELS_KEY)) {
+						fgeFunction.setDisplayLabels(fibNumericFunction.getDisplayLabels());
+						updateGraph();
+					}
 				}
 			}
 		}
