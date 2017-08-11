@@ -14,7 +14,7 @@
 .project
 .settings
 /.pmd
-/.gitignore
 target/
 /.gradle/
 build/
+**/out/
