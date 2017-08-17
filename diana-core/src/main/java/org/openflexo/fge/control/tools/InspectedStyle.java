@@ -594,6 +594,11 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		return false;
 	}
 
+	public void updateWith(Object obj) {
+		// Not relevant
+		return;
+	}
+
 	public Object cloneObject() {
 		// Not relevant
 		return null;
