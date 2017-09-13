@@ -97,7 +97,9 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 
 	public void setParameter(String parameterName, Type parameterType) {
 		parameterTypes.put(parameterName, parameterType);
-		bindingModel.addToBindingVariables(new BindingVariable(parameterName, parameterType));
+		BindingVariable parameterBindingVariable = new BindingVariable(parameterName, parameterType);
+		parameterBindingVariable.setCacheable(false);
+		bindingModel.addToBindingVariables(parameterBindingVariable);
 	}
 
 	/**
