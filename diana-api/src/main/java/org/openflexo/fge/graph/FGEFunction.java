@@ -204,7 +204,11 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 	public FunctionRepresentation getRepresentation() {
 
 		if (representation == null) {
-			representation = buildRepresentation();
+			try {
+				representation = buildRepresentation();
+			} catch (Exception e) {
+				logger.warning("Unexpected exception " + e);
+			}
 		}
 
 		return representation;

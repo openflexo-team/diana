@@ -40,6 +40,7 @@ package org.openflexo.fge.graph;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
 
@@ -53,6 +54,8 @@ import org.openflexo.connie.DataBinding;
  *            type of values given by the expression (should be a {@link Number} subclass)
  */
 public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
+
+	private static final Logger logger = Logger.getLogger(FGENumericFunction.class.getPackage().getName());
 
 	private T minValue = null;
 	private T maxValue = null;
@@ -203,54 +206,58 @@ public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 		computedMaxValue = null;
 
 		for (FunctionSample<X, T> s : samples) {
-			T value = s.value;
-			if (value instanceof Double) {
-				if (computedMinValue == null || (Double) value < (Double) computedMinValue) {
-					computedMinValue = value;
+			try {
+				T value = s.value;
+				if (value instanceof Double) {
+					if (computedMinValue == null || (Double) value < (Double) computedMinValue) {
+						computedMinValue = value;
+					}
+					if (computedMaxValue == null || (Double) value > (Double) computedMaxValue) {
+						computedMaxValue = value;
+					}
 				}
-				if (computedMaxValue == null || (Double) value > (Double) computedMaxValue) {
-					computedMaxValue = value;
+				else if (value instanceof Float) {
+					if (computedMinValue == null || (Float) value < (Float) computedMinValue) {
+						computedMinValue = value;
+					}
+					if (computedMaxValue == null || (Float) value > (Float) computedMaxValue) {
+						computedMaxValue = value;
+					}
 				}
-			}
-			else if (value instanceof Float) {
-				if (computedMinValue == null || (Float) value < (Float) computedMinValue) {
-					computedMinValue = value;
+				else if (value instanceof Long) {
+					if (computedMinValue == null || (Long) value < (Long) computedMinValue) {
+						computedMinValue = value;
+					}
+					if (computedMaxValue == null || (Long) value > (Long) computedMaxValue) {
+						computedMaxValue = value;
+					}
 				}
-				if (computedMaxValue == null || (Float) value > (Float) computedMaxValue) {
-					computedMaxValue = value;
+				else if (value instanceof Integer) {
+					if (computedMinValue == null || (Integer) value < (Integer) computedMinValue) {
+						computedMinValue = value;
+					}
+					if (computedMaxValue == null || (Integer) value > (Integer) computedMaxValue) {
+						computedMaxValue = value;
+					}
 				}
-			}
-			else if (value instanceof Long) {
-				if (computedMinValue == null || (Long) value < (Long) computedMinValue) {
-					computedMinValue = value;
+				else if (value instanceof Short) {
+					if (computedMinValue == null || (Short) value < (Short) computedMinValue) {
+						computedMinValue = value;
+					}
+					if (computedMaxValue == null || (Short) value > (Short) computedMaxValue) {
+						computedMaxValue = value;
+					}
 				}
-				if (computedMaxValue == null || (Long) value > (Long) computedMaxValue) {
-					computedMaxValue = value;
+				else if (value instanceof Byte) {
+					if (computedMinValue == null || (Byte) value < (Byte) computedMinValue) {
+						computedMinValue = value;
+					}
+					if (computedMaxValue == null || (Byte) value > (Byte) computedMaxValue) {
+						computedMaxValue = value;
+					}
 				}
-			}
-			else if (value instanceof Integer) {
-				if (computedMinValue == null || (Integer) value < (Integer) computedMinValue) {
-					computedMinValue = value;
-				}
-				if (computedMaxValue == null || (Integer) value > (Integer) computedMaxValue) {
-					computedMaxValue = value;
-				}
-			}
-			else if (value instanceof Short) {
-				if (computedMinValue == null || (Short) value < (Short) computedMinValue) {
-					computedMinValue = value;
-				}
-				if (computedMaxValue == null || (Short) value > (Short) computedMaxValue) {
-					computedMaxValue = value;
-				}
-			}
-			else if (value instanceof Byte) {
-				if (computedMinValue == null || (Byte) value < (Byte) computedMinValue) {
-					computedMinValue = value;
-				}
-				if (computedMaxValue == null || (Byte) value > (Byte) computedMaxValue) {
-					computedMaxValue = value;
-				}
+			} catch (ClassCastException e) {
+				logger.warning("Unexpected ClassCastException: " + e.getMessage());
 			}
 		}
 
