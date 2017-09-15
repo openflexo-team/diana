@@ -1,6 +1,7 @@
 \ ;=\ ;
 BOTTOM=BOTTOM
 CENTER=CENTER
+CENTER_TO_CENTER=CENTER_TO_CENTER
 ConstrainedDragging=ConstrainedDragging
 ContinuousLayout=ContinuousLayout
 FreeDiaggingAndLayout=FreeDiaggingAndLayout
