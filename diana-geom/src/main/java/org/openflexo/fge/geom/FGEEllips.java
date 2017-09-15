@@ -98,7 +98,7 @@ public class FGEEllips extends FGEArc {
 
 	@Override
 	public List<FGEPoint> getControlPoints() {
-		Vector<FGEPoint> returned = new Vector<FGEPoint>();
+		Vector<FGEPoint> returned = new Vector<>();
 		returned.add(new FGEPoint(x + width / 2.0, y));
 		returned.add(new FGEPoint(x, y + height / 2.0));
 		returned.add(new FGEPoint(x + width / 2.0, y + height));

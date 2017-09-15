@@ -91,7 +91,7 @@ public class TestFGEContinuousFunctionGraph {
 	@Test
 	@TestOrder(1)
 	public void test1InitGraph() {
-		graph = new FGEContinuousSimpleFunctionGraph<Double>(Double.class);
+		graph = new FGEContinuousSimpleFunctionGraph<>(Double.class);
 		graph.setParameter("x", Double.class);
 		graph.setParameterRange(-10.0, 10.0);
 

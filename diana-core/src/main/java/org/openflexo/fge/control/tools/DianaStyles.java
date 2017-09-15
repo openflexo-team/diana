@@ -361,33 +361,35 @@ public abstract class DianaStyles<C, F extends DianaViewFactory<F, ? super C>> e
 		}
 	}
 
+	/* Unused
 	private void updateSelection() {
 		if (getSelection().size() > 0) {
 			getTextStyleSelector().setEditedObject(getSelection().get(0).getTextStyle());
-			/*if (getSelectedShapes().size() > 0) {
+			*//*if (getSelectedShapes().size() > 0) {
 				getForegroundSelector().setEditedObject(getSelectedShapes().get(0).getGraphicalRepresentation().getForeground());
-			} else if (getSelectedConnectors().size() > 0) {
+				} else if (getSelectedConnectors().size() > 0) {
 				getForegroundSelector().setEditedObject(getSelectedConnectors().get(0).getGraphicalRepresentation().getForeground());
-			}*/
-		}
-		else {
-			// getTextStyleSelector().setEditedObject(getEditor().getCurrentTextStyle());
-			// getForegroundSelector().setEditedObject(getEditor().getCurrentForegroundStyle());
-		}
-		if (getSelectedShapes().size() > 0) {
-			// shapeFactory.setShape(getSelectedShapes().get(0).getGraphicalRepresentation().getShapeSpecification());
-			// getShapeSelector().setEditedObject(getSelectedShapes().get(0).getGraphicalRepresentation().getShapeSpecification());
-			// bsFactory.setBackgroundStyle(getSelectedShapes().get(0).getGraphicalRepresentation().getBackground());
-			// getBackgroundSelector().setEditedObject(getSelectedShapes().get(0).getGraphicalRepresentation().getBackground());
-			// getShadowStyleSelector().setEditedObject(getSelectedShapes().get(0).getGraphicalRepresentation().getShadowStyle());
-		}
-		else {
-			// shapeFactory.setShape(getEditor().getCurrentShape());
-			// getShapeSelector().setEditedObject(getEditor().getCurrentShape());
-			// bsFactory.setBackgroundStyle(getEditor().getCurrentBackgroundStyle());
-			// getBackgroundSelector().setEditedObject(getEditor().getCurrentBackgroundStyle());
-			// getShadowStyleSelector().setEditedObject(getEditor().getCurrentShadowStyle());
-		}
-	}
+				}*//*
+					}
+					else {
+					// getTextStyleSelector().setEditedObject(getEditor().getCurrentTextStyle());
+					// getForegroundSelector().setEditedObject(getEditor().getCurrentForegroundStyle());
+					}
+					if (getSelectedShapes().size() > 0) {
+					// shapeFactory.setShape(getSelectedShapes().get(0).getGraphicalRepresentation().getShapeSpecification());
+					// getShapeSelector().setEditedObject(getSelectedShapes().get(0).getGraphicalRepresentation().getShapeSpecification());
+					// bsFactory.setBackgroundStyle(getSelectedShapes().get(0).getGraphicalRepresentation().getBackground());
+					// getBackgroundSelector().setEditedObject(getSelectedShapes().get(0).getGraphicalRepresentation().getBackground());
+					// getShadowStyleSelector().setEditedObject(getSelectedShapes().get(0).getGraphicalRepresentation().getShadowStyle());
+					}
+					else {
+					// shapeFactory.setShape(getEditor().getCurrentShape());
+					// getShapeSelector().setEditedObject(getEditor().getCurrentShape());
+					// bsFactory.setBackgroundStyle(getEditor().getCurrentBackgroundStyle());
+					// getBackgroundSelector().setEditedObject(getEditor().getCurrentBackgroundStyle());
+					// getShadowStyleSelector().setEditedObject(getEditor().getCurrentShadowStyle());
+					}
+					}
+					*/
 
 }

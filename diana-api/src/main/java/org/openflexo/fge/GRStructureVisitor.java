@@ -271,9 +271,9 @@ public abstract class GRStructureVisitor<R> {
 		DrawingTreeNode<?, ?> toNode = drawing.getDrawingTreeNode(toDrawable);
 		if (fromNode == null || toNode == null || node == null) {
 			// Not fully resolved now, declare as pending
-			DrawingTreeNodeIdentifier<?> parentNodeIdentifier = new DrawingTreeNodeIdentifier(node.getDrawable(), node.getGRBinding());
-			DrawingTreeNodeIdentifier<?> startNodeIdentifier = new DrawingTreeNodeIdentifier(fromDrawable, null);
-			DrawingTreeNodeIdentifier<?> endNodeIdentifier = new DrawingTreeNodeIdentifier(toDrawable, null);
+			DrawingTreeNodeIdentifier<?> parentNodeIdentifier = new DrawingTreeNodeIdentifier<>(node.getDrawable(), node.getGRBinding());
+			DrawingTreeNodeIdentifier<?> startNodeIdentifier = new DrawingTreeNodeIdentifier<>(fromDrawable, null);
+			DrawingTreeNodeIdentifier<?> endNodeIdentifier = new DrawingTreeNodeIdentifier<>(toDrawable, null);
 			return drawPendingConnector(binding, drawable, parentNodeIdentifier, startNodeIdentifier, endNodeIdentifier).getConnectorNode();
 		}
 		if (!(fromNode instanceof ShapeNode)) {
@@ -311,9 +311,9 @@ public abstract class GRStructureVisitor<R> {
 		DrawingTreeNode<?, ?> toNode = drawing.getDrawingTreeNode(toDrawable);
 		if (fromNode == null || toNode == null || node == null) {
 			// Not fully resolved now, declare as pending
-			DrawingTreeNodeIdentifier<?> parentNodeIdentifier = new DrawingTreeNodeIdentifier(parentDrawable, null);
-			DrawingTreeNodeIdentifier<?> startNodeIdentifier = new DrawingTreeNodeIdentifier(fromDrawable, null);
-			DrawingTreeNodeIdentifier<?> endNodeIdentifier = new DrawingTreeNodeIdentifier(toDrawable, null);
+			DrawingTreeNodeIdentifier<?> parentNodeIdentifier = new DrawingTreeNodeIdentifier<>(parentDrawable, null);
+			DrawingTreeNodeIdentifier<?> startNodeIdentifier = new DrawingTreeNodeIdentifier<>(fromDrawable, null);
+			DrawingTreeNodeIdentifier<?> endNodeIdentifier = new DrawingTreeNodeIdentifier<>(toDrawable, null);
 			return drawPendingConnector(binding, drawable, parentNodeIdentifier, startNodeIdentifier, endNodeIdentifier).getConnectorNode();
 		}
 		if (!(fromNode instanceof ShapeNode)) {
@@ -356,9 +356,9 @@ public abstract class GRStructureVisitor<R> {
 		DrawingTreeNode<?, ?> toNode = drawing.getDrawingTreeNode(toDrawable, toBinding);
 		if (fromNode == null || toNode == null || node == null) {
 			// Not fully resolved now, declare as pending
-			DrawingTreeNodeIdentifier<?> parentNodeIdentifier = new DrawingTreeNodeIdentifier(node.getDrawable(), node.getGRBinding());
-			DrawingTreeNodeIdentifier<?> startNodeIdentifier = new DrawingTreeNodeIdentifier(fromDrawable, null);
-			DrawingTreeNodeIdentifier<?> endNodeIdentifier = new DrawingTreeNodeIdentifier(toDrawable, null);
+			DrawingTreeNodeIdentifier<?> parentNodeIdentifier = new DrawingTreeNodeIdentifier<>(node.getDrawable(), node.getGRBinding());
+			DrawingTreeNodeIdentifier<?> startNodeIdentifier = new DrawingTreeNodeIdentifier<>(fromDrawable, null);
+			DrawingTreeNodeIdentifier<?> endNodeIdentifier = new DrawingTreeNodeIdentifier<>(toDrawable, null);
 			return drawPendingConnector(binding, drawable, parentNodeIdentifier, startNodeIdentifier, endNodeIdentifier).getConnectorNode();
 		}
 		if (!(fromNode instanceof ShapeNode)) {
@@ -399,9 +399,9 @@ public abstract class GRStructureVisitor<R> {
 		if (!(fromNode instanceof ShapeNode)) {
 			if (fromNode == null || toNode == null || node == null) {
 				// Not fully resolved now, declare as pending
-				DrawingTreeNodeIdentifier<?> parentNodeIdentifier = new DrawingTreeNodeIdentifier(parentDrawable, parentBinding);
-				DrawingTreeNodeIdentifier<?> startNodeIdentifier = new DrawingTreeNodeIdentifier(fromDrawable, null);
-				DrawingTreeNodeIdentifier<?> endNodeIdentifier = new DrawingTreeNodeIdentifier(toDrawable, null);
+				DrawingTreeNodeIdentifier<?> parentNodeIdentifier = new DrawingTreeNodeIdentifier<>(parentDrawable, parentBinding);
+				DrawingTreeNodeIdentifier<?> startNodeIdentifier = new DrawingTreeNodeIdentifier<>(fromDrawable, null);
+				DrawingTreeNodeIdentifier<?> endNodeIdentifier = new DrawingTreeNodeIdentifier<>(toDrawable, null);
 				return drawPendingConnector(binding, drawable, parentNodeIdentifier, startNodeIdentifier, endNodeIdentifier)
 						.getConnectorNode();
 			}

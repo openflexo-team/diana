@@ -188,7 +188,7 @@ public class FGEQuadCurve extends Double implements FGEGeneralShape.GeneralShape
 
 	@Override
 	public List<FGEPoint> getControlPoints() {
-		Vector<FGEPoint> returned = new Vector<FGEPoint>();
+		Vector<FGEPoint> returned = new Vector<>();
 		returned.add(getP1());
 		returned.add(getP2());
 		return returned;
@@ -405,7 +405,7 @@ public class FGEQuadCurve extends Double implements FGEGeneralShape.GeneralShape
 				|| intersectsLine(eqn, x1, ctrlX, x2, rx + rw, y1, ctrlY, y2, ry, ry + rh); // Right
 	}
 
-	private boolean rectangleContains(double x, double y, double rx, double ry, double rw, double rh) {
+	private static boolean rectangleContains(double x, double y, double rx, double ry, double rw, double rh) {
 		return x >= rx && y >= ry && x < rx + rw && y < ry + rh;
 	}
 

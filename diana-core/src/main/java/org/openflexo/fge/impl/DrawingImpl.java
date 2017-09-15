@@ -45,7 +45,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javassist.util.proxy.ProxyObject;
+
 import org.openflexo.fge.Drawing;
 import org.openflexo.fge.FGELayoutManager;
 import org.openflexo.fge.FGEModelFactory;
@@ -70,6 +70,8 @@ import org.openflexo.fge.notifications.DrawingTreeNodeHierarchyRebuildStarted;
 import org.openflexo.fge.notifications.FGENotification;
 import org.openflexo.model.factory.ProxyMethodHandler;
 import org.openflexo.model.undo.UndoManager;
+
+import javassist.util.proxy.ProxyObject;
 
 /**
  * This class is the default implementation for all objects representing a graphical drawing, that is a complex graphical representation
@@ -659,7 +661,7 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 		}
 	}
 
-	private <O> boolean deleteNode(DrawingTreeNode<?, ?> node) {
+	private static <O> boolean deleteNode(DrawingTreeNode<?, ?> node) {
 		// ContainerNode<?, ?> parentNode = node.getParentNode();
 		return node.delete();
 		/*if (parentNode != null) {
@@ -878,7 +880,7 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 
 	// Delete nodes
 	private void deleteNodes(List<GRBinding> grBindingsToDelete) {
-		for (GRBinding grBinding : grBindingsToDelete) {
+		for (GRBinding<?, ?> grBinding : grBindingsToDelete) {
 			for (DrawingTreeNode<?, ?> dtn : new ArrayList<>(retrieveHash(grBinding).values())) {
 				dtn.delete();
 			}

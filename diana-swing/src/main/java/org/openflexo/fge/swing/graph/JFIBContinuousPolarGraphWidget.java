@@ -45,7 +45,6 @@ import java.util.logging.Logger;
 import org.openflexo.fge.graph.FGEContinuousPolarFunctionGraph;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.graph.FIBContinuousPolarFunctionGraph;
-import org.openflexo.gina.model.graph.FIBContinuousPolarFunctionGraph;
 
 /**
  * Swing implementation for a {@link FIBContinuousPolarFunctionGraph} view<br>

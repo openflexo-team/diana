@@ -115,7 +115,7 @@ public abstract class ColorGradientBackgroundStyleImpl extends BackgroundStyleIm
 		return "BackgroundStyle.COLOR_GRADIENT(" + getColor1() + "," + getColor2() + "," + getDirection() + ")";
 	}*/
 
-	private boolean requireChange(Object oldObject, Object newObject) {
+	private static boolean requireChange(Object oldObject, Object newObject) {
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;

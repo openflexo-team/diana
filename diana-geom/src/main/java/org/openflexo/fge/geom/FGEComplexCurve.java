@@ -63,7 +63,7 @@ public class FGEComplexCurve extends FGEGeneralShape<FGEComplexCurve> {
 
 	public FGEComplexCurve(Closure closure) {
 		super(closure);
-		_points = new Vector<FGEPoint>();
+		_points = new Vector<>();
 	}
 
 	public FGEComplexCurve() {
@@ -255,7 +255,7 @@ public class FGEComplexCurve extends FGEGeneralShape<FGEComplexCurve> {
 
 	@Override
 	public FGEComplexCurve transform(AffineTransform t) {
-		Vector<FGEPoint> points = new Vector<FGEPoint>();
+		Vector<FGEPoint> points = new Vector<>();
 		for (FGEPoint p : _points) {
 			points.add(p.transform(t));
 		}

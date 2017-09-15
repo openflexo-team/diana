@@ -147,7 +147,7 @@ public abstract class ShadowStyleImpl extends FGEStyleImpl implements ShadowStyl
 		}
 	}*/
 
-	private boolean requireChange(Object oldObject, Object newObject) {
+	private static boolean requireChange(Object oldObject, Object newObject) {
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;

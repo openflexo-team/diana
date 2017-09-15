@@ -78,7 +78,7 @@ public abstract class ColorBackgroundStyleImpl extends BackgroundStyleImpl imple
 		return "BackgroundStyle.COLOR(" + getColor() + ")";
 	}*/
 
-	private boolean requireChange(Object oldObject, Object newObject) {
+	private static boolean requireChange(Object oldObject, Object newObject) {
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;

@@ -68,7 +68,7 @@ public interface FGEObject extends AccessibleProxyObject, DeletableProxyObject, 
 
 	public <T> void notifyAttributeChange(GRProperty<T> parameter);
 
-	public void notify(FGEAttributeNotification notification);
+	public void notify(FGEAttributeNotification<?> notification);
 
 	// *******************************************************************************
 	// * Deletion management

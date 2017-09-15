@@ -165,7 +165,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 	@Override
 	protected JFIBGraphPanel makeTechnologyComponent() {
 		graphDrawing = makeGraphDrawing();
-		return new JFIBGraphPanel(graphDrawing);
+		return new JFIBGraphPanel<>(graphDrawing);
 	}
 
 	@Override

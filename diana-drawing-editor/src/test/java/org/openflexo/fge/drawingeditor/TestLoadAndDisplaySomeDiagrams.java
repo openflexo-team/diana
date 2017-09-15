@@ -114,7 +114,7 @@ public class TestLoadAndDisplaySomeDiagrams {
 		}
 	}
 
-	private DiagramEditor deserializeAndDisplay(File file) {
+	private static DiagramEditor deserializeAndDisplay(File file) {
 		System.out.println("Loading " + file.getAbsolutePath() + " exists=" + file.exists());
 		final DiagramEditor diagramEditor = DiagramEditor.loadDiagramEditor(file, FACTORY, application);
 		System.out.println("Deserialized:");

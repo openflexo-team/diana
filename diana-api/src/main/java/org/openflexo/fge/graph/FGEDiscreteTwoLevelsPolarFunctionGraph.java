@@ -471,7 +471,7 @@ public class FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends FGEDiscreteP
 						function.getBackgroundStyle());
 			case COLORED_STEPS:
 				if (function instanceof FGENumericFunction) {
-					FGENumericFunction numFunction = (FGENumericFunction) function;
+					FGENumericFunction<?> numFunction = (FGENumericFunction<?>) function;
 					List<ElementRepresentation> elements = new ArrayList<>();
 					Color color1 = Color.RED;
 					Color color2 = Color.GREEN;

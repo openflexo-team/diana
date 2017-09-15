@@ -108,16 +108,19 @@
 
 package org.openflexo.fge;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
+
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.rm.Resource;
 import org.openflexo.rm.ResourceLocator;
@@ -136,38 +139,41 @@ public abstract class ScreenshotBuilder<T> {
 
 	private static final Logger logger = FlexoLogger.getLogger(ScreenshotBuilder.class.getPackage().getName());
 
-	protected static final String BAD_FILE_NAME_CHARACTERS_REG_EXP = "[^-A-Za-z0-9]";
-
-	protected static final Pattern BAD_FILE_NAME_CHARACTERS_PATTERN = Pattern.compile(BAD_FILE_NAME_CHARACTERS_REG_EXP);
-
-	private static final String REPLACEMENT = "-";
-	
 	private boolean hasParent = false;
 
 	public abstract String getScreenshotName(T o);
 
-	private String getImageName(String type, String name, long flexoID) {
+	/* Unused
+	private static final String BAD_FILE_NAME_CHARACTERS_REG_EXP = "[^-A-Za-z0-9]";
+	
+	private static final String REPLACEMENT = "-";
+	
+	private static final Pattern BAD_FILE_NAME_CHARACTERS_PATTERN = Pattern.compile(BAD_FILE_NAME_CHARACTERS_REG_EXP);
+	
+	private static String getImageName(String type, String name, long flexoID) {
 		return trim(formatImageName(type + "-" + name)) + flexoID;
 	}
-
-	private String trim(String name) {
+	
+	private static String trim(String name) {
 		// Max-length is 255 chars
 		// We need to remove 20 characters for the flexoID Long.MAX_VALUE is 20 digits
 		// We need to remove 4 chars for the extension (.png)
 		// Let's be cautious and add an extra 30 chars security
 		if (name.length() > 200) {
 			return name.substring(0, 200).trim();
-		} else {
+		}
+		else {
 			return name;
 		}
 	}
-
-	private String formatImageName(String imageName) {
+	
+	private static String formatImageName(String imageName) {
 		if (imageName == null) {
 			return null;
 		}
 		return BAD_FILE_NAME_CHARACTERS_PATTERN.matcher(imageName).replaceAll(REPLACEMENT);
 	}
+	 */
 
 	public boolean isHasParent() {
 		return hasParent;
@@ -176,7 +182,7 @@ public abstract class ScreenshotBuilder<T> {
 	public void setHasParent(boolean hasParent) {
 		this.hasParent = hasParent;
 	}
-	
+
 	public ScreenshotImage<T> getImage(T object) {
 		if (object == null) {
 			if (logger.isLoggable(Level.WARNING)) {
@@ -198,8 +204,8 @@ public abstract class ScreenshotBuilder<T> {
 			if (component == null) {
 				return getEmptyScreenshot();
 			}
-			ScreenshotImageRunnable runnable = new ScreenshotImageRunnable(component, object , hasParent);
-			ScreenshotImage i = null;
+			ScreenshotImageRunnable runnable = new ScreenshotImageRunnable(component, object, hasParent);
+			ScreenshotImage<T> i = null;
 			try {
 				i = FlexoSwingUtils.syncRunInEDT(runnable);
 				FlexoSwingUtils.syncRunInEDT(new ScreenshotFinalizeRunnable(component, object));
@@ -254,7 +260,7 @@ public abstract class ScreenshotBuilder<T> {
 		private final JComponent component;
 		private final boolean hasParent;
 
-		protected ScreenshotImageRunnable(JComponent component, T object , boolean hasParent) {
+		protected ScreenshotImageRunnable(JComponent component, T object, boolean hasParent) {
 			this.component = component;
 			this.object = object;
 			this.hasParent = hasParent;
@@ -288,19 +294,20 @@ public abstract class ScreenshotBuilder<T> {
 
 	private ScreenshotImage<T> createImageForComponent(T object, JComponent c, boolean hasParent, boolean trim) {
 		ScreenshotImage<T> i = null;
-		if(hasParent){
+		if (hasParent) {
 			BufferedImage bi = ImageUtils.createImageFromComponent(getScreenshotComponent(object));
-			i = new ScreenshotImage<T>(object);
+			i = new ScreenshotImage<>(object);
 			if (trim) {
 				i = trimImage(object, bi);
-			} else {
-				i = new ScreenshotImage<T>(object);
+			}
+			else {
+				i = new ScreenshotImage<>(object);
 				i.image = bi;
 				i.trimInfo = new Rectangle(0, 0, bi.getWidth(), bi.getHeight());
 			}
 			return i;
 		}
-		else{
+		else {
 			JFrame frame = new JFrame();
 			try {
 				BufferedImage bi = null;
@@ -313,8 +320,9 @@ public abstract class ScreenshotBuilder<T> {
 				bi = ImageUtils.createImageFromComponent(c);
 				if (trim) {
 					i = trimImage(object, bi);
-				} else {
-					i = new ScreenshotImage<T>(object);
+				}
+				else {
+					i = new ScreenshotImage<>(object);
 					i.image = bi;
 					i.trimInfo = new Rectangle(0, 0, bi.getWidth(), bi.getHeight());
 				}
@@ -338,14 +346,14 @@ public abstract class ScreenshotBuilder<T> {
 	}
 
 	public ScreenshotImage<T> makeImage(T object, BufferedImage bi) {
-		ScreenshotImage<T> i = new ScreenshotImage<T>(object);
+		ScreenshotImage<T> i = new ScreenshotImage<>(object);
 		i.image = bi;
 		i.trimInfo = new Rectangle(0, 0, bi.getWidth(), bi.getHeight());
 		return i;
 	}
 
 	public ScreenshotImage<T> makeImage(T object, BufferedImage bi, int left, int top, int width, int height) {
-		ScreenshotImage<T> i = new ScreenshotImage<T>(object);
+		ScreenshotImage<T> i = new ScreenshotImage<>(object);
 		i.image = bi.getSubimage(left, top, width, height);
 		i.trimInfo = new Rectangle(left, top, width, height);
 		return i;
@@ -398,7 +406,7 @@ public abstract class ScreenshotBuilder<T> {
 		top = Math.max(top - border, 0);
 		right = Math.min(right - left + border, bi.getWidth() - 1 - left);
 		bottom = Math.min(bottom - top + border, bi.getHeight() - 1 - top);
-		ScreenshotImage i = new ScreenshotImage<T>(object);
+		ScreenshotImage<T> i = new ScreenshotImage<>(object);
 		i.image = bi.getSubimage(left, top, right, bottom);
 		i.trimInfo = new Rectangle(left, top, right, bottom);
 		return i;
@@ -414,7 +422,7 @@ public abstract class ScreenshotBuilder<T> {
 			if (fis != null) {
 				try {
 					BufferedImage bi = ImageIO.read(fis);
-					ScreenshotImage<T> i = new ScreenshotImage<T>(null);
+					ScreenshotImage<T> i = new ScreenshotImage<>(null);
 					i.image = bi;
 					i.trimInfo = new Rectangle(0, 0, bi.getWidth(), bi.getHeight());
 					return i;

@@ -48,7 +48,7 @@ public class TestGraph extends Observable {
 	private TestGraphNode rootNode;
 
 	public TestGraph() {
-		nodes = new ArrayList<TestGraphNode>();
+		nodes = new ArrayList<>();
 	}
 
 	public List<TestGraphNode> getNodes() {

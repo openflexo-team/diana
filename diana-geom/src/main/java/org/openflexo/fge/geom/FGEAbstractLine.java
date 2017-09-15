@@ -99,7 +99,8 @@ public abstract class FGEAbstractLine<L extends FGEAbstractLine<L>> extends Line
 			FGEPoint p1 = new FGEPoint(0, -pC / pB);
 			FGEPoint p2 = new FGEPoint(1, -(pA + pC) / pB);
 			setLine(p1, p2);
-		} else {
+		}
+		else {
 			FGEPoint p1 = new FGEPoint(-pC / pA, 0);
 			FGEPoint p2 = new FGEPoint(-pC / pA, 1);
 			setLine(p1, p2);
@@ -108,7 +109,7 @@ public abstract class FGEAbstractLine<L extends FGEAbstractLine<L>> extends Line
 
 	@Override
 	public List<FGEPoint> getControlPoints() {
-		Vector<FGEPoint> returned = new Vector<FGEPoint>();
+		Vector<FGEPoint> returned = new Vector<>();
 		returned.add(getP1());
 		returned.add(getP2());
 		return returned;
@@ -192,7 +193,8 @@ public abstract class FGEAbstractLine<L extends FGEAbstractLine<L>> extends Line
 			b = 1;
 			a = (y2 - y1) / (x1 - x2);
 			c = -(a * x1 + y1);
-		} else {
+		}
+		else {
 			b = 0;
 			a = 1;
 			c = -x1;
@@ -305,7 +307,8 @@ public abstract class FGEAbstractLine<L extends FGEAbstractLine<L>> extends Line
 
 		if (Math.abs(det) < EPSILON) { // parallel lines
 			throw new ParallelLinesException();
-		} else {
+		}
+		else {
 			return new FGEPoint(-(b * c1 - b1 * c) / det, (a * c1 - a1 * c) / det);
 		}
 	}
@@ -318,7 +321,8 @@ public abstract class FGEAbstractLine<L extends FGEAbstractLine<L>> extends Line
 
 		if (Math.abs(det) < EPSILON) { // parallel lines
 			return true;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -329,7 +333,8 @@ public abstract class FGEAbstractLine<L extends FGEAbstractLine<L>> extends Line
 
 		if (Math.abs(a * a1 - b * b1) < EPSILON) { // orthogonal lines
 			return true;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -351,7 +356,8 @@ public abstract class FGEAbstractLine<L extends FGEAbstractLine<L>> extends Line
 		}
 		if (k > 0) {
 			return 1; // We are on one side
-		} else {
+		}
+		else {
 			return -1; // We are on the other side
 		}
 	}
@@ -413,7 +419,8 @@ public abstract class FGEAbstractLine<L extends FGEAbstractLine<L>> extends Line
 			FGEPoint p1 = orthogonalLine.getLineIntersection(source);
 			FGEPoint p2 = orthogonalLine.getLineIntersection(destination);
 			return p1.y <= p2.y ? source : destination;
-		} else {
+		}
+		else {
 			throw new IllegalArgumentException("lines are not parallel");
 		}
 	}
@@ -424,7 +431,8 @@ public abstract class FGEAbstractLine<L extends FGEAbstractLine<L>> extends Line
 			FGEPoint p1 = orthogonalLine.getLineIntersection(source);
 			FGEPoint p2 = orthogonalLine.getLineIntersection(destination);
 			return p1.y >= p2.y ? source : destination;
-		} else {
+		}
+		else {
 			throw new IllegalArgumentException("lines are not parallel");
 		}
 	}
@@ -435,7 +443,8 @@ public abstract class FGEAbstractLine<L extends FGEAbstractLine<L>> extends Line
 			FGEPoint p1 = orthogonalLine.getLineIntersection(source);
 			FGEPoint p2 = orthogonalLine.getLineIntersection(destination);
 			return p1.x >= p2.x ? source : destination;
-		} else {
+		}
+		else {
 			throw new IllegalArgumentException("lines are not parallel");
 		}
 	}
@@ -446,7 +455,8 @@ public abstract class FGEAbstractLine<L extends FGEAbstractLine<L>> extends Line
 			FGEPoint p1 = orthogonalLine.getLineIntersection(source);
 			FGEPoint p2 = orthogonalLine.getLineIntersection(destination);
 			return p1.x <= p2.x ? source : destination;
-		} else {
+		}
+		else {
 			throw new IllegalArgumentException("lines are not parallel");
 		}
 	}
@@ -482,7 +492,8 @@ public abstract class FGEAbstractLine<L extends FGEAbstractLine<L>> extends Line
 			FGEPoint p = (FGEPoint) area;
 			if (containsPoint(p)) {
 				return p.clone();
-			} else {
+			}
+			else {
 				return new FGEEmptyArea();
 			}
 		}
@@ -513,7 +524,8 @@ public abstract class FGEAbstractLine<L extends FGEAbstractLine<L>> extends Line
 		FGEIntersectionArea returned = new FGEIntersectionArea(this, area);
 		if (returned.isDevelopable()) {
 			return returned.makeDevelopped();
-		} else {
+		}
+		else {
 			return returned;
 		}
 	}
@@ -575,13 +587,16 @@ public abstract class FGEAbstractLine<L extends FGEAbstractLine<L>> extends Line
 		if (hl.containsPoint(s.getP1())) {
 			if (hl.containsPoint(s.getP2())) {
 				return s.clone();
-			} else {
+			}
+			else {
 				return new FGESegment(hl.getLimit(), s.getP1());
 			}
-		} else {
+		}
+		else {
 			if (hl.containsPoint(s.getP2())) {
 				return new FGESegment(hl.getLimit(), s.getP2());
-			} else {
+			}
+			else {
 				return new FGEEmptyArea();
 			}
 		}
@@ -607,16 +622,19 @@ public abstract class FGEAbstractLine<L extends FGEAbstractLine<L>> extends Line
 		if (hl.overlap(this)) {
 			if (returned instanceof FGEArea) {
 				return null;
-			} else {
+			}
+			else {
 				return getNearestPoint(from);
 			}
 		}
 
 		if (returned instanceof FGEEmptyArea) {
 			return null;
-		} else if (returned instanceof FGEPoint) {
+		}
+		else if (returned instanceof FGEPoint) {
 			return (FGEPoint) returned;
-		} else {
+		}
+		else {
 			logger.warning("Unexpected area: " + returned);
 			return null;
 		}

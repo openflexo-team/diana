@@ -426,9 +426,10 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 	}
 
 	@Override
-	public ShapeImpl clone() {
+	public ShapeImpl<SS> clone() {
 		try {
-			ShapeImpl<?> returned = (ShapeImpl<?>) super.clone();
+			@SuppressWarnings("unchecked")
+			ShapeImpl<SS> returned = (ShapeImpl<SS>) super.clone();
 			// returned._controlPoints = null;
 			// returned.graphicalRepresentation = null;
 			// returned.updateShape();

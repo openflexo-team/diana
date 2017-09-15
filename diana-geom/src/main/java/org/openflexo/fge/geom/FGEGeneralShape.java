@@ -85,9 +85,9 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 	public FGEGeneralShape(Closure aClosure) {
 		super();
 		closure = aClosure;
-		pathElements = new Vector<GeneralShapePathElement<?>>();
+		pathElements = new Vector<>();
 		_generalPath = new GeneralPath();
-		_controlPoints = new Vector<FGEPoint>();
+		_controlPoints = new Vector<>();
 	}
 
 	public FGEGeneralShape(Closure aClosure, GeneralPath generalPath) {

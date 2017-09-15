@@ -1385,7 +1385,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setToolTipText(String tooltipText) {
-		FGEAttributeNotification notification = requireChange(TOOLTIP_TEXT, tooltipText);
+		FGEAttributeNotification<?> notification = requireChange(TOOLTIP_TEXT, tooltipText);
 		if (notification != null) {
 			this.toolTipText = tooltipText;
 			hasChanged(notification);

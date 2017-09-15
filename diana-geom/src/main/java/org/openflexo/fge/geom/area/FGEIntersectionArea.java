@@ -72,7 +72,7 @@ public class FGEIntersectionArea extends FGEOperationArea {
 		// point itself.
 		List<FGEArea> areas = getDevelopedAreas(objects);
 
-		List<FGEArea> nonEmbeddedObjects = new ArrayList<FGEArea>();
+		List<FGEArea> nonEmbeddedObjects = new ArrayList<>();
 		for (FGEArea area : areas) {
 			boolean shouldAdd = true;
 			for (FGEArea a : nonEmbeddedObjects) {
@@ -81,7 +81,7 @@ public class FGEIntersectionArea extends FGEOperationArea {
 				}
 			}
 			if (shouldAdd) {
-				Vector<FGEArea> noMoreNecessaryObjects = new Vector<FGEArea>();
+				Vector<FGEArea> noMoreNecessaryObjects = new Vector<>();
 				for (FGEArea a : nonEmbeddedObjects) {
 					if (a.containsArea(area)) {
 						noMoreNecessaryObjects.add(a);
@@ -124,9 +124,11 @@ public class FGEIntersectionArea extends FGEOperationArea {
 
 		if (nonEmbeddedObjects.size() == 0) {
 			return new FGEEmptyArea();
-		} else if (nonEmbeddedObjects.size() == 1) {
+		}
+		else if (nonEmbeddedObjects.size() == 1) {
 			return nonEmbeddedObjects.get(0).clone();
-		} else {
+		}
+		else {
 			FGEIntersectionArea returned = new FGEIntersectionArea(nonEmbeddedObjects);
 
 			if (returned.isDevelopable()) {
@@ -138,11 +140,12 @@ public class FGEIntersectionArea extends FGEOperationArea {
 	}
 
 	private static List<FGEArea> getDevelopedAreas(List<? extends FGEArea> objects) {
-		List<FGEArea> areas = new ArrayList<FGEArea>();
+		List<FGEArea> areas = new ArrayList<>();
 		for (FGEArea area : objects) {
 			if (area instanceof FGEIntersectionArea) {
 				areas.addAll(getDevelopedAreas(((FGEIntersectionArea) area).getObjects()));
-			} else {
+			}
+			else {
 				areas.add(area);
 			}
 		}
@@ -164,7 +167,7 @@ public class FGEIntersectionArea extends FGEOperationArea {
 
 	public FGEIntersectionArea() {
 		super();
-		_objects = new Vector<FGEArea>();
+		_objects = new Vector<>();
 	}
 
 	public FGEIntersectionArea(FGEArea... objects) {
@@ -188,8 +191,9 @@ public class FGEIntersectionArea extends FGEOperationArea {
 	public void setObjects(Vector<FGEArea> objects) {
 		if (_objects != null) {
 			_objects.clear();
-		} else {
-			_objects = new Vector<FGEArea>();
+		}
+		else {
+			_objects = new Vector<>();
 		}
 		for (FGEArea o : objects) {
 			_objects.add(o.clone());
@@ -287,7 +291,7 @@ public class FGEIntersectionArea extends FGEOperationArea {
 
 		// Little heuristic to find nearest point
 		// (not working in all cases !)
-		Vector<FGEPoint> potentialPoints = new Vector<FGEPoint>();
+		Vector<FGEPoint> potentialPoints = new Vector<>();
 		for (int i = 0; i < getObjects().size(); i++) {
 			FGEPoint tryThis = _getApproximatedNearestPoint(aPoint, i);
 			if (tryThis != null) {
@@ -339,7 +343,7 @@ public class FGEIntersectionArea extends FGEOperationArea {
 				firstTriedObjectIndex = 0;
 			}
 			// System.out.println("> Try on "+current);
-			// System.out.println("  obtained "+current.getNearestPoint(returned)+" from "+returned);
+			// System.out.println(" obtained "+current.getNearestPoint(returned)+" from "+returned);
 			returned = current.getNearestPoint(returned);
 			tries++;
 		}
@@ -357,11 +361,11 @@ public class FGEIntersectionArea extends FGEOperationArea {
 		int res = 27;
 		for (int i = 0; i < getObjects().size(); i++) {
 			FGEArea a = getObjects().get(i);
-			res += a.hashCode(); //commute, order does not matter
+			res += a.hashCode(); // commute, order does not matter
 		}
 		return res;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEIntersectionArea) {
@@ -416,13 +420,16 @@ public class FGEIntersectionArea extends FGEOperationArea {
 			if (r != null) {
 				if (returned == null) {
 					returned = r;
-				} else {
+				}
+				else {
 					FGEArea intersect = returned.intersect(r);
 					if (intersect instanceof FGERectangle) {
 						returned = (FGERectangle) intersect;
-					} else if (!(intersect instanceof FGEIntersectionArea) && intersect.isFinite()) {
+					}
+					else if (!(intersect instanceof FGEIntersectionArea) && intersect.isFinite()) {
 						returned = intersect.getEmbeddingBounds();
-					} else {
+					}
+					else {
 						logger.warning("Cannot compute embedding bounds for " + this);
 						return null;
 					}
@@ -486,12 +493,13 @@ public class FGEIntersectionArea extends FGEOperationArea {
 
 		FGEUnionArea union = _findFirstUnionArea(this);
 		FGEArea area = null;
-		Vector<FGEArea> others = new Vector<FGEArea>();
+		Vector<FGEArea> others = new Vector<>();
 		for (FGEArea o : getObjects()) {
 			if (o != union) {
 				if (area == null) {
 					area = o;
-				} else {
+				}
+				else {
 					others.add(o);
 				}
 			}
@@ -499,7 +507,8 @@ public class FGEIntersectionArea extends FGEOperationArea {
 		if (area == null) {
 			logger.warning("Inconsistent data while computing developUnions() in FGEIntersectionArea");
 			return clone();
-		} else {
+		}
+		else {
 
 			// logger.info("develop "+this);
 
@@ -518,8 +527,8 @@ public class FGEIntersectionArea extends FGEOperationArea {
 		}
 	}
 
-	private FGEArea _developAsIntersection(FGEUnionArea union, FGEArea area) {
-		Vector<FGEArea> unionObjects = new Vector<FGEArea>();
+	private static FGEArea _developAsIntersection(FGEUnionArea union, FGEArea area) {
+		Vector<FGEArea> unionObjects = new Vector<>();
 
 		for (FGEArea o : union.getObjects()) {
 			unionObjects.add(o.intersect(area));
@@ -535,12 +544,13 @@ public class FGEIntersectionArea extends FGEOperationArea {
 
 		FGESubstractionArea sub = _findFirstSubstractionArea(this);
 		FGEArea area = null;
-		Vector<FGEArea> others = new Vector<FGEArea>();
+		Vector<FGEArea> others = new Vector<>();
 		for (FGEArea o : getObjects()) {
 			if (o != sub) {
 				if (area == null) {
 					area = o;
-				} else {
+				}
+				else {
 					others.add(o);
 				}
 			}
@@ -548,7 +558,8 @@ public class FGEIntersectionArea extends FGEOperationArea {
 		if (area == null) {
 			logger.warning("Inconsistent data while computing developSubstractions() in FGEIntersectionArea");
 			return clone();
-		} else {
+		}
+		else {
 
 			// logger.info("develop "+this);
 
@@ -567,7 +578,7 @@ public class FGEIntersectionArea extends FGEOperationArea {
 		}
 	}
 
-	private FGEArea _developAsSubstraction(FGESubstractionArea sub, FGEArea area) {
+	private static FGEArea _developAsSubstraction(FGESubstractionArea sub, FGEArea area) {
 		return FGESubstractionArea.makeSubstraction(sub.getContainerArea().intersect(area), sub.getSubstractedArea().intersect(area),
 				sub.isStrict(), false);
 	}

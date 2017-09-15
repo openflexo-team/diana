@@ -221,7 +221,7 @@ public class SlideShowEditor extends JPanel {
 		slideShow.getSlides()[0].draw((Graphics2D) g);
 	}*/
 
-	private Map<Slide, MiniatureSlidePanel> miniatures = new HashMap<Slide, SlideShowEditor.MiniatureSlidePanel>();
+	private Map<Slide, MiniatureSlidePanel> miniatures = new HashMap<>();
 
 	protected MiniatureSlidePanel getMiniature(Slide s) {
 		MiniatureSlidePanel returned = miniatures.get(s);
@@ -232,7 +232,7 @@ public class SlideShowEditor extends JPanel {
 		return returned;
 	}
 
-	private Map<Slide, SlideEditor> editors = new HashMap<Slide, SlideEditor>();
+	private Map<Slide, SlideEditor> editors = new HashMap<>();
 
 	protected SlideEditor getEditor(Slide s) {
 		SlideEditor returned = editors.get(s);

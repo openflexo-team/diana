@@ -203,7 +203,7 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 						function.getBackgroundStyle());
 			case COLORED_STEPS:
 				if (function instanceof FGENumericFunction) {
-					FGENumericFunction numFunction = (FGENumericFunction) function;
+					FGENumericFunction<?> numFunction = (FGENumericFunction<?>) function;
 					List<ElementRepresentation> elements = new ArrayList<>();
 					Color color1 = Color.RED;
 					Color color2 = Color.GREEN;
@@ -250,8 +250,9 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 					byte[] bytes = new byte[3];
 					Random r = new Random(0);
 					for (FunctionSample<A, T> s : samples) {
-						Double angle = getNormalizedAngleForSectors(s.x, (FGENumericFunction) function); // Middle of angle
-						Double angleExtent = getNormalizedAngleExtentForSectors(s.x, (FGENumericFunction) function) / numberOfFunctions - 0;
+						Double angle = getNormalizedAngleForSectors(s.x, (FGENumericFunction<?>) function); // Middle of angle
+						Double angleExtent = getNormalizedAngleExtentForSectors(s.x, (FGENumericFunction<?>) function) / numberOfFunctions
+								- 0;
 						double startAngle = angle - angleExtent / 2.0 + functionIndex * angleExtent;
 						int requiredSteps = (int) (angleExtent / 3.0); // Draw all 3 degrees
 						if (requiredSteps == 0) {

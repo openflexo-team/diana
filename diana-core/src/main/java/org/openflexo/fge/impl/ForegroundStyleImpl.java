@@ -75,54 +75,6 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 		dashStyle = DashStyle.PLAIN_STROKE;
 	}
 
-	@Deprecated
-	private ForegroundStyleImpl(Color aColor) {
-		this();
-		color = aColor;
-	}
-
-	/*@Deprecated
-	public static ForegroundStyleImpl makeDefault() {
-		return new ForegroundStyleImpl();
-	}
-	
-	@Deprecated
-	public static ForegroundStyleImpl makeNone() {
-		ForegroundStyleImpl returned = new ForegroundStyleImpl();
-		returned.setNoStroke(true);
-		return returned;
-	}
-	
-	@Deprecated
-	public static ForegroundStyleImpl makeStyle(Color aColor) {
-		return new ForegroundStyleImpl(aColor);
-	}
-	
-	@Deprecated
-	public static ForegroundStyleImpl makeStyle(Color aColor, float aLineWidth) {
-		ForegroundStyleImpl returned = new ForegroundStyleImpl(aColor);
-		returned.setLineWidth(aLineWidth);
-		return returned;
-	}
-	
-	@Deprecated
-	public static ForegroundStyleImpl makeStyle(Color aColor, float aLineWidth, JoinStyle joinStyle, CapStyle capStyle, DashStyle dashStyle) {
-		ForegroundStyleImpl returned = new ForegroundStyleImpl(aColor);
-		returned.setLineWidth(aLineWidth);
-		returned.setJoinStyle(joinStyle);
-		returned.setCapStyle(capStyle);
-		returned.setDashStyle(dashStyle);
-		return returned;
-	}
-	
-	@Deprecated
-	public static ForegroundStyleImpl makeStyle(Color aColor, float aLineWidth, DashStyle dashStyle) {
-		ForegroundStyleImpl returned = new ForegroundStyleImpl(aColor);
-		returned.setLineWidth(aLineWidth);
-		returned.setDashStyle(dashStyle);
-		return returned;
-	}*/
-
 	@Override
 	public CapStyle getCapStyle() {
 		return capStyle;
@@ -312,7 +264,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 		return super.equals(obj);
 	}*/
 
-	private boolean requireChange(Object oldObject, Object newObject) {
+	private static boolean requireChange(Object oldObject, Object newObject) {
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;

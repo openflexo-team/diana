@@ -58,8 +58,8 @@ public class TestGraphNode extends Observable {
 	private static final double RADIUS = 100;
 
 	public TestGraphNode(String name, TestGraph graph) {
-		inputEdges = new ArrayList<TestEdge>();
-		outputEdges = new ArrayList<TestEdge>();
+		inputEdges = new ArrayList<>();
+		outputEdges = new ArrayList<>();
 		this.name = name;
 		this.graph = graph;
 		x = Math.random() * 500;
@@ -179,7 +179,8 @@ public class TestGraphNode extends Observable {
 		if (getInputEdges().size() == 0) {
 			parentAngle = 2 * Math.PI;
 			startAngle = 0;
-		} else {
+		}
+		else {
 			TestGraphNode parentNode = getInputEdges().get(0).getStartNode();
 			List<TestGraphNode> parentSiblings = parentNode.getSiblingNodes();
 			int parentIndex = parentSiblings.indexOf(parentNode);
@@ -218,7 +219,8 @@ public class TestGraphNode extends Observable {
 	public int getDepth() {
 		if (getInputEdges().size() == 0) {
 			return 0;
-		} else {
+		}
+		else {
 			TestGraphNode parentNode = getInputEdges().get(0).getStartNode();
 			return parentNode.getDepth() + 1;
 		}
@@ -227,9 +229,10 @@ public class TestGraphNode extends Observable {
 	public List<TestGraphNode> getSiblingNodes() {
 		if (getInputEdges().size() == 0) {
 			return Collections.singletonList(this);
-		} else {
+		}
+		else {
 			TestGraphNode parentNode = getInputEdges().get(0).getStartNode();
-			List<TestGraphNode> returned = new ArrayList<TestGraphNode>();
+			List<TestGraphNode> returned = new ArrayList<>();
 			for (TestEdge e : getInputEdges().get(0).getStartNode().getOutputEdges()) {
 				returned.add(e.getEndNode());
 			}

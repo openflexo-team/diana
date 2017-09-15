@@ -253,7 +253,7 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 		return "BackgroundStyle.IMAGE(" + getImageFile() + ")";
 	}*/
 
-	private boolean requireChange(Object oldObject, Object newObject) {
+	private static boolean requireChange(Object oldObject, Object newObject) {
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;
