@@ -97,7 +97,9 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 		walkers = new ArrayList<>();
 		dynamicPropertyValues = new Hashtable<>();
 		bindingModel = new BindingModel();
-		bindingModel.addToBindingVariables(new BindingVariable("drawable", drawableClass));
+		BindingVariable bv = new BindingVariable("drawable", drawableClass);
+		bv.setCacheable(false);
+		bindingModel.addToBindingVariables(bv);
 	}
 
 	public List<GRStructureVisitor<O>> getWalkers() {
