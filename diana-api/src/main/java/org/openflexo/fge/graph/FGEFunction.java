@@ -101,10 +101,7 @@ public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplem
 		super();
 		this.functionName = functionName;
 		this.functionType = functionType;
-		this.functionExpression = new DataBinding<>(functionExpression.toString());
-		this.functionExpression.setOwner(graph);
-		this.functionExpression.setDeclaredType(functionType);
-		this.functionExpression.setBindingDefinitionType(BindingDefinitionType.GET);
+		this.functionExpression = new DataBinding<>(functionExpression.toString(), graph, functionType, BindingDefinitionType.GET);
 		if (!this.functionExpression.isValid()) {
 			logger.warning("Invalid expression in FGEFunction:" + this.functionExpression + " reason="
 					+ this.functionExpression.invalidBindingReason());
