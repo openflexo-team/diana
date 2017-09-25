@@ -14,3 +14,9 @@ compileJava {
     options.fork = true
     options.forkOptions.executable = 'javac'
 }
+if (JavaVersion.current().isJava9Compatible()) {
+	tasks.withType(JavaCompile) {
+		options.compilerArgs.addAll(['--add-exports', 'java.desktop/sun.awt.image=ALL-UNNAMED'])
+		options.compilerArgs.addAll(['--add-exports', 'java.desktop/sun.awt.dnd=ALL-UNNAMED'])
+    }
+}  

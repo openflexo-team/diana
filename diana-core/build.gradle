@@ -8,3 +8,9 @@ dependencies {
 
   testCompile testUtils()
 }
+
+if (JavaVersion.current().isJava9Compatible()) {
+	tasks.withType(JavaCompile) {
+		options.compilerArgs.addAll(['--add-modules', 'java.xml.bind'])
+    }
+}  
