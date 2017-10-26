@@ -323,7 +323,10 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 				&& function.getFunctionExpression().isValid()) {
 			getEvaluator().set(getParameter(), parameterValue);
 			try {
-				return function.getFunctionExpression().getBindingValue(getEvaluator()).doubleValue();
+				N value = function.getFunctionExpression().getBindingValue(getEvaluator());
+				if (value != null) {
+					return value.doubleValue();
+				}
 			} catch (TypeMismatchException e) {
 				e.printStackTrace();
 			} catch (NullReferenceException e) {
