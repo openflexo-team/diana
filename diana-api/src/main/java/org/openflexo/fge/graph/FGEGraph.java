@@ -59,7 +59,15 @@ import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
- * This is the common super class for all graphs
+ * This is the common super class for all graphs<br>
+ * 
+ * This is the "model" of an instance of a graph
+ * 
+ * Regarding the life-cycle, some methods are used to update the data beeing represented by the graph:, see {@link #update()}<br>
+ * And some other methods are used to draw the graph, see {@link #paint(FGEShapeGraphics)}
+ * 
+ * From performance point of view, remember that {@link #paint(FGEShapeGraphics)} will be continuously called while update() will be called
+ * only when some data change and when graph has to be recomputed
  * 
  * @author sylvain
  * 

@@ -251,7 +251,7 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 					N value = null;
 					if (function.getGraphType() == FGEGraphType.SECTORS) {
 						radius = 0.25;
-						angle = getNormalizedAngleForSectors(t, function);
+						angle = getNormalizedAngleForSectors(t);
 						try {
 							value = evaluateFunction(function, t);
 						} catch (Exception e) {
@@ -281,30 +281,32 @@ public class FGEDiscretePolarFunctionGraph<T> extends FGEPolarFunctionGraph<T> {
 	}
 
 	@Override
-	protected <N extends Number> Double getNormalizedAngleForSectors(T parameterValue, FGENumericFunction<N> function) {
-		if (function.getFunctionExpression() != null && function.getFunctionExpression().isSet()
+	protected <N extends Number> Double getNormalizedAngleForSectors(T parameterValue) {
+		/*if (function.getFunctionExpression() != null && function.getFunctionExpression().isSet()
 				&& function.getFunctionExpression().isValid()) {
 			return super.getNormalizedAngleForSectors(parameterValue, function);
 		}
-		return (discreteValues.indexOf(parameterValue) + 0.5) / (discreteValues.size()) * 360;
+		return (discreteValues.indexOf(parameterValue) + 0.5) / (discreteValues.size()) * 360;*/
+		return super.getNormalizedAngleForSectors(parameterValue);
 	}
 
 	@Override
-	protected <N extends Number> Double getNormalizedAngleExtentForSectors(T parameterValue, FGENumericFunction<N> function) {
-		if (function.getFunctionExpression() != null && function.getFunctionExpression().isSet()
+	protected <N extends Number> Double getNormalizedAngleExtentForSectors(T parameterValue) {
+		/*if (function.getFunctionExpression() != null && function.getFunctionExpression().isSet()
 				&& function.getFunctionExpression().isValid()) {
 			return super.getNormalizedAngleExtentForSectors(parameterValue, function);
 		}
-		return 360.0 / getDiscreteValues().size();
+		return 360.0 / getDiscreteValues().size();*/
+		return super.getNormalizedAngleExtentForSectors(parameterValue);
 	}
 
-	@Override
+	/*@Override
 	protected <N extends Number> Double getAngleExtent(T parameterValue, FGENumericFunction<N> function) {
 		if (function.getFunctionExpression() != null && function.getFunctionExpression().isSet()
 				&& function.getFunctionExpression().isValid()) {
 			return super.getAngleExtent(parameterValue, function);
 		}
 		return 360.0 / getDiscreteValues().size();
-	}
+	}*/
 
 }

@@ -166,6 +166,7 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
+			//System.out.println("propertyChange() with " + evt.getPropertyName() + " evt=" + evt);
 			super.propertyChange(evt);
 			if (evt.getPropertyName().equals(FIBDiscreteSimpleFunctionGraph.VALUES_KEY)
 					|| evt.getPropertyName().equals(FIBDiscreteSimpleFunctionGraph.LABELS_KEY)) {
@@ -189,7 +190,7 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 					if (o instanceof HasPropertyChangeSupport) {
 						discreteValuesBeeingListened.add((HasPropertyChangeSupport) o);
 						((HasPropertyChangeSupport) o).getPropertyChangeSupport().addPropertyChangeListener(this);
-						// System.out.println("Listening to " + o);
+						System.out.println("Listening to " + o + " of " + o.getClass());
 					}
 				}
 			}
@@ -203,7 +204,7 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 				discreteValuesBeeingListened = new ArrayList<>();
 			}
 			for (HasPropertyChangeSupport o : discreteValuesBeeingListened) {
-				// System.out.println("Stop listening: " + o);
+				System.out.println("Stop listening: " + o);
 				o.getPropertyChangeSupport().removePropertyChangeListener(this);
 			}
 			discreteValuesBeeingListened.clear();

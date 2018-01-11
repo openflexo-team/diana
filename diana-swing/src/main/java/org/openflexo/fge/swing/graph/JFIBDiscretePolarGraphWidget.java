@@ -93,6 +93,7 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 					// System.out.println(" bindingValueChanged() detected for values=" + getComponent().getValues() + " with newValue="
 					// + newValues + " source=" + source);
 					getGraphDrawing().updateDiscreteValues(newValues);
+					updateGraph();
 				}
 			};
 		}

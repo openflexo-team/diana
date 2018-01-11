@@ -41,8 +41,10 @@ package org.openflexo.fge.graph;
 import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.openflexo.connie.exception.NullReferenceException;
@@ -89,7 +91,8 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 	public <R> R evaluateFunction(FGEFunction<R> function, A value)
 			throws TypeMismatchException, NullReferenceException, InvocationTargetException {
 		getEvaluator().set(getParameter(), value);
-		return function.evaluate();
+		R returned = function.evaluate();
+		return returned;
 	}
 
 	@Override
@@ -147,8 +150,6 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 
 	@Override
 	protected <T> FunctionRepresentation buildRepresentationForFunction(FGEFunction<T> function) {
-
-		// System.out.println("On recalcule la representation");
 
 		List<FunctionSample<A, T>> samples = retrieveSamples(function);
 
@@ -246,13 +247,15 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 				break;
 			case SECTORS:
 				if (function instanceof FGENumericFunction) {
+					computeAnglesForSectorsRepresentation((FGENumericFunction<?>) function);
 					List<ElementRepresentation> elements = new ArrayList<>();
 					byte[] bytes = new byte[3];
 					Random r = new Random(0);
 					for (FunctionSample<A, T> s : samples) {
-						Double angle = getNormalizedAngleForSectors(s.x, (FGENumericFunction<?>) function); // Middle of angle
-						Double angleExtent = getNormalizedAngleExtentForSectors(s.x, (FGENumericFunction<?>) function) / numberOfFunctions
-								- 0;
+						// System.out.println("On dessine " + s + " pour " + s.x);
+						Double angle = getNormalizedAngleForSectors(s.x); // Middle of angle
+						Double angleExtent = getNormalizedAngleExtentForSectors(s.x) / numberOfFunctions - 0;
+						// System.out.println("draw " + angleExtent + " at " + angle);
 						double startAngle = angle - angleExtent / 2.0 + functionIndex * angleExtent;
 						int requiredSteps = (int) (angleExtent / 3.0); // Draw all 3 degrees
 						if (requiredSteps == 0) {
@@ -273,7 +276,8 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 						BackgroundStyle bg = factory.makeColoredBackground(color.brighter());
 						elements.add(new ElementRepresentation(new FGEPolygon(Filling.FILLED, pts), fg, bg));
 					}
-					return new FunctionRepresentation(elements);
+					FunctionRepresentation returned = new FunctionRepresentation(elements);
+					return returned;
 				}
 			default:
 				break;
@@ -282,8 +286,45 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 		return null;
 	}
 
-	protected <N extends Number> Double getNormalizedAngleForSectors(A parameterValue, FGENumericFunction<N> function) {
+	private Map<A, Double> normalizedSectorAngles;
+	private Map<A, Double> normalizedSectorAngleExtents;
+
+	/**
+	 * Internally used to compute angles to be used when using SECTOR representation
+	 * 
+	 * @param function
+	 */
+	private <N extends Number> void computeAnglesForSectorsRepresentation(FGENumericFunction<N> function) {
+		normalizedSectorAngles = new HashMap<>();
+		normalizedSectorAngleExtents = new HashMap<>();
+
 		if (function.getFunctionExpression() != null && function.getFunctionExpression().isSet()
+				&& function.getFunctionExpression().isValid()) {
+
+			Iterator<A> it = iterateParameter();
+			double totalAngleExtent = 0;
+			while (it.hasNext()) {
+				A a = it.next();
+				Double angleExtent = computeAngleExtent(a, function);
+				totalAngleExtent += angleExtent;
+			}
+
+			it = iterateParameter();
+			double cumulatedAngleExtent = 0;
+			while (it.hasNext()) {
+				A a = it.next();
+				double angleExtent = computeAngleExtent(a, function);
+				double normalizedAngleExtent = angleExtent / totalAngleExtent * 360;
+				normalizedSectorAngleExtents.put(a, normalizedAngleExtent);
+				double normalizedAngle = cumulatedAngleExtent + normalizedAngleExtent / 2;
+				normalizedSectorAngles.put(a, normalizedAngle);
+				cumulatedAngleExtent = cumulatedAngleExtent + normalizedAngleExtent;
+			}
+		}
+	}
+
+	protected <N extends Number> Double getNormalizedAngleForSectors(A parameterValue) {
+		/*if (function.getFunctionExpression() != null && function.getFunctionExpression().isSet()
 				&& function.getFunctionExpression().isValid()) {
 			Iterator<A> it = iterateParameter();
 			double cumulatedWeight = 0;
@@ -297,14 +338,15 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 					cumulatedWeight += angleExtent;
 				}
 			}
-
+		
 		}
 		// return (discreteValues.indexOf(value) + 0.5) / (discreteValues.size()) * 360;
-		return 0.0;
+		return 0.0;*/
+		return normalizedSectorAngles.get(parameterValue);
 	}
 
-	protected <N extends Number> Double getNormalizedAngleExtentForSectors(A parameterValue, FGENumericFunction<N> function) {
-		if (function.getFunctionExpression() != null && function.getFunctionExpression().isSet()
+	protected <N extends Number> Double getNormalizedAngleExtentForSectors(A parameterValue) {
+		/*if (function.getFunctionExpression() != null && function.getFunctionExpression().isSet()
 				&& function.getFunctionExpression().isValid()) {
 			double totalWeight = 0;
 			Iterator<A> it = iterateParameter();
@@ -315,10 +357,12 @@ public abstract class FGEPolarFunctionGraph<A> extends FGESingleParameteredGraph
 			}
 			return getAngleExtent(parameterValue, function) / totalWeight * 360;
 		}
-		return 10.0;
+		return 10.0;*/
+		return normalizedSectorAngleExtents.get(parameterValue);
+
 	}
 
-	protected <N extends Number> Double getAngleExtent(A parameterValue, FGENumericFunction<N> function) {
+	private <N extends Number> Double computeAngleExtent(A parameterValue, FGENumericFunction<N> function) {
 		if (function.getFunctionExpression() != null && function.getFunctionExpression().isSet()
 				&& function.getFunctionExpression().isValid()) {
 			getEvaluator().set(getParameter(), parameterValue);

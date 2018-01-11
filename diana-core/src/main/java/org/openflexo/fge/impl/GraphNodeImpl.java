@@ -45,7 +45,7 @@ import org.openflexo.fge.GRBinding.GraphGRBinding;
 import org.openflexo.fge.graph.FGEGraph;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
-public class GraphNodeImpl<G extends FGEGraph> extends ShapeNodeImpl<G>implements GraphNode<G> {
+public class GraphNodeImpl<G extends FGEGraph> extends ShapeNodeImpl<G> implements GraphNode<G> {
 
 	private static final Logger logger = Logger.getLogger(GraphNodeImpl.class.getPackage().getName());
 
@@ -73,6 +73,7 @@ public class GraphNodeImpl<G extends FGEGraph> extends ShapeNodeImpl<G>implement
 
 	@Override
 	public void notifyGraphNeedsToBeRedrawn() {
+		//System.out.println("notifyGraphNeedsToBeRedrawn()");
 		getPropertyChangeSupport().firePropertyChange(GRAPH_NEEDS_TO_BE_REDRAWN, false, true);
 	}
 
