@@ -76,7 +76,14 @@ public class FGEDiscreteSimpleFunctionGraph<T> extends FGESimpleFunctionGraph<T>
 	}
 
 	public void setDiscreteValues(List<T> discreteValues) {
-		this.discreteValues = discreteValues;
+		if ((discreteValues == null && this.discreteValues != null)
+				|| (discreteValues != null && !discreteValues.equals(this.discreteValues))) {
+			List<T> oldValue = this.discreteValues;
+			this.discreteValues = discreteValues;
+			getPropertyChangeSupport().firePropertyChange("discreteValues", oldValue, discreteValues);
+			// And update the graph
+			update();
+		}
 	}
 
 	public DataBinding<String> getDiscreteValuesLabel() {

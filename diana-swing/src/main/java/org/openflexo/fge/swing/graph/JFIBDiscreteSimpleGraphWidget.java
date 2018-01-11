@@ -85,14 +85,16 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 			valuesBindingValueChangeListener.delete();
 		}
 		if (getComponent().getValues() != null && getComponent().getValues().isValid()) {
+
 			valuesBindingValueChangeListener = new BindingValueListChangeListener<Object, List<Object>>(
 					((DataBinding) getComponent().getValues()), getBindingEvaluationContext()) {
 
 				@Override
 				public void bindingValueChanged(Object source, List<Object> newValues) {
-					// System.out.println(" bindingValueChanged() detected for values=" + getComponent().getValues() + " with newValue="
-					// + newValues + " source=" + source);
+					System.out.println(" bindingValueChanged() detected for values=" + getComponent().getValues() + " with newValue="
+							+ newValues + " source=" + source);
 					getGraphDrawing().updateDiscreteValues(newValues);
+					updateGraph();
 				}
 			};
 		}
@@ -115,14 +117,6 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 	public FGEDiscreteSimpleFunctionGraphDrawing getGraphDrawing() {
 		return (FGEDiscreteSimpleFunctionGraphDrawing) super.getGraphDrawing();
 	}
-
-	/*@Override
-	public Object getValue(BindingVariable variable) {
-		if (variable.getVariableName().equals("data")) {
-			System.out.println("*** Pour " + variable + " je retourne " + super.getValue(variable));
-		}
-		return super.getValue(variable);
-	}*/
 
 	public class FGEDiscreteSimpleFunctionGraphDrawing
 			extends FGESimpleFunctionGraphDrawing<FIBDiscreteSimpleFunctionGraph, FGEDiscreteSimpleFunctionGraph<?>> {
@@ -150,27 +144,6 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 			// Set parameter name and type
 			// System.out.println("Parameter " + fibGraph.getParameterName() + " type=" + fibGraph.getParameterType());
 			graph.setParameter(fibGraph.getParameterName(), fibGraph.getParameterType());
-
-			// Set discrete values
-			/*List<?> values = new ArrayList<>();
-			
-			System.out.println("les values c'est " + fibGraph.getValues());
-			
-			if (fibGraph.getValues() != null && fibGraph.getValues().isSet() && fibGraph.getValues().isValid()) {
-				try {
-					values = fibGraph.getValues().getBindingValue(JFIBDiscreteSimpleGraphWidget.this);
-					System.out.println("et on a: " + values);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			// System.out.println("values=" + values);
-			returned.setDiscreteValues((List) values);
-			
-			// Labels of discrete values
-			if (fibGraph.getLabels() != null && fibGraph.getLabels().isSet() && fibGraph.getLabels().isValid()) {
-				returned.setDiscreteValuesLabel(fibGraph.getLabels());
-			}*/
 
 			// Set discrete values
 			List<?> values = new ArrayList<>();
@@ -216,26 +189,12 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 					if (o instanceof HasPropertyChangeSupport) {
 						discreteValuesBeeingListened.add((HasPropertyChangeSupport) o);
 						((HasPropertyChangeSupport) o).getPropertyChangeSupport().addPropertyChangeListener(this);
+						// System.out.println("Listening to " + o);
 					}
 				}
 			}
 
-			/*if (getModel().getSecondaryValues().isSet() && getModel().getSecondaryValues().isValid()) {
-				System.out.println("hopala, on a des valeurs secondaires...");
-				graph.setSecondaryValues((DataBinding) getModel().getSecondaryValues());
-				List<?> primaryValues = values;
-				if (values != null) {
-					for (Object o : primaryValues) {
-						List<?> secondaryValues = graph.getSecondaryValues(o);
-						System.out.println("Pour l'objet " + o + " j'ai " + secondaryValues);
-					}
-				}
-			}*/
-
-			// else {
-			// System.out.println("values=" + values);
 			getGraph().setDiscreteValues((List) values);
-			// }
 
 		}
 
@@ -244,6 +203,7 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 				discreteValuesBeeingListened = new ArrayList<>();
 			}
 			for (HasPropertyChangeSupport o : discreteValuesBeeingListened) {
+				// System.out.println("Stop listening: " + o);
 				o.getPropertyChangeSupport().removePropertyChangeListener(this);
 			}
 			discreteValuesBeeingListened.clear();

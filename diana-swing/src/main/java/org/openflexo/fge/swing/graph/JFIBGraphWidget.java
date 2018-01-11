@@ -133,21 +133,13 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 		return (SwingGraphRenderingAdapter) super.getRenderingAdapter();
 	}
 
-	@Override
-	protected void componentBecomesVisible() {
-		super.componentBecomesVisible();
-		getGraphDrawing().updateGraph();
-	}
 
+	// TODO: remove this method
 	@Override
-	protected void componentBecomesInvisible() {
-		super.componentBecomesInvisible();
-	}
-
-	@Override
-	protected void performUpdate() {
+	protected final void performUpdate() {
+		// System.out.println("performUpdate() dans " + this);
 		super.performUpdate();
-		updateGraph();
+		// updateGraph();
 	}
 
 	protected void updateGraph() {
@@ -466,8 +458,6 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 		}
 
 		protected void updateGraphNow() {
-
-			// System.out.println("*************** UPDATE GRAPH");
 
 			performUpdateGraph();
 
