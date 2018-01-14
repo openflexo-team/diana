@@ -252,8 +252,8 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 			}
 			if (!isDragOk(e)) {
 				if (getDragSourceContext() == null) {
-					logger.warning("dragSourceContext should NOT be null for " + getPalette().getTitle()
-							+ Integer.toHexString(JDianaPalette.this.hashCode()) + " of " + JDianaPalette.this.getClass().getName());
+					// logger.warning("dragSourceContext should NOT be null for " + getPalette().getTitle()
+					// + Integer.toHexString(JDianaPalette.this.hashCode()) + " of " + JDianaPalette.this.getClass().getName());
 				}
 				else {
 					getDragSourceContext().setCursor(dropKO);
@@ -262,7 +262,7 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 				return;
 			}
 			if (getDragSourceContext() == null) {
-				logger.warning("dragSourceContext should NOT be null");
+				// logger.warning("dragSourceContext should NOT be null");
 			}
 			else {
 				getDragSourceContext().setCursor(dropOK);
@@ -366,8 +366,8 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 								modelLocation.y -= ((TransferedPaletteElement) data).getOffset().y;
 							}
 
-							System.out.println("node was: " + ((FGEView<?, ?>) targetComponent).getNode());
-							System.out.println("element: " + element);
+							//System.out.println("node was: " + ((FGEView<?, ?>) targetComponent).getNode());
+							//System.out.println("element: " + element);
 							modelLocation.x += ShapeNodeImpl.DEFAULT_BORDER_LEFT;
 							modelLocation.y += ShapeNodeImpl.DEFAULT_BORDER_TOP;
 
