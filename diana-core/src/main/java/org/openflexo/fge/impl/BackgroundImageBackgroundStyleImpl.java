@@ -85,7 +85,12 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 
 	@Override
 	public void setImageFile(File imageFile) {
-		setImageResource(ResourceLocator.locateResource(imageFile.getPath()));
+		if (imageFile == null) {
+			setImageResource(null);
+		}
+		else {
+			setImageResource(ResourceLocator.locateResource(imageFile.getPath()));
+		}
 	}
 
 	@Override
@@ -106,6 +111,7 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 			}
 			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(IMAGE_RESOURCE, oldResource, anImageResource));
+			getPropertyChangeSupport().firePropertyChange("image", null, getImage());
 		}
 	}
 
