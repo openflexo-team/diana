@@ -216,13 +216,13 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	}
 
 	public void setSelectedObjects(List<? extends DrawingTreeNode<?, ?>> someSelectedObjects) {
-		stopEditionOfEditedLabelIfAny();
 		if (someSelectedObjects == null) {
 			setSelectedObjects(new ArrayList<DrawingTreeNode<?, ?>>());
 			return;
 		}
 
 		if (!selectedObjects.equals(someSelectedObjects)) {
+			stopEditionOfEditedLabelIfAny();
 			clearSelection();
 			for (DrawingTreeNode<?, ?> d : someSelectedObjects) {
 				addToSelectedObjects(d);
@@ -231,7 +231,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	}
 
 	public void setSelectedObject(DrawingTreeNode<?, ?> aNode) {
-		stopEditionOfEditedLabelIfAny();
+		// stopEditionOfEditedLabelIfAny();
 		setSelectedObjects(Collections.singletonList(aNode));
 		/*if (getInspectors() != null) {
 			getInspectors().update();

@@ -193,8 +193,13 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 
 		this.backgroundStyleType = backgroundStyleType;
 		pcSupport.firePropertyChange(STYLE_CLASS_CHANGED, oldBackgroundStyleType, getStyleType());
-		pcSupport.firePropertyChange("styleType", oldBackgroundStyleType, getStyleType());
 		pcSupport.firePropertyChange("backgroundStyle", oldBS, getBackgroundStyle());
+		pcSupport.firePropertyChange("styleType", oldBackgroundStyleType, getStyleType());
+	}
+
+	@Override
+	public String toString() {
+		return "[BackgroundFactory " + Integer.toHexString(hashCode()) + " backgroundStyleType=" + backgroundStyleType + "]";
 	}
 
 	@Override
