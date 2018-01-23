@@ -587,6 +587,9 @@ public class FGERoundRectangle extends RoundRectangle2D.Double
 					}
 				}
 				else {
+					// FD pour SG :
+					// Le code ci-après est bizarre l594 => p = null, donc on passe dans les else et du coup on renvoie toujours le dernier
+					// resultat (SouthWest)
 					FGEArea area = getNorthEastRound().intersect(returned);
 					FGEPoint p = null;
 					if (area instanceof FGEPoint) {
