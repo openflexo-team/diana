@@ -377,8 +377,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 
 	@Override
 	public void notifyNodeLayoutDecorationChanged(FGELayoutManager<?, O> layoutManager) {
-		getPropertyChangeSupport().firePropertyChange(LAYOUT_DECORATION_KEY, new Boolean(!layoutManager.paintDecoration()),
-				new Boolean(layoutManager.paintDecoration()));
+		getPropertyChangeSupport().firePropertyChange(LAYOUT_DECORATION_KEY, Boolean.valueOf(!layoutManager.paintDecoration()),
+				Boolean.valueOf(layoutManager.paintDecoration()));
 
 	}
 

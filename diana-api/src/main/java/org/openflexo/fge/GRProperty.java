@@ -206,7 +206,7 @@ public class GRProperty<T> {
 			return (T) new Character('a');
 		}
 		if (type.equals(Boolean.TYPE) || type.equals(Boolean.class)) {
-			return (T) new Boolean(false);
+			return (T) Boolean.FALSE;
 		}
 		return null;
 	}
