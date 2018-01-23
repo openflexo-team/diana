@@ -259,31 +259,31 @@ public class FGEContinuousSimpleFunctionGraph<X extends Number> extends FGESimpl
 			for (int i = 0; i < getStepsNumber() + 1; i++) {
 				X value = null;
 				if (getNumberClass().equals(Double.class)) {
-					value = (X) (new Double(getParameterMinValue().doubleValue()
+					value = (X) (Double.valueOf(getParameterMinValue().doubleValue()
 							+ ((getParameterMaxValue().doubleValue() - getParameterMinValue().doubleValue()) * i / getStepsNumber())));
 				}
 				else if (getNumberClass().equals(Float.class)) {
-					value = (X) (new Float(getParameterMinValue().floatValue()
+					value = (X) (Float.valueOf(getParameterMinValue().floatValue()
 							+ ((getParameterMaxValue().floatValue() - getParameterMinValue().floatValue()) * i / getStepsNumber())));
 				}
 				else if (getNumberClass().equals(Long.class)) {
-					value = (X) (new Long(getParameterMinValue().longValue()
+					value = (X) (Long.valueOf(getParameterMinValue().longValue()
 							+ ((getParameterMaxValue().longValue() - getParameterMinValue().longValue()) * i / getStepsNumber())));
 				}
 				else if (getNumberClass().equals(Integer.class)) {
-					value = (X) (new Integer(getParameterMinValue().intValue()
+					value = (X) (Integer.valueOf(getParameterMinValue().intValue()
 							+ ((getParameterMaxValue().intValue() - getParameterMinValue().intValue()) * i / getStepsNumber())));
 				}
 				else if (getNumberClass().equals(Short.class)) {
-					value = (X) (new Short((short) (getParameterMinValue().shortValue()
+					value = (X) (Short.valueOf((short) (getParameterMinValue().shortValue()
 							+ ((getParameterMaxValue().shortValue() - getParameterMinValue().shortValue()) * i / getStepsNumber()))));
 				}
 				else if (getNumberClass().equals(Byte.class)) {
-					value = (X) (new Byte((byte) (getParameterMinValue().byteValue()
+					value = (X) (Byte.valueOf((byte) (getParameterMinValue().byteValue()
 							+ ((getParameterMaxValue().byteValue() - getParameterMinValue().byteValue()) * i / getStepsNumber()))));
 				}
 				else {
-					value = (X) (new Double(getParameterMinValue().doubleValue()
+					value = (X) (Double.valueOf(getParameterMinValue().doubleValue()
 							+ ((getParameterMaxValue().doubleValue() - getParameterMinValue().doubleValue()) * i / getStepsNumber())));
 				}
 				returned.add(value);
@@ -353,7 +353,7 @@ public class FGEContinuousSimpleFunctionGraph<X extends Number> extends FGESimpl
 			// System.out.println("Minor tick spacing = " + getParameterMinorTickSpacing());
 
 			// Unused double y0 =
-			getNormalizedPosition((X) new Double(0));
+			getNormalizedPosition((X) Double.valueOf(0));
 
 			if (getDisplayMinorTicks()) {
 				double minMTS = ((int) getParameterMinValue().doubleValue() / getParameterMinorTickSpacing().doubleValue())
@@ -362,7 +362,7 @@ public class FGEContinuousSimpleFunctionGraph<X extends Number> extends FGESimpl
 						* getParameterMinorTickSpacing().doubleValue();
 
 				for (double ts = minMTS; ts <= maxMTS; ts += getParameterMinorTickSpacing().doubleValue()) {
-					double nts = getNormalizedPosition((X) new Double(ts));
+					double nts = getNormalizedPosition((X) Double.valueOf(ts));
 					// System.out.println("ts: on " + ts + " on nts=" + nts);
 					g.drawLine(new FGEPoint(nts, 0.995), new FGEPoint(nts, 1.005));
 				}
@@ -375,7 +375,7 @@ public class FGEContinuousSimpleFunctionGraph<X extends Number> extends FGESimpl
 						* getParameterMajorTickSpacing().doubleValue();
 
 				for (double ts = minMTS; ts <= maxMTS; ts += getParameterMajorTickSpacing().doubleValue()) {
-					double nts = getNormalizedPosition((X) new Double(ts));
+					double nts = getNormalizedPosition((X) Double.valueOf(ts));
 					// System.out.println("ts: on " + ts + " on nts=" + nts);
 					g.drawLine(new FGEPoint(nts, 0.99), new FGEPoint(nts, 1.01));
 				}
@@ -389,7 +389,7 @@ public class FGEContinuousSimpleFunctionGraph<X extends Number> extends FGESimpl
 				g.useTextStyle(g.getFactory().makeTextStyle(g.getCurrentForeground().getColor().darker(),
 						g.getCurrentTextStyle().getFont().deriveFont(8.0f)));
 				for (double ts = minMTS; ts <= maxMTS; ts += getParameterMajorTickSpacing().doubleValue()) {
-					double nts = getNormalizedPosition((X) new Double(ts));
+					double nts = getNormalizedPosition((X) Double.valueOf(ts));
 					g.drawString("" + ts, new FGEPoint(nts, 0.99), HorizontalTextAlignment.CENTER);
 				}
 

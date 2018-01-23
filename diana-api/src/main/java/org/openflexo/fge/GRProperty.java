@@ -185,25 +185,25 @@ public class GRProperty<T> {
 
 	public T getDefaultValue() {
 		if (type.equals(Integer.TYPE) || type.equals(Integer.class)) {
-			return (T) new Integer(0);
+			return (T) Integer.valueOf(0);
 		}
 		if (type.equals(Short.TYPE) || type.equals(Short.class)) {
-			return (T) new Short((short) 0);
+			return (T) Short.valueOf((short) 0);
 		}
 		if (type.equals(Long.TYPE) || type.equals(Long.class)) {
-			return (T) new Long(0);
+			return (T) Long.valueOf(0);
 		}
 		if (type.equals(Byte.TYPE) || type.equals(Byte.class)) {
-			return (T) new Byte((byte) 0);
+			return (T) Byte.valueOf((byte) 0);
 		}
 		if (type.equals(Double.TYPE) || type.equals(Double.class)) {
-			return (T) new Double(0);
+			return (T) Double.valueOf(0);
 		}
 		if (type.equals(Float.TYPE) || type.equals(Float.class)) {
-			return (T) new Float(0);
+			return (T) Float.valueOf(0);
 		}
 		if (type.equals(Character.TYPE) || type.equals(Character.class)) {
-			return (T) new Character('a');
+			return (T) Character.valueOf('a');
 		}
 		if (type.equals(Boolean.TYPE) || type.equals(Boolean.class)) {
 			return (T) Boolean.FALSE;

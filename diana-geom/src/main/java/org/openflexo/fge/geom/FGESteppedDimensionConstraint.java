@@ -112,7 +112,7 @@ public class FGESteppedDimensionConstraint implements Cloneable {
 
 	@Override
 	public int hashCode() {
-		return (new Double(hStep)).hashCode() + (new Double(vStep)).hashCode();
+		return (Double.valueOf(hStep)).hashCode() + (Double.valueOf(vStep)).hashCode();
 	}
 	
 	@Override
