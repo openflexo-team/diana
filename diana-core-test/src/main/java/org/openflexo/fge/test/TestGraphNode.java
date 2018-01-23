@@ -231,7 +231,7 @@ public class TestGraphNode extends Observable {
 			return Collections.singletonList(this);
 		}
 		else {
-			TestGraphNode parentNode = getInputEdges().get(0).getStartNode();
+			// Unused TestGraphNode parentNode = getInputEdges().get(0).getStartNode();
 			List<TestGraphNode> returned = new ArrayList<>();
 			for (TestEdge e : getInputEdges().get(0).getStartNode().getOutputEdges()) {
 				returned.add(e.getEndNode());

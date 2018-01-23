@@ -497,7 +497,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 			// This line is really important, since it avoid GR to be notified of this set
 			// Otherwise GR forward notification to DTN whiich will delete current connector
 			getConnectorSpecification().getPropertyChangeSupport().removePropertyChangeListener(connectorNode.getGraphicalRepresentation());
-			T oldValue = (T) getConnectorSpecification().objectForKey(parameter.getName());
+			// Unused T oldValue = (T) getConnectorSpecification().objectForKey(parameter.getName());
 			getConnectorSpecification().setObjectForKey(value, parameter.getName());
 			if (wasObserving) {
 				observeAgain(getConnectorSpecification());

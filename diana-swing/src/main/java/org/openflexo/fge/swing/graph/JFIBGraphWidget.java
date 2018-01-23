@@ -41,7 +41,6 @@ package org.openflexo.fge.swing.graph;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Point;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
@@ -73,7 +72,6 @@ import org.openflexo.fge.graph.FGEGraph;
 import org.openflexo.fge.graph.FGENumericFunction;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
-import org.openflexo.fge.view.FGEView;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.graph.FIBContinuousSimpleFunctionGraph;
 import org.openflexo.gina.model.graph.FIBGraph;
@@ -132,7 +130,6 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 	public SwingGraphRenderingAdapter getRenderingAdapter() {
 		return (SwingGraphRenderingAdapter) super.getRenderingAdapter();
 	}
-
 
 	// TODO: remove this method
 	@Override
@@ -551,8 +548,10 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 						@Override
 						public boolean handleClick(DrawingTreeNode<?, ?> dtn, AbstractDianaEditor<?, ?, ?> controller,
 								MouseControlContext context) {
-							FGEView<?, ?> view = controller.getDrawingView().viewForNode(dtn);
-							Point newPoint = getPointInView(dtn, controller, context);
+							// Unused FGEView<?, ?> view =
+							controller.getDrawingView().viewForNode(dtn);
+							// Unused Point newPoint =
+							getPointInView(dtn, controller, context);
 							// controller.showContextualMenu(dtn, view, newPoint);
 							// System.out.println("OK on doit faire l'update du graphe");
 							updateGraph();

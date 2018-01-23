@@ -38,7 +38,6 @@
 
 package org.openflexo.fge.impl;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -206,8 +205,9 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 
 	@Override
 	public boolean isContainedInSelection(Rectangle drawingViewSelection, double scale) {
-		FGERectangle drawingViewBounds = new FGERectangle(drawingViewSelection.getX(), drawingViewSelection.getY(),
-				drawingViewSelection.getWidth(), drawingViewSelection.getHeight(), Filling.FILLED);
+		// Unused FGERectangle drawingViewBounds =
+		new FGERectangle(drawingViewSelection.getX(), drawingViewSelection.getY(), drawingViewSelection.getWidth(),
+				drawingViewSelection.getHeight(), Filling.FILLED);
 		boolean isFullyContained = true;
 		/*	for (ControlPoint cp : getConnector().getControlPoints()) {
 			Point cpInContainerView = convertLocalNormalizedPointToRemoteViewCoordinates(
@@ -259,13 +259,13 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 		paintGeometricObject(g);
 
 		if (getIsSelected() || getIsFocused()) {
-			Color color = null;
-			if (getIsSelected()) {
-				color = getDrawing().getRoot().getGraphicalRepresentation().getSelectionColor();
-			}
-			else if (getIsFocused()) {
-				color = getDrawing().getRoot().getGraphicalRepresentation().getFocusColor();
-			}
+			// Unused Color color = null;
+			// Unused if (getIsSelected()) {
+			// Unused color = getDrawing().getRoot().getGraphicalRepresentation().getSelectionColor();
+			// Unused }
+			// Unused else if (getIsFocused()) {
+			// Unused color = getDrawing().getRoot().getGraphicalRepresentation().getFocusColor();
+			// Unused }
 			for (ControlPoint cp : getControlPoints()) {
 				cp.paint(g);
 			}
