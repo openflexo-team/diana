@@ -590,15 +590,18 @@ public class FGERoundRectangle extends RoundRectangle2D.Double
 					// FD pour SG :
 					// Le code ci-après est bizarre l594 => p = null, donc on passe dans les else et du coup on renvoie toujours le dernier
 					// resultat (SouthWest)
+					// SG pour FD :
+					// Non, on sette p entre temps. Mais tu as raison pour la première intersection, la premiere clause du if est caduque
+					// J'ai commenté le code inutile
 					FGEArea area = getNorthEastRound().intersect(returned);
 					FGEPoint p = null;
 					if (area instanceof FGEPoint) {
-						if (p != null) {
+						/*if (p != null) {
 							return new FGESegment(p, (FGEPoint) area);
 						}
-						else {
-							p = (FGEPoint) area;
-						}
+						else {*/
+						p = (FGEPoint) area;
+						// }
 					}
 					area = getNorthWestRound().intersect(returned);
 					if (area instanceof FGEPoint) {
