@@ -202,23 +202,23 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 			disableEndObjectObserving();
 		}
 
-		if (aEndNode != null /*&& !enabledEndObjectObserving*/) {
-			aEndNode.getPropertyChangeSupport().addPropertyChangeListener(this);
-			observedEndObjects.add(aEndNode);
-			// if (!isDeserializing()) {
-			for (DrawingTreeNode<?, ?> node : aEndNode.getAncestors()) {
-				/*if (getGraphicalRepresentation(o) != null) {
-					getGraphicalRepresentation(o).addObserver(this);
-					observedEndObjects.add((Observable) getGraphicalRepresentation(o));
-				}*/
-				if (node != null) {
-					node.getPropertyChangeSupport().addPropertyChangeListener(this);
-					observedEndObjects.add(node);
-				}
+		// Redondant check if (aEndNode != null /*&& !enabledEndObjectObserving*/) {
+		aEndNode.getPropertyChangeSupport().addPropertyChangeListener(this);
+		observedEndObjects.add(aEndNode);
+		// if (!isDeserializing()) {
+		for (DrawingTreeNode<?, ?> node : aEndNode.getAncestors()) {
+			/*if (getGraphicalRepresentation(o) != null) {
+				getGraphicalRepresentation(o).addObserver(this);
+				observedEndObjects.add((Observable) getGraphicalRepresentation(o));
+			}*/
+			if (node != null) {
+				node.getPropertyChangeSupport().addPropertyChangeListener(this);
+				observedEndObjects.add(node);
 			}
-			// }
-			enabledEndObjectObserving = true;
 		}
+		// }
+		enabledEndObjectObserving = true;
+		// }
 	}
 
 	protected void disableEndObjectObserving(/*ShapeGraphicalRepresentation anEndObject*/) {

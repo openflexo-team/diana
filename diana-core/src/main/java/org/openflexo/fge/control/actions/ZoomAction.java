@@ -57,20 +57,20 @@ public class ZoomAction extends MouseDragControlActionImpl<DianaInteractiveViewe
 
 	@Override
 	public boolean handleMouseDragged(DrawingTreeNode<?, ?> node, DianaInteractiveViewer<?, ?, ?> editor, MouseControlContext context) {
-		if (editor instanceof DianaInteractiveViewer) {
-			DianaInteractiveViewer<?, ?, ?> controller = (DianaInteractiveViewer<?, ?, ?>) editor;
+		if (editor != null) {
+			DianaInteractiveViewer<?, ?, ?> controller = editor;
 			Point currentMousePositionInDrawingView = getPointInDrawingView(controller, context);
-			SimplifiedCardinalDirection card = FGEPoint.getSimplifiedOrientation(new FGEPoint(startPoint), new FGEPoint(
-					currentMousePositionInDrawingView));
+			SimplifiedCardinalDirection card = FGEPoint.getSimplifiedOrientation(new FGEPoint(startPoint),
+					new FGEPoint(currentMousePositionInDrawingView));
 			boolean isPositive = true;
 			double distance = 0.0;
 			switch (card) {
-			case NORTH:
-			case WEST:
-				isPositive = false;
-				break;
-			default:
-				break;
+				case NORTH:
+				case WEST:
+					isPositive = false;
+					break;
+				default:
+					break;
 			}
 			// We compute a distance to this refline instead of a distance to the start point so that that there is no gap when going from
 			// positive to negative
@@ -78,7 +78,8 @@ public class ZoomAction extends MouseDragControlActionImpl<DianaInteractiveViewe
 			double newScale = initialScale;
 			if (isPositive) {
 				newScale += distance * PIXEL_TO_PERCENT;
-			} else {
+			}
+			else {
 				newScale -= distance * PIXEL_TO_PERCENT;
 			}
 			controller.setScale(newScale);
@@ -89,8 +90,8 @@ public class ZoomAction extends MouseDragControlActionImpl<DianaInteractiveViewe
 
 	@Override
 	public boolean handleMousePressed(DrawingTreeNode<?, ?> node, DianaInteractiveViewer<?, ?, ?> editor, MouseControlContext context) {
-		if (editor instanceof DianaInteractiveViewer) {
-			DianaInteractiveViewer<?, ?, ?> controller = (DianaInteractiveViewer<?, ?, ?>) editor;
+		if (editor != null) {
+			DianaInteractiveViewer<?, ?, ?> controller = editor;
 			startPoint = getPointInDrawingView(controller, context);
 			// Virtual line that goes through the start point and its orientation is NORTH_EAST (or SOUTH_WEST, it's the same)
 			refLine = new FGELine(new FGEPoint(startPoint), new FGEPoint(startPoint.x + 1, startPoint.y - 1));
@@ -103,8 +104,8 @@ public class ZoomAction extends MouseDragControlActionImpl<DianaInteractiveViewe
 	@Override
 	public boolean handleMouseReleased(DrawingTreeNode<?, ?> node, DianaInteractiveViewer<?, ?, ?> editor, MouseControlContext context,
 			boolean isSignificativeDrag) {
-		if (editor instanceof DianaInteractiveViewer) {
-			DianaInteractiveViewer<?, ?, ?> controller = (DianaInteractiveViewer<?, ?, ?>) editor;
+		if (editor != null) {
+			DianaInteractiveViewer<?, ?, ?> controller = editor;
 			startPoint = null;
 			refLine = null;
 			initialScale = controller.getScale();

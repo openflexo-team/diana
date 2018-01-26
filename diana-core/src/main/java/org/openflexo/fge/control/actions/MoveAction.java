@@ -70,17 +70,19 @@ public class MoveAction extends MouseDragControlActionImpl<DianaInteractiveViewe
 	private static final Image DROP_OK_IMAGE = FIBIconLibrary.DROP_OK_CURSOR.getImage();
 	private static final Image DROP_KO_IMAGE = FIBIconLibrary.DROP_KO_CURSOR.getImage();
 
-	public static Cursor dropOK = ToolBox.getPLATFORM() == ToolBox.MACOS ? Toolkit.getDefaultToolkit().createCustomCursor(DROP_OK_IMAGE,
-			new Point(16, 16), "Drop OK") : DragSource.DefaultMoveDrop;
-	public static Cursor dropKO = ToolBox.getPLATFORM() == ToolBox.MACOS ? Toolkit.getDefaultToolkit().createCustomCursor(DROP_KO_IMAGE,
-			new Point(16, 16), "Drop KO") : DragSource.DefaultMoveNoDrop;
+	public static Cursor dropOK = ToolBox.getPLATFORM() == ToolBox.MACOS
+			? Toolkit.getDefaultToolkit().createCustomCursor(DROP_OK_IMAGE, new Point(16, 16), "Drop OK")
+			: DragSource.DefaultMoveDrop;
+	public static Cursor dropKO = ToolBox.getPLATFORM() == ToolBox.MACOS
+			? Toolkit.getDefaultToolkit().createCustomCursor(DROP_KO_IMAGE, new Point(16, 16), "Drop KO")
+			: DragSource.DefaultMoveNoDrop;
 
 	public Point initialClickOffset;
 
 	@Override
 	public boolean handleMouseDragged(DrawingTreeNode<?, ?> node, DianaInteractiveViewer<?, ?, ?> editor, MouseControlContext context) {
-		if (editor instanceof DianaInteractiveViewer) {
-			DianaInteractiveViewer<?, ?, ?> controller = (DianaInteractiveViewer<?, ?, ?>) editor;
+		if (editor != null) {
+			DianaInteractiveViewer<?, ?, ?> controller = editor;
 			if (logger.isLoggable(Level.FINE)) {
 				logger.fine("Perform mouse DRAGGED on MOVE AbstractMouseDragControlActionImpl");
 			}
@@ -93,7 +95,8 @@ public class MoveAction extends MouseDragControlActionImpl<DianaInteractiveViewe
 					currentMove.stopDragging();
 					currentMove = null;
 					currentDND = controller.getDianaFactory().makeDNDInfo(this, (ShapeNode<?>) node, controller, context);
-				} else {
+				}
+				else {
 					currentMove.moveTo(newPointLocation);
 				}
 				return true;
@@ -104,8 +107,8 @@ public class MoveAction extends MouseDragControlActionImpl<DianaInteractiveViewe
 
 	@Override
 	public boolean handleMousePressed(DrawingTreeNode<?, ?> node, DianaInteractiveViewer<?, ?, ?> editor, MouseControlContext context) {
-		if (editor instanceof DianaInteractiveViewer) {
-			DianaInteractiveViewer<?, ?, ?> controller = (DianaInteractiveViewer<?, ?, ?>) editor;
+		if (editor != null) {
+			DianaInteractiveViewer<?, ?, ?> controller = editor;
 			if (logger.isLoggable(Level.FINE)) {
 				logger.fine("Perform mouse PRESSED on MOVE AbstractMouseDragControlActionImpl");
 			}
@@ -125,7 +128,7 @@ public class MoveAction extends MouseDragControlActionImpl<DianaInteractiveViewe
 	@Override
 	public boolean handleMouseReleased(DrawingTreeNode<?, ?> node, DianaInteractiveViewer<?, ?, ?> editor, MouseControlContext context,
 			boolean isSignificativeDrag) {
-		if (editor instanceof DianaInteractiveViewer) {
+		if (editor != null) {
 			if (logger.isLoggable(Level.FINE)) {
 				logger.fine("Perform mouse RELEASED on MOVE AbstractMouseDragControlActionImpl");
 			}

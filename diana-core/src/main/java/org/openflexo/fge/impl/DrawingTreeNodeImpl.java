@@ -1206,9 +1206,6 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 				if (getGraphicalRepresentation().hasKey(parameter.getName())) {
 					returned = (T) getGraphicalRepresentation().objectForKey(parameter.getName());
 				}
-				else {
-					returned = null;
-				}
 				if (returned != null) {
 					propertyValues.put(parameter, returned);
 				}

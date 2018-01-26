@@ -64,8 +64,8 @@ public class RectangleSelectingAction extends MouseDragControlActionImpl<DianaIn
 	@Override
 	public boolean handleMousePressed(DrawingTreeNode<?, ?> node, DianaInteractiveViewer<?, ?, ?> editor, MouseControlContext context) {
 
-		if (editor instanceof DianaInteractiveViewer) {
-			DianaInteractiveViewer<?, ?, ?> controller = (DianaInteractiveViewer<?, ?, ?>) editor;
+		if (editor != null) {
+			DianaInteractiveViewer<?, ?, ?> controller = editor;
 
 			// logger.info("Perform mouse PRESSED on RectangleSelectingAction");
 
@@ -84,11 +84,11 @@ public class RectangleSelectingAction extends MouseDragControlActionImpl<DianaIn
 	@Override
 	public boolean handleMouseReleased(DrawingTreeNode<?, ?> node, DianaInteractiveViewer<?, ?, ?> editor, MouseControlContext context,
 			boolean isSignificativeDrag) {
-		if (editor instanceof DianaInteractiveViewer) {
+		if (editor != null) {
 
 			// logger.info("Perform mouse RELEASED on RectangleSelectingAction, isSignificative=" + isSignificativeDrag);
 
-			DianaInteractiveViewer<?, ?, ?> controller = (DianaInteractiveViewer<?, ?, ?>) editor;
+			DianaInteractiveViewer<?, ?, ?> controller = editor;
 			if (isSignificativeDrag && node instanceof ContainerNode) {
 				List<DrawingTreeNode<?, ?>> newSelection = buildCurrentSelection((ContainerNode<?, ?>) node, controller);
 				controller.setSelectedObjects(newSelection);
@@ -104,8 +104,8 @@ public class RectangleSelectingAction extends MouseDragControlActionImpl<DianaIn
 
 	@Override
 	public boolean handleMouseDragged(DrawingTreeNode<?, ?> node, DianaInteractiveViewer<?, ?, ?> editor, MouseControlContext context) {
-		if (editor instanceof DianaInteractiveViewer) {
-			DianaInteractiveViewer<?, ?, ?> controller = (DianaInteractiveViewer<?, ?, ?>) editor;
+		if (editor != null) {
+			DianaInteractiveViewer<?, ?, ?> controller = editor;
 
 			// logger.info("Perform mouse DRAGGED on RectangleSelectingAction");
 
