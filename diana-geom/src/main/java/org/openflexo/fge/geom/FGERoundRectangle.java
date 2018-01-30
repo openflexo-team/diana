@@ -388,7 +388,7 @@ public class FGERoundRectangle extends RoundRectangle2D.Double implements FGESha
 	}
 
 	private FGEArea computeRectangleIntersection(FGERoundRectangle rect) {
-		Vector<FGEPoint> pts = new Vector<>() {
+		Vector<FGEPoint> pts = new Vector<FGEPoint>() {
 			@Override
 			public synchronized boolean add(FGEPoint o) {
 				if (!contains(o)) {
