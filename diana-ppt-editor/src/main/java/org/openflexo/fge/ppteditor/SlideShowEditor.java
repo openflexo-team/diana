@@ -83,8 +83,7 @@ public class SlideShowEditor extends JPanel {
 
 		SlideShowEditor returned = new SlideShowEditor(application);
 
-		try {
-			FileInputStream fis = new FileInputStream(file);
+		try (FileInputStream fis = new FileInputStream(file)) {
 			returned.slideShow = new SlideShow(fis);
 			returned.file = file;
 			System.out.println("Loaded " + file.getAbsolutePath());
@@ -119,16 +118,14 @@ public class SlideShowEditor extends JPanel {
 		if (file != null) {
 			return file.getName();
 		}
-		else {
-			return PPTEditorApplication.PPT_EDITOR_LOCALIZATION.localizedForKey("untitled") + "-" + index;
-		}
+		return PPTEditorApplication.PPT_EDITOR_LOCALIZATION.localizedForKey("untitled") + "-" + index;
 	}
 
 	public boolean save() {
 		System.out.println("Saving " + file);
 
-		try {
-			slideShow.write(new FileOutputStream(file));
+		try (FileOutputStream fos = new FileOutputStream(file)) {
+			slideShow.write(fos);
 			System.out.println("Saved " + file.getAbsolutePath());
 			return true;
 		} catch (FileNotFoundException e1) {
@@ -176,10 +173,7 @@ public class SlideShowEditor extends JPanel {
 	}
 
 	public static void main(String[] args) {
-		InputStream fis;
-
-		try {
-			fis = (ResourceLocator.locateResource("TestPPT2.ppt")).openInputStream();
+		try (InputStream fis = (ResourceLocator.locateResource("TestPPT2.ppt")).openInputStream()) {
 			SlideShow ssOpenned = new SlideShow(fis);
 			System.out.println("Yes, j'ai ouvert le truc");
 			System.out.println("Slides:" + ssOpenned.getSlides().length);
