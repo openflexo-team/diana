@@ -79,9 +79,9 @@ public class DiagramEditor {
 
 		DiagramEditor returned = new DiagramEditor(factory, application);
 
-		try {
-			factory.getResourceConverter().setContainerResource(FS_RESOURCE_LOCATOR.retrieveResource(file.getParentFile()));
-			returned.diagram = (Diagram) factory.deserialize(new FileInputStream(file));
+		factory.getResourceConverter().setContainerResource(FS_RESOURCE_LOCATOR.retrieveResource(file.getParentFile()));
+		try (FileInputStream fos = new FileInputStream(file)) {
+			returned.diagram = (Diagram) factory.deserialize(fos);
 			returned.file = file;
 			System.out.println("Loaded " + factory.stringRepresentation(returned.diagram));
 			return returned;
@@ -155,9 +155,9 @@ public class DiagramEditor {
 	public boolean save() {
 		System.out.println("Saving " + file);
 
-		try {
-			factory.getResourceConverter().setContainerResource(FS_RESOURCE_LOCATOR.retrieveResource(file.getParentFile()));
-			factory.serialize(diagram, new FileOutputStream(file));
+		factory.getResourceConverter().setContainerResource(FS_RESOURCE_LOCATOR.retrieveResource(file.getParentFile()));
+		try (FileOutputStream fos = new FileOutputStream(file)) {
+			factory.serialize(diagram, fos);
 			System.out.println("Saved " + file.getAbsolutePath());
 			System.out.println(factory.stringRepresentation(diagram));
 			return true;
