@@ -59,7 +59,7 @@ import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.fge.graphics.AbstractFGEGraphics;
 
 @SuppressWarnings("serial")
-public class FGEArc extends Arc2D.Double implements FGEGeometricObject<FGEArc>, FGEShape<FGEArc> {
+public class FGEArc extends Arc2D.Double implements FGEShape<FGEArc> {
 
 	private static final Logger logger = Logger.getLogger(FGEArc.class.getPackage().getName());
 

@@ -57,7 +57,6 @@ import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLAttribute;
-import org.openflexo.model.factory.KeyValueCoding;
 
 /**
  * Represents the specification of a LayoutManager in DIANA<br>
@@ -69,7 +68,7 @@ import org.openflexo.model.factory.KeyValueCoding;
 @Imports({ @Import(GridLayoutManagerSpecification.class), @Import(OutlineLayoutManagerSpecification.class),
 		@Import(FlowLayoutManagerSpecification.class), @Import(GraphBasedLayoutManagerSpecification.class),
 		@Import(TreeBasedLayoutManagerSpecification.class) })
-public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>> extends FGEObject, Bindable, KeyValueCoding {
+public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>> extends FGEObject, Bindable {
 
 	/**
 	 * Exhaustive list of all available {@link FGELayoutManagerSpecification}

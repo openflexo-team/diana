@@ -60,7 +60,7 @@ import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.fge.graphics.AbstractFGEGraphics;
 
 @SuppressWarnings("serial")
-public class FGERectangle extends Rectangle2D.Double implements FGEGeometricObject<FGERectangle>, FGEShape<FGERectangle> {
+public class FGERectangle extends Rectangle2D.Double implements FGEShape<FGERectangle> {
 
 	private static final Logger logger = Logger.getLogger(FGERectangle.class.getPackage().getName());
 

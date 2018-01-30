@@ -57,7 +57,7 @@ import org.openflexo.fge.geom.area.FGESubstractionArea;
 import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.fge.graphics.AbstractFGEGraphics;
 
-public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometricObject<O>, FGEShape<O> {
+public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O> {
 
 	private static final Logger logger = Logger.getLogger(FGEGeneralShape.class.getPackage().getName());
 

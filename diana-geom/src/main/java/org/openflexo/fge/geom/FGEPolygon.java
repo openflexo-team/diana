@@ -70,7 +70,7 @@ import org.openflexo.fge.graphics.AbstractFGEGraphics;
  * @author sylvain
  * 
  */
-public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEPolygon> {
+public class FGEPolygon implements FGEShape<FGEPolygon> {
 
 	private static final Logger logger = Logger.getLogger(FGEPolygon.class.getPackage().getName());
 

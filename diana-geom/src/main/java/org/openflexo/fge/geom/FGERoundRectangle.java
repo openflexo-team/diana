@@ -58,8 +58,7 @@ import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.fge.graphics.AbstractFGEGraphics;
 
 @SuppressWarnings("serial")
-public class FGERoundRectangle extends RoundRectangle2D.Double
-		implements FGEGeometricObject<FGERoundRectangle>, FGEShape<FGERoundRectangle> {
+public class FGERoundRectangle extends RoundRectangle2D.Double implements FGEShape<FGERoundRectangle> {
 
 	private static final Logger logger = Logger.getLogger(FGERoundRectangle.class.getPackage().getName());
 
@@ -389,7 +388,7 @@ public class FGERoundRectangle extends RoundRectangle2D.Double
 	}
 
 	private FGEArea computeRectangleIntersection(FGERoundRectangle rect) {
-		Vector<FGEPoint> pts = new Vector<FGEPoint>() {
+		Vector<FGEPoint> pts = new Vector<>() {
 			@Override
 			public synchronized boolean add(FGEPoint o) {
 				if (!contains(o)) {

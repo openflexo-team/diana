@@ -114,7 +114,7 @@ public class AbstractLaunchLayoutManagerExample {
 		// private final JPopupMenu contextualMenu;
 		private final JDianaScaleSelector scaleSelector;
 
-		public TestDrawingController(Drawing aDrawing) {
+		public TestDrawingController(Drawing<TestGraph> aDrawing) {
 			super(aDrawing, aDrawing.getFactory(), SwingViewFactory.INSTANCE, SwingToolFactory.DEFAULT);
 			scaleSelector = (JDianaScaleSelector) getToolFactory().makeDianaScaleSelector(this);
 			// contextualMenu = new JPopupMenu();
@@ -127,7 +127,7 @@ public class AbstractLaunchLayoutManagerExample {
 
 		final TestDrawingController drawingController;
 
-		public LayoutDemoPanel(Drawing<?> drawing) {
+		public LayoutDemoPanel(Drawing<TestGraph> drawing) {
 			super(new BorderLayout());
 
 			drawingController = new TestDrawingController(drawing);
@@ -191,11 +191,11 @@ public class AbstractLaunchLayoutManagerExample {
 
 	}
 
-	public static LayoutDemoPanel makePanel(final Drawing<?> d) {
+	public static LayoutDemoPanel makePanel(final Drawing<TestGraph> d) {
 		return new LayoutDemoPanel(d);
 	}
 
-	public static void showPanel(final Drawing<?> d) {
+	public static void showPanel(final Drawing<TestGraph> d) {
 		final JDialog dialog = new JDialog((Frame) null, false);
 
 		LayoutDemoPanel panel = new LayoutDemoPanel(d);

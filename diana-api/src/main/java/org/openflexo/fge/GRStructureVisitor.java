@@ -372,10 +372,8 @@ public abstract class GRStructureVisitor<R> {
 		if (node instanceof ContainerNode) {
 			return drawConnector((ContainerNode<O, ?>) node, binding, drawable, (ShapeNode<?>) fromNode, (ShapeNode<?>) toNode);
 		}
-		else {
-			LOGGER.warning("Cannot add shape in non-container node");
-			return null;
-		}
+		LOGGER.warning("Cannot add shape in non-container node");
+		return null;
 	}
 
 	/**

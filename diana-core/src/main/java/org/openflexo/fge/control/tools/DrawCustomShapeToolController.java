@@ -65,7 +65,6 @@ import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.impl.GeometricNodeImpl;
 import org.openflexo.fge.notifications.GeometryModified;
 import org.openflexo.fge.view.DrawingView;
-import org.openflexo.toolbox.HasPropertyChangeSupport;
 
 /**
  * Abstract implementation for the controller of a DrawCustomShape tool
@@ -75,8 +74,7 @@ import org.openflexo.toolbox.HasPropertyChangeSupport;
  * @param <ME>
  *            technology-specific controlling events type
  */
-public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> extends ToolController<ME>
-		implements PropertyChangeListener, HasPropertyChangeSupport {
+public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> extends ToolController<ME> {
 
 	private static final Logger logger = Logger.getLogger(DrawCustomShapeToolController.class.getPackage().getName());
 
@@ -99,6 +97,7 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 
 	public abstract FGEGeometricGraphics makeGraphics(ForegroundStyle foregroundStyle);
 
+	@Override
 	public FGEGeometricGraphics getGraphics() {
 		return graphics;
 	}
@@ -108,6 +107,7 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 	 * 
 	 * @return
 	 */
+	@Override
 	public DrawingView<?, ?> getDrawingView() {
 		if (getController() != null) {
 			return getController().getDrawingView();
@@ -115,6 +115,7 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 		return null;
 	}
 
+	@Override
 	protected void startMouseEdition(ME e) {
 		super.startMouseEdition(e);
 
@@ -188,6 +189,7 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 		getController().getDelegate().repaintAll();
 	}
 
+	@Override
 	public abstract DrawingTreeNode<?, ?> getFocusedObject(ME e);
 
 	public void paintCurrentEditedShape() {
@@ -217,6 +219,7 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 		}
 	}
 
+	@Override
 	public void delete() {
 		logger.warning("Please implement deletion for DrawCustomShapeToolController");
 		super.delete();
