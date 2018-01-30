@@ -418,19 +418,22 @@ public abstract class ScreenshotBuilder<T> {
 	private ScreenshotImage<T> getEmptyScreenshot() {
 		Resource r = ResourceLocator.locateResource(("Resources/EmptyScreenshot.jpg"));
 		if (r != null) {
-			InputStream fis = r.openInputStream();
-			if (fis != null) {
-				try {
-					BufferedImage bi = ImageIO.read(fis);
-					ScreenshotImage<T> i = new ScreenshotImage<>(null);
-					i.image = bi;
-					i.trimInfo = new Rectangle(0, 0, bi.getWidth(), bi.getHeight());
-					return i;
-				} catch (IOException e) {
-					if (logger.isLoggable(Level.WARNING)) {
-						logger.warning("Error trying to read file (Resource) Resources/EmptyScreenshot.jpg");
+			try (InputStream fis = r.openInputStream()) {
+				if (fis != null) {
+					try {
+						BufferedImage bi = ImageIO.read(fis);
+						ScreenshotImage<T> i = new ScreenshotImage<>(null);
+						i.image = bi;
+						i.trimInfo = new Rectangle(0, 0, bi.getWidth(), bi.getHeight());
+						return i;
+					} catch (IOException e) {
+						if (logger.isLoggable(Level.WARNING)) {
+							logger.warning("Error trying to read file (Resource) Resources/EmptyScreenshot.jpg");
+						}
 					}
 				}
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 		if (logger.isLoggable(Level.SEVERE)) {
