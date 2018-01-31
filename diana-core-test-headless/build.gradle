@@ -1,8 +1,0 @@
-dependencies {
-  compile project(':diana-core')
-  compile testUtils()
-}
-
-tasks.withType(Test) {
-  jvmArgs += ["-Djava.awt.headless=true"]
-}
