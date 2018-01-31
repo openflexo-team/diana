@@ -2,3 +2,16 @@ dependencies {
   compile project(':diana-core')
   compile testUtils()
 }
+task nonuiTest(type: Test) {
+  ignoreFailures = true
+  exclude '**/TestGraphDrawing.class'
+  jvmArgs += ["-Djava.awt.headless=true"]
+}
+
+task uiTest(type: Test,dependsOn: 'nonuiTest') {
+  ignoreFailures = true
+  include '**/TestGraphDrawing.class'
+}
+
+task test(overwrite: true,dependsOn: 'uiTest') {
+}
