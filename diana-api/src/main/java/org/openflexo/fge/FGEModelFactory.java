@@ -307,7 +307,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 					this.makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
 		}
 		if (shapeGraphicalRepresentation.getMouseClickControl("Multiple selection") == null) {
-			if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
+			if (ToolBox.isMacOS()) {
 				shapeGraphicalRepresentation.addToMouseClickControls(this.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT,
 						1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 			}
@@ -418,7 +418,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	public void applyBasicControls(final ConnectorGraphicalRepresentation connectorGraphicalRepresentation) {
 		connectorGraphicalRepresentation.addToMouseClickControls(
 				this.makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
-		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
+		if (ToolBox.isMacOS()) {
 			connectorGraphicalRepresentation.addToMouseClickControls(this.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT,
 					1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}
@@ -488,7 +488,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	public void applyBasicControls(final GeometricGraphicalRepresentation geometricGraphicalRepresentation) {
 		geometricGraphicalRepresentation.addToMouseClickControls(
 				this.makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
-		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
+		if (ToolBox.isMacOS()) {
 			geometricGraphicalRepresentation.addToMouseClickControls(this.makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT,
 					1, PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}

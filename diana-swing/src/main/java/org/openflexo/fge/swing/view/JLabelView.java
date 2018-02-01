@@ -447,7 +447,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		if (node.getGraphicalRepresentation() == null) {
 			return;
 		}
-		
+
 		// Fixed TA-128
 		if (!FGEUtils.areElementsConnectedInGraphicalHierarchy(node, getDrawingView().getDrawing().getRoot())) {
 			logger.warning("Calling updateBounds() for element is not connected to the drawing. Abort.");
@@ -622,7 +622,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 
 	@Override
 	public void setDoubleBuffered(boolean aFlag) {
-		super.setDoubleBuffered(aFlag && ToolBox.getPLATFORM() == ToolBox.MACOS);
+		super.setDoubleBuffered(aFlag && ToolBox.isMacOS());
 		if (textComponent != null) {
 			textComponent.setDoubleBuffered(aFlag);
 		}
@@ -937,7 +937,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 
 		@Override
 		public void setDoubleBuffered(boolean aFlag) {
-			super.setDoubleBuffered(aFlag && ToolBox.getPLATFORM() == ToolBox.MACOS);
+			super.setDoubleBuffered(aFlag && ToolBox.isMacOS());
 		}
 
 		@Override

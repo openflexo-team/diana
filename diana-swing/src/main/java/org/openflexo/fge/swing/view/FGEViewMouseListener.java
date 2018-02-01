@@ -126,7 +126,7 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 			return;
 		}
 
-		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
+		if (ToolBox.isMacOS()) {
 			if (e.getClickCount() == 2 && previousEvent != null) {
 				if (previousEvent.getClickCount() == 1 && previousEvent.getComponent() == e.getComponent()
 						&& previousEvent.getButton() != e.getButton()) {

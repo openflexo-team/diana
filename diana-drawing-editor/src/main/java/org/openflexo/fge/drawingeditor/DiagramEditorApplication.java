@@ -128,7 +128,7 @@ public class DiagramEditorApplication {
 	public static LocalizedDelegate DIAGRAM_EDITOR_LOCALIZATION = new LocalizedDelegateImpl(
 			ResourceLocator.locateResource("FlexoLocalization/DrawingEditor"), FGECoreUtils.DIANA_LOCALIZATION, true, true);
 
-	private static final int META_MASK = ToolBox.getPLATFORM() == ToolBox.MACOS ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
+	private static final int META_MASK = ToolBox.isMacOS() ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
 
 	private final JFrame frame;
 	private final JDialog paletteDialog;

@@ -103,7 +103,7 @@ public abstract class GeometricGraphicalRepresentationImpl extends GraphicalRepr
 
 		addToMouseClickControls(
 				getFactory().makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
-		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
+		if (ToolBox.isMacOS()) {
 			addToMouseClickControls(getFactory().makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1,
 					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
 		}
