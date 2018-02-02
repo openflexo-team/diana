@@ -140,7 +140,6 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 			return;
 		}*/
 		checkViewBounds();
-		setChanged();
 		notifyObservers(new ConnectorModified());
 	}
 

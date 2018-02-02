@@ -739,10 +739,6 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	}
 
-	@Deprecated
-	public void setChanged() {
-	}
-
 	public void notifyObservers(FGENotification notification) {
 		if ((!(notification instanceof NodeDeleted)) && isDeleted()) {
 			logger.warning("notifyObservers() called by a deleted DrawingTreeNode");
@@ -759,8 +755,6 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	// TODO: (sylvain) i think this is no more necessary, remove this ???
 	@Deprecated
 	public <T> void notifyAttributeChanged(GRProperty<T> parameter, T oldValue, T newValue) {
-		propagateConstraintsAfterModification(parameter);
-		setChanged();
 		notifyObservers(new FGEAttributeNotification<>(parameter, oldValue, newValue));
 	}
 
@@ -769,22 +763,6 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		getPropertyChangeSupport().firePropertyChange(evt);
 
 		// getPropertyChangeSupport().firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
-	}
-
-	// TODO: (sylvain) i think this is no more necessary, remove this ???
-	@Deprecated
-	protected <T> void propagateConstraintsAfterModification(GRProperty<T> parameter) {
-		for (ConstraintDependency dependency : alterings) {
-			if (dependency.requiredParameter == parameter) {
-				((DrawingTreeNodeImpl<?, ?>) dependency.requiringGR).computeNewConstraint(dependency);
-			}
-		}
-	}
-
-	// TODO: (sylvain) i think this is no more necessary, remove this ???
-	@Deprecated
-	protected void computeNewConstraint(ConstraintDependency dependency) {
-		// None known at this level
 	}
 
 	@Override
@@ -1011,25 +989,21 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	@Override
 	public void notifyLabelWillBeEdited() {
-		setChanged();
 		notifyObservers(new LabelWillEdit());
 	}
 
 	@Override
 	public void notifyLabelHasBeenEdited() {
-		setChanged();
 		notifyObservers(new LabelHasEdited());
 	}
 
 	@Override
 	public void notifyLabelWillMove() {
-		setChanged();
 		notifyObservers(new LabelWillMove());
 	}
 
 	@Override
 	public void notifyLabelHasMoved() {
-		setChanged();
 		notifyObservers(new LabelHasMoved());
 	}
 
@@ -1060,7 +1034,6 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	public void setIsFocused(boolean aFlag) {
 		if (aFlag != isFocused) {
 			isFocused = aFlag;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(IS_FOCUSED, !isFocused, isFocused));
 		}
 	}
@@ -1074,7 +1047,6 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	public void setIsSelected(boolean aFlag) {
 		if (aFlag != isSelected) {
 			isSelected = aFlag;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(IS_SELECTED, !isSelected, isSelected));
 		}
 	}

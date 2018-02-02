@@ -375,10 +375,6 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 		return null;
 	}
 
-	@Deprecated
-	public void setChanged() {
-	}
-
 	public void notifyObservers(FGENotification notification) {
 		getPropertyChangeSupport().firePropertyChange(notification.propertyName(), notification.oldValue, notification.newValue);
 	}
@@ -394,7 +390,6 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	private void fireGraphicalObjectHierarchyRebuildStarted() {
 		isUpdatingGraphicalObjectsHierarchy = true;
 		layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating.clear();
-		setChanged();
 		notifyObservers(new DrawingTreeNodeHierarchyRebuildStarted(this));
 	}
 
@@ -405,7 +400,6 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 			layoutManager.doLayout(true);
 		}
 		layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating.clear();
-		setChanged();
 		notifyObservers(new DrawingTreeNodeHierarchyRebuildEnded(this));
 	}
 

@@ -42,11 +42,7 @@ package org.openflexo.fge.impl;
 import java.awt.Color;
 import java.util.logging.Logger;
 
-import org.openflexo.fge.Drawing;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
-import org.openflexo.fge.control.MouseControl.MouseButton;
-import org.openflexo.fge.control.PredefinedMouseClickControlActionType;
-import org.openflexo.fge.control.PredefinedMouseDragControlActionType;
 import org.openflexo.fge.geom.FGEDimension;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGERectangle;
@@ -81,13 +77,14 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 		height = DEFAULT_DRAWING_HEIGHT;
 	}
 
+	/*
 	@Deprecated
 	private DrawingGraphicalRepresentationImpl(Drawing<?> aDrawing) {
 		this();
 		// setDrawing(aDrawing);
 		// setDrawable(aDrawing != null ? aDrawing.getModel() : null);
 	}
-
+	
 	@SuppressWarnings("unused")
 	@Deprecated
 	private DrawingGraphicalRepresentationImpl(Drawing<?> aDrawing, boolean initBasicControls) {
@@ -103,7 +100,7 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 		// height = FGEConstants.DEFAULT_DRAWING_HEIGHT;
 		// bgStyle = getFactory().makeColoredBackground(getBackgroundColor());
 	}
-
+	*/
 	@Override
 	public boolean delete(Object... context) {
 		boolean returned = super.delete();

@@ -873,7 +873,6 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	@Override
 	public void notifyGeometryChanged() {
 		updateControlPoints();
-		setChanged();
 		notifyObservers(new GeometryModified());
 		// Hack: for the inspector !!!
 		if (getGraphicalRepresentation().getGeometricObject() instanceof FGEPoint) {

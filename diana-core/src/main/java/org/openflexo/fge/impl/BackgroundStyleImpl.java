@@ -63,55 +63,6 @@ public abstract class BackgroundStyleImpl extends FGEStyleImpl implements Backgr
 		return GRProperty.getGRParameters(BackgroundStyle.class);
 	}
 
-	/*@Deprecated
-	public static BackgroundStyle makeEmptyBackground() {
-		return new NoneBackgroundStyleImpl();
-	}
-	
-	@Deprecated
-	public static BackgroundStyle makeColoredBackground(java.awt.Color aColor) {
-		return new ColorBackgroundStyleImpl(aColor);
-	}
-	
-	@Deprecated
-	public static BackgroundStyle makeColorGradientBackground(java.awt.Color color1, java.awt.Color color2,
-			ColorGradientBackgroundStyle.ColorGradientDirection direction) {
-		return new ColorGradientBackgroundStyleImpl(color1, color2, direction);
-	}
-	
-	@Deprecated
-	public static BackgroundStyle makeTexturedBackground(TextureBackgroundStyle.TextureType type, java.awt.Color aColor1,
-			java.awt.Color aColor2) {
-		return new TextureBackgroundStyleImpl(type, aColor1, aColor2);
-	}
-	
-	@Deprecated
-	public static BackgroundImageBackgroundStyle makeImageBackground(File imageFile) {
-		return new BackgroundImageBackgroundStyleImpl(imageFile);
-	}
-	
-	@Deprecated
-	public static BackgroundImageBackgroundStyle makeImageBackground(ImageIcon image) {
-		return new BackgroundImageBackgroundStyleImpl(image);
-	}*/
-
-	// @Deprecated
-	/*public static BackgroundStyle makeBackground(BackgroundStyleType type) {
-		if (type == BackgroundStyleType.NONE) {
-			return makeEmptyBackground();
-		} else if (type == BackgroundStyleType.COLOR) {
-			return makeColoredBackground(java.awt.Color.WHITE);
-		} else if (type == BackgroundStyleType.COLOR_GRADIENT) {
-			return makeColorGradientBackground(java.awt.Color.WHITE, java.awt.Color.BLACK,
-					org.openflexo.fge.ColorGradientBackgroundStyle.ColorGradientDirection.SOUTH_EAST_NORTH_WEST);
-		} else if (type == BackgroundStyleType.TEXTURE) {
-			return makeTexturedBackground(org.openflexo.fge.TextureBackgroundStyle.TextureType.TEXTURE1, java.awt.Color.RED,
-					java.awt.Color.WHITE);
-		} else if (type == BackgroundStyleType.IMAGE) {
-			return makeImageBackground((File) null);
-		}
-		return null;
-	}*/
 	// @Override
 	// public abstract Paint getPaint(DrawingTreeNode<?, ?> dtn, double scale);
 

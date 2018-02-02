@@ -39,24 +39,17 @@
 
 package org.openflexo.fge.impl;
 
-import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.ConnectorGraphicalRepresentation;
-import org.openflexo.fge.Drawing;
-import org.openflexo.fge.FGEConstants;
 import org.openflexo.fge.ForegroundStyle;
-import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.connectors.ConnectorSpecification;
 import org.openflexo.fge.connectors.ConnectorSpecification.ConnectorType;
-import org.openflexo.fge.control.MouseControl.MouseButton;
-import org.openflexo.fge.control.PredefinedMouseClickControlActionType;
 import org.openflexo.fge.notifications.ConnectorModified;
 import org.openflexo.fge.notifications.ConnectorNeedsToBeRedrawn;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
-import org.openflexo.toolbox.ToolBox;
 
 public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepresentationImpl implements ConnectorGraphicalRepresentation {
 
@@ -84,42 +77,42 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 		super();
 		// graphics = new FGEConnectorGraphicsImpl(this);
 	}
-
-	@Deprecated
-	private ConnectorGraphicalRepresentationImpl(Object aDrawable, Drawing<?> aDrawing) {
-		this();
-		// setDrawable(aDrawable);
-		// setDrawing(aDrawing);
-	}
-
-	@Deprecated
-	protected ConnectorGraphicalRepresentationImpl(ConnectorType aConnectorType, ShapeGraphicalRepresentation aStartObject,
-			ShapeGraphicalRepresentation anEndObject, Object aDrawable, Drawing<?> aDrawing) {
-		this(aDrawable, aDrawing);
-
-		layer = FGEConstants.DEFAULT_CONNECTOR_LAYER;
-
-		// setStartObject(aStartObject);
-		// setEndObject(anEndObject);
-		setConnectorType(aConnectorType);
-		// graphics = new FGEConnectorGraphicsImpl(this);
-
-		foreground = getFactory().makeForegroundStyle(Color.BLACK);
-		// foreground.setGraphicalRepresentation(this);
-		foreground.getPropertyChangeSupport().addPropertyChangeListener(this);
-
-		addToMouseClickControls(
-				getFactory().makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
-		if (ToolBox.isMacOS()) {
-			addToMouseClickControls(getFactory().makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1,
-					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+	/*
+		@Deprecated
+		private ConnectorGraphicalRepresentationImpl(Object aDrawable, Drawing<?> aDrawing) {
+			this();
+			// setDrawable(aDrawable);
+			// setDrawing(aDrawing);
 		}
-		else {
-			addToMouseClickControls(getFactory().makeMouseControlClickControl("Multiple selection", MouseButton.LEFT, 1,
-					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+	
+		@Deprecated
+		protected ConnectorGraphicalRepresentationImpl(ConnectorType aConnectorType, ShapeGraphicalRepresentation aStartObject,
+				ShapeGraphicalRepresentation anEndObject, Object aDrawable, Drawing<?> aDrawing) {
+			this(aDrawable, aDrawing);
+	
+			layer = FGEConstants.DEFAULT_CONNECTOR_LAYER;
+	
+			// setStartObject(aStartObject);
+			// setEndObject(anEndObject);
+			setConnectorType(aConnectorType);
+			// graphics = new FGEConnectorGraphicsImpl(this);
+	
+			foreground = getFactory().makeForegroundStyle(Color.BLACK);
+			// foreground.setGraphicalRepresentation(this);
+			foreground.getPropertyChangeSupport().addPropertyChangeListener(this);
+	
+			addToMouseClickControls(
+					getFactory().makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
+			if (ToolBox.isMacOS()) {
+				addToMouseClickControls(getFactory().makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1,
+						PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			}
+			else {
+				addToMouseClickControls(getFactory().makeMouseControlClickControl("Multiple selection", MouseButton.LEFT, 1,
+						PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			}
 		}
-	}
-
+	*/
 	// ***************************************************************************
 	// * Deletion *
 	// ***************************************************************************

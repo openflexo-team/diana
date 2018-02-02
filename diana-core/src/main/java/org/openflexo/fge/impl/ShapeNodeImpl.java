@@ -1339,7 +1339,6 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		}
 	}
 
-	@Override
 	protected void computeNewConstraint(ConstraintDependency dependancy) {
 		if (dependancy.requiringParameter == ShapeGraphicalRepresentation.X_CONSTRAINTS
 				&& getGraphicalRepresentation().getXConstraints() != null && getGraphicalRepresentation().getXConstraints().isValid()) {
@@ -1645,14 +1644,12 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			getLayoutManager().shapeMoved(oldLocation, getLocation());
 		}
 
-		setChanged();
 		notifyObservers(new ObjectMove(oldLocation, getLocation()));
 	}
 
 	@Override
 	public void notifyObjectWillMove() {
 		isMoving = true;
-		setChanged();
 		notifyObservers(new ObjectWillMove());
 	}
 
@@ -1666,7 +1663,6 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			}
 		}
 
-		setChanged();
 		notifyObservers(new ObjectHasMoved());
 	}
 
@@ -1698,13 +1694,11 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	@Override
 	public void notifyShapeChanged() {
-		setChanged();
 		notifyObservers(new ShapeChanged());
 	}
 
 	@Override
 	public void notifyShapeNeedsToBeRedrawn() {
-		setChanged();
 		notifyObservers(new ShapeNeedsToBeRedrawn());
 	}
 
