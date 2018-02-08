@@ -44,6 +44,7 @@ import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.FIBContainer;
 import org.openflexo.gina.model.FIBWidget;
+import org.openflexo.gina.model.bindings.RuntimeContext;
 import org.openflexo.gina.model.graph.FIBContinuousPolarFunctionGraph;
 import org.openflexo.gina.model.graph.FIBContinuousSimpleFunctionGraph;
 import org.openflexo.gina.model.graph.FIBDiscretePolarFunctionGraph;
@@ -76,7 +77,8 @@ public class GraphGinaViewFactoryExtension implements GinaViewFactoryExtension {
 	}
 
 	@Override
-	public <F extends FIBContainer> FIBContainerView<F, ?, ?> makeContainer(F fibContainer, FIBController controller, boolean updateNow) {
+	public <F extends FIBContainer> FIBContainerView<F, ?, ?> makeContainer(F fibContainer, FIBController controller,
+			RuntimeContext context, boolean updateNow) {
 		return null;
 	}
 
@@ -89,7 +91,7 @@ public class GraphGinaViewFactoryExtension implements GinaViewFactoryExtension {
 	}
 
 	@Override
-	public <W extends FIBWidget> FIBWidgetView<W, ?, ?> makeWidget(W fibWidget, FIBController controller) {
+	public <W extends FIBWidget> FIBWidgetView<W, ?, ?> makeWidget(W fibWidget, FIBController controller, RuntimeContext context) {
 		if (fibWidget instanceof FIBContinuousSimpleFunctionGraph) {
 			return (FIBWidgetView<W, ?, ?>) new JFIBContinuousSimpleGraphWidget((FIBContinuousSimpleFunctionGraph) fibWidget, controller);
 		}

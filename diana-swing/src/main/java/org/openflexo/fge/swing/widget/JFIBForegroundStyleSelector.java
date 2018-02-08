@@ -132,7 +132,8 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 		// WARNING: we need here to clone to keep track back of previous data !!!
 		if (oldValue != null) {
 			_revertValue = (ForegroundStyle) oldValue.clone();
-		} else {
+		}
+		else {
 			_revertValue = null;
 		}
 		if (logger.isLoggable(Level.FINE)) {
@@ -173,7 +174,7 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 
 			fibComponent = AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(FIB_FILE, true);
 			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
-			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent, true);
+			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent, null, true);
 
 			controller.setDataObject(fs);
 
