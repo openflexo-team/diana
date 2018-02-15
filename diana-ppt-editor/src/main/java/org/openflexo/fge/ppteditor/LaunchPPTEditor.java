@@ -39,7 +39,6 @@
 
 package org.openflexo.fge.ppteditor;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -71,8 +70,6 @@ public class LaunchPPTEditor {
 			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
 			FlexoLocalization.initWith(PPTEditorApplication.PPT_EDITOR_LOCALIZATION);
 		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

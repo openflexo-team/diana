@@ -39,7 +39,6 @@
 package org.openflexo.fge.graph;
 
 import java.awt.Component;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -73,8 +72,6 @@ public abstract class AbstractTestFGEGraph {
 		try {
 			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
 		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
