@@ -48,7 +48,6 @@ import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
-import org.openflexo.fge.Drawing;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.GRBinding.DrawingGRBinding;
@@ -162,7 +161,7 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 		return paletteDrawing;
 	}
 
-	public static class PaletteDrawing extends DrawingImpl<DrawingPalette> implements Drawing<DrawingPalette> {
+	public static class PaletteDrawing extends DrawingImpl<DrawingPalette> {
 
 		private final DrawingGraphicalRepresentation gr;
 

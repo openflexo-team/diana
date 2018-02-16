@@ -44,7 +44,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.openflexo.connie.Bindable;
 import org.openflexo.connie.BindingEvaluationContext;
 import org.openflexo.connie.BindingFactory;
 import org.openflexo.connie.BindingModel;
@@ -72,7 +71,7 @@ import org.openflexo.fge.graphics.FGEShapeGraphics;
  * @author sylvain
  * 
  */
-public abstract class FGEGraph extends DefaultBindable implements Bindable {
+public abstract class FGEGraph extends DefaultBindable {
 
 	private static BindingFactory JAVA_BINDING_FACTORY = new JavaBindingFactory();
 
