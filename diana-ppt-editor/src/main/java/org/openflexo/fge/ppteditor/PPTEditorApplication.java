@@ -496,9 +496,9 @@ public class PPTEditorApplication {
 	// }
 
 	public void switchToSlideShowEditor(SlideShowEditor slideShowEditor) {
-		System.out.println("Switch to " + slideShowEditor.getFile());
 		currentSlideShowEditor = slideShowEditor;
 		if (slideShowEditor != null) {
+			System.out.println("Switch to " + slideShowEditor.getFile());
 			tabbedPane.setSelectedIndex(pptEditors.indexOf(slideShowEditor));
 			slideSwitched(slideShowEditor.getEditor(slideShowEditor.getCurrentSlide()));
 		}
