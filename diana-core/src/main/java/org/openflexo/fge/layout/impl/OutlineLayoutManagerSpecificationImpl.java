@@ -56,6 +56,7 @@ public abstract class OutlineLayoutManagerSpecificationImpl extends FGELayoutMan
 		return LayoutManagerSpecificationType.OUTLINE;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Class<OutlineLayoutManager<?>> getLayoutManagerClass() {
 		return (Class) OutlineLayoutManager.class;

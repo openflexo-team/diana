@@ -50,7 +50,7 @@ import org.openflexo.fge.layout.RadialTreeLayoutManagerSpecification;
  */
 public abstract class RadialTreeLayoutManagerSpecificationImpl<O>
 		extends TreeBasedLayoutManagerSpecificationImpl<RadialTreeLayoutManager<O>, O> implements RadialTreeLayoutManagerSpecification<O> {
-
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Class<RadialTreeLayoutManager<O>> getLayoutManagerClass() {
 		return (Class) RadialTreeLayoutManager.class;

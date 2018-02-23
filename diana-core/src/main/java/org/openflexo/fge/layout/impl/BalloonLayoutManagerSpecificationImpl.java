@@ -50,6 +50,7 @@ import org.openflexo.fge.layout.BalloonLayoutManagerSpecification;
 public abstract class BalloonLayoutManagerSpecificationImpl<O> extends TreeBasedLayoutManagerSpecificationImpl<BalloonLayoutManager<O>, O>
 		implements BalloonLayoutManagerSpecification<O> {
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Class<BalloonLayoutManager<O>> getLayoutManagerClass() {
 		return (Class) BalloonLayoutManager.class;

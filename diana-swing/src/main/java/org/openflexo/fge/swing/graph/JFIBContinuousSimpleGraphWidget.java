@@ -79,7 +79,7 @@ public class JFIBContinuousSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBCo
 
 			// Create the FGEGraph
 			FGEContinuousSimpleFunctionGraph<Number> returned = new FGEContinuousSimpleFunctionGraph<Number>(
-					(Class) TypeUtils.getBaseClass(fibGraph.getParameterType()));
+					(Class<Number>) TypeUtils.getBaseClass(fibGraph.getParameterType()));
 			returned.setBindingFactory(fibGraph.getBindingFactory());
 
 			// Sets borders

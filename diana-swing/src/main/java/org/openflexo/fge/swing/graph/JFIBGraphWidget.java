@@ -314,7 +314,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 				if (function instanceof FIBNumericFunction) {
 					FIBNumericFunction fibNumericFunction = (FIBNumericFunction) function;
 					FGENumericFunction numericFunction = graph.addNumericFunction(function.getName(), function.getType(),
-							(DataBinding) function.getExpression(), getGraphType(function.getGraphType()));
+							(DataBinding<Number>) function.getExpression(), getGraphType(function.getGraphType()));
 
 					if (fibNumericFunction.getGraphType() == GraphType.COLORED_STEPS) {
 						numericFunction.setAngleSpacing(fibNumericFunction.getAngleSpacing());
@@ -458,7 +458,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 
 			performUpdateGraph();
 
-			GraphNode<FGEGraph> graphNode = (GraphNode) getDrawingTreeNode(graph);
+			GraphNode<?> graphNode = (GraphNode) getDrawingTreeNode(graph);
 			if (graphNode != null) {
 				graphNode.notifyGraphNeedsToBeRedrawn();
 			}

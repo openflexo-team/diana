@@ -56,6 +56,7 @@ public abstract class GridLayoutManagerSpecificationImpl extends FGELayoutManage
 		return LayoutManagerSpecificationType.GRID;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Class<GridLayoutManager<?>> getLayoutManagerClass() {
 		return (Class) GridLayoutManager.class;

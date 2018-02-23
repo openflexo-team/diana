@@ -56,6 +56,7 @@ public abstract class FlowLayoutManagerSpecificationImpl extends FGELayoutManage
 		return LayoutManagerSpecificationType.FLOW;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Class<FlowLayoutManager<?>> getLayoutManagerClass() {
 		return (Class) FlowLayoutManager.class;
