@@ -132,6 +132,7 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 			}
 		},
 		TREE_LAYOUT {
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
 			public Class<TreeLayoutManagerSpecification<?>> getLayoutManagerSpecificationClass() {
 				return (Class) TreeLayoutManagerSpecification.class;
@@ -143,6 +144,7 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 			}
 		},
 		BALLOON_LAYOUT {
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
 			public Class<BalloonLayoutManagerSpecification<?>> getLayoutManagerSpecificationClass() {
 				return (Class) BalloonLayoutManagerSpecification.class;
@@ -154,6 +156,7 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 			}
 		},
 		RADIAL_TREE {
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
 			public Class<RadialTreeLayoutManagerSpecification<?>> getLayoutManagerSpecificationClass() {
 				return (Class) RadialTreeLayoutManagerSpecification.class;
