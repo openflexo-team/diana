@@ -110,17 +110,13 @@ public class JDianaScaleSelector extends DianaScaleSelector<JToolBar, SwingViewF
 					Integer newScale = null;
 					if (scaleTF.getText().indexOf("%") > -1) {
 						newScale = Integer.decode(scaleTF.getText().substring(0, scaleTF.getText().indexOf("%")));
-					} else {
+					}
+					else {
 						newScale = Integer.decode(scaleTF.getText());
 					}
 					if (newScale > MAX_ZOOM_VALUE) {
 						newScale = MAX_ZOOM_VALUE;
-						SwingUtilities.invokeLater(new Runnable() {
-							@Override
-							public void run() {
-								scaleTF.setText(MAX_ZOOM_VALUE + "%");
-							}
-						});
+						SwingUtilities.invokeLater(() -> scaleTF.setText(MAX_ZOOM_VALUE + "%"));
 					}
 					getEditor().setScale((double) newScale / 100);
 				} catch (NumberFormatException exception) {

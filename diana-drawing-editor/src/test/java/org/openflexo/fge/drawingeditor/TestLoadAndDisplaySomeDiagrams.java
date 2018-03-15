@@ -80,34 +80,33 @@ public class TestLoadAndDisplaySomeDiagrams {
 		eventProcessor = new EventProcessor();
 
 		try {
-			SwingUtilities.invokeAndWait(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						EDITING_CONTEXT = new EditingContextImpl();
-						((EditingContextImpl) EDITING_CONTEXT).createUndoManager();
-						FACTORY = new DiagramFactory(EDITING_CONTEXT);
-					} catch (ModelDefinitionException e) {
-						e.printStackTrace();
-					}
-					/*tabbedPane = new JTabbedPane();
-					JFrame frame = new JFrame("TestLoadAndDisplaySomeDiagrams");
-					frame.setLayout(new BorderLayout());
-					frame.setSize(new Dimension(1024, 768));
-					frame.setLocationRelativeTo(null);*/
-					JButton myButton;
-					myButton = new JButton("I take the control");
-					myButton.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							dontDestroyMe = true;
-						}
-					});
-					application.getMainPanel().add(myButton, BorderLayout.SOUTH);
-					application.showMainPanel();
+			SwingUtilities.invokeAndWait(() -> {
+				try {
+					EDITING_CONTEXT = new EditingContextImpl();
+					((EditingContextImpl) EDITING_CONTEXT).createUndoManager();
+					FACTORY = new DiagramFactory(EDITING_CONTEXT);
+				} catch (ModelDefinitionException e) {
+					e.printStackTrace();
 				}
+				/*tabbedPane = new JTabbedPane();
+				JFrame frame = new JFrame("TestLoadAndDisplaySomeDiagrams");
+				frame.setLayout(new BorderLayout());
+				frame.setSize(new Dimension(1024, 768));
+				frame.setLocationRelativeTo(null);*/
+				JButton myButton;
+				myButton = new JButton("I take the control");
+				myButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						dontDestroyMe = true;
+					}
+				});
+				application.getMainPanel().add(myButton, BorderLayout.SOUTH);
+				application.showMainPanel();
 			});
-		} catch (InterruptedException e) {
+		} catch (
+
+		InterruptedException e) {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
@@ -120,23 +119,16 @@ public class TestLoadAndDisplaySomeDiagrams {
 		System.out.println("Deserialized:");
 		System.out.println(FACTORY.stringRepresentation(diagramEditor.getDiagram()));
 		try {
-			SwingUtilities.invokeAndWait(new Runnable() {
-				@Override
-				public void run() {
-					application.addDiagramEditor(diagramEditor);
-				}
-			});
-		} catch (InterruptedException e) {
+			SwingUtilities.invokeAndWait(() -> application.addDiagramEditor(diagramEditor));
+		} catch (
+
+		InterruptedException e) {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
 		try {
-			SwingUtilities.invokeAndWait(new Runnable() {
-				@Override
-				public void run() {
-				}
-			});
+			SwingUtilities.invokeAndWait(() -> {});
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {

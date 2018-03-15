@@ -89,6 +89,7 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 		return null;
 	}
 
+	@Override
 	public void objectStartMoving(DrawingTreeNode<?, ?> node) {
 		if (getPaintManager().isPaintingCacheEnabled()) {
 			getPaintManager().addToTemporaryObjects(node);
@@ -97,6 +98,7 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 
 	}
 
+	@Override
 	public void objectStopMoving(DrawingTreeNode<?, ?> node) {
 		if (getPaintManager().isPaintingCacheEnabled()) {
 			getPaintManager().removeFromTemporaryObjects(node);
@@ -126,6 +128,7 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 		}
 	}
 
+	@Override
 	public void focusedObjectChanged(DrawingTreeNode<?, ?> oldFocusedObject, DrawingTreeNode<?, ?> newFocusedObject) {
 		if (getPaintManager().isPaintingCacheEnabled()) {
 			// Just repaint old and eventual new focused object
@@ -143,6 +146,7 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 
 	}
 
+	@Override
 	public void repaintAll() {
 		getPaintManager().repaint(getDrawingView());
 	}
@@ -259,12 +263,7 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 					e.printStackTrace();
 				}
 			}
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					stopKeyDrivenMovingSession();
-				}
-			});
+			SwingUtilities.invokeLater(() -> stopKeyDrivenMovingSession());
 		}
 
 		public synchronized void typed() {
@@ -284,6 +283,7 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 	 * @param node
 	 * @return
 	 */
+	@Override
 	public BufferedImage makeScreenshot(DrawingTreeNode<?, ?> node) {
 		return getPaintManager().getScreenshot(node);
 	}

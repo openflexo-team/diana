@@ -441,12 +441,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 				// TODO: invoke later !
 				if (!updateHasBeenRequested) {
 					updateHasBeenRequested = true;
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							updateGraphNow();
-						}
-					});
+					SwingUtilities.invokeLater(() -> updateGraphNow());
 				}
 				return;
 			}

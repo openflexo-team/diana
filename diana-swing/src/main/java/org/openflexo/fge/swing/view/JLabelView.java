@@ -365,13 +365,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 			return;
 		}
 		if (!SwingUtilities.isEventDispatchThread()) {
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					propertyChange(evt);
-				}
-			});
+			SwingUtilities.invokeLater(() -> propertyChange(evt));
 		}
 		else {
 			// logger.info("Received: "+notification);
@@ -455,12 +449,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		}
 
 		if (!SwingUtilities.isEventDispatchThread()) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					updateBounds(repeat);
-				}
-			});
+			SwingUtilities.invokeLater(() -> updateBounds(repeat));
 			return;
 		}
 
@@ -486,18 +475,15 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		System.out.println("drawable=" + getNode().getDrawable());
 		System.out.println("node=" + getNode().getGraphicalRepresentation());*/
 
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				/*System.out.println("Thread: " + Thread.currentThread() + " on execute le updateBoundsLater() for " + getDrawable());
-				System.out.println("drawable=" + getDrawable());
-				System.out.println("node=" + getNode());
-				if (getNode() != null) {
-					System.out.println("node.gr=" + getNode().getGraphicalRepresentation());
-				}*/
-				if (getNode() != null && !isDeleted()) {
-					updateBounds(true);
-				}
+		SwingUtilities.invokeLater(() -> {
+			/*System.out.println("Thread: " + Thread.currentThread() + " on execute le updateBoundsLater() for " + getDrawable());
+			System.out.println("drawable=" + getDrawable());
+			System.out.println("node=" + getNode());
+			if (getNode() != null) {
+				System.out.println("node.gr=" + getNode().getGraphicalRepresentation());
+			}*/
+			if (getNode() != null && !isDeleted()) {
+				updateBounds(true);
 			}
 		});
 	}
@@ -633,12 +619,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 			return;
 		}
 		if (!SwingUtilities.isEventDispatchThread()) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					updateText();
-				}
-			});
+			SwingUtilities.invokeLater(() -> updateText());
 			return;
 		}
 		if (node.hasText() && node.getText() != null) {

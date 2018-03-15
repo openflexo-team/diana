@@ -129,7 +129,7 @@ import org.openflexo.swing.MouseResizer;
  *            the type of represented model
  */
 @SuppressWarnings("serial")
-public class JDrawingView<M> extends JDianaLayeredView<M>implements Autoscroll, DrawingView<M, JLayeredPane> {
+public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll, DrawingView<M, JLayeredPane> {
 
 	private static final Logger logger = Logger.getLogger(JDrawingView.class.getPackage().getName());
 
@@ -372,13 +372,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M>implements Autoscroll, 
 			return;
 		}
 		if (!SwingUtilities.isEventDispatchThread()) {
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					propertyChange(evt);
-				}
-			});
+			SwingUtilities.invokeLater(() -> propertyChange(evt));
 		}
 		else {
 			// logger.info("Received: " + evt.getPropertyName() + " evt=" + evt);

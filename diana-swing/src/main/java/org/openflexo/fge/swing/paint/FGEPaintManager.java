@@ -239,12 +239,7 @@ public class FGEPaintManager {
 			return;
 		}
 		if (!SwingUtilities.isEventDispatchThread()) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					repaint(view);
-				}
-			});
+			SwingUtilities.invokeLater(() -> repaint(view));
 			return;
 		}
 		if (!_drawingView.contains(view)) {
