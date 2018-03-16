@@ -60,10 +60,10 @@ import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
 import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
 import org.openflexo.fge.graph.FGESimpleFunctionGraph.Orientation;
+import org.openflexo.fge.test.data.SimplePerson;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
-import org.openflexo.test.data.SimplePerson;
 
 @RunWith(OrderedRunner.class)
 public class TestFGEDiscreteFunctionGraph {
