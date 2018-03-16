@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Inspector
 	layout="border" titleFont="SansSerif,0,12" darkLevel="0"
-	dataClassName="org.openflexo.fge.layout.FlowLayoutManager" font="SansSerif,0,12"
+	dataClassName="org.openflexo.diana.layout.FlowLayoutManager" font="SansSerif,0,12"
 	name="Inspector">
 	<TabPanel name="Tab" index="0" constraints="border(index=0;location=center)">
 
@@ -16,7 +16,7 @@
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
 				width="150" name="FlowOrientationType" format="object.name"
 				localize="true"
-				iteratorClassName="org.openflexo.fge.layout.FlowLayoutManagerSpecification$FlowOrientationType"
+				iteratorClassName="org.openflexo.diana.layout.FlowLayoutManagerSpecification$FlowOrientationType"
 				autoSelectFirstRow="true" />
 		</Tab>
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Inspector
 	layout="border" titleFont="SansSerif,0,12" darkLevel="0"
-	dataClassName="org.openflexo.fge.layout.GridLayoutManager" font="SansSerif,0,12"
+	dataClassName="org.openflexo.diana.layout.GridLayoutManager" font="SansSerif,0,12"
 	name="Inspector">
 	<TabPanel name="Tab" index="0" constraints="border(index=0;location=center)">
 
@@ -30,7 +30,7 @@
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
 				width="150" name="HorizontalAlignment" format="object.name"
 				localize="true"
-				iteratorClassName="org.openflexo.fge.GraphicalRepresentation$HorizontalTextAlignment"
+				iteratorClassName="org.openflexo.diana.GraphicalRepresentation$HorizontalTextAlignment"
 				autoSelectFirstRow="false" />
 			<Label label="vertical_alignment" index="16"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
@@ -39,7 +39,7 @@
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
 				width="150" name="VerticalAlignment" format="object.name"
 				localize="true"
-				iteratorClassName="org.openflexo.fge.GraphicalRepresentation$VerticalTextAlignment"
+				iteratorClassName="org.openflexo.diana.GraphicalRepresentation$VerticalTextAlignment"
 				autoSelectFirstRow="false" />
 		</Tab>
 

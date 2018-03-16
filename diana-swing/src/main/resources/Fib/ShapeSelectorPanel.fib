@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Panel layout="gridbag" borderBottom="5" titleFont="SansSerif,0,11"
-	darkLevel="0" dataClassName="org.openflexo.fge.control.tools.ShapeSpecificationFactory"
+	darkLevel="0" dataClassName="org.openflexo.diana.control.tools.ShapeSpecificationFactory"
 	font="SansSerif,0,11" opaque="false" name="ShapePanel">
-	<Custom componentClassName="org.openflexo.fge.swing.widget.JShapePreviewPanel"
+	<Custom componentClassName="org.openflexo.diana.swing.widget.JShapePreviewPanel"
 		localize="true" manageDynamicModel="true" name="PreviewPanel" index="0"
 		data="data.shapeSpecification"
 		constraints="gridbag(anchor=center;fill=none;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=0;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=5;padX=0;padY=0;weightX=0.0;weightY=0.0)">
@@ -19,7 +19,7 @@
 		<DropDown index="1" data="data.styleType"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="shapeTypeDropdown" format="object.name.toLowerCase" localize="true"
-			staticList="" iteratorClassName="org.openflexo.fge.shapes.ShapeSpecification$ShapeType"
+			staticList="" iteratorClassName="org.openflexo.diana.shapes.ShapeSpecification$ShapeType"
 			autoSelectFirstRow="true" />
 		<Dependancy componentName="shapeTypeDropdown" />
 	</Panel>
@@ -30,8 +30,8 @@
 		visible="(data.styleType = &quot;RECTANGLE&quot;)" opaque="false"
 		name="RectanglePanel">
 		<FIBVariable name="rectangle"
-			value="($org.openflexo.fge.shapes.Rectangle)data.shapeSpecification"
-			type="org.openflexo.fge.shapes.Rectangle" />
+			value="($org.openflexo.diana.shapes.Rectangle)data.shapeSpecification"
+			type="org.openflexo.diana.shapes.Rectangle" />
 		<Label label="rounded" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
@@ -55,8 +55,8 @@
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=3;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;SQUARE&quot;)" opaque="false" name="SquarePanel">
 		<FIBVariable name="square"
-			value="($org.openflexo.fge.shapes.Square)data.shapeSpecification"
-			type="org.openflexo.fge.shapes.Square" />
+			value="($org.openflexo.diana.shapes.Square)data.shapeSpecification"
+			type="org.openflexo.diana.shapes.Square" />
 		<Label label="rounded" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
@@ -79,8 +79,8 @@
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=4;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;POLYGON&quot;)" opaque="false" name="PolygonPanel">
 		<FIBVariable name="polygon"
-			value="($org.openflexo.fge.shapes.RegularPolygon)data.shapeSpecification"
-			type="org.openflexo.fge.shapes.RegularPolygon" />
+			value="($org.openflexo.diana.shapes.RegularPolygon)data.shapeSpecification"
+			type="org.openflexo.diana.shapes.RegularPolygon" />
 		<Label label="points_number" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
@@ -106,8 +106,8 @@
 		visible="(data.styleType = &quot;TRIANGLE&quot;)" opaque="false"
 		name="TrianglePanel">
 		<FIBVariable name="triangle"
-			value="($org.openflexo.fge.shapes.Triangle)data.shapeSpecification"
-			type="org.openflexo.fge.shapes.Triangle" />
+			value="($org.openflexo.diana.shapes.Triangle)data.shapeSpecification"
+			type="org.openflexo.diana.shapes.Triangle" />
 		<Label label="start_angle" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
@@ -124,8 +124,8 @@
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;LOSANGE&quot;)" opaque="false" name="LosangePanel">
 		<FIBVariable name="losange"
-			value="($org.openflexo.fge.shapes.Losange)data.shapeSpecification"
-			type="org.openflexo.fge.shapes.Losange" />
+			value="($org.openflexo.diana.shapes.Losange)data.shapeSpecification"
+			type="org.openflexo.diana.shapes.Losange" />
 		<Dependancy componentName="shapeTypeDropdown" />
 	</Panel>
 	<Panel layout="twocols" border="rounded3d" borderTitle=""
@@ -135,8 +135,8 @@
 		visible="(data.styleType = &quot;RECTANGULAROCTOGON&quot;)" opaque="false"
 		name="RectangularOctogonPanel">
 		<FIBVariable name="regularOctogon"
-			value="($org.openflexo.fge.shapes.RectangularOctogon)data.shapeSpecification"
-			type="org.openflexo.fge.shapes.RectangularOctogon" />
+			value="($org.openflexo.diana.shapes.RectangularOctogon)data.shapeSpecification"
+			type="org.openflexo.diana.shapes.RectangularOctogon" />
 		<Dependancy componentName="shapeTypeDropdown" />
 		<Label label="ratio" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
@@ -154,8 +154,8 @@
 		visible="(data.styleType = &quot;PARALLELOGRAM&quot;)" opaque="false"
 		name="ParallelogramPanel">
 		<FIBVariable name="parallelogram"
-			value="($org.openflexo.fge.shapes.Parallelogram)data.shapeSpecification"
-			type="org.openflexo.fge.shapes.Parallelogram" />
+			value="($org.openflexo.diana.shapes.Parallelogram)data.shapeSpecification"
+			type="org.openflexo.diana.shapes.Parallelogram" />
 		<Dependancy componentName="shapeTypeDropdown" />
 		<Label label="shift_ratio" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
@@ -172,8 +172,8 @@
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;OVAL&quot;)" opaque="false" name="OvalPanel">
 		<FIBVariable name="oval"
-			value="($org.openflexo.fge.shapes.Oval)data.shapeSpecification"
-			type="org.openflexo.fge.shapes.Oval" />
+			value="($org.openflexo.diana.shapes.Oval)data.shapeSpecification"
+			type="org.openflexo.diana.shapes.Oval" />
 		<Dependancy componentName="shapeTypeDropdown" />
 	</Panel>
 	<Panel layout="twocols" border="rounded3d" borderTitle=""
@@ -183,8 +183,8 @@
 		visible="(data.styleType = &quot;CIRCLE&quot;)" opaque="false" name="CirclePanel">
 		<Dependancy componentName="shapeTypeDropdown" />
 		<FIBVariable name="circle"
-			value="($org.openflexo.fge.shapes.Circle)data.shapeSpecification"
-			type="org.openflexo.fge.shapes.Circle" />
+			value="($org.openflexo.diana.shapes.Circle)data.shapeSpecification"
+			type="org.openflexo.diana.shapes.Circle" />
 	</Panel>
 	<Panel layout="twocols" border="rounded3d" borderTitle=""
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
@@ -192,8 +192,8 @@
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=9;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;STAR&quot;)" opaque="false" name="StarPanel">
 		<FIBVariable name="star"
-			value="($org.openflexo.fge.shapes.Star)data.shapeSpecification"
-			type="org.openflexo.fge.shapes.Star" />
+			value="($org.openflexo.diana.shapes.Star)data.shapeSpecification"
+			type="org.openflexo.diana.shapes.Star" />
 		<Label label="points_number" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
@@ -226,8 +226,8 @@
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=10;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;ARC&quot;)" opaque="false" name="ArcPanel">
 		<FIBVariable name="arc"
-			value="($org.openflexo.fge.shapes.Arc)data.shapeSpecification"
-			type="org.openflexo.fge.shapes.Arc" />
+			value="($org.openflexo.diana.shapes.Arc)data.shapeSpecification"
+			type="org.openflexo.diana.shapes.Arc" />
 		<Label label="start_angle" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
@@ -250,7 +250,7 @@
 		<DropDown index="5" data="arc.arcType"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="arcTypeDropdown" format="object.name.toLowerCase" localize="true"
-			staticList="" iteratorClassName="org.openflexo.fge.geom.FGEArc$ArcType"
+			staticList="" iteratorClassName="org.openflexo.diana.geom.FGEArc$ArcType"
 			autoSelectFirstRow="true">
 		</DropDown>
 		<Dependancy componentName="shapeTypeDropdown" />
@@ -261,8 +261,8 @@
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=8;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;CHEVRON&quot;)" opaque="false" name="ChevronPanel">
 		<FIBVariable name="chevron"
-			value="($org.openflexo.fge.shapes.Chevron)data.shapeSpecification"
-			type="org.openflexo.fge.shapes.Chevron" />
+			value="($org.openflexo.diana.shapes.Chevron)data.shapeSpecification"
+			type="org.openflexo.diana.shapes.Chevron" />
 		<Dependancy componentName="shapeTypeDropdown" />
 		<Label label="arrow_length" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
@@ -281,8 +281,8 @@
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=8;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;PLUS&quot;)" opaque="false" name="PlusPanel">
 		<FIBVariable name="plus"
-			value="($org.openflexo.fge.shapes.Plus)data.shapeSpecification"
-			type="org.openflexo.fge.shapes.Plus" />
+			value="($org.openflexo.diana.shapes.Plus)data.shapeSpecification"
+			type="org.openflexo.diana.shapes.Plus" />
 		<Dependancy componentName="shapeTypeDropdown" />
 		<Label label="ratio" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
@@ -301,9 +301,9 @@
 		visible="(data.styleType = &quot;CUSTOM_POLYGON&quot;)" opaque="false"
 		name="CustomPolygonPanel">
 		<FIBVariable name="polygon"
-			value="($org.openflexo.fge.shapes.Polygon)data.shapeSpecification"
-			type="org.openflexo.fge.shapes.Polygon" />
-		<Table iteratorClassName="org.openflexo.fge.geom.FGEPoint"
+			value="($org.openflexo.diana.shapes.Polygon)data.shapeSpecification"
+			type="org.openflexo.diana.shapes.Polygon" />
+		<Table iteratorClassName="org.openflexo.diana.geom.FGEPoint"
 			visibleRowCount="3" rowHeight="18" autoSelectFirstRow="false"
 			createNewRowOnClick="true" boundToSelectionManager="false"
 			showFooter="true" selectionMode="MultipleIntervalSelection"
@@ -337,18 +337,18 @@
 		visible="(data.styleType = &quot;COMPLEX_CURVE&quot;)" opaque="false"
 		name="ComplexCurvePanel">
 		<FIBVariable name="curve"
-			value="($org.openflexo.fge.shapes.ComplexCurve)data.shapeSpecification"
-			type="org.openflexo.fge.shapes.ComplexCurve" />
+			value="($org.openflexo.diana.shapes.ComplexCurve)data.shapeSpecification"
+			type="org.openflexo.diana.shapes.ComplexCurve" />
 		<Label label="closure" index="4"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
 		<DropDown index="5" data="curve.closure"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="arcTypeDropdown" format="object.name.toLowerCase" localize="true"
-			staticList="" iteratorClassName="org.openflexo.fge.geom.FGEGeneralShape$Closure"
+			staticList="" iteratorClassName="org.openflexo.diana.geom.FGEGeneralShape$Closure"
 			autoSelectFirstRow="true">
 		</DropDown>
-		<Table iteratorClassName="org.openflexo.fge.geom.FGEPoint"
+		<Table iteratorClassName="org.openflexo.diana.geom.FGEPoint"
 			visibleRowCount="3" rowHeight="18" autoSelectFirstRow="false"
 			createNewRowOnClick="true" boundToSelectionManager="false"
 			showFooter="true" selectionMode="MultipleIntervalSelection"

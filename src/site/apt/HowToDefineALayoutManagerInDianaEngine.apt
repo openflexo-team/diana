@@ -20,7 +20,7 @@ How to define a new LayoutManager in DIANA layout engine ?
   Here we have chosen to call it OutlineLayoutManagerSpecification.
   There is only one configuration parameter which is the type of desired location (center on outline, object outside the container shape,   object inside the container shape)
 
-  This java class will be put in org.openflexo.fge.layout package (in DIANA-api project).
+  This java class will be put in org.openflexo.diana.layout package (in DIANA-api project).
 
 ---------------------------------------------------------------------------------
 /**
@@ -63,7 +63,7 @@ public interface OutlineLayoutManagerSpecification extends FGELayoutManagerSpeci
 
   Then we define the LayoutManager instance (which is instantiated for each instance of container shape beeing layouted).
   Here we have chosen to call it OutlineLayoutManager.
-  This java class will be put in org.openflexo.fge.layout package (in DIANA-api project).
+  This java class will be put in org.openflexo.diana.layout package (in DIANA-api project).
 
   We have here nothing to encode (because the layout manager is very simple here).
   We simply reflect the configuration parameter exposed by its specification.
@@ -88,7 +88,7 @@ public interface OutlineLayoutManager<O> extends FGELayoutManager<OutlineLayoutM
 
   We will define an implementation class for OutlineLayoutManagerSpecification.
 
-  This java class will be put in org.openflexo.fge.layout.impl package (in DIANA-core project).
+  This java class will be put in org.openflexo.diana.layout.impl package (in DIANA-core project).
 
 ---------------------------------------------------------------------------------
 /**
@@ -138,7 +138,7 @@ public abstract class OutlineLayoutManagerSpecificationImpl extends FGELayoutMan
 ---------------------------------------------------------------------------------
 
   Then we define an implementation class for OutlineLayoutManager.
-  This java class will be put in org.openflexo.fge.layout.impl package (in DIANA-core project).
+  This java class will be put in org.openflexo.diana.layout.impl package (in DIANA-core project).
 
   Note the performLayout(ShapeNode) method that effectively perform the layout for one node.
 
@@ -262,7 +262,7 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 <?xml version="1.0" encoding="UTF-8"?>
 <Inspector
 	layout="border" titleFont="SansSerif,0,12" darkLevel="0"
-	dataClassName="org.openflexo.fge.layout.OutlineLayoutManager" font="SansSerif,0,12"
+	dataClassName="org.openflexo.diana.layout.OutlineLayoutManager" font="SansSerif,0,12"
 	name="Inspector">
 	<TabPanel name="Tab" index="0" constraints="border(index=0;location=center)">
 
@@ -277,7 +277,7 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
 				width="150" name="OutlineLocationType" format="object.name"
 				localize="true"
-				iteratorClassName="org.openflexo.fge.layout.OutlineLayoutManagerSpecification$OutlineLocationType"
+				iteratorClassName="org.openflexo.diana.layout.OutlineLayoutManagerSpecification$OutlineLocationType"
 				autoSelectFirstRow="true" />
 		</Tab>
 
