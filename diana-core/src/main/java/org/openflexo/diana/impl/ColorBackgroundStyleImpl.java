@@ -68,7 +68,6 @@ public abstract class ColorBackgroundStyleImpl extends BackgroundStyleImpl imple
 		if (requireChange(this.color, aColor)) {
 			java.awt.Color oldColor = color;
 			this.color = aColor;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(COLOR, oldColor, aColor));
 		}
 	}

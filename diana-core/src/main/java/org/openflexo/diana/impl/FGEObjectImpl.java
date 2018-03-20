@@ -285,7 +285,6 @@ public abstract class FGEObjectImpl implements FGEObject {
 					+ " is now: " + notification.newValue);
 		}
 		// propagateConstraintsAfterModification(notification.parameter);
-		setChanged();
 		notifyObservers(notification);
 		// getPropertyChangeSupport().firePropertyChange(notification.propertyName(), notification.oldValue, notification.newValue);
 	}
@@ -319,8 +318,7 @@ public abstract class FGEObjectImpl implements FGEObject {
 				try {
 					return entity.getImplementedInterface().getSimpleName() + index
 							+ (entity.getImplementingClass() != null ? "[" + entity.getImplementingClass().getSimpleName() + "]" : "");
-				} catch (ModelDefinitionException e) {
-				}
+				} catch (ModelDefinitionException e) {}
 			}
 		}
 		return super.toString();
@@ -343,9 +341,5 @@ public abstract class FGEObjectImpl implements FGEObject {
 
 		getPropertyChangeSupport().firePropertyChange(evt);
 
-	}
-
-	@Deprecated
-	public void setChanged() {
 	}
 }

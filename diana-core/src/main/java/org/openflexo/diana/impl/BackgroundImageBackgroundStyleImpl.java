@@ -109,7 +109,6 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 			else {
 				image = null;
 			}
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(IMAGE_RESOURCE, oldResource, anImageResource));
 			getPropertyChangeSupport().firePropertyChange("image", null, getImage());
 		}
@@ -143,7 +142,6 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 		if (requireChange(this.imageBackgroundColor, aColor)) {
 			java.awt.Color oldColor = imageBackgroundColor;
 			this.imageBackgroundColor = aColor;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(IMAGE_BACKGROUND_COLOR, oldColor, aColor));
 		}
 	}
@@ -158,7 +156,6 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 		if (requireChange(this.deltaX, aDeltaX)) {
 			double oldDeltaX = this.deltaX;
 			this.deltaX = aDeltaX;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(DELTA_X, oldDeltaX, deltaX));
 		}
 	}
@@ -173,7 +170,6 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 		if (requireChange(this.deltaY, aDeltaY)) {
 			double oldDeltaY = this.deltaY;
 			this.deltaY = aDeltaY;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(DELTA_Y, oldDeltaY, deltaY));
 		}
 	}
@@ -188,7 +184,6 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 		if (requireChange(this.imageBackgroundType, anImageBackgroundType)) {
 			BackgroundImageBackgroundStyle.ImageBackgroundType oldImageBackgroundType = this.imageBackgroundType;
 			this.imageBackgroundType = anImageBackgroundType;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(IMAGE_BACKGROUND_TYPE, oldImageBackgroundType, anImageBackgroundType));
 		}
 	}
@@ -204,7 +199,6 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 			double oldScaleX = this.scaleX;
 			// logger.info(toString()+": Sets scaleX from "+oldScaleX+" to "+aScaleX);
 			this.scaleX = aScaleX;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(SCALE_X, oldScaleX, scaleX));
 		}
 	}
@@ -227,7 +221,6 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 			double oldScaleY = this.scaleY;
 			// logger.info(toString()+": Sets scaleY from "+oldScaleY+" to "+aScaleY);
 			this.scaleY = aScaleY;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(SCALE_Y, oldScaleY, scaleY));
 		}
 	}
@@ -249,7 +242,6 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 		if (requireChange(this.fitToShape, aFlag)) {
 			boolean oldValue = fitToShape;
 			this.fitToShape = aFlag;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(FIT_TO_SHAPE, oldValue, aFlag));
 		}
 	}
@@ -264,9 +256,7 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 			if (newObject == null) {
 				return false;
 			}
-			else {
-				return true;
-			}
+			return true;
 		}
 		return !oldObject.equals(newObject);
 	}

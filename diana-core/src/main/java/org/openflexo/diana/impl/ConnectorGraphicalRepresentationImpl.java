@@ -295,13 +295,11 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 			return;
 		}
 		checkViewBounds();*/
-		setChanged();
 		notifyObservers(new ConnectorModified());
 	}
 
 	@Override
 	public void notifyConnectorNeedsToBeRedrawn() {
-		setChanged();
 		notifyObservers(new ConnectorNeedsToBeRedrawn());
 	}
 

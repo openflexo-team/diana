@@ -75,7 +75,6 @@ public abstract class TextureBackgroundStyleImpl extends BackgroundStyleImpl imp
 			TextureBackgroundStyle.TextureType oldTexture = textureType;
 			this.textureType = aTextureType;
 			// rebuildColoredTexture();
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(TEXTURE_TYPE, oldTexture, aTextureType));
 		}
 	}
@@ -91,7 +90,6 @@ public abstract class TextureBackgroundStyleImpl extends BackgroundStyleImpl imp
 			java.awt.Color oldColor = color1;
 			this.color1 = aColor;
 			// rebuildColoredTexture();
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(COLOR1, oldColor, aColor));
 		}
 	}
@@ -107,7 +105,6 @@ public abstract class TextureBackgroundStyleImpl extends BackgroundStyleImpl imp
 			java.awt.Color oldColor = color2;
 			this.color2 = aColor;
 			// rebuildColoredTexture();
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(COLOR2, oldColor, aColor));
 		}
 	}

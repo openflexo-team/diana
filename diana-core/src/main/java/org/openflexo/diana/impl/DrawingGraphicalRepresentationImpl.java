@@ -44,8 +44,8 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.geom.FGEDimension;
-import org.openflexo.diana.geom.FGERectangle;
 import org.openflexo.diana.geom.FGEGeometricObject.Filling;
+import org.openflexo.diana.geom.FGERectangle;
 import org.openflexo.diana.graphics.DrawingDecorationPainter;
 import org.openflexo.diana.notifications.DrawingNeedsToBeRedrawn;
 import org.openflexo.diana.notifications.FGEAttributeNotification;
@@ -298,7 +298,6 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 	 */
 	@Override
 	public void notifyObjectResized(FGEDimension oldSize) {
-		setChanged();
 		notifyObservers(new ObjectResized(oldSize, getSize()));
 	}
 
@@ -307,7 +306,6 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 	 */
 	@Override
 	public void notifyObjectWillResize() {
-		setChanged();
 		notifyObservers(new ObjectWillResize());
 	}
 
@@ -317,13 +315,11 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 	 */
 	@Override
 	public void notifyObjectHasResized() {
-		setChanged();
 		notifyObservers(new ObjectHasResized());
 	}
 
 	@Override
 	public void notifyDrawingNeedsToBeRedrawn() {
-		setChanged();
 		notifyObservers(new DrawingNeedsToBeRedrawn());
 	}
 

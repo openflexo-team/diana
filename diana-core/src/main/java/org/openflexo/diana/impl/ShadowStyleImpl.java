@@ -81,7 +81,6 @@ public abstract class ShadowStyleImpl extends FGEStyleImpl implements ShadowStyl
 		if (requireChange(this.drawShadow, aFlag)) {
 			boolean oldValue = drawShadow;
 			this.drawShadow = aFlag;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(DRAW_SHADOW, oldValue, aFlag));
 		}
 	}
@@ -96,7 +95,6 @@ public abstract class ShadowStyleImpl extends FGEStyleImpl implements ShadowStyl
 		if (requireChange(this.shadowDarkness, aValue)) {
 			int oldShadowDarkness = shadowDarkness;
 			shadowDarkness = aValue;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(SHADOW_DARKNESS, oldShadowDarkness, aValue));
 		}
 	}
@@ -116,7 +114,6 @@ public abstract class ShadowStyleImpl extends FGEStyleImpl implements ShadowStyl
 		if (requireChange(this.shadowDepth, aValue)) {
 			int oldShadowDeep = shadowDepth;
 			shadowDepth = aValue;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(SHADOW_DEPTH, oldShadowDeep, aValue));
 		}
 	}
@@ -131,7 +128,6 @@ public abstract class ShadowStyleImpl extends FGEStyleImpl implements ShadowStyl
 		if (requireChange(this.shadowBlur, aValue)) {
 			int oldShadowBlur = shadowBlur;
 			shadowBlur = aValue;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(SHADOW_BLUR, oldShadowBlur, aValue));
 		}
 	}

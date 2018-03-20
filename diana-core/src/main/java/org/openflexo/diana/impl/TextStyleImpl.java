@@ -91,7 +91,6 @@ public abstract class TextStyleImpl extends FGEStyleImpl implements TextStyle {
 		if (requireChange(this.color, aColor)) {
 			Color oldColor = color;
 			this.color = aColor;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(COLOR, oldColor, aColor));
 		}
 	}
@@ -106,7 +105,6 @@ public abstract class TextStyleImpl extends FGEStyleImpl implements TextStyle {
 		if (requireChange(this.font, aFont)) {
 			Font oldFont = this.font;
 			this.font = aFont;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(FONT, oldFont, aFont));
 		}
 	}
@@ -121,7 +119,6 @@ public abstract class TextStyleImpl extends FGEStyleImpl implements TextStyle {
 		if (requireChange(this.orientation, anOrientation)) {
 			int oldOrientation = this.orientation;
 			orientation = anOrientation;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(ORIENTATION, oldOrientation, anOrientation));
 		}
 	}
@@ -136,7 +133,6 @@ public abstract class TextStyleImpl extends FGEStyleImpl implements TextStyle {
 		if (requireChange(this.backgroundColor, aColor)) {
 			Color oldColor = backgroundColor;
 			this.backgroundColor = aColor;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(BACKGROUND_COLOR, oldColor, aColor));
 		}
 	}
@@ -151,7 +147,6 @@ public abstract class TextStyleImpl extends FGEStyleImpl implements TextStyle {
 		if (requireChange(this.backgroundColored, aFlag)) {
 			boolean oldValue = backgroundColored;
 			this.backgroundColored = aFlag;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(IS_BACKGROUND_COLORED, oldValue, aFlag));
 		}
 	}

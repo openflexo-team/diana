@@ -54,15 +54,15 @@ import org.openflexo.connie.java.JavaBindingFactory;
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
 import org.openflexo.diana.ContainerGraphicalRepresentation;
 import org.openflexo.diana.Drawing;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.TextStyle;
-import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.control.MouseClickControl;
-import org.openflexo.diana.control.MouseDragControl;
 import org.openflexo.diana.control.MouseControl.MouseButton;
+import org.openflexo.diana.control.MouseDragControl;
 import org.openflexo.diana.notifications.BindingChanged;
 import org.openflexo.diana.notifications.FGEAttributeNotification;
 import org.openflexo.diana.notifications.GRDeleted;
@@ -175,7 +175,6 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 			}
 			_bindingModel = null;
 			boolean returned = super.delete();
-			setChanged();
 			notifyObservers(new GRDeleted(this));
 			return returned;
 		}
@@ -1228,14 +1227,12 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 		else {
 			mouseClickControls.add(mouseClickControl);
 		}
-		setChanged();
 		notifyObservers(new FGEAttributeNotification<>(MOUSE_CLICK_CONTROLS, mouseClickControls, mouseClickControls));
 	}
 
 	@Override
 	public void removeFromMouseClickControls(MouseClickControl<?> mouseClickControl) {
 		mouseClickControls.remove(mouseClickControl);
-		setChanged();
 		notifyObservers(new FGEAttributeNotification<>(MOUSE_CLICK_CONTROLS, mouseClickControls, mouseClickControls));
 	}
 
@@ -1276,14 +1273,12 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 		else {
 			mouseDragControls.add(mouseDragControl);
 		}
-		setChanged();
 		notifyObservers(new FGEAttributeNotification<>(MOUSE_DRAG_CONTROLS, mouseDragControls, mouseDragControls));
 	}
 
 	@Override
 	public void removeFromMouseDragControls(MouseDragControl<?> mouseDragControl) {
 		mouseDragControls.remove(mouseDragControl);
-		setChanged();
 		notifyObservers(new FGEAttributeNotification<>(MOUSE_DRAG_CONTROLS, mouseDragControls, mouseDragControls));
 	}
 
@@ -1790,7 +1785,6 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	@Override
 	public void notifiedBindingDecoded(DataBinding<?> binding) {
 		if (binding != null) {
-			setChanged();
 			notifyObservers(new BindingChanged(binding));
 		}
 	}
@@ -1798,7 +1792,6 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	@Override
 	public void notifiedBindingChanged(DataBinding<?> binding) {
 		if (binding != null) {
-			setChanged();
 			notifyObservers(new BindingChanged(binding));
 		}
 	}

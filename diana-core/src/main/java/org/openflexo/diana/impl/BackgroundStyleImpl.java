@@ -93,7 +93,6 @@ public abstract class BackgroundStyleImpl extends FGEStyleImpl implements Backgr
 		if (requireChange(this.transparencyLevel, aLevel)) {
 			float oldValue = transparencyLevel;
 			this.transparencyLevel = aLevel;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(TRANSPARENCY_LEVEL, oldValue, aLevel));
 		}
 	}
@@ -108,7 +107,6 @@ public abstract class BackgroundStyleImpl extends FGEStyleImpl implements Backgr
 		if (requireChange(this.useTransparency, aFlag)) {
 			boolean oldValue = useTransparency;
 			this.useTransparency = aFlag;
-			setChanged();
 			notifyObservers(new FGEAttributeNotification<>(USE_TRANSPARENCY, oldValue, aFlag));
 		}
 	}

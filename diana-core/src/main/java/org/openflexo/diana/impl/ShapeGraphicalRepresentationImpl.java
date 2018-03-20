@@ -39,22 +39,16 @@
 
 package org.openflexo.diana.impl;
 
-import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
 import org.openflexo.diana.BackgroundStyle;
-import org.openflexo.diana.Drawing;
-import org.openflexo.diana.FGEConstants;
+import org.openflexo.diana.BackgroundStyle.BackgroundStyleType;
+import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.ShadowStyle;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
-import org.openflexo.diana.BackgroundStyle.BackgroundStyleType;
-import org.openflexo.diana.Drawing.ContainerNode;
-import org.openflexo.diana.control.PredefinedMouseClickControlActionType;
-import org.openflexo.diana.control.PredefinedMouseDragControlActionType;
-import org.openflexo.diana.control.MouseControl.MouseButton;
 import org.openflexo.diana.geom.FGEPoint;
 import org.openflexo.diana.geom.area.FGEArea;
 import org.openflexo.diana.notifications.FGEAttributeNotification;
@@ -63,7 +57,6 @@ import org.openflexo.diana.notifications.ShapeNeedsToBeRedrawn;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.model.factory.ProxyMethodHandler;
-import org.openflexo.toolbox.ToolBox;
 
 public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphicalRepresentationImpl
 		implements ShapeGraphicalRepresentation {
@@ -113,55 +106,6 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	 */
 	public ShapeGraphicalRepresentationImpl() {
 		super();
-	}
-
-	@Deprecated
-	private ShapeGraphicalRepresentationImpl(Object aDrawable, Drawing<?> aDrawing) {
-		this();
-	}
-
-	@Deprecated
-	public ShapeGraphicalRepresentationImpl(ShapeType shapeType, Object aDrawable, Drawing<?> aDrawing) {
-		this(aDrawable, aDrawing);
-		setShapeType(shapeType);
-		layer = FGEConstants.DEFAULT_SHAPE_LAYER;
-		foreground = getFactory().makeDefaultForegroundStyle();
-		foreground.getPropertyChangeSupport().addPropertyChangeListener(this);
-		background = getFactory().makeColoredBackground(Color.WHITE);
-		background.getPropertyChangeSupport().addPropertyChangeListener(this);
-		shadowStyle = getFactory().makeDefaultShadowStyle();
-		shadowStyle.getPropertyChangeSupport().addPropertyChangeListener(this);
-
-		init();
-	}
-
-	@SuppressWarnings("unused")
-	@Deprecated
-	private ShapeGraphicalRepresentationImpl(ShapeGraphicalRepresentation aGR, Object aDrawable, Drawing<?> aDrawing) {
-		this(aDrawable, aDrawing);
-
-		setsWith(aGR);
-		init();
-	}
-
-	@Deprecated
-	private void init() {
-
-		addToMouseClickControls(
-				getFactory().makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
-		if (ToolBox.isMacOS()) {
-			addToMouseClickControls(getFactory().makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1,
-					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
-		}
-		else {
-			addToMouseClickControls(getFactory().makeMouseControlClickControl("Multiple selection", MouseButton.LEFT, 1,
-					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
-		}
-		addToMouseDragControls(getFactory().makeMouseDragControl("Move", MouseButton.LEFT, PredefinedMouseDragControlActionType.MOVE));
-		addToMouseDragControls(getFactory().makeMouseDragControl("Zoom", MouseButton.RIGHT, PredefinedMouseDragControlActionType.ZOOM));
-		addToMouseDragControls(getFactory().makeMouseShiftDragControl("Rectangle selection", MouseButton.LEFT,
-				PredefinedMouseDragControlActionType.RECTANGLE_SELECTING));
-
 	}
 
 	// ***************************************************************************
