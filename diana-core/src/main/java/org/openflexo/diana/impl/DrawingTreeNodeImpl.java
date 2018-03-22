@@ -55,7 +55,6 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,29 +62,26 @@ import org.openflexo.connie.BindingEvaluationContext;
 import org.openflexo.connie.BindingVariable;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.binding.BindingValueChangeListener;
-import org.openflexo.connie.binding.TargetObject;
 import org.openflexo.connie.exception.NotSettableContextException;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
-import org.openflexo.diana.Drawing;
 import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.DianaUtils;
-import org.openflexo.diana.GRBinding;
-import org.openflexo.diana.GRProperty;
-import org.openflexo.diana.GraphicalRepresentation;
-import org.openflexo.diana.TextStyle;
-import org.openflexo.diana.Drawing.ConstraintDependency;
+import org.openflexo.diana.Drawing;
 import org.openflexo.diana.Drawing.ContainerNode;
-import org.openflexo.diana.Drawing.DependencyLoopException;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.PersistenceMode;
+import org.openflexo.diana.GRBinding;
 import org.openflexo.diana.GRBinding.DynamicPropertyValue;
+import org.openflexo.diana.GRProperty;
+import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.GraphicalRepresentation.LabelMetricsProvider;
 import org.openflexo.diana.ShapeGraphicalRepresentation.DimensionConstraints;
+import org.openflexo.diana.TextStyle;
 import org.openflexo.diana.cp.ControlArea;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
-import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.diana.notifications.DianaNotification;
 import org.openflexo.diana.notifications.LabelHasEdited;
@@ -126,9 +122,6 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	private GR graphicalRepresentation;
 	private final GRBinding<O, GR> grBinding;
 
-	private final List<ConstraintDependency> dependancies;
-	private final List<ConstraintDependency> alterings;
-
 	private boolean isInvalidated = true;
 	private boolean isDeleted = false;
 
@@ -163,18 +156,10 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 		retrieveGraphicalRepresentation();
 
-		dependancies = new ArrayList<>();
-		alterings = new ArrayList<>();
-
-		// controlAreas = new ArrayList<ControlArea<?>>();
-
 		bindingValueObserver = new BindingValueObserver();
 	}
 
 	private BindingValueObserver bindingValueObserver;
-
-	// private final Map<GRProperty<?>, BindingValueChangeListener<?>> bindingValueListeners = new HashMap<GRProperty<?>,
-	// BindingValueChangeListener<?>>();
 
 	/**
 	 * This method is called whenever it was detected that the value of a property declared as dynamic (specified by a {@link DataBinding}
@@ -500,90 +485,6 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	@Override
 	public O getDrawable() {
 		return drawable;
-	}
-
-	protected void updateDependanciesForBinding(DataBinding<?> binding) {
-		if (binding == null) {
-			return;
-		}
-
-		// logger.info("Searching dependancies for "+this);
-
-		DrawingTreeNode<?, ?> node = this;
-		// TODO !!!!
-		List<TargetObject> targetList = binding.getTargetObjects(getBindingEvaluationContext());
-		if (targetList != null) {
-			for (TargetObject o : targetList) {
-				// System.out.println("> "+o.target+" for "+o.propertyName);
-				if (o.target instanceof DrawingTreeNode) {
-					DrawingTreeNode<?, ?> c = (DrawingTreeNode<?, ?>) o.target;
-					GRProperty<?> param = GRProperty.getGRParameter(c.getGraphicalRepresentation().getClass(), o.propertyName);
-					// logger.info("OK, found "+getBindingAttribute()+" of "+getOwner()+" depends of "+param+" , "+c);
-					try {
-						node.declareDependantOf(c, param, param);
-					} catch (DependencyLoopException e) {
-						logger.warning(
-								"DependancyLoopException raised while declaring dependancy (data lookup)" + "in the context of binding: "
-										+ binding.toString() + " node: " + node + " dependancy: " + c + " message: " + e.getMessage());
-					}
-				}
-			}
-		}
-
-	}
-
-	@Override
-	public List<ConstraintDependency> getDependancies() {
-		return dependancies;
-	}
-
-	@Override
-	public List<ConstraintDependency> getAlterings() {
-		return alterings;
-	}
-
-	@Override
-	public void declareDependantOf(DrawingTreeNode<?, ?> aNode, GRProperty requiringParameter, GRProperty requiredParameter)
-			throws DependencyLoopException {
-		// logger.info("Component "+this+" depends of "+aComponent);
-		if (aNode == this) {
-			logger.warning("Forbidden reflexive dependancies");
-			return;
-		}
-		// Look if this dependancy may cause a loop in dependancies
-		try {
-			List<DrawingTreeNode<?, ?>> actualDependancies = new Vector<>();
-			actualDependancies.add(aNode);
-			searchLoopInDependenciesWith(aNode, actualDependancies);
-		} catch (DependencyLoopException e) {
-			logger.warning("Forbidden loop in dependancies: " + e.getMessage());
-			throw e;
-		}
-
-		ConstraintDependency newDependancy = new ConstraintDependency(this, requiringParameter, aNode, requiredParameter);
-
-		if (!dependancies.contains(newDependancy)) {
-			dependancies.add(newDependancy);
-			logger.info("Parameter " + requiringParameter + " of GR " + this + " depends of parameter " + requiredParameter + " of GR "
-					+ aNode);
-		}
-		if (!((DrawingTreeNodeImpl<?, ?>) aNode).alterings.contains(newDependancy)) {
-			((DrawingTreeNodeImpl<?, ?>) aNode).alterings.add(newDependancy);
-		}
-	}
-
-	private void searchLoopInDependenciesWith(DrawingTreeNode<?, ?> aNode, List<DrawingTreeNode<?, ?>> actualDependancies)
-			throws DependencyLoopException {
-		for (ConstraintDependency dependancy : ((DrawingTreeNodeImpl<?, ?>) aNode).dependancies) {
-			DrawingTreeNode<?, ?> c = dependancy.requiredGR;
-			if (c == this) {
-				throw new DependencyLoopException(actualDependancies);
-			}
-			Vector<DrawingTreeNode<?, ?>> newVector = new Vector<>();
-			newVector.addAll(actualDependancies);
-			newVector.add(c);
-			searchLoopInDependenciesWith(c, newVector);
-		}
 	}
 
 	// *******************************************************************************

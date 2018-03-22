@@ -67,10 +67,10 @@ import org.openflexo.diana.connectors.ConnectorSpecification;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
 import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
-import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.graph.DianaGraph;
 import org.openflexo.diana.graphics.DianaConnectorGraphics;
@@ -385,18 +385,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public Rectangle getLabelBounds(double scale);
 
-		// public DianaGraphics getGraphics();
-
-		// public void paint(Graphics g, DianaEditor<?> controller);
-
 		public boolean isContainedInSelection(Rectangle drawingViewSelection, double scale);
-
-		public List<ConstraintDependency> getDependancies();
-
-		public List<ConstraintDependency> getAlterings();
-
-		public void declareDependantOf(DrawingTreeNode<?, ?> aNode, GRProperty requiringParameter, GRProperty requiredParameter)
-				throws DependencyLoopException;
 
 		public void notifyLabelWillBeEdited();
 
@@ -469,8 +458,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		public DianaLayoutManager<?, O> getDefaultLayoutManager();
 
 		/**
-		 * Return all {@link DianaLayoutManager} which are managed by this {@link ContainerNode} (those are not the {@link LayoutManager} used
-		 * to layout this node)
+		 * Return all {@link DianaLayoutManager} which are managed by this {@link ContainerNode} (those are not the {@link LayoutManager}
+		 * used to layout this node)
 		 * 
 		 * @return
 		 */
@@ -1141,45 +1130,6 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 	 * @return
 	 */
 	public <O> ConnectorNode<O> getConnectorNode(DrawingTreeNodeIdentifier<O> identifier);
-
-	/**
-	 * Encodes the dependancy between two {@link DrawingTreeNode}
-	 * 
-	 * @author sylvain
-	 * 
-	 */
-	// TODO: (sylvain) i think this is no more necessary, remove this ???
-	@Deprecated
-	public static class ConstraintDependency {
-		public DrawingTreeNode<?, ?> requiringGR;
-		public GRProperty requiringParameter;
-		public DrawingTreeNode<?, ?> requiredGR;
-		public GRProperty requiredParameter;
-
-		public ConstraintDependency(DrawingTreeNode<?, ?> requiringGR, GRProperty requiringParameter, DrawingTreeNode<?, ?> requiredGR,
-				GRProperty requiredParameter) {
-			super();
-			this.requiringGR = requiringGR;
-			this.requiringParameter = requiringParameter;
-			this.requiredGR = requiredGR;
-			this.requiredParameter = requiredParameter;
-		}
-
-		@Override
-		public int hashCode() {
-			return requiredGR.hashCode() + requiringGR.hashCode() + requiringParameter.hashCode() + requiredParameter.hashCode();
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (obj instanceof ConstraintDependency) {
-				ConstraintDependency opposite = (ConstraintDependency) obj;
-				return requiredGR == opposite.requiredGR && requiringGR == opposite.requiringGR
-						&& requiringParameter == opposite.requiringParameter && requiredParameter == opposite.requiredParameter;
-			}
-			return super.equals(obj);
-		}
-	}
 
 	/**
 	 * Throw when a dependancy raises a loop

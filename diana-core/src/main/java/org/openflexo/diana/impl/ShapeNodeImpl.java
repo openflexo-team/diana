@@ -59,30 +59,29 @@ import org.openflexo.diana.ContainerGraphicalRepresentation;
 import org.openflexo.diana.DianaLayoutManager;
 import org.openflexo.diana.DianaLayoutManagerSpecification;
 import org.openflexo.diana.DianaUtils;
+import org.openflexo.diana.Drawing.ConnectorNode;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.GRBinding;
+import org.openflexo.diana.GRBinding.ShapeGRBinding;
 import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.ShadowStyle;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
-import org.openflexo.diana.Drawing.ConnectorNode;
-import org.openflexo.diana.Drawing.ConstraintDependency;
-import org.openflexo.diana.Drawing.DrawingTreeNode;
-import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.GRBinding.ShapeGRBinding;
 import org.openflexo.diana.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.diana.ShapeGraphicalRepresentation.LocationConstraints;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
 import org.openflexo.diana.geom.DianaDimension;
 import org.openflexo.diana.geom.DianaGeometricObject;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaSegment;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geom.GeomUtils;
-import org.openflexo.diana.geom.DianaGeometricObject.Filling;
-import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.geom.area.DianaIntersectionArea;
 import org.openflexo.diana.graphics.DianaShapeGraphics;
@@ -1170,7 +1169,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			return true;
 		}
 		boolean isFullyContained = true;
-		DianaRectangle containerViewBounds = new DianaRectangle(0, 0, getParentNode().getWidth(), getParentNode().getHeight(), Filling.FILLED);
+		DianaRectangle containerViewBounds = new DianaRectangle(0, 0, getParentNode().getWidth(), getParentNode().getHeight(),
+				Filling.FILLED);
 		for (ControlPoint cp : getShape().getControlPoints()) {
 			if (cp != null) {
 				Point cpInContainerView = convertLocalNormalizedPointToRemoteViewCoordinates(cp.getPoint(), getParentNode(), 1);
@@ -1336,27 +1336,6 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				}
 				getGraphicalRepresentation().setDimensionConstraints(DimensionConstraints.UNRESIZABLE);
 			}
-		}
-	}
-
-	protected void computeNewConstraint(ConstraintDependency dependancy) {
-		if (dependancy.requiringParameter == ShapeGraphicalRepresentation.X_CONSTRAINTS
-				&& getGraphicalRepresentation().getXConstraints() != null && getGraphicalRepresentation().getXConstraints().isValid()) {
-			updateXPosition();
-		}
-		else if (dependancy.requiringParameter == ShapeGraphicalRepresentation.Y_CONSTRAINTS
-				&& getGraphicalRepresentation().getYConstraints() != null && getGraphicalRepresentation().getYConstraints().isValid()) {
-			updateYPosition();
-		}
-		else if (dependancy.requiringParameter == ShapeGraphicalRepresentation.WIDTH_CONSTRAINTS
-				&& getGraphicalRepresentation().getWidthConstraints() != null
-				&& getGraphicalRepresentation().getWidthConstraints().isValid()) {
-			updateWidthPosition();
-		}
-		else if (dependancy.requiringParameter == ShapeGraphicalRepresentation.HEIGHT_CONSTRAINTS
-				&& getGraphicalRepresentation().getHeightConstraints() != null
-				&& getGraphicalRepresentation().getHeightConstraints().isValid()) {
-			updateHeightPosition();
 		}
 	}
 
