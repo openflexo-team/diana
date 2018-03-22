@@ -42,7 +42,7 @@ package org.openflexo.diana.shapes;
 import java.util.List;
 
 import org.openflexo.diana.GRProperty;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.model.annotations.Adder;
 import org.openflexo.model.annotations.CloningStrategy;
 import org.openflexo.model.annotations.CloningStrategy.StrategyType;
@@ -68,7 +68,7 @@ public interface Polygon extends ShapeSpecification {
 
 	// Property keys
 
-	@PropertyIdentifier(type = FGEPoint.class, cardinality = Cardinality.LIST)
+	@PropertyIdentifier(type = DianaPoint.class, cardinality = Cardinality.LIST)
 	public static final String POINTS_KEY = "points";
 
 	public static GRProperty<List> POINTS = GRProperty.getGRParameter(Polygon.class, POINTS_KEY, List.class);
@@ -85,15 +85,15 @@ public interface Polygon extends ShapeSpecification {
 	@XMLElement(xmlTag = "Point", primary = true)
 	@CloningStrategy(StrategyType.CLONE)
 	@Embedded
-	public List<FGEPoint> getPoints();
+	public List<DianaPoint> getPoints();
 
 	@Setter(POINTS_KEY)
-	public void setPoints(List<FGEPoint> points);
+	public void setPoints(List<DianaPoint> points);
 
 	@Adder(POINTS_KEY)
-	public void addToPoints(FGEPoint aPoint);
+	public void addToPoints(DianaPoint aPoint);
 
 	@Remover(POINTS_KEY)
-	public void removeFromPoints(FGEPoint aPoint);
+	public void removeFromPoints(DianaPoint aPoint);
 
 }

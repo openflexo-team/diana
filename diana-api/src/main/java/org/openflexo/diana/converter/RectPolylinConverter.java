@@ -42,49 +42,49 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.openflexo.diana.FGEUtils;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectPolylin;
+import org.openflexo.diana.DianaUtils;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectPolylin;
 import org.openflexo.model.StringConverterLibrary.Converter;
 import org.openflexo.model.exceptions.InvalidDataException;
 import org.openflexo.model.factory.ModelFactory;
 
-public class RectPolylinConverter extends Converter<FGERectPolylin> {
-	public RectPolylinConverter(Class<? super FGERectPolylin> aClass) {
+public class RectPolylinConverter extends Converter<DianaRectPolylin> {
+	public RectPolylinConverter(Class<? super DianaRectPolylin> aClass) {
 		super(aClass);
 	}
 
 	@Override
-	public FGERectPolylin convertFromString(String value, ModelFactory factory) {
+	public DianaRectPolylin convertFromString(String value, ModelFactory factory) {
 		try {
-			List<FGEPoint> points = new ArrayList<>();
+			List<DianaPoint> points = new ArrayList<>();
 			StringTokenizer st = new StringTokenizer(value, ";");
 			while (st.hasMoreTokens()) {
 				String nextPoint = st.nextToken();
 				try {
-					points.add(FGEUtils.POINT_CONVERTER.convertFromString(nextPoint, factory));
+					points.add(DianaUtils.POINT_CONVERTER.convertFromString(nextPoint, factory));
 				} catch (InvalidDataException e) {
 					e.printStackTrace();
 				}
 			}
-			return new FGERectPolylin(points);
+			return new DianaRectPolylin(points);
 		} catch (NumberFormatException e) {
 			// Warns about the exception
-			System.err.println("Supplied value is not parsable as a FGEPoint:" + value);
+			System.err.println("Supplied value is not parsable as a DianaPoint:" + value);
 			return null;
 		}
 	}
 
 	@Override
-	public String convertToString(FGERectPolylin aPolylin) {
+	public String convertToString(DianaRectPolylin aPolylin) {
 		if (aPolylin != null) {
 			StringBuffer sb = new StringBuffer();
 			boolean isFirst = true;
-			for (FGEPoint pt : aPolylin.getPoints()) {
+			for (DianaPoint pt : aPolylin.getPoints()) {
 				if (!isFirst) {
 					sb.append(";");
 				}
-				sb.append(FGEUtils.POINT_CONVERTER.convertToString(pt));
+				sb.append(DianaUtils.POINT_CONVERTER.convertToString(pt));
 				isFirst = false;
 			}
 			return sb.toString();

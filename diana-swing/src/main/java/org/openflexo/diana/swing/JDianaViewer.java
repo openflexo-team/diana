@@ -42,7 +42,7 @@ package org.openflexo.diana.swing;
 import javax.swing.JComponent;
 
 import org.openflexo.diana.Drawing;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.control.DianaViewer;
 import org.openflexo.diana.swing.control.SwingToolFactory;
 import org.openflexo.diana.swing.view.JDrawingView;
@@ -58,12 +58,12 @@ import org.openflexo.diana.swing.view.JDrawingView;
  */
 public class JDianaViewer<M> extends DianaViewer<M, SwingViewFactory, JComponent> {
 
-	public JDianaViewer(Drawing<M> aDrawing, FGEModelFactory factory, SwingToolFactory toolFactory) {
+	public JDianaViewer(Drawing<M> aDrawing, DianaModelFactory factory, SwingToolFactory toolFactory) {
 		super(aDrawing, factory, SwingViewFactory.INSTANCE, toolFactory);
 		setDelegate(new SwingEditorDelegate(this));
 	}
 
-	public JDianaViewer(Drawing<M> aDrawing, FGEModelFactory factory, SwingViewFactory viewFactory, SwingToolFactory toolFactory) {
+	public JDianaViewer(Drawing<M> aDrawing, DianaModelFactory factory, SwingViewFactory viewFactory, SwingToolFactory toolFactory) {
 		super(aDrawing, factory, viewFactory, toolFactory);
 		setDelegate(new SwingEditorDelegate(this));
 	}
@@ -79,7 +79,7 @@ public class JDianaViewer<M> extends DianaViewer<M, SwingViewFactory, JComponent
 		return (SwingEditorDelegate) super.getDelegate();
 	}
 
-	/*public FGEPaintManager getPaintManager() {
+	/*public DianaPaintManager getPaintManager() {
 		if (getDrawingView() != null) {
 			return getDrawingView().getPaintManager();
 		}

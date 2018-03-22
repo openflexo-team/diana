@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.impl.FGEObjectImpl;
+import org.openflexo.diana.impl.DianaObjectImpl;
 import org.openflexo.diana.shapes.ShapeSpecification;
 
 /**
@@ -52,7 +52,7 @@ import org.openflexo.diana.shapes.ShapeSpecification;
  * @author sylvain
  * 
  */
-public abstract class ShapeSpecificationImpl extends FGEObjectImpl implements ShapeSpecification {
+public abstract class ShapeSpecificationImpl extends DianaObjectImpl implements ShapeSpecification {
 
 	private static final Logger logger = Logger.getLogger(ShapeSpecificationImpl.class.getPackage().getName());
 
@@ -60,7 +60,7 @@ public abstract class ShapeSpecificationImpl extends FGEObjectImpl implements Sh
 
 	// private transient Vector<ControlPoint> controlPoints = null;
 
-	// private static final FGEModelFactory SHADOW_FACTORY = FGECoreUtils.TOOLS_FACTORY;
+	// private static final DianaModelFactory SHADOW_FACTORY = DianaCoreUtils.TOOLS_FACTORY;
 
 	// *******************************************************************************
 	// * Constructor *

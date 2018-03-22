@@ -42,7 +42,7 @@ package org.openflexo.diana.swing.graph;
 import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.graph.FGEContinuousPolarFunctionGraph;
+import org.openflexo.diana.graph.DianaContinuousPolarFunctionGraph;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.graph.FIBContinuousPolarFunctionGraph;
 
@@ -60,24 +60,24 @@ public class JFIBContinuousPolarGraphWidget extends JFIBPolarGraphWidget<FIBCont
 	}
 
 	@Override
-	protected FGEContinuousPolarFunctionGraphDrawing makeGraphDrawing() {
-		return new FGEContinuousPolarFunctionGraphDrawing(getWidget());
+	protected DianaContinuousPolarFunctionGraphDrawing makeGraphDrawing() {
+		return new DianaContinuousPolarFunctionGraphDrawing(getWidget());
 	}
 
-	public class FGEContinuousPolarFunctionGraphDrawing
-			extends FGEPolarFunctionGraphDrawing<FIBContinuousPolarFunctionGraph, FGEContinuousPolarFunctionGraph> {
+	public class DianaContinuousPolarFunctionGraphDrawing
+			extends DianaPolarFunctionGraphDrawing<FIBContinuousPolarFunctionGraph, DianaContinuousPolarFunctionGraph> {
 
-		public FGEContinuousPolarFunctionGraphDrawing(FIBContinuousPolarFunctionGraph fibGraph) {
+		public DianaContinuousPolarFunctionGraphDrawing(FIBContinuousPolarFunctionGraph fibGraph) {
 			super(fibGraph, JFIBContinuousPolarGraphWidget.this);
 		}
 
 		@Override
-		protected FGEContinuousPolarFunctionGraph makeGraph(FIBContinuousPolarFunctionGraph fibGraph) {
+		protected DianaContinuousPolarFunctionGraph makeGraph(FIBContinuousPolarFunctionGraph fibGraph) {
 
 			// System.out.println("Type=" + TypeUtils.getBaseClass(fibGraph.getParameterType()));
 
-			// Create the FGEGraph
-			graph = new FGEContinuousPolarFunctionGraph();
+			// Create the DianaGraph
+			graph = new DianaContinuousPolarFunctionGraph();
 			graph.setBindingFactory(fibGraph.getBindingFactory());
 
 			// Sets borders

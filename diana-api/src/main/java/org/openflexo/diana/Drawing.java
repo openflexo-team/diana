@@ -66,18 +66,18 @@ import org.openflexo.diana.connectors.Connector;
 import org.openflexo.diana.connectors.ConnectorSpecification;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
-import org.openflexo.diana.geom.FGEDimension;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGEShape;
-import org.openflexo.diana.geom.FGEGeometricObject.SimplifiedCardinalDirection;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.graph.FGEGraph;
-import org.openflexo.diana.graphics.FGEConnectorGraphics;
-import org.openflexo.diana.graphics.FGEDrawingGraphics;
-import org.openflexo.diana.graphics.FGEGeometricGraphics;
-import org.openflexo.diana.graphics.FGEGraphics;
-import org.openflexo.diana.graphics.FGEShapeGraphics;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.graph.DianaGraph;
+import org.openflexo.diana.graphics.DianaConnectorGraphics;
+import org.openflexo.diana.graphics.DianaDrawingGraphics;
+import org.openflexo.diana.graphics.DianaGeometricGraphics;
+import org.openflexo.diana.graphics.DianaGraphics;
+import org.openflexo.diana.graphics.DianaShapeGraphics;
 import org.openflexo.diana.graphics.ShapeDecorationPainter;
 import org.openflexo.diana.graphics.ShapePainter;
 import org.openflexo.diana.shapes.Shape;
@@ -183,11 +183,11 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		public GRBinding<O, GR> getGRBinding();
 
 		/**
-		 * Return the FGEModelFactory (the factory used to build graphical representation objects)
+		 * Return the DianaModelFactory (the factory used to build graphical representation objects)
 		 * 
 		 * @return
 		 */
-		public FGEModelFactory getFactory();
+		public DianaModelFactory getFactory();
 
 		/**
 		 * Return the EditingContext when any (might be null)
@@ -328,30 +328,30 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public boolean isAncestorOf(DrawingTreeNode<?, ?> child);
 
-		public FGEPoint convertRemoteViewCoordinatesToLocalNormalizedPoint(Point p, DrawingTreeNode<?, ?> source, double scale);
+		public DianaPoint convertRemoteViewCoordinatesToLocalNormalizedPoint(Point p, DrawingTreeNode<?, ?> source, double scale);
 
-		public FGEPoint convertLocalViewCoordinatesToRemoteNormalizedPoint(Point p, DrawingTreeNode<?, ?> destination, double scale);
+		public DianaPoint convertLocalViewCoordinatesToRemoteNormalizedPoint(Point p, DrawingTreeNode<?, ?> destination, double scale);
 
-		public Point convertLocalNormalizedPointToRemoteViewCoordinates(FGEPoint p, DrawingTreeNode<?, ?> destination, double scale);
+		public Point convertLocalNormalizedPointToRemoteViewCoordinates(DianaPoint p, DrawingTreeNode<?, ?> destination, double scale);
 
-		public Rectangle convertLocalNormalizedRectangleToRemoteViewCoordinates(FGERectangle r, DrawingTreeNode<?, ?> destination,
+		public Rectangle convertLocalNormalizedRectangleToRemoteViewCoordinates(DianaRectangle r, DrawingTreeNode<?, ?> destination,
 				double scale);
 
-		public Point convertRemoteNormalizedPointToLocalViewCoordinates(FGEPoint p, DrawingTreeNode<?, ?> source, double scale);
+		public Point convertRemoteNormalizedPointToLocalViewCoordinates(DianaPoint p, DrawingTreeNode<?, ?> source, double scale);
 
 		public Point convertNormalizedPointToViewCoordinates(double x, double y, double scale);
 
-		public Rectangle convertNormalizedRectangleToViewCoordinates(FGERectangle r, double scale);
+		public Rectangle convertNormalizedRectangleToViewCoordinates(DianaRectangle r, double scale);
 
 		public AffineTransform convertNormalizedPointToViewCoordinatesAT(double scale);
 
-		public FGEPoint convertViewCoordinatesToNormalizedPoint(int x, int y, double scale);
+		public DianaPoint convertViewCoordinatesToNormalizedPoint(int x, int y, double scale);
 
 		public AffineTransform convertViewCoordinatesToNormalizedPointAT(double scale);
 
-		public Point convertNormalizedPointToViewCoordinates(FGEPoint p, double scale);
+		public Point convertNormalizedPointToViewCoordinates(DianaPoint p, double scale);
 
-		public FGEPoint convertViewCoordinatesToNormalizedPoint(Point p, double scale);
+		public DianaPoint convertViewCoordinatesToNormalizedPoint(Point p, double scale);
 
 		public int getViewX(double scale);
 
@@ -363,7 +363,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public Rectangle getViewBounds(double scale);
 
-		public FGERectangle getNormalizedBounds();
+		public DianaRectangle getNormalizedBounds();
 
 		public LabelMetricsProvider getLabelMetricsProvider();
 
@@ -385,7 +385,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public Rectangle getLabelBounds(double scale);
 
-		// public FGEGraphics getGraphics();
+		// public DianaGraphics getGraphics();
 
 		// public void paint(Graphics g, DianaEditor<?> controller);
 
@@ -443,7 +443,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		 * 
 		 * @return
 		 */
-		public FGEDimension getRequiredLabelSize();
+		public DianaDimension getRequiredLabelSize();
 
 		public boolean isParentLayoutedAsContainer();
 
@@ -462,29 +462,29 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		public static final String LAYOUT_DECORATION_KEY = "layoutDecoration";
 
 		/**
-		 * Return default FGELayoutManager which are managed by this {@link ContainerNode} (the first one found)
+		 * Return default DianaLayoutManager which are managed by this {@link ContainerNode} (the first one found)
 		 * 
 		 * @return
 		 */
-		public FGELayoutManager<?, O> getDefaultLayoutManager();
+		public DianaLayoutManager<?, O> getDefaultLayoutManager();
 
 		/**
-		 * Return all {@link FGELayoutManager} which are managed by this {@link ContainerNode} (those are not the {@link LayoutManager} used
+		 * Return all {@link DianaLayoutManager} which are managed by this {@link ContainerNode} (those are not the {@link LayoutManager} used
 		 * to layout this node)
 		 * 
 		 * @return
 		 */
-		public List<FGELayoutManager<?, O>> getLayoutManagers();
+		public List<DianaLayoutManager<?, O>> getLayoutManagers();
 
 		/**
-		 * Return {@link FGELayoutManager} managed by this {@link ContainerNode} and identified by identifier, null when not found
+		 * Return {@link DianaLayoutManager} managed by this {@link ContainerNode} and identified by identifier, null when not found
 		 * 
 		 * @param identifier
 		 * @return
 		 */
-		public FGELayoutManager<?, O> getLayoutManager(String identifier);
+		public DianaLayoutManager<?, O> getLayoutManager(String identifier);
 
-		public List<FGELayoutManagerSpecification<?>> getLayoutManagerSpecifications();
+		public List<DianaLayoutManagerSpecification<?>> getLayoutManagerSpecifications();
 
 		public double getWidth();
 
@@ -494,9 +494,9 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public void setHeight(double aValue);
 
-		public FGEDimension getSize();
+		public DianaDimension getSize();
 
-		public void setSize(FGEDimension newSize);
+		public void setSize(DianaDimension newSize);
 
 		public List<? extends ShapeNode<?>> getShapeNodes();
 
@@ -508,9 +508,9 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public int getOrder(DrawingTreeNode<?, ?> child1, DrawingTreeNode<?, ?> child2);
 
-		public ShapeNode<?> getTopLevelShapeGraphicalRepresentation(FGEPoint p);
+		public ShapeNode<?> getTopLevelShapeGraphicalRepresentation(DianaPoint p);
 
-		public void notifyNodeLayoutDecorationChanged(FGELayoutManager<?, O> layoutManager);
+		public void notifyNodeLayoutDecorationChanged(DianaLayoutManager<?, O> layoutManager);
 
 		public void notifyNodeAdded(DrawingTreeNode<?, ?> addedNode);
 
@@ -528,9 +528,9 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public <O2> GeometricNode<O2> getGeometricObjectFor(GeometricGRBinding<O2> binding, O2 aDrawable);
 
-		public <G extends FGEGraph> boolean hasGraphFor(GraphGRBinding<G> binding, G aDrawable);
+		public <G extends DianaGraph> boolean hasGraphFor(GraphGRBinding<G> binding, G aDrawable);
 
-		public <G extends FGEGraph> GraphNode<G> getGraphFor(GraphGRBinding<G> binding, G aDrawable);
+		public <G extends DianaGraph> GraphNode<G> getGraphFor(GraphGRBinding<G> binding, G aDrawable);
 
 		/**
 		 * Notify that the object just resized
@@ -540,7 +540,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		/**
 		 * Notify that the object just resized
 		 */
-		public void notifyObjectResized(FGEDimension oldSize);
+		public void notifyObjectResized(DianaDimension oldSize);
 
 		/**
 		 * Notify that the object will be resized
@@ -559,22 +559,22 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public Rectangle getNormalizedLabelBounds();
 
-		public FGERectangle getRequiredBoundsForContents();
+		public DianaRectangle getRequiredBoundsForContents();
 
-		public FGERectangle getBounds();
+		public DianaRectangle getBounds();
 
-		public void paint(FGEGraphics g);
+		public void paint(DianaGraphics g);
 
 	}
 
 	public interface RootNode<M> extends ContainerNode<M, DrawingGraphicalRepresentation> {
 
 		/**
-		 * Paint this {@link RootNode} using supplied FGEDrawingGraphics
+		 * Paint this {@link RootNode} using supplied DianaDrawingGraphics
 		 * 
 		 * @param g
 		 */
-		public void paint(FGEDrawingGraphics g);
+		public void paint(DianaDrawingGraphics g);
 
 		/**
 		 * Convenient method used to retrieve 'drawWorkingArea' property value
@@ -602,7 +602,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		 * @return
 		 */
 		@Override
-		public FGERectangle getBounds();
+		public DianaRectangle getBounds();
 
 		/**
 		 * Return view bounds (excluding border) relative to parent container
@@ -628,11 +628,11 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		 */
 		public Rectangle getViewBounds(DrawingTreeNode<?, ?> container, double scale);
 
-		public boolean isPointInsideShape(FGEPoint aPoint);
+		public boolean isPointInsideShape(DianaPoint aPoint);
 
-		public FGEShape<?> getFGEShape();
+		public DianaShape<?> getDianaShape();
 
-		public FGEShape<?> getFGEShapeOutline();
+		public DianaShape<?> getDianaShapeOutline();
 
 		public void notifyShapeChanged();
 
@@ -640,7 +640,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public void notifyObjectMoved();
 
-		public void notifyObjectMoved(FGEPoint oldLocation);
+		public void notifyObjectMoved(DianaPoint oldLocation);
 
 		public void notifyObjectWillMove();
 
@@ -664,11 +664,11 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public void setY(double aValue);
 
-		public FGEPoint getLocation();
+		public DianaPoint getLocation();
 
-		public void setLocation(FGEPoint newLocation);
+		public void setLocation(DianaPoint newLocation);
 
-		public FGEPoint getLocationInDrawing();
+		public DianaPoint getLocationInDrawing();
 
 		/**
 		 * Computes and return required border on top, while taking under account:
@@ -712,7 +712,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public boolean isFullyContainedInContainer();
 
-		public double getMoveAuthorizedRatio(FGEPoint desiredLocation, FGEPoint initialLocation);
+		public double getMoveAuthorizedRatio(DianaPoint desiredLocation, DianaPoint initialLocation);
 
 		@Override
 		public int getAvailableLabelWidth(double scale);
@@ -734,7 +734,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		 *            the connector asking where to start
 		 * @return the area on which the given connector can start
 		 */
-		public FGEArea getAllowedStartAreaForConnector(ConnectorNode<?> connector);
+		public DianaArea getAllowedStartAreaForConnector(ConnectorNode<?> connector);
 
 		/**
 		 * Returns the area on which the given connector can end. The area is expressed in this normalized coordinates
@@ -743,7 +743,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		 *            the connector asking where to end
 		 * @return the area on which the given connector can end
 		 */
-		public FGEArea getAllowedEndAreaForConnector(ConnectorNode<?> connector);
+		public DianaArea getAllowedEndAreaForConnector(ConnectorNode<?> connector);
 
 		/**
 		 * Returns the area on which the given connector can start. The area is expressed in this normalized coordinates
@@ -753,7 +753,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		 * 
 		 * @return the area on which the given connector can start
 		 */
-		public FGEArea getAllowedStartAreaForConnectorForDirection(ConnectorNode<?> connector, FGEArea area,
+		public DianaArea getAllowedStartAreaForConnectorForDirection(ConnectorNode<?> connector, DianaArea area,
 				SimplifiedCardinalDirection direction);
 
 		/**
@@ -763,15 +763,15 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		 *            the connector asking where to end
 		 * @return the area on which the given connector can end
 		 */
-		public FGEArea getAllowedEndAreaForConnectorForDirection(ConnectorNode<?> connector, FGEArea area,
+		public DianaArea getAllowedEndAreaForConnectorForDirection(ConnectorNode<?> connector, DianaArea area,
 				SimplifiedCardinalDirection direction);
 
 		/**
-		 * Paint this {@link ShapeNode} using supplied FGEShapeGraphics
+		 * Paint this {@link ShapeNode} using supplied DianaShapeGraphics
 		 * 
 		 * @param g
 		 */
-		public void paint(FGEShapeGraphics g);
+		public void paint(DianaShapeGraphics g);
 
 		public ForegroundStyle getForegroundStyle();
 
@@ -814,7 +814,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		public void setShapeSpecification(ShapeSpecification shapeSpecification);
 
 		/**
-		 * Called to define FGELayoutManager for this node<br>
+		 * Called to define DianaLayoutManager for this node<br>
 		 * The layout manager should be already declared in the parent. It is identified by supplied layoutManagerIdentifier.
 		 * 
 		 * @param layoutManagerIdentifier
@@ -826,14 +826,14 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		 * 
 		 * @return
 		 */
-		public FGELayoutManager<?, ?> getLayoutManager();
+		public DianaLayoutManager<?, ?> getLayoutManager();
 
 		/**
 		 * Sets the layout manager responsible for the layout of this node (relating to its container)
 		 * 
 		 * @param layoutManager
 		 */
-		// public void setLayoutManager(FGELayoutManager<?, ?> layoutManager);
+		// public void setLayoutManager(DianaLayoutManager<?, ?> layoutManager);
 
 		/**
 		 * Invalidate this graphical node regarding to its layout manager<br>
@@ -872,7 +872,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 	}
 
-	public interface GraphNode<G extends FGEGraph> extends ShapeNode<G> {
+	public interface GraphNode<G extends DianaGraph> extends ShapeNode<G> {
 
 		public void notifyGraphNeedsToBeRedrawn();
 
@@ -902,14 +902,14 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public void refreshConnector();
 
-		public double distanceToConnector(FGEPoint aPoint, double scale);
+		public double distanceToConnector(DianaPoint aPoint, double scale);
 
 		/**
-		 * Paint this {@link ConnectorNode} using supplied FGEConnectorGraphics
+		 * Paint this {@link ConnectorNode} using supplied DianaConnectorGraphics
 		 * 
 		 * @param g
 		 */
-		public void paint(FGEConnectorGraphics g);
+		public void paint(DianaConnectorGraphics g);
 
 		public ForegroundStyle getForegroundStyle();
 
@@ -924,7 +924,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public Rectangle getBounds(double scale);
 
-		public void paintGeometricObject(FGEGeometricGraphics graphics);
+		public void paintGeometricObject(DianaGeometricGraphics graphics);
 
 		public List<ControlPoint> getControlPoints();
 
@@ -933,11 +933,11 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		public void notifyGeometryChanged();
 
 		/**
-		 * Paint this {@link GeometricNode} using supplied FGEGeometricGraphics
+		 * Paint this {@link GeometricNode} using supplied DianaGeometricGraphics
 		 * 
 		 * @param g
 		 */
-		public void paint(FGEGeometricGraphics g);
+		public void paint(DianaGeometricGraphics g);
 
 		public ForegroundStyle getForegroundStyle();
 
@@ -953,7 +953,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 	public M getModel();
 
-	public FGEModelFactory getFactory();
+	public DianaModelFactory getFactory();
 
 	public RootNode<M> getRoot();
 
@@ -1007,7 +1007,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 	 * 
 	 * @param layoutManager
 	 */
-	public void invokeLayoutAfterGraphicalObjectsHierarchyUpdating(FGELayoutManager<?, ?> layoutManager);
+	public void invokeLayoutAfterGraphicalObjectsHierarchyUpdating(DianaLayoutManager<?, ?> layoutManager);
 
 	/**
 	 * Return boolean indicating if this {@link Drawing} is about to be deleted
@@ -1036,7 +1036,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 	public <R> ConnectorGRBinding<R> bindConnector(Class<R> connectorObjectClass, String name, ShapeGRBinding<?> fromBinding,
 			ShapeGRBinding<?> toBinding, ContainerGRBinding<?, ?> parentBinding, ConnectorGRProvider<R> grProvider);
 
-	public <G extends FGEGraph> GraphGRBinding<G> bindGraph(Class<G> graphClass, String name, ShapeGRProvider<G> grProvider);
+	public <G extends DianaGraph> GraphGRBinding<G> bindGraph(Class<G> graphClass, String name, ShapeGRProvider<G> grProvider);
 
 	public <O> ShapeNode<O> createNewShapeNode(ContainerNode<?, ?> parent, ShapeGRBinding<O> binding, O representable);
 
@@ -1045,7 +1045,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 	public <O> GeometricNode<O> createNewGeometricNode(ContainerNode<?, ?> parent, GeometricGRBinding<O> binding, O representable);
 
-	public <G extends FGEGraph> GraphNode<G> createNewGraphNode(ContainerNode<?, ?> parent, GraphGRBinding<G> binding, G representable);
+	public <G extends DianaGraph> GraphNode<G> createNewGraphNode(ContainerNode<?, ?> parent, GraphGRBinding<G> binding, G representable);
 
 	public <O> boolean hasPendingConnector(ConnectorGRBinding<O> binding, O drawable, DrawingTreeNodeIdentifier<?> parentNodeIdentifier,
 			DrawingTreeNodeIdentifier<?> startNodeIdentifier, DrawingTreeNodeIdentifier<?> endNodeIdentifier);

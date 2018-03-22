@@ -44,8 +44,8 @@ import java.util.List;
 
 import org.openflexo.connie.DataBinding;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
-import org.openflexo.diana.FGEConstants;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaConstants;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.GRStructureVisitor;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.ColorGradientBackgroundStyle.ColorGradientDirection;
@@ -54,30 +54,30 @@ import org.openflexo.diana.GRBinding.GraphGRBinding;
 import org.openflexo.diana.GRProvider.DrawingGRProvider;
 import org.openflexo.diana.GRProvider.ShapeGRProvider;
 import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
-import org.openflexo.diana.graph.FGEDiscretePolarFunctionGraph;
-import org.openflexo.diana.graph.FGEDiscreteSimpleFunctionGraph;
-import org.openflexo.diana.graph.FGENumericFunction;
-import org.openflexo.diana.graph.FGEFunction.FGEGraphType;
+import org.openflexo.diana.graph.DianaDiscretePolarFunctionGraph;
+import org.openflexo.diana.graph.DianaDiscreteSimpleFunctionGraph;
+import org.openflexo.diana.graph.DianaNumericFunction;
+import org.openflexo.diana.graph.DianaFunction.DianaGraphType;
 import org.openflexo.diana.impl.DrawingImpl;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 
 /**
- * This is an example of drawing containing a {@link FGEDiscreteSimpleFunctionGraph} showing 2 functions represented as bar graphs
+ * This is an example of drawing containing a {@link DianaDiscreteSimpleFunctionGraph} showing 2 functions represented as bar graphs
  * 
  * @author sylvain
  * 
  */
 public class ExampleBDARepresentation extends DrawingImpl<Object> {
 
-	private FGEDiscretePolarFunctionGraph<Theme> graph;
-	private FGENumericFunction<Float> evaluationFunction;
+	private DianaDiscretePolarFunctionGraph<Theme> graph;
+	private DianaNumericFunction<Float> evaluationFunction;
 
 	private DrawingGraphicalRepresentation drawingRepresentation;
 	private ShapeGraphicalRepresentation graphGR;
 
 	private Theme gouvernance, territoire, eau, confort, energie, social, materiaux;
 
-	public ExampleBDARepresentation(Object obj, FGEModelFactory factory) {
+	public ExampleBDARepresentation(Object obj, DianaModelFactory factory) {
 		super(obj, factory, PersistenceMode.SharedGraphicalRepresentations);
 	}
 
@@ -93,7 +93,7 @@ public class ExampleBDARepresentation extends DrawingImpl<Object> {
 		themes.add(social = new Theme("Social", 10, 2.1f));
 		themes.add(materiaux = new Theme("Materiaux", 7, 6.1f));
 
-		graph = new FGEDiscretePolarFunctionGraph<Theme>();
+		graph = new DianaDiscretePolarFunctionGraph<Theme>();
 
 		graph.setParameter("theme", Theme.class);
 		graph.setDiscreteValues(themes);
@@ -101,7 +101,7 @@ public class ExampleBDARepresentation extends DrawingImpl<Object> {
 		graph.setWeight(new DataBinding<Double>("theme.weight"));
 
 		evaluationFunction = graph.addNumericFunction("size", Float.class, new DataBinding<Float>("theme.value"),
-				FGEGraphType.COLORED_STEPS);
+				DianaGraphType.COLORED_STEPS);
 		evaluationFunction.setStepsNb(7);
 		evaluationFunction.setRange(0f, 7.0f);
 		evaluationFunction.setForegroundStyle(getFactory().makeForegroundStyle(Color.GREEN, 1.0f));
@@ -112,7 +112,7 @@ public class ExampleBDARepresentation extends DrawingImpl<Object> {
 
 		final DrawingGRBinding<Object> drawingBinding = bindDrawing(Object.class, "drawing", new DrawingGRProvider<Object>() {
 			@Override
-			public DrawingGraphicalRepresentation provideGR(Object drawable, FGEModelFactory factory) {
+			public DrawingGraphicalRepresentation provideGR(Object drawable, DianaModelFactory factory) {
 				return drawingRepresentation;
 			}
 		});
@@ -127,18 +127,18 @@ public class ExampleBDARepresentation extends DrawingImpl<Object> {
 		graphGR.setAbsoluteTextX(400);
 		graphGR.setAbsoluteTextY(-10);
 		graphGR.setHorizontalTextAlignment(HorizontalTextAlignment.LEFT);
-		graphGR.setTextStyle(getFactory().makeTextStyle(Color.BLACK, FGEConstants.DEFAULT_TEXT_FONT));
+		graphGR.setTextStyle(getFactory().makeTextStyle(Color.BLACK, DianaConstants.DEFAULT_TEXT_FONT));
 		graphGR.setShadowStyle(getFactory().makeNoneShadowStyle());
-		graphGR.setBackground(getFactory().makeColorGradientBackground(FGEConstants.DEFAULT_BACKGROUND_COLOR, Color.white,
+		graphGR.setBackground(getFactory().makeColorGradientBackground(DianaConstants.DEFAULT_BACKGROUND_COLOR, Color.white,
 				ColorGradientDirection.NORTH_WEST_SOUTH_EAST));
 		graphGR.setForeground(getFactory().makeForegroundStyle(Color.ORANGE));
 		// Very important: give some place for labels, legend and other informations
 		// graphGR.setBorder(getFactory().makeShapeBorder(20, 20, 20, 20));
 
-		final GraphGRBinding<FGEDiscretePolarFunctionGraph> graphBinding = bindGraph(FGEDiscretePolarFunctionGraph.class, "graph",
-				new ShapeGRProvider<FGEDiscretePolarFunctionGraph>() {
+		final GraphGRBinding<DianaDiscretePolarFunctionGraph> graphBinding = bindGraph(DianaDiscretePolarFunctionGraph.class, "graph",
+				new ShapeGRProvider<DianaDiscretePolarFunctionGraph>() {
 					@Override
-					public ShapeGraphicalRepresentation provideGR(FGEDiscretePolarFunctionGraph drawable, FGEModelFactory factory) {
+					public ShapeGraphicalRepresentation provideGR(DianaDiscretePolarFunctionGraph drawable, DianaModelFactory factory) {
 						return graphGR;
 					}
 				});

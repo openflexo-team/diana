@@ -180,7 +180,7 @@
 	
    <entity name="org.openflexo.diana.shapes.Polygon" xmlTag="CustomPolygon">
      <description>Custom polygon shape</description>
-	 <property name="points" xmlTag="FGEPoint" type="vector" primary="yes"/>
+	 <property name="points" xmlTag="DianaPoint" type="vector" primary="yes"/>
    </entity>
 	
    <entity name="org.openflexo.diana.shapes.RegularPolygon" xmlTag="PolygonShape">
@@ -234,7 +234,7 @@
   	 <property name="crossedControlPoint" xmlTag="crossedControlPoint" attribute="YES"/> 
   	 <property name="fixedStartLocation" xmlTag="fixedStartLocation" attribute="YES"/> 
   	 <property name="fixedEndLocation" xmlTag="fixedEndLocation" attribute="YES"/> 
-  	 <property name="polylin" xmlTag="FGERectPolylin"/> <!-- Stores layout if adjustable connector -->
+  	 <property name="polylin" xmlTag="DianaRectPolylin"/> <!-- Stores layout if adjustable connector -->
   </entity>	
 
 		
@@ -335,12 +335,12 @@
 		<property name="fitToShape" xmlTag="fitToShape" attribute="YES" />
 	</entity>
 
-  <entity name="org.openflexo.diana.geom.FGERectPolylin" xmlTag="FGERectPolylin">
+  <entity name="org.openflexo.diana.geom.DianaRectPolylin" xmlTag="DianaRectPolylin">
      <description>Represent a 2D polylin</description>
-  	 <property name="points" xmlTag="FGEPoint" type="vector" primary="yes"/>
+  	 <property name="points" xmlTag="DianaPoint" type="vector" primary="yes"/>
   </entity>
 	
-  <entity name="org.openflexo.diana.geom.FGEPoint" xmlTag="FGEPoint">
+  <entity name="org.openflexo.diana.geom.DianaPoint" xmlTag="DianaPoint">
      <description>Represent a 2D-point</description>
 	 <property name="x" xmlTag="x" attribute="YES"/>
 	 <property name="y" xmlTag="y" attribute="YES"/>

@@ -42,11 +42,11 @@ package org.openflexo.diana.impl;
 import java.awt.Color;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGECoreUtils;
+import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.ForegroundStyle;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 
-public abstract class ForegroundStyleImpl extends FGEStyleImpl implements ForegroundStyle {
+public abstract class ForegroundStyleImpl extends DianaStyleImpl implements ForegroundStyle {
 
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(ForegroundStyle.class.getPackage().getName());
@@ -86,7 +86,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 			CapStyle oldCapStyle = capStyle;
 			this.capStyle = aCapStyle;
 			// stroke = null;
-			notifyObservers(new FGEAttributeNotification<>(CAP_STYLE, oldCapStyle, aCapStyle));
+			notifyObservers(new DianaAttributeNotification<>(CAP_STYLE, oldCapStyle, aCapStyle));
 		}
 	}
 
@@ -100,7 +100,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 		if (requireChange(this.color, aColor)) {
 			java.awt.Color oldColor = color;
 			this.color = aColor;
-			notifyObservers(new FGEAttributeNotification<>(COLOR, oldColor, aColor));
+			notifyObservers(new DianaAttributeNotification<>(COLOR, oldColor, aColor));
 		}
 	}
 
@@ -120,7 +120,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 			DashStyle oldDashStyle = dashStyle;
 			this.dashStyle = aDashStyle;
 			// stroke = null;
-			notifyObservers(new FGEAttributeNotification<>(DASH_STYLE, oldDashStyle, dashStyle));
+			notifyObservers(new DianaAttributeNotification<>(DASH_STYLE, oldDashStyle, dashStyle));
 		}
 	}
 
@@ -135,7 +135,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 			JoinStyle oldJoinStyle = joinStyle;
 			this.joinStyle = aJoinStyle;
 			// stroke = null;
-			notifyObservers(new FGEAttributeNotification<>(JOIN_STYLE, oldJoinStyle, aJoinStyle));
+			notifyObservers(new DianaAttributeNotification<>(JOIN_STYLE, oldJoinStyle, aJoinStyle));
 		}
 	}
 
@@ -150,7 +150,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 			double oldLineWidth = lineWidth;
 			lineWidth = aLineWidth;
 			// stroke = null;
-			notifyObservers(new FGEAttributeNotification<>(LINE_WIDTH, oldLineWidth, aLineWidth));
+			notifyObservers(new DianaAttributeNotification<>(LINE_WIDTH, oldLineWidth, aLineWidth));
 		}
 	}
 
@@ -164,7 +164,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 		if (requireChange(this.noStroke, aFlag)) {
 			boolean oldValue = noStroke;
 			this.noStroke = aFlag;
-			notifyObservers(new FGEAttributeNotification<>(NO_STROKE, oldValue, aFlag));
+			notifyObservers(new DianaAttributeNotification<>(NO_STROKE, oldValue, aFlag));
 		}
 	}
 
@@ -197,7 +197,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 		if (requireChange(this.transparencyLevel, aLevel)) {
 			float oldValue = transparencyLevel;
 			this.transparencyLevel = aLevel;
-			notifyObservers(new FGEAttributeNotification<>(TRANSPARENCY_LEVEL, oldValue, aLevel));
+			notifyObservers(new DianaAttributeNotification<>(TRANSPARENCY_LEVEL, oldValue, aLevel));
 		}
 	}
 
@@ -211,7 +211,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 		if (requireChange(this.useTransparency, aFlag)) {
 			boolean oldValue = useTransparency;
 			this.useTransparency = aFlag;
-			notifyObservers(new FGEAttributeNotification<>(USE_TRANSPARENCY, oldValue, aFlag));
+			notifyObservers(new DianaAttributeNotification<>(USE_TRANSPARENCY, oldValue, aFlag));
 		}
 	}
 
@@ -237,7 +237,7 @@ public abstract class ForegroundStyleImpl extends FGEStyleImpl implements Foregr
 	@Override
 	public String toNiceString() {
 		if (getNoStroke()) {
-			return FGECoreUtils.DIANA_LOCALIZATION.localizedForKey("no_stroke");
+			return DianaCoreUtils.DIANA_LOCALIZATION.localizedForKey("no_stroke");
 		}
 		else {
 			return lineWidth + "pt, " + color;

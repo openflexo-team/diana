@@ -44,8 +44,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEModelFactory;
-import org.openflexo.diana.FGEModelFactoryImpl;
+import org.openflexo.diana.DianaModelFactory;
+import org.openflexo.diana.DianaModelFactoryImpl;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
@@ -74,11 +74,11 @@ public class DrawingPalette implements HasPropertyChangeSupport {
 	/**
 	 * This factory is the one used to build palettes, NOT THE ONE which is used in the related drawing editor
 	 */
-	public static FGEModelFactory FACTORY;
+	public static DianaModelFactory FACTORY;
 
 	static {
 		try {
-			FACTORY = new FGEModelFactoryImpl();
+			FACTORY = new DianaModelFactoryImpl();
 		} catch (ModelDefinitionException e) {
 			e.printStackTrace();
 		}
@@ -86,7 +86,7 @@ public class DrawingPalette implements HasPropertyChangeSupport {
 
 	public DrawingPalette(int width, int height, String title) {
 		try {
-			FACTORY = new FGEModelFactoryImpl();
+			FACTORY = new DianaModelFactoryImpl();
 		} catch (ModelDefinitionException e) {
 			e.printStackTrace();
 		}

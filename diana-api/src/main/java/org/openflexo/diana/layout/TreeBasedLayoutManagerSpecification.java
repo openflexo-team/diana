@@ -38,8 +38,8 @@
 
 package org.openflexo.diana.layout;
 
-import org.openflexo.diana.FGELayoutManager;
-import org.openflexo.diana.FGELayoutManagerSpecification;
+import org.openflexo.diana.DianaLayoutManager;
+import org.openflexo.diana.DianaLayoutManagerSpecification;
 import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.diana.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.model.annotations.Getter;
@@ -51,7 +51,7 @@ import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLAttribute;
 
 /**
- * Abstract specification of a {@link FGELayoutManager} generally handling trees<br>
+ * Abstract specification of a {@link DianaLayoutManager} generally handling trees<br>
  * 
  * @author sylvain
  * 
@@ -59,7 +59,7 @@ import org.openflexo.model.annotations.XMLAttribute;
 @ModelEntity(isAbstract = true)
 @Imports({ @Import(TreeLayoutManagerSpecification.class), @Import(BalloonLayoutManagerSpecification.class),
 		@Import(RadialTreeLayoutManagerSpecification.class) })
-public interface TreeBasedLayoutManagerSpecification<LM extends TreeBasedLayoutManager<?, ?>> extends FGELayoutManagerSpecification<LM> {
+public interface TreeBasedLayoutManagerSpecification<LM extends TreeBasedLayoutManager<?, ?>> extends DianaLayoutManagerSpecification<LM> {
 
 	@PropertyIdentifier(type = HorizontalTextAlignment.class)
 	public static final String HORIZONTAL_ALIGNEMENT_KEY = "horizontalAlignment";

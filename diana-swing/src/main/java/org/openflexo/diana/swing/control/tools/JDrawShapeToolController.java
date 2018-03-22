@@ -49,7 +49,7 @@ import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.control.DianaInteractiveEditor;
 import org.openflexo.diana.control.actions.DrawShapeAction;
 import org.openflexo.diana.control.tools.DrawShapeToolController;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.swing.view.JDrawingView;
 
 /**
@@ -82,8 +82,8 @@ public class JDrawShapeToolController extends DrawShapeToolController<MouseEvent
 	/**
 	 * Return point where event occurs, relative to DrawingView
 	 */
-	public FGEPoint getPoint(MouseEvent e) {
+	public DianaPoint getPoint(MouseEvent e) {
 		Point pt = SwingUtilities.convertPoint((Component) e.getSource(), e.getPoint(), getDrawingView());
-		return new FGEPoint(pt.getX(), pt.getY());
+		return new DianaPoint(pt.getX(), pt.getY());
 	}
 }

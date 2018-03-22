@@ -43,28 +43,28 @@ import java.awt.Cursor;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
-import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.ForegroundStyle.DashStyle;
 import org.openflexo.diana.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.diana.control.DianaEditor;
-import org.openflexo.diana.geom.FGELine;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEPlane;
-import org.openflexo.diana.graphics.FGEGraphics;
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaPlane;
+import org.openflexo.diana.graphics.DianaGraphics;
 import org.openflexo.diana.impl.LayoutAdjustingArea;
 import org.openflexo.diana.layout.TreeLayoutManager;
 
-public class TreeBaseLineAdjustingArea extends LayoutAdjustingArea<FGELine> {
+public class TreeBaseLineAdjustingArea extends LayoutAdjustingArea<DianaLine> {
 
 	private final int rowIndex;
 
 	private ForegroundStyle foregroundStyle = null;
 
 	public TreeBaseLineAdjustingArea(TreeLayoutManager<?> layoutManager, int rowIndex, double height) {
-		super(layoutManager, new FGELine(0, height, 1, height));
+		super(layoutManager, new DianaLine(0, height, 1, height));
 		this.rowIndex = rowIndex;
 		foregroundStyle = getNode().getFactory().makeForegroundStyle(Color.GRAY, 0.5f, DashStyle.DOTS_DASHES);
 	}
@@ -80,13 +80,13 @@ public class TreeBaseLineAdjustingArea extends LayoutAdjustingArea<FGELine> {
 	}
 
 	@Override
-	public FGEArea getDraggingAuthorizedArea() {
-		return new FGEPlane();
+	public DianaArea getDraggingAuthorizedArea() {
+		return new DianaPlane();
 	}
 
 	@Override
-	public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-			FGEPoint initialPoint, MouseEvent event) {
+	public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+			DianaPoint initialPoint, MouseEvent event) {
 		super.dragToPoint(newRelativePoint, pointRelativeToInitialConfiguration, newAbsolutePoint, initialPoint, event);
 		System.out.println("On draggue a " + newRelativePoint + " pointRelativeToInitialConfiguration="
 				+ pointRelativeToInitialConfiguration + " startY=" + startY + " pour " + rowIndex);
@@ -117,12 +117,12 @@ public class TreeBaseLineAdjustingArea extends LayoutAdjustingArea<FGELine> {
 		return true;
 	}
 
-	private FGELine draggedArea;
+	private DianaLine draggedArea;
 	private double startY;
 	private double startHeight;
 
 	@Override
-	public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
+	public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 		super.startDragging(controller, startPoint);
 		System.out.println("On commence a dragguer a " + startPoint);
 		draggedArea = getArea().clone();
@@ -158,7 +158,7 @@ public class TreeBaseLineAdjustingArea extends LayoutAdjustingArea<FGELine> {
 	}
 
 	@Override
-	public Rectangle paint(FGEGraphics graphics) {
+	public Rectangle paint(DianaGraphics graphics) {
 		graphics.setDefaultForeground(foregroundStyle);
 		graphics.useDefaultForegroundStyle();
 

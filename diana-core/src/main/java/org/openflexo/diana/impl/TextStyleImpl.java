@@ -43,11 +43,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEConstants;
+import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.TextStyle;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 
-public abstract class TextStyleImpl extends FGEStyleImpl implements TextStyle {
+public abstract class TextStyleImpl extends DianaStyleImpl implements TextStyle {
 
 	private static final Logger logger = Logger.getLogger(TextStyle.class.getPackage().getName());
 
@@ -59,8 +59,8 @@ public abstract class TextStyleImpl extends FGEStyleImpl implements TextStyle {
 
 	public TextStyleImpl() {
 		super();
-		color = FGEConstants.DEFAULT_TEXT_COLOR;
-		font = FGEConstants.DEFAULT_TEXT_FONT;
+		color = DianaConstants.DEFAULT_TEXT_COLOR;
+		font = DianaConstants.DEFAULT_TEXT_FONT;
 	}
 
 	/*@Deprecated
@@ -72,7 +72,7 @@ public abstract class TextStyleImpl extends FGEStyleImpl implements TextStyle {
 	
 	@Deprecated
 	private static TextStyleImpl makeDefault() {
-		return makeTextStyle(FGEConstants.DEFAULT_TEXT_COLOR, FGEConstants.DEFAULT_TEXT_FONT);
+		return makeTextStyle(DianaConstants.DEFAULT_TEXT_COLOR, DianaConstants.DEFAULT_TEXT_FONT);
 	}
 	
 	@Deprecated
@@ -91,7 +91,7 @@ public abstract class TextStyleImpl extends FGEStyleImpl implements TextStyle {
 		if (requireChange(this.color, aColor)) {
 			Color oldColor = color;
 			this.color = aColor;
-			notifyObservers(new FGEAttributeNotification<>(COLOR, oldColor, aColor));
+			notifyObservers(new DianaAttributeNotification<>(COLOR, oldColor, aColor));
 		}
 	}
 
@@ -105,7 +105,7 @@ public abstract class TextStyleImpl extends FGEStyleImpl implements TextStyle {
 		if (requireChange(this.font, aFont)) {
 			Font oldFont = this.font;
 			this.font = aFont;
-			notifyObservers(new FGEAttributeNotification<>(FONT, oldFont, aFont));
+			notifyObservers(new DianaAttributeNotification<>(FONT, oldFont, aFont));
 		}
 	}
 
@@ -119,7 +119,7 @@ public abstract class TextStyleImpl extends FGEStyleImpl implements TextStyle {
 		if (requireChange(this.orientation, anOrientation)) {
 			int oldOrientation = this.orientation;
 			orientation = anOrientation;
-			notifyObservers(new FGEAttributeNotification<>(ORIENTATION, oldOrientation, anOrientation));
+			notifyObservers(new DianaAttributeNotification<>(ORIENTATION, oldOrientation, anOrientation));
 		}
 	}
 
@@ -133,7 +133,7 @@ public abstract class TextStyleImpl extends FGEStyleImpl implements TextStyle {
 		if (requireChange(this.backgroundColor, aColor)) {
 			Color oldColor = backgroundColor;
 			this.backgroundColor = aColor;
-			notifyObservers(new FGEAttributeNotification<>(BACKGROUND_COLOR, oldColor, aColor));
+			notifyObservers(new DianaAttributeNotification<>(BACKGROUND_COLOR, oldColor, aColor));
 		}
 	}
 
@@ -147,7 +147,7 @@ public abstract class TextStyleImpl extends FGEStyleImpl implements TextStyle {
 		if (requireChange(this.backgroundColored, aFlag)) {
 			boolean oldValue = backgroundColored;
 			this.backgroundColored = aFlag;
-			notifyObservers(new FGEAttributeNotification<>(IS_BACKGROUND_COLORED, oldValue, aFlag));
+			notifyObservers(new DianaAttributeNotification<>(IS_BACKGROUND_COLORED, oldValue, aFlag));
 		}
 	}
 

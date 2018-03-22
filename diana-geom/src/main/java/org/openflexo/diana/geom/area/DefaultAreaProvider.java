@@ -38,17 +38,17 @@
 
 package org.openflexo.diana.geom.area;
 
-public class DefaultAreaProvider<O> implements FGEAreaProvider<O> {
+public class DefaultAreaProvider<O> implements DianaAreaProvider<O> {
 
-	private final FGEArea area;
+	private final DianaArea area;
 
-	public DefaultAreaProvider(FGEArea area) {
+	public DefaultAreaProvider(DianaArea area) {
 		super();
 		this.area = area;
 	}
 
 	@Override
-	public FGEArea getArea(O input) {
+	public DianaArea getArea(O input) {
 		return area;
 	}
 

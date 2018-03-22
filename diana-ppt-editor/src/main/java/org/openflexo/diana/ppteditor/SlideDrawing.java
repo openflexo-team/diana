@@ -56,8 +56,8 @@ import org.apache.poi.hslf.model.TextShape;
 import org.apache.poi.hslf.usermodel.RichTextRun;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
-import org.openflexo.diana.FGECoreUtils;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaCoreUtils;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.GRStructureVisitor;
 import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
@@ -78,7 +78,7 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 	private static final Logger logger = Logger.getLogger(SlideDrawing.class.getPackage().getName());
 
 	public SlideDrawing(Slide slide) {
-		super(slide, FGECoreUtils.TOOLS_FACTORY, PersistenceMode.UniqueGraphicalRepresentations);
+		super(slide, DianaCoreUtils.TOOLS_FACTORY, PersistenceMode.UniqueGraphicalRepresentations);
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 
 		final DrawingGRBinding<Slide> slideBinding = bindDrawing(Slide.class, "slide", new DrawingGRProvider<Slide>() {
 			@Override
-			public DrawingGraphicalRepresentation provideGR(Slide drawable, FGEModelFactory factory) {
+			public DrawingGraphicalRepresentation provideGR(Slide drawable, DianaModelFactory factory) {
 				return drawingGR;
 			}
 		});
@@ -103,7 +103,7 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 
 		final ShapeGRBinding<AutoShape> autoShapeBinding = bindShape(AutoShape.class, "autoShape", new ShapeGRProvider<AutoShape>() {
 			@Override
-			public ShapeGraphicalRepresentation provideGR(AutoShape drawable, FGEModelFactory factory) {
+			public ShapeGraphicalRepresentation provideGR(AutoShape drawable, DianaModelFactory factory) {
 				return makeAutoShapeGraphicalRepresentation(drawable);
 			}
 		});
@@ -111,7 +111,7 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 
 		final ShapeGRBinding<TextBox> textBoxBinding = bindShape(TextBox.class, "textBox", new ShapeGRProvider<TextBox>() {
 			@Override
-			public ShapeGraphicalRepresentation provideGR(TextBox drawable, FGEModelFactory factory) {
+			public ShapeGraphicalRepresentation provideGR(TextBox drawable, DianaModelFactory factory) {
 				return makeTextBoxGraphicalRepresentation(drawable);
 			}
 		});
@@ -119,7 +119,7 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 
 		final ShapeGRBinding<Picture> pictureBinding = bindShape(Picture.class, "picture", new ShapeGRProvider<Picture>() {
 			@Override
-			public ShapeGraphicalRepresentation provideGR(Picture drawable, FGEModelFactory factory) {
+			public ShapeGraphicalRepresentation provideGR(Picture drawable, DianaModelFactory factory) {
 				return makePictureGraphicalRepresentation(drawable);
 			}
 		});

@@ -43,44 +43,44 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.connectors.impl.RectPolylinConnector;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectPolylin;
-import org.openflexo.diana.geom.FGESegment;
-import org.openflexo.diana.geom.FGEGeometricObject.SimplifiedCardinalDirection;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEPlane;
-import org.openflexo.diana.geom.area.FGESubstractionArea;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectPolylin;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaPlane;
+import org.openflexo.diana.geom.area.DianaSubstractionArea;
 
 public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoint {
 	static final Logger LOGGER = Logger.getLogger(AdjustableFirstControlPoint.class.getPackage().getName());
 
 	private SimplifiedCardinalDirection currentStartOrientation = null;
 
-	public AdjustableFirstControlPoint(FGEPoint point, RectPolylinConnector connector) {
+	public AdjustableFirstControlPoint(DianaPoint point, RectPolylinConnector connector) {
 		super(point, connector);
 	}
 
 	@Override
-	public FGEArea getDraggingAuthorizedArea() {
-		AffineTransform at1 = FGEUtils.convertNormalizedCoordinatesAT(getNode().getStartNode(), getNode());
-		FGEArea startArea = getNode().getStartNode().getFGEShape().transform(at1);
-		return new FGESubstractionArea(new FGEPlane(), startArea, false);
+	public DianaArea getDraggingAuthorizedArea() {
+		AffineTransform at1 = DianaUtils.convertNormalizedCoordinatesAT(getNode().getStartNode(), getNode());
+		DianaArea startArea = getNode().getStartNode().getDianaShape().transform(at1);
+		return new DianaSubstractionArea(new DianaPlane(), startArea, false);
 	}
 
 	@Override
-	public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-			FGEPoint initialPoint, MouseEvent event) {
-		FGEPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+	public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+			DianaPoint initialPoint, MouseEvent event) {
+		DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
 		if (pt == null) {
 			LOGGER.warning("Cannot nearest point for point " + newRelativePoint + " and area " + getDraggingAuthorizedArea());
 			return false;
 		}
 		// Following little hack is used here to prevent some equalities that may
 		// lead to inconsistent orientations
-		// pt.x += FGEPoint.EPSILON;
-		// pt.y += FGEPoint.EPSILON;
+		// pt.x += DianaPoint.EPSILON;
+		// pt.y += DianaPoint.EPSILON;
 		setPoint(pt);
 		getPolylin().updatePointAt(1, pt);
 		movedFirstCP();
@@ -94,7 +94,7 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 	 * 
 	 */
 	private void movedFirstCP() {
-		FGEArea startArea = getConnector().retrieveAllowedStartArea(false);
+		DianaArea startArea = getConnector().retrieveAllowedStartArea(false);
 
 		if (getConnectorSpecification().getIsStartingLocationFixed() && !getConnectorSpecification().getIsStartingLocationDraggable()) {
 			// If starting location is fixed and not draggable,
@@ -102,8 +102,8 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 			startArea = getConnector().retrieveStartArea();
 		}
 
-		FGEPoint newFirstCPLocation = getPoint(); // polylin.getPointAt(1);
-		FGEPoint nextCPLocation = initialPolylin.getPointAt(2);
+		DianaPoint newFirstCPLocation = getPoint(); // polylin.getPointAt(1);
+		DianaPoint nextCPLocation = initialPolylin.getPointAt(2);
 		SimplifiedCardinalDirection initialStartOrientation = initialPolylin.getApproximatedOrientationOfSegment(0);
 		SimplifiedCardinalDirection initialFirstOrientation = initialPolylin.getApproximatedOrientationOfSegment(1);
 		SimplifiedCardinalDirection initialNextOrientation = initialPolylin.getSegmentNb() > 2 ? initialPolylin
@@ -112,7 +112,7 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 		if (startArea.getOrthogonalPerspectiveArea(initialStartOrientation).containsPoint(newFirstCPLocation)) {
 
 			// OK, the new location will not modify general structure of connector
-			FGEPoint newStartPoint = startArea.nearestPointFrom(newFirstCPLocation, initialStartOrientation.getOpposite());
+			DianaPoint newStartPoint = startArea.nearestPointFrom(newFirstCPLocation, initialStartOrientation.getOpposite());
 			if (newStartPoint == null) {
 				LOGGER.warning("Could not find nearest point from " + newFirstCPLocation + " on " + startArea + " following orientation "
 						+ initialStartOrientation.getOpposite());
@@ -121,23 +121,23 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 			getPolylin().updatePointAt(0, newStartPoint);
 			getConnector().getStartControlPoint().setPoint(newStartPoint);
 			if (getConnectorSpecification().getIsStartingLocationFixed()) { // Don't forget this !!!
-				getConnector().setFixedStartLocation(FGEUtils.convertNormalizedPoint(getNode(), newStartPoint, getNode().getStartNode()));
+				getConnector().setFixedStartLocation(DianaUtils.convertNormalizedPoint(getNode(), newStartPoint, getNode().getStartNode()));
 			}
 
 			if (initialPolylin.getSegmentNb() > 3) {
-				FGESegment oppositeSegment = initialPolylin.getSegmentAt(2);
-				FGERectPolylin appendingPath1 = new FGERectPolylin(newFirstCPLocation, initialFirstOrientation, oppositeSegment.getP2(),
+				DianaSegment oppositeSegment = initialPolylin.getSegmentAt(2);
+				DianaRectPolylin appendingPath1 = new DianaRectPolylin(newFirstCPLocation, initialFirstOrientation, oppositeSegment.getP2(),
 						initialPolylin.getApproximatedOrientationOfSegment(2).getOpposite(), true, getConnector()
 								.getOverlapXResultingFromPixelOverlap(), getConnector().getOverlapYResultingFromPixelOverlap());
-				FGERectPolylin appendingPath2 = new FGERectPolylin(newFirstCPLocation, initialFirstOrientation, oppositeSegment.getP2(),
+				DianaRectPolylin appendingPath2 = new DianaRectPolylin(newFirstCPLocation, initialFirstOrientation, oppositeSegment.getP2(),
 						initialPolylin.getApproximatedOrientationOfSegment(2), true, getConnector().getOverlapXResultingFromPixelOverlap(),
 						getConnector().getOverlapYResultingFromPixelOverlap());
-				FGERectPolylin appendingPath = appendingPath1.getPointsNb() <= appendingPath2.getPointsNb() ? appendingPath1
+				DianaRectPolylin appendingPath = appendingPath1.getPointsNb() <= appendingPath2.getPointsNb() ? appendingPath1
 						: appendingPath2;
 
 				// debugPolylin = appendingPath;
 
-				FGERectPolylin mergedPolylin = getConnector().mergePolylins(getPolylin(), 0, 1, appendingPath, 1,
+				DianaRectPolylin mergedPolylin = getConnector().mergePolylins(getPolylin(), 0, 1, appendingPath, 1,
 						appendingPath.getPointsNb() - 1);
 
 				mergedPolylin = getConnector().mergePolylins(mergedPolylin, 0, mergedPolylin.getPointsNb() - 1, initialPolylin, 4,
@@ -147,11 +147,11 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 			}
 
 			else { // We go directely to end point, we have to preserve direction
-				FGERectPolylin appendingPath = new FGERectPolylin(newFirstCPLocation, initialFirstOrientation, initialPolylin.getSegmentAt(
+				DianaRectPolylin appendingPath = new DianaRectPolylin(newFirstCPLocation, initialFirstOrientation, initialPolylin.getSegmentAt(
 						2).getP2(), initialNextOrientation.getOpposite(), true, getConnector().getOverlapXResultingFromPixelOverlap(),
 						getConnector().getOverlapYResultingFromPixelOverlap());
 
-				FGERectPolylin mergedPolylin = getConnector().mergePolylins(getPolylin(), 0, 1, appendingPath, 1,
+				DianaRectPolylin mergedPolylin = getConnector().mergePolylins(getPolylin(), 0, 1, appendingPath, 1,
 						appendingPath.getPointsNb() - 1);
 
 				getConnector().updateWithNewPolylin(mergedPolylin, true);
@@ -194,12 +194,12 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 					alternativeOrientation = currentStartOrientation;
 				}
 				else {
-					CardinalQuadrant quadrant = FGEPoint.getCardinalQuadrant(getPolylin().getFirstPoint(),newFirstCPLocation);
+					CardinalQuadrant quadrant = DianaPoint.getCardinalQuadrant(getPolylin().getFirstPoint(),newFirstCPLocation);
 					orientation = quadrant.getHorizonalComponent();
 					alternativeOrientation = quadrant.getVerticalComponent();
 				}*/
 
-				// CardinalQuadrant quadrant = FGEPoint.getCardinalQuadrant(getPolylin().getFirstPoint(),newFirstCPLocation);
+				// CardinalQuadrant quadrant = DianaPoint.getCardinalQuadrant(getPolylin().getFirstPoint(),newFirstCPLocation);
 				// orientation = currentStartOrientation;
 				/*if (quadrant.getHorizonalComponent() == currentStartOrientation) {
 					alternativeOrientation = quadrant.getVerticalComponent();
@@ -212,28 +212,28 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 
 				// Compute new start position by getting nearest point of dragged point
 				// located on anchor area of start area regarding orientation
-				FGEPoint newStartPosition = startArea.getAnchorAreaFrom(orientation).getNearestPoint(newFirstCPLocation);
+				DianaPoint newStartPosition = startArea.getAnchorAreaFrom(orientation).getNearestPoint(newFirstCPLocation);
 
 				// Compute path to append
-				FGERectPolylin appendingPath;
-				/*FGERectPolylin appendingPath = FGERectPolylin.makeRectPolylinCrossingPoint(
+				DianaRectPolylin appendingPath;
+				/*DianaRectPolylin appendingPath = DianaRectPolylin.makeRectPolylinCrossingPoint(
 						newStartPosition, nextCPLocation, newFirstCPLocation, 
 						true, getConnector().getOverlapXResultingFromPixelOverlap(), getConnector().getOverlapYResultingFromPixelOverlap(),
 						SimplifiedCardinalDirection.allDirectionsExcept(orientation),
 						SimplifiedCardinalDirection.allDirectionsExcept(initialNextOrientation.getOpposite()));*/
 				if (initialPolylin.getSegmentNb() > 3) {
-					FGESegment oppositeSegment = initialPolylin.getSegmentAt(2);
-					appendingPath = FGERectPolylin.makeRectPolylinCrossingPoint(newStartPosition, oppositeSegment.getP2(),
+					DianaSegment oppositeSegment = initialPolylin.getSegmentAt(2);
+					appendingPath = DianaRectPolylin.makeRectPolylinCrossingPoint(newStartPosition, oppositeSegment.getP2(),
 							newFirstCPLocation, orientation, initialNextOrientation.getOpposite(), true, getConnector()
 									.getOverlapXResultingFromPixelOverlap(), getConnector().getOverlapYResultingFromPixelOverlap());
 				} else {
-					appendingPath = FGERectPolylin.makeRectPolylinCrossingPoint(newStartPosition, nextCPLocation, newFirstCPLocation,
+					appendingPath = DianaRectPolylin.makeRectPolylinCrossingPoint(newStartPosition, nextCPLocation, newFirstCPLocation,
 							orientation, initialNextOrientation.getOpposite(), true, getConnector().getOverlapXResultingFromPixelOverlap(),
 							getConnector().getOverlapYResultingFromPixelOverlap());
 				}
 
 				// Merge polylin
-				FGERectPolylin mergedPolylin = getConnector().mergePolylins(appendingPath, 0, appendingPath.getPointsNb() - 1,
+				DianaRectPolylin mergedPolylin = getConnector().mergePolylins(appendingPath, 0, appendingPath.getPointsNb() - 1,
 						initialPolylin, 3, initialPolylin.getPointsNb() - 1);
 
 				// System.out.println("mergedPolylin="+mergedPolylin);
@@ -249,7 +249,7 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 				// Compute new start position by projecting dragged control point
 				// related to orientation
 
-				FGEPoint newStartPosition = startArea.nearestPointFrom(newFirstCPLocation, orientation.getOpposite());
+				DianaPoint newStartPosition = startArea.nearestPointFrom(newFirstCPLocation, orientation.getOpposite());
 				if (newStartPosition == null) {
 					LOGGER.warning("Could not find nearest point from " + newFirstCPLocation + " on " + startArea
 							+ " following orientation " + initialStartOrientation.getOpposite());
@@ -259,21 +259,21 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 				getConnector().getStartControlPoint().setPoint(newStartPosition);
 				if (getConnectorSpecification().getIsStartingLocationFixed()) { // Don't forget this !!!
 					getConnectorSpecification().setFixedStartLocation(
-							FGEUtils.convertNormalizedPoint(getNode(), newStartPosition, getNode().getStartNode()));
+							DianaUtils.convertNormalizedPoint(getNode(), newStartPosition, getNode().getStartNode()));
 				}
 
-				// FGEPoint newStartPosition = startArea.getAnchorAreaFrom(orientation).getNearestPoint(newFirstCPLocation);
+				// DianaPoint newStartPosition = startArea.getAnchorAreaFrom(orientation).getNearestPoint(newFirstCPLocation);
 
 				// Compute path to append
-				FGERectPolylin appendingPath;
+				DianaRectPolylin appendingPath;
 
 				if (initialPolylin.getSegmentNb() > 3) {
-					FGESegment oppositeSegment = initialPolylin.getSegmentAt(2);
-					appendingPath = FGERectPolylin.makeRectPolylinCrossingPoint(newStartPosition, oppositeSegment.getP2(),
+					DianaSegment oppositeSegment = initialPolylin.getSegmentAt(2);
+					appendingPath = DianaRectPolylin.makeRectPolylinCrossingPoint(newStartPosition, oppositeSegment.getP2(),
 							newFirstCPLocation, orientation, initialNextOrientation.getOpposite(), true, getConnector()
 									.getOverlapXResultingFromPixelOverlap(), getConnector().getOverlapYResultingFromPixelOverlap());
 				} else {
-					appendingPath = FGERectPolylin.makeRectPolylinCrossingPoint(newStartPosition, nextCPLocation, newFirstCPLocation,
+					appendingPath = DianaRectPolylin.makeRectPolylinCrossingPoint(newStartPosition, nextCPLocation, newFirstCPLocation,
 							orientation, initialNextOrientation.getOpposite(), true, getConnector().getOverlapXResultingFromPixelOverlap(),
 							getConnector().getOverlapYResultingFromPixelOverlap());
 				}
@@ -281,7 +281,7 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 				// getConnector().debugPolylin = appendingPath;
 
 				// Merge polylin
-				FGERectPolylin mergedPolylin = getConnector().mergePolylins(appendingPath, 0, appendingPath.getPointsNb() - 1,
+				DianaRectPolylin mergedPolylin = getConnector().mergePolylins(appendingPath, 0, appendingPath.getPointsNb() - 1,
 						initialPolylin, 3, initialPolylin.getPointsNb() - 1);
 
 				// Update with this new polylin
@@ -302,10 +302,10 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 
 		AffineTransform at1 = GraphicalRepresentation.convertNormalizedCoordinatesAT(
 				getConnector().getStartObject(), getGraphicalRepresentation());
-		FGEArea startArea = getConnector().getStartObject().getShape().getOutline().transform(at1);
+		DianaArea startArea = getConnector().getStartObject().getShape().getOutline().transform(at1);
 
-		FGEPoint firstCPLocation = getPoint(); //polylin.getPointAt(1);
-		FGEPoint nextCPLocation = initialPolylin.getPointAt(2);
+		DianaPoint firstCPLocation = getPoint(); //polylin.getPointAt(1);
+		DianaPoint nextCPLocation = initialPolylin.getPointAt(2);
 		SimplifiedCardinalDirection initialStartOrientation = initialPolylin.getApproximatedOrientationOfSegment(0);
 		SimplifiedCardinalDirection initialFirstOrientation = initialPolylin.getApproximatedOrientationOfSegment(1);
 		SimplifiedCardinalDirection initialNextOrientation = (initialPolylin.getSegmentNb() > 2 ? initialPolylin.getApproximatedOrientationOfSegment(2) : null);
@@ -313,7 +313,7 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 
 		if (startArea.getOrthogonalPerspectiveArea(initialStartOrientation).containsPoint(firstCPLocation)) {
 			// OK, the new location will not modify general structure of connector
-			FGEPoint newPoint = new FGEPoint(getPolylin().getPointAt(0));
+			DianaPoint newPoint = new DianaPoint(getPolylin().getPointAt(0));
 			if (initialStartOrientation.isHorizontal()) {
 				newPoint.setY(firstCPLocation.y);
 			}
@@ -325,21 +325,21 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 
 
 			if (initialPolylin.getSegmentNb() > 3) {
-				FGESegment oppositeSegment = initialPolylin.getSegmentAt(2);
-				FGERectPolylin appendingPath1 = new FGERectPolylin(
+				DianaSegment oppositeSegment = initialPolylin.getSegmentAt(2);
+				DianaRectPolylin appendingPath1 = new DianaRectPolylin(
 						firstCPLocation,initialFirstOrientation,
 						oppositeSegment.getP2(),initialPolylin.getApproximatedOrientationOfSegment(2).getOpposite(),
 						true,getConnector().getOverlapXResultingFromPixelOverlap(), getConnector().getOverlapYResultingFromPixelOverlap());
-				FGERectPolylin appendingPath2 = new FGERectPolylin(
+				DianaRectPolylin appendingPath2 = new DianaRectPolylin(
 						firstCPLocation,initialFirstOrientation,
 						oppositeSegment.getP2(),initialPolylin.getApproximatedOrientationOfSegment(2),
 						true,getConnector().getOverlapXResultingFromPixelOverlap(), getConnector().getOverlapYResultingFromPixelOverlap());
-				FGERectPolylin appendingPath = (appendingPath1.getPointsNb() <= appendingPath2.getPointsNb() ?
+				DianaRectPolylin appendingPath = (appendingPath1.getPointsNb() <= appendingPath2.getPointsNb() ?
 						appendingPath1 : appendingPath2);
 
 				//debugPolylin = appendingPath;
 
-				FGERectPolylin mergedPolylin 
+				DianaRectPolylin mergedPolylin 
 				= getConnector().mergePolylins(getPolylin(), 0, 1, appendingPath, 1, appendingPath.getPointsNb()-1);
 
 				mergedPolylin = getConnector().mergePolylins(
@@ -350,12 +350,12 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 			}		
 
 			else { // We go directely to end point, we have to preserve direction
-				FGERectPolylin appendingPath = new FGERectPolylin(
+				DianaRectPolylin appendingPath = new DianaRectPolylin(
 						firstCPLocation,initialFirstOrientation,
 						initialPolylin.getSegmentAt(2).getP2(),initialNextOrientation.getOpposite(),
 						true,getConnector().getOverlapXResultingFromPixelOverlap(), getConnector().getOverlapYResultingFromPixelOverlap());
 
-				FGERectPolylin mergedPolylin 
+				DianaRectPolylin mergedPolylin 
 				= getConnector().mergePolylins(getPolylin(), 0, 1, appendingPath, 1, appendingPath.getPointsNb()-1);
 
 				getConnector().updateWithNewPolylin(mergedPolylin);
@@ -391,24 +391,24 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 					alternativeOrientation = currentStartOrientation;
 				}
 				else {
-					CardinalQuadrant quadrant = FGEPoint.getCardinalQuadrant(getPolylin().getFirstPoint(),firstCPLocation);
+					CardinalQuadrant quadrant = DianaPoint.getCardinalQuadrant(getPolylin().getFirstPoint(),firstCPLocation);
 					orientation = quadrant.getHorizonalComponent();
 					alternativeOrientation = quadrant.getVerticalComponent();
 				}
 
 				// Compute new start position by getting nearest point of dragged point
 				// located on anchor area of start area regarding orientation
-				FGEPoint newStartPosition = startArea.getAnchorAreaFrom(orientation).getNearestPoint(firstCPLocation);
+				DianaPoint newStartPosition = startArea.getAnchorAreaFrom(orientation).getNearestPoint(firstCPLocation);
 
 				// Compute path to append
-				FGERectPolylin appendingPath = FGERectPolylin.makeRectPolylinCrossingPoint(
+				DianaRectPolylin appendingPath = DianaRectPolylin.makeRectPolylinCrossingPoint(
 						newStartPosition, nextCPLocation, firstCPLocation, 
 						true, getConnector().getOverlapXResultingFromPixelOverlap(), getConnector().getOverlapYResultingFromPixelOverlap(),
 						SimplifiedCardinalDirection.allDirectionsExcept(orientation,alternativeOrientation),
 						SimplifiedCardinalDirection.allDirectionsExcept(initialNextOrientation.getOpposite()));
 
 				// Merge polylin
-				FGERectPolylin mergedPolylin 
+				DianaRectPolylin mergedPolylin 
 				= getConnector().mergePolylins(appendingPath, 0, appendingPath.getPointsNb()-1, initialPolylin, 3, initialPolylin.getPointsNb()-1);
 
 				// Update with this new polylin
@@ -421,14 +421,14 @@ public class AdjustableFirstControlPoint extends RectPolylinAdjustableControlPoi
 
 				// Compute new start position by projecting dragged control point
 				// related to orientation
-				FGEPoint newStartPosition = startArea.getAnchorAreaFrom(orientation).getNearestPoint(firstCPLocation);
+				DianaPoint newStartPosition = startArea.getAnchorAreaFrom(orientation).getNearestPoint(firstCPLocation);
 
 				// Compute path to append
-				FGERectPolylin appendingPath = FGERectPolylin.makeRectPolylinCrossingPoint(
+				DianaRectPolylin appendingPath = DianaRectPolylin.makeRectPolylinCrossingPoint(
 						newStartPosition, nextCPLocation, firstCPLocation, orientation, initialNextOrientation.getOpposite(), true, getConnector().getOverlapXResultingFromPixelOverlap(), getConnector().getOverlapYResultingFromPixelOverlap());
 
 				// Merge polylin
-				FGERectPolylin mergedPolylin 
+				DianaRectPolylin mergedPolylin 
 				= getConnector().mergePolylins(appendingPath, 0, appendingPath.getPointsNb()-1, initialPolylin, 3, initialPolylin.getPointsNb()-1);
 
 				// Update with this new polylin

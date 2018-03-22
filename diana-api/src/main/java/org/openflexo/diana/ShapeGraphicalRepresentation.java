@@ -43,9 +43,9 @@ import org.openflexo.connie.DataBinding;
 import org.openflexo.diana.BackgroundStyle.BackgroundStyleType;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.geom.FGEDimension;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.area.FGEArea;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.model.annotations.CloningStrategy;
@@ -77,7 +77,7 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	public static final String Y_KEY = "y";
 	@PropertyIdentifier(type = LocationConstraints.class)
 	public static final String LOCATION_CONSTRAINTS_KEY = "locationConstraints";
-	@PropertyIdentifier(type = FGEArea.class)
+	@PropertyIdentifier(type = DianaArea.class)
 	public static final String LOCATION_CONSTRAINED_AREA_KEY = "locationConstrainedArea";
 	@PropertyIdentifier(type = ForegroundStyle.class)
 	public static final String FOREGROUND_KEY = "foreground";
@@ -204,7 +204,7 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 
 	/*@ModelEntity
 	@XMLElement(xmlTag = "ShapeBorder")
-	public static interface ShapeBorder extends FGEObject {
+	public static interface ShapeBorder extends DianaObject {
 	
 		public static final String TOP = "top";
 		public static final String BOTTOM = "bottom";
@@ -261,8 +261,8 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 			ShadowStyle.class);
 	public static GRProperty<LocationConstraints> LOCATION_CONSTRAINTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			LOCATION_CONSTRAINTS_KEY, LocationConstraints.class);
-	public static GRProperty<FGEArea> LOCATION_CONSTRAINED_AREA = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
-			LOCATION_CONSTRAINED_AREA_KEY, FGEArea.class);
+	public static GRProperty<DianaArea> LOCATION_CONSTRAINED_AREA = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
+			LOCATION_CONSTRAINED_AREA_KEY, DianaArea.class);
 	public static GRProperty<Boolean> IS_FLOATING_LABEL = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			IS_FLOATING_LABEL_KEY, Boolean.class);
 	public static GRProperty<Boolean> ADAPT_BOUNDS_TO_CONTENTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
@@ -328,10 +328,10 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	public void setLocationConstraints(LocationConstraints locationConstraints);
 
 	@Getter(value = LOCATION_CONSTRAINED_AREA_KEY, ignoreType = true)
-	public FGEArea getLocationConstrainedArea();
+	public DianaArea getLocationConstrainedArea();
 
 	@Setter(value = LOCATION_CONSTRAINED_AREA_KEY)
-	public void setLocationConstrainedArea(FGEArea locationConstrainedArea);
+	public void setLocationConstrainedArea(DianaArea locationConstrainedArea);
 
 	@Getter(value = FOREGROUND_KEY)
 	@XMLElement
@@ -500,11 +500,11 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	// * Position management
 	// *******************************************************************************
 
-	public FGEPoint getLocation();
+	public DianaPoint getLocation();
 
-	// public void setLocation(FGEPoint newLocation);
+	// public void setLocation(DianaPoint newLocation);
 
-	// public FGEPoint getLocationInDrawing();
+	// public DianaPoint getLocationInDrawing();
 
 	// *******************************************************************************
 	// * Size management
@@ -514,18 +514,18 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 
 	// public Rectangle getNormalizedLabelBounds();
 
-	// public FGERectangle getRequiredBoundsForContents();
+	// public DianaRectangle getRequiredBoundsForContents();
 
 	// public boolean isFullyContainedInContainer();
 
 	// public boolean isParentLayoutedAsContainer();
 
-	// public double getMoveAuthorizedRatio(FGEPoint desiredLocation, FGEPoint initialLocation);
+	// public double getMoveAuthorizedRatio(DianaPoint desiredLocation, DianaPoint initialLocation);
 
 	@Override
-	public FGEDimension getSize();
+	public DianaDimension getSize();
 
-	// public void setSize(FGEDimension newSize);
+	// public void setSize(DianaDimension newSize);
 
 	// *******************************************************************************
 	// * Properties management
@@ -566,7 +566,7 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 
 	/*public void notifyObjectMoved();
 	
-	public void notifyObjectMoved(FGEPoint oldLocation);
+	public void notifyObjectMoved(DianaPoint oldLocation);
 	
 	public void notifyObjectWillMove();
 	
@@ -576,7 +576,7 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	
 	public void notifyObjectResized();
 	
-	public void notifyObjectResized(FGEDimension oldSize);
+	public void notifyObjectResized(DianaDimension oldSize);
 	
 	public void notifyObjectWillResize();
 	
@@ -593,7 +593,7 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	 * 
 	 * @return
 	 */
-	// public FGERectangle getBounds();
+	// public DianaRectangle getBounds();
 
 	/**
 	 * Return view bounds (excluding border) relative to parent container
@@ -619,7 +619,7 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	 */
 	// public Rectangle getViewBounds(GraphicalRepresentation container, double scale);
 
-	// public boolean isPointInsideShape(FGEPoint aPoint);
+	// public boolean isPointInsideShape(DianaPoint aPoint);
 
 	/*public ShapeDecorationPainter getDecorationPainter();
 	
@@ -644,7 +644,7 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	 *            the connector asking where to start
 	 * @return the area on which the given connector can start
 	 */
-	// public FGEArea getAllowedStartAreaForConnector(ConnectorGraphicalRepresentation connectorGR);
+	// public DianaArea getAllowedStartAreaForConnector(ConnectorGraphicalRepresentation connectorGR);
 
 	/**
 	 * Returns the area on which the given connector can end. The area is expressed in this normalized coordinates
@@ -653,7 +653,7 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	 *            the connector asking where to end
 	 * @return the area on which the given connector can end
 	 */
-	// public FGEArea getAllowedEndAreaForConnector(ConnectorGraphicalRepresentation connectorGR);
+	// public DianaArea getAllowedEndAreaForConnector(ConnectorGraphicalRepresentation connectorGR);
 
 	/**
 	 * Returns the area on which the given connector can start. The area is expressed in this normalized coordinates
@@ -663,7 +663,7 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	 * 
 	 * @return the area on which the given connector can start
 	 */
-	// public FGEArea getAllowedStartAreaForConnectorForDirection(ConnectorGraphicalRepresentation connectorGR, FGEArea area,
+	// public DianaArea getAllowedStartAreaForConnectorForDirection(ConnectorGraphicalRepresentation connectorGR, DianaArea area,
 	// SimplifiedCardinalDirection direction);
 
 	/**
@@ -673,10 +673,10 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	 *            the connector asking where to end
 	 * @return the area on which the given connector can end
 	 */
-	// public FGEArea getAllowedEndAreaForConnectorForDirection(ConnectorGraphicalRepresentation connectorGR, FGEArea area,
+	// public DianaArea getAllowedEndAreaForConnectorForDirection(ConnectorGraphicalRepresentation connectorGR, DianaArea area,
 	// SimplifiedCardinalDirection direction);
 
-	// public FGEShapeGraphics getGraphics();
+	// public DianaShapeGraphics getGraphics();
 
 	/**
 	 * Override this if you want to use such a feature
@@ -696,11 +696,11 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	 * Override this if you want to use this feature Default implementation does nothing return boolean indicating if drag was successfully
 	 * performed
 	 */
-	public boolean dragOutsideParentContainerInsideContainer(ContainerNode<?, ?> container, FGEPoint location);
+	public boolean dragOutsideParentContainerInsideContainer(ContainerNode<?, ?> container, DianaPoint location);
 
 	/**
-	 * Return identifier of {@link FGELayoutManagerSpecification} to use to layout represented {@link ShapeNode}.<br>
-	 * This implies that such {@link FGELayoutManagerSpecification} has been defined in {@link ContainerGraphicalRepresentation}
+	 * Return identifier of {@link DianaLayoutManagerSpecification} to use to layout represented {@link ShapeNode}.<br>
+	 * This implies that such {@link DianaLayoutManagerSpecification} has been defined in {@link ContainerGraphicalRepresentation}
 	 * 
 	 * @return
 	 */
@@ -709,8 +709,8 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	public String getLayoutManagerIdentifier();
 
 	/**
-	 * Sets identifier of {@link FGELayoutManagerSpecification} to use to layout represented {@link ShapeNode}.<br>
-	 * This implies that such {@link FGELayoutManagerSpecification} has been defined in {@link ContainerGraphicalRepresentation}
+	 * Sets identifier of {@link DianaLayoutManagerSpecification} to use to layout represented {@link ShapeNode}.<br>
+	 * This implies that such {@link DianaLayoutManagerSpecification} has been defined in {@link ContainerGraphicalRepresentation}
 	 * 
 	 * @param identifier
 	 */

@@ -41,7 +41,7 @@ package org.openflexo.diana.graphics;
 
 public interface DrawingDecorationPainter {
 
-	public void paintDecoration(FGEDrawingDecorationGraphics g);
+	public void paintDecoration(DianaDrawingDecorationGraphics g);
 
 	public boolean paintBeforeDrawing();
 

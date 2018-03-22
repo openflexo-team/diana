@@ -49,9 +49,9 @@ import java.util.Map;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.cp.ControlArea;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.graphics.FGEGraphics;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.graphics.DianaGraphics;
 import org.openflexo.diana.layout.TreeLayoutManager;
 import org.openflexo.diana.layout.TreeLayoutManagerSpecification;
 import org.openflexo.gina.annotation.FIBPanel;
@@ -71,7 +71,7 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 
 	private DianaTreeLayout<ShapeNode<?>, ConnectorNode<?>> layout;
 
-	private Map<ShapeNode<?>, FGERectangle> layoutPositions;
+	private Map<ShapeNode<?>, DianaRectangle> layoutPositions;
 	private Map<Integer, Double> rowHeights;
 	private final Map<Integer, Double> fixedRowHeights;
 
@@ -162,18 +162,18 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 		layoutInProgress = false;
 	}
 
-	private FGERectangle buildRequiredBounds(ShapeNode<?> n, double xPosition, double yPosition, double height) {
+	private DianaRectangle buildRequiredBounds(ShapeNode<?> n, double xPosition, double yPosition, double height) {
 
 		double startXPosition = xPosition;
 		double requiredWithForChildren = 0;
 		for (ShapeNode<?> child : getGraph().getSuccessors(n)) {
-			FGERectangle childRequiredBounds = buildRequiredBounds(child, xPosition, yPosition + height, getHeight(child));
+			DianaRectangle childRequiredBounds = buildRequiredBounds(child, xPosition, yPosition + height, getHeight(child));
 			requiredWithForChildren += childRequiredBounds.getWidth();
 			xPosition += childRequiredBounds.getWidth();
 		}
 
 		double width = Math.max(Math.max(getLayout().getSpacingX(), n.getWidth() + getLayout().getBorderX() * 2), requiredWithForChildren);
-		FGERectangle returned = new FGERectangle(startXPosition, yPosition, width, height);
+		DianaRectangle returned = new DianaRectangle(startXPosition, yPosition, width, height);
 
 		// System.out.println("Node " + n.getText() + " " + returned);
 		layoutPositions.put(n, returned);
@@ -187,9 +187,9 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 	}
 
 	@Override
-	protected FGEPoint locationForNode(ShapeNode<?> node) {
+	protected DianaPoint locationForNode(ShapeNode<?> node) {
 		// Point2D newLocation = getLayout().transform(node);
-		FGERectangle bounds = layoutPositions.get(node);
+		DianaRectangle bounds = layoutPositions.get(node);
 		double x = 0;
 		double y = 0;
 
@@ -220,15 +220,15 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 			}
 
 		}
-		// return new FGEPoint(bounds.getCenter().getX() - node.getWidth() / 2 - node.getBorder().getLeft(), bounds.getCenter().getY()
+		// return new DianaPoint(bounds.getCenter().getX() - node.getWidth() / 2 - node.getBorder().getLeft(), bounds.getCenter().getY()
 		// - node.getHeight() / 2 - node.getBorder().getTop());
 
-		return new FGEPoint(x, y);
+		return new DianaPoint(x, y);
 	}
 
 	/*@Override
-	protected FGEPoint locationForNode(ShapeNode<?> node) {
-		FGEPoint returned = super.locationForNode(node);
+	protected DianaPoint locationForNode(ShapeNode<?> node) {
+		DianaPoint returned = super.locationForNode(node);
 		// returned.setX(returned.getX() - getLayout().getDistX());
 		returned.setY(returned.getY() - getLayout().getDistY());
 		return returned;
@@ -262,13 +262,13 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 	 * @param g
 	 */
 	@Override
-	public void paintDecoration(FGEGraphics g) {
+	public void paintDecoration(DianaGraphics g) {
 
 		g.setDefaultForeground(getFactory().makeForegroundStyle(Color.BLUE, 1));
 		g.useDefaultForegroundStyle();
 
 		if (layoutPositions != null) {
-			for (FGERectangle rectangle : layoutPositions.values()) {
+			for (DianaRectangle rectangle : layoutPositions.values()) {
 				rectangle.paint(g);
 			}
 		}

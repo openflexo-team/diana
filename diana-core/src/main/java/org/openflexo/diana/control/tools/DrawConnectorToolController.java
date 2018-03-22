@@ -41,7 +41,7 @@ package org.openflexo.diana.control.tools;
 import java.util.logging.Logger;
 
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.Drawing.ConnectorNode;
@@ -54,8 +54,8 @@ import org.openflexo.diana.GRProvider.ShapeGRProvider;
 import org.openflexo.diana.control.DianaInteractiveEditor;
 import org.openflexo.diana.control.DianaInteractiveEditor.EditorTool;
 import org.openflexo.diana.control.actions.DrawConnectorAction;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.graphics.FGEConnectorGraphics;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.graphics.DianaConnectorGraphics;
 import org.openflexo.diana.impl.ConnectorNodeImpl;
 import org.openflexo.diana.impl.ContainerNodeImpl;
 import org.openflexo.diana.impl.DrawingImpl;
@@ -83,16 +83,16 @@ public abstract class DrawConnectorToolController<ME> extends ToolController<ME>
 	private ConnectorGraphicalRepresentation connectorGR;
 	private ShapeGraphicalRepresentation cursorGR;
 
-	private FGEConnectorGraphics graphics;
+	private DianaConnectorGraphics graphics;
 
 	public DrawConnectorToolController(DianaInteractiveEditor<?, ?, ?> controller, DrawConnectorAction toolAction) {
 		super(controller, toolAction);
 	}
 
-	public abstract FGEConnectorGraphics makeGraphics(ForegroundStyle foregroundStyle);
+	public abstract DianaConnectorGraphics makeGraphics(ForegroundStyle foregroundStyle);
 
 	@Override
-	public FGEConnectorGraphics getGraphics() {
+	public DianaConnectorGraphics getGraphics() {
 		return graphics;
 	}
 
@@ -118,7 +118,7 @@ public abstract class DrawConnectorToolController<ME> extends ToolController<ME>
 		ShapeGRBinding<DrawConnectorToolController> cursorGRBinding = getController().getDrawing()
 				.bindShape(DrawConnectorToolController.class, "cursor", new ShapeGRProvider<DrawConnectorToolController>() {
 					@Override
-					public ShapeGraphicalRepresentation provideGR(DrawConnectorToolController drawable, FGEModelFactory factory) {
+					public ShapeGraphicalRepresentation provideGR(DrawConnectorToolController drawable, DianaModelFactory factory) {
 						return cursorGR;
 					}
 				});
@@ -132,7 +132,7 @@ public abstract class DrawConnectorToolController<ME> extends ToolController<ME>
 		ConnectorGRBinding<DrawConnectorToolController> connectorGRBinding = getController().getDrawing()
 				.bindConnector(DrawConnectorToolController.class, "connector", new ConnectorGRProvider<DrawConnectorToolController>() {
 					@Override
-					public ConnectorGraphicalRepresentation provideGR(DrawConnectorToolController drawable, FGEModelFactory factory) {
+					public ConnectorGraphicalRepresentation provideGR(DrawConnectorToolController drawable, DianaModelFactory factory) {
 						return connectorGR;
 					}
 				});
@@ -206,7 +206,7 @@ public abstract class DrawConnectorToolController<ME> extends ToolController<ME>
 	public boolean mouseDragged(ME e) {
 		// System.out.println("mouseDragged() on " + getPoint(e));
 		if (drawEdge && startNode != null) {
-			FGEPoint p = getPoint(e);
+			DianaPoint p = getPoint(e);
 			cursorGR.setX(p.x / getController().getScale());
 			cursorGR.setY(p.y / getController().getScale());
 

@@ -49,9 +49,9 @@ import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.ShadowStyle;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.diana.notifications.ShapeChanged;
 import org.openflexo.diana.notifications.ShapeNeedsToBeRedrawn;
 import org.openflexo.diana.shapes.ShapeSpecification;
@@ -69,7 +69,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	private LocationConstraints locationConstraints = LocationConstraints.FREELY_MOVABLE;
 
-	private FGEArea locationConstrainedArea = null;
+	private DianaArea locationConstrainedArea = null;
 
 	private ForegroundStyle foreground;
 	private BackgroundStyle background;
@@ -206,7 +206,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setX(double aValue) {
-		FGEAttributeNotification<?> notification = requireChange(X, aValue);
+		DianaAttributeNotification<?> notification = requireChange(X, aValue);
 		if (notification != null) {
 			x = aValue;
 			hasChanged(notification);
@@ -220,7 +220,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setY(double aValue) {
-		FGEAttributeNotification<?> notification = requireChange(Y, aValue);
+		DianaAttributeNotification<?> notification = requireChange(Y, aValue);
 		if (notification != null) {
 			y = aValue;
 			hasChanged(notification);
@@ -228,8 +228,8 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	}
 
 	@Override
-	public FGEPoint getLocation() {
-		return new FGEPoint(getX(), getY());
+	public DianaPoint getLocation() {
+		return new DianaPoint(getX(), getY());
 	}
 
 	@Override
@@ -239,7 +239,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setLocationConstraints(LocationConstraints locationConstraints) {
-		FGEAttributeNotification<?> notification = requireChange(LOCATION_CONSTRAINTS, locationConstraints);
+		DianaAttributeNotification<?> notification = requireChange(LOCATION_CONSTRAINTS, locationConstraints);
 		if (notification != null) {
 			this.locationConstraints = locationConstraints;
 			hasChanged(notification);
@@ -247,13 +247,13 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	}
 
 	@Override
-	public FGEArea getLocationConstrainedArea() {
+	public DianaArea getLocationConstrainedArea() {
 		return locationConstrainedArea;
 	}
 
 	@Override
-	public void setLocationConstrainedArea(FGEArea locationConstrainedArea) {
-		FGEAttributeNotification<?> notification = requireChange(LOCATION_CONSTRAINED_AREA, locationConstrainedArea);
+	public void setLocationConstrainedArea(DianaArea locationConstrainedArea) {
+		DianaAttributeNotification<?> notification = requireChange(LOCATION_CONSTRAINED_AREA, locationConstrainedArea);
 		if (notification != null) {
 			this.locationConstrainedArea = locationConstrainedArea;
 			hasChanged(notification);
@@ -267,7 +267,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setAllowToLeaveBounds(boolean allowToLeaveBounds) {
-		FGEAttributeNotification<?> notification = requireChange(ALLOW_TO_LEAVE_BOUNDS, allowToLeaveBounds);
+		DianaAttributeNotification<?> notification = requireChange(ALLOW_TO_LEAVE_BOUNDS, allowToLeaveBounds);
 		if (notification != null) {
 			this.allowToLeaveBounds = allowToLeaveBounds;
 			hasChanged(notification);
@@ -281,7 +281,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setAdaptBoundsToContents(boolean adaptBoundsToContents) {
-		FGEAttributeNotification<?> notification = requireChange(ADAPT_BOUNDS_TO_CONTENTS, adaptBoundsToContents);
+		DianaAttributeNotification<?> notification = requireChange(ADAPT_BOUNDS_TO_CONTENTS, adaptBoundsToContents);
 		if (notification != null) {
 			this.adaptBoundsToContents = adaptBoundsToContents;
 			hasChanged(notification);
@@ -311,7 +311,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setXConstraints(DataBinding<Double> xConstraints) {
-		FGEAttributeNotification<?> notification = requireChange(X_CONSTRAINTS, xConstraints);
+		DianaAttributeNotification<?> notification = requireChange(X_CONSTRAINTS, xConstraints);
 		if (notification != null) {
 			if (xConstraints != null) {
 				this.xConstraints = new DataBinding<>(xConstraints.toString(), this, Double.class, DataBinding.BindingDefinitionType.GET);
@@ -333,7 +333,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setYConstraints(DataBinding<Double> yConstraints) {
-		FGEAttributeNotification<?> notification = requireChange(Y_CONSTRAINTS, yConstraints);
+		DianaAttributeNotification<?> notification = requireChange(Y_CONSTRAINTS, yConstraints);
 		if (notification != null) {
 			if (yConstraints != null) {
 				this.yConstraints = new DataBinding<>(yConstraints.toString(), this, Double.class, DataBinding.BindingDefinitionType.GET);
@@ -355,7 +355,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setWidthConstraints(DataBinding<Double> widthConstraints) {
-		FGEAttributeNotification<?> notification = requireChange(WIDTH_CONSTRAINTS, widthConstraints);
+		DianaAttributeNotification<?> notification = requireChange(WIDTH_CONSTRAINTS, widthConstraints);
 		if (notification != null) {
 			if (widthConstraints != null) {
 				this.widthConstraints = new DataBinding<>(widthConstraints.toString(), this, Double.class,
@@ -378,7 +378,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setHeightConstraints(DataBinding<Double> heightConstraints) {
-		FGEAttributeNotification<?> notification = requireChange(HEIGHT_CONSTRAINTS, heightConstraints);
+		DianaAttributeNotification<?> notification = requireChange(HEIGHT_CONSTRAINTS, heightConstraints);
 		if (notification != null) {
 			if (heightConstraints != null) {
 				this.heightConstraints = new DataBinding<>(heightConstraints.toString(), this, Double.class,
@@ -401,7 +401,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setForeground(ForegroundStyle aForeground) {
-		FGEAttributeNotification<ForegroundStyle> notification = requireChange(FOREGROUND, aForeground, false);
+		DianaAttributeNotification<ForegroundStyle> notification = requireChange(FOREGROUND, aForeground, false);
 		if (notification != null) {
 			if (foreground != null && foreground.getPropertyChangeSupport() != null) {
 				foreground.getPropertyChangeSupport().removePropertyChangeListener(this);
@@ -424,7 +424,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setSelectedForeground(ForegroundStyle aForeground) {
-		FGEAttributeNotification<ForegroundStyle> notification = requireChange(SELECTED_FOREGROUND, aForeground, false);
+		DianaAttributeNotification<ForegroundStyle> notification = requireChange(SELECTED_FOREGROUND, aForeground, false);
 		if (notification != null) {
 			if (selectedForeground != null && selectedForeground.getPropertyChangeSupport() != null) {
 				selectedForeground.getPropertyChangeSupport().removePropertyChangeListener(this);
@@ -457,7 +457,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setFocusedForeground(ForegroundStyle aForeground) {
-		FGEAttributeNotification<ForegroundStyle> notification = requireChange(FOCUSED_FOREGROUND, aForeground, false);
+		DianaAttributeNotification<ForegroundStyle> notification = requireChange(FOCUSED_FOREGROUND, aForeground, false);
 		if (notification != null) {
 			if (focusedForeground != null && focusedForeground.getPropertyChangeSupport() != null) {
 				focusedForeground.getPropertyChangeSupport().removePropertyChangeListener(this);
@@ -497,7 +497,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setBackground(BackgroundStyle aBackground) {
-		FGEAttributeNotification<BackgroundStyle> notification = requireChange(BACKGROUND, aBackground, false);
+		DianaAttributeNotification<BackgroundStyle> notification = requireChange(BACKGROUND, aBackground, false);
 		if (notification != null) {
 			// background = aBackground.clone();
 			if (background != null && background.getPropertyChangeSupport() != null) {
@@ -540,7 +540,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setSelectedBackground(BackgroundStyle aBackground) {
-		FGEAttributeNotification<BackgroundStyle> notification = requireChange(SELECTED_BACKGROUND, aBackground, false);
+		DianaAttributeNotification<BackgroundStyle> notification = requireChange(SELECTED_BACKGROUND, aBackground, false);
 		if (notification != null) {
 			// background = aBackground.clone();
 			if (selectedBackground != null && selectedBackground.getPropertyChangeSupport() != null) {
@@ -575,7 +575,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setFocusedBackground(BackgroundStyle aBackground) {
-		FGEAttributeNotification<BackgroundStyle> notification = requireChange(FOCUSED_BACKGROUND, aBackground, false);
+		DianaAttributeNotification<BackgroundStyle> notification = requireChange(FOCUSED_BACKGROUND, aBackground, false);
 		if (notification != null) {
 			// background = aBackground.clone();
 			if (focusedBackground != null && focusedBackground.getPropertyChangeSupport() != null) {
@@ -607,7 +607,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setShadowStyle(ShadowStyle aShadowStyle) {
-		FGEAttributeNotification<ShadowStyle> notification = requireChange(SHADOW_STYLE, aShadowStyle);
+		DianaAttributeNotification<ShadowStyle> notification = requireChange(SHADOW_STYLE, aShadowStyle);
 		if (notification != null) {
 			if (shadowStyle != null && shadowStyle.getPropertyChangeSupport() != null) {
 				shadowStyle.getPropertyChangeSupport().removePropertyChangeListener(this);
@@ -635,13 +635,13 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 			if (aShape != null && aShape.getPropertyChangeSupport() != null) {
 				aShape.getPropertyChangeSupport().addPropertyChangeListener(this);
 			}
-			FGEAttributeNotification<?> notification = requireChange(SHAPE, aShape);
+			DianaAttributeNotification<?> notification = requireChange(SHAPE, aShape);
 			if (notification != null) {
 				ShapeType oldType = shape != null ? shape.getShapeType() : null;
 				this.shape = aShape;
 				// shape.rebuildControlPoints();
 				hasChanged(notification);
-				notifyObservers(new FGEAttributeNotification<>(SHAPE_TYPE, oldType, (aShape != null ? aShape.getShapeType() : null)));
+				notifyObservers(new DianaAttributeNotification<>(SHAPE_TYPE, oldType, (aShape != null ? aShape.getShapeType() : null)));
 				// notifyShapeChanged();
 			}
 		}
@@ -682,7 +682,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setIsFloatingLabel(boolean isFloatingLabel) {
-		FGEAttributeNotification<?> notification = requireChange(IS_FLOATING_LABEL, isFloatingLabel);
+		DianaAttributeNotification<?> notification = requireChange(IS_FLOATING_LABEL, isFloatingLabel);
 		if (notification != null) {
 			this.isFloatingLabel = isFloatingLabel;
 			hasChanged(notification);
@@ -696,7 +696,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setRelativeTextX(double textX) {
-		FGEAttributeNotification<?> notification = requireChange(RELATIVE_TEXT_X, textX);
+		DianaAttributeNotification<?> notification = requireChange(RELATIVE_TEXT_X, textX);
 		if (notification != null) {
 			this.relativeTextX = textX;
 			hasChanged(notification);
@@ -710,7 +710,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 
 	@Override
 	public void setRelativeTextY(double textY) {
-		FGEAttributeNotification<?> notification = requireChange(RELATIVE_TEXT_Y, textY);
+		DianaAttributeNotification<?> notification = requireChange(RELATIVE_TEXT_Y, textY);
 		if (notification != null) {
 			this.relativeTextY = textY;
 			hasChanged(notification);
@@ -754,7 +754,7 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	 * performed
 	 */
 	@Override
-	public boolean dragOutsideParentContainerInsideContainer(ContainerNode<?, ?> container, FGEPoint location) {
+	public boolean dragOutsideParentContainerInsideContainer(ContainerNode<?, ?> container, DianaPoint location) {
 		return false;
 	}
 

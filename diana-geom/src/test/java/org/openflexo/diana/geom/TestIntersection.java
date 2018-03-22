@@ -40,43 +40,43 @@ package org.openflexo.diana.geom;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openflexo.diana.geom.FGEArc;
-import org.openflexo.diana.geom.FGEDimension;
-import org.openflexo.diana.geom.FGEEllips;
-import org.openflexo.diana.geom.FGELine;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGEPolygon;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGERoundRectangle;
-import org.openflexo.diana.geom.FGESegment;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.geom.area.FGEHalfPlane;
-import org.openflexo.diana.geom.area.FGEIntersectionArea;
+import org.openflexo.diana.geom.DianaArc;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaEllips;
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaRoundRectangle;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.area.DianaHalfPlane;
+import org.openflexo.diana.geom.area.DianaIntersectionArea;
 
 public class TestIntersection extends Assert {
 
-	private static final FGESegment line1 = new FGESegment(new FGEPoint(0, 0), new FGEPoint(0, 1)); // Vertical line
-	private static final FGELine line2 = new FGELine(new FGEPoint(0, 0), new FGEPoint(1, 1)); // Diagonal (top-left to bottom-right)
-	private static final FGERectangle rectangle = new FGERectangle(new FGEPoint(0, 0), new FGEPoint(1, 1), Filling.FILLED);
-	private static final FGEHalfPlane hp = new FGEHalfPlane(line1, new FGEPoint(-1, 1));
-	private static final FGEPoint TOP_LEFT = new FGEPoint(0, 0);
-	private static final FGEPoint TOP_RIGHT = new FGEPoint(1, 0);
-	private static final FGEPoint BOTTOM_LEFT = new FGEPoint(0, 1);
-	private static final FGEPoint BOTTOM_RIGHT = new FGEPoint(1, 1);
-	private static final FGEPoint MIDDLE = new FGEPoint(0.5, 0.5);
-	private static final FGEPolygon DIAMOND = new FGEPolygon(Filling.FILLED, new FGEPoint(0.5, 0), new FGEPoint(1, 0.5), new FGEPoint(0.5,
-			1), new FGEPoint(0, 0.5));
+	private static final DianaSegment line1 = new DianaSegment(new DianaPoint(0, 0), new DianaPoint(0, 1)); // Vertical line
+	private static final DianaLine line2 = new DianaLine(new DianaPoint(0, 0), new DianaPoint(1, 1)); // Diagonal (top-left to bottom-right)
+	private static final DianaRectangle rectangle = new DianaRectangle(new DianaPoint(0, 0), new DianaPoint(1, 1), Filling.FILLED);
+	private static final DianaHalfPlane hp = new DianaHalfPlane(line1, new DianaPoint(-1, 1));
+	private static final DianaPoint TOP_LEFT = new DianaPoint(0, 0);
+	private static final DianaPoint TOP_RIGHT = new DianaPoint(1, 0);
+	private static final DianaPoint BOTTOM_LEFT = new DianaPoint(0, 1);
+	private static final DianaPoint BOTTOM_RIGHT = new DianaPoint(1, 1);
+	private static final DianaPoint MIDDLE = new DianaPoint(0.5, 0.5);
+	private static final DianaPolygon DIAMOND = new DianaPolygon(Filling.FILLED, new DianaPoint(0.5, 0), new DianaPoint(1, 0.5), new DianaPoint(0.5,
+			1), new DianaPoint(0, 0.5));
 
-	private static final FGELine HORIZONTAL_LINE = new FGELine(0, 1, 0);
-	private static final FGELine OFFSETED_HORIZONTAL_LINE = new FGELine(0, 1, -1);
-	private static final FGELine VERTICAL_LINE = new FGELine(1, 0, 0);
-	private static final FGELine OFFSETED_VERTICAL_LINE = new FGELine(1, 0, -1);
+	private static final DianaLine HORIZONTAL_LINE = new DianaLine(0, 1, 0);
+	private static final DianaLine OFFSETED_HORIZONTAL_LINE = new DianaLine(0, 1, -1);
+	private static final DianaLine VERTICAL_LINE = new DianaLine(1, 0, 0);
+	private static final DianaLine OFFSETED_VERTICAL_LINE = new DianaLine(1, 0, -1);
 
-	private static final FGEEllips ELLIPS = new FGEEllips(new FGEPoint(0, 0), new FGEDimension(1, 1), Filling.NOT_FILLED);
-	private static final FGEArc HALF_ELLIPS = new FGEArc(ELLIPS.getCenter(), new FGEDimension(ELLIPS.getWidth(), ELLIPS.getHeight()), 90,
+	private static final DianaEllips ELLIPS = new DianaEllips(new DianaPoint(0, 0), new DianaDimension(1, 1), Filling.NOT_FILLED);
+	private static final DianaArc HALF_ELLIPS = new DianaArc(ELLIPS.getCenter(), new DianaDimension(ELLIPS.getWidth(), ELLIPS.getHeight()), 90,
 			180);
 
-	private static final FGERoundRectangle ROUND_RECTANGLE = new FGERoundRectangle(0, 0, 1, 1, 0.01, 0.01);
+	private static final DianaRoundRectangle ROUND_RECTANGLE = new DianaRoundRectangle(0, 0, 1, 1, 0.01, 0.01);
 
 	@Test
 	public void testParallelism() {
@@ -166,21 +166,21 @@ public class TestIntersection extends Assert {
 		assertFalse(hp.containsArea(rectangle));
 		assertFalse(DIAMOND.containsArea(hp));
 		assertFalse(rectangle.containsArea(hp));
-		assertEquals(new FGEPoint(0, 0.5), FGEIntersectionArea.makeIntersection(hp, DIAMOND));
-		assertEquals(line1, FGEIntersectionArea.makeIntersection(hp, rectangle));
-		assertEquals(line1, FGEIntersectionArea.makeIntersection(line1, rectangle));
-		assertEquals(line1, FGEIntersectionArea.makeIntersection(rectangle, line1));
-		assertEquals(TOP_LEFT, FGEIntersectionArea.makeIntersection(line1, TOP_LEFT));
-		assertEquals(TOP_LEFT, FGEIntersectionArea.makeIntersection(TOP_LEFT, line1));
-		assertEquals(TOP_LEFT, FGEIntersectionArea.makeIntersection(TOP_LEFT, line2));
+		assertEquals(new DianaPoint(0, 0.5), DianaIntersectionArea.makeIntersection(hp, DIAMOND));
+		assertEquals(line1, DianaIntersectionArea.makeIntersection(hp, rectangle));
+		assertEquals(line1, DianaIntersectionArea.makeIntersection(line1, rectangle));
+		assertEquals(line1, DianaIntersectionArea.makeIntersection(rectangle, line1));
+		assertEquals(TOP_LEFT, DianaIntersectionArea.makeIntersection(line1, TOP_LEFT));
+		assertEquals(TOP_LEFT, DianaIntersectionArea.makeIntersection(TOP_LEFT, line1));
+		assertEquals(TOP_LEFT, DianaIntersectionArea.makeIntersection(TOP_LEFT, line2));
 		assertEquals(ROUND_RECTANGLE.getArcExcludedWest(), ROUND_RECTANGLE.intersect(hp));
 		assertEquals(HALF_ELLIPS, ELLIPS.intersect(hp));
 
-		FGEEllips ellips = new FGEEllips(0.07092198581560283, 0.16666666666666666, 0.21985815602836878, 0.4696969696969698,
+		DianaEllips ellips = new DianaEllips(0.07092198581560283, 0.16666666666666666, 0.21985815602836878, 0.4696969696969698,
 				Filling.NOT_FILLED);
-		FGELine line = new FGELine(0.18085106382978722, 0.16666666666666669, 0.400709219858156, 0.16666666666666669);
-		FGEPoint point = new FGEPoint(0.18085106382978722, -0.30303030303030304);
-		FGEHalfPlane halfPlane = new FGEHalfPlane(line, point);
-		assertEquals(ellips.getPointAtAngle(90), FGEIntersectionArea.makeIntersection(ellips, halfPlane));
+		DianaLine line = new DianaLine(0.18085106382978722, 0.16666666666666669, 0.400709219858156, 0.16666666666666669);
+		DianaPoint point = new DianaPoint(0.18085106382978722, -0.30303030303030304);
+		DianaHalfPlane halfPlane = new DianaHalfPlane(line, point);
+		assertEquals(ellips.getPointAtAngle(90), DianaIntersectionArea.makeIntersection(ellips, halfPlane));
 	}
 }

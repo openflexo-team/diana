@@ -41,7 +41,7 @@ package org.openflexo.diana.drawingeditor;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.GRStructureVisitor;
 import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
@@ -61,7 +61,7 @@ import org.openflexo.model.factory.EditingContextImpl;
 
 public class DiagramDrawing extends DrawingImpl<Diagram> {
 
-	public DiagramDrawing(Diagram model, FGEModelFactory factory) {
+	public DiagramDrawing(Diagram model, DianaModelFactory factory) {
 		super(model, factory, PersistenceMode.UniqueGraphicalRepresentations);
 	}
 
@@ -70,7 +70,7 @@ public class DiagramDrawing extends DrawingImpl<Diagram> {
 
 		final DrawingGRBinding<Diagram> drawingBinding = bindDrawing(Diagram.class, "drawing", new DrawingGRProvider<Diagram>() {
 			@Override
-			public DrawingGraphicalRepresentation provideGR(Diagram drawable, FGEModelFactory factory) {
+			public DrawingGraphicalRepresentation provideGR(Diagram drawable, DianaModelFactory factory) {
 				if (drawable.getGraphicalRepresentation() != null) {
 					drawable.getGraphicalRepresentation().setFactory(factory);
 					return drawable.getGraphicalRepresentation();
@@ -83,7 +83,7 @@ public class DiagramDrawing extends DrawingImpl<Diagram> {
 		});
 		final ShapeGRBinding<Shape> shapeBinding = bindShape(Shape.class, "shape", new ShapeGRProvider<Shape>() {
 			@Override
-			public ShapeGraphicalRepresentation provideGR(Shape drawable, FGEModelFactory factory) {
+			public ShapeGraphicalRepresentation provideGR(Shape drawable, DianaModelFactory factory) {
 				if (drawable.getGraphicalRepresentation() != null) {
 					drawable.getGraphicalRepresentation().setFactory(factory);
 					return drawable.getGraphicalRepresentation();
@@ -97,7 +97,7 @@ public class DiagramDrawing extends DrawingImpl<Diagram> {
 		final ConnectorGRBinding<Connector> connectorBinding = bindConnector(Connector.class, "connector", shapeBinding, shapeBinding,
 				new ConnectorGRProvider<Connector>() {
 					@Override
-					public ConnectorGraphicalRepresentation provideGR(Connector drawable, FGEModelFactory factory) {
+					public ConnectorGraphicalRepresentation provideGR(Connector drawable, DianaModelFactory factory) {
 						if (drawable.getGraphicalRepresentation() != null) {
 							drawable.getGraphicalRepresentation().setFactory(factory);
 							return drawable.getGraphicalRepresentation();

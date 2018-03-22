@@ -42,26 +42,26 @@ import java.beans.PropertyChangeSupport;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.connectors.ConnectorSpecification;
-import org.openflexo.diana.connectors.CurveConnectorSpecification;
-import org.openflexo.diana.connectors.CurvedPolylinConnectorSpecification;
-import org.openflexo.diana.connectors.LineConnectorSpecification;
-import org.openflexo.diana.connectors.RectPolylinConnectorSpecification;
 import org.openflexo.diana.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.diana.connectors.ConnectorSymbol.EndSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.MiddleSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.StartSymbolType;
+import org.openflexo.diana.connectors.CurveConnectorSpecification;
+import org.openflexo.diana.connectors.CurvedPolylinConnectorSpecification;
+import org.openflexo.diana.connectors.LineConnectorSpecification;
+import org.openflexo.diana.connectors.RectPolylinConnectorSpecification;
 import org.openflexo.diana.connectors.impl.CurveConnector;
 import org.openflexo.diana.connectors.impl.CurvedPolylinConnector;
 import org.openflexo.diana.connectors.impl.LineConnector;
 import org.openflexo.diana.connectors.impl.RectPolylinConnector;
 import org.openflexo.diana.control.DianaInteractiveViewer;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectPolylin;
-import org.openflexo.diana.geom.FGEGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectPolylin;
 
 /**
  * Convenient class used to manipulate ConnectorSpecification instances over ConnectorSpecification class hierarchy
@@ -83,7 +83,7 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 	private final InspectedCurvedPolylinConnectorSpecification curvedPolylinConnectorSpecification;
 
 	private PropertyChangeSupport pcSupport;
-	private FGEModelFactory fgeFactory;
+	private DianaModelFactory fgeFactory;
 
 	private final DianaInteractiveViewer<?, ?, ?> controller;
 
@@ -93,20 +93,20 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		fgeFactory = controller.getFactory();
 		lineConnectorSpecification = new InspectedLineConnectorSpecification(controller, controller.getFactory().makeLineConnector());
 		curveConnectorSpecification = new InspectedCurveConnectorSpecification(controller, controller.getFactory().makeCurveConnector());
-		rectPolylinConnectorSpecification = new InspectedRectPolylinConnectorSpecification(controller, controller.getFactory()
-				.makeRectPolylinConnector());
-		curvedPolylinConnectorSpecification = new InspectedCurvedPolylinConnectorSpecification(controller, controller.getFactory()
-				.makeCurvedPolylinConnector());
+		rectPolylinConnectorSpecification = new InspectedRectPolylinConnectorSpecification(controller,
+				controller.getFactory().makeRectPolylinConnector());
+		curvedPolylinConnectorSpecification = new InspectedCurvedPolylinConnectorSpecification(controller,
+				controller.getFactory().makeCurvedPolylinConnector());
 
 	}
 
 	@Override
-	public FGEModelFactory getFGEFactory() {
+	public DianaModelFactory getDianaFactory() {
 		return fgeFactory;
 	}
 
 	@Override
-	public void setFGEFactory(FGEModelFactory fgeFactory) {
+	public void setDianaFactory(DianaModelFactory fgeFactory) {
 		this.fgeFactory = fgeFactory;
 	}
 
@@ -135,14 +135,14 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 			return null;
 		}
 		switch (connectorType) {
-		case LINE:
-			return lineConnectorSpecification;
-		case CURVE:
-			return curveConnectorSpecification;
-		case RECT_POLYLIN:
-			return rectPolylinConnectorSpecification;
-		case CURVED_POLYLIN:
-			return curvedPolylinConnectorSpecification;
+			case LINE:
+				return lineConnectorSpecification;
+			case CURVE:
+				return curveConnectorSpecification;
+			case RECT_POLYLIN:
+				return rectPolylinConnectorSpecification;
+			case CURVED_POLYLIN:
+				return curvedPolylinConnectorSpecification;
 		}
 		logger.warning("Unexpected " + connectorType);
 		return null;
@@ -159,7 +159,8 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;
-			} else {
+			}
+			else {
 				return true;
 			}
 		}
@@ -185,13 +186,13 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		System.out.println("oldCS=" + oldCS);
 
 		// Retaining some values to be applied to new inspected connector specification
-	/*	StartSymbolType startSymbol = oldCS.getStartSymbol();
-		MiddleSymbolType middleSymbol = oldCS.getMiddleSymbol();
-		EndSymbolType endSymbol = oldCS.getEndSymbol();
-		double startSymbolSize = oldCS.getStartSymbolSize();
-		double middleSymbolSize = oldCS.getMiddleSymbolSize();
-		double endSymbolSize = oldCS.getEndSymbolSize();
-*/
+		/*	StartSymbolType startSymbol = oldCS.getStartSymbol();
+			MiddleSymbolType middleSymbol = oldCS.getMiddleSymbol();
+			EndSymbolType endSymbol = oldCS.getEndSymbol();
+			double startSymbolSize = oldCS.getStartSymbolSize();
+			double middleSymbolSize = oldCS.getMiddleSymbolSize();
+			double endSymbolSize = oldCS.getEndSymbolSize();
+		*/
 		this.connectorType = connectorType;
 		if (pcSupport != null) {
 			pcSupport.firePropertyChange(STYLE_CLASS_CHANGED, oldConnectorType, getStyleType());
@@ -200,42 +201,42 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		}
 
 		// Applying some values to new inspected connector specification
-/*		if (startSymbol != null) {
-			getConnectorSpecification().setStartSymbol(startSymbol);
-		}
-		if (middleSymbol != null) {
-			getConnectorSpecification().setMiddleSymbol(middleSymbol);
-		}
-		if (endSymbol != null) {
-			getConnectorSpecification().setEndSymbol(endSymbol);
-		}
-		if (startSymbolSize > 0) {
-			getConnectorSpecification().setStartSymbolSize(startSymbolSize);
-		}
-		if (middleSymbolSize > 0) {
-			getConnectorSpecification().setMiddleSymbolSize(middleSymbolSize);
-		}
-		if (endSymbolSize > 0) {
-			getConnectorSpecification().setEndSymbolSize(endSymbolSize);
-		} */
+		/*		if (startSymbol != null) {
+					getConnectorSpecification().setStartSymbol(startSymbol);
+				}
+				if (middleSymbol != null) {
+					getConnectorSpecification().setMiddleSymbol(middleSymbol);
+				}
+				if (endSymbol != null) {
+					getConnectorSpecification().setEndSymbol(endSymbol);
+				}
+				if (startSymbolSize > 0) {
+					getConnectorSpecification().setStartSymbolSize(startSymbolSize);
+				}
+				if (middleSymbolSize > 0) {
+					getConnectorSpecification().setMiddleSymbolSize(middleSymbolSize);
+				}
+				if (endSymbolSize > 0) {
+					getConnectorSpecification().setEndSymbolSize(endSymbolSize);
+				} */
 	}
 
 	@Override
 	public ConnectorSpecification makeNewStyle(ConnectorSpecification oldConnectorSpecification) {
 		ConnectorSpecification returned = null;
 		switch (connectorType) {
-		case LINE:
-			returned = lineConnectorSpecification.cloneStyle();
-			break;
-		case CURVE:
-			returned = curveConnectorSpecification.cloneStyle();
-			break;
-		case RECT_POLYLIN:
-			returned = rectPolylinConnectorSpecification.cloneStyle();
-			break;
-		case CURVED_POLYLIN:
-			returned = curvedPolylinConnectorSpecification.cloneStyle();
-			break;
+			case LINE:
+				returned = lineConnectorSpecification.cloneStyle();
+				break;
+			case CURVE:
+				returned = curveConnectorSpecification.cloneStyle();
+				break;
+			case RECT_POLYLIN:
+				returned = rectPolylinConnectorSpecification.cloneStyle();
+				break;
+			case CURVED_POLYLIN:
+				returned = curvedPolylinConnectorSpecification.cloneStyle();
+				break;
 		}
 		return returned;
 	}
@@ -296,9 +297,9 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 			// TODO remove this commented code when this issue will be investigated
 
 			/*System.out.println("Some debug for a very tricky issue");
-
+			
 			Double returned = null;
-
+			
 			if (getSelection().size() == 0) {
 				if (getDefaultValue() != null && getDefaultValue().hasKey(ConnectorSpecification.START_SYMBOL_SIZE.getName())) {
 					System.out.println("Cas 1, on retourne "
@@ -316,9 +317,9 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 					System.out.println("Cas 5, on retourne null");
 					System.out.println("style=" + style);
 					System.out.println("getSelection()=" + getSelection());
-
+			
 					ConnectorNode cn = getSelection().get(0);
-
+			
 					if (style != null) {
 						System.out.println("OK, j'ai bien un " + style.getClass().getSimpleName() + " mais c'est dur de lui appliquer "
 								+ ConnectorSpecification.START_SYMBOL_SIZE);
@@ -428,22 +429,22 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		}
 
 		@Override
-		public FGEPoint getCp1RelativeToStartObject() {
+		public DianaPoint getCp1RelativeToStartObject() {
 			return getPropertyValue(LineConnectorSpecification.CP1_RELATIVE_TO_START_OBJECT);
 		}
 
 		@Override
-		public void setCp1RelativeToStartObject(FGEPoint aPoint) {
+		public void setCp1RelativeToStartObject(DianaPoint aPoint) {
 			setPropertyValue(LineConnectorSpecification.CP1_RELATIVE_TO_START_OBJECT, aPoint);
 		}
 
 		@Override
-		public FGEPoint getCp2RelativeToEndObject() {
+		public DianaPoint getCp2RelativeToEndObject() {
 			return getPropertyValue(LineConnectorSpecification.CP2_RELATIVE_TO_END_OBJECT);
 		}
 
 		@Override
-		public void setCp2RelativeToEndObject(FGEPoint aPoint) {
+		public void setCp2RelativeToEndObject(DianaPoint aPoint) {
 			setPropertyValue(LineConnectorSpecification.CP2_RELATIVE_TO_END_OBJECT, aPoint);
 		}
 	}
@@ -451,7 +452,8 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 	protected class InspectedCurveConnectorSpecification extends AbstractInspectedConnectorSpecification<CurveConnectorSpecification>
 			implements CurveConnectorSpecification {
 
-		protected InspectedCurveConnectorSpecification(DianaInteractiveViewer<?, ?, ?> controller, CurveConnectorSpecification defaultValue) {
+		protected InspectedCurveConnectorSpecification(DianaInteractiveViewer<?, ?, ?> controller,
+				CurveConnectorSpecification defaultValue) {
 			super(controller, defaultValue);
 		}
 
@@ -476,32 +478,32 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		}
 
 		@Override
-		public FGEPoint getCp1RelativeToStartObject() {
+		public DianaPoint getCp1RelativeToStartObject() {
 			return getPropertyValue(CurveConnectorSpecification.CP1_RELATIVE_TO_START_OBJECT);
 		}
 
 		@Override
-		public void setCp1RelativeToStartObject(FGEPoint aPoint) {
+		public void setCp1RelativeToStartObject(DianaPoint aPoint) {
 			setPropertyValue(CurveConnectorSpecification.CP1_RELATIVE_TO_START_OBJECT, aPoint);
 		}
 
 		@Override
-		public FGEPoint getCp2RelativeToEndObject() {
+		public DianaPoint getCp2RelativeToEndObject() {
 			return getPropertyValue(CurveConnectorSpecification.CP2_RELATIVE_TO_END_OBJECT);
 		}
 
 		@Override
-		public void setCp2RelativeToEndObject(FGEPoint aPoint) {
+		public void setCp2RelativeToEndObject(DianaPoint aPoint) {
 			setPropertyValue(CurveConnectorSpecification.CP2_RELATIVE_TO_END_OBJECT, aPoint);
 		}
 
 		@Override
-		public FGEPoint getCpPosition() {
+		public DianaPoint getCpPosition() {
 			return getPropertyValue(CurveConnectorSpecification.CP_POSITION);
 		}
 
 		@Override
-		public void setCpPosition(FGEPoint cpPosition) {
+		public void setCpPosition(DianaPoint cpPosition) {
 			setPropertyValue(CurveConnectorSpecification.CP_POSITION, cpPosition);
 		}
 
@@ -662,32 +664,32 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		}
 
 		@Override
-		public FGEPoint getCrossedControlPoint() {
+		public DianaPoint getCrossedControlPoint() {
 			return getPropertyValue(RectPolylinConnectorSpecification.CROSSED_CONTROL_POINT);
 		}
 
 		@Override
-		public void setCrossedControlPoint(FGEPoint aPoint) {
+		public void setCrossedControlPoint(DianaPoint aPoint) {
 			setPropertyValue(RectPolylinConnectorSpecification.CROSSED_CONTROL_POINT, aPoint);
 		}
 
 		@Override
-		public FGEPoint getFixedStartLocation() {
+		public DianaPoint getFixedStartLocation() {
 			return getPropertyValue(RectPolylinConnectorSpecification.FIXED_START_LOCATION);
 		}
 
 		@Override
-		public void setFixedStartLocation(FGEPoint aPoint) {
+		public void setFixedStartLocation(DianaPoint aPoint) {
 			setPropertyValue(RectPolylinConnectorSpecification.FIXED_START_LOCATION, aPoint);
 		}
 
 		@Override
-		public FGEPoint getFixedEndLocation() {
+		public DianaPoint getFixedEndLocation() {
 			return getPropertyValue(RectPolylinConnectorSpecification.FIXED_END_LOCATION);
 		}
 
 		@Override
-		public void setFixedEndLocation(FGEPoint aPoint) {
+		public void setFixedEndLocation(DianaPoint aPoint) {
 			setPropertyValue(RectPolylinConnectorSpecification.FIXED_END_LOCATION, aPoint);
 		}
 
@@ -702,12 +704,12 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		}
 
 		@Override
-		public FGERectPolylin getPolylin() {
+		public DianaRectPolylin getPolylin() {
 			return getPropertyValue(RectPolylinConnectorSpecification.POLYLIN);
 		}
 
 		@Override
-		public void setPolylin(FGERectPolylin aPolylin) {
+		public void setPolylin(DianaRectPolylin aPolylin) {
 			setPropertyValue(RectPolylinConnectorSpecification.POLYLIN, aPolylin);
 		}
 

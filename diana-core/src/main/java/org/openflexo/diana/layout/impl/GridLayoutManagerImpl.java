@@ -43,10 +43,10 @@ import java.beans.PropertyChangeEvent;
 
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.ForegroundStyle.DashStyle;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.area.FGEGrid;
-import org.openflexo.diana.graphics.FGEGraphics;
-import org.openflexo.diana.impl.FGELayoutManagerImpl;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.area.DianaGrid;
+import org.openflexo.diana.graphics.DianaGraphics;
+import org.openflexo.diana.impl.DianaLayoutManagerImpl;
 import org.openflexo.diana.layout.GridLayoutManager;
 import org.openflexo.diana.layout.GridLayoutManagerSpecification;
 import org.openflexo.gina.annotation.FIBPanel;
@@ -58,7 +58,7 @@ import org.openflexo.gina.annotation.FIBPanel;
  * 
  */
 @FIBPanel("Fib/Layout/GridLayoutManagerPanel.fib")
-public abstract class GridLayoutManagerImpl<O> extends FGELayoutManagerImpl<GridLayoutManagerSpecification, O>
+public abstract class GridLayoutManagerImpl<O> extends DianaLayoutManagerImpl<GridLayoutManagerSpecification, O>
 		implements GridLayoutManager<O> {
 
 	@Override
@@ -76,12 +76,12 @@ public abstract class GridLayoutManagerImpl<O> extends FGELayoutManagerImpl<Grid
 		return false;
 	}
 
-	private FGEGrid grid = null;
+	private DianaGrid grid = null;
 
-	public FGEGrid getGrid() {
+	public DianaGrid getGrid() {
 		if (grid == null) {
 			// System.out.println("Nouvelle grid " + getGridX() + "x" + getGridY());
-			grid = new FGEGrid(new FGEPoint(0, 0), getGridX(), getGridY());
+			grid = new DianaGrid(new DianaPoint(0, 0), getGridX(), getGridY());
 		}
 		return grid;
 	}
@@ -132,7 +132,7 @@ public abstract class GridLayoutManagerImpl<O> extends FGELayoutManagerImpl<Grid
 				break;
 		}
 
-		node.setLocation(new FGEPoint(newX, newY));
+		node.setLocation(new DianaPoint(newX, newY));
 	}
 
 	/**
@@ -141,7 +141,7 @@ public abstract class GridLayoutManagerImpl<O> extends FGELayoutManagerImpl<Grid
 	 * @param g
 	 */
 	@Override
-	public void paintDecoration(FGEGraphics g) {
+	public void paintDecoration(DianaGraphics g) {
 
 		g.setDefaultForeground(getFactory().makeForegroundStyle(Color.LIGHT_GRAY, 1, DashStyle.DOTS_DASHES));
 		g.useDefaultForegroundStyle();

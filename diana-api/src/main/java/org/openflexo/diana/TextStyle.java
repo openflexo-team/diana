@@ -57,7 +57,7 @@ import org.openflexo.model.annotations.XMLElement;
  */
 @ModelEntity
 @XMLElement(xmlTag = "TextStyle")
-public interface TextStyle extends FGEStyle {
+public interface TextStyle extends DianaStyle {
 
 	// Property keys
 

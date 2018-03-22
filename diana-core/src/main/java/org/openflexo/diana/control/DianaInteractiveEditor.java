@@ -45,8 +45,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.openflexo.diana.Drawing;
-import org.openflexo.diana.FGEModelFactory;
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaModelFactory;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.connectors.ConnectorSpecification.ConnectorType;
@@ -69,7 +69,7 @@ import org.openflexo.diana.control.tools.InspectedShadowStyle;
 import org.openflexo.diana.control.tools.InspectedShapeSpecification;
 import org.openflexo.diana.control.tools.InspectedTextProperties;
 import org.openflexo.diana.control.tools.InspectedTextStyle;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.view.DianaViewFactory;
 import org.openflexo.exceptions.CopyException;
 import org.openflexo.exceptions.CutException;
@@ -195,11 +195,11 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 	/**
 	 * The location where applying paste, relative to root
 	 */
-	private FGEPoint pastingLocation;
+	private DianaPoint pastingLocation;
 
 	private boolean isSelectingAfterPaste = false;
 
-	public DianaInteractiveEditor(Drawing<M> aDrawing, FGEModelFactory factory, F dianaFactory, DianaToolFactory<C> toolFactory) {
+	public DianaInteractiveEditor(Drawing<M> aDrawing, DianaModelFactory factory, F dianaFactory, DianaToolFactory<C> toolFactory) {
 		super(aDrawing, factory, dianaFactory, toolFactory, true, true, true, true, true);
 		inspectedForegroundStyle = new InspectedForegroundStyle(this);
 		inspectedBackgroundStyle = new InspectedBackgroundStyle(this);
@@ -524,7 +524,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 
 		// System.out.println(clipboard.debug());
 
-		pastingContext = FGEUtils.getFirstCommonAncestor(getSelectedObjects());
+		pastingContext = DianaUtils.getFirstCommonAncestor(getSelectedObjects());
 		// System.out.println("Pasting context = " + pastingContext);
 
 		notifyObservers(new SelectionCopied(clipboard));
@@ -552,7 +552,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		if (clipboard != null) {
 
 			// System.out.println("Pasting in " + pastingContext + " at "+pastingLocation);
-			FGEPoint p = FGEUtils.convertNormalizedPoint(getDrawing().getRoot(), pastingLocation, pastingContext);
+			DianaPoint p = DianaUtils.convertNormalizedPoint(getDrawing().getRoot(), pastingLocation, pastingContext);
 
 			// This point is valid for RootNode, but need to be translated in a ShapeNode
 			if (pastingContext instanceof ShapeNode) {
@@ -713,15 +713,15 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 	 * 
 	 * @return
 	 */
-	public FGEPoint getPastingLocation() {
+	public DianaPoint getPastingLocation() {
 		return pastingLocation;
 	}
 
 	@Override
-	public void setLastClickedPoint(FGEPoint lastClickedPoint, DrawingTreeNode<?, ?> node) {
+	public void setLastClickedPoint(DianaPoint lastClickedPoint, DrawingTreeNode<?, ?> node) {
 
 		super.setLastClickedPoint(lastClickedPoint, node);
-		pastingLocation = FGEUtils.convertNormalizedPoint(node, lastClickedPoint, getDrawing().getRoot());
+		pastingLocation = DianaUtils.convertNormalizedPoint(node, lastClickedPoint, getDrawing().getRoot());
 
 	};
 
@@ -750,7 +750,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 	 * 
 	 * @param proposedPastingLocation
 	 */
-	protected void prepareClipboardForPasting(FGEPoint proposedPastingLocation) {
+	protected void prepareClipboardForPasting(DianaPoint proposedPastingLocation) {
 	}
 
 }

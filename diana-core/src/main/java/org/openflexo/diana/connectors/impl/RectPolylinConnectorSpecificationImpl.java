@@ -41,13 +41,13 @@ package org.openflexo.diana.connectors.impl;
 
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEConstants;
+import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.connectors.RectPolylinConnectorSpecification;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectPolylin;
-import org.openflexo.diana.geom.FGEGeometricObject.SimplifiedCardinalDirection;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectPolylin;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 
 public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpecificationImpl
 		implements RectPolylinConnectorSpecification {
@@ -60,9 +60,9 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 	private SimplifiedCardinalDirection startOrientation;
 	private SimplifiedCardinalDirection endOrientation;
 
-	private int pixelOverlap = FGEConstants.DEFAULT_RECT_POLYLIN_PIXEL_OVERLAP; // overlap expressed in pixels relative to 1.0 scale
+	private int pixelOverlap = DianaConstants.DEFAULT_RECT_POLYLIN_PIXEL_OVERLAP; // overlap expressed in pixels relative to 1.0 scale
 
-	private int arcSize = FGEConstants.DEFAULT_ROUNDED_RECT_POLYLIN_ARC_SIZE;
+	private int arcSize = DianaConstants.DEFAULT_ROUNDED_RECT_POLYLIN_ARC_SIZE;
 	private boolean isRounded = false;
 
 	private boolean isStartingLocationFixed = false;
@@ -71,8 +71,8 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 	private boolean isStartingLocationDraggable = false;
 	private boolean isEndingLocationDraggable = false;
 
-	private FGEPoint crossedControlPoint = null;
-	private FGERectPolylin polylin = null;
+	private DianaPoint crossedControlPoint = null;
+	private DianaRectPolylin polylin = null;
 
 	// *******************************************************************************
 	// * Constructor *
@@ -97,7 +97,7 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 
 	@Override
 	public void setRectPolylinConstraints(RectPolylinConstraints aRectPolylinConstraints) {
-		FGEAttributeNotification<?> notification = requireChange(RECT_POLYLIN_CONSTRAINTS, aRectPolylinConstraints);
+		DianaAttributeNotification<?> notification = requireChange(RECT_POLYLIN_CONSTRAINTS, aRectPolylinConstraints);
 		if (notification != null) {
 			rectPolylinConstraints = aRectPolylinConstraints;
 			hasChanged(notification);
@@ -123,7 +123,7 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 
 	@Override
 	public void setStraightLineWhenPossible(boolean aFlag) {
-		FGEAttributeNotification<?> notification = requireChange(STRAIGHT_LINE_WHEN_POSSIBLE, aFlag);
+		DianaAttributeNotification<?> notification = requireChange(STRAIGHT_LINE_WHEN_POSSIBLE, aFlag);
 		if (notification != null) {
 			straightLineWhenPossible = aFlag;
 			hasChanged(notification);
@@ -147,7 +147,7 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 
 	@Override
 	public void setAdjustability(RectPolylinAdjustability anAdjustability) {
-		FGEAttributeNotification<?> notification = requireChange(ADJUSTABILITY, anAdjustability);
+		DianaAttributeNotification<?> notification = requireChange(ADJUSTABILITY, anAdjustability);
 		if (notification != null) {
 			adjustability = anAdjustability;
 			hasChanged(notification);
@@ -161,7 +161,7 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 
 	@Override
 	public void setEndOrientation(SimplifiedCardinalDirection anOrientation) {
-		FGEAttributeNotification<?> notification = requireChange(END_ORIENTATION, anOrientation);
+		DianaAttributeNotification<?> notification = requireChange(END_ORIENTATION, anOrientation);
 		if (notification != null) {
 			endOrientation = anOrientation;
 			hasChanged(notification);
@@ -175,7 +175,7 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 
 	@Override
 	public void setStartOrientation(SimplifiedCardinalDirection anOrientation) {
-		FGEAttributeNotification<?> notification = requireChange(START_ORIENTATION, anOrientation);
+		DianaAttributeNotification<?> notification = requireChange(START_ORIENTATION, anOrientation);
 		if (notification != null) {
 			startOrientation = anOrientation;
 			hasChanged(notification);
@@ -189,7 +189,7 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 
 	@Override
 	public void setPixelOverlap(int aPixelOverlap) {
-		FGEAttributeNotification<?> notification = requireChange(PIXEL_OVERLAP, aPixelOverlap);
+		DianaAttributeNotification<?> notification = requireChange(PIXEL_OVERLAP, aPixelOverlap);
 		if (notification != null) {
 			pixelOverlap = aPixelOverlap;
 			hasChanged(notification);
@@ -203,7 +203,7 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 
 	@Override
 	public void setIsRounded(boolean aFlag) {
-		FGEAttributeNotification<?> notification = requireChange(IS_ROUNDED, aFlag);
+		DianaAttributeNotification<?> notification = requireChange(IS_ROUNDED, aFlag);
 		if (notification != null) {
 			isRounded = aFlag;
 			hasChanged(notification);
@@ -218,7 +218,7 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 
 	@Override
 	public void setArcSize(int anArcSize) {
-		FGEAttributeNotification<?> notification = requireChange(ARC_SIZE, anArcSize);
+		DianaAttributeNotification<?> notification = requireChange(ARC_SIZE, anArcSize);
 		if (notification != null) {
 			arcSize = anArcSize;
 			hasChanged(notification);
@@ -232,7 +232,7 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 
 	@Override
 	public void setIsStartingLocationFixed(boolean aFlag) {
-		FGEAttributeNotification<?> notification = requireChange(IS_STARTING_LOCATION_FIXED, aFlag);
+		DianaAttributeNotification<?> notification = requireChange(IS_STARTING_LOCATION_FIXED, aFlag);
 		if (notification != null) {
 			isStartingLocationFixed = aFlag;
 			hasChanged(notification);
@@ -246,7 +246,7 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 
 	@Override
 	public void setIsStartingLocationDraggable(boolean aFlag) {
-		FGEAttributeNotification<?> notification = requireChange(IS_STARTING_LOCATION_DRAGGABLE, aFlag);
+		DianaAttributeNotification<?> notification = requireChange(IS_STARTING_LOCATION_DRAGGABLE, aFlag);
 		if (notification != null) {
 			isStartingLocationDraggable = aFlag;
 			hasChanged(notification);
@@ -260,7 +260,7 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 
 	@Override
 	public void setIsEndingLocationFixed(boolean aFlag) {
-		FGEAttributeNotification<?> notification = requireChange(IS_ENDING_LOCATION_FIXED, aFlag);
+		DianaAttributeNotification<?> notification = requireChange(IS_ENDING_LOCATION_FIXED, aFlag);
 		if (notification != null) {
 			isEndingLocationFixed = aFlag;
 			hasChanged(notification);
@@ -274,15 +274,15 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 
 	@Override
 	public void setIsEndingLocationDraggable(boolean aFlag) {
-		FGEAttributeNotification<?> notification = requireChange(IS_ENDING_LOCATION_DRAGGABLE, aFlag);
+		DianaAttributeNotification<?> notification = requireChange(IS_ENDING_LOCATION_DRAGGABLE, aFlag);
 		if (notification != null) {
 			isEndingLocationDraggable = aFlag;
 			hasChanged(notification);
 		}
 	}
 
-	private FGEPoint fixedStartLocationRelativeToStartObject;
-	private FGEPoint fixedEndLocationRelativeToEndObject;
+	private DianaPoint fixedStartLocationRelativeToStartObject;
+	private DianaPoint fixedEndLocationRelativeToEndObject;
 
 	/**
 	 * Return start location asserting start location is fixed. Return position relative to start object (in the start-object coordinates
@@ -291,18 +291,18 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 	 * @return
 	 */
 	@Override
-	public FGEPoint getFixedStartLocation() {
+	public DianaPoint getFixedStartLocation() {
 		if (!getIsStartingLocationFixed()) {
 			return null;
 		}
 		if (fixedStartLocationRelativeToStartObject == null) {
-			fixedStartLocationRelativeToStartObject = new FGEPoint(0.9, 0.9);
-			/*FGEPoint centerOfEndObjectSeenFromStartObject = FGEUtils.convertNormalizedPoint(getEndObject(), new FGEPoint(0.5, 0.5),
+			fixedStartLocationRelativeToStartObject = new DianaPoint(0.9, 0.9);
+			/*DianaPoint centerOfEndObjectSeenFromStartObject = DianaUtils.convertNormalizedPoint(getEndObject(), new DianaPoint(0.5, 0.5),
 					getStartObject());
 			fixedStartLocationRelativeToStartObject = getStartObject().getShape().outlineIntersect(centerOfEndObjectSeenFromStartObject);
 			if (fixedStartLocationRelativeToStartObject == null) {
 				logger.warning("outlineIntersect() returned null");
-				fixedStartLocationRelativeToStartObject = new FGEPoint(0.9, 0.9);
+				fixedStartLocationRelativeToStartObject = new DianaPoint(0.9, 0.9);
 			}*/
 		}
 		return fixedStartLocationRelativeToStartObject;
@@ -316,8 +316,8 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 	 *            : relative to start object
 	 */
 	@Override
-	public void setFixedStartLocation(FGEPoint aPoint) {
-		FGEAttributeNotification<?> notification = requireChange(FIXED_START_LOCATION, aPoint);
+	public void setFixedStartLocation(DianaPoint aPoint) {
+		DianaAttributeNotification<?> notification = requireChange(FIXED_START_LOCATION, aPoint);
 		if (notification != null) {
 			if (!getIsStartingLocationFixed() && aPoint != null) {
 				setIsStartingLocationFixed(true);
@@ -333,18 +333,18 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 	 * @return
 	 */
 	@Override
-	public FGEPoint getFixedEndLocation() {
+	public DianaPoint getFixedEndLocation() {
 		if (!getIsEndingLocationFixed()) {
 			return null;
 		}
 		if (fixedEndLocationRelativeToEndObject == null) {
-			fixedEndLocationRelativeToEndObject = new FGEPoint(0.1, 0.1);
-			/*FGEPoint centerOfStartObjectSeenFromEndObject = FGEUtils.convertNormalizedPoint(getStartObject(), new FGEPoint(0.5, 0.5),
+			fixedEndLocationRelativeToEndObject = new DianaPoint(0.1, 0.1);
+			/*DianaPoint centerOfStartObjectSeenFromEndObject = DianaUtils.convertNormalizedPoint(getStartObject(), new DianaPoint(0.5, 0.5),
 					getEndObject());
 			fixedEndLocationRelativeToEndObject = getEndObject().getShape().outlineIntersect(centerOfStartObjectSeenFromEndObject);
 			if (fixedEndLocationRelativeToEndObject == null) {
 				logger.warning("outlineIntersect() returned null");
-				fixedEndLocationRelativeToEndObject = new FGEPoint(0.1, 0.1);
+				fixedEndLocationRelativeToEndObject = new DianaPoint(0.1, 0.1);
 			}*/
 		}
 		return fixedEndLocationRelativeToEndObject;
@@ -357,8 +357,8 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 	 *            , relative to end object
 	 */
 	@Override
-	public void setFixedEndLocation(FGEPoint aPoint) {
-		FGEAttributeNotification<?> notification = requireChange(FIXED_END_LOCATION, aPoint);
+	public void setFixedEndLocation(DianaPoint aPoint) {
+		DianaAttributeNotification<?> notification = requireChange(FIXED_END_LOCATION, aPoint);
 		if (notification != null) {
 			if (!getIsEndingLocationFixed() && aPoint != null) {
 				setIsEndingLocationFixed(true);
@@ -399,13 +399,13 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 	}
 
 	@Override
-	public FGEPoint getCrossedControlPoint() {
+	public DianaPoint getCrossedControlPoint() {
 		return crossedControlPoint;
 	}
 
 	@Override
-	public void setCrossedControlPoint(FGEPoint aPoint) {
-		FGEAttributeNotification<?> notification = requireChange(CROSSED_CONTROL_POINT, aPoint);
+	public void setCrossedControlPoint(DianaPoint aPoint) {
+		DianaAttributeNotification<?> notification = requireChange(CROSSED_CONTROL_POINT, aPoint);
 		if (notification != null) {
 			crossedControlPoint = aPoint;
 			hasChanged(notification);
@@ -413,13 +413,13 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 	}
 
 	@Override
-	public FGERectPolylin getPolylin() {
+	public DianaRectPolylin getPolylin() {
 		return polylin;
 	}
 
 	@Override
-	public void setPolylin(FGERectPolylin aPolylin) {
-		FGEAttributeNotification<?> notification = requireChange(POLYLIN, aPolylin);
+	public void setPolylin(DianaRectPolylin aPolylin) {
+		DianaAttributeNotification<?> notification = requireChange(POLYLIN, aPolylin);
 		if (notification != null) {
 			polylin = aPolylin;
 			hasChanged(notification);

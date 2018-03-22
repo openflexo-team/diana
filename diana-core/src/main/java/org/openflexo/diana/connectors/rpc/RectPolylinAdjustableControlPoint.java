@@ -42,21 +42,21 @@ package org.openflexo.diana.connectors.rpc;
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 
-import org.openflexo.diana.FGEConstants;
+import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.connectors.RectPolylinConnectorSpecification;
 import org.openflexo.diana.connectors.impl.RectPolylinConnector;
 import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.cp.ConnectorAdjustingControlPoint;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectPolylin;
-import org.openflexo.diana.geom.area.FGEArea;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectPolylin;
+import org.openflexo.diana.geom.area.DianaArea;
 
 public abstract class RectPolylinAdjustableControlPoint extends ConnectorAdjustingControlPoint {
-	protected FGERectPolylin initialPolylin;
+	protected DianaRectPolylin initialPolylin;
 	private RectPolylinConnector connector;
 
-	public RectPolylinAdjustableControlPoint(FGEPoint point, RectPolylinConnector connector) {
+	public RectPolylinAdjustableControlPoint(DianaPoint point, RectPolylinConnector connector) {
 		super(connector.getConnectorNode(), point);
 		this.connector = connector;
 	}
@@ -67,22 +67,22 @@ public abstract class RectPolylinAdjustableControlPoint extends ConnectorAdjusti
 
 	@Override
 	public Cursor getDraggingCursor() {
-		return FGEConstants.MOVE_CURSOR;
+		return DianaConstants.MOVE_CURSOR;
 	}
 
 	@Override
-	public abstract FGEArea getDraggingAuthorizedArea();
+	public abstract DianaArea getDraggingAuthorizedArea();
 
 	@Override
-	public abstract boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-			FGEPoint initialPoint, MouseEvent event);
+	public abstract boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+			DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event);
 
 	protected void notifyConnectorChanged() {
 		getNode().notifyConnectorModified();
 	}
 
 	@Override
-	public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
+	public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 		super.startDragging(controller, startPoint);
 		initialPolylin = getPolylin().clone();
 		getConnector().setWasManuallyAdjusted(true);
@@ -99,7 +99,7 @@ public abstract class RectPolylinAdjustableControlPoint extends ConnectorAdjusti
 		return connector;
 	}
 
-	public FGERectPolylin getPolylin() {
+	public DianaRectPolylin getPolylin() {
 		return getConnector().getCurrentPolylin();
 	}
 

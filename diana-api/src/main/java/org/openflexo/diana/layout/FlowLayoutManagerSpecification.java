@@ -38,7 +38,7 @@
 
 package org.openflexo.diana.layout;
 
-import org.openflexo.diana.FGELayoutManagerSpecification;
+import org.openflexo.diana.DianaLayoutManagerSpecification;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
@@ -58,7 +58,7 @@ import org.openflexo.model.annotations.XMLElement;
 @ModelEntity
 @XMLElement
 @Imports({ @Import(FlowLayoutManager.class) })
-public interface FlowLayoutManagerSpecification extends FGELayoutManagerSpecification<FlowLayoutManager<?>> {
+public interface FlowLayoutManagerSpecification extends DianaLayoutManagerSpecification<FlowLayoutManager<?>> {
 
 	@PropertyIdentifier(type = FlowOrientationType.class)
 	public static final String FLOW_ORIENTATION_TYPE_KEY = "flowOrientationType";

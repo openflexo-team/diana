@@ -38,7 +38,7 @@
 
 package org.openflexo.diana.layout;
 
-import org.openflexo.diana.FGELayoutManagerSpecification;
+import org.openflexo.diana.DianaLayoutManagerSpecification;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
@@ -58,7 +58,7 @@ import org.openflexo.model.annotations.XMLElement;
 @ModelEntity
 @XMLElement
 @Imports({ @Import(OutlineLayoutManager.class) })
-public interface OutlineLayoutManagerSpecification extends FGELayoutManagerSpecification<OutlineLayoutManager<?>> {
+public interface OutlineLayoutManagerSpecification extends DianaLayoutManagerSpecification<OutlineLayoutManager<?>> {
 
 	@PropertyIdentifier(type = OutlineLocationType.class)
 	public static final String OUTLINE_LOCATION_TYPE_KEY = "outlineLocationType";

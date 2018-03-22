@@ -47,22 +47,22 @@ import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.GeometricNode;
 import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.cp.ControlPoint;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.area.FGEArea;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.area.DianaArea;
 
 /**
  * A {@link LabelControlPoint} encodes an interactive control point which purpose is to adjust geometry of a GeometricNode<br>
  * 
  * @author sylvain
  */
-public abstract class GeometryAdjustingControlPoint<O extends FGEArea> extends ControlPoint {
+public abstract class GeometryAdjustingControlPoint<O extends DianaArea> extends ControlPoint {
 
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(GeometryAdjustingControlPoint.class.getPackage().getName());
 
 	private String name;
 
-	public GeometryAdjustingControlPoint(GeometricNode<?> node, String aName, FGEPoint pt) {
+	public GeometryAdjustingControlPoint(GeometricNode<?> node, String aName, DianaPoint pt) {
 		super(node, pt);
 		name = aName;
 	}
@@ -83,12 +83,12 @@ public abstract class GeometryAdjustingControlPoint<O extends FGEArea> extends C
 	}
 
 	@Override
-	public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
+	public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 	}
 
 	@Override
-	public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-			FGEPoint initialPoint, MouseEvent event) {
+	public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+			DianaPoint initialPoint, MouseEvent event) {
 		return true;
 	}
 

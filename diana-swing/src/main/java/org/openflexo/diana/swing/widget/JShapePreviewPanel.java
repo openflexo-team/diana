@@ -49,9 +49,9 @@ import javax.swing.JPanel;
 import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.Drawing;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
-import org.openflexo.diana.FGEConstants;
-import org.openflexo.diana.FGECoreUtils;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaConstants;
+import org.openflexo.diana.DianaCoreUtils;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.GRStructureVisitor;
 import org.openflexo.diana.ShadowStyle;
@@ -89,7 +89,7 @@ public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel {
 	private int height = 80;
 	private static final float RATIO = 0.6f;
 
-	private FGEModelFactory factory;
+	private DianaModelFactory factory;
 
 	private ForegroundStyle foregroundStyle;
 	private BackgroundStyle backgroundStyle;
@@ -98,14 +98,14 @@ public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel {
 	public JShapePreviewPanel(ShapeSpecification aShape) {
 		super(new BorderLayout());
 
-		factory = FGECoreUtils.TOOLS_FACTORY;
+		factory = DianaCoreUtils.TOOLS_FACTORY;
 
 		// representedDrawing = new RepresentedDrawing();
 		// representedShape = new RepresentedShape();
 		setPreferredSize(new Dimension(getPanelWidth(), getPanelHeight()));
 
 		foregroundStyle = factory.makeForegroundStyle(Color.BLACK);
-		backgroundStyle = factory.makeColoredBackground(FGEConstants.DEFAULT_BACKGROUND_COLOR);
+		backgroundStyle = factory.makeColoredBackground(DianaConstants.DEFAULT_BACKGROUND_COLOR);
 		shadowStyle = factory.makeNoneShadowStyle();
 
 		// final Vector<RepresentedShape> singleton = new Vector<RepresentedShape>();
@@ -117,14 +117,14 @@ public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel {
 				final DrawingGRBinding<JShapePreviewPanel> previewPanelBinding = bindDrawing(JShapePreviewPanel.class, "previewPanel",
 						new DrawingGRProvider<JShapePreviewPanel>() {
 					@Override
-					public DrawingGraphicalRepresentation provideGR(JShapePreviewPanel drawable, FGEModelFactory factory) {
+					public DrawingGraphicalRepresentation provideGR(JShapePreviewPanel drawable, DianaModelFactory factory) {
 						return drawingGR;
 					}
 				});
 				final ShapeGRBinding<JShapePreviewPanel> shapeBinding = bindShape(JShapePreviewPanel.class, "line",
 						new ShapeGRProvider<JShapePreviewPanel>() {
 					@Override
-					public ShapeGraphicalRepresentation provideGR(JShapePreviewPanel drawable, FGEModelFactory factory) {
+					public ShapeGraphicalRepresentation provideGR(JShapePreviewPanel drawable, DianaModelFactory factory) {
 						return shapeGR;
 					}
 				});

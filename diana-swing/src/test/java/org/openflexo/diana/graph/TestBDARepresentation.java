@@ -51,7 +51,7 @@ import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
 
 @RunWith(OrderedRunner.class)
-public class TestBDARepresentation extends AbstractTestFGEGraph {
+public class TestBDARepresentation extends AbstractTestDianaGraph {
 
 	private static final Logger logger = FlexoLogger.getLogger(TestBDARepresentation.class.getPackage().getName());
 

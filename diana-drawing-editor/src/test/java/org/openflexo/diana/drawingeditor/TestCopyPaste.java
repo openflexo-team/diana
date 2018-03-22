@@ -52,7 +52,7 @@ import org.openflexo.diana.drawingeditor.model.Connector;
 import org.openflexo.diana.drawingeditor.model.Diagram;
 import org.openflexo.diana.drawingeditor.model.DiagramFactory;
 import org.openflexo.diana.drawingeditor.model.Shape;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.model.factory.Clipboard;
 import org.openflexo.model.factory.EditingContextImpl;
@@ -98,11 +98,11 @@ public class TestCopyPaste extends TestCase {
 		Diagram diagram = factory.newInstance(Diagram.class);
 		assertTrue(diagram instanceof Diagram);
 
-		Shape shape1 = factory.makeNewShape(ShapeType.RECTANGLE, new FGEPoint(100, 100), diagram);
+		Shape shape1 = factory.makeNewShape(ShapeType.RECTANGLE, new DianaPoint(100, 100), diagram);
 		shape1.getGraphicalRepresentation().setForeground(factory.makeForegroundStyle(Color.RED));
 		shape1.getGraphicalRepresentation().setBackground(factory.makeColoredBackground(Color.BLUE));
 		assertTrue(shape1 instanceof Shape);
-		Shape shape2 = factory.makeNewShape(ShapeType.RECTANGLE, new FGEPoint(200, 100), diagram);
+		Shape shape2 = factory.makeNewShape(ShapeType.RECTANGLE, new DianaPoint(200, 100), diagram);
 		shape2.getGraphicalRepresentation().setForeground(factory.makeForegroundStyle(Color.BLUE));
 		shape2.getGraphicalRepresentation().setBackground(factory.makeColoredBackground(Color.WHITE));
 		assertTrue(shape2 instanceof Shape);

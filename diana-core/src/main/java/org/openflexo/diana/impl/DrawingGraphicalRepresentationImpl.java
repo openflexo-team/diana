@@ -43,12 +43,12 @@ import java.awt.Color;
 import java.util.logging.Logger;
 
 import org.openflexo.diana.DrawingGraphicalRepresentation;
-import org.openflexo.diana.geom.FGEDimension;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.geom.FGERectangle;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.graphics.DrawingDecorationPainter;
 import org.openflexo.diana.notifications.DrawingNeedsToBeRedrawn;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.diana.notifications.ObjectHasResized;
 import org.openflexo.diana.notifications.ObjectResized;
 import org.openflexo.diana.notifications.ObjectWillResize;
@@ -96,8 +96,8 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 					PredefinedMouseDragControlActionType.RECTANGLE_SELECTING));
 			addToMouseDragControls(getFactory().makeMouseDragControl("Zoom", MouseButton.RIGHT, PredefinedMouseDragControlActionType.ZOOM));
 		}
-		// width = FGEConstants.DEFAULT_DRAWING_WIDTH;
-		// height = FGEConstants.DEFAULT_DRAWING_HEIGHT;
+		// width = DianaConstants.DEFAULT_DRAWING_WIDTH;
+		// height = DianaConstants.DEFAULT_DRAWING_HEIGHT;
 		// bgStyle = getFactory().makeColoredBackground(getBackgroundColor());
 	}
 	*/
@@ -169,8 +169,8 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 	// *******************************************************************************
 
 	@Override
-	public FGERectangle getWorkingArea() {
-		return new FGERectangle(0, 0, getWidth(), getHeight(), Filling.FILLED);
+	public DianaRectangle getWorkingArea() {
+		return new DianaRectangle(0, 0, getWidth(), getHeight(), Filling.FILLED);
 	}
 
 	@Override
@@ -187,7 +187,7 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 	public void setBackgroundColor(Color backgroundColor) {
 		// logger.info("For "+this+" Set bg color to "+backgroundColor);
 
-		FGEAttributeNotification<?> notification = requireChange(BACKGROUND_COLOR, backgroundColor);
+		DianaAttributeNotification<?> notification = requireChange(BACKGROUND_COLOR, backgroundColor);
 		if (notification != null) {
 			this.backgroundColor = backgroundColor;
 			// bgStyle = getFactory().makeColoredBackground(backgroundColor);
@@ -202,7 +202,7 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 
 	@Override
 	public void setFocusColor(Color focusColor) {
-		FGEAttributeNotification<?> notification = requireChange(FOCUS_COLOR, focusColor);
+		DianaAttributeNotification<?> notification = requireChange(FOCUS_COLOR, focusColor);
 		if (notification != null) {
 			this.focusColor = focusColor;
 			hasChanged(notification);
@@ -216,7 +216,7 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 
 	@Override
 	public void setSelectionColor(Color selectionColor) {
-		FGEAttributeNotification<?> notification = requireChange(SELECTION_COLOR, selectionColor);
+		DianaAttributeNotification<?> notification = requireChange(SELECTION_COLOR, selectionColor);
 		if (notification != null) {
 			this.selectionColor = selectionColor;
 			hasChanged(notification);
@@ -230,7 +230,7 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 
 	@Override
 	public void setRectangleSelectingSelectionColor(Color selectionColor) {
-		FGEAttributeNotification<?> notification = requireChange(RECTANGLE_SELECTING_SELECTION_COLOR, selectionColor);
+		DianaAttributeNotification<?> notification = requireChange(RECTANGLE_SELECTING_SELECTION_COLOR, selectionColor);
 		if (notification != null) {
 			this.rectangleSelectingSelectionColor = selectionColor;
 			hasChanged(notification);
@@ -244,7 +244,7 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 
 	@Override
 	public void setDecorationPainter(DrawingDecorationPainter aPainter) {
-		// decorationGraphics = new FGEDrawingDecorationGraphicsImpl(this);
+		// decorationGraphics = new DianaDrawingDecorationGraphicsImpl(this);
 		decorationPainter = aPainter;
 	}
 
@@ -267,7 +267,7 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 	public void setDrawWorkingArea(boolean drawWorkingArea) {
 		// logger.info("setDrawWorkingArea with "+drawWorkingArea);
 
-		FGEAttributeNotification<?> notification = requireChange(DRAW_WORKING_AREA, drawWorkingArea);
+		DianaAttributeNotification<?> notification = requireChange(DRAW_WORKING_AREA, drawWorkingArea);
 		if (notification != null) {
 			this.drawWorkingArea = drawWorkingArea;
 			hasChanged(notification);
@@ -281,7 +281,7 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 
 	@Override
 	public void setIsResizable(boolean isResizable) {
-		FGEAttributeNotification<?> notification = requireChange(IS_RESIZABLE, isResizable);
+		DianaAttributeNotification<?> notification = requireChange(IS_RESIZABLE, isResizable);
 		if (notification != null) {
 			this.isResizable = isResizable;
 			hasChanged(notification);
@@ -289,15 +289,15 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 	}
 
 	@Override
-	public FGEDimension getSize() {
-		return new FGEDimension(getWidth(), getHeight());
+	public DianaDimension getSize() {
+		return new DianaDimension(getWidth(), getHeight());
 	}
 
 	/**
 	 * Notify that the object just resized
 	 */
 	@Override
-	public void notifyObjectResized(FGEDimension oldSize) {
+	public void notifyObjectResized(DianaDimension oldSize) {
 		notifyObservers(new ObjectResized(oldSize, getSize()));
 	}
 

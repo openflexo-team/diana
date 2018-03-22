@@ -60,7 +60,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.SwingUtilities;
 
 import org.openflexo.diana.ContainerGraphicalRepresentation;
-import org.openflexo.diana.FGEConstants;
+import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.Drawing.ContainerNode;
@@ -84,8 +84,8 @@ import org.openflexo.diana.notifications.ShapeNeedsToBeRedrawn;
 import org.openflexo.diana.swing.SwingViewFactory;
 import org.openflexo.diana.swing.control.tools.JDianaPalette;
 import org.openflexo.diana.swing.graphics.DrawUtils;
-import org.openflexo.diana.swing.graphics.JFGEShapeGraphics;
-import org.openflexo.diana.swing.paint.FGEPaintManager;
+import org.openflexo.diana.swing.graphics.JDianaShapeGraphics;
+import org.openflexo.diana.swing.paint.DianaPaintManager;
 import org.openflexo.diana.view.ShapeView;
 
 /**
@@ -101,12 +101,12 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 	private static final Logger logger = Logger.getLogger(JShapeView.class.getPackage().getName());
 
 	private ShapeNode<O> shapeNode;
-	private FGEViewMouseListener mouseListener;
+	private DianaViewMouseListener mouseListener;
 	private AbstractDianaEditor<?, SwingViewFactory, JComponent> controller;
 
 	private JLabelView<O> labelView;
 
-	protected JFGEShapeGraphics graphics;
+	protected JDianaShapeGraphics graphics;
 
 	public JShapeView(ShapeNode<O> node, AbstractDianaEditor<?, SwingViewFactory, JComponent> controller) {
 		super();
@@ -133,23 +133,23 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 		updateVisibility();
 		setFocusable(true);
 
-		graphics = new JFGEShapeGraphics(node, this);
+		graphics = new JDianaShapeGraphics(node, this);
 
 		// setBorder(BorderFactory.createLineBorder(Color.RED));
 	}
 
 	@Override
-	public JFGEShapeGraphics getFGEGraphics() {
+	public JDianaShapeGraphics getDianaGraphics() {
 		return graphics;
 	}
 
-	public void disableFGEViewMouseListener() {
-		// System.out.println("Disable FGEViewMouseListener ");
+	public void disableDianaViewMouseListener() {
+		// System.out.println("Disable DianaViewMouseListener ");
 		removeMouseListener(mouseListener);
 		removeMouseMotionListener(mouseListener);
 	}
 
-	public void enableFGEViewMouseListener() {
+	public void enableDianaViewMouseListener() {
 		addMouseListener(mouseListener);
 		addMouseMotionListener(mouseListener);
 	}
@@ -218,7 +218,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 	}
 
 	@Override
-	public FGEPaintManager getPaintManager() {
+	public DianaPaintManager getPaintManager() {
 		if (getDrawingView() != null) {
 			return getDrawingView().getPaintManager();
 		}
@@ -260,9 +260,9 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 
 	private void relocateView() {
 
-		int newX = shapeNode.getViewX(getScale()) /*+ (int) (FGEUtils.getCumulativeLeftBorders(shapeNode.getParentNode()) * getScale())*/
+		int newX = shapeNode.getViewX(getScale()) /*+ (int) (DianaUtils.getCumulativeLeftBorders(shapeNode.getParentNode()) * getScale())*/
 				- (int) (shapeNode.getBorderLeft() * getScale());
-		int newY = shapeNode.getViewY(getScale()) /*+ (int) (FGEUtils.getCumulativeTopBorders(shapeNode.getParentNode()) * getScale())*/
+		int newY = shapeNode.getViewY(getScale()) /*+ (int) (DianaUtils.getCumulativeTopBorders(shapeNode.getParentNode()) * getScale())*/
 				- (int) (shapeNode.getBorderTop() * getScale());
 
 		if (shapeNode.getParentNode() instanceof ShapeNode) {
@@ -329,9 +329,9 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 
 	public Integer getLayer() {
 		if (shapeNode.getGraphicalRepresentation() == null) {
-			return FGEConstants.INITIAL_LAYER;
+			return DianaConstants.INITIAL_LAYER;
 		}
-		return FGEConstants.INITIAL_LAYER + shapeNode.getGraphicalRepresentation().getLayer();
+		return DianaConstants.INITIAL_LAYER + shapeNode.getGraphicalRepresentation().getLayer();
 	}
 
 	@Override
@@ -345,13 +345,13 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 				if (getPaintManager().isTemporaryObject(shapeNode)) {
 					// This object is declared to be a temporary object, to be redrawn
 					// continuously, so we need to ignore it: do nothing
-					if (FGEPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE)) {
-						FGEPaintManager.paintPrimitiveLogger.fine("JShapeView: buffering paint, ignore: " + shapeNode);
+					if (DianaPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE)) {
+						DianaPaintManager.paintPrimitiveLogger.fine("JShapeView: buffering paint, ignore: " + shapeNode);
 					}
 				}
 				else {
-					if (FGEPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE)) {
-						FGEPaintManager.paintPrimitiveLogger
+					if (DianaPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE)) {
+						DianaPaintManager.paintPrimitiveLogger
 								.fine("JShapeView: buffering paint, draw: " + shapeNode + " clip=" + g.getClip());
 					}
 					doPaint(g);
@@ -372,8 +372,8 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 				Point dp2 = new Point(localViewBounds.x+localViewBounds.width,localViewBounds.y+localViewBounds.height);
 				Point sp1 = viewBoundsInDrawingView.getLocation();
 				Point sp2 = new Point(viewBoundsInDrawingView.x+viewBoundsInDrawingView.width,viewBoundsInDrawingView.y+viewBoundsInDrawingView.height);
-				if (FGEPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE))
-					FGEPaintManager.paintPrimitiveLogger.fine("JShapeView: use image buffer, copy area from "+sp1+"x"+sp2+" to "+dp1+"x"+dp2);
+				if (DianaPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE))
+					DianaPaintManager.paintPrimitiveLogger.fine("JShapeView: use image buffer, copy area from "+sp1+"x"+sp2+" to "+dp1+"x"+dp2);
 				g.drawImage(buffer,
 						dp1.x,dp1.y,dp2.x,dp2.y,
 						sp1.x,sp1.y,sp2.x,sp2.y,

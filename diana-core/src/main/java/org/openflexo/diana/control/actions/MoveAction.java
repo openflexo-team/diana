@@ -57,7 +57,7 @@ import org.openflexo.diana.ShapeGraphicalRepresentation.LocationConstraints;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.control.MouseControlContext;
-import org.openflexo.diana.view.FGEView;
+import org.openflexo.diana.view.DianaView;
 import org.openflexo.gina.utils.FIBIconLibrary;
 import org.openflexo.toolbox.ToolBox;
 
@@ -113,7 +113,7 @@ public class MoveAction extends MouseDragControlActionImpl<DianaInteractiveViewe
 				logger.fine("Perform mouse PRESSED on MOVE AbstractMouseDragControlActionImpl");
 			}
 			initialClickOffset = getPointInView(node, controller, context);
-			FGEView<?, ?> view = ((AbstractDianaEditor<?, ?, ?>) controller).getDrawingView().viewForNode(node);
+			DianaView<?, ?> view = ((AbstractDianaEditor<?, ?, ?>) controller).getDrawingView().viewForNode(node);
 			if (node instanceof ShapeNode && !node.getGraphicalRepresentation().getIsReadOnly() && node.getDrawing().isEditable()
 					&& ((ShapeNode<?>) node).getGraphicalRepresentation().getLocationConstraints() != LocationConstraints.UNMOVABLE) {
 				// Let's go for a move

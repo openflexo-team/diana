@@ -48,28 +48,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.ConnectorNode;
-import org.openflexo.diana.connectors.CurveConnectorSpecification;
 import org.openflexo.diana.connectors.ConnectorSymbol.EndSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.MiddleSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.StartSymbolType;
+import org.openflexo.diana.connectors.CurveConnectorSpecification;
 import org.openflexo.diana.cp.ConnectorAdjustingControlPoint;
 import org.openflexo.diana.cp.ControlPoint;
-import org.openflexo.diana.geom.FGEAbstractLine;
-import org.openflexo.diana.geom.FGEGeometricObject;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGEQuadCurve;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGESegment;
-import org.openflexo.diana.geom.FGEShape;
+import org.openflexo.diana.geom.DianaAbstractLine;
+import org.openflexo.diana.geom.DianaGeometricObject;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaQuadCurve;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geom.GeomUtils;
 import org.openflexo.diana.geom.ParallelLinesException;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEEmptyArea;
-import org.openflexo.diana.geom.area.FGEPlane;
-import org.openflexo.diana.graphics.FGEConnectorGraphics;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaEmptyArea;
+import org.openflexo.diana.geom.area.DianaPlane;
+import org.openflexo.diana.graphics.DianaConnectorGraphics;
 
 public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 
@@ -82,10 +82,10 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 
 	private boolean firstUpdated = false;
 
-	private FGESegment previous;
+	private DianaSegment previous;
 	private boolean willBeModified = false;
 
-	private FGEQuadCurve curve;
+	private DianaQuadCurve curve;
 
 	// *******************************************************************************
 	// * Constructor *
@@ -105,27 +105,27 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 		controlPoints = null;
 	}
 
-	public FGEPoint getCp1RelativeToStartObject() {
+	public DianaPoint getCp1RelativeToStartObject() {
 		return getPropertyValue(CurveConnectorSpecification.CP1_RELATIVE_TO_START_OBJECT);
 	}
 
-	public void setCp1RelativeToStartObject(FGEPoint aPoint) {
+	public void setCp1RelativeToStartObject(DianaPoint aPoint) {
 		setPropertyValue(CurveConnectorSpecification.CP1_RELATIVE_TO_START_OBJECT, aPoint);
 	}
 
-	public FGEPoint getCp2RelativeToEndObject() {
+	public DianaPoint getCp2RelativeToEndObject() {
 		return getPropertyValue(CurveConnectorSpecification.CP2_RELATIVE_TO_END_OBJECT);
 	}
 
-	public void setCp2RelativeToEndObject(FGEPoint aPoint) {
+	public void setCp2RelativeToEndObject(DianaPoint aPoint) {
 		setPropertyValue(CurveConnectorSpecification.CP2_RELATIVE_TO_END_OBJECT, aPoint);
 	}
 
-	public FGEPoint getCpPosition() {
+	public DianaPoint getCpPosition() {
 		return getPropertyValue(CurveConnectorSpecification.CP_POSITION);
 	}
 
-	public void setCpPosition(FGEPoint cpPosition) {
+	public void setCpPosition(DianaPoint cpPosition) {
 		setPropertyValue(CurveConnectorSpecification.CP_POSITION, cpPosition);
 	}
 
@@ -143,8 +143,8 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 	}
 
 	private void updateControlPoints() {
-		FGEPoint newP1 = null;
-		FGEPoint newP2 = null;
+		DianaPoint newP1 = null;
+		DianaPoint newP2 = null;
 
 		if (getAreBoundsAdjustable()) {
 
@@ -154,20 +154,20 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 				// We have to compute the intersection between this line and the outline
 				// of joined shapes
 
-				FGEPoint centerOfEndObjectSeenFromStartObject = FGEUtils.convertNormalizedPoint(getEndNode(), new FGEPoint(0.5, 0.5),
+				DianaPoint centerOfEndObjectSeenFromStartObject = DianaUtils.convertNormalizedPoint(getEndNode(), new DianaPoint(0.5, 0.5),
 						getStartNode());
 				setCp1RelativeToStartObject(getStartNode().getShape().outlineIntersect(centerOfEndObjectSeenFromStartObject));
 				if (getCp1RelativeToStartObject() == null) {
 					LOGGER.warning("outlineIntersect() returned null");
-					setCp1RelativeToStartObject(new FGEPoint(0.5, 0.5));
+					setCp1RelativeToStartObject(new DianaPoint(0.5, 0.5));
 				}
 
-				FGEPoint centerOfStartObjectSeenFromEndObject = FGEUtils.convertNormalizedPoint(getStartNode(), new FGEPoint(0.5, 0.5),
-						getEndNode());
+				DianaPoint centerOfStartObjectSeenFromEndObject = DianaUtils.convertNormalizedPoint(getStartNode(),
+						new DianaPoint(0.5, 0.5), getEndNode());
 				setCp2RelativeToEndObject(getEndNode().getShape().outlineIntersect(centerOfStartObjectSeenFromEndObject));
 				if (getCp2RelativeToEndObject() == null) {
 					LOGGER.warning("outlineIntersect() returned null");
-					setCp2RelativeToEndObject(new FGEPoint(0.5, 0.5));
+					setCp2RelativeToEndObject(new DianaPoint(0.5, 0.5));
 				}
 			}
 
@@ -180,7 +180,7 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 			}
 			setCp1RelativeToStartObject(getStartNode().getShape().outlineIntersect(getCp1RelativeToStartObject()));
 			if (getCp1RelativeToStartObject() != null) {
-				newP1 = FGEUtils.convertNormalizedPoint(getStartNode(), getCp1RelativeToStartObject(), connectorNode);
+				newP1 = DianaUtils.convertNormalizedPoint(getStartNode(), getCp1RelativeToStartObject(), connectorNode);
 			}
 
 			if (cp2 != null) {
@@ -188,12 +188,12 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 			}
 			setCp2RelativeToEndObject(getEndNode().getShape().outlineIntersect(getCp2RelativeToEndObject()));
 			if (getCp2RelativeToEndObject() != null) {
-				newP2 = FGEUtils.convertNormalizedPoint(getEndNode(), getCp2RelativeToEndObject(), connectorNode);
+				newP2 = DianaUtils.convertNormalizedPoint(getEndNode(), getCp2RelativeToEndObject(), connectorNode);
 			}
 
 			if (getCpPosition() == null) {
 				// The 0.3 is there so that we can see the curve of the edge.
-				setCpPosition(new FGEPoint(0.5, 0.3));
+				setCpPosition(new DianaPoint(0.5, 0.3));
 			}
 		}
 
@@ -202,53 +202,53 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 			// Not adjustable bounds
 
 			if (getCpPosition() == null) {
-				setCpPosition(new FGEPoint(0.5, 0.4));
+				setCpPosition(new DianaPoint(0.5, 0.4));
 			}
 
 			updateCPPositionIfNeeded();
 
-			FGEPoint cpPositionSeenFromStartObject = FGEUtils.convertNormalizedPoint(connectorNode, getCpPosition(), getStartNode());
+			DianaPoint cpPositionSeenFromStartObject = DianaUtils.convertNormalizedPoint(connectorNode, getCpPosition(), getStartNode());
 
 			setCp1RelativeToStartObject(getStartNode().getShape().outlineIntersect(cpPositionSeenFromStartObject));
 			if (getCp1RelativeToStartObject() == null) {
 				LOGGER.warning("outlineIntersect() returned null");
-				setCp1RelativeToStartObject(new FGEPoint(0.5, 0.5));
+				setCp1RelativeToStartObject(new DianaPoint(0.5, 0.5));
 			}
 
-			FGEPoint cpPositionSeenFromEndObject = FGEUtils.convertNormalizedPoint(connectorNode, getCpPosition(), getEndNode());
+			DianaPoint cpPositionSeenFromEndObject = DianaUtils.convertNormalizedPoint(connectorNode, getCpPosition(), getEndNode());
 			setCp2RelativeToEndObject(getEndNode().getShape().outlineIntersect(cpPositionSeenFromEndObject));
 			if (getCp2RelativeToEndObject() == null) {
 				LOGGER.warning("outlineIntersect() returned null");
-				setCp2RelativeToEndObject(new FGEPoint(0.5, 0.5));
+				setCp2RelativeToEndObject(new DianaPoint(0.5, 0.5));
 			}
 
-			newP1 = FGEUtils.convertNormalizedPoint(getStartNode(), getCp1RelativeToStartObject(), connectorNode);
-			newP2 = FGEUtils.convertNormalizedPoint(getEndNode(), getCp2RelativeToEndObject(), connectorNode);
+			newP1 = DianaUtils.convertNormalizedPoint(getStartNode(), getCp1RelativeToStartObject(), connectorNode);
+			newP2 = DianaUtils.convertNormalizedPoint(getEndNode(), getCp2RelativeToEndObject(), connectorNode);
 
 		}
 
 		cp1 = new ConnectorAdjustingControlPoint(connectorNode, newP1) {
 			@Override
-			public FGEArea getDraggingAuthorizedArea() {
+			public DianaArea getDraggingAuthorizedArea() {
 				if (getAreBoundsAdjustable()) {
-					FGEShape<?> shape = getStartNode().getFGEShape();
-					FGEShape<?> returned = (FGEShape<?>) shape
-							.transform(FGEUtils.convertNormalizedCoordinatesAT(getStartNode(), connectorNode));
+					DianaShape<?> shape = getStartNode().getDianaShape();
+					DianaShape<?> returned = (DianaShape<?>) shape
+							.transform(DianaUtils.convertNormalizedCoordinatesAT(getStartNode(), connectorNode));
 					returned.setIsFilled(false);
 					return returned;
 				}
 				else {
-					return new FGEEmptyArea();
+					return new DianaEmptyArea();
 				}
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				if (getAreBoundsAdjustable()) {
-					FGEPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+					DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
 					setPoint(pt);
-					setCp1RelativeToStartObject(FGEUtils.convertNormalizedPoint(connectorNode, pt, getStartNode()));
+					setCp1RelativeToStartObject(DianaUtils.convertNormalizedPoint(connectorNode, pt, getStartNode()));
 					refreshCurve();
 					connectorNode.notifyConnectorModified();
 				}
@@ -259,26 +259,26 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 
 		cp2 = new ConnectorAdjustingControlPoint(connectorNode, newP2) {
 			@Override
-			public FGEArea getDraggingAuthorizedArea() {
+			public DianaArea getDraggingAuthorizedArea() {
 				if (getAreBoundsAdjustable()) {
-					FGEShape<?> shape = getEndNode().getFGEShape();
-					FGEShape<?> returned = (FGEShape<?>) shape
-							.transform(FGEUtils.convertNormalizedCoordinatesAT(getEndNode(), connectorNode));
+					DianaShape<?> shape = getEndNode().getDianaShape();
+					DianaShape<?> returned = (DianaShape<?>) shape
+							.transform(DianaUtils.convertNormalizedCoordinatesAT(getEndNode(), connectorNode));
 					returned.setIsFilled(false);
 					return returned;
 				}
 				else {
-					return new FGEEmptyArea();
+					return new DianaEmptyArea();
 				}
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				if (getAreBoundsAdjustable()) {
-					FGEPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+					DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
 					setPoint(pt);
-					setCp2RelativeToEndObject(FGEUtils.convertNormalizedPoint(connectorNode, pt, getEndNode()));
+					setCp2RelativeToEndObject(DianaUtils.convertNormalizedPoint(connectorNode, pt, getEndNode()));
 					refreshCurve();
 					connectorNode.notifyConnectorModified();
 				}
@@ -288,20 +288,20 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 
 		cp = new ConnectorAdjustingControlPoint(connectorNode, getCpPosition()) {
 			@Override
-			public FGEArea getDraggingAuthorizedArea() {
-				return new FGEPlane();
+			public DianaArea getDraggingAuthorizedArea() {
+				return new DianaPlane();
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				/*
 				 * logger.info("dragToPoint() with newRelativePoint="+newRelativePoint+" "
 				 * +" pointRelativeToInitialConfiguration="+pointRelativeToInitialConfiguration +" newAbsolutePoint="+newAbsolutePoint
 				 * +" initialPoint="+initialPoint);
 				 */
 
-				FGEPoint pt = getNearestPointOnAuthorizedArea(/* pointRelativeToInitialConfiguration */newRelativePoint);
+				DianaPoint pt = getNearestPointOnAuthorizedArea(/* pointRelativeToInitialConfiguration */newRelativePoint);
 				setPoint(pt);
 				setCpPosition(pt);
 				if (!getAreBoundsAdjustable()) {
@@ -328,16 +328,16 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 	 */
 	private void updateCPPositionIfNeeded() {
 		if (willBeModified && previous != null) {
-			FGESegment newSegment = getCenterToCenterSegment();
+			DianaSegment newSegment = getCenterToCenterSegment();
 			double delta = newSegment.getAngle() - previous.getAngle();
-			if (Math.abs(delta) > FGEGeometricObject.EPSILON) {
-				FGEPoint inter;
+			if (Math.abs(delta) > DianaGeometricObject.EPSILON) {
+				DianaPoint inter;
 				try {
-					inter = FGEAbstractLine.getLineIntersection(previous, newSegment);
+					inter = DianaAbstractLine.getLineIntersection(previous, newSegment);
 				} catch (ParallelLinesException e) {
 					return;
 				}
-				FGEPoint newCPPosition = new FGEPoint();
+				DianaPoint newCPPosition = new DianaPoint();
 				AffineTransform at = AffineTransform.getTranslateInstance(inter.x, inter.y);
 				at.concatenate(AffineTransform.getRotateInstance(-delta));
 				at.concatenate(AffineTransform.getTranslateInstance(-inter.x, -inter.y));
@@ -355,9 +355,10 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 		previous = getCenterToCenterSegment();
 	}
 
-	private FGESegment getCenterToCenterSegment() {
-		return new FGESegment(FGEUtils.convertNormalizedPoint(getStartNode(), getStartNode().getFGEShape().getCenter(), connectorNode),
-				FGEUtils.convertNormalizedPoint(getEndNode(), getEndNode().getFGEShape().getCenter(), connectorNode));
+	private DianaSegment getCenterToCenterSegment() {
+		return new DianaSegment(
+				DianaUtils.convertNormalizedPoint(getStartNode(), getStartNode().getDianaShape().getCenter(), connectorNode),
+				DianaUtils.convertNormalizedPoint(getEndNode(), getEndNode().getDianaShape().getCenter(), connectorNode));
 	}
 
 	@Override
@@ -368,22 +369,22 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 	};
 
 	private void updateFromNewCPPosition() {
-		FGEPoint cpPositionSeenFromStartObject = FGEUtils.convertNormalizedPoint(connectorNode, getCpPosition(), getStartNode());
+		DianaPoint cpPositionSeenFromStartObject = DianaUtils.convertNormalizedPoint(connectorNode, getCpPosition(), getStartNode());
 		setCp1RelativeToStartObject(getStartNode().getShape().outlineIntersect(cpPositionSeenFromStartObject));
 		if (getCp1RelativeToStartObject() == null) {
 			LOGGER.warning("outlineIntersect() returned null");
-			setCp1RelativeToStartObject(new FGEPoint(0.5, 0.5));
+			setCp1RelativeToStartObject(new DianaPoint(0.5, 0.5));
 		}
 
-		FGEPoint cpPositionSeenFromEndObject = FGEUtils.convertNormalizedPoint(connectorNode, getCpPosition(), getEndNode());
+		DianaPoint cpPositionSeenFromEndObject = DianaUtils.convertNormalizedPoint(connectorNode, getCpPosition(), getEndNode());
 		setCp2RelativeToEndObject(getEndNode().getShape().outlineIntersect(cpPositionSeenFromEndObject));
 		if (getCp2RelativeToEndObject() == null) {
 			LOGGER.warning("outlineIntersect() returned null");
-			setCp2RelativeToEndObject(new FGEPoint(0.5, 0.5));
+			setCp2RelativeToEndObject(new DianaPoint(0.5, 0.5));
 		}
 
-		FGEPoint newP1 = FGEUtils.convertNormalizedPoint(getStartNode(), getCp1RelativeToStartObject(), connectorNode);
-		FGEPoint newP2 = FGEUtils.convertNormalizedPoint(getEndNode(), getCp2RelativeToEndObject(), connectorNode);
+		DianaPoint newP1 = DianaUtils.convertNormalizedPoint(getStartNode(), getCp1RelativeToStartObject(), connectorNode);
+		DianaPoint newP2 = DianaUtils.convertNormalizedPoint(getEndNode(), getCp2RelativeToEndObject(), connectorNode);
 
 		cp1.setPoint(newP1);
 		cp2.setPoint(newP2);
@@ -391,12 +392,12 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 
 	private void refreshCurve() {
 		if (cp1 != null && cp != null && cp2 != null) {
-			curve = FGEQuadCurve.makeCurveFromPoints(cp1.getPoint(), cp.getPoint(), cp2.getPoint());
+			curve = DianaQuadCurve.makeCurveFromPoints(cp1.getPoint(), cp.getPoint(), cp2.getPoint());
 		}
 	}
 
 	@Override
-	public void drawConnector(FGEConnectorGraphics g) {
+	public void drawConnector(DianaConnectorGraphics g) {
 		if (!firstUpdated) {
 			refreshConnector();
 		}
@@ -409,18 +410,18 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 
 			// Draw eventual symbols
 			if (getStartSymbol() != StartSymbolType.NONE) {
-				FGESegment firstSegment = curve.getApproximatedStartTangent();
-				FGESegment viewSegment = firstSegment.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
+				DianaSegment firstSegment = curve.getApproximatedStartTangent();
+				DianaSegment viewSegment = firstSegment.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
 				g.drawSymbol(firstSegment.getP1(), getStartSymbol(), getStartSymbolSize(), viewSegment.getAngle());
 			}
 			if (getEndSymbol() != EndSymbolType.NONE) {
-				FGESegment lastSegment = curve.getApproximatedEndTangent();
-				FGESegment viewSegment = lastSegment.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
+				DianaSegment lastSegment = curve.getApproximatedEndTangent();
+				DianaSegment viewSegment = lastSegment.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
 				g.drawSymbol(lastSegment.getP2(), getEndSymbol(), getEndSymbolSize(), viewSegment.getAngle() + Math.PI);
 			}
 			if (getMiddleSymbol() != MiddleSymbolType.NONE) {
-				FGESegment cpSegment = curve.getApproximatedControlPointTangent();
-				FGESegment viewSegment = cpSegment.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
+				DianaSegment cpSegment = curve.getApproximatedControlPointTangent();
+				DianaSegment viewSegment = cpSegment.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
 				g.drawSymbol(curve.getP3(), getMiddleSymbol(), getMiddleSymbolSize(), viewSegment.getAngle() + Math.PI);
 			}
 		}
@@ -428,13 +429,13 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 	}
 
 	@Override
-	public double distanceToConnector(FGEPoint aPoint, double scale) {
+	public double distanceToConnector(DianaPoint aPoint, double scale) {
 		if (curve == null) {
 			LOGGER.warning("Curve is null");
 			return Double.POSITIVE_INFINITY;
 		}
 		Point testPoint = connectorNode.convertNormalizedPointToViewCoordinates(aPoint, scale);
-		FGEPoint nearestPointOnCurve = curve.getNearestPoint(aPoint);
+		DianaPoint nearestPointOnCurve = curve.getNearestPoint(aPoint);
 		Point nearestPoint = connectorNode.convertNormalizedPointToViewCoordinates(nearestPointOnCurve, scale);
 		return testPoint.distance(nearestPoint);
 	}
@@ -462,19 +463,19 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 	}
 
 	@Override
-	public FGEPoint getMiddleSymbolLocation() {
+	public DianaPoint getMiddleSymbolLocation() {
 		if (getCpPosition() == null) {
-			return new FGEPoint(0, 0);
+			return new DianaPoint(0, 0);
 		}
 		return getCpPosition();
 	}
 
 	@Override
-	public FGERectangle getConnectorUsedBounds() {
+	public DianaRectangle getConnectorUsedBounds() {
 		if (curve == null) {
 			refreshCurve();
 		}
-		FGERectangle returned = new FGERectangle(Filling.FILLED);
+		DianaRectangle returned = new DianaRectangle(Filling.FILLED);
 		Rectangle2D rect = curve.getBounds2D();
 		returned.x = rect.getX();
 		returned.y = rect.getY();
@@ -489,7 +490,7 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 	 * @return
 	 */
 	@Override
-	public FGEPoint getStartLocation() {
+	public DianaPoint getStartLocation() {
 		return getCp1RelativeToStartObject();
 	}
 
@@ -499,14 +500,14 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 	 * @return
 	 */
 	@Override
-	public FGEPoint getEndLocation() {
+	public DianaPoint getEndLocation() {
 		return getCp2RelativeToEndObject();
 	}
 
 	@Override
 	public double getStartAngle() {
 		if (cp1 != null) {
-			return GeomUtils.getSlope(FGEPoint.ORIGIN_POINT, cp1.getPoint());
+			return GeomUtils.getSlope(DianaPoint.ORIGIN_POINT, cp1.getPoint());
 		}
 		return 0;
 	}
@@ -514,7 +515,7 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 	@Override
 	public double getEndAngle() {
 		if (cp2 != null) {
-			return GeomUtils.getSlope(FGEPoint.ORIGIN_POINT, cp2.getPoint());
+			return GeomUtils.getSlope(DianaPoint.ORIGIN_POINT, cp2.getPoint());
 		}
 		return 0;
 	}
@@ -545,9 +546,9 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 			updateControlPoints();
 		}
 
-		// if (notification instanceof FGENotification && observable == getConnectorSpecification()) {
+		// if (notification instanceof DianaNotification && observable == getConnectorSpecification()) {
 		// Those notifications are forwarded by the connector specification
-		// FGENotification notif = (FGENotification) notification;
+		// DianaNotification notif = (DianaNotification) notification;
 
 		// }
 

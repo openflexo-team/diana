@@ -43,7 +43,7 @@ import java.awt.Color;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.GRStructureVisitor;
 import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
@@ -67,7 +67,7 @@ public class ForceDirectedGraphLayoutManagerDrawing extends DrawingImpl<TestGrap
 	private ShapeGraphicalRepresentation nodeRepresentation;
 	private ConnectorGraphicalRepresentation edgeRepresentation;
 
-	public ForceDirectedGraphLayoutManagerDrawing(TestGraph graph, FGEModelFactory factory) {
+	public ForceDirectedGraphLayoutManagerDrawing(TestGraph graph, DianaModelFactory factory) {
 		super(graph, factory, PersistenceMode.SharedGraphicalRepresentations);
 	}
 
@@ -91,20 +91,20 @@ public class ForceDirectedGraphLayoutManagerDrawing extends DrawingImpl<TestGrap
 
 		final DrawingGRBinding<TestGraph> graphBinding = bindDrawing(TestGraph.class, "graph", new DrawingGRProvider<TestGraph>() {
 			@Override
-			public DrawingGraphicalRepresentation provideGR(TestGraph drawable, FGEModelFactory factory) {
+			public DrawingGraphicalRepresentation provideGR(TestGraph drawable, DianaModelFactory factory) {
 				return graphRepresentation;
 			}
 		});
 		final ShapeGRBinding<TestGraphNode> nodeBinding = bindShape(TestGraphNode.class, "node", new ShapeGRProvider<TestGraphNode>() {
 			@Override
-			public ShapeGraphicalRepresentation provideGR(TestGraphNode drawable, FGEModelFactory factory) {
+			public ShapeGraphicalRepresentation provideGR(TestGraphNode drawable, DianaModelFactory factory) {
 				return nodeRepresentation;
 			}
 		});
 		final ConnectorGRBinding<TestEdge> edgeBinding = bindConnector(TestEdge.class, "edge", nodeBinding, nodeBinding, graphBinding,
 				new ConnectorGRProvider<TestEdge>() {
 					@Override
-					public ConnectorGraphicalRepresentation provideGR(TestEdge drawable, FGEModelFactory factory) {
+					public ConnectorGraphicalRepresentation provideGR(TestEdge drawable, DianaModelFactory factory) {
 						return edgeRepresentation;
 					}
 				});

@@ -46,13 +46,13 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEConstants;
+import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.control.DianaEditor;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEEmptyArea;
-import org.openflexo.diana.graphics.FGEGraphics;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaEmptyArea;
+import org.openflexo.diana.graphics.DianaGraphics;
 
 /**
  * A {@link ControlArea} encodes an interactive area, attached to a DrawingTreeNode<br>
@@ -64,13 +64,13 @@ import org.openflexo.diana.graphics.FGEGraphics;
  * 
  * @param <A>
  */
-public abstract class ControlArea<A extends FGEArea> implements FGEConstants {
+public abstract class ControlArea<A extends DianaArea> implements DianaConstants {
 
 	private static final Logger logger = Logger.getLogger(ControlArea.class.getPackage().getName());
 
 	private DrawingTreeNode<?, ?> node;
 	private A area;
-	private FGEArea draggingAuthorizedArea = new FGEEmptyArea();
+	private DianaArea draggingAuthorizedArea = new DianaEmptyArea();
 
 	public ControlArea(DrawingTreeNode<?, ?> node, A area) {
 		this.node = node;
@@ -111,20 +111,20 @@ public abstract class ControlArea<A extends FGEArea> implements FGEConstants {
 		return Cursor.getDefaultCursor();
 	}
 
-	public FGEArea getDraggingAuthorizedArea() {
+	public DianaArea getDraggingAuthorizedArea() {
 		return draggingAuthorizedArea;
 	}
 
-	public final void setDraggingAuthorizedArea(FGEArea area) {
+	public final void setDraggingAuthorizedArea(DianaArea area) {
 		draggingAuthorizedArea = area;
 	}
 
-	protected FGEPoint getNearestPointOnAuthorizedArea(FGEPoint point) {
+	protected DianaPoint getNearestPointOnAuthorizedArea(DianaPoint point) {
 		return getDraggingAuthorizedArea().getNearestPoint(point);
 	}
 
 	// Override when required
-	public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
+	public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 	}
 
 	// Override when required
@@ -133,8 +133,8 @@ public abstract class ControlArea<A extends FGEArea> implements FGEConstants {
 	 * Override this method when required
 	 * 
 	 */
-	public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-			FGEPoint initialPoint, MouseEvent event) {
+	public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+			DianaPoint initialPoint, MouseEvent event) {
 		return true;
 	}
 
@@ -146,11 +146,11 @@ public abstract class ControlArea<A extends FGEArea> implements FGEConstants {
 	/**
 	 * Clicked on control area to supplied location Return a flag indicating if click has been handled
 	 */
-	public boolean clickOnPoint(FGEPoint clickedPoint, int clickCount) {
+	public boolean clickOnPoint(DianaPoint clickedPoint, int clickCount) {
 		return true;
 	}
 
-	public abstract Rectangle paint(FGEGraphics graphics);
+	public abstract Rectangle paint(DianaGraphics graphics);
 
 	/**
 	 * Return distance between a point (normalized) and represented area, asserting that we are working on a view (not normalized), and at a
@@ -161,8 +161,8 @@ public abstract class ControlArea<A extends FGEArea> implements FGEConstants {
 	 * @param scale
 	 * @return
 	 */
-	public double getDistanceToArea(FGEPoint aPoint, double scale) {
-		FGEPoint nearestPoint = getArea().getNearestPoint(aPoint);
+	public double getDistanceToArea(DianaPoint aPoint, double scale) {
+		DianaPoint nearestPoint = getArea().getNearestPoint(aPoint);
 		if (nearestPoint == null) {
 			logger.warning("Could not find nearest point for " + aPoint + " on " + getArea());
 			return Double.POSITIVE_INFINITY;
@@ -186,8 +186,8 @@ public abstract class ControlArea<A extends FGEArea> implements FGEConstants {
 	 * @return
 	 */
 	public double getDistanceToArea(Point aPoint, double scale) {
-		FGEPoint normalizedPoint = node.convertViewCoordinatesToNormalizedPoint(aPoint, scale);
-		FGEPoint nearestPoint = getArea().getNearestPoint(normalizedPoint);
+		DianaPoint normalizedPoint = node.convertViewCoordinatesToNormalizedPoint(aPoint, scale);
+		DianaPoint nearestPoint = getArea().getNearestPoint(normalizedPoint);
 		Point pt1 = node.convertNormalizedPointToViewCoordinates(nearestPoint, scale);
 		return Point2D.distance(pt1.x, pt1.y, aPoint.x, aPoint.y);
 	}

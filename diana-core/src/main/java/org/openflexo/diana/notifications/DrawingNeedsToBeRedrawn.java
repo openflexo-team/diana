@@ -39,9 +39,9 @@
 
 package org.openflexo.diana.notifications;
 
-import org.openflexo.diana.notifications.FGEEvent;
+import org.openflexo.diana.notifications.DianaEvent;
 
-public class DrawingNeedsToBeRedrawn extends FGEEvent {
+public class DrawingNeedsToBeRedrawn extends DianaEvent {
 
 	public static final String EVENT_NAME = "DrawingNeedsToBeRedrawn";
 

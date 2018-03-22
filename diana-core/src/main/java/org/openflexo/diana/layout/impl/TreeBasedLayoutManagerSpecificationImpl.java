@@ -38,7 +38,7 @@
 
 package org.openflexo.diana.layout.impl;
 
-import org.openflexo.diana.impl.FGELayoutManagerSpecificationImpl;
+import org.openflexo.diana.impl.DianaLayoutManagerSpecificationImpl;
 import org.openflexo.diana.layout.TreeBasedLayoutManager;
 import org.openflexo.diana.layout.TreeBasedLayoutManagerSpecification;
 
@@ -48,8 +48,8 @@ import org.openflexo.diana.layout.TreeBasedLayoutManagerSpecification;
  * @author sylvain
  * 
  */
-public abstract class TreeBasedLayoutManagerSpecificationImpl<LM extends TreeBasedLayoutManager<?, ?>, O> extends
-		FGELayoutManagerSpecificationImpl<LM> implements TreeBasedLayoutManagerSpecification<LM> {
+public abstract class TreeBasedLayoutManagerSpecificationImpl<LM extends TreeBasedLayoutManager<?, ?>, O>
+		extends DianaLayoutManagerSpecificationImpl<LM> implements TreeBasedLayoutManagerSpecification<LM> {
 
 	/**
 	 * Return true indicating that this layout manager supports autolayout

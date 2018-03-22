@@ -41,13 +41,13 @@ package org.openflexo.diana.shapes.impl;
 
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEConstants;
+import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGERoundRectangle;
-import org.openflexo.diana.geom.FGEShape;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaRoundRectangle;
+import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.diana.shapes.Rectangle;
 
 public abstract class RectangleImpl extends ShapeSpecificationImpl implements Rectangle {
@@ -56,7 +56,7 @@ public abstract class RectangleImpl extends ShapeSpecificationImpl implements Re
 	private static final Logger logger = Logger.getLogger(RectangleImpl.class.getPackage().getName());
 
 	private boolean isRounded = false;
-	private double arcSize = FGEConstants.DEFAULT_ROUNDED_RECTANGLE_ARC_SIZE;
+	private double arcSize = DianaConstants.DEFAULT_ROUNDED_RECTANGLE_ARC_SIZE;
 
 	// *******************************************************************************
 	// * Constructor *
@@ -75,13 +75,13 @@ public abstract class RectangleImpl extends ShapeSpecificationImpl implements Re
 	}
 
 	@Override
-	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
+	public DianaShape<?> makeDianaShape(ShapeNode<?> node) {
 		if (node != null && isRounded) {
 			double arcwidth = arcSize / node.getWidth();
 			double archeight = arcSize / node.getHeight();
-			return new FGERoundRectangle(0, 0, 1, 1, arcwidth, archeight, Filling.FILLED);
+			return new DianaRoundRectangle(0, 0, 1, 1, arcwidth, archeight, Filling.FILLED);
 		}
-		return new FGERectangle(0, 0, 1, 1, Filling.FILLED);
+		return new DianaRectangle(0, 0, 1, 1, Filling.FILLED);
 	}
 
 	/**
@@ -101,7 +101,7 @@ public abstract class RectangleImpl extends ShapeSpecificationImpl implements Re
 	 */
 	@Override
 	public void setArcSize(double anArcSize) {
-		FGEAttributeNotification<?> notification = requireChange(ARC_SIZE, anArcSize);
+		DianaAttributeNotification<?> notification = requireChange(ARC_SIZE, anArcSize);
 		if (notification != null) {
 			arcSize = anArcSize;
 			hasChanged(notification);
@@ -115,7 +115,7 @@ public abstract class RectangleImpl extends ShapeSpecificationImpl implements Re
 
 	@Override
 	public void setIsRounded(boolean aFlag) {
-		FGEAttributeNotification<?> notification = requireChange(IS_ROUNDED, aFlag);
+		DianaAttributeNotification<?> notification = requireChange(IS_ROUNDED, aFlag);
 		if (notification != null) {
 			isRounded = aFlag;
 			hasChanged(notification);
@@ -123,15 +123,15 @@ public abstract class RectangleImpl extends ShapeSpecificationImpl implements Re
 	}
 
 	/*@Override
-	public FGEShape getOutline()
+	public DianaShape getOutline()
 	{
 		if (getIsRounded()) {
 			double arcwidth = arcSize/getGraphicalRepresentation().getWidth();
 			double archeight = arcSize/getGraphicalRepresentation().getHeight();
-			return new FGERoundRectangle(0,0,1,1,arcwidth,archeight,Filling.NOT_FILLED);
+			return new DianaRoundRectangle(0,0,1,1,arcwidth,archeight,Filling.NOT_FILLED);
 		}
 		else {
-			return new FGERectangle(0,0,1,1,Filling.NOT_FILLED);
+			return new DianaRectangle(0,0,1,1,Filling.NOT_FILLED);
 		}
 	}*/
 

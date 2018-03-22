@@ -42,22 +42,22 @@ import java.beans.PropertyChangeSupport;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.control.DianaInteractiveViewer;
-import org.openflexo.diana.geom.FGEArc;
-import org.openflexo.diana.geom.FGEComplexCurve;
-import org.openflexo.diana.geom.FGEEllips;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGEPolygon;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGERegularPolygon;
-import org.openflexo.diana.geom.FGERoundRectangle;
-import org.openflexo.diana.geom.FGEShape;
-import org.openflexo.diana.geom.FGEArc.ArcType;
-import org.openflexo.diana.geom.FGEGeneralShape.Closure;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaArc;
+import org.openflexo.diana.geom.DianaComplexCurve;
+import org.openflexo.diana.geom.DianaEllips;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaRegularPolygon;
+import org.openflexo.diana.geom.DianaRoundRectangle;
+import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.geom.DianaArc.ArcType;
+import org.openflexo.diana.geom.DianaGeneralShape.Closure;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.shapes.Arc;
 import org.openflexo.diana.shapes.Chevron;
 import org.openflexo.diana.shapes.Circle;
@@ -109,7 +109,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 	private final InspectedParallelogram parallelogram;
 
 	private PropertyChangeSupport pcSupport;
-	private FGEModelFactory fgeFactory;
+	private DianaModelFactory fgeFactory;
 	private final DianaInteractiveViewer<?, ?, ?> controller;
 
 	public ShapeSpecificationFactory(final DianaInteractiveViewer<?, ?, ?> controller) {
@@ -142,12 +142,12 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 	}
 
 	@Override
-	public FGEModelFactory getFGEFactory() {
+	public DianaModelFactory getDianaFactory() {
 		return this.fgeFactory;
 	}
 
 	@Override
-	public void setFGEFactory(final FGEModelFactory fgeFactory) {
+	public void setDianaFactory(final DianaModelFactory fgeFactory) {
 		this.fgeFactory = fgeFactory;
 	}
 
@@ -333,13 +333,13 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
 			if (node != null && this.getIsRounded()) {
 				final double arcwidth = this.getArcSize() / node.getWidth();
 				final double archeight = this.getArcSize() / node.getHeight();
-				return new FGERoundRectangle(0, 0, 1, 1, arcwidth, archeight, Filling.FILLED);
+				return new DianaRoundRectangle(0, 0, 1, 1, arcwidth, archeight, Filling.FILLED);
 			}
-			return new FGERectangle(0, 0, 1, 1, Filling.FILLED);
+			return new DianaRectangle(0, 0, 1, 1, Filling.FILLED);
 		}
 
 		@Override
@@ -404,7 +404,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	protected class InspectedPolygon<SS extends Polygon> extends AbstractInspectedShapeSpecification<SS> implements Polygon {
 
-		// private List<FGEPoint> points;
+		// private List<DianaPoint> points;
 
 		protected InspectedPolygon(final DianaInteractiveViewer<?, ?, ?> controller, final SS defaultValue) {
 			super(controller, defaultValue);
@@ -421,27 +421,27 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public List<FGEPoint> getPoints() {
+		public List<DianaPoint> getPoints() {
 			return this.getPropertyValue(Polygon.POINTS);
 		}
 
 		@Override
-		public void setPoints(final List<FGEPoint> points) {
+		public void setPoints(final List<DianaPoint> points) {
 			// Not applicable in this context (ambigous semantics, preferably disabled)
 			this.setPropertyValue(Polygon.POINTS, points);
 		}
 
 		@Override
-		public void addToPoints(final FGEPoint aPoint) {
+		public void addToPoints(final DianaPoint aPoint) {
 			// Not applicable in this context (ambigous semantics, preferably disabled)
 			// points.add(aPoint);
 			// notifyChange(POINTS);
-			getPoints().add(new FGEPoint(1.0, 1.0));
+			getPoints().add(new DianaPoint(1.0, 1.0));
 			notifyChange(POINTS);
 		}
 
 		@Override
-		public void removeFromPoints(final FGEPoint aPoint) {
+		public void removeFromPoints(final DianaPoint aPoint) {
 			// Not applicable in this context (ambigous semantics, preferably disabled)
 			// points.remove(aPoint);
 			// notifyChange(POINTS);
@@ -450,17 +450,17 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			notifyChange(POINTS);
 		}
 
-		public void addCustomPolygonPoint(FGEPoint current) {
+		public void addCustomPolygonPoint(DianaPoint current) {
 			CompoundEdit addPointEdit = startRecordEdit("Add point");
 			int index = (current != null ? getPoints().indexOf(current) : -1);
-			FGEPoint newPoint;
+			DianaPoint newPoint;
 			if (!getPoints().isEmpty()) {
-				FGEPoint previousPoint = (index > -1 ? getPoints().get(index) : getPoints().get(getPoints().size() - 1));
-				FGEPoint nextPoint = (index + 1 < getPoints().size() ? getPoints().get(index + 1) : getPoints().get(0));
-				newPoint = FGEPoint.middleOf(previousPoint, nextPoint);
+				DianaPoint previousPoint = (index > -1 ? getPoints().get(index) : getPoints().get(getPoints().size() - 1));
+				DianaPoint nextPoint = (index + 1 < getPoints().size() ? getPoints().get(index + 1) : getPoints().get(0));
+				newPoint = DianaPoint.middleOf(previousPoint, nextPoint);
 			}
 			else {
-				newPoint = new FGEPoint(0.5, 0.5);
+				newPoint = new DianaPoint(0.5, 0.5);
 			}
 			if (index == -1) {
 				getPoints().add(newPoint);
@@ -473,7 +473,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 		}
 
-		public void deleteCustomPolygonPoint(FGEPoint current) {
+		public void deleteCustomPolygonPoint(DianaPoint current) {
 			if (current == null) {
 				return;
 			}
@@ -487,8 +487,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
-			return new FGEPolygon(Filling.FILLED, this.getPoints());
+		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+			return new DianaPolygon(Filling.FILLED, this.getPoints());
 		}
 
 		@Override
@@ -508,7 +508,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	protected class InspectedComplexCurve extends AbstractInspectedShapeSpecification<ComplexCurve> implements ComplexCurve {
 
-		// private List<FGEPoint> points;
+		// private List<DianaPoint> points;
 
 		protected InspectedComplexCurve(final DianaInteractiveViewer<?, ?, ?> controller, final ComplexCurve defaultValue) {
 			super(controller, defaultValue);
@@ -525,15 +525,15 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public List<FGEPoint> getPoints() {
+		public List<DianaPoint> getPoints() {
 			return this.getPropertyValue(ComplexCurve.POINTS);
 		}
 
 		@Override
-		public void setPoints(final List<FGEPoint> points) {
+		public void setPoints(final List<DianaPoint> points) {
 			// Not applicable in this context (ambigous semantics, preferably disabled)
 			/*if (points != null) {
-				this.points = new ArrayList<FGEPoint>(points);
+				this.points = new ArrayList<DianaPoint>(points);
 			} else {
 				this.points = null;
 			}
@@ -542,14 +542,14 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public void addToPoints(final FGEPoint aPoint) {
+		public void addToPoints(final DianaPoint aPoint) {
 			// Not applicable in this context (ambigous semantics, preferably disabled)
 			// points.add(aPoint);
 			// notifyChange(POINTS);
 		}
 
 		@Override
-		public void removeFromPoints(final FGEPoint aPoint) {
+		public void removeFromPoints(final DianaPoint aPoint) {
 			// Not applicable in this context (ambigous semantics, preferably disabled)
 			// points.remove(aPoint);
 			// notifyChange(POINTS);
@@ -566,8 +566,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
-			return new FGEComplexCurve(this.getClosure(), this.getPoints());
+		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+			return new DianaComplexCurve(this.getClosure(), this.getPoints());
 		}
 
 		@Override
@@ -624,11 +624,11 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
 			if (this.getNPoints() > 2) {
-				return new FGERegularPolygon(0, 0, 1, 1, Filling.FILLED, this.getNPoints(), this.getStartAngle());
+				return new DianaRegularPolygon(0, 0, 1, 1, Filling.FILLED, this.getNPoints(), this.getStartAngle());
 			}
-			return new FGERectangle(0, 0, 1, 1, Filling.FILLED);
+			return new DianaRectangle(0, 0, 1, 1, Filling.FILLED);
 		}
 
 	}
@@ -671,16 +671,16 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
-			final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
-			returned.addToPoints(new FGEPoint(0, this.getRatio()));
-			returned.addToPoints(new FGEPoint(0, 1 - this.getRatio()));
-			returned.addToPoints(new FGEPoint(this.getRatio() / 2, 1));
-			returned.addToPoints(new FGEPoint(1 - this.getRatio() / 2, 1));
-			returned.addToPoints(new FGEPoint(1, 1 - this.getRatio()));
-			returned.addToPoints(new FGEPoint(1, this.getRatio()));
-			returned.addToPoints(new FGEPoint(1 - this.getRatio() / 2, 0));
-			returned.addToPoints(new FGEPoint(this.getRatio() / 2, 0));
+		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+			final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
+			returned.addToPoints(new DianaPoint(0, this.getRatio()));
+			returned.addToPoints(new DianaPoint(0, 1 - this.getRatio()));
+			returned.addToPoints(new DianaPoint(this.getRatio() / 2, 1));
+			returned.addToPoints(new DianaPoint(1 - this.getRatio() / 2, 1));
+			returned.addToPoints(new DianaPoint(1, 1 - this.getRatio()));
+			returned.addToPoints(new DianaPoint(1, this.getRatio()));
+			returned.addToPoints(new DianaPoint(1 - this.getRatio() / 2, 0));
+			returned.addToPoints(new DianaPoint(this.getRatio() / 2, 0));
 
 			return returned;
 		}
@@ -750,8 +750,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
-			return new FGEEllips(0, 0, 1, 1, Filling.FILLED);
+		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+			return new DianaEllips(0, 0, 1, 1, Filling.FILLED);
 		}
 
 		@Override
@@ -811,8 +811,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
-			return new FGEArc(0, 0, 1, 1, this.getAngleStart(), this.getAngleExtent(), this.getArcType());
+		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+			return new DianaArc(0, 0, 1, 1, this.getAngleStart(), this.getAngleExtent(), this.getArcType());
 		}
 
 		@Override
@@ -874,16 +874,16 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
-			final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
+		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+			final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 			final double startA = this.getStartAngle() * Math.PI / 180;
 			final double angleInterval = Math.PI * 2 / this.getNPoints();
 			for (int i = 0; i < this.getNPoints(); i++) {
 				final double angle = i * angleInterval + startA;
 				final double angle1 = (i - 0.5) * angleInterval + startA;
 				returned.addToPoints(
-						new FGEPoint(Math.cos(angle1) * 0.5 * this.getRatio() + 0.5, Math.sin(angle1) * 0.5 * this.getRatio() + 0.5));
-				returned.addToPoints(new FGEPoint(Math.cos(angle) * 0.5 + 0.5, Math.sin(angle) * 0.5 + 0.5));
+						new DianaPoint(Math.cos(angle1) * 0.5 * this.getRatio() + 0.5, Math.sin(angle1) * 0.5 * this.getRatio() + 0.5));
+				returned.addToPoints(new DianaPoint(Math.cos(angle) * 0.5 + 0.5, Math.sin(angle) * 0.5 + 0.5));
 			}
 			return returned;
 		}
@@ -966,20 +966,20 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
-			final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
-			returned.addToPoints(new FGEPoint(0, this.getRatio()));
-			returned.addToPoints(new FGEPoint(0, 1 - this.getRatio()));
-			returned.addToPoints(new FGEPoint(this.getRatio(), 1 - this.getRatio()));
-			returned.addToPoints(new FGEPoint(this.getRatio(), 1));
-			returned.addToPoints(new FGEPoint(1 - this.getRatio(), 1));
-			returned.addToPoints(new FGEPoint(1 - this.getRatio(), 1 - this.getRatio()));
-			returned.addToPoints(new FGEPoint(1, 1 - this.getRatio()));
-			returned.addToPoints(new FGEPoint(1, this.getRatio()));
-			returned.addToPoints(new FGEPoint(1 - this.getRatio(), this.getRatio()));
-			returned.addToPoints(new FGEPoint(1 - this.getRatio(), 0));
-			returned.addToPoints(new FGEPoint(this.getRatio(), 0));
-			returned.addToPoints(new FGEPoint(this.getRatio(), this.getRatio()));
+		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+			final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
+			returned.addToPoints(new DianaPoint(0, this.getRatio()));
+			returned.addToPoints(new DianaPoint(0, 1 - this.getRatio()));
+			returned.addToPoints(new DianaPoint(this.getRatio(), 1 - this.getRatio()));
+			returned.addToPoints(new DianaPoint(this.getRatio(), 1));
+			returned.addToPoints(new DianaPoint(1 - this.getRatio(), 1));
+			returned.addToPoints(new DianaPoint(1 - this.getRatio(), 1 - this.getRatio()));
+			returned.addToPoints(new DianaPoint(1, 1 - this.getRatio()));
+			returned.addToPoints(new DianaPoint(1, this.getRatio()));
+			returned.addToPoints(new DianaPoint(1 - this.getRatio(), this.getRatio()));
+			returned.addToPoints(new DianaPoint(1 - this.getRatio(), 0));
+			returned.addToPoints(new DianaPoint(this.getRatio(), 0));
+			returned.addToPoints(new DianaPoint(this.getRatio(), this.getRatio()));
 			return returned;
 		}
 	}
@@ -1021,14 +1021,14 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
-			final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
-			returned.addToPoints(new FGEPoint(0, 0));
-			returned.addToPoints(new FGEPoint(this.getArrowLength(), 0.5));
-			returned.addToPoints(new FGEPoint(0, 1));
-			returned.addToPoints(new FGEPoint(1 - this.getArrowLength(), 1));
-			returned.addToPoints(new FGEPoint(1, 0.5));
-			returned.addToPoints(new FGEPoint(1 - this.getArrowLength(), 0));
+		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+			final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
+			returned.addToPoints(new DianaPoint(0, 0));
+			returned.addToPoints(new DianaPoint(this.getArrowLength(), 0.5));
+			returned.addToPoints(new DianaPoint(0, 1));
+			returned.addToPoints(new DianaPoint(1 - this.getArrowLength(), 1));
+			returned.addToPoints(new DianaPoint(1, 0.5));
+			returned.addToPoints(new DianaPoint(1 - this.getArrowLength(), 0));
 			return returned;
 		}
 	}
@@ -1070,20 +1070,20 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
-			final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
+		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+			final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 			double shift_ratio = getShiftRatio();
 			if (shift_ratio >= 0) {
-				returned.addToPoints(new FGEPoint(shift_ratio, 0));
-				returned.addToPoints(new FGEPoint(1, 0));
-				returned.addToPoints(new FGEPoint(1 - shift_ratio, 1));
-				returned.addToPoints(new FGEPoint(0, 1));
+				returned.addToPoints(new DianaPoint(shift_ratio, 0));
+				returned.addToPoints(new DianaPoint(1, 0));
+				returned.addToPoints(new DianaPoint(1 - shift_ratio, 1));
+				returned.addToPoints(new DianaPoint(0, 1));
 			}
 			else {
-				returned.addToPoints(new FGEPoint(0, 0));
-				returned.addToPoints(new FGEPoint(1 + shift_ratio, 0));
-				returned.addToPoints(new FGEPoint(1, 1));
-				returned.addToPoints(new FGEPoint(-shift_ratio, 1));
+				returned.addToPoints(new DianaPoint(0, 0));
+				returned.addToPoints(new DianaPoint(1 + shift_ratio, 0));
+				returned.addToPoints(new DianaPoint(1, 1));
+				returned.addToPoints(new DianaPoint(-shift_ratio, 1));
 			}
 			return returned;
 		}

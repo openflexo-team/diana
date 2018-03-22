@@ -56,9 +56,9 @@ import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.connie.type.TypeUtils;
 import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.ContainerGraphicalRepresentation;
-import org.openflexo.diana.FGELayoutManager;
-import org.openflexo.diana.FGELayoutManagerSpecification;
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaLayoutManager;
+import org.openflexo.diana.DianaLayoutManagerSpecification;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.GRBinding;
 import org.openflexo.diana.GRProperty;
@@ -74,18 +74,18 @@ import org.openflexo.diana.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.diana.ShapeGraphicalRepresentation.LocationConstraints;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
-import org.openflexo.diana.geom.FGEDimension;
-import org.openflexo.diana.geom.FGEGeometricObject;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGESegment;
-import org.openflexo.diana.geom.FGEShape;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaGeometricObject;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geom.GeomUtils;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.geom.FGEGeometricObject.SimplifiedCardinalDirection;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEIntersectionArea;
-import org.openflexo.diana.graphics.FGEShapeGraphics;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaIntersectionArea;
+import org.openflexo.diana.graphics.DianaShapeGraphics;
 import org.openflexo.diana.graphics.ShapeDecorationPainter;
 import org.openflexo.diana.graphics.ShapePainter;
 import org.openflexo.diana.notifications.ObjectHasMoved;
@@ -110,14 +110,14 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	private boolean observeParentGRBecauseMyLocationReferToIt = false;
 
-	// private FGEShapeGraphicsImpl graphics;
-	// private FGEShapeDecorationGraphicsImpl decorationGraphics;
+	// private DianaShapeGraphicsImpl graphics;
+	// private DianaShapeDecorationGraphicsImpl decorationGraphics;
 	private ShapeDecorationPainter decorationPainter;
 	private ShapePainter shapePainter;
 
 	private ShapeImpl<?> shape;
 
-	private FGELayoutManager<?, ?> layoutManager;
+	private DianaLayoutManager<?, ?> layoutManager;
 	private boolean layoutValidated = false;
 
 	private BindingValueChangeListener<Double> xConstraintsListener;
@@ -131,7 +131,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public ShapeNodeImpl(DrawingImpl<?> drawingImpl, O drawable, ShapeGRBinding<O> grBinding, ContainerNodeImpl<?, ?> parentNode) {
 		super(drawingImpl, drawable, grBinding, parentNode);
 		startDrawableObserving();
-		// graphics = new FGEShapeGraphicsImpl(this);
+		// graphics = new DianaShapeGraphicsImpl(this);
 		// width = getGraphicalRepresentation().getMinimalWidth();
 		// height = getGraphicalRepresentation().getMinimalHeight();
 		relayoutNode();
@@ -317,7 +317,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	}
 
 	@Override
-	public FGEShape<?> getFGEShape() {
+	public DianaShape<?> getDianaShape() {
 		if (getShape() != null) {
 			return getShape().getShape();
 		}
@@ -325,7 +325,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	}
 
 	@Override
-	public FGEShape<?> getFGEShapeOutline() {
+	public DianaShape<?> getDianaShapeOutline() {
 		if (getShape() != null) {
 			return getShape().getOutline();
 		}
@@ -338,8 +338,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * @return
 	 */
 	@Override
-	public FGERectangle getBounds() {
-		return new FGERectangle(getX(), getY(), getWidth(), getHeight());
+	public DianaRectangle getBounds() {
+		return new DianaRectangle(getX(), getY(), getWidth(), getHeight());
 	}
 
 	/**
@@ -369,7 +369,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public Rectangle getBounds(DrawingTreeNode<?, ?> aContainer, double scale) {
 		Rectangle bounds = getBounds(scale);
-		bounds = FGEUtils.convertRectangle(getParentNode(), bounds, aContainer, scale);
+		bounds = DianaUtils.convertRectangle(getParentNode(), bounds, aContainer, scale);
 		return bounds;
 	}
 
@@ -388,7 +388,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (aContainer == null) {
 			logger.warning("Container is null for " + this + " valid=" + isValid());
 		}
-		bounds = FGEUtils.convertRectangle(getParentNode(), bounds, aContainer, scale);
+		bounds = DianaUtils.convertRectangle(getParentNode(), bounds, aContainer, scale);
 		return bounds;
 	}
 
@@ -405,7 +405,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	}
 
 	@Override
-	public boolean isPointInsideShape(FGEPoint aPoint) {
+	public boolean isPointInsideShape(DianaPoint aPoint) {
 		if (getShape() == null) {
 			return false;
 		}
@@ -428,9 +428,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getControlAreas() != null) {
 			for (ControlArea<?> ca : new ArrayList<>(getControlAreas())) {
 				if (ca != null) {
-					FGEArea a = ca.getArea();
-					if (a instanceof FGEShape) {
-						FGERectangle bb = ((FGEShape<?>) a).getBoundingBox();
+					DianaArea a = ca.getArea();
+					if (a instanceof DianaShape) {
+						DianaRectangle bb = ((DianaShape<?>) a).getBoundingBox();
 						if (bb.getY() < 0) {
 							returned = Math.max(returned, (int) (-getHeight() * bb.getY() + 2));
 						}
@@ -470,9 +470,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getControlAreas() != null) {
 			for (ControlArea<?> ca : new ArrayList<>(getControlAreas())) {
 				if (ca != null) {
-					FGEArea a = ca.getArea();
-					if (a instanceof FGEShape) {
-						FGERectangle bb = ((FGEShape<?>) a).getBoundingBox();
+					DianaArea a = ca.getArea();
+					if (a instanceof DianaShape) {
+						DianaRectangle bb = ((DianaShape<?>) a).getBoundingBox();
 						if (bb.getX() < 0) {
 							returned = Math.max(returned, (int) (-getWidth() * bb.getX() + 2));
 						}
@@ -517,9 +517,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getControlAreas() != null) {
 			for (ControlArea<?> ca : new ArrayList<>(getControlAreas())) {
 				if (ca != null) {
-					FGEArea a = ca.getArea();
-					if (a instanceof FGEShape) {
-						FGERectangle bb = ((FGEShape<?>) a).getBoundingBox();
+					DianaArea a = ca.getArea();
+					if (a instanceof DianaShape) {
+						DianaRectangle bb = ((DianaShape<?>) a).getBoundingBox();
 						if (bb.getY() + bb.getHeight() > 1) {
 							returned = Math.max(returned, (int) (getWidth() * (bb.getY() + bb.getHeight() - 1.0) + 2));
 						}
@@ -564,9 +564,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getControlAreas() != null) {
 			for (ControlArea<?> ca : new ArrayList<>(getControlAreas())) {
 				if (ca != null) {
-					FGEArea a = ca.getArea();
-					if (a instanceof FGEShape) {
-						FGERectangle bb = ((FGEShape<?>) a).getBoundingBox();
+					DianaArea a = ca.getArea();
+					if (a instanceof DianaShape) {
+						DianaRectangle bb = ((DianaShape<?>) a).getBoundingBox();
 						if (bb.getX() + bb.getWidth() > 1) {
 							returned = Math.max(returned, (int) (getWidth() * (bb.getX() + bb.getWidth() - 1.0) + 2));
 						}
@@ -605,16 +605,16 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			returned.preConcatenate(AffineTransform.getScaleInstance(scale, scale));
 		}
 
-		/*FGEPoint p = new FGEPoint(0, 0);
-		FGEPoint p2 = new FGEPoint();
+		/*DianaPoint p = new DianaPoint(0, 0);
+		DianaPoint p2 = new DianaPoint();
 		returned.transform(p, p2);
 		
 		System.out.println("Pour width=" + getPropertyValue(ShapeGraphicalRepresentation.WIDTH));
 		System.out.println("Pour height=" + getPropertyValue(ShapeGraphicalRepresentation.HEIGHT));
 		System.out.println("Cette AT permet de transformer " + p + " en " + p2);
 		
-		p = new FGEPoint(1.0, 1.0);
-		p2 = new FGEPoint();
+		p = new DianaPoint(1.0, 1.0);
+		p2 = new DianaPoint();
 		returned.transform(p, p2);
 		System.out.println("Cette AT permet de transformer " + p + " en " + p2);*/
 
@@ -636,17 +636,17 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 		returned.concatenate(AffineTransform.getScaleInstance(1 / getWidth(), 1 / getHeight()));
 
-		/*FGEPoint p = new FGEPoint(getBorderLeft(), getBorderTop());
-		FGEPoint p2 = new FGEPoint();
+		/*DianaPoint p = new DianaPoint(getBorderLeft(), getBorderTop());
+		DianaPoint p2 = new DianaPoint();
 		returned.transform(p, p2);
 		
 		System.out.println("Pour width=" + getPropertyValue(ShapeGraphicalRepresentation.WIDTH));
 		System.out.println("Pour height=" + getPropertyValue(ShapeGraphicalRepresentation.HEIGHT));
 		System.out.println("Cette AT permet de transformer " + p + " en " + p2);
 		
-		p = new FGEPoint(getPropertyValue(ShapeGraphicalRepresentation.WIDTH) + getBorderLeft(),
+		p = new DianaPoint(getPropertyValue(ShapeGraphicalRepresentation.WIDTH) + getBorderLeft(),
 				getPropertyValue(ShapeGraphicalRepresentation.HEIGHT) + getBorderTop());
-		p2 = new FGEPoint();
+		p2 = new DianaPoint();
 		returned.transform(p, p2);
 		System.out.println("Cette AT permet de transformer " + p + " en " + p2);*/
 
@@ -840,9 +840,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public void extendBoundsToHostContents() {
 
 		boolean needsResize = false;
-		FGEDimension newDimension = new FGEDimension(getWidth(), getHeight());
+		DianaDimension newDimension = new DianaDimension(getWidth(), getHeight());
 		boolean needsRelocate = false;
-		FGEPoint newPosition = new FGEPoint(getX(), getY());
+		DianaPoint newPosition = new DianaPoint(getX(), getY());
 		double deltaX = 0;
 		double deltaY = 0;
 
@@ -868,11 +868,11 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			newPosition.y = newPosition.y - deltaY;
 			setLocation(newPosition);
 			needsResize = true;
-			newDimension = new FGEDimension(getWidth() + deltaX, getHeight() + deltaY);
+			newDimension = new DianaDimension(getWidth() + deltaX, getHeight() + deltaY);
 			for (DrawingTreeNode<?, ?> child : getChildNodes()) {
 				if (child instanceof ShapeNode && child != this) {
 					ShapeNode<?> c = (ShapeNode<?>) child;
-					c.setLocation(new FGEPoint(c.getX() + deltaX, c.getY() + deltaY));
+					c.setLocation(new DianaPoint(c.getX() + deltaX, c.getY() + deltaY));
 				}
 			}
 		}
@@ -901,7 +901,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			for (GraphicalRepresentation child : getContainedGraphicalRepresentations()) {
 				if (child instanceof ShapeGraphicalRepresentation) {
 					ShapeGraphicalRepresentation c = (ShapeGraphicalRepresentation) child;
-					FGEPoint oldLocation = new FGEPoint(c.getX() - deltaX, c.getY() - deltaY);
+					DianaPoint oldLocation = new DianaPoint(c.getX() - deltaX, c.getY() - deltaY);
 					c.notifyObjectMoved(oldLocation);
 					c.notifyChange(Parameters.x, oldLocation.x, c.getX());
 					c.notifyChange(Parameters.y, oldLocation.y, c.getY());
@@ -923,7 +923,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public final void setX(double aValue) {
 		if (aValue != getX()) {
-			FGEPoint newLocation = new FGEPoint(aValue, getY());
+			DianaPoint newLocation = new DianaPoint(aValue, getY());
 			updateLocation(newLocation);
 		}
 	}
@@ -941,7 +941,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public final void setY(double aValue) {
 		if (aValue != getY()) {
 
-			FGEPoint newLocation = new FGEPoint(getX(), aValue);
+			DianaPoint newLocation = new DianaPoint(getX(), aValue);
 			updateLocation(newLocation);
 		}
 	}
@@ -955,7 +955,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * 
 	 * @param requestedLocation
 	 */
-	private void updateLocation(FGEPoint requestedLocation) {
+	private void updateLocation(DianaPoint requestedLocation) {
 
 		try {
 
@@ -970,10 +970,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			}
 
 			// Prelude of update, first select new location respecting contextual constraints
-			FGEPoint newLocation = getConstrainedLocation(requestedLocation);
+			DianaPoint newLocation = getConstrainedLocation(requestedLocation);
 
 			// Now the newLocation respect required constraints, we might apply it
-			FGEPoint oldLocation = getLocation();
+			DianaPoint oldLocation = getLocation();
 			if (!newLocation.equals(oldLocation)) {
 				double oldX = getX();
 				double oldY = getY();
@@ -1060,7 +1060,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * @param requestedLocation
 	 * @return a new location respecting all contextual constraints
 	 */
-	private FGEPoint getConstrainedLocation(FGEPoint requestedLocation) {
+	private DianaPoint getConstrainedLocation(DianaPoint requestedLocation) {
 
 		if (isParentLayoutedAsContainer()) {
 			return requestedLocation;
@@ -1097,9 +1097,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			DrawingTreeNode<?, ?> parent = getParentNode();
 			if (parent instanceof ShapeNode) {
 				ShapeNode<?> container = (ShapeNode<?>) parent;
-				FGEPoint center = new FGEPoint(container.getWidth() / 2, container.getHeight() / 2);
+				DianaPoint center = new DianaPoint(container.getWidth() / 2, container.getHeight() / 2);
 				double authorizedRatio = getMoveAuthorizedRatio(requestedLocation, center);
-				return new FGEPoint(center.x + (requestedLocation.x - center.x) * authorizedRatio,
+				return new DianaPoint(center.x + (requestedLocation.x - center.x) * authorizedRatio,
 						center.y + (requestedLocation.y - center.y) * authorizedRatio);
 			}
 		}
@@ -1116,28 +1116,28 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	}
 
 	@Override
-	public FGEPoint getLocation() {
-		return new FGEPoint(getX(), getY());
+	public DianaPoint getLocation() {
+		return new DianaPoint(getX(), getY());
 	}
 
 	@Override
-	public void setLocation(FGEPoint newLocation) {
+	public void setLocation(DianaPoint newLocation) {
 		updateLocation(newLocation);
 	}
 
 	@Override
-	public FGEPoint getLocationInDrawing() {
-		return FGEUtils.convertNormalizedPoint(this, new FGEPoint(0, 0), getDrawing().getRoot());
+	public DianaPoint getLocationInDrawing() {
+		return DianaUtils.convertNormalizedPoint(this, new DianaPoint(0, 0), getDrawing().getRoot());
 	}
 
 	/* Unused
-	private void setLocationNoCheckNorNotification(FGEPoint newLocation) {
+	private void setLocationNoCheckNorNotification(DianaPoint newLocation) {
 		setXNoNotification(newLocation.x);
 		setYNoNotification(newLocation.y);
 	}
 	*/
 
-	private void setLocationForContainerLayout(FGEPoint newLocation) {
+	private void setLocationForContainerLayout(DianaPoint newLocation) {
 		if (getParentNode() instanceof ShapeNodeImpl) {
 			ShapeNodeImpl<?> container = (ShapeNodeImpl<?>) getParentNode();
 			container.updateRequiredBoundsForChildGRLocation(this, newLocation);
@@ -1145,7 +1145,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	}
 
 	/**
-	 * Calling this method forces FGE to check (and eventually update) location of current graphical representation according defined
+	 * Calling this method forces Diana to check (and eventually update) location of current graphical representation according defined
 	 * location constraints
 	 */
 	protected void checkAndUpdateLocationIfRequired() {
@@ -1170,11 +1170,11 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			return true;
 		}
 		boolean isFullyContained = true;
-		FGERectangle containerViewBounds = new FGERectangle(0, 0, getParentNode().getWidth(), getParentNode().getHeight(), Filling.FILLED);
+		DianaRectangle containerViewBounds = new DianaRectangle(0, 0, getParentNode().getWidth(), getParentNode().getHeight(), Filling.FILLED);
 		for (ControlPoint cp : getShape().getControlPoints()) {
 			if (cp != null) {
 				Point cpInContainerView = convertLocalNormalizedPointToRemoteViewCoordinates(cp.getPoint(), getParentNode(), 1);
-				FGEPoint preciseCPInContainerView = new FGEPoint(cpInContainerView.x, cpInContainerView.y);
+				DianaPoint preciseCPInContainerView = new DianaPoint(cpInContainerView.x, cpInContainerView.y);
 				if (!containerViewBounds.containsPoint(preciseCPInContainerView)) {
 					// System.out.println("Going outside: point=" + preciseCPInContainerView + " bounds=" + containerViewBounds);
 					isFullyContained = false;
@@ -1189,13 +1189,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getShape() == null) {
 			return false;
 		}
-		FGERectangle drawingViewBounds = new FGERectangle(drawingViewSelection.getX(), drawingViewSelection.getY(),
+		DianaRectangle drawingViewBounds = new DianaRectangle(drawingViewSelection.getX(), drawingViewSelection.getY(),
 				drawingViewSelection.getWidth(), drawingViewSelection.getHeight(), Filling.FILLED);
 		boolean isFullyContained = true;
 		for (ControlPoint cp : getShape().getControlPoints()) {
 			if (cp != null) {
 				Point cpInContainerView = convertLocalNormalizedPointToRemoteViewCoordinates(cp.getPoint(), getParentNode(), scale);
-				FGEPoint preciseCPInContainerView = new FGEPoint(cpInContainerView.x, cpInContainerView.y);
+				DianaPoint preciseCPInContainerView = new DianaPoint(cpInContainerView.x, cpInContainerView.y);
 				if (!drawingViewBounds.containsPoint(preciseCPInContainerView)) {
 					// System.out.println("Going outside: point="+preciseCPInContainerView+" bounds="+containerViewBounds);
 					isFullyContained = false;
@@ -1206,7 +1206,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	}
 
 	@Override
-	public double getMoveAuthorizedRatio(FGEPoint desiredLocation, FGEPoint initialLocation) {
+	public double getMoveAuthorizedRatio(DianaPoint desiredLocation, DianaPoint initialLocation) {
 		if (isParentLayoutedAsContainer()) {
 			// This object is contained in a ShapeSpecification acting as container: all locations are valid thus,
 			// container will adapt
@@ -1214,17 +1214,17 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		}
 
 		double returnedAuthorizedRatio = 1;
-		FGERectangle containerViewArea = new FGERectangle(0, 0, getParentNode().getViewWidth(1), getParentNode().getViewHeight(1),
+		DianaRectangle containerViewArea = new DianaRectangle(0, 0, getParentNode().getViewWidth(1), getParentNode().getViewHeight(1),
 				Filling.FILLED);
-		FGERectangle containerViewBounds = new FGERectangle(0, 0, getParentNode().getViewWidth(1), getParentNode().getViewHeight(1),
+		DianaRectangle containerViewBounds = new DianaRectangle(0, 0, getParentNode().getViewWidth(1), getParentNode().getViewHeight(1),
 				Filling.NOT_FILLED);
 
 		for (ControlPoint cp : getShape().getControlPoints()) {
 			if (cp != null) {
 				Point currentCPInContainerView = convertLocalNormalizedPointToRemoteViewCoordinates(cp.getPoint(), getParentNode(), 1);
-				FGEPoint initialCPInContainerView = new FGEPoint((int) (currentCPInContainerView.x + initialLocation.x - getX()),
+				DianaPoint initialCPInContainerView = new DianaPoint((int) (currentCPInContainerView.x + initialLocation.x - getX()),
 						(int) (currentCPInContainerView.y + initialLocation.y - getY()));
-				FGEPoint desiredCPInContainerView = new FGEPoint((int) (currentCPInContainerView.x + desiredLocation.x - getX()),
+				DianaPoint desiredCPInContainerView = new DianaPoint((int) (currentCPInContainerView.x + desiredLocation.x - getX()),
 						(int) (currentCPInContainerView.y + desiredLocation.y - getY()));
 				if (!containerViewArea.containsPoint(initialCPInContainerView)) {
 					logger.warning("getMoveAuthorizedRatio() called for a shape whose initial location wasn't in container shape");
@@ -1233,19 +1233,19 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				if (!containerViewArea.containsPoint(desiredCPInContainerView)) {
 					// We are now sure that desired move will make the shape
 					// go outside parent bounds
-					FGESegment segment = new FGESegment(initialCPInContainerView, desiredCPInContainerView);
-					FGEArea intersection = FGEIntersectionArea.makeIntersection(segment, containerViewBounds);
-					if (intersection instanceof FGEPoint) {
+					DianaSegment segment = new DianaSegment(initialCPInContainerView, desiredCPInContainerView);
+					DianaArea intersection = DianaIntersectionArea.makeIntersection(segment, containerViewBounds);
+					if (intersection instanceof DianaPoint) {
 						// Intersection is normally a point
-						FGEPoint intersect = (FGEPoint) intersection;
+						DianaPoint intersect = (DianaPoint) intersection;
 						double currentRatio = 1;
-						if (Math.abs(desiredCPInContainerView.x - initialCPInContainerView.x) > FGEGeometricObject.EPSILON) {
+						if (Math.abs(desiredCPInContainerView.x - initialCPInContainerView.x) > DianaGeometricObject.EPSILON) {
 							currentRatio = (intersect.x - initialCPInContainerView.x)
-									/ (desiredCPInContainerView.x - initialCPInContainerView.x) - FGEGeometricObject.EPSILON;
+									/ (desiredCPInContainerView.x - initialCPInContainerView.x) - DianaGeometricObject.EPSILON;
 						}
-						else if (Math.abs(desiredCPInContainerView.y - initialCPInContainerView.y) > FGEGeometricObject.EPSILON) {
+						else if (Math.abs(desiredCPInContainerView.y - initialCPInContainerView.y) > DianaGeometricObject.EPSILON) {
 							currentRatio = (intersect.y - initialCPInContainerView.y)
-									/ (desiredCPInContainerView.y - initialCPInContainerView.y) - FGEGeometricObject.EPSILON;
+									/ (desiredCPInContainerView.y - initialCPInContainerView.y) - DianaGeometricObject.EPSILON;
 						}
 						else {
 							logger.warning(
@@ -1479,7 +1479,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					(int) (getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y) * scale + getViewY(scale)));
 		}
 		else {
-			FGEPoint relativePosition = new FGEPoint(getPropertyValue(ShapeGraphicalRepresentation.RELATIVE_TEXT_X),
+			DianaPoint relativePosition = new DianaPoint(getPropertyValue(ShapeGraphicalRepresentation.RELATIVE_TEXT_X),
 					getPropertyValue(ShapeGraphicalRepresentation.RELATIVE_TEXT_Y));
 			point = convertLocalNormalizedPointToRemoteViewCoordinates(relativePosition, getParentNode(), scale);
 		}
@@ -1530,8 +1530,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			point.x -= ((ShapeNode<?>) getParentNode()).getBorderLeft() * scale /*- (int) (getBorderLeft() * scale)*/;
 			point.y -= ((ShapeNode<?>) getParentNode()).getBorderTop() * scale /*- (int) (getBorderTop() * scale)*/;
 		}
-		// point.x -= (FGEUtils.getCumulativeLeftBorders(getParentNode()) * scale /*- (int) (getBorderLeft() * scale)*/);
-		// point.y -= (FGEUtils.getCumulativeTopBorders(getParentNode()) * scale /*- (int) (getBorderTop() * scale)*/);
+		// point.x -= (DianaUtils.getCumulativeLeftBorders(getParentNode()) * scale /*- (int) (getBorderLeft() * scale)*/);
+		// point.y -= (DianaUtils.getCumulativeTopBorders(getParentNode()) * scale /*- (int) (getBorderTop() * scale)*/);
 
 		if (getGraphicalRepresentation().getIsFloatingLabel()) {
 			Double oldAbsoluteTextX = getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X);
@@ -1558,7 +1558,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				case TOP:
 					break;
 			}
-			FGEPoint p = new FGEPoint((point.x - getViewX(scale)) / scale, (point.y - getViewY(scale)) / scale);
+			DianaPoint p = new DianaPoint((point.x - getViewX(scale)) / scale, (point.y - getViewY(scale)) / scale);
 			setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X, p.x);
 			setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y, p.y);
 			notifyAttributeChanged(GraphicalRepresentation.ABSOLUTE_TEXT_X, oldAbsoluteTextX,
@@ -1638,7 +1638,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	}
 
 	@Override
-	public void notifyObjectMoved(FGEPoint oldLocation) {
+	public void notifyObjectMoved(DianaPoint oldLocation) {
 
 		if (getLayoutManager() != null) {
 			getLayoutManager().shapeMoved(oldLocation, getLocation());
@@ -1675,7 +1675,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * Notify that the object just resized
 	 */
 	@Override
-	public void notifyObjectResized(FGEDimension oldSize) {
+	public void notifyObjectResized(DianaDimension oldSize) {
 		getShape().notifyObjectResized();
 		super.notifyObjectResized(oldSize);
 	}
@@ -1736,7 +1736,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * @return the area on which the given connector can start
 	 */
 	@Override
-	public FGEArea getAllowedStartAreaForConnector(ConnectorNode<?> connector) {
+	public DianaArea getAllowedStartAreaForConnector(ConnectorNode<?> connector) {
 		return getShape().getOutline();
 	}
 
@@ -1748,7 +1748,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * @return the area on which the given connector can end
 	 */
 	@Override
-	public FGEArea getAllowedEndAreaForConnector(ConnectorNode<?> connector) {
+	public DianaArea getAllowedEndAreaForConnector(ConnectorNode<?> connector) {
 		return getShape().getOutline();
 	}
 
@@ -1760,7 +1760,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * @return the area on which the given connector can start
 	 */
 	@Override
-	public FGEArea getAllowedStartAreaForConnectorForDirection(ConnectorNode<?> connector, FGEArea area,
+	public DianaArea getAllowedStartAreaForConnectorForDirection(ConnectorNode<?> connector, DianaArea area,
 			SimplifiedCardinalDirection direction) {
 		return area;
 	}
@@ -1773,7 +1773,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * @return the area on which the given connector can end
 	 */
 	@Override
-	public FGEArea getAllowedEndAreaForConnectorForDirection(ConnectorNode<?> connector, FGEArea area,
+	public DianaArea getAllowedEndAreaForConnectorForDirection(ConnectorNode<?> connector, DianaArea area,
 			SimplifiedCardinalDirection direction) {
 		return area;
 	}
@@ -1785,7 +1785,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				return "[" + Integer.toHexString(hashCode()) + "]Shape-" + getIndex() + " [DELETED] ";
 			}
 			return "[" + Integer.toHexString(hashCode()) + "]Shape-" + getIndex() + "[" + getX() + ";" + getY() + "][" + getWidth() + "x"
-					+ getHeight() + "][" + getFGEShape() + "]:" + getDrawable();*/
+					+ getHeight() + "][" + getDianaShape() + "]:" + getDrawable();*/
 		return "ShapeNodeImpl[" + getText() + "/" + Integer.toHexString(hashCode()) + "/" + getDrawable() + "]";
 	}
 
@@ -1800,12 +1800,12 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	}
 
 	@Override
-	public FGEDimension getRequiredLabelSize() {
+	public DianaDimension getRequiredLabelSize() {
 		Dimension normalizedLabelSize = getNormalizedLabelSize();
 		int labelWidth = normalizedLabelSize.width;
 		int labelHeight = normalizedLabelSize.height;
 		double rh = 0, rw = 0;
-		FGEPoint rp = new FGEPoint(getGraphicalRepresentation().getRelativeTextX(), getGraphicalRepresentation().getRelativeTextY());
+		DianaPoint rp = new DianaPoint(getGraphicalRepresentation().getRelativeTextX(), getGraphicalRepresentation().getRelativeTextY());
 		switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
 			case BOTTOM:
 				if (GeomUtils.doubleEquals(rp.y, 0.0)) {
@@ -1892,12 +1892,12 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				break;
 		}
 
-		return new FGEDimension(rw, rh);
+		return new DianaDimension(rw, rh);
 	}
 
-	protected void updateRequiredBoundsForChildGRLocation(ShapeNode<?> child, FGEPoint newChildLocation) {
-		FGERectangle oldBounds = getBounds();
-		FGERectangle newBounds = getRequiredBoundsForChildGRLocation(child, newChildLocation);
+	protected void updateRequiredBoundsForChildGRLocation(ShapeNode<?> child, DianaPoint newChildLocation) {
+		DianaRectangle oldBounds = getBounds();
+		DianaRectangle newBounds = getRequiredBoundsForChildGRLocation(child, newChildLocation);
 		// System.out.println("oldBounds= "+oldBounds+" newBounds="+newBounds);
 		double deltaX = -newBounds.x + oldBounds.x;
 		double deltaY = -newBounds.y + oldBounds.y;
@@ -1906,35 +1906,35 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			if (childNode instanceof ShapeNode) {
 				ShapeNodeImpl<?> shapeNode = (ShapeNodeImpl<?>) childNode;
 				if (shapeNode == child) {
-					FGEPoint newPoint = newChildLocation.transform(translation);
+					DianaPoint newPoint = newChildLocation.transform(translation);
 					shapeNode.setXNoNotification(newPoint.x);
 					shapeNode.setYNoNotification(newPoint.y);
 				}
 				else {
-					FGEPoint newPoint = shapeNode.getLocation().transform(translation);
+					DianaPoint newPoint = shapeNode.getLocation().transform(translation);
 					shapeNode.setXNoNotification(newPoint.x);
 					shapeNode.setYNoNotification(newPoint.y);
 				}
 				shapeNode.notifyObjectMoved();
 			}
 		}
-		setLocation(new FGEPoint(newBounds.x, newBounds.y));
-		setSize(new FGEDimension(newBounds.width, newBounds.height));
+		setLocation(new DianaPoint(newBounds.x, newBounds.y));
+		setSize(new DianaDimension(newBounds.width, newBounds.height));
 	}
 
-	protected FGERectangle getRequiredBoundsForChildGRLocation(DrawingTreeNode<?, ?> child, FGEPoint newChildLocation) {
-		FGERectangle requiredBounds = null;
+	protected DianaRectangle getRequiredBoundsForChildGRLocation(DrawingTreeNode<?, ?> child, DianaPoint newChildLocation) {
+		DianaRectangle requiredBounds = null;
 		for (DrawingTreeNode<?, ?> gr : getChildNodes()) {
 			if (gr instanceof ShapeNode) {
 				ShapeNode<?> shapeGR = (ShapeNode<?>) gr;
-				FGERectangle bounds = shapeGR.getBounds();
+				DianaRectangle bounds = shapeGR.getBounds();
 				if (shapeGR == child) {
 					bounds.x = newChildLocation.x;
 					bounds.y = newChildLocation.y;
 				}
 				if (shapeGR.hasText()) {
 					Rectangle labelBounds = shapeGR.getNormalizedLabelBounds(); // getLabelBounds((new JLabel()), 1.0);
-					FGERectangle labelBounds2 = new FGERectangle(labelBounds.x, labelBounds.y, labelBounds.width, labelBounds.height);
+					DianaRectangle labelBounds2 = new DianaRectangle(labelBounds.x, labelBounds.y, labelBounds.width, labelBounds.height);
 					bounds = bounds.rectangleUnion(labelBounds2);
 				}
 
@@ -1947,7 +1947,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			}
 		}
 		if (requiredBounds == null) {
-			requiredBounds = new FGERectangle(getX(), getY(), getGraphicalRepresentation().getMinimalWidth(),
+			requiredBounds = new DianaRectangle(getX(), getY(), getGraphicalRepresentation().getMinimalWidth(),
 					getGraphicalRepresentation().getMinimalHeight());
 		}
 		else {
@@ -1967,8 +1967,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	}
 
 	@Override
-	public FGERectangle getRequiredBoundsForContents() {
-		FGERectangle requiredBounds = super.getRequiredBoundsForContents();
+	public DianaRectangle getRequiredBoundsForContents() {
+		DianaRectangle requiredBounds = super.getRequiredBoundsForContents();
 
 		// requiredBounds.x = requiredBounds.x - getGraphicalRepresentation().getBorder().getLeft();
 		// requiredBounds.y = requiredBounds.y - getGraphicalRepresentation().getBorder().getTop();
@@ -1977,7 +1977,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	}
 
 	/**
-	 * Calling this method forces FGE to check (and eventually update) dimension of current graphical representation according defined
+	 * Calling this method forces Diana to check (and eventually update) dimension of current graphical representation according defined
 	 * dimension constraints
 	 */
 	@Override
@@ -1995,10 +1995,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	}
 
 	@Override
-	public void paint(FGEShapeGraphics g) {
+	public void paint(DianaShapeGraphics g) {
 
-		g.translate(getBorderLeft() * g.getScale() /*+ FGEUtils.getCumulativeLeftBorders(getParentNode())*/,
-				getBorderTop() * g.getScale() /*+ FGEUtils.getCumulativeTopBorders(getParentNode())*/);
+		g.translate(getBorderLeft() * g.getScale() /*+ DianaUtils.getCumulativeLeftBorders(getParentNode())*/,
+				getBorderTop() * g.getScale() /*+ DianaUtils.getCumulativeTopBorders(getParentNode())*/);
 
 		// Paint container properties (layout managers)
 		super.paint(g);
@@ -2008,7 +2008,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			decorationPainter.paintDecoration(g.getShapeDecorationGraphics());
 		}
 
-		/*if (FGEConstants.DEBUG) {
+		/*if (DianaConstants.DEBUG) {
 			if (getGraphicalRepresentation().getBorder() != null) {
 				g2.setColor(Color.RED);
 				g2.drawRect(0, 0, getViewWidth(controller.getScale()) - 1, getViewHeight(controller.getScale()) - 1);
@@ -2215,7 +2215,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	}
 
 	/**
-	 * Called to define FGELayoutManager for this node<br>
+	 * Called to define DianaLayoutManager for this node<br>
 	 * The layout manager should be already declared in the parent. It is identified by supplied layoutManagerIdentifier.
 	 * 
 	 * @param layoutManagerIdentifier
@@ -2230,28 +2230,28 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * @return
 	 */
 	@Override
-	public FGELayoutManager<?, ?> getLayoutManager() {
+	public DianaLayoutManager<?, ?> getLayoutManager() {
 		return layoutManager;
 	}
 
-	private void setLayoutManager(FGELayoutManager<?, ?> layoutManager) {
+	private void setLayoutManager(DianaLayoutManager<?, ?> layoutManager) {
 		if ((layoutManager != this.layoutManager)) {
-			FGELayoutManager<?, ?> oldValue = this.layoutManager;
+			DianaLayoutManager<?, ?> oldValue = this.layoutManager;
 			this.layoutManager = layoutManager;
 			getPropertyChangeSupport().firePropertyChange("layoutManager", oldValue, layoutManager);
 		}
 	}
 
 	/**
-	 * Called when changed FGELayoutManager for this node<br>
+	 * Called when changed DianaLayoutManager for this node<br>
 	 * The layout manager is retrieved from layout identifier defined in {@link ShapeGraphicalRepresentation}, asserting that related
-	 * {@link FGELayoutManagerSpecification} is defined in {@link ContainerGraphicalRepresentation}
+	 * {@link DianaLayoutManagerSpecification} is defined in {@link ContainerGraphicalRepresentation}
 	 */
 	public void relayoutNode() {
 
 		// System.out.println("************* relayoutNode called for " + this);
 
-		FGELayoutManager<?, ?> layoutManager = null;
+		DianaLayoutManager<?, ?> layoutManager = null;
 		if (StringUtils.isNotEmpty(getGraphicalRepresentation().getLayoutManagerIdentifier())) {
 			layoutManager = getParentNode().getLayoutManager(getGraphicalRepresentation().getLayoutManagerIdentifier());
 		}

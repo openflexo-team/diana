@@ -79,9 +79,9 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import org.openflexo.diana.FGEConstants;
-import org.openflexo.diana.FGECoreUtils;
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaConstants;
+import org.openflexo.diana.DianaCoreUtils;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.TextStyle;
@@ -100,9 +100,9 @@ import org.openflexo.diana.notifications.ObjectWillMove;
 import org.openflexo.diana.notifications.ObjectWillResize;
 import org.openflexo.diana.notifications.ShapeNeedsToBeRedrawn;
 import org.openflexo.diana.swing.SwingViewFactory;
-import org.openflexo.diana.swing.graphics.JFGEGraphics;
-import org.openflexo.diana.swing.paint.FGEPaintManager;
-import org.openflexo.diana.view.FGEView;
+import org.openflexo.diana.swing.graphics.JDianaGraphics;
+import org.openflexo.diana.swing.paint.DianaPaintManager;
+import org.openflexo.diana.view.DianaView;
 import org.openflexo.swing.FlexoSwingUtils;
 import org.openflexo.toolbox.ToolBox;
 
@@ -113,14 +113,14 @@ import org.openflexo.toolbox.ToolBox;
  * 
  */
 @SuppressWarnings("serial")
-public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, LabelMetricsProvider {
+public class JLabelView<O> extends JScrollPane implements JDianaView<O, JPanel>, LabelMetricsProvider {
 
 	private static final Logger logger = Logger.getLogger(JLabelView.class.getPackage().getName());
 
 	private DrawingTreeNode<O, ?> node;
-	private FGEViewMouseListener mouseListener;
+	private DianaViewMouseListener mouseListener;
 	private AbstractDianaEditor<?, SwingViewFactory, JComponent> controller;
-	private JFGEView<O, ? extends JComponent> delegateView;
+	private JDianaView<O, ? extends JComponent> delegateView;
 	private boolean isEditing = false;
 
 	private TextComponent textComponent;
@@ -130,7 +130,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 	private boolean mouseInsideLabel = false;
 
 	public JLabelView(final DrawingTreeNode<O, ?> node, AbstractDianaEditor<?, SwingViewFactory, JComponent> controller,
-			JFGEView<O, ? extends JComponent> delegateView) {
+			JDianaView<O, ? extends JComponent> delegateView) {
 
 		// logger.info("Build JLabelView for " + node.getDrawable() + " with text " + node.getText());
 
@@ -200,8 +200,8 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 	}
 
 	@Override
-	public JFGEGraphics getFGEGraphics() {
-		return delegateView.getFGEGraphics();
+	public JDianaGraphics getDianaGraphics() {
+		return delegateView.getDianaGraphics();
 	}
 
 	@Override
@@ -257,7 +257,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 				&& ((DianaInteractiveViewer<?, SwingViewFactory, JComponent>) getController()).getEditedLabel() == this) {
 			((DianaInteractiveViewer<?, SwingViewFactory, JComponent>) getController()).resetEditedLabel(this);
 		}
-		removeFGEMouseListener();
+		removeDianaMouseListener();
 		JDianaLayeredView<?> parentView = getParentView();
 		if (parentView != null) {
 			// logger.warning("Unexpected not null parent, proceeding anyway");
@@ -280,11 +280,11 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 	}
 
 	public void enableTextComponentMouseListeners() {
-		removeFGEMouseListener();
+		removeDianaMouseListener();
 	}
 
 	public void disableTextComponentMouseListeners() {
-		addFGEMouseListener();
+		addDianaMouseListener();
 	}
 
 	@Override
@@ -315,7 +315,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		return getParent();
 	}
 
-	public FGEView<O, ? extends JComponent> getDelegateView() {
+	public DianaView<O, ? extends JComponent> getDelegateView() {
 		return delegateView;
 	}
 
@@ -443,7 +443,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		}
 
 		// Fixed TA-128
-		if (!FGEUtils.areElementsConnectedInGraphicalHierarchy(node, getDrawingView().getDrawing().getRoot())) {
+		if (!DianaUtils.areElementsConnectedInGraphicalHierarchy(node, getDrawingView().getDrawing().getRoot())) {
 			logger.warning("Calling updateBounds() for element is not connected to the drawing. Abort.");
 			return;
 		}
@@ -558,7 +558,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 				ts = node.getFactory().makeDefaultTextStyle();
 			}
 			else {
-				ts = FGECoreUtils.TOOLS_FACTORY.makeDefaultTextStyle();
+				ts = DianaCoreUtils.TOOLS_FACTORY.makeDefaultTextStyle();
 			}
 		}
 		if (ts.getOrientation() != 0) {
@@ -566,7 +566,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		}
 		Font font = ts.getFont();
 		if (font == null) {
-			font = FGEConstants.DEFAULT_TEXT_FONT;
+			font = DianaConstants.DEFAULT_TEXT_FONT;
 		}
 		font = font.deriveFont(at);
 		textComponent.setFont(font);
@@ -634,7 +634,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		}
 	}
 
-	public void addFGEMouseListener() {
+	public void addDianaMouseListener() {
 		/*if (!Arrays.asList(getMouseListeners()).contains(mouseListener)) {
 			addMouseListener(mouseListener);
 		}
@@ -649,7 +649,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		}
 	}
 
-	public void removeFGEMouseListener() {
+	public void removeDianaMouseListener() {
 		// removeMouseListener(mouseListener);
 		// removeMouseMotionListener(mouseListener);
 		textComponent.removeMouseListener(mouseListener);
@@ -835,7 +835,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 	}
 
 	@Override
-	public FGEPaintManager getPaintManager() {
+	public DianaPaintManager getPaintManager() {
 		return getDrawingView().getPaintManager();
 	}
 
@@ -853,7 +853,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 
 	/**
 	 * This class tries to keep trace if the mouse is inside the label or not. This partially works but it heavily relies on the fact that
-	 * FGEViewMouseListener will simulate mouse in/out events. In some cases, this may not work.
+	 * DianaViewMouseListener will simulate mouse in/out events. In some cases, this may not work.
 	 * 
 	 * @author Guillaume
 	 * 
@@ -930,12 +930,12 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 			}
 			setDoubleBuffered(!b);
 			if (b) {
-				removeFGEMouseListener();
+				removeDianaMouseListener();
 				requestFocusInWindow();
 				selectAll();
 			}
 			else {
-				addFGEMouseListener();
+				addDianaMouseListener();
 			}
 		}
 

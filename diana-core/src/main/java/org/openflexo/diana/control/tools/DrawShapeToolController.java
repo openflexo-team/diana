@@ -43,7 +43,7 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.control.DianaInteractiveEditor;
 import org.openflexo.diana.control.actions.DrawShapeAction;
-import org.openflexo.diana.graphics.FGEGraphics;
+import org.openflexo.diana.graphics.DianaGraphics;
 
 /**
  * Abstract implementation for the controller of the DrawShape tool
@@ -60,7 +60,7 @@ public abstract class DrawShapeToolController<ME> extends ToolController<ME> {
 		super(controller, toolAction);
 	}
 
-	public FGEGraphics getGraphics() {
+	public DianaGraphics getGraphics() {
 		return null;
 	}
 

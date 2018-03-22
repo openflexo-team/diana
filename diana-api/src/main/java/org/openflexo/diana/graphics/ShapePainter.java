@@ -42,5 +42,5 @@ package org.openflexo.diana.graphics;
 
 public interface ShapePainter {
 
-	public void paintShape(FGEShapeGraphics g);
+	public void paintShape(DianaShapeGraphics g);
 }

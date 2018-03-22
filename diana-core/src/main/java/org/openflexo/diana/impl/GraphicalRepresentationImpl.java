@@ -64,12 +64,12 @@ import org.openflexo.diana.control.MouseClickControl;
 import org.openflexo.diana.control.MouseControl.MouseButton;
 import org.openflexo.diana.control.MouseDragControl;
 import org.openflexo.diana.notifications.BindingChanged;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.diana.notifications.GRDeleted;
 import org.openflexo.model.factory.CloneableProxyObject;
 import org.openflexo.model.factory.ProxyMethodHandler;
 
-public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implements GraphicalRepresentation {
+public abstract class GraphicalRepresentationImpl extends DianaObjectImpl implements GraphicalRepresentation {
 
 	private static final Logger logger = Logger.getLogger(GraphicalRepresentation.class.getPackage().getName());
 
@@ -187,7 +187,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public final void setsWith(GraphicalRepresentation gr) {
-		if (gr instanceof GraphicalRepresentation) {
+		if (gr != null) {
 			for (GRProperty<?> p : GRProperty.getGRParameters(getClass())) {
 				if (!p.getName().equals(GraphicalRepresentation.IDENTIFIER_KEY)
 						&& !p.getName().equals(GraphicalRepresentation.MOUSE_CLICK_CONTROLS_KEY)
@@ -200,7 +200,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public final void setsWith(GraphicalRepresentation gr, GRProperty<?>... exceptedParameters) {
-		if (gr instanceof GraphicalRepresentation) {
+		if (gr != null) {
 			for (GRProperty<?> p : GRProperty.getGRParameters(getClass())) {
 				boolean excepted = false;
 				for (GRProperty<?> ep : exceptedParameters) {
@@ -290,7 +290,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setIdentifier(String identifier) {
-		FGEAttributeNotification<?> notification = requireChange(IDENTIFIER, identifier);
+		DianaAttributeNotification<?> notification = requireChange(IDENTIFIER, identifier);
 		if (notification != null) {
 			this.identifier = identifier;
 			hasChanged(notification);
@@ -311,11 +311,11 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 		 * (child.getLayer() == layer) { System.out.println("Il faudrait changer la layer de "+child +" en meme temps"); if
 		 * (allGRInSameLayer == null) allGRInSameLayer = new Vector<GraphicalRepresentation>(); allGRInSameLayer.add(child); } } }
 		 * 
-		 * if (allGRInSameLayer == null || allGRInSameLayer.size() == 1) { FGENotification notification = requireChange(Parameters.layer,
+		 * if (allGRInSameLayer == null || allGRInSameLayer.size() == 1) { DianaNotification notification = requireChange(Parameters.layer,
 		 * layer); if (notification != null) { this.layer = layer; hasChanged(notification); } } else { for (GraphicalRepresentation
 		 * child : allGRInSameLayer) { child.proceedSetLayer(layer); } }
 		 */
-		FGEAttributeNotification<?> notification = requireChange(LAYER, layer);
+		DianaAttributeNotification<?> notification = requireChange(LAYER, layer);
 		if (notification != null) {
 			this.layer = layer;
 			hasChanged(notification);
@@ -329,7 +329,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setTransparency(double transparency) {
-		FGEAttributeNotification<?> notification = requireChange(TRANSPARENCY, transparency);
+		DianaAttributeNotification<?> notification = requireChange(TRANSPARENCY, transparency);
 		if (notification != null) {
 			this.transparency = transparency;
 			hasChanged(notification);
@@ -338,7 +338,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	/*
 	 * private void proceedSetLayer(int layer) { int oldLayer = layer; this.layer = layer; hasChanged(new
-	 * FGENotification("layer",oldLayer,layer)); }
+	 * DianaNotification("layer",oldLayer,layer)); }
 	 */
 
 	/*@Override
@@ -673,7 +673,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	 */
 
 	/*
-	 * public boolean isPointVisible(FGEPoint p) { if (!getIsVisible()) return false;
+	 * public boolean isPointVisible(DianaPoint p) { if (!getIsVisible()) return false;
 	 * 
 	 * GraphicalRepresentation initialGR = this; GraphicalRepresentation currentGR = this;
 	 * 
@@ -689,7 +689,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	 */
 
 	/*@Override
-	public boolean isPointVisible(FGEPoint p) {
+	public boolean isPointVisible(DianaPoint p) {
 		if (!getIsVisible()) {
 			return false;
 		}
@@ -700,7 +700,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	}*/
 
 	/*@Override
-	public ShapeGraphicalRepresentation shapeHiding(FGEPoint p) {
+	public ShapeGraphicalRepresentation shapeHiding(DianaPoint p) {
 		if (!getIsVisible()) {
 			return null;
 		}
@@ -708,9 +708,9 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 		if (this instanceof ShapeGraphicalRepresentation) {
 			// Be careful, maybe this point is just on outline
 			// So translate it to the center to be sure
-			FGEPoint center = ((ShapeGraphicalRepresentation) this).getShape().getShape().getCenter();
-			p.x = p.x + FGEGeometricObject.EPSILON * (center.x - p.x);
-			p.y = p.y + FGEGeometricObject.EPSILON * (center.y - p.y);
+			DianaPoint center = ((ShapeGraphicalRepresentation) this).getShape().getShape().getCenter();
+			p.x = p.x + DianaGeometricObject.EPSILON * (center.x - p.x);
+			p.y = p.y + DianaGeometricObject.EPSILON * (center.y - p.y);
 		}
 	
 		DrawingGraphicalRepresentation drawingGR = getDrawingGraphicalRepresentation();
@@ -735,7 +735,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setTextStyle(TextStyle aTextStyle) {
-		FGEAttributeNotification<?> notification = requireChange(TEXT_STYLE, aTextStyle, false);
+		DianaAttributeNotification<?> notification = requireChange(TEXT_STYLE, aTextStyle, false);
 		if (notification != null) {
 			if (textStyle != null && textStyle.getPropertyChangeSupport() != null) {
 				textStyle.getPropertyChangeSupport().removePropertyChangeListener(this);
@@ -761,7 +761,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 		 * <?>)getContainerGraphicalRepresentation()).getWidth()) { absoluteTextX =
 		 * ((ShapeGraphicalRepresentation)getContainerGraphicalRepresentation ()).getWidth(); }
 		 */
-		FGEAttributeNotification<?> notification = requireChange(ABSOLUTE_TEXT_X, absoluteTextX);
+		DianaAttributeNotification<?> notification = requireChange(ABSOLUTE_TEXT_X, absoluteTextX);
 		if (notification != null) {
 			setAbsoluteTextXNoNotification(absoluteTextX);
 			hasChanged(notification);
@@ -779,7 +779,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public final void setAbsoluteTextY(double absoluteTextY) {
-		FGEAttributeNotification<?> notification = requireChange(ABSOLUTE_TEXT_Y, absoluteTextY);
+		DianaAttributeNotification<?> notification = requireChange(ABSOLUTE_TEXT_Y, absoluteTextY);
 		if (notification != null) {
 			setAbsoluteTextYNoNotification(absoluteTextY);
 			hasChanged(notification);
@@ -797,7 +797,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setIsFocusable(boolean isFocusable) {
-		FGEAttributeNotification<?> notification = requireChange(IS_FOCUSABLE, isFocusable);
+		DianaAttributeNotification<?> notification = requireChange(IS_FOCUSABLE, isFocusable);
 		if (notification != null) {
 			this.isFocusable = isFocusable;
 			hasChanged(notification);
@@ -811,7 +811,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setDrawControlPointsWhenFocused(boolean aFlag) {
-		FGEAttributeNotification<?> notification = requireChange(DRAW_CONTROL_POINTS_WHEN_FOCUSED, aFlag);
+		DianaAttributeNotification<?> notification = requireChange(DRAW_CONTROL_POINTS_WHEN_FOCUSED, aFlag);
 		if (notification != null) {
 			drawControlPointsWhenFocused = aFlag;
 			hasChanged(notification);
@@ -825,7 +825,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setIsSelectable(boolean isSelectable) {
-		FGEAttributeNotification<?> notification = requireChange(IS_SELECTABLE, isSelectable);
+		DianaAttributeNotification<?> notification = requireChange(IS_SELECTABLE, isSelectable);
 		if (notification != null) {
 			this.isSelectable = isSelectable;
 			hasChanged(notification);
@@ -839,7 +839,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setDrawControlPointsWhenSelected(boolean aFlag) {
-		FGEAttributeNotification<?> notification = requireChange(DRAW_CONTROL_POINTS_WHEN_SELECTED, aFlag);
+		DianaAttributeNotification<?> notification = requireChange(DRAW_CONTROL_POINTS_WHEN_SELECTED, aFlag);
 		if (notification != null) {
 			drawControlPointsWhenSelected = aFlag;
 			hasChanged(notification);
@@ -855,7 +855,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	// TODO: should disappear ??? May be no, a GR may carry contextual data
 	@Override
 	public void setText(String text) {
-		FGEAttributeNotification<?> notification = requireChange(TEXT, text);
+		DianaAttributeNotification<?> notification = requireChange(TEXT, text);
 		if (notification != null) {
 			setTextNoNotification(text);
 			hasChanged(notification);
@@ -884,7 +884,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	
 	@Override
 	public void setHasText(boolean hasText) {
-		FGENotification notification = requireChange(Parameters.hasText, hasText);
+		DianaNotification notification = requireChange(Parameters.hasText, hasText);
 		if (notification != null) {
 			this.hasText = hasText;
 			hasChanged(notification);
@@ -898,7 +898,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setIsMultilineAllowed(boolean multilineAllowed) {
-		FGEAttributeNotification<?> notification = requireChange(IS_MULTILINE_ALLOWED, multilineAllowed);
+		DianaAttributeNotification<?> notification = requireChange(IS_MULTILINE_ALLOWED, multilineAllowed);
 		if (notification != null) {
 			this.multilineAllowed = multilineAllowed;
 			hasChanged(notification);
@@ -915,7 +915,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setLineWrap(boolean lineWrap) {
-		FGEAttributeNotification<?> notification = requireChange(LINE_WRAP, lineWrap);
+		DianaAttributeNotification<?> notification = requireChange(LINE_WRAP, lineWrap);
 		if (notification != null) {
 			this.lineWrap = lineWrap;
 			hasChanged(notification);
@@ -929,7 +929,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setContinuousTextEditing(boolean continuousTextEditing) {
-		FGEAttributeNotification<?> notification = requireChange(CONTINUOUS_TEXT_EDITING, continuousTextEditing);
+		DianaAttributeNotification<?> notification = requireChange(CONTINUOUS_TEXT_EDITING, continuousTextEditing);
 		if (notification != null) {
 			this.continuousTextEditing = continuousTextEditing;
 			hasChanged(notification);
@@ -943,7 +943,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	
 	@Override
 	public void setIsFocused(boolean aFlag) {
-		FGENotification notification = requireChange(Parameters.isFocused, aFlag);
+		DianaNotification notification = requireChange(Parameters.isFocused, aFlag);
 		if (notification != null) {
 			isFocused = aFlag;
 			hasChanged(notification);
@@ -960,7 +960,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 		//if (getParentGraphicalRepresentation() != null && aFlag) {
 		//	getParentGraphicalRepresentation().moveToTop(this);
 		//}
-		FGENotification notification = requireChange(Parameters.isSelected, aFlag);
+		DianaNotification notification = requireChange(Parameters.isSelected, aFlag);
 		if (notification != null) {
 			isSelected = aFlag;
 			hasChanged(notification);
@@ -974,7 +974,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setIsReadOnly(boolean readOnly) {
-		FGEAttributeNotification<?> notification = requireChange(IS_READ_ONLY, readOnly);
+		DianaAttributeNotification<?> notification = requireChange(IS_READ_ONLY, readOnly);
 		if (notification != null) {
 			this.readOnly = readOnly;
 			hasChanged(notification);
@@ -988,7 +988,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setIsLabelEditable(boolean labelEditable) {
-		FGEAttributeNotification<?> notification = requireChange(IS_LABEL_EDITABLE, labelEditable);
+		DianaAttributeNotification<?> notification = requireChange(IS_LABEL_EDITABLE, labelEditable);
 		if (notification != null) {
 			this.labelEditable = labelEditable;
 			hasChanged(notification);
@@ -1011,7 +1011,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setIsVisible(boolean isVisible) {
-		FGEAttributeNotification<?> notification = requireChange(IS_VISIBLE, isVisible);
+		DianaAttributeNotification<?> notification = requireChange(IS_VISIBLE, isVisible);
 		if (notification != null) {
 			this.isVisible = isVisible;
 			hasChanged(notification);
@@ -1052,8 +1052,8 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	}
 	
 	@Override
-	public FGERectangle getNormalizedBounds() {
-		return new FGERectangle(0, 0, 1, 1, Filling.FILLED);
+	public DianaRectangle getNormalizedBounds() {
+		return new DianaRectangle(0, 0, 1, 1, Filling.FILLED);
 	}*/
 
 	/*@Override
@@ -1151,41 +1151,41 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	// *******************************************************************************
 
 	/*@Override
-	public FGEPoint convertRemoteViewCoordinatesToLocalNormalizedPoint(Point p, GraphicalRepresentation source, double scale) {
+	public DianaPoint convertRemoteViewCoordinatesToLocalNormalizedPoint(Point p, GraphicalRepresentation source, double scale) {
 		if (!isConnectedToDrawing() || !source.isConnectedToDrawing()) {
-			return new FGEPoint(p.x / scale, p.y / scale);
+			return new DianaPoint(p.x / scale, p.y / scale);
 		}
 		Point pointRelativeToCurrentView = convertPoint(source, p, this, scale);
 		return convertViewCoordinatesToNormalizedPoint(pointRelativeToCurrentView, scale);
 	}
 	
 	@Override
-	public FGEPoint convertLocalViewCoordinatesToRemoteNormalizedPoint(Point p, GraphicalRepresentation destination, double scale) {
+	public DianaPoint convertLocalViewCoordinatesToRemoteNormalizedPoint(Point p, GraphicalRepresentation destination, double scale) {
 		if (!isConnectedToDrawing() || !destination.isConnectedToDrawing()) {
-			return new FGEPoint(p.x * scale, p.y * scale);
+			return new DianaPoint(p.x * scale, p.y * scale);
 		}
 		Point pointRelativeToRemoteView = convertPoint(this, p, destination, scale);
 		return destination.convertViewCoordinatesToNormalizedPoint(pointRelativeToRemoteView, scale);
 	}
 	
 	@Override
-	public Point convertLocalNormalizedPointToRemoteViewCoordinates(FGEPoint p, GraphicalRepresentation destination, double scale) {
+	public Point convertLocalNormalizedPointToRemoteViewCoordinates(DianaPoint p, GraphicalRepresentation destination, double scale) {
 		Point point = convertNormalizedPointToViewCoordinates(p, scale);
 		return convertPoint(this, point, destination, scale);
 	}
 	
 	@Override
-	public Rectangle convertLocalNormalizedRectangleToRemoteViewCoordinates(FGERectangle r, GraphicalRepresentation destination,
+	public Rectangle convertLocalNormalizedRectangleToRemoteViewCoordinates(DianaRectangle r, GraphicalRepresentation destination,
 			double scale) {
-		FGEPoint p1 = new FGEPoint(r.x, r.y);
-		FGEPoint p2 = new FGEPoint(r.x + r.width, r.y + r.height);
+		DianaPoint p1 = new DianaPoint(r.x, r.y);
+		DianaPoint p2 = new DianaPoint(r.x + r.width, r.y + r.height);
 		Point pp1 = convertLocalNormalizedPointToRemoteViewCoordinates(p1, destination, scale);
 		Point pp2 = convertLocalNormalizedPointToRemoteViewCoordinates(p2, destination, scale);
 		return new Rectangle(pp1.x, pp1.y, pp2.x - pp1.x, pp2.y - pp1.y);
 	}
 	
 	@Override
-	public Point convertRemoteNormalizedPointToLocalViewCoordinates(FGEPoint p, GraphicalRepresentation source, double scale) {
+	public Point convertRemoteNormalizedPointToLocalViewCoordinates(DianaPoint p, GraphicalRepresentation source, double scale) {
 		Point point = source.convertNormalizedPointToViewCoordinates(p, scale);
 		return convertPoint(source, point, this, scale);
 	}*/
@@ -1207,7 +1207,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setMouseClickControls(List<MouseClickControl<?>> mouseClickControls) {
-		FGEAttributeNotification<?> notification = requireChange(MOUSE_CLICK_CONTROLS, mouseClickControls);
+		DianaAttributeNotification<?> notification = requireChange(MOUSE_CLICK_CONTROLS, mouseClickControls);
 		if (notification != null) {
 			this.mouseClickControls.addAll(mouseClickControls);
 			hasChanged(notification);
@@ -1227,13 +1227,13 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 		else {
 			mouseClickControls.add(mouseClickControl);
 		}
-		notifyObservers(new FGEAttributeNotification<>(MOUSE_CLICK_CONTROLS, mouseClickControls, mouseClickControls));
+		notifyObservers(new DianaAttributeNotification<>(MOUSE_CLICK_CONTROLS, mouseClickControls, mouseClickControls));
 	}
 
 	@Override
 	public void removeFromMouseClickControls(MouseClickControl<?> mouseClickControl) {
 		mouseClickControls.remove(mouseClickControl);
-		notifyObservers(new FGEAttributeNotification<>(MOUSE_CLICK_CONTROLS, mouseClickControls, mouseClickControls));
+		notifyObservers(new DianaAttributeNotification<>(MOUSE_CLICK_CONTROLS, mouseClickControls, mouseClickControls));
 	}
 
 	@Override
@@ -1253,7 +1253,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setMouseDragControls(List<MouseDragControl<?>> mouseDragControls) {
-		FGEAttributeNotification<?> notification = requireChange(MOUSE_DRAG_CONTROLS, mouseDragControls);
+		DianaAttributeNotification<?> notification = requireChange(MOUSE_DRAG_CONTROLS, mouseDragControls);
 		if (notification != null) {
 			this.mouseDragControls.addAll(mouseDragControls);
 			hasChanged(notification);
@@ -1273,13 +1273,13 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 		else {
 			mouseDragControls.add(mouseDragControl);
 		}
-		notifyObservers(new FGEAttributeNotification<>(MOUSE_DRAG_CONTROLS, mouseDragControls, mouseDragControls));
+		notifyObservers(new DianaAttributeNotification<>(MOUSE_DRAG_CONTROLS, mouseDragControls, mouseDragControls));
 	}
 
 	@Override
 	public void removeFromMouseDragControls(MouseDragControl<?> mouseDragControl) {
 		mouseDragControls.remove(mouseDragControl);
-		notifyObservers(new FGEAttributeNotification<>(MOUSE_DRAG_CONTROLS, mouseDragControls, mouseDragControls));
+		notifyObservers(new DianaAttributeNotification<>(MOUSE_DRAG_CONTROLS, mouseDragControls, mouseDragControls));
 	}
 
 	@Override
@@ -1380,7 +1380,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setToolTipText(String tooltipText) {
-		FGEAttributeNotification<?> notification = requireChange(TOOLTIP_TEXT, tooltipText);
+		DianaAttributeNotification<?> notification = requireChange(TOOLTIP_TEXT, tooltipText);
 		if (notification != null) {
 			this.toolTipText = tooltipText;
 			hasChanged(notification);
@@ -1394,7 +1394,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setHorizontalTextAlignment(HorizontalTextAlignment horizontalTextAlignment) {
-		FGEAttributeNotification<?> notification = requireChange(HORIZONTAL_TEXT_ALIGNEMENT, horizontalTextAlignment);
+		DianaAttributeNotification<?> notification = requireChange(HORIZONTAL_TEXT_ALIGNEMENT, horizontalTextAlignment);
 		if (notification != null) {
 			this.horizontalTextAlignment = horizontalTextAlignment;
 			hasChanged(notification);
@@ -1408,7 +1408,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setVerticalTextAlignment(VerticalTextAlignment verticalTextAlignment) {
-		FGEAttributeNotification<?> notification = requireChange(VERTICAL_TEXT_ALIGNEMENT, verticalTextAlignment);
+		DianaAttributeNotification<?> notification = requireChange(VERTICAL_TEXT_ALIGNEMENT, verticalTextAlignment);
 		if (notification != null) {
 			this.verticalTextAlignment = verticalTextAlignment;
 			hasChanged(notification);
@@ -1422,7 +1422,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 
 	@Override
 	public void setParagraphAlignment(ParagraphAlignment paragraphAlignment) {
-		FGEAttributeNotification<?> notification = requireChange(PARAGRAPH_ALIGNEMENT, paragraphAlignment);
+		DianaAttributeNotification<?> notification = requireChange(PARAGRAPH_ALIGNEMENT, paragraphAlignment);
 		if (notification != null) {
 			this.paragraphAlignment = paragraphAlignment;
 			hasChanged(notification);
@@ -1439,7 +1439,7 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 		for (GraphicalRepresentation gr : getContainedGraphicalRepresentations()) {
 			if (gr instanceof ShapeGraphicalRepresentation) {
 				ShapeGraphicalRepresentation child = (ShapeGraphicalRepresentation) gr;
-				child.setLocation(new FGEPoint(r.nextDouble() * (width - child.getWidth()), r.nextDouble() * (height - child.getHeight())));
+				child.setLocation(new DianaPoint(r.nextDouble() * (width - child.getWidth()), r.nextDouble() * (height - child.getHeight())));
 			}
 		}
 	}*/
@@ -1695,14 +1695,14 @@ public abstract class GraphicalRepresentationImpl extends FGEObjectImpl implemen
 	public void addToVariables(GRVariable v) {
 		variables.add(v);
 		setChanged();
-		notifyObservers(new FGENotification(Parameters.variables, variables, variables));
+		notifyObservers(new DianaNotification(Parameters.variables, variables, variables));
 	}
 	
 	@Override
 	public void removeFromVariables(GRVariable v) {
 		variables.remove(v);
 		setChanged();
-		notifyObservers(new FGENotification(Parameters.variables, variables, variables));
+		notifyObservers(new DianaNotification(Parameters.variables, variables, variables));
 	}
 	
 	@Override

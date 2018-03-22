@@ -39,14 +39,14 @@
 
 package org.openflexo.diana.notifications;
 
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 
-public class ObjectMove extends FGEAttributeNotification<FGEPoint> {
+public class ObjectMove extends DianaAttributeNotification<DianaPoint> {
 
 	public static final String PROPERTY_NAME = "location";
 
-	public ObjectMove(FGEPoint oldLocation, FGEPoint newLocation) {
+	public ObjectMove(DianaPoint oldLocation, DianaPoint newLocation) {
 		super(null, oldLocation, newLocation);
 	}
 

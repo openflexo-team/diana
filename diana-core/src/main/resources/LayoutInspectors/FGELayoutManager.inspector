@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Inspector
 	layout="border" titleFont="SansSerif,0,12" darkLevel="0"
-	dataClassName="org.openflexo.diana.FGELayoutManager" font="SansSerif,0,12"
+	dataClassName="org.openflexo.diana.DianaLayoutManager" font="SansSerif,0,12"
 	name="Inspector">
 	<TabPanel name="Tab" index="0" constraints="border(index=0;location=center)">
 		<Tab title="Basic" layout="twocols" titleFont="SansSerif,0,11"
@@ -20,7 +20,7 @@
 			<DropDown index="3" data="data.layoutManagerSpecification.draggingMode"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
 				width="150" name="DraggingMode" format="object.name" localize="true"
-				iteratorClassName="org.openflexo.diana.FGELayoutManagerSpecification$DraggingMode"
+				iteratorClassName="org.openflexo.diana.DianaLayoutManagerSpecification$DraggingMode"
 				autoSelectFirstRow="false" />
 			<CheckBox index="4" data="data.layoutManagerSpecification.paintDecoration"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"

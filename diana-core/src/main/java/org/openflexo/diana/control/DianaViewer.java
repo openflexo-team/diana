@@ -40,7 +40,7 @@
 package org.openflexo.diana.control;
 
 import org.openflexo.diana.Drawing;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.view.DianaViewFactory;
 
 /**
@@ -55,7 +55,7 @@ import org.openflexo.diana.view.DianaViewFactory;
  */
 public abstract class DianaViewer<M, F extends DianaViewFactory<F, C>, C> extends AbstractDianaEditor<M, F, C> {
 
-	public DianaViewer(Drawing<M> aDrawing, FGEModelFactory factory, F dianaFactory, DianaToolFactory<C> toolFactory) {
+	public DianaViewer(Drawing<M> aDrawing, DianaModelFactory factory, F dianaFactory, DianaToolFactory<C> toolFactory) {
 		super(aDrawing, factory, dianaFactory, toolFactory);
 	}
 

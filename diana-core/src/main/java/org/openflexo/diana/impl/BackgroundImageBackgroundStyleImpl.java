@@ -44,7 +44,7 @@ import java.io.File;
 import javax.swing.ImageIcon;
 
 import org.openflexo.diana.BackgroundImageBackgroundStyle;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.icon.ImageIconResource;
 import org.openflexo.rm.Resource;
 import org.openflexo.rm.ResourceLocator;
@@ -109,7 +109,7 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 			else {
 				image = null;
 			}
-			notifyObservers(new FGEAttributeNotification<>(IMAGE_RESOURCE, oldResource, anImageResource));
+			notifyObservers(new DianaAttributeNotification<>(IMAGE_RESOURCE, oldResource, anImageResource));
 			getPropertyChangeSupport().firePropertyChange("image", null, getImage());
 		}
 	}
@@ -142,7 +142,7 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 		if (requireChange(this.imageBackgroundColor, aColor)) {
 			java.awt.Color oldColor = imageBackgroundColor;
 			this.imageBackgroundColor = aColor;
-			notifyObservers(new FGEAttributeNotification<>(IMAGE_BACKGROUND_COLOR, oldColor, aColor));
+			notifyObservers(new DianaAttributeNotification<>(IMAGE_BACKGROUND_COLOR, oldColor, aColor));
 		}
 	}
 
@@ -156,7 +156,7 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 		if (requireChange(this.deltaX, aDeltaX)) {
 			double oldDeltaX = this.deltaX;
 			this.deltaX = aDeltaX;
-			notifyObservers(new FGEAttributeNotification<>(DELTA_X, oldDeltaX, deltaX));
+			notifyObservers(new DianaAttributeNotification<>(DELTA_X, oldDeltaX, deltaX));
 		}
 	}
 
@@ -170,7 +170,7 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 		if (requireChange(this.deltaY, aDeltaY)) {
 			double oldDeltaY = this.deltaY;
 			this.deltaY = aDeltaY;
-			notifyObservers(new FGEAttributeNotification<>(DELTA_Y, oldDeltaY, deltaY));
+			notifyObservers(new DianaAttributeNotification<>(DELTA_Y, oldDeltaY, deltaY));
 		}
 	}
 
@@ -184,7 +184,7 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 		if (requireChange(this.imageBackgroundType, anImageBackgroundType)) {
 			BackgroundImageBackgroundStyle.ImageBackgroundType oldImageBackgroundType = this.imageBackgroundType;
 			this.imageBackgroundType = anImageBackgroundType;
-			notifyObservers(new FGEAttributeNotification<>(IMAGE_BACKGROUND_TYPE, oldImageBackgroundType, anImageBackgroundType));
+			notifyObservers(new DianaAttributeNotification<>(IMAGE_BACKGROUND_TYPE, oldImageBackgroundType, anImageBackgroundType));
 		}
 	}
 
@@ -199,7 +199,7 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 			double oldScaleX = this.scaleX;
 			// logger.info(toString()+": Sets scaleX from "+oldScaleX+" to "+aScaleX);
 			this.scaleX = aScaleX;
-			notifyObservers(new FGEAttributeNotification<>(SCALE_X, oldScaleX, scaleX));
+			notifyObservers(new DianaAttributeNotification<>(SCALE_X, oldScaleX, scaleX));
 		}
 	}
 
@@ -221,7 +221,7 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 			double oldScaleY = this.scaleY;
 			// logger.info(toString()+": Sets scaleY from "+oldScaleY+" to "+aScaleY);
 			this.scaleY = aScaleY;
-			notifyObservers(new FGEAttributeNotification<>(SCALE_Y, oldScaleY, scaleY));
+			notifyObservers(new DianaAttributeNotification<>(SCALE_Y, oldScaleY, scaleY));
 		}
 	}
 
@@ -242,7 +242,7 @@ public abstract class BackgroundImageBackgroundStyleImpl extends BackgroundStyle
 		if (requireChange(this.fitToShape, aFlag)) {
 			boolean oldValue = fitToShape;
 			this.fitToShape = aFlag;
-			notifyObservers(new FGEAttributeNotification<>(FIT_TO_SHAPE, oldValue, aFlag));
+			notifyObservers(new DianaAttributeNotification<>(FIT_TO_SHAPE, oldValue, aFlag));
 		}
 	}
 

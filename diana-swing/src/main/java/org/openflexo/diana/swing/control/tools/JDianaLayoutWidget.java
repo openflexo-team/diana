@@ -49,7 +49,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JToolBar;
 
-import org.openflexo.diana.FGEIconLibrary;
+import org.openflexo.diana.DianaIconLibrary;
 import org.openflexo.diana.control.tools.DianaLayoutWidget;
 import org.openflexo.diana.swing.SwingViewFactory;
 
@@ -72,53 +72,53 @@ public class JDianaLayoutWidget extends DianaLayoutWidget<JToolBar, SwingViewFac
 		component = new JToolBar();
 		component.setRollover(true);
 
-		component.add(new JLabel(FGEIconLibrary.TOOLBAR_LEFT_ICON));
-		component.add(new LayoutButton(FGEIconLibrary.ALIGN_LEFT_ICON, new ActionListener() {
+		component.add(new JLabel(DianaIconLibrary.TOOLBAR_LEFT_ICON));
+		component.add(new LayoutButton(DianaIconLibrary.ALIGN_LEFT_ICON, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				alignLeft();
 			}
 		}));
-		component.add(new JLabel(FGEIconLibrary.TOOLBAR_SPACER_ICON));
-		component.add(new LayoutButton(FGEIconLibrary.ALIGN_CENTER_ICON, new ActionListener() {
+		component.add(new JLabel(DianaIconLibrary.TOOLBAR_SPACER_ICON));
+		component.add(new LayoutButton(DianaIconLibrary.ALIGN_CENTER_ICON, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				alignCenter();
 			}
 		}));
-		component.add(new JLabel(FGEIconLibrary.TOOLBAR_SPACER_ICON));
-		component.add(new LayoutButton(FGEIconLibrary.ALIGN_RIGHT_ICON, new ActionListener() {
+		component.add(new JLabel(DianaIconLibrary.TOOLBAR_SPACER_ICON));
+		component.add(new LayoutButton(DianaIconLibrary.ALIGN_RIGHT_ICON, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				alignRight();
 			}
 		}));
-		component.add(new JLabel(FGEIconLibrary.TOOLBAR_RIGHT_ICON));
+		component.add(new JLabel(DianaIconLibrary.TOOLBAR_RIGHT_ICON));
 
 		component.addSeparator();
 
-		component.add(new JLabel(FGEIconLibrary.TOOLBAR_LEFT_ICON));
-		component.add(new LayoutButton(FGEIconLibrary.ALIGN_TOP_ICON, new ActionListener() {
+		component.add(new JLabel(DianaIconLibrary.TOOLBAR_LEFT_ICON));
+		component.add(new LayoutButton(DianaIconLibrary.ALIGN_TOP_ICON, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				alignTop();
 			}
 		}));
-		component.add(new JLabel(FGEIconLibrary.TOOLBAR_SPACER_ICON));
-		component.add(new LayoutButton(FGEIconLibrary.ALIGN_MIDDLE_ICON, new ActionListener() {
+		component.add(new JLabel(DianaIconLibrary.TOOLBAR_SPACER_ICON));
+		component.add(new LayoutButton(DianaIconLibrary.ALIGN_MIDDLE_ICON, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				alignMiddle();
 			}
 		}));
-		component.add(new JLabel(FGEIconLibrary.TOOLBAR_SPACER_ICON));
-		component.add(new LayoutButton(FGEIconLibrary.ALIGN_BOTTOM_ICON, new ActionListener() {
+		component.add(new JLabel(DianaIconLibrary.TOOLBAR_SPACER_ICON));
+		component.add(new LayoutButton(DianaIconLibrary.ALIGN_BOTTOM_ICON, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				alignBottom();
 			}
 		}));
-		component.add(new JLabel(FGEIconLibrary.TOOLBAR_RIGHT_ICON));
+		component.add(new JLabel(DianaIconLibrary.TOOLBAR_RIGHT_ICON));
 
 		component.validate();
 	}

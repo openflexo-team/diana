@@ -46,7 +46,7 @@ import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.binding.BindingValueListChangeListener;
-import org.openflexo.diana.graph.FGEDiscreteSimpleFunctionGraph;
+import org.openflexo.diana.graph.DianaDiscreteSimpleFunctionGraph;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.graph.FIBDiscreteSimpleFunctionGraph;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
@@ -109,28 +109,28 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 	}
 
 	@Override
-	protected FGEDiscreteSimpleFunctionGraphDrawing makeGraphDrawing() {
-		return new FGEDiscreteSimpleFunctionGraphDrawing(getWidget());
+	protected DianaDiscreteSimpleFunctionGraphDrawing makeGraphDrawing() {
+		return new DianaDiscreteSimpleFunctionGraphDrawing(getWidget());
 	}
 
 	@Override
-	public FGEDiscreteSimpleFunctionGraphDrawing getGraphDrawing() {
-		return (FGEDiscreteSimpleFunctionGraphDrawing) super.getGraphDrawing();
+	public DianaDiscreteSimpleFunctionGraphDrawing getGraphDrawing() {
+		return (DianaDiscreteSimpleFunctionGraphDrawing) super.getGraphDrawing();
 	}
 
-	public class FGEDiscreteSimpleFunctionGraphDrawing
-			extends FGESimpleFunctionGraphDrawing<FIBDiscreteSimpleFunctionGraph, FGEDiscreteSimpleFunctionGraph<?>> {
+	public class DianaDiscreteSimpleFunctionGraphDrawing
+			extends DianaSimpleFunctionGraphDrawing<FIBDiscreteSimpleFunctionGraph, DianaDiscreteSimpleFunctionGraph<?>> {
 
-		public FGEDiscreteSimpleFunctionGraphDrawing(FIBDiscreteSimpleFunctionGraph fibGraph) {
+		public DianaDiscreteSimpleFunctionGraphDrawing(FIBDiscreteSimpleFunctionGraph fibGraph) {
 			super(fibGraph, JFIBDiscreteSimpleGraphWidget.this);
 		}
 
 		@Override
-		protected FGEDiscreteSimpleFunctionGraph<?> makeGraph(FIBDiscreteSimpleFunctionGraph fibGraph) {
+		protected DianaDiscreteSimpleFunctionGraph<?> makeGraph(FIBDiscreteSimpleFunctionGraph fibGraph) {
 
-			// Create the FGEGraph
+			// Create the DianaGraph
 
-			graph = new FGEDiscreteSimpleFunctionGraph<Object>();
+			graph = new DianaDiscreteSimpleFunctionGraph<Object>();
 			graph.getBindingModel().setBaseBindingModel(fibGraph.getBindingModel());
 			graph.getEvaluator().setEvaluationContext(getBindingEvaluationContext());
 			graph.setBindingFactory(fibGraph.getBindingFactory());

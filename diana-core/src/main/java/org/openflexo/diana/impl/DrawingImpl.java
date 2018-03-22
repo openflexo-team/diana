@@ -47,8 +47,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.openflexo.diana.Drawing;
-import org.openflexo.diana.FGELayoutManager;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaLayoutManager;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.GRBinding;
 import org.openflexo.diana.GRStructureVisitor;
 import org.openflexo.diana.GraphicalRepresentation;
@@ -63,10 +63,10 @@ import org.openflexo.diana.GRProvider.DrawingGRProvider;
 import org.openflexo.diana.GRProvider.GeometricGRProvider;
 import org.openflexo.diana.GRProvider.ShapeGRProvider;
 import org.openflexo.diana.animation.Animation;
-import org.openflexo.diana.graph.FGEGraph;
+import org.openflexo.diana.graph.DianaGraph;
 import org.openflexo.diana.notifications.DrawingTreeNodeHierarchyRebuildEnded;
 import org.openflexo.diana.notifications.DrawingTreeNodeHierarchyRebuildStarted;
-import org.openflexo.diana.notifications.FGENotification;
+import org.openflexo.diana.notifications.DianaNotification;
 import org.openflexo.model.factory.ProxyMethodHandler;
 import org.openflexo.model.undo.UndoManager;
 
@@ -94,12 +94,12 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 
 	private boolean editable = true;
 
-	protected final FGEModelFactory factory;
+	protected final DianaModelFactory factory;
 	private final PersistenceMode persistenceMode;
 
 	private final PropertyChangeSupport pcSupport;
 
-	public DrawingImpl(M model, FGEModelFactory factory, PersistenceMode persistenceMode) {
+	public DrawingImpl(M model, DianaModelFactory factory, PersistenceMode persistenceMode) {
 		pcSupport = new PropertyChangeSupport(this);
 		this.model = model;
 		this.factory = factory;
@@ -117,7 +117,7 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	}
 
 	@Override
-	public FGEModelFactory getFactory() {
+	public DianaModelFactory getFactory() {
 		return factory;
 	}
 
@@ -220,7 +220,7 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	}
 
 	@Override
-	public <G extends FGEGraph> GraphGRBinding<G> bindGraph(Class<G> graphClass, String name, ShapeGRProvider<G> grProvider) {
+	public <G extends DianaGraph> GraphGRBinding<G> bindGraph(Class<G> graphClass, String name, ShapeGRProvider<G> grProvider) {
 		GraphGRBinding<G> returned = new GraphGRBinding<>(name, graphClass, grProvider);
 		return returned;
 	}
@@ -375,12 +375,12 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 		return null;
 	}
 
-	public void notifyObservers(FGENotification notification) {
+	public void notifyObservers(DianaNotification notification) {
 		getPropertyChangeSupport().firePropertyChange(notification.propertyName(), notification.oldValue, notification.newValue);
 	}
 
 	private boolean isUpdatingGraphicalObjectsHierarchy = false;
-	private final List<FGELayoutManager<?, ?>> layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating = new ArrayList<>();
+	private final List<DianaLayoutManager<?, ?>> layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating = new ArrayList<>();
 
 	@Override
 	public boolean isUpdatingGraphicalObjectsHierarchy() {
@@ -395,7 +395,7 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 
 	private void fireGraphicalObjectHierarchyRebuildEnded() {
 		isUpdatingGraphicalObjectsHierarchy = false;
-		for (FGELayoutManager<?, ?> layoutManager : layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating) {
+		for (DianaLayoutManager<?, ?> layoutManager : layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating) {
 			layoutManager.invalidate();
 			layoutManager.doLayout(true);
 		}
@@ -404,7 +404,7 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	}
 
 	@Override
-	public void invokeLayoutAfterGraphicalObjectsHierarchyUpdating(FGELayoutManager<?, ?> layoutManager) {
+	public void invokeLayoutAfterGraphicalObjectsHierarchyUpdating(DianaLayoutManager<?, ?> layoutManager) {
 		if (!layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating.contains(layoutManager)) {
 			layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating.add(layoutManager);
 		}
@@ -507,7 +507,7 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 			nodePrettyPrint = "Root[" + ((RootNode<?>) dtn).getWidth() + "x" + ((RootNode<?>) dtn).getHeight() + "]:" + dtn.getDrawable();
 		} else if (dtn instanceof ShapeNode) {
 			nodePrettyPrint = "Shape-" + dtn.getIndex() + "[" + ((ShapeNode<?>) dtn).getX() + ";" + ((ShapeNode<?>) dtn).getY() + "]["
-					+ ((ShapeNode<?>) dtn).getWidth() + "x" + ((ShapeNode<?>) dtn).getHeight() + "][" + ((ShapeNode<?>) dtn).getFGEShape()
+					+ ((ShapeNode<?>) dtn).getWidth() + "x" + ((ShapeNode<?>) dtn).getHeight() + "][" + ((ShapeNode<?>) dtn).getDianaShape()
 					+ "]:" + dtn.getDrawable();
 		} else if (dtn instanceof ConnectorNode) {
 			nodePrettyPrint = "ConnectorImpl-" + dtn.getIndex() + "[Shape-" + ((ConnectorNode<?>) dtn).getStartNode().getIndex() + "][Shape-"
@@ -704,7 +704,7 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	}
 
 	@Override
-	public <G extends FGEGraph> GraphNode<G> createNewGraphNode(ContainerNode<?, ?> parentNode, GraphGRBinding<G> binding, G drawable) {
+	public <G extends DianaGraph> GraphNode<G> createNewGraphNode(ContainerNode<?, ?> parentNode, GraphGRBinding<G> binding, G drawable) {
 
 		// System.out.println("draw graph with " + binding + " drawable=" + drawable + " parent=" + parentNode );
 

@@ -43,27 +43,27 @@ import java.awt.Cursor;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
-import org.openflexo.diana.FGELayoutManager;
+import org.openflexo.diana.DianaLayoutManager;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.ForegroundStyle.DashStyle;
 import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.cp.ControlArea;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEPlane;
-import org.openflexo.diana.graphics.FGEGraphics;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaPlane;
+import org.openflexo.diana.graphics.DianaGraphics;
 
-public class LayoutAdjustingArea<A extends FGEArea> extends ControlArea<A> {
+public class LayoutAdjustingArea<A extends DianaArea> extends ControlArea<A> {
 
-	private final FGELayoutManager<?, ?> layoutManager;
+	private final DianaLayoutManager<?, ?> layoutManager;
 
-	public LayoutAdjustingArea(FGELayoutManager<?, ?> layoutManager, A area) {
+	public LayoutAdjustingArea(DianaLayoutManager<?, ?> layoutManager, A area) {
 		super(layoutManager.getContainerNode(), area);
 		this.layoutManager = layoutManager;
 	}
 
-	public FGELayoutManager<?, ?> getLayoutManager() {
+	public DianaLayoutManager<?, ?> getLayoutManager() {
 		return layoutManager;
 	}
 
@@ -73,19 +73,19 @@ public class LayoutAdjustingArea<A extends FGEArea> extends ControlArea<A> {
 	}
 
 	@Override
-	public FGEArea getDraggingAuthorizedArea() {
-		return new FGEPlane();
+	public DianaArea getDraggingAuthorizedArea() {
+		return new DianaPlane();
 	}
 
 	@Override
-	public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-			FGEPoint initialPoint, MouseEvent event) {
+	public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+			DianaPoint initialPoint, MouseEvent event) {
 		super.dragToPoint(newRelativePoint, pointRelativeToInitialConfiguration, newAbsolutePoint, initialPoint, event);
 		return true;
 	}
 
 	@Override
-	public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
+	public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 		super.startDragging(controller, startPoint);
 	}
 
@@ -105,7 +105,7 @@ public class LayoutAdjustingArea<A extends FGEArea> extends ControlArea<A> {
 	}
 
 	@Override
-	public Rectangle paint(FGEGraphics graphics) {
+	public Rectangle paint(DianaGraphics graphics) {
 		graphics.setDefaultForeground(getNode().getFactory().makeForegroundStyle(Color.GRAY, 0.5f, DashStyle.DOTS_DASHES));
 		graphics.useDefaultForegroundStyle();
 

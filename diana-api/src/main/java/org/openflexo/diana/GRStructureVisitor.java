@@ -55,7 +55,7 @@ import org.openflexo.diana.GRBinding.ContainerGRBinding;
 import org.openflexo.diana.GRBinding.GeometricGRBinding;
 import org.openflexo.diana.GRBinding.GraphGRBinding;
 import org.openflexo.diana.GRBinding.ShapeGRBinding;
-import org.openflexo.diana.graph.FGEGraph;
+import org.openflexo.diana.graph.DianaGraph;
 
 /**
  * Represents a dynamic structure allowing to explore represented graph of objects<br>
@@ -495,7 +495,7 @@ public abstract class GRStructureVisitor<R> {
 	 * @param drawable
 	 * @return
 	 */
-	public <G extends FGEGraph> GraphNode<G> drawGraph(GraphGRBinding<G> binding, G drawable) {
+	public <G extends DianaGraph> GraphNode<G> drawGraph(GraphGRBinding<G> binding, G drawable) {
 		if (node instanceof ContainerNode) {
 			return drawGraph((ContainerNode<G, ?>) node, binding, drawable);
 		}
@@ -513,7 +513,7 @@ public abstract class GRStructureVisitor<R> {
 	 * @param drawable
 	 * @return
 	 */
-	private <G extends FGEGraph> GraphNode<G> drawGraph(ContainerNode<?, ?> parent, GraphGRBinding<G> binding, G drawable) {
+	private <G extends DianaGraph> GraphNode<G> drawGraph(ContainerNode<?, ?> parent, GraphGRBinding<G> binding, G drawable) {
 		Drawing<?> drawing = node.getDrawing();
 
 		if (parent.hasGraphFor(binding, drawable)) {

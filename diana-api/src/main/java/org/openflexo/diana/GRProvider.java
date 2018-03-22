@@ -44,7 +44,7 @@ import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.cp.ControlArea;
 
 public abstract class GRProvider<O, GR extends GraphicalRepresentation> {
-	public abstract GR provideGR(O drawable, FGEModelFactory factory);
+	public abstract GR provideGR(O drawable, DianaModelFactory factory);
 
 	public List<? extends ControlArea<?>> makeControlAreasFor(DrawingTreeNode<O, GR> dtn) {
 		return null;

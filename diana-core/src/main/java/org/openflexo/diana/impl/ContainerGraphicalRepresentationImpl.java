@@ -43,9 +43,9 @@ import java.util.logging.Logger;
 import org.openflexo.diana.ContainerGraphicalRepresentation;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation.DimensionConstraints;
-import org.openflexo.diana.geom.FGEDimension;
-import org.openflexo.diana.geom.FGESteppedDimensionConstraint;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaSteppedDimensionConstraint;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 
 public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepresentationImpl implements ContainerGraphicalRepresentation {
 
@@ -61,7 +61,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 	private double maximalHeight = Double.POSITIVE_INFINITY;
 
 	private DimensionConstraints dimensionConstraints = DimensionConstraints.FREELY_RESIZABLE;
-	private FGESteppedDimensionConstraint dimensionConstraintStep = null;
+	private DianaSteppedDimensionConstraint dimensionConstraintStep = null;
 	private boolean adjustMinimalWidthToLabelWidth = true;
 	private boolean adjustMinimalHeightToLabelHeight = true;
 	private boolean adjustMaximalWidthToLabelWidth = false;
@@ -83,9 +83,9 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setWidth(double aValue) {
-		FGEAttributeNotification<?> notification = requireChange(WIDTH, aValue);
+		DianaAttributeNotification<?> notification = requireChange(WIDTH, aValue);
 		if (notification != null) {
-			// FGEDimension oldSize = getSize();
+			// DianaDimension oldSize = getSize();
 			width = aValue;
 			// checkAndUpdateDimensionBoundsIfRequired();
 			hasChanged(notification);
@@ -100,9 +100,9 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setHeight(double aValue) {
-		FGEAttributeNotification<?> notification = requireChange(HEIGHT, aValue);
+		DianaAttributeNotification<?> notification = requireChange(HEIGHT, aValue);
 		if (notification != null) {
-			// FGEDimension oldSize = getSize();
+			// DianaDimension oldSize = getSize();
 			height = aValue;
 			// checkAndUpdateDimensionBoundsIfRequired();
 			hasChanged(notification);
@@ -121,7 +121,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setAdjustMinimalWidthToLabelWidth(boolean adjustMinimalWidthToLabelWidth) {
-		FGEAttributeNotification<?> notification = requireChange(ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH, adjustMinimalWidthToLabelWidth);
+		DianaAttributeNotification<?> notification = requireChange(ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH, adjustMinimalWidthToLabelWidth);
 		if (notification != null) {
 			this.adjustMinimalWidthToLabelWidth = adjustMinimalWidthToLabelWidth;
 			// checkAndUpdateDimensionBoundsIfRequired();
@@ -136,7 +136,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setAdjustMinimalHeightToLabelHeight(boolean adjustMinimalHeightToLabelHeight) {
-		FGEAttributeNotification<?> notification = requireChange(ADJUST_MINIMAL_HEIGHT_TO_LABEL_HEIGHT, adjustMinimalHeightToLabelHeight);
+		DianaAttributeNotification<?> notification = requireChange(ADJUST_MINIMAL_HEIGHT_TO_LABEL_HEIGHT, adjustMinimalHeightToLabelHeight);
 		if (notification != null) {
 			this.adjustMinimalHeightToLabelHeight = adjustMinimalHeightToLabelHeight;
 			// checkAndUpdateDimensionBoundsIfRequired();
@@ -151,7 +151,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setAdjustMaximalWidthToLabelWidth(boolean adjustMaximalWidthToLabelWidth) {
-		FGEAttributeNotification<?> notification = requireChange(ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH, adjustMaximalWidthToLabelWidth);
+		DianaAttributeNotification<?> notification = requireChange(ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH, adjustMaximalWidthToLabelWidth);
 		if (notification != null) {
 			this.adjustMaximalWidthToLabelWidth = adjustMaximalWidthToLabelWidth;
 			// checkAndUpdateDimensionBoundsIfRequired();
@@ -166,7 +166,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setAdjustMaximalHeightToLabelHeight(boolean adjustMaximalHeightToLabelHeight) {
-		FGEAttributeNotification<?> notification = requireChange(ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT, adjustMaximalHeightToLabelHeight);
+		DianaAttributeNotification<?> notification = requireChange(ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT, adjustMaximalHeightToLabelHeight);
 		if (notification != null) {
 			this.adjustMaximalHeightToLabelHeight = adjustMaximalHeightToLabelHeight;
 			// checkAndUpdateDimensionBoundsIfRequired();
@@ -181,9 +181,9 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	/*@Override
 	public final void setWidth(double aValue) {
-		FGENotification notification = requireChange(ShapeParameters.width, aValue);
+		DianaNotification notification = requireChange(ShapeParameters.width, aValue);
 		if (notification != null) {
-			FGEDimension oldSize = getSize();
+			DianaDimension oldSize = getSize();
 			width = aValue;
 			// checkAndUpdateDimensionBoundsIfRequired();
 			hasChanged(notification);
@@ -198,9 +198,9 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	/*@Override
 	public final void setHeight(double aValue) {
-		FGENotification notification = requireChange(ShapeParameters.height, aValue);
+		DianaNotification notification = requireChange(ShapeParameters.height, aValue);
 		if (notification != null) {
-			FGEDimension oldSize = getSize();
+			DianaDimension oldSize = getSize();
 			height = aValue;
 			// checkAndUpdateDimensionBoundsIfRequired();
 			hasChanged(notification);
@@ -213,23 +213,23 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 	}*/
 
 	@Override
-	public FGEDimension getSize() {
-		return new FGEDimension(getWidth(), getHeight());
+	public DianaDimension getSize() {
+		return new DianaDimension(getWidth(), getHeight());
 	}
 
 	/*@Override
-	public void setSize(FGEDimension newSize) {
+	public void setSize(DianaDimension newSize) {
 		if (newSize == null) {
 			return;
 		}
 		// Preventing size from being negative or equals to 0
 		if (newSize.width <= 0) {
-			newSize.width = FGEGeometricObject.EPSILON;
+			newSize.width = DianaGeometricObject.EPSILON;
 		}
 		if (newSize.height <= 0) {
-			newSize.height = FGEGeometricObject.EPSILON;
+			newSize.height = DianaGeometricObject.EPSILON;
 		}
-		FGEDimension oldSize = getSize();
+		DianaDimension oldSize = getSize();
 		if (!newSize.equals(oldSize)) {
 			double oldWidth = getWidth();
 			double oldHeight = getHeight();
@@ -269,7 +269,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public final void setMinimalWidth(double minimalWidth) {
-		FGEAttributeNotification<?> notification = requireChange(MINIMAL_WIDTH, minimalWidth);
+		DianaAttributeNotification<?> notification = requireChange(MINIMAL_WIDTH, minimalWidth);
 		if (notification != null) {
 			this.minimalWidth = minimalWidth;
 			// checkAndUpdateDimensionBoundsIfRequired();
@@ -284,7 +284,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public final void setMinimalHeight(double minimalHeight) {
-		FGEAttributeNotification<?> notification = requireChange(MINIMAL_HEIGHT, minimalHeight);
+		DianaAttributeNotification<?> notification = requireChange(MINIMAL_HEIGHT, minimalHeight);
 		if (notification != null) {
 			this.minimalHeight = minimalHeight;
 			// checkAndUpdateDimensionBoundsIfRequired();
@@ -299,7 +299,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public final void setMaximalHeight(double maximalHeight) {
-		FGEAttributeNotification<?> notification = requireChange(MAXIMAL_HEIGHT, maximalHeight);
+		DianaAttributeNotification<?> notification = requireChange(MAXIMAL_HEIGHT, maximalHeight);
 		if (notification != null) {
 			this.maximalHeight = maximalHeight;
 			// checkAndUpdateDimensionBoundsIfRequired();
@@ -314,7 +314,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public final void setMaximalWidth(double maximalWidth) {
-		FGEAttributeNotification<?> notification = requireChange(MAXIMAL_WIDTH, maximalWidth);
+		DianaAttributeNotification<?> notification = requireChange(MAXIMAL_WIDTH, maximalWidth);
 		if (notification != null) {
 			this.maximalWidth = maximalWidth;
 			// checkAndUpdateDimensionBoundsIfRequired();
@@ -340,7 +340,7 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setDimensionConstraints(DimensionConstraints dimensionConstraints) {
-		FGEAttributeNotification<?> notification = requireChange(DIMENSION_CONSTRAINTS, dimensionConstraints);
+		DianaAttributeNotification<?> notification = requireChange(DIMENSION_CONSTRAINTS, dimensionConstraints);
 		if (notification != null /*&& getShape() != null*/) {
 			this.dimensionConstraints = dimensionConstraints;
 			hasChanged(notification);
@@ -348,13 +348,13 @@ public abstract class ContainerGraphicalRepresentationImpl extends GraphicalRepr
 	}
 
 	@Override
-	public FGESteppedDimensionConstraint getDimensionConstraintStep() {
+	public DianaSteppedDimensionConstraint getDimensionConstraintStep() {
 		return dimensionConstraintStep;
 	}
 
 	@Override
-	public void setDimensionConstraintStep(FGESteppedDimensionConstraint dimensionConstraintStep) {
-		FGEAttributeNotification<?> notification = requireChange(DIMENSION_CONSTRAINT_STEP, dimensionConstraintStep);
+	public void setDimensionConstraintStep(DianaSteppedDimensionConstraint dimensionConstraintStep) {
+		DianaAttributeNotification<?> notification = requireChange(DIMENSION_CONSTRAINT_STEP, dimensionConstraintStep);
 		if (notification != null) {
 			this.dimensionConstraintStep = dimensionConstraintStep;
 			hasChanged(notification);

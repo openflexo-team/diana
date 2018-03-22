@@ -41,8 +41,8 @@ package org.openflexo.diana.connectors;
 
 import javax.swing.ImageIcon;
 
-import org.openflexo.diana.FGEIconLibrary;
-import org.openflexo.diana.FGEObject;
+import org.openflexo.diana.DianaIconLibrary;
+import org.openflexo.diana.DianaObject;
 import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.connectors.ConnectorSymbol.EndSymbolType;
@@ -66,7 +66,7 @@ import org.openflexo.model.annotations.XMLAttribute;
 @ModelEntity(isAbstract = true)
 @Imports({ @Import(LineConnectorSpecification.class), @Import(CurveConnectorSpecification.class),
 		@Import(RectPolylinConnectorSpecification.class), @Import(CurvedPolylinConnectorSpecification.class) })
-public interface ConnectorSpecification extends FGEObject {
+public interface ConnectorSpecification extends DianaObject {
 
 	@PropertyIdentifier(type = StartSymbolType.class)
 	public static final String START_SYMBOL_KEY = "startSymbol";
@@ -104,11 +104,11 @@ public interface ConnectorSpecification extends FGEObject {
 
 		public ImageIcon getIcon() {
 			if (this == RECT_POLYLIN) {
-				return FGEIconLibrary.RECT_POLYLIN_CONNECTOR_ICON;
+				return DianaIconLibrary.RECT_POLYLIN_CONNECTOR_ICON;
 			} else if (this == CURVE) {
-				return FGEIconLibrary.CURVE_CONNECTOR_ICON;
+				return DianaIconLibrary.CURVE_CONNECTOR_ICON;
 			} else if (this == LINE) {
-				return FGEIconLibrary.LINE_CONNECTOR_ICON;
+				return DianaIconLibrary.LINE_CONNECTOR_ICON;
 			}
 			return null;
 		}

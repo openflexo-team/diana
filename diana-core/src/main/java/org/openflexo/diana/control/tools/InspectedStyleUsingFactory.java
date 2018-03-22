@@ -42,8 +42,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.model.factory.KeyValueCoding;
 
@@ -82,12 +82,12 @@ public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, 
 
 	@Override
 	public S cloneStyle() {
-		if (styleFactory != null && styleFactory.getFGEFactory() != null && styleFactory.getFGEFactory().getEditingContext() != null) {
-			styleFactory.getFGEFactory().getEditingContext().getUndoManager().enableAnticipatedRecording();
+		if (styleFactory != null && styleFactory.getDianaFactory() != null && styleFactory.getDianaFactory().getEditingContext() != null) {
+			styleFactory.getDianaFactory().getEditingContext().getUndoManager().enableAnticipatedRecording();
 		}
 		S returned = styleFactory.makeNewStyle(null);
-		if (styleFactory != null && styleFactory.getFGEFactory() != null && styleFactory.getFGEFactory().getEditingContext() != null) {
-			styleFactory.getFGEFactory().getEditingContext().getUndoManager().disableAnticipatedRecording();
+		if (styleFactory != null && styleFactory.getDianaFactory() != null && styleFactory.getDianaFactory().getEditingContext() != null) {
+			styleFactory.getDianaFactory().getEditingContext().getUndoManager().disableAnticipatedRecording();
 		}
 		return returned;
 	}
@@ -96,7 +96,8 @@ public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, 
 	protected Class<? extends S> getInspectedStyleClass() {
 		if (getSelection().size() == 0) {
 			return (Class<? extends S>) getStyleFactory().getCurrentStyle().getClass();
-		} else {
+		}
+		else {
 			S style = getStyle(getSelection().get(0));
 			if (style != null) {
 				return (Class<? extends S>) style.getClass();
@@ -134,7 +135,8 @@ public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, 
 
 		if (getSelection().size() == 0) {
 			return getStyleType(getDefaultValue());
-		} else {
+		}
+		else {
 			return getStyleType(getStyle(getSelection().get(0)));
 		}
 	}
@@ -172,7 +174,8 @@ public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, 
 				if (getSelection().size() == 0) {
 					// In this case style type should be applied as default value, which should be recomputed
 					setDefaultValue(cloneStyle());
-				} else {
+				}
+				else {
 					applyNewStyleTypeToSelection((ST) evt.getNewValue());
 				}
 				// We should now force notify all properties related to new style

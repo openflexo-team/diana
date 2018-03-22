@@ -38,7 +38,7 @@
 
 package org.openflexo.diana.layout.impl;
 
-import org.openflexo.diana.impl.FGELayoutManagerSpecificationImpl;
+import org.openflexo.diana.impl.DianaLayoutManagerSpecificationImpl;
 import org.openflexo.diana.layout.GridLayoutManager;
 import org.openflexo.diana.layout.GridLayoutManagerSpecification;
 
@@ -48,7 +48,7 @@ import org.openflexo.diana.layout.GridLayoutManagerSpecification;
  * @author sylvain
  * 
  */
-public abstract class GridLayoutManagerSpecificationImpl extends FGELayoutManagerSpecificationImpl<GridLayoutManager<?>>
+public abstract class GridLayoutManagerSpecificationImpl extends DianaLayoutManagerSpecificationImpl<GridLayoutManager<?>>
 		implements GridLayoutManagerSpecification {
 
 	@Override

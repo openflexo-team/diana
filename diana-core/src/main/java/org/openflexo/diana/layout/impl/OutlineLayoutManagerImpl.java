@@ -42,8 +42,8 @@ import java.awt.Point;
 import java.beans.PropertyChangeEvent;
 
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.impl.FGELayoutManagerImpl;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.impl.DianaLayoutManagerImpl;
 import org.openflexo.diana.layout.OutlineLayoutManager;
 import org.openflexo.diana.layout.OutlineLayoutManagerSpecification;
 import org.openflexo.diana.layout.OutlineLayoutManagerSpecification.OutlineLocationType;
@@ -54,7 +54,7 @@ import org.openflexo.diana.layout.OutlineLayoutManagerSpecification.OutlineLocat
  * @author sylvain
  * 
  */
-public abstract class OutlineLayoutManagerImpl<O> extends FGELayoutManagerImpl<OutlineLayoutManagerSpecification, O>
+public abstract class OutlineLayoutManagerImpl<O> extends DianaLayoutManagerImpl<OutlineLayoutManagerSpecification, O>
 		implements OutlineLayoutManager<O> {
 
 	@Override
@@ -92,15 +92,15 @@ public abstract class OutlineLayoutManagerImpl<O> extends FGELayoutManagerImpl<O
 			node.setAllowsToLeaveBounds(true);
 
 			// Then perform the layout, according to the center of layouted shape
-			FGEPoint currentPoint = new FGEPoint(node.getLocation());
+			DianaPoint currentPoint = new DianaPoint(node.getLocation());
 			ShapeNode<?> container = (ShapeNode<?>) getContainerNode();
-			FGEPoint center = new FGEPoint(currentPoint.x + node.getWidth() / 2, currentPoint.y + node.getHeight() / 2);
-			FGEPoint normalizedCenterPoint = container.convertViewCoordinatesToNormalizedPoint((int) center.getX(), (int) center.getY(),
+			DianaPoint center = new DianaPoint(currentPoint.x + node.getWidth() / 2, currentPoint.y + node.getHeight() / 2);
+			DianaPoint normalizedCenterPoint = container.convertViewCoordinatesToNormalizedPoint((int) center.getX(), (int) center.getY(),
 					1.0);
-			// FGEPoint normalizedPointInOutline = container.getShape().outlineIntersect(normalizedCenterPoint);
-			FGEPoint normalizedPointInOutline = container.getShape().nearestOutlinePoint(normalizedCenterPoint);
+			// DianaPoint normalizedPointInOutline = container.getShape().outlineIntersect(normalizedCenterPoint);
+			DianaPoint normalizedPointInOutline = container.getShape().nearestOutlinePoint(normalizedCenterPoint);
 			Point pointInOutline = container.convertNormalizedPointToViewCoordinates(normalizedPointInOutline, 1.0);
-			node.setLocation(new FGEPoint(pointInOutline.x - node.getWidth() / 2, pointInOutline.y - node.getHeight() / 2));
+			node.setLocation(new DianaPoint(pointInOutline.x - node.getWidth() / 2, pointInOutline.y - node.getHeight() / 2));
 		}
 
 	}

@@ -39,11 +39,11 @@
 
 package org.openflexo.diana.impl;
 
-import org.openflexo.diana.FGEConstants;
+import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.ShadowStyle;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 
-public abstract class ShadowStyleImpl extends FGEStyleImpl implements ShadowStyle {
+public abstract class ShadowStyleImpl extends DianaStyleImpl implements ShadowStyle {
 	private boolean drawShadow;
 	private int shadowDarkness;
 	private int shadowDepth;
@@ -51,9 +51,9 @@ public abstract class ShadowStyleImpl extends FGEStyleImpl implements ShadowStyl
 
 	public ShadowStyleImpl() {
 		drawShadow = true;
-		shadowDarkness = FGEConstants.DEFAULT_SHADOW_DARKNESS;
-		shadowDepth = FGEConstants.DEFAULT_SHADOW_DEEP;
-		shadowBlur = FGEConstants.DEFAULT_SHADOW_BLUR;
+		shadowDarkness = DianaConstants.DEFAULT_SHADOW_DARKNESS;
+		shadowDepth = DianaConstants.DEFAULT_SHADOW_DEEP;
+		shadowBlur = DianaConstants.DEFAULT_SHADOW_BLUR;
 	}
 
 	/*@SuppressWarnings("unused")
@@ -81,7 +81,7 @@ public abstract class ShadowStyleImpl extends FGEStyleImpl implements ShadowStyl
 		if (requireChange(this.drawShadow, aFlag)) {
 			boolean oldValue = drawShadow;
 			this.drawShadow = aFlag;
-			notifyObservers(new FGEAttributeNotification<>(DRAW_SHADOW, oldValue, aFlag));
+			notifyObservers(new DianaAttributeNotification<>(DRAW_SHADOW, oldValue, aFlag));
 		}
 	}
 
@@ -95,7 +95,7 @@ public abstract class ShadowStyleImpl extends FGEStyleImpl implements ShadowStyl
 		if (requireChange(this.shadowDarkness, aValue)) {
 			int oldShadowDarkness = shadowDarkness;
 			shadowDarkness = aValue;
-			notifyObservers(new FGEAttributeNotification<>(SHADOW_DARKNESS, oldShadowDarkness, aValue));
+			notifyObservers(new DianaAttributeNotification<>(SHADOW_DARKNESS, oldShadowDarkness, aValue));
 		}
 	}
 
@@ -114,7 +114,7 @@ public abstract class ShadowStyleImpl extends FGEStyleImpl implements ShadowStyl
 		if (requireChange(this.shadowDepth, aValue)) {
 			int oldShadowDeep = shadowDepth;
 			shadowDepth = aValue;
-			notifyObservers(new FGEAttributeNotification<>(SHADOW_DEPTH, oldShadowDeep, aValue));
+			notifyObservers(new DianaAttributeNotification<>(SHADOW_DEPTH, oldShadowDeep, aValue));
 		}
 	}
 
@@ -128,7 +128,7 @@ public abstract class ShadowStyleImpl extends FGEStyleImpl implements ShadowStyl
 		if (requireChange(this.shadowBlur, aValue)) {
 			int oldShadowBlur = shadowBlur;
 			shadowBlur = aValue;
-			notifyObservers(new FGEAttributeNotification<>(SHADOW_BLUR, oldShadowBlur, aValue));
+			notifyObservers(new DianaAttributeNotification<>(SHADOW_BLUR, oldShadowBlur, aValue));
 		}
 	}
 

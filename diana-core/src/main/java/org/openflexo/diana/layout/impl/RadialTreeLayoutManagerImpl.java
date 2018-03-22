@@ -47,9 +47,9 @@ import java.util.Set;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.ForegroundStyle.DashStyle;
-import org.openflexo.diana.geom.FGECircle;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.graphics.FGEGraphics;
+import org.openflexo.diana.geom.DianaCircle;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.graphics.DianaGraphics;
 import org.openflexo.diana.layout.BalloonLayoutManager;
 import org.openflexo.diana.layout.RadialTreeLayoutManager;
 import org.openflexo.diana.layout.RadialTreeLayoutManagerSpecification;
@@ -103,7 +103,7 @@ public abstract class RadialTreeLayoutManagerImpl<O> extends TreeBasedLayoutMana
 	 * @param g
 	 */
 	@Override
-	public void paintDecoration(FGEGraphics g) {
+	public void paintDecoration(DianaGraphics g) {
 
 		g.setDefaultForeground(getFactory().makeForegroundStyle(Color.GRAY, 1, DashStyle.DOTS_DASHES));
 		g.useDefaultForegroundStyle();
@@ -116,7 +116,7 @@ public abstract class RadialTreeLayoutManagerImpl<O> extends TreeBasedLayoutMana
 		}
 
 		for (Double radius : radiuses) {
-			FGECircle circle = new FGECircle(getContainerNode().getBounds().getCenter(), radius, Filling.NOT_FILLED);
+			DianaCircle circle = new DianaCircle(getContainerNode().getBounds().getCenter(), radius, Filling.NOT_FILLED);
 			circle.paint(g);
 		}
 	}

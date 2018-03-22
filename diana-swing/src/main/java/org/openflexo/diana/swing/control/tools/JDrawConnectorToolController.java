@@ -51,9 +51,9 @@ import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.control.DianaInteractiveEditor;
 import org.openflexo.diana.control.actions.DrawConnectorAction;
 import org.openflexo.diana.control.tools.DrawConnectorToolController;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.swing.SwingViewFactory;
-import org.openflexo.diana.swing.graphics.JFGEConnectorGraphics;
+import org.openflexo.diana.swing.graphics.JDianaConnectorGraphics;
 import org.openflexo.diana.swing.view.JConnectorView;
 import org.openflexo.diana.swing.view.JDrawingView;
 
@@ -87,9 +87,9 @@ public class JDrawConnectorToolController extends DrawConnectorToolController<Mo
 	/**
 	 * Return point where event occurs, relative to DrawingView
 	 */
-	public FGEPoint getPoint(MouseEvent e) {
+	public DianaPoint getPoint(MouseEvent e) {
 		Point pt = SwingUtilities.convertPoint((Component) e.getSource(), e.getPoint(), getDrawingView());
-		return new FGEPoint(pt.getX(), pt.getY());
+		return new DianaPoint(pt.getX(), pt.getY());
 	}
 
 	@Override
@@ -100,9 +100,9 @@ public class JDrawConnectorToolController extends DrawConnectorToolController<Mo
 	private JConnectorView<DrawConnectorToolController> view;
 
 	@Override
-	public JFGEConnectorGraphics makeGraphics(ForegroundStyle foregroundStyle) {
+	public JDianaConnectorGraphics makeGraphics(ForegroundStyle foregroundStyle) {
 		view = SwingViewFactory.INSTANCE.makeConnectorView(connectorNode, getController());
-		JFGEConnectorGraphics returned = new JFGEConnectorGraphics(connectorNode, view);
+		JDianaConnectorGraphics returned = new JDianaConnectorGraphics(connectorNode, view);
 		returned.setDefaultForeground(foregroundStyle);
 		return returned;
 	}
@@ -113,8 +113,8 @@ public class JDrawConnectorToolController extends DrawConnectorToolController<Mo
 	}
 
 	@Override
-	public JFGEConnectorGraphics getGraphics() {
-		return (JFGEConnectorGraphics) super.getGraphics();
+	public JDianaConnectorGraphics getGraphics() {
+		return (JDianaConnectorGraphics) super.getGraphics();
 	}
 
 	@Override

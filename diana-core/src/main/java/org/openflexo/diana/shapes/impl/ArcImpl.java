@@ -40,15 +40,15 @@
 package org.openflexo.diana.shapes.impl;
 
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.geom.FGEArc;
-import org.openflexo.diana.geom.FGEShape;
-import org.openflexo.diana.geom.FGEArc.ArcType;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.geom.DianaArc;
+import org.openflexo.diana.geom.DianaArc.ArcType;
+import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.diana.shapes.Arc;
 
 public abstract class ArcImpl extends ShapeSpecificationImpl implements Arc {
 
-	// private FGEArc arc;
+	// private DianaArc arc;
 
 	private int angleStart = 0;
 	private int angleExtent = 90;
@@ -67,8 +67,8 @@ public abstract class ArcImpl extends ShapeSpecificationImpl implements Arc {
 	}
 
 	@Override
-	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
-		return new FGEArc(0, 0, 1, 1, angleStart, angleExtent, arcType);
+	public DianaShape<?> makeDianaShape(ShapeNode<?> node) {
+		return new DianaArc(0, 0, 1, 1, angleStart, angleExtent, arcType);
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public abstract class ArcImpl extends ShapeSpecificationImpl implements Arc {
 
 	@Override
 	public void setAngleStart(int anAngle) {
-		FGEAttributeNotification<?> notification = requireChange(ANGLE_START, anAngle);
+		DianaAttributeNotification<?> notification = requireChange(ANGLE_START, anAngle);
 		if (notification != null) {
 			angleStart = anAngle;
 			hasChanged(notification);
@@ -92,7 +92,7 @@ public abstract class ArcImpl extends ShapeSpecificationImpl implements Arc {
 
 	@Override
 	public void setAngleExtent(int anAngle) {
-		FGEAttributeNotification<?> notification = requireChange(ANGLE_EXTENT, anAngle);
+		DianaAttributeNotification<?> notification = requireChange(ANGLE_EXTENT, anAngle);
 		if (notification != null) {
 			angleExtent = anAngle;
 			hasChanged(notification);
@@ -106,7 +106,7 @@ public abstract class ArcImpl extends ShapeSpecificationImpl implements Arc {
 
 	@Override
 	public void setArcType(ArcType anArcType) {
-		FGEAttributeNotification<?> notification = requireChange(ARC_TYPE, anArcType);
+		DianaAttributeNotification<?> notification = requireChange(ARC_TYPE, anArcType);
 		if (notification != null) {
 			arcType = anArcType;
 			hasChanged(notification);

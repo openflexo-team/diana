@@ -43,16 +43,16 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.connectors.LineConnectorSpecification;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 
 public abstract class LineConnectorSpecificationImpl extends ConnectorSpecificationImpl implements LineConnectorSpecification {
 
 	@SuppressWarnings("unused")
 	private static final Logger LOGGER = Logger.getLogger(LineConnectorSpecification.class.getPackage().getName());
 
-	private FGEPoint cp1RelativeToStartObject;
-	private FGEPoint cp2RelativeToEndObject;
+	private DianaPoint cp1RelativeToStartObject;
+	private DianaPoint cp2RelativeToEndObject;
 	private LineConnectorType lineConnectorType = LineConnectorType.MINIMAL_LENGTH;
 
 	// Used for deserialization
@@ -67,7 +67,7 @@ public abstract class LineConnectorSpecificationImpl extends ConnectorSpecificat
 
 	@Override
 	public void setLineConnectorType(LineConnectorType aLineConnectorType) {
-		FGEAttributeNotification<?> notification = requireChange(LINE_CONNECTOR_TYPE, aLineConnectorType);
+		DianaAttributeNotification<?> notification = requireChange(LINE_CONNECTOR_TYPE, aLineConnectorType);
 		if (notification != null) {
 			lineConnectorType = aLineConnectorType;
 			hasChanged(notification);
@@ -75,13 +75,13 @@ public abstract class LineConnectorSpecificationImpl extends ConnectorSpecificat
 	}
 
 	@Override
-	public FGEPoint getCp1RelativeToStartObject() {
+	public DianaPoint getCp1RelativeToStartObject() {
 		return cp1RelativeToStartObject;
 	}
 
 	@Override
-	public void setCp1RelativeToStartObject(FGEPoint aPoint) {
-		FGEAttributeNotification<?> notification = requireChange(CP1_RELATIVE_TO_START_OBJECT, aPoint);
+	public void setCp1RelativeToStartObject(DianaPoint aPoint) {
+		DianaAttributeNotification<?> notification = requireChange(CP1_RELATIVE_TO_START_OBJECT, aPoint);
 		if (notification != null) {
 			this.cp1RelativeToStartObject = aPoint;
 			hasChanged(notification);
@@ -89,13 +89,13 @@ public abstract class LineConnectorSpecificationImpl extends ConnectorSpecificat
 	}
 
 	@Override
-	public FGEPoint getCp2RelativeToEndObject() {
+	public DianaPoint getCp2RelativeToEndObject() {
 		return cp2RelativeToEndObject;
 	}
 
 	@Override
-	public void setCp2RelativeToEndObject(FGEPoint aPoint) {
-		FGEAttributeNotification<?> notification = requireChange(CP2_RELATIVE_TO_END_OBJECT, aPoint);
+	public void setCp2RelativeToEndObject(DianaPoint aPoint) {
+		DianaAttributeNotification<?> notification = requireChange(CP2_RELATIVE_TO_END_OBJECT, aPoint);
 		if (notification != null) {
 			this.cp2RelativeToEndObject = aPoint;
 			hasChanged(notification);

@@ -39,11 +39,11 @@
 package org.openflexo.diana.shapes.impl;
 
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGEPolygon;
-import org.openflexo.diana.geom.FGEShape;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.diana.shapes.Parallelogram;
 
 /**
@@ -79,7 +79,7 @@ public abstract class ParallelogramImpl extends ShapeSpecificationImpl implement
 		}
 		else
 			normalized = aShiftRatio;
-		final FGEAttributeNotification<Double> notification = this.requireChange(SHIFT_RATIO, normalized);
+		final DianaAttributeNotification<Double> notification = this.requireChange(SHIFT_RATIO, normalized);
 		if (notification != null) {
 			this.shift_ratio = normalized;
 			this.hasChanged(notification);
@@ -89,22 +89,22 @@ public abstract class ParallelogramImpl extends ShapeSpecificationImpl implement
 	/**
 	 * Draw a parallellogram by creating a filled polygon of 4 good points, adjustable with predifined angle
 	 * 
-	 * @return FGEPolygon
+	 * @return DianaPolygon
 	 */
 	@Override
-	public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
-		final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
+	public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+		final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 		if (shift_ratio >= 0) {
-			returned.addToPoints(new FGEPoint(shift_ratio, 0));
-			returned.addToPoints(new FGEPoint(1, 0));
-			returned.addToPoints(new FGEPoint(1 - shift_ratio, 1));
-			returned.addToPoints(new FGEPoint(0, 1));
+			returned.addToPoints(new DianaPoint(shift_ratio, 0));
+			returned.addToPoints(new DianaPoint(1, 0));
+			returned.addToPoints(new DianaPoint(1 - shift_ratio, 1));
+			returned.addToPoints(new DianaPoint(0, 1));
 		}
 		else {
-			returned.addToPoints(new FGEPoint(0, 0));
-			returned.addToPoints(new FGEPoint(1 + shift_ratio, 0));
-			returned.addToPoints(new FGEPoint(1, 1));
-			returned.addToPoints(new FGEPoint(-shift_ratio, 1));
+			returned.addToPoints(new DianaPoint(0, 0));
+			returned.addToPoints(new DianaPoint(1 + shift_ratio, 0));
+			returned.addToPoints(new DianaPoint(1, 1));
+			returned.addToPoints(new DianaPoint(-shift_ratio, 1));
 		}
 		return returned;
 	}

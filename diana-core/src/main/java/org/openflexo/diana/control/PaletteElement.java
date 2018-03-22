@@ -44,7 +44,7 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 
 public interface PaletteElement extends Serializable {
 
@@ -54,7 +54,7 @@ public interface PaletteElement extends Serializable {
 
 	public boolean acceptDragging(DrawingTreeNode<?, ?> target);
 
-	public boolean elementDragged(DrawingTreeNode<?, ?> target, FGEPoint dropLocation);
+	public boolean elementDragged(DrawingTreeNode<?, ?> target, DianaPoint dropLocation);
 
 	public void delete(Object... context);
 

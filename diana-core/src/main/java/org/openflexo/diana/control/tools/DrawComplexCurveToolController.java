@@ -42,17 +42,17 @@ package org.openflexo.diana.control.tools;
 import java.awt.geom.AffineTransform;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEConstants;
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaConstants;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.control.DianaInteractiveEditor;
 import org.openflexo.diana.control.DianaInteractiveEditor.EditorTool;
 import org.openflexo.diana.control.actions.DrawShapeAction;
-import org.openflexo.diana.geom.FGEComplexCurve;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGEShape;
-import org.openflexo.diana.geom.FGEGeneralShape.Closure;
+import org.openflexo.diana.geom.DianaComplexCurve;
+import org.openflexo.diana.geom.DianaGeneralShape.Closure;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.diana.view.DrawingView;
 import org.openflexo.model.undo.CompoundEdit;
@@ -65,7 +65,7 @@ import org.openflexo.model.undo.CompoundEdit;
  * @param <ME>
  *            technology-specific controlling events type
  */
-public abstract class DrawComplexCurveToolController<ME> extends DrawCustomShapeToolController<FGEComplexCurve, ME> {
+public abstract class DrawComplexCurveToolController<ME> extends DrawCustomShapeToolController<DianaComplexCurve, ME> {
 
 	private static final Logger logger = Logger.getLogger(DrawComplexCurveToolController.class.getPackage().getName());
 
@@ -94,12 +94,12 @@ public abstract class DrawComplexCurveToolController<ME> extends DrawCustomShape
 	}
 
 	@Override
-	public FGEComplexCurve makeDefaultShape(ME e) {
-		FGEPoint newPoint = getPoint(e);
-		return new FGEComplexCurve(isClosedCurve ? Closure.CLOSED_FILLED : Closure.OPEN_FILLED, newPoint, new FGEPoint(newPoint));
+	public DianaComplexCurve makeDefaultShape(ME e) {
+		DianaPoint newPoint = getPoint(e);
+		return new DianaComplexCurve(isClosedCurve ? Closure.CLOSED_FILLED : Closure.OPEN_FILLED, newPoint, new DianaPoint(newPoint));
 	}
 
-	public FGEComplexCurve getComplexCurve() {
+	public DianaComplexCurve getComplexCurve() {
 		return getShape();
 	}
 
@@ -110,7 +110,7 @@ public abstract class DrawComplexCurveToolController<ME> extends DrawCustomShape
 	}
 
 	@Override
-	public void setShape(FGEShape<?> shape) {
+	public void setShape(DianaShape<?> shape) {
 		super.setShape(shape);
 		stopMouseEdition();
 	}
@@ -126,7 +126,7 @@ public abstract class DrawComplexCurveToolController<ME> extends DrawCustomShape
 		else {
 			logger.info("Edition started");
 			if (isBuildingPoints) {
-				FGEPoint newPoint = getPoint(e);
+				DianaPoint newPoint = getPoint(e);
 				if (isFinalizationEvent(e)) {
 					// System.out.println("Stopping point edition");
 					getShape().getPoints().lastElement().setX(newPoint.x);
@@ -172,7 +172,7 @@ public abstract class DrawComplexCurveToolController<ME> extends DrawCustomShape
 		super.mouseMoved(e);
 		// System.out.println("ShapeSpecification=" + getShape());
 		if (isBuildingPoints && getShape().getPointsNb() > 0) {
-			FGEPoint newPoint = getPoint(e);
+			DianaPoint newPoint = getPoint(e);
 			// logger.info("move last point to " + newPoint);
 			getShape().getPoints().lastElement().setX(newPoint.x);
 			getShape().getPoints().lastElement().setY(newPoint.y);
@@ -185,9 +185,9 @@ public abstract class DrawComplexCurveToolController<ME> extends DrawCustomShape
 	@Override
 	public ShapeGraphicalRepresentation buildShapeGraphicalRepresentation() {
 		ShapeGraphicalRepresentation returned = getController().getFactory().makeShapeGraphicalRepresentation(ShapeType.COMPLEX_CURVE);
-		// returned.setBorder(getController().getFactory().makeShapeBorder(FGEConstants.DEFAULT_BORDER_SIZE,
-		// FGEConstants.DEFAULT_BORDER_SIZE,
-		// FGEConstants.DEFAULT_BORDER_SIZE, FGEConstants.DEFAULT_BORDER_SIZE));
+		// returned.setBorder(getController().getFactory().makeShapeBorder(DianaConstants.DEFAULT_BORDER_SIZE,
+		// DianaConstants.DEFAULT_BORDER_SIZE,
+		// DianaConstants.DEFAULT_BORDER_SIZE, DianaConstants.DEFAULT_BORDER_SIZE));
 		returned.setBackground(getController().getInspectedBackgroundStyle().cloneStyle());
 		returned.setForeground(getController().getInspectedForegroundStyle().cloneStyle());
 		returned.setTextStyle(getController().getInspectedTextStyle().cloneStyle());
@@ -196,21 +196,21 @@ public abstract class DrawComplexCurveToolController<ME> extends DrawCustomShape
 		returned.setRelativeTextX(0.5);
 		returned.setRelativeTextY(0.5);
 
-		FGERectangle boundingBox = getComplexCurve().getBoundingBox();
+		DianaRectangle boundingBox = getComplexCurve().getBoundingBox();
 		returned.setWidth(boundingBox.getWidth());
 		returned.setHeight(boundingBox.getHeight());
 		AffineTransform translateAT = AffineTransform.getTranslateInstance(-boundingBox.getX(), -boundingBox.getY());
 
 		AffineTransform scaleAT = AffineTransform.getScaleInstance(1 / boundingBox.getWidth(), 1 / boundingBox.getHeight());
-		FGEComplexCurve normalizedCurve = getComplexCurve().transform(translateAT).transform(scaleAT);
+		DianaComplexCurve normalizedCurve = getComplexCurve().transform(translateAT).transform(scaleAT);
 		if (parentNode instanceof ShapeGraphicalRepresentation) {
-			FGEPoint pt = FGEUtils.convertNormalizedPoint(parentNode, new FGEPoint(0, 0), getController().getDrawing().getRoot());
+			DianaPoint pt = DianaUtils.convertNormalizedPoint(parentNode, new DianaPoint(0, 0), getController().getDrawing().getRoot());
 			returned.setX(boundingBox.getX() - pt.x);
 			returned.setY(boundingBox.getY() - pt.y);
 		}
 		else {
-			returned.setX(boundingBox.getX() - FGEConstants.DEFAULT_BORDER_SIZE);
-			returned.setY(boundingBox.getY() - FGEConstants.DEFAULT_BORDER_SIZE);
+			returned.setX(boundingBox.getX() - DianaConstants.DEFAULT_BORDER_SIZE);
+			returned.setY(boundingBox.getY() - DianaConstants.DEFAULT_BORDER_SIZE);
 		}
 
 		returned.setShapeSpecification(getController().getFactory().makeComplexCurve(normalizedCurve));

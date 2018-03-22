@@ -39,7 +39,7 @@
 package org.openflexo.diana.impl;
 
 import org.openflexo.diana.ColorGradientBackgroundStyle;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 
 public abstract class ColorGradientBackgroundStyleImpl extends BackgroundStyleImpl implements ColorGradientBackgroundStyle {
 
@@ -75,7 +75,7 @@ public abstract class ColorGradientBackgroundStyleImpl extends BackgroundStyleIm
 		if (requireChange(this.color1, aColor)) {
 			java.awt.Color oldColor = color1;
 			this.color1 = aColor;
-			notifyObservers(new FGEAttributeNotification<>(COLOR1, oldColor, aColor));
+			notifyObservers(new DianaAttributeNotification<>(COLOR1, oldColor, aColor));
 		}
 	}
 
@@ -89,7 +89,7 @@ public abstract class ColorGradientBackgroundStyleImpl extends BackgroundStyleIm
 		if (requireChange(this.color2, aColor)) {
 			java.awt.Color oldColor = color2;
 			this.color2 = aColor;
-			notifyObservers(new FGEAttributeNotification<>(COLOR2, oldColor, aColor));
+			notifyObservers(new DianaAttributeNotification<>(COLOR2, oldColor, aColor));
 		}
 	}
 
@@ -103,7 +103,7 @@ public abstract class ColorGradientBackgroundStyleImpl extends BackgroundStyleIm
 		if (requireChange(this.direction, aDirection)) {
 			ColorGradientBackgroundStyle.ColorGradientDirection oldTexture = direction;
 			this.direction = aDirection;
-			notifyObservers(new FGEAttributeNotification<>(DIRECTION, oldTexture, aDirection));
+			notifyObservers(new DianaAttributeNotification<>(DIRECTION, oldTexture, aDirection));
 		}
 	}
 

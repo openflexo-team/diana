@@ -48,10 +48,10 @@ import java.util.List;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.ForegroundStyle.DashStyle;
-import org.openflexo.diana.geom.FGECircle;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.graphics.FGEGraphics;
+import org.openflexo.diana.geom.DianaCircle;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.graphics.DianaGraphics;
 import org.openflexo.diana.layout.BalloonLayoutManager;
 import org.openflexo.diana.layout.BalloonLayoutManagerSpecification;
 import org.openflexo.gina.annotation.FIBPanel;
@@ -70,7 +70,7 @@ public abstract class BalloonLayoutManagerImpl<O> extends TreeBasedLayoutManager
 
 	private BalloonLayout<ShapeNode<?>, ConnectorNode<?>> layout;
 
-	private List<FGECircle> baseCircles;
+	private List<DianaCircle> baseCircles;
 
 	@Override
 	protected BalloonLayout<ShapeNode<?>, ConnectorNode<?>> buildLayout() {
@@ -91,7 +91,7 @@ public abstract class BalloonLayoutManagerImpl<O> extends TreeBasedLayoutManager
 				double childRadius = parentRadius * Math.cos(angle) / (1 + Math.cos(angle));
 				double radius = parentRadius - childRadius;
 
-				baseCircles.add(new FGECircle(new FGEPoint(parentLocation), radius, Filling.NOT_FILLED));
+				baseCircles.add(new DianaCircle(new DianaPoint(parentLocation), radius, Filling.NOT_FILLED));
 
 				super.setPolars(kids, parentLocation, parentRadius);
 			}
@@ -126,19 +126,19 @@ public abstract class BalloonLayoutManagerImpl<O> extends TreeBasedLayoutManager
 	 * @param g
 	 */
 	@Override
-	public void paintDecoration(FGEGraphics g) {
+	public void paintDecoration(DianaGraphics g) {
 
 		g.setDefaultForeground(getFactory().makeForegroundStyle(Color.GRAY, 1, DashStyle.DOTS_DASHES));
 		g.useDefaultForegroundStyle();
 
 		// NPE Protection
 		if (baseCircles != null) {
-			for (FGECircle circle : baseCircles) {
+			for (DianaCircle circle : baseCircles) {
 				circle.paint(g);
 			}
 		}
 
-		/*	FGECircle circle1 = new FGECircle(getContainerNode().getBounds().getCenter(), 185 * 2 - 60, Filling.NOT_FILLED);
+		/*	DianaCircle circle1 = new DianaCircle(getContainerNode().getBounds().getCenter(), 185 * 2 - 60, Filling.NOT_FILLED);
 		
 			circle1.paint(g);
 		

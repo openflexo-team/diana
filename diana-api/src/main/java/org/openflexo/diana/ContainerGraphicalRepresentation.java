@@ -42,8 +42,8 @@ package org.openflexo.diana;
 import java.util.List;
 
 import org.openflexo.diana.ShapeGraphicalRepresentation.DimensionConstraints;
-import org.openflexo.diana.geom.FGEDimension;
-import org.openflexo.diana.geom.FGESteppedDimensionConstraint;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaSteppedDimensionConstraint;
 import org.openflexo.model.annotations.Adder;
 import org.openflexo.model.annotations.Embedded;
 import org.openflexo.model.annotations.Finder;
@@ -87,7 +87,7 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 	public static final String MAXIMAL_WIDTH_KEY = "maximalWidth";
 	@PropertyIdentifier(type = Double.class)
 	public static final String MAXIMAL_HEIGHT_KEY = "maximalHeight";
-	@PropertyIdentifier(type = FGESteppedDimensionConstraint.class)
+	@PropertyIdentifier(type = DianaSteppedDimensionConstraint.class)
 	public static final String DIMENSION_CONSTRAINT_STEP_KEY = "dimensionConstraintStep";
 	@PropertyIdentifier(type = DimensionConstraints.class)
 	public static final String DIMENSION_CONSTRAINTS_KEY = "dimensionConstraints";
@@ -99,7 +99,7 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 	public static final String ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH_KEY = "adjustMaximalWidthToLabelWidth";
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT_KEY = "adjustMaximalHeightToLabelHeight";
-	@PropertyIdentifier(type = FGELayoutManagerSpecification.class, cardinality = Cardinality.LIST)
+	@PropertyIdentifier(type = DianaLayoutManagerSpecification.class, cardinality = Cardinality.LIST)
 	public static final String LAYOUT_MANAGER_SPECIFICATIONS_KEY = "layoutManagerSpecifications";
 
 	public static GRProperty<Double> WIDTH = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class, WIDTH_KEY, Double.TYPE);
@@ -123,8 +123,8 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 			Double.class);
 	public static GRProperty<DimensionConstraints> DIMENSION_CONSTRAINTS = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class,
 			DIMENSION_CONSTRAINTS_KEY, DimensionConstraints.class);
-	public static GRProperty<FGESteppedDimensionConstraint> DIMENSION_CONSTRAINT_STEP = GRProperty
-			.getGRParameter(ContainerGraphicalRepresentation.class, DIMENSION_CONSTRAINT_STEP_KEY, FGESteppedDimensionConstraint.class);
+	public static GRProperty<DianaSteppedDimensionConstraint> DIMENSION_CONSTRAINT_STEP = GRProperty
+			.getGRParameter(ContainerGraphicalRepresentation.class, DIMENSION_CONSTRAINT_STEP_KEY, DianaSteppedDimensionConstraint.class);
 
 	public static GRProperty<List> LAYOUT_MANAGER_SPECIFICATIONS = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class,
 			LAYOUT_MANAGER_SPECIFICATIONS_KEY, List.class);
@@ -151,7 +151,7 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 	@Setter(value = HEIGHT_KEY)
 	public abstract void setHeight(double aValue);
 
-	public FGEDimension getSize();
+	public DianaDimension getSize();
 
 	@Getter(value = MINIMAL_WIDTH_KEY, defaultValue = "0.0")
 	@XMLAttribute
@@ -183,10 +183,10 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 
 	@Getter(value = DIMENSION_CONSTRAINT_STEP_KEY, isStringConvertable = true)
 	@XMLAttribute
-	public FGESteppedDimensionConstraint getDimensionConstraintStep();
+	public DianaSteppedDimensionConstraint getDimensionConstraintStep();
 
 	@Setter(value = DIMENSION_CONSTRAINT_STEP_KEY)
-	public void setDimensionConstraintStep(FGESteppedDimensionConstraint dimensionConstraintStep);
+	public void setDimensionConstraintStep(DianaSteppedDimensionConstraint dimensionConstraintStep);
 
 	@Getter(value = DIMENSION_CONSTRAINTS_KEY)
 	@XMLAttribute
@@ -226,17 +226,17 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 	@Getter(value = LAYOUT_MANAGER_SPECIFICATIONS_KEY, cardinality = Cardinality.LIST)
 	@Embedded
 	@XMLElement
-	public List<FGELayoutManagerSpecification<?>> getLayoutManagerSpecifications();
+	public List<DianaLayoutManagerSpecification<?>> getLayoutManagerSpecifications();
 
 	@Setter(value = LAYOUT_MANAGER_SPECIFICATIONS_KEY)
-	public void setLayoutManagerSpecifications(List<FGELayoutManagerSpecification<?>> layoutManagerSpecifications);
+	public void setLayoutManagerSpecifications(List<DianaLayoutManagerSpecification<?>> layoutManagerSpecifications);
 
 	@Adder(value = LAYOUT_MANAGER_SPECIFICATIONS_KEY)
-	public void addToLayoutManagerSpecifications(FGELayoutManagerSpecification<?> layoutManagerSpecification);
+	public void addToLayoutManagerSpecifications(DianaLayoutManagerSpecification<?> layoutManagerSpecification);
 
 	@Remover(value = LAYOUT_MANAGER_SPECIFICATIONS_KEY)
-	public void removeFromLayoutManagerSpecifications(FGELayoutManagerSpecification<?> layoutManagerSpecification);
+	public void removeFromLayoutManagerSpecifications(DianaLayoutManagerSpecification<?> layoutManagerSpecification);
 
-	@Finder(collection = LAYOUT_MANAGER_SPECIFICATIONS_KEY, attribute = FGELayoutManagerSpecification.IDENTIFIER_KEY)
-	public FGELayoutManagerSpecification<?> getLayoutManagerSpecification(String identifier);
+	@Finder(collection = LAYOUT_MANAGER_SPECIFICATIONS_KEY, attribute = DianaLayoutManagerSpecification.IDENTIFIER_KEY)
+	public DianaLayoutManagerSpecification<?> getLayoutManagerSpecification(String identifier);
 }

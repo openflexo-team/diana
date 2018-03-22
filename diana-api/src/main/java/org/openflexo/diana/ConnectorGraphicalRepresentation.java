@@ -231,7 +231,7 @@ public interface ConnectorGraphicalRepresentation extends GraphicalRepresentatio
 	 * @param scale
 	 * @return
 	 */
-	// public double distanceToConnector(FGEPoint aPoint, double scale, ConnectorNode<?> connectorNode);
+	// public double distanceToConnector(DianaPoint aPoint, double scale, ConnectorNode<?> connectorNode);
 
 	// public boolean isConnectorConsistent();
 
@@ -244,7 +244,7 @@ public interface ConnectorGraphicalRepresentation extends GraphicalRepresentatio
 
 	public void setDebugCoveringArea(boolean debugCoveringArea);
 
-	// public FGEConnectorGraphics getGraphics();
+	// public DianaConnectorGraphics getGraphics();
 
 	// public List<? extends ControlArea<?>> getControlAreas();
 

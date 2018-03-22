@@ -41,7 +41,7 @@ package org.openflexo.diana.notifications;
 
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
-import org.openflexo.diana.notifications.FGENotification;
+import org.openflexo.diana.notifications.DianaNotification;
 
 /**
  * This notification is thrown when a node has been added in the drawing tree
@@ -49,7 +49,7 @@ import org.openflexo.diana.notifications.FGENotification;
  * @author sylvain
  * 
  */
-public class NodeAdded extends FGENotification {
+public class NodeAdded extends DianaNotification {
 
 	public static final String EVENT_NAME = "NodeAdded";
 

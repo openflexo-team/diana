@@ -43,15 +43,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.geom.FGEComplexCurve;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGEGeneralShape.Closure;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.geom.DianaComplexCurve;
+import org.openflexo.diana.geom.DianaGeneralShape.Closure;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.diana.shapes.ComplexCurve;
 
 public abstract class ComplexCurveImpl extends ShapeSpecificationImpl implements ComplexCurve {
 
-	private List<FGEPoint> points;
+	private List<DianaPoint> points;
 	private Closure closure = Closure.CLOSED_FILLED;
 
 	// *******************************************************************************
@@ -66,27 +66,27 @@ public abstract class ComplexCurveImpl extends ShapeSpecificationImpl implements
 		this.points = new ArrayList<>();
 	}
 
-	public ComplexCurveImpl(List<FGEPoint> points) {
+	public ComplexCurveImpl(List<DianaPoint> points) {
 		this();
-		for (FGEPoint pt : points) {
+		for (DianaPoint pt : points) {
 			this.points.add(pt);
 		}
 	}
 
-	public ComplexCurveImpl(FGEComplexCurve curve) {
+	public ComplexCurveImpl(DianaComplexCurve curve) {
 		this();
-		for (FGEPoint pt : curve.getPoints()) {
+		for (DianaPoint pt : curve.getPoints()) {
 			points.add(pt);
 		}
 	}
 
 	@Override
-	public List<FGEPoint> getPoints() {
+	public List<DianaPoint> getPoints() {
 		return points;
 	}
 
 	@Override
-	public void setPoints(List<FGEPoint> points) {
+	public void setPoints(List<DianaPoint> points) {
 		if (points != null) {
 			this.points = new ArrayList<>(points);
 		}
@@ -97,13 +97,13 @@ public abstract class ComplexCurveImpl extends ShapeSpecificationImpl implements
 	}
 
 	@Override
-	public void addToPoints(FGEPoint aPoint) {
+	public void addToPoints(DianaPoint aPoint) {
 		points.add(aPoint);
 		notifyChange(POINTS);
 	}
 
 	@Override
-	public void removeFromPoints(FGEPoint aPoint) {
+	public void removeFromPoints(DianaPoint aPoint) {
 		points.remove(aPoint);
 		notifyChange(POINTS);
 	}
@@ -120,7 +120,7 @@ public abstract class ComplexCurveImpl extends ShapeSpecificationImpl implements
 
 	@Override
 	public void setClosure(Closure aClosure) {
-		FGEAttributeNotification<?> notification = requireChange(CLOSURE, aClosure);
+		DianaAttributeNotification<?> notification = requireChange(CLOSURE, aClosure);
 		if (notification != null) {
 			closure = aClosure;
 			hasChanged(notification);
@@ -128,8 +128,8 @@ public abstract class ComplexCurveImpl extends ShapeSpecificationImpl implements
 	}
 
 	@Override
-	public FGEComplexCurve makeFGEShape(ShapeNode<?> node) {
-		return new FGEComplexCurve(getClosure(), points);
+	public DianaComplexCurve makeDianaShape(ShapeNode<?> node) {
+		return new DianaComplexCurve(getClosure(), points);
 	}
 
 }

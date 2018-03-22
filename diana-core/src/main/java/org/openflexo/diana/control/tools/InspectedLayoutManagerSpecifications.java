@@ -45,16 +45,16 @@ import java.util.Set;
 
 import org.openflexo.diana.ContainerGraphicalRepresentation;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
-import org.openflexo.diana.FGECoreUtils;
-import org.openflexo.diana.FGELayoutManager;
-import org.openflexo.diana.FGELayoutManagerSpecification;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaCoreUtils;
+import org.openflexo.diana.DianaLayoutManager;
+import org.openflexo.diana.DianaLayoutManagerSpecification;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.FGELayoutManagerSpecification.LayoutManagerSpecificationType;
+import org.openflexo.diana.DianaLayoutManagerSpecification.LayoutManagerSpecificationType;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.gina.utils.FIBInspector;
@@ -79,14 +79,14 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 	public InspectedLayoutManagerSpecifications(DianaInteractiveViewer<?, ?, ?> controller) {
 		super(controller, null);
 		layoutManagerInspectorGroup = new InspectorGroup(ResourceLocator.locateResource("LayoutInspectors"),
-				AbstractDianaEditor.EDITOR_FIB_LIBRARY, FGECoreUtils.DIANA_LOCALIZATION);
+				AbstractDianaEditor.EDITOR_FIB_LIBRARY, DianaCoreUtils.DIANA_LOCALIZATION);
 	}
 
 	public InspectorGroup getLayoutManagerInspectorGroup() {
 		return layoutManagerInspectorGroup;
 	}
 
-	public FIBInspector getLayoutInspector(FGELayoutManager<?, ?> object) {
+	public FIBInspector getLayoutInspector(DianaLayoutManager<?, ?> object) {
 		return getLayoutManagerInspectorGroup().inspectorForObject(object);
 	}
 
@@ -107,7 +107,7 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 	}
 
 	@Override
-	public FGEModelFactory getFactory() {
+	public DianaModelFactory getFactory() {
 		if (getContainerNode() != null) {
 			return getContainerNode().getFactory();
 		}
@@ -141,7 +141,7 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 		getPropertyChangeSupport().firePropertyChange("hasValidSelection", !hasValidSelection(), hasValidSelection());
 	}
 
-	public List<FGELayoutManager<?, ?>> getLayoutManagers() {
+	public List<DianaLayoutManager<?, ?>> getLayoutManagers() {
 		// return getPropertyValue(ContainerGraphicalRepresentation.LAYOUT_MANAGER_SPECIFICATIONS);
 		if (getContainerNode() != null) {
 			return (List) getContainerNode().getLayoutManagers();
@@ -167,14 +167,14 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 
 		if (getDefaultLayoutType() != defaultLayoutType && hasValidSelection() && getContainerNode() != null && getFactory() != null) {
 
-			FGELayoutManager<?, ?> oldLayoutManager = getDefaultLayoutManager();
+			DianaLayoutManager<?, ?> oldLayoutManager = getDefaultLayoutManager();
 
 			System.out.println("setDefaultLayoutType with " + defaultLayoutType);
 			LayoutManagerSpecificationType oldValue = getDefaultLayoutType();
 			ContainerGraphicalRepresentation gr = getContainerNode().getGraphicalRepresentation();
 
 			if (getDefaultLayoutManager() != null) {
-				FGELayoutManagerSpecification<?> spec = getDefaultLayoutManager().getLayoutManagerSpecification();
+				DianaLayoutManagerSpecification<?> spec = getDefaultLayoutManager().getLayoutManagerSpecification();
 				if (spec != null) {
 					gr.removeFromLayoutManagerSpecifications(spec);
 					spec.delete();
@@ -182,7 +182,7 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 			}
 
 			if (defaultLayoutType != LayoutManagerSpecificationType.NONE) {
-				FGELayoutManagerSpecification<?> newLayoutManagerSpecification = getFactory().makeLayoutManagerSpecification(
+				DianaLayoutManagerSpecification<?> newLayoutManagerSpecification = getFactory().makeLayoutManagerSpecification(
 						defaultLayoutType.getDefaultLayoutManagerName(), defaultLayoutType.getLayoutManagerSpecificationClass());
 				System.out.println("new layout manager: " + newLayoutManagerSpecification);
 				gr.addToLayoutManagerSpecifications(newLayoutManagerSpecification);
@@ -192,7 +192,7 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 						n.getGraphicalRepresentation().setLayoutManagerIdentifier(newLayoutManagerSpecification.getIdentifier());
 					}
 				}
-				// FGELayoutManager<?, ?> newLayoutManager = getContainerNode()
+				// DianaLayoutManager<?, ?> newLayoutManager = getContainerNode()
 				// .getLayoutManager(newLayoutManagerSpecification.getIdentifier());
 
 				if (getDefaultLayoutManager() != null) {
@@ -207,13 +207,13 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 	}
 
 	/**
-	 * Return default {@link FGELayoutManager} to display in the context of this inspector<br>
+	 * Return default {@link DianaLayoutManager} to display in the context of this inspector<br>
 	 * 
 	 * If selection is a container with some layout defined, return first one.<br>
 	 * 
 	 * @return
 	 */
-	public FGELayoutManager<?, ?> getDefaultLayoutManager() {
+	public DianaLayoutManager<?, ?> getDefaultLayoutManager() {
 		if (layoutedAsMode()) {
 			return ((ShapeNode<?>) getContainerNode()).getLayoutManager();
 		}

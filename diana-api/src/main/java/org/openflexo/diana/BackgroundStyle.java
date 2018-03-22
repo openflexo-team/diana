@@ -56,7 +56,7 @@ import org.openflexo.model.annotations.XMLAttribute;
 @ModelEntity(isAbstract = true)
 @Imports({ @Import(NoneBackgroundStyle.class), @Import(ColorBackgroundStyle.class), @Import(ColorGradientBackgroundStyle.class),
 		@Import(TextureBackgroundStyle.class), @Import(BackgroundImageBackgroundStyle.class) })
-public interface BackgroundStyle extends FGEStyle {
+public interface BackgroundStyle extends DianaStyle {
 
 	@PropertyIdentifier(type = Float.class)
 	public static final String TRANSPARENCY_LEVEL_KEY = "transparencyLevel";

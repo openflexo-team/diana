@@ -38,11 +38,11 @@
 
 package org.openflexo.diana.connectors;
 
-import org.openflexo.diana.FGEConstants;
+import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.GRProperty;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectPolylin;
-import org.openflexo.diana.geom.FGEGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectPolylin;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
@@ -52,7 +52,7 @@ import org.openflexo.model.annotations.XMLElement;
 
 /**
  * A RectPolylinConnectorSpecification is a connector joining 2 shapes with a path of orthogonal segments (this connector is encoded as a
- * {@link FGERectPolylin} instance).
+ * {@link DianaRectPolylin} instance).
  * 
  * This connector has many configuration parameters.
  * 
@@ -109,13 +109,13 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	public static final String IS_STARTING_LOCATION_DRAGGABLE_KEY = "isStartingLocationDraggable";
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String IS_ENDING_LOCATION_DRAGGABLE_KEY = "isEndingLocationDraggable";
-	@PropertyIdentifier(type = FGEPoint.class)
+	@PropertyIdentifier(type = DianaPoint.class)
 	public static final String CROSSED_CONTROL_POINT_KEY = "crossedControlPoint";
-	@PropertyIdentifier(type = FGEPoint.class)
+	@PropertyIdentifier(type = DianaPoint.class)
 	public static final String FIXED_START_LOCATION_KEY = "fixedStartLocation";
-	@PropertyIdentifier(type = FGEPoint.class)
+	@PropertyIdentifier(type = DianaPoint.class)
 	public static final String FIXED_END_LOCATION_KEY = "fixedEndLocation";
-	@PropertyIdentifier(type = FGERectPolylin.class)
+	@PropertyIdentifier(type = DianaRectPolylin.class)
 	public static final String POLYLIN_KEY = "polylin";
 	@PropertyIdentifier(type = Integer.class)
 	public static final String PIXEL_OVERLAP_KEY = "pixelOverlap";
@@ -142,14 +142,14 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 			IS_STARTING_LOCATION_DRAGGABLE_KEY, Boolean.class);
 	public static GRProperty<Boolean> IS_ENDING_LOCATION_DRAGGABLE = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
 			IS_ENDING_LOCATION_DRAGGABLE_KEY, Boolean.class);
-	public static GRProperty<FGEPoint> CROSSED_CONTROL_POINT = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
-			CROSSED_CONTROL_POINT_KEY, FGEPoint.class);
-	public static GRProperty<FGEPoint> FIXED_START_LOCATION = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
-			FIXED_START_LOCATION_KEY, FGEPoint.class);
-	public static GRProperty<FGEPoint> FIXED_END_LOCATION = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
-			FIXED_END_LOCATION_KEY, FGEPoint.class);
-	public static GRProperty<FGERectPolylin> POLYLIN = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class, POLYLIN_KEY,
-			FGERectPolylin.class);
+	public static GRProperty<DianaPoint> CROSSED_CONTROL_POINT = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
+			CROSSED_CONTROL_POINT_KEY, DianaPoint.class);
+	public static GRProperty<DianaPoint> FIXED_START_LOCATION = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
+			FIXED_START_LOCATION_KEY, DianaPoint.class);
+	public static GRProperty<DianaPoint> FIXED_END_LOCATION = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
+			FIXED_END_LOCATION_KEY, DianaPoint.class);
+	public static GRProperty<DianaRectPolylin> POLYLIN = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class, POLYLIN_KEY,
+			DianaRectPolylin.class);
 	public static GRProperty<Integer> PIXEL_OVERLAP = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
 			PIXEL_OVERLAP_KEY, Integer.class);
 
@@ -275,10 +275,10 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 
 	@Getter(value = CROSSED_CONTROL_POINT_KEY, isStringConvertable = true)
 	@XMLAttribute
-	public FGEPoint getCrossedControlPoint();
+	public DianaPoint getCrossedControlPoint();
 
 	@Setter(value = CROSSED_CONTROL_POINT_KEY)
-	public void setCrossedControlPoint(FGEPoint aPoint);
+	public void setCrossedControlPoint(DianaPoint aPoint);
 
 	/**
 	 * Return start location asserting start location is fixed. Return position relative to start object (in the start-object coordinates
@@ -288,7 +288,7 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	 */
 	@Getter(value = FIXED_START_LOCATION_KEY, isStringConvertable = true)
 	@XMLAttribute
-	public FGEPoint getFixedStartLocation();
+	public DianaPoint getFixedStartLocation();
 
 	/**
 	 * Sets start location asserting start location is fixed. Sets position relative to start object (in the start-object coordinates
@@ -298,7 +298,7 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	 *            : relative to start object
 	 */
 	@Setter(value = FIXED_START_LOCATION_KEY)
-	public void setFixedStartLocation(FGEPoint aPoint);
+	public void setFixedStartLocation(DianaPoint aPoint);
 
 	/**
 	 * Return end location asserting end location is fixed. Return position relative to end object (in the end-object coordinates system)
@@ -307,7 +307,7 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	 */
 	@Getter(value = FIXED_END_LOCATION_KEY, isStringConvertable = true)
 	@XMLAttribute
-	public FGEPoint getFixedEndLocation();
+	public DianaPoint getFixedEndLocation();
 
 	/**
 	 * Sets end location asserting end location is fixed. Sets position relative to end object (in the end-object coordinates system)
@@ -316,9 +316,9 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	 *            , relative to end object
 	 */
 	@Setter(value = FIXED_END_LOCATION_KEY)
-	public void setFixedEndLocation(FGEPoint aPoint);
+	public void setFixedEndLocation(DianaPoint aPoint);
 
-	@Getter(value = PIXEL_OVERLAP_KEY, defaultValue = "" + FGEConstants.DEFAULT_RECT_POLYLIN_PIXEL_OVERLAP)
+	@Getter(value = PIXEL_OVERLAP_KEY, defaultValue = "" + DianaConstants.DEFAULT_RECT_POLYLIN_PIXEL_OVERLAP)
 	@XMLAttribute
 	public int getPixelOverlap();
 
@@ -326,10 +326,10 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	public void setPixelOverlap(int aPixelOverlap);
 
 	@Getter(value = POLYLIN_KEY, ignoreType = true)
-	public FGERectPolylin getPolylin();
+	public DianaRectPolylin getPolylin();
 
 	@Setter(value = POLYLIN_KEY)
-	public void setPolylin(FGERectPolylin aPolylin);
+	public void setPolylin(DianaRectPolylin aPolylin);
 
 	// *******************************************************************************
 	// * Utils
@@ -349,15 +349,15 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	 */
 	// public double getMiddleSymbolAngle(ConnectorNode<?> node);
 
-	/*public FGERectPolylin getCurrentPolylin();
+	/*public DianaRectPolylin getCurrentPolylin();
 
-	public void manuallySetPolylin(FGERectPolylin aPolylin);
+	public void manuallySetPolylin(DianaRectPolylin aPolylin);
 
 	public ControlPoint getEndControlPoint();
 
 	public ControlPoint getStartControlPoint();
 
-	public FGEPoint getCrossedControlPointOnRoundedArc();
+	public DianaPoint getCrossedControlPointOnRoundedArc();
 
 	public Vector<SimplifiedCardinalDirection> getAllowedStartOrientations();*/
 
@@ -381,13 +381,13 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 
 	public void updateLayout();
 
-	public void updateWithNewPolylin(FGERectPolylin aPolylin);
+	public void updateWithNewPolylin(DianaRectPolylin aPolylin);
 
-	public void updateWithNewPolylin(FGERectPolylin aPolylin, boolean temporary);
+	public void updateWithNewPolylin(DianaRectPolylin aPolylin, boolean temporary);
 
-	public void updateWithNewPolylin(FGERectPolylin aPolylin, boolean assertLayoutIsValid, boolean temporary);
+	public void updateWithNewPolylin(DianaRectPolylin aPolylin, boolean assertLayoutIsValid, boolean temporary);
 
-	public boolean _updateAsFullyAdjustableForUniqueSegment(FGEPoint pt);
+	public boolean _updateAsFullyAdjustableForUniqueSegment(DianaPoint pt);
 
 	public void _connectorChanged(boolean temporary);*/
 
@@ -398,17 +398,17 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	 * 
 	 * If starting location is fixed return this location
 	 * 
-	 * @return FGEArea
+	 * @return DianaArea
 	 */
-	// public FGEArea retrieveStartArea();
+	// public DianaArea retrieveStartArea();
 
 	/**
 	 * Compute and return allowed start area, in the connector coordinates system If some orientation constraints are defined, return
 	 * portion of start area outline matching allowed orientations
 	 * 
-	 * @return FGEArea
+	 * @return DianaArea
 	 */
-	// public FGEArea retrieveAllowedStartArea(boolean takeFixedControlPointUnderAccount);
+	// public DianaArea retrieveAllowedStartArea(boolean takeFixedControlPointUnderAccount);
 
 	/**
 	 * Compute and return end area outline, in the connector coordinates system
@@ -417,17 +417,17 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	 * 
 	 * If starting location is fixed return this location
 	 * 
-	 * @return FGEArea
+	 * @return DianaArea
 	 */
-	// public FGEArea retrieveEndArea();
+	// public DianaArea retrieveEndArea();
 
 	/**
 	 * Compute and return allowed end area, in the connector coordinates system If some orientation constraints are defined, return portion
 	 * of end area outline matching allowed orientations
 	 * 
-	 * @return FGEArea
+	 * @return DianaArea
 	 */
-	// public FGEArea retrieveAllowedEndArea(boolean takeFixedControlPointUnderAccount);
+	// public DianaArea retrieveAllowedEndArea(boolean takeFixedControlPointUnderAccount);
 
 	// public double getOverlapXResultingFromPixelOverlap(ConnectorNode<?> node);
 
@@ -443,7 +443,7 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	 *            Polylin to take under account to recreate new layout
 	 * 
 	 */
-	// public void checkAndUpdateStartCP(FGERectPolylin initialPolylin);
+	// public void checkAndUpdateStartCP(DianaRectPolylin initialPolylin);
 
 	/**
 	 * This method is internally called while updating ending point of polylin.
@@ -455,7 +455,7 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	 *            Polylin to take under account to recreate new layout
 	 * 
 	 */
-	// public void checkAndUpdateEndCP(FGERectPolylin initialPolylin);
+	// public void checkAndUpdateEndCP(DianaRectPolylin initialPolylin);
 
 	/**
 	 * Compute a new polylin by concatening supplied polylins and given indexes
@@ -468,7 +468,7 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	 * @param endIndex2
 	 * @return
 	 */
-	// public FGERectPolylin mergePolylins(FGERectPolylin p1, int startIndex1, int endIndex1, FGERectPolylin p2, int startIndex2, int
+	// public DianaRectPolylin mergePolylins(DianaRectPolylin p1, int startIndex1, int endIndex1, DianaRectPolylin p2, int startIndex2, int
 	// endIndex2);
 
 	/**
@@ -485,5 +485,5 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	 * @param index
 	 * @param newCPLocation
 	 */
-	// public void _simplifyLayoutOfCurrentPolylinByDeletingTwoPoints(int index, FGEPoint newCPLocation);
+	// public void _simplifyLayoutOfCurrentPolylinByDeletingTwoPoints(int index, DianaPoint newCPLocation);
 }

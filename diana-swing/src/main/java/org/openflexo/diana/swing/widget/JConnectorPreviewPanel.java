@@ -48,9 +48,9 @@ import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
 import org.openflexo.diana.Drawing;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
-import org.openflexo.diana.FGEConstants;
-import org.openflexo.diana.FGECoreUtils;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaConstants;
+import org.openflexo.diana.DianaCoreUtils;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.GRStructureVisitor;
 import org.openflexo.diana.ShadowStyle;
@@ -90,7 +90,7 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 	private int height = 80;
 	private static final float RATIO = 0.6f;
 
-	private FGEModelFactory factory;
+	private DianaModelFactory factory;
 
 	private ForegroundStyle foregroundStyle;
 
@@ -101,7 +101,7 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 	public JConnectorPreviewPanel(ConnectorSpecification aConnectorSpecification) {
 		super(new BorderLayout());
 
-		factory = FGECoreUtils.TOOLS_FACTORY;
+		factory = DianaCoreUtils.TOOLS_FACTORY;
 
 		// representedDrawing = new RepresentedDrawing();
 		// representedShape = new RepresentedShape();
@@ -109,7 +109,7 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 
 		foregroundStyle = factory.makeForegroundStyle(Color.BLACK);
 		shapeForegroundStyle = factory.makeForegroundStyle(Color.GRAY);
-		shapeBackgroundStyle = factory.makeColoredBackground(FGEConstants.DEFAULT_BACKGROUND_COLOR);
+		shapeBackgroundStyle = factory.makeColoredBackground(DianaConstants.DEFAULT_BACKGROUND_COLOR);
 		shapeShadowStyle = factory.makeNoneShadowStyle();
 
 		// final Vector<RepresentedShape> singleton = new Vector<RepresentedShape>();
@@ -121,28 +121,28 @@ public class JConnectorPreviewPanel extends JPanel implements ConnectorPreviewPa
 				final DrawingGRBinding<JConnectorPreviewPanel> previewPanelBinding = bindDrawing(JConnectorPreviewPanel.class,
 						"previewPanel", new DrawingGRProvider<JConnectorPreviewPanel>() {
 							@Override
-							public DrawingGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
+							public DrawingGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, DianaModelFactory factory) {
 								return drawingGR;
 							}
 						});
 				final ShapeGRBinding<JConnectorPreviewPanel> startShapeBinding = bindShape(JConnectorPreviewPanel.class, "startShape",
 						new ShapeGRProvider<JConnectorPreviewPanel>() {
 							@Override
-							public ShapeGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
+							public ShapeGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, DianaModelFactory factory) {
 								return startShapeGR;
 							}
 						});
 				final ShapeGRBinding<JConnectorPreviewPanel> endShapeBinding = bindShape(JConnectorPreviewPanel.class, "endShape",
 						new ShapeGRProvider<JConnectorPreviewPanel>() {
 							@Override
-							public ShapeGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
+							public ShapeGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, DianaModelFactory factory) {
 								return endShapeGR;
 							}
 						});
 				final ConnectorGRBinding<JConnectorPreviewPanel> connectorBinding = bindConnector(JConnectorPreviewPanel.class, "connector",
 						new ConnectorGRProvider<JConnectorPreviewPanel>() {
 							@Override
-							public ConnectorGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, FGEModelFactory factory) {
+							public ConnectorGraphicalRepresentation provideGR(JConnectorPreviewPanel drawable, DianaModelFactory factory) {
 								return connectorGR;
 							}
 						});

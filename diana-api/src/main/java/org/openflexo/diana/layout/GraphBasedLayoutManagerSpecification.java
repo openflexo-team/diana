@@ -38,8 +38,8 @@
 
 package org.openflexo.diana.layout;
 
-import org.openflexo.diana.FGELayoutManager;
-import org.openflexo.diana.FGELayoutManagerSpecification;
+import org.openflexo.diana.DianaLayoutManager;
+import org.openflexo.diana.DianaLayoutManagerSpecification;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
@@ -49,14 +49,14 @@ import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLAttribute;
 
 /**
- * Abstract specification of a {@link FGELayoutManager} generally handling graphs with an iterative process<br>
+ * Abstract specification of a {@link DianaLayoutManager} generally handling graphs with an iterative process<br>
  * 
  * @author sylvain
  * 
  */
 @ModelEntity(isAbstract = true)
 @Imports({ @Import(ForceDirectedGraphLayoutManagerSpecification.class), @Import(ISOMGraphLayoutManagerSpecification.class) })
-public interface GraphBasedLayoutManagerSpecification<LM extends GraphBasedLayoutManager<?, ?>> extends FGELayoutManagerSpecification<LM> {
+public interface GraphBasedLayoutManagerSpecification<LM extends GraphBasedLayoutManager<?, ?>> extends DianaLayoutManagerSpecification<LM> {
 
 	@PropertyIdentifier(type = Integer.class)
 	public static final String STEPS_NUMBER_KEY = "stepsNumber";

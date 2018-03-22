@@ -50,8 +50,8 @@ import javax.swing.JPanel;
 
 import org.openflexo.diana.Drawing;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
-import org.openflexo.diana.FGECoreUtils;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaCoreUtils;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.GRStructureVisitor;
 import org.openflexo.diana.ShadowStyle;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
@@ -280,7 +280,7 @@ public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements
 		private JDianaViewer<ShadowStylePreviewPanel> controller;
 		private ShapeGraphicalRepresentation shapeGR;
 
-		private FGEModelFactory factory;
+		private DianaModelFactory factory;
 
 		protected ShadowStylePreviewPanel() {
 			super(new BorderLayout());
@@ -289,7 +289,7 @@ public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements
 			setPreferredSize(new Dimension(40, 19));
 			// setBackground(Color.WHITE);
 
-			factory = FGECoreUtils.TOOLS_FACTORY;
+			factory = DianaCoreUtils.TOOLS_FACTORY;
 
 			drawing = new DrawingImpl<ShadowStylePreviewPanel>(this, factory, PersistenceMode.UniqueGraphicalRepresentations) {
 				@Override
@@ -297,14 +297,14 @@ public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements
 					final DrawingGRBinding<ShadowStylePreviewPanel> previewPanelBinding = bindDrawing(ShadowStylePreviewPanel.class,
 							"previewPanel", new DrawingGRProvider<ShadowStylePreviewPanel>() {
 								@Override
-								public DrawingGraphicalRepresentation provideGR(ShadowStylePreviewPanel drawable, FGEModelFactory factory) {
+								public DrawingGraphicalRepresentation provideGR(ShadowStylePreviewPanel drawable, DianaModelFactory factory) {
 									return drawingGR;
 								}
 							});
 					final ShapeGRBinding<ShadowStylePreviewPanel> shapeBinding = bindShape(ShadowStylePreviewPanel.class, "line",
 							new ShapeGRProvider<ShadowStylePreviewPanel>() {
 								@Override
-								public ShapeGraphicalRepresentation provideGR(ShadowStylePreviewPanel drawable, FGEModelFactory factory) {
+								public ShapeGraphicalRepresentation provideGR(ShadowStylePreviewPanel drawable, DianaModelFactory factory) {
 									return shapeGR;
 								}
 							});

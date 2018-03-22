@@ -250,7 +250,7 @@
 		<DropDown index="5" data="arc.arcType"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="arcTypeDropdown" format="object.name.toLowerCase" localize="true"
-			staticList="" iteratorClassName="org.openflexo.diana.geom.FGEArc$ArcType"
+			staticList="" iteratorClassName="org.openflexo.diana.geom.DianaArc$ArcType"
 			autoSelectFirstRow="true">
 		</DropDown>
 		<Dependancy componentName="shapeTypeDropdown" />
@@ -303,7 +303,7 @@
 		<FIBVariable name="polygon"
 			value="($org.openflexo.diana.shapes.Polygon)data.shapeSpecification"
 			type="org.openflexo.diana.shapes.Polygon" />
-		<Table iteratorClassName="org.openflexo.diana.geom.FGEPoint"
+		<Table iteratorClassName="org.openflexo.diana.geom.DianaPoint"
 			visibleRowCount="3" rowHeight="18" autoSelectFirstRow="false"
 			createNewRowOnClick="true" boundToSelectionManager="false"
 			showFooter="true" selectionMode="MultipleIntervalSelection"
@@ -345,10 +345,10 @@
 		<DropDown index="5" data="curve.closure"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="arcTypeDropdown" format="object.name.toLowerCase" localize="true"
-			staticList="" iteratorClassName="org.openflexo.diana.geom.FGEGeneralShape$Closure"
+			staticList="" iteratorClassName="org.openflexo.diana.geom.DianaGeneralShape$Closure"
 			autoSelectFirstRow="true">
 		</DropDown>
-		<Table iteratorClassName="org.openflexo.diana.geom.FGEPoint"
+		<Table iteratorClassName="org.openflexo.diana.geom.DianaPoint"
 			visibleRowCount="3" rowHeight="18" autoSelectFirstRow="false"
 			createNewRowOnClick="true" boundToSelectionManager="false"
 			showFooter="true" selectionMode="MultipleIntervalSelection"

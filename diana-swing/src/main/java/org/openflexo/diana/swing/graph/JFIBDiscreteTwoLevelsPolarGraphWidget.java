@@ -48,7 +48,7 @@ import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.binding.BindingValueListChangeListener;
-import org.openflexo.diana.graph.FGEDiscreteTwoLevelsPolarFunctionGraph;
+import org.openflexo.diana.graph.DianaDiscreteTwoLevelsPolarFunctionGraph;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.graph.FIBDiscretePolarFunctionGraph;
 import org.openflexo.gina.model.graph.FIBDiscreteTwoLevelsPolarFunctionGraph;
@@ -110,19 +110,19 @@ public class JFIBDiscreteTwoLevelsPolarGraphWidget extends JFIBPolarGraphWidget<
 	}
 
 	@Override
-	protected FGEDiscretePolarFunctionGraphDrawing makeGraphDrawing() {
-		return new FGEDiscretePolarFunctionGraphDrawing(getWidget());
+	protected DianaDiscretePolarFunctionGraphDrawing makeGraphDrawing() {
+		return new DianaDiscretePolarFunctionGraphDrawing(getWidget());
 	}
 
 	@Override
-	public FGEDiscretePolarFunctionGraphDrawing getGraphDrawing() {
-		return (FGEDiscretePolarFunctionGraphDrawing) super.getGraphDrawing();
+	public DianaDiscretePolarFunctionGraphDrawing getGraphDrawing() {
+		return (DianaDiscretePolarFunctionGraphDrawing) super.getGraphDrawing();
 	}
 
-	public class FGEDiscretePolarFunctionGraphDrawing
-			extends FGEPolarFunctionGraphDrawing<FIBDiscreteTwoLevelsPolarFunctionGraph, FGEDiscreteTwoLevelsPolarFunctionGraph<?, ?>> {
+	public class DianaDiscretePolarFunctionGraphDrawing
+			extends DianaPolarFunctionGraphDrawing<FIBDiscreteTwoLevelsPolarFunctionGraph, DianaDiscreteTwoLevelsPolarFunctionGraph<?, ?>> {
 
-		public FGEDiscretePolarFunctionGraphDrawing(FIBDiscreteTwoLevelsPolarFunctionGraph fibGraph) {
+		public DianaDiscretePolarFunctionGraphDrawing(FIBDiscreteTwoLevelsPolarFunctionGraph fibGraph) {
 			super(fibGraph, JFIBDiscreteTwoLevelsPolarGraphWidget.this);
 		}
 
@@ -195,10 +195,10 @@ public class JFIBDiscreteTwoLevelsPolarGraphWidget extends JFIBPolarGraphWidget<
 		}
 
 		@Override
-		protected FGEDiscreteTwoLevelsPolarFunctionGraph<?, ?> makeGraph(FIBDiscreteTwoLevelsPolarFunctionGraph fibGraph) {
+		protected DianaDiscreteTwoLevelsPolarFunctionGraph<?, ?> makeGraph(FIBDiscreteTwoLevelsPolarFunctionGraph fibGraph) {
 
-			// Create the FGEGraph
-			graph = new FGEDiscreteTwoLevelsPolarFunctionGraph<Object, Object>();
+			// Create the DianaGraph
+			graph = new DianaDiscreteTwoLevelsPolarFunctionGraph<Object, Object>();
 			graph.setBindingFactory(fibGraph.getBindingFactory());
 
 			// Sets borders

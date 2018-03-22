@@ -45,7 +45,7 @@ import java.awt.event.MouseEvent;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.cp.ControlPoint;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 
 /**
  * A {@link LabelControlPoint} encodes an interactive control point which purpose is to control a label location<br>
@@ -54,7 +54,7 @@ import org.openflexo.diana.geom.FGEPoint;
  */
 public class LabelControlPoint extends ControlPoint {
 
-	public LabelControlPoint(DrawingTreeNode<?, ?> node, FGEPoint pt) {
+	public LabelControlPoint(DrawingTreeNode<?, ?> node, DianaPoint pt) {
 		super(node, pt);
 	}
 
@@ -69,13 +69,13 @@ public class LabelControlPoint extends ControlPoint {
 	}
 
 	@Override
-	public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
+	public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 		super.startDragging(controller, startPoint);
 	}
 
 	@Override
-	public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-			FGEPoint initialPoint, MouseEvent event) {
+	public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+			DianaPoint initialPoint, MouseEvent event) {
 		return true;
 	}
 

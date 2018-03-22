@@ -43,12 +43,12 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.control.DianaInteractiveEditor;
 import org.openflexo.diana.control.actions.ToolAction;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.graphics.FGEGraphics;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.graphics.DianaGraphics;
 import org.openflexo.diana.view.DrawingView;
 import org.openflexo.model.undo.CompoundEdit;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
@@ -82,7 +82,7 @@ public abstract class ToolController<ME> implements PropertyChangeListener, HasP
 
 	}
 
-	public abstract FGEGraphics getGraphics();
+	public abstract DianaGraphics getGraphics();
 
 	/**
 	 * Return the DrawingView of the controller this tool is associated to
@@ -116,7 +116,7 @@ public abstract class ToolController<ME> implements PropertyChangeListener, HasP
 		return controller;
 	}
 
-	public FGEModelFactory getFactory() {
+	public DianaModelFactory getFactory() {
 		return controller.getFactory();
 	}
 
@@ -128,7 +128,7 @@ public abstract class ToolController<ME> implements PropertyChangeListener, HasP
 	/**
 	 * Return point where event occurs, relative to DrawingView
 	 */
-	public abstract FGEPoint getPoint(ME e);
+	public abstract DianaPoint getPoint(ME e);
 
 	/**
 	 * Process mouse cliked event for current controller

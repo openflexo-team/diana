@@ -44,9 +44,9 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.GRProperty;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 
-public abstract class BackgroundStyleImpl extends FGEStyleImpl implements BackgroundStyle {
+public abstract class BackgroundStyleImpl extends DianaStyleImpl implements BackgroundStyle {
 
 	static final Logger logger = Logger.getLogger(BackgroundStyle.class.getPackage().getName());
 
@@ -93,7 +93,7 @@ public abstract class BackgroundStyleImpl extends FGEStyleImpl implements Backgr
 		if (requireChange(this.transparencyLevel, aLevel)) {
 			float oldValue = transparencyLevel;
 			this.transparencyLevel = aLevel;
-			notifyObservers(new FGEAttributeNotification<>(TRANSPARENCY_LEVEL, oldValue, aLevel));
+			notifyObservers(new DianaAttributeNotification<>(TRANSPARENCY_LEVEL, oldValue, aLevel));
 		}
 	}
 
@@ -107,7 +107,7 @@ public abstract class BackgroundStyleImpl extends FGEStyleImpl implements Backgr
 		if (requireChange(this.useTransparency, aFlag)) {
 			boolean oldValue = useTransparency;
 			this.useTransparency = aFlag;
-			notifyObservers(new FGEAttributeNotification<>(USE_TRANSPARENCY, oldValue, aFlag));
+			notifyObservers(new DianaAttributeNotification<>(USE_TRANSPARENCY, oldValue, aFlag));
 		}
 	}
 

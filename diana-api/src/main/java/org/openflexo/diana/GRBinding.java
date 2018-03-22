@@ -59,7 +59,7 @@ import org.openflexo.diana.GRProvider.DrawingGRProvider;
 import org.openflexo.diana.GRProvider.GeometricGRProvider;
 import org.openflexo.diana.GRProvider.ShapeGRProvider;
 import org.openflexo.diana.cp.ControlArea;
-import org.openflexo.diana.graph.FGEGraph;
+import org.openflexo.diana.graph.DianaGraph;
 
 public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends DefaultBindable {
 
@@ -180,19 +180,19 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 
 	public static abstract class ContainerGRBinding<O, GR extends ContainerGraphicalRepresentation> extends GRBinding<O, GR> {
 
-		// private final Map<String, FGELayoutManagerSpecification<?>> layoutManagerSpecifications;
+		// private final Map<String, DianaLayoutManagerSpecification<?>> layoutManagerSpecifications;
 
 		public ContainerGRBinding(String name, Class<?> drawableClass, ContainerGRProvider<O, GR> grProvider) {
 			super(name, drawableClass, grProvider);
-			// layoutManagerSpecifications = new HashMap<String, FGELayoutManagerSpecification<?>>();
+			// layoutManagerSpecifications = new HashMap<String, DianaLayoutManagerSpecification<?>>();
 		}
 
-		/*public FGELayoutManagerSpecification<?> addLayoutManager(FGELayoutManagerSpecification<?> layoutManagerSpec) {
+		/*public DianaLayoutManagerSpecification<?> addLayoutManager(DianaLayoutManagerSpecification<?> layoutManagerSpec) {
 			layoutManagerSpecifications.put(layoutManagerSpec.getIdentifier(), layoutManagerSpec);
 			return layoutManagerSpec;
 		}
 		
-		public Map<String, FGELayoutManagerSpecification<?>> getLayoutManagerSpecifications() {
+		public Map<String, DianaLayoutManagerSpecification<?>> getLayoutManagerSpecifications() {
 			return layoutManagerSpecifications;
 		}*/
 
@@ -232,7 +232,7 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 		}
 	}
 
-	public static class GraphGRBinding<O extends FGEGraph> extends ShapeGRBinding<O> {
+	public static class GraphGRBinding<O extends DianaGraph> extends ShapeGRBinding<O> {
 
 		public GraphGRBinding(String name, Class<? extends O> graphClass, ShapeGRProvider<O> grProvider) {
 			super(name, graphClass, grProvider);

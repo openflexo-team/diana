@@ -40,7 +40,7 @@
 package org.openflexo.diana;
 
 import org.openflexo.diana.BackgroundStyle.BackgroundStyleType;
-import org.openflexo.diana.geom.area.FGEArea;
+import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.model.annotations.CloningStrategy;
 import org.openflexo.model.annotations.CloningStrategy.StrategyType;
 import org.openflexo.model.annotations.Embedded;
@@ -68,15 +68,15 @@ public interface GeometricGraphicalRepresentation extends GraphicalRepresentatio
 	public static final String FOREGROUND_KEY = "foreground";
 	@PropertyIdentifier(type = BackgroundStyle.class)
 	public static final String BACKGROUND_KEY = "background";
-	@PropertyIdentifier(type = FGEArea.class)
+	@PropertyIdentifier(type = DianaArea.class)
 	public static final String GEOMETRIC_OBJECT_KEY = "geometricObject";
 
 	public static GRProperty<BackgroundStyle> BACKGROUND = GRProperty.getGRParameter(GeometricGraphicalRepresentation.class,
 			GeometricGraphicalRepresentation.BACKGROUND_KEY, BackgroundStyle.class);
 	public static GRProperty<ForegroundStyle> FOREGROUND = GRProperty.getGRParameter(GeometricGraphicalRepresentation.class,
 			GeometricGraphicalRepresentation.FOREGROUND_KEY, ForegroundStyle.class);
-	public static GRProperty<FGEArea> GEOMETRIC_OBJECT = GRProperty.getGRParameter(GeometricGraphicalRepresentation.class,
-			GeometricGraphicalRepresentation.GEOMETRIC_OBJECT_KEY, FGEArea.class);
+	public static GRProperty<DianaArea> GEOMETRIC_OBJECT = GRProperty.getGRParameter(GeometricGraphicalRepresentation.class,
+			GeometricGraphicalRepresentation.GEOMETRIC_OBJECT_KEY, DianaArea.class);
 
 	/*public static enum GeometricParameters implements GRProperty {
 		foreground, background, geometricObject
@@ -106,10 +106,10 @@ public interface GeometricGraphicalRepresentation extends GraphicalRepresentatio
 
 	@Getter(value = GEOMETRIC_OBJECT_KEY, isStringConvertable = true)
 	@XMLElement
-	public FGEArea getGeometricObject();
+	public DianaArea getGeometricObject();
 
 	@Setter(value = GEOMETRIC_OBJECT_KEY)
-	public void setGeometricObject(FGEArea geometricObject);
+	public void setGeometricObject(DianaArea geometricObject);
 
 	// *******************************************************************************
 	// * Utils
@@ -125,7 +125,7 @@ public interface GeometricGraphicalRepresentation extends GraphicalRepresentatio
 
 	/*public Rectangle getBounds(double scale);
 
-	public void paintGeometricObject(FGEGeometricGraphics graphics);
+	public void paintGeometricObject(DianaGeometricGraphics graphics);
 
 	public List<ControlPoint> getControlPoints();
 

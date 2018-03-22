@@ -38,7 +38,7 @@
 
 package org.openflexo.diana.layout.impl;
 
-import org.openflexo.diana.impl.FGELayoutManagerSpecificationImpl;
+import org.openflexo.diana.impl.DianaLayoutManagerSpecificationImpl;
 import org.openflexo.diana.layout.FlowLayoutManager;
 import org.openflexo.diana.layout.FlowLayoutManagerSpecification;
 
@@ -48,7 +48,7 @@ import org.openflexo.diana.layout.FlowLayoutManagerSpecification;
  * @author fabien
  * 
  */
-public abstract class FlowLayoutManagerSpecificationImpl extends FGELayoutManagerSpecificationImpl<FlowLayoutManager<?>>
+public abstract class FlowLayoutManagerSpecificationImpl extends DianaLayoutManagerSpecificationImpl<FlowLayoutManager<?>>
 		implements FlowLayoutManagerSpecification {
 
 	@Override

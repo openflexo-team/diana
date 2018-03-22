@@ -46,15 +46,15 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.ColorBackgroundStyle;
+import org.openflexo.diana.Drawing.RootNode;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.ForegroundStyle;
-import org.openflexo.diana.GraphicalRepresentation;
-import org.openflexo.diana.Drawing.RootNode;
 import org.openflexo.diana.GRBinding.DrawingGRBinding;
-import org.openflexo.diana.geom.FGEDimension;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.graphics.FGEDrawingGraphics;
+import org.openflexo.diana.GraphicalRepresentation;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.graphics.DianaDrawingGraphics;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 
 public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepresentation> implements RootNode<M> {
@@ -63,11 +63,11 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 
 	private BackgroundStyle bgStyle;
 
-	private static FGECachedModelFactory BACKGROUND_FACTORY = null;
+	private static DianaCachedModelFactory BACKGROUND_FACTORY = null;
 
 	static {
 		try {
-			BACKGROUND_FACTORY = new FGECachedModelFactory();
+			BACKGROUND_FACTORY = new DianaCachedModelFactory();
 		} catch (ModelDefinitionException e) {
 			logger.severe(e.getMessage());
 			e.printStackTrace();
@@ -109,8 +109,8 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 	 * @return
 	 */
 	@Override
-	public FGERectangle getBounds() {
-		return new FGERectangle(0, 0, getWidth(), getHeight());
+	public DianaRectangle getBounds() {
+		return new DianaRectangle(0, 0, getWidth(), getHeight());
 	}
 
 	@Override
@@ -134,8 +134,8 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 	}
 
 	@Override
-	public FGERectangle getNormalizedBounds() {
-		return new FGERectangle(0, 0, getWidth(), getHeight(), Filling.FILLED);
+	public DianaRectangle getNormalizedBounds() {
+		return new DianaRectangle(0, 0, getWidth(), getHeight(), Filling.FILLED);
 	}
 
 	@Override
@@ -204,12 +204,12 @@ public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepres
 	}
 
 	@Override
-	public FGEDimension getRequiredLabelSize() {
+	public DianaDimension getRequiredLabelSize() {
 		return null;
 	}
 
 	@Override
-	public void paint(FGEDrawingGraphics g) {
+	public void paint(DianaDrawingGraphics g) {
 
 		// Paint container properties (layout managers)
 		super.paint(g);

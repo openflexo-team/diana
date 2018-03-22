@@ -46,19 +46,18 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.Drawing;
-import org.openflexo.diana.FGEModelFactory;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.control.notifications.ControlNotification;
 import org.openflexo.diana.control.notifications.ScaleChanged;
 import org.openflexo.diana.impl.DrawingImpl;
 import org.openflexo.diana.view.ConnectorView;
+import org.openflexo.diana.view.DianaView;
 import org.openflexo.diana.view.DianaViewFactory;
 import org.openflexo.diana.view.DrawingView;
-import org.openflexo.diana.view.FGEView;
 import org.openflexo.diana.view.ShapeView;
 import org.openflexo.gina.ApplicationFIBLibrary.ApplicationFIBLibraryImpl;
 import org.openflexo.gina.FIBLibrary;
@@ -95,7 +94,7 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 	/**
 	 * This factory is the one which is used to creates and maintains object graph
 	 */
-	private final FGEModelFactory factory;
+	private final DianaModelFactory factory;
 
 	/**
 	 * This is the view factory installed for this editor
@@ -107,11 +106,11 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 	 */
 	private final DianaToolFactory<C> toolFactory;
 
-	protected Map<DrawingTreeNode<?, ?>, FGEView<?, ? extends C>> contents;
+	protected Map<DrawingTreeNode<?, ?>, DianaView<?, ? extends C>> contents;
 
 	private final PropertyChangeSupport pcSupport;
 
-	public AbstractDianaEditor(Drawing<M> aDrawing, FGEModelFactory factory, F dianaFactory, DianaToolFactory<C> toolFactory) {
+	public AbstractDianaEditor(Drawing<M> aDrawing, DianaModelFactory factory, F dianaFactory, DianaToolFactory<C> toolFactory) {
 		super();
 
 		pcSupport = new PropertyChangeSupport(this);
@@ -144,7 +143,7 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 		return null;
 	}
 
-	public FGEModelFactory getFactory() {
+	public DianaModelFactory getFactory() {
 		return factory;
 	}
 
@@ -257,7 +256,7 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 	 * 
 	 * @return
 	 */
-	public Map<DrawingTreeNode<?, ?>, FGEView<?, ? extends C>> getContents() {
+	public Map<DrawingTreeNode<?, ?>, DianaView<?, ? extends C>> getContents() {
 		return contents;
 	}
 
@@ -267,7 +266,7 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 	 * @param node
 	 * @return
 	 */
-	public <O> FGEView<?, ? extends C> viewForNode(DrawingTreeNode<?, ?> node) {
+	public <O> DianaView<?, ? extends C> viewForNode(DrawingTreeNode<?, ?> node) {
 		return contents.get(node);
 	}
 

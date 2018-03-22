@@ -68,7 +68,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.control.DianaInteractiveViewer;
@@ -76,10 +76,10 @@ import org.openflexo.diana.control.actions.DNDInfo;
 import org.openflexo.diana.control.actions.MoveAction;
 import org.openflexo.diana.control.actions.MoveAction.ShapeNodeTransferable;
 import org.openflexo.diana.control.actions.MoveAction.TransferedShapeNode;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.swing.view.JDrawingView;
 import org.openflexo.diana.swing.view.JShapeView;
-import org.openflexo.diana.view.FGEView;
+import org.openflexo.diana.view.DianaView;
 
 import sun.awt.dnd.SunDragSourceContextPeer;
 
@@ -104,7 +104,7 @@ public class JDNDInfo implements DNDInfo {
 	private DianaInteractiveViewer<?, ?, ?> controller;
 	private ShapeNode<?> draggedObject;
 
-	private Hashtable<FGEView<?, ?>, DropTarget> dropTargets;
+	private Hashtable<DianaView<?, ?>, DropTarget> dropTargets;
 
 	public JDNDInfo(MoveAction moveAction, ShapeNode<?> shapeNode, DianaInteractiveViewer<?, ?, ?> controller,
 			final JMouseControlContext initialContext) {
@@ -167,10 +167,10 @@ public class JDNDInfo implements DNDInfo {
 		if (dropTargets != null) {
 			dropTargets.clear();
 		}
-		dropTargets = new Hashtable<FGEView<?, ?>, DropTarget>();
+		dropTargets = new Hashtable<DianaView<?, ?>, DropTarget>();
 
 		for (DrawingTreeNode<?, ?> node : controller.getContents().keySet()) {
-			FGEView<?, ?> view = controller.getContents().get(node);
+			DianaView<?, ?> view = controller.getContents().get(node);
 			if (((Component) view).getDropTarget() != null) {
 				dropTargets.put(view, ((Component) view).getDropTarget());
 			}
@@ -180,7 +180,7 @@ public class JDNDInfo implements DNDInfo {
 	}
 
 	protected void disableDragging() {
-		for (FGEView<?, ?> v : dropTargets.keySet()) {
+		for (DianaView<?, ?> v : dropTargets.keySet()) {
 			((Component) v).setDropTarget(dropTargets.get(v));
 		}
 		dgr.setComponent(null);
@@ -456,7 +456,7 @@ public class JDNDInfo implements DNDInfo {
 					ShapeGraphicalRepresentation element = ((TransferedShapeNode)e.getTransferable().getTransferData(ShapeNodeTransferable.defaultFlavor())).getTransferedElement();
 					GraphicalRepresentation focused = getFocusedObject(e);
 					if (focused instanceof ShapeGraphicalRepresentation) { 
-						element.dragOutsideParentContainerInsideContainer((ShapeGraphicalRepresentation)focused,new FGEPoint(0,0),true);
+						element.dragOutsideParentContainerInsideContainer((ShapeGraphicalRepresentation)focused,new DianaPoint(0,0),true);
 					}
 
 				} catch (UnsupportedFlavorException e1) {
@@ -556,12 +556,12 @@ public class JDNDInfo implements DNDInfo {
 								(ShapeNode<?>) focused)) {
 							Component targetComponent = e.getDropTargetContext().getComponent();
 							Point pt = e.getLocation();
-							FGEPoint modelLocation = new FGEPoint();
-							if (targetComponent instanceof FGEView) {
-								pt = FGEUtils.convertPoint(((FGEView<?, ?>) targetComponent).getNode(), pt, focused,
-										((FGEView<?, ?>) targetComponent).getScale());
-								modelLocation.x = pt.x / ((FGEView<?, ?>) targetComponent).getScale();
-								modelLocation.y = pt.y / ((FGEView<?, ?>) targetComponent).getScale();
+							DianaPoint modelLocation = new DianaPoint();
+							if (targetComponent instanceof DianaView) {
+								pt = DianaUtils.convertPoint(((DianaView<?, ?>) targetComponent).getNode(), pt, focused,
+										((DianaView<?, ?>) targetComponent).getScale());
+								modelLocation.x = pt.x / ((DianaView<?, ?>) targetComponent).getScale();
+								modelLocation.y = pt.y / ((DianaView<?, ?>) targetComponent).getScale();
 								modelLocation.x -= ((TransferedShapeNode) data).getOffset().x;
 								modelLocation.y -= ((TransferedShapeNode) data).getOffset().y;
 							} else {
@@ -601,15 +601,15 @@ public class JDNDInfo implements DNDInfo {
 		}
 
 		private JFocusRetriever getFocusRetriever() {
-			if (_dropContainer instanceof FGEView) {
+			if (_dropContainer instanceof DianaView) {
 				return getDrawingView().getFocusRetriever();
 			}
 			return null;
 		}
 
-		private FGEView<?, ?> getFGEView() {
-			if (_dropContainer instanceof FGEView) {
-				return (FGEView<?, ?>) _dropContainer;
+		private DianaView<?, ?> getDianaView() {
+			if (_dropContainer instanceof DianaView) {
+				return (DianaView<?, ?>) _dropContainer;
 			}
 			return null;
 		}
@@ -618,12 +618,12 @@ public class JDNDInfo implements DNDInfo {
 			if (getFocusRetriever() != null) {
 				DrawingTreeNode<?, ?> returned = getFocusRetriever().getFocusedObject(event);
 				if (returned == null) {
-					// Since we are in a FGEView, a null value indicates that we are on the Drawing view
-					return getFGEView().getNode().getDrawing().getRoot();
+					// Since we are in a DianaView, a null value indicates that we are on the Drawing view
+					return getDianaView().getNode().getDrawing().getRoot();
 				}
 				return returned;
 			}
-			// No focus retriever: we are not in a FGEView....
+			// No focus retriever: we are not in a DianaView....
 			return null;
 		}
 
@@ -631,12 +631,12 @@ public class JDNDInfo implements DNDInfo {
 			if (getFocusRetriever() != null) {
 				DrawingTreeNode<?, ?> returned = getFocusRetriever().getFocusedObject(event);
 				if (returned == null) {
-					// Since we are in a FGEView, a null value indicates that we are on the Drawing view
-					return getFGEView().getNode().getDrawing().getRoot();
+					// Since we are in a DianaView, a null value indicates that we are on the Drawing view
+					return getDianaView().getNode().getDrawing().getRoot();
 				}
 				return returned;
 			}
-			// No focus retriever: we are not in a FGEView....
+			// No focus retriever: we are not in a DianaView....
 			return null;
 		}
 

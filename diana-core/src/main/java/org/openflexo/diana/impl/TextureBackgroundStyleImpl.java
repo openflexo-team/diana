@@ -39,7 +39,7 @@
 package org.openflexo.diana.impl;
 
 import org.openflexo.diana.TextureBackgroundStyle;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 
 public abstract class TextureBackgroundStyleImpl extends BackgroundStyleImpl implements TextureBackgroundStyle {
 
@@ -75,7 +75,7 @@ public abstract class TextureBackgroundStyleImpl extends BackgroundStyleImpl imp
 			TextureBackgroundStyle.TextureType oldTexture = textureType;
 			this.textureType = aTextureType;
 			// rebuildColoredTexture();
-			notifyObservers(new FGEAttributeNotification<>(TEXTURE_TYPE, oldTexture, aTextureType));
+			notifyObservers(new DianaAttributeNotification<>(TEXTURE_TYPE, oldTexture, aTextureType));
 		}
 	}
 
@@ -90,7 +90,7 @@ public abstract class TextureBackgroundStyleImpl extends BackgroundStyleImpl imp
 			java.awt.Color oldColor = color1;
 			this.color1 = aColor;
 			// rebuildColoredTexture();
-			notifyObservers(new FGEAttributeNotification<>(COLOR1, oldColor, aColor));
+			notifyObservers(new DianaAttributeNotification<>(COLOR1, oldColor, aColor));
 		}
 	}
 
@@ -105,7 +105,7 @@ public abstract class TextureBackgroundStyleImpl extends BackgroundStyleImpl imp
 			java.awt.Color oldColor = color2;
 			this.color2 = aColor;
 			// rebuildColoredTexture();
-			notifyObservers(new FGEAttributeNotification<>(COLOR2, oldColor, aColor));
+			notifyObservers(new DianaAttributeNotification<>(COLOR2, oldColor, aColor));
 		}
 	}
 

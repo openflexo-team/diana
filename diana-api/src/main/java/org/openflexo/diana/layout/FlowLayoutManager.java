@@ -38,7 +38,7 @@
 
 package org.openflexo.diana.layout;
 
-import org.openflexo.diana.FGELayoutManager;
+import org.openflexo.diana.DianaLayoutManager;
 import org.openflexo.diana.layout.FlowLayoutManagerSpecification.FlowOrientationType;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.XMLElement;
@@ -51,7 +51,7 @@ import org.openflexo.model.annotations.XMLElement;
  */
 @ModelEntity
 @XMLElement
-public interface FlowLayoutManager<O> extends FGELayoutManager<FlowLayoutManagerSpecification, O> {
+public interface FlowLayoutManager<O> extends DianaLayoutManager<FlowLayoutManagerSpecification, O> {
 
 	public FlowOrientationType getFlowOrientationType();
 

@@ -43,39 +43,39 @@ import java.awt.event.MouseEvent;
 import java.util.Vector;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.connectors.impl.RectPolylinConnector;
-import org.openflexo.diana.geom.FGEGeometricObject;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectPolylin;
-import org.openflexo.diana.geom.FGEGeometricObject.SimplifiedCardinalDirection;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEPlane;
+import org.openflexo.diana.geom.DianaGeometricObject;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectPolylin;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaPlane;
 
 public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPoint {
 	static final Logger LOGGER = Logger.getLogger(AdjustableMiddleControlPoint.class.getPackage().getName());
 
-	public AdjustableMiddleControlPoint(FGEPoint point, RectPolylinConnector connector) {
+	public AdjustableMiddleControlPoint(DianaPoint point, RectPolylinConnector connector) {
 		super(point, connector);
 	}
 
 	@Override
-	public FGEArea getDraggingAuthorizedArea() {
-		return new FGEPlane();
+	public DianaArea getDraggingAuthorizedArea() {
+		return new DianaPlane();
 	}
 
 	@Override
-	public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-			FGEPoint initialPoint, MouseEvent event) {
-		FGEPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+	public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+			DianaPoint initialPoint, MouseEvent event) {
+		DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
 		if (pt == null) {
 			LOGGER.warning("Cannot nearest point for point " + newRelativePoint + " and area " + getDraggingAuthorizedArea());
 			return false;
 		}
 		// Following little hack is used here to prevent some equalities that may
 		// lead to inconsistent orientations
-		pt.x += FGEGeometricObject.EPSILON;
-		pt.y += FGEGeometricObject.EPSILON;
+		pt.x += DianaGeometricObject.EPSILON;
+		pt.y += DianaGeometricObject.EPSILON;
 		setPoint(pt);
 		getPolylin().updatePointAt(1, pt);
 		movedMiddleCP();
@@ -85,7 +85,7 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 	}
 
 	private void movedMiddleCP() {
-		FGEArea startArea = getConnector().retrieveAllowedStartArea(false);
+		DianaArea startArea = getConnector().retrieveAllowedStartArea(false);
 
 		Vector<SimplifiedCardinalDirection> allowedStartOrientations = getConnector().getPrimitiveAllowedStartOrientations();
 		Vector<SimplifiedCardinalDirection> allowedEndOrientations = getConnector().getPrimitiveAllowedEndOrientations();
@@ -97,7 +97,7 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 			allowedStartOrientations = getConnector().getAllowedStartOrientations();
 		}
 
-		FGEArea endArea = getConnector().retrieveAllowedEndArea(false);
+		DianaArea endArea = getConnector().retrieveAllowedEndArea(false);
 
 		if (getConnectorSpecification().getIsEndingLocationFixed() && !getConnectorSpecification().getIsEndingLocationDraggable()) {
 			// If starting location is fixed and not draggable,
@@ -111,11 +111,11 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 		System.out.println("allowedStartOrientations="+allowedStartOrientations);
 		System.out.println("allowedEndOrientations="+allowedEndOrientations);*/
 
-		FGERectPolylin newPolylin;
+		DianaRectPolylin newPolylin;
 
-		FGEPoint middleCPLocation = getPoint();
+		DianaPoint middleCPLocation = getPoint();
 
-		newPolylin = FGERectPolylin.makeRectPolylinCrossingPoint(startArea, endArea, middleCPLocation, true, getConnector()
+		newPolylin = DianaRectPolylin.makeRectPolylinCrossingPoint(startArea, endArea, middleCPLocation, true, getConnector()
 				.getOverlapXResultingFromPixelOverlap(), getConnector().getOverlapYResultingFromPixelOverlap(), SimplifiedCardinalDirection
 				.allDirectionsExcept(allowedStartOrientations), SimplifiedCardinalDirection.allDirectionsExcept(allowedEndOrientations));
 
@@ -126,11 +126,11 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 
 		if (getConnectorSpecification().getIsStartingLocationFixed()) { // Don't forget this !!!
 			getConnector().setFixedStartLocation(
-					FGEUtils.convertNormalizedPoint(getNode(), newPolylin.getFirstPoint(), getNode().getStartNode()));
+					DianaUtils.convertNormalizedPoint(getNode(), newPolylin.getFirstPoint(), getNode().getStartNode()));
 		}
 		if (getConnectorSpecification().getIsEndingLocationFixed()) { // Don't forget this !!!
 			getConnector().setFixedEndLocation(
-					FGEUtils.convertNormalizedPoint(getNode(), newPolylin.getLastPoint(), getNode().getEndNode()));
+					DianaUtils.convertNormalizedPoint(getNode(), newPolylin.getLastPoint(), getNode().getEndNode()));
 		}
 
 		if (newPolylin.isNormalized()) {
@@ -149,7 +149,7 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 	/*private void movedMiddleCP()
 	{
 
-		FGEArea startArea = getConnector().retrieveAllowedStartArea(false);
+		DianaArea startArea = getConnector().retrieveAllowedStartArea(false);
 		
 		if (getConnector().getIsStartingLocationFixed() 
 				&& !getConnector().getIsStartingLocationDraggable()) {
@@ -158,7 +158,7 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 			startArea = getConnector().retrieveStartArea();
 		}
 						
-		FGEArea endArea = getConnector().retrieveAllowedEndArea(false);
+		DianaArea endArea = getConnector().retrieveAllowedEndArea(false);
 		
 		if (getConnector().getIsEndingLocationFixed() 
 				&& !getConnector().getIsEndingLocationDraggable()) {
@@ -167,7 +167,7 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 			endArea = getConnector().retrieveEndArea();
 		}
 		
-		FGEPoint middleCPLocation = getPoint();
+		DianaPoint middleCPLocation = getPoint();
 		//SimplifiedCardinalDirection initialStartOrientation = initialPolylin.getApproximatedOrientationOfSegment(0);
 		//SimplifiedCardinalDirection initialEndOrientation = initialPolylin.getApproximatedOrientationOfSegment(1).getOpposite();
 
@@ -181,7 +181,7 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 			}
 		}
 		if (startOrientation == null) {
-			CardinalQuadrant quadrant = FGEPoint.getCardinalQuadrant(getPolylin().getFirstPoint(),middleCPLocation);			
+			CardinalQuadrant quadrant = DianaPoint.getCardinalQuadrant(getPolylin().getFirstPoint(),middleCPLocation);			
 			startOrientation = quadrant.getHorizonalComponent();
 			altStartOrientation = quadrant.getVerticalComponent();
 		}
@@ -196,7 +196,7 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 			}
 		}
 		if (endOrientation == null) {
-			CardinalQuadrant quadrant = FGEPoint.getCardinalQuadrant(middleCPLocation, getPolylin().getLastPoint());			
+			CardinalQuadrant quadrant = DianaPoint.getCardinalQuadrant(middleCPLocation, getPolylin().getLastPoint());			
 			endOrientation = quadrant.getHorizonalComponent().getOpposite();
 			altEndOrientation = quadrant.getVerticalComponent().getOpposite();
 		}
@@ -205,7 +205,7 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 
 		if (startArea.getOrthogonalPerspectiveArea(startOrientation).containsPoint(middleCPLocation)) {
 			// OK, the new location will not modify general structure of connector
-			FGEPoint newPoint = new FGEPoint(getPolylin().getFirstPoint());
+			DianaPoint newPoint = new DianaPoint(getPolylin().getFirstPoint());
 			if (startOrientation.isHorizontal()) {
 				newPoint.setY(middleCPLocation.y);
 			}
@@ -222,7 +222,7 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 
 		if (endArea.getOrthogonalPerspectiveArea(endOrientation).containsPoint(middleCPLocation)) {
 			// OK, the new location will not modify general structure of connector
-			FGEPoint newPoint = new FGEPoint(getPolylin().getLastPoint());
+			DianaPoint newPoint = new DianaPoint(getPolylin().getLastPoint());
 			if (endOrientation.isHorizontal()) {
 				newPoint.setY(middleCPLocation.y);
 			}
@@ -242,11 +242,11 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 		int alternatives = 1;
 		if (altStartOrientation != null) alternatives=alternatives*2;
 		if (altEndOrientation != null) alternatives=alternatives*2;
-		FGERectPolylin[] newPolylins = new FGERectPolylin[alternatives]; 
+		DianaRectPolylin[] newPolylins = new DianaRectPolylin[alternatives]; 
 
 		int n=0;
 		newPolylins[n++] 
-		            = FGERectPolylin.makeRectPolylinCrossingPoint(
+		            = DianaRectPolylin.makeRectPolylinCrossingPoint(
 		            		getPolylin().getFirstPoint(), 
 		            		getPolylin().getLastPoint(), 
 		            		middleCPLocation, 
@@ -256,7 +256,7 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 
 		if (altStartOrientation != null) {
 			newPolylins[n++] 
-			            = FGERectPolylin.makeRectPolylinCrossingPoint(
+			            = DianaRectPolylin.makeRectPolylinCrossingPoint(
 			            		getPolylin().getFirstPoint(), 
 			            		getPolylin().getLastPoint(), 
 			            		middleCPLocation, 
@@ -265,7 +265,7 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 			            		true, getConnector().getOverlapXResultingFromPixelOverlap(), getConnector().getOverlapYResultingFromPixelOverlap());
 			if (altEndOrientation != null) {
 				newPolylins[n++] 
-				            = FGERectPolylin.makeRectPolylinCrossingPoint(
+				            = DianaRectPolylin.makeRectPolylinCrossingPoint(
 				            		getPolylin().getFirstPoint(), 
 				            		getPolylin().getLastPoint(), 
 				            		middleCPLocation, 
@@ -276,7 +276,7 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 		}
 		if (altEndOrientation != null) {
 			newPolylins[n++] 
-			            = FGERectPolylin.makeRectPolylinCrossingPoint(
+			            = DianaRectPolylin.makeRectPolylinCrossingPoint(
 			            		getPolylin().getFirstPoint(), 
 			            		getPolylin().getLastPoint(), 
 			            		middleCPLocation, 
@@ -285,7 +285,7 @@ public class AdjustableMiddleControlPoint extends RectPolylinAdjustableControlPo
 			            		true, getConnector().getOverlapXResultingFromPixelOverlap(), getConnector().getOverlapYResultingFromPixelOverlap());
 		}
 
-		FGERectPolylin newPolylin = null;
+		DianaRectPolylin newPolylin = null;
 
 		for (int i=0; i<alternatives; i++) {
 			if (!newPolylins[i].crossedItSelf() && newPolylin == null) 

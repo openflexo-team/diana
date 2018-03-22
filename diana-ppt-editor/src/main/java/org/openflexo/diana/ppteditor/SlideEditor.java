@@ -44,7 +44,7 @@ import javax.swing.JPopupMenu;
 
 import org.apache.poi.hslf.model.Slide;
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
-import org.openflexo.diana.FGECoreUtils;
+import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.ShapeNode;
@@ -65,7 +65,7 @@ public class SlideEditor extends JDianaInteractiveEditor<Slide> {
 	// private Shape copiedShape;
 
 	public SlideEditor(final SlideDrawing aDrawing) {
-		super(aDrawing, FGECoreUtils.TOOLS_FACTORY, SwingToolFactory.DEFAULT);
+		super(aDrawing, DianaCoreUtils.TOOLS_FACTORY, SwingToolFactory.DEFAULT);
 
 		DrawShapeAction drawShapeAction = new DrawShapeAction() {
 			@Override

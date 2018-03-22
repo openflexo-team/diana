@@ -40,12 +40,12 @@
 package org.openflexo.diana.view;
 
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.graphics.FGEShapeGraphics;
+import org.openflexo.diana.graphics.DianaShapeGraphics;
 
-public interface ShapeView<O, C> extends FGEContainerView<O, C> {
+public interface ShapeView<O, C> extends DianaContainerView<O, C> {
 
 	public abstract ShapeNode<O> getNode();
 
-	public FGEShapeGraphics getFGEGraphics();
+	public DianaShapeGraphics getDianaGraphics();
 
 }

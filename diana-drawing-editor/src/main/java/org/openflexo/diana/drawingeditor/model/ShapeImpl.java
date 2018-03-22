@@ -60,7 +60,7 @@ public abstract class ShapeImpl extends DiagramElementImpl<Shape, ShapeGraphical
 	}
 
 	// Called for NEW
-	/*public ShapeImpl(ShapeType shape, FGEPoint p, DiagramDrawing drawing) {
+	/*public ShapeImpl(ShapeType shape, DianaPoint p, DiagramDrawing drawing) {
 		super(drawing.getModel());
 		MyShapeGraphicalRepresentation gr = drawing.getModel().getFactory().makeNewShapeGR(shape, this, drawing);
 		if (gr.getDimensionConstraints() == DimensionConstraints.CONSTRAINED_DIMENSIONS) {
@@ -75,7 +75,7 @@ public abstract class ShapeImpl extends DiagramElementImpl<Shape, ShapeGraphical
 		setGraphicalRepresentation(gr);
 	}
 
-	public ShapeImpl(ShapeGraphicalRepresentation aGR, FGEPoint p, DiagramDrawing drawing) {
+	public ShapeImpl(ShapeGraphicalRepresentation aGR, DianaPoint p, DiagramDrawing drawing) {
 		super(drawing.getModel());
 		MyShapeGraphicalRepresentation gr = drawing.getModel().getFactory().makeNewShapeGR(aGR, this, drawing);
 		gr.setX(p.x);

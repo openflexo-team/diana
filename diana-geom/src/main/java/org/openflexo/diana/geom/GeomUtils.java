@@ -86,15 +86,15 @@ public class GeomUtils {
 	}
 
 	public static final boolean doubleEquals(double v1, double v2) {
-		return Math.abs(v1 - v2) < FGEGeometricObject.EPSILON;
+		return Math.abs(v1 - v2) < DianaGeometricObject.EPSILON;
 	}
 
-	public static double getSlope(FGEPoint p1, FGEPoint p2) {
+	public static double getSlope(DianaPoint p1, DianaPoint p2) {
 		double x = p2.x - p1.x;
 		double y = p2.y - p1.y;
 		// GPO: In some rare cases, it seems that this returns -PI/2 instead of 3PI/2
-		// Example: new FGESegment(0.05369127516778524,0.06451612903225806,0.053691275167785234,-0.5806451612903225)
-		// FGESegment.getAngle() has been fixed since but if it re-appears, maybe we should uncomment the code below
+		// Example: new DianaSegment(0.05369127516778524,0.06451612903225806,0.053691275167785234,-0.5806451612903225)
+		// DianaSegment.getAngle() has been fixed since but if it re-appears, maybe we should uncomment the code below
 		// Mainly, calling methods should take into account that this method can return a value -PI/2 or 3PI/2
 		return Math.atan2(/* Math.abs(x)<EPSILON?0:x, Math.abs(y)<EPSILON?0:y */x, y) + Math.PI / 2;
 	}

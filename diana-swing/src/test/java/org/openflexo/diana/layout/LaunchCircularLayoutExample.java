@@ -53,8 +53,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.openflexo.diana.Drawing;
-import org.openflexo.diana.FGEModelFactory;
-import org.openflexo.diana.FGEModelFactoryImpl;
+import org.openflexo.diana.DianaModelFactory;
+import org.openflexo.diana.DianaModelFactoryImpl;
 import org.openflexo.diana.swing.JDianaInteractiveEditor;
 import org.openflexo.diana.swing.SwingViewFactory;
 import org.openflexo.diana.swing.control.SwingToolFactory;
@@ -161,9 +161,9 @@ public class LaunchCircularLayoutExample {
 	}
 
 	public static CircularDrawing makeDrawing() {
-		FGEModelFactory factory = null;
+		DianaModelFactory factory = null;
 		try {
-			factory = new FGEModelFactoryImpl();
+			factory = new DianaModelFactoryImpl();
 		} catch (ModelDefinitionException e) {
 			e.printStackTrace();
 		}

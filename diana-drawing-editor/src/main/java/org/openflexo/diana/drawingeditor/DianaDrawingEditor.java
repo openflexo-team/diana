@@ -46,7 +46,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
@@ -58,11 +58,11 @@ import org.openflexo.diana.drawingeditor.model.Diagram;
 import org.openflexo.diana.drawingeditor.model.DiagramElement;
 import org.openflexo.diana.drawingeditor.model.DiagramFactory;
 import org.openflexo.diana.drawingeditor.model.Shape;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.diana.swing.JDianaInteractiveEditor;
 import org.openflexo.diana.swing.control.SwingToolFactory;
-import org.openflexo.diana.view.FGEView;
+import org.openflexo.diana.view.DianaView;
 import org.openflexo.exceptions.CopyException;
 import org.openflexo.exceptions.CutException;
 import org.openflexo.exceptions.PasteException;
@@ -99,7 +99,7 @@ public class DianaDrawingEditor extends JDianaInteractiveEditor<Diagram> {
 						"OK, perform draw new connector with " + graphicalRepresentation + " start: " + startNode + " end: " + endNode);
 				Connector newConnector = getFactory().makeNewConnector(graphicalRepresentation, (Shape) startNode.getDrawable(),
 						(Shape) endNode.getDrawable(), getDrawing().getModel());
-				DrawingTreeNode<?, ?> fatherNode = FGEUtils.getFirstCommonAncestor(startNode, endNode);
+				DrawingTreeNode<?, ?> fatherNode = DianaUtils.getFirstCommonAncestor(startNode, endNode);
 				((DiagramElement<?, ?>) fatherNode.getDrawable()).addToConnectors(newConnector);
 
 			}
@@ -115,7 +115,7 @@ public class DianaDrawingEditor extends JDianaInteractiveEditor<Diagram> {
 			menuItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Shape newShape = getFactory().makeNewShape(st, new FGEPoint(getLastClickedPoint()), getDrawing().getModel());
+					Shape newShape = getFactory().makeNewShape(st, new DianaPoint(getLastClickedPoint()), getDrawing().getModel());
 					getDrawing().getModel().addToShapes(newShape);
 				}
 			});
@@ -216,13 +216,13 @@ public class DianaDrawingEditor extends JDianaInteractiveEditor<Diagram> {
 	public void addNewConnector(Connector aConnector, DiagramElement father) {
 		// ShapeGraphicalRepresentation startObject = aConnector.getStartObject();
 		// ShapeGraphicalRepresentation endObject = aConnector.getEndObject();
-		// GraphicalRepresentation fatherGR = FGEUtils.getFirstCommonAncestor(startObject, endObject);
+		// GraphicalRepresentation fatherGR = DianaUtils.getFirstCommonAncestor(startObject, endObject);
 		// ((DiagramElement) fatherGR.getDrawable()).addToChilds(aConnector);
 		// getDrawing().addDrawable(aConnector, fatherGR.getDrawable());
 		father.addToConnectors(aConnector);
 	}
 
-	public void showContextualMenu(DrawingTreeNode<?, ?> dtn, FGEView<?, ?> view, Point p) {
+	public void showContextualMenu(DrawingTreeNode<?, ?> dtn, DianaView<?, ?> view, Point p) {
 		// contextualMenuInvoker = dtn;
 		// contextualMenuClickedPoint = p;
 		contextualMenu.show((Component) view, p.x, p.y);
@@ -244,7 +244,7 @@ public class DianaDrawingEditor extends JDianaInteractiveEditor<Diagram> {
 	}
 
 	@Override
-	protected void prepareClipboardForPasting(FGEPoint proposedPastingLocation) {
+	protected void prepareClipboardForPasting(DianaPoint proposedPastingLocation) {
 		logger.info("Pasting in " + getPastingContext().getDrawable() + " at " + proposedPastingLocation);
 		if (getClipboard().isSingleObject()) {
 			if (getClipboard().getSingleContents() instanceof Shape) {

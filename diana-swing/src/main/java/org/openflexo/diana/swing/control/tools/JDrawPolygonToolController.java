@@ -50,8 +50,8 @@ import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.control.DianaInteractiveEditor;
 import org.openflexo.diana.control.actions.DrawShapeAction;
 import org.openflexo.diana.control.tools.DrawPolygonToolController;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.swing.graphics.JFGEGeometricGraphics;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.swing.graphics.JDianaGeometricGraphics;
 import org.openflexo.diana.swing.view.JDrawingView;
 
 /**
@@ -90,23 +90,23 @@ public class JDrawPolygonToolController extends DrawPolygonToolController<MouseE
 	/**
 	 * Return point where event occurs, relative to DrawingView
 	 */
-	public FGEPoint getPoint(MouseEvent e) {
+	public DianaPoint getPoint(MouseEvent e) {
 		Point pt = SwingUtilities.convertPoint((Component) e.getSource(), e.getPoint(), getDrawingView());
-		return new FGEPoint(pt.getX(), pt.getY());
+		return new DianaPoint(pt.getX(), pt.getY());
 
 		// return getCurrentEditedShape().convertRemoteViewCoordinatesToLocalNormalizedPoint(pt, getController().getDrawing().getRoot(),
 		// getController().getScale());
 	}
 
 	@Override
-	public JFGEGeometricGraphics makeGraphics(ForegroundStyle foregroundStyle) {
-		JFGEGeometricGraphics returned = new JFGEGeometricGraphics(getCurrentEditedShape(), getDrawingView());
+	public JDianaGeometricGraphics makeGraphics(ForegroundStyle foregroundStyle) {
+		JDianaGeometricGraphics returned = new JDianaGeometricGraphics(getCurrentEditedShape(), getDrawingView());
 		returned.setDefaultForeground(foregroundStyle);
 		return returned;
 	}
 
 	@Override
-	public JFGEGeometricGraphics getGraphics() {
-		return (JFGEGeometricGraphics) super.getGraphics();
+	public JDianaGeometricGraphics getGraphics() {
+		return (JDianaGeometricGraphics) super.getGraphics();
 	}
 }

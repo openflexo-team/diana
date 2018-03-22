@@ -40,9 +40,9 @@
 package org.openflexo.diana.shapes.impl;
 
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.geom.FGEEllips;
-import org.openflexo.diana.geom.FGEShape;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaEllips;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.shapes.Oval;
 
 public abstract class OvalImpl extends ShapeSpecificationImpl implements Oval {
@@ -55,8 +55,8 @@ public abstract class OvalImpl extends ShapeSpecificationImpl implements Oval {
 	}
 
 	@Override
-	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
-		return new FGEEllips(0, 0, 1, 1, Filling.FILLED);
+	public DianaShape<?> makeDianaShape(ShapeNode<?> node) {
+		return new DianaEllips(0, 0, 1, 1, Filling.FILLED);
 	}
 
 	@Override

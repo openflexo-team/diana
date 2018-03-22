@@ -43,7 +43,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.type.TypeUtils;
-import org.openflexo.diana.graph.FGEContinuousSimpleFunctionGraph;
+import org.openflexo.diana.graph.DianaContinuousSimpleFunctionGraph;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.graph.FIBContinuousSimpleFunctionGraph;
 
@@ -61,24 +61,24 @@ public class JFIBContinuousSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBCo
 	}
 
 	@Override
-	protected FGEContinuousSimpleFunctionGraphDrawing makeGraphDrawing() {
-		return new FGEContinuousSimpleFunctionGraphDrawing(getWidget());
+	protected DianaContinuousSimpleFunctionGraphDrawing makeGraphDrawing() {
+		return new DianaContinuousSimpleFunctionGraphDrawing(getWidget());
 	}
 
-	public class FGEContinuousSimpleFunctionGraphDrawing
-			extends FGESimpleFunctionGraphDrawing<FIBContinuousSimpleFunctionGraph, FGEContinuousSimpleFunctionGraph<Number>> {
+	public class DianaContinuousSimpleFunctionGraphDrawing
+			extends DianaSimpleFunctionGraphDrawing<FIBContinuousSimpleFunctionGraph, DianaContinuousSimpleFunctionGraph<Number>> {
 
-		public FGEContinuousSimpleFunctionGraphDrawing(FIBContinuousSimpleFunctionGraph fibGraph) {
+		public DianaContinuousSimpleFunctionGraphDrawing(FIBContinuousSimpleFunctionGraph fibGraph) {
 			super(fibGraph, JFIBContinuousSimpleGraphWidget.this);
 		}
 
 		@Override
-		protected FGEContinuousSimpleFunctionGraph<Number> makeGraph(FIBContinuousSimpleFunctionGraph fibGraph) {
+		protected DianaContinuousSimpleFunctionGraph<Number> makeGraph(FIBContinuousSimpleFunctionGraph fibGraph) {
 
 			// System.out.println("Type=" + TypeUtils.getBaseClass(fibGraph.getParameterType()));
 
-			// Create the FGEGraph
-			FGEContinuousSimpleFunctionGraph<Number> returned = new FGEContinuousSimpleFunctionGraph<Number>(
+			// Create the DianaGraph
+			DianaContinuousSimpleFunctionGraph<Number> returned = new DianaContinuousSimpleFunctionGraph<Number>(
 					(Class<Number>) TypeUtils.getBaseClass(fibGraph.getParameterType()));
 			returned.setBindingFactory(fibGraph.getBindingFactory());
 

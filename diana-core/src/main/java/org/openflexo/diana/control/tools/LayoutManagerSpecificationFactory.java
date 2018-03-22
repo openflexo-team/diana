@@ -38,17 +38,17 @@
 
 package org.openflexo.diana.control.tools;
 
-import org.openflexo.diana.FGELayoutManagerSpecification;
-import org.openflexo.diana.FGELayoutManagerSpecification.LayoutManagerSpecificationType;
+import org.openflexo.diana.DianaLayoutManagerSpecification;
+import org.openflexo.diana.DianaLayoutManagerSpecification.LayoutManagerSpecificationType;
 
 /**
- * Convenient class used to manipulate FGELayoutManagerSpecification instances over FGELayoutManagerSpecification class hierarchy
+ * Convenient class used to manipulate DianaLayoutManagerSpecification instances over DianaLayoutManagerSpecification class hierarchy
  * 
  * @author sylvain
  * 
  */
 public abstract class LayoutManagerSpecificationFactory
-		implements StyleFactory<FGELayoutManagerSpecification<?>, LayoutManagerSpecificationType> {
+		implements StyleFactory<DianaLayoutManagerSpecification<?>, LayoutManagerSpecificationType> {
 
 	/*private static final Logger logger = Logger.getLogger(LayoutManagerSpecificationFactory.class.getPackage().getName());
 	
@@ -64,7 +64,7 @@ public abstract class LayoutManagerSpecificationFactory
 	private final InspectedBackgroundImageBackgroundStyle backgroundImageBackgroundStyle;
 	
 	private PropertyChangeSupport pcSupport;
-	private FGEModelFactory fgeFactory;
+	private DianaModelFactory fgeFactory;
 	
 	private final DianaInteractiveViewer<?, ?, ?> controller;
 	
@@ -74,24 +74,24 @@ public abstract class LayoutManagerSpecificationFactory
 		fgeFactory = controller.getFactory();
 		noneBackgroundStyle = new InspectedNoneBackgroundStyle(controller, controller.getFactory().makeEmptyBackground());
 		colorBackgroundStyle = new InspectedColorBackgroundStyle(controller, controller.getFactory().makeColoredBackground(
-				FGEConstants.DEFAULT_BACKGROUND_COLOR));
+				DianaConstants.DEFAULT_BACKGROUND_COLOR));
 		colorGradientBackgroundStyle = new InspectedColorGradientBackgroundStyle(controller, controller.getFactory()
-				.makeColorGradientBackground(FGEConstants.DEFAULT_BACKGROUND_COLOR, Color.WHITE,
+				.makeColorGradientBackground(DianaConstants.DEFAULT_BACKGROUND_COLOR, Color.WHITE,
 						ColorGradientDirection.SOUTH_EAST_NORTH_WEST));
 		textureBackgroundStyle = new InspectedTextureBackgroundStyle(controller, controller.getFactory().makeTexturedBackground(
-				TextureType.TEXTURE1, FGEConstants.DEFAULT_BACKGROUND_COLOR, Color.WHITE));
+				TextureType.TEXTURE1, DianaConstants.DEFAULT_BACKGROUND_COLOR, Color.WHITE));
 		noneBackgroundStyle = new InspectedNoneBackgroundStyle(controller, controller.getFactory().makeEmptyBackground());
 		backgroundImageBackgroundStyle = new InspectedBackgroundImageBackgroundStyle(controller, controller.getFactory()
-				.makeImageBackground(FGEConstants.DEFAULT_IMAGE));
+				.makeImageBackground(DianaConstants.DEFAULT_IMAGE));
 	}
 	
 	@Override
-	public FGEModelFactory getFGEFactory() {
+	public DianaModelFactory getDianaFactory() {
 		return fgeFactory;
 	}
 	
 	@Override
-	public void setFGEFactory(FGEModelFactory fgeFactory) {
+	public void setDianaFactory(DianaModelFactory fgeFactory) {
 		this.fgeFactory = fgeFactory;
 	}
 	
@@ -223,8 +223,8 @@ public abstract class LayoutManagerSpecificationFactory
 	
 	}
 	
-	protected abstract class AbstractInspectedLayoutManagerSpecification<LMS extends FGELayoutManagerSpecification<?>> extends
-			InspectedStyle<LMS> implements FGELayoutManagerSpecification<FGELayoutManager<LMS, ?>> {
+	protected abstract class AbstractInspectedLayoutManagerSpecification<LMS extends DianaLayoutManagerSpecification<?>> extends
+			InspectedStyle<LMS> implements DianaLayoutManagerSpecification<DianaLayoutManager<LMS, ?>> {
 	
 		protected AbstractInspectedLayoutManagerSpecification(DianaInteractiveViewer<?, ?, ?> controller, LMS defaultValue) {
 			super(controller, defaultValue);
@@ -232,12 +232,12 @@ public abstract class LayoutManagerSpecificationFactory
 	
 		@Override
 		public String getIdentifier() {
-			return getPropertyValue(FGELayoutManagerSpecification.IDENTIFIER);
+			return getPropertyValue(DianaLayoutManagerSpecification.IDENTIFIER);
 		}
 	
 		@Override
 		public void setIdentifier(String identifier) {
-			setPropertyValue(FGELayoutManagerSpecification.IDENTIFIER, identifier);
+			setPropertyValue(DianaLayoutManagerSpecification.IDENTIFIER, identifier);
 		}
 	
 		@Override
@@ -267,48 +267,48 @@ public abstract class LayoutManagerSpecificationFactory
 	
 		@Override
 		public Boolean paintDecoration() {
-			return getPropertyValue(FGELayoutManagerSpecification.PAINT_DECORATION);
+			return getPropertyValue(DianaLayoutManagerSpecification.PAINT_DECORATION);
 		}
 	
 		@Override
 		public void setPaintDecoration(Boolean paintDecoration) {
-			setPropertyValue(FGELayoutManagerSpecification.PAINT_DECORATION, paintDecoration);
+			setPropertyValue(DianaLayoutManagerSpecification.PAINT_DECORATION, paintDecoration);
 		}
 	
 		@Override
 		public DraggingMode getDraggingMode() {
-			return getPropertyValue(FGELayoutManagerSpecification.DRAGGING_MODE);
+			return getPropertyValue(DianaLayoutManagerSpecification.DRAGGING_MODE);
 		}
 	
 		@Override
 		public void setDraggingMode(DraggingMode draggingMode) {
-			setPropertyValue(FGELayoutManagerSpecification.DRAGGING_MODE, draggingMode);
+			setPropertyValue(DianaLayoutManagerSpecification.DRAGGING_MODE, draggingMode);
 		}
 	
 		@Override
 		public boolean animateLayout() {
-			return getPropertyValue(FGELayoutManagerSpecification.ANIMATE_LAYOUT);
+			return getPropertyValue(DianaLayoutManagerSpecification.ANIMATE_LAYOUT);
 		}
 	
 		@Override
 		public void setAnimateLayout(boolean animateLayout) {
-			setPropertyValue(FGELayoutManagerSpecification.ANIMATE_LAYOUT, animateLayout);
+			setPropertyValue(DianaLayoutManagerSpecification.ANIMATE_LAYOUT, animateLayout);
 		}
 	
 		@Override
 		public int getAnimationStepsNumber() {
-			return getPropertyValue(FGELayoutManagerSpecification.ANIMATION_STEPS_NUMBER);
+			return getPropertyValue(DianaLayoutManagerSpecification.ANIMATION_STEPS_NUMBER);
 		}
 	
 		@Override
 		public void setAnimationStepsNumber(int stepsNumber) {
-			setPropertyValue(FGELayoutManagerSpecification.ANIMATION_STEPS_NUMBER, stepsNumber);
+			setPropertyValue(DianaLayoutManagerSpecification.ANIMATION_STEPS_NUMBER, stepsNumber);
 		}
 	
 		@Override
-		public FGELayoutManager<LMS, ?> makeLayoutManager(ContainerNode<?, ?> containerNode) {
-			FGELayoutManager<LMS, ?> layoutManager = getFactory().newInstance(getLayoutManagerClass());
-			((FGELayoutManager) layoutManager).setLayoutManagerSpecification(this);
+		public DianaLayoutManager<LMS, ?> makeLayoutManager(ContainerNode<?, ?> containerNode) {
+			DianaLayoutManager<LMS, ?> layoutManager = getFactory().newInstance(getLayoutManagerClass());
+			((DianaLayoutManager) layoutManager).setLayoutManagerSpecification(this);
 			layoutManager.setContainerNode((ContainerNode) containerNode);
 			getPropertyChangeSupport().addPropertyChangeListener(layoutManager);
 			System.out.println("Created LayoutManager " + getIdentifier() + " : " + layoutManager);
@@ -324,9 +324,9 @@ public abstract class LayoutManagerSpecificationFactory
 		}
 	}
 	
-	protected class InspectedNoLayout extends AbstractInspectedLayoutManagerSpecification<FGELayoutManagerSpecification<?>> {
+	protected class InspectedNoLayout extends AbstractInspectedLayoutManagerSpecification<DianaLayoutManagerSpecification<?>> {
 	
-		protected InspectedNoLayout(DianaInteractiveViewer<?, ?, ?> controller, FGELayoutManagerSpecification<?> defaultValue) {
+		protected InspectedNoLayout(DianaInteractiveViewer<?, ?, ?> controller, DianaLayoutManagerSpecification<?> defaultValue) {
 			super(controller, defaultValue);
 		}
 	
@@ -336,12 +336,12 @@ public abstract class LayoutManagerSpecificationFactory
 		}
 	
 		@Override
-		public FGELayoutManagerSpecification<?> getStyle(DrawingTreeNode<?, ?> node) {
+		public DianaLayoutManagerSpecification<?> getStyle(DrawingTreeNode<?, ?> node) {
 			return null;
 		}
 	
 		@Override
-		public Class<? extends FGELayoutManager<FGELayoutManagerSpecification<?>, ?>> getLayoutManagerClass() {
+		public Class<? extends DianaLayoutManager<DianaLayoutManagerSpecification<?>, ?>> getLayoutManagerClass() {
 			return null;
 		}
 	

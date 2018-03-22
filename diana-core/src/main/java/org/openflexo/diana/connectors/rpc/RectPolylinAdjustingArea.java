@@ -46,7 +46,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.Hashtable;
 
-import org.openflexo.diana.FGEIconLibrary;
+import org.openflexo.diana.DianaIconLibrary;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.connectors.RectPolylinConnectorSpecification;
@@ -54,19 +54,19 @@ import org.openflexo.diana.connectors.impl.RectPolylinConnector;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.cp.ControlArea;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectPolylin;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEPlane;
-import org.openflexo.diana.graphics.FGEGraphics;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectPolylin;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaPlane;
+import org.openflexo.diana.graphics.DianaGraphics;
 
-public class RectPolylinAdjustingArea extends ControlArea<FGERectPolylin> {
+public class RectPolylinAdjustingArea extends ControlArea<DianaRectPolylin> {
 
 	private static final Hashtable<Integer, Image> PIN_CACHE = new Hashtable<>();
-	protected FGERectPolylin initialPolylin;
+	protected DianaRectPolylin initialPolylin;
 	private RectPolylinConnector connector;
 
-	// private FGERectPolylin newPolylin;
+	// private DianaRectPolylin newPolylin;
 
 	public RectPolylinAdjustingArea(RectPolylinConnector connector) {
 		super(connector.getConnectorNode(), connector.getCurrentPolylin());
@@ -79,21 +79,21 @@ public class RectPolylinAdjustingArea extends ControlArea<FGERectPolylin> {
 	}
 
 	@Override
-	public FGEArea getDraggingAuthorizedArea() {
-		return new FGEPlane();
+	public DianaArea getDraggingAuthorizedArea() {
+		return new DianaPlane();
 	}
 
 	@Override
-	public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-			FGEPoint initialPoint, MouseEvent event) {
+	public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+			DianaPoint initialPoint, MouseEvent event) {
 		/*AffineTransform at1 = GraphicalRepresentation.convertNormalizedCoordinatesAT(
 				getConnector().getStartObject(), getGraphicalRepresentation());
 		AffineTransform at2 = GraphicalRepresentation.convertNormalizedCoordinatesAT(
 				getConnector().getEndObject(), getGraphicalRepresentation());
-		FGEArea startArea = getConnector().getStartObject().getShape().getShape().transform(at1);
-		FGEArea endArea = getConnector().getEndObject().getShape().getShape().transform(at2);
+		DianaArea startArea = getConnector().getStartObject().getShape().getShape().transform(at1);
+		DianaArea endArea = getConnector().getEndObject().getShape().getShape().transform(at2);
 		
-		newPolylin = FGERectPolylin.makeRectPolylinCrossingPoint(
+		newPolylin = DianaRectPolylin.makeRectPolylinCrossingPoint(
 				startArea, endArea, newRelativePoint,
 				getConnector().getStartOrientation(),
 				getConnector().getEndOrientation(),
@@ -116,7 +116,7 @@ public class RectPolylinAdjustingArea extends ControlArea<FGERectPolylin> {
 	}
 
 	@Override
-	public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
+	public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 		super.startDragging(controller, startPoint);
 		if (controller instanceof AbstractDianaEditor && ((AbstractDianaEditor<?, ?, ?>) controller).getDelegate() != null) {
 			((AbstractDianaEditor<?, ?, ?>) controller).getDelegate().objectStartMoving(getNode());
@@ -146,8 +146,8 @@ public class RectPolylinAdjustingArea extends ControlArea<FGERectPolylin> {
 	}
 
 	@Override
-	public Rectangle paint(FGEGraphics graphics) {
-		FGEPoint crossedControlPoint = getConnector().getCrossedControlPointOnRoundedArc();
+	public Rectangle paint(DianaGraphics graphics) {
+		DianaPoint crossedControlPoint = getConnector().getCrossedControlPointOnRoundedArc();
 		if (crossedControlPoint != null) {
 			int pinSize = graphics.getScale() <= 1 ? 16 : (int) (16.0 / 2 * (1.0 + graphics.getScale()));
 			Image PIN = getPinForPinSize(pinSize);
@@ -156,8 +156,8 @@ public class RectPolylinAdjustingArea extends ControlArea<FGERectPolylin> {
 			Point p = getNode().convertLocalNormalizedPointToRemoteViewCoordinates(crossedControlPoint, graphics.getNode(), 1.0);
 			p.x -= (int) (54.0d / 196.0d * pinSize);
 			p.y -= (int) (150.0d / 196.0d * pinSize);
-			graphics.drawImage(PIN, new FGEPoint(p.x, p.y));
-			// g.drawImage(FGEConstants.PIN_ICON.getImage(), ), , d, d, null);
+			graphics.drawImage(PIN, new DianaPoint(p.x, p.y));
+			// g.drawImage(DianaConstants.PIN_ICON.getImage(), ), , d, d, null);
 		}
 		return null;
 	}
@@ -165,17 +165,17 @@ public class RectPolylinAdjustingArea extends ControlArea<FGERectPolylin> {
 	public Image getPinForPinSize(int pinSize) {
 		Image returned = PIN_CACHE.get(pinSize);
 		if (returned == null) {
-			PIN_CACHE.put(pinSize, returned = FGEIconLibrary.PIN_ICON.getImage().getScaledInstance(pinSize, pinSize, Image.SCALE_SMOOTH));
+			PIN_CACHE.put(pinSize, returned = DianaIconLibrary.PIN_ICON.getImage().getScaledInstance(pinSize, pinSize, Image.SCALE_SMOOTH));
 		}
 		return returned;
 	}
 
-	/*private Rectangle paintPolylin(Graphics2D g, JDrawingView<?> drawingView, Color mainColor, Color backColor, FGERectPolylin polylin)
+	/*private Rectangle paintPolylin(Graphics2D g, JDrawingView<?> drawingView, Color mainColor, Color backColor, DianaRectPolylin polylin)
 	{
 		Rectangle r = new Rectangle();
 		Point lastLocation = drawingView.getGraphicalRepresentation().convertRemoteNormalizedPointToLocalViewCoordinates(polylin.getFirstPoint(), getGraphicalRepresentation(), drawingView.getScale());
 		for (int i=1; i<polylin.getPointsNb(); i++) {
-			FGEPoint p = polylin.getPointAt(i);
+			DianaPoint p = polylin.getPointAt(i);
 			Point currentLocation = drawingView.getGraphicalRepresentation().convertRemoteNormalizedPointToLocalViewCoordinates(p, getGraphicalRepresentation(), drawingView.getScale());
 			g.drawLine(lastLocation.x,lastLocation.y,currentLocation.x,currentLocation.y);
 			lastLocation = currentLocation;
@@ -196,7 +196,7 @@ public class RectPolylinAdjustingArea extends ControlArea<FGERectPolylin> {
 		return connector.getGraphicalRepresentation();
 	}*/
 
-	public FGERectPolylin getPolylin() {
+	public DianaRectPolylin getPolylin() {
 		return getConnector().getCurrentPolylin();
 	}
 }

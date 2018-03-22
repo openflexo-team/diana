@@ -51,32 +51,32 @@ import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.diana.ContainerGraphicalRepresentation;
-import org.openflexo.diana.FGELayoutManager;
-import org.openflexo.diana.FGELayoutManagerSpecification;
-import org.openflexo.diana.FGEUtils;
-import org.openflexo.diana.GRBinding;
-import org.openflexo.diana.GRProperty;
-import org.openflexo.diana.ShapeGraphicalRepresentation;
+import org.openflexo.diana.DianaLayoutManager;
+import org.openflexo.diana.DianaLayoutManagerSpecification;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.GeometricNode;
 import org.openflexo.diana.Drawing.GraphNode;
 import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.GRBinding;
 import org.openflexo.diana.GRBinding.ConnectorGRBinding;
 import org.openflexo.diana.GRBinding.ContainerGRBinding;
 import org.openflexo.diana.GRBinding.GeometricGRBinding;
 import org.openflexo.diana.GRBinding.GraphGRBinding;
 import org.openflexo.diana.GRBinding.ShapeGRBinding;
+import org.openflexo.diana.GRProperty;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.diana.cp.ControlArea;
-import org.openflexo.diana.geom.FGEDimension;
-import org.openflexo.diana.geom.FGEGeometricObject;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGESteppedDimensionConstraint;
-import org.openflexo.diana.graph.FGEGraph;
-import org.openflexo.diana.graphics.FGEGraphics;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaGeometricObject;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaSteppedDimensionConstraint;
+import org.openflexo.diana.graph.DianaGraph;
+import org.openflexo.diana.graphics.DianaGraphics;
 import org.openflexo.diana.notifications.NodeAdded;
 import org.openflexo.diana.notifications.NodeRemoved;
 import org.openflexo.diana.notifications.ObjectHasResized;
@@ -94,15 +94,15 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	private boolean isResizing = false;
 	private boolean isCheckingDimensionConstraints = false;
 
-	private final List<FGELayoutManager<?, O>> layoutManagers;
+	private final List<DianaLayoutManager<?, O>> layoutManagers;
 
 	protected ContainerNodeImpl(DrawingImpl<?> drawing, O drawable, ContainerGRBinding<O, GR> grBinding,
 			ContainerNodeImpl<?, ?> parentNode) {
 		super(drawing, drawable, grBinding, parentNode);
 		childNodes = new ArrayList<>();
 		layoutManagers = new ArrayList<>();
-		/*for (FGELayoutManagerSpecification<?> spec : getGraphicalRepresentation().getLayoutManagerSpecifications()) {
-			FGELayoutManager<?, O> layoutManager = (FGELayoutManager<?, O>) spec.makeLayoutManager(this);
+		/*for (DianaLayoutManagerSpecification<?> spec : getGraphicalRepresentation().getLayoutManagerSpecifications()) {
+			DianaLayoutManager<?, O> layoutManager = (DianaLayoutManager<?, O>) spec.makeLayoutManager(this);
 			layoutManagers.add(layoutManager);
 		}*/
 		updateLayoutManagers();
@@ -128,18 +128,18 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	}
 
 	/**
-	 * Internally called to update instantiated {@link FGELayoutManager} from {@link FGELayoutManagerSpecification} list as defined in
+	 * Internally called to update instantiated {@link DianaLayoutManager} from {@link DianaLayoutManagerSpecification} list as defined in
 	 * {@link ContainerGraphicalRepresentation}
 	 */
 	private void updateLayoutManagers() {
-		FGELayoutManager<?, O> oldDefaultLayoutManager = getDefaultLayoutManager();
-		List<FGELayoutManager<?, O>> lmToRemove = new ArrayList<>(getLayoutManagers());
-		for (FGELayoutManagerSpecification<?> spec : getGraphicalRepresentation().getLayoutManagerSpecifications()) {
+		DianaLayoutManager<?, O> oldDefaultLayoutManager = getDefaultLayoutManager();
+		List<DianaLayoutManager<?, O>> lmToRemove = new ArrayList<>(getLayoutManagers());
+		for (DianaLayoutManagerSpecification<?> spec : getGraphicalRepresentation().getLayoutManagerSpecifications()) {
 			if (spec.isDeleted())
 				continue;
 
 			boolean found = false;
-			for (FGELayoutManager<?, ?> lm : getLayoutManagers()) {
+			for (DianaLayoutManager<?, ?> lm : getLayoutManagers()) {
 				if (lm.getLayoutManagerSpecification() == spec) {
 					lmToRemove.remove(lm);
 					found = true;
@@ -147,11 +147,11 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 				}
 			}
 			if (!found) {
-				FGELayoutManager<?, O> newLayoutManager = (FGELayoutManager<?, O>) spec.makeLayoutManager(this);
+				DianaLayoutManager<?, O> newLayoutManager = (DianaLayoutManager<?, O>) spec.makeLayoutManager(this);
 				layoutManagers.add(newLayoutManager);
 			}
 		}
-		for (FGELayoutManager<?, ?> lm : new ArrayList<>(lmToRemove)) {
+		for (DianaLayoutManager<?, ?> lm : new ArrayList<>(lmToRemove)) {
 			lm.delete();
 			layoutManagers.remove(lm);
 		}
@@ -168,7 +168,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		getPropertyChangeSupport().firePropertyChange("layoutManagers", null, getLayoutManagers());
 		getPropertyChangeSupport().firePropertyChange("defaultLayoutManager", oldDefaultLayoutManager, getDefaultLayoutManager());
 
-		for (FGELayoutManager<?, O> lm : getLayoutManagers()) {
+		for (DianaLayoutManager<?, O> lm : getLayoutManagers()) {
 			notifyNodeLayoutDecorationChanged(lm);
 		}
 
@@ -183,22 +183,22 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	 * Convenient method used to retrieve border property value
 	 */
 	@Override
-	public List<FGELayoutManagerSpecification<?>> getLayoutManagerSpecifications() {
+	public List<DianaLayoutManagerSpecification<?>> getLayoutManagerSpecifications() {
 		return getPropertyValue(ContainerGraphicalRepresentation.LAYOUT_MANAGER_SPECIFICATIONS);
 	}
 
 	/**
-	 * Return FGELayoutManager identified by identifier
+	 * Return DianaLayoutManager identified by identifier
 	 * 
 	 * @param identifier
 	 * @return
 	 */
 	@Override
-	public FGELayoutManager<?, O> getLayoutManager(String identifier) {
+	public DianaLayoutManager<?, O> getLayoutManager(String identifier) {
 		if (identifier == null) {
 			return null;
 		}
-		for (FGELayoutManager<?, O> layoutManager : layoutManagers) {
+		for (DianaLayoutManager<?, O> layoutManager : layoutManagers) {
 			if (identifier.equals(layoutManager.getLayoutManagerSpecification().getIdentifier())) {
 				return layoutManager;
 			}
@@ -207,17 +207,17 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	}
 
 	@Override
-	public List<FGELayoutManager<?, O>> getLayoutManagers() {
+	public List<DianaLayoutManager<?, O>> getLayoutManagers() {
 		return layoutManagers;
 	}
 
 	/**
-	 * Return default FGELayoutManager (the first one found)
+	 * Return default DianaLayoutManager (the first one found)
 	 * 
 	 * @return
 	 */
 	@Override
-	public FGELayoutManager<?, O> getDefaultLayoutManager() {
+	public DianaLayoutManager<?, O> getDefaultLayoutManager() {
 		if (layoutManagers.size() > 0) {
 			return layoutManagers.get(0);
 		}
@@ -225,18 +225,18 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	}
 
 	@Override
-	public ShapeNode<?> getTopLevelShapeGraphicalRepresentation(FGEPoint p) {
+	public ShapeNode<?> getTopLevelShapeGraphicalRepresentation(DianaPoint p) {
 		return getTopLevelShapeGraphicalRepresentation(this, p);
 	}
 
-	private ShapeNode<?> getTopLevelShapeGraphicalRepresentation(ContainerNode<?, ?> container, FGEPoint p) {
+	private ShapeNode<?> getTopLevelShapeGraphicalRepresentation(ContainerNode<?, ?> container, DianaPoint p) {
 
 		List<ShapeNode<?>> enclosingShapes = new ArrayList<>();
 
 		for (DrawingTreeNode<?, ?> dtn : container.getChildNodes()) {
 			if (dtn instanceof ShapeNode) {
 				ShapeNode<?> child = (ShapeNode<?>) dtn;
-				if (child.getShape().getShape().containsPoint(FGEUtils.convertNormalizedPoint(this, p, child))) {
+				if (child.getShape().getShape().containsPoint(DianaUtils.convertNormalizedPoint(this, p, child))) {
 					enclosingShapes.add(child);
 				}
 				else {
@@ -379,7 +379,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	}
 
 	@Override
-	public void notifyNodeLayoutDecorationChanged(FGELayoutManager<?, O> layoutManager) {
+	public void notifyNodeLayoutDecorationChanged(DianaLayoutManager<?, O> layoutManager) {
 		getPropertyChangeSupport().firePropertyChange(LAYOUT_DECORATION_KEY, Boolean.valueOf(!layoutManager.paintDecoration()),
 				Boolean.valueOf(layoutManager.paintDecoration()));
 
@@ -424,7 +424,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	}
 
 	private void performRelayout(boolean invalidate) {
-		for (FGELayoutManager<?, O> lm : getLayoutManagers()) {
+		for (DianaLayoutManager<?, O> lm : getLayoutManagers()) {
 			if (getDrawing().isUpdatingGraphicalObjectsHierarchy()) {
 				getDrawing().invokeLayoutAfterGraphicalObjectsHierarchyUpdating(lm);
 			}
@@ -452,13 +452,13 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	}
 
 	@Override
-	public <G extends FGEGraph> boolean hasGraphFor(GraphGRBinding<G> binding, G aDrawable) {
+	public <G extends DianaGraph> boolean hasGraphFor(GraphGRBinding<G> binding, G aDrawable) {
 		return getGraphFor(binding, aDrawable) != null;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public <G extends FGEGraph> GraphNode<G> getGraphFor(GraphGRBinding<G> binding, G aDrawable) {
+	public <G extends DianaGraph> GraphNode<G> getGraphFor(GraphGRBinding<G> binding, G aDrawable) {
 		for (DrawingTreeNode<?, ?> child : childNodes) {
 			if (child instanceof GraphNode && child.getGRBinding() == binding && child.getDrawable() == aDrawable) {
 				return (GraphNode<G>) child;
@@ -511,7 +511,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	@Override
 	public final void setWidth(double aValue) {
 		if (aValue != getWidth()) {
-			FGEDimension newDimension = new FGEDimension(aValue, getHeight());
+			DianaDimension newDimension = new DianaDimension(aValue, getHeight());
 			updateSize(newDimension);
 		}
 	}
@@ -528,7 +528,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	@Override
 	public final void setHeight(double aValue) {
 		if (aValue != getHeight()) {
-			FGEDimension newDimension = new FGEDimension(getWidth(), aValue);
+			DianaDimension newDimension = new DianaDimension(getWidth(), aValue);
 			updateSize(newDimension);
 		}
 	}
@@ -538,12 +538,12 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	}
 
 	@Override
-	public FGEDimension getSize() {
-		return new FGEDimension(getWidth(), getHeight());
+	public DianaDimension getSize() {
+		return new DianaDimension(getWidth(), getHeight());
 	}
 
 	@Override
-	public void setSize(FGEDimension newSize) {
+	public void setSize(DianaDimension newSize) {
 		updateSize(newSize);
 	}
 
@@ -611,11 +611,11 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		setPropertyValue(ContainerGraphicalRepresentation.ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT, adjustMaximalHeightToLabelHeight);
 	}
 
-	protected FGESteppedDimensionConstraint getDimensionConstraintStep() {
+	protected DianaSteppedDimensionConstraint getDimensionConstraintStep() {
 		return getPropertyValue(ContainerGraphicalRepresentation.DIMENSION_CONSTRAINT_STEP);
 	}
 
-	protected void setDimensionConstraintStep(FGESteppedDimensionConstraint dimensionConstraintStep) {
+	protected void setDimensionConstraintStep(DianaSteppedDimensionConstraint dimensionConstraintStep) {
 		setPropertyValue(ContainerGraphicalRepresentation.DIMENSION_CONSTRAINT_STEP, dimensionConstraintStep);
 	}
 
@@ -632,7 +632,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	 * 
 	 * @param requestedSize
 	 */
-	private void updateSize(FGEDimension requestedSize) {
+	private void updateSize(DianaDimension requestedSize) {
 
 		// If no value supplied, just ignore
 		if (requestedSize == null) {
@@ -645,12 +645,12 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		}
 
 		// Prelude of update, first select new size respecting contextual constraints
-		FGEDimension newSize = getConstrainedSize(requestedSize);
+		DianaDimension newSize = getConstrainedSize(requestedSize);
 		if (!newSize.equals(requestedSize)) {
 			logger.info("Dimension constraints force " + requestedSize + " to be " + newSize);
 		}
 
-		FGEDimension oldSize = getSize();
+		DianaDimension oldSize = getSize();
 		if (!newSize.equals(oldSize)) {
 			double oldWidth = getWidth();
 			double oldHeight = getHeight();
@@ -675,12 +675,12 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		}
 		// Preventing size from being negative or equals to 0
 		if (newSize.width <= 0) {
-			newSize.width = FGEGeometricObject.EPSILON;
+			newSize.width = DianaGeometricObject.EPSILON;
 		}
 		if (newSize.height <= 0) {
-			newSize.height = FGEGeometricObject.EPSILON;
+			newSize.height = DianaGeometricObject.EPSILON;
 		}
-		FGEDimension oldSize = getSize();
+		DianaDimension oldSize = getSize();
 		if (!newSize.equals(oldSize)) {
 			double oldWidth = getWidth();
 			double oldHeight = getHeight();
@@ -729,7 +729,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	 * Notify that the object just resized
 	 */
 	@Override
-	public void notifyObjectResized(FGEDimension oldSize) {
+	public void notifyObjectResized(DianaDimension oldSize) {
 		notifyObservers(new ObjectResized(oldSize, getSize()));
 	}
 
@@ -763,14 +763,14 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	}
 
 	/**
-	 * Calling this method forces FGE to check (and eventually update) dimension of current graphical representation according defined
+	 * Calling this method forces Diana to check (and eventually update) dimension of current graphical representation according defined
 	 * dimension constraints
 	 */
 	protected void checkAndUpdateDimensionIfRequired() {
 		setSize(getSize());
 	}
 
-	private FGEDimension getConstrainedSize(FGEDimension requestedSize) {
+	private DianaDimension getConstrainedSize(DianaDimension requestedSize) {
 
 		if (isCheckingDimensionConstraints || labelMetricsProvider == null) {
 			return requestedSize;
@@ -784,16 +784,16 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 
 			isCheckingDimensionConstraints = true;
 
-			// FGERectangle requiredBounds = getRequiredBoundsForContents();
+			// DianaRectangle requiredBounds = getRequiredBoundsForContents();
 
-			FGEDimension newDimension = new FGEDimension(requestedSize.getWidth(), requestedSize.getHeight());
+			DianaDimension newDimension = new DianaDimension(requestedSize.getWidth(), requestedSize.getHeight());
 
 			// Preventing size from being negative or equals to 0
 			if (newDimension.width <= 0) {
-				newDimension.width = FGEGeometricObject.EPSILON;
+				newDimension.width = DianaGeometricObject.EPSILON;
 			}
 			if (newDimension.height <= 0) {
-				newDimension.height = FGEGeometricObject.EPSILON;
+				newDimension.height = DianaGeometricObject.EPSILON;
 			}
 
 			// double minWidth = (getAdaptBoundsToContents() ? Math.max(getMinimalWidth(), requiredBounds.width) : getMinimalWidth());
@@ -807,7 +807,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 				Dimension normalizedLabelSize = getNormalizedLabelSize();
 				int labelWidth = normalizedLabelSize.width;
 				int labelHeight = normalizedLabelSize.height;
-				FGEDimension requiredLabelDimension = getRequiredLabelSize();
+				DianaDimension requiredLabelDimension = getRequiredLabelSize();
 				double rh = requiredLabelDimension.getHeight();
 				double rw = requiredLabelDimension.getWidth();
 				double requiredWidth = Math.max(rw, labelWidth);
@@ -872,7 +872,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 			}
 
 			if (useStepDimensionConstraints) {
-				FGEDimension d = getDimensionConstraintStep().getNearestDimension(newDimension, minWidth, maxWidth, minHeight, maxHeight);
+				DianaDimension d = getDimensionConstraintStep().getNearestDimension(newDimension, minWidth, maxWidth, minHeight, maxHeight);
 				newDimension.width = d.width;
 				newDimension.height = d.height;
 			}
@@ -902,19 +902,20 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	}
 
 	@Override
-	public FGERectangle getRequiredBoundsForContents() {
-		FGERectangle requiredBounds = null;
+	public DianaRectangle getRequiredBoundsForContents() {
+		DianaRectangle requiredBounds = null;
 		if (getChildNodes() == null) {
-			return new FGERectangle(getGraphicalRepresentation().getMinimalWidth() / 2, getGraphicalRepresentation().getMinimalHeight() / 2,
-					getGraphicalRepresentation().getMinimalWidth(), getGraphicalRepresentation().getMinimalHeight());
+			return new DianaRectangle(getGraphicalRepresentation().getMinimalWidth() / 2,
+					getGraphicalRepresentation().getMinimalHeight() / 2, getGraphicalRepresentation().getMinimalWidth(),
+					getGraphicalRepresentation().getMinimalHeight());
 		}
 		for (DrawingTreeNode<?, ?> gr : getChildNodes()) {
 			if (gr instanceof ShapeNode) {
 				ShapeNodeImpl<?> shapeGR = (ShapeNodeImpl<?>) gr;
-				FGERectangle bounds = shapeGR.getBounds();
+				DianaRectangle bounds = shapeGR.getBounds();
 				if (shapeGR.hasText()) {
 					Rectangle labelBounds = shapeGR.getNormalizedLabelBounds(); // getLabelBounds((new JLabel()), 1.0);
-					FGERectangle labelBounds2 = new FGERectangle(labelBounds.x, labelBounds.y, labelBounds.width, labelBounds.height);
+					DianaRectangle labelBounds2 = new DianaRectangle(labelBounds.x, labelBounds.y, labelBounds.width, labelBounds.height);
 					bounds = bounds.rectangleUnion(labelBounds2);
 				}
 
@@ -927,7 +928,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 			}
 		}
 		if (requiredBounds == null) {
-			requiredBounds = new FGERectangle(getGraphicalRepresentation().getMinimalWidth() / 2,
+			requiredBounds = new DianaRectangle(getGraphicalRepresentation().getMinimalWidth() / 2,
 					getGraphicalRepresentation().getMinimalHeight() / 2, getGraphicalRepresentation().getMinimalWidth(),
 					getGraphicalRepresentation().getMinimalHeight());
 		}
@@ -963,13 +964,13 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	}
 
 	@Override
-	public void paint(FGEGraphics g) {
+	public void paint(DianaGraphics g) {
 
-		for (FGELayoutManager<?, ?> layoutManager : layoutManagers) {
+		for (DianaLayoutManager<?, ?> layoutManager : layoutManagers) {
 			// System.out.println("Paint LayoutManager " + layoutManager + " supportDecoration=" + layoutManager.supportDecoration()
 			// + " paintDecoration=" + layoutManager.paintDecoration());
 			if (layoutManager.supportDecoration() && layoutManager.paintDecoration()) {
-				((FGELayoutManagerImpl<?, ?>) layoutManager).paintDecoration(g);
+				((DianaLayoutManagerImpl<?, ?>) layoutManager).paintDecoration(g);
 			}
 			if (layoutManager.getControlAreas() != null) {
 				for (ControlArea<?> ca : layoutManager.getControlAreas()) {
@@ -988,7 +989,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 			List<ControlArea<?>> layoutManagerAreas = null;
 
 			if (getLayoutManagers().size() > 0) {
-				for (FGELayoutManager<?, O> layoutManager : getLayoutManagers()) {
+				for (DianaLayoutManager<?, O> layoutManager : getLayoutManagers()) {
 					if (layoutManagerAreas == null) {
 						layoutManagerAreas = layoutManager.getControlAreas();
 					}

@@ -49,7 +49,7 @@ import org.openflexo.diana.connectors.ConnectorSpecification;
 import org.openflexo.diana.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.diana.notifications.ConnectorModified;
 import org.openflexo.diana.notifications.ConnectorNeedsToBeRedrawn;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 
 public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepresentationImpl implements ConnectorGraphicalRepresentation {
 
@@ -75,7 +75,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 	 */
 	public ConnectorGraphicalRepresentationImpl() {
 		super();
-		// graphics = new FGEConnectorGraphicsImpl(this);
+		// graphics = new DianaConnectorGraphicsImpl(this);
 	}
 	/*
 		@Deprecated
@@ -90,12 +90,12 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 				ShapeGraphicalRepresentation anEndObject, Object aDrawable, Drawing<?> aDrawing) {
 			this(aDrawable, aDrawing);
 	
-			layer = FGEConstants.DEFAULT_CONNECTOR_LAYER;
+			layer = DianaConstants.DEFAULT_CONNECTOR_LAYER;
 	
 			// setStartObject(aStartObject);
 			// setEndObject(anEndObject);
 			setConnectorType(aConnectorType);
-			// graphics = new FGEConnectorGraphicsImpl(this);
+			// graphics = new DianaConnectorGraphicsImpl(this);
 	
 			foreground = getFactory().makeForegroundStyle(Color.BLACK);
 			// foreground.setGraphicalRepresentation(this);
@@ -182,12 +182,12 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 			if (aConnector != null && aConnector.getPropertyChangeSupport() != null) {
 				aConnector.getPropertyChangeSupport().addPropertyChangeListener(this);
 			}
-			FGEAttributeNotification<?> notification = requireChange(CONNECTOR, aConnector);
+			DianaAttributeNotification<?> notification = requireChange(CONNECTOR, aConnector);
 			if (notification != null) {
 				ConnectorType oldType = connector != null ? connector.getConnectorType() : null;
 				this.connector = aConnector;
 				hasChanged(notification);
-				notifyObservers(new FGEAttributeNotification<>(CONNECTOR_TYPE, oldType,
+				notifyObservers(new DianaAttributeNotification<>(CONNECTOR_TYPE, oldType,
 						(aConnector != null ? aConnector.getConnectorType() : null)));
 			}
 		}
@@ -200,7 +200,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setForeground(ForegroundStyle aForeground) {
-		FGEAttributeNotification<?> notification = requireChange(FOREGROUND, aForeground);
+		DianaAttributeNotification<?> notification = requireChange(FOREGROUND, aForeground);
 		PropertyChangeSupport pcs = null;
 		if (notification != null) {
 			if (foreground != null) {
@@ -228,7 +228,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setSelectedForeground(ForegroundStyle aForeground) {
-		FGEAttributeNotification<?> notification = requireChange(SELECTED_FOREGROUND, aForeground, false);
+		DianaAttributeNotification<?> notification = requireChange(SELECTED_FOREGROUND, aForeground, false);
 		if (notification != null) {
 			if (selectedForeground != null && selectedForeground.getPropertyChangeSupport() != null) {
 				selectedForeground.getPropertyChangeSupport().removePropertyChangeListener(this);
@@ -261,7 +261,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setFocusedForeground(ForegroundStyle aForeground) {
-		FGEAttributeNotification<?> notification = requireChange(FOCUSED_FOREGROUND, aForeground, false);
+		DianaAttributeNotification<?> notification = requireChange(FOCUSED_FOREGROUND, aForeground, false);
 		if (notification != null) {
 			if (focusedForeground != null && focusedForeground.getPropertyChangeSupport() != null) {
 				focusedForeground.getPropertyChangeSupport().removePropertyChangeListener(this);
@@ -456,9 +456,9 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 	private double maxY = 1.0;
 	
 	private void checkViewBounds() {
-		FGERectangle r = getConnector().getConnectorUsedBounds();
-		if (FGEUtils.checkDoubleIsAValue(r.getMinX()) && FGEUtils.checkDoubleIsAValue(r.getMinY())
-				&& FGEUtils.checkDoubleIsAValue(r.getMaxX()) && FGEUtils.checkDoubleIsAValue(r.getMaxY())) {
+		DianaRectangle r = getConnector().getConnectorUsedBounds();
+		if (DianaUtils.checkDoubleIsAValue(r.getMinX()) && DianaUtils.checkDoubleIsAValue(r.getMinY())
+				&& DianaUtils.checkDoubleIsAValue(r.getMaxX()) && DianaUtils.checkDoubleIsAValue(r.getMaxY())) {
 			minX = Math.min(r.getMinX(), 0.0);
 			minY = Math.min(r.getMinY(), 0.0);
 			maxX = Math.max(r.getMaxX(), 1.0);
@@ -515,7 +515,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 	
 	@Override
 	public boolean isContainedInSelection(Rectangle drawingViewSelection, double scale) {
-		FGERectangle drawingViewBounds = new FGERectangle(drawingViewSelection.getX(), drawingViewSelection.getY(),
+		DianaRectangle drawingViewBounds = new DianaRectangle(drawingViewSelection.getX(), drawingViewSelection.getY(),
 				drawingViewSelection.getWidth(), drawingViewSelection.getHeight(), Filling.FILLED);
 		boolean isFullyContained = true;
 		for (ControlArea<?> ca : getConnector().getControlAreas()) {
@@ -523,7 +523,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 				ControlPoint cp = (ControlPoint) ca;
 				Point cpInContainerView = convertLocalNormalizedPointToRemoteViewCoordinates(cp.getPoint(),
 						getDrawingGraphicalRepresentation(), scale);
-				FGEPoint preciseCPInContainerView = new FGEPoint(cpInContainerView.x, cpInContainerView.y);
+				DianaPoint preciseCPInContainerView = new DianaPoint(cpInContainerView.x, cpInContainerView.y);
 				if (!drawingViewBounds.containsPoint(preciseCPInContainerView)) {
 					// System.out.println("Going outside: point="+preciseCPInContainerView+" bounds="+containerViewBounds);
 					isFullyContained = false;
@@ -572,7 +572,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 	 * @return
 	 */
 	/*@Override
-	public double distanceToConnector(FGEPoint aPoint, double scale, ConnectorNode<?> connectorNode) {
+	public double distanceToConnector(DianaPoint aPoint, double scale, ConnectorNode<?> connectorNode) {
 		return connector.distanceToConnector(aPoint, scale, connectorNode);
 	}*/
 
@@ -601,7 +601,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 		Graphics2D g2 = (Graphics2D) g;
 		graphics.createGraphics(g2, controller);
 	
-		if (FGEConstants.DEBUG) {
+		if (DianaConstants.DEBUG) {
 			g2.setColor(Color.PINK);
 			g2.drawRect(0, 0, getViewWidth(controller.getScale()) - 1, getViewHeight(controller.getScale()) - 1);
 		}
@@ -695,7 +695,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 	public boolean isConnectorConsistent() {
 		// if (true) return true;
 		return getStartObject() != null && getEndObject() != null && !getStartObject().isDeleted() && !getEndObject().isDeleted()
-				&& FGEUtils.areElementsConnectedInGraphicalHierarchy(getStartObject(), getEndObject());
+				&& DianaUtils.areElementsConnectedInGraphicalHierarchy(getStartObject(), getEndObject());
 	}
 	
 	@Override
@@ -745,7 +745,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setApplyForegroundToSymbols(boolean applyForegroundToSymbols) {
-		FGEAttributeNotification<?> notification = requireChange(APPLY_FOREGROUND_TO_SYMBOLS, applyForegroundToSymbols);
+		DianaAttributeNotification<?> notification = requireChange(APPLY_FOREGROUND_TO_SYMBOLS, applyForegroundToSymbols);
 		if (notification != null) {
 			this.applyForegroundToSymbols = applyForegroundToSymbols;
 			hasChanged(notification);
@@ -759,7 +759,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setDebugCoveringArea(boolean debugCoveringArea) {
-		FGEAttributeNotification<?> notification = requireChange(DEBUG_COVERING_AREA, debugCoveringArea);
+		DianaAttributeNotification<?> notification = requireChange(DEBUG_COVERING_AREA, debugCoveringArea);
 		if (notification != null) {
 			this.debugCoveringArea = debugCoveringArea;
 			hasChanged(notification);
@@ -774,7 +774,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 	}*/
 
 	/*@Override
-	public FGEConnectorGraphicsImpl getGraphics() {
+	public DianaConnectorGraphicsImpl getGraphics() {
 		return graphics;
 	}*/
 

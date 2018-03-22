@@ -39,14 +39,14 @@
 
 package org.openflexo.diana.notifications;
 
-import org.openflexo.diana.geom.FGEDimension;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 
-public class ObjectResized extends FGEAttributeNotification<FGEDimension> {
+public class ObjectResized extends DianaAttributeNotification<DianaDimension> {
 
 	public static final String PROPERTY_NAME = "size";
 
-	public ObjectResized(FGEDimension oldSize, FGEDimension newSize) {
+	public ObjectResized(DianaDimension oldSize, DianaDimension newSize) {
 		super(null, oldSize, newSize);
 	}
 

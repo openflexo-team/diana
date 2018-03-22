@@ -75,7 +75,7 @@ import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.openflexo.diana.FGECoreUtils;
+import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.swing.control.SwingToolFactory;
 import org.openflexo.diana.swing.control.tools.JDianaDialogInspectors;
@@ -112,7 +112,7 @@ public class PPTEditorApplication {
 	private static final Logger logger = FlexoLogger.getLogger(PPTEditorApplication.class.getPackage().getName());
 
 	public static LocalizedDelegate PPT_EDITOR_LOCALIZATION = new LocalizedDelegateImpl(
-			ResourceLocator.locateResource("FlexoLocalization/PPTEditor"), FGECoreUtils.DIANA_LOCALIZATION, true, true);
+			ResourceLocator.locateResource("FlexoLocalization/PPTEditor"), DianaCoreUtils.DIANA_LOCALIZATION, true, true);
 
 	private static final int META_MASK = ToolBox.isMacOS() ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
 

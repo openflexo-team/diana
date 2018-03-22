@@ -46,25 +46,24 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.Drawing;
-import org.openflexo.diana.FGEModelFactory;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.DrawingTreeNodeIdentifier;
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.control.MouseDragControl;
 import org.openflexo.diana.control.notifications.ObjectAddedToSelection;
 import org.openflexo.diana.control.notifications.ObjectRemovedFromSelection;
 import org.openflexo.diana.control.notifications.SelectionCleared;
 import org.openflexo.diana.cp.ConnectorAdjustingControlPoint;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.notifications.DrawingTreeNodeHierarchyRebuildEnded;
 import org.openflexo.diana.notifications.DrawingTreeNodeHierarchyRebuildStarted;
+import org.openflexo.diana.view.DianaView;
 import org.openflexo.diana.view.DianaViewFactory;
-import org.openflexo.diana.view.FGEView;
 
 /**
  * Represents a basic viewer of a {@link Drawing}<br>
@@ -99,12 +98,12 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	private List<ConnectorNode<?>> selectedConnectors;
 	private List<ContainerNode<?, ?>> selectedContainers;
 
-	private FGEView<?, ?> currentlyEditedLabelView;
+	private DianaView<?, ?> currentlyEditedLabelView;
 	private ControlArea<?> focusedControlArea;
 
 	private MouseDragControl<DianaInteractiveViewer<?, ?, ?>> currentMouseDrag = null;
 
-	private FGEPoint lastClickedPoint;
+	private DianaPoint lastClickedPoint;
 	private DrawingTreeNode<?, ?> lastSelectedNode;
 
 	/**
@@ -114,11 +113,11 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 
 	private boolean isRestoringSelection = false;
 
-	public DianaInteractiveViewer(Drawing<M> aDrawing, FGEModelFactory factory, F dianaFactory, DianaToolFactory<C> toolFactory) {
+	public DianaInteractiveViewer(Drawing<M> aDrawing, DianaModelFactory factory, F dianaFactory, DianaToolFactory<C> toolFactory) {
 		this(aDrawing, factory, dianaFactory, toolFactory, true, false, true, true, true);
 	}
 
-	public DianaInteractiveViewer(Drawing<M> aDrawing, FGEModelFactory factory, F dianaFactory, DianaToolFactory<C> toolFactory,
+	public DianaInteractiveViewer(Drawing<M> aDrawing, DianaModelFactory factory, F dianaFactory, DianaToolFactory<C> toolFactory,
 			boolean shapesAreMovable, boolean labelsAreEditable, boolean objectsAreFocusable, boolean objectsAreSelectable,
 			boolean objectsAreInspectable) {
 		super(aDrawing, factory, dianaFactory, toolFactory);
@@ -480,12 +479,12 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 		// Override when required
 	}
 
-	public void setEditedLabel(FGEView<?, ?> aLabel) {
+	public void setEditedLabel(DianaView<?, ?> aLabel) {
 		stopEditionOfEditedLabelIfAny();
 		currentlyEditedLabelView = aLabel;
 	}
 
-	public void resetEditedLabel(FGEView<?, ?> editedLabel) {
+	public void resetEditedLabel(DianaView<?, ?> editedLabel) {
 		if (currentlyEditedLabelView == editedLabel) {
 			currentlyEditedLabelView = null;
 		}
@@ -495,7 +494,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 		return currentlyEditedLabelView != null;
 	}
 
-	public FGEView<?, ?> getEditedLabel() {
+	public DianaView<?, ?> getEditedLabel() {
 		return currentlyEditedLabelView;
 	}
 
@@ -568,11 +567,11 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	 * 
 	 * @return
 	 */
-	public FGEPoint getLastClickedPoint() {
+	public DianaPoint getLastClickedPoint() {
 		return lastClickedPoint;
 	}
 
-	public void setLastClickedPoint(FGEPoint lastClickedPoint, DrawingTreeNode<?, ?> node) {
+	public void setLastClickedPoint(DianaPoint lastClickedPoint, DrawingTreeNode<?, ?> node) {
 		this.lastClickedPoint = lastClickedPoint;
 	}
 

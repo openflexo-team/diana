@@ -43,7 +43,7 @@ import java.awt.image.BufferedImage;
 import java.util.Set;
 
 import org.openflexo.diana.Drawing.DrawingTreeNode;
-import org.openflexo.diana.view.FGEView;
+import org.openflexo.diana.view.DianaView;
 
 /**
  * This A.P.I defines an helper class used as a hook provider to implement technology-specific schemes<br>
@@ -66,7 +66,7 @@ public interface DianaEditorDelegate {
 
 	public void repaintAll();
 
-	public Point getPointInView(Object source, Point point, FGEView<?, ?> view);
+	public Point getPointInView(Object source, Point point, DianaView<?, ?> view);
 
 	/**
 	 * Makes a screenshot of supplied graphical node

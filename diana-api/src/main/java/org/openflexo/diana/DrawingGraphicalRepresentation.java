@@ -41,8 +41,8 @@ package org.openflexo.diana;
 
 import java.awt.Color;
 
-import org.openflexo.diana.geom.FGEDimension;
-import org.openflexo.diana.geom.FGERectangle;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.graphics.DrawingDecorationPainter;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
@@ -106,12 +106,12 @@ public interface DrawingGraphicalRepresentation extends ContainerGraphicalRepres
 	public abstract void setBackgroundColor(Color backgroundColor);
 
 	@Override
-	@Getter(value = WIDTH_KEY, defaultValue = "" + FGEConstants.DEFAULT_DRAWING_WIDTH)
+	@Getter(value = WIDTH_KEY, defaultValue = "" + DianaConstants.DEFAULT_DRAWING_WIDTH)
 	@XMLAttribute
 	public abstract double getWidth();
 
 	@Override
-	@Getter(value = HEIGHT_KEY, defaultValue = "" + FGEConstants.DEFAULT_DRAWING_HEIGHT)
+	@Getter(value = HEIGHT_KEY, defaultValue = "" + DianaConstants.DEFAULT_DRAWING_HEIGHT)
 	@XMLAttribute
 	public abstract double getHeight();
 
@@ -150,7 +150,7 @@ public interface DrawingGraphicalRepresentation extends ContainerGraphicalRepres
 	@Setter(IS_RESIZABLE_KEY)
 	public abstract void setIsResizable(boolean isResizable);
 
-	public abstract FGERectangle getWorkingArea();
+	public abstract DianaRectangle getWorkingArea();
 
 	// @Override
 	// public abstract void paint(Graphics g, DianaEditor<?> controller);
@@ -164,12 +164,12 @@ public interface DrawingGraphicalRepresentation extends ContainerGraphicalRepres
 	// public abstract void startConnectorObserving();
 
 	@Override
-	public abstract FGEDimension getSize();
+	public abstract DianaDimension getSize();
 
 	/**
 	 * Notify that the object just resized
 	 */
-	public abstract void notifyObjectResized(FGEDimension oldSize);
+	public abstract void notifyObjectResized(DianaDimension oldSize);
 
 	/**
 	 * Notify that the object will be resized
@@ -184,9 +184,9 @@ public interface DrawingGraphicalRepresentation extends ContainerGraphicalRepres
 
 	public abstract void notifyDrawingNeedsToBeRedrawn();
 
-	// public abstract FGEDrawingGraphics getGraphics();
+	// public abstract DianaDrawingGraphics getGraphics();
 
-	// public abstract ShapeGraphicalRepresentation getTopLevelShapeGraphicalRepresentation(FGEPoint p);
+	// public abstract ShapeGraphicalRepresentation getTopLevelShapeGraphicalRepresentation(DianaPoint p);
 
 	// public abstract void performRandomLayout();
 

@@ -42,11 +42,11 @@ package org.openflexo.diana.cp;
 import java.awt.Cursor;
 
 import org.openflexo.diana.Drawing.ConnectorNode;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 
 public class ConnectorNonAdjustableControlPoint extends ConnectorControlPoint {
 
-	public ConnectorNonAdjustableControlPoint(ConnectorNode<?> node, FGEPoint pt) {
+	public ConnectorNonAdjustableControlPoint(ConnectorNode<?> node, DianaPoint pt) {
 		super(node, pt);
 	}
 

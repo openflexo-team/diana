@@ -44,7 +44,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.control.AbstractDianaEditor;
@@ -97,7 +97,7 @@ public class DrawEdgeControl extends MouseDragControlImpl<DianaDrawingEditor> {
 					CompoundEdit drawEdge = factory.getUndoManager().startRecording("Draw edge");
 					Connector newConnector = factory.makeNewConnector(fromShape.getDrawable(), toShape.getDrawable(),
 							controller.getDrawing().getModel());
-					DrawingTreeNode<?, ?> fatherNode = FGEUtils.getFirstCommonAncestor(fromShape, toShape);
+					DrawingTreeNode<?, ?> fatherNode = DianaUtils.getFirstCommonAncestor(fromShape, toShape);
 					((DiagramElement<?, ?>) fatherNode.getDrawable()).addToConnectors(newConnector);
 					System.out.println("Add new connector !");
 					factory.getUndoManager().stopRecording(drawEdge);

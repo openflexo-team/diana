@@ -42,14 +42,14 @@ package org.openflexo.diana.shapes.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGEPolygon;
-import org.openflexo.diana.geom.FGERegularPolygon;
-import org.openflexo.diana.geom.FGEShape;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geom.DianaRegularPolygon;
+import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.diana.shapes.RegularPolygon;
 
 public abstract class RegularPolygonImpl extends PolygonImpl implements RegularPolygon {
@@ -69,7 +69,7 @@ public abstract class RegularPolygonImpl extends PolygonImpl implements RegularP
 		setNPoints(5);
 	}
 
-	public RegularPolygonImpl(ShapeGraphicalRepresentation aGraphicalRepresentation, List<FGEPoint> points) {
+	public RegularPolygonImpl(ShapeGraphicalRepresentation aGraphicalRepresentation, List<DianaPoint> points) {
 		this();
 		setPoints(new ArrayList<>(points));
 	}
@@ -89,10 +89,10 @@ public abstract class RegularPolygonImpl extends PolygonImpl implements RegularP
 	}
 	
 	@Deprecated
-	private RegularPolygonImpl(ShapeGraphicalRepresentation aGraphicalRepresentation, List<FGEPoint> points) {
+	private RegularPolygonImpl(ShapeGraphicalRepresentation aGraphicalRepresentation, List<DianaPoint> points) {
 		this();
 		setGraphicalRepresentation(aGraphicalRepresentation);
-		setPoints(new ArrayList<FGEPoint>(points));
+		setPoints(new ArrayList<DianaPoint>(points));
 	}
 	
 	@Deprecated
@@ -107,12 +107,12 @@ public abstract class RegularPolygonImpl extends PolygonImpl implements RegularP
 	}*/
 
 	@Override
-	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
+	public DianaShape<?> makeDianaShape(ShapeNode<?> node) {
 		if (getPoints() != null && getPoints().size() > 0) {
-			return new FGEPolygon(Filling.FILLED, getPoints());
+			return new DianaPolygon(Filling.FILLED, getPoints());
 		}
 		else if (getNPoints() > 2) {
-			return new FGERegularPolygon(0, 0, 1, 1, Filling.FILLED, getNPoints(), startAngle);
+			return new DianaRegularPolygon(0, 0, 1, 1, Filling.FILLED, getNPoints(), startAngle);
 		}
 		return null;
 	}
@@ -129,7 +129,7 @@ public abstract class RegularPolygonImpl extends PolygonImpl implements RegularP
 
 	@Override
 	public void setNPoints(int pointsNb) {
-		FGEAttributeNotification<?> notification = requireChange(N_POINTS, pointsNb);
+		DianaAttributeNotification<?> notification = requireChange(N_POINTS, pointsNb);
 		if (notification != null) {
 			npoints = pointsNb;
 			hasChanged(notification);
@@ -143,7 +143,7 @@ public abstract class RegularPolygonImpl extends PolygonImpl implements RegularP
 
 	@Override
 	public void setStartAngle(int anAngle) {
-		FGEAttributeNotification<?> notification = requireChange(START_ANGLE, anAngle);
+		DianaAttributeNotification<?> notification = requireChange(START_ANGLE, anAngle);
 		if (notification != null) {
 			startAngle = anAngle;
 			hasChanged(notification);

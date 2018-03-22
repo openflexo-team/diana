@@ -98,19 +98,19 @@ public interface DianaViewFactory<F extends DianaViewFactory<F, C>, C> {
 	public <O> ConnectorView<O, ? extends C> makeConnectorView(ConnectorNode<O> connectorNode, AbstractDianaEditor<?, F, C> controller);
 
 	/*
-	public FGEDrawingGraphics makeDrawingGraphics(RootNode<?> rootNode);
+	public DianaDrawingGraphics makeDrawingGraphics(RootNode<?> rootNode);
 	
-	public FGEShapeGraphics makeShapeGraphics(ShapeNode<?> shapeNode);
+	public DianaShapeGraphics makeShapeGraphics(ShapeNode<?> shapeNode);
 	
-	public FGEConnectorGraphics makeConnectorGraphics(ConnectorNode<?> connectorNode);
+	public DianaConnectorGraphics makeConnectorGraphics(ConnectorNode<?> connectorNode);
 	
-	public FGEGeometricGraphics makeGeometricGraphics(GeometricNode<?> geometricNode);
+	public DianaGeometricGraphics makeGeometricGraphics(GeometricNode<?> geometricNode);
 	
-	public FGEDrawingDecorationGraphics makeDrawingDecorationGraphics(RootNode<?> rootNode);
+	public DianaDrawingDecorationGraphics makeDrawingDecorationGraphics(RootNode<?> rootNode);
 	
-	public FGEShapeDecorationGraphics makeShapeDecorationGraphics(ShapeNode<?> shapeNode);
+	public DianaShapeDecorationGraphics makeShapeDecorationGraphics(ShapeNode<?> shapeNode);
 	
-	public FGESymbolGraphics makeSymbolGraphics(ConnectorNode<?> connectorNode);
+	public DianaSymbolGraphics makeSymbolGraphics(ConnectorNode<?> connectorNode);
 	*/
 	public PaletteController<F, C> makePaletteController(DianaPalette<?, ?> palette);
 

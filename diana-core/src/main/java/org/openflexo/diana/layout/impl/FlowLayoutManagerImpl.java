@@ -43,8 +43,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.impl.FGELayoutManagerImpl;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.impl.DianaLayoutManagerImpl;
 import org.openflexo.diana.layout.FlowLayoutManager;
 import org.openflexo.diana.layout.FlowLayoutManagerSpecification;
 import org.openflexo.diana.layout.FlowLayoutManagerSpecification.FlowOrientationType;
@@ -55,7 +55,7 @@ import org.openflexo.diana.layout.FlowLayoutManagerSpecification.FlowOrientation
  * @author fabien
  * 
  */
-public abstract class FlowLayoutManagerImpl<O> extends FGELayoutManagerImpl<FlowLayoutManagerSpecification, O>
+public abstract class FlowLayoutManagerImpl<O> extends DianaLayoutManagerImpl<FlowLayoutManagerSpecification, O>
 		implements FlowLayoutManager<O> {
 
 	@Override
@@ -73,20 +73,20 @@ public abstract class FlowLayoutManagerImpl<O> extends FGELayoutManagerImpl<Flow
 		return true;
 	}
 
-	private Map<ShapeNode<?>, FGEPoint> locationMap = new HashMap<>();
+	private Map<ShapeNode<?>, DianaPoint> locationMap = new HashMap<>();
 
 	@Override
 	public void computeLayout() {
 		super.computeLayout();
 		/* TODO : should become a property of the LayoutManager */
 		double separation = 10;
-		
+
 		/* TODO : should support horizontal placement of the LayoutManager */
-		double xAxis = getContainerNode().getWidth()/2;
+		double xAxis = getContainerNode().getWidth() / 2;
 		double yLocation = 0;
 		for (ShapeNode<?> shapeNode : getLayoutedNodes()) {
-			FGEPoint location = new FGEPoint();
-			location.x = xAxis - shapeNode.getWidth()/2;
+			DianaPoint location = new DianaPoint();
+			location.x = xAxis - shapeNode.getWidth() / 2;
 			location.y = yLocation + separation;
 			yLocation += shapeNode.getHeight() + separation;
 			locationMap.put(shapeNode, location);

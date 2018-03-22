@@ -40,12 +40,12 @@
 package org.openflexo.diana.view;
 
 import org.openflexo.diana.Drawing.ConnectorNode;
-import org.openflexo.diana.graphics.FGEConnectorGraphics;
+import org.openflexo.diana.graphics.DianaConnectorGraphics;
 
-public interface ConnectorView<O, C> extends FGEView<O, C> {
+public interface ConnectorView<O, C> extends DianaView<O, C> {
 
 	public abstract ConnectorNode<O> getNode();
 
-	public FGEConnectorGraphics getFGEGraphics();
+	public DianaConnectorGraphics getDianaGraphics();
 
 }

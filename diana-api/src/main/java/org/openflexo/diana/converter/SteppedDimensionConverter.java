@@ -40,17 +40,17 @@ package org.openflexo.diana.converter;
 
 import java.util.StringTokenizer;
 
-import org.openflexo.diana.geom.FGESteppedDimensionConstraint;
+import org.openflexo.diana.geom.DianaSteppedDimensionConstraint;
 import org.openflexo.model.StringConverterLibrary.Converter;
 import org.openflexo.model.factory.ModelFactory;
 
-public class SteppedDimensionConverter extends Converter<FGESteppedDimensionConstraint> {
-	public SteppedDimensionConverter(Class<? super FGESteppedDimensionConstraint> aClass) {
+public class SteppedDimensionConverter extends Converter<DianaSteppedDimensionConstraint> {
+	public SteppedDimensionConverter(Class<? super DianaSteppedDimensionConstraint> aClass) {
 		super(aClass);
 	}
 
 	@Override
-	public FGESteppedDimensionConstraint convertFromString(String value, ModelFactory factory) {
+	public DianaSteppedDimensionConstraint convertFromString(String value, ModelFactory factory) {
 		try {
 			Double hStep = null;
 			Double vStep = null;
@@ -61,16 +61,16 @@ public class SteppedDimensionConverter extends Converter<FGESteppedDimensionCons
 			if (st.hasMoreTokens()) {
 				vStep = Double.parseDouble(st.nextToken());
 			}
-			return new FGESteppedDimensionConstraint(hStep, vStep);
+			return new DianaSteppedDimensionConstraint(hStep, vStep);
 		} catch (NumberFormatException e) {
 			// Warns about the exception
-			System.err.println("Supplied value is not parsable as a FGESteppedDimensionConstraint:" + value);
+			System.err.println("Supplied value is not parsable as a DianaSteppedDimensionConstraint:" + value);
 			return null;
 		}
 	}
 
 	@Override
-	public String convertToString(FGESteppedDimensionConstraint aDim) {
+	public String convertToString(DianaSteppedDimensionConstraint aDim) {
 		if (aDim != null) {
 			return aDim.getHorizontalStep() + "," + aDim.getVerticalStep();
 		} else {

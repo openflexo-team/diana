@@ -40,11 +40,11 @@
 package org.openflexo.diana.notifications;
 
 import org.openflexo.connie.DataBinding;
-import org.openflexo.diana.notifications.FGENotification;
+import org.openflexo.diana.notifications.DianaNotification;
 
 // TODO: i think this is not used anymore, please check and remove when not necessary
 @Deprecated
-public class BindingChanged extends FGENotification {
+public class BindingChanged extends DianaNotification {
 
 	private DataBinding<?> binding;
 

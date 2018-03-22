@@ -39,55 +39,55 @@
 
 package org.openflexo.diana.geom;
 
-import org.openflexo.diana.geom.FGEEllips;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.geom.FGEGeometricObject.SimplifiedCardinalDirection;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEEmptyArea;
-import org.openflexo.diana.geom.area.FGEIntersectionArea;
-import org.openflexo.diana.geom.area.FGESubstractionArea;
-import org.openflexo.diana.geom.area.FGEUnionArea;
+import org.openflexo.diana.geom.DianaEllips;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaEmptyArea;
+import org.openflexo.diana.geom.area.DianaIntersectionArea;
+import org.openflexo.diana.geom.area.DianaSubstractionArea;
+import org.openflexo.diana.geom.area.DianaUnionArea;
 
 import junit.framework.TestCase;
 
 public class TestOperations extends TestCase {
 
-	static FGERectangle r1 = new FGERectangle(0, 4, 8, 8, Filling.FILLED);
-	static FGERectangle r2 = new FGERectangle(4, 1, 3, 5, Filling.FILLED);
-	static FGERectangle r3 = new FGERectangle(6, 0, 3, 7, Filling.FILLED);
-	static FGERectangle r4 = new FGERectangle(9, 0, 2, 7, Filling.FILLED);
-	static FGERectangle r5 = new FGERectangle(5, 2, 10, 6, Filling.FILLED);
-	static FGERectangle r6 = new FGERectangle(12, 4, 2, 2, Filling.FILLED);
+	static DianaRectangle r1 = new DianaRectangle(0, 4, 8, 8, Filling.FILLED);
+	static DianaRectangle r2 = new DianaRectangle(4, 1, 3, 5, Filling.FILLED);
+	static DianaRectangle r3 = new DianaRectangle(6, 0, 3, 7, Filling.FILLED);
+	static DianaRectangle r4 = new DianaRectangle(9, 0, 2, 7, Filling.FILLED);
+	static DianaRectangle r5 = new DianaRectangle(5, 2, 10, 6, Filling.FILLED);
+	static DianaRectangle r6 = new DianaRectangle(12, 4, 2, 2, Filling.FILLED);
 
-	static FGEArea r7;
-	static FGEArea r8;
-	static FGEArea r9;
-	static FGEArea r10;
+	static DianaArea r7;
+	static DianaArea r8;
+	static DianaArea r9;
+	static DianaArea r10;
 
 	public void testSomeOperations() {
-		r7 = FGEUnionArea.makeUnion(r3, r4);
+		r7 = DianaUnionArea.makeUnion(r3, r4);
 		System.out.println("r7: " + r7);
-		assertEquals(new FGERectangle(6, 0, 5, 7, Filling.FILLED), r7);
+		assertEquals(new DianaRectangle(6, 0, 5, 7, Filling.FILLED), r7);
 
-		r8 = FGEUnionArea.makeUnion(r2, FGEUnionArea.makeUnion(r3, r4));
+		r8 = DianaUnionArea.makeUnion(r2, DianaUnionArea.makeUnion(r3, r4));
 		System.out.println("r8: " + r8);
-		assertEquals(new FGEUnionArea(r2, r7), r8);
+		assertEquals(new DianaUnionArea(r2, r7), r8);
 
-		assertEquals(new FGEEmptyArea(), FGESubstractionArea.makeSubstraction(r6, r5, false));
-		// assertEquals(r1,FGESubstractionArea.makeSubstraction(r1,r6,false));
-		r9 = FGESubstractionArea.makeSubstraction(r5, r6, false);
+		assertEquals(new DianaEmptyArea(), DianaSubstractionArea.makeSubstraction(r6, r5, false));
+		// assertEquals(r1,DianaSubstractionArea.makeSubstraction(r1,r6,false));
+		r9 = DianaSubstractionArea.makeSubstraction(r5, r6, false);
 		System.out.println("r9: " + r9);
-		assertEquals(new FGESubstractionArea(r5, r6, false), r9);
+		assertEquals(new DianaSubstractionArea(r5, r6, false), r9);
 
-		r10 = FGEIntersectionArea.makeIntersection(r1, FGEUnionArea.makeUnion(r3, r4), FGESubstractionArea.makeSubstraction(r5, r6, false));
+		r10 = DianaIntersectionArea.makeIntersection(r1, DianaUnionArea.makeUnion(r3, r4), DianaSubstractionArea.makeSubstraction(r5, r6, false));
 		System.out.println("r10: " + r10);
-		assertEquals(new FGERectangle(6, 4, 2, 3, Filling.FILLED), r10);
+		assertEquals(new DianaRectangle(6, 4, 2, 3, Filling.FILLED), r10);
 
-		FGEEllips ellips1 = new FGEEllips(0, 0, 3, 3, Filling.FILLED);
-		FGEEllips ellips2 = new FGEEllips(5, 1, 3, 3, Filling.FILLED);
-		FGEArea area1 = ellips1.getOrthogonalPerspectiveArea(SimplifiedCardinalDirection.EAST);
-		FGEArea area2 = ellips2.getOrthogonalPerspectiveArea(SimplifiedCardinalDirection.WEST);
+		DianaEllips ellips1 = new DianaEllips(0, 0, 3, 3, Filling.FILLED);
+		DianaEllips ellips2 = new DianaEllips(5, 1, 3, 3, Filling.FILLED);
+		DianaArea area1 = ellips1.getOrthogonalPerspectiveArea(SimplifiedCardinalDirection.EAST);
+		DianaArea area2 = ellips2.getOrthogonalPerspectiveArea(SimplifiedCardinalDirection.WEST);
 
 		System.out.println("area1=" + area1);
 		System.out.println("area2=" + area2);

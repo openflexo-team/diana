@@ -53,8 +53,8 @@ import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.diana.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.diana.animation.impl.AnimationImpl;
 import org.openflexo.diana.animation.impl.TranslationTransition;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.impl.FGELayoutManagerImpl;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.impl.DianaLayoutManagerImpl;
 import org.openflexo.diana.layout.TreeBasedLayoutManager;
 import org.openflexo.diana.layout.TreeBasedLayoutManagerSpecification;
 
@@ -73,8 +73,8 @@ import edu.uci.ics.jung.graph.Forest;
  * @author sylvain
  * 
  */
-public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutManagerSpecification<?>, O> extends FGELayoutManagerImpl<LMS, O>
-		implements TreeBasedLayoutManager<LMS, O> {
+public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutManagerSpecification<?>, O>
+		extends DianaLayoutManagerImpl<LMS, O> implements TreeBasedLayoutManager<LMS, O> {
 
 	private DirectedGraph<ShapeNode<?>, ConnectorNode<?>> graph;
 	private Forest<ShapeNode<?>, ConnectorNode<?>> forest;
@@ -98,7 +98,7 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 
 		if (!animateLayout() || !node.getDrawing().isAnimationRunning()) {
 
-			FGEPoint newLocation = locationForNode(node);
+			DianaPoint newLocation = locationForNode(node);
 			node.setLocation(newLocation);
 		}
 	}
@@ -110,9 +110,9 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 	 * @param node
 	 * @return
 	 */
-	protected FGEPoint locationForNode(ShapeNode<?> node) {
+	protected DianaPoint locationForNode(ShapeNode<?> node) {
 		Point2D newLocation = getLayout().transform(node);
-		return new FGEPoint(newLocation.getX() - node.getWidth() / 2 /*- node.getBorder().getLeft()*/,
+		return new DianaPoint(newLocation.getX() - node.getWidth() / 2 /*- node.getBorder().getLeft()*/,
 				newLocation.getY() - node.getHeight() / 2 /*- node.getBorder().getTop()*/);
 	}
 
@@ -227,8 +227,8 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 		if (animateLayout() && !layoutInProgress) {
 			List<TranslationTransition> transitions = new ArrayList<>();
 			for (ShapeNode<?> shapeNode : getLayoutedNodes()) {
-				FGEPoint newLocation = locationForNode(shapeNode);
-				FGEPoint oldLocation = new FGEPoint(xMap.get(shapeNode), yMap.get(shapeNode));
+				DianaPoint newLocation = locationForNode(shapeNode);
+				DianaPoint oldLocation = new DianaPoint(xMap.get(shapeNode), yMap.get(shapeNode));
 				if (!newLocation.equals(oldLocation)) {
 					transitions.add(new TranslationTransition(shapeNode, oldLocation, newLocation));
 				}

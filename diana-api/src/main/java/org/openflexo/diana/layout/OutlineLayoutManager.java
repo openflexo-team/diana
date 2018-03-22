@@ -38,7 +38,7 @@
 
 package org.openflexo.diana.layout;
 
-import org.openflexo.diana.FGELayoutManager;
+import org.openflexo.diana.DianaLayoutManager;
 import org.openflexo.diana.layout.OutlineLayoutManagerSpecification.OutlineLocationType;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.XMLElement;
@@ -51,7 +51,7 @@ import org.openflexo.model.annotations.XMLElement;
  */
 @ModelEntity
 @XMLElement
-public interface OutlineLayoutManager<O> extends FGELayoutManager<OutlineLayoutManagerSpecification, O> {
+public interface OutlineLayoutManager<O> extends DianaLayoutManager<OutlineLayoutManagerSpecification, O> {
 
 	public OutlineLocationType getOutlineLocationType();
 

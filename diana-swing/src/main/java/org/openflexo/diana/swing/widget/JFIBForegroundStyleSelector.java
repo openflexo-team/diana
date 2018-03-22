@@ -50,8 +50,8 @@ import javax.swing.JPanel;
 
 import org.openflexo.diana.Drawing;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
-import org.openflexo.diana.FGECoreUtils;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaCoreUtils;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.GRStructureVisitor;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
@@ -287,7 +287,7 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 		private JDianaViewer<ForegroundStylePreviewPanel> controller;
 		private ShapeGraphicalRepresentation lineGR;
 
-		private FGEModelFactory factory;
+		private DianaModelFactory factory;
 
 		protected ForegroundStylePreviewPanel() {
 			super(new BorderLayout());
@@ -296,7 +296,7 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 			setPreferredSize(new Dimension(40, 19));
 			// setBackground(Color.WHITE);
 
-			factory = FGECoreUtils.TOOLS_FACTORY;
+			factory = DianaCoreUtils.TOOLS_FACTORY;
 
 			drawing = new DrawingImpl<ForegroundStylePreviewPanel>(this, factory, PersistenceMode.UniqueGraphicalRepresentations) {
 				@Override
@@ -305,7 +305,7 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 							"previewPanel", new DrawingGRProvider<ForegroundStylePreviewPanel>() {
 								@Override
 								public DrawingGraphicalRepresentation provideGR(ForegroundStylePreviewPanel drawable,
-										FGEModelFactory factory) {
+										DianaModelFactory factory) {
 									return drawingGR;
 								}
 							});
@@ -313,7 +313,7 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 							new ShapeGRProvider<ForegroundStylePreviewPanel>() {
 								@Override
 								public ShapeGraphicalRepresentation provideGR(ForegroundStylePreviewPanel drawable,
-										FGEModelFactory factory) {
+										DianaModelFactory factory) {
 									return lineGR;
 								}
 							});

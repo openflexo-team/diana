@@ -43,7 +43,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEConstants;
+import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
@@ -53,7 +53,7 @@ import org.openflexo.diana.control.PaletteElement;
 import org.openflexo.diana.control.DianaInteractiveEditor.EditorTool;
 import org.openflexo.diana.drawingeditor.model.DiagramElement;
 import org.openflexo.diana.drawingeditor.model.Shape;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.model.undo.CompoundEdit;
@@ -117,7 +117,7 @@ public class DiagramEditorPalette extends DrawingPalette {
 		gr.setTextStyle(FACTORY.makeTextStyle(Color.DARK_GRAY, DEFAULT_TEXT_FONT));
 		gr.setIsFloatingLabel(false);
 		gr.setForeground(FACTORY.makeForegroundStyle(Color.BLACK));
-		gr.setBackground(FACTORY.makeColoredBackground(FGEConstants.DEFAULT_BACKGROUND_COLOR));
+		gr.setBackground(FACTORY.makeColoredBackground(DianaConstants.DEFAULT_BACKGROUND_COLOR));
 		gr.setIsVisible(true);
 		gr.setAllowToLeaveBounds(false);
 
@@ -128,7 +128,7 @@ public class DiagramEditorPalette extends DrawingPalette {
 			{
 				return (gr instanceof DrawingGraphicalRepresentation) || (gr instanceof ShapeGraphicalRepresentation);
 			}
-			public boolean elementDragged(GraphicalRepresentation gr, FGEPoint dropLocation)
+			public boolean elementDragged(GraphicalRepresentation gr, DianaPoint dropLocation)
 			{
 				DiagramElement container = (DiagramElement)gr.getDrawable();
 				getController().addNewShape(new Shape(getGraphicalRepresentation().getShapeType(), dropLocation, getController().getDrawing()),container);
@@ -219,7 +219,7 @@ public class DiagramEditorPalette extends DrawingPalette {
 			}
 
 			@Override
-			public boolean elementDragged(DrawingTreeNode<?, ?> target, FGEPoint dropLocation) {
+			public boolean elementDragged(DrawingTreeNode<?, ?> target, DianaPoint dropLocation) {
 
 				if (getEditor() == null) {
 					return false;

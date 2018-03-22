@@ -58,18 +58,18 @@ import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DrawingPalette;
 import org.openflexo.diana.control.PaletteElement;
 import org.openflexo.diana.control.tools.DianaPalette;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.impl.ShapeNodeImpl;
 import org.openflexo.diana.swing.SwingViewFactory;
 import org.openflexo.diana.swing.control.JFocusRetriever;
 import org.openflexo.diana.swing.view.JDrawingView;
-import org.openflexo.diana.view.FGEView;
+import org.openflexo.diana.view.DianaView;
 
 /**
  * A DianaPaletteC represents the graphical tool representing a {@link DrawingPalette} (the model)
@@ -352,12 +352,12 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 						if (element.acceptDragging(focused)) {
 							Component targetComponent = e.getDropTargetContext().getComponent();
 							Point pt = e.getLocation();
-							FGEPoint modelLocation = new FGEPoint();
-							if (targetComponent instanceof FGEView) {
-								pt = FGEUtils.convertPoint(((FGEView<?, ?>) targetComponent).getNode(), pt, focused,
-										((FGEView<?, ?>) targetComponent).getScale());
-								modelLocation.x = pt.x / ((FGEView<?, ?>) targetComponent).getScale();
-								modelLocation.y = pt.y / ((FGEView<?, ?>) targetComponent).getScale();
+							DianaPoint modelLocation = new DianaPoint();
+							if (targetComponent instanceof DianaView) {
+								pt = DianaUtils.convertPoint(((DianaView<?, ?>) targetComponent).getNode(), pt, focused,
+										((DianaView<?, ?>) targetComponent).getScale());
+								modelLocation.x = pt.x / ((DianaView<?, ?>) targetComponent).getScale();
+								modelLocation.y = pt.y / ((DianaView<?, ?>) targetComponent).getScale();
 								modelLocation.x -= ((TransferedPaletteElement) data).getOffset().x;
 								modelLocation.y -= ((TransferedPaletteElement) data).getOffset().y;
 							}
@@ -366,7 +366,7 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 								modelLocation.y -= ((TransferedPaletteElement) data).getOffset().y;
 							}
 
-							//System.out.println("node was: " + ((FGEView<?, ?>) targetComponent).getNode());
+							//System.out.println("node was: " + ((DianaView<?, ?>) targetComponent).getNode());
 							//System.out.println("element: " + element);
 							modelLocation.x += ShapeNodeImpl.DEFAULT_BORDER_LEFT;
 							modelLocation.y += ShapeNodeImpl.DEFAULT_BORDER_TOP;
@@ -404,15 +404,15 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 		}
 
 		private JFocusRetriever getFocusRetriever() {
-			if (_dropContainer instanceof FGEView) {
+			if (_dropContainer instanceof DianaView) {
 				return getDrawingView().getFocusRetriever();
 			}
 			return null;
 		}
 
-		private FGEView<?, ?> getFGEView() {
-			if (_dropContainer instanceof FGEView) {
-				return (FGEView<?, ?>) _dropContainer;
+		private DianaView<?, ?> getDianaView() {
+			if (_dropContainer instanceof DianaView) {
+				return (DianaView<?, ?>) _dropContainer;
 			}
 			return null;
 		}
@@ -421,12 +421,12 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 			if (getFocusRetriever() != null) {
 				DrawingTreeNode<?, ?> returned = getFocusRetriever().getFocusedObject(event);
 				if (returned == null) {
-					// Since we are in a FGEView, a null value indicates that we are on the Drawing view
-					return getFGEView().getDrawingView().getDrawing().getRoot();
+					// Since we are in a DianaView, a null value indicates that we are on the Drawing view
+					return getDianaView().getDrawingView().getDrawing().getRoot();
 				}
 				return returned;
 			}
-			// No focus retriever: we are not in a FGEView....
+			// No focus retriever: we are not in a DianaView....
 			return null;
 		}
 
@@ -434,12 +434,12 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 			if (getFocusRetriever() != null) {
 				DrawingTreeNode<?, ?> returned = getFocusRetriever().getFocusedObject(event);
 				if (returned == null) {
-					// Since we are in a FGEView, a null value indicates that we are on the Drawing view
-					return getFGEView().getDrawingView().getDrawing().getRoot();
+					// Since we are in a DianaView, a null value indicates that we are on the Drawing view
+					return getDianaView().getDrawingView().getDrawing().getRoot();
 				}
 				return returned;
 			}
-			// No focus retriever: we are not in a FGEView....
+			// No focus retriever: we are not in a DianaView....
 			return null;
 		}
 

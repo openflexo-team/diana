@@ -49,7 +49,7 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
 import org.openflexo.diana.Drawing;
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.GRBinding;
 import org.openflexo.diana.Drawing.ConnectorNode;
@@ -60,12 +60,12 @@ import org.openflexo.diana.connectors.ConnectorSpecification;
 import org.openflexo.diana.connectors.impl.ConnectorImpl;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
-import org.openflexo.diana.geom.FGEDimension;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectangle;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.GeomUtils;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.graphics.FGEConnectorGraphics;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.graphics.DianaConnectorGraphics;
 import org.openflexo.diana.notifications.ConnectorModified;
 import org.openflexo.diana.notifications.ObjectHasMoved;
 import org.openflexo.diana.notifications.ObjectHasResized;
@@ -276,7 +276,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 	private double maxY = 1.0;
 
 	private void checkViewBounds() {
-		FGERectangle r = getConnector().getConnectorUsedBounds();
+		DianaRectangle r = getConnector().getConnectorUsedBounds();
 		if (GeomUtils.checkDoubleIsAValue(r.getMinX()) && GeomUtils.checkDoubleIsAValue(r.getMinY())
 				&& GeomUtils.checkDoubleIsAValue(r.getMaxX()) && GeomUtils.checkDoubleIsAValue(r.getMaxY())) {
 			minX = Math.min(r.getMinX(), 0.0);
@@ -344,14 +344,14 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 
 	@Override
 	public boolean isContainedInSelection(Rectangle drawingViewSelection, double scale) {
-		FGERectangle drawingViewBounds = new FGERectangle(drawingViewSelection.getX(), drawingViewSelection.getY(),
+		DianaRectangle drawingViewBounds = new DianaRectangle(drawingViewSelection.getX(), drawingViewSelection.getY(),
 				drawingViewSelection.getWidth(), drawingViewSelection.getHeight(), Filling.FILLED);
 		boolean isFullyContained = true;
 		for (ControlArea<?> ca : getControlAreas()) {
 			if (ca instanceof ControlPoint) {
 				ControlPoint cp = (ControlPoint) ca;
 				Point cpInContainerView = convertLocalNormalizedPointToRemoteViewCoordinates(cp.getPoint(), getDrawing().getRoot(), scale);
-				FGEPoint preciseCPInContainerView = new FGEPoint(cpInContainerView.x, cpInContainerView.y);
+				DianaPoint preciseCPInContainerView = new DianaPoint(cpInContainerView.x, cpInContainerView.y);
 				if (!drawingViewBounds.containsPoint(preciseCPInContainerView)) {
 					// System.out.println("Going outside: point="+preciseCPInContainerView+" bounds="+containerViewBounds);
 					isFullyContained = false;
@@ -482,9 +482,9 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 		}
 		// System.out.println("startNode=" + getStartNode() + " deleted=" + getStartNode().isDeleted());
 		// System.out.println("endNode=" + getEndNode() + " deleted=" + getEndNode().isDeleted());
-		// System.out.println("connected=" + FGEUtils.areElementsConnectedInGraphicalHierarchy(getStartNode(), getEndNode()));
+		// System.out.println("connected=" + DianaUtils.areElementsConnectedInGraphicalHierarchy(getStartNode(), getEndNode()));
 		return getStartNode() != null && getEndNode() != null && !getStartNode().isDeleted() && !getEndNode().isDeleted()
-				&& FGEUtils.areElementsConnectedInGraphicalHierarchy(getStartNode(), getEndNode());
+				&& DianaUtils.areElementsConnectedInGraphicalHierarchy(getStartNode(), getEndNode());
 	}
 
 	@Override
@@ -557,7 +557,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 	 * @return
 	 */
 	@Override
-	public double distanceToConnector(FGEPoint aPoint, double scale) {
+	public double distanceToConnector(DianaPoint aPoint, double scale) {
 		if (connector == null) {
 			return Double.MAX_VALUE;
 		}
@@ -581,12 +581,12 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 	}
 
 	@Override
-	public FGEDimension getRequiredLabelSize() {
+	public DianaDimension getRequiredLabelSize() {
 		return null;
 	}
 
 	@Override
-	public void paint(FGEConnectorGraphics g) {
+	public void paint(DianaConnectorGraphics g) {
 
 		if (isDeleted()) {
 			logger.warning("paint connector called for a deleted ConnectorNode");
@@ -604,7 +604,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 			return;
 		}
 
-		/*if (FGEConstants.DEBUG) {
+		/*if (DianaConstants.DEBUG) {
 			Graphics2D g2 = graphics.getGraphics();
 			g2.setColor(Color.PINK);
 			g2.drawRect(0, 0, getNode().getViewWidth(controller.getScale()) - 1, getNode().getViewHeight(controller.getScale()) - 1);

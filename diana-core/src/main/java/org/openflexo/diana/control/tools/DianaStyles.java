@@ -42,8 +42,8 @@ import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
 import org.openflexo.diana.BackgroundStyle;
-import org.openflexo.diana.FGEConstants;
-import org.openflexo.diana.FGECoreUtils;
+import org.openflexo.diana.DianaConstants;
+import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaInteractiveEditor;
 import org.openflexo.diana.control.notifications.ObjectAddedToSelection;
@@ -90,11 +90,11 @@ public abstract class DianaStyles<C, F extends DianaViewFactory<F, ? super C>> e
 	protected ShapeSpecificationFactory shapeFactory;
 
 	public DianaStyles() {
-		// defaultForegroundStyle = FGECoreUtils.TOOLS_FACTORY.makeDefaultForegroundStyle();
-		defaultBackgroundStyle = FGECoreUtils.TOOLS_FACTORY.makeColoredBackground(FGEConstants.DEFAULT_BACKGROUND_COLOR);
-		// defaultTextStyle = FGECoreUtils.TOOLS_FACTORY.makeDefaultTextStyle();
-		// defaultShadowStyle = FGECoreUtils.TOOLS_FACTORY.makeDefaultShadowStyle();
-		defaultShape = FGECoreUtils.TOOLS_FACTORY.makeShape(ShapeType.RECTANGLE);
+		// defaultForegroundStyle = DianaCoreUtils.TOOLS_FACTORY.makeDefaultForegroundStyle();
+		defaultBackgroundStyle = DianaCoreUtils.TOOLS_FACTORY.makeColoredBackground(DianaConstants.DEFAULT_BACKGROUND_COLOR);
+		// defaultTextStyle = DianaCoreUtils.TOOLS_FACTORY.makeDefaultTextStyle();
+		// defaultShadowStyle = DianaCoreUtils.TOOLS_FACTORY.makeDefaultShadowStyle();
+		defaultShape = DianaCoreUtils.TOOLS_FACTORY.makeShape(ShapeType.RECTANGLE);
 	}
 
 	/**

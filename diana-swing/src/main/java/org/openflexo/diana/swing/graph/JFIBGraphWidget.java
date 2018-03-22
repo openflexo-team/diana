@@ -51,9 +51,9 @@ import javax.swing.SwingUtilities;
 import org.apache.commons.lang3.StringUtils;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
-import org.openflexo.diana.FGEConstants;
-import org.openflexo.diana.FGEModelFactory;
-import org.openflexo.diana.FGEModelFactoryImpl;
+import org.openflexo.diana.DianaConstants;
+import org.openflexo.diana.DianaModelFactory;
+import org.openflexo.diana.DianaModelFactoryImpl;
 import org.openflexo.diana.GRStructureVisitor;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.ColorGradientBackgroundStyle.ColorGradientDirection;
@@ -66,10 +66,10 @@ import org.openflexo.diana.control.MouseControlContext;
 import org.openflexo.diana.control.MouseControl.MouseButton;
 import org.openflexo.diana.control.actions.MouseClickControlActionImpl;
 import org.openflexo.diana.control.actions.MouseClickControlImpl;
-import org.openflexo.diana.graph.FGEFunction;
-import org.openflexo.diana.graph.FGEGraph;
-import org.openflexo.diana.graph.FGENumericFunction;
-import org.openflexo.diana.graph.FGEFunction.FGEGraphType;
+import org.openflexo.diana.graph.DianaFunction;
+import org.openflexo.diana.graph.DianaGraph;
+import org.openflexo.diana.graph.DianaNumericFunction;
+import org.openflexo.diana.graph.DianaFunction.DianaGraphType;
 import org.openflexo.diana.impl.DrawingImpl;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.gina.controller.FIBController;
@@ -167,9 +167,9 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 		return getRenderingAdapter().getResultingJComponent(this);
 	}
 
-	protected abstract <G extends FGEGraph> GraphDrawing<W, G> makeGraphDrawing();
+	protected abstract <G extends DianaGraph> GraphDrawing<W, G> makeGraphDrawing();
 
-	public <G extends FGEGraph> GraphDrawing<W, ? extends G> getGraphDrawing() {
+	public <G extends DianaGraph> GraphDrawing<W, ? extends G> getGraphDrawing() {
 		return (GraphDrawing<W, G>) graphDrawing;
 	}
 
@@ -182,19 +182,19 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 	 * @param <W>
 	 *            type of widget beeing represented
 	 * @param <G>
-	 *            type of FGEGraph (Diana framework) used to represent the widget
+	 *            type of DianaGraph (Diana framework) used to represent the widget
 	 */
-	public static abstract class GraphDrawing<W extends FIBGraph, G extends FGEGraph> extends DrawingImpl<W>
+	public static abstract class GraphDrawing<W extends FIBGraph, G extends DianaGraph> extends DrawingImpl<W>
 			implements PropertyChangeListener {
 
 		public static final int DEFAULT_WIDTH = 400;
 		public static final int DEFAULT_HEIGHT = 300;
 
-		protected static FGEModelFactory GRAPH_FACTORY = null;
+		protected static DianaModelFactory GRAPH_FACTORY = null;
 
 		static {
 			try {
-				GRAPH_FACTORY = new FGEModelFactoryImpl();
+				GRAPH_FACTORY = new DianaModelFactoryImpl();
 			} catch (ModelDefinitionException e) {
 				e.printStackTrace();
 			}
@@ -232,7 +232,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 
 		protected abstract G makeGraph(W fibGraph);
 
-		private <N extends Number> void updateMinAndMax(FIBNumericFunction fibNumericFunction, FGENumericFunction<N> fgeFunction) {
+		private <N extends Number> void updateMinAndMax(FIBNumericFunction fibNumericFunction, DianaNumericFunction<N> fgeFunction) {
 			N minValue = (N) FIBNumericFunction.DEFAULT_MIN_VALUE;
 			N maxValue = (N) FIBNumericFunction.DEFAULT_MAX_VALUE;
 			if (fibNumericFunction.getMinValue() != null && fibNumericFunction.getMinValue().isSet()
@@ -255,7 +255,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			fgeFunction.setRange(minValue, maxValue);
 		}
 
-		private <N extends Number> void updateStepsNumber(FIBNumericFunction fibNumericFunction, FGENumericFunction<N> fgeFunction) {
+		private <N extends Number> void updateStepsNumber(FIBNumericFunction fibNumericFunction, DianaNumericFunction<N> fgeFunction) {
 			// Sets step number
 			int stepsNumber = FIBContinuousSimpleFunctionGraph.DEFAULT_STEPS_NUMBER;
 			if (fibNumericFunction.getStepsNumber() != null && fibNumericFunction.getStepsNumber().isSet()
@@ -271,7 +271,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 
 		}
 
-		private <N extends Number> void updateMajorTickSpacing(FIBNumericFunction fibNumericFunction, FGENumericFunction<N> fgeFunction) {
+		private <N extends Number> void updateMajorTickSpacing(FIBNumericFunction fibNumericFunction, DianaNumericFunction<N> fgeFunction) {
 			// Sets major tick spacing
 			N majorTickSpacing = (N) FIBContinuousSimpleFunctionGraph.DEFAULT_MAJOR_TICK_SPACING;
 			if (fibNumericFunction.getMajorTickSpacing() != null && fibNumericFunction.getMajorTickSpacing().isSet()
@@ -287,7 +287,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 
 		}
 
-		private <N extends Number> void updateMinorTickSpacing(FIBNumericFunction fibNumericFunction, FGENumericFunction<N> fgeFunction) {
+		private <N extends Number> void updateMinorTickSpacing(FIBNumericFunction fibNumericFunction, DianaNumericFunction<N> fgeFunction) {
 			// Sets minor tick spacing
 			N minorTickSpacing = (N) FIBContinuousSimpleFunctionGraph.DEFAULT_MINOR_TICK_SPACING;
 			if (fibNumericFunction.getMinorTickSpacing() != null && fibNumericFunction.getMinorTickSpacing().isSet()
@@ -313,7 +313,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 
 				if (function instanceof FIBNumericFunction) {
 					FIBNumericFunction fibNumericFunction = (FIBNumericFunction) function;
-					FGENumericFunction numericFunction = graph.addNumericFunction(function.getName(), function.getType(),
+					DianaNumericFunction numericFunction = graph.addNumericFunction(function.getName(), function.getType(),
 							(DataBinding<Number>) function.getExpression(), getGraphType(function.getGraphType()));
 
 					if (fibNumericFunction.getGraphType() == GraphType.COLORED_STEPS) {
@@ -371,7 +371,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			}
 			if (evt.getSource() instanceof FIBGraphFunction) {
 				FIBGraphFunction fibFunction = (FIBGraphFunction) evt.getSource();
-				FGEFunction<?> fgeFunction = graph.getFunction(fibFunction.getName());
+				DianaFunction<?> fgeFunction = graph.getFunction(fibFunction.getName());
 				if (fgeFunction != null) {
 					if (evt.getPropertyName().equals(FIBGraphFunction.EXPRESSION_KEY)) {
 						// System.out.println("On reconstruit la graphe a cause de la fonction qui change: " + evt.getPropertyName());
@@ -379,7 +379,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 							fgeFunction.setFunctionExpression((DataBinding) fibFunction.getExpression());
 						}
 						else {
-							logger.warning("Inconsistent data : could not find FGEFunction matching " + fibFunction);
+							logger.warning("Inconsistent data : could not find DianaFunction matching " + fibFunction);
 						}
 						updateGraph();
 					}
@@ -403,7 +403,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			}
 			if (evt.getSource() instanceof FIBNumericFunction) {
 				FIBNumericFunction fibNumericFunction = (FIBNumericFunction) evt.getSource();
-				FGENumericFunction fgeFunction = (FGENumericFunction<?>) graph.getFunction(fibNumericFunction.getName());
+				DianaNumericFunction fgeFunction = (DianaNumericFunction<?>) graph.getFunction(fibNumericFunction.getName());
 				if (fgeFunction != null) {
 					if (evt.getPropertyName().equals(FIBNumericFunction.MAX_VALUE_KEY)
 							|| evt.getPropertyName().equals(FIBNumericFunction.MIN_VALUE_KEY)) {
@@ -491,27 +491,27 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			graphGR.setHeight(widget.getTechnologyComponent().getHeight() - getModel().getBorderTop() - getModel().getBorderBottom());
 		}
 
-		protected FGEGraphType getGraphType(GraphType graphType) {
+		protected DianaGraphType getGraphType(GraphType graphType) {
 			if (graphType == null) {
-				return FGEGraphType.CURVE;
+				return DianaGraphType.CURVE;
 			}
 			switch (graphType) {
 				case POINTS:
-					return FGEGraphType.POINTS;
+					return DianaGraphType.POINTS;
 				case POLYLIN:
-					return FGEGraphType.POLYLIN;
+					return DianaGraphType.POLYLIN;
 				case RECT_POLYLIN:
-					return FGEGraphType.RECT_POLYLIN;
+					return DianaGraphType.RECT_POLYLIN;
 				case CURVE:
-					return FGEGraphType.CURVE;
+					return DianaGraphType.CURVE;
 				case BAR_GRAPH:
-					return FGEGraphType.BAR_GRAPH;
+					return DianaGraphType.BAR_GRAPH;
 				case COLORED_STEPS:
-					return FGEGraphType.COLORED_STEPS;
+					return DianaGraphType.COLORED_STEPS;
 				case SECTORS:
-					return FGEGraphType.SECTORS;
+					return DianaGraphType.SECTORS;
 			}
-			return FGEGraphType.CURVE;
+			return DianaGraphType.CURVE;
 		}
 
 		/*public sclass ShowContextualMenuControl extends MouseClickControlImpl<DianaDrawingEditor> {
@@ -520,7 +520,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 				super("Show contextual menu", MouseButton.RIGHT, 1, new MouseClickControlActionImpl<DianaDrawingEditor>() {
 					@Override
 					public boolean handleClick(DrawingTreeNode<?, ?> dtn, DianaDrawingEditor controller, MouseControlContext context) {
-						FGEView<?, ?> view = controller.getDrawingView().viewForNode(dtn);
+						DianaView<?, ?> view = controller.getDrawingView().viewForNode(dtn);
 						Point newPoint = getPointInView(dtn, controller, context);
 						controller.showContextualMenu(dtn, view, newPoint);
 						return false;
@@ -543,7 +543,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 						@Override
 						public boolean handleClick(DrawingTreeNode<?, ?> dtn, AbstractDianaEditor<?, ?, ?> controller,
 								MouseControlContext context) {
-							// Unused FGEView<?, ?> view =
+							// Unused DianaView<?, ?> view =
 							controller.getDrawingView().viewForNode(dtn);
 							// Unused Point newPoint =
 							getPointInView(dtn, controller, context);
@@ -556,7 +556,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 
 			final DrawingGRBinding<W> drawingBinding = bindDrawing((Class<W>) getModel().getClass(), "drawing", new DrawingGRProvider<W>() {
 				@Override
-				public DrawingGraphicalRepresentation provideGR(W drawable, FGEModelFactory factory) {
+				public DrawingGraphicalRepresentation provideGR(W drawable, DianaModelFactory factory) {
 					return drawingRepresentation;
 				}
 			});
@@ -567,15 +567,15 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			graphGR.setWidth(DEFAULT_WIDTH);
 			graphGR.setHeight(DEFAULT_HEIGHT);
 			graphGR.setShadowStyle(getFactory().makeNoneShadowStyle());
-			graphGR.setBackground(getFactory().makeColorGradientBackground(FGEConstants.DEFAULT_BACKGROUND_COLOR, Color.white,
+			graphGR.setBackground(getFactory().makeColorGradientBackground(DianaConstants.DEFAULT_BACKGROUND_COLOR, Color.white,
 					ColorGradientDirection.NORTH_WEST_SOUTH_EAST));
 			graphGR.setForeground(getFactory().makeForegroundStyle(Color.ORANGE));
 			graphGR.setIsFocusable(false);
 			graphGR.setIsSelectable(false);
 
-			final GraphGRBinding<FGEGraph> graphBinding = bindGraph(FGEGraph.class, "graph", new ShapeGRProvider<FGEGraph>() {
+			final GraphGRBinding<DianaGraph> graphBinding = bindGraph(DianaGraph.class, "graph", new ShapeGRProvider<DianaGraph>() {
 				@Override
-				public ShapeGraphicalRepresentation provideGR(FGEGraph drawable, FGEModelFactory factory) {
+				public ShapeGraphicalRepresentation provideGR(DianaGraph drawable, DianaModelFactory factory) {
 					return graphGR;
 				}
 			});

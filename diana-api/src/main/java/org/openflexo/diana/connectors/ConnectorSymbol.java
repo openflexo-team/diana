@@ -45,19 +45,19 @@ import java.awt.geom.AffineTransform;
 import javax.swing.ImageIcon;
 
 import org.openflexo.diana.BackgroundStyle;
-import org.openflexo.diana.FGEIconLibrary;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaIconLibrary;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.ForegroundStyle;
-import org.openflexo.diana.FGEUtils.HasIcon;
-import org.openflexo.diana.geom.FGEEllips;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGEPolygon;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGESegment;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEEmptyArea;
-import org.openflexo.diana.geom.area.FGEUnionArea;
+import org.openflexo.diana.DianaUtils.HasIcon;
+import org.openflexo.diana.geom.DianaEllips;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaEmptyArea;
+import org.openflexo.diana.geom.area.DianaUnionArea;
 
 public interface ConnectorSymbol {
 
@@ -80,37 +80,37 @@ public interface ConnectorSymbol {
 		@Override
 		public ImageIcon getIcon() {
 			if (this == NONE) {
-				return FGEIconLibrary.START_NONE_ICON;
+				return DianaIconLibrary.START_NONE_ICON;
 			} else if (this == ARROW) {
-				return FGEIconLibrary.START_ARROW_ICON;
+				return DianaIconLibrary.START_ARROW_ICON;
 			} else if (this == PLAIN_ARROW) {
-				return FGEIconLibrary.START_PLAIN_ARROW_ICON;
+				return DianaIconLibrary.START_PLAIN_ARROW_ICON;
 			} else if (this == FILLED_ARROW) {
-				return FGEIconLibrary.START_FILLED_ARROW_ICON;
+				return DianaIconLibrary.START_FILLED_ARROW_ICON;
 			} else if (this == PLAIN_DOUBLE_ARROW) {
-				return FGEIconLibrary.START_PLAIN_DOUBLE_ARROW_ICON;
+				return DianaIconLibrary.START_PLAIN_DOUBLE_ARROW_ICON;
 			} else if (this == FILLED_DOUBLE_ARROW) {
-				return FGEIconLibrary.START_FILLED_DOUBLE_ARROW_ICON;
+				return DianaIconLibrary.START_FILLED_DOUBLE_ARROW_ICON;
 			} else if (this == PLAIN_CIRCLE) {
-				return FGEIconLibrary.START_PLAIN_CIRCLE_ICON;
+				return DianaIconLibrary.START_PLAIN_CIRCLE_ICON;
 			} else if (this == FILLED_CIRCLE) {
-				return FGEIconLibrary.START_FILLED_CIRCLE_ICON;
+				return DianaIconLibrary.START_FILLED_CIRCLE_ICON;
 			} else if (this == PLAIN_SQUARE) {
-				return FGEIconLibrary.START_PLAIN_SQUARE_ICON;
+				return DianaIconLibrary.START_PLAIN_SQUARE_ICON;
 			} else if (this == FILLED_SQUARE) {
-				return FGEIconLibrary.START_FILLED_SQUARE_ICON;
+				return DianaIconLibrary.START_FILLED_SQUARE_ICON;
 			} else if (this == PLAIN_DIAMOND || this == PLAIN_LONG_DIAMOND) {
-				return FGEIconLibrary.START_PLAIN_DIAMOND_ICON;
+				return DianaIconLibrary.START_PLAIN_DIAMOND_ICON;
 			} else if (this == FILLED_DIAMOND) {
-				return FGEIconLibrary.START_FILLED_DIAMOND_ICON;
+				return DianaIconLibrary.START_FILLED_DIAMOND_ICON;
 			} else if (this == DEFAULT_FLOW) {
-				return FGEIconLibrary.DEFAULT_FLOW_ICON;
+				return DianaIconLibrary.DEFAULT_FLOW_ICON;
 			}
 			return null;
 		}
 
 		@Override
-		public FGEArea getSymbol() {
+		public DianaArea getSymbol() {
 			if (this == NONE) {
 				return SymbolShapes.EMPTY_AREA;
 			} else if (this == ARROW) {
@@ -144,7 +144,7 @@ public interface ConnectorSymbol {
 		}
 
 		@Override
-		public BackgroundStyle getBackgroundStyle(Color fgColor, Color bgColor, FGEModelFactory factory) {
+		public BackgroundStyle getBackgroundStyle(Color fgColor, Color bgColor, DianaModelFactory factory) {
 			if (this == NONE) {
 				return factory.makeEmptyBackground();
 			} else if (this == ARROW) {
@@ -179,7 +179,7 @@ public interface ConnectorSymbol {
 		}
 
 		@Override
-		public ForegroundStyle getForegroundStyle(ForegroundStyle fgStyle, FGEModelFactory factory) {
+		public ForegroundStyle getForegroundStyle(ForegroundStyle fgStyle, DianaModelFactory factory) {
 			if (this == NONE) {
 				return factory.makeNoneForegroundStyle();
 			} else if (this == ARROW) {
@@ -208,35 +208,35 @@ public interface ConnectorSymbol {
 		@Override
 		public ImageIcon getIcon() {
 			if (this == NONE) {
-				return FGEIconLibrary.END_NONE_ICON;
+				return DianaIconLibrary.END_NONE_ICON;
 			} else if (this == ARROW) {
-				return FGEIconLibrary.END_ARROW_ICON;
+				return DianaIconLibrary.END_ARROW_ICON;
 			} else if (this == PLAIN_ARROW) {
-				return FGEIconLibrary.END_PLAIN_ARROW_ICON;
+				return DianaIconLibrary.END_PLAIN_ARROW_ICON;
 			} else if (this == FILLED_ARROW) {
-				return FGEIconLibrary.END_FILLED_ARROW_ICON;
+				return DianaIconLibrary.END_FILLED_ARROW_ICON;
 			} else if (this == PLAIN_DOUBLE_ARROW) {
-				return FGEIconLibrary.END_PLAIN_DOUBLE_ARROW_ICON;
+				return DianaIconLibrary.END_PLAIN_DOUBLE_ARROW_ICON;
 			} else if (this == FILLED_DOUBLE_ARROW) {
-				return FGEIconLibrary.END_FILLED_DOUBLE_ARROW_ICON;
+				return DianaIconLibrary.END_FILLED_DOUBLE_ARROW_ICON;
 			} else if (this == PLAIN_CIRCLE) {
-				return FGEIconLibrary.END_PLAIN_CIRCLE_ICON;
+				return DianaIconLibrary.END_PLAIN_CIRCLE_ICON;
 			} else if (this == FILLED_CIRCLE) {
-				return FGEIconLibrary.END_FILLED_CIRCLE_ICON;
+				return DianaIconLibrary.END_FILLED_CIRCLE_ICON;
 			} else if (this == PLAIN_SQUARE) {
-				return FGEIconLibrary.END_PLAIN_SQUARE_ICON;
+				return DianaIconLibrary.END_PLAIN_SQUARE_ICON;
 			} else if (this == FILLED_SQUARE) {
-				return FGEIconLibrary.END_FILLED_SQUARE_ICON;
+				return DianaIconLibrary.END_FILLED_SQUARE_ICON;
 			} else if (this == PLAIN_DIAMOND) {
-				return FGEIconLibrary.END_PLAIN_DIAMOND_ICON;
+				return DianaIconLibrary.END_PLAIN_DIAMOND_ICON;
 			} else if (this == FILLED_DIAMOND) {
-				return FGEIconLibrary.END_FILLED_DIAMOND_ICON;
+				return DianaIconLibrary.END_FILLED_DIAMOND_ICON;
 			}
 			return null;
 		}
 
 		@Override
-		public FGEArea getSymbol() {
+		public DianaArea getSymbol() {
 			if (this == NONE) {
 				return SymbolShapes.EMPTY_AREA;
 			} else if (this == ARROW) {
@@ -266,7 +266,7 @@ public interface ConnectorSymbol {
 		}
 
 		@Override
-		public BackgroundStyle getBackgroundStyle(Color fgColor, Color bgColor, FGEModelFactory factory) {
+		public BackgroundStyle getBackgroundStyle(Color fgColor, Color bgColor, DianaModelFactory factory) {
 			if (this == NONE) {
 				return factory.makeEmptyBackground();
 			} else if (this == ARROW) {
@@ -297,7 +297,7 @@ public interface ConnectorSymbol {
 		}
 
 		@Override
-		public ForegroundStyle getForegroundStyle(ForegroundStyle fgStyle, FGEModelFactory factory) {
+		public ForegroundStyle getForegroundStyle(ForegroundStyle fgStyle, DianaModelFactory factory) {
 			if (this == NONE) {
 				return factory.makeNoneForegroundStyle();
 			} else if (this == ARROW) {
@@ -326,35 +326,35 @@ public interface ConnectorSymbol {
 		@Override
 		public ImageIcon getIcon() {
 			if (this == NONE) {
-				return FGEIconLibrary.MIDDLE_NONE_ICON;
+				return DianaIconLibrary.MIDDLE_NONE_ICON;
 			} else if (this == ARROW) {
-				return FGEIconLibrary.MIDDLE_ARROW_ICON;
+				return DianaIconLibrary.MIDDLE_ARROW_ICON;
 			} else if (this == PLAIN_ARROW) {
-				return FGEIconLibrary.MIDDLE_PLAIN_ARROW_ICON;
+				return DianaIconLibrary.MIDDLE_PLAIN_ARROW_ICON;
 			} else if (this == FILLED_ARROW) {
-				return FGEIconLibrary.MIDDLE_FILLED_ARROW_ICON;
+				return DianaIconLibrary.MIDDLE_FILLED_ARROW_ICON;
 			} else if (this == PLAIN_DOUBLE_ARROW) {
-				return FGEIconLibrary.MIDDLE_PLAIN_DOUBLE_ARROW_ICON;
+				return DianaIconLibrary.MIDDLE_PLAIN_DOUBLE_ARROW_ICON;
 			} else if (this == FILLED_DOUBLE_ARROW) {
-				return FGEIconLibrary.MIDDLE_FILLED_DOUBLE_ARROW_ICON;
+				return DianaIconLibrary.MIDDLE_FILLED_DOUBLE_ARROW_ICON;
 			} else if (this == PLAIN_CIRCLE) {
-				return FGEIconLibrary.MIDDLE_PLAIN_CIRCLE_ICON;
+				return DianaIconLibrary.MIDDLE_PLAIN_CIRCLE_ICON;
 			} else if (this == FILLED_CIRCLE) {
-				return FGEIconLibrary.MIDDLE_FILLED_CIRCLE_ICON;
+				return DianaIconLibrary.MIDDLE_FILLED_CIRCLE_ICON;
 			} else if (this == PLAIN_SQUARE) {
-				return FGEIconLibrary.MIDDLE_PLAIN_SQUARE_ICON;
+				return DianaIconLibrary.MIDDLE_PLAIN_SQUARE_ICON;
 			} else if (this == FILLED_SQUARE) {
-				return FGEIconLibrary.MIDDLE_FILLED_SQUARE_ICON;
+				return DianaIconLibrary.MIDDLE_FILLED_SQUARE_ICON;
 			} else if (this == PLAIN_DIAMOND) {
-				return FGEIconLibrary.MIDDLE_PLAIN_DIAMOND_ICON;
+				return DianaIconLibrary.MIDDLE_PLAIN_DIAMOND_ICON;
 			} else if (this == FILLED_DIAMOND) {
-				return FGEIconLibrary.MIDDLE_FILLED_DIAMOND_ICON;
+				return DianaIconLibrary.MIDDLE_FILLED_DIAMOND_ICON;
 			}
 			return null;
 		}
 
 		@Override
-		public FGEArea getSymbol() {
+		public DianaArea getSymbol() {
 			// Translate to put the middle of the symbol at required location
 			AffineTransform translator = AffineTransform.getTranslateInstance(0.5, 0);
 			if (this == NONE) {
@@ -386,7 +386,7 @@ public interface ConnectorSymbol {
 		}
 
 		@Override
-		public BackgroundStyle getBackgroundStyle(Color fgColor, Color bgColor, FGEModelFactory factory) {
+		public BackgroundStyle getBackgroundStyle(Color fgColor, Color bgColor, DianaModelFactory factory) {
 			if (this == NONE) {
 				return factory.makeEmptyBackground();
 			} else if (this == ARROW) {
@@ -417,7 +417,7 @@ public interface ConnectorSymbol {
 		}
 
 		@Override
-		public ForegroundStyle getForegroundStyle(ForegroundStyle fgStyle, FGEModelFactory factory) {
+		public ForegroundStyle getForegroundStyle(ForegroundStyle fgStyle, DianaModelFactory factory) {
 			if (this == NONE) {
 				return factory.makeNoneForegroundStyle();
 			} else if (this == ARROW) {
@@ -430,31 +430,31 @@ public interface ConnectorSymbol {
 	}
 
 	public static class SymbolShapes {
-		private static FGEArea EMPTY_AREA = new FGEEmptyArea();
-		static FGEArea BASIC_ARROW = new FGEUnionArea(new FGESegment(new FGEPoint(0, 0), new FGEPoint(1, 0.5)), new FGESegment(
-				new FGEPoint(1, 0.5), new FGEPoint(0, 1)));
-		static FGEArea ARROW = new FGEPolygon(Filling.FILLED, new FGEPoint(0, 0.1), new FGEPoint(1, 0.5), new FGEPoint(0, 0.9));
-		/*private static FGEArea CENTERED_ARROW = new FGEPolygon(
+		private static DianaArea EMPTY_AREA = new DianaEmptyArea();
+		static DianaArea BASIC_ARROW = new DianaUnionArea(new DianaSegment(new DianaPoint(0, 0), new DianaPoint(1, 0.5)), new DianaSegment(
+				new DianaPoint(1, 0.5), new DianaPoint(0, 1)));
+		static DianaArea ARROW = new DianaPolygon(Filling.FILLED, new DianaPoint(0, 0.1), new DianaPoint(1, 0.5), new DianaPoint(0, 0.9));
+		/*private static DianaArea CENTERED_ARROW = new DianaPolygon(
 				Filling.FILLED,
-				new FGEPoint(0.5,0.1),
-				new FGEPoint(1.5,0.5),
-				new FGEPoint(0.5,0.9));*/
-		static FGEArea DOUBLE_ARROW = new FGEUnionArea(new FGEPolygon(Filling.FILLED, new FGEPoint(0, 0.2), new FGEPoint(0.5, 0.5),
-				new FGEPoint(0, 0.8)), new FGEPolygon(Filling.FILLED, new FGEPoint(0.5, 0.2), new FGEPoint(1.0, 0.5),
-				new FGEPoint(0.5, 0.8)));
-		static FGEArea CIRCLE = new FGEEllips(0, 0, 1, 1, Filling.FILLED);
-		static FGEArea SQUARE = new FGERectangle(0, 0, 1, 1, Filling.FILLED);
-		static FGEArea DIAMOND = new FGEPolygon(Filling.FILLED, new FGEPoint(0.5, 0), new FGEPoint(1, 0.5), new FGEPoint(0.5, 1),
-				new FGEPoint(0, 0.5));
-		static FGEArea LONG_DIAMOND = new FGEPolygon(Filling.FILLED, new FGEPoint(0.5, 0.2), new FGEPoint(1, 0.5), new FGEPoint(0.5, 0.8),
-				new FGEPoint(0, 0.5));
-		static FGEArea SLASH = new FGESegment(new FGEPoint(0.0, 0), new FGEPoint(0.2, 1));
+				new DianaPoint(0.5,0.1),
+				new DianaPoint(1.5,0.5),
+				new DianaPoint(0.5,0.9));*/
+		static DianaArea DOUBLE_ARROW = new DianaUnionArea(new DianaPolygon(Filling.FILLED, new DianaPoint(0, 0.2), new DianaPoint(0.5, 0.5),
+				new DianaPoint(0, 0.8)), new DianaPolygon(Filling.FILLED, new DianaPoint(0.5, 0.2), new DianaPoint(1.0, 0.5),
+				new DianaPoint(0.5, 0.8)));
+		static DianaArea CIRCLE = new DianaEllips(0, 0, 1, 1, Filling.FILLED);
+		static DianaArea SQUARE = new DianaRectangle(0, 0, 1, 1, Filling.FILLED);
+		static DianaArea DIAMOND = new DianaPolygon(Filling.FILLED, new DianaPoint(0.5, 0), new DianaPoint(1, 0.5), new DianaPoint(0.5, 1),
+				new DianaPoint(0, 0.5));
+		static DianaArea LONG_DIAMOND = new DianaPolygon(Filling.FILLED, new DianaPoint(0.5, 0.2), new DianaPoint(1, 0.5), new DianaPoint(0.5, 0.8),
+				new DianaPoint(0, 0.5));
+		static DianaArea SLASH = new DianaSegment(new DianaPoint(0.0, 0), new DianaPoint(0.2, 1));
 	}
 
-	public FGEArea getSymbol();
+	public DianaArea getSymbol();
 
-	public BackgroundStyle getBackgroundStyle(Color fgColor, Color bgColor, FGEModelFactory factory);
+	public BackgroundStyle getBackgroundStyle(Color fgColor, Color bgColor, DianaModelFactory factory);
 
-	public ForegroundStyle getForegroundStyle(ForegroundStyle fgStyle, FGEModelFactory factory);
+	public ForegroundStyle getForegroundStyle(ForegroundStyle fgStyle, DianaModelFactory factory);
 
 }

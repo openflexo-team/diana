@@ -54,7 +54,7 @@ import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 
-import org.openflexo.diana.FGEConstants;
+import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
@@ -65,13 +65,13 @@ import org.openflexo.diana.control.DianaInteractiveEditor;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
-import org.openflexo.diana.geom.FGEGeometricObject;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGESegment;
+import org.openflexo.diana.geom.DianaGeometricObject;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaSegment;
 import org.openflexo.diana.swing.view.JDrawingView;
-import org.openflexo.diana.swing.view.JFGEView;
+import org.openflexo.diana.swing.view.JDianaView;
 import org.openflexo.diana.swing.view.JLabelView;
-import org.openflexo.diana.view.FGEView;
+import org.openflexo.diana.view.DianaView;
 
 /**
  * Utility class used in a general context to retrieve the focus owner in a graphical context.<br>
@@ -157,16 +157,16 @@ public class JFocusRetriever {
 			return false;
 		}
 
-		JFGEView<?, ?> view = drawingView.viewForNode(node);
+		JDianaView<?, ?> view = drawingView.viewForNode(node);
 		if (view == null) {
 			logger.warning(
 					"Unexpected null view for node " + node + " AbstractDianaEditor=" + getController() + " JDrawingView=" + drawingView);
-			/*Map<DrawingTreeNode<?, ?>, FGEView<?,?>> contents = getController().getContents();
+			/*Map<DrawingTreeNode<?, ?>, DianaView<?,?>> contents = getController().getContents();
 			System.out.println("Pour node, j'ai:");
-			FGEView v = contents.get(node);
+			DianaView v = contents.get(node);
 			System.out.println("Prout");*/
 		}
-		FGEView<?, ?> parenttView = node == drawingView.getDrawing().getRoot() ? drawingView
+		DianaView<?, ?> parenttView = node == drawingView.getDrawing().getRoot() ? drawingView
 				: drawingView.viewForNode(node.getParentNode());
 		Point p = SwingUtilities.convertPoint(eventSource, eventLocation, (Component) parenttView);
 		if (node.hasText() && view != null) {
@@ -185,7 +185,7 @@ public class JFocusRetriever {
 
 	public ControlArea<?> getFocusedControlAreaForDrawable(DrawingTreeNode<?, ?> node, ContainerNode<?, ?> container, MouseEvent event) {
 		ControlArea<?> returned = null;
-		double selectionDistance = FGEConstants.SELECTION_DISTANCE; // Math.max(5.0,FGEConstants.SELECTION_DISTANCE*getScale());
+		double selectionDistance = DianaConstants.SELECTION_DISTANCE; // Math.max(5.0,DianaConstants.SELECTION_DISTANCE*getScale());
 		if (node instanceof GeometricNode) {
 			GeometricNode<?> geometricNode = (GeometricNode<?>) node;
 			Point viewPoint = SwingUtilities.convertPoint((Component) event.getSource(), event.getPoint(),
@@ -204,9 +204,9 @@ public class JFocusRetriever {
 			return returned;
 		}
 
-		FGEView<?, ?> view = drawingView.viewForNode(container);
+		DianaView<?, ?> view = drawingView.viewForNode(container);
 		Point p = SwingUtilities.convertPoint((Component) event.getSource(), event.getPoint(), (Component) view);
-		FGEView<?, ?> v = drawingView.viewForNode(node);
+		DianaView<?, ?> v = drawingView.viewForNode(node);
 		Point p2 = SwingUtilities.convertPoint((Component) view, p, (Component) v);
 
 		if (node instanceof ShapeNode) {
@@ -216,7 +216,7 @@ public class JFocusRetriever {
 			p2.y -= (int) (shapeNode.getBorderTop() * getScale());
 		}
 
-		FGEPoint p3 = v.getNode().convertViewCoordinatesToNormalizedPoint(p2, getScale());
+		DianaPoint p3 = v.getNode().convertViewCoordinatesToNormalizedPoint(p2, getScale());
 
 		if (node instanceof ShapeNode) {
 			ShapeNode<?> shapeNode = (ShapeNode<?>) node;
@@ -328,7 +328,7 @@ public class JFocusRetriever {
 		// eventLocation);
 		// System.out.println("node=" + node);
 
-		FGEView<?, ?> view = drawingView.viewForNode(node);
+		DianaView<?, ?> view = drawingView.viewForNode(node);
 		Point p = SwingUtilities.convertPoint(eventSource, eventLocation, (Component) view);
 
 		double distanceToNearestConnector = Double.POSITIVE_INFINITY;
@@ -351,7 +351,7 @@ public class JFocusRetriever {
 				logger.warning("Null child node ");
 				continue;
 			}
-			double selectionDistance = Math.max(5.0, FGEConstants.SELECTION_DISTANCE * getScale());
+			double selectionDistance = Math.max(5.0, DianaConstants.SELECTION_DISTANCE * getScale());
 			// Work on object only if object is visible and focusable
 			if (childNode.shouldBeDisplayed() && childNode.getGraphicalRepresentation().getIsFocusable()) {
 
@@ -359,17 +359,17 @@ public class JFocusRetriever {
 
 					GeometricNode<?> geometricNode = (GeometricNode<?>) childNode;
 					Point viewPoint = SwingUtilities.convertPoint(eventSource, eventLocation, (Component) drawingView.viewForNode(node));
-					FGEPoint point = childNode.convertViewCoordinatesToNormalizedPoint(viewPoint, getScale());
+					DianaPoint point = childNode.convertViewCoordinatesToNormalizedPoint(viewPoint, getScale());
 
 					if (geometricNode.getGraphicalRepresentation().getGeometricObject().containsPoint(point)) {
 						enclosingGeometricObjects.add(geometricNode);
 					}
 					else {
-						FGEPoint nearestPoint = geometricNode.getGraphicalRepresentation().getGeometricObject().getNearestPoint(point);
+						DianaPoint nearestPoint = geometricNode.getGraphicalRepresentation().getGeometricObject().getNearestPoint(point);
 						if (nearestPoint != null) {
-							double distance = FGESegment.getLength(point, nearestPoint) * getScale();
+							double distance = DianaSegment.getLength(point, nearestPoint) * getScale();
 							if (distance < selectionDistance && (distance < distanceToNearestGeometricObject
-									&& Math.abs(distance - distanceToNearestGeometricObject) > FGEGeometricObject.EPSILON
+									&& Math.abs(distance - distanceToNearestGeometricObject) > DianaGeometricObject.EPSILON
 									&& focusedCP == null
 									|| geometricNode.getGraphicalRepresentation().getLayer() > layerOfNearestGeometricObject)) {
 								distanceToNearestGeometricObject = distance;
@@ -394,7 +394,7 @@ public class JFocusRetriever {
 
 				else {
 
-					FGEView<?, ?> v = drawingView.viewForNode(childNode);
+					DianaView<?, ?> v = drawingView.viewForNode(childNode);
 					Rectangle r = childNode.getViewBounds(getScale());
 
 					// We duplicate p as point in node view
@@ -415,7 +415,7 @@ public class JFocusRetriever {
 							p2.y -= (int) (((ShapeNode<?>) childNode).getBorderTop() * getScale());
 						}
 
-						FGEPoint p3 = childNode.convertViewCoordinatesToNormalizedPoint(p2, getScale());
+						DianaPoint p3 = childNode.convertViewCoordinatesToNormalizedPoint(p2, getScale());
 						if (childNode instanceof ShapeNode) {
 							ShapeNode<?> shapeNode = (ShapeNode<?>) childNode;
 							if (Double.isNaN(p3.getX()) && shapeNode.getWidth() == 0) {
@@ -519,7 +519,7 @@ public class JFocusRetriever {
 							// We are just outside the shape, may be we
 							// focus on a CP ???
 							Point p2 = SwingUtilities.convertPoint((Component) view, p, (Component) v);
-							FGEPoint p3 = childNode.convertViewCoordinatesToNormalizedPoint(p2, getScale());
+							DianaPoint p3 = childNode.convertViewCoordinatesToNormalizedPoint(p2, getScale());
 							if (childNode instanceof ShapeNode) {
 								ShapeNode<?> shapeNode = (ShapeNode<?>) childNode;
 								if (shapeNode.getControlAreas() != null) {
@@ -629,9 +629,9 @@ public class JFocusRetriever {
 			if (shapesInSameLayer.size() > 1) {
 				double distance = Double.MAX_VALUE;
 				for (ShapeNode<?> gr : shapesInSameLayer) {
-					FGEView<?, ?> v = drawingView.viewForNode(gr);
+					DianaView<?, ?> v = drawingView.viewForNode(gr);
 					Point p2 = SwingUtilities.convertPoint((Component) view, p, (Component) v);
-					FGEPoint p3 = gr.convertViewCoordinatesToNormalizedPoint(p2, getScale());
+					DianaPoint p3 = gr.convertViewCoordinatesToNormalizedPoint(p2, getScale());
 					if (Double.isNaN(p3.getX()) && gr.getWidth() == 0) {
 						p3.x = 0;
 					}
@@ -678,9 +678,9 @@ public class JFocusRetriever {
 			if (node.getControlAreas() != null) {
 				for (ControlArea<?> ca : node.getControlAreas()) {
 					if (ca != null) {
-						FGEPoint p3 = node.convertViewCoordinatesToNormalizedPoint(p, getScale());
+						DianaPoint p3 = node.convertViewCoordinatesToNormalizedPoint(p, getScale());
 						double caDistance = ca.getDistanceToArea(p3, getScale());
-						if (caDistance < FGEConstants.SELECTION_DISTANCE) {
+						if (caDistance < DianaConstants.SELECTION_DISTANCE) {
 							returned = node;
 						}
 					}

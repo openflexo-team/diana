@@ -42,7 +42,7 @@ package org.openflexo.diana.swing.graph;
 import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.graph.FGESimpleFunctionGraph;
+import org.openflexo.diana.graph.DianaSimpleFunctionGraph;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.graph.FIBContinuousSimpleFunctionGraph;
 import org.openflexo.gina.model.graph.FIBSimpleFunctionGraph;
@@ -60,10 +60,10 @@ public abstract class JFIBSimpleGraphWidget<W extends FIBSimpleFunctionGraph> ex
 		super(model, controller);
 	}
 
-	public abstract static class FGESimpleFunctionGraphDrawing<W extends FIBSimpleFunctionGraph, G extends FGESimpleFunctionGraph<?>>
+	public abstract static class DianaSimpleFunctionGraphDrawing<W extends FIBSimpleFunctionGraph, G extends DianaSimpleFunctionGraph<?>>
 			extends GraphDrawing<W, G> {
 
-		public FGESimpleFunctionGraphDrawing(W fibGraph, JFIBSimpleGraphWidget<W> widget) {
+		public DianaSimpleFunctionGraphDrawing(W fibGraph, JFIBSimpleGraphWidget<W> widget) {
 			super(fibGraph, widget);
 		}
 

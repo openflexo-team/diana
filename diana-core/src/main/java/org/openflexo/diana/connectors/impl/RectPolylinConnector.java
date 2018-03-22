@@ -51,12 +51,12 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.ConnectorNode;
-import org.openflexo.diana.connectors.RectPolylinConnectorSpecification;
 import org.openflexo.diana.connectors.ConnectorSymbol.EndSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.MiddleSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.StartSymbolType;
+import org.openflexo.diana.connectors.RectPolylinConnectorSpecification;
 import org.openflexo.diana.connectors.RectPolylinConnectorSpecification.RectPolylinAdjustability;
 import org.openflexo.diana.connectors.RectPolylinConnectorSpecification.RectPolylinConstraints;
 import org.openflexo.diana.connectors.rpc.AdjustableEndControlPoint;
@@ -74,30 +74,30 @@ import org.openflexo.diana.cp.ConnectorAdjustingControlPoint;
 import org.openflexo.diana.cp.ConnectorNonAdjustableControlPoint;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
-import org.openflexo.diana.geom.FGEArc;
-import org.openflexo.diana.geom.FGEGeometricObject;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectPolylin;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGESegment;
-import org.openflexo.diana.geom.FGEShape;
-import org.openflexo.diana.geom.FGEGeometricObject.CardinalQuadrant;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.geom.FGEGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.DianaArc;
+import org.openflexo.diana.geom.DianaGeometricObject;
+import org.openflexo.diana.geom.DianaGeometricObject.CardinalQuadrant;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectPolylin;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geom.area.DefaultAreaProvider;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEAreaProvider;
-import org.openflexo.diana.geom.area.FGEUnionArea;
-import org.openflexo.diana.graphics.FGEConnectorGraphics;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaAreaProvider;
+import org.openflexo.diana.geom.area.DianaUnionArea;
+import org.openflexo.diana.graphics.DianaConnectorGraphics;
 import org.openflexo.toolbox.ConcatenedList;
 
 public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpecification> {
 
 	static final Logger LOGGER = Logger.getLogger(RectPolylinConnectorSpecification.class.getPackage().getName());
 
-	private FGERectPolylin polylin;
-	private final Vector<FGERectPolylin> potentialPolylin;
-	// public FGERectPolylin debugPolylin;
+	private DianaRectPolylin polylin;
+	private final Vector<DianaRectPolylin> potentialPolylin;
+	// public DianaRectPolylin debugPolylin;
 
 	private ControlPoint p_start;
 	private ControlPoint p_end;
@@ -110,19 +110,19 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 	private boolean wasManuallyAdjusted = false;
 
-	private FGERectPolylin polylinRelativeToStartObject;
-	private FGERectPolylin polylinRelativeToEndObject;
+	private DianaRectPolylin polylinRelativeToStartObject;
+	private DianaRectPolylin polylinRelativeToEndObject;
 
-	private FGERectPolylin lastKnownCleanPolylinBeforeConnectorRestructuration;
+	private DianaRectPolylin lastKnownCleanPolylinBeforeConnectorRestructuration;
 	private boolean isCleaningPolylin = false;
 
-	private FGEPoint fixedStartLocationRelativeToStartObject;
-	private FGEPoint fixedEndLocationRelativeToEndObject;
-	// private FGEPoint _crossedPoint;
+	private DianaPoint fixedStartLocationRelativeToStartObject;
+	private DianaPoint fixedEndLocationRelativeToEndObject;
+	// private DianaPoint _crossedPoint;
 
-	private FGERectPolylin _deserializedPolylin;
+	private DianaRectPolylin _deserializedPolylin;
 
-	// private static final FGEModelFactory DEBUG_FACTORY = FGECoreUtils.TOOLS_FACTORY;
+	// private static final DianaModelFactory DEBUG_FACTORY = DianaCoreUtils.TOOLS_FACTORY;
 	// private static final ForegroundStyle DEBUG_GRAY_STROKE = DEBUG_FACTORY.makeForegroundStyle(Color.GRAY, 1.0f, DashStyle.SMALL_DASHES);
 	// private static final ForegroundStyle DEBUG_BLACK_STROKE = DEBUG_FACTORY.makeForegroundStyle(Color.BLACK, 3.0f,
 	// DashStyle.PLAIN_STROKE);
@@ -172,7 +172,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	private ConcatenedList<ControlArea<?>> allControlAreas;
 
 	@Override
-	public void drawConnector(FGEConnectorGraphics g) {
+	public void drawConnector(DianaConnectorGraphics g) {
 		if (!firstUpdated) {
 			refreshConnector();
 		}
@@ -184,7 +184,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 		/*if (getDebug()) {
 			g.setDefaultForeground(DEBUG_GRAY_STROKE);
-			for (FGERectPolylin p : potentialPolylin) {
+			for (DianaRectPolylin p : potentialPolylin) {
 				p.paint(g);
 			}
 			g.setDefaultForeground(DEBUG_BLACK_STROKE);
@@ -213,13 +213,13 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			// Segments are here all orthogonal, we can can then rely on getAngle() computation performed on geom layer
 			// (we dont need to convert to view first)
 			if (getStartSymbol() != StartSymbolType.NONE) {
-				FGESegment firstSegment = polylin.getSegments().firstElement();
+				DianaSegment firstSegment = polylin.getSegments().firstElement();
 				if (firstSegment != null) {
 					g.drawSymbol(firstSegment.getP1(), getStartSymbol(), getStartSymbolSize(), firstSegment.getAngle());
 				}
 			}
 			if (getEndSymbol() != EndSymbolType.NONE) {
-				FGESegment lastSegment = polylin.getSegments().lastElement();
+				DianaSegment lastSegment = polylin.getSegments().lastElement();
 				if (lastSegment != null) {
 					g.drawSymbol(lastSegment.getP2(), getEndSymbol(), getEndSymbolSize(), lastSegment.getAngle() + Math.PI);
 				}
@@ -232,14 +232,14 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	}
 
 	@Override
-	public FGEPoint getMiddleSymbolLocation() {
+	public DianaPoint getMiddleSymbolLocation() {
 		if (polylin == null) {
-			return new FGEPoint(0, 0);
+			return new DianaPoint(0, 0);
 		}
 		AffineTransform at = connectorNode.convertNormalizedPointToViewCoordinatesAT(1.0);
 
-		FGERectPolylin transformedPolylin = polylin.transform(at);
-		FGEPoint point = transformedPolylin.getPointAtRelativePosition(getRelativeMiddleSymbolLocation());
+		DianaRectPolylin transformedPolylin = polylin.transform(at);
+		DianaPoint point = transformedPolylin.getPointAtRelativePosition(getRelativeMiddleSymbolLocation());
 		try {
 			point = point.transform(at.createInverse());
 		} catch (NoninvertibleTransformException e) {
@@ -250,9 +250,9 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		}
 		else {
 			UnnormalizedArcSize arcSize = computeUnnormalizedArcSize();
-			FGEPoint returned = polylin.getNearestPointLocatedOnRoundedRepresentation(point, arcSize.arcWidth, arcSize.arcHeight);
+			DianaPoint returned = polylin.getNearestPointLocatedOnRoundedRepresentation(point, arcSize.arcWidth, arcSize.arcHeight);
 			if (returned == null) {
-				return new FGEPoint(0, 0);
+				return new DianaPoint(0, 0);
 			}
 			else {
 				return returned;
@@ -269,8 +269,8 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			return 0;
 		}
 
-		FGEPoint middleSymbolLocation = getMiddleSymbolLocation();
-		FGESegment relatedSegment = polylin.getNearestSegment(middleSymbolLocation);
+		DianaPoint middleSymbolLocation = getMiddleSymbolLocation();
+		DianaSegment relatedSegment = polylin.getNearestSegment(middleSymbolLocation);
 
 		if (relatedSegment == null) {
 			return 0;
@@ -281,7 +281,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 		else {
 			UnnormalizedArcSize arcSize = computeUnnormalizedArcSize();
-			FGEArc arc = polylin.getArcForNearestPointLocatedOnRoundedRepresentation(middleSymbolLocation, arcSize.arcWidth,
+			DianaArc arc = polylin.getArcForNearestPointLocatedOnRoundedRepresentation(middleSymbolLocation, arcSize.arcWidth,
 					arcSize.arcHeight);
 			if (arc != null) {
 				double angle = arc.angleForPoint(middleSymbolLocation) + Math.PI / 2;
@@ -335,7 +335,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	}
 
 	@Override
-	public double distanceToConnector(FGEPoint aPoint, double scale) {
+	public double distanceToConnector(DianaPoint aPoint, double scale) {
 		double returned = Double.POSITIVE_INFINITY;
 
 		if (polylin == null) {
@@ -344,7 +344,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 		Point testPoint = connectorNode.convertNormalizedPointToViewCoordinates(aPoint, scale);
 
-		for (FGESegment s : polylin.getSegments()) {
+		for (DianaSegment s : polylin.getSegments()) {
 			Point point1 = connectorNode.convertNormalizedPointToViewCoordinates(s.getP1(), scale);
 			Point point2 = connectorNode.convertNormalizedPointToViewCoordinates(s.getP2(), scale);
 			double distanceToCurrentSegment = Line2D.ptSegDist(point1.x, point1.y, point2.x, point2.y, testPoint.x, testPoint.y);
@@ -360,8 +360,8 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		// Compute relative overlap along X-axis
 		Point overlap_p1 = new Point(0, 0);
 		Point overlap_p2 = new Point(getPixelOverlap(), 0);
-		FGEPoint overlap_pp1 = connectorNode.convertViewCoordinatesToNormalizedPoint(overlap_p1, 1);
-		FGEPoint overlap_pp2 = connectorNode.convertViewCoordinatesToNormalizedPoint(overlap_p2, 1);
+		DianaPoint overlap_pp1 = connectorNode.convertViewCoordinatesToNormalizedPoint(overlap_p1, 1);
+		DianaPoint overlap_pp2 = connectorNode.convertViewCoordinatesToNormalizedPoint(overlap_p2, 1);
 		return Math.abs(overlap_pp1.x - overlap_pp2.x);
 	}
 
@@ -369,17 +369,17 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		// Compute relative overlap along Y-axis
 		Point overlap_p1 = new Point(0, 0);
 		Point overlap_p2 = new Point(0, getPixelOverlap());
-		FGEPoint overlap_pp1 = connectorNode.convertViewCoordinatesToNormalizedPoint(overlap_p1, 1);
-		FGEPoint overlap_pp2 = connectorNode.convertViewCoordinatesToNormalizedPoint(overlap_p2, 1);
+		DianaPoint overlap_pp1 = connectorNode.convertViewCoordinatesToNormalizedPoint(overlap_p1, 1);
+		DianaPoint overlap_pp2 = connectorNode.convertViewCoordinatesToNormalizedPoint(overlap_p2, 1);
 		return Math.abs(overlap_pp1.y - overlap_pp2.y);
 	}
 
 	@Override
-	public FGERectangle getConnectorUsedBounds() {
+	public DianaRectangle getConnectorUsedBounds() {
 		// logger.info("Called getConnectorUsedBounds()");
 		if (polylin != null) {
-			FGERectangle minimalBounds = polylin.getBoundingBox();
-			FGERectangle returned = new FGERectangle(Filling.FILLED);
+			DianaRectangle minimalBounds = polylin.getBoundingBox();
+			DianaRectangle returned = new DianaRectangle(Filling.FILLED);
 
 			// Compute required space to draw symbols, eg arrows
 			double maxSymbolSize = Math.max(getStartSymbolSize(), Math.max(getMiddleSymbolSize(), getEndSymbolSize()));
@@ -412,12 +412,12 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		_connectorChanged(false);
 	}
 
-	public FGERectPolylin getCurrentPolylin() {
+	public DianaRectPolylin getCurrentPolylin() {
 		return polylin;
 	}
 
 	// Used for serialization only
-	public FGERectPolylin _getPolylin() {
+	public DianaRectPolylin _getPolylin() {
 		if (getAdjustability() != RectPolylinAdjustability.FULLY_ADJUSTABLE) {
 			return null;
 		}
@@ -425,14 +425,14 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	}
 
 	// Used for serialization only
-	public void _setPolylin(FGERectPolylin aPolylin) {
+	public void _setPolylin(DianaRectPolylin aPolylin) {
 		if (aPolylin != null && aPolylin.getPointsNb() > 0) {
 			_deserializedPolylin = aPolylin;
 			wasManuallyAdjusted = true;
 		}
 	}
 
-	public void manuallySetPolylin(FGERectPolylin aPolylin) {
+	public void manuallySetPolylin(DianaRectPolylin aPolylin) {
 		updateWithNewPolylin(aPolylin);
 	}
 
@@ -447,34 +447,34 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 					 * (orientation.isHorizontal()) { return Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR); } if
 					 * (orientation.isVertical()) { return Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR); } }
 					 */
-					// return FGEConstants.MOVE_CURSOR;
+					// return DianaConstants.MOVE_CURSOR;
 					return Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
 				}
 
 				@Override
-				public FGEArea getDraggingAuthorizedArea() {
+				public DianaArea getDraggingAuthorizedArea() {
 					return polylin;
 				}
 
 				@Override
-				public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-						FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+				public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+						DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 					if (polylin == null) {
 						LOGGER.warning("polylin is null");
 						return false;
 					}
 					// logger.info("OK, moving to "+point);dds
 					UnnormalizedArcSize arcSize = computeUnnormalizedArcSize();
-					FGEPoint pt = polylin.getNearestPointLocatedOnRoundedRepresentation(newRelativePoint, arcSize.arcWidth,
+					DianaPoint pt = polylin.getNearestPointLocatedOnRoundedRepresentation(newRelativePoint, arcSize.arcWidth,
 							arcSize.arcHeight);
 
-					// FGEPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+					// DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
 					setPoint(pt);
 					AffineTransform at = connectorNode.convertNormalizedPointToViewCoordinatesAT(1.0);
 					pt = pt.transform(at);
-					FGERectPolylin transformedPolylin = polylin.transform(at);
+					DianaRectPolylin transformedPolylin = polylin.transform(at);
 
-					// FGESegment segment = new FGESegment(cp1.getPoint(),cp2.getPoint());
+					// DianaSegment segment = new DianaSegment(cp1.getPoint(),cp2.getPoint());
 					setRelativeMiddleSymbolLocation(transformedPolylin.getRelativeLocation(pt));
 
 					/*
@@ -500,8 +500,8 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 	private UnnormalizedArcSize computeUnnormalizedArcSize() {
 		UnnormalizedArcSize returned = new UnnormalizedArcSize();
-		FGEPoint arcP1 = connectorNode.convertViewCoordinatesToNormalizedPoint(new Point(0, 0), 1.0);
-		FGEPoint arcP2 = connectorNode.convertViewCoordinatesToNormalizedPoint(new Point(getArcSize(), getArcSize()), 1.0);
+		DianaPoint arcP1 = connectorNode.convertViewCoordinatesToNormalizedPoint(new Point(0, 0), 1.0);
+		DianaPoint arcP2 = connectorNode.convertViewCoordinatesToNormalizedPoint(new Point(getArcSize(), getArcSize()), 1.0);
 		returned.arcWidth = arcP2.x - arcP1.x;
 		returned.arcHeight = arcP2.y - arcP1.y;
 		return returned;
@@ -531,7 +531,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		return p_start;
 	}
 
-	public FGEPoint getCrossedControlPointOnRoundedArc() {
+	public DianaPoint getCrossedControlPointOnRoundedArc() {
 		if (getCrossedControlPoint() != null) {
 			if (getIsRounded()) {
 				UnnormalizedArcSize arcSize = computeUnnormalizedArcSize();
@@ -563,7 +563,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 	private Vector<SimplifiedCardinalDirection> _getAllowedStartOrientationsDueToFixedStartingLocation() {
 		Vector<SimplifiedCardinalDirection> returned = new Vector<>();
-		FGEArea startArea = getStartNode().getAllowedStartAreaForConnector(connectorNode);
+		DianaArea startArea = getStartNode().getAllowedStartAreaForConnector(connectorNode);
 		// startArea.setIsFilled(false);
 		for (SimplifiedCardinalDirection o : SimplifiedCardinalDirection.values()) {
 			if (startArea.getAnchorAreaFrom(o).containsPoint(getFixedStartLocation())) {
@@ -571,8 +571,8 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				// System.out.println("CHOOSEN: "+(startArea.getAnchorAreaFrom(o).containsPoint(getFixedStartLocation()))+" Orientation:
 				// "+o+" startArea.getAnchorAreaFrom(o)="+startArea.getAnchorAreaFrom(o)+" location="+getFixedStartLocation());
 				/*
-				 * if (startArea.getAnchorAreaFrom(o) instanceof FGEArc) { FGEArc arc = (FGEArc)startArea.getAnchorAreaFrom(o); double angle
-				 * = arc.angleForPoint(getFixedStartLocation()); FGEPoint p = arc.getPointAtRadianAngle(angle);
+				 * if (startArea.getAnchorAreaFrom(o) instanceof DianaArc) { DianaArc arc = (DianaArc)startArea.getAnchorAreaFrom(o); double angle
+				 * = arc.angleForPoint(getFixedStartLocation()); DianaPoint p = arc.getPointAtRadianAngle(angle);
 				 * System.out.println("Point "+getFixedStartLocation
 				 * ()+" on arc="+arc.containsPoint(getFixedStartLocation())+" angle="+angle+
 				 * " otherPoint="+p+" on arc="+arc.containsPoint(p)); }
@@ -647,7 +647,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 	private Vector<SimplifiedCardinalDirection> _getAllowedEndOrientationsDueToFixedEndingLocation() {
 		Vector<SimplifiedCardinalDirection> returned = new Vector<>();
-		FGEArea endArea = getEndNode().getAllowedEndAreaForConnector(connectorNode);
+		DianaArea endArea = getEndNode().getAllowedEndAreaForConnector(connectorNode);
 		// endArea.setIsFilled(false);
 		for (SimplifiedCardinalDirection o : SimplifiedCardinalDirection.values()) {
 			// if (endArea.getOrthogonalPerspectiveArea(o).containsPoint(getFixedEndLocation())) returned.add(o);
@@ -725,9 +725,9 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 				if (_deserializedPolylin != null) {
 					// Rebuild from deserialized polylin
-					updateWithNewPolylin(
-							new FGERectPolylin(_deserializedPolylin.getPoints(), getConnectorSpecification().getStraightLineWhenPossible(),
-									getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap()));
+					updateWithNewPolylin(new DianaRectPolylin(_deserializedPolylin.getPoints(),
+							getConnectorSpecification().getStraightLineWhenPossible(), getOverlapXResultingFromPixelOverlap(),
+							getOverlapYResultingFromPixelOverlap()));
 					_deserializedPolylin = null;
 				}
 
@@ -749,7 +749,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			 * if (polylin == null) {
 			 * 
 			 * if (_deserializedPolylin != null) { // Rebuild from deserialized polylin updateWithNewPolylin(new
-			 * FGERectPolylin(_deserializedPolylin
+			 * DianaRectPolylin(_deserializedPolylin
 			 * .getPoints(),getStraightLineWhenPossible(),getOverlapXResultingFromPixelOverlap(),getOverlapYResultingFromPixelOverlap()));
 			 * _deserializedPolylin = null; }
 			 * 
@@ -766,23 +766,23 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			 * int indexOfMiddleSegment = polylin.getSegments().indexOf(polylin.getMiddleSegment());
 			 * 
 			 * for (int i=0; i<polylin.getPointsNb(); i++) { if (i<=indexOfMiddleSegment && polylinRelativeToStartObject != null) { // That
-			 * point is closest to start object // remember location stored relative to start object FGEPoint pointRelativeToStartObject =
+			 * point is closest to start object // remember location stored relative to start object DianaPoint pointRelativeToStartObject =
 			 * polylinRelativeToStartObject.getPointAt(i); if (i==0) { // This is the start object, when not, put it on starting object
 			 * shape outline pointRelativeToStartObject =
 			 * getStartObject().getShape().getOutline().nearestOutlinePoint(pointRelativeToStartObject); polylin.updatePointAt(i,
 			 * GraphicalRepresentation.convertNormalizedPoint( getStartObject(), pointRelativeToStartObject, getGraphicalRepresentation()));
-			 * } else if (i==1 && polylin.getPointsNb() >=6) { FGEPoint firstPoint = GraphicalRepresentation.convertNormalizedPoint(
-			 * getStartObject(), pointRelativeToStartObject, getGraphicalRepresentation()); FGEPoint nextPoint = polylin.getPointAt(2); if
+			 * } else if (i==1 && polylin.getPointsNb() >=6) { DianaPoint firstPoint = GraphicalRepresentation.convertNormalizedPoint(
+			 * getStartObject(), pointRelativeToStartObject, getGraphicalRepresentation()); DianaPoint nextPoint = polylin.getPointAt(2); if
 			 * (polylinRelativeToStartObject.getSegmentAt(1).getApproximatedOrientation().isHorizontal()) { nextPoint.y = firstPoint.y; }
 			 * else { nextPoint.x = firstPoint.x; } polylin.updatePointAt(i,firstPoint); polylin.updatePointAt(i+1,nextPoint); } } else if
 			 * (polylinRelativeToEndObject != null) { // That point is closest to end object // remember location stored relative to end
-			 * object FGEPoint pointRelativeToEndObject = polylinRelativeToEndObject.getPointAt(i); if (i==polylin.getPointsNb()-1) { //
+			 * object DianaPoint pointRelativeToEndObject = polylinRelativeToEndObject.getPointAt(i); if (i==polylin.getPointsNb()-1) { //
 			 * This is the end object, when not, put it on ending object shape outline pointRelativeToEndObject =
 			 * getEndObject().getShape().getOutline().nearestOutlinePoint(pointRelativeToEndObject); polylin.updatePointAt(i,
 			 * GraphicalRepresentation.convertNormalizedPoint( getEndObject(), pointRelativeToEndObject, getGraphicalRepresentation())); }
-			 * else if (i==polylin.getPointsNb()-2 && polylin.getPointsNb() >=6) { FGEPoint lastPoint =
+			 * else if (i==polylin.getPointsNb()-2 && polylin.getPointsNb() >=6) { DianaPoint lastPoint =
 			 * GraphicalRepresentation.convertNormalizedPoint( getEndObject(), pointRelativeToEndObject, getGraphicalRepresentation());
-			 * FGEPoint previousPoint = polylin.getPointAt(polylin.getPointsNb()-3); if
+			 * DianaPoint previousPoint = polylin.getPointAt(polylin.getPointsNb()-3); if
 			 * (polylinRelativeToEndObject.getSegmentAt(polylinRelativeToEndObject
 			 * .getSegmentNb()-2).getApproximatedOrientation().isHorizontal()) { previousPoint.y = previousPoint.y; } else { previousPoint.x
 			 * = previousPoint.x; } polylin.updatePointAt(i,lastPoint); polylin.updatePointAt(i-1,previousPoint); } } }
@@ -800,16 +800,16 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 * 
 	 * If starting location is fixed return this location
 	 * 
-	 * @return FGEArea
+	 * @return DianaArea
 	 */
-	public FGEArea retrieveStartArea() {
-		FGEArea startArea = retrieveAllowedStartArea(true);
+	public DianaArea retrieveStartArea() {
+		DianaArea startArea = retrieveAllowedStartArea(true);
 
 		if (getIsStartingLocationFixed() && getFixedStartLocation() != null) {
-			FGEPoint fixedPoint = FGEUtils.convertNormalizedPoint(getStartNode(), getFixedStartLocation(), connectorNode);
+			DianaPoint fixedPoint = DianaUtils.convertNormalizedPoint(getStartNode(), getFixedStartLocation(), connectorNode);
 			/*
-			 * if (startArea instanceof FGEShape) { return ((FGEShape<?>)startArea).nearestOutlinePoint(fixedPoint); } else
-			 */FGEPoint returned = startArea.getNearestPoint(fixedPoint);
+			 * if (startArea instanceof DianaShape) { return ((DianaShape<?>)startArea).nearestOutlinePoint(fixedPoint); } else
+			 */DianaPoint returned = startArea.getNearestPoint(fixedPoint);
 			if (!startArea.containsPoint(returned)) {
 				LOGGER.warning(
 						"Inconsistent data: point " + returned + " not located on area: " + startArea + " [was: " + fixedPoint + "]");
@@ -823,13 +823,13 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		/*
 		 * AffineTransform at1 = GraphicalRepresentation.convertNormalizedCoordinatesAT( getStartObject(), getGraphicalRepresentation());
 		 * 
-		 * FGEArea startArea = getStartObject().getShape().getShape().transform(at1); if (startArea instanceof FGEShape) {
-		 * ((FGEShape<?>)startArea).setIsFilled(false); }
+		 * DianaArea startArea = getStartObject().getShape().getShape().transform(at1); if (startArea instanceof DianaShape) {
+		 * ((DianaShape<?>)startArea).setIsFilled(false); }
 		 * 
 		 * Vector<SimplifiedCardinalDirection> allowedStartOrientations = getAllowedStartOrientations();
 		 * 
-		 * if (getIsStartingLocationFixed() && getFixedStartLocation() != null) { if (startArea instanceof FGEShape) { FGEPoint startPoint =
-		 * ((FGEShape<?>)startArea).nearestOutlinePoint(GraphicalRepresentation.convertNormalizedPoint(getStartObject(),
+		 * if (getIsStartingLocationFixed() && getFixedStartLocation() != null) { if (startArea instanceof DianaShape) { DianaPoint startPoint =
+		 * ((DianaShape<?>)startArea).nearestOutlinePoint(GraphicalRepresentation.convertNormalizedPoint(getStartObject(),
 		 * getFixedStartLocation(), getGraphicalRepresentation())); Vector<SimplifiedCardinalDirection>
 		 * allowedStartOrientationsBecauseOfFixedPoint = new Vector<SimplifiedCardinalDirection>(); for (SimplifiedCardinalDirection o :
 		 * SimplifiedCardinalDirection.values()) { if (startArea.getOrthogonalPerspectiveArea(o).containsPoint(startPoint)) {
@@ -846,14 +846,14 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 * Compute and return allowed start area, in the connector coordinates system If some orientation constraints are defined, return
 	 * portion of start area outline matching allowed orientations
 	 * 
-	 * @return FGEArea
+	 * @return DianaArea
 	 */
-	public FGEArea retrieveAllowedStartArea(boolean takeFixedControlPointUnderAccount) {
-		AffineTransform at1 = FGEUtils.convertNormalizedCoordinatesAT(getStartNode(), connectorNode);
+	public DianaArea retrieveAllowedStartArea(boolean takeFixedControlPointUnderAccount) {
+		AffineTransform at1 = DianaUtils.convertNormalizedCoordinatesAT(getStartNode(), connectorNode);
 
-		FGEArea startArea = getStartNode().getAllowedStartAreaForConnector(connectorNode).transform(at1);
+		DianaArea startArea = getStartNode().getAllowedStartAreaForConnector(connectorNode).transform(at1);
 		/*
-		 * if (startArea instanceof FGEShape) { ((FGEShape<?>)startArea).setIsFilled(false); }
+		 * if (startArea instanceof DianaShape) { ((DianaShape<?>)startArea).setIsFilled(false); }
 		 */
 
 		Vector<SimplifiedCardinalDirection> allowedStartOrientations = takeFixedControlPointUnderAccount ? getAllowedStartOrientations()
@@ -861,7 +861,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 		if (allowedStartOrientations.size() > 0 && allowedStartOrientations.size() < 4) {
 			// Some directions should not be available
-			Vector<FGEArea> allowedAreas = new Vector<>();
+			Vector<DianaArea> allowedAreas = new Vector<>();
 			for (SimplifiedCardinalDirection o : allowedStartOrientations) {
 				// allowedAreas.add(startArea.intersect(startArea.getOrthogonalPerspectiveArea(o)));
 				allowedAreas.add(startArea.getAnchorAreaFrom(o));
@@ -871,7 +871,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				 * logger.info("result="+startArea.intersect(startArea.getOrthogonalPerspectiveArea(o)));
 				 */
 			}
-			return FGEUnionArea.makeUnion(allowedAreas);
+			return DianaUnionArea.makeUnion(allowedAreas);
 		}
 		else if (allowedStartOrientations.size() == 0) {
 			LOGGER.warning("Cannot respect starting orientation constraints");
@@ -888,19 +888,19 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 * 
 	 * If starting location is fixed return this location
 	 * 
-	 * @return FGEArea
+	 * @return DianaArea
 	 */
-	public FGEArea retrieveEndArea() {
+	public DianaArea retrieveEndArea() {
 		// System.out.println("retrieveAllowedEndArea()="+retrieveAllowedEndArea());
 
-		FGEArea endArea = retrieveAllowedEndArea(true);
+		DianaArea endArea = retrieveAllowedEndArea(true);
 
 		if (getIsEndingLocationFixed() && getFixedEndLocation() != null) {
-			FGEPoint fixedPoint = FGEUtils.convertNormalizedPoint(getEndNode(), getFixedEndLocation(), connectorNode);
+			DianaPoint fixedPoint = DianaUtils.convertNormalizedPoint(getEndNode(), getFixedEndLocation(), connectorNode);
 			/*
-			 * if (endArea instanceof FGEShape) { return ((FGEShape<?>)endArea).nearestOutlinePoint(fixedPoint); } else
+			 * if (endArea instanceof DianaShape) { return ((DianaShape<?>)endArea).nearestOutlinePoint(fixedPoint); } else
 			 */
-			FGEPoint returned = endArea.getNearestPoint(fixedPoint);
+			DianaPoint returned = endArea.getNearestPoint(fixedPoint);
 			if (!endArea.containsPoint(returned)) {
 				LOGGER.warning("Inconsistent data: point " + returned + " not located on area: " + endArea + " [was: " + fixedPoint + "]");
 			}
@@ -912,13 +912,13 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		/*
 		 * AffineTransform at2 = GraphicalRepresentation.convertNormalizedCoordinatesAT( getEndObject(), getGraphicalRepresentation());
 		 * 
-		 * FGEArea endArea = getEndObject().getShape().getShape().transform(at2); if (endArea instanceof FGEShape) {
-		 * ((FGEShape<?>)endArea).setIsFilled(false); }
+		 * DianaArea endArea = getEndObject().getShape().getShape().transform(at2); if (endArea instanceof DianaShape) {
+		 * ((DianaShape<?>)endArea).setIsFilled(false); }
 		 * 
 		 * Vector<SimplifiedCardinalDirection> allowedEndOrientations = getAllowedEndOrientations();
 		 * 
-		 * if (getIsEndingLocationFixed() && getFixedEndLocation() != null) { if (endArea instanceof FGEShape) { FGEPoint endPoint =
-		 * ((FGEShape<?>)endArea).nearestOutlinePoint(GraphicalRepresentation.convertNormalizedPoint(getEndObject(), getFixedEndLocation(),
+		 * if (getIsEndingLocationFixed() && getFixedEndLocation() != null) { if (endArea instanceof DianaShape) { DianaPoint endPoint =
+		 * ((DianaShape<?>)endArea).nearestOutlinePoint(GraphicalRepresentation.convertNormalizedPoint(getEndObject(), getFixedEndLocation(),
 		 * getGraphicalRepresentation())); Vector<SimplifiedCardinalDirection> allowedEndOrientationsBecauseOfFixedPoint = new
 		 * Vector<SimplifiedCardinalDirection>(); for (SimplifiedCardinalDirection o : SimplifiedCardinalDirection.values()) { if
 		 * (endArea.getOrthogonalPerspectiveArea(o).containsPoint(endPoint)) { allowedEndOrientationsBecauseOfFixedPoint.add(o); } }
@@ -935,14 +935,14 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 * Compute and return allowed end area, in the connector coordinates system If some orientation constraints are defined, return portion
 	 * of end area outline matching allowed orientations
 	 * 
-	 * @return FGEArea
+	 * @return DianaArea
 	 */
-	public FGEArea retrieveAllowedEndArea(boolean takeFixedControlPointUnderAccount) {
-		AffineTransform at2 = FGEUtils.convertNormalizedCoordinatesAT(getEndNode(), connectorNode);
+	public DianaArea retrieveAllowedEndArea(boolean takeFixedControlPointUnderAccount) {
+		AffineTransform at2 = DianaUtils.convertNormalizedCoordinatesAT(getEndNode(), connectorNode);
 
-		FGEArea endArea = getEndNode().getAllowedEndAreaForConnector(connectorNode).transform(at2);
+		DianaArea endArea = getEndNode().getAllowedEndAreaForConnector(connectorNode).transform(at2);
 		/*
-		 * if (endArea instanceof FGEShape) { ((FGEShape<?>)endArea).setIsFilled(false); }
+		 * if (endArea instanceof DianaShape) { ((DianaShape<?>)endArea).setIsFilled(false); }
 		 */
 
 		Vector<SimplifiedCardinalDirection> allowedEndOrientations = takeFixedControlPointUnderAccount ? getAllowedEndOrientations()
@@ -950,14 +950,14 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 		if (allowedEndOrientations.size() > 0 && allowedEndOrientations.size() < 4) {
 			// Some directions should not be available
-			Vector<FGEArea> allowedAreas = new Vector<>();
+			Vector<DianaArea> allowedAreas = new Vector<>();
 			for (SimplifiedCardinalDirection o : allowedEndOrientations) {
 				// allowedAreas.add(endArea.intersect(endArea.getOrthogonalPerspectiveArea(o)));
 				allowedAreas.add(endArea.getAnchorAreaFrom(o));
 				// System.out.println("Orientation: "+o+" ortho: "+endArea.getOrthogonalPerspectiveArea(o)+"
 				// intersect="+endArea.intersect(endArea.getOrthogonalPerspectiveArea(o)));
 			}
-			return FGEUnionArea.makeUnion(allowedAreas);
+			return DianaUnionArea.makeUnion(allowedAreas);
 		}
 		else if (allowedEndOrientations.size() == 0) {
 			LOGGER.warning("Cannot respect ending orientation constraints");
@@ -973,36 +973,36 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 * 
 	 */
 	private void _updateAsAutoLayout() {
-		final FGEArea startArea = retrieveStartArea();
-		final FGEArea endArea = retrieveEndArea();
+		final DianaArea startArea = retrieveStartArea();
+		final DianaArea endArea = retrieveEndArea();
 
 		// logger.info("startArea="+startArea);
 		// logger.info("endArea="+endArea);
 
-		FGEPoint startMiddle = null;
+		DianaPoint startMiddle = null;
 
 		if (startArea != null && startArea.isFinite()) {
-			FGERectangle startAreaBounds = startArea.getEmbeddingBounds();
+			DianaRectangle startAreaBounds = startArea.getEmbeddingBounds();
 			if (startAreaBounds != null) {
 				startMiddle = startAreaBounds.getCenter();
 			}
 		}
 		if (startMiddle == null) {
 			LOGGER.warning("Could not find middle of resulting start area: " + startArea);
-			startMiddle = new FGEPoint(0, 0);
+			startMiddle = new DianaPoint(0, 0);
 		}
 
-		FGEPoint endMiddle = null;
+		DianaPoint endMiddle = null;
 
 		if (endArea != null && endArea.isFinite()) {
-			FGERectangle endAreaBounds = endArea.getEmbeddingBounds();
+			DianaRectangle endAreaBounds = endArea.getEmbeddingBounds();
 			if (endAreaBounds != null) {
 				endMiddle = endAreaBounds.getCenter();
 			}
 		}
 		if (endMiddle == null) {
 			LOGGER.warning("Could not find middle of resulting start area: " + startArea);
-			endMiddle = new FGEPoint(1, 1);
+			endMiddle = new DianaPoint(1, 1);
 		}
 
 		// First obtain the two affine transform allowing to convert from
@@ -1013,7 +1013,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		 * 
 		 * AffineTransform at2 = GraphicalRepresentation.convertNormalizedCoordinatesAT( getEndObject(), getGraphicalRepresentation());
 		 * 
-		 * FGEPoint startMiddle = getStartObject().getShape().getShape().getCenter().transform(at1); FGEPoint endMiddle =
+		 * DianaPoint startMiddle = getStartObject().getShape().getShape().getCenter().transform(at1); DianaPoint endMiddle =
 		 * getEndObject().getShape().getShape().getCenter().transform(at2);
 		 */
 
@@ -1030,7 +1030,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		}
 
 		else {
-			CardinalQuadrant quadrant = FGEPoint.getCardinalQuadrant(startMiddle, endMiddle);
+			CardinalQuadrant quadrant = DianaPoint.getCardinalQuadrant(startMiddle, endMiddle);
 
 			RectPolylinConstraints constraints = getRectPolylinConstraints();
 			if (constraints == RectPolylinConstraints.START_ORIENTATION_FIXED
@@ -1187,7 +1187,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		}
 
 		/*
-		 * FGEArea startArea = getStartObject().getShape().getShape().transform(at1); FGEArea endArea =
+		 * DianaArea startArea = getStartObject().getShape().getShape().transform(at1); DianaArea endArea =
 		 * getEndObject().getShape().getShape().transform(at2);
 		 */
 
@@ -1232,15 +1232,15 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			for (int i = 0; i < potentialStartOrientations.size(); i++) {
 				if (allowedStartOrientations.contains(potentialStartOrientations.get(i))
 						&& allowedEndOrientations.contains(potentialEndOrientations.get(i))) {
-					FGERectPolylin newPolylin = new FGERectPolylin(startArea, potentialStartOrientations.get(i), endArea,
+					DianaRectPolylin newPolylin = new DianaRectPolylin(startArea, potentialStartOrientations.get(i), endArea,
 							potentialEndOrientations.get(i), getStraightLineWhenPossible(), getOverlapXResultingFromPixelOverlap(),
 							getOverlapYResultingFromPixelOverlap());
 					potentialPolylin.add(newPolylin);
-					if (newPolylin.getPointsNb() > 0 && newPolylin.getLength() < minimalLength + FGEGeometricObject.EPSILON /*
-																															* Hysteresis to
-																															* avoid
-																															* blinking
-																															*/) {
+					if (newPolylin.getPointsNb() > 0 && newPolylin.getLength() < minimalLength + DianaGeometricObject.EPSILON /*
+																																* Hysteresis to
+																																* avoid
+																																* blinking
+																																*/) {
 						polylin = newPolylin;
 						minimalLength = newPolylin.getLength();
 						choosenStartOrientation = potentialStartOrientations.get(i);
@@ -1255,17 +1255,17 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				if (allowedStartOrientations.contains(startOrientation)) {
 					for (SimplifiedCardinalDirection endOrientation : potentialEndOrientations) {
 						if (allowedEndOrientations.contains(endOrientation)) {
-							FGERectPolylin newPolylin = new FGERectPolylin(startArea, startOrientation, endArea, endOrientation,
+							DianaRectPolylin newPolylin = new DianaRectPolylin(startArea, startOrientation, endArea, endOrientation,
 									getStraightLineWhenPossible(), getOverlapXResultingFromPixelOverlap(),
 									getOverlapYResultingFromPixelOverlap());
 							potentialPolylin.add(newPolylin);
 							if (newPolylin.doesRespectAllConstraints()
-									&& newPolylin.getLength() < minimalLength + FGEGeometricObject.EPSILON /*
-																											* Hysteresis
-																											* to
-																											* avoid
-																											* blinking
-																											*/) {
+									&& newPolylin.getLength() < minimalLength + DianaGeometricObject.EPSILON /*
+																												* Hysteresis
+																												* to
+																												* avoid
+																												* blinking
+																												*/) {
 								polylin = newPolylin;
 								minimalLength = newPolylin.getLength();
 								choosenStartOrientation = startOrientation;
@@ -1328,24 +1328,25 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 		// System.out.println("_updateAsBasicallyAdjustable() with " + getCrossedControlPoint());
 
-		final FGEArea startArea = retrieveStartArea();
-		final FGEArea endArea = retrieveEndArea();
+		final DianaArea startArea = retrieveStartArea();
+		final DianaArea endArea = retrieveEndArea();
 		Vector<SimplifiedCardinalDirection> allowedStartOrientations = getAllowedStartOrientations();
 		Vector<SimplifiedCardinalDirection> allowedEndOrientations = getAllowedEndOrientations();
 
-		FGERectPolylin newPolylin;
+		DianaRectPolylin newPolylin;
 
-		FGEAreaProvider<SimplifiedCardinalDirection> startAreaProvider = getIsStartingLocationFixed() ? new DefaultAreaProvider<>(startArea)
-				: new FGEAreaProvider<SimplifiedCardinalDirection>() {
+		DianaAreaProvider<SimplifiedCardinalDirection> startAreaProvider = getIsStartingLocationFixed()
+				? new DefaultAreaProvider<>(startArea)
+				: new DianaAreaProvider<SimplifiedCardinalDirection>() {
 					@Override
-					public FGEArea getArea(SimplifiedCardinalDirection input) {
+					public DianaArea getArea(SimplifiedCardinalDirection input) {
 						return getStartNode().getAllowedStartAreaForConnectorForDirection(connectorNode, startArea, input);
 					}
 				};
-		FGEAreaProvider<SimplifiedCardinalDirection> endAreaProvider = getIsEndingLocationFixed() ? new DefaultAreaProvider<>(endArea)
-				: new FGEAreaProvider<SimplifiedCardinalDirection>() {
+		DianaAreaProvider<SimplifiedCardinalDirection> endAreaProvider = getIsEndingLocationFixed() ? new DefaultAreaProvider<>(endArea)
+				: new DianaAreaProvider<SimplifiedCardinalDirection>() {
 					@Override
-					public FGEArea getArea(SimplifiedCardinalDirection input) {
+					public DianaArea getArea(SimplifiedCardinalDirection input) {
 						return getEndNode().getAllowedEndAreaForConnectorForDirection(connectorNode, endArea, input);
 					}
 				};
@@ -1353,13 +1354,13 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 			// System.out.println("startArea="+startArea);
 			// System.out.println("endArea="+endArea);
-			newPolylin = FGERectPolylin.makeRectPolylinCrossingPoint(startAreaProvider, endAreaProvider, getCrossedControlPoint(), true,
+			newPolylin = DianaRectPolylin.makeRectPolylinCrossingPoint(startAreaProvider, endAreaProvider, getCrossedControlPoint(), true,
 					getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap(),
 					SimplifiedCardinalDirection.allDirectionsExcept(allowedStartOrientations),
 					SimplifiedCardinalDirection.allDirectionsExcept(allowedEndOrientations));
 		}
 		else {
-			newPolylin = FGERectPolylin.makeShortestRectPolylin(startAreaProvider, endAreaProvider,
+			newPolylin = DianaRectPolylin.makeShortestRectPolylin(startAreaProvider, endAreaProvider,
 					getConnectorSpecification().getStraightLineWhenPossible(), getOverlapXResultingFromPixelOverlap(),
 					getOverlapYResultingFromPixelOverlap(), SimplifiedCardinalDirection.allDirectionsExcept(allowedStartOrientations),
 					SimplifiedCardinalDirection.allDirectionsExcept(allowedEndOrientations));
@@ -1389,7 +1390,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			if (_deserializedPolylin != null) {
 				// Rebuild from deserialized polylin
 				updateWithNewPolylin(
-						new FGERectPolylin(_deserializedPolylin.getPoints(), getConnectorSpecification().getStraightLineWhenPossible(),
+						new DianaRectPolylin(_deserializedPolylin.getPoints(), getConnectorSpecification().getStraightLineWhenPossible(),
 								getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap()));
 				_deserializedPolylin = null;
 			}
@@ -1405,11 +1406,11 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		if (lastKnownCleanPolylinBeforeConnectorRestructuration != null
 				&& lastKnownCleanPolylinBeforeConnectorRestructuration.getSegmentNb() == 1 && polylinRelativeToStartObject != null
 				&& polylinRelativeToEndObject != null) {
-			FGEPoint lastStartPoint = polylinRelativeToStartObject.getFirstPoint();
-			FGEPoint lastEndPoint = polylinRelativeToEndObject.getLastPoint();
-			lastStartPoint = FGEUtils.convertNormalizedPoint(getStartNode(), lastStartPoint, connectorNode);
-			lastEndPoint = FGEUtils.convertNormalizedPoint(getEndNode(), lastEndPoint, connectorNode);
-			FGEPoint pt = FGEPoint.getMiddlePoint(lastStartPoint, lastEndPoint);
+			DianaPoint lastStartPoint = polylinRelativeToStartObject.getFirstPoint();
+			DianaPoint lastEndPoint = polylinRelativeToEndObject.getLastPoint();
+			lastStartPoint = DianaUtils.convertNormalizedPoint(getStartNode(), lastStartPoint, connectorNode);
+			lastEndPoint = DianaUtils.convertNormalizedPoint(getEndNode(), lastEndPoint, connectorNode);
+			DianaPoint pt = DianaPoint.getMiddlePoint(lastStartPoint, lastEndPoint);
 			if (_updateAsFullyAdjustableForUniqueSegment(pt)) {
 				return;
 			}
@@ -1418,9 +1419,9 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		// Special case where there is a unique segment
 		// Used when connector beeing edited
 		if (polylin != null && polylin.getSegmentNb() == 1) {
-			FGEPoint lastStartPoint = polylin.getFirstPoint();
-			FGEPoint lastEndPoint = polylin.getLastPoint();
-			FGEPoint pt = FGEPoint.getMiddlePoint(lastStartPoint, lastEndPoint);
+			DianaPoint lastStartPoint = polylin.getFirstPoint();
+			DianaPoint lastEndPoint = polylin.getLastPoint();
+			DianaPoint pt = DianaPoint.getMiddlePoint(lastStartPoint, lastEndPoint);
 			if (_updateAsFullyAdjustableForUniqueSegment(pt)) {
 				return;
 			}
@@ -1440,18 +1441,19 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			if (i <= indexOfMiddleSegment && polylinRelativeToStartObject != null) {
 				// That point is closest to start object
 				// remember location stored relative to start object
-				FGEPoint pointRelativeToStartObject = polylinRelativeToStartObject.getPointAt(i);
+				DianaPoint pointRelativeToStartObject = polylinRelativeToStartObject.getPointAt(i);
 				if (pointRelativeToStartObject != null) {
 					if (i == 0) {
 						// This is the start object, when not, put it on starting object shape outline
 						pointRelativeToStartObject = getStartNode().getAllowedStartAreaForConnector(connectorNode)
 								.getNearestPoint(pointRelativeToStartObject);
 						polylin.updatePointAt(i,
-								FGEUtils.convertNormalizedPoint(getStartNode(), pointRelativeToStartObject, connectorNode));
+								DianaUtils.convertNormalizedPoint(getStartNode(), pointRelativeToStartObject, connectorNode));
 					}
 					else if (i == 1 && polylin.getPointsNb() >= 6) {
-						FGEPoint firstPoint = FGEUtils.convertNormalizedPoint(getStartNode(), pointRelativeToStartObject, connectorNode);
-						FGEPoint nextPoint = polylin.getPointAt(2);
+						DianaPoint firstPoint = DianaUtils.convertNormalizedPoint(getStartNode(), pointRelativeToStartObject,
+								connectorNode);
+						DianaPoint nextPoint = polylin.getPointAt(2);
 						if (polylinRelativeToStartObject.getSegmentAt(1) != null
 								&& polylinRelativeToStartObject.getSegmentAt(1).getApproximatedOrientation().isHorizontal()) {
 							nextPoint.y = firstPoint.y;
@@ -1467,17 +1469,17 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			else if (polylinRelativeToEndObject != null) {
 				// That point is closest to end object
 				// remember location stored relative to end object
-				FGEPoint pointRelativeToEndObject = polylinRelativeToEndObject.getPointAt(i);
+				DianaPoint pointRelativeToEndObject = polylinRelativeToEndObject.getPointAt(i);
 				if (pointRelativeToEndObject != null) {
 					if (i == polylin.getPointsNb() - 1) {
 						// This is the end object, when not, put it on ending object shape outline
 						pointRelativeToEndObject = getEndNode().getAllowedEndAreaForConnector(connectorNode)
 								.getNearestPoint(pointRelativeToEndObject);
-						polylin.updatePointAt(i, FGEUtils.convertNormalizedPoint(getEndNode(), pointRelativeToEndObject, connectorNode));
+						polylin.updatePointAt(i, DianaUtils.convertNormalizedPoint(getEndNode(), pointRelativeToEndObject, connectorNode));
 					}
 					else if (i == polylin.getPointsNb() - 2 && polylin.getPointsNb() >= 6) {
-						FGEPoint lastPoint = FGEUtils.convertNormalizedPoint(getEndNode(), pointRelativeToEndObject, connectorNode);
-						FGEPoint previousPoint = polylin.getPointAt(polylin.getPointsNb() - 3);
+						DianaPoint lastPoint = DianaUtils.convertNormalizedPoint(getEndNode(), pointRelativeToEndObject, connectorNode);
+						DianaPoint previousPoint = polylin.getPointAt(polylin.getPointsNb() - 3);
 						if (polylinRelativeToEndObject.getSegmentAt(polylinRelativeToEndObject.getSegmentNb() - 2) != null
 								&& polylinRelativeToEndObject.getSegmentAt(polylinRelativeToEndObject.getSegmentNb() - 2)
 										.getApproximatedOrientation().isHorizontal()) {
@@ -1495,13 +1497,13 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 		/*
 		 * 
-		 * FGEPoint newStartCPLocation = polylin.getFirstPoint(); //startCPRelativeToStartObject =
+		 * DianaPoint newStartCPLocation = polylin.getFirstPoint(); //startCPRelativeToStartObject =
 		 * getStartObject().getShape().outlineIntersect(startCPRelativeToStartObject); startCPRelativeToStartObject =
 		 * getStartObject().getShape().getShape().getNearestPoint(startCPRelativeToStartObject); if (startCPRelativeToStartObject != null) {
 		 * newStartCPLocation = GraphicalRepresentation.convertNormalizedPoint( getStartObject(), startCPRelativeToStartObject,
 		 * getGraphicalRepresentation()); polylin.updatePointAt(0, newStartCPLocation); }
 		 * 
-		 * FGEPoint newEndCPLocation = polylin.getLastPoint(); //endCPRelativeToEndObject =
+		 * DianaPoint newEndCPLocation = polylin.getLastPoint(); //endCPRelativeToEndObject =
 		 * getEndObject().getShape().outlineIntersect(endCPRelativeToEndObject); endCPRelativeToEndObject =
 		 * getEndObject().getShape().getShape().getNearestPoint(endCPRelativeToEndObject); if (endCPRelativeToEndObject != null) {
 		 * newEndCPLocation = GraphicalRepresentation.convertNormalizedPoint( getEndObject(), endCPRelativeToEndObject,
@@ -1512,15 +1514,15 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 	}
 
-	public void updateWithNewPolylin(FGERectPolylin aPolylin) {
+	public void updateWithNewPolylin(DianaRectPolylin aPolylin) {
 		updateWithNewPolylin(aPolylin, false, false);
 	}
 
-	public void updateWithNewPolylin(FGERectPolylin aPolylin, boolean temporary) {
+	public void updateWithNewPolylin(DianaRectPolylin aPolylin, boolean temporary) {
 		updateWithNewPolylin(aPolylin, false, temporary);
 	}
 
-	public void updateWithNewPolylin(FGERectPolylin aPolylin, boolean assertLayoutIsValid, boolean temporary) {
+	public void updateWithNewPolylin(DianaRectPolylin aPolylin, boolean assertLayoutIsValid, boolean temporary) {
 		if (LOGGER.isLoggable(Level.FINE)) {
 			LOGGER.fine("Update with polylin with " + aPolylin.getPointsNb() + " points");
 		}
@@ -1568,10 +1570,12 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		try {
 
 			// First, check and update start and end control points
-			checkAndUpdateStartCP(lastKnownCleanPolylinBeforeConnectorRestructuration != null
-					? lastKnownCleanPolylinBeforeConnectorRestructuration : polylin);
-			checkAndUpdateEndCP(lastKnownCleanPolylinBeforeConnectorRestructuration != null
-					? lastKnownCleanPolylinBeforeConnectorRestructuration : polylin);
+			checkAndUpdateStartCP(
+					lastKnownCleanPolylinBeforeConnectorRestructuration != null ? lastKnownCleanPolylinBeforeConnectorRestructuration
+							: polylin);
+			checkAndUpdateEndCP(
+					lastKnownCleanPolylinBeforeConnectorRestructuration != null ? lastKnownCleanPolylinBeforeConnectorRestructuration
+							: polylin);
 
 			if (polylin.isNormalized()) {
 				return;
@@ -1617,7 +1621,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 			case AUTO_LAYOUT:
 				for (int i = 0; i < nPoints; i++) {
-					FGEPoint p = polylin.getPointAt(i);
+					DianaPoint p = polylin.getPointAt(i);
 					if (i == 0 && getIsStartingLocationDraggable()) {
 						controlPoints.add(new AdjustableStartControlPoint(p, this));
 					}
@@ -1632,7 +1636,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 			case BASICALLY_ADJUSTABLE:
 				for (int i = 0; i < nPoints; i++) {
-					FGEPoint p = polylin.getPointAt(i);
+					DianaPoint p = polylin.getPointAt(i);
 					if (i == 0 && getIsStartingLocationDraggable()) {
 						controlPoints.add(new AdjustableStartControlPoint(p, this));
 					}
@@ -1692,7 +1696,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 						controlAreas.add(new AdjustableFirstSegment(polylin.getFirstSegment(), this));
 					}
 					for (int i = 1; i < nSegments - 1; i++) {
-						FGESegment s = polylin.getSegmentAt(i);
+						DianaSegment s = polylin.getSegmentAt(i);
 						controlAreas.add(new AdjustableIntermediateSegment(s, this));
 					}
 					if (!getIsEndingLocationFixed() || getIsEndingLocationDraggable()) {
@@ -1715,14 +1719,14 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		if (/*getGraphicalRepresentation().isRegistered() &&*/!temporary) {
 
 			if (polylin != null) {
-				if (FGEUtils.areElementsConnectedInGraphicalHierarchy(connectorNode, getStartNode())) {
-					AffineTransform at1 = FGEUtils.convertNormalizedCoordinatesAT(connectorNode, getStartNode());
+				if (DianaUtils.areElementsConnectedInGraphicalHierarchy(connectorNode, getStartNode())) {
+					AffineTransform at1 = DianaUtils.convertNormalizedCoordinatesAT(connectorNode, getStartNode());
 					polylinRelativeToStartObject = polylin.transform(at1);
 				}
 				// Otherwise, don't try to remember layout, edge is probably beeing deleted
 
-				if (FGEUtils.areElementsConnectedInGraphicalHierarchy(connectorNode, getEndNode())) {
-					AffineTransform at2 = FGEUtils.convertNormalizedCoordinatesAT(connectorNode, getEndNode());
+				if (DianaUtils.areElementsConnectedInGraphicalHierarchy(connectorNode, getEndNode())) {
+					AffineTransform at2 = DianaUtils.convertNormalizedCoordinatesAT(connectorNode, getEndNode());
 					polylinRelativeToEndObject = polylin.transform(at2);
 				}
 				// Otherwise, don't try to remember layout, edge is probably beeing deleted
@@ -1744,14 +1748,14 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 * Internal method called to update connector asserting layout is defined as FULLY_ADJUSTABLE, and when the last known polylin was a
 	 * single segment
 	 */
-	public boolean _updateAsFullyAdjustableForUniqueSegment(FGEPoint pt) {
-		FGEArea startArea = retrieveAllowedStartArea(true);
+	public boolean _updateAsFullyAdjustableForUniqueSegment(DianaPoint pt) {
+		DianaArea startArea = retrieveAllowedStartArea(true);
 		if (getIsStartingLocationFixed() && !getIsStartingLocationDraggable()) {
 			// If starting location is fixed and not draggable,
 			// Then retrieve start area itself (which is here a single point)
 			startArea = retrieveStartArea();
 		}
-		FGEArea endArea = retrieveAllowedEndArea(true);
+		DianaArea endArea = retrieveAllowedEndArea(true);
 		if (getIsEndingLocationFixed() && !getIsEndingLocationDraggable()) {
 			// If starting location is fixed and not draggable,
 			// Then retrieve start area itself (which is here a single point)
@@ -1762,15 +1766,15 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		Vector<SimplifiedCardinalDirection> allowedEndOrientations = getAllowedEndOrientations();
 
 		SimplifiedCardinalDirection orientation = null;
-		FGEPoint newPt = null;
+		DianaPoint newPt = null;
 
 		for (SimplifiedCardinalDirection o1 : allowedStartOrientations) {
 			for (SimplifiedCardinalDirection o2 : allowedEndOrientations) {
 				if (o1 == o2.getOpposite()) {
-					FGEArea startOrthogonalPerspectiveArea = startArea.getOrthogonalPerspectiveArea(o1);
-					FGEArea endOrthogonalPerspectiveArea = endArea.getOrthogonalPerspectiveArea(o2);
-					FGEArea intersectArea = startOrthogonalPerspectiveArea.intersect(endOrthogonalPerspectiveArea);
-					FGEPoint aPt = intersectArea.getNearestPoint(pt);
+					DianaArea startOrthogonalPerspectiveArea = startArea.getOrthogonalPerspectiveArea(o1);
+					DianaArea endOrthogonalPerspectiveArea = endArea.getOrthogonalPerspectiveArea(o2);
+					DianaArea intersectArea = startOrthogonalPerspectiveArea.intersect(endOrthogonalPerspectiveArea);
+					DianaPoint aPt = intersectArea.getNearestPoint(pt);
 					if (aPt != null) {
 						orientation = o1;
 						newPt = aPt;
@@ -1781,9 +1785,9 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		}
 
 		if (orientation != null) {
-			FGEPoint p1 = startArea.nearestPointFrom(newPt, orientation.getOpposite());
-			FGEPoint p2 = endArea.nearestPointFrom(newPt, orientation);
-			updateWithNewPolylin(new FGERectPolylin(p1, p2), true, false);
+			DianaPoint p1 = startArea.nearestPointFrom(newPt, orientation.getOpposite());
+			DianaPoint p2 = endArea.nearestPointFrom(newPt, orientation);
+			updateWithNewPolylin(new DianaRectPolylin(p1, p2), true, false);
 			// System.out.println("Found orientation "+orientation+" p1="+p1+" p2="+p2);
 			return true;
 		}
@@ -1802,7 +1806,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 *            Polylin to take under account to recreate new layout
 	 * 
 	 */
-	public void checkAndUpdateStartCP(FGERectPolylin initialPolylin) {
+	public void checkAndUpdateStartCP(DianaRectPolylin initialPolylin) {
 		if (p_start == null) {
 			_connectorChanged(true);
 		}
@@ -1810,14 +1814,14 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			return;
 		}
 
-		if (!FGEUtils.areElementsConnectedInGraphicalHierarchy(getStartNode(), connectorNode)) {
+		if (!DianaUtils.areElementsConnectedInGraphicalHierarchy(getStartNode(), connectorNode)) {
 			// Dont't try to do anything, edge is probably beeing deleted
 			return;
 		}
 
 		// Retrieve start area in connector coordinates system
-		FGEArea startArea = retrieveStartArea();
-		FGEArea allowedStartArea = retrieveAllowedStartArea(true);
+		DianaArea startArea = retrieveStartArea();
+		DianaArea allowedStartArea = retrieveAllowedStartArea(true);
 
 		if (getIsStartingLocationFixed() && getFixedStartLocation() != null && !getIsStartingLocationDraggable()) {
 			allowedStartArea = getFixedStartLocation();
@@ -1828,14 +1832,14 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		}
 
 		// Retrieve control point location to update
-		FGEPoint startCPLocation = polylin.getPointAt(0);
+		DianaPoint startCPLocation = polylin.getPointAt(0);
 		if (startCPLocation == null) {
 			return;
 		}
 
 		// Compute new location by computing nearest point of oldLocation
 		// in end area (if this location was valid, change nothing)
-		// FGEPoint oldCP = startCPLocation.clone();
+		// DianaPoint oldCP = startCPLocation.clone();
 		startCPLocation = startArea.getNearestPoint(startCPLocation);
 		// logger.info("checkAndUpdateStartCP() from "+oldCP+" to "+startCPLocation);
 
@@ -1845,7 +1849,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		p_start.setPoint(startCPLocation);
 
 		if (getIsStartingLocationFixed()) { // Don't forget this !!!
-			setFixedStartLocation(FGEUtils.convertNormalizedPoint(connectorNode, startCPLocation, getStartNode()));
+			setFixedStartLocation(DianaUtils.convertNormalizedPoint(connectorNode, startCPLocation, getStartNode()));
 		}
 
 		// Update for start cp
@@ -1866,7 +1870,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			SimplifiedCardinalDirection newOrientation = null;
 			double bestDistance = Double.POSITIVE_INFINITY;
 			for (SimplifiedCardinalDirection o : getAllowedStartOrientations()) {
-				double distance = FGEPoint.distance(startCPLocation, startArea.getAnchorAreaFrom(o).getNearestPoint(startCPLocation));
+				double distance = DianaPoint.distance(startCPLocation, startArea.getAnchorAreaFrom(o).getNearestPoint(startCPLocation));
 				if (distance < bestDistance) {
 					newOrientation = o;
 					bestDistance = distance;
@@ -1880,14 +1884,14 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				LOGGER.warning("Unexpected null first segment. Abort.");
 				return;
 			}
-			FGEPoint nextPoint = polylin.getSegmentAt(0).getP2();
+			DianaPoint nextPoint = polylin.getSegmentAt(0).getP2();
 
 			if (allowedStartArea.getOrthogonalPerspectiveArea(newOrientation).containsPoint(nextPoint)
 			/* || (getIsStartingLocationFixed() && getFixedStartLocation() != null) */) {
 				// The general layout of polylin will not change, since next point was
 				// already located in this orthogonal perspective area
 				// We just need here to update previous point according to new end point location
-				FGEPoint newPoint = new FGEPoint(nextPoint);
+				DianaPoint newPoint = new DianaPoint(nextPoint);
 				if (newOrientation.isHorizontal()) {
 					newPoint.setY(startCPLocation.y);
 				}
@@ -1905,34 +1909,34 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				// Recompute general layout of rect polylin
 
 				if (initialPolylin.getSegmentNb() > 2) {
-					FGEPoint toPoint = initialPolylin.getPointAt(2);
+					DianaPoint toPoint = initialPolylin.getPointAt(2);
 					SimplifiedCardinalDirection toPointOrientation = initialPolylin.getApproximatedOrientationOfSegment(2).getOpposite();
-					FGERectPolylin appendingPath;
-					appendingPath = new FGERectPolylin(startCPLocation, newOrientation, toPoint, toPointOrientation, true,
+					DianaRectPolylin appendingPath;
+					appendingPath = new DianaRectPolylin(startCPLocation, newOrientation, toPoint, toPointOrientation, true,
 							getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
 
 					// debugPolylin = appendingPath;
-					FGERectPolylin mergedPolylin = mergePolylins(appendingPath, 0, appendingPath.getPointsNb() - 2, initialPolylin, 2,
+					DianaRectPolylin mergedPolylin = mergePolylins(appendingPath, 0, appendingPath.getPointsNb() - 2, initialPolylin, 2,
 							initialPolylin.getPointsNb() - 1);
 					updateWithNewPolylin(mergedPolylin, false, true);
 				}
 				else if (initialPolylin.getSegmentNb() > 1) {
-					FGEPoint toPoint = initialPolylin.getPointAt(2);
+					DianaPoint toPoint = initialPolylin.getPointAt(2);
 					SimplifiedCardinalDirection toPointOrientation = initialPolylin.getApproximatedOrientationOfSegment(1).getOpposite();
-					FGERectPolylin appendingPath = new FGERectPolylin(startCPLocation, newOrientation, toPoint, toPointOrientation, true,
-							getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
+					DianaRectPolylin appendingPath = new DianaRectPolylin(startCPLocation, newOrientation, toPoint, toPointOrientation,
+							true, getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
 
 					// debugPolylin = appendingPath;
-					FGERectPolylin mergedPolylin = mergePolylins(appendingPath, 0, appendingPath.getPointsNb() - 2, initialPolylin, 2,
+					DianaRectPolylin mergedPolylin = mergePolylins(appendingPath, 0, appendingPath.getPointsNb() - 2, initialPolylin, 2,
 							initialPolylin.getPointsNb() - 1);
 					updateWithNewPolylin(mergedPolylin, false, true);
 				}
 				else {
-					FGEPoint toPoint = initialPolylin.getPointAt(1);
+					DianaPoint toPoint = initialPolylin.getPointAt(1);
 					toPoint = retrieveEndArea().getNearestPoint(toPoint);
 					newOrientation = initialPolylin.getApproximatedOrientationOfSegment(0);
 					SimplifiedCardinalDirection toPointOrientation = newOrientation.getOpposite();
-					FGERectPolylin newPolylin = new FGERectPolylin(startCPLocation, newOrientation, toPoint, toPointOrientation, true,
+					DianaRectPolylin newPolylin = new DianaRectPolylin(startCPLocation, newOrientation, toPoint, toPointOrientation, true,
 							getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
 
 					updateWithNewPolylin(newPolylin, false, true);
@@ -1953,7 +1957,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 *            Polylin to take under account to recreate new layout
 	 * 
 	 */
-	public void checkAndUpdateEndCP(FGERectPolylin initialPolylin) {
+	public void checkAndUpdateEndCP(DianaRectPolylin initialPolylin) {
 		if (p_end == null) {
 			_connectorChanged(true);
 		}
@@ -1961,13 +1965,13 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			return;
 		}
 
-		if (!FGEUtils.areElementsConnectedInGraphicalHierarchy(getEndNode(), connectorNode)) {
+		if (!DianaUtils.areElementsConnectedInGraphicalHierarchy(getEndNode(), connectorNode)) {
 			// Dont't try to do anything, edge is probably beeing deleted
 			return;
 		}
 		// Retrieve end area in connector coordinates system
-		FGEArea endArea = retrieveEndArea();
-		FGEArea allowedEndArea = retrieveAllowedEndArea(true);
+		DianaArea endArea = retrieveEndArea();
+		DianaArea allowedEndArea = retrieveAllowedEndArea(true);
 
 		if (getIsEndingLocationFixed() && getFixedEndLocation() != null && !getIsEndingLocationDraggable()) {
 			allowedEndArea = getFixedEndLocation();
@@ -1978,7 +1982,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		}
 
 		// Retrieve control point location to update
-		FGEPoint endCPLocation = polylin.getPointAt(polylin.getPointsNb() - 1);
+		DianaPoint endCPLocation = polylin.getPointAt(polylin.getPointsNb() - 1);
 
 		if (endCPLocation == null) {
 			return;
@@ -1987,7 +1991,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		// Compute new location by computing nearest point of oldLocation
 		// in end area (if this location was valid, change nothing)
 		// logger.info("endArea="+endArea);
-		// FGEPoint oldCP = endCPLocation.clone();
+		// DianaPoint oldCP = endCPLocation.clone();
 		endCPLocation = endArea.getNearestPoint(endCPLocation);
 		// logger.info("checkAndUpdateEndCP() from "+oldCP+" to "+endCPLocation);
 
@@ -1996,7 +2000,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		p_end.setPoint(endCPLocation);
 
 		if (getIsEndingLocationFixed()) { // Don't forget this !!!
-			setFixedEndLocation(FGEUtils.convertNormalizedPoint(connectorNode, endCPLocation, getEndNode()));
+			setFixedEndLocation(DianaUtils.convertNormalizedPoint(connectorNode, endCPLocation, getEndNode()));
 		}
 
 		// Look for orientation of this newly computed segment
@@ -2017,8 +2021,8 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			SimplifiedCardinalDirection newOrientation = null;
 			double bestDistance = Double.POSITIVE_INFINITY;
 			for (SimplifiedCardinalDirection o : getAllowedEndOrientations()) {
-				double distance = FGEPoint.distance(endCPLocation, endArea.getAnchorAreaFrom(o).getNearestPoint(endCPLocation));
-				if (distance < bestDistance - FGEGeometricObject.EPSILON) {
+				double distance = DianaPoint.distance(endCPLocation, endArea.getAnchorAreaFrom(o).getNearestPoint(endCPLocation));
+				if (distance < bestDistance - DianaGeometricObject.EPSILON) {
 					newOrientation = o;
 					bestDistance = distance;
 				}
@@ -2031,14 +2035,14 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				LOGGER.warning("Unexpected null last segment. Abort.");
 				return;
 			}
-			FGEPoint previousPoint = polylin.getSegmentAt(polylin.getSegmentNb() - 1).getP1();
+			DianaPoint previousPoint = polylin.getSegmentAt(polylin.getSegmentNb() - 1).getP1();
 
 			if (allowedEndArea.getOrthogonalPerspectiveArea(newOrientation).containsPoint(previousPoint)
 			/* || (getIsEndingLocationFixed() && getFixedEndLocation() != null) */) {
 				// The general layout of polylin will not change, since previous point was
 				// already located in this orthogonal perspective area
 				// We just need here to update previous point according to new end point location
-				FGEPoint newPoint = new FGEPoint(previousPoint);
+				DianaPoint newPoint = new DianaPoint(previousPoint);
 				if (newOrientation.isHorizontal()) {
 					newPoint.setY(endCPLocation.y);
 				}
@@ -2055,39 +2059,39 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				// Recompute general layout of rect polylin
 
 				if (initialPolylin.getSegmentNb() > 2) {
-					FGEPoint toPoint = initialPolylin.getPointAt(initialPolylin.getPointsNb() - 3);
+					DianaPoint toPoint = initialPolylin.getPointAt(initialPolylin.getPointsNb() - 3);
 					SimplifiedCardinalDirection toPointOrientation = initialPolylin
 							.getApproximatedOrientationOfSegment(initialPolylin.getPointsNb() - 3);
-					FGERectPolylin appendingPath;
-					appendingPath = new FGERectPolylin(toPoint, toPointOrientation, endCPLocation, newOrientation, true,
+					DianaRectPolylin appendingPath;
+					appendingPath = new DianaRectPolylin(toPoint, toPointOrientation, endCPLocation, newOrientation, true,
 							getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
 
 					// debugPolylin = appendingPath;
-					FGERectPolylin mergedPolylin = mergePolylins(initialPolylin, 0, initialPolylin.getPointsNb() - 3, appendingPath, 1,
+					DianaRectPolylin mergedPolylin = mergePolylins(initialPolylin, 0, initialPolylin.getPointsNb() - 3, appendingPath, 1,
 							appendingPath.getPointsNb() - 1);
 					updateWithNewPolylin(mergedPolylin, false, true);
 				}
 				else if (initialPolylin.getSegmentNb() > 1) {
-					FGEPoint toPoint = initialPolylin.getPointAt(initialPolylin.getPointsNb() - 3);
+					DianaPoint toPoint = initialPolylin.getPointAt(initialPolylin.getPointsNb() - 3);
 					SimplifiedCardinalDirection toPointOrientation = initialPolylin
 							.getApproximatedOrientationOfSegment(initialPolylin.getPointsNb() - 3);
-					FGERectPolylin appendingPath = new FGERectPolylin(toPoint, toPointOrientation, endCPLocation, newOrientation, true,
+					DianaRectPolylin appendingPath = new DianaRectPolylin(toPoint, toPointOrientation, endCPLocation, newOrientation, true,
 							getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
 
 					// debugPolylin = appendingPath;
 
-					// FGERectPolylin mergedPolylin = mergePolylins(initialPolylin, 0, initialPolylin.getPointsNb()-2, appendingPath, 1,
+					// DianaRectPolylin mergedPolylin = mergePolylins(initialPolylin, 0, initialPolylin.getPointsNb()-2, appendingPath, 1,
 					// appendingPath.getPointsNb()-1);
 					// updateWithNewPolylin(mergedPolylin);
 
 					updateWithNewPolylin(appendingPath, false, true);
 				}
 				else {
-					FGEPoint fromPoint = initialPolylin.getPointAt(0);
+					DianaPoint fromPoint = initialPolylin.getPointAt(0);
 					fromPoint = retrieveStartArea().getNearestPoint(fromPoint);
 					newOrientation = initialPolylin.getApproximatedOrientationOfSegment(0);
 					SimplifiedCardinalDirection toPointOrientation = newOrientation.getOpposite();
-					FGERectPolylin newPolylin = new FGERectPolylin(fromPoint, newOrientation, endCPLocation, toPointOrientation, true,
+					DianaRectPolylin newPolylin = new DianaRectPolylin(fromPoint, newOrientation, endCPLocation, toPointOrientation, true,
 							getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
 
 					updateWithNewPolylin(newPolylin, false, true);
@@ -2109,9 +2113,9 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 * @param endIndex2
 	 * @return
 	 */
-	public FGERectPolylin mergePolylins(FGERectPolylin p1, int startIndex1, int endIndex1, FGERectPolylin p2, int startIndex2,
+	public DianaRectPolylin mergePolylins(DianaRectPolylin p1, int startIndex1, int endIndex1, DianaRectPolylin p2, int startIndex2,
 			int endIndex2) {
-		FGERectPolylin returned = new FGERectPolylin();
+		DianaRectPolylin returned = new DianaRectPolylin();
 		returned.setOverlapX(getOverlapXResultingFromPixelOverlap());
 		returned.setOverlapY(getOverlapYResultingFromPixelOverlap());
 		for (int i = startIndex1; i <= endIndex1; i++) {
@@ -2139,7 +2143,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 * @param index
 	 * @param newCPLocation
 	 */
-	public void _simplifyLayoutOfCurrentPolylinByDeletingTwoPoints(int index, FGEPoint newCPLocation) {
+	public void _simplifyLayoutOfCurrentPolylinByDeletingTwoPoints(int index, DianaPoint newCPLocation) {
 		SimplifiedCardinalDirection relatedSegmentOrientation = getCurrentPolylin().getApproximatedOrientationOfSegment(index);
 		getCurrentPolylin().removePointAtIndex(index);
 		getCurrentPolylin().removePointAtIndex(index);
@@ -2147,12 +2151,12 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		controlPoints.remove(index);
 		if (newCPLocation != null) {
 			if (relatedSegmentOrientation.isHorizontal()) {
-				getCurrentPolylin().updatePointAt(index - 1, new FGEPoint(newCPLocation.x, getCurrentPolylin().getPointAt(index - 1).y));
-				getCurrentPolylin().updatePointAt(index, new FGEPoint(newCPLocation.x, getCurrentPolylin().getPointAt(index).y));
+				getCurrentPolylin().updatePointAt(index - 1, new DianaPoint(newCPLocation.x, getCurrentPolylin().getPointAt(index - 1).y));
+				getCurrentPolylin().updatePointAt(index, new DianaPoint(newCPLocation.x, getCurrentPolylin().getPointAt(index).y));
 			}
 			else if (relatedSegmentOrientation.isVertical()) {
-				getCurrentPolylin().updatePointAt(index - 1, new FGEPoint(getCurrentPolylin().getPointAt(index - 1).x, newCPLocation.y));
-				getCurrentPolylin().updatePointAt(index, new FGEPoint(getCurrentPolylin().getPointAt(index).x, newCPLocation.y));
+				getCurrentPolylin().updatePointAt(index - 1, new DianaPoint(getCurrentPolylin().getPointAt(index - 1).x, newCPLocation.y));
+				getCurrentPolylin().updatePointAt(index, new DianaPoint(getCurrentPolylin().getPointAt(index).x, newCPLocation.y));
 			}
 		}
 		updateWithNewPolylin(getCurrentPolylin(), false, true);
@@ -2164,12 +2168,12 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 * @return
 	 */
 	@Override
-	public FGEPoint getStartLocation() {
+	public DianaPoint getStartLocation() {
 		if (polylin == null) {
 			return null;
 		}
-		FGEPoint returned = FGEUtils.convertNormalizedPoint(connectorNode, polylin.getFirstPoint(), getStartNode());
-		returned = getStartNode().getFGEShape().getNearestPoint(returned);
+		DianaPoint returned = DianaUtils.convertNormalizedPoint(connectorNode, polylin.getFirstPoint(), getStartNode());
+		returned = getStartNode().getDianaShape().getNearestPoint(returned);
 		return returned;
 	}
 
@@ -2179,12 +2183,12 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 * @return
 	 */
 	@Override
-	public FGEPoint getEndLocation() {
+	public DianaPoint getEndLocation() {
 		if (polylin == null) {
 			return null;
 		}
-		FGEPoint returned = FGEUtils.convertNormalizedPoint(connectorNode, polylin.getLastPoint(), getEndNode());
-		returned = getEndNode().getFGEShape().getNearestPoint(returned);
+		DianaPoint returned = DianaUtils.convertNormalizedPoint(connectorNode, polylin.getLastPoint(), getEndNode());
+		returned = getEndNode().getDianaShape().getNearestPoint(returned);
 		return returned;
 	}
 
@@ -2261,7 +2265,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			else if (evt.getPropertyName() == RectPolylinConnectorSpecification.IS_STARTING_LOCATION_FIXED.getName()) {
 				if (getIsStartingLocationFixed() && fixedStartLocationRelativeToStartObject == null && p_start != null) {
 					// In this case, we can initialize fixed start location to its current value
-					fixedStartLocationRelativeToStartObject = FGEUtils.convertNormalizedPoint(connectorNode, p_start.getPoint(),
+					fixedStartLocationRelativeToStartObject = DianaUtils.convertNormalizedPoint(connectorNode, p_start.getPoint(),
 							getStartNode());
 				}
 				updateLayout();
@@ -2271,7 +2275,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			else if (evt.getPropertyName() == RectPolylinConnectorSpecification.IS_ENDING_LOCATION_FIXED.getName()) {
 				if (getIsEndingLocationFixed() && fixedEndLocationRelativeToEndObject == null && p_end != null) {
 					// In this case, we can initialize fixed start location to its current value
-					fixedEndLocationRelativeToEndObject = FGEUtils.convertNormalizedPoint(connectorNode, p_end.getPoint(), getEndNode());
+					fixedEndLocationRelativeToEndObject = DianaUtils.convertNormalizedPoint(connectorNode, p_end.getPoint(), getEndNode());
 				}
 				updateLayout();
 				_rebuildControlPoints();
@@ -2382,11 +2386,11 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		setPropertyValue(RectPolylinConnectorSpecification.IS_ENDING_LOCATION_DRAGGABLE, aFlag);
 	}
 
-	public FGEPoint getCrossedControlPoint() {
+	public DianaPoint getCrossedControlPoint() {
 		return getPropertyValue(RectPolylinConnectorSpecification.CROSSED_CONTROL_POINT);
 	}
 
-	public void setCrossedControlPoint(FGEPoint aPoint) {
+	public void setCrossedControlPoint(DianaPoint aPoint) {
 		setPropertyValue(RectPolylinConnectorSpecification.CROSSED_CONTROL_POINT, aPoint);
 	}
 
@@ -2396,7 +2400,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 * 
 	 * @return
 	 */
-	public FGEPoint getFixedStartLocation() {
+	public DianaPoint getFixedStartLocation() {
 		return getPropertyValue(RectPolylinConnectorSpecification.FIXED_START_LOCATION);
 	}
 
@@ -2407,8 +2411,8 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 * @param aPoint
 	 *            : relative to start object
 	 */
-	public void setFixedStartLocation(FGEPoint aPoint) {
-		FGEShape<?> startArea = getStartNode().getShape().getOutline();
+	public void setFixedStartLocation(DianaPoint aPoint) {
+		DianaShape<?> startArea = getStartNode().getShape().getOutline();
 		aPoint = startArea.getNearestPoint(aPoint);
 		setPropertyValue(RectPolylinConnectorSpecification.FIXED_START_LOCATION, aPoint);
 	}
@@ -2418,7 +2422,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 * 
 	 * @return
 	 */
-	public FGEPoint getFixedEndLocation() {
+	public DianaPoint getFixedEndLocation() {
 		return getPropertyValue(RectPolylinConnectorSpecification.FIXED_END_LOCATION);
 	}
 
@@ -2428,8 +2432,8 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 * @param aPoint
 	 *            , relative to end object
 	 */
-	public void setFixedEndLocation(FGEPoint aPoint) {
-		FGEShape<?> endArea = getEndNode().getShape().getOutline();
+	public void setFixedEndLocation(DianaPoint aPoint) {
+		DianaShape<?> endArea = getEndNode().getShape().getOutline();
 		aPoint = endArea.getNearestPoint(aPoint);
 		setPropertyValue(RectPolylinConnectorSpecification.FIXED_END_LOCATION, aPoint);
 	}
@@ -2442,11 +2446,11 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		setPropertyValue(RectPolylinConnectorSpecification.PIXEL_OVERLAP, aPixelOverlap);
 	}
 
-	public FGERectPolylin getPolylin() {
+	public DianaRectPolylin getPolylin() {
 		return getPropertyValue(RectPolylinConnectorSpecification.POLYLIN);
 	}
 
-	public void setPolylin(FGERectPolylin aPolylin) {
+	public void setPolylin(DianaRectPolylin aPolylin) {
 		setPropertyValue(RectPolylinConnectorSpecification.POLYLIN, aPolylin);
 	}
 

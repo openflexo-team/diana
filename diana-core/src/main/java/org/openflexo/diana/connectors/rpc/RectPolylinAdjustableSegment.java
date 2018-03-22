@@ -50,18 +50,18 @@ import org.openflexo.diana.connectors.impl.RectPolylinConnector;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.cp.ControlArea;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectPolylin;
-import org.openflexo.diana.geom.FGESegment;
-import org.openflexo.diana.geom.FGEGeometricObject.SimplifiedCardinalDirection;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.graphics.FGEGraphics;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectPolylin;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.graphics.DianaGraphics;
 
-public abstract class RectPolylinAdjustableSegment extends ControlArea<FGESegment> {
-	protected FGERectPolylin initialPolylin;
+public abstract class RectPolylinAdjustableSegment extends ControlArea<DianaSegment> {
+	protected DianaRectPolylin initialPolylin;
 	private RectPolylinConnector connector;
 
-	public RectPolylinAdjustableSegment(FGESegment segment, RectPolylinConnector connector) {
+	public RectPolylinAdjustableSegment(DianaSegment segment, RectPolylinConnector connector) {
 		super(connector.getConnectorNode(), segment);
 		this.connector = connector;
 	}
@@ -72,18 +72,18 @@ public abstract class RectPolylinAdjustableSegment extends ControlArea<FGESegmen
 	}
 
 	@Override
-	public abstract FGEArea getDraggingAuthorizedArea();
+	public abstract DianaArea getDraggingAuthorizedArea();
 
 	@Override
-	public abstract boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-			FGEPoint initialPoint, MouseEvent event);
+	public abstract boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+			DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event);
 
 	protected void notifyConnectorChanged() {
 		getNode().notifyConnectorModified();
 	}
 
 	@Override
-	public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
+	public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 		super.startDragging(controller, startPoint);
 		if (controller instanceof AbstractDianaEditor && ((AbstractDianaEditor<?, ?, ?>) controller).getDelegate() != null) {
 			((AbstractDianaEditor<?, ?, ?>) controller).getDelegate().objectStartMoving(getNode());
@@ -121,7 +121,7 @@ public abstract class RectPolylinAdjustableSegment extends ControlArea<FGESegmen
 	}
 
 	@Override
-	public Rectangle paint(FGEGraphics graphics) {
+	public Rectangle paint(DianaGraphics graphics) {
 		return null;
 		/*if (true) return null;
 		Point p1 = drawingView.getGraphicalRepresentation().convertRemoteNormalizedPointToLocalViewCoordinates(getArea().getP1(), getGraphicalRepresentation(), drawingView.getScale());
@@ -145,7 +145,7 @@ public abstract class RectPolylinAdjustableSegment extends ControlArea<FGESegmen
 		return connector.getGraphicalRepresentation();
 	}*/
 
-	public FGERectPolylin getPolylin() {
+	public DianaRectPolylin getPolylin() {
 		return getConnector().getCurrentPolylin();
 	}
 }

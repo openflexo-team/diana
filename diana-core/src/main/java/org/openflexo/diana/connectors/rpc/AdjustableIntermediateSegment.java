@@ -45,31 +45,31 @@ import java.util.logging.Logger;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.connectors.impl.RectPolylinConnector;
 import org.openflexo.diana.control.DianaEditor;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGESegment;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.geom.FGEGeometricObject.SimplifiedCardinalDirection;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEEmptyArea;
-import org.openflexo.diana.geom.area.FGEHalfBand;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaEmptyArea;
+import org.openflexo.diana.geom.area.DianaHalfBand;
 
 public class AdjustableIntermediateSegment extends RectPolylinAdjustableSegment {
 	static final Logger LOGGER = Logger.getLogger(AdjustableIntermediateSegment.class.getPackage().getName());
 
 	private boolean consistentData = false;
 	private int index;
-	private FGESegment currentSegment;
-	private FGESegment previousSegment;
-	private FGESegment nextSegment;
-	private FGESegment beforePreviousSegment;
-	private FGESegment afterNextSegment;
+	private DianaSegment currentSegment;
+	private DianaSegment previousSegment;
+	private DianaSegment nextSegment;
+	private DianaSegment beforePreviousSegment;
+	private DianaSegment afterNextSegment;
 	private SimplifiedCardinalDirection currentOrientation;
 	private SimplifiedCardinalDirection previousOrientation;
 	private SimplifiedCardinalDirection nextOrientation;
-	private FGEArea draggingAuthorizedArea;
+	private DianaArea draggingAuthorizedArea;
 
-	public AdjustableIntermediateSegment(FGESegment segment, RectPolylinConnector connector) {
+	public AdjustableIntermediateSegment(DianaSegment segment, RectPolylinConnector connector) {
 		super(segment, connector);
 		retrieveInfos();
 	}
@@ -103,62 +103,72 @@ public class AdjustableIntermediateSegment extends RectPolylinAdjustableSegment 
 		if (currentOrientation.isHorizontal()) {
 			if (previousOrientation == SimplifiedCardinalDirection.NORTH) {
 				if (nextOrientation == SimplifiedCardinalDirection.NORTH) {
-					draggingAuthorizedArea = new FGERectangle(previousSegment.getP1(), nextSegment.getP2(), Filling.FILLED);
-				} else if (nextOrientation == SimplifiedCardinalDirection.SOUTH) {
-					FGESegment limit;
-					if (previousSegment.getP1().y > nextSegment.getP2().y) {
-						limit = new FGESegment(new FGEPoint(currentSegment.getP1().x, nextSegment.getP2().y), new FGEPoint(
-								currentSegment.getP2().x, nextSegment.getP2().y));
-					} else {
-						limit = new FGESegment(new FGEPoint(currentSegment.getP1().x, previousSegment.getP1().y), new FGEPoint(
-								currentSegment.getP2().x, previousSegment.getP1().y));
-					}
-					draggingAuthorizedArea = new FGEHalfBand(limit, SimplifiedCardinalDirection.NORTH);
+					draggingAuthorizedArea = new DianaRectangle(previousSegment.getP1(), nextSegment.getP2(), Filling.FILLED);
 				}
-			} else if (previousOrientation == SimplifiedCardinalDirection.SOUTH) {
-				if (nextOrientation == SimplifiedCardinalDirection.SOUTH) {
-					draggingAuthorizedArea = new FGERectangle(previousSegment.getP1(), nextSegment.getP2(), Filling.FILLED);
-				} else if (nextOrientation == SimplifiedCardinalDirection.NORTH) {
-					FGESegment limit;
-					if (previousSegment.getP1().y < nextSegment.getP2().y) {
-						limit = new FGESegment(new FGEPoint(currentSegment.getP1().x, nextSegment.getP2().y), new FGEPoint(
-								currentSegment.getP2().x, nextSegment.getP2().y));
-					} else {
-						limit = new FGESegment(new FGEPoint(currentSegment.getP1().x, previousSegment.getP1().y), new FGEPoint(
-								currentSegment.getP2().x, previousSegment.getP1().y));
+				else if (nextOrientation == SimplifiedCardinalDirection.SOUTH) {
+					DianaSegment limit;
+					if (previousSegment.getP1().y > nextSegment.getP2().y) {
+						limit = new DianaSegment(new DianaPoint(currentSegment.getP1().x, nextSegment.getP2().y),
+								new DianaPoint(currentSegment.getP2().x, nextSegment.getP2().y));
 					}
-					draggingAuthorizedArea = new FGEHalfBand(limit, SimplifiedCardinalDirection.SOUTH);
+					else {
+						limit = new DianaSegment(new DianaPoint(currentSegment.getP1().x, previousSegment.getP1().y),
+								new DianaPoint(currentSegment.getP2().x, previousSegment.getP1().y));
+					}
+					draggingAuthorizedArea = new DianaHalfBand(limit, SimplifiedCardinalDirection.NORTH);
+				}
+			}
+			else if (previousOrientation == SimplifiedCardinalDirection.SOUTH) {
+				if (nextOrientation == SimplifiedCardinalDirection.SOUTH) {
+					draggingAuthorizedArea = new DianaRectangle(previousSegment.getP1(), nextSegment.getP2(), Filling.FILLED);
+				}
+				else if (nextOrientation == SimplifiedCardinalDirection.NORTH) {
+					DianaSegment limit;
+					if (previousSegment.getP1().y < nextSegment.getP2().y) {
+						limit = new DianaSegment(new DianaPoint(currentSegment.getP1().x, nextSegment.getP2().y),
+								new DianaPoint(currentSegment.getP2().x, nextSegment.getP2().y));
+					}
+					else {
+						limit = new DianaSegment(new DianaPoint(currentSegment.getP1().x, previousSegment.getP1().y),
+								new DianaPoint(currentSegment.getP2().x, previousSegment.getP1().y));
+					}
+					draggingAuthorizedArea = new DianaHalfBand(limit, SimplifiedCardinalDirection.SOUTH);
 				}
 			}
 		}
 		if (currentOrientation.isVertical()) {
 			if (previousOrientation == SimplifiedCardinalDirection.EAST) {
 				if (nextOrientation == SimplifiedCardinalDirection.EAST) {
-					draggingAuthorizedArea = new FGERectangle(previousSegment.getP1(), nextSegment.getP2(), Filling.FILLED);
-				} else if (nextOrientation == SimplifiedCardinalDirection.WEST) {
-					FGESegment limit;
-					if (previousSegment.getP1().x < nextSegment.getP2().x) {
-						limit = new FGESegment(new FGEPoint(nextSegment.getP2().x, currentSegment.getP1().y), new FGEPoint(
-								nextSegment.getP2().x, currentSegment.getP2().y));
-					} else {
-						limit = new FGESegment(new FGEPoint(previousSegment.getP1().x, currentSegment.getP1().y), new FGEPoint(
-								previousSegment.getP1().x, currentSegment.getP2().y));
-					}
-					draggingAuthorizedArea = new FGEHalfBand(limit, SimplifiedCardinalDirection.EAST);
+					draggingAuthorizedArea = new DianaRectangle(previousSegment.getP1(), nextSegment.getP2(), Filling.FILLED);
 				}
-			} else if (previousOrientation == SimplifiedCardinalDirection.WEST) {
-				if (nextOrientation == SimplifiedCardinalDirection.WEST) {
-					draggingAuthorizedArea = new FGERectangle(previousSegment.getP1(), nextSegment.getP2(), Filling.FILLED);
-				} else if (nextOrientation == SimplifiedCardinalDirection.EAST) {
-					FGESegment limit;
-					if (previousSegment.getP1().x > nextSegment.getP2().x) {
-						limit = new FGESegment(new FGEPoint(nextSegment.getP2().x, currentSegment.getP1().y), new FGEPoint(
-								nextSegment.getP2().x, currentSegment.getP2().y));
-					} else {
-						limit = new FGESegment(new FGEPoint(previousSegment.getP1().x, currentSegment.getP1().y), new FGEPoint(
-								previousSegment.getP1().x, currentSegment.getP2().y));
+				else if (nextOrientation == SimplifiedCardinalDirection.WEST) {
+					DianaSegment limit;
+					if (previousSegment.getP1().x < nextSegment.getP2().x) {
+						limit = new DianaSegment(new DianaPoint(nextSegment.getP2().x, currentSegment.getP1().y),
+								new DianaPoint(nextSegment.getP2().x, currentSegment.getP2().y));
 					}
-					draggingAuthorizedArea = new FGEHalfBand(limit, SimplifiedCardinalDirection.WEST);
+					else {
+						limit = new DianaSegment(new DianaPoint(previousSegment.getP1().x, currentSegment.getP1().y),
+								new DianaPoint(previousSegment.getP1().x, currentSegment.getP2().y));
+					}
+					draggingAuthorizedArea = new DianaHalfBand(limit, SimplifiedCardinalDirection.EAST);
+				}
+			}
+			else if (previousOrientation == SimplifiedCardinalDirection.WEST) {
+				if (nextOrientation == SimplifiedCardinalDirection.WEST) {
+					draggingAuthorizedArea = new DianaRectangle(previousSegment.getP1(), nextSegment.getP2(), Filling.FILLED);
+				}
+				else if (nextOrientation == SimplifiedCardinalDirection.EAST) {
+					DianaSegment limit;
+					if (previousSegment.getP1().x > nextSegment.getP2().x) {
+						limit = new DianaSegment(new DianaPoint(nextSegment.getP2().x, currentSegment.getP1().y),
+								new DianaPoint(nextSegment.getP2().x, currentSegment.getP2().y));
+					}
+					else {
+						limit = new DianaSegment(new DianaPoint(previousSegment.getP1().x, currentSegment.getP1().y),
+								new DianaPoint(previousSegment.getP1().x, currentSegment.getP2().y));
+					}
+					draggingAuthorizedArea = new DianaHalfBand(limit, SimplifiedCardinalDirection.WEST);
 				}
 			}
 		}
@@ -172,15 +182,15 @@ public class AdjustableIntermediateSegment extends RectPolylinAdjustableSegment 
 	}
 
 	@Override
-	public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
+	public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 		super.startDragging(controller, startPoint);
 		retrieveInfos();
 	}
 
 	@Override
-	public FGEArea getDraggingAuthorizedArea() {
+	public DianaArea getDraggingAuthorizedArea() {
 		if (!consistentData) {
-			return new FGEEmptyArea();
+			return new DianaEmptyArea();
 		}
 
 		return draggingAuthorizedArea;
@@ -188,93 +198,93 @@ public class AdjustableIntermediateSegment extends RectPolylinAdjustableSegment 
 		 	if (currentOrientation.isHorizontal()) {
 				if (previousOrientation == SimplifiedCardinalDirection.NORTH) {
 					if (nextOrientation == SimplifiedCardinalDirection.NORTH) {
-						return new FGERectangle(previousSegment.getP1(),nextSegment.getP2(),Filling.FILLED);
+						return new DianaRectangle(previousSegment.getP1(),nextSegment.getP2(),Filling.FILLED);
 					}
 					else if (nextOrientation == SimplifiedCardinalDirection.SOUTH) {
-						FGESegment limit;						
+						DianaSegment limit;						
 						if (previousSegment.getP1().y>nextSegment.getP2().y) {
-							limit = new FGESegment(
-									new FGEPoint(currentSegment.getP1().x,nextSegment.getP2().y),
-									new FGEPoint(currentSegment.getP2().x,nextSegment.getP2().y));
+							limit = new DianaSegment(
+									new DianaPoint(currentSegment.getP1().x,nextSegment.getP2().y),
+									new DianaPoint(currentSegment.getP2().x,nextSegment.getP2().y));
 						}
 						else {
-							limit = new FGESegment(
-									new FGEPoint(currentSegment.getP1().x,previousSegment.getP1().y),
-									new FGEPoint(currentSegment.getP2().x,previousSegment.getP1().y));
+							limit = new DianaSegment(
+									new DianaPoint(currentSegment.getP1().x,previousSegment.getP1().y),
+									new DianaPoint(currentSegment.getP2().x,previousSegment.getP1().y));
 						}
-						return new FGEHalfBand(limit,SimplifiedCardinalDirection.NORTH);
+						return new DianaHalfBand(limit,SimplifiedCardinalDirection.NORTH);
 					}
 				}
 				else if (previousOrientation == SimplifiedCardinalDirection.SOUTH) {
 					if (nextOrientation == SimplifiedCardinalDirection.SOUTH) {
-						return new FGERectangle(previousSegment.getP1(),nextSegment.getP2(),Filling.FILLED);
+						return new DianaRectangle(previousSegment.getP1(),nextSegment.getP2(),Filling.FILLED);
 					}
 					else if (nextOrientation == SimplifiedCardinalDirection.NORTH) {
-						FGESegment limit;						
+						DianaSegment limit;						
 						if (previousSegment.getP1().y<nextSegment.getP2().y) {
-							limit = new FGESegment(
-									new FGEPoint(currentSegment.getP1().x,nextSegment.getP2().y),
-									new FGEPoint(currentSegment.getP2().x,nextSegment.getP2().y));
+							limit = new DianaSegment(
+									new DianaPoint(currentSegment.getP1().x,nextSegment.getP2().y),
+									new DianaPoint(currentSegment.getP2().x,nextSegment.getP2().y));
 						}
 						else {
-							limit = new FGESegment(
-									new FGEPoint(currentSegment.getP1().x,previousSegment.getP1().y),
-									new FGEPoint(currentSegment.getP2().x,previousSegment.getP1().y));
+							limit = new DianaSegment(
+									new DianaPoint(currentSegment.getP1().x,previousSegment.getP1().y),
+									new DianaPoint(currentSegment.getP2().x,previousSegment.getP1().y));
 						}
-						return new FGEHalfBand(limit,SimplifiedCardinalDirection.SOUTH);
+						return new DianaHalfBand(limit,SimplifiedCardinalDirection.SOUTH);
 					}
 				}
 			}
 			if (currentOrientation.isVertical()) {
 				if (previousOrientation == SimplifiedCardinalDirection.EAST) {
 					if (nextOrientation == SimplifiedCardinalDirection.EAST) {
-						return new FGERectangle(previousSegment.getP1(),nextSegment.getP2(),Filling.FILLED);
+						return new DianaRectangle(previousSegment.getP1(),nextSegment.getP2(),Filling.FILLED);
 					}
 					else if (nextOrientation == SimplifiedCardinalDirection.WEST) {
-						FGESegment limit;						
+						DianaSegment limit;						
 						if (previousSegment.getP1().x<nextSegment.getP2().x) {
-							limit = new FGESegment(
-									new FGEPoint(nextSegment.getP2().x,currentSegment.getP1().y),
-									new FGEPoint(nextSegment.getP2().x,currentSegment.getP2().y));
+							limit = new DianaSegment(
+									new DianaPoint(nextSegment.getP2().x,currentSegment.getP1().y),
+									new DianaPoint(nextSegment.getP2().x,currentSegment.getP2().y));
 						}
 						else {
-							limit = new FGESegment(
-									new FGEPoint(previousSegment.getP1().x,currentSegment.getP1().y),
-									new FGEPoint(previousSegment.getP1().x,currentSegment.getP2().y));
+							limit = new DianaSegment(
+									new DianaPoint(previousSegment.getP1().x,currentSegment.getP1().y),
+									new DianaPoint(previousSegment.getP1().x,currentSegment.getP2().y));
 						}
-						return new FGEHalfBand(limit,SimplifiedCardinalDirection.EAST);
+						return new DianaHalfBand(limit,SimplifiedCardinalDirection.EAST);
 					}
 				}
 				else if (previousOrientation == SimplifiedCardinalDirection.WEST) {
 					if (nextOrientation == SimplifiedCardinalDirection.WEST) {
-						return new FGERectangle(previousSegment.getP1(),nextSegment.getP2(),Filling.FILLED);
+						return new DianaRectangle(previousSegment.getP1(),nextSegment.getP2(),Filling.FILLED);
 					}
 					else if (nextOrientation == SimplifiedCardinalDirection.EAST) {
-						FGESegment limit;						
+						DianaSegment limit;						
 						if (previousSegment.getP1().x>nextSegment.getP2().x) {
-							limit = new FGESegment(
-									new FGEPoint(nextSegment.getP2().x,currentSegment.getP1().y),
-									new FGEPoint(nextSegment.getP2().x,currentSegment.getP2().y));
+							limit = new DianaSegment(
+									new DianaPoint(nextSegment.getP2().x,currentSegment.getP1().y),
+									new DianaPoint(nextSegment.getP2().x,currentSegment.getP2().y));
 						}
 						else {
-							limit = new FGESegment(
-									new FGEPoint(previousSegment.getP1().x,currentSegment.getP1().y),
-									new FGEPoint(previousSegment.getP1().x,currentSegment.getP2().y));
+							limit = new DianaSegment(
+									new DianaPoint(previousSegment.getP1().x,currentSegment.getP1().y),
+									new DianaPoint(previousSegment.getP1().x,currentSegment.getP2().y));
 						}
-						return new FGEHalfBand(limit,SimplifiedCardinalDirection.WEST);
+						return new DianaHalfBand(limit,SimplifiedCardinalDirection.WEST);
 					}
 				}
 			}
 		*/
 
 		// logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
-		// return new FGEEmptyArea();
+		// return new DianaEmptyArea();
 	}
 
 	@Override
-	public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-			FGEPoint initialPoint, MouseEvent event) {
-		FGEPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+	public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+			DianaPoint initialPoint, MouseEvent event) {
+		DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
 
 		if (pt == null) {
 			LOGGER.warning("Unexpected null point while dragging AdjustableIntermediateSegment " + getDraggingAuthorizedArea() + " pt="
@@ -282,12 +292,12 @@ public class AdjustableIntermediateSegment extends RectPolylinAdjustableSegment 
 			return false;
 		}
 
-		FGEPoint p1 = getPolylin().getPointAt(index);
+		DianaPoint p1 = getPolylin().getPointAt(index);
 		if (p1 == null) {
 			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return false;
 		}
-		FGEPoint p2 = getPolylin().getPointAt(index + 1);
+		DianaPoint p2 = getPolylin().getPointAt(index + 1);
 		if (p2 == null) {
 			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return false;
@@ -296,10 +306,12 @@ public class AdjustableIntermediateSegment extends RectPolylinAdjustableSegment 
 		if (currentOrientation.isHorizontal()) {
 			p1.y = pt.y;
 			p2.y = pt.y;
-		} else if (currentOrientation.isVertical()) {
+		}
+		else if (currentOrientation.isVertical()) {
 			p1.x = pt.x;
 			p2.x = pt.x;
-		} else {
+		}
+		else {
 			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return false;
 		}
@@ -322,7 +334,7 @@ public class AdjustableIntermediateSegment extends RectPolylinAdjustableSegment 
 		System.out.println("polylin.getSegmentNb() = "+polylin.getSegmentNb());
 		System.out.println("polylin.getPointAt(index) = "+polylin.getPointAt(index));*/
 		/*if (currentOrientation.isHorizontal()) {
-			FGEPoint p1 = getPolylin().getPointAt(index);
+			DianaPoint p1 = getPolylin().getPointAt(index);
 			if (p1 == null) {
 				logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 				return false;
@@ -330,7 +342,7 @@ public class AdjustableIntermediateSegment extends RectPolylinAdjustableSegment 
 			p1.y = pt.y;
 			getPolylin().updatePointAt(index,p1);
 			getConnector()._getControlPoints().elementAt(index).setPoint(p1);
-			FGEPoint p2 = getPolylin().getPointAt(index+1);
+			DianaPoint p2 = getPolylin().getPointAt(index+1);
 			if (p2 == null) {
 				logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 				return false;
@@ -343,7 +355,7 @@ public class AdjustableIntermediateSegment extends RectPolylinAdjustableSegment 
 			return true;
 		}
 		else if (currentOrientation.isVertical()) {
-			FGEPoint p1 = getPolylin().getPointAt(index);
+			DianaPoint p1 = getPolylin().getPointAt(index);
 			if (p1 == null) {
 				logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 				return false;
@@ -351,7 +363,7 @@ public class AdjustableIntermediateSegment extends RectPolylinAdjustableSegment 
 			p1.x = pt.x;
 			getPolylin().updatePointAt(index,p1);
 			getConnector()._getControlPoints().elementAt(index).setPoint(p1);
-			FGEPoint p2 = getPolylin().getPointAt(index+1);
+			DianaPoint p2 = getPolylin().getPointAt(index+1);
 			if (p2 == null) {
 				logger.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 				return false;

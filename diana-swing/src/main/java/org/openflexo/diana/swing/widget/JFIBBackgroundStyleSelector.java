@@ -52,8 +52,8 @@ import javax.swing.SwingUtilities;
 import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.Drawing;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
-import org.openflexo.diana.FGECoreUtils;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaCoreUtils;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.GRStructureVisitor;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.Drawing.PersistenceMode;
@@ -325,7 +325,7 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 		private JDianaViewer<BackgroundStylePreviewPanel> controller;
 		private ShapeGraphicalRepresentation rectGR;
 
-		private FGEModelFactory factory;
+		private DianaModelFactory factory;
 
 		protected BackgroundStylePreviewPanel() {
 			super(new BorderLayout());
@@ -334,7 +334,7 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 			setPreferredSize(new Dimension(40, 19));
 			// setBackground(Color.WHITE);
 
-			factory = FGECoreUtils.TOOLS_FACTORY;
+			factory = DianaCoreUtils.TOOLS_FACTORY;
 
 			drawing = new DrawingImpl<BackgroundStylePreviewPanel>(this, factory, PersistenceMode.UniqueGraphicalRepresentations) {
 				@Override
@@ -343,7 +343,7 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 							"previewPanel", new DrawingGRProvider<BackgroundStylePreviewPanel>() {
 								@Override
 								public DrawingGraphicalRepresentation provideGR(BackgroundStylePreviewPanel drawable,
-										FGEModelFactory factory) {
+										DianaModelFactory factory) {
 									return drawingGR;
 								}
 							});
@@ -351,7 +351,7 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 							new ShapeGRProvider<BackgroundStylePreviewPanel>() {
 								@Override
 								public ShapeGraphicalRepresentation provideGR(BackgroundStylePreviewPanel drawable,
-										FGEModelFactory factory) {
+										DianaModelFactory factory) {
 									return rectGR;
 								}
 							});

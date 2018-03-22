@@ -47,16 +47,16 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.BackgroundImageBackgroundStyle;
 import org.openflexo.diana.BackgroundStyle;
+import org.openflexo.diana.BackgroundStyle.BackgroundStyleType;
 import org.openflexo.diana.ColorBackgroundStyle;
 import org.openflexo.diana.ColorGradientBackgroundStyle;
-import org.openflexo.diana.FGEConstants;
-import org.openflexo.diana.FGEModelFactory;
-import org.openflexo.diana.NoneBackgroundStyle;
-import org.openflexo.diana.TextureBackgroundStyle;
-import org.openflexo.diana.BackgroundStyle.BackgroundStyleType;
 import org.openflexo.diana.ColorGradientBackgroundStyle.ColorGradientDirection;
+import org.openflexo.diana.DianaConstants;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.NoneBackgroundStyle;
+import org.openflexo.diana.TextureBackgroundStyle;
 import org.openflexo.diana.TextureBackgroundStyle.TextureType;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.rm.Resource;
@@ -84,7 +84,7 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 	private final InspectedBackgroundImageBackgroundStyle backgroundImageBackgroundStyle;
 
 	private PropertyChangeSupport pcSupport;
-	private FGEModelFactory fgeFactory;
+	private DianaModelFactory fgeFactory;
 
 	private final DianaInteractiveViewer<?, ?, ?> controller;
 
@@ -94,24 +94,24 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 		fgeFactory = controller.getFactory();
 		noneBackgroundStyle = new InspectedNoneBackgroundStyle(controller, controller.getFactory().makeEmptyBackground());
 		colorBackgroundStyle = new InspectedColorBackgroundStyle(controller,
-				controller.getFactory().makeColoredBackground(FGEConstants.DEFAULT_BACKGROUND_COLOR));
+				controller.getFactory().makeColoredBackground(DianaConstants.DEFAULT_BACKGROUND_COLOR));
 		colorGradientBackgroundStyle = new InspectedColorGradientBackgroundStyle(controller,
-				controller.getFactory().makeColorGradientBackground(FGEConstants.DEFAULT_BACKGROUND_COLOR, Color.WHITE,
+				controller.getFactory().makeColorGradientBackground(DianaConstants.DEFAULT_BACKGROUND_COLOR, Color.WHITE,
 						ColorGradientDirection.NORTH_WEST_SOUTH_EAST));
 		textureBackgroundStyle = new InspectedTextureBackgroundStyle(controller,
-				controller.getFactory().makeTexturedBackground(TextureType.TEXTURE1, FGEConstants.DEFAULT_BACKGROUND_COLOR, Color.WHITE));
+				controller.getFactory().makeTexturedBackground(TextureType.TEXTURE1, DianaConstants.DEFAULT_BACKGROUND_COLOR, Color.WHITE));
 		noneBackgroundStyle = new InspectedNoneBackgroundStyle(controller, controller.getFactory().makeEmptyBackground());
 		backgroundImageBackgroundStyle = new InspectedBackgroundImageBackgroundStyle(controller,
-				controller.getFactory().makeImageBackground(FGEConstants.DEFAULT_IMAGE));
+				controller.getFactory().makeImageBackground(DianaConstants.DEFAULT_IMAGE));
 	}
 
 	@Override
-	public FGEModelFactory getFGEFactory() {
+	public DianaModelFactory getDianaFactory() {
 		return fgeFactory;
 	}
 
 	@Override
-	public void setFGEFactory(FGEModelFactory fgeFactory) {
+	public void setDianaFactory(DianaModelFactory fgeFactory) {
 		this.fgeFactory = fgeFactory;
 	}
 

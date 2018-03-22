@@ -50,11 +50,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.type.TypeUtils;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.control.DianaInteractiveViewer;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.model.factory.CloneableProxyObject;
 import org.openflexo.model.factory.KeyValueCoding;
@@ -365,7 +365,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		pcSupport.firePropertyChange(p.getName(), oldValue, newValue);
 		// System.out.println("fired changed property " + p + " from " + oldValue + " to " + newValue);
 		// setChanged();
-		// notifyObservers(new FGEAttributeNotification<T>(p, oldValue, newValue));
+		// notifyObservers(new DianaAttributeNotification<T>(p, oldValue, newValue));
 	}
 
 	protected <T> void forceFireChangedProperty(GRProperty<T> p) {
@@ -378,7 +378,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		else { // otherwise, we force it
 			pcSupport.firePropertyChange(p.getName(), null, newValue);
 			// setChanged();
-			// notifyObservers(new FGEAttributeNotification<T>(p, null, newValue));
+			// notifyObservers(new DianaAttributeNotification<T>(p, null, newValue));
 		}
 
 	}
@@ -436,12 +436,12 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		return null;
 	}
 
-	public FGEModelFactory getFactory() {
+	public DianaModelFactory getFactory() {
 		// Not relevant
 		return null;
 	}
 
-	public void setFactory(FGEModelFactory factory) {
+	public void setFactory(DianaModelFactory factory) {
 		// Not relevant
 
 	}
@@ -475,7 +475,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		notifyChange(parameter);
 	}
 
-	public void notify(FGEAttributeNotification notification) {
+	public void notify(DianaAttributeNotification notification) {
 		// Not relevant
 	}
 

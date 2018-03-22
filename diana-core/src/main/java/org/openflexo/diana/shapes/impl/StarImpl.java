@@ -40,11 +40,11 @@
 package org.openflexo.diana.shapes.impl;
 
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGEPolygon;
-import org.openflexo.diana.geom.FGEShape;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.diana.shapes.Star;
 
 public abstract class StarImpl extends ShapeSpecificationImpl implements Star {
@@ -91,7 +91,7 @@ public abstract class StarImpl extends ShapeSpecificationImpl implements Star {
 
 	@Override
 	public void setNPoints(int pointsNb) {
-		FGEAttributeNotification<?> notification = requireChange(N_POINTS, pointsNb);
+		DianaAttributeNotification<?> notification = requireChange(N_POINTS, pointsNb);
 		if (notification != null) {
 			npoints = pointsNb;
 			hasChanged(notification);
@@ -105,7 +105,7 @@ public abstract class StarImpl extends ShapeSpecificationImpl implements Star {
 
 	@Override
 	public void setStartAngle(int anAngle) {
-		FGEAttributeNotification<?> notification = requireChange(START_ANGLE, anAngle);
+		DianaAttributeNotification<?> notification = requireChange(START_ANGLE, anAngle);
 		if (notification != null) {
 			startAngle = anAngle;
 			hasChanged(notification);
@@ -120,7 +120,7 @@ public abstract class StarImpl extends ShapeSpecificationImpl implements Star {
 	@Override
 	public void setRatio(double aRatio) {
 		if (aRatio > 0 && aRatio < 1.0) {
-			FGEAttributeNotification<?> notification = requireChange(RATIO, aRatio);
+			DianaAttributeNotification<?> notification = requireChange(RATIO, aRatio);
 			if (notification != null) {
 				ratio = aRatio;
 				hasChanged(notification);
@@ -129,15 +129,15 @@ public abstract class StarImpl extends ShapeSpecificationImpl implements Star {
 	}
 
 	@Override
-	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
-		FGEPolygon returned = new FGEPolygon(Filling.FILLED);
+	public DianaShape<?> makeDianaShape(ShapeNode<?> node) {
+		DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 		double startA = getStartAngle() * Math.PI / 180;
 		double angleInterval = Math.PI * 2 / npoints;
 		for (int i = 0; i < npoints; i++) {
 			double angle = i * angleInterval + startA;
 			double angle1 = (i - 0.5) * angleInterval + startA;
-			returned.addToPoints(new FGEPoint(Math.cos(angle1) * 0.5 * ratio + 0.5, Math.sin(angle1) * 0.5 * ratio + 0.5));
-			returned.addToPoints(new FGEPoint(Math.cos(angle) * 0.5 + 0.5, Math.sin(angle) * 0.5 + 0.5));
+			returned.addToPoints(new DianaPoint(Math.cos(angle1) * 0.5 * ratio + 0.5, Math.sin(angle1) * 0.5 * ratio + 0.5));
+			returned.addToPoints(new DianaPoint(Math.cos(angle) * 0.5 + 0.5, Math.sin(angle) * 0.5 + 0.5));
 		}
 		return returned;
 	}

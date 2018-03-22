@@ -45,7 +45,7 @@ import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.MouseControlAction;
 import org.openflexo.diana.control.MouseControlContext;
-import org.openflexo.diana.view.FGEView;
+import org.openflexo.diana.view.DianaView;
 
 public abstract class MouseControlActionImpl<E extends AbstractDianaEditor<?, ?, ?>> implements MouseControlAction<E> {
 
@@ -55,7 +55,7 @@ public abstract class MouseControlActionImpl<E extends AbstractDianaEditor<?, ?,
 	}
 
 	protected Point getPointInView(DrawingTreeNode<?, ?> node, E editor, MouseControlContext context) {
-		FGEView<?, ?> view = editor.getDrawingView().viewForNode(node);
+		DianaView<?, ?> view = editor.getDrawingView().viewForNode(node);
 		return editor.getDelegate().getPointInView(context.getSource(), context.getPoint(), view);
 
 	}

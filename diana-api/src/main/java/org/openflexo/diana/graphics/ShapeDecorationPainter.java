@@ -41,7 +41,7 @@ package org.openflexo.diana.graphics;
 
 public interface ShapeDecorationPainter {
 
-	public void paintDecoration(FGEShapeDecorationGraphics g);
+	public void paintDecoration(DianaShapeDecorationGraphics g);
 
 	public boolean paintBeforeShape();
 

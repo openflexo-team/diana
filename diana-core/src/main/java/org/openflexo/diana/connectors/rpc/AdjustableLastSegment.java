@@ -43,30 +43,30 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.connectors.impl.RectPolylinConnector;
 import org.openflexo.diana.control.DianaEditor;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGESegment;
-import org.openflexo.diana.geom.FGEGeometricObject.SimplifiedCardinalDirection;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEEmptyArea;
-import org.openflexo.diana.geom.area.FGEHalfPlane;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaEmptyArea;
+import org.openflexo.diana.geom.area.DianaHalfPlane;
 
 public class AdjustableLastSegment extends RectPolylinAdjustableSegment {
 	static final Logger LOGGER = Logger.getLogger(AdjustableLastSegment.class.getPackage().getName());
 
 	private boolean consistentData = false;
 	private int segmentsNb;
-	private FGESegment currentSegment;
-	private FGESegment previousSegment;
-	private FGESegment beforePreviousSegment;
+	private DianaSegment currentSegment;
+	private DianaSegment previousSegment;
+	private DianaSegment beforePreviousSegment;
 	private SimplifiedCardinalDirection currentOrientation;
 	private SimplifiedCardinalDirection previousOrientation;
-	private FGEArea endArea;
-	private FGEArea draggingAuthorizedArea;
+	private DianaArea endArea;
+	private DianaArea draggingAuthorizedArea;
 
-	public AdjustableLastSegment(FGESegment segment, RectPolylinConnector connector) {
+	public AdjustableLastSegment(DianaSegment segment, RectPolylinConnector connector) {
 		super(segment, connector);
 		retrieveInfos();
 	}
@@ -85,11 +85,11 @@ public class AdjustableLastSegment extends RectPolylinAdjustableSegment {
 		currentOrientation = currentSegment.getApproximatedOrientation();
 		previousOrientation = previousSegment.getApproximatedOrientation();
 
-		AffineTransform at2 = FGEUtils.convertNormalizedCoordinatesAT(getNode().getEndNode(), getNode());
-		endArea = getNode().getEndNode().getFGEShapeOutline().transform(at2);
-		FGEArea orthogonalPerspectiveArea = endArea.getOrthogonalPerspectiveArea(currentOrientation.getOpposite());
+		AffineTransform at2 = DianaUtils.convertNormalizedCoordinatesAT(getNode().getEndNode(), getNode());
+		endArea = getNode().getEndNode().getDianaShapeOutline().transform(at2);
+		DianaArea orthogonalPerspectiveArea = endArea.getOrthogonalPerspectiveArea(currentOrientation.getOpposite());
 		if (!previousSegment.containsPoint(currentSegment.getP2())) {
-			FGEHalfPlane hp = new FGEHalfPlane(previousSegment, currentSegment.getP2());
+			DianaHalfPlane hp = new DianaHalfPlane(previousSegment, currentSegment.getP2());
 			draggingAuthorizedArea = orthogonalPerspectiveArea.intersect(hp);
 		}
 		else {
@@ -100,15 +100,15 @@ public class AdjustableLastSegment extends RectPolylinAdjustableSegment {
 	}
 
 	@Override
-	public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
+	public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 		super.startDragging(controller, startPoint);
 		retrieveInfos();
 	}
 
 	@Override
-	public FGEArea getDraggingAuthorizedArea() {
+	public DianaArea getDraggingAuthorizedArea() {
 		if (!consistentData) {
-			return new FGEEmptyArea();
+			return new DianaEmptyArea();
 		}
 
 		return draggingAuthorizedArea;
@@ -116,16 +116,16 @@ public class AdjustableLastSegment extends RectPolylinAdjustableSegment {
 	}
 
 	@Override
-	public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-			FGEPoint initialPoint, MouseEvent event) {
-		FGEPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+	public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+			DianaPoint initialPoint, MouseEvent event) {
+		DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
 
-		FGEPoint p1 = getPolylin().getPointAt(segmentsNb - 1);
+		DianaPoint p1 = getPolylin().getPointAt(segmentsNb - 1);
 		if (p1 == null) {
 			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return false;
 		}
-		FGEPoint p2 = getPolylin().getPointAt(segmentsNb);
+		DianaPoint p2 = getPolylin().getPointAt(segmentsNb);
 		if (p2 == null) {
 			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return false;
@@ -160,19 +160,19 @@ public class AdjustableLastSegment extends RectPolylinAdjustableSegment {
 		// Now we must ensure that p2 is located on shape outline
 		// To do so, use outlineIntersect by projecting p2 along horizontal or vertical line
 		
-		FGEPoint outlineIntersect = endArea.nearestPointFrom(p2, currentOrientation);
+		DianaPoint outlineIntersect = endArea.nearestPointFrom(p2, currentOrientation);
 		if (outlineIntersect != null) p2 = outlineIntersect;
 		else {
 			logger.warning("Could not compute outlineIntersect() from "+p2);
 		}		*/
 
-		/*if (endArea instanceof FGEShape) {
-			FGEPoint outlineIntersect = null;
+		/*if (endArea instanceof DianaShape) {
+			DianaPoint outlineIntersect = null;
 			if (currentOrientation.isHorizontal()) {
-				outlineIntersect = ((FGEShape)endArea).outlineIntersect(FGELine.makeHorizontalLine(p2), p2);
+				outlineIntersect = ((DianaShape)endArea).outlineIntersect(DianaLine.makeHorizontalLine(p2), p2);
 			}	
 			else if (currentOrientation.isVertical()) {
-				outlineIntersect = ((FGEShape)endArea).outlineIntersect(FGELine.makeVerticalLine(p2), p2);
+				outlineIntersect = ((DianaShape)endArea).outlineIntersect(DianaLine.makeVerticalLine(p2), p2);
 			}	
 			if (outlineIntersect != null) p2 = outlineIntersect;
 			else {

@@ -54,7 +54,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JToggleButton;
 
-import org.openflexo.diana.FGEIconLibrary;
+import org.openflexo.diana.DianaIconLibrary;
 import org.openflexo.diana.control.DianaInteractiveEditor.DrawConnectorToolOption;
 import org.openflexo.diana.control.DianaInteractiveEditor.DrawCustomShapeToolOption;
 import org.openflexo.diana.control.DianaInteractiveEditor.DrawShapeToolOption;
@@ -95,17 +95,17 @@ public class JDianaToolSelector extends DianaToolSelector<JPanel, SwingViewFacto
 				: null);
 		drawConnectorToolButton = new ToolButton(EditorTool.DrawConnectorTool, editor != null ? editor.getDrawConnectorToolOption() : null);
 		drawTextToolButton = new ToolButton(EditorTool.DrawTextTool, null);
-		component.add(new JLabel(FGEIconLibrary.TOOLBAR_LEFT_ICON));
+		component.add(new JLabel(DianaIconLibrary.TOOLBAR_LEFT_ICON));
 		component.add(selectionToolButton);
-		component.add(new JLabel(FGEIconLibrary.TOOLBAR_SPACER_ICON));
+		component.add(new JLabel(DianaIconLibrary.TOOLBAR_SPACER_ICON));
 		component.add(drawShapeToolButton);
-		component.add(new JLabel(FGEIconLibrary.TOOLBAR_SPACER_ICON));
+		component.add(new JLabel(DianaIconLibrary.TOOLBAR_SPACER_ICON));
 		component.add(drawCustomShapeToolButton);
-		component.add(new JLabel(FGEIconLibrary.TOOLBAR_SPACER_ICON));
+		component.add(new JLabel(DianaIconLibrary.TOOLBAR_SPACER_ICON));
 		component.add(drawConnectorToolButton);
-		component.add(new JLabel(FGEIconLibrary.TOOLBAR_SPACER_ICON));
+		component.add(new JLabel(DianaIconLibrary.TOOLBAR_SPACER_ICON));
 		component.add(drawTextToolButton);
-		component.add(new JLabel(FGEIconLibrary.TOOLBAR_RIGHT_ICON));
+		component.add(new JLabel(DianaIconLibrary.TOOLBAR_RIGHT_ICON));
 		isInitialized = true;
 		updateButtons();
 	}
@@ -275,15 +275,15 @@ public class JDianaToolSelector extends DianaToolSelector<JPanel, SwingViewFacto
 	public Icon getIconFor(EditorTool tool) {
 		switch (tool) {
 		case SelectionTool:
-			return FGEIconLibrary.SELECTION_TOOL_ICON;
+			return DianaIconLibrary.SELECTION_TOOL_ICON;
 		case DrawShapeTool:
-			return FGEIconLibrary.DRAW_RECTANGLE_TOOL_ICON;
+			return DianaIconLibrary.DRAW_RECTANGLE_TOOL_ICON;
 		case DrawCustomShapeTool:
-			return FGEIconLibrary.DRAW_CUSTOM_POLYGON_TOOL_ICON;
+			return DianaIconLibrary.DRAW_CUSTOM_POLYGON_TOOL_ICON;
 		case DrawConnectorTool:
-			return FGEIconLibrary.DRAW_LINE_TOOL_ICON;
+			return DianaIconLibrary.DRAW_LINE_TOOL_ICON;
 		case DrawTextTool:
-			return FGEIconLibrary.DRAW_TEXT_TOOL_ICON;
+			return DianaIconLibrary.DRAW_TEXT_TOOL_ICON;
 		default:
 			logger.warning("Unexpected tool: " + tool);
 			return null;
@@ -294,15 +294,15 @@ public class JDianaToolSelector extends DianaToolSelector<JPanel, SwingViewFacto
 	public Icon getSelectedIconFor(EditorTool tool) {
 		switch (tool) {
 		case SelectionTool:
-			return FGEIconLibrary.SELECTION_TOOL_SELECTED_ICON;
+			return DianaIconLibrary.SELECTION_TOOL_SELECTED_ICON;
 		case DrawShapeTool:
-			return FGEIconLibrary.DRAW_RECTANGLE_TOOL_SELECTED_ICON;
+			return DianaIconLibrary.DRAW_RECTANGLE_TOOL_SELECTED_ICON;
 		case DrawCustomShapeTool:
-			return FGEIconLibrary.DRAW_CUSTOM_POLYGON_TOOL_SELECTED_ICON;
+			return DianaIconLibrary.DRAW_CUSTOM_POLYGON_TOOL_SELECTED_ICON;
 		case DrawConnectorTool:
-			return FGEIconLibrary.DRAW_LINE_TOOL_SELECTED_ICON;
+			return DianaIconLibrary.DRAW_LINE_TOOL_SELECTED_ICON;
 		case DrawTextTool:
-			return FGEIconLibrary.DRAW_TEXT_TOOL_SELECTED_ICON;
+			return DianaIconLibrary.DRAW_TEXT_TOOL_SELECTED_ICON;
 		default:
 			logger.warning("Unexpected tool: " + tool);
 			return null;
@@ -314,40 +314,40 @@ public class JDianaToolSelector extends DianaToolSelector<JPanel, SwingViewFacto
 		if (option instanceof DrawShapeToolOption) {
 			switch ((DrawShapeToolOption) option) {
 			case DrawRectangle:
-				return FGEIconLibrary.DRAW_RECTANGLE_TOOL_ICON;
+				return DianaIconLibrary.DRAW_RECTANGLE_TOOL_ICON;
 			case DrawOval:
-				return FGEIconLibrary.DRAW_OVAL_TOOL_ICON;
+				return DianaIconLibrary.DRAW_OVAL_TOOL_ICON;
 			default:
 				logger.warning("Unexpected option: " + option);
-				return FGEIconLibrary.DRAW_RECTANGLE_TOOL_ICON;
+				return DianaIconLibrary.DRAW_RECTANGLE_TOOL_ICON;
 			}
 		} else if (option instanceof DrawCustomShapeToolOption) {
 			switch ((DrawCustomShapeToolOption) option) {
 			case DrawPolygon:
-				return FGEIconLibrary.DRAW_CUSTOM_POLYGON_TOOL_ICON;
+				return DianaIconLibrary.DRAW_CUSTOM_POLYGON_TOOL_ICON;
 			case DrawClosedCurve:
-				return FGEIconLibrary.DRAW_CLOSED_CURVE_TOOL_ICON;
+				return DianaIconLibrary.DRAW_CLOSED_CURVE_TOOL_ICON;
 			case DrawOpenedCurve:
-				return FGEIconLibrary.DRAW_OPENED_CURVE_TOOL_ICON;
+				return DianaIconLibrary.DRAW_OPENED_CURVE_TOOL_ICON;
 			case DrawComplexShape:
-				return FGEIconLibrary.DRAW_CLOSED_CURVE_TOOL_ICON;
+				return DianaIconLibrary.DRAW_CLOSED_CURVE_TOOL_ICON;
 			default:
 				logger.warning("Unexpected option: " + option);
-				return FGEIconLibrary.DRAW_CLOSED_CURVE_TOOL_ICON;
+				return DianaIconLibrary.DRAW_CLOSED_CURVE_TOOL_ICON;
 			}
 		} else if (option instanceof DrawConnectorToolOption) {
 			switch ((DrawConnectorToolOption) option) {
 			case DrawLine:
-				return FGEIconLibrary.DRAW_LINE_TOOL_ICON;
+				return DianaIconLibrary.DRAW_LINE_TOOL_ICON;
 			case DrawCurve:
-				return FGEIconLibrary.DRAW_CURVE_TOOL_ICON;
+				return DianaIconLibrary.DRAW_CURVE_TOOL_ICON;
 			case DrawRectPolylin:
-				return FGEIconLibrary.DRAW_RECT_POLYLIN_TOOL_ICON;
+				return DianaIconLibrary.DRAW_RECT_POLYLIN_TOOL_ICON;
 			case DrawCurvedPolylin:
-				return FGEIconLibrary.DRAW_CURVED_POLYLIN_TOOL_ICON;
+				return DianaIconLibrary.DRAW_CURVED_POLYLIN_TOOL_ICON;
 			default:
 				logger.warning("Unexpected option: " + option);
-				return FGEIconLibrary.DRAW_LINE_TOOL_ICON;
+				return DianaIconLibrary.DRAW_LINE_TOOL_ICON;
 			}
 		}
 		logger.warning("Unexpected option: " + option);
@@ -358,40 +358,40 @@ public class JDianaToolSelector extends DianaToolSelector<JPanel, SwingViewFacto
 		if (option instanceof DrawShapeToolOption) {
 			switch ((DrawShapeToolOption) option) {
 			case DrawRectangle:
-				return FGEIconLibrary.DRAW_RECTANGLE_TOOL_SELECTED_ICON;
+				return DianaIconLibrary.DRAW_RECTANGLE_TOOL_SELECTED_ICON;
 			case DrawOval:
-				return FGEIconLibrary.DRAW_OVAL_TOOL_SELECTED_ICON;
+				return DianaIconLibrary.DRAW_OVAL_TOOL_SELECTED_ICON;
 			default:
 				logger.warning("Unexpected option: " + option);
-				return FGEIconLibrary.DRAW_RECTANGLE_TOOL_SELECTED_ICON;
+				return DianaIconLibrary.DRAW_RECTANGLE_TOOL_SELECTED_ICON;
 			}
 		} else if (option instanceof DrawCustomShapeToolOption) {
 			switch ((DrawCustomShapeToolOption) option) {
 			case DrawPolygon:
-				return FGEIconLibrary.DRAW_CUSTOM_POLYGON_TOOL_SELECTED_ICON;
+				return DianaIconLibrary.DRAW_CUSTOM_POLYGON_TOOL_SELECTED_ICON;
 			case DrawClosedCurve:
-				return FGEIconLibrary.DRAW_CLOSED_CURVE_TOOL_SELECTED_ICON;
+				return DianaIconLibrary.DRAW_CLOSED_CURVE_TOOL_SELECTED_ICON;
 			case DrawOpenedCurve:
-				return FGEIconLibrary.DRAW_OPENED_CURVE_TOOL_SELECTED_ICON;
+				return DianaIconLibrary.DRAW_OPENED_CURVE_TOOL_SELECTED_ICON;
 			case DrawComplexShape:
-				return FGEIconLibrary.DRAW_CLOSED_CURVE_TOOL_SELECTED_ICON;
+				return DianaIconLibrary.DRAW_CLOSED_CURVE_TOOL_SELECTED_ICON;
 			default:
 				logger.warning("Unexpected option: " + option);
-				return FGEIconLibrary.DRAW_CLOSED_CURVE_TOOL_SELECTED_ICON;
+				return DianaIconLibrary.DRAW_CLOSED_CURVE_TOOL_SELECTED_ICON;
 			}
 		} else if (option instanceof DrawConnectorToolOption) {
 			switch ((DrawConnectorToolOption) option) {
 			case DrawLine:
-				return FGEIconLibrary.DRAW_LINE_TOOL_SELECTED_ICON;
+				return DianaIconLibrary.DRAW_LINE_TOOL_SELECTED_ICON;
 			case DrawCurve:
-				return FGEIconLibrary.DRAW_CURVE_TOOL_SELECTED_ICON;
+				return DianaIconLibrary.DRAW_CURVE_TOOL_SELECTED_ICON;
 			case DrawRectPolylin:
-				return FGEIconLibrary.DRAW_RECT_POLYLIN_TOOL_SELECTED_ICON;
+				return DianaIconLibrary.DRAW_RECT_POLYLIN_TOOL_SELECTED_ICON;
 			case DrawCurvedPolylin:
-				return FGEIconLibrary.DRAW_CURVED_POLYLIN_TOOL_SELECTED_ICON;
+				return DianaIconLibrary.DRAW_CURVED_POLYLIN_TOOL_SELECTED_ICON;
 			default:
 				logger.warning("Unexpected option: " + option);
-				return FGEIconLibrary.DRAW_LINE_TOOL_SELECTED_ICON;
+				return DianaIconLibrary.DRAW_LINE_TOOL_SELECTED_ICON;
 			}
 		}
 		logger.warning("Unexpected option: " + option);
@@ -402,9 +402,9 @@ public class JDianaToolSelector extends DianaToolSelector<JPanel, SwingViewFacto
 		if (option instanceof DrawShapeToolOption) {
 			switch ((DrawShapeToolOption) option) {
 			case DrawRectangle:
-				return FGEIconLibrary.RECTANGLE_ICON;
+				return DianaIconLibrary.RECTANGLE_ICON;
 			case DrawOval:
-				return FGEIconLibrary.OVAL_ICON;
+				return DianaIconLibrary.OVAL_ICON;
 			default:
 				logger.warning("Unexpected option: " + option);
 				return null;
@@ -412,13 +412,13 @@ public class JDianaToolSelector extends DianaToolSelector<JPanel, SwingViewFacto
 		} else if (option instanceof DrawCustomShapeToolOption) {
 			switch ((DrawCustomShapeToolOption) option) {
 			case DrawPolygon:
-				return FGEIconLibrary.CUSTOM_POLYGON_ICON;
+				return DianaIconLibrary.CUSTOM_POLYGON_ICON;
 			case DrawClosedCurve:
-				return FGEIconLibrary.CLOSE_CURVE_ICON;
+				return DianaIconLibrary.CLOSE_CURVE_ICON;
 			case DrawOpenedCurve:
-				return FGEIconLibrary.OPENED_CURVE_ICON;
+				return DianaIconLibrary.OPENED_CURVE_ICON;
 			case DrawComplexShape:
-				return FGEIconLibrary.COMPLEX_SHAPE_ICON;
+				return DianaIconLibrary.COMPLEX_SHAPE_ICON;
 			default:
 				logger.warning("Unexpected option: " + option);
 				return null;
@@ -426,13 +426,13 @@ public class JDianaToolSelector extends DianaToolSelector<JPanel, SwingViewFacto
 		} else if (option instanceof DrawConnectorToolOption) {
 			switch ((DrawConnectorToolOption) option) {
 			case DrawLine:
-				return FGEIconLibrary.LINE_CONNECTOR_ICON;
+				return DianaIconLibrary.LINE_CONNECTOR_ICON;
 			case DrawCurve:
-				return FGEIconLibrary.CURVE_CONNECTOR_ICON;
+				return DianaIconLibrary.CURVE_CONNECTOR_ICON;
 			case DrawRectPolylin:
-				return FGEIconLibrary.RECT_POLYLIN_CONNECTOR_ICON;
+				return DianaIconLibrary.RECT_POLYLIN_CONNECTOR_ICON;
 			case DrawCurvedPolylin:
-				return FGEIconLibrary.CURVED_POLYLIN_CONNECTOR_ICON;
+				return DianaIconLibrary.CURVED_POLYLIN_CONNECTOR_ICON;
 			default:
 				logger.warning("Unexpected option: " + option);
 				return null;

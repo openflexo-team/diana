@@ -41,8 +41,8 @@ package org.openflexo.diana.layout;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEModelFactory;
-import org.openflexo.diana.FGEModelFactoryImpl;
+import org.openflexo.diana.DianaModelFactory;
+import org.openflexo.diana.DianaModelFactoryImpl;
 import org.openflexo.diana.test.TestGraph;
 import org.openflexo.diana.test.layout.TreeLayoutManagerDrawing;
 import org.openflexo.logging.FlexoLogger;
@@ -70,9 +70,9 @@ public class LaunchTreeLayoutManagerExample extends AbstractLaunchLayoutManagerE
 	}
 
 	public static TreeLayoutManagerDrawing makeDrawing() {
-		FGEModelFactory factory = null;
+		DianaModelFactory factory = null;
 		try {
-			factory = new FGEModelFactoryImpl();
+			factory = new DianaModelFactoryImpl();
 		} catch (ModelDefinitionException e) {
 			e.printStackTrace();
 		}

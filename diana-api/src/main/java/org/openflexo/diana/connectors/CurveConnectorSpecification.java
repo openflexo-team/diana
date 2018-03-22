@@ -40,7 +40,7 @@
 package org.openflexo.diana.connectors;
 
 import org.openflexo.diana.GRProperty;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
@@ -54,11 +54,11 @@ public interface CurveConnectorSpecification extends ConnectorSpecification {
 
 	// Property keys
 
-	@PropertyIdentifier(type = FGEPoint.class)
+	@PropertyIdentifier(type = DianaPoint.class)
 	public static final String CP_POSITION_KEY = "cpPosition";
-	@PropertyIdentifier(type = FGEPoint.class)
+	@PropertyIdentifier(type = DianaPoint.class)
 	public static final String CP1_RELATIVE_TO_START_OBJECT_KEY = "cp1RelativeToStartObject";
-	@PropertyIdentifier(type = FGEPoint.class)
+	@PropertyIdentifier(type = DianaPoint.class)
 	public static final String CP2_RELATIVE_TO_END_OBJECT_KEY = "cp2RelativeToEndObject";
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String ARE_BOUNDS_ADJUSTABLE_KEY = "areBoundsAdjustable";
@@ -67,12 +67,12 @@ public interface CurveConnectorSpecification extends ConnectorSpecification {
 		cpPosition, cp1RelativeToStartObject, cp2RelativeToEndObject, areBoundsAdjustable;
 	}*/
 
-	public static GRProperty<FGEPoint> CP_POSITION = GRProperty.getGRParameter(CurveConnectorSpecification.class, CP_POSITION_KEY,
-			FGEPoint.class);
-	public static GRProperty<FGEPoint> CP1_RELATIVE_TO_START_OBJECT = GRProperty.getGRParameter(CurveConnectorSpecification.class,
-			CP1_RELATIVE_TO_START_OBJECT_KEY, FGEPoint.class);
-	public static GRProperty<FGEPoint> CP2_RELATIVE_TO_END_OBJECT = GRProperty.getGRParameter(CurveConnectorSpecification.class,
-			CP2_RELATIVE_TO_END_OBJECT_KEY, FGEPoint.class);
+	public static GRProperty<DianaPoint> CP_POSITION = GRProperty.getGRParameter(CurveConnectorSpecification.class, CP_POSITION_KEY,
+			DianaPoint.class);
+	public static GRProperty<DianaPoint> CP1_RELATIVE_TO_START_OBJECT = GRProperty.getGRParameter(CurveConnectorSpecification.class,
+			CP1_RELATIVE_TO_START_OBJECT_KEY, DianaPoint.class);
+	public static GRProperty<DianaPoint> CP2_RELATIVE_TO_END_OBJECT = GRProperty.getGRParameter(CurveConnectorSpecification.class,
+			CP2_RELATIVE_TO_END_OBJECT_KEY, DianaPoint.class);
 	public static GRProperty<Boolean> ARE_BOUNDS_ADJUSTABLE = GRProperty.getGRParameter(CurveConnectorSpecification.class,
 			ARE_BOUNDS_ADJUSTABLE_KEY, Boolean.class);
 
@@ -82,24 +82,24 @@ public interface CurveConnectorSpecification extends ConnectorSpecification {
 
 	@Getter(value = CP1_RELATIVE_TO_START_OBJECT_KEY, isStringConvertable = true)
 	@XMLAttribute
-	public FGEPoint getCp1RelativeToStartObject();
+	public DianaPoint getCp1RelativeToStartObject();
 
 	@Setter(value = CP1_RELATIVE_TO_START_OBJECT_KEY)
-	public void setCp1RelativeToStartObject(FGEPoint aPoint);
+	public void setCp1RelativeToStartObject(DianaPoint aPoint);
 
 	@Getter(value = CP2_RELATIVE_TO_END_OBJECT_KEY, isStringConvertable = true)
 	@XMLAttribute
-	public FGEPoint getCp2RelativeToEndObject();
+	public DianaPoint getCp2RelativeToEndObject();
 
 	@Setter(value = CP2_RELATIVE_TO_END_OBJECT_KEY)
-	public void setCp2RelativeToEndObject(FGEPoint aPoint);
+	public void setCp2RelativeToEndObject(DianaPoint aPoint);
 
 	@Getter(value = CP_POSITION_KEY, isStringConvertable = true)
 	@XMLAttribute
-	public FGEPoint getCpPosition();
+	public DianaPoint getCpPosition();
 
 	@Setter(value = CP_POSITION_KEY)
-	public void setCpPosition(FGEPoint cpPosition);
+	public void setCpPosition(DianaPoint cpPosition);
 
 	@Getter(value = ARE_BOUNDS_ADJUSTABLE_KEY, defaultValue = "true")
 	@XMLAttribute

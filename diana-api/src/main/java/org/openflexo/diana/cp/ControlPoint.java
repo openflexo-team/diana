@@ -43,36 +43,36 @@ import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEConstants;
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaConstants;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.graphics.FGEGraphics;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.graphics.DianaGraphics;
 
 /**
  * A {@link ControlArea} encodes an interactive area, attached to a DrawingTreeNode, and represented by a single point<br>
  * 
  * @author sylvain
  */
-public abstract class ControlPoint extends ControlArea<FGEPoint> {
+public abstract class ControlPoint extends ControlArea<DianaPoint> {
 
 	private static final Logger logger = Logger.getLogger(ControlPoint.class.getPackage().getName());
 
-	public ControlPoint(DrawingTreeNode<?, ?> node, FGEPoint pt) {
+	public ControlPoint(DrawingTreeNode<?, ?> node, DianaPoint pt) {
 		super(node, pt);
 	}
 
-	public FGEPoint getPoint() {
+	public DianaPoint getPoint() {
 		return getArea();
 	}
 
-	public void setPoint(FGEPoint point) {
+	public void setPoint(DianaPoint point) {
 		setArea(point);
 	}
 
 	// @SuppressWarnings("unchecked")
 	@Override
-	public Rectangle paint(FGEGraphics graphics) {
+	public Rectangle paint(DianaGraphics graphics) {
 		if (getNode() == null) {
 			logger.warning("Unexpected null node");
 			return null;
@@ -81,15 +81,15 @@ public abstract class ControlPoint extends ControlArea<FGEPoint> {
 		// getGraphicalRepresentation());
 		graphics.useDefaultForegroundStyle();
 		if (isEmbeddedInComponentHierarchy(graphics)) {
-			AffineTransform at = FGEUtils.convertNormalizedCoordinatesAT(getNode(), graphics.getNode());
-			return graphics.drawControlPoint(getPoint().transform(at), FGEConstants.CONTROL_POINT_SIZE);
+			AffineTransform at = DianaUtils.convertNormalizedCoordinatesAT(getNode(), graphics.getNode());
+			return graphics.drawControlPoint(getPoint().transform(at), DianaConstants.CONTROL_POINT_SIZE);
 		} else {
-			return graphics.drawControlPoint(getPoint(), FGEConstants.CONTROL_POINT_SIZE);
+			return graphics.drawControlPoint(getPoint(), DianaConstants.CONTROL_POINT_SIZE);
 		}
 
 	}
 
-	public boolean isEmbeddedInComponentHierarchy(FGEGraphics graphics) {
+	public boolean isEmbeddedInComponentHierarchy(DianaGraphics graphics) {
 		return getNode().isValid();
 	}
 

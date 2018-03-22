@@ -39,15 +39,15 @@ package org.openflexo.diana.animation.impl;
 
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.animation.Transition;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 
 public class TranslationTransition implements Transition {
 
 	private final ShapeNode<?> shapeNode;
-	private final FGEPoint oldLocation;
-	private final FGEPoint newLocation;
+	private final DianaPoint oldLocation;
+	private final DianaPoint newLocation;
 
-	public TranslationTransition(ShapeNode<?> shapeNode, FGEPoint oldLocation, FGEPoint newLocation) {
+	public TranslationTransition(ShapeNode<?> shapeNode, DianaPoint oldLocation, DianaPoint newLocation) {
 		super();
 		this.shapeNode = shapeNode;
 		this.oldLocation = oldLocation;
@@ -57,7 +57,7 @@ public class TranslationTransition implements Transition {
 	@Override
 	public void performStep(int step, int totalSteps) {
 		shapeNode.setRelayouting(true);
-		shapeNode.setLocation(new FGEPoint(oldLocation.x - (oldLocation.x - newLocation.x) * step / totalSteps,
+		shapeNode.setLocation(new DianaPoint(oldLocation.x - (oldLocation.x - newLocation.x) * step / totalSteps,
 				oldLocation.y - (oldLocation.y - newLocation.y) * step / totalSteps));
 		shapeNode.setRelayouting(false);
 	}

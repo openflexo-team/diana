@@ -52,7 +52,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.openflexo.diana.Drawing;
-import org.openflexo.diana.FGELayoutManager;
+import org.openflexo.diana.DianaLayoutManager;
 import org.openflexo.diana.swing.JDianaInteractiveEditor;
 import org.openflexo.diana.swing.SwingViewFactory;
 import org.openflexo.diana.swing.control.SwingToolFactory;
@@ -185,7 +185,7 @@ public class AbstractLaunchLayoutManagerExample {
 			return drawingController;
 		}
 
-		public FGELayoutManager<?, ?> getLayoutManager() {
+		public DianaLayoutManager<?, ?> getLayoutManager() {
 			return drawingController.getDrawing().getRoot().getDefaultLayoutManager();
 		}
 

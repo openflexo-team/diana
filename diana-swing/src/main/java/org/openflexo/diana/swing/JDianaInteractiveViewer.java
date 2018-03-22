@@ -42,7 +42,7 @@ package org.openflexo.diana.swing;
 import javax.swing.JComponent;
 
 import org.openflexo.diana.Drawing;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.swing.control.SwingToolFactory;
 import org.openflexo.diana.swing.view.JDrawingView;
@@ -58,12 +58,12 @@ import org.openflexo.diana.swing.view.JDrawingView;
  */
 public class JDianaInteractiveViewer<M> extends DianaInteractiveViewer<M, SwingViewFactory, JComponent> {
 
-	public JDianaInteractiveViewer(Drawing<M> aDrawing, FGEModelFactory factory, SwingToolFactory toolFactory) {
+	public JDianaInteractiveViewer(Drawing<M> aDrawing, DianaModelFactory factory, SwingToolFactory toolFactory) {
 		super(aDrawing, factory, SwingViewFactory.INSTANCE, toolFactory);
 		setDelegate(new SwingEditorDelegate(this));
 	}
 
-	public JDianaInteractiveViewer(Drawing<M> aDrawing, FGEModelFactory factory, SwingViewFactory viewFactory, SwingToolFactory toolFactory) {
+	public JDianaInteractiveViewer(Drawing<M> aDrawing, DianaModelFactory factory, SwingViewFactory viewFactory, SwingToolFactory toolFactory) {
 		super(aDrawing, factory, viewFactory, toolFactory);
 		setDelegate(new SwingEditorDelegate(this));
 	}

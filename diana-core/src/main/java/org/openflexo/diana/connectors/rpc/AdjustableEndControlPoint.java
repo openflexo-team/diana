@@ -42,61 +42,62 @@ package org.openflexo.diana.connectors.rpc;
 import java.awt.event.MouseEvent;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.connectors.impl.RectPolylinConnector;
 import org.openflexo.diana.control.DianaEditor;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectPolylin;
-import org.openflexo.diana.geom.area.FGEArea;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectPolylin;
+import org.openflexo.diana.geom.area.DianaArea;
 
 public class AdjustableEndControlPoint extends RectPolylinAdjustableControlPoint {
 	static final Logger LOGGER = Logger.getLogger(AdjustableEndControlPoint.class.getPackage().getName());
 
-	public AdjustableEndControlPoint(FGEPoint point, RectPolylinConnector connector) {
+	public AdjustableEndControlPoint(DianaPoint point, RectPolylinConnector connector) {
 		super(point, connector);
 	}
 
 	@Override
-	public FGEArea getDraggingAuthorizedArea() {
+	public DianaArea getDraggingAuthorizedArea() {
 		return getConnector().retrieveAllowedEndArea(false);
 	}
 
 	@Override
-	public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
+	public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 		super.startDragging(controller, startPoint);
 		getConnectorSpecification().setIsStartingLocationFixed(true);
 	}
 
 	@Override
-	public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-			FGEPoint initialPoint, MouseEvent event) {
-		FGEPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+	public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+			DianaPoint initialPoint, MouseEvent event) {
+		DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
 		if (pt == null) {
 			LOGGER.warning("Cannot nearest point for point " + newRelativePoint + " and area " + getDraggingAuthorizedArea());
 			return false;
 		}
 		setPoint(pt);
-		FGEPoint ptRelativeToEndObject = FGEUtils.convertNormalizedPoint(getNode(), pt, getConnector().getEndNode());
+		DianaPoint ptRelativeToEndObject = DianaUtils.convertNormalizedPoint(getNode(), pt, getConnector().getEndNode());
 		getConnector().setFixedEndLocation(ptRelativeToEndObject);
 		switch (getConnectorSpecification().getAdjustability()) {
-		case AUTO_LAYOUT:
-			// Nothing special to do
-			break;
-		case BASICALLY_ADJUSTABLE:
-			// Nothing special to do
-			break;
-		case FULLY_ADJUSTABLE:
-			if (initialPolylin.getSegmentNb() == 1 && getConnector()._updateAsFullyAdjustableForUniqueSegment(pt)
-					&& !getConnectorSpecification().getIsStartingLocationFixed()) {
-				// OK this is still a unique segment, nice !
-			} else {
-				FGERectPolylin newPolylin = initialPolylin.clone();
-				newPolylin.updatePointAt(newPolylin.getPointsNb() - 1, pt);
-				getConnector().updateWithNewPolylin(newPolylin, true);
-			}
-			break;
-		default:
-			break;
+			case AUTO_LAYOUT:
+				// Nothing special to do
+				break;
+			case BASICALLY_ADJUSTABLE:
+				// Nothing special to do
+				break;
+			case FULLY_ADJUSTABLE:
+				if (initialPolylin.getSegmentNb() == 1 && getConnector()._updateAsFullyAdjustableForUniqueSegment(pt)
+						&& !getConnectorSpecification().getIsStartingLocationFixed()) {
+					// OK this is still a unique segment, nice !
+				}
+				else {
+					DianaRectPolylin newPolylin = initialPolylin.clone();
+					newPolylin.updatePointAt(newPolylin.getPointsNb() - 1, pt);
+					getConnector().updateWithNewPolylin(newPolylin, true);
+				}
+				break;
+			default:
+				break;
 		}
 		getConnector()._connectorChanged(true);
 		getNode().notifyConnectorModified();

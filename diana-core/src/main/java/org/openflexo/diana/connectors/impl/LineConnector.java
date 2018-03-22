@@ -48,26 +48,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.ConnectorNode;
-import org.openflexo.diana.connectors.LineConnectorSpecification;
 import org.openflexo.diana.connectors.ConnectorSymbol.EndSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.MiddleSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.StartSymbolType;
+import org.openflexo.diana.connectors.LineConnectorSpecification;
 import org.openflexo.diana.connectors.LineConnectorSpecification.LineConnectorType;
 import org.openflexo.diana.cp.ConnectorAdjustingControlPoint;
 import org.openflexo.diana.cp.ConnectorControlPoint;
 import org.openflexo.diana.cp.ControlPoint;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGESegment;
-import org.openflexo.diana.geom.FGEShape;
+import org.openflexo.diana.geom.DianaGeometricObject.CardinalQuadrant;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geom.GeomUtils;
-import org.openflexo.diana.geom.FGEGeometricObject.CardinalQuadrant;
-import org.openflexo.diana.geom.FGEGeometricObject.SimplifiedCardinalDirection;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEEmptyArea;
-import org.openflexo.diana.graphics.FGEConnectorGraphics;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaEmptyArea;
+import org.openflexo.diana.graphics.DianaConnectorGraphics;
 
 public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 
@@ -110,19 +110,19 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 		return controlPoints;
 	}
 
-	public FGEPoint getCp1RelativeToStartObject() {
+	public DianaPoint getCp1RelativeToStartObject() {
 		return getPropertyValue(LineConnectorSpecification.CP1_RELATIVE_TO_START_OBJECT);
 	}
 
-	public void setCp1RelativeToStartObject(FGEPoint aPoint) {
+	public void setCp1RelativeToStartObject(DianaPoint aPoint) {
 		setPropertyValue(LineConnectorSpecification.CP1_RELATIVE_TO_START_OBJECT, aPoint);
 	}
 
-	public FGEPoint getCp2RelativeToEndObject() {
+	public DianaPoint getCp2RelativeToEndObject() {
 		return getPropertyValue(LineConnectorSpecification.CP2_RELATIVE_TO_END_OBJECT);
 	}
 
-	public void setCp2RelativeToEndObject(FGEPoint aPoint) {
+	public void setCp2RelativeToEndObject(DianaPoint aPoint) {
 		setPropertyValue(LineConnectorSpecification.CP2_RELATIVE_TO_END_OBJECT, aPoint);
 	}
 
@@ -137,17 +137,17 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 	private ConnectorAdjustingControlPoint makeMiddleSymbolLocationControlPoint() {
 		middleSymbolLocationControlPoint = new ConnectorAdjustingControlPoint(connectorNode, getMiddleSymbolLocation()) {
 			@Override
-			public FGEArea getDraggingAuthorizedArea() {
-				return new FGESegment(cp1.getPoint(), cp2.getPoint());
+			public DianaArea getDraggingAuthorizedArea() {
+				return new DianaSegment(cp1.getPoint(), cp2.getPoint());
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				// logger.info("OK, moving to "+point);
-				FGEPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+				DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
 				setPoint(pt);
-				FGESegment segment = new FGESegment(cp1.getPoint(), cp2.getPoint());
+				DianaSegment segment = new DianaSegment(cp1.getPoint(), cp2.getPoint());
 				setRelativeMiddleSymbolLocation(segment.getRelativeLocation(pt));
 
 				/*
@@ -169,23 +169,23 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 			// We have to compute the intersection between this line and the outline
 			// of joined shapes
 
-			FGEPoint centerOfEndObjectSeenFromStartObject = FGEUtils.convertNormalizedPoint(getEndNode(), new FGEPoint(0.5, 0.5),
+			DianaPoint centerOfEndObjectSeenFromStartObject = DianaUtils.convertNormalizedPoint(getEndNode(), new DianaPoint(0.5, 0.5),
 					getStartNode());
-			FGEPoint pointOnStartObject = getStartNode().getShape().outlineIntersect(centerOfEndObjectSeenFromStartObject);
+			DianaPoint pointOnStartObject = getStartNode().getShape().outlineIntersect(centerOfEndObjectSeenFromStartObject);
 			if (pointOnStartObject == null) {
 				LOGGER.warning("outlineIntersect() returned null");
-				pointOnStartObject = new FGEPoint(0.5, 0.5);
+				pointOnStartObject = new DianaPoint(0.5, 0.5);
 			}
-			FGEPoint newP1 = FGEUtils.convertNormalizedPoint(getStartNode(), pointOnStartObject, connectorNode);
+			DianaPoint newP1 = DianaUtils.convertNormalizedPoint(getStartNode(), pointOnStartObject, connectorNode);
 
-			FGEPoint centerOfStartObjectSeenFromEndObject = FGEUtils.convertNormalizedPoint(getStartNode(), new FGEPoint(0.5, 0.5),
+			DianaPoint centerOfStartObjectSeenFromEndObject = DianaUtils.convertNormalizedPoint(getStartNode(), new DianaPoint(0.5, 0.5),
 					getEndNode());
-			FGEPoint pointOnEndObject = getEndNode().getShape().outlineIntersect(centerOfStartObjectSeenFromEndObject);
+			DianaPoint pointOnEndObject = getEndNode().getShape().outlineIntersect(centerOfStartObjectSeenFromEndObject);
 			if (pointOnEndObject == null) {
 				LOGGER.warning("outlineIntersect() returned null");
-				pointOnEndObject = new FGEPoint(0.5, 0.5);
+				pointOnEndObject = new DianaPoint(0.5, 0.5);
 			}
-			FGEPoint newP2 = FGEUtils.convertNormalizedPoint(getEndNode(), pointOnEndObject, connectorNode);
+			DianaPoint newP2 = DianaUtils.convertNormalizedPoint(getEndNode(), pointOnEndObject, connectorNode);
 
 			// cp1.setPoint(newP1);
 			// cp2.setPoint(newP2);
@@ -207,29 +207,29 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 			// First obtain the two affine transform allowing to convert from
 			// extremity objects coordinates to connector drawable
 
-			AffineTransform at1 = FGEUtils.convertNormalizedCoordinatesAT(getStartNode(), connectorNode);
+			AffineTransform at1 = DianaUtils.convertNormalizedCoordinatesAT(getStartNode(), connectorNode);
 
-			AffineTransform at2 = FGEUtils.convertNormalizedCoordinatesAT(getEndNode(), connectorNode);
+			AffineTransform at2 = DianaUtils.convertNormalizedCoordinatesAT(getEndNode(), connectorNode);
 
 			// Then compute first order covering area for both extremities
 
-			FGEArea coveringArea = computeCoveringArea(1);
+			DianaArea coveringArea = computeCoveringArea(1);
 
-			if (coveringArea instanceof FGERectangle) {
+			if (coveringArea instanceof DianaRectangle) {
 				// The covering area is a rectangle:
 				// This means that the two connector have a common connecting area
 				// along x-axis or y-axis: this area is the obtained rectangle
 
-				FGERectangle r = (FGERectangle) coveringArea;
+				DianaRectangle r = (DianaRectangle) coveringArea;
 
-				FGEPoint startMiddle = getStartNode().getFGEShape().getCenter().transform(at1);
-				FGEPoint endMiddle = getEndNode().getFGEShape().getCenter().transform(at2);
-				FGEPoint pointOnStartObject, pointOnEndObject;
+				DianaPoint startMiddle = getStartNode().getDianaShape().getCenter().transform(at1);
+				DianaPoint endMiddle = getEndNode().getDianaShape().getCenter().transform(at2);
+				DianaPoint pointOnStartObject, pointOnEndObject;
 
 				// According to the relative orientation of both objects, compute points on start
 				// object and end object, as middle of rectangle covering area
 
-				SimplifiedCardinalDirection orientation = FGEPoint.getSimplifiedOrientation(startMiddle, endMiddle);
+				SimplifiedCardinalDirection orientation = DianaPoint.getSimplifiedOrientation(startMiddle, endMiddle);
 				if (orientation == SimplifiedCardinalDirection.NORTH) {
 					pointOnStartObject = r.getNorth().getMiddle();
 					pointOnEndObject = r.getSouth().getMiddle();
@@ -249,20 +249,20 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 
 				// Now, we still are not sure that obtained points are located on shape
 				// So we must project them on shape to find nearest point located on
-				// outline (using nearestOutlinePoint(FGEPoint) method)
+				// outline (using nearestOutlinePoint(DianaPoint) method)
 
-				pointOnStartObject = FGEUtils.convertNormalizedPoint(connectorNode, pointOnStartObject, getStartNode());
+				pointOnStartObject = DianaUtils.convertNormalizedPoint(connectorNode, pointOnStartObject, getStartNode());
 				pointOnStartObject = getStartNode().getShape().nearestOutlinePoint(pointOnStartObject);
 
-				pointOnEndObject = FGEUtils.convertNormalizedPoint(connectorNode, pointOnEndObject, getEndNode());
+				pointOnEndObject = DianaUtils.convertNormalizedPoint(connectorNode, pointOnEndObject, getEndNode());
 				pointOnEndObject = getEndNode().getShape().nearestOutlinePoint(pointOnEndObject);
 
 				// Coordinates are expressed in object relative coordinates
 				// Convert them to local coordinates
 
-				FGEPoint newP1 = FGEUtils.convertNormalizedPoint(getStartNode(), pointOnStartObject, connectorNode);
+				DianaPoint newP1 = DianaUtils.convertNormalizedPoint(getStartNode(), pointOnStartObject, connectorNode);
 
-				FGEPoint newP2 = FGEUtils.convertNormalizedPoint(getEndNode(), pointOnEndObject, connectorNode);
+				DianaPoint newP2 = DianaUtils.convertNormalizedPoint(getEndNode(), pointOnEndObject, connectorNode);
 
 				// And assign values to existing points.
 				// cp1.setPoint(newP1);
@@ -282,31 +282,31 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 
 			}
 
-			else if (coveringArea instanceof FGEEmptyArea) {
+			else if (coveringArea instanceof DianaEmptyArea) {
 				// In this case, we have to join shapes using a line connecting
 				// biased cardinal points of embedding rectangle
 
-				FGEPoint startMiddle = getStartNode().getFGEShape().getCenter().transform(at1);
-				FGEPoint endMiddle = getEndNode().getFGEShape().getCenter().transform(at2);
-				FGEPoint pointOnStartObject, pointOnEndObject;
+				DianaPoint startMiddle = getStartNode().getDianaShape().getCenter().transform(at1);
+				DianaPoint endMiddle = getEndNode().getDianaShape().getCenter().transform(at2);
+				DianaPoint pointOnStartObject, pointOnEndObject;
 
-				CardinalQuadrant orientation = FGEPoint.getCardinalQuadrant(startMiddle, endMiddle);
+				CardinalQuadrant orientation = DianaPoint.getCardinalQuadrant(startMiddle, endMiddle);
 
 				if (orientation == CardinalQuadrant.NORTH_WEST) {
-					pointOnStartObject = new FGEPoint(0, 0);
-					pointOnEndObject = new FGEPoint(1, 1);
+					pointOnStartObject = new DianaPoint(0, 0);
+					pointOnEndObject = new DianaPoint(1, 1);
 				}
 				else if (orientation == CardinalQuadrant.SOUTH_WEST) {
-					pointOnStartObject = new FGEPoint(0, 1);
-					pointOnEndObject = new FGEPoint(1, 0);
+					pointOnStartObject = new DianaPoint(0, 1);
+					pointOnEndObject = new DianaPoint(1, 0);
 				}
 				else if (orientation == CardinalQuadrant.NORTH_EAST) {
-					pointOnStartObject = new FGEPoint(1, 0);
-					pointOnEndObject = new FGEPoint(0, 1);
+					pointOnStartObject = new DianaPoint(1, 0);
+					pointOnEndObject = new DianaPoint(0, 1);
 				}
 				else /* orientation == BiasedCardinalDirection.SOUTH_EAST */ {
-					pointOnStartObject = new FGEPoint(1, 1);
-					pointOnEndObject = new FGEPoint(0, 0);
+					pointOnStartObject = new DianaPoint(1, 1);
+					pointOnEndObject = new DianaPoint(0, 0);
 				}
 
 				// We compute nearest outline point
@@ -314,8 +314,8 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 				pointOnEndObject = getEndNode().getShape().nearestOutlinePoint(pointOnEndObject);
 
 				// And then we convert to local coordinates
-				FGEPoint newP1 = FGEUtils.convertNormalizedPoint(getStartNode(), pointOnStartObject, connectorNode);
-				FGEPoint newP2 = FGEUtils.convertNormalizedPoint(getEndNode(), pointOnEndObject, connectorNode);
+				DianaPoint newP1 = DianaUtils.convertNormalizedPoint(getStartNode(), pointOnStartObject, connectorNode);
+				DianaPoint newP2 = DianaUtils.convertNormalizedPoint(getEndNode(), pointOnEndObject, connectorNode);
 
 				// Finally assign values to existing points.
 				// cp1.setPoint(newP1);
@@ -339,13 +339,13 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 
 		else if (getLineConnectorType() == LineConnectorType.FUNNY) {
 
-			FGEPoint newP1 = connectorNode.getEndNode().getShape()
-					.nearestOutlinePoint(FGEUtils.convertNormalizedPoint(getStartNode(), new FGEPoint(0.5, 0.5), getEndNode()));
-			newP1 = FGEUtils.convertNormalizedPoint(getEndNode(), newP1, connectorNode);
+			DianaPoint newP1 = connectorNode.getEndNode().getShape()
+					.nearestOutlinePoint(DianaUtils.convertNormalizedPoint(getStartNode(), new DianaPoint(0.5, 0.5), getEndNode()));
+			newP1 = DianaUtils.convertNormalizedPoint(getEndNode(), newP1, connectorNode);
 
-			FGEPoint newP2 = connectorNode.getStartNode().getShape()
-					.nearestOutlinePoint(FGEUtils.convertNormalizedPoint(getEndNode(), new FGEPoint(0.5, 0.5), getStartNode()));
-			newP2 = FGEUtils.convertNormalizedPoint(getStartNode(), newP2, connectorNode);
+			DianaPoint newP2 = connectorNode.getStartNode().getShape()
+					.nearestOutlinePoint(DianaUtils.convertNormalizedPoint(getEndNode(), new DianaPoint(0.5, 0.5), getStartNode()));
+			newP2 = DianaUtils.convertNormalizedPoint(getStartNode(), newP2, connectorNode);
 
 			// cp1.setPoint(newP1);
 			// cp2.setPoint(newP2);
@@ -368,46 +368,46 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 				setLineConnectorType(LineConnectorType.CENTER_TO_CENTER);
 				updateControlPoints();
 				setLineConnectorType(LineConnectorType.ADJUSTABLE);
-				setCp1RelativeToStartObject(FGEUtils.convertNormalizedPoint(connectorNode, cp1.getPoint(), getStartNode()));
-				setCp2RelativeToEndObject(FGEUtils.convertNormalizedPoint(connectorNode, cp2.getPoint(), getEndNode()));
+				setCp1RelativeToStartObject(DianaUtils.convertNormalizedPoint(connectorNode, cp1.getPoint(), getStartNode()));
+				setCp2RelativeToEndObject(DianaUtils.convertNormalizedPoint(connectorNode, cp2.getPoint(), getEndNode()));
 			}
 
 			// We have either the old position, or the default one
 			// We need now to find updated position according to eventual shape move, resize, reshaped, etc...
 			// To do that, use outlineIntersect();
 
-			FGEPoint newP1 = null; /* = cp1.getPoint(); */
+			DianaPoint newP1 = null; /* = cp1.getPoint(); */
 			if (cp1 != null) {
 				newP1 = cp1.getPoint();
 			}
 			setCp1RelativeToStartObject(getStartNode().getShape().outlineIntersect(getCp1RelativeToStartObject()));
 			if (getCp1RelativeToStartObject() != null) {
-				newP1 = FGEUtils.convertNormalizedPoint(getStartNode(), getCp1RelativeToStartObject(), connectorNode);
+				newP1 = DianaUtils.convertNormalizedPoint(getStartNode(), getCp1RelativeToStartObject(), connectorNode);
 			}
 
-			FGEPoint newP2 = null; /* = cp2.getPoint(); */
+			DianaPoint newP2 = null; /* = cp2.getPoint(); */
 			if (cp2 != null) {
 				newP2 = cp2.getPoint();
 			}
 			setCp2RelativeToEndObject(getEndNode().getShape().outlineIntersect(getCp2RelativeToEndObject()));
 			if (getCp2RelativeToEndObject() != null) {
-				newP2 = FGEUtils.convertNormalizedPoint(getEndNode(), getCp2RelativeToEndObject(), connectorNode);
+				newP2 = DianaUtils.convertNormalizedPoint(getEndNode(), getCp2RelativeToEndObject(), connectorNode);
 			}
 
 			cp1 = new ConnectorAdjustingControlPoint(connectorNode, newP1) {
 				@Override
-				public FGEArea getDraggingAuthorizedArea() {
-					FGEShape<?> shape = getStartNode().getFGEShape();
-					return shape.transform(FGEUtils.convertNormalizedCoordinatesAT(getStartNode(), connectorNode));
+				public DianaArea getDraggingAuthorizedArea() {
+					DianaShape<?> shape = getStartNode().getDianaShape();
+					return shape.transform(DianaUtils.convertNormalizedCoordinatesAT(getStartNode(), connectorNode));
 				}
 
 				@Override
-				public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-						FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+				public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+						DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 					// logger.info("OK, moving to "+point);
-					FGEPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+					DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
 					setPoint(pt);
-					setCp1RelativeToStartObject(FGEUtils.convertNormalizedPoint(connectorNode, pt, getStartNode()));
+					setCp1RelativeToStartObject(DianaUtils.convertNormalizedPoint(connectorNode, pt, getStartNode()));
 					connectorNode.notifyConnectorModified();
 					return true;
 				}
@@ -416,18 +416,18 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 
 			cp2 = new ConnectorAdjustingControlPoint(connectorNode, newP2) {
 				@Override
-				public FGEArea getDraggingAuthorizedArea() {
-					FGEShape<?> shape = getEndNode().getFGEShape();
-					return shape.transform(FGEUtils.convertNormalizedCoordinatesAT(getEndNode(), connectorNode));
+				public DianaArea getDraggingAuthorizedArea() {
+					DianaShape<?> shape = getEndNode().getDianaShape();
+					return shape.transform(DianaUtils.convertNormalizedCoordinatesAT(getEndNode(), connectorNode));
 				}
 
 				@Override
-				public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-						FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+				public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+						DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 					// logger.info("OK, moving to "+point);
-					FGEPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+					DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
 					setPoint(pt);
-					setCp2RelativeToEndObject(FGEUtils.convertNormalizedPoint(connectorNode, pt, getEndNode()));
+					setCp2RelativeToEndObject(DianaUtils.convertNormalizedPoint(connectorNode, pt, getEndNode()));
 					if (getMiddleSymbol() != MiddleSymbolType.NONE) {
 						if (middleSymbolLocationControlPoint != null) {
 							middleSymbolLocationControlPoint.setPoint(getMiddleSymbolLocation());
@@ -478,21 +478,21 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 	}
 
 	@Override
-	public void drawConnector(FGEConnectorGraphics g) {
+	public void drawConnector(DianaConnectorGraphics g) {
 		// FD : seems unused => boolean wasFirstUpdated = firstUpdated;
 		if (!firstUpdated) {
 			refreshConnector();
 		}
 
 		/*
-		 * if (FGEConstants.DEBUG || getGraphicalRepresentation().getDebugCoveringArea()) { drawCoveringAreas(g); }
+		 * if (DianaConstants.DEBUG || getGraphicalRepresentation().getDebugCoveringArea()) { drawCoveringAreas(g); }
 		 */
 
 		/*
-		 * if (lineConnectorType == LineConnectorType.ADJUSTABLE) { g.setForeground(fs0); g.setBackground(bs0); FGEShape<?> shape =
+		 * if (lineConnectorType == LineConnectorType.ADJUSTABLE) { g.setForeground(fs0); g.setBackground(bs0); DianaShape<?> shape =
 		 * getStartNode().getShape().getShape();
 		 * shape.transform(GraphicalRepresentation.convertNormalizedCoordinatesAT(getStartNode().getDrawable(), getDrawable())) .paint(g);
-		 * g.setForeground(fs1); g.setBackground(bs1); FGEShape<?> shape2 = getEndNode().getShape().getShape();
+		 * g.setForeground(fs1); g.setBackground(bs1); DianaShape<?> shape2 = getEndNode().getShape().getShape();
 		 * shape2.transform(GraphicalRepresentation.convertNormalizedCoordinatesAT(getEndNode().getDrawable(), getDrawable())) .paint(g);
 		 * }
 		 */
@@ -538,15 +538,15 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 	}
 
 	@Override
-	public FGEPoint getMiddleSymbolLocation() {
+	public DianaPoint getMiddleSymbolLocation() {
 		if (cp1 == null || cp2 == null) {
-			return new FGEPoint(0, 0);
+			return new DianaPoint(0, 0);
 		}
-		return new FGESegment(cp1.getPoint(), cp2.getPoint()).getScaledPoint(getRelativeMiddleSymbolLocation());
+		return new DianaSegment(cp1.getPoint(), cp2.getPoint()).getScaledPoint(getRelativeMiddleSymbolLocation());
 	}
 
 	@Override
-	public double distanceToConnector(FGEPoint aPoint, double scale) {
+	public double distanceToConnector(DianaPoint aPoint, double scale) {
 		if (cp1 == null || cp2 == null) {
 			LOGGER.warning("Invalid date in LineConnectorSpecification: control points are null");
 			return Double.POSITIVE_INFINITY;
@@ -558,7 +558,7 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 	}
 
 	@Override
-	public FGERectangle getConnectorUsedBounds() {
+	public DianaRectangle getConnectorUsedBounds() {
 		return NORMALIZED_BOUNDS;
 	}
 
@@ -568,7 +568,7 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 	 * @return
 	 */
 	@Override
-	public FGEPoint getStartLocation() {
+	public DianaPoint getStartLocation() {
 		return getCp1RelativeToStartObject();
 	}
 
@@ -578,7 +578,7 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 	 * @return
 	 */
 	@Override
-	public FGEPoint getEndLocation() {
+	public DianaPoint getEndLocation() {
 		return getCp2RelativeToEndObject();
 	}
 

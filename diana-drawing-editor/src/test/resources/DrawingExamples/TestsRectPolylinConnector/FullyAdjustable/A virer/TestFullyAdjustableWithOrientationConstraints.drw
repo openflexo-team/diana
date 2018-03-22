@@ -37,7 +37,7 @@
       <StartMyShapeGraphicalRepresentation idref="12" />
       <EndMyShapeGraphicalRepresentation idref="19" />
       <RectPolylinConnector id="29" rectPolylinConstraints="START_ORIENTATION_FIXED" straightLineWhenPossible="true" adjustability="FULLY_ADJUSTABLE" startOrientation="EAST" endOrientation="NORTH" isRounded="false" arcSize="10" isStartingLocationFixed="false" isEndingLocationFixed="false" isStartingLocationDraggable="false" isEndingLocationDraggable="false">
-        <FGERectPolylin>0.06622516556291391,0.08278145695364239;0.814569536423841,0.08278145695364239;0.814569536423841,0.4304635761589404</FGERectPolylin>
+        <DianaRectPolylin>0.06622516556291391,0.08278145695364239;0.814569536423841,0.08278145695364239;0.814569536423841,0.4304635761589404</DianaRectPolylin>
       </RectPolylinConnector>
     </ConnectorGraphicalRepresentation>
   </Connector>
@@ -66,7 +66,7 @@
       <StartMyShapeGraphicalRepresentation idref="31" />
       <EndMyShapeGraphicalRepresentation idref="38" />
       <RectPolylinConnector id="48" rectPolylinConstraints="START_ORIENTATION_FIXED" straightLineWhenPossible="true" adjustability="FULLY_ADJUSTABLE" startOrientation="EAST" endOrientation="NORTH" isRounded="false" arcSize="10" isStartingLocationFixed="true" isEndingLocationFixed="false" isStartingLocationDraggable="false" isEndingLocationDraggable="false" fixedStartLocation="1.02,0.22500000000000003">
-        <FGERectPolylin>0.4411764705882353,0.12500000000000003;1.2601694357540085,0.12500000000000003;1.2601694357540085,0.8142239365205182;0.9747899159663855,0.8142239365205182</FGERectPolylin>
+        <DianaRectPolylin>0.4411764705882353,0.12500000000000003;1.2601694357540085,0.12500000000000003;1.2601694357540085,0.8142239365205182;0.9747899159663855,0.8142239365205182</DianaRectPolylin>
       </RectPolylinConnector>
     </ConnectorGraphicalRepresentation>
   </Connector>
@@ -122,7 +122,7 @@
       <StartMyShapeGraphicalRepresentation idref="69" />
       <EndMyShapeGraphicalRepresentation idref="76" />
       <RectPolylinConnector id="86" rectPolylinConstraints="ORIENTATIONS_FIXED" straightLineWhenPossible="true" adjustability="FULLY_ADJUSTABLE" startOrientation="WEST" endOrientation="EAST" isRounded="false" arcSize="10" isStartingLocationFixed="true" isEndingLocationFixed="true" isStartingLocationDraggable="true" isEndingLocationDraggable="true" fixedStartLocation="-2.920937827574008E-4,0.16249999999999998" fixedEndLocation="1.0000000000000002,0.7500000000000001">
-        <FGERectPolylin>0.019442356944927297,0.1257404302244677;-0.2015603011223951,0.1257404302244677;-0.2015603011223951,-0.07452417163653535;1.506496135655429,-0.07452417163653535;1.506496135655429,0.8284431329271705;0.9785501636363771,0.8284431329271705</FGERectPolylin>
+        <DianaRectPolylin>0.019442356944927297,0.1257404302244677;-0.2015603011223951,0.1257404302244677;-0.2015603011223951,-0.07452417163653535;1.506496135655429,-0.07452417163653535;1.506496135655429,0.8284431329271705;0.9785501636363771,0.8284431329271705</DianaRectPolylin>
       </RectPolylinConnector>
     </ConnectorGraphicalRepresentation>
   </Connector>

@@ -45,18 +45,18 @@ import java.util.Hashtable;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEConstants;
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaConstants;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.ShapeGraphicalRepresentation.LocationConstraints;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.control.MouseControlContext;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.view.DianaView;
 import org.openflexo.diana.view.DrawingView;
-import org.openflexo.diana.view.FGEView;
 import org.openflexo.model.undo.CompoundEdit;
 
 /**
@@ -69,9 +69,9 @@ public class MoveInfo {
 
 	private static final Logger logger = Logger.getLogger(MoveInfo.class.getPackage().getName());
 
-	private FGEView<?, ?> view;
+	private DianaView<?, ?> view;
 	private Point startMovingLocationInDrawingView;
-	private final Hashtable<ShapeNode<?>, FGEPoint> movedObjects;
+	private final Hashtable<ShapeNode<?>, DianaPoint> movedObjects;
 	private final ShapeNode<?> movedObject;
 
 	private boolean moveHasStarted = false;
@@ -81,7 +81,7 @@ public class MoveInfo {
 	public MoveInfo(ShapeNode<?> shapeNode, DianaInteractiveViewer<?, ?, ?> controller) {
 		view = controller.getDrawingView();
 
-		startMovingLocationInDrawingView = FGEUtils.convertPointFromDrawableToDrawing(shapeNode.getParentNode(),
+		startMovingLocationInDrawingView = DianaUtils.convertPointFromDrawableToDrawing(shapeNode.getParentNode(),
 				new Point(shapeNode.getViewX(controller.getScale()), shapeNode.getViewY(controller.getScale())), controller.getScale());
 		currentLocationInDrawingView = new Point(startMovingLocationInDrawingView);
 
@@ -106,7 +106,7 @@ public class MoveInfo {
 
 	}
 
-	public MoveInfo(ShapeNode<?> shapeNode, MouseControlContext context, FGEView<?, ?> view, DianaInteractiveViewer<?, ?, ?> controller) {
+	public MoveInfo(ShapeNode<?> shapeNode, MouseControlContext context, DianaView<?, ?> view, DianaInteractiveViewer<?, ?, ?> controller) {
 		this(shapeNode, controller);
 
 		this.view = view;
@@ -168,14 +168,14 @@ public class MoveInfo {
 		}
 
 		for (ShapeNode<?> d : movedObjects.keySet()) {
-			FGEPoint startMovingPoint = movedObjects.get(d);
+			DianaPoint startMovingPoint = movedObjects.get(d);
 
-			FGEPoint desiredLocation = new FGEPoint(
+			DianaPoint desiredLocation = new DianaPoint(
 					startMovingPoint.x + (newLocationInDrawingView.x - startMovingLocationInDrawingView.x) / view.getScale(),
 					startMovingPoint.y + (newLocationInDrawingView.y - startMovingLocationInDrawingView.y) / view.getScale());
 
 			/*double authorizedRatio = d.getMoveAuthorizedRatio(desiredLocation,startMovingPoint);
-			FGEPoint newLocation = new FGEPoint(
+			DianaPoint newLocation = new DianaPoint(
 					startMovingPoint.x+(desiredLocation.x-startMovingPoint.x)*authorizedRatio,
 					startMovingPoint.y+(desiredLocation.y-startMovingPoint.y)*authorizedRatio);
 			logger.info("\n>>>>>>>>>>> setLocation() from "+d.getLocation()+" to "+newLocation+" on "+d);
@@ -186,7 +186,7 @@ public class MoveInfo {
 			// d.getGraphicalRepresentation().setY(desiredLocation.y);
 
 			if (d.isParentLayoutedAsContainer()) {
-				FGEPoint resultingLocation = d.getLocation();
+				DianaPoint resultingLocation = d.getLocation();
 				if (!resultingLocation.equals(desiredLocation)) {
 					double dx = resultingLocation.x - desiredLocation.x;
 					double dy = resultingLocation.y - desiredLocation.y;
@@ -225,20 +225,21 @@ public class MoveInfo {
 			return false;
 		}
 
-		FGEPoint startMovingPoint = movedObjects.get(movedObject);
+		DianaPoint startMovingPoint = movedObjects.get(movedObject);
 
-		FGEPoint desiredLocation = new FGEPoint(
+		DianaPoint desiredLocation = new DianaPoint(
 				startMovingPoint.x + (newLocationInDrawingView.x - startMovingLocationInDrawingView.x) / view.getScale(),
 				startMovingPoint.y + (newLocationInDrawingView.y - startMovingLocationInDrawingView.y) / view.getScale());
 
 		if (movedObject.getParentNode() instanceof ShapeNode) {
 			ShapeNode<?> container = (ShapeNode<?>) movedObject.getParentNode();
-			FGERectangle bounds = new FGERectangle(0, 0, container.getWidth() - movedObject.getWidth(),
+			DianaRectangle bounds = new DianaRectangle(0, 0, container.getWidth() - movedObject.getWidth(),
 					container.getHeight() - movedObject.getHeight(), Filling.FILLED);
-			FGEPoint nearestPoint = bounds.getNearestPoint(desiredLocation);
-			Point p1 = FGEUtils.convertPointFromDrawableToDrawing(movedObject.getParentNode(), desiredLocation.toPoint(), view.getScale());
-			Point p2 = FGEUtils.convertPointFromDrawableToDrawing(movedObject.getParentNode(), nearestPoint.toPoint(), view.getScale());
-			if (Point2D.distance(p1.x, p1.y, p2.x, p2.y) > FGEConstants.DND_DISTANCE) {
+			DianaPoint nearestPoint = bounds.getNearestPoint(desiredLocation);
+			Point p1 = DianaUtils.convertPointFromDrawableToDrawing(movedObject.getParentNode(), desiredLocation.toPoint(),
+					view.getScale());
+			Point p2 = DianaUtils.convertPointFromDrawableToDrawing(movedObject.getParentNode(), nearestPoint.toPoint(), view.getScale());
+			if (Point2D.distance(p1.x, p1.y, p2.x, p2.y) > DianaConstants.DND_DISTANCE) {
 				return true;
 			}
 		}
@@ -254,7 +255,7 @@ public class MoveInfo {
 		return movedObjects.keySet();
 	}
 
-	public Hashtable<ShapeNode<?>, FGEPoint> getInitialLocations() {
+	public Hashtable<ShapeNode<?>, DianaPoint> getInitialLocations() {
 		return movedObjects;
 	}
 

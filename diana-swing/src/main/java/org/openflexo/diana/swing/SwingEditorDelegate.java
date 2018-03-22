@@ -54,9 +54,9 @@ import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaEditorDelegate;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.control.actions.MoveInfo;
-import org.openflexo.diana.swing.paint.FGEPaintManager;
+import org.openflexo.diana.swing.paint.DianaPaintManager;
 import org.openflexo.diana.swing.view.JDrawingView;
-import org.openflexo.diana.view.FGEView;
+import org.openflexo.diana.view.DianaView;
 
 public class SwingEditorDelegate implements DianaEditorDelegate {
 
@@ -82,7 +82,7 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 		return (JDrawingView<?>) controller.getDrawingView();
 	}
 
-	public FGEPaintManager getPaintManager() {
+	public DianaPaintManager getPaintManager() {
 		if (getDrawingView() != null) {
 			return getDrawingView().getPaintManager();
 		}
@@ -273,7 +273,7 @@ public class SwingEditorDelegate implements DianaEditorDelegate {
 	}
 
 	@Override
-	public Point getPointInView(Object source, Point point, FGEView<?, ?> view) {
+	public Point getPointInView(Object source, Point point, DianaView<?, ?> view) {
 		return SwingUtilities.convertPoint((Component) source, point, (Component) view);
 	}
 

@@ -42,10 +42,10 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.Drawing.GraphNode;
 import org.openflexo.diana.GRBinding.GraphGRBinding;
-import org.openflexo.diana.graph.FGEGraph;
-import org.openflexo.diana.graphics.FGEShapeGraphics;
+import org.openflexo.diana.graph.DianaGraph;
+import org.openflexo.diana.graphics.DianaShapeGraphics;
 
-public class GraphNodeImpl<G extends FGEGraph> extends ShapeNodeImpl<G> implements GraphNode<G> {
+public class GraphNodeImpl<G extends DianaGraph> extends ShapeNodeImpl<G> implements GraphNode<G> {
 
 	private static final Logger logger = Logger.getLogger(GraphNodeImpl.class.getPackage().getName());
 
@@ -62,7 +62,7 @@ public class GraphNodeImpl<G extends FGEGraph> extends ShapeNodeImpl<G> implemen
 	}
 
 	@Override
-	public void paint(FGEShapeGraphics g) {
+	public void paint(DianaShapeGraphics g) {
 		// First draw outline (fg and bg)
 		super.paint(g);
 

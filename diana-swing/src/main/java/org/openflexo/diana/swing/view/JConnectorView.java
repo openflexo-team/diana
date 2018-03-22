@@ -54,7 +54,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
-import org.openflexo.diana.FGEConstants;
+import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
@@ -72,8 +72,8 @@ import org.openflexo.diana.notifications.ObjectWillResize;
 import org.openflexo.diana.swing.SwingViewFactory;
 import org.openflexo.diana.swing.control.tools.JDianaPalette;
 import org.openflexo.diana.swing.graphics.DrawUtils;
-import org.openflexo.diana.swing.graphics.JFGEConnectorGraphics;
-import org.openflexo.diana.swing.paint.FGEPaintManager;
+import org.openflexo.diana.swing.graphics.JDianaConnectorGraphics;
+import org.openflexo.diana.swing.paint.DianaPaintManager;
 import org.openflexo.diana.view.ConnectorView;
 
 /**
@@ -84,17 +84,17 @@ import org.openflexo.diana.view.ConnectorView;
  * @param <O>
  */
 @SuppressWarnings("serial")
-public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel>, JFGEView<O, JPanel> {
+public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel>, JDianaView<O, JPanel> {
 
 	private static final Logger logger = Logger.getLogger(JConnectorView.class.getPackage().getName());
 
 	private ConnectorNode<O> connectorNode;
-	private FGEViewMouseListener mouseListener;
+	private DianaViewMouseListener mouseListener;
 	private AbstractDianaEditor<?, SwingViewFactory, JComponent> controller;
 
 	private JLabelView<O> labelView;
 
-	protected JFGEConnectorGraphics graphics;
+	protected JDianaConnectorGraphics graphics;
 
 	public JConnectorView(ConnectorNode<O> node, AbstractDianaEditor<?, SwingViewFactory, JComponent> controller) {
 		super();
@@ -110,7 +110,7 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 
 		updateVisibility();
 
-		graphics = new JFGEConnectorGraphics(node, this);
+		graphics = new JDianaConnectorGraphics(node, this);
 
 	}
 
@@ -167,7 +167,7 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 	}
 
 	@Override
-	public JFGEConnectorGraphics getFGEGraphics() {
+	public JDianaConnectorGraphics getDianaGraphics() {
 		return graphics;
 	}
 
@@ -285,7 +285,7 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 
 	public Integer getLayer() {
 		if (connectorNode != null && connectorNode.getGraphicalRepresentation() != null) {
-			return FGEConstants.INITIAL_LAYER + connectorNode.getGraphicalRepresentation().getLayer();
+			return DianaConstants.INITIAL_LAYER + connectorNode.getGraphicalRepresentation().getLayer();
 		}
 		return 0;
 	}
@@ -307,13 +307,13 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 				if (getPaintManager().isTemporaryObject(connectorNode)) {
 					// This object is declared to be a temporary object, to be redrawn
 					// continuously, so we need to ignore it: do nothing
-					if (FGEPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE)) {
-						FGEPaintManager.paintPrimitiveLogger.fine("JConnectorView: buffering paint, ignore: " + connectorNode);
+					if (DianaPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE)) {
+						DianaPaintManager.paintPrimitiveLogger.fine("JConnectorView: buffering paint, ignore: " + connectorNode);
 					}
 				}
 				else {
-					if (FGEPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE)) {
-						FGEPaintManager.paintPrimitiveLogger
+					if (DianaPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE)) {
+						DianaPaintManager.paintPrimitiveLogger
 								.fine("JConnectorView: buffering paint, draw: " + connectorNode + " clip=" + g.getClip());
 					}
 					getNode().paint(graphics);
@@ -335,8 +335,8 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 				Point dp2 = new Point(localViewBounds.x+localViewBounds.width-1,localViewBounds.y+localViewBounds.height-1);
 				Point sp1 = viewBoundsInDrawingView.getLocation();
 				Point sp2 = new Point(viewBoundsInDrawingView.x+viewBoundsInDrawingView.width-1,viewBoundsInDrawingView.y+viewBoundsInDrawingView.height-1);
-				if (FGEPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE))
-					FGEPaintManager.paintPrimitiveLogger.fine("JConnectorView: use image buffer, copy area from "+sp1+"x"+sp2+" to "+dp1+"x"+dp2);
+				if (DianaPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE))
+					DianaPaintManager.paintPrimitiveLogger.fine("JConnectorView: use image buffer, copy area from "+sp1+"x"+sp2+" to "+dp1+"x"+dp2);
 				g.drawImage(buffer,
 						dp1.x,dp1.y,dp2.x,dp2.y,
 						sp1.x,sp1.y,sp2.x,sp2.y,
@@ -438,7 +438,7 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 				getPaintManager().repaint(this);
 			}
 			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_SELECTED.getName())) {
-				// TODO: ugly hack, please fix this, implement a ForceRepaint in FGEPaintManager
+				// TODO: ugly hack, please fix this, implement a ForceRepaint in DianaPaintManager
 				if (connectorNode.getIsSelected()) {
 					requestFocusInWindow();
 				}
@@ -524,7 +524,7 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 	}
 
 	@Override
-	public FGEPaintManager getPaintManager() {
+	public DianaPaintManager getPaintManager() {
 		return getDrawingView().getPaintManager();
 	}
 

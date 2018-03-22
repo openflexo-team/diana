@@ -40,13 +40,13 @@ package org.openflexo.diana.drawingeditor.model;
 
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
-import org.openflexo.diana.FGEModelFactoryImpl;
+import org.openflexo.diana.DianaModelFactoryImpl;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation.LocationConstraints;
 import org.openflexo.diana.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.diana.drawingeditor.DrawEdgeControl;
 import org.openflexo.diana.drawingeditor.ShowContextualMenuControl;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.model.converter.RelativePathResourceConverter;
 import org.openflexo.model.exceptions.ModelDefinitionException;
@@ -54,7 +54,7 @@ import org.openflexo.model.factory.EditingContext;
 import org.openflexo.model.undo.CompoundEdit;
 import org.openflexo.model.undo.UndoManager;
 
-public class DiagramFactory extends FGEModelFactoryImpl {
+public class DiagramFactory extends DianaModelFactoryImpl {
 
 	private int shapeIndex = 0;
 	private int connectorIndex = 0;
@@ -112,14 +112,14 @@ public class DiagramFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
-	public Shape makeNewShape(ShapeType shape, FGEPoint p, Diagram diagram) {
+	public Shape makeNewShape(ShapeType shape, DianaPoint p, Diagram diagram) {
 		ShapeGraphicalRepresentation gr = makeNewShapeGR(shape);
 		gr.setWidth(100);
 		gr.setHeight(80);
 		return makeNewShape(gr, p, diagram);
 	}
 
-	public Shape makeNewShape(ShapeGraphicalRepresentation aGR, FGEPoint p, Diagram diagram) {
+	public Shape makeNewShape(ShapeGraphicalRepresentation aGR, DianaPoint p, Diagram diagram) {
 		Shape returned = newInstance(Shape.class);
 		returned.setDiagram(diagram);
 		returned.setName("Shape" + shapeIndex);

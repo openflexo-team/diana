@@ -46,27 +46,27 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.connectors.RectPolylinConnectorSpecification.RectPolylinAdjustability;
 import org.openflexo.diana.connectors.impl.RectPolylinConnector;
-import org.openflexo.diana.geom.FGEGeometricObject;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGESegment;
-import org.openflexo.diana.geom.FGEGeometricObject.SimplifiedCardinalDirection;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEHalfPlane;
-import org.openflexo.diana.geom.area.FGEPlane;
+import org.openflexo.diana.geom.DianaGeometricObject;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaHalfPlane;
+import org.openflexo.diana.geom.area.DianaPlane;
 
 public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableControlPoint {
 	static final Logger LOGGER = Logger.getLogger(AdjustableIntermediateControlPoint.class.getPackage().getName());
 
 	private int index;
 
-	public AdjustableIntermediateControlPoint(FGEPoint point, int index, RectPolylinConnector connector) {
+	public AdjustableIntermediateControlPoint(DianaPoint point, int index, RectPolylinConnector connector) {
 		super(point, connector);
 		this.index = index;
 	}
 
 	@Override
-	public FGEArea getDraggingAuthorizedArea() {
-		return new FGEPlane();
+	public DianaArea getDraggingAuthorizedArea() {
+		return new DianaPlane();
 	}
 
 	@Override
@@ -78,8 +78,8 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 	}
 
 	@Override
-	public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-			FGEPoint initialPoint, MouseEvent event) {
+	public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+			DianaPoint initialPoint, MouseEvent event) {
 
 		System.out.println("AdjustableIntermediateControlPoint dragged to " + newRelativePoint);
 
@@ -89,16 +89,16 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 			getNode().notifyConnectorModified();
 			return true;
 		}
-		FGEPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+		DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
 		if (pt == null) {
 			LOGGER.warning("Cannot nearest point for point " + newRelativePoint + " and area " + getDraggingAuthorizedArea());
 			return false;
 		}
 		// Following little hack is used here to prevent some equalities that may
 		// lead to inconsistent orientations
-		pt.x += FGEGeometricObject.EPSILON;
-		pt.y += FGEGeometricObject.EPSILON;
-		FGEPoint oldPoint = getPoint();
+		pt.x += DianaGeometricObject.EPSILON;
+		pt.y += DianaGeometricObject.EPSILON;
+		DianaPoint oldPoint = getPoint();
 		setPoint(pt);
 		getPolylin().updatePointAt(index, pt);
 		boolean continueDragging = movedIntermediateCP(index, oldPoint, true);
@@ -117,19 +117,19 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 	 * 
 	 * @param index
 	 */
-	private boolean movedIntermediateCP(int index, FGEPoint oldCPLocation, boolean simplifyLayout) {
+	private boolean movedIntermediateCP(int index, DianaPoint oldCPLocation, boolean simplifyLayout) {
 		if (LOGGER.isLoggable(Level.FINE)) {
 			LOGGER.fine("Moved intermediate point at index: " + index);
 		}
 
 		// First, obtain location of Control Point being moved
-		FGEPoint newCPLocation = getPolylin().getPointAt(index);
+		DianaPoint newCPLocation = getPolylin().getPointAt(index);
 
 		// Then obtain locations of previous and following control points
-		FGEPoint previousCPLocation = getPolylin().getPointAt(index - 1);
-		FGEPoint previousCPOldLocation = previousCPLocation.clone();
-		FGEPoint nextCPLocation = getPolylin().getPointAt(index + 1);
-		FGEPoint nextCPOldLocation = nextCPLocation.clone();
+		DianaPoint previousCPLocation = getPolylin().getPointAt(index - 1);
+		DianaPoint previousCPOldLocation = previousCPLocation.clone();
+		DianaPoint nextCPLocation = getPolylin().getPointAt(index + 1);
+		DianaPoint nextCPOldLocation = nextCPLocation.clone();
 
 		// And their orientations, that will be usefull too
 		SimplifiedCardinalDirection previousSegmentOrientation = getPolylin().getApproximatedOrientationOfSegment(index - 1);
@@ -137,21 +137,23 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 		// SimplifiedCardinalDirection startSegmentOrientation = getPolylin().getApproximatedOrientationOfSegment(index-2);
 		// SimplifiedCardinalDirection endSegmentOrientation = getPolylin().getApproximatedOrientationOfSegment(index+1);
 
-		FGESegment intermediateCPStartSegment = getPolylin().getSegmentAt(index - 2);
-		FGESegment intermediateCPEndSegment = getPolylin().getSegmentAt(index + 1);
-		// FGESegment intermediateCPFirstSegment = polylin.getSegmentAt(index-1);
-		// FGESegment intermediateCPNextSegment = polylin.getSegmentAt(index);
+		DianaSegment intermediateCPStartSegment = getPolylin().getSegmentAt(index - 2);
+		DianaSegment intermediateCPEndSegment = getPolylin().getSegmentAt(index + 1);
+		// DianaSegment intermediateCPFirstSegment = polylin.getSegmentAt(index-1);
+		// DianaSegment intermediateCPNextSegment = polylin.getSegmentAt(index);
 
 		// Declare new locations
-		FGEPoint previousCPNewLocation = new FGEPoint(previousCPLocation);
-		FGEPoint nextCPNewLocation = new FGEPoint(nextCPLocation);
+		DianaPoint previousCPNewLocation = new DianaPoint(previousCPLocation);
+		DianaPoint nextCPNewLocation = new DianaPoint(nextCPLocation);
 
 		// Update previous control point location according to orientation of related segment
 		if (previousSegmentOrientation.isHorizontal()) {
 			previousCPNewLocation.y = newCPLocation.y;
-		} else if (previousSegmentOrientation.isVertical()) {
+		}
+		else if (previousSegmentOrientation.isVertical()) {
 			previousCPNewLocation.x = newCPLocation.x;
-		} else {
+		}
+		else {
 			LOGGER.warning("Inconsistent data: segment not horizontal nor vertical");
 		}
 
@@ -162,7 +164,7 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 			// But meanwhile, we can also decide to change general shape by deleting some points.
 			// This will happen if oldCPLocation and newCPLocation are each other
 			// From both side of half-plane formed by intermediateCPStartSegment
-			FGEHalfPlane intermediateCPStartSegmentHalfPlane = new FGEHalfPlane(intermediateCPStartSegment, oldCPLocation);
+			DianaHalfPlane intermediateCPStartSegmentHalfPlane = new DianaHalfPlane(intermediateCPStartSegment, oldCPLocation);
 			if (!intermediateCPStartSegmentHalfPlane.containsPoint(newCPLocation)) {
 				if (LOGGER.isLoggable(Level.INFO)) {
 					LOGGER.info("Two points will be removed (pattern 1) at index=" + (index - 1));
@@ -174,12 +176,12 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 				getConnector()._getControlPoints().remove(index-1);
 				getConnector()._getControlPoints().remove(index-1);
 				if (previousSegmentOrientation.isHorizontal()) {
-				getPolylin().updatePointAt(index-2, new FGEPoint(newCPLocation.x,getPolylin().getPointAt(index-2).y));
-				getPolylin().updatePointAt(index-1, new FGEPoint(newCPLocation.x,getPolylin().getPointAt(index-1).y));
+				getPolylin().updatePointAt(index-2, new DianaPoint(newCPLocation.x,getPolylin().getPointAt(index-2).y));
+				getPolylin().updatePointAt(index-1, new DianaPoint(newCPLocation.x,getPolylin().getPointAt(index-1).y));
 				}
 				else if (previousSegmentOrientation.isVertical()) {
-				getPolylin().updatePointAt(index-2, new FGEPoint(getPolylin().getPointAt(index-2).x,newCPLocation.y));
-				getPolylin().updatePointAt(index-1, new FGEPoint(getPolylin().getPointAt(index-1).x,newCPLocation.y));
+				getPolylin().updatePointAt(index-2, new DianaPoint(getPolylin().getPointAt(index-2).x,newCPLocation.y));
+				getPolylin().updatePointAt(index-1, new DianaPoint(getPolylin().getPointAt(index-1).x,newCPLocation.y));
 				}
 				getConnector().updateWithNewPolylin(getPolylin());*/
 				return false;
@@ -188,8 +190,8 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 			if (index > 2) {
 				// This may also happen if previousCPOldLocation and previousCPNewLocation are each other
 				// From both side of half-plane formed by intermediateCPBeforeStartSegment
-				FGESegment intermediateCPBeforeStartSegment = getPolylin().getSegmentAt(index - 3);
-				FGEHalfPlane intermediateCPBeforeStartSegmentHalfPlane = new FGEHalfPlane(intermediateCPBeforeStartSegment,
+				DianaSegment intermediateCPBeforeStartSegment = getPolylin().getSegmentAt(index - 3);
+				DianaHalfPlane intermediateCPBeforeStartSegmentHalfPlane = new DianaHalfPlane(intermediateCPBeforeStartSegment,
 						previousCPOldLocation);
 				if (!intermediateCPBeforeStartSegmentHalfPlane.containsPoint(previousCPNewLocation)) {
 					if (LOGGER.isLoggable(Level.INFO)) {
@@ -202,12 +204,12 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 					getConnector()._getControlPoints().remove(index-2);
 					getConnector()._getControlPoints().remove(index-2);
 					if (startSegmentOrientation.isVertical()) {
-					getPolylin().updatePointAt(index-2, new FGEPoint(newCPLocation.x,getPolylin().getPointAt(index-2).y));
-					getPolylin().updatePointAt(index-1, new FGEPoint(newCPLocation.x,getPolylin().getPointAt(index-1).y));
+					getPolylin().updatePointAt(index-2, new DianaPoint(newCPLocation.x,getPolylin().getPointAt(index-2).y));
+					getPolylin().updatePointAt(index-1, new DianaPoint(newCPLocation.x,getPolylin().getPointAt(index-1).y));
 					}
 					else if (startSegmentOrientation.isHorizontal()) {
-					getPolylin().updatePointAt(index-2, new FGEPoint(getPolylin().getPointAt(index-2).x,newCPLocation.y));
-					getPolylin().updatePointAt(index-1, new FGEPoint(getPolylin().getPointAt(index-1).x,newCPLocation.y));
+					getPolylin().updatePointAt(index-2, new DianaPoint(getPolylin().getPointAt(index-2).x,newCPLocation.y));
+					getPolylin().updatePointAt(index-1, new DianaPoint(getPolylin().getPointAt(index-1).x,newCPLocation.y));
 					}
 					getConnector().updateWithNewPolylin(getPolylin());*/
 					return false;
@@ -221,9 +223,11 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 		// Update next control point location according to orientation of related segment
 		if (nextSegmentOrientation.isHorizontal()) {
 			nextCPNewLocation.y = newCPLocation.y;
-		} else if (nextSegmentOrientation.isVertical()) {
+		}
+		else if (nextSegmentOrientation.isVertical()) {
 			nextCPNewLocation.x = newCPLocation.x;
-		} else {
+		}
+		else {
 			LOGGER.warning("Inconsistent data: segment not horizontal nor vertical");
 		}
 
@@ -235,7 +239,7 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 			// But meanwhile, we can also decide to change general shape by deleting some points.
 			// This will happen if oldCPLocation and newCPLocation are each other
 			// From both side of half-plane formed by intermediateCPEndSegment
-			FGEHalfPlane intermediateCPEndSegmentHalfPlane = new FGEHalfPlane(intermediateCPEndSegment, oldCPLocation);
+			DianaHalfPlane intermediateCPEndSegmentHalfPlane = new DianaHalfPlane(intermediateCPEndSegment, oldCPLocation);
 			if (!intermediateCPEndSegmentHalfPlane.containsPoint(newCPLocation)) {
 				if (LOGGER.isLoggable(Level.INFO)) {
 					LOGGER.info("Two points will be removed (pattern 3) at index=" + index);
@@ -247,12 +251,12 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 				getConnector()._getControlPoints().remove(index);
 				getConnector()._getControlPoints().remove(index);
 				if (nextSegmentOrientation.isHorizontal()) {
-				getPolylin().updatePointAt(index-1, new FGEPoint(newCPLocation.x,getPolylin().getPointAt(index-1).y));
-				getPolylin().updatePointAt(index, new FGEPoint(newCPLocation.x,getPolylin().getPointAt(index).y));
+				getPolylin().updatePointAt(index-1, new DianaPoint(newCPLocation.x,getPolylin().getPointAt(index-1).y));
+				getPolylin().updatePointAt(index, new DianaPoint(newCPLocation.x,getPolylin().getPointAt(index).y));
 				}
 				else if (nextSegmentOrientation.isVertical()) {
-				getPolylin().updatePointAt(index-1, new FGEPoint(getPolylin().getPointAt(index-1).x,newCPLocation.y));
-				getPolylin().updatePointAt(index, new FGEPoint(getPolylin().getPointAt(index).x,newCPLocation.y));
+				getPolylin().updatePointAt(index-1, new DianaPoint(getPolylin().getPointAt(index-1).x,newCPLocation.y));
+				getPolylin().updatePointAt(index, new DianaPoint(getPolylin().getPointAt(index).x,newCPLocation.y));
 				}
 				getConnector().updateWithNewPolylin(getPolylin());*/
 				return false;
@@ -261,8 +265,9 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 			if (getPolylin().getSegmentNb() > index + 2) {
 				// This may also happen if nextCPOldLocation and nextCPNewLocation are each other
 				// From both side of half-plane formed by intermediateCPAfterEndSegment
-				FGESegment intermediateCPAfterEndSegment = getPolylin().getSegmentAt(index + 2);
-				FGEHalfPlane intermediateCPAfterEndSegmentHalfPlane = new FGEHalfPlane(intermediateCPAfterEndSegment, nextCPOldLocation);
+				DianaSegment intermediateCPAfterEndSegment = getPolylin().getSegmentAt(index + 2);
+				DianaHalfPlane intermediateCPAfterEndSegmentHalfPlane = new DianaHalfPlane(intermediateCPAfterEndSegment,
+						nextCPOldLocation);
 				if (!intermediateCPAfterEndSegmentHalfPlane.containsPoint(nextCPNewLocation)) {
 					if (LOGGER.isLoggable(Level.INFO)) {
 						LOGGER.info("Two points will be removed (pattern 4) at index=" + (index + 1));
@@ -274,12 +279,12 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 					getConnector()._getControlPoints().remove(index+1);
 					getConnector()._getControlPoints().remove(index+1);
 					if (endSegmentOrientation.isHorizontal()) {
-					getPolylin().updatePointAt(index, new FGEPoint(newCPLocation.x,getPolylin().getPointAt(index).y));
-					getPolylin().updatePointAt(index+1, new FGEPoint(newCPLocation.x,getPolylin().getPointAt(index+1).y));
+					getPolylin().updatePointAt(index, new DianaPoint(newCPLocation.x,getPolylin().getPointAt(index).y));
+					getPolylin().updatePointAt(index+1, new DianaPoint(newCPLocation.x,getPolylin().getPointAt(index+1).y));
 					}
 					else if (endSegmentOrientation.isVertical()) {
-					getPolylin().updatePointAt(index, new FGEPoint(getPolylin().getPointAt(index).x,newCPLocation.y));
-					getPolylin().updatePointAt(index+1, new FGEPoint(getPolylin().getPointAt(index+1).x,newCPLocation.y));
+					getPolylin().updatePointAt(index, new DianaPoint(getPolylin().getPointAt(index).x,newCPLocation.y));
+					getPolylin().updatePointAt(index+1, new DianaPoint(getPolylin().getPointAt(index+1).x,newCPLocation.y));
 					}
 					getConnector().updateWithNewPolylin(getPolylin());*/
 					return false;

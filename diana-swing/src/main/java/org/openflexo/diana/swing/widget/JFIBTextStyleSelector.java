@@ -50,8 +50,8 @@ import javax.swing.JPanel;
 
 import org.openflexo.diana.Drawing;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
-import org.openflexo.diana.FGECoreUtils;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaCoreUtils;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.GRStructureVisitor;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.TextStyle;
@@ -280,7 +280,7 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 		private DrawingGraphicalRepresentation drawingGR;
 		private JDianaViewer<TextStylePreviewPanel> controller;
 		private ShapeGraphicalRepresentation textGR;
-		private FGEModelFactory factory;
+		private DianaModelFactory factory;
 
 		protected TextStylePreviewPanel() {
 			super(new BorderLayout());
@@ -290,7 +290,7 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 			// setBackground(Color.WHITE);
 			setMinimumSize(new Dimension(40, 19));
 
-			factory = FGECoreUtils.TOOLS_FACTORY;
+			factory = DianaCoreUtils.TOOLS_FACTORY;
 
 			drawing = new DrawingImpl<TextStylePreviewPanel>(this, factory, PersistenceMode.UniqueGraphicalRepresentations) {
 				@Override
@@ -298,14 +298,14 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 					final DrawingGRBinding<TextStylePreviewPanel> previewPanelBinding = bindDrawing(TextStylePreviewPanel.class,
 							"previewPanel", new DrawingGRProvider<TextStylePreviewPanel>() {
 								@Override
-								public DrawingGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
+								public DrawingGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, DianaModelFactory factory) {
 									return drawingGR;
 								}
 							});
 					final ShapeGRBinding<TextStylePreviewPanel> shapeBinding = bindShape(TextStylePreviewPanel.class, "line",
 							new ShapeGRProvider<TextStylePreviewPanel>() {
 								@Override
-								public ShapeGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, FGEModelFactory factory) {
+								public ShapeGraphicalRepresentation provideGR(TextStylePreviewPanel drawable, DianaModelFactory factory) {
 									return textGR;
 								}
 							});
@@ -331,7 +331,7 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 			textGR.setHeight(20);
 			textGR.setX(0);
 			textGR.setY(0);
-			textGR.setText(FGECoreUtils.DIANA_LOCALIZATION.localizedForKey("no_font_selected"));
+			textGR.setText(DianaCoreUtils.DIANA_LOCALIZATION.localizedForKey("no_font_selected"));
 			textGR.setIsFloatingLabel(false);
 			textGR.setRelativeTextX(0.5);
 			textGR.setRelativeTextY(0.35);

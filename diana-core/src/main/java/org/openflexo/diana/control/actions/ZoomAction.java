@@ -44,24 +44,24 @@ import java.awt.Point;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.control.MouseControlContext;
-import org.openflexo.diana.geom.FGELine;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGEGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 
 public class ZoomAction extends MouseDragControlActionImpl<DianaInteractiveViewer<?, ?, ?>> {
 
 	private Point startPoint;
 	private double initialScale;
 	private static final double PIXEL_TO_PERCENT = 0.005;
-	private FGELine refLine;
+	private DianaLine refLine;
 
 	@Override
 	public boolean handleMouseDragged(DrawingTreeNode<?, ?> node, DianaInteractiveViewer<?, ?, ?> editor, MouseControlContext context) {
 		if (editor != null) {
 			DianaInteractiveViewer<?, ?, ?> controller = editor;
 			Point currentMousePositionInDrawingView = getPointInDrawingView(controller, context);
-			SimplifiedCardinalDirection card = FGEPoint.getSimplifiedOrientation(new FGEPoint(startPoint),
-					new FGEPoint(currentMousePositionInDrawingView));
+			SimplifiedCardinalDirection card = DianaPoint.getSimplifiedOrientation(new DianaPoint(startPoint),
+					new DianaPoint(currentMousePositionInDrawingView));
 			boolean isPositive = true;
 			double distance = 0.0;
 			switch (card) {
@@ -94,7 +94,7 @@ public class ZoomAction extends MouseDragControlActionImpl<DianaInteractiveViewe
 			DianaInteractiveViewer<?, ?, ?> controller = editor;
 			startPoint = getPointInDrawingView(controller, context);
 			// Virtual line that goes through the start point and its orientation is NORTH_EAST (or SOUTH_WEST, it's the same)
-			refLine = new FGELine(new FGEPoint(startPoint), new FGEPoint(startPoint.x + 1, startPoint.y - 1));
+			refLine = new DianaLine(new DianaPoint(startPoint), new DianaPoint(startPoint.x + 1, startPoint.y - 1));
 			initialScale = controller.getScale();
 			return true;
 		}

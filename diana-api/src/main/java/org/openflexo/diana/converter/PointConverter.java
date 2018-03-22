@@ -40,19 +40,19 @@ package org.openflexo.diana.converter;
 
 import java.util.StringTokenizer;
 
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.model.StringConverterLibrary.Converter;
 import org.openflexo.model.factory.ModelFactory;
 
-public class PointConverter extends Converter<FGEPoint> {
-	public PointConverter(Class<? super FGEPoint> aClass) {
+public class PointConverter extends Converter<DianaPoint> {
+	public PointConverter(Class<? super DianaPoint> aClass) {
 		super(aClass);
 	}
 
 	@Override
-	public FGEPoint convertFromString(String value, ModelFactory factory) {
+	public DianaPoint convertFromString(String value, ModelFactory factory) {
 		try {
-			FGEPoint returned = new FGEPoint();
+			DianaPoint returned = new DianaPoint();
 			StringTokenizer st = new StringTokenizer(value, ",");
 			if (st.hasMoreTokens()) {
 				returned.x = Double.parseDouble(st.nextToken());
@@ -63,13 +63,13 @@ public class PointConverter extends Converter<FGEPoint> {
 			return returned;
 		} catch (NumberFormatException e) {
 			// Warns about the exception
-			System.err.println("Supplied value is not parsable as a FGEPoint:" + value);
+			System.err.println("Supplied value is not parsable as a DianaPoint:" + value);
 			return null;
 		}
 	}
 
 	@Override
-	public String convertToString(FGEPoint aPoint) {
+	public String convertToString(DianaPoint aPoint) {
 		if (aPoint != null) {
 			return aPoint.x + "," + aPoint.y;
 		} else {

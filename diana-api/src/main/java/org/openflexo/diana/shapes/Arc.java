@@ -40,7 +40,7 @@
 package org.openflexo.diana.shapes;
 
 import org.openflexo.diana.GRProperty;
-import org.openflexo.diana.geom.FGEArc.ArcType;
+import org.openflexo.diana.geom.DianaArc.ArcType;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;

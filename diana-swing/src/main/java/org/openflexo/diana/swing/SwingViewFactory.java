@@ -60,10 +60,10 @@ import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.swing.control.JDNDInfo;
 import org.openflexo.diana.swing.control.JMouseControlContext;
 import org.openflexo.diana.swing.control.tools.JDianaPalette;
-import org.openflexo.diana.swing.view.FGEViewMouseListener;
+import org.openflexo.diana.swing.view.DianaViewMouseListener;
 import org.openflexo.diana.swing.view.JConnectorView;
 import org.openflexo.diana.swing.view.JDrawingView;
-import org.openflexo.diana.swing.view.JFGEView;
+import org.openflexo.diana.swing.view.JDianaView;
 import org.openflexo.diana.swing.view.JShapeView;
 import org.openflexo.diana.swing.widget.JConnectorPreviewPanel;
 import org.openflexo.diana.swing.widget.JFIBBackgroundStyleSelector;
@@ -73,7 +73,7 @@ import org.openflexo.diana.swing.widget.JFIBShapeSelector;
 import org.openflexo.diana.swing.widget.JFIBTextStyleSelector;
 import org.openflexo.diana.swing.widget.JShapePreviewPanel;
 import org.openflexo.diana.view.DianaViewFactory;
-import org.openflexo.diana.view.FGEView;
+import org.openflexo.diana.view.DianaView;
 
 /**
  * Represent the view factory for Swing technology
@@ -96,9 +96,9 @@ public class SwingViewFactory implements DianaViewFactory<SwingViewFactory, JCom
 	 * @param view
 	 * @return
 	 */
-	public <O> FGEViewMouseListener makeViewMouseListener(DrawingTreeNode<O, ?> node, FGEView<O, ? extends JComponent> view,
+	public <O> DianaViewMouseListener makeViewMouseListener(DrawingTreeNode<O, ?> node, DianaView<O, ? extends JComponent> view,
 			AbstractDianaEditor<?, SwingViewFactory, JComponent> controller) {
-		return new FGEViewMouseListener(node, (JFGEView<O, ? extends JComponent>) view);
+		return new DianaViewMouseListener(node, (JDianaView<O, ? extends JComponent>) view);
 	}
 
 	/**

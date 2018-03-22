@@ -38,7 +38,7 @@
 
 package org.openflexo.diana.control.tools;
 
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.model.factory.KeyValueCoding;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 
@@ -58,9 +58,9 @@ public interface StyleFactory<S extends KeyValueCoding, ST> extends HasPropertyC
 
 	public void setStyleType(ST styleType);
 
-	public FGEModelFactory getFGEFactory();
+	public DianaModelFactory getDianaFactory();
 
-	public void setFGEFactory(FGEModelFactory fgeFactory);
+	public void setDianaFactory(DianaModelFactory fgeFactory);
 
 	public static final String STYLE_CLASS_CHANGED = "StyleClassChanged";
 }

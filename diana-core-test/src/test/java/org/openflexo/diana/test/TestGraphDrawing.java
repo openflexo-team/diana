@@ -47,8 +47,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openflexo.diana.FGEModelFactory;
-import org.openflexo.diana.FGEModelFactoryImpl;
+import org.openflexo.diana.DianaModelFactory;
+import org.openflexo.diana.DianaModelFactoryImpl;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.test.GraphDrawing1;
@@ -64,7 +64,7 @@ import org.openflexo.test.TestOrder;
 @RunWith(OrderedRunner.class)
 public class TestGraphDrawing {
 
-	private static FGEModelFactory FACTORY;
+	private static DianaModelFactory FACTORY;
 	private static TestGraph graph;
 	private static TestGraphNode node1, node2, node3, node4;
 	private static GraphDrawing1 graphDrawing1;
@@ -73,7 +73,7 @@ public class TestGraphDrawing {
 
 	@BeforeClass
 	public static void beforeClass() throws ModelDefinitionException {
-		FACTORY = new FGEModelFactoryImpl();
+		FACTORY = new DianaModelFactoryImpl();
 	}
 
 	@AfterClass

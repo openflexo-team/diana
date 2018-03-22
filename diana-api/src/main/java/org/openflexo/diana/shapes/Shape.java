@@ -41,11 +41,11 @@ package org.openflexo.diana.shapes;
 import java.util.List;
 
 import org.openflexo.diana.cp.ControlPoint;
-import org.openflexo.diana.geom.FGELine;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGEShape;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.graphics.FGEShapeGraphics;
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.graphics.DianaShapeGraphics;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 
 public interface Shape<SS extends ShapeSpecification> {
@@ -66,9 +66,9 @@ public interface Shape<SS extends ShapeSpecification> {
 	 */
 	public abstract List<ControlPoint> getControlPoints();
 
-	public abstract FGEShape<?> getShape();
+	public abstract DianaShape<?> getShape();
 
-	public abstract FGEShape<?> getOutline();
+	public abstract DianaShape<?> getOutline();
 
 	public abstract ShapeType getShapeType();
 
@@ -78,7 +78,7 @@ public interface Shape<SS extends ShapeSpecification> {
 	 * @param aPoint
 	 * @return
 	 */
-	public abstract FGEPoint nearestOutlinePoint(FGEPoint aPoint);
+	public abstract DianaPoint nearestOutlinePoint(DianaPoint aPoint);
 
 	/**
 	 * Return flag indicating if position represented is located inside shape, asserting aPoint is related to shape coordinates, and
@@ -87,7 +87,7 @@ public interface Shape<SS extends ShapeSpecification> {
 	 * @param aPoint
 	 * @return
 	 */
-	public abstract boolean isPointInsideShape(FGEPoint aPoint);
+	public abstract boolean isPointInsideShape(DianaPoint aPoint);
 
 	/**
 	 * Compute point where supplied line intersects with shape outline trying to minimize distance from "from" point
@@ -98,7 +98,7 @@ public interface Shape<SS extends ShapeSpecification> {
 	 * @param from
 	 * @return
 	 */
-	public abstract FGEPoint outlineIntersect(FGELine line, FGEPoint from);
+	public abstract DianaPoint outlineIntersect(DianaLine line, DianaPoint from);
 
 	/**
 	 * Compute point where a line formed by current shape's center and "from" point intersects with shape outline trying to minimize
@@ -111,18 +111,18 @@ public interface Shape<SS extends ShapeSpecification> {
 	 * @param from
 	 * @return
 	 */
-	public abstract FGEPoint outlineIntersect(FGEPoint from);
+	public abstract DianaPoint outlineIntersect(DianaPoint from);
 
-	public abstract FGEArea getAllowedHorizontalConnectorLocationFromEast();
+	public abstract DianaArea getAllowedHorizontalConnectorLocationFromEast();
 
-	public abstract FGEArea getAllowedHorizontalConnectorLocationFromWest();
+	public abstract DianaArea getAllowedHorizontalConnectorLocationFromWest();
 
-	public abstract FGEArea getAllowedVerticalConnectorLocationFromNorth();
+	public abstract DianaArea getAllowedVerticalConnectorLocationFromNorth();
 
-	public abstract FGEArea getAllowedVerticalConnectorLocationFromSouth();
+	public abstract DianaArea getAllowedVerticalConnectorLocationFromSouth();
 
-	// public abstract void paintShadow(FGEShapeGraphics g);
+	// public abstract void paintShadow(DianaShapeGraphics g);
 
-	public abstract void paintShape(FGEShapeGraphics g);
+	public abstract void paintShape(DianaShapeGraphics g);
 
 }

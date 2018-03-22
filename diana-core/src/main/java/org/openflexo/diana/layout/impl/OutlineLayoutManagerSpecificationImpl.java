@@ -38,7 +38,7 @@
 
 package org.openflexo.diana.layout.impl;
 
-import org.openflexo.diana.impl.FGELayoutManagerSpecificationImpl;
+import org.openflexo.diana.impl.DianaLayoutManagerSpecificationImpl;
 import org.openflexo.diana.layout.OutlineLayoutManager;
 import org.openflexo.diana.layout.OutlineLayoutManagerSpecification;
 
@@ -48,7 +48,7 @@ import org.openflexo.diana.layout.OutlineLayoutManagerSpecification;
  * @author sylvain
  * 
  */
-public abstract class OutlineLayoutManagerSpecificationImpl extends FGELayoutManagerSpecificationImpl<OutlineLayoutManager<?>>
+public abstract class OutlineLayoutManagerSpecificationImpl extends DianaLayoutManagerSpecificationImpl<OutlineLayoutManager<?>>
 		implements OutlineLayoutManagerSpecification {
 
 	@Override

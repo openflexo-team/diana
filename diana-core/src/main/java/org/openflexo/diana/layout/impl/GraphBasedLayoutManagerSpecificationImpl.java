@@ -38,7 +38,7 @@
 
 package org.openflexo.diana.layout.impl;
 
-import org.openflexo.diana.impl.FGELayoutManagerSpecificationImpl;
+import org.openflexo.diana.impl.DianaLayoutManagerSpecificationImpl;
 import org.openflexo.diana.layout.GraphBasedLayoutManager;
 import org.openflexo.diana.layout.GraphBasedLayoutManagerSpecification;
 
@@ -48,8 +48,8 @@ import org.openflexo.diana.layout.GraphBasedLayoutManagerSpecification;
  * @author sylvain
  * 
  */
-public abstract class GraphBasedLayoutManagerSpecificationImpl<LM extends GraphBasedLayoutManager<?, ?>, O> extends
-		FGELayoutManagerSpecificationImpl<LM> implements GraphBasedLayoutManagerSpecification<LM> {
+public abstract class GraphBasedLayoutManagerSpecificationImpl<LM extends GraphBasedLayoutManager<?, ?>, O>
+		extends DianaLayoutManagerSpecificationImpl<LM> implements GraphBasedLayoutManagerSpecification<LM> {
 
 	/**
 	 * Return true indicating that this layout manager supports autolayout

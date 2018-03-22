@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.type.TypeUtils;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.GeometricGraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
@@ -58,8 +58,8 @@ import org.openflexo.diana.GRProvider.GeometricGRProvider;
 import org.openflexo.diana.control.DianaInteractiveEditor;
 import org.openflexo.diana.control.actions.DrawShapeAction;
 import org.openflexo.diana.cp.ControlArea;
-import org.openflexo.diana.geom.FGEShape;
-import org.openflexo.diana.graphics.FGEGeometricGraphics;
+import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.graphics.DianaGeometricGraphics;
 import org.openflexo.diana.impl.ContainerNodeImpl;
 import org.openflexo.diana.impl.DrawingImpl;
 import org.openflexo.diana.impl.GeometricNodeImpl;
@@ -74,7 +74,7 @@ import org.openflexo.diana.view.DrawingView;
  * @param <ME>
  *            technology-specific controlling events type
  */
-public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> extends ToolController<ME> {
+public abstract class DrawCustomShapeToolController<S extends DianaShape<S>, ME> extends ToolController<ME> {
 
 	private static final Logger logger = Logger.getLogger(DrawCustomShapeToolController.class.getPackage().getName());
 
@@ -84,7 +84,7 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 	private GeometricNode<S> currentEditedShapeGeometricNode;
 	private GeometricGraphicalRepresentation geomGR;
 
-	private FGEGeometricGraphics graphics;
+	private DianaGeometricGraphics graphics;
 
 	public DrawCustomShapeToolController(DianaInteractiveEditor<?, ?, ?> controller, DrawShapeAction toolAction) {
 		super(controller, toolAction);
@@ -95,10 +95,10 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 		return (DrawShapeAction) super.getToolAction();
 	}
 
-	public abstract FGEGeometricGraphics makeGraphics(ForegroundStyle foregroundStyle);
+	public abstract DianaGeometricGraphics makeGraphics(ForegroundStyle foregroundStyle);
 
 	@Override
-	public FGEGeometricGraphics getGraphics() {
+	public DianaGeometricGraphics getGraphics() {
 		return graphics;
 	}
 
@@ -127,7 +127,7 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 		GeometricGRBinding<S> editedGeometricObjectBinding = getController().getDrawing().bindGeometric(shapeClass, "editedGeometricObject",
 				new GeometricGRProvider<S>() {
 					@Override
-					public GeometricGraphicalRepresentation provideGR(S drawable, FGEModelFactory factory) {
+					public GeometricGraphicalRepresentation provideGR(S drawable, DianaModelFactory factory) {
 						return geomGR;
 					}
 				});
@@ -170,7 +170,7 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 		return shape;
 	}
 
-	public void setShape(FGEShape<?> shape) {
+	public void setShape(DianaShape<?> shape) {
 		this.shape = (S) shape.clone();
 		currentEditedShapeGeometricNode.getGraphicalRepresentation().setGeometricObject(this.shape);
 		geometryChanged();

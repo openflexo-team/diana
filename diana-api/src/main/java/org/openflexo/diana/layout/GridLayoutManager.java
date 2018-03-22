@@ -38,7 +38,7 @@
 
 package org.openflexo.diana.layout;
 
-import org.openflexo.diana.FGELayoutManager;
+import org.openflexo.diana.DianaLayoutManager;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.XMLElement;
 
@@ -50,7 +50,7 @@ import org.openflexo.model.annotations.XMLElement;
  */
 @ModelEntity
 @XMLElement
-public interface GridLayoutManager<O> extends FGELayoutManager<GridLayoutManagerSpecification, O> {
+public interface GridLayoutManager<O> extends DianaLayoutManager<GridLayoutManagerSpecification, O> {
 
 	public double getGridX();
 

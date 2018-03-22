@@ -49,11 +49,11 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGEUtils;
-import org.openflexo.diana.GRProperty;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.PersistenceMode;
 import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.connectors.Connector;
 import org.openflexo.diana.connectors.ConnectorSpecification;
 import org.openflexo.diana.connectors.ConnectorSpecification.ConnectorType;
@@ -61,14 +61,14 @@ import org.openflexo.diana.connectors.ConnectorSymbol.EndSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.MiddleSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.StartSymbolType;
 import org.openflexo.diana.cp.ControlArea;
-import org.openflexo.diana.geom.FGEDimension;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEEmptyArea;
-import org.openflexo.diana.geom.area.FGEUnionArea;
-import org.openflexo.diana.graphics.FGEConnectorGraphics;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaEmptyArea;
+import org.openflexo.diana.geom.area.DianaUnionArea;
+import org.openflexo.diana.graphics.DianaConnectorGraphics;
 import org.openflexo.diana.shapes.Shape;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 
@@ -89,15 +89,15 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 
 	protected ConnectorNode<?> connectorNode;
 
-	protected FGERectangle NORMALIZED_BOUNDS = new FGERectangle(0, 0, 1, 1, Filling.FILLED);
+	protected DianaRectangle NORMALIZED_BOUNDS = new DianaRectangle(0, 0, 1, 1, Filling.FILLED);
 
 	private Shape<?> startShape;
-	private FGEDimension startShapeDimension;
-	private FGEPoint startShapeLocation;
+	private DianaDimension startShapeDimension;
+	private DianaPoint startShapeLocation;
 	private Shape<?> endShape;
-	private FGEDimension endShapeDimension;
-	private FGEPoint endShapeLocation;
-	private FGERectangle knownConnectorUsedBounds;
+	private DianaDimension endShapeDimension;
+	private DianaPoint endShapeLocation;
+	private DianaRectangle knownConnectorUsedBounds;
 
 	private final CS connectorSpecification;
 
@@ -186,10 +186,10 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	public abstract double getEndAngle();
 
 	@Override
-	public abstract double distanceToConnector(FGEPoint aPoint, double scale);
+	public abstract double distanceToConnector(DianaPoint aPoint, double scale);
 
 	@Override
-	public abstract void drawConnector(FGEConnectorGraphics g);
+	public abstract void drawConnector(DianaConnectorGraphics g);
 
 	/**
 	 * Retrieve all control area used to manage this connector
@@ -200,7 +200,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	public abstract List<? extends ControlArea<?>> getControlAreas();
 
 	@Override
-	public abstract FGEPoint getMiddleSymbolLocation();
+	public abstract DianaPoint getMiddleSymbolLocation();
 
 	/**
 	 * Return bounds of actually required area to fully display current connector (which might require to be paint outside normalized
@@ -209,7 +209,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	 * @return
 	 */
 	@Override
-	public abstract FGERectangle getConnectorUsedBounds();
+	public abstract DianaRectangle getConnectorUsedBounds();
 
 	/**
 	 * Return start point, relative to start object
@@ -217,7 +217,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	 * @return
 	 */
 	@Override
-	public abstract FGEPoint getStartLocation();
+	public abstract DianaPoint getStartLocation();
 
 	/**
 	 * Return end point, relative to end object
@@ -225,7 +225,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	 * @return
 	 */
 	@Override
-	public abstract FGEPoint getEndLocation();
+	public abstract DianaPoint getEndLocation();
 
 	// *******************************************************************************
 	// * Implementation *
@@ -248,7 +248,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 
 	}
 
-	public void setPaintAttributes(FGEConnectorGraphics g) {
+	public void setPaintAttributes(DianaConnectorGraphics g) {
 
 		// Foreground
 		if (connectorNode.getIsSelected()) {
@@ -273,9 +273,9 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	}
 
 	@Override
-	public final void paintConnector(FGEConnectorGraphics g) {
+	public final void paintConnector(DianaConnectorGraphics g) {
 		/*
-		 * if (FGEConstants.DEBUG || getGraphicalRepresentation().getDebugCoveringArea()) { drawCoveringAreas(g); }
+		 * if (DianaConstants.DEBUG || getGraphicalRepresentation().getDebugCoveringArea()) { drawCoveringAreas(g); }
 		 */
 
 		setPaintAttributes(g);
@@ -290,40 +290,40 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	 * @param order
 	 * @return
 	 */
-	public FGEArea computeCoveringArea(int order) {
-		AffineTransform at1 = FGEUtils.convertNormalizedCoordinatesAT(connectorNode.getStartNode(), connectorNode);
+	public DianaArea computeCoveringArea(int order) {
+		AffineTransform at1 = DianaUtils.convertNormalizedCoordinatesAT(connectorNode.getStartNode(), connectorNode);
 
-		AffineTransform at2 = FGEUtils.convertNormalizedCoordinatesAT(connectorNode.getEndNode(), connectorNode);
+		AffineTransform at2 = DianaUtils.convertNormalizedCoordinatesAT(connectorNode.getEndNode(), connectorNode);
 
 		if (order == 0) {
-			FGEArea startObjectShape = connectorNode.getStartNode().getFGEShape().transform(at1);
-			FGEArea endObjectShape = connectorNode.getEndNode().getFGEShape().transform(at2);
-			FGEArea returned = startObjectShape.intersect(endObjectShape);
+			DianaArea startObjectShape = connectorNode.getStartNode().getDianaShape().transform(at1);
+			DianaArea endObjectShape = connectorNode.getEndNode().getDianaShape().transform(at2);
+			DianaArea returned = startObjectShape.intersect(endObjectShape);
 			if (LOGGER.isLoggable(Level.FINE)) {
 				LOGGER.fine("computeCoveringArea(" + order + ") = " + returned);
 			}
 			return returned;
 		}
 
-		FGEArea start_east = connectorNode.getStartNode().getShape().getAllowedHorizontalConnectorLocationFromEast().transform(at1);
-		FGEArea start_west = connectorNode.getStartNode().getShape().getAllowedHorizontalConnectorLocationFromWest().transform(at1);
-		FGEArea start_north = connectorNode.getStartNode().getShape().getAllowedVerticalConnectorLocationFromNorth().transform(at1);
-		FGEArea start_south = connectorNode.getStartNode().getShape().getAllowedVerticalConnectorLocationFromSouth().transform(at1);
+		DianaArea start_east = connectorNode.getStartNode().getShape().getAllowedHorizontalConnectorLocationFromEast().transform(at1);
+		DianaArea start_west = connectorNode.getStartNode().getShape().getAllowedHorizontalConnectorLocationFromWest().transform(at1);
+		DianaArea start_north = connectorNode.getStartNode().getShape().getAllowedVerticalConnectorLocationFromNorth().transform(at1);
+		DianaArea start_south = connectorNode.getStartNode().getShape().getAllowedVerticalConnectorLocationFromSouth().transform(at1);
 
-		FGEArea end_east = connectorNode.getEndNode().getShape().getAllowedHorizontalConnectorLocationFromEast().transform(at2);
-		FGEArea end_west = connectorNode.getEndNode().getShape().getAllowedHorizontalConnectorLocationFromWest().transform(at2);
-		FGEArea end_north = connectorNode.getEndNode().getShape().getAllowedVerticalConnectorLocationFromNorth().transform(at2);
-		FGEArea end_south = connectorNode.getEndNode().getShape().getAllowedVerticalConnectorLocationFromSouth().transform(at2);
+		DianaArea end_east = connectorNode.getEndNode().getShape().getAllowedHorizontalConnectorLocationFromEast().transform(at2);
+		DianaArea end_west = connectorNode.getEndNode().getShape().getAllowedHorizontalConnectorLocationFromWest().transform(at2);
+		DianaArea end_north = connectorNode.getEndNode().getShape().getAllowedVerticalConnectorLocationFromNorth().transform(at2);
+		DianaArea end_south = connectorNode.getEndNode().getShape().getAllowedVerticalConnectorLocationFromSouth().transform(at2);
 
-		FGEArea returned = new FGEEmptyArea();
+		DianaArea returned = new DianaEmptyArea();
 
 		if (order == 1) {
-			returned = FGEUnionArea.makeUnion(start_east.intersect(end_west), start_west.intersect(end_east),
+			returned = DianaUnionArea.makeUnion(start_east.intersect(end_west), start_west.intersect(end_east),
 					start_north.intersect(end_south), start_south.intersect(end_north));
 		}
 
 		else if (order == 2) {
-			returned = FGEUnionArea.makeUnion(start_east.intersect(end_north), start_east.intersect(end_south),
+			returned = DianaUnionArea.makeUnion(start_east.intersect(end_north), start_east.intersect(end_south),
 					start_west.intersect(end_north), start_west.intersect(end_south), start_north.intersect(end_east),
 					start_north.intersect(end_west), start_south.intersect(end_east), start_south.intersect(end_west));
 		}
@@ -341,7 +341,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 
 	public void refreshConnector(boolean forceRefresh) {
 		/*
-		 * if (FGEConstants.DEBUG || getGraphicalRepresentation().getDebugCoveringArea()) { computeCoveringAreas(); }
+		 * if (DianaConstants.DEBUG || getGraphicalRepresentation().getDebugCoveringArea()) { computeCoveringAreas(); }
 		 */
 		storeLayoutOfStartOrEndObject(connectorNode);
 	}
@@ -436,7 +436,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	public <T> T getPropertyValue(GRProperty<T> parameter) {
 
 		// Now we have to think of this:
-		// New architecture of FGE now authorizes a ConnectorSpecification to be shared by many Connectors
+		// New architecture of Diana now authorizes a ConnectorSpecification to be shared by many Connectors
 		// If UniqueGraphicalRepresentations is active, use ConnectorSpecification to store graphical properties
 
 		if (getConnectorNode() == null) {
@@ -489,7 +489,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	public <T> void setPropertyValue(GRProperty<T> parameter, T value) {
 
 		// Now we have to think of this:
-		// New architecture of FGE now authorizes a ConnectorSpecification to be shared by many Connectors
+		// New architecture of Diana now authorizes a ConnectorSpecification to be shared by many Connectors
 		// If UniqueGraphicalRepresentations is active, use ConnectorSpecification to store graphical properties
 
 		if (getConnectorNode().getDrawing().getPersistenceMode() == PersistenceMode.UniqueGraphicalRepresentations) {

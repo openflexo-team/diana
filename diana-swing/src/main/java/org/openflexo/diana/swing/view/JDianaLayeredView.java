@@ -55,23 +55,23 @@ import org.openflexo.diana.Drawing.GeometricNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaEditor;
-import org.openflexo.diana.graphics.FGEGraphics;
+import org.openflexo.diana.graphics.DianaGraphics;
 import org.openflexo.diana.swing.graphics.DrawUtils;
-import org.openflexo.diana.swing.graphics.JFGEGraphics;
-import org.openflexo.diana.swing.paint.FGEPaintManager;
-import org.openflexo.diana.view.FGEContainerView;
-import org.openflexo.diana.view.FGEView;
+import org.openflexo.diana.swing.graphics.JDianaGraphics;
+import org.openflexo.diana.swing.paint.DianaPaintManager;
+import org.openflexo.diana.view.DianaContainerView;
+import org.openflexo.diana.view.DianaView;
 
 @SuppressWarnings("serial")
-public abstract class JDianaLayeredView<O> extends JLayeredPane implements FGEContainerView<O, JLayeredPane>, JFGEView<O, JLayeredPane> {
+public abstract class JDianaLayeredView<O> extends JLayeredPane implements DianaContainerView<O, JLayeredPane>, JDianaView<O, JLayeredPane> {
 
 	private static final Logger logger = Logger.getLogger(JDianaLayeredView.class.getPackage().getName());
 
-	private final List<FGEView<?, ? extends JComponent>> childViews;
+	private final List<DianaView<?, ? extends JComponent>> childViews;
 
 	public JDianaLayeredView() {
 		super();
-		childViews = new ArrayList<FGEView<?, ? extends JComponent>>();
+		childViews = new ArrayList<DianaView<?, ? extends JComponent>>();
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements FGECo
 	 * @param layer
 	 *            an int specifying the layer to set, where lower numbers are closer to the bottom
 	 */
-	public void setLayer(FGEView<?, ?> c, int layer) {
+	public void setLayer(DianaView<?, ?> c, int layer) {
 		setLayer((Component) c, layer, -1);
 	}
 
@@ -97,7 +97,7 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements FGECo
 	 *            the Component to check
 	 * @return an int specifying the component's current layer
 	 */
-	public int getLayer(FGEView<?, ?> c) {
+	public int getLayer(DianaView<?, ?> c) {
 		return super.getLayer((Component) c);
 	}
 
@@ -108,7 +108,7 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements FGECo
 	 *            the Component to move
 	 * @see #setPosition(Component, int)
 	 */
-	public void toFront(FGEView<?, ?> c) {
+	public void toFront(DianaView<?, ?> c) {
 		super.moveToFront((Component) c);
 	}
 
@@ -119,22 +119,22 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements FGECo
 	 *            the Component to move
 	 * @see #setPosition(Component, int)
 	 */
-	public void toBack(FGEView<?, ?> c) {
+	public void toBack(DianaView<?, ?> c) {
 		super.moveToBack((Component) c);
 	}
 
-	public List<FGEView<?, ?>> getViewsInLayer(int layer) {
-		List<FGEView<?, ?>> returned = new ArrayList<FGEView<?, ?>>();
+	public List<DianaView<?, ?>> getViewsInLayer(int layer) {
+		List<DianaView<?, ?>> returned = new ArrayList<DianaView<?, ?>>();
 		for (Component c : super.getComponentsInLayer(layer)) {
-			if (c instanceof FGEView) {
-				returned.add((FGEView<?, ?>) c);
+			if (c instanceof DianaView) {
+				returned.add((DianaView<?, ?>) c);
 			}
 		}
 		return returned;
 	}
 
 	@Override
-	public void addView(FGEView<?, ?> view) {
+	public void addView(DianaView<?, ?> view) {
 		// logger.info("add view " + view + " under " + this);
 		if (view instanceof JShapeView) {
 			((JShapeView<?>) view).setBackground(getBackground());
@@ -156,7 +156,7 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements FGECo
 	}
 
 	@Override
-	public void removeView(FGEView<?, ?> view) {
+	public void removeView(DianaView<?, ?> view) {
 		// logger.info("remove view " + view + " from " + this);
 		if (view instanceof JShapeView) {
 			if (((JShapeView<?>) view).getLabelView() != null) {
@@ -259,17 +259,17 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements FGECo
 	}
 
 	@Override
-	public List<FGEView<?, ? extends JComponent>> getChildViews() {
+	public List<DianaView<?, ? extends JComponent>> getChildViews() {
 		return childViews;
 	}
 
 	@Override
-	public FGEPaintManager getPaintManager() {
+	public DianaPaintManager getPaintManager() {
 		return getDrawingView().getPaintManager();
 	}
 
-	public void paint(FGEGraphics graphics, DianaEditor<?> controller) {
-		Graphics2D g2 = ((JFGEGraphics) graphics).getGraphics();
+	public void paint(DianaGraphics graphics, DianaEditor<?> controller) {
+		Graphics2D g2 = ((JDianaGraphics) graphics).getGraphics();
 		DrawUtils.turnOnAntiAlising(g2);
 		DrawUtils.setRenderQuality(g2);
 		DrawUtils.setColorRenderQuality(g2);

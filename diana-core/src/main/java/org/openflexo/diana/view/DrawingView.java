@@ -45,9 +45,9 @@ import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.actions.RectangleSelectingAction;
-import org.openflexo.diana.graphics.FGEDrawingGraphics;
+import org.openflexo.diana.graphics.DianaDrawingGraphics;
 
-public interface DrawingView<M, C> extends FGEContainerView<M, C> {
+public interface DrawingView<M, C> extends DianaContainerView<M, C> {
 
 	public abstract Drawing<M> getDrawing();
 
@@ -57,13 +57,13 @@ public interface DrawingView<M, C> extends FGEContainerView<M, C> {
 	@Override
 	public abstract AbstractDianaEditor<M, ?, ? super C> getController();
 
-	public abstract <O> FGEView<O, ?> viewForNode(DrawingTreeNode<O, ?> node);
+	public abstract <O> DianaView<O, ?> viewForNode(DrawingTreeNode<O, ?> node);
 
 	public abstract <O> ConnectorView<O, ?> connectorViewForNode(ConnectorNode<O> node);
 
 	public abstract <O> ShapeView<O, ?> shapeViewForNode(ShapeNode<O> node);
 
-	public abstract boolean contains(FGEView<?, ?> view);
+	public abstract boolean contains(DianaView<?, ?> view);
 
 	@Override
 	public abstract void delete();
@@ -73,6 +73,6 @@ public interface DrawingView<M, C> extends FGEContainerView<M, C> {
 	public void resetRectangleSelectingAction();
 
 	@Override
-	public FGEDrawingGraphics getFGEGraphics();
+	public DianaDrawingGraphics getDianaGraphics();
 
 }

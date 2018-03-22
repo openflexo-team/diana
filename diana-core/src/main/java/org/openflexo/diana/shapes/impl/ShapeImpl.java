@@ -48,13 +48,13 @@ import java.util.logging.Logger;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.cp.ControlPoint;
 import org.openflexo.diana.cp.ShapeResizingControlPoint;
-import org.openflexo.diana.geom.FGELine;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGEShape;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEHalfBand;
-import org.openflexo.diana.geom.area.FGEHalfLine;
-import org.openflexo.diana.graphics.FGEShapeGraphics;
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaHalfBand;
+import org.openflexo.diana.geom.area.DianaHalfLine;
+import org.openflexo.diana.graphics.DianaShapeGraphics;
 import org.openflexo.diana.shapes.Shape;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
@@ -64,7 +64,7 @@ import org.openflexo.toolbox.HasPropertyChangeSupport;
  * This class represents a shape as a geometric area in a ShapeNode. This is an instance of {@link ShapeSpecification}. As it, it is
  * attached to a {@link ShapeNode}.
  * 
- * This class is a wrapper of {@link FGEShape} which is the geometrical definition of the object as defined in geometrical framework.<br>
+ * This class is a wrapper of {@link DianaShape} which is the geometrical definition of the object as defined in geometrical framework.<br>
  * A {@link ShapeSpecification} has a geometrical definition inside a normalized rectangle as defined by (0.0,0.0,1.0,1.0)<br>
  * 
  * 
@@ -75,12 +75,12 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 
 	private static final Logger logger = Logger.getLogger(ShapeImpl.class.getPackage().getName());
 
-	// private static final FGEModelFactory SHADOW_FACTORY = FGECoreUtils.TOOLS_FACTORY;
+	// private static final DianaModelFactory SHADOW_FACTORY = DianaCoreUtils.TOOLS_FACTORY;
 
 	protected ShapeNode<?> shapeNode;
 
-	private FGEShape<?> shape;
-	private FGEShape<?> outline;
+	private DianaShape<?> shape;
+	private DianaShape<?> outline;
 
 	private List<ControlPoint> controlPoints;
 
@@ -143,7 +143,7 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 	}
 
 	@Override
-	public FGEShape<?> getShape() {
+	public DianaShape<?> getShape() {
 		if (shape == null) {
 			shape = makeShape();
 			updateControlPoints();
@@ -152,7 +152,7 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 	}
 
 	@Override
-	public FGEShape<?> getOutline() {
+	public DianaShape<?> getOutline() {
 		if (outline == null) {
 			outline = makeOutline();
 		}
@@ -181,7 +181,7 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 		controlPoints.clear();
 
 		if (shape != null && shape.getControlPoints() != null) {
-			for (FGEPoint pt : shape.getControlPoints()) {
+			for (DianaPoint pt : shape.getControlPoints()) {
 				controlPoints.add(new ShapeResizingControlPoint(shapeNode, pt, null));
 			}
 		}
@@ -193,9 +193,9 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 		return getShapeSpecification().getShapeType();
 	}
 
-	protected FGEShape<?> makeShape() {
+	protected DianaShape<?> makeShape() {
 		if (getShapeSpecification() != null) {
-			return getShapeSpecification().makeFGEShape(shapeNode);
+			return getShapeSpecification().makeDianaShape(shapeNode);
 		}
 		return null;
 	}
@@ -205,9 +205,9 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 	 * 
 	 * @return
 	 */
-	protected final FGEShape<?> makeOutline() {
-		FGEShape<?> plainShape = makeShape();
-		FGEShape<?> outline = (FGEShape<?>) plainShape.clone();
+	protected final DianaShape<?> makeOutline() {
+		DianaShape<?> plainShape = makeShape();
+		DianaShape<?> outline = (DianaShape<?>) plainShape.clone();
 		outline.setIsFilled(false);
 		return outline;
 	}
@@ -219,7 +219,7 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 	 * @return
 	 */
 	@Override
-	public FGEPoint nearestOutlinePoint(FGEPoint aPoint) {
+	public DianaPoint nearestOutlinePoint(DianaPoint aPoint) {
 		return getShape().nearestOutlinePoint(aPoint);
 	}
 
@@ -231,7 +231,7 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 	 * @return
 	 */
 	@Override
-	public boolean isPointInsideShape(FGEPoint aPoint) {
+	public boolean isPointInsideShape(DianaPoint aPoint) {
 		return getShape().containsPoint(aPoint);
 	}
 
@@ -245,8 +245,8 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 	 * @return
 	 */
 	@Override
-	public final FGEPoint outlineIntersect(FGELine line, FGEPoint from) {
-		FGEArea intersection = getShape().intersect(line);
+	public final DianaPoint outlineIntersect(DianaLine line, DianaPoint from) {
+		DianaArea intersection = getShape().intersect(line);
 		return intersection.getNearestPoint(from);
 	}
 
@@ -262,28 +262,28 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 	 * @return
 	 */
 	@Override
-	public final FGEPoint outlineIntersect(FGEPoint from) {
-		FGELine line = new FGELine(new FGEPoint(0.5, 0.5), from);
+	public final DianaPoint outlineIntersect(DianaPoint from) {
+		DianaLine line = new DianaLine(new DianaPoint(0.5, 0.5), from);
 		return outlineIntersect(line, from);
 	}
 
 	@Override
-	public FGEArea getAllowedHorizontalConnectorLocationFromEast() {
-		FGEHalfLine north = new FGEHalfLine(1, 0, 2, 0);
-		FGEHalfLine south = new FGEHalfLine(1, 1, 2, 1);
-		return new FGEHalfBand(north, south);
+	public DianaArea getAllowedHorizontalConnectorLocationFromEast() {
+		DianaHalfLine north = new DianaHalfLine(1, 0, 2, 0);
+		DianaHalfLine south = new DianaHalfLine(1, 1, 2, 1);
+		return new DianaHalfBand(north, south);
 	}
 
 	/*@Override
-	public FGEArea getAllowedHorizontalConnectorLocationFromWest2() {
+	public DianaArea getAllowedHorizontalConnectorLocationFromWest2() {
 		double maxY = Double.NEGATIVE_INFINITY;
 		double minY = Double.POSITIVE_INFINITY;
 		for (ControlPoint cp : getControlPoints()) {
-			FGEPoint p = cp.getPoint();
-			FGEHalfLine hl = new FGEHalfLine(p.x, p.y, p.x - 1, p.y);
-			FGEArea inters = getShape().intersect(hl);
+			DianaPoint p = cp.getPoint();
+			DianaHalfLine hl = new DianaHalfLine(p.x, p.y, p.x - 1, p.y);
+			DianaArea inters = getShape().intersect(hl);
 			System.out.println("inters=" + inters);
-			if (inters instanceof FGEPoint || inters instanceof FGEEmptyArea) {
+			if (inters instanceof DianaPoint || inters instanceof DianaEmptyArea) {
 				// Consider this point
 				if (p.y > maxY) {
 					maxY = p.y;
@@ -293,41 +293,41 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 				}
 			}
 		}
-		FGEHalfLine north = new FGEHalfLine(0, minY, -1, minY);
-		FGEHalfLine south = new FGEHalfLine(0, maxY, -1, maxY);
+		DianaHalfLine north = new DianaHalfLine(0, minY, -1, minY);
+		DianaHalfLine south = new DianaHalfLine(0, maxY, -1, maxY);
 		if (north.overlap(south)) {
 			System.out.println("Return a " + north.intersect(south));
 			return north.intersect(south);
 		}
-		return new FGEHalfBand(north, south);
+		return new DianaHalfBand(north, south);
 	}*/
 
 	@Override
-	public FGEArea getAllowedHorizontalConnectorLocationFromWest() {
-		FGEHalfLine north = new FGEHalfLine(0, 0, -1, 0);
-		FGEHalfLine south = new FGEHalfLine(0, 1, -1, 1);
-		return new FGEHalfBand(north, south);
+	public DianaArea getAllowedHorizontalConnectorLocationFromWest() {
+		DianaHalfLine north = new DianaHalfLine(0, 0, -1, 0);
+		DianaHalfLine south = new DianaHalfLine(0, 1, -1, 1);
+		return new DianaHalfBand(north, south);
 	}
 
 	@Override
-	public FGEArea getAllowedVerticalConnectorLocationFromNorth() {
-		FGEHalfLine east = new FGEHalfLine(1, 0, 1, -1);
-		FGEHalfLine west = new FGEHalfLine(0, 0, 0, -1);
-		return new FGEHalfBand(east, west);
+	public DianaArea getAllowedVerticalConnectorLocationFromNorth() {
+		DianaHalfLine east = new DianaHalfLine(1, 0, 1, -1);
+		DianaHalfLine west = new DianaHalfLine(0, 0, 0, -1);
+		return new DianaHalfBand(east, west);
 	}
 
 	@Override
-	public FGEArea getAllowedVerticalConnectorLocationFromSouth() {
-		FGEHalfLine east = new FGEHalfLine(1, 1, 1, 2);
-		FGEHalfLine west = new FGEHalfLine(0, 1, 0, 2);
-		return new FGEHalfBand(east, west);
+	public DianaArea getAllowedVerticalConnectorLocationFromSouth() {
+		DianaHalfLine east = new DianaHalfLine(1, 1, 1, 2);
+		DianaHalfLine west = new DianaHalfLine(0, 1, 0, 2);
+		return new DianaHalfBand(east, west);
 	}
 
 	// *******************************************************************************
 	// * Painting methods *
 	// *******************************************************************************
 
-	public void setPaintAttributes(FGEShapeGraphics g) {
+	public void setPaintAttributes(DianaShapeGraphics g) {
 
 		// Background
 		if (shapeNode.getIsSelected()) {
@@ -372,9 +372,9 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 	}
 
 	/*	@Override
-		public final void paintShadow(FGEShapeGraphics g) {
+		public final void paintShadow(DianaShapeGraphics g) {
 	
-			if (g instanceof FGEShapeGraphicsImpl) {
+			if (g instanceof DianaShapeGraphicsImpl) {
 	
 				double deep = shapeNode.getGraphicalRepresentation().getShadowStyle().getShadowDepth();
 				int blur = shapeNode.getGraphicalRepresentation().getShadowStyle().getShadowBlur();
@@ -384,14 +384,14 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 	
 				int darkness = shapeNode.getGraphicalRepresentation().getShadowStyle().getShadowDarkness();
 	
-				Graphics2D oldGraphics = ((FGEShapeGraphicsImpl) g).cloneGraphics();
+				Graphics2D oldGraphics = ((DianaShapeGraphicsImpl) g).cloneGraphics();
 	
 				Area clipArea = new Area(new java.awt.Rectangle(0, 0, shapeNode.getViewWidth(g.getScale()), shapeNode.getViewHeight(g
 						.getScale())));
 				Area a = new Area(getShape());
 				a.transform(shapeNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
 				clipArea.subtract(a);
-				((FGEShapeGraphicsImpl) g).getGraphics().clip(clipArea);
+				((DianaShapeGraphicsImpl) g).getGraphics().clip(clipArea);
 	
 				Color shadowColor = new Color(darkness, darkness, darkness);
 				ForegroundStyle foreground = SHADOW_FACTORY.makeForegroundStyle(shadowColor);
@@ -412,14 +412,14 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 					getShape().transform(at).paint(g);
 				}
 	
-				((FGEShapeGraphicsImpl) g).releaseClonedGraphics(oldGraphics);
+				((DianaShapeGraphicsImpl) g).releaseClonedGraphics(oldGraphics);
 			} else {
-				logger.warning("Not support FGEGraphics: " + g);
+				logger.warning("Not support DianaGraphics: " + g);
 			}
 		}*/
 
 	@Override
-	public final void paintShape(FGEShapeGraphics g) {
+	public final void paintShape(DianaShapeGraphics g) {
 		setPaintAttributes(g);
 		getShape().paint(g);
 		// drawLabel(g);

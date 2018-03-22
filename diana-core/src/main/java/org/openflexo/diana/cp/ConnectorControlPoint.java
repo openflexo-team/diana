@@ -43,7 +43,7 @@ import java.awt.Cursor;
 
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.cp.ControlPoint;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 
 /**
  * A {@link ConnectorControlPoint} encodes an interactive control point, attached to a ConnectorNode<br>
@@ -52,7 +52,7 @@ import org.openflexo.diana.geom.FGEPoint;
  */
 public class ConnectorControlPoint extends ControlPoint {
 
-	public ConnectorControlPoint(ConnectorNode<?> node, FGEPoint pt) {
+	public ConnectorControlPoint(ConnectorNode<?> node, DianaPoint pt) {
 		super(node, pt);
 	}
 

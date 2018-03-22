@@ -42,7 +42,7 @@ import java.awt.Color;
 
 import javax.swing.ImageIcon;
 
-import org.openflexo.diana.FGEUtils.HasIcon;
+import org.openflexo.diana.DianaUtils.HasIcon;
 import org.openflexo.icon.ImageIconResource;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;

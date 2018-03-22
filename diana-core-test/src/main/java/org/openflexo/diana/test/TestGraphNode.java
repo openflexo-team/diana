@@ -43,7 +43,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 
 public class TestGraphNode extends Observable {
 
@@ -200,17 +200,17 @@ public class TestGraphNode extends Observable {
 
 	public void setCircularX(double circX) {
 		if (teta != null) {
-			updateTetaWithNewPosition(new FGEPoint(circX, getCircularY()));
+			updateTetaWithNewPosition(new DianaPoint(circX, getCircularY()));
 		}
 	}
 
 	public void setCircularY(double circY) {
 		if (teta != null) {
-			updateTetaWithNewPosition(new FGEPoint(getCircularX(), circY));
+			updateTetaWithNewPosition(new DianaPoint(getCircularX(), circY));
 		}
 	}
 
-	private void updateTetaWithNewPosition(FGEPoint newPosition) {
+	private void updateTetaWithNewPosition(DianaPoint newPosition) {
 		// System.out.println("teta was = " + getTeta());
 		teta = Math.atan2(newPosition.y - CENTER_Y, newPosition.x - CENTER_X);
 		// System.out.println("teta is now = " + getTeta());

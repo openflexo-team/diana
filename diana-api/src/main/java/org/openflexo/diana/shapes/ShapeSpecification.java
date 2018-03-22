@@ -38,10 +38,10 @@
 
 package org.openflexo.diana.shapes;
 
-import org.openflexo.diana.FGEObject;
+import org.openflexo.diana.DianaObject;
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGEShape;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
@@ -59,7 +59,7 @@ import org.openflexo.model.annotations.ModelEntity;
 		@Import(Rectangle.class), @Import(RectangularOctogon.class), @Import(RegularPolygon.class), @Import(Square.class),
 		@Import(Star.class), @Import(Triangle.class), @Import(ComplexCurve.class), @Import(Plus.class), @Import(Parallelogram.class),
 		@Import(Chevron.class) })
-public interface ShapeSpecification extends FGEObject {
+public interface ShapeSpecification extends DianaObject {
 
 	public static enum ShapeType {
 		RECTANGLE,
@@ -79,15 +79,15 @@ public interface ShapeSpecification extends FGEObject {
 		PARALLELOGRAM
 	}
 
-	public static final FGEPoint CENTER = new FGEPoint(0.5, 0.5);
-	public static final FGEPoint NORTH_EAST = new FGEPoint(1, 0);
-	public static final FGEPoint SOUTH_EAST = new FGEPoint(1, 1);
-	public static final FGEPoint SOUTH_WEST = new FGEPoint(0, 1);
-	public static final FGEPoint NORTH_WEST = new FGEPoint(0, 0);
-	public static final FGEPoint NORTH = new FGEPoint(0.5, 0);
-	public static final FGEPoint EAST = new FGEPoint(1, 0.5);
-	public static final FGEPoint SOUTH = new FGEPoint(0.5, 1);
-	public static final FGEPoint WEST = new FGEPoint(0, 0.5);
+	public static final DianaPoint CENTER = new DianaPoint(0.5, 0.5);
+	public static final DianaPoint NORTH_EAST = new DianaPoint(1, 0);
+	public static final DianaPoint SOUTH_EAST = new DianaPoint(1, 1);
+	public static final DianaPoint SOUTH_WEST = new DianaPoint(0, 1);
+	public static final DianaPoint NORTH_WEST = new DianaPoint(0, 0);
+	public static final DianaPoint NORTH = new DianaPoint(0.5, 0);
+	public static final DianaPoint EAST = new DianaPoint(1, 0.5);
+	public static final DianaPoint SOUTH = new DianaPoint(0.5, 1);
+	public static final DianaPoint WEST = new DianaPoint(0, 0.5);
 
 	/**
 	 * Must be overriden when shape requires it
@@ -102,6 +102,6 @@ public interface ShapeSpecification extends FGEObject {
 
 	public abstract Shape<?> makeShape(ShapeNode<?> node);
 
-	public FGEShape<?> makeFGEShape(ShapeNode<?> node);
+	public DianaShape<?> makeDianaShape(ShapeNode<?> node);
 
 }

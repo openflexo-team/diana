@@ -46,14 +46,14 @@ import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaEditor;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.model.undo.CompoundEdit;
 
 public class ConnectorAdjustingControlPoint extends ConnectorControlPoint {
 
 	private CompoundEdit adjustEdit = null;
 
-	public ConnectorAdjustingControlPoint(ConnectorNode<?> node, FGEPoint pt) {
+	public ConnectorAdjustingControlPoint(ConnectorNode<?> node, DianaPoint pt) {
 		super(node, pt);
 	}
 
@@ -73,7 +73,7 @@ public class ConnectorAdjustingControlPoint extends ConnectorControlPoint {
 	}
 
 	@Override
-	public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
+	public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 
 		if (getNode().getUndoManager() != null) {
 			adjustEdit = getNode().getUndoManager().startRecording("Adjust connector");
@@ -86,8 +86,8 @@ public class ConnectorAdjustingControlPoint extends ConnectorControlPoint {
 	}
 
 	@Override
-	public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-			FGEPoint initialPoint, MouseEvent event) {
+	public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+			DianaPoint initialPoint, MouseEvent event) {
 		return true;
 	}
 

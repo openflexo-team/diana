@@ -43,7 +43,7 @@ import java.awt.Color;
 
 import javax.swing.ImageIcon;
 
-import org.openflexo.diana.FGEUtils.HasIcon;
+import org.openflexo.diana.DianaUtils.HasIcon;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
@@ -59,7 +59,7 @@ import org.openflexo.model.annotations.XMLElement;
  */
 @ModelEntity
 @XMLElement(xmlTag = "ForegroundStyle")
-public interface ForegroundStyle extends FGEStyle {
+public interface ForegroundStyle extends DianaStyle {
 
 	// Property keys
 
@@ -114,11 +114,11 @@ public interface ForegroundStyle extends FGEStyle {
 		@Override
 		public ImageIcon getIcon() {
 			if (this == JOIN_MITER) {
-				return FGEIconLibrary.JOIN_MITER_ICON;
+				return DianaIconLibrary.JOIN_MITER_ICON;
 			} else if (this == JOIN_ROUND) {
-				return FGEIconLibrary.JOIN_ROUND_ICON;
+				return DianaIconLibrary.JOIN_ROUND_ICON;
 			} else if (this == JOIN_BEVEL) {
-				return FGEIconLibrary.JOIN_BEVEL_ICON;
+				return DianaIconLibrary.JOIN_BEVEL_ICON;
 			}
 			return null;
 		}
@@ -144,11 +144,11 @@ public interface ForegroundStyle extends FGEStyle {
 		@Override
 		public ImageIcon getIcon() {
 			if (this == CAP_BUTT) {
-				return FGEIconLibrary.CAP_BUTT_ICON;
+				return DianaIconLibrary.CAP_BUTT_ICON;
 			} else if (this == CAP_ROUND) {
-				return FGEIconLibrary.CAP_ROUND_ICON;
+				return DianaIconLibrary.CAP_ROUND_ICON;
 			} else if (this == CAP_SQUARE) {
-				return FGEIconLibrary.CAP_SQUARE_ICON;
+				return DianaIconLibrary.CAP_SQUARE_ICON;
 			}
 			return null;
 		}
@@ -161,19 +161,19 @@ public interface ForegroundStyle extends FGEStyle {
 		@Override
 		public ImageIcon getIcon() {
 			if (this == PLAIN_STROKE) {
-				return FGEIconLibrary.PLAIN_STROKE_ICON;
+				return DianaIconLibrary.PLAIN_STROKE_ICON;
 			} else if (this == SMALL_DASHES) {
-				return FGEIconLibrary.SMALL_DASHES_ICON;
+				return DianaIconLibrary.SMALL_DASHES_ICON;
 			} else if (this == MEDIUM_DASHES) {
-				return FGEIconLibrary.MEDIUM_DASHES_ICON;
+				return DianaIconLibrary.MEDIUM_DASHES_ICON;
 			} else if (this == MEDIUM_SPACED_DASHES) {
-				return FGEIconLibrary.MEDIUM_SPACED_DASHES_ICON;
+				return DianaIconLibrary.MEDIUM_SPACED_DASHES_ICON;
 			} else if (this == BIG_DASHES) {
-				return FGEIconLibrary.BIG_DASHES_ICON;
+				return DianaIconLibrary.BIG_DASHES_ICON;
 			} else if (this == DOTS_DASHES) {
-				return FGEIconLibrary.DOTS_DASHES_ICON;
+				return DianaIconLibrary.DOTS_DASHES_ICON;
 			} else if (this == DOT_LINES_DASHES) {
-				return FGEIconLibrary.DOTS_LINES_DASHES_ICON;
+				return DianaIconLibrary.DOTS_LINES_DASHES_ICON;
 			}
 			return null;
 		}

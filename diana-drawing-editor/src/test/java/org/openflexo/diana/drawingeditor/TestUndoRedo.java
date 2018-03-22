@@ -50,7 +50,7 @@ import org.openflexo.diana.drawingeditor.model.Connector;
 import org.openflexo.diana.drawingeditor.model.Diagram;
 import org.openflexo.diana.drawingeditor.model.DiagramFactory;
 import org.openflexo.diana.drawingeditor.model.Shape;
-import org.openflexo.diana.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.model.factory.EditingContextImpl;
 import org.openflexo.model.undo.CompoundEdit;
@@ -119,7 +119,7 @@ public class TestUndoRedo extends TestCase {
 		assertEquals(1, initDiagram.getEdits().size());
 
 		addFirstShape = factory.getUndoManager().startRecording("Create first shape");
-		Shape shape1 = factory.makeNewShape(ShapeType.RECTANGLE, new FGEPoint(100, 100), diagram);
+		Shape shape1 = factory.makeNewShape(ShapeType.RECTANGLE, new DianaPoint(100, 100), diagram);
 		diagram.addToShapes(shape1);
 		factory.getUndoManager().stopRecording(addFirstShape);
 
@@ -130,7 +130,7 @@ public class TestUndoRedo extends TestCase {
 		assertEquals(85, addFirstShape.getEdits().size());
 
 		addSecondShape = factory.getUndoManager().startRecording("Create second shape");
-		Shape shape2 = factory.makeNewShape(ShapeType.RECTANGLE, new FGEPoint(200, 100), diagram);
+		Shape shape2 = factory.makeNewShape(ShapeType.RECTANGLE, new DianaPoint(200, 100), diagram);
 		diagram.addToShapes(shape2);
 		factory.getUndoManager().stopRecording(addSecondShape);
 

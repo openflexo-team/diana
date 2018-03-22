@@ -50,8 +50,8 @@ import org.openflexo.diana.GeometricGraphicalRepresentation;
 import org.openflexo.diana.BackgroundStyle.BackgroundStyleType;
 import org.openflexo.diana.control.PredefinedMouseClickControlActionType;
 import org.openflexo.diana.control.MouseControl.MouseButton;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.toolbox.ToolBox;
 
 public abstract class GeometricGraphicalRepresentationImpl extends GraphicalRepresentationImpl implements GeometricGraphicalRepresentation {
@@ -67,11 +67,11 @@ public abstract class GeometricGraphicalRepresentationImpl extends GraphicalRepr
 	// * Fields *
 	// *******************************************************************************
 
-	// private int layer = FGEConstants.DEFAULT_OBJECT_LAYER;
+	// private int layer = DianaConstants.DEFAULT_OBJECT_LAYER;
 	private ForegroundStyle foreground;
 	private BackgroundStyle background;
 
-	private FGEArea geometricObject;
+	private DianaArea geometricObject;
 
 	// *******************************************************************************
 	// * Constructor *
@@ -86,7 +86,7 @@ public abstract class GeometricGraphicalRepresentationImpl extends GraphicalRepr
 
 	@SuppressWarnings("unused")
 	@Deprecated
-	private GeometricGraphicalRepresentationImpl(FGEArea anObject, Object aDrawable, Drawing<?> aDrawing) {
+	private GeometricGraphicalRepresentationImpl(DianaArea anObject, Object aDrawable, Drawing<?> aDrawing) {
 		this();
 		// setDrawable(aDrawable);
 		// setDrawing(aDrawing);
@@ -149,7 +149,7 @@ public abstract class GeometricGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setForeground(ForegroundStyle aForeground) {
-		FGEAttributeNotification<?> notification = requireChange(FOREGROUND, aForeground, false);
+		DianaAttributeNotification<?> notification = requireChange(FOREGROUND, aForeground, false);
 		if (notification != null) {
 			if (foreground != null) {
 				foreground.getPropertyChangeSupport().removePropertyChangeListener(this);
@@ -179,7 +179,7 @@ public abstract class GeometricGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setBackground(BackgroundStyle aBackground) {
-		FGEAttributeNotification<?> notification = requireChange(BACKGROUND, aBackground, false);
+		DianaAttributeNotification<?> notification = requireChange(BACKGROUND, aBackground, false);
 		if (notification != null) {
 			// background = aBackground.clone();
 			if (background != null) {
@@ -213,7 +213,7 @@ public abstract class GeometricGraphicalRepresentationImpl extends GraphicalRepr
 	
 	@Override
 	public void setLayer(int layer) {
-		FGENotification notification = requireChange(Parameters.layer, layer);
+		DianaNotification notification = requireChange(Parameters.layer, layer);
 		if (notification != null) {
 			this.layer = layer;
 			hasChanged(notification);
@@ -237,20 +237,20 @@ public abstract class GeometricGraphicalRepresentationImpl extends GraphicalRepr
 	}
 
 	@Override
-	public FGEArea getGeometricObject() {
+	public DianaArea getGeometricObject() {
 		return geometricObject;
 	}
 
 	@Override
-	public void setGeometricObject(FGEArea geometricObject) {
-		FGEAttributeNotification<?> notification = requireChange(GEOMETRIC_OBJECT, geometricObject);
+	public void setGeometricObject(DianaArea geometricObject) {
+		DianaAttributeNotification<?> notification = requireChange(GEOMETRIC_OBJECT, geometricObject);
 		if (notification != null) {
 			this.geometricObject = geometricObject;
 			hasChanged(notification);
 		}
 	}
 
-	/*protected final void notifyCPDragged(String name, FGEPoint newLocation)
+	/*protected final void notifyCPDragged(String name, DianaPoint newLocation)
 	{
 		notifyGeometryChanged();
 		rebuildControlPoints();

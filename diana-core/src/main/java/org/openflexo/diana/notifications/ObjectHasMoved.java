@@ -39,9 +39,9 @@
 
 package org.openflexo.diana.notifications;
 
-import org.openflexo.diana.notifications.FGEEvent;
+import org.openflexo.diana.notifications.DianaEvent;
 
-public class ObjectHasMoved extends FGEEvent {
+public class ObjectHasMoved extends DianaEvent {
 
 	public static final String EVENT_NAME = "ObjectHasMoved";
 

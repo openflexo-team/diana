@@ -38,17 +38,17 @@
 
 package org.openflexo.diana.layout;
 
-import org.openflexo.diana.FGELayoutManager;
+import org.openflexo.diana.DianaLayoutManager;
 import org.openflexo.model.annotations.ModelEntity;
 
 /**
- * Abstract api of a {@link FGELayoutManager} generally handling graphs with an iterative process<br>
+ * Abstract api of a {@link DianaLayoutManager} generally handling graphs with an iterative process<br>
  * 
  * @author sylvain
  * 
  */
 @ModelEntity(isAbstract = true)
-public interface GraphBasedLayoutManager<LMS extends GraphBasedLayoutManagerSpecification<?>, O> extends FGELayoutManager<LMS, O> {
+public interface GraphBasedLayoutManager<LMS extends GraphBasedLayoutManagerSpecification<?>, O> extends DianaLayoutManager<LMS, O> {
 
 	public int getStepsNumber();
 

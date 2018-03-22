@@ -56,28 +56,28 @@ import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
 import org.openflexo.diana.cp.GeometryAdjustingControlPoint;
-import org.openflexo.diana.geom.FGEAbstractLine;
-import org.openflexo.diana.geom.FGECircle;
-import org.openflexo.diana.geom.FGECubicCurve;
-import org.openflexo.diana.geom.FGEDimension;
-import org.openflexo.diana.geom.FGEEllips;
-import org.openflexo.diana.geom.FGEGeneralShape;
-import org.openflexo.diana.geom.FGELine;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGEPolygon;
-import org.openflexo.diana.geom.FGEPolylin;
-import org.openflexo.diana.geom.FGEQuadCurve;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGERoundRectangle;
-import org.openflexo.diana.geom.FGESegment;
-import org.openflexo.diana.geom.FGEShape;
-import org.openflexo.diana.geom.FGEGeneralShape.GeneralShapePathElement;
-import org.openflexo.diana.geom.FGEGeometricObject.CardinalQuadrant;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEPlane;
-import org.openflexo.diana.geom.area.FGEQuarterPlane;
-import org.openflexo.diana.graphics.FGEGeometricGraphics;
+import org.openflexo.diana.geom.DianaAbstractLine;
+import org.openflexo.diana.geom.DianaCircle;
+import org.openflexo.diana.geom.DianaCubicCurve;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaEllips;
+import org.openflexo.diana.geom.DianaGeneralShape;
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geom.DianaPolylin;
+import org.openflexo.diana.geom.DianaQuadCurve;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaRoundRectangle;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.geom.DianaGeneralShape.GeneralShapePathElement;
+import org.openflexo.diana.geom.DianaGeometricObject.CardinalQuadrant;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaPlane;
+import org.openflexo.diana.geom.area.DianaQuarterPlane;
+import org.openflexo.diana.graphics.DianaGeometricGraphics;
 import org.openflexo.diana.notifications.GeometryModified;
 import org.openflexo.toolbox.ConcatenedList;
 
@@ -85,7 +85,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 
 	private static final Logger logger = Logger.getLogger(GeometricNodeImpl.class.getPackage().getName());
 
-	// protected FGEGeometricGraphicsImpl graphics;
+	// protected DianaGeometricGraphicsImpl graphics;
 
 	protected List<ControlPoint> controlPoints;
 
@@ -93,7 +93,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	public GeometricNodeImpl(DrawingImpl<?> drawingImpl, O drawable, GRBinding<O, GeometricGraphicalRepresentation> grBinding,
 			ContainerNodeImpl<?, ?> parentNode) {
 		super(drawingImpl, drawable, grBinding, parentNode);
-		// graphics = new FGEGeometricGraphicsImpl(this);
+		// graphics = new DianaGeometricGraphicsImpl(this);
 		startDrawableObserving();
 	}
 
@@ -137,7 +137,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	}
 
 	/*@Override
-	public FGEGeometricGraphicsImpl getGraphics() {
+	public DianaGeometricGraphicsImpl getGraphics() {
 		return graphics;
 	}*/
 
@@ -198,15 +198,15 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	}
 
 	@Override
-	public FGERectangle getNormalizedBounds() {
+	public DianaRectangle getNormalizedBounds() {
 		Rectangle bounds = getBounds(1);
-		return new FGERectangle(0, 0, bounds.width, bounds.height, Filling.FILLED);
+		return new DianaRectangle(0, 0, bounds.width, bounds.height, Filling.FILLED);
 	}
 
 	@Override
 	public boolean isContainedInSelection(Rectangle drawingViewSelection, double scale) {
-		// Unused FGERectangle drawingViewBounds =
-		new FGERectangle(drawingViewSelection.getX(), drawingViewSelection.getY(), drawingViewSelection.getWidth(),
+		// Unused DianaRectangle drawingViewBounds =
+		new DianaRectangle(drawingViewSelection.getX(), drawingViewSelection.getY(), drawingViewSelection.getWidth(),
 				drawingViewSelection.getHeight(), Filling.FILLED);
 		boolean isFullyContained = true;
 		/*	for (ControlPoint cp : getConnector().getControlPoints()) {
@@ -214,7 +214,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 					cp.getPoint(), 
 					getDrawingGraphicalRepresentation(), 
 					scale);
-			FGEPoint preciseCPInContainerView = new FGEPoint(cpInContainerView.x,cpInContainerView.y);
+			DianaPoint preciseCPInContainerView = new DianaPoint(cpInContainerView.x,cpInContainerView.y);
 			if (!drawingViewBounds.containsPoint(preciseCPInContainerView)) {
 				//System.out.println("Going outside: point="+preciseCPInContainerView+" bounds="+containerViewBounds);
 				isFullyContained = false;
@@ -224,7 +224,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	}
 
 	@Override
-	public void paint(FGEGeometricGraphics g) {
+	public void paint(DianaGeometricGraphics g) {
 		/*if (!isRegistered()) {
 			setRegistered(true);
 		}*/
@@ -274,7 +274,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 		if (hasFloatingLabel()) {
 			g.useTextStyle(getGraphicalRepresentation().getTextStyle());
 			g.drawString(getGraphicalRepresentation().getText(),
-					new FGEPoint(getLabelRelativePosition().x + getGraphicalRepresentation().getAbsoluteTextX(),
+					new DianaPoint(getLabelRelativePosition().x + getGraphicalRepresentation().getAbsoluteTextX(),
 							getLabelRelativePosition().y + getGraphicalRepresentation().getAbsoluteTextY()),
 					getGraphicalRepresentation().getHorizontalTextAlignment());
 		}
@@ -283,280 +283,280 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	}
 
 	@Override
-	public void paintGeometricObject(FGEGeometricGraphics graphics) {
+	public void paintGeometricObject(DianaGeometricGraphics graphics) {
 		getGraphicalRepresentation().getGeometricObject().paint(graphics);
 	}
 
-	protected FGEPoint getLabelRelativePosition() {
-		if (getGraphicalRepresentation().getGeometricObject() instanceof FGEPoint) {
-			return (FGEPoint) getGraphicalRepresentation().getGeometricObject();
+	protected DianaPoint getLabelRelativePosition() {
+		if (getGraphicalRepresentation().getGeometricObject() instanceof DianaPoint) {
+			return (DianaPoint) getGraphicalRepresentation().getGeometricObject();
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof FGEAbstractLine) {
-			FGEAbstractLine<?> line = (FGEAbstractLine<?>) getGraphicalRepresentation().getGeometricObject();
-			return new FGESegment(line.getP1(), line.getP2()).getMiddle();
+		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaAbstractLine) {
+			DianaAbstractLine<?> line = (DianaAbstractLine<?>) getGraphicalRepresentation().getGeometricObject();
+			return new DianaSegment(line.getP1(), line.getP2()).getMiddle();
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof FGEShape) {
-			return ((FGEShape<?>) getGraphicalRepresentation().getGeometricObject()).getCenter();
+		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaShape) {
+			return ((DianaShape<?>) getGraphicalRepresentation().getGeometricObject()).getCenter();
 		}
-		return new FGEPoint(0, 0);
+		return new DianaPoint(0, 0);
 	}
 
-	protected List<ControlPoint> buildControlPointsForPoint(FGEPoint point) {
+	protected List<ControlPoint> buildControlPointsForPoint(DianaPoint point) {
 		Vector<ControlPoint> returned = new Vector<>();
-		returned.add(new GeometryAdjustingControlPoint<FGEPoint>(this, "point", point.clone()) {
+		returned.add(new GeometryAdjustingControlPoint<DianaPoint>(this, "point", point.clone()) {
 			@Override
-			public FGEArea getDraggingAuthorizedArea() {
-				return new FGEPlane();
+			public DianaArea getDraggingAuthorizedArea() {
+				return new DianaPlane();
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
-				((FGEPoint) getGraphicalRepresentation().getGeometricObject()).x = newAbsolutePoint.x;
-				((FGEPoint) getGraphicalRepresentation().getGeometricObject()).y = newAbsolutePoint.y;
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+					DianaPoint initialPoint, MouseEvent event) {
+				((DianaPoint) getGraphicalRepresentation().getGeometricObject()).x = newAbsolutePoint.x;
+				((DianaPoint) getGraphicalRepresentation().getGeometricObject()).y = newAbsolutePoint.y;
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
 			}
 
 			@Override
-			public void update(FGEPoint geometricObject) {
+			public void update(DianaPoint geometricObject) {
 				setPoint(geometricObject);
 			}
 		});
 		return returned;
 	}
 
-	protected List<ControlPoint> buildControlPointsForLine(FGEAbstractLine<?> line) {
+	protected List<ControlPoint> buildControlPointsForLine(DianaAbstractLine<?> line) {
 		Vector<ControlPoint> returned = new Vector<>();
-		returned.add(new GeometryAdjustingControlPoint<FGELine>(this, "p1", line.getP1()) {
+		returned.add(new GeometryAdjustingControlPoint<DianaLine>(this, "p1", line.getP1()) {
 			@Override
-			public FGEArea getDraggingAuthorizedArea() {
-				return new FGEPlane();
+			public DianaArea getDraggingAuthorizedArea() {
+				return new DianaPlane();
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
-				((FGELine) getGraphicalRepresentation().getGeometricObject()).setP1(newAbsolutePoint);
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+					DianaPoint initialPoint, MouseEvent event) {
+				((DianaLine) getGraphicalRepresentation().getGeometricObject()).setP1(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
 			}
 
 			@Override
-			public void update(FGELine geometricObject) {
+			public void update(DianaLine geometricObject) {
 				setPoint(geometricObject.getP1());
 			}
 		});
-		returned.add(new GeometryAdjustingControlPoint<FGELine>(this, "p2", line.getP2()) {
+		returned.add(new GeometryAdjustingControlPoint<DianaLine>(this, "p2", line.getP2()) {
 			@Override
-			public FGEArea getDraggingAuthorizedArea() {
-				return new FGEPlane();
+			public DianaArea getDraggingAuthorizedArea() {
+				return new DianaPlane();
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
-				((FGELine) getGraphicalRepresentation().getGeometricObject()).setP2(newAbsolutePoint);
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+					DianaPoint initialPoint, MouseEvent event) {
+				((DianaLine) getGraphicalRepresentation().getGeometricObject()).setP2(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
 			}
 
 			@Override
-			public void update(FGELine geometricObject) {
+			public void update(DianaLine geometricObject) {
 				setPoint(geometricObject.getP2());
 			}
 		});
 		return returned;
 	}
 
-	protected List<ControlPoint> buildControlPointsForCurve(FGEQuadCurve curve) {
+	protected List<ControlPoint> buildControlPointsForCurve(DianaQuadCurve curve) {
 		Vector<ControlPoint> returned = new Vector<>();
-		returned.add(new GeometryAdjustingControlPoint<FGEQuadCurve>(this, "p1", curve.getP1()) {
+		returned.add(new GeometryAdjustingControlPoint<DianaQuadCurve>(this, "p1", curve.getP1()) {
 			@Override
-			public FGEArea getDraggingAuthorizedArea() {
-				return new FGEPlane();
+			public DianaArea getDraggingAuthorizedArea() {
+				return new DianaPlane();
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
-				((FGEQuadCurve) getGraphicalRepresentation().getGeometricObject()).setP1(newAbsolutePoint);
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+					DianaPoint initialPoint, MouseEvent event) {
+				((DianaQuadCurve) getGraphicalRepresentation().getGeometricObject()).setP1(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
 			}
 
 			@Override
-			public void update(FGEQuadCurve geometricObject) {
+			public void update(DianaQuadCurve geometricObject) {
 				setPoint(geometricObject.getP1());
 			}
 		});
-		returned.add(new GeometryAdjustingControlPoint<FGEQuadCurve>(this, "cp", curve.getCtrlPoint()) {
+		returned.add(new GeometryAdjustingControlPoint<DianaQuadCurve>(this, "cp", curve.getCtrlPoint()) {
 			@Override
-			public FGEArea getDraggingAuthorizedArea() {
-				return new FGEPlane();
+			public DianaArea getDraggingAuthorizedArea() {
+				return new DianaPlane();
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
-				((FGEQuadCurve) getGraphicalRepresentation().getGeometricObject()).setCtrlPoint(newAbsolutePoint);
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+					DianaPoint initialPoint, MouseEvent event) {
+				((DianaQuadCurve) getGraphicalRepresentation().getGeometricObject()).setCtrlPoint(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
 			}
 
 			@Override
-			public void update(FGEQuadCurve geometricObject) {
+			public void update(DianaQuadCurve geometricObject) {
 				setPoint(geometricObject.getCtrlPoint());
 			}
 		});
-		returned.add(new GeometryAdjustingControlPoint<FGEQuadCurve>(this, "p3", curve.getP3()) {
+		returned.add(new GeometryAdjustingControlPoint<DianaQuadCurve>(this, "p3", curve.getP3()) {
 			@Override
-			public FGEArea getDraggingAuthorizedArea() {
-				return new FGEPlane();
+			public DianaArea getDraggingAuthorizedArea() {
+				return new DianaPlane();
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
-				((FGEQuadCurve) getGraphicalRepresentation().getGeometricObject()).setP3(newAbsolutePoint);
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+					DianaPoint initialPoint, MouseEvent event) {
+				((DianaQuadCurve) getGraphicalRepresentation().getGeometricObject()).setP3(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
 			}
 
 			@Override
-			public void update(FGEQuadCurve geometricObject) {
+			public void update(DianaQuadCurve geometricObject) {
 				setPoint(geometricObject.getP3());
 			}
 		});
-		returned.add(new GeometryAdjustingControlPoint<FGEQuadCurve>(this, "p2", curve.getP2()) {
+		returned.add(new GeometryAdjustingControlPoint<DianaQuadCurve>(this, "p2", curve.getP2()) {
 			@Override
-			public FGEArea getDraggingAuthorizedArea() {
-				return new FGEPlane();
+			public DianaArea getDraggingAuthorizedArea() {
+				return new DianaPlane();
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
-				((FGEQuadCurve) getGraphicalRepresentation().getGeometricObject()).setP2(newAbsolutePoint);
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+					DianaPoint initialPoint, MouseEvent event) {
+				((DianaQuadCurve) getGraphicalRepresentation().getGeometricObject()).setP2(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
 			}
 
 			@Override
-			public void update(FGEQuadCurve geometricObject) {
+			public void update(DianaQuadCurve geometricObject) {
 				setPoint(geometricObject.getP2());
 			}
 		});
 		return returned;
 	}
 
-	protected List<ControlPoint> buildControlPointsForCurve(FGECubicCurve curve) {
+	protected List<ControlPoint> buildControlPointsForCurve(DianaCubicCurve curve) {
 		Vector<ControlPoint> returned = new Vector<>();
-		returned.add(new GeometryAdjustingControlPoint<FGECubicCurve>(this, "p1", curve.getP1()) {
+		returned.add(new GeometryAdjustingControlPoint<DianaCubicCurve>(this, "p1", curve.getP1()) {
 			@Override
-			public FGEArea getDraggingAuthorizedArea() {
-				return new FGEPlane();
+			public DianaArea getDraggingAuthorizedArea() {
+				return new DianaPlane();
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
-				((FGECubicCurve) getGraphicalRepresentation().getGeometricObject()).setP1(newAbsolutePoint);
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+					DianaPoint initialPoint, MouseEvent event) {
+				((DianaCubicCurve) getGraphicalRepresentation().getGeometricObject()).setP1(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
 			}
 
 			@Override
-			public void update(FGECubicCurve geometricObject) {
+			public void update(DianaCubicCurve geometricObject) {
 				setPoint(geometricObject.getP1());
 			}
 		});
-		returned.add(new GeometryAdjustingControlPoint<FGECubicCurve>(this, "cp1", curve.getCtrlP1()) {
+		returned.add(new GeometryAdjustingControlPoint<DianaCubicCurve>(this, "cp1", curve.getCtrlP1()) {
 			@Override
-			public FGEArea getDraggingAuthorizedArea() {
-				return new FGEPlane();
+			public DianaArea getDraggingAuthorizedArea() {
+				return new DianaPlane();
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
-				((FGECubicCurve) getGraphicalRepresentation().getGeometricObject()).setCtrlP1(newAbsolutePoint);
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+					DianaPoint initialPoint, MouseEvent event) {
+				((DianaCubicCurve) getGraphicalRepresentation().getGeometricObject()).setCtrlP1(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
 			}
 
 			@Override
-			public void update(FGECubicCurve geometricObject) {
+			public void update(DianaCubicCurve geometricObject) {
 				setPoint(geometricObject.getCtrlP1());
 			}
 		});
-		returned.add(new GeometryAdjustingControlPoint<FGECubicCurve>(this, "cp2", curve.getCtrlP2()) {
+		returned.add(new GeometryAdjustingControlPoint<DianaCubicCurve>(this, "cp2", curve.getCtrlP2()) {
 			@Override
-			public FGEArea getDraggingAuthorizedArea() {
-				return new FGEPlane();
+			public DianaArea getDraggingAuthorizedArea() {
+				return new DianaPlane();
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
-				((FGECubicCurve) getGraphicalRepresentation().getGeometricObject()).setCtrlP2(newAbsolutePoint);
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+					DianaPoint initialPoint, MouseEvent event) {
+				((DianaCubicCurve) getGraphicalRepresentation().getGeometricObject()).setCtrlP2(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
 			}
 
 			@Override
-			public void update(FGECubicCurve geometricObject) {
+			public void update(DianaCubicCurve geometricObject) {
 				setPoint(geometricObject.getCtrlP2());
 			}
 		});
-		returned.add(new GeometryAdjustingControlPoint<FGECubicCurve>(this, "p2", curve.getP2()) {
+		returned.add(new GeometryAdjustingControlPoint<DianaCubicCurve>(this, "p2", curve.getP2()) {
 			@Override
-			public FGEArea getDraggingAuthorizedArea() {
-				return new FGEPlane();
+			public DianaArea getDraggingAuthorizedArea() {
+				return new DianaPlane();
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
-				((FGECubicCurve) getGraphicalRepresentation().getGeometricObject()).setP2(newAbsolutePoint);
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+					DianaPoint initialPoint, MouseEvent event) {
+				((DianaCubicCurve) getGraphicalRepresentation().getGeometricObject()).setP2(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
 			}
 
 			@Override
-			public void update(FGECubicCurve geometricObject) {
+			public void update(DianaCubicCurve geometricObject) {
 				setPoint(geometricObject.getP2());
 			}
 		});
 		return returned;
 	}
 
-	protected List<ControlPoint> buildControlPointsForPolygon(FGEPolygon polygon) {
+	protected List<ControlPoint> buildControlPointsForPolygon(DianaPolygon polygon) {
 		Vector<ControlPoint> returned = new Vector<>();
 
 		for (int i = 0; i < polygon.getPointsNb(); i++) {
 			final int index = i;
-			returned.add(new GeometryAdjustingControlPoint<FGEPolygon>(this, "p" + i, polygon.getPointAt(i)) {
+			returned.add(new GeometryAdjustingControlPoint<DianaPolygon>(this, "p" + i, polygon.getPointAt(i)) {
 				@Override
-				public FGEArea getDraggingAuthorizedArea() {
-					return new FGEPlane();
+				public DianaArea getDraggingAuthorizedArea() {
+					return new DianaPlane();
 				}
 
 				@Override
-				public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-						FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
-					FGEPoint p = ((FGEPolygon) getGraphicalRepresentation().getGeometricObject()).getPointAt(index);
+				public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+						DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
+					DianaPoint p = ((DianaPolygon) getGraphicalRepresentation().getGeometricObject()).getPointAt(index);
 					p.x = newAbsolutePoint.x;
 					p.y = newAbsolutePoint.y;
 					setPoint(newAbsolutePoint);
@@ -565,7 +565,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 				}
 
 				@Override
-				public void update(FGEPolygon geometricObject) {
+				public void update(DianaPolygon geometricObject) {
 					if (geometricObject == null) {
 						return;
 					}
@@ -576,21 +576,21 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 		return returned;
 	}
 
-	protected List<ControlPoint> buildControlPointsForPolylin(FGEPolylin polylin) {
+	protected List<ControlPoint> buildControlPointsForPolylin(DianaPolylin polylin) {
 		Vector<ControlPoint> returned = new Vector<>();
 
 		for (int i = 0; i < polylin.getPointsNb(); i++) {
 			final int index = i;
-			returned.add(new GeometryAdjustingControlPoint<FGEPolylin>(this, "p" + i, polylin.getPointAt(i)) {
+			returned.add(new GeometryAdjustingControlPoint<DianaPolylin>(this, "p" + i, polylin.getPointAt(i)) {
 				@Override
-				public FGEArea getDraggingAuthorizedArea() {
-					return new FGEPlane();
+				public DianaArea getDraggingAuthorizedArea() {
+					return new DianaPlane();
 				}
 
 				@Override
-				public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-						FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
-					FGEPoint p = ((FGEPolylin) getGraphicalRepresentation().getGeometricObject()).getPointAt(index);
+				public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+						DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
+					DianaPoint p = ((DianaPolylin) getGraphicalRepresentation().getGeometricObject()).getPointAt(index);
 					p.x = newAbsolutePoint.x;
 					p.y = newAbsolutePoint.y;
 					setPoint(newAbsolutePoint);
@@ -599,7 +599,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 				}
 
 				@Override
-				public void update(FGEPolylin geometricObject) {
+				public void update(DianaPolylin geometricObject) {
 					setPoint(geometricObject.getPointAt(index));
 				}
 			});
@@ -607,154 +607,154 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 		return returned;
 	}
 
-	protected List<ControlPoint> buildControlPointsForEllips(FGEEllips ellips) {
+	protected List<ControlPoint> buildControlPointsForEllips(DianaEllips ellips) {
 		Vector<ControlPoint> returned = new Vector<>();
 		// TODO
 		return returned;
 	}
 
-	protected List<ControlPoint> buildControlPointsForRectangle(FGERectangle rectangle) {
+	protected List<ControlPoint> buildControlPointsForRectangle(DianaRectangle rectangle) {
 		Vector<ControlPoint> returned = new Vector<>();
-		returned.add(new GeometryAdjustingControlPoint<FGERectangle>(this, "northWest", rectangle.getNorthWestPt()) {
+		returned.add(new GeometryAdjustingControlPoint<DianaRectangle>(this, "northWest", rectangle.getNorthWestPt()) {
 			private double initialWidth;
 			private double initialHeight;
 
 			@Override
-			public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
-				initialWidth = ((FGERectangle) getGraphicalRepresentation().getGeometricObject()).width;
-				initialHeight = ((FGERectangle) getGraphicalRepresentation().getGeometricObject()).height;
-				setDraggingAuthorizedArea(FGEQuarterPlane.makeFGEQuarterPlane(
-						((FGERectangle) getGraphicalRepresentation().getGeometricObject()).getSouthEastPt(), CardinalQuadrant.NORTH_WEST));
+			public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
+				initialWidth = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width;
+				initialHeight = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height;
+				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
+						((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).getSouthEastPt(), CardinalQuadrant.NORTH_WEST));
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
-				FGEPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+					DianaPoint initialPoint, MouseEvent event) {
+				DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 				setPoint(pt);
 
-				((FGERectangle) getGraphicalRepresentation().getGeometricObject()).x = pt.x;
-				((FGERectangle) getGraphicalRepresentation().getGeometricObject()).y = pt.y;
-				((FGERectangle) getGraphicalRepresentation().getGeometricObject()).width = -pt.x + initialPoint.x + initialWidth;
-				((FGERectangle) getGraphicalRepresentation().getGeometricObject()).height = -pt.y + initialPoint.y + initialHeight;
+				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).x = pt.x;
+				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).y = pt.y;
+				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width = -pt.x + initialPoint.x + initialWidth;
+				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height = -pt.y + initialPoint.y + initialHeight;
 
 				notifyGeometryChanged();
 				return true;
 			}
 
 			@Override
-			public void update(FGERectangle geometricObject) {
+			public void update(DianaRectangle geometricObject) {
 				setPoint(geometricObject.getNorthWestPt());
 			}
 		});
-		returned.add(new GeometryAdjustingControlPoint<FGERectangle>(this, "northEast", rectangle.getNorthEastPt()) {
+		returned.add(new GeometryAdjustingControlPoint<DianaRectangle>(this, "northEast", rectangle.getNorthEastPt()) {
 			private double initialWidth;
 			private double initialHeight;
 
 			@Override
-			public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
-				initialWidth = ((FGERectangle) getGraphicalRepresentation().getGeometricObject()).width;
-				initialHeight = ((FGERectangle) getGraphicalRepresentation().getGeometricObject()).height;
-				setDraggingAuthorizedArea(FGEQuarterPlane.makeFGEQuarterPlane(
-						((FGERectangle) getGraphicalRepresentation().getGeometricObject()).getSouthWestPt(), CardinalQuadrant.NORTH_EAST));
+			public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
+				initialWidth = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width;
+				initialHeight = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height;
+				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
+						((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).getSouthWestPt(), CardinalQuadrant.NORTH_EAST));
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
-				FGEPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+					DianaPoint initialPoint, MouseEvent event) {
+				DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 				setPoint(pt);
 
-				((FGERectangle) getGraphicalRepresentation().getGeometricObject()).y = pt.y;
-				((FGERectangle) getGraphicalRepresentation().getGeometricObject()).width = pt.x - initialPoint.x + initialWidth;
-				((FGERectangle) getGraphicalRepresentation().getGeometricObject()).height = -pt.y + initialPoint.y + initialHeight;
+				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).y = pt.y;
+				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width = pt.x - initialPoint.x + initialWidth;
+				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height = -pt.y + initialPoint.y + initialHeight;
 
 				notifyGeometryChanged();
 				return true;
 			}
 
 			@Override
-			public void update(FGERectangle geometricObject) {
+			public void update(DianaRectangle geometricObject) {
 				setPoint(geometricObject.getNorthEastPt());
 			}
 		});
-		returned.add(new GeometryAdjustingControlPoint<FGERectangle>(this, "southWest", rectangle.getSouthWestPt()) {
+		returned.add(new GeometryAdjustingControlPoint<DianaRectangle>(this, "southWest", rectangle.getSouthWestPt()) {
 			private double initialWidth;
 			private double initialHeight;
 
 			@Override
-			public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
-				initialWidth = ((FGERectangle) getGraphicalRepresentation().getGeometricObject()).width;
-				initialHeight = ((FGERectangle) getGraphicalRepresentation().getGeometricObject()).height;
-				setDraggingAuthorizedArea(FGEQuarterPlane.makeFGEQuarterPlane(
-						((FGERectangle) getGraphicalRepresentation().getGeometricObject()).getNorthEastPt(), CardinalQuadrant.SOUTH_WEST));
+			public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
+				initialWidth = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width;
+				initialHeight = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height;
+				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
+						((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).getNorthEastPt(), CardinalQuadrant.SOUTH_WEST));
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
-				FGEPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+					DianaPoint initialPoint, MouseEvent event) {
+				DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 				setPoint(pt);
 
-				((FGERectangle) getGraphicalRepresentation().getGeometricObject()).x = pt.x;
-				((FGERectangle) getGraphicalRepresentation().getGeometricObject()).width = -pt.x + initialPoint.x + initialWidth;
-				((FGERectangle) getGraphicalRepresentation().getGeometricObject()).height = pt.y - initialPoint.y + initialHeight;
+				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).x = pt.x;
+				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width = -pt.x + initialPoint.x + initialWidth;
+				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height = pt.y - initialPoint.y + initialHeight;
 
 				notifyGeometryChanged();
 				return true;
 			}
 
 			@Override
-			public void update(FGERectangle geometricObject) {
+			public void update(DianaRectangle geometricObject) {
 				setPoint(geometricObject.getSouthWestPt());
 			}
 		});
-		returned.add(new GeometryAdjustingControlPoint<FGERectangle>(this, "southEast", rectangle.getSouthEastPt()) {
+		returned.add(new GeometryAdjustingControlPoint<DianaRectangle>(this, "southEast", rectangle.getSouthEastPt()) {
 			private double initialWidth;
 			private double initialHeight;
 
 			@Override
-			public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
-				initialWidth = ((FGERectangle) getGraphicalRepresentation().getGeometricObject()).width;
-				initialHeight = ((FGERectangle) getGraphicalRepresentation().getGeometricObject()).height;
-				setDraggingAuthorizedArea(FGEQuarterPlane.makeFGEQuarterPlane(
-						((FGERectangle) getGraphicalRepresentation().getGeometricObject()).getNorthWestPt(), CardinalQuadrant.SOUTH_EAST));
+			public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
+				initialWidth = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width;
+				initialHeight = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height;
+				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
+						((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).getNorthWestPt(), CardinalQuadrant.SOUTH_EAST));
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
-				FGEPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+					DianaPoint initialPoint, MouseEvent event) {
+				DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 				setPoint(pt);
 
-				((FGERectangle) getGraphicalRepresentation().getGeometricObject()).width = pt.x - initialPoint.x + initialWidth;
-				((FGERectangle) getGraphicalRepresentation().getGeometricObject()).height = pt.y - initialPoint.y + initialHeight;
+				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width = pt.x - initialPoint.x + initialWidth;
+				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height = pt.y - initialPoint.y + initialHeight;
 
 				notifyGeometryChanged();
 				return true;
 			}
 
 			@Override
-			public void update(FGERectangle geometricObject) {
+			public void update(DianaRectangle geometricObject) {
 				setPoint(geometricObject.getSouthEastPt());
 			}
 		});
 		return returned;
 	}
 
-	protected List<ControlPoint> buildControlPointsForGeneralShape(FGEGeneralShape<?> shape) {
+	protected List<ControlPoint> buildControlPointsForGeneralShape(DianaGeneralShape<?> shape) {
 		Vector<ControlPoint> returned = new Vector<>();
 
-		returned.add(new GeometryAdjustingControlPoint<FGEGeneralShape<?>>(this, "p0", shape.getPathElements().firstElement().getP1()) {
+		returned.add(new GeometryAdjustingControlPoint<DianaGeneralShape<?>>(this, "p0", shape.getPathElements().firstElement().getP1()) {
 			@Override
-			public FGEArea getDraggingAuthorizedArea() {
-				return new FGEPlane();
+			public DianaArea getDraggingAuthorizedArea() {
+				return new DianaPlane();
 			}
 
 			@Override
-			public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-					FGEPoint initialPoint, MouseEvent event) {
-				FGEPoint p = ((FGEGeneralShape<?>) getGraphicalRepresentation().getGeometricObject()).getPathElements().firstElement()
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
+					DianaPoint initialPoint, MouseEvent event) {
+				DianaPoint p = ((DianaGeneralShape<?>) getGraphicalRepresentation().getGeometricObject()).getPathElements().firstElement()
 						.getP1();
 				p.x = newAbsolutePoint.x;
 				p.y = newAbsolutePoint.y;
@@ -764,7 +764,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			}
 
 			@Override
-			public void update(FGEGeneralShape<?> geometricObject) {
+			public void update(DianaGeneralShape<?> geometricObject) {
 				if (geometricObject != null && geometricObject.getPathElements() != null && geometricObject.getPathElements().size() > 0) {
 					setPoint(geometricObject.getPathElements().firstElement().getP1());
 				}
@@ -773,27 +773,27 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 		for (int i = 0; i < shape.getPathElements().size(); i++) {
 			final int index = i;
 			GeneralShapePathElement<?> element = shape.getPathElements().get(i);
-			returned.add(new GeometryAdjustingControlPoint<FGEGeneralShape<?>>(this, "p" + i, element.getP2()) {
+			returned.add(new GeometryAdjustingControlPoint<DianaGeneralShape<?>>(this, "p" + i, element.getP2()) {
 				@Override
-				public FGEArea getDraggingAuthorizedArea() {
-					return new FGEPlane();
+				public DianaArea getDraggingAuthorizedArea() {
+					return new DianaPlane();
 				}
 
 				@Override
-				public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-						FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
-					FGEPoint p = ((FGEGeneralShape<?>) getGraphicalRepresentation().getGeometricObject()).getPathElements().get(index)
+				public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+						DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
+					DianaPoint p = ((DianaGeneralShape<?>) getGraphicalRepresentation().getGeometricObject()).getPathElements().get(index)
 							.getP2();
 					p.x = newAbsolutePoint.x;
 					p.y = newAbsolutePoint.y;
-					((FGEGeneralShape<?>) getGraphicalRepresentation().getGeometricObject()).refresh();
+					((DianaGeneralShape<?>) getGraphicalRepresentation().getGeometricObject()).refresh();
 					setPoint(newAbsolutePoint);
 					notifyGeometryChanged();
 					return true;
 				}
 
 				@Override
-				public void update(FGEGeneralShape<?> geometricObject) {
+				public void update(DianaGeneralShape<?> geometricObject) {
 					if (geometricObject != null && geometricObject.getPathElements() != null
 							&& geometricObject.getPathElements().size() > 0) {
 						setPoint(geometricObject.getPathElements().get(index).getP2());
@@ -831,36 +831,36 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			return controlPoints;
 		}
 
-		if (getGraphicalRepresentation().getGeometricObject() instanceof FGEPoint) {
-			controlPoints.addAll(buildControlPointsForPoint((FGEPoint) getGraphicalRepresentation().getGeometricObject()));
+		if (getGraphicalRepresentation().getGeometricObject() instanceof DianaPoint) {
+			controlPoints.addAll(buildControlPointsForPoint((DianaPoint) getGraphicalRepresentation().getGeometricObject()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof FGEAbstractLine) {
-			controlPoints.addAll(buildControlPointsForLine((FGEAbstractLine<?>) getGraphicalRepresentation().getGeometricObject()));
+		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaAbstractLine) {
+			controlPoints.addAll(buildControlPointsForLine((DianaAbstractLine<?>) getGraphicalRepresentation().getGeometricObject()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof FGERectangle) {
-			controlPoints.addAll(buildControlPointsForRectangle((FGERectangle) getGraphicalRepresentation().getGeometricObject()));
+		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaRectangle) {
+			controlPoints.addAll(buildControlPointsForRectangle((DianaRectangle) getGraphicalRepresentation().getGeometricObject()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof FGERoundRectangle) {
+		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaRoundRectangle) {
 			controlPoints.addAll(buildControlPointsForRectangle(
-					((FGERoundRectangle) getGraphicalRepresentation().getGeometricObject()).getBoundingBox()));
+					((DianaRoundRectangle) getGraphicalRepresentation().getGeometricObject()).getBoundingBox()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof FGEEllips) {
-			controlPoints.addAll(buildControlPointsForEllips((FGEEllips) getGraphicalRepresentation().getGeometricObject()));
+		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaEllips) {
+			controlPoints.addAll(buildControlPointsForEllips((DianaEllips) getGraphicalRepresentation().getGeometricObject()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof FGEPolygon) {
-			controlPoints.addAll(buildControlPointsForPolygon((FGEPolygon) getGraphicalRepresentation().getGeometricObject()));
+		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaPolygon) {
+			controlPoints.addAll(buildControlPointsForPolygon((DianaPolygon) getGraphicalRepresentation().getGeometricObject()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof FGEPolylin) {
-			controlPoints.addAll(buildControlPointsForPolylin((FGEPolylin) getGraphicalRepresentation().getGeometricObject()));
+		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaPolylin) {
+			controlPoints.addAll(buildControlPointsForPolylin((DianaPolylin) getGraphicalRepresentation().getGeometricObject()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof FGEQuadCurve) {
-			controlPoints.addAll(buildControlPointsForCurve((FGEQuadCurve) getGraphicalRepresentation().getGeometricObject()));
+		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaQuadCurve) {
+			controlPoints.addAll(buildControlPointsForCurve((DianaQuadCurve) getGraphicalRepresentation().getGeometricObject()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof FGECubicCurve) {
-			controlPoints.addAll(buildControlPointsForCurve((FGECubicCurve) getGraphicalRepresentation().getGeometricObject()));
+		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaCubicCurve) {
+			controlPoints.addAll(buildControlPointsForCurve((DianaCubicCurve) getGraphicalRepresentation().getGeometricObject()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof FGEGeneralShape) {
-			controlPoints.addAll(buildControlPointsForGeneralShape((FGEGeneralShape<?>) getGraphicalRepresentation().getGeometricObject()));
+		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaGeneralShape) {
+			controlPoints.addAll(buildControlPointsForGeneralShape((DianaGeneralShape<?>) getGraphicalRepresentation().getGeometricObject()));
 		}
 
 		// controlPoints.addAll(index, c)
@@ -875,28 +875,28 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 		updateControlPoints();
 		notifyObservers(new GeometryModified());
 		// Hack: for the inspector !!!
-		if (getGraphicalRepresentation().getGeometricObject() instanceof FGEPoint) {
+		if (getGraphicalRepresentation().getGeometricObject() instanceof DianaPoint) {
 			notifyChange("drawable.x");
 			notifyChange("drawable.y");
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof FGELine) {
+		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaLine) {
 			notifyChange("drawable.x1");
 			notifyChange("drawable.y1");
 			notifyChange("drawable.x2");
 			notifyChange("drawable.y2");
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof FGERectangle) {
+		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaRectangle) {
 			notifyChange("drawable.x");
 			notifyChange("drawable.y");
 			notifyChange("drawable.width");
 			notifyChange("drawable.height");
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof FGECircle) {
+		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaCircle) {
 			notifyChange("drawable.centerX");
 			notifyChange("drawable.centerY");
 			notifyChange("drawable.radius");
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof FGEEllips) {
+		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaEllips) {
 			notifyChange("drawable.x");
 			notifyChange("drawable.y");
 			notifyChange("drawable.width");
@@ -907,7 +907,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	// Hack: for the inspector !!!
 	private void notifyChange(final String string) {
 		// setChanged();
-		// notifyObservers(new FGEAttributeNotification(string, null, null));
+		// notifyObservers(new DianaAttributeNotification(string, null, null));
 	}
 
 	@Override
@@ -946,7 +946,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	}
 
 	@Override
-	public FGEDimension getRequiredLabelSize() {
+	public DianaDimension getRequiredLabelSize() {
 		return null;
 	}
 

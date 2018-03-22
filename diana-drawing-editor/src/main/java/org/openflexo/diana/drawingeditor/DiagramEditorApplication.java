@@ -83,7 +83,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 
-import org.openflexo.diana.FGECoreUtils;
+import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.drawingeditor.model.Diagram;
 import org.openflexo.diana.drawingeditor.model.DiagramFactory;
@@ -126,7 +126,7 @@ public class DiagramEditorApplication {
 	private static final Logger logger = FlexoLogger.getLogger(DiagramEditorApplication.class.getPackage().getName());
 
 	public static LocalizedDelegate DIAGRAM_EDITOR_LOCALIZATION = new LocalizedDelegateImpl(
-			ResourceLocator.locateResource("FlexoLocalization/DrawingEditor"), FGECoreUtils.DIANA_LOCALIZATION, true, true);
+			ResourceLocator.locateResource("FlexoLocalization/DrawingEditor"), DianaCoreUtils.DIANA_LOCALIZATION, true, true);
 
 	private static final int META_MASK = ToolBox.isMacOS() ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
 
@@ -480,7 +480,7 @@ public class DiagramEditorApplication {
 		try {
 			factory = new DiagramFactory(editingContext);
 			// System.out.println("factory: " + factory.debug());
-			// FGEPamelaInjectionModule injectionModule = new FGEPamelaInjectionModule(factory);
+			// DianaPamelaInjectionModule injectionModule = new DianaPamelaInjectionModule(factory);
 			// injector = Guice.createInjector(injectionModule);
 
 			// factory = new DiagramFactory();

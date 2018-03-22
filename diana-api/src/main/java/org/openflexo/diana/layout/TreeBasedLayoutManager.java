@@ -38,13 +38,13 @@
 
 package org.openflexo.diana.layout;
 
-import org.openflexo.diana.FGELayoutManager;
+import org.openflexo.diana.DianaLayoutManager;
 import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.diana.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.model.annotations.ModelEntity;
 
 /**
- * Abstract api of a {@link FGELayoutManager} generally handling trees<br>
+ * Abstract api of a {@link DianaLayoutManager} generally handling trees<br>
  * 
  * 
  * 
@@ -52,7 +52,7 @@ import org.openflexo.model.annotations.ModelEntity;
  * 
  */
 @ModelEntity(isAbstract = true)
-public interface TreeBasedLayoutManager<LMS extends TreeBasedLayoutManagerSpecification<?>, O> extends FGELayoutManager<LMS, O> {
+public interface TreeBasedLayoutManager<LMS extends TreeBasedLayoutManagerSpecification<?>, O> extends DianaLayoutManager<LMS, O> {
 
 	public HorizontalTextAlignment getHorizontalAlignment();
 

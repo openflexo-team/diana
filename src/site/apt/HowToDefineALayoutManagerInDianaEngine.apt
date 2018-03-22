@@ -33,7 +33,7 @@ How to define a new LayoutManager in DIANA layout engine ?
 @ModelEntity
 @XMLElement
 @Imports({ @Import(OutlineLayoutManager.class) })
-public interface OutlineLayoutManagerSpecification extends FGELayoutManagerSpecification<OutlineLayoutManager> {
+public interface OutlineLayoutManagerSpecification extends DianaLayoutManagerSpecification<OutlineLayoutManager> {
 
 	@PropertyIdentifier(type = OutlineLocationType.class)
 	public static final String OUTLINE_LOCATION_TYPE_KEY = "outlineLocationType";
@@ -77,7 +77,7 @@ public interface OutlineLayoutManagerSpecification extends FGELayoutManagerSpeci
  */
 @ModelEntity
 @XMLElement
-public interface OutlineLayoutManager<O> extends FGELayoutManager<OutlineLayoutManagerSpecification, O> {
+public interface OutlineLayoutManager<O> extends DianaLayoutManager<OutlineLayoutManagerSpecification, O> {
 
 	public OutlineLocationType getOutlineLocationType();
 
@@ -97,7 +97,7 @@ public interface OutlineLayoutManager<O> extends FGELayoutManager<OutlineLayoutM
  * @author sylvain
  * 
  */
-public abstract class OutlineLayoutManagerSpecificationImpl extends FGELayoutManagerSpecificationImpl<OutlineLayoutManager>
+public abstract class OutlineLayoutManagerSpecificationImpl extends DianaLayoutManagerSpecificationImpl<OutlineLayoutManager>
 		implements OutlineLayoutManagerSpecification {
 
 	@Override
@@ -149,7 +149,7 @@ public abstract class OutlineLayoutManagerSpecificationImpl extends FGELayoutMan
  * @author sylvain
  * 
  */
-public abstract class OutlineLayoutManagerImpl<O> extends FGELayoutManagerImpl<OutlineLayoutManagerSpecification, O>
+public abstract class OutlineLayoutManagerImpl<O> extends DianaLayoutManagerImpl<OutlineLayoutManagerSpecification, O>
 		implements OutlineLayoutManager<O> {
 
 	@Override
@@ -186,14 +186,14 @@ public abstract class OutlineLayoutManagerImpl<O> extends FGELayoutManagerImpl<O
 			node.setAllowsToLeaveBounds(true);
 
 			// Then perform the layout, according to the center of layouted shape
-			FGEPoint currentPoint = new FGEPoint(node.getLocation());
+			DianaPoint currentPoint = new DianaPoint(node.getLocation());
 			ShapeNode<?> container = (ShapeNode<?>) getContainerNode();
-			FGEPoint center = new FGEPoint(currentPoint.x + node.getWidth() / 2, currentPoint.y + node.getHeight() / 2);
-			FGEPoint normalizedCenterPoint = container.convertViewCoordinatesToNormalizedPoint((int) center.getX(), (int) center.getY(),
+			DianaPoint center = new DianaPoint(currentPoint.x + node.getWidth() / 2, currentPoint.y + node.getHeight() / 2);
+			DianaPoint normalizedCenterPoint = container.convertViewCoordinatesToNormalizedPoint((int) center.getX(), (int) center.getY(),
 					1.0);
-			FGEPoint normalizedPointInOutline = container.getShape().nearestOutlinePoint(normalizedCenterPoint);
+			DianaPoint normalizedPointInOutline = container.getShape().nearestOutlinePoint(normalizedCenterPoint);
 			Point pointInOutline = container.convertNormalizedPointToViewCoordinates(normalizedPointInOutline, 1.0);
-			node.setLocation(new FGEPoint(pointInOutline.x - node.getWidth() / 2, pointInOutline.y - node.getHeight() / 2));
+			node.setLocation(new DianaPoint(pointInOutline.x - node.getWidth() / 2, pointInOutline.y - node.getHeight() / 2));
 		}
 
 	}
@@ -215,17 +215,17 @@ public abstract class OutlineLayoutManagerImpl<O> extends FGELayoutManagerImpl<O
 
 * 4. Reference this new layout manager in DIANA layout engine
 
-  Declare the specification in the imports of FGELayoutManagerSpecification interface:
+  Declare the specification in the imports of DianaLayoutManagerSpecification interface:
 
 ---------------------------------------------------------------------------------
 @ModelEntity(isAbstract = true)
 @Imports({ @Import(OutlineLayoutManagerSpecification.class), @Import(...),... })
-public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>> extends FGEObject, Bindable, KeyValueCoding {
+public interface DianaLayoutManagerSpecification<LM extends DianaLayoutManager<?, ?>> extends DianaObject, Bindable, KeyValueCoding {
 ...
 }
 ---------------------------------------------------------------------------------
 
-  Add an entry to the LayoutManagerSpecificationType enumerate (in FGELayoutManagerSpecification.java)
+  Add an entry to the LayoutManagerSpecificationType enumerate (in DianaLayoutManagerSpecification.java)
 
 ---------------------------------------------------------------------------------
 		OUTLINE {
@@ -241,7 +241,7 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 		},
 ---------------------------------------------------------------------------------
 
-  In FGEModelFactoryImpl, add this code:
+  In DianaModelFactoryImpl, add this code:
 
 ---------------------------------------------------------------------------------
 	public static void installImplementingClasses(ModelFactory modelFactory) throws ModelDefinitionException {

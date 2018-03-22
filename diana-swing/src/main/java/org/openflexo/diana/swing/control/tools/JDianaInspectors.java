@@ -40,7 +40,7 @@ package org.openflexo.diana.swing.control.tools;
 
 import java.util.logging.Logger;
 
-import org.openflexo.diana.FGECoreUtils;
+import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.ShadowStyle;
 import org.openflexo.diana.control.AbstractDianaEditor;
@@ -219,7 +219,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 		private final Class<T> representedType;
 
 		protected JInspector(FIBComponent fibComponent, T data, String title, final Class<T> representedType) {
-			super(fibComponent, data, FGECoreUtils.DIANA_LOCALIZATION);
+			super(fibComponent, data, DianaCoreUtils.DIANA_LOCALIZATION);
 			this.representedType = representedType;
 			this.title = title;
 		}

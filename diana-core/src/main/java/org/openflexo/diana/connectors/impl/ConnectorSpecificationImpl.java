@@ -45,10 +45,10 @@ import org.openflexo.diana.connectors.ConnectorSpecification;
 import org.openflexo.diana.connectors.ConnectorSymbol.EndSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.MiddleSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.StartSymbolType;
-import org.openflexo.diana.impl.FGEObjectImpl;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.impl.DianaObjectImpl;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 
-public abstract class ConnectorSpecificationImpl extends FGEObjectImpl implements ConnectorSpecification {
+public abstract class ConnectorSpecificationImpl extends DianaObjectImpl implements ConnectorSpecification {
 
 	private StartSymbolType startSymbol = StartSymbolType.NONE;
 	private EndSymbolType endSymbol = EndSymbolType.NONE;
@@ -77,7 +77,7 @@ public abstract class ConnectorSpecificationImpl extends FGEObjectImpl implement
 
 	@Override
 	public void setEndSymbol(EndSymbolType endSymbol) {
-		FGEAttributeNotification<?> notification = requireChange(END_SYMBOL, endSymbol);
+		DianaAttributeNotification<?> notification = requireChange(END_SYMBOL, endSymbol);
 		if (notification != null) {
 			this.endSymbol = endSymbol;
 			hasChanged(notification);
@@ -91,7 +91,7 @@ public abstract class ConnectorSpecificationImpl extends FGEObjectImpl implement
 
 	@Override
 	public void setEndSymbolSize(double endSymbolSize) {
-		FGEAttributeNotification<?> notification = requireChange(END_SYMBOL_SIZE, endSymbolSize);
+		DianaAttributeNotification<?> notification = requireChange(END_SYMBOL_SIZE, endSymbolSize);
 		if (notification != null) {
 			this.endSymbolSize = endSymbolSize;
 			hasChanged(notification);
@@ -105,7 +105,7 @@ public abstract class ConnectorSpecificationImpl extends FGEObjectImpl implement
 
 	@Override
 	public void setMiddleSymbol(MiddleSymbolType middleSymbol) {
-		FGEAttributeNotification<?> notification = requireChange(MIDDLE_SYMBOL, middleSymbol);
+		DianaAttributeNotification<?> notification = requireChange(MIDDLE_SYMBOL, middleSymbol);
 		if (notification != null) {
 			this.middleSymbol = middleSymbol;
 			hasChanged(notification);
@@ -119,7 +119,7 @@ public abstract class ConnectorSpecificationImpl extends FGEObjectImpl implement
 
 	@Override
 	public void setMiddleSymbolSize(double middleSymbolSize) {
-		FGEAttributeNotification<?> notification = requireChange(MIDDLE_SYMBOL_SIZE, middleSymbolSize);
+		DianaAttributeNotification<?> notification = requireChange(MIDDLE_SYMBOL_SIZE, middleSymbolSize);
 		if (notification != null) {
 			this.middleSymbolSize = middleSymbolSize;
 			hasChanged(notification);
@@ -133,7 +133,7 @@ public abstract class ConnectorSpecificationImpl extends FGEObjectImpl implement
 
 	@Override
 	public void setStartSymbol(StartSymbolType startSymbol) {
-		FGEAttributeNotification<?> notification = requireChange(START_SYMBOL, startSymbol);
+		DianaAttributeNotification<?> notification = requireChange(START_SYMBOL, startSymbol);
 		if (notification != null) {
 			this.startSymbol = startSymbol;
 			hasChanged(notification);
@@ -147,7 +147,7 @@ public abstract class ConnectorSpecificationImpl extends FGEObjectImpl implement
 
 	@Override
 	public void setStartSymbolSize(double startSymbolSize) {
-		FGEAttributeNotification<?> notification = requireChange(START_SYMBOL_SIZE, startSymbolSize);
+		DianaAttributeNotification<?> notification = requireChange(START_SYMBOL_SIZE, startSymbolSize);
 		if (notification != null) {
 			this.startSymbolSize = startSymbolSize;
 			hasChanged(notification);
@@ -161,7 +161,7 @@ public abstract class ConnectorSpecificationImpl extends FGEObjectImpl implement
 
 	@Override
 	public void setRelativeMiddleSymbolLocation(double relativeMiddleSymbolLocation) {
-		FGEAttributeNotification<?> notification = requireChange(RELATIVE_MIDDLE_SYMBOL_LOCATION, relativeMiddleSymbolLocation);
+		DianaAttributeNotification<?> notification = requireChange(RELATIVE_MIDDLE_SYMBOL_LOCATION, relativeMiddleSymbolLocation);
 		if (notification != null) {
 			this.relativeMiddleSymbolLocation = relativeMiddleSymbolLocation;
 			hasChanged(notification);

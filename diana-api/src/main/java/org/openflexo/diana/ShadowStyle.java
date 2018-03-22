@@ -54,7 +54,7 @@ import org.openflexo.model.annotations.XMLElement;
  */
 @ModelEntity
 @XMLElement(xmlTag = "ShadowStyle")
-public interface ShadowStyle extends FGEStyle {
+public interface ShadowStyle extends DianaStyle {
 
 	public static final String NONE_CONFIGURATION = "none";
 	public static final String DEFAULT_CONFIGURATION = "default";

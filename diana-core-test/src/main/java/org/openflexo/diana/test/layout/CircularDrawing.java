@@ -43,7 +43,7 @@ import java.awt.Color;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
-import org.openflexo.diana.FGEModelFactory;
+import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.GRStructureVisitor;
 import org.openflexo.diana.GeometricGraphicalRepresentation;
 import org.openflexo.diana.GraphicalRepresentation;
@@ -58,11 +58,11 @@ import org.openflexo.diana.GRProvider.DrawingGRProvider;
 import org.openflexo.diana.GRProvider.GeometricGRProvider;
 import org.openflexo.diana.GRProvider.ShapeGRProvider;
 import org.openflexo.diana.connectors.ConnectorSpecification.ConnectorType;
-import org.openflexo.diana.geom.FGECircle;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.geom.area.FGEArea;
-import org.openflexo.diana.geom.area.FGEUnionArea;
+import org.openflexo.diana.geom.DianaCircle;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaUnionArea;
 import org.openflexo.diana.impl.DrawingImpl;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.diana.test.TestEdge;
@@ -76,7 +76,7 @@ public class CircularDrawing extends DrawingImpl<TestGraph> {
 	private ConnectorGraphicalRepresentation edgeRepresentation;
 	private GeometricGraphicalRepresentation circle1GR;
 
-	public CircularDrawing(TestGraph graph, FGEModelFactory factory) {
+	public CircularDrawing(TestGraph graph, DianaModelFactory factory) {
 		super(graph, factory, PersistenceMode.SharedGraphicalRepresentations);
 	}
 
@@ -94,28 +94,28 @@ public class CircularDrawing extends DrawingImpl<TestGraph> {
 		nodeRepresentation.setBackground(getFactory().makeColoredBackground(Color.red));
 		edgeRepresentation = getFactory().makeConnectorGraphicalRepresentation(ConnectorType.CURVE);
 
-		FGECircle circle1 = new FGECircle(new FGEPoint(310, 310), 100, Filling.NOT_FILLED);
-		FGECircle circle2 = new FGECircle(new FGEPoint(310, 310), 200, Filling.NOT_FILLED);
-		FGEArea union = FGEUnionArea.makeUnion(circle1, circle2);
+		DianaCircle circle1 = new DianaCircle(new DianaPoint(310, 310), 100, Filling.NOT_FILLED);
+		DianaCircle circle2 = new DianaCircle(new DianaPoint(310, 310), 200, Filling.NOT_FILLED);
+		DianaArea union = DianaUnionArea.makeUnion(circle1, circle2);
 		circle1GR = getFactory().makeGeometricGraphicalRepresentation(union);
 		circle1GR.setForeground(getFactory().makeForegroundStyle(Color.GRAY, 0.5f, DashStyle.MEDIUM_DASHES));
 
 		final DrawingGRBinding<TestGraph> graphBinding = bindDrawing(TestGraph.class, "graph", new DrawingGRProvider<TestGraph>() {
 			@Override
-			public DrawingGraphicalRepresentation provideGR(TestGraph drawable, FGEModelFactory factory) {
+			public DrawingGraphicalRepresentation provideGR(TestGraph drawable, DianaModelFactory factory) {
 				return graphRepresentation;
 			}
 		});
 		final ShapeGRBinding<TestGraphNode> nodeBinding = bindShape(TestGraphNode.class, "node", new ShapeGRProvider<TestGraphNode>() {
 			@Override
-			public ShapeGraphicalRepresentation provideGR(TestGraphNode drawable, FGEModelFactory factory) {
+			public ShapeGraphicalRepresentation provideGR(TestGraphNode drawable, DianaModelFactory factory) {
 				return nodeRepresentation;
 			}
 		});
 		final ConnectorGRBinding<TestEdge> edgeBinding = bindConnector(TestEdge.class, "edge", nodeBinding, nodeBinding, graphBinding,
 				new ConnectorGRProvider<TestEdge>() {
 					@Override
-					public ConnectorGraphicalRepresentation provideGR(TestEdge drawable, FGEModelFactory factory) {
+					public ConnectorGraphicalRepresentation provideGR(TestEdge drawable, DianaModelFactory factory) {
 						return edgeRepresentation;
 					}
 				});
@@ -123,7 +123,7 @@ public class CircularDrawing extends DrawingImpl<TestGraph> {
 		final GeometricGRBinding<TestGraph> circle1Binding = bindGeometric(TestGraph.class, "circle1",
 				new GeometricGRProvider<TestGraph>() {
 					@Override
-					public GeometricGraphicalRepresentation provideGR(TestGraph drawable, FGEModelFactory factory) {
+					public GeometricGraphicalRepresentation provideGR(TestGraph drawable, DianaModelFactory factory) {
 						return circle1GR;
 					}
 				});

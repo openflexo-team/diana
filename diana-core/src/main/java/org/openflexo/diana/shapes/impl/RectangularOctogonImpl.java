@@ -40,11 +40,11 @@
 package org.openflexo.diana.shapes.impl;
 
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGEPolygon;
-import org.openflexo.diana.geom.FGEShape;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.diana.shapes.RectangularOctogon;
 
 public abstract class RectangularOctogonImpl extends ShapeSpecificationImpl implements RectangularOctogon {
@@ -75,7 +75,7 @@ public abstract class RectangularOctogonImpl extends ShapeSpecificationImpl impl
 	 */
 	@Override
 	public void setRatio(final double aRatio) {
-		final FGEAttributeNotification<Double> notification = this.requireChange(RATIO, aRatio);
+		final DianaAttributeNotification<Double> notification = this.requireChange(RATIO, aRatio);
 		if (notification != null) {
 			this.ratio = aRatio;
 			this.hasChanged(notification);
@@ -88,17 +88,17 @@ public abstract class RectangularOctogonImpl extends ShapeSpecificationImpl impl
 	}
 
 	@Override
-	public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
-		final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
+	public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+		final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 
-		returned.addToPoints(new FGEPoint(0, this.ratio));
-		returned.addToPoints(new FGEPoint(0, 1 - this.ratio));
-		returned.addToPoints(new FGEPoint(this.ratio / 2, 1));
-		returned.addToPoints(new FGEPoint(1 - this.ratio / 2, 1));
-		returned.addToPoints(new FGEPoint(1, 1 - this.ratio));
-		returned.addToPoints(new FGEPoint(1, this.ratio));
-		returned.addToPoints(new FGEPoint(1 - this.ratio / 2, 0));
-		returned.addToPoints(new FGEPoint(this.ratio / 2, 0));
+		returned.addToPoints(new DianaPoint(0, this.ratio));
+		returned.addToPoints(new DianaPoint(0, 1 - this.ratio));
+		returned.addToPoints(new DianaPoint(this.ratio / 2, 1));
+		returned.addToPoints(new DianaPoint(1 - this.ratio / 2, 1));
+		returned.addToPoints(new DianaPoint(1, 1 - this.ratio));
+		returned.addToPoints(new DianaPoint(1, this.ratio));
+		returned.addToPoints(new DianaPoint(1 - this.ratio / 2, 0));
+		returned.addToPoints(new DianaPoint(this.ratio / 2, 0));
 
 		return returned;
 

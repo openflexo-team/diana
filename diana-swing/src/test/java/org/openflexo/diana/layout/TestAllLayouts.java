@@ -47,8 +47,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openflexo.diana.FGEModelFactory;
-import org.openflexo.diana.FGEModelFactoryImpl;
+import org.openflexo.diana.DianaModelFactory;
+import org.openflexo.diana.DianaModelFactoryImpl;
 import org.openflexo.diana.test.TestGraph;
 import org.openflexo.diana.test.layout.BalloonLayoutManagerDrawing;
 import org.openflexo.diana.test.layout.ForceDirectedGraphLayoutManagerDrawing;
@@ -78,7 +78,7 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 
 	private static JFIBDialogInspectorController inspector;
 
-	static FGEModelFactory factory = null;
+	static DianaModelFactory factory = null;
 
 	@BeforeClass
 	public static void setupClass() {
@@ -90,7 +90,7 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 		}
 
 		try {
-			factory = new FGEModelFactoryImpl();
+			factory = new DianaModelFactoryImpl();
 		} catch (ModelDefinitionException e) {
 			e.printStackTrace();
 		}
@@ -197,7 +197,7 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 			return drawingController;
 		}
 	
-		public FGELayoutManagerSpecification<?> getLayoutManagerSpecification() {
+		public DianaLayoutManagerSpecification<?> getLayoutManagerSpecification() {
 			return drawingController.getDrawing().getRoot().getDefaultLayoutManager().getLayoutManagerSpecification();
 		}
 	

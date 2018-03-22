@@ -46,9 +46,9 @@ import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.diana.cp.ControlArea;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.graphics.FGEConnectorGraphics;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.graphics.DianaConnectorGraphics;
 
 public interface Connector<CS extends ConnectorSpecification> extends PropertyChangeListener {
 
@@ -66,9 +66,9 @@ public interface Connector<CS extends ConnectorSpecification> extends PropertyCh
 
 	public abstract double getEndAngle();
 
-	public abstract double distanceToConnector(FGEPoint aPoint, double scale);
+	public abstract double distanceToConnector(DianaPoint aPoint, double scale);
 
-	public abstract void drawConnector(FGEConnectorGraphics g);
+	public abstract void drawConnector(DianaConnectorGraphics g);
 
 	/**
 	 * Retrieve all control area used to manage this connector
@@ -77,7 +77,7 @@ public interface Connector<CS extends ConnectorSpecification> extends PropertyCh
 	 */
 	public abstract List<? extends ControlArea<?>> getControlAreas();
 
-	public abstract FGEPoint getMiddleSymbolLocation();
+	public abstract DianaPoint getMiddleSymbolLocation();
 
 	/**
 	 * Return bounds of actually required area to fully display current connector (which might require to be paint outside normalized
@@ -85,23 +85,23 @@ public interface Connector<CS extends ConnectorSpecification> extends PropertyCh
 	 * 
 	 * @return
 	 */
-	public abstract FGERectangle getConnectorUsedBounds();
+	public abstract DianaRectangle getConnectorUsedBounds();
 
 	/**
 	 * Return start point, relative to start object
 	 * 
 	 * @return
 	 */
-	public abstract FGEPoint getStartLocation();
+	public abstract DianaPoint getStartLocation();
 
 	/**
 	 * Return end point, relative to end object
 	 * 
 	 * @return
 	 */
-	public abstract FGEPoint getEndLocation();
+	public abstract DianaPoint getEndLocation();
 
-	public abstract void paintConnector(FGEConnectorGraphics g);
+	public abstract void paintConnector(DianaConnectorGraphics g);
 
 	public abstract void delete();
 

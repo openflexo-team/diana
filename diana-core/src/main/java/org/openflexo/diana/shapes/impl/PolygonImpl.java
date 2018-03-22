@@ -43,10 +43,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGEPolygon;
-import org.openflexo.diana.geom.FGEShape;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.shapes.Polygon;
 
 public abstract class PolygonImpl extends ShapeSpecificationImpl implements Polygon {
@@ -64,16 +64,16 @@ public abstract class PolygonImpl extends ShapeSpecificationImpl implements Poly
 		super();
 	}
 
-	public PolygonImpl(List<FGEPoint> points) {
+	public PolygonImpl(List<DianaPoint> points) {
 		this();
-		for (FGEPoint pt : points) {
+		for (DianaPoint pt : points) {
 			addToPoints(pt);
 		}
 	}
 
-	public PolygonImpl(FGEPolygon polygon) {
+	public PolygonImpl(DianaPolygon polygon) {
 		this();
-		for (FGEPoint pt : polygon.getPoints()) {
+		for (DianaPoint pt : polygon.getPoints()) {
 			addToPoints(pt);
 		}
 	}
@@ -84,8 +84,8 @@ public abstract class PolygonImpl extends ShapeSpecificationImpl implements Poly
 	}
 
 	@Override
-	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
-		return new FGEPolygon(Filling.FILLED, getPoints());
+	public DianaShape<?> makeDianaShape(ShapeNode<?> node) {
+		return new DianaPolygon(Filling.FILLED, getPoints());
 	}
 
 }

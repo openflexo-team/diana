@@ -39,7 +39,7 @@
 package org.openflexo.diana.impl;
 
 import org.openflexo.diana.ColorBackgroundStyle;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
 
 public abstract class ColorBackgroundStyleImpl extends BackgroundStyleImpl implements ColorBackgroundStyle {
 
@@ -68,7 +68,7 @@ public abstract class ColorBackgroundStyleImpl extends BackgroundStyleImpl imple
 		if (requireChange(this.color, aColor)) {
 			java.awt.Color oldColor = color;
 			this.color = aColor;
-			notifyObservers(new FGEAttributeNotification<>(COLOR, oldColor, aColor));
+			notifyObservers(new DianaAttributeNotification<>(COLOR, oldColor, aColor));
 		}
 	}
 

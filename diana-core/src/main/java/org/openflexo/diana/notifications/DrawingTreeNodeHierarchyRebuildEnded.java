@@ -40,9 +40,9 @@
 package org.openflexo.diana.notifications;
 
 import org.openflexo.diana.Drawing;
-import org.openflexo.diana.notifications.FGEEvent;
+import org.openflexo.diana.notifications.DianaEvent;
 
-public class DrawingTreeNodeHierarchyRebuildEnded extends FGEEvent {
+public class DrawingTreeNodeHierarchyRebuildEnded extends DianaEvent {
 
 	public static final String EVENT_NAME = "DrawingTreeNodeHierarchyRebuildEnded";
 

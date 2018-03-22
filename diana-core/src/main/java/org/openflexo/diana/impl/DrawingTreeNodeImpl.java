@@ -68,8 +68,8 @@ import org.openflexo.connie.exception.NotSettableContextException;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.diana.Drawing;
-import org.openflexo.diana.FGEModelFactory;
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaModelFactory;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.GRBinding;
 import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.GraphicalRepresentation;
@@ -83,11 +83,11 @@ import org.openflexo.diana.GRBinding.DynamicPropertyValue;
 import org.openflexo.diana.GraphicalRepresentation.LabelMetricsProvider;
 import org.openflexo.diana.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.diana.cp.ControlArea;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectangle;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.notifications.FGEAttributeNotification;
-import org.openflexo.diana.notifications.FGENotification;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.notifications.DianaAttributeNotification;
+import org.openflexo.diana.notifications.DianaNotification;
 import org.openflexo.diana.notifications.LabelHasEdited;
 import org.openflexo.diana.notifications.LabelHasMoved;
 import org.openflexo.diana.notifications.LabelWillEdit;
@@ -243,7 +243,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	}
 
 	@Override
-	public FGEModelFactory getFactory() {
+	public DianaModelFactory getFactory() {
 		return getDrawing().getFactory();
 	}
 
@@ -739,7 +739,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	}
 
-	public void notifyObservers(FGENotification notification) {
+	public void notifyObservers(DianaNotification notification) {
 		if ((!(notification instanceof NodeDeleted)) && isDeleted()) {
 			logger.warning("notifyObservers() called by a deleted DrawingTreeNode");
 			// Thread.dumpStack();
@@ -755,7 +755,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	// TODO: (sylvain) i think this is no more necessary, remove this ???
 	@Deprecated
 	public <T> void notifyAttributeChanged(GRProperty<T> parameter, T oldValue, T newValue) {
-		notifyObservers(new FGEAttributeNotification<>(parameter, oldValue, newValue));
+		notifyObservers(new DianaAttributeNotification<>(parameter, oldValue, newValue));
 	}
 
 	public void forward(PropertyChangeEvent evt) {
@@ -768,15 +768,15 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	@Override
 	public Point convertNormalizedPointToViewCoordinates(double x, double y, double scale) {
 		AffineTransform at = convertNormalizedPointToViewCoordinatesAT(scale);
-		FGEPoint returned = new FGEPoint();
-		at.transform(new FGEPoint(x, y), returned);
+		DianaPoint returned = new DianaPoint();
+		at.transform(new DianaPoint(x, y), returned);
 		return new Point((int) returned.x, (int) returned.y);
 	}
 
 	@Override
-	public Rectangle convertNormalizedRectangleToViewCoordinates(FGERectangle r, double scale) {
-		FGEPoint p1 = new FGEPoint(r.x, r.y);
-		FGEPoint p2 = new FGEPoint(r.x + r.width, r.y + r.height);
+	public Rectangle convertNormalizedRectangleToViewCoordinates(DianaRectangle r, double scale) {
+		DianaPoint p1 = new DianaPoint(r.x, r.y);
+		DianaPoint p2 = new DianaPoint(r.x + r.width, r.y + r.height);
 		Point pp1 = convertNormalizedPointToViewCoordinates(p1, scale);
 		Point pp2 = convertNormalizedPointToViewCoordinates(p2, scale);
 		return new Rectangle(pp1.x, pp1.y, pp2.x - pp1.x, pp2.y - pp1.y);
@@ -786,10 +786,10 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	public abstract AffineTransform convertNormalizedPointToViewCoordinatesAT(double scale);
 
 	@Override
-	public FGEPoint convertViewCoordinatesToNormalizedPoint(int x, int y, double scale) {
+	public DianaPoint convertViewCoordinatesToNormalizedPoint(int x, int y, double scale) {
 		AffineTransform at = convertViewCoordinatesToNormalizedPointAT(scale);
-		FGEPoint returned = new FGEPoint();
-		at.transform(new FGEPoint(x, y), returned);
+		DianaPoint returned = new DianaPoint();
+		at.transform(new DianaPoint(x, y), returned);
 		return returned;
 	}
 
@@ -797,12 +797,12 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	public abstract AffineTransform convertViewCoordinatesToNormalizedPointAT(double scale);
 
 	@Override
-	public Point convertNormalizedPointToViewCoordinates(FGEPoint p, double scale) {
+	public Point convertNormalizedPointToViewCoordinates(DianaPoint p, double scale) {
 		return convertNormalizedPointToViewCoordinates(p.x, p.y, scale);
 	}
 
 	@Override
-	public FGEPoint convertViewCoordinatesToNormalizedPoint(Point p, double scale) {
+	public DianaPoint convertViewCoordinatesToNormalizedPoint(Point p, double scale) {
 		return convertViewCoordinatesToNormalizedPoint(p.x, p.y, scale);
 	}
 
@@ -822,43 +822,43 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	}
 
 	@Override
-	public FGEPoint convertRemoteViewCoordinatesToLocalNormalizedPoint(Point p, DrawingTreeNode<?, ?> source, double scale) {
+	public DianaPoint convertRemoteViewCoordinatesToLocalNormalizedPoint(Point p, DrawingTreeNode<?, ?> source, double scale) {
 		if (!isValid() || !source.isValid()) {
-			return new FGEPoint(p.x / scale, p.y / scale);
+			return new DianaPoint(p.x / scale, p.y / scale);
 		}
-		Point pointRelativeToCurrentView = FGEUtils.convertPoint(source, p, this, scale);
+		Point pointRelativeToCurrentView = DianaUtils.convertPoint(source, p, this, scale);
 		return convertViewCoordinatesToNormalizedPoint(pointRelativeToCurrentView, scale);
 	}
 
 	@Override
-	public FGEPoint convertLocalViewCoordinatesToRemoteNormalizedPoint(Point p, DrawingTreeNode<?, ?> destination, double scale) {
+	public DianaPoint convertLocalViewCoordinatesToRemoteNormalizedPoint(Point p, DrawingTreeNode<?, ?> destination, double scale) {
 		if (!isValid() || !destination.isValid()) {
-			return new FGEPoint(p.x * scale, p.y * scale);
+			return new DianaPoint(p.x * scale, p.y * scale);
 		}
-		Point pointRelativeToRemoteView = FGEUtils.convertPoint(this, p, destination, scale);
+		Point pointRelativeToRemoteView = DianaUtils.convertPoint(this, p, destination, scale);
 		return destination.convertViewCoordinatesToNormalizedPoint(pointRelativeToRemoteView, scale);
 	}
 
 	@Override
-	public Point convertLocalNormalizedPointToRemoteViewCoordinates(FGEPoint p, DrawingTreeNode<?, ?> destination, double scale) {
+	public Point convertLocalNormalizedPointToRemoteViewCoordinates(DianaPoint p, DrawingTreeNode<?, ?> destination, double scale) {
 		Point point = convertNormalizedPointToViewCoordinates(p, scale);
-		return FGEUtils.convertPoint(this, point, destination, scale);
+		return DianaUtils.convertPoint(this, point, destination, scale);
 	}
 
 	@Override
-	public Rectangle convertLocalNormalizedRectangleToRemoteViewCoordinates(FGERectangle r, DrawingTreeNode<?, ?> destination,
+	public Rectangle convertLocalNormalizedRectangleToRemoteViewCoordinates(DianaRectangle r, DrawingTreeNode<?, ?> destination,
 			double scale) {
-		FGEPoint p1 = new FGEPoint(r.x, r.y);
-		FGEPoint p2 = new FGEPoint(r.x + r.width, r.y + r.height);
+		DianaPoint p1 = new DianaPoint(r.x, r.y);
+		DianaPoint p2 = new DianaPoint(r.x + r.width, r.y + r.height);
 		Point pp1 = convertLocalNormalizedPointToRemoteViewCoordinates(p1, destination, scale);
 		Point pp2 = convertLocalNormalizedPointToRemoteViewCoordinates(p2, destination, scale);
 		return new Rectangle(pp1.x, pp1.y, pp2.x - pp1.x, pp2.y - pp1.y);
 	}
 
 	@Override
-	public Point convertRemoteNormalizedPointToLocalViewCoordinates(FGEPoint p, DrawingTreeNode<?, ?> source, double scale) {
+	public Point convertRemoteNormalizedPointToLocalViewCoordinates(DianaPoint p, DrawingTreeNode<?, ?> source, double scale) {
 		Point point = source.convertNormalizedPointToViewCoordinates(p, scale);
-		return FGEUtils.convertPoint(source, point, this, scale);
+		return DianaUtils.convertPoint(source, point, this, scale);
 	}
 
 	@Override
@@ -886,8 +886,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	}
 
 	@Override
-	public FGERectangle getNormalizedBounds() {
-		return new FGERectangle(0, 0, 1, 1, Filling.FILLED);
+	public DianaRectangle getNormalizedBounds() {
+		return new DianaRectangle(0, 0, 1, 1, Filling.FILLED);
 	}
 
 	/*public void setValidated(boolean validated) {
@@ -1034,7 +1034,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	public void setIsFocused(boolean aFlag) {
 		if (aFlag != isFocused) {
 			isFocused = aFlag;
-			notifyObservers(new FGEAttributeNotification<>(IS_FOCUSED, !isFocused, isFocused));
+			notifyObservers(new DianaAttributeNotification<>(IS_FOCUSED, !isFocused, isFocused));
 		}
 	}
 
@@ -1047,7 +1047,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	public void setIsSelected(boolean aFlag) {
 		if (aFlag != isSelected) {
 			isSelected = aFlag;
-			notifyObservers(new FGEAttributeNotification<>(IS_SELECTED, !isSelected, isSelected));
+			notifyObservers(new DianaAttributeNotification<>(IS_SELECTED, !isSelected, isSelected));
 		}
 	}
 
@@ -1149,7 +1149,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		}
 
 		// Now we have to think of this:
-		// New architecture of FGE now authorize a GR to be shared by many DrawingTreeNode
+		// New architecture of Diana now authorize a GR to be shared by many DrawingTreeNode
 		// If UniqueGraphicalRepresentations is active, use GR to store graphical properties
 
 		if (getDrawing().getPersistenceMode() == PersistenceMode.UniqueGraphicalRepresentations) {
@@ -1218,7 +1218,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		}
 
 		// Now we have to think of this:
-		// New architecture of FGE now authorize a GR to be shared by many DrawingTreeNode
+		// New architecture of Diana now authorize a GR to be shared by many DrawingTreeNode
 		// If UniqueGraphicalRepresentations is active, use GR to store graphical properties
 
 		if (getDrawing().getPersistenceMode() == PersistenceMode.UniqueGraphicalRepresentations) {

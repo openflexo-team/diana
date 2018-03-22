@@ -51,8 +51,8 @@ import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.animation.impl.AnimationImpl;
 import org.openflexo.diana.animation.impl.TranslationTransition;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.impl.FGELayoutManagerImpl;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.impl.DianaLayoutManagerImpl;
 import org.openflexo.diana.layout.ForceDirectedGraphLayoutManagerSpecification;
 import org.openflexo.diana.layout.GraphBasedLayoutManager;
 import org.openflexo.diana.layout.GraphBasedLayoutManagerSpecification;
@@ -69,7 +69,7 @@ import edu.uci.ics.jung.graph.Graph;
  * 
  */
 public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutManagerSpecification<?>, O>
-		extends FGELayoutManagerImpl<LMS, O> implements GraphBasedLayoutManager<LMS, O> {
+		extends DianaLayoutManagerImpl<LMS, O> implements GraphBasedLayoutManager<LMS, O> {
 
 	private static final Logger logger = Logger.getLogger(GraphBasedLayoutManagerImpl.class.getPackage().getName());
 
@@ -94,7 +94,7 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 
 		if (!animateLayout() || !node.getDrawing().isAnimationRunning()) {
 
-			FGEPoint newLocation = locationForNode(node);
+			DianaPoint newLocation = locationForNode(node);
 			node.setLocation(newLocation);
 		}
 	}
@@ -106,8 +106,8 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 	 * @param node
 	 * @return
 	 */
-	protected FGEPoint locationForNode(ShapeNode<?> node) {
-		return new FGEPoint(getLayout().getX(node), getLayout().getY(node));
+	protected DianaPoint locationForNode(ShapeNode<?> node) {
+		return new DianaPoint(getLayout().getX(node), getLayout().getY(node));
 	}
 
 	/**
@@ -197,8 +197,8 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 		if (animateLayout() && !layoutInProgress) {
 			List<TranslationTransition> transitions = new ArrayList<>();
 			for (ShapeNode<?> shapeNode : getLayoutedNodes()) {
-				transitions.add(new TranslationTransition(shapeNode, new FGEPoint(xMap.get(shapeNode), yMap.get(shapeNode)),
-						new FGEPoint(getLayout().getX(shapeNode), getLayout().getY(shapeNode))));
+				transitions.add(new TranslationTransition(shapeNode, new DianaPoint(xMap.get(shapeNode), yMap.get(shapeNode)),
+						new DianaPoint(getLayout().getX(shapeNode), getLayout().getY(shapeNode))));
 				// System.out.println("-----------> Node " + shapeNode + " moved from " + xMap.get(shapeNode) + "," + yMap.get(shapeNode)
 				// + " to " + getLayout().getX(shapeNode) + "," + getLayout().getY(shapeNode));
 			}

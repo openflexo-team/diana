@@ -51,7 +51,7 @@ import org.openflexo.connie.Bindable;
 import org.openflexo.connie.BindingFactory;
 import org.openflexo.connie.BindingModel;
 import org.openflexo.connie.DataBinding;
-import org.openflexo.diana.FGEUtils.HasIcon;
+import org.openflexo.diana.DianaUtils.HasIcon;
 import org.openflexo.diana.control.MouseClickControl;
 import org.openflexo.diana.control.MouseDragControl;
 import org.openflexo.icon.ImageIconResource;
@@ -79,7 +79,7 @@ import org.openflexo.rm.ResourceLocator;
  *            the represented type
  */
 @ModelEntity(isAbstract = true)
-public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyChangeListener {
+public interface GraphicalRepresentation extends DianaObject, Bindable, PropertyChangeListener {
 
 	// Property keys
 
@@ -554,9 +554,9 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	
 	public boolean isAncestorOf(GraphicalRepresentation child);*/
 
-	// public boolean isPointVisible(FGEPoint p);
+	// public boolean isPointVisible(DianaPoint p);
 
-	// public ShapeGraphicalRepresentation shapeHiding(FGEPoint p);
+	// public ShapeGraphicalRepresentation shapeHiding(DianaPoint p);
 
 	// public boolean hasText();
 
@@ -570,7 +570,7 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	
 	public Rectangle getViewBounds(double scale);
 	
-	public FGERectangle getNormalizedBounds();*/
+	public DianaRectangle getNormalizedBounds();*/
 
 	/*public Point getLabelLocation(double scale);
 	
@@ -588,7 +588,7 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	
 	public void notifyAttributeChange(GRProperty parameter);
 	
-	public void notify(FGENotification notification);*/
+	public void notify(DianaNotification notification);*/
 
 	// @Override
 	// public String getInspectorName();
@@ -608,28 +608,28 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 
 	/*public Point convertNormalizedPointToViewCoordinates(double x, double y, double scale);
 	
-	public Rectangle convertNormalizedRectangleToViewCoordinates(FGERectangle r, double scale);
+	public Rectangle convertNormalizedRectangleToViewCoordinates(DianaRectangle r, double scale);
 	
 	public AffineTransform convertNormalizedPointToViewCoordinatesAT(double scale);
 	
-	public FGEPoint convertViewCoordinatesToNormalizedPoint(int x, int y, double scale);
+	public DianaPoint convertViewCoordinatesToNormalizedPoint(int x, int y, double scale);
 	
 	public AffineTransform convertViewCoordinatesToNormalizedPointAT(double scale);
 	
-	public Point convertNormalizedPointToViewCoordinates(FGEPoint p, double scale);
+	public Point convertNormalizedPointToViewCoordinates(DianaPoint p, double scale);
 	
-	public FGEPoint convertViewCoordinatesToNormalizedPoint(Point p, double scale);
+	public DianaPoint convertViewCoordinatesToNormalizedPoint(Point p, double scale);
 	
-	public FGEPoint convertRemoteViewCoordinatesToLocalNormalizedPoint(Point p, GraphicalRepresentation source, double scale);
+	public DianaPoint convertRemoteViewCoordinatesToLocalNormalizedPoint(Point p, GraphicalRepresentation source, double scale);
 	
-	public FGEPoint convertLocalViewCoordinatesToRemoteNormalizedPoint(Point p, GraphicalRepresentation destination, double scale);
+	public DianaPoint convertLocalViewCoordinatesToRemoteNormalizedPoint(Point p, GraphicalRepresentation destination, double scale);
 	
-	public Point convertLocalNormalizedPointToRemoteViewCoordinates(FGEPoint p, GraphicalRepresentation destination, double scale);
+	public Point convertLocalNormalizedPointToRemoteViewCoordinates(DianaPoint p, GraphicalRepresentation destination, double scale);
 	
-	public Rectangle convertLocalNormalizedRectangleToRemoteViewCoordinates(FGERectangle r, GraphicalRepresentation destination,
+	public Rectangle convertLocalNormalizedRectangleToRemoteViewCoordinates(DianaRectangle r, GraphicalRepresentation destination,
 			double scale);
 	
-	public Point convertRemoteNormalizedPointToLocalViewCoordinates(FGEPoint p, GraphicalRepresentation source, double scale);
+	public Point convertRemoteNormalizedPointToLocalViewCoordinates(DianaPoint p, GraphicalRepresentation source, double scale);
 	*/
 
 	// public boolean isRegistered();

@@ -38,7 +38,7 @@
 
 package org.openflexo.diana.layout;
 
-import org.openflexo.diana.FGELayoutManagerSpecification;
+import org.openflexo.diana.DianaLayoutManagerSpecification;
 import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.diana.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.model.annotations.Getter;
@@ -59,7 +59,7 @@ import org.openflexo.model.annotations.XMLElement;
 @ModelEntity
 @XMLElement
 @Imports({ @Import(GridLayoutManager.class) })
-public interface GridLayoutManagerSpecification extends FGELayoutManagerSpecification<GridLayoutManager<?>> {
+public interface GridLayoutManagerSpecification extends DianaLayoutManagerSpecification<GridLayoutManager<?>> {
 
 	@PropertyIdentifier(type = double.class)
 	public static final String GRID_X_KEY = "gridX";

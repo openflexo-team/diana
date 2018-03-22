@@ -45,21 +45,21 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openflexo.diana.FGEUtils;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.connectors.CurvedPolylinConnectorSpecification;
 import org.openflexo.diana.cp.ConnectorAdjustingControlPoint;
 import org.openflexo.diana.cp.ControlPoint;
-import org.openflexo.diana.geom.FGEPoint;
-import org.openflexo.diana.geom.FGERectangle;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.GeomUtils;
-import org.openflexo.diana.geom.FGEGeometricObject.Filling;
-import org.openflexo.diana.graphics.FGEConnectorGraphics;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.graphics.DianaConnectorGraphics;
 
 public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnectorSpecification> {
 
-	private final FGEPoint p1 = new FGEPoint();
-	private final FGEPoint p2 = new FGEPoint();
+	private final DianaPoint p1 = new DianaPoint();
+	private final DianaPoint p2 = new DianaPoint();
 	private List<ControlPoint> controlPoints;
 
 	// *******************************************************************************
@@ -91,8 +91,8 @@ public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnector
 		controlPoints.add(new ConnectorAdjustingControlPoint(connectorNode, p1));
 		controlPoints.add(new ConnectorAdjustingControlPoint(connectorNode, p2));
 
-		FGEPoint newP1 = FGEUtils.convertNormalizedPoint(getStartNode(), new FGEPoint(0.5, 0.5), connectorNode);
-		FGEPoint newP2 = FGEUtils.convertNormalizedPoint(getEndNode(), new FGEPoint(0.5, 0.5), connectorNode);
+		DianaPoint newP1 = DianaUtils.convertNormalizedPoint(getStartNode(), new DianaPoint(0.5, 0.5), connectorNode);
+		DianaPoint newP2 = DianaUtils.convertNormalizedPoint(getEndNode(), new DianaPoint(0.5, 0.5), connectorNode);
 
 		p1.x = newP1.x;
 		p1.y = newP1.y;
@@ -101,7 +101,7 @@ public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnector
 	}
 
 	@Override
-	public void drawConnector(FGEConnectorGraphics g) {
+	public void drawConnector(DianaConnectorGraphics g) {
 		updateControlPoints();
 
 		g.drawLine(p1.x, p1.y, p2.x, p2.y);
@@ -119,7 +119,7 @@ public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnector
 	}
 
 	@Override
-	public double distanceToConnector(FGEPoint aPoint, double scale) {
+	public double distanceToConnector(DianaPoint aPoint, double scale) {
 		Point testPoint = connectorNode.convertNormalizedPointToViewCoordinates(aPoint, scale);
 		Point point1 = connectorNode.convertNormalizedPointToViewCoordinates(p1, scale);
 		Point point2 = connectorNode.convertNormalizedPointToViewCoordinates(p2, scale);
@@ -147,14 +147,14 @@ public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnector
 	}
 
 	@Override
-	public FGEPoint getMiddleSymbolLocation() {
-		return new FGEPoint(0.5, 0.5);
+	public DianaPoint getMiddleSymbolLocation() {
+		return new DianaPoint(0.5, 0.5);
 	}
 
-	private final FGERectangle NORMALIZED_BOUNDS = new FGERectangle(0, 0, 1, 1, Filling.FILLED);
+	private final DianaRectangle NORMALIZED_BOUNDS = new DianaRectangle(0, 0, 1, 1, Filling.FILLED);
 
 	@Override
-	public FGERectangle getConnectorUsedBounds() {
+	public DianaRectangle getConnectorUsedBounds() {
 		return NORMALIZED_BOUNDS;
 	}
 
@@ -164,7 +164,7 @@ public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnector
 	 * @return
 	 */
 	@Override
-	public FGEPoint getStartLocation() {
+	public DianaPoint getStartLocation() {
 		return p1;
 	}
 
@@ -174,7 +174,7 @@ public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnector
 	 * @return
 	 */
 	@Override
-	public FGEPoint getEndLocation() {
+	public DianaPoint getEndLocation() {
 		return p2;
 	}
 
@@ -203,9 +203,9 @@ public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnector
 		if (evt.getSource() == getConnectorSpecification()) {
 		}
 
-		// if (notification instanceof FGENotification && observable == getConnectorSpecification()) {
+		// if (notification instanceof DianaNotification && observable == getConnectorSpecification()) {
 		// Those notifications are forwarded by the connector specification
-		// FGENotification notif = (FGENotification) notification;
+		// DianaNotification notif = (DianaNotification) notification;
 
 		// }
 
