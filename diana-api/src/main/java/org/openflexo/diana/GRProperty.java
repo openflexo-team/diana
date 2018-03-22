@@ -123,6 +123,7 @@ public class GRProperty<T> {
 	private String name;
 	private Class<T> type;
 
+	@SuppressWarnings("unchecked")
 	private GRProperty(Field field, PropertyIdentifier p) {
 		this.field = field;
 		try {
@@ -183,6 +184,7 @@ public class GRProperty<T> {
 		return "GRProperty: " + getFieldName() + " " + getName() + " " + getType().getSimpleName();
 	}
 
+	@SuppressWarnings("unchecked")
 	public T getDefaultValue() {
 		if (type.equals(Integer.TYPE) || type.equals(Integer.class)) {
 			return (T) Integer.valueOf(0);

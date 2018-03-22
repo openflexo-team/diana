@@ -67,11 +67,11 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 
 	private static final BindingFactory BINDING_FACTORY = new JavaBindingFactory();
 
-	private final String name;
+	// Unused private final String name;
 	private final GRProvider<O, GR> grProvider;
 	private final List<GRStructureVisitor<O>> walkers;
 
-	private final Map<GRProperty, DynamicPropertyValue<?>> dynamicPropertyValues;
+	private final Map<GRProperty<?>, DynamicPropertyValue<?>> dynamicPropertyValues;
 	protected BindingModel bindingModel;
 
 	private BindingFactory bindingFactory = null;
@@ -92,7 +92,7 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 	}
 
 	protected GRBinding(String name, Class<?> drawableClass, GRProvider<O, GR> grProvider) {
-		this.name = name;
+		// Unused this.name = name;
 		this.grProvider = grProvider;
 		walkers = new ArrayList<>();
 		dynamicPropertyValues = new Hashtable<>();
@@ -114,6 +114,7 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 		return grProvider;
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> DynamicPropertyValue<T> getDynamicPropertyValue(GRProperty<T> parameter) {
 		return (DynamicPropertyValue<T>) dynamicPropertyValues.get(parameter);
 	}
@@ -165,13 +166,11 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 	@Override
 	public void notifiedBindingChanged(DataBinding<?> dataBinding) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void notifiedBindingDecoded(DataBinding<?> dataBinding) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public List<? extends ControlArea<?>> makeControlAreasFor(DrawingTreeNode<O, GR> dtn) {
