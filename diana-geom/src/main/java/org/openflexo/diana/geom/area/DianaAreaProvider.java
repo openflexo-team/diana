@@ -38,7 +38,7 @@
 
 package org.openflexo.diana.geom.area;
 
+@FunctionalInterface
 public interface DianaAreaProvider<O> {
-
 	public DianaArea getArea(O input);
 }

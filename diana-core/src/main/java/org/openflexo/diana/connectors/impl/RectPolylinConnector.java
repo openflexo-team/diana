@@ -248,16 +248,12 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		if (!getIsRounded()) {
 			return point;
 		}
-		else {
-			UnnormalizedArcSize arcSize = computeUnnormalizedArcSize();
-			DianaPoint returned = polylin.getNearestPointLocatedOnRoundedRepresentation(point, arcSize.arcWidth, arcSize.arcHeight);
-			if (returned == null) {
-				return new DianaPoint(0, 0);
-			}
-			else {
-				return returned;
-			}
+		UnnormalizedArcSize arcSize = computeUnnormalizedArcSize();
+		DianaPoint returned = polylin.getNearestPointLocatedOnRoundedRepresentation(point, arcSize.arcWidth, arcSize.arcHeight);
+		if (returned == null) {
+			return new DianaPoint(0, 0);
 		}
+		return returned;
 	}
 
 	/**
@@ -278,23 +274,17 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		if (!getIsRounded()) {
 			return relatedSegment.getAngle() + Math.PI;
 		}
-
-		else {
-			UnnormalizedArcSize arcSize = computeUnnormalizedArcSize();
-			DianaArc arc = polylin.getArcForNearestPointLocatedOnRoundedRepresentation(middleSymbolLocation, arcSize.arcWidth,
-					arcSize.arcHeight);
-			if (arc != null) {
-				double angle = arc.angleForPoint(middleSymbolLocation) + Math.PI / 2;
-				if (arc.isClockWise()) {
-					angle += Math.PI;
-				}
-				return angle;
+		UnnormalizedArcSize arcSize = computeUnnormalizedArcSize();
+		DianaArc arc = polylin.getArcForNearestPointLocatedOnRoundedRepresentation(middleSymbolLocation, arcSize.arcWidth,
+				arcSize.arcHeight);
+		if (arc != null) {
+			double angle = arc.angleForPoint(middleSymbolLocation) + Math.PI / 2;
+			if (arc.isClockWise()) {
+				angle += Math.PI;
 			}
-			else {
-				return relatedSegment.getAngle() + Math.PI;
-			}
+			return angle;
 		}
-
+		return relatedSegment.getAngle() + Math.PI;
 	}
 
 	@Override
@@ -305,14 +295,10 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			}
 			return;
 		}
-		else {
-			if (LOGGER.isLoggable(Level.FINE)) {
-				LOGGER.fine("Perform refreshConnector() for " + connectorNode);
-			}
+		if (LOGGER.isLoggable(Level.FINE)) {
+			LOGGER.fine("Perform refreshConnector() for " + connectorNode);
 		}
-
 		updateLayout();
-
 		if (getMiddleSymbol() != MiddleSymbolType.NONE) {
 			updateMiddleSymbolLocationControlPoint();
 		}
@@ -537,9 +523,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				UnnormalizedArcSize arcSize = computeUnnormalizedArcSize();
 				return polylin.getNearestPointLocatedOnRoundedRepresentation(getCrossedControlPoint(), arcSize.arcWidth, arcSize.arcWidth);
 			}
-			else {
-				return getCrossedControlPoint();
-			}
+			return getCrossedControlPoint();
 		}
 		return null;
 	}
@@ -554,9 +538,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 						+ " for fixed starting position=" + _getAllowedStartOrientationsDueToFixedStartingLocation());
 				return returned;
 			}
-			else {
-				return newConstraints;
-			}
+			return newConstraints;
 		}
 		return returned;
 	}
@@ -638,9 +620,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 						+ " for fixed ending position=" + _getAllowedEndOrientationsDueToFixedEndingLocation());
 				return returned;
 			}
-			else {
-				return newConstraints;
-			}
+			return newConstraints;
 		}
 		return returned;
 	}
@@ -1337,19 +1317,9 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 		DianaAreaProvider<SimplifiedCardinalDirection> startAreaProvider = getIsStartingLocationFixed()
 				? new DefaultAreaProvider<>(startArea)
-				: new DianaAreaProvider<SimplifiedCardinalDirection>() {
-					@Override
-					public DianaArea getArea(SimplifiedCardinalDirection input) {
-						return getStartNode().getAllowedStartAreaForConnectorForDirection(connectorNode, startArea, input);
-					}
-				};
+				: (input) -> getStartNode().getAllowedStartAreaForConnectorForDirection(connectorNode, startArea, input);
 		DianaAreaProvider<SimplifiedCardinalDirection> endAreaProvider = getIsEndingLocationFixed() ? new DefaultAreaProvider<>(endArea)
-				: new DianaAreaProvider<SimplifiedCardinalDirection>() {
-					@Override
-					public DianaArea getArea(SimplifiedCardinalDirection input) {
-						return getEndNode().getAllowedEndAreaForConnectorForDirection(connectorNode, endArea, input);
-					}
-				};
+				: (input) -> getEndNode().getAllowedEndAreaForConnectorForDirection(connectorNode, endArea, input);
 		if (getCrossedControlPoint() != null) {
 
 			// System.out.println("startArea="+startArea);
@@ -1860,91 +1830,86 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			// (the last segment is still horizontal or vertical)
 			return;
 		}
+		// Start control point has moved (the first segment is not horizontal nor vertical anymore)
 
-		else {
-			// Start control point has moved (the first segment is not horizontal nor vertical anymore)
-
-			// Find new orientation by minimizing distance between
-			// current start point location and the nearest point of
-			// all anchor location of all possible directions
-			SimplifiedCardinalDirection newOrientation = null;
-			double bestDistance = Double.POSITIVE_INFINITY;
-			for (SimplifiedCardinalDirection o : getAllowedStartOrientations()) {
-				double distance = DianaPoint.distance(startCPLocation, startArea.getAnchorAreaFrom(o).getNearestPoint(startCPLocation));
-				if (distance < bestDistance) {
-					newOrientation = o;
-					bestDistance = distance;
-				}
+		// Find new orientation by minimizing distance between
+		// current start point location and the nearest point of
+		// all anchor location of all possible directions
+		SimplifiedCardinalDirection newOrientation = null;
+		double bestDistance = Double.POSITIVE_INFINITY;
+		for (SimplifiedCardinalDirection o : getAllowedStartOrientations()) {
+			double distance = DianaPoint.distance(startCPLocation, startArea.getAnchorAreaFrom(o).getNearestPoint(startCPLocation));
+			if (distance < bestDistance) {
+				newOrientation = o;
+				bestDistance = distance;
 			}
-
-			// debugPolylin = null;
-
-			// Retrieve next point (also called "first" control point)
-			if (polylin.getSegmentAt(0) == null) {
-				LOGGER.warning("Unexpected null first segment. Abort.");
-				return;
-			}
-			DianaPoint nextPoint = polylin.getSegmentAt(0).getP2();
-
-			if (allowedStartArea.getOrthogonalPerspectiveArea(newOrientation).containsPoint(nextPoint)
-			/* || (getIsStartingLocationFixed() && getFixedStartLocation() != null) */) {
-				// The general layout of polylin will not change, since next point was
-				// already located in this orthogonal perspective area
-				// We just need here to update previous point according to new end point location
-				DianaPoint newPoint = new DianaPoint(nextPoint);
-				if (newOrientation.isHorizontal()) {
-					newPoint.setY(startCPLocation.y);
-				}
-				else if (newOrientation.isVertical()) {
-					newPoint.setX(startCPLocation.x);
-				}
-				polylin.updatePointAt(1, newPoint);
-				controlPoints.elementAt(1).setPoint(newPoint);
-
-			}
-			else {
-				// In this case, the situation is worse, that means that start orientation has changed
-				// We need to recompute a new layout for the polylin
-
-				// Recompute general layout of rect polylin
-
-				if (initialPolylin.getSegmentNb() > 2) {
-					DianaPoint toPoint = initialPolylin.getPointAt(2);
-					SimplifiedCardinalDirection toPointOrientation = initialPolylin.getApproximatedOrientationOfSegment(2).getOpposite();
-					DianaRectPolylin appendingPath;
-					appendingPath = new DianaRectPolylin(startCPLocation, newOrientation, toPoint, toPointOrientation, true,
-							getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
-
-					// debugPolylin = appendingPath;
-					DianaRectPolylin mergedPolylin = mergePolylins(appendingPath, 0, appendingPath.getPointsNb() - 2, initialPolylin, 2,
-							initialPolylin.getPointsNb() - 1);
-					updateWithNewPolylin(mergedPolylin, false, true);
-				}
-				else if (initialPolylin.getSegmentNb() > 1) {
-					DianaPoint toPoint = initialPolylin.getPointAt(2);
-					SimplifiedCardinalDirection toPointOrientation = initialPolylin.getApproximatedOrientationOfSegment(1).getOpposite();
-					DianaRectPolylin appendingPath = new DianaRectPolylin(startCPLocation, newOrientation, toPoint, toPointOrientation,
-							true, getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
-
-					// debugPolylin = appendingPath;
-					DianaRectPolylin mergedPolylin = mergePolylins(appendingPath, 0, appendingPath.getPointsNb() - 2, initialPolylin, 2,
-							initialPolylin.getPointsNb() - 1);
-					updateWithNewPolylin(mergedPolylin, false, true);
-				}
-				else {
-					DianaPoint toPoint = initialPolylin.getPointAt(1);
-					toPoint = retrieveEndArea().getNearestPoint(toPoint);
-					newOrientation = initialPolylin.getApproximatedOrientationOfSegment(0);
-					SimplifiedCardinalDirection toPointOrientation = newOrientation.getOpposite();
-					DianaRectPolylin newPolylin = new DianaRectPolylin(startCPLocation, newOrientation, toPoint, toPointOrientation, true,
-							getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
-
-					updateWithNewPolylin(newPolylin, false, true);
-				}
-			}
-
 		}
 
+		// debugPolylin = null;
+
+		// Retrieve next point (also called "first" control point)
+		if (polylin.getSegmentAt(0) == null) {
+			LOGGER.warning("Unexpected null first segment. Abort.");
+			return;
+		}
+		DianaPoint nextPoint = polylin.getSegmentAt(0).getP2();
+
+		if (allowedStartArea.getOrthogonalPerspectiveArea(newOrientation).containsPoint(nextPoint)
+		/* || (getIsStartingLocationFixed() && getFixedStartLocation() != null) */) {
+			// The general layout of polylin will not change, since next point was
+			// already located in this orthogonal perspective area
+			// We just need here to update previous point according to new end point location
+			DianaPoint newPoint = new DianaPoint(nextPoint);
+			if (newOrientation.isHorizontal()) {
+				newPoint.setY(startCPLocation.y);
+			}
+			else if (newOrientation.isVertical()) {
+				newPoint.setX(startCPLocation.x);
+			}
+			polylin.updatePointAt(1, newPoint);
+			controlPoints.elementAt(1).setPoint(newPoint);
+
+		}
+		else {
+			// In this case, the situation is worse, that means that start orientation has changed
+			// We need to recompute a new layout for the polylin
+
+			// Recompute general layout of rect polylin
+
+			if (initialPolylin.getSegmentNb() > 2) {
+				DianaPoint toPoint = initialPolylin.getPointAt(2);
+				SimplifiedCardinalDirection toPointOrientation = initialPolylin.getApproximatedOrientationOfSegment(2).getOpposite();
+				DianaRectPolylin appendingPath;
+				appendingPath = new DianaRectPolylin(startCPLocation, newOrientation, toPoint, toPointOrientation, true,
+						getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
+
+				// debugPolylin = appendingPath;
+				DianaRectPolylin mergedPolylin = mergePolylins(appendingPath, 0, appendingPath.getPointsNb() - 2, initialPolylin, 2,
+						initialPolylin.getPointsNb() - 1);
+				updateWithNewPolylin(mergedPolylin, false, true);
+			}
+			else if (initialPolylin.getSegmentNb() > 1) {
+				DianaPoint toPoint = initialPolylin.getPointAt(2);
+				SimplifiedCardinalDirection toPointOrientation = initialPolylin.getApproximatedOrientationOfSegment(1).getOpposite();
+				DianaRectPolylin appendingPath = new DianaRectPolylin(startCPLocation, newOrientation, toPoint, toPointOrientation, true,
+						getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
+
+				// debugPolylin = appendingPath;
+				DianaRectPolylin mergedPolylin = mergePolylins(appendingPath, 0, appendingPath.getPointsNb() - 2, initialPolylin, 2,
+						initialPolylin.getPointsNb() - 1);
+				updateWithNewPolylin(mergedPolylin, false, true);
+			}
+			else {
+				DianaPoint toPoint = initialPolylin.getPointAt(1);
+				toPoint = retrieveEndArea().getNearestPoint(toPoint);
+				newOrientation = initialPolylin.getApproximatedOrientationOfSegment(0);
+				SimplifiedCardinalDirection toPointOrientation = newOrientation.getOpposite();
+				DianaRectPolylin newPolylin = new DianaRectPolylin(startCPLocation, newOrientation, toPoint, toPointOrientation, true,
+						getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
+
+				updateWithNewPolylin(newPolylin, false, true);
+			}
+		}
 	}
 
 	/**
@@ -2011,95 +1976,90 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			// (the last segment is still horizontal or vertical)
 			return;
 		}
+		// End control point has moved (the last segment is not horizontal nor vertical anymore)
 
-		else {
-			// End control point has moved (the last segment is not horizontal nor vertical anymore)
-
-			// Find new orientation by minimizing distance between
-			// current end point location and the nearest point of
-			// all anchor location of all possible directions
-			SimplifiedCardinalDirection newOrientation = null;
-			double bestDistance = Double.POSITIVE_INFINITY;
-			for (SimplifiedCardinalDirection o : getAllowedEndOrientations()) {
-				double distance = DianaPoint.distance(endCPLocation, endArea.getAnchorAreaFrom(o).getNearestPoint(endCPLocation));
-				if (distance < bestDistance - DianaGeometricObject.EPSILON) {
-					newOrientation = o;
-					bestDistance = distance;
-				}
+		// Find new orientation by minimizing distance between
+		// current end point location and the nearest point of
+		// all anchor location of all possible directions
+		SimplifiedCardinalDirection newOrientation = null;
+		double bestDistance = Double.POSITIVE_INFINITY;
+		for (SimplifiedCardinalDirection o : getAllowedEndOrientations()) {
+			double distance = DianaPoint.distance(endCPLocation, endArea.getAnchorAreaFrom(o).getNearestPoint(endCPLocation));
+			if (distance < bestDistance - DianaGeometricObject.EPSILON) {
+				newOrientation = o;
+				bestDistance = distance;
 			}
-
-			// debugPolylin = null;
-
-			// Retrieve previous point (also called "last" control point)
-			if (polylin.getSegmentAt(polylin.getSegmentNb() - 1) == null) {
-				LOGGER.warning("Unexpected null last segment. Abort.");
-				return;
-			}
-			DianaPoint previousPoint = polylin.getSegmentAt(polylin.getSegmentNb() - 1).getP1();
-
-			if (allowedEndArea.getOrthogonalPerspectiveArea(newOrientation).containsPoint(previousPoint)
-			/* || (getIsEndingLocationFixed() && getFixedEndLocation() != null) */) {
-				// The general layout of polylin will not change, since previous point was
-				// already located in this orthogonal perspective area
-				// We just need here to update previous point according to new end point location
-				DianaPoint newPoint = new DianaPoint(previousPoint);
-				if (newOrientation.isHorizontal()) {
-					newPoint.setY(endCPLocation.y);
-				}
-				else if (newOrientation.isVertical()) {
-					newPoint.setX(endCPLocation.x);
-				}
-				polylin.updatePointAt(polylin.getPointsNb() - 2, newPoint);
-				controlPoints.elementAt(polylin.getPointsNb() - 2).setPoint(newPoint);
-			}
-			else {
-				// In this case, the situation is worse, that means that end orientation has changed
-				// We need to recompute a new layout for the polylin
-
-				// Recompute general layout of rect polylin
-
-				if (initialPolylin.getSegmentNb() > 2) {
-					DianaPoint toPoint = initialPolylin.getPointAt(initialPolylin.getPointsNb() - 3);
-					SimplifiedCardinalDirection toPointOrientation = initialPolylin
-							.getApproximatedOrientationOfSegment(initialPolylin.getPointsNb() - 3);
-					DianaRectPolylin appendingPath;
-					appendingPath = new DianaRectPolylin(toPoint, toPointOrientation, endCPLocation, newOrientation, true,
-							getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
-
-					// debugPolylin = appendingPath;
-					DianaRectPolylin mergedPolylin = mergePolylins(initialPolylin, 0, initialPolylin.getPointsNb() - 3, appendingPath, 1,
-							appendingPath.getPointsNb() - 1);
-					updateWithNewPolylin(mergedPolylin, false, true);
-				}
-				else if (initialPolylin.getSegmentNb() > 1) {
-					DianaPoint toPoint = initialPolylin.getPointAt(initialPolylin.getPointsNb() - 3);
-					SimplifiedCardinalDirection toPointOrientation = initialPolylin
-							.getApproximatedOrientationOfSegment(initialPolylin.getPointsNb() - 3);
-					DianaRectPolylin appendingPath = new DianaRectPolylin(toPoint, toPointOrientation, endCPLocation, newOrientation, true,
-							getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
-
-					// debugPolylin = appendingPath;
-
-					// DianaRectPolylin mergedPolylin = mergePolylins(initialPolylin, 0, initialPolylin.getPointsNb()-2, appendingPath, 1,
-					// appendingPath.getPointsNb()-1);
-					// updateWithNewPolylin(mergedPolylin);
-
-					updateWithNewPolylin(appendingPath, false, true);
-				}
-				else {
-					DianaPoint fromPoint = initialPolylin.getPointAt(0);
-					fromPoint = retrieveStartArea().getNearestPoint(fromPoint);
-					newOrientation = initialPolylin.getApproximatedOrientationOfSegment(0);
-					SimplifiedCardinalDirection toPointOrientation = newOrientation.getOpposite();
-					DianaRectPolylin newPolylin = new DianaRectPolylin(fromPoint, newOrientation, endCPLocation, toPointOrientation, true,
-							getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
-
-					updateWithNewPolylin(newPolylin, false, true);
-				}
-			}
-
 		}
 
+		// debugPolylin = null;
+
+		// Retrieve previous point (also called "last" control point)
+		if (polylin.getSegmentAt(polylin.getSegmentNb() - 1) == null) {
+			LOGGER.warning("Unexpected null last segment. Abort.");
+			return;
+		}
+		DianaPoint previousPoint = polylin.getSegmentAt(polylin.getSegmentNb() - 1).getP1();
+
+		if (allowedEndArea.getOrthogonalPerspectiveArea(newOrientation).containsPoint(previousPoint)
+		/* || (getIsEndingLocationFixed() && getFixedEndLocation() != null) */) {
+			// The general layout of polylin will not change, since previous point was
+			// already located in this orthogonal perspective area
+			// We just need here to update previous point according to new end point location
+			DianaPoint newPoint = new DianaPoint(previousPoint);
+			if (newOrientation.isHorizontal()) {
+				newPoint.setY(endCPLocation.y);
+			}
+			else if (newOrientation.isVertical()) {
+				newPoint.setX(endCPLocation.x);
+			}
+			polylin.updatePointAt(polylin.getPointsNb() - 2, newPoint);
+			controlPoints.elementAt(polylin.getPointsNb() - 2).setPoint(newPoint);
+		}
+		else {
+			// In this case, the situation is worse, that means that end orientation has changed
+			// We need to recompute a new layout for the polylin
+
+			// Recompute general layout of rect polylin
+
+			if (initialPolylin.getSegmentNb() > 2) {
+				DianaPoint toPoint = initialPolylin.getPointAt(initialPolylin.getPointsNb() - 3);
+				SimplifiedCardinalDirection toPointOrientation = initialPolylin
+						.getApproximatedOrientationOfSegment(initialPolylin.getPointsNb() - 3);
+				DianaRectPolylin appendingPath;
+				appendingPath = new DianaRectPolylin(toPoint, toPointOrientation, endCPLocation, newOrientation, true,
+						getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
+
+				// debugPolylin = appendingPath;
+				DianaRectPolylin mergedPolylin = mergePolylins(initialPolylin, 0, initialPolylin.getPointsNb() - 3, appendingPath, 1,
+						appendingPath.getPointsNb() - 1);
+				updateWithNewPolylin(mergedPolylin, false, true);
+			}
+			else if (initialPolylin.getSegmentNb() > 1) {
+				DianaPoint toPoint = initialPolylin.getPointAt(initialPolylin.getPointsNb() - 3);
+				SimplifiedCardinalDirection toPointOrientation = initialPolylin
+						.getApproximatedOrientationOfSegment(initialPolylin.getPointsNb() - 3);
+				DianaRectPolylin appendingPath = new DianaRectPolylin(toPoint, toPointOrientation, endCPLocation, newOrientation, true,
+						getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
+
+				// debugPolylin = appendingPath;
+
+				// DianaRectPolylin mergedPolylin = mergePolylins(initialPolylin, 0, initialPolylin.getPointsNb()-2, appendingPath, 1,
+				// appendingPath.getPointsNb()-1);
+				// updateWithNewPolylin(mergedPolylin);
+
+				updateWithNewPolylin(appendingPath, false, true);
+			}
+			else {
+				DianaPoint fromPoint = initialPolylin.getPointAt(0);
+				fromPoint = retrieveStartArea().getNearestPoint(fromPoint);
+				newOrientation = initialPolylin.getApproximatedOrientationOfSegment(0);
+				SimplifiedCardinalDirection toPointOrientation = newOrientation.getOpposite();
+				DianaRectPolylin newPolylin = new DianaRectPolylin(fromPoint, newOrientation, endCPLocation, toPointOrientation, true,
+						getOverlapXResultingFromPixelOverlap(), getOverlapYResultingFromPixelOverlap());
+
+				updateWithNewPolylin(newPolylin, false, true);
+			}
+		}
 	}
 
 	/**
