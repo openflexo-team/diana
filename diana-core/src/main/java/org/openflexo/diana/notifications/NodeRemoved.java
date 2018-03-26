@@ -39,9 +39,10 @@
 
 package org.openflexo.diana.notifications;
 
+import org.openflexo.diana.ContainerGraphicalRepresentation;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
-import org.openflexo.diana.notifications.DianaNotification;
+import org.openflexo.diana.GraphicalRepresentation;
 
 /**
  * This notification is thrown when a node has been removed from the drawing tree
@@ -49,26 +50,13 @@ import org.openflexo.diana.notifications.DianaNotification;
  * @author sylvain
  * 
  */
-public class NodeRemoved extends DianaNotification {
+public class NodeRemoved<O1, GR1 extends GraphicalRepresentation, O2, GR2 extends ContainerGraphicalRepresentation>
+		extends DianaNotification<DrawingTreeNode<O1, GR1>, ContainerNode<O2, GR2>> {
 
 	public static final String EVENT_NAME = "NodeRemoved";
 
-	private DrawingTreeNode<?, ?> removedNode;
-	private ContainerNode<?, ?> parent;
-
 	// Hack: stores the ex-parent in new value
-	public NodeRemoved(DrawingTreeNode<?, ?> removedNode, ContainerNode<?, ?> parent) {
+	public NodeRemoved(DrawingTreeNode<O1, GR1> removedNode, ContainerNode<O2, GR2> parent) {
 		super(EVENT_NAME, removedNode, parent);
-		this.removedNode = removedNode;
-		this.parent = parent;
 	}
-
-	public DrawingTreeNode<?, ?> getRemovedNode() {
-		return removedNode;
-	}
-
-	public ContainerNode<?, ?> getParent() {
-		return parent;
-	}
-
 }

@@ -39,9 +39,7 @@
 
 package org.openflexo.diana.notifications;
 
-import org.openflexo.diana.notifications.DianaEvent;
-
-public class GeometryModified extends DianaEvent {
+public class GeometryModified extends DianaEmptyEvent {
 
 	public static final String EVENT_NAME = "geometry";
 

@@ -39,9 +39,7 @@
 
 package org.openflexo.diana.notifications;
 
-import org.openflexo.diana.notifications.DianaEvent;
-
-public class LabelWillMove extends DianaEvent {
+public class LabelWillMove extends DianaEmptyEvent {
 
 	public static final String EVENT_NAME = "ConnectorModified";
 

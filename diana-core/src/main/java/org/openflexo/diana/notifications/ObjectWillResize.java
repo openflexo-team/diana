@@ -39,9 +39,7 @@
 
 package org.openflexo.diana.notifications;
 
-import org.openflexo.diana.notifications.DianaEvent;
-
-public class ObjectWillResize extends DianaEvent {
+public class ObjectWillResize extends DianaEmptyEvent {
 
 	public static final String EVENT_NAME = "ObjectWillResize";
 

@@ -45,15 +45,8 @@ package org.openflexo.diana.notifications;
  * @author sylvain
  * 
  */
-public class DianaEvent extends DianaNotification {
-
-	public <T> DianaEvent(String eventName) {
-		super(eventName, null, null);
-		newValue = this;
-	}
-
-	public <T> DianaEvent(String eventName, Object sourceObject) {
+public class DianaEvent<T> extends DianaNotification<T, T> {
+	public DianaEvent(String eventName, T sourceObject) {
 		super(eventName, null, sourceObject);
 	}
-
 }

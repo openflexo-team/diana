@@ -87,7 +87,7 @@ public abstract class DianaObjectImpl implements DianaObject {
 			// TODO: remove all listeners of PropertyChangedSupport
 			// deleteObservers();
 			if (getPropertyChangeSupport() != null) {
-				// Property change support can be null if noone is listening. I noone is listening,
+				// Property change support can be null if none is listening. I noone is listening,
 				// it is not needed to fire a property change.
 				getPropertyChangeSupport().firePropertyChange(getDeletedProperty(), false, true);
 				// Fixed huge bug with graphical representation (which are in the model) deleted when the diagram view was closed
@@ -188,31 +188,18 @@ public abstract class DianaObjectImpl implements DianaObject {
 		}
 		// System.out.println("param: "+parameterKey.name()+" value="+oldValue+" value="+value);
 		if (oldValue == null) {
-			if (value == null) {
+			if (value == null)
 				return null; // No change
-			}
-			else {
-				return new DianaAttributeNotification<>(parameter, oldValue, value);
-			}
+			return new DianaAttributeNotification<>(parameter, oldValue, value);
 		}
-		else {
-			if (useEquals) {
-				if (oldValue.equals(value)) {
-					return null; // No change
-				}
-				else {
-					return new DianaAttributeNotification<>(parameter, oldValue, value);
-				}
-			}
-			else {
-				if (oldValue == value) {
-					return null; // No change
-				}
-				else {
-					return new DianaAttributeNotification<>(parameter, oldValue, value);
-				}
-			}
+		if (useEquals) {
+			if (oldValue.equals(value))
+				return null; // No change
+			return new DianaAttributeNotification<>(parameter, oldValue, value);
 		}
+		if (oldValue == value)
+			return null; // No change
+		return new DianaAttributeNotification<>(parameter, oldValue, value);
 	}
 
 	/**
@@ -270,7 +257,7 @@ public abstract class DianaObjectImpl implements DianaObject {
 	}
 
 	@Override
-	public void notify(DianaAttributeNotification notification) {
+	public void notify(DianaAttributeNotification<?> notification) {
 		hasChanged(notification);
 	}
 
@@ -281,8 +268,8 @@ public abstract class DianaObjectImpl implements DianaObject {
 	 */
 	protected void hasChanged(DianaAttributeNotification<?> notification) {
 		if (logger.isLoggable(Level.FINE)) {
-			logger.fine("Change attribute " + notification.parameter + " for object " + this + " was: " + notification.oldValue
-					+ " is now: " + notification.newValue);
+			logger.fine("Change attribute " + notification.parameter + " for object " + this + " was: " + notification.oldValue()
+					+ " is now: " + notification.newValue());
 		}
 		// propagateConstraintsAfterModification(notification.parameter);
 		notifyObservers(notification);
@@ -324,9 +311,9 @@ public abstract class DianaObjectImpl implements DianaObject {
 		return super.toString();
 	}
 
-	public void notifyObservers(DianaNotification notification) {
+	public void notifyObservers(DianaNotification<?, ?> notification) {
 		if (!isDeleted() && getPropertyChangeSupport() != null) {
-			getPropertyChangeSupport().firePropertyChange(notification.propertyName(), notification.oldValue, notification.newValue);
+			getPropertyChangeSupport().firePropertyChange(notification.propertyName(), notification.oldValue(), notification.newValue());
 		}
 	}
 

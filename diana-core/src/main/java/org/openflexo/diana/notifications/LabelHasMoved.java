@@ -39,9 +39,7 @@
 
 package org.openflexo.diana.notifications;
 
-import org.openflexo.diana.notifications.DianaEvent;
-
-public class LabelHasMoved extends DianaEvent {
+public class LabelHasMoved extends DianaEmptyEvent {
 
 	public static final String EVENT_NAME = "LabelHasMoved";
 

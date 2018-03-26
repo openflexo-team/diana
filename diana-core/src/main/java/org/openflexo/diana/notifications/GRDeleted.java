@@ -40,7 +40,6 @@
 package org.openflexo.diana.notifications;
 
 import org.openflexo.diana.GraphicalRepresentation;
-import org.openflexo.diana.notifications.DianaNotification;
 
 /**
  * This notification is thrown when a graphical representation has been deleted
@@ -48,17 +47,8 @@ import org.openflexo.diana.notifications.DianaNotification;
  * @author sylvain
  * 
  */
-public class GRDeleted extends DianaNotification {
-
-	private GraphicalRepresentation deletedGR;
-
+public class GRDeleted extends DianaNotification<GraphicalRepresentation, GraphicalRepresentation> {
 	public GRDeleted(GraphicalRepresentation deletedGR) {
 		super("delete", deletedGR, null);
-		this.deletedGR = deletedGR;
 	}
-
-	public GraphicalRepresentation getDeletedGR() {
-		return deletedGR;
-	}
-
 }

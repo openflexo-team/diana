@@ -40,7 +40,7 @@
 package org.openflexo.diana.notifications;
 
 import org.openflexo.diana.Drawing.DrawingTreeNode;
-import org.openflexo.diana.notifications.DianaNotification;
+import org.openflexo.diana.GraphicalRepresentation;
 
 /**
  * This notification is thrown when a node has been deleted
@@ -48,18 +48,11 @@ import org.openflexo.diana.notifications.DianaNotification;
  * @author sylvain
  * 
  */
-public class NodeDeleted extends DianaNotification {
+public class NodeDeleted<O, GR extends GraphicalRepresentation> extends DianaNotification<DrawingTreeNode<O, GR>, DrawingTreeNode<O, GR>> {
 
 	public static final String EVENT_NAME = "NodeDeleted";
 
-	private DrawingTreeNode<?, ?> deletedNode;
-
-	public NodeDeleted(DrawingTreeNode<?, ?> deletedNode) {
+	public NodeDeleted(DrawingTreeNode<O, GR> deletedNode) {
 		super(EVENT_NAME, deletedNode, null);
 	}
-
-	public DrawingTreeNode<?, ?> getDeletedNode() {
-		return deletedNode;
-	}
-
 }

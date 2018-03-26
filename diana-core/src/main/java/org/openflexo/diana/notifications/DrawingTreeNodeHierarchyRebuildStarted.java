@@ -40,18 +40,12 @@
 package org.openflexo.diana.notifications;
 
 import org.openflexo.diana.Drawing;
-import org.openflexo.diana.notifications.DianaEvent;
 
-public class DrawingTreeNodeHierarchyRebuildStarted extends DianaEvent {
+public class DrawingTreeNodeHierarchyRebuildStarted<T> extends DianaEvent<Drawing<T>> {
 
 	public static final String EVENT_NAME = "DrawingTreeNodeHierarchyRebuildStarted";
 
-	public DrawingTreeNodeHierarchyRebuildStarted(Drawing<?> drawing) {
+	public DrawingTreeNodeHierarchyRebuildStarted(Drawing<T> drawing) {
 		super(EVENT_NAME, drawing);
 	}
-
-	public Drawing<?> getDrawing() {
-		return (Drawing<?>) newValue();
-	}
-
 }

@@ -45,14 +45,13 @@ package org.openflexo.diana.notifications;
  * @author sylvain
  * 
  */
-public class DianaNotification {
+public class DianaNotification<T1, T2> {
 
 	private String propertyName;
-	public Object oldValue;
-	public Object newValue;
+	protected T1 oldValue;
+	protected T2 newValue;
 
-	public DianaNotification(String propertyName, Object oldValue, Object newValue) {
-		super();
+	public DianaNotification(String propertyName, T1 oldValue, T2 newValue) {
 		this.propertyName = propertyName;
 		this.oldValue = oldValue;
 		this.newValue = newValue;
@@ -67,11 +66,11 @@ public class DianaNotification {
 		return propertyName;
 	}
 
-	public Object oldValue() {
+	public T1 oldValue() {
 		return oldValue;
 	}
 
-	public Object newValue() {
+	public T2 newValue() {
 		return newValue;
 	}
 

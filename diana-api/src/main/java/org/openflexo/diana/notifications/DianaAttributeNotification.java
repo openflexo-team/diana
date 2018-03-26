@@ -47,15 +47,13 @@ import org.openflexo.diana.GRProperty;
  * 
  * @param <T>
  */
-public class DianaAttributeNotification<T> extends DianaNotification {
+public class DianaAttributeNotification<T> extends DianaNotification<T, T> {
 
 	public GRProperty<T> parameter;
 
 	public DianaAttributeNotification(GRProperty<T> parameter, T oldValue, T newValue) {
 		super(parameter != null ? parameter.getName() : null, oldValue, newValue);
 		this.parameter = parameter;
-		this.oldValue = oldValue;
-		this.newValue = newValue;
 	}
 
 	@Override
@@ -66,21 +64,5 @@ public class DianaAttributeNotification<T> extends DianaNotification {
 
 	public GRProperty<T> getParameter() {
 		return parameter;
-	}
-
-	public String propertyName() {
-		if (parameter != null) {
-			return parameter.getName();
-		}
-		return null;
-	}
-
-	public T newValue() {
-		return (T) newValue;
-	}
-
-	@Override
-	public T oldValue() {
-		return (T) super.oldValue();
 	}
 }

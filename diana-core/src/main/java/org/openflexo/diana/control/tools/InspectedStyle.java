@@ -51,8 +51,8 @@ import java.util.logging.Logger;
 
 import org.openflexo.connie.type.TypeUtils;
 import org.openflexo.diana.DianaModelFactory;
-import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.logging.FlexoLogger;
@@ -223,9 +223,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 			if (newObject == null) {
 				return false;
 			}
-			else {
-				return true;
-			}
+			return true;
 		}
 		return !oldObject.equals(newObject);
 	}
@@ -475,7 +473,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		notifyChange(parameter);
 	}
 
-	public void notify(DianaAttributeNotification notification) {
+	public void notify(DianaAttributeNotification<?> notification) {
 		// Not relevant
 	}
 

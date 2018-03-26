@@ -402,7 +402,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	public boolean delete() {
 		if (!isDeleted) {
 			// Normally, it is already done, but check and do it when required...
-			if (parentNode instanceof ContainerNode && ((ContainerNode<?, ?>) parentNode).getChildNodes() != null
+			if (parentNode != null && ((ContainerNode<?, ?>) parentNode).getChildNodes() != null
 					&& ((ContainerNode<?, ?>) parentNode).getChildNodes().contains(this)) {
 				parentNode.removeChild(this);
 			}
@@ -426,7 +426,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 			isDeleted = true;
 
-			notifyObservers(new NodeDeleted(this));
+			notifyObservers(new NodeDeleted<>(this));
 
 			return true;
 		}
@@ -640,13 +640,13 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	}
 
-	public void notifyObservers(DianaNotification notification) {
+	public void notifyObservers(DianaNotification<?, ?> notification) {
 		if ((!(notification instanceof NodeDeleted)) && isDeleted()) {
 			logger.warning("notifyObservers() called by a deleted DrawingTreeNode");
 			// Thread.dumpStack();
 			return;
 		}
-		getPropertyChangeSupport().firePropertyChange(notification.propertyName(), notification.oldValue, notification.newValue);
+		getPropertyChangeSupport().firePropertyChange(notification.propertyName(), notification.oldValue(), notification.newValue());
 	}
 
 	public void notifyObservers(String propertyName, Object oldValue, Object newValue) {
@@ -1060,9 +1060,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			if (getGraphicalRepresentation().hasKey(parameter.getName())) {
 				return (T) getGraphicalRepresentation().objectForKey(parameter.getName());
 			}
-			else {
-				return null;
-			}
+			return null;
 		}
 
 		// If SharedGraphicalRepresentations is active, GR should not be used to store graphical properties

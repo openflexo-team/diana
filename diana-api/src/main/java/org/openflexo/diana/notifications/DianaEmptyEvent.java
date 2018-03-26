@@ -3,7 +3,7 @@
  * Copyright (c) 2013-2014, Openflexo
  * Copyright (c) 2011-2012, AgileBirds
  * 
- * This file is part of Diana-core, a component of the software infrastructure 
+ * This file is part of Diana-api, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -39,12 +39,15 @@
 
 package org.openflexo.diana.notifications;
 
-public class DrawingNeedsToBeRedrawn extends DianaEmptyEvent {
-
-	public static final String EVENT_NAME = "DrawingNeedsToBeRedrawn";
-
-	public DrawingNeedsToBeRedrawn() {
-		super(EVENT_NAME);
+/**
+ * Simple event identified by a string id
+ * 
+ * @author sylvain
+ * 
+ */
+public class DianaEmptyEvent extends DianaNotification<DianaEmptyEvent, DianaEmptyEvent> {
+	public DianaEmptyEvent(String eventName) {
+		super(eventName, null, null);
+		newValue = this;
 	}
-
 }
