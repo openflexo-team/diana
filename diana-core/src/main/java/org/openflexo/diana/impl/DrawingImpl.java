@@ -46,12 +46,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.Drawing;
+import org.openflexo.diana.ConnectorGraphicalRepresentation;
 import org.openflexo.diana.DianaLayoutManager;
 import org.openflexo.diana.DianaModelFactory;
+import org.openflexo.diana.Drawing;
 import org.openflexo.diana.GRBinding;
-import org.openflexo.diana.GRStructureVisitor;
-import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.GRBinding.ConnectorGRBinding;
 import org.openflexo.diana.GRBinding.ContainerGRBinding;
 import org.openflexo.diana.GRBinding.DrawingGRBinding;
@@ -62,11 +61,14 @@ import org.openflexo.diana.GRProvider.ConnectorGRProvider;
 import org.openflexo.diana.GRProvider.DrawingGRProvider;
 import org.openflexo.diana.GRProvider.GeometricGRProvider;
 import org.openflexo.diana.GRProvider.ShapeGRProvider;
+import org.openflexo.diana.GRStructureVisitor;
+import org.openflexo.diana.GraphicalRepresentation;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.animation.Animation;
 import org.openflexo.diana.graph.DianaGraph;
+import org.openflexo.diana.notifications.DianaNotification;
 import org.openflexo.diana.notifications.DrawingTreeNodeHierarchyRebuildEnded;
 import org.openflexo.diana.notifications.DrawingTreeNodeHierarchyRebuildStarted;
-import org.openflexo.diana.notifications.DianaNotification;
 import org.openflexo.model.factory.ProxyMethodHandler;
 import org.openflexo.model.undo.UndoManager;
 
@@ -148,9 +150,7 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 			hash.put(model, _root);
 			return _root;
 		}
-		else {
-			return null;
-		}
+		return null;
 	}
 
 	protected Hashtable<Object, DrawingTreeNode<?, ?>> retrieveHash(GRBinding<?, ?> grBinding) {
@@ -307,7 +307,7 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	 */
 	@Override
 	public <O> ShapeNode<O> getShapeNode(O drawable, ShapeGRBinding<O> binding) {
-		DrawingTreeNode<O, ?> dtn = getDrawingTreeNode(drawable, binding);
+		DrawingTreeNode<O, ShapeGraphicalRepresentation> dtn = getDrawingTreeNode(drawable, binding);
 		if (dtn instanceof ShapeNode) {
 			return (ShapeNode<O>) dtn;
 		}
@@ -322,7 +322,7 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	 */
 	@Override
 	public <O> ConnectorNode<O> getConnectorNode(O drawable, ConnectorGRBinding<O> binding) {
-		DrawingTreeNode<O, ?> dtn = getDrawingTreeNode(drawable, binding);
+		DrawingTreeNode<O, ConnectorGraphicalRepresentation> dtn = getDrawingTreeNode(drawable, binding);
 		if (dtn instanceof ConnectorNode) {
 			return (ConnectorNode<O>) dtn;
 		}
@@ -375,8 +375,8 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 		return null;
 	}
 
-	public void notifyObservers(DianaNotification notification) {
-		getPropertyChangeSupport().firePropertyChange(notification.propertyName(), notification.oldValue, notification.newValue);
+	public void notifyObservers(DianaNotification<?, ?> notification) {
+		getPropertyChangeSupport().firePropertyChange(notification.propertyName(), notification.oldValue(), notification.newValue());
 	}
 
 	private boolean isUpdatingGraphicalObjectsHierarchy = false;
@@ -390,7 +390,7 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	private void fireGraphicalObjectHierarchyRebuildStarted() {
 		isUpdatingGraphicalObjectsHierarchy = true;
 		layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating.clear();
-		notifyObservers(new DrawingTreeNodeHierarchyRebuildStarted(this));
+		notifyObservers(new DrawingTreeNodeHierarchyRebuildStarted<>(this));
 	}
 
 	private void fireGraphicalObjectHierarchyRebuildEnded() {
@@ -400,7 +400,7 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 			layoutManager.doLayout(true);
 		}
 		layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating.clear();
-		notifyObservers(new DrawingTreeNodeHierarchyRebuildEnded(this));
+		notifyObservers(new DrawingTreeNodeHierarchyRebuildEnded<>(this));
 	}
 
 	@Override
