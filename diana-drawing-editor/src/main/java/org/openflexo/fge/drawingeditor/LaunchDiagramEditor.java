@@ -40,28 +40,17 @@
 package org.openflexo.fge.drawingeditor;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import org.openflexo.localization.FlexoLocalization;
-import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
 
 public class LaunchDiagramEditor {
-
-	private static final Logger logger = FlexoLogger.getLogger(LaunchDiagramEditor.class.getPackage().getName());
-
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				init();
-			}
-		});
+		SwingUtilities.invokeLater(() -> init());
 	}
 
 	private static void init() {

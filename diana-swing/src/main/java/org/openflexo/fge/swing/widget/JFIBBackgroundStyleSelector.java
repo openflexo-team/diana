@@ -402,18 +402,14 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 		protected void update() {
 			rectGR.setBackground(getEditedObject() != null ? getEditedObject() : factory.makeColoredBackground(DEFAULT_COLOR1));
 			// We do it later because producer of texture may not has finished its job
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					if (getEditedObject() == null) {
-						return;
-					}
-					BackgroundStyle bg = getEditedObject();
-					rectGR.setBackground(bg);
+			SwingUtilities.invokeLater(() -> {
+				if (getEditedObject() == null) {
+					return;
 				}
+				BackgroundStyle bg = getEditedObject();
+				rectGR.setBackground(bg);
 			});
 		}
-
 	}
 
 	@Override

@@ -55,13 +55,7 @@ public class LaunchPPTEditor {
 	private static final Logger logger = FlexoLogger.getLogger(LaunchPPTEditor.class.getPackage().getName());
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				init();
-			}
-		});
+		SwingUtilities.invokeLater(() -> init());
 	}
 
 	private static void init() {

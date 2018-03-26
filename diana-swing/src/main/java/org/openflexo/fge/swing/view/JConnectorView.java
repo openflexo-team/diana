@@ -407,13 +407,7 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 
 		// System.out.println("JConnectorView, received: "+aNotification);
 		if (!SwingUtilities.isEventDispatchThread()) {
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					propertyChange(evt);
-				}
-			});
+			SwingUtilities.invokeLater(() -> propertyChange(evt));
 		}
 		else {
 			if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) {

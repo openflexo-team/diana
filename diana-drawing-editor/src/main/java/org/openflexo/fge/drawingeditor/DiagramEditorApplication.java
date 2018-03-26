@@ -443,15 +443,10 @@ public class DiagramEditorApplication {
 				if (willUpdate) {
 					return;
 				}
-				else {
-					willUpdate = true;
-				}
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						willUpdate = false;
-						updateOpenRecent();
-					}
+				willUpdate = true;
+				SwingUtilities.invokeLater(() -> {
+					willUpdate = false;
+					updateOpenRecent();
 				});
 			}
 		}
@@ -1030,9 +1025,7 @@ public class DiagramEditorApplication {
 		if (currentDiagramEditor.getFile() == null) {
 			return saveDrawingAs();
 		}
-		else {
-			return currentDiagramEditor.save();
-		}
+		return currentDiagramEditor.save();
 	}
 
 	public boolean saveDrawingAs() {
@@ -1050,9 +1043,7 @@ public class DiagramEditorApplication {
 			updateTabTitle();
 			return currentDiagramEditor.save();
 		}
-		else {
-			return false;
-		}
+		return false;
 	}
 
 	// FD : never used

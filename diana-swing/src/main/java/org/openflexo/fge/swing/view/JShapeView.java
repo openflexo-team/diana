@@ -96,7 +96,7 @@ import org.openflexo.fge.view.ShapeView;
  * @param <O>
  */
 @SuppressWarnings("serial")
-public class JShapeView<O> extends JDianaLayeredView<O>implements ShapeView<O, JLayeredPane> {
+public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, JLayeredPane> {
 
 	private static final Logger logger = Logger.getLogger(JShapeView.class.getPackage().getName());
 
@@ -428,13 +428,7 @@ public class JShapeView<O> extends JDianaLayeredView<O>implements ShapeView<O, J
 		}
 
 		if (!SwingUtilities.isEventDispatchThread()) {
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					propertyChange(evt);
-				}
-			});
+			SwingUtilities.invokeLater(() -> propertyChange(evt));
 		}
 		else {
 			// logger.info("Received for " + getNode().getDrawable() + " in JShapeView: " + evt.getPropertyName() + " evt=" + evt);

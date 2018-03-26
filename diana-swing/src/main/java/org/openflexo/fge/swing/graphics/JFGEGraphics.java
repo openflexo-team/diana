@@ -760,12 +760,7 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 			getView().getPaintManager().repaint(getView());
 		}
 		else {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					repaintWhenColoredTextureHasBeenComputed();
-				}
-			});
+			SwingUtilities.invokeLater(() -> repaintWhenColoredTextureHasBeenComputed());
 		}
 	}
 
