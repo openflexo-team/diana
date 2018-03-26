@@ -47,8 +47,8 @@ import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.DataBinding.BindingDefinitionType;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
-import org.openflexo.diana.TextStyle;
 import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
+import org.openflexo.diana.TextStyle;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.graphics.DianaShapeGraphics;
 
@@ -110,7 +110,8 @@ public class DianaDiscreteSimpleFunctionGraph<T> extends DianaSimpleFunctionGrap
 		if (discreteValues != null) {
 			return discreteValues.iterator();
 		}
-		return ((List<T>) Collections.emptyList()).iterator();
+		List<T> empty = Collections.emptyList();
+		return empty.iterator();
 	}
 
 	@Override

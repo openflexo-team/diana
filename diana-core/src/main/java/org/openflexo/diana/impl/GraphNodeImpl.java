@@ -38,17 +38,12 @@
 
 package org.openflexo.diana.impl;
 
-import java.util.logging.Logger;
-
 import org.openflexo.diana.Drawing.GraphNode;
 import org.openflexo.diana.GRBinding.GraphGRBinding;
 import org.openflexo.diana.graph.DianaGraph;
 import org.openflexo.diana.graphics.DianaShapeGraphics;
 
 public class GraphNodeImpl<G extends DianaGraph> extends ShapeNodeImpl<G> implements GraphNode<G> {
-
-	private static final Logger logger = Logger.getLogger(GraphNodeImpl.class.getPackage().getName());
-
 	public static final String GRAPH_NEEDS_TO_BE_REDRAWN = "GraphNeedsToBeRedrawn";
 
 	// TODO: change to protected
@@ -73,7 +68,7 @@ public class GraphNodeImpl<G extends DianaGraph> extends ShapeNodeImpl<G> implem
 
 	@Override
 	public void notifyGraphNeedsToBeRedrawn() {
-		//System.out.println("notifyGraphNeedsToBeRedrawn()");
+		// System.out.println("notifyGraphNeedsToBeRedrawn()");
 		getPropertyChangeSupport().firePropertyChange(GRAPH_NEEDS_TO_BE_REDRAWN, false, true);
 	}
 

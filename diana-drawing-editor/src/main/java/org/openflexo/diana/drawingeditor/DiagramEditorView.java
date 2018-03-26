@@ -40,16 +40,12 @@
 package org.openflexo.diana.drawingeditor;
 
 import java.awt.Graphics;
-import java.util.logging.Logger;
 
 import org.openflexo.diana.drawingeditor.DrawEdgeControl.DrawEdgeAction;
 import org.openflexo.diana.drawingeditor.model.Diagram;
 import org.openflexo.diana.swing.view.JDrawingView;
 
 public class DiagramEditorView extends JDrawingView<Diagram> {
-
-	private static final Logger logger = Logger.getLogger(DiagramEditorView.class.getPackage().getName());
-
 	public DiagramEditorView(DianaDrawingEditor controller) {
 		super(controller);
 	}
@@ -73,22 +69,4 @@ public class DiagramEditorView extends JDrawingView<Diagram> {
 			_drawEdgeAction.paint(g, getController());
 		}
 	}
-
-	/*@Override
-	public DianaEditor getController() {
-		return (DianaEditor) super.getController();
-	}*/
-
-	/*@Override
-	public void repaint() {
-		logger.info("Repaint called");
-		super.repaint();
-	}
-
-	@Override
-	public void repaint(int x, int y, int width, int height) {
-		logger.info("Repaint called also here");
-		super.repaint(x, y, width, height);
-	}*/
-
 }

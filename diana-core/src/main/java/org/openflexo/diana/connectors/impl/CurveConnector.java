@@ -237,9 +237,7 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 					returned.setIsFilled(false);
 					return returned;
 				}
-				else {
-					return new DianaEmptyArea();
-				}
+				return new DianaEmptyArea();
 			}
 
 			@Override
@@ -267,9 +265,7 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 					returned.setIsFilled(false);
 					return returned;
 				}
-				else {
-					return new DianaEmptyArea();
-				}
+				return new DianaEmptyArea();
 			}
 
 			@Override

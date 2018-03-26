@@ -97,13 +97,11 @@ public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, 
 		if (getSelection().size() == 0) {
 			return (Class<? extends S>) getStyleFactory().getCurrentStyle().getClass();
 		}
-		else {
-			S style = getStyle(getSelection().get(0));
-			if (style != null) {
-				return (Class<? extends S>) style.getClass();
-			}
-			return null;
+		S style = getStyle(getSelection().get(0));
+		if (style != null) {
+			return (Class<? extends S>) style.getClass();
 		}
+		return null;
 	}
 
 	@Override
@@ -136,9 +134,7 @@ public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, 
 		if (getSelection().size() == 0) {
 			return getStyleType(getDefaultValue());
 		}
-		else {
-			return getStyleType(getStyle(getSelection().get(0)));
-		}
+		return getStyleType(getStyle(getSelection().get(0)));
 	}
 
 	protected abstract ST getStyleType(S style);

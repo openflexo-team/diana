@@ -73,8 +73,7 @@ public class SteppedDimensionConverter extends Converter<DianaSteppedDimensionCo
 	public String convertToString(DianaSteppedDimensionConstraint aDim) {
 		if (aDim != null) {
 			return aDim.getHorizontalStep() + "," + aDim.getVerticalStep();
-		} else {
-			return null;
 		}
+		return null;
 	}
 }

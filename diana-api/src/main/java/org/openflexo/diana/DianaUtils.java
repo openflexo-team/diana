@@ -248,9 +248,7 @@ public class DianaUtils {
 			AffineTransform at = convertCoordinatesAT(source, destination, scale);
 			return (Point) at.transform(point, new Point());
 		}
-		else {
-			return new Point(point);
-		}
+		return new Point(point);
 	}
 
 	/**
@@ -291,9 +289,7 @@ public class DianaUtils {
 			returned.preConcatenate(convertFromDrawingToDrawableAT(destination, scale));
 			return returned;
 		}
-		else {
-			return new AffineTransform();
-		}
+		return new AffineTransform();
 	}
 
 	/**

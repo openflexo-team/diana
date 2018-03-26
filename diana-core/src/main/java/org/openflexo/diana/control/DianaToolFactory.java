@@ -36,7 +36,6 @@
  * 
  */
 
-
 package org.openflexo.diana.control;
 
 import org.openflexo.diana.control.actions.DrawConnectorAction;

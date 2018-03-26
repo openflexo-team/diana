@@ -85,11 +85,11 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 	private PropertyChangeSupport pcSupport;
 	private DianaModelFactory fgeFactory;
 
-	private final DianaInteractiveViewer<?, ?, ?> controller;
+	// Unused private final DianaInteractiveViewer<?, ?, ?> controller;
 
 	public ConnectorSpecificationFactory(DianaInteractiveViewer<?, ?, ?> controller) {
 		pcSupport = new PropertyChangeSupport(this);
-		this.controller = controller;
+		// Unused this.controller = controller;
 		fgeFactory = controller.getFactory();
 		lineConnectorSpecification = new InspectedLineConnectorSpecification(controller, controller.getFactory().makeLineConnector());
 		curveConnectorSpecification = new InspectedCurveConnectorSpecification(controller, controller.getFactory().makeCurveConnector());
@@ -160,9 +160,7 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 			if (newObject == null) {
 				return false;
 			}
-			else {
-				return true;
-			}
+			return true;
 		}
 		return !oldObject.equals(newObject);
 	}

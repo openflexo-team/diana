@@ -350,7 +350,8 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	 * @param types
 	 * @return
 	 */
-	public <T> List<T> getSelectedDrawables(Class<? extends T>... types) {
+	@SafeVarargs
+	public final <T> List<T> getSelectedDrawables(Class<? extends T>... types) {
 		List<T> returned = new ArrayList<>();
 		for (DrawingTreeNode<?, ?> node : selectedObjects) {
 			boolean takeIt = false;

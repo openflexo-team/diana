@@ -41,16 +41,12 @@ package org.openflexo.diana.impl;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.util.logging.Logger;
 
 import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.TextStyle;
 import org.openflexo.diana.notifications.DianaAttributeNotification;
 
 public abstract class TextStyleImpl extends DianaStyleImpl implements TextStyle {
-
-	private static final Logger logger = Logger.getLogger(TextStyle.class.getPackage().getName());
-
 	private Color color;
 	private Color backgroundColor = Color.WHITE;
 	private Font font;
@@ -151,27 +147,13 @@ public abstract class TextStyleImpl extends DianaStyleImpl implements TextStyle 
 		}
 	}
 
-	/*@Override
-	public TextStyle clone() {
-		try {
-			return (TextStyle) super.clone();
-		} catch (CloneNotSupportedException e) {
-			// cannot happen since we are clonable
-			e.printStackTrace();
-			return null;
-		}
-	}*/
-
 	private static boolean requireChange(Object oldObject, Object newObject) {
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;
 			}
-			else {
-				return true;
-			}
+			return true;
 		}
 		return !oldObject.equals(newObject);
 	}
-
 }

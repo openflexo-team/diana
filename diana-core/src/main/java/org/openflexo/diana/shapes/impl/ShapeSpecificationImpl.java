@@ -40,7 +40,6 @@ package org.openflexo.diana.shapes.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.impl.DianaObjectImpl;
@@ -53,14 +52,6 @@ import org.openflexo.diana.shapes.ShapeSpecification;
  * 
  */
 public abstract class ShapeSpecificationImpl extends DianaObjectImpl implements ShapeSpecification {
-
-	private static final Logger logger = Logger.getLogger(ShapeSpecificationImpl.class.getPackage().getName());
-
-	// private transient ShapeGraphicalRepresentation graphicalRepresentation;
-
-	// private transient Vector<ControlPoint> controlPoints = null;
-
-	// private static final DianaModelFactory SHADOW_FACTORY = DianaCoreUtils.TOOLS_FACTORY;
 
 	// *******************************************************************************
 	// * Constructor *

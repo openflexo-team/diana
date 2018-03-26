@@ -269,9 +269,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 			if (insideFocusedShape != null) {
 				return insideFocusedShape;
 			}
-			else {
-				return focusedShape;
-			}
+			return focusedShape;
 		}
 
 		return null;
@@ -286,7 +284,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		if (children != null) {
 			for (DrawingTreeNodeImpl<?, ?> child : getChildNodes()) {
 				if (child instanceof ShapeNodeImpl) {
-					returned.add((ShapeNodeImpl) child);
+					returned.add((ShapeNodeImpl<?>) child);
 				}
 			}
 		}
@@ -405,7 +403,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		if (addedNode.getGraphicalRepresentation() != null) {
 			addedNode.getGraphicalRepresentation().updateBindingModel();
 		}
-		notifyObservers(new NodeAdded(addedNode, this));
+		notifyObservers(new NodeAdded<>(addedNode, this));
 
 		performRelayout(true);
 	}
@@ -415,7 +413,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		if (removedNode.getGraphicalRepresentation() != null) {
 			removedNode.getGraphicalRepresentation().updateBindingModel();
 		}
-		notifyObservers(new NodeRemoved(removedNode, this));
+		notifyObservers(new NodeRemoved<>(removedNode, this));
 
 		if (!getDrawing().isDeleting()) {
 			performRelayout(true);
@@ -889,9 +887,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		if (labelMetricsProvider != null) {
 			return labelMetricsProvider.getScaledPreferredDimension(1.0);
 		}
-		else {
-			return new Dimension(0, 0);
-		}
+		return new Dimension(0, 0);
 	}
 
 	@Override

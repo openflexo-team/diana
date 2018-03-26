@@ -82,11 +82,8 @@ public abstract class ColorBackgroundStyleImpl extends BackgroundStyleImpl imple
 			if (newObject == null) {
 				return false;
 			}
-			else {
-				return true;
-			}
+			return true;
 		}
 		return !oldObject.equals(newObject);
 	}
-
 }

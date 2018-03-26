@@ -49,10 +49,10 @@ import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.java.JavaBindingFactory;
 import org.openflexo.diana.DianaLayoutManager;
 import org.openflexo.diana.DianaLayoutManagerSpecification;
+import org.openflexo.diana.DianaLayoutManagerSpecification.DraggingMode;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.DianaLayoutManagerSpecification.DraggingMode;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.graphics.DianaGraphics;
@@ -64,7 +64,7 @@ import org.openflexo.diana.graphics.DianaGraphics;
  * 
  */
 public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpecification<?>, O> extends DianaObjectImpl
-implements DianaLayoutManager<LMS, O> {
+		implements DianaLayoutManager<LMS, O> {
 
 	private boolean invalidated = true;
 
@@ -80,9 +80,8 @@ implements DianaLayoutManager<LMS, O> {
 					// Just add it
 					shapeNode.getGraphicalRepresentation().setLayoutManagerIdentifier(getIdentifier());
 					return super.add(shapeNode);
-				} else {
-					return super.add(shapeNode);
 				}
+				return super.add(shapeNode);
 			}
 
 			@Override
@@ -94,9 +93,8 @@ implements DianaLayoutManager<LMS, O> {
 						// Just remove it
 						shapeNode.getGraphicalRepresentation().setLayoutManagerIdentifier(null);
 						return super.remove(o);
-					} else {
-						return super.remove(o);
 					}
+					return super.remove(o);
 				}
 				return false;
 			}
@@ -120,7 +118,7 @@ implements DianaLayoutManager<LMS, O> {
 		invalidated = true;
 		ContainerNode<O, ?> ctn = getContainerNode();
 		// NPE Protection
-		if (ctn != null){
+		if (ctn != null) {
 			for (DrawingTreeNode<?, ?> dtn : ctn.getChildNodes()) {
 				if (dtn instanceof ShapeNode) {
 					if (((ShapeNode<O>) dtn).getLayoutManager() == this) {
@@ -350,9 +348,11 @@ implements DianaLayoutManager<LMS, O> {
 		// System.out.println("Received " + evt.getPropertyName() + " with " + evt);
 		if (evt.getPropertyName().equals(DianaLayoutManagerSpecification.DELETED)) {
 			delete();
-		} else if (evt.getPropertyName().equals(DianaLayoutManagerSpecification.DRAGGING_MODE_KEY)) {
+		}
+		else if (evt.getPropertyName().equals(DianaLayoutManagerSpecification.DRAGGING_MODE_KEY)) {
 			// Nothing to do yet
-		} else if (evt.getPropertyName().equals(DianaLayoutManagerSpecification.PAINT_DECORATION_KEY)) {
+		}
+		else if (evt.getPropertyName().equals(DianaLayoutManagerSpecification.PAINT_DECORATION_KEY)) {
 			getContainerNode().notifyNodeLayoutDecorationChanged(this);
 		}
 	}

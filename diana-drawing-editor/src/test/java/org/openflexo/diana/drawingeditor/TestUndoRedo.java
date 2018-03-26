@@ -112,7 +112,7 @@ public class TestUndoRedo extends TestCase {
 		diagram = factory.newInstance(Diagram.class);
 		factory.getUndoManager().stopRecording(initDiagram);
 
-		assertTrue(diagram instanceof Diagram);
+		assertTrue(diagram != null);
 		assertFalse(factory.getUndoManager().isBeeingRecording());
 		System.out.println("PERFORMED: " + initDiagram.getPresentationName());
 		System.out.println("edits nb=" + initDiagram.getEdits().size());
@@ -123,7 +123,7 @@ public class TestUndoRedo extends TestCase {
 		diagram.addToShapes(shape1);
 		factory.getUndoManager().stopRecording(addFirstShape);
 
-		assertTrue(shape1 instanceof Shape);
+		assertTrue(shape1 != null);
 		assertFalse(factory.getUndoManager().isBeeingRecording());
 		System.out.println("PERFORMED: " + addFirstShape.getPresentationName());
 		System.out.println("edits nb=" + addFirstShape.getEdits().size());
@@ -134,7 +134,7 @@ public class TestUndoRedo extends TestCase {
 		diagram.addToShapes(shape2);
 		factory.getUndoManager().stopRecording(addSecondShape);
 
-		assertTrue(shape2 instanceof Shape);
+		assertTrue(shape2 != null);
 		assertFalse(factory.getUndoManager().isBeeingRecording());
 		System.out.println("PERFORMED: " + addSecondShape.getPresentationName());
 		System.out.println("edits nb=" + addSecondShape.getEdits().size());
@@ -145,7 +145,7 @@ public class TestUndoRedo extends TestCase {
 		diagram.addToConnectors(connector1);
 		factory.getUndoManager().stopRecording(addConnector);
 
-		assertTrue(connector1 instanceof Connector);
+		assertTrue(connector1 != null);
 		assertFalse(factory.getUndoManager().isBeeingRecording());
 		System.out.println("PERFORMED: " + addConnector.getPresentationName());
 		System.out.println("edits nb=" + addConnector.getEdits().size());

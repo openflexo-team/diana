@@ -220,8 +220,8 @@ public class DianaRectPolylin extends DianaPolylin {
 	 * @param straightWhenPossible
 	 * @param overlap
 	 */
-	public static DianaRectPolylin makeShortestRectPolylin(DianaArea startArea, DianaArea endArea, boolean straightWhenPossible, double overlapX,
-			double overlapY) {
+	public static DianaRectPolylin makeShortestRectPolylin(DianaArea startArea, DianaArea endArea, boolean straightWhenPossible,
+			double overlapX, double overlapY) {
 		return makeShortestRectPolylin(startArea, endArea, straightWhenPossible, overlapX, overlapY,
 				(Vector<SimplifiedCardinalDirection>) null, (Vector<SimplifiedCardinalDirection>) null);
 	}
@@ -235,8 +235,8 @@ public class DianaRectPolylin extends DianaPolylin {
 	 * @param straightWhenPossible
 	 * @param overlap
 	 */
-	public static DianaRectPolylin makeShortestRectPolylin(DianaArea startArea, DianaArea endArea, boolean straightWhenPossible, double overlapX,
-			double overlapY, SimplifiedCardinalDirection startOrientation, SimplifiedCardinalDirection endOrientation) {
+	public static DianaRectPolylin makeShortestRectPolylin(DianaArea startArea, DianaArea endArea, boolean straightWhenPossible,
+			double overlapX, double overlapY, SimplifiedCardinalDirection startOrientation, SimplifiedCardinalDirection endOrientation) {
 		return makeShortestRectPolylin(startArea, endArea, straightWhenPossible, overlapX, overlapY,
 				SimplifiedCardinalDirection.allDirectionsExcept(startOrientation),
 				SimplifiedCardinalDirection.allDirectionsExcept(endOrientation));
@@ -251,8 +251,8 @@ public class DianaRectPolylin extends DianaPolylin {
 	 * @param straightWhenPossible
 	 * @param overlap
 	 */
-	public static DianaRectPolylin makeShortestRectPolylin(DianaArea startArea, DianaArea endArea, boolean straightWhenPossible, double overlapX,
-			double overlapY, Vector<SimplifiedCardinalDirection> excludedStartOrientations,
+	public static DianaRectPolylin makeShortestRectPolylin(DianaArea startArea, DianaArea endArea, boolean straightWhenPossible,
+			double overlapX, double overlapY, Vector<SimplifiedCardinalDirection> excludedStartOrientations,
 			Vector<SimplifiedCardinalDirection> excludedEndOrientations) {
 		DianaRectPolylin returned = null;
 		int bestNbOfPoints = Integer.MAX_VALUE;
@@ -292,9 +292,9 @@ public class DianaRectPolylin extends DianaPolylin {
 	 * @param straightWhenPossible
 	 * @param overlap
 	 */
-	public static DianaRectPolylin makeShortestRectPolylin(DianaArea startArea, DianaArea endArea, boolean straightWhenPossible, double overlapX,
-			double overlapY, DianaPoint minimizeDistanceToThisPoint, Vector<SimplifiedCardinalDirection> excludedStartOrientations,
-			Vector<SimplifiedCardinalDirection> excludedEndOrientations) {
+	public static DianaRectPolylin makeShortestRectPolylin(DianaArea startArea, DianaArea endArea, boolean straightWhenPossible,
+			double overlapX, double overlapY, DianaPoint minimizeDistanceToThisPoint,
+			Vector<SimplifiedCardinalDirection> excludedStartOrientations, Vector<SimplifiedCardinalDirection> excludedEndOrientations) {
 		DianaRectPolylin returned = null;
 		double bestDistance = Double.POSITIVE_INFINITY;
 
@@ -358,7 +358,8 @@ public class DianaRectPolylin extends DianaPolylin {
 	 * @param overlap
 	 */
 	public static DianaRectPolylin makeShortestRectPolylin(DianaAreaProvider<SimplifiedCardinalDirection> startAreaProvider,
-			DianaAreaProvider<SimplifiedCardinalDirection> endAreaProvider, boolean straightWhenPossible, double overlapX, double overlapY) {
+			DianaAreaProvider<SimplifiedCardinalDirection> endAreaProvider, boolean straightWhenPossible, double overlapX,
+			double overlapY) {
 		return makeShortestRectPolylin(startAreaProvider, endAreaProvider, straightWhenPossible, overlapX, overlapY,
 				(Vector<SimplifiedCardinalDirection>) null, (Vector<SimplifiedCardinalDirection>) null);
 	}
@@ -1267,12 +1268,10 @@ public class DianaRectPolylin extends DianaPolylin {
 				addToPoints(p_end);
 				return;
 			}
-			else {
-				addToPoints(p_start);
-				addToPoints(p);
-				addToPoints(p_end);
-				return;
-			}
+			addToPoints(p_start);
+			addToPoints(p);
+			addToPoints(p_end);
+			return;
 		}
 		else if (intersect instanceof DianaShape || intersect.isFinite() && intersect.getEmbeddingBounds() != null) {
 
@@ -1330,14 +1329,11 @@ public class DianaRectPolylin extends DianaPolylin {
 					addToPoints(p_end);
 					return;
 				}
-				else {
-					addToPoints(p_start);
-					addToPoints(center);
-					addToPoints(p_end);
-					return;
-				}
+				addToPoints(p_start);
+				addToPoints(center);
+				addToPoints(p_end);
+				return;
 			}
-
 		}
 
 		// logger.info("*********** For "+startOrientation+"/"+endOrientation+" CONTINUE");
@@ -1548,8 +1544,10 @@ public class DianaRectPolylin extends DianaPolylin {
 			addToPoints(p_end);
 		}
 		else {
-			DianaLine line = DianaLine.makeVerticalLine(new DianaPoint(significativeStartLocation.x <= significativeEndLocation.x
-					? (getMaxXFor(startArea) + getMinXFor(endArea)) / 2 : (getMinXFor(startArea) + getMaxXFor(endArea)) / 2, 0));
+			DianaLine line = DianaLine.makeVerticalLine(new DianaPoint(
+					significativeStartLocation.x <= significativeEndLocation.x ? (getMaxXFor(startArea) + getMinXFor(endArea)) / 2
+							: (getMinXFor(startArea) + getMaxXFor(endArea)) / 2,
+					0));
 
 			DianaPoint p1 = getLocationFor(resultingStartArea.intersect(line));
 			DianaPoint p2 = getLocationFor(resultingEndArea.intersect(line));
@@ -1606,8 +1604,9 @@ public class DianaRectPolylin extends DianaPolylin {
 		}
 		else {
 
-			DianaLine line = DianaLine.makeHorizontalLine(new DianaPoint(0, significativeStartLocation.y <= significativeEndLocation.y
-					? (getMaxYFor(startArea) + getMinYFor(endArea)) / 2 : (getMinYFor(startArea) + getMaxYFor(endArea)) / 2));
+			DianaLine line = DianaLine.makeHorizontalLine(new DianaPoint(0,
+					significativeStartLocation.y <= significativeEndLocation.y ? (getMaxYFor(startArea) + getMinYFor(endArea)) / 2
+							: (getMinYFor(startArea) + getMaxYFor(endArea)) / 2));
 			DianaLine alternativeLine = DianaLine
 					.makeHorizontalLine(new DianaPoint(0, (significativeStartLocation.y + significativeEndLocation.y) / 2));
 
@@ -1672,14 +1671,16 @@ public class DianaRectPolylin extends DianaPolylin {
 		else if (quadrant == CardinalQuadrant.NORTH_EAST) {
 			useAlternativeLine1 = getMaxXFor(startArea) > getMinXFor(endArea);
 			line1 = DianaLine.makeVerticalLine(new DianaPoint((getMaxXFor(startArea) + getMinXFor(endArea)) / 2, 0));
-			alternativeLine1 = DianaLine.makeVerticalLine(new DianaPoint((significativeStartLocation.x + significativeEndLocation.x) / 2, 0));
+			alternativeLine1 = DianaLine
+					.makeVerticalLine(new DianaPoint((significativeStartLocation.x + significativeEndLocation.x) / 2, 0));
 			line2 = DianaLine.makeHorizontalLine(new DianaPoint(0, getMinYFor(endArea) - overlapY));
 		}
 		else if (quadrant == CardinalQuadrant.SOUTH_WEST) {
 			line1 = DianaLine.makeVerticalLine(new DianaPoint(getMaxXFor(startArea) + overlapX, 0));
 			useAlternativeLine2 = getMaxYFor(startArea) > getMinYFor(endArea);
 			line2 = DianaLine.makeHorizontalLine(new DianaPoint(0, (getMaxYFor(startArea) + getMinYFor(endArea)) / 2));
-			alternativeLine2 = DianaLine.makeHorizontalLine(new DianaPoint(0, (significativeStartLocation.y + significativeEndLocation.y) / 2));
+			alternativeLine2 = DianaLine
+					.makeHorizontalLine(new DianaPoint(0, (significativeStartLocation.y + significativeEndLocation.y) / 2));
 		}
 		else if (quadrant == CardinalQuadrant.NORTH_WEST) {
 			line1 = DianaLine.makeVerticalLine(new DianaPoint(getMaxXFor(startArea) + overlapX, 0));
@@ -1748,14 +1749,16 @@ public class DianaRectPolylin extends DianaPolylin {
 		else if (quadrant == CardinalQuadrant.SOUTH_EAST) {
 			useAlternativeLine1 = getMaxXFor(startArea) > getMinXFor(endArea);
 			line1 = DianaLine.makeVerticalLine(new DianaPoint((getMaxXFor(startArea) + getMinXFor(endArea)) / 2, 0));
-			alternativeLine1 = DianaLine.makeVerticalLine(new DianaPoint((significativeStartLocation.x + significativeEndLocation.x) / 2, 0));
+			alternativeLine1 = DianaLine
+					.makeVerticalLine(new DianaPoint((significativeStartLocation.x + significativeEndLocation.x) / 2, 0));
 			line2 = DianaLine.makeHorizontalLine(new DianaPoint(0, getMaxYFor(endArea) + overlapY));
 		}
 		else if (quadrant == CardinalQuadrant.NORTH_WEST) {
 			line1 = DianaLine.makeVerticalLine(new DianaPoint(getMaxXFor(startArea) + overlapX, 0));
 			useAlternativeLine2 = getMinYFor(startArea) < getMaxYFor(endArea);
 			line2 = DianaLine.makeHorizontalLine(new DianaPoint(0, (getMinYFor(startArea) + getMaxYFor(endArea)) / 2));
-			alternativeLine2 = DianaLine.makeHorizontalLine(new DianaPoint(0, (significativeStartLocation.y + significativeEndLocation.y) / 2));
+			alternativeLine2 = DianaLine
+					.makeHorizontalLine(new DianaPoint(0, (significativeStartLocation.y + significativeEndLocation.y) / 2));
 		}
 		else if (quadrant == CardinalQuadrant.SOUTH_WEST) {
 			line1 = DianaLine.makeVerticalLine(new DianaPoint(getMaxXFor(startArea) + overlapX, 0));
@@ -1822,14 +1825,16 @@ public class DianaRectPolylin extends DianaPolylin {
 		else if (quadrant == CardinalQuadrant.NORTH_WEST) {
 			useAlternativeLine1 = getMinXFor(startArea) < getMaxXFor(endArea);
 			line1 = DianaLine.makeVerticalLine(new DianaPoint((getMinXFor(startArea) + getMaxXFor(endArea)) / 2, 0));
-			alternativeLine1 = DianaLine.makeVerticalLine(new DianaPoint((significativeStartLocation.x + significativeEndLocation.x) / 2, 0));
+			alternativeLine1 = DianaLine
+					.makeVerticalLine(new DianaPoint((significativeStartLocation.x + significativeEndLocation.x) / 2, 0));
 			line2 = DianaLine.makeHorizontalLine(new DianaPoint(0, getMinYFor(endArea) - overlapY));
 		}
 		else if (quadrant == CardinalQuadrant.SOUTH_EAST) {
 			line1 = DianaLine.makeVerticalLine(new DianaPoint(getMinXFor(startArea) - overlapX, 0));
 			useAlternativeLine2 = getMaxYFor(startArea) > getMinYFor(endArea);
 			line2 = DianaLine.makeHorizontalLine(new DianaPoint(0, (getMaxYFor(startArea) + getMinYFor(endArea)) / 2));
-			alternativeLine2 = DianaLine.makeHorizontalLine(new DianaPoint(0, (significativeStartLocation.y + significativeEndLocation.y) / 2));
+			alternativeLine2 = DianaLine
+					.makeHorizontalLine(new DianaPoint(0, (significativeStartLocation.y + significativeEndLocation.y) / 2));
 		}
 		else if (quadrant == CardinalQuadrant.NORTH_EAST) {
 			line1 = DianaLine.makeVerticalLine(new DianaPoint(getMinXFor(startArea) - overlapX, 0));
@@ -1898,14 +1903,16 @@ public class DianaRectPolylin extends DianaPolylin {
 		else if (quadrant == CardinalQuadrant.SOUTH_WEST) {
 			useAlternativeLine1 = getMinXFor(startArea) < getMaxXFor(endArea);
 			line1 = DianaLine.makeVerticalLine(new DianaPoint((getMinXFor(startArea) + getMaxXFor(endArea)) / 2, 0));
-			alternativeLine1 = DianaLine.makeVerticalLine(new DianaPoint((significativeStartLocation.x + significativeEndLocation.x) / 2, 0));
+			alternativeLine1 = DianaLine
+					.makeVerticalLine(new DianaPoint((significativeStartLocation.x + significativeEndLocation.x) / 2, 0));
 			line2 = DianaLine.makeHorizontalLine(new DianaPoint(0, getMaxYFor(endArea) + overlapY));
 		}
 		else if (quadrant == CardinalQuadrant.NORTH_EAST) {
 			line1 = DianaLine.makeVerticalLine(new DianaPoint(getMinXFor(startArea) - overlapX, 0));
 			useAlternativeLine2 = getMinYFor(startArea) < getMaxYFor(endArea);
 			line2 = DianaLine.makeHorizontalLine(new DianaPoint(0, (getMinYFor(startArea) + getMaxYFor(endArea)) / 2));
-			alternativeLine2 = DianaLine.makeHorizontalLine(new DianaPoint(0, (significativeStartLocation.y + significativeEndLocation.y) / 2));
+			alternativeLine2 = DianaLine
+					.makeHorizontalLine(new DianaPoint(0, (significativeStartLocation.y + significativeEndLocation.y) / 2));
 		}
 		else if (quadrant == CardinalQuadrant.SOUTH_EAST) {
 			line1 = DianaLine.makeVerticalLine(new DianaPoint(getMinXFor(startArea) - overlapX, 0));
@@ -2190,9 +2197,7 @@ public class DianaRectPolylin extends DianaPolylin {
 		if (arc == null) {
 			return getNearestPoint(p); // Point located outside arc
 		}
-		else {
-			return arc.getNearestPoint(p);
-		}
+		return arc.getNearestPoint(p);
 	}
 
 	public DianaArc getArcForNearestPointLocatedOnRoundedRepresentation(DianaPoint p, double arcWidth, double arcHeight) {
@@ -2280,42 +2285,45 @@ public class DianaRectPolylin extends DianaPolylin {
 
 		if (orientation1 == SimplifiedCardinalDirection.NORTH) {
 			if (orientation2 == SimplifiedCardinalDirection.EAST) {
-				return new DianaArc(new DianaPoint(s1.x2 + arcWidth, s1.y2 + arcHeight), new DianaDimension(arcWidth * 2, arcHeight * 2), 180,
-						-90);
+				return new DianaArc(new DianaPoint(s1.x2 + arcWidth, s1.y2 + arcHeight), new DianaDimension(arcWidth * 2, arcHeight * 2),
+						180, -90);
 			}
 			if (orientation2 == SimplifiedCardinalDirection.WEST) {
-				return new DianaArc(new DianaPoint(s1.x2 - arcWidth, s1.y2 + arcHeight), new DianaDimension(arcWidth * 2, arcHeight * 2), 0, 90);
+				return new DianaArc(new DianaPoint(s1.x2 - arcWidth, s1.y2 + arcHeight), new DianaDimension(arcWidth * 2, arcHeight * 2), 0,
+						90);
 			}
 			return null;
 		}
 		if (orientation1 == SimplifiedCardinalDirection.SOUTH) {
 			if (orientation2 == SimplifiedCardinalDirection.EAST) {
-				return new DianaArc(new DianaPoint(s1.x2 + arcWidth, s1.y2 - arcHeight), new DianaDimension(arcWidth * 2, arcHeight * 2), -180,
-						90);
+				return new DianaArc(new DianaPoint(s1.x2 + arcWidth, s1.y2 - arcHeight), new DianaDimension(arcWidth * 2, arcHeight * 2),
+						-180, 90);
 			}
 			if (orientation2 == SimplifiedCardinalDirection.WEST) {
-				return new DianaArc(new DianaPoint(s1.x2 - arcWidth, s1.y2 - arcHeight), new DianaDimension(arcWidth * 2, arcHeight * 2), 0, -90);
+				return new DianaArc(new DianaPoint(s1.x2 - arcWidth, s1.y2 - arcHeight), new DianaDimension(arcWidth * 2, arcHeight * 2), 0,
+						-90);
 			}
 			return null;
 		}
 		if (orientation1 == SimplifiedCardinalDirection.EAST) {
 			if (orientation2 == SimplifiedCardinalDirection.NORTH) {
-				return new DianaArc(new DianaPoint(s1.x2 - arcWidth, s1.y2 - arcHeight), new DianaDimension(arcWidth * 2, arcHeight * 2), -90,
-						90);
+				return new DianaArc(new DianaPoint(s1.x2 - arcWidth, s1.y2 - arcHeight), new DianaDimension(arcWidth * 2, arcHeight * 2),
+						-90, 90);
 			}
 			if (orientation2 == SimplifiedCardinalDirection.SOUTH) {
-				return new DianaArc(new DianaPoint(s1.x2 - arcWidth, s1.y2 + arcHeight), new DianaDimension(arcWidth * 2, arcHeight * 2), 90,
-						-90);
+				return new DianaArc(new DianaPoint(s1.x2 - arcWidth, s1.y2 + arcHeight), new DianaDimension(arcWidth * 2, arcHeight * 2),
+						90, -90);
 			}
 			return null;
 		}
 		if (orientation1 == SimplifiedCardinalDirection.WEST) {
 			if (orientation2 == SimplifiedCardinalDirection.NORTH) {
-				return new DianaArc(new DianaPoint(s1.x2 + arcWidth, s1.y2 - arcHeight), new DianaDimension(arcWidth * 2, arcHeight * 2), -90,
-						-90);
+				return new DianaArc(new DianaPoint(s1.x2 + arcWidth, s1.y2 - arcHeight), new DianaDimension(arcWidth * 2, arcHeight * 2),
+						-90, -90);
 			}
 			if (orientation2 == SimplifiedCardinalDirection.SOUTH) {
-				return new DianaArc(new DianaPoint(s1.x2 + arcWidth, s1.y2 + arcHeight), new DianaDimension(arcWidth * 2, arcHeight * 2), 90, 90);
+				return new DianaArc(new DianaPoint(s1.x2 + arcWidth, s1.y2 + arcHeight), new DianaDimension(arcWidth * 2, arcHeight * 2),
+						90, 90);
 			}
 			return null;
 		}
@@ -2630,7 +2638,8 @@ public class DianaRectPolylin extends DianaPolylin {
 				}
 			}
 			else if (currentEndIndex - currentStartIndex == 2) {
-				/*DianaRectPolylin*/// missingPath = makeShortestRectPolylin(currentPointStartingSide, currentPointEndingSide, true, overlap,
+				/*DianaRectPolylin*/// missingPath = makeShortestRectPolylin(currentPointStartingSide, currentPointEndingSide, true,
+									// overlap,
 				// updatedPolylin.getPointAt(currentStartIndex+1), excludedStartOrientations, excludedEndOrientations);
 				missingPath = makeRectPolylinCrossingPoint(currentPointStartingSide, currentPointEndingSide,
 						updatedPolylin.getPointAt(currentStartIndex + 1), true, overlapX, overlapY, excludedStartOrientations,

@@ -44,14 +44,13 @@ import java.awt.geom.AffineTransform;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 import java.util.Vector;
-import java.util.logging.Logger;
 
 import org.openflexo.diana.BackgroundStyle;
+import org.openflexo.diana.Drawing.GeometricNode;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.GRBinding;
 import org.openflexo.diana.GeometricGraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
-import org.openflexo.diana.Drawing.GeometricNode;
 import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
@@ -62,6 +61,9 @@ import org.openflexo.diana.geom.DianaCubicCurve;
 import org.openflexo.diana.geom.DianaDimension;
 import org.openflexo.diana.geom.DianaEllips;
 import org.openflexo.diana.geom.DianaGeneralShape;
+import org.openflexo.diana.geom.DianaGeneralShape.GeneralShapePathElement;
+import org.openflexo.diana.geom.DianaGeometricObject.CardinalQuadrant;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaLine;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaPolygon;
@@ -71,9 +73,6 @@ import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaRoundRectangle;
 import org.openflexo.diana.geom.DianaSegment;
 import org.openflexo.diana.geom.DianaShape;
-import org.openflexo.diana.geom.DianaGeneralShape.GeneralShapePathElement;
-import org.openflexo.diana.geom.DianaGeometricObject.CardinalQuadrant;
-import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.geom.area.DianaPlane;
 import org.openflexo.diana.geom.area.DianaQuarterPlane;
@@ -82,11 +81,6 @@ import org.openflexo.diana.notifications.GeometryModified;
 import org.openflexo.toolbox.ConcatenedList;
 
 public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphicalRepresentation> implements GeometricNode<O> {
-
-	private static final Logger logger = Logger.getLogger(GeometricNodeImpl.class.getPackage().getName());
-
-	// protected DianaGeometricGraphicsImpl graphics;
-
 	protected List<ControlPoint> controlPoints;
 
 	// TODO: change to protected
@@ -310,8 +304,8 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			}
 
 			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
-					DianaPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				((DianaPoint) getGraphicalRepresentation().getGeometricObject()).x = newAbsolutePoint.x;
 				((DianaPoint) getGraphicalRepresentation().getGeometricObject()).y = newAbsolutePoint.y;
 				setPoint(newAbsolutePoint);
@@ -336,8 +330,8 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			}
 
 			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
-					DianaPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				((DianaLine) getGraphicalRepresentation().getGeometricObject()).setP1(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
@@ -356,8 +350,8 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			}
 
 			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
-					DianaPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				((DianaLine) getGraphicalRepresentation().getGeometricObject()).setP2(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
@@ -381,8 +375,8 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			}
 
 			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
-					DianaPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				((DianaQuadCurve) getGraphicalRepresentation().getGeometricObject()).setP1(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
@@ -401,8 +395,8 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			}
 
 			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
-					DianaPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				((DianaQuadCurve) getGraphicalRepresentation().getGeometricObject()).setCtrlPoint(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
@@ -421,8 +415,8 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			}
 
 			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
-					DianaPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				((DianaQuadCurve) getGraphicalRepresentation().getGeometricObject()).setP3(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
@@ -441,8 +435,8 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			}
 
 			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
-					DianaPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				((DianaQuadCurve) getGraphicalRepresentation().getGeometricObject()).setP2(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
@@ -466,8 +460,8 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			}
 
 			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
-					DianaPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				((DianaCubicCurve) getGraphicalRepresentation().getGeometricObject()).setP1(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
@@ -486,8 +480,8 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			}
 
 			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
-					DianaPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				((DianaCubicCurve) getGraphicalRepresentation().getGeometricObject()).setCtrlP1(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
@@ -506,8 +500,8 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			}
 
 			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
-					DianaPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				((DianaCubicCurve) getGraphicalRepresentation().getGeometricObject()).setCtrlP2(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
@@ -526,8 +520,8 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			}
 
 			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
-					DianaPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				((DianaCubicCurve) getGraphicalRepresentation().getGeometricObject()).setP2(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
@@ -624,12 +618,13 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 				initialWidth = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width;
 				initialHeight = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height;
 				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
-						((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).getSouthEastPt(), CardinalQuadrant.NORTH_WEST));
+						((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).getSouthEastPt(),
+						CardinalQuadrant.NORTH_WEST));
 			}
 
 			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
-					DianaPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 				setPoint(pt);
 
@@ -656,12 +651,13 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 				initialWidth = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width;
 				initialHeight = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height;
 				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
-						((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).getSouthWestPt(), CardinalQuadrant.NORTH_EAST));
+						((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).getSouthWestPt(),
+						CardinalQuadrant.NORTH_EAST));
 			}
 
 			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
-					DianaPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 				setPoint(pt);
 
@@ -687,12 +683,13 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 				initialWidth = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width;
 				initialHeight = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height;
 				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
-						((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).getNorthEastPt(), CardinalQuadrant.SOUTH_WEST));
+						((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).getNorthEastPt(),
+						CardinalQuadrant.SOUTH_WEST));
 			}
 
 			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
-					DianaPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 				setPoint(pt);
 
@@ -718,12 +715,13 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 				initialWidth = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width;
 				initialHeight = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height;
 				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
-						((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).getNorthWestPt(), CardinalQuadrant.SOUTH_EAST));
+						((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).getNorthWestPt(),
+						CardinalQuadrant.SOUTH_EAST));
 			}
 
 			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
-					DianaPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 				setPoint(pt);
 
@@ -752,8 +750,8 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			}
 
 			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration, DianaPoint newAbsolutePoint,
-					DianaPoint initialPoint, MouseEvent event) {
+			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 				DianaPoint p = ((DianaGeneralShape<?>) getGraphicalRepresentation().getGeometricObject()).getPathElements().firstElement()
 						.getP1();
 				p.x = newAbsolutePoint.x;
@@ -860,7 +858,8 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			controlPoints.addAll(buildControlPointsForCurve((DianaCubicCurve) getGraphicalRepresentation().getGeometricObject()));
 		}
 		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaGeneralShape) {
-			controlPoints.addAll(buildControlPointsForGeneralShape((DianaGeneralShape<?>) getGraphicalRepresentation().getGeometricObject()));
+			controlPoints
+					.addAll(buildControlPointsForGeneralShape((DianaGeneralShape<?>) getGraphicalRepresentation().getGeometricObject()));
 		}
 
 		// controlPoints.addAll(index, c)

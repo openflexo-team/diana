@@ -129,11 +129,8 @@ public abstract class BackgroundStyleImpl extends DianaStyleImpl implements Back
 			if (newObject == null) {
 				return false;
 			}
-			else {
-				return true;
-			}
+			return true;
 		}
 		return !oldObject.equals(newObject);
 	}
-
 }

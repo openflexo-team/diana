@@ -1107,9 +1107,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				// logger.warning("No location constrained are defined");
 				return requestedLocation;
 			}
-			else {
-				return getGraphicalRepresentation().getLocationConstrainedArea().getNearestPoint(requestedLocation);
-			}
+			return getGraphicalRepresentation().getLocationConstrainedArea().getNearestPoint(requestedLocation);
 		}
 		return requestedLocation;
 	}
@@ -1576,9 +1574,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 						if (rpx > 0.5) {
 							return (int) (getWidth() * 2 * (1 - rpx) * scale);
 						}
-						else {
-							return (int) (getWidth() * 2 * rpx * scale);
-						}
+						return (int) (getWidth() * 2 * rpx * scale);
 					}
 					break;
 				case LEFT:

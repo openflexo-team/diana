@@ -60,9 +60,9 @@ public class AdjustableLastSegment extends RectPolylinAdjustableSegment {
 	private int segmentsNb;
 	private DianaSegment currentSegment;
 	private DianaSegment previousSegment;
-	private DianaSegment beforePreviousSegment;
+	// Unused private DianaSegment beforePreviousSegment;
 	private SimplifiedCardinalDirection currentOrientation;
-	private SimplifiedCardinalDirection previousOrientation;
+	// Unused private SimplifiedCardinalDirection previousOrientation;
 	private DianaArea endArea;
 	private DianaArea draggingAuthorizedArea;
 
@@ -79,11 +79,11 @@ public class AdjustableLastSegment extends RectPolylinAdjustableSegment {
 			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return;
 		}
-		if (getPolylin().getSegmentNb() > 2) {
-			beforePreviousSegment = getPolylin().getSegmentAt(segmentsNb - 3);
-		}
+		// Unused if (getPolylin().getSegmentNb() > 2) {
+		// Unused beforePreviousSegment = getPolylin().getSegmentAt(segmentsNb - 3);
+		// Unused }
 		currentOrientation = currentSegment.getApproximatedOrientation();
-		previousOrientation = previousSegment.getApproximatedOrientation();
+		// Unused previousOrientation = previousSegment.getApproximatedOrientation();
 
 		AffineTransform at2 = DianaUtils.convertNormalizedCoordinatesAT(getNode().getEndNode(), getNode());
 		endArea = getNode().getEndNode().getDianaShapeOutline().transform(at2);

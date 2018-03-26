@@ -48,8 +48,8 @@ import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.DataBinding.BindingDefinitionType;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
-import org.openflexo.diana.TextStyle;
 import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
+import org.openflexo.diana.TextStyle;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.graph.DianaFunction.DianaGraphType;
 import org.openflexo.diana.graph.DianaFunction.FunctionSample;
@@ -121,7 +121,8 @@ public class DianaDiscretePolarFunctionGraph<T> extends DianaPolarFunctionGraph<
 		if (discreteValues != null) {
 			return discreteValues.iterator();
 		}
-		return ((List<T>) Collections.emptyList()).iterator();
+		List<T> empty = Collections.emptyList();
+		return empty.iterator();
 	}
 
 	@Override
@@ -150,11 +151,8 @@ public class DianaDiscretePolarFunctionGraph<T> extends DianaPolarFunctionGraph<
 				if (t == value) {
 					return cumulatedWeight + angleExtent / 2;
 				}
-				else {
-					cumulatedWeight += angleExtent;
-				}
+				cumulatedWeight += angleExtent;
 			}
-
 		}
 		return (discreteValues.indexOf(value) + 0.5) / (discreteValues.size()) * 360;
 	}

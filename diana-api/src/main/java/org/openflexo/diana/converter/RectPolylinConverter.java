@@ -89,8 +89,6 @@ public class RectPolylinConverter extends Converter<DianaRectPolylin> {
 			}
 			return sb.toString();
 		}
-		else {
-			return null;
-		}
+		return null;
 	}
 }

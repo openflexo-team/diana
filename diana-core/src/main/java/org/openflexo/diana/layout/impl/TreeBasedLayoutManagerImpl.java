@@ -191,20 +191,17 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 	}
 
 	public boolean isChildOf(ShapeNode<?> child, ContainerNode<?, ?> parent) {
-		if (child == parent) {
+		if (child == parent)
 			return true;
-		}
 
 		if (graph.getPredecessorCount(child) > 0) {
 			for (ShapeNode<?> predecessor : graph.getPredecessors(child)) {
-				if (predecessor instanceof ShapeNode && isChildOf(predecessor, parent)) {
+				if (predecessor != null && isChildOf(predecessor, parent))
 					return true;
-				}
 			}
 		}
 
 		return false;
-
 	}
 
 	@Override

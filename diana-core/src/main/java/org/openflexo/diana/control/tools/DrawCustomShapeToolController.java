@@ -47,14 +47,14 @@ import java.util.logging.Logger;
 
 import org.openflexo.connie.type.TypeUtils;
 import org.openflexo.diana.DianaModelFactory;
-import org.openflexo.diana.ForegroundStyle;
-import org.openflexo.diana.GeometricGraphicalRepresentation;
-import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.GRBinding.GeometricGRBinding;
 import org.openflexo.diana.GRProvider.GeometricGRProvider;
+import org.openflexo.diana.GeometricGraphicalRepresentation;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.control.DianaInteractiveEditor;
 import org.openflexo.diana.control.actions.DrawShapeAction;
 import org.openflexo.diana.cp.ControlArea;

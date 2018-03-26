@@ -41,16 +41,11 @@ package org.openflexo.diana.control.tools;
 import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.BackgroundStyle;
-import org.openflexo.diana.DianaConstants;
-import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaInteractiveEditor;
 import org.openflexo.diana.control.notifications.ObjectAddedToSelection;
 import org.openflexo.diana.control.notifications.ObjectRemovedFromSelection;
 import org.openflexo.diana.control.notifications.SelectionCleared;
-import org.openflexo.diana.shapes.ShapeSpecification;
-import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.diana.view.DianaViewFactory;
 import org.openflexo.diana.view.widget.FIBBackgroundStyleSelector;
 import org.openflexo.diana.view.widget.FIBForegroundStyleSelector;
@@ -81,20 +76,20 @@ public abstract class DianaStyles<C, F extends DianaViewFactory<F, ? super C>> e
 
 	// protected InspectedForegroundStyle inspectedForegroundStyle;
 	// private ForegroundStyle defaultForegroundStyle;
-	private final BackgroundStyle defaultBackgroundStyle;
+	// Unused private final BackgroundStyle defaultBackgroundStyle;
 	// private TextStyle defaultTextStyle;
 	// private ShadowStyle defaultShadowStyle;
-	private final ShapeSpecification defaultShape;
+	// Unused private final ShapeSpecification defaultShape;
 
 	// protected BackgroundStyleFactory bsFactory;
 	protected ShapeSpecificationFactory shapeFactory;
 
 	public DianaStyles() {
 		// defaultForegroundStyle = DianaCoreUtils.TOOLS_FACTORY.makeDefaultForegroundStyle();
-		defaultBackgroundStyle = DianaCoreUtils.TOOLS_FACTORY.makeColoredBackground(DianaConstants.DEFAULT_BACKGROUND_COLOR);
+		// Unused defaultBackgroundStyle = DianaCoreUtils.TOOLS_FACTORY.makeColoredBackground(DianaConstants.DEFAULT_BACKGROUND_COLOR);
 		// defaultTextStyle = DianaCoreUtils.TOOLS_FACTORY.makeDefaultTextStyle();
 		// defaultShadowStyle = DianaCoreUtils.TOOLS_FACTORY.makeDefaultShadowStyle();
-		defaultShape = DianaCoreUtils.TOOLS_FACTORY.makeShape(ShapeType.RECTANGLE);
+		// Unused defaultShape = DianaCoreUtils.TOOLS_FACTORY.makeShape(ShapeType.RECTANGLE);
 	}
 
 	/**

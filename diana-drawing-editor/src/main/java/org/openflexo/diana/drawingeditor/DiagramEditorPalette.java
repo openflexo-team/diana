@@ -41,27 +41,22 @@ package org.openflexo.diana.drawingeditor;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.util.logging.Logger;
 
 import org.openflexo.diana.DianaConstants;
-import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation.DimensionConstraints;
+import org.openflexo.diana.control.DianaInteractiveEditor.EditorTool;
 import org.openflexo.diana.control.DrawingPalette;
 import org.openflexo.diana.control.PaletteElement;
-import org.openflexo.diana.control.DianaInteractiveEditor.EditorTool;
 import org.openflexo.diana.drawingeditor.model.DiagramElement;
 import org.openflexo.diana.drawingeditor.model.Shape;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
-import org.openflexo.logging.FlexoLogger;
 import org.openflexo.model.undo.CompoundEdit;
 
 public class DiagramEditorPalette extends DrawingPalette {
-
-	private static final Logger logger = FlexoLogger.getLogger(DiagramEditorPalette.class.getPackage().getName());
-
 	private static final int GRID_WIDTH = 80;
 	private static final int GRID_HEIGHT = 60;
 	public static final Font DEFAULT_TEXT_FONT = new Font("SansSerif", Font.PLAIN, 9);

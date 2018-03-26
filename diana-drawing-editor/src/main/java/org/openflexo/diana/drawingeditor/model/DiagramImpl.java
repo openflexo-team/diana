@@ -39,27 +39,11 @@
 
 package org.openflexo.diana.drawingeditor.model;
 
-import java.util.logging.Logger;
-
 import org.openflexo.diana.DrawingGraphicalRepresentation;
-import org.openflexo.logging.FlexoLogger;
 
 public abstract class DiagramImpl extends DiagramElementImpl<Diagram, DrawingGraphicalRepresentation> implements Diagram {
-
-	private static final Logger logger = FlexoLogger.getLogger(DiagramImpl.class.getPackage().getName());
-
 	// Used by PAMELA, do not use it
 	public DiagramImpl() {
 		super(null);
 	}
-
-	// Called for LOAD
-	/*public DiagramImpl(DrawingBuilder builder) {
-		this();
-		if (builder != null) {
-			builder.drawing = this;
-		}
-		// initializeDeserialization();
-	}*/
-
 }

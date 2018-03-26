@@ -104,7 +104,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	/**
 	 * Store temporary properties that may not be serialized
 	 */
-	private Map<GRProperty, Object> propertyValues = new HashMap<>();
+	private Map<GRProperty<?>, Object> propertyValues = new HashMap<>();
 
 	public ConnectorImpl(ConnectorNode<?> connectorNode) {
 		super();

@@ -177,9 +177,7 @@ public class RectangleSelectingAction extends MouseDragControlActionImpl<DianaIn
 			}
 			return new Rectangle(origin, dim);
 		}
-		else {
-			return null;
-		}
+		return null;
 	}
 
 	public void paint(Graphics g, AbstractDianaEditor<?, ?, ?> controller) {

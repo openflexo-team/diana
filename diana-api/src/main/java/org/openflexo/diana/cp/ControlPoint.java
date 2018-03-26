@@ -83,10 +83,8 @@ public abstract class ControlPoint extends ControlArea<DianaPoint> {
 		if (isEmbeddedInComponentHierarchy(graphics)) {
 			AffineTransform at = DianaUtils.convertNormalizedCoordinatesAT(getNode(), graphics.getNode());
 			return graphics.drawControlPoint(getPoint().transform(at), DianaConstants.CONTROL_POINT_SIZE);
-		} else {
-			return graphics.drawControlPoint(getPoint(), DianaConstants.CONTROL_POINT_SIZE);
 		}
-
+		return graphics.drawControlPoint(getPoint(), DianaConstants.CONTROL_POINT_SIZE);
 	}
 
 	public boolean isEmbeddedInComponentHierarchy(DianaGraphics graphics) {

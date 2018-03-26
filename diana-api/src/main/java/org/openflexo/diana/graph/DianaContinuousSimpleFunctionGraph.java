@@ -88,9 +88,7 @@ public class DianaContinuousSimpleFunctionGraph<X extends Number> extends DianaS
 			if (isFloatingType()) {
 				return 20;
 			}
-			else {
-				return -1;
-			}
+			return -1;
 		}
 		return stepsNumber;
 	}
@@ -124,6 +122,7 @@ public class DianaContinuousSimpleFunctionGraph<X extends Number> extends DianaS
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private X getDefaultMinValue() {
 		if (getNumberClass().equals(Double.class)) {
 			return (X) (Double) Double.MIN_VALUE;
@@ -151,6 +150,7 @@ public class DianaContinuousSimpleFunctionGraph<X extends Number> extends DianaS
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private X getDefaultMaxValue() {
 		if (getNumberClass().equals(Double.class)) {
 			return (X) (Double) Double.MAX_VALUE;
@@ -246,14 +246,10 @@ public class DianaContinuousSimpleFunctionGraph<X extends Number> extends DianaS
 		return getNumberClass().equals(Double.class) || getNumberClass().equals(Float.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected Iterator<X> iterateParameter() {
-
 		List<X> returned = new ArrayList<>();
-
-		// System.out.println("On itere pour DianaContinuousSimpleFunctionGraph");
-		// System.out.println("stepsNumber=" + getStepsNumber());
-		// System.out.println("numberClass=" + getNumberClass());
 
 		if (getStepsNumber() > -1) {
 			for (int i = 0; i < getStepsNumber() + 1; i++) {
@@ -345,14 +341,10 @@ public class DianaContinuousSimpleFunctionGraph<X extends Number> extends DianaS
 				/ (getParameterMaxValue().doubleValue() - getParameterMinValue().doubleValue());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void paintParameters(DianaShapeGraphics g) {
-
 		if (getParameterOrientation() == Orientation.HORIZONTAL) {
-			// System.out.println("Major tick spacing = " + getParameterMajorTickSpacing());
-			// System.out.println("Minor tick spacing = " + getParameterMinorTickSpacing());
-
-			// Unused double y0 =
 			getNormalizedPosition((X) Double.valueOf(0));
 
 			if (getDisplayMinorTicks()) {

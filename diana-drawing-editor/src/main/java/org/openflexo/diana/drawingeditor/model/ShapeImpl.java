@@ -42,63 +42,17 @@ package org.openflexo.diana.drawingeditor.model;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 
 public abstract class ShapeImpl extends DiagramElementImpl<Shape, ShapeGraphicalRepresentation> implements Shape {
-	// public String name;
-
-	private static int INDEX = 0;
-	private int index = 0;
-
-	// Called for LOAD
-	/*public ShapeImpl(DrawingBuilder builder) {
-		super(builder.drawing);
-		// initializeDeserialization();
-	}*/
+	// Unused private static int INDEX = 0;
+	// Unused private int index = 0;
 
 	// Used by PAMELA, do not use it
 	public ShapeImpl() {
 		super(null);
-		index = INDEX++;
+		// Unused index = INDEX++;
 	}
-
-	// Called for NEW
-	/*public ShapeImpl(ShapeType shape, DianaPoint p, DiagramDrawing drawing) {
-		super(drawing.getModel());
-		MyShapeGraphicalRepresentation gr = drawing.getModel().getFactory().makeNewShapeGR(shape, this, drawing);
-		if (gr.getDimensionConstraints() == DimensionConstraints.CONSTRAINED_DIMENSIONS) {
-			gr.setWidth(80);
-			gr.setHeight(80);
-		} else {
-			gr.setWidth(100);
-			gr.setHeight(80);
-		}
-		gr.setX(p.x);
-		gr.setY(p.y);
-		setGraphicalRepresentation(gr);
-	}
-
-	public ShapeImpl(ShapeGraphicalRepresentation aGR, DianaPoint p, DiagramDrawing drawing) {
-		super(drawing.getModel());
-		MyShapeGraphicalRepresentation gr = drawing.getModel().getFactory().makeNewShapeGR(aGR, this, drawing);
-		gr.setX(p.x);
-		gr.setY(p.y);
-		setGraphicalRepresentation(gr);
-	}*/
-
-	/*@Override
-	public String getName() {
-		if (name == null) {
-			return "unnamed" + index;
-		}
-		return name;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}*/
 
 	@Override
 	public String toString() {
 		return "Shape[" + getName() + "]";
 	}
-
 }

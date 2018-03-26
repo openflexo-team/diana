@@ -109,23 +109,24 @@ public abstract class MouseControlImpl<E extends AbstractDianaEditor<?, ?, ?>> i
 			// Special case for MacOS platform: right-click is emuled by APPLE key (=<META>)
 			// cannot distinguish both, so just skip this test
 			 */
-		} else {
+		}
+		else {
 			if (metaPressed != context.isMetaDown()) {
 				return false;
 			}
 		}
 
-		if (button == MouseButton.CENTER) {
-		} else if (altPressed != context.isAltDown()) {
+		if (button == MouseButton.CENTER) {}
+		else if (altPressed != context.isAltDown()) {
 			return false;
 		}
 
 		// Everything seems ok, now delegate this to the action
 		if (getControlAction() != null) {
 			return getControlAction().isApplicable(node, controller, context);
-		} else { // No action, return false
-			return false;
 		}
+		// No action, return false
+		return false;
 	}
 
 	protected String getModifiersAsString() {

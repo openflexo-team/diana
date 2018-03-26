@@ -109,21 +109,13 @@ public abstract class TextureBackgroundStyleImpl extends BackgroundStyleImpl imp
 		}
 	}
 
-	/*@Override
-	public String toString() {
-		return "BackgroundStyle.TEXTURE(" + getColor1() + "," + getColor2() + "," + getTextureType() + ")";
-	}*/
-
 	private static boolean requireChange(Object oldObject, Object newObject) {
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;
 			}
-			else {
-				return true;
-			}
+			return true;
 		}
 		return !oldObject.equals(newObject);
 	}
-
 }

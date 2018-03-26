@@ -117,11 +117,8 @@ public abstract class ColorGradientBackgroundStyleImpl extends BackgroundStyleIm
 			if (newObject == null) {
 				return false;
 			}
-			else {
-				return true;
-			}
+			return true;
 		}
 		return !oldObject.equals(newObject);
 	}
-
 }

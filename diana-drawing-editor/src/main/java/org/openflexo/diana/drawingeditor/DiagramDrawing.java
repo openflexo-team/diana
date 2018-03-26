@@ -40,17 +40,17 @@ package org.openflexo.diana.drawingeditor;
 
 import org.openflexo.connie.DataBinding;
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
-import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.DianaModelFactory;
-import org.openflexo.diana.GRStructureVisitor;
-import org.openflexo.diana.GraphicalRepresentation;
-import org.openflexo.diana.ShapeGraphicalRepresentation;
+import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.GRBinding.ConnectorGRBinding;
 import org.openflexo.diana.GRBinding.DrawingGRBinding;
 import org.openflexo.diana.GRBinding.ShapeGRBinding;
 import org.openflexo.diana.GRProvider.ConnectorGRProvider;
 import org.openflexo.diana.GRProvider.DrawingGRProvider;
 import org.openflexo.diana.GRProvider.ShapeGRProvider;
+import org.openflexo.diana.GRStructureVisitor;
+import org.openflexo.diana.GraphicalRepresentation;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.drawingeditor.model.Connector;
 import org.openflexo.diana.drawingeditor.model.Diagram;
 import org.openflexo.diana.drawingeditor.model.DiagramFactory;
@@ -74,11 +74,10 @@ public class DiagramDrawing extends DrawingImpl<Diagram> {
 				if (drawable.getGraphicalRepresentation() != null) {
 					drawable.getGraphicalRepresentation().setFactory(factory);
 					return drawable.getGraphicalRepresentation();
-				} else {
-					DrawingGraphicalRepresentation returned = factory.makeDrawingGraphicalRepresentation();
-					drawable.setGraphicalRepresentation(returned);
-					return returned;
 				}
+				DrawingGraphicalRepresentation returned = factory.makeDrawingGraphicalRepresentation();
+				drawable.setGraphicalRepresentation(returned);
+				return returned;
 			}
 		});
 		final ShapeGRBinding<Shape> shapeBinding = bindShape(Shape.class, "shape", new ShapeGRProvider<Shape>() {
@@ -87,11 +86,10 @@ public class DiagramDrawing extends DrawingImpl<Diagram> {
 				if (drawable.getGraphicalRepresentation() != null) {
 					drawable.getGraphicalRepresentation().setFactory(factory);
 					return drawable.getGraphicalRepresentation();
-				} else {
-					ShapeGraphicalRepresentation returned = factory.makeShapeGraphicalRepresentation();
-					drawable.setGraphicalRepresentation(returned);
-					return returned;
 				}
+				ShapeGraphicalRepresentation returned = factory.makeShapeGraphicalRepresentation();
+				drawable.setGraphicalRepresentation(returned);
+				return returned;
 			}
 		});
 		final ConnectorGRBinding<Connector> connectorBinding = bindConnector(Connector.class, "connector", shapeBinding, shapeBinding,
@@ -101,11 +99,10 @@ public class DiagramDrawing extends DrawingImpl<Diagram> {
 						if (drawable.getGraphicalRepresentation() != null) {
 							drawable.getGraphicalRepresentation().setFactory(factory);
 							return drawable.getGraphicalRepresentation();
-						} else {
-							ConnectorGraphicalRepresentation returned = factory.makeConnectorGraphicalRepresentation();
-							drawable.setGraphicalRepresentation(returned);
-							return returned;
 						}
+						ConnectorGraphicalRepresentation returned = factory.makeConnectorGraphicalRepresentation();
+						drawable.setGraphicalRepresentation(returned);
+						return returned;
 					}
 				});
 

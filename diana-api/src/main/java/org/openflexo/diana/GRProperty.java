@@ -43,7 +43,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.openflexo.model.annotations.PropertyIdentifier;
 
@@ -57,9 +56,6 @@ import org.openflexo.model.annotations.PropertyIdentifier;
  *            type of accessed data
  */
 public class GRProperty<T> {
-
-	private static final Logger LOGGER = Logger.getLogger(GRProperty.class.getPackage().getName());
-
 	private static Map<String, GRProperty<?>> retrieveParameters(Class<?> ownerClass) {
 		Map<String, GRProperty<?>> returned = new HashMap<>();
 		for (Field f : ownerClass.getFields()) {
@@ -76,6 +72,7 @@ public class GRProperty<T> {
 	private static Map<Class<?>, Map<String, GRProperty<?>>> cachedParameters = new HashMap<>();
 
 	public static <T> GRProperty<T> getGRParameter(Class<?> declaringClass, String name, Class<T> type) {
+		@SuppressWarnings("unchecked")
 		GRProperty<T> returned = (GRProperty<T>) getGRParameter(declaringClass, name);
 		if (returned != null) {
 			returned.type = type;

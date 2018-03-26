@@ -42,8 +42,6 @@ import java.awt.Color;
 import java.io.File;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -56,6 +54,8 @@ import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.model.factory.Clipboard;
 import org.openflexo.model.factory.EditingContextImpl;
+
+import junit.framework.TestCase;
 
 /**
  * This test is actually testing PAMELA copy/paste features applied to Diana model
@@ -96,19 +96,20 @@ public class TestCopyPaste extends TestCase {
 	public void testCopyPaste() throws Exception {
 
 		Diagram diagram = factory.newInstance(Diagram.class);
-		assertTrue(diagram instanceof Diagram);
+		assertTrue(diagram != null);
 
 		Shape shape1 = factory.makeNewShape(ShapeType.RECTANGLE, new DianaPoint(100, 100), diagram);
+		assertTrue(shape1 != null);
 		shape1.getGraphicalRepresentation().setForeground(factory.makeForegroundStyle(Color.RED));
 		shape1.getGraphicalRepresentation().setBackground(factory.makeColoredBackground(Color.BLUE));
-		assertTrue(shape1 instanceof Shape);
+
 		Shape shape2 = factory.makeNewShape(ShapeType.RECTANGLE, new DianaPoint(200, 100), diagram);
+		assertTrue(shape2 != null);
 		shape2.getGraphicalRepresentation().setForeground(factory.makeForegroundStyle(Color.BLUE));
 		shape2.getGraphicalRepresentation().setBackground(factory.makeColoredBackground(Color.WHITE));
-		assertTrue(shape2 instanceof Shape);
 
 		Connector connector1 = factory.makeNewConnector(shape1, shape2, diagram);
-		assertTrue(connector1 instanceof Connector);
+		assertTrue(connector1 != null);
 
 		diagram.addToShapes(shape1);
 		diagram.addToShapes(shape2);
@@ -173,23 +174,25 @@ public class TestCopyPaste extends TestCase {
 
 		assertNotSame(shape1.getGraphicalRepresentation().getForeground(), shape3.getGraphicalRepresentation().getForeground());
 		assertEquals(shape1.getGraphicalRepresentation().getForeground(), shape1.getGraphicalRepresentation().getForeground());
-		assertNotSame(shape1.getGraphicalRepresentation().getSelectedForeground(), shape3.getGraphicalRepresentation()
-				.getSelectedForeground());
-		assertEquals(shape1.getGraphicalRepresentation().getSelectedForeground(), shape1.getGraphicalRepresentation()
-				.getSelectedForeground());
-		assertNotSame(shape1.getGraphicalRepresentation().getFocusedForeground(), shape3.getGraphicalRepresentation()
-				.getFocusedForeground());
-		assertEquals(shape1.getGraphicalRepresentation().getFocusedForeground(), shape1.getGraphicalRepresentation().getFocusedForeground());
+		assertNotSame(shape1.getGraphicalRepresentation().getSelectedForeground(),
+				shape3.getGraphicalRepresentation().getSelectedForeground());
+		assertEquals(shape1.getGraphicalRepresentation().getSelectedForeground(),
+				shape1.getGraphicalRepresentation().getSelectedForeground());
+		assertNotSame(shape1.getGraphicalRepresentation().getFocusedForeground(),
+				shape3.getGraphicalRepresentation().getFocusedForeground());
+		assertEquals(shape1.getGraphicalRepresentation().getFocusedForeground(),
+				shape1.getGraphicalRepresentation().getFocusedForeground());
 
 		assertNotSame(shape1.getGraphicalRepresentation().getBackground(), shape3.getGraphicalRepresentation().getBackground());
 		assertEquals(shape1.getGraphicalRepresentation().getBackground(), shape1.getGraphicalRepresentation().getBackground());
-		assertNotSame(shape1.getGraphicalRepresentation().getSelectedBackground(), shape3.getGraphicalRepresentation()
-				.getSelectedBackground());
-		assertEquals(shape1.getGraphicalRepresentation().getSelectedBackground(), shape1.getGraphicalRepresentation()
-				.getSelectedBackground());
-		assertNotSame(shape1.getGraphicalRepresentation().getFocusedBackground(), shape3.getGraphicalRepresentation()
-				.getFocusedBackground());
-		assertEquals(shape1.getGraphicalRepresentation().getFocusedBackground(), shape1.getGraphicalRepresentation().getFocusedBackground());
+		assertNotSame(shape1.getGraphicalRepresentation().getSelectedBackground(),
+				shape3.getGraphicalRepresentation().getSelectedBackground());
+		assertEquals(shape1.getGraphicalRepresentation().getSelectedBackground(),
+				shape1.getGraphicalRepresentation().getSelectedBackground());
+		assertNotSame(shape1.getGraphicalRepresentation().getFocusedBackground(),
+				shape3.getGraphicalRepresentation().getFocusedBackground());
+		assertEquals(shape1.getGraphicalRepresentation().getFocusedBackground(),
+				shape1.getGraphicalRepresentation().getFocusedBackground());
 
 	}
 

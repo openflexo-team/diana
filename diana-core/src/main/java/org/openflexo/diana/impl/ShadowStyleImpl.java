@@ -148,11 +148,8 @@ public abstract class ShadowStyleImpl extends DianaStyleImpl implements ShadowSt
 			if (newObject == null) {
 				return false;
 			}
-			else {
-				return true;
-			}
+			return true;
 		}
 		return !oldObject.equals(newObject);
 	}
-
 }

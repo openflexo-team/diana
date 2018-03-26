@@ -72,8 +72,7 @@ public class PointConverter extends Converter<DianaPoint> {
 	public String convertToString(DianaPoint aPoint) {
 		if (aPoint != null) {
 			return aPoint.x + "," + aPoint.y;
-		} else {
-			return null;
 		}
+		return null;
 	}
 }

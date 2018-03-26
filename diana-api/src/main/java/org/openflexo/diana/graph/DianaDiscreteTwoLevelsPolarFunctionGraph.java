@@ -146,14 +146,12 @@ public class DianaDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends DianaDiscr
 
 	public void setSecondaryDiscreteValuesLabel(DataBinding<String> secondaryLabelBinding) {
 		this.secondaryLabelBinding = secondaryLabelBinding;
-		/*this.secondaryLabelBinding.setOwner(this);
-		this.secondaryLabelBinding.setDeclaredType(String.class);
-		this.secondaryLabelBinding.setBindingDefinitionType(BindingDefinitionType.GET);*/
 	}
 
 	protected Iterator<T1> iteratePrimaryParameter() {
 		if (secondaryDiscreteValues == null) {
-			return (Iterator<T1>) Collections.emptyList().iterator();
+			List<T1> empty = Collections.emptyList();
+			return empty.iterator();
 		}
 		return secondaryDiscreteValues.keySet().iterator();
 	}
@@ -162,7 +160,8 @@ public class DianaDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends DianaDiscr
 		if (secondaryDiscreteValues.get(primaryValue) != null) {
 			return secondaryDiscreteValues.get(primaryValue).iterator();
 		}
-		return ((List<T2>) Collections.emptyList()).iterator();
+		List<T2> empty = Collections.emptyList();
+		return empty.iterator();
 	}
 
 	public Double getPrimaryNormalizedAngle(T1 value) {
@@ -175,11 +174,8 @@ public class DianaDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends DianaDiscr
 				if (t1 == value) {
 					return cumulatedWeight + angleExtent / 2;
 				}
-				else {
-					cumulatedWeight += angleExtent;
-				}
+				cumulatedWeight += angleExtent;
 			}
-
 		}
 		List<T1> primaryValues = new ArrayList<>(secondaryDiscreteValues.keySet());
 		return (primaryValues.indexOf(value) + 0.5) / (primaryValues.size()) * 360;
@@ -195,9 +191,7 @@ public class DianaDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends DianaDiscr
 				if (t2 == secondaryValue) {
 					return primaryValueAngle + cumulatedWeight + angleExtent / 2;
 				}
-				else {
-					cumulatedWeight += angleExtent;
-				}
+				cumulatedWeight += angleExtent;
 			}
 		}
 		return primaryValueAngle + ((allSecondaryValues.indexOf(secondaryValue) + 0.5) / (allSecondaryValues.size())

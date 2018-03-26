@@ -47,17 +47,17 @@ import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.geom.DianaArc;
+import org.openflexo.diana.geom.DianaArc.ArcType;
 import org.openflexo.diana.geom.DianaComplexCurve;
 import org.openflexo.diana.geom.DianaEllips;
+import org.openflexo.diana.geom.DianaGeneralShape.Closure;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaPolygon;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaRegularPolygon;
 import org.openflexo.diana.geom.DianaRoundRectangle;
 import org.openflexo.diana.geom.DianaShape;
-import org.openflexo.diana.geom.DianaArc.ArcType;
-import org.openflexo.diana.geom.DianaGeneralShape.Closure;
-import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.shapes.Arc;
 import org.openflexo.diana.shapes.Chevron;
 import org.openflexo.diana.shapes.Circle;
@@ -71,10 +71,10 @@ import org.openflexo.diana.shapes.Rectangle;
 import org.openflexo.diana.shapes.RectangularOctogon;
 import org.openflexo.diana.shapes.RegularPolygon;
 import org.openflexo.diana.shapes.ShapeSpecification;
+import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.diana.shapes.Square;
 import org.openflexo.diana.shapes.Star;
 import org.openflexo.diana.shapes.Triangle;
-import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.diana.shapes.impl.ShapeImpl;
 import org.openflexo.model.undo.CompoundEdit;
 
@@ -225,9 +225,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			if (newObject == null) {
 				return false;
 			}
-			else {
-				return true;
-			}
+			return true;
 		}
 		return !oldObject.equals(newObject);
 	}

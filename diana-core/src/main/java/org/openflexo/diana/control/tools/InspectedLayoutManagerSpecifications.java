@@ -44,17 +44,17 @@ import java.util.List;
 import java.util.Set;
 
 import org.openflexo.diana.ContainerGraphicalRepresentation;
-import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.DianaLayoutManager;
 import org.openflexo.diana.DianaLayoutManagerSpecification;
+import org.openflexo.diana.DianaLayoutManagerSpecification.LayoutManagerSpecificationType;
 import org.openflexo.diana.DianaModelFactory;
-import org.openflexo.diana.GRProperty;
-import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.DianaLayoutManagerSpecification.LayoutManagerSpecificationType;
+import org.openflexo.diana.DrawingGraphicalRepresentation;
+import org.openflexo.diana.GRProperty;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.gina.utils.FIBInspector;
@@ -141,6 +141,7 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 		getPropertyChangeSupport().firePropertyChange("hasValidSelection", !hasValidSelection(), hasValidSelection());
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<DianaLayoutManager<?, ?>> getLayoutManagers() {
 		// return getPropertyValue(ContainerGraphicalRepresentation.LAYOUT_MANAGER_SPECIFICATIONS);
 		if (getContainerNode() != null) {
@@ -234,8 +235,6 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 		if (layoutedAsMode()) {
 			return "layouted_as";
 		}
-		else {
-			return "define_layout";
-		}
+		return "define_layout";
 	}
 }

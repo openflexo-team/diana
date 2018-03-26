@@ -43,7 +43,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.cp.ControlPoint;
@@ -72,9 +71,6 @@ import org.openflexo.toolbox.HasPropertyChangeSupport;
  * 
  */
 public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeListener, Shape<SS>, Cloneable {
-
-	private static final Logger logger = Logger.getLogger(ShapeImpl.class.getPackage().getName());
-
 	// private static final DianaModelFactory SHADOW_FACTORY = DianaCoreUtils.TOOLS_FACTORY;
 
 	protected ShapeNode<?> shapeNode;

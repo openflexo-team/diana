@@ -168,25 +168,6 @@ public abstract class ForegroundStyleImpl extends DianaStyleImpl implements Fore
 		}
 	}
 
-	/*@Override
-	public Stroke getStroke(double scale) {
-		if (stroke == null || scale != strokeScale) {
-			if (dashStyle == DashStyle.PLAIN_STROKE) {
-				stroke = new BasicStroke((float) (lineWidth * scale), capStyle.ordinal(), joinStyle.ordinal());
-			} else {
-				float[] scaledDashArray = new float[dashStyle.getDashArray().length];
-				for (int i = 0; i < dashStyle.getDashArray().length; i++) {
-					scaledDashArray[i] = (float) (dashStyle.getDashArray()[i] * scale * lineWidth);
-				}
-				float scaledDashedPhase = (float) (dashStyle.getDashPhase() * scale * lineWidth);
-				stroke = new BasicStroke((float) (lineWidth * scale), capStyle.ordinal(), joinStyle.ordinal(), 10, scaledDashArray,
-						scaledDashedPhase);
-			}
-			strokeScale = scale;
-		}
-		return stroke;
-	}*/
-
 	@Override
 	public float getTransparencyLevel() {
 		return transparencyLevel;
@@ -215,57 +196,21 @@ public abstract class ForegroundStyleImpl extends DianaStyleImpl implements Fore
 		}
 	}
 
-	/*@Override
-	public ForegroundStyle clone() {
-		try {
-			ForegroundStyle returned = (ForegroundStyle) super.clone();
-			return returned;
-		} catch (CloneNotSupportedException e) {
-			// cannot happen since we are clonable
-			e.printStackTrace();
-			return null;
-		}
-	}*/
-
-	/*@Override
-	public String toString() {
-		return "ForegroundStyle " + Integer.toHexString(hashCode()) + " [noStroke=" + noStroke + ",lineWidth=" + lineWidth + ",color="
-				+ color + ",joinStyle=" + joinStyle + ",capStyle=" + capStyle + ",dashStyle=" + dashStyle + ",useTransparency="
-				+ useTransparency + ",transparencyLevel=" + transparencyLevel + "]";
-	}*/
-
 	@Override
 	public String toNiceString() {
 		if (getNoStroke()) {
 			return DianaCoreUtils.DIANA_LOCALIZATION.localizedForKey("no_stroke");
 		}
-		else {
-			return lineWidth + "pt, " + color;
-		}
+		return lineWidth + "pt, " + color;
 	}
-
-	/*@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof ForegroundStyle) {
-			// logger.info("Equals called for ForegroundStyle !!!!!!!!!");
-			ForegroundStyle fs = (ForegroundStyle) obj;
-			return getNoStroke() == fs.getNoStroke() && getLineWidth() == fs.getLineWidth() && getColor() == fs.getColor()
-					&& getJoinStyle() == fs.getJoinStyle() && getCapStyle() == fs.getCapStyle() && getDashStyle() == fs.getDashStyle()
-					&& getUseTransparency() == fs.getUseTransparency() && getTransparencyLevel() == fs.getTransparencyLevel();
-		}
-		return super.equals(obj);
-	}*/
 
 	private static boolean requireChange(Object oldObject, Object newObject) {
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;
 			}
-			else {
-				return true;
-			}
+			return true;
 		}
 		return !oldObject.equals(newObject);
 	}
-
 }

@@ -51,8 +51,8 @@ import org.openflexo.diana.Drawing.ContainerNode;
  * @author sylvain
  * 
  */
-public abstract class DianaLayoutManagerSpecificationImpl<LM extends DianaLayoutManager<?, ?>> extends DianaObjectImpl implements
-		DianaLayoutManagerSpecification<LM> {
+public abstract class DianaLayoutManagerSpecificationImpl<LM extends DianaLayoutManager<?, ?>> extends DianaObjectImpl
+		implements DianaLayoutManagerSpecification<LM> {
 
 	@Override
 	public DraggingMode getDraggingMode() {

@@ -145,9 +145,7 @@ public class DiagramEditor {
 		if (file != null) {
 			return file.getName();
 		}
-		else {
-			return DiagramEditorApplication.DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("untitled") + "-" + index;
-		}
+		return DiagramEditorApplication.DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("untitled") + "-" + index;
 	}
 
 	private static final FileSystemResourceLocatorImpl FS_RESOURCE_LOCATOR = new FileSystemResourceLocatorImpl();

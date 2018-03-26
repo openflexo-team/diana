@@ -44,26 +44,24 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
-import java.util.logging.Logger;
 
 import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.DianaModelFactory;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.GraphicalRepresentation;
-import org.openflexo.diana.TextStyle;
-import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
+import org.openflexo.diana.TextStyle;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.geom.DianaCubicCurve;
 import org.openflexo.diana.geom.DianaDimension;
 import org.openflexo.diana.geom.DianaGeneralShape;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaPolygon;
 import org.openflexo.diana.geom.DianaQuadCurve;
 import org.openflexo.diana.geom.DianaRectangle;
-import org.openflexo.diana.geom.DianaGeometricObject.Filling;
-import org.openflexo.diana.graphics.DianaGraphics;
 import org.openflexo.diana.view.DianaView;
 
 /**
@@ -73,8 +71,6 @@ import org.openflexo.diana.view.DianaView;
  * 
  */
 public abstract class DianaGraphicsImpl implements DianaGraphics {
-
-	private static final Logger logger = Logger.getLogger(DianaGraphicsImpl.class.getPackage().getName());
 
 	private DrawingTreeNode<?, ?> dtn;
 	private final DianaView<?, ?> view;
@@ -372,7 +368,7 @@ public abstract class DianaGraphicsImpl implements DianaGraphics {
 	}
 
 	@Override
-	public void drawGeneralShape(DianaGeneralShape shape) {
+	public void drawGeneralShape(DianaGeneralShape<?> shape) {
 		if (currentForeground.getNoStroke()) {
 			return;
 		}
@@ -384,35 +380,35 @@ public abstract class DianaGraphicsImpl implements DianaGraphics {
 			double[] pts = new double[6];
 			DianaPoint p2, cp, cp1, cp2;
 			switch (pi.currentSegment(pts)) {
-			case PathIterator.SEG_MOVETO:
-				current.x = pts[0];
-				current.y = pts[1];
-				first = current.clone();
-				break;
-			case PathIterator.SEG_LINETO:
-				p2 = new DianaPoint(pts[0], pts[1]);
-				drawLine(current, p2);
-				current = p2;
-				break;
-			case PathIterator.SEG_QUADTO:
-				cp = new DianaPoint(pts[0], pts[1]);
-				p2 = new DianaPoint(pts[2], pts[3]);
-				drawCurve(new DianaQuadCurve(current, cp, p2));
-				current = p2;
-				break;
-			case PathIterator.SEG_CUBICTO:
-				cp1 = new DianaPoint(pts[0], pts[1]);
-				cp2 = new DianaPoint(pts[2], pts[3]);
-				p2 = new DianaPoint(pts[4], pts[5]);
-				drawCurve(new DianaCubicCurve(current, cp1, cp2, p2));
-				current = p2;
-				break;
-			case PathIterator.SEG_CLOSE:
-				drawLine(current, first);
-				current = first;
-				break;
-			default:
-				break;
+				case PathIterator.SEG_MOVETO:
+					current.x = pts[0];
+					current.y = pts[1];
+					first = current.clone();
+					break;
+				case PathIterator.SEG_LINETO:
+					p2 = new DianaPoint(pts[0], pts[1]);
+					drawLine(current, p2);
+					current = p2;
+					break;
+				case PathIterator.SEG_QUADTO:
+					cp = new DianaPoint(pts[0], pts[1]);
+					p2 = new DianaPoint(pts[2], pts[3]);
+					drawCurve(new DianaQuadCurve(current, cp, p2));
+					current = p2;
+					break;
+				case PathIterator.SEG_CUBICTO:
+					cp1 = new DianaPoint(pts[0], pts[1]);
+					cp2 = new DianaPoint(pts[2], pts[3]);
+					p2 = new DianaPoint(pts[4], pts[5]);
+					drawCurve(new DianaCubicCurve(current, cp1, cp2, p2));
+					current = p2;
+					break;
+				case PathIterator.SEG_CLOSE:
+					drawLine(current, first);
+					current = first;
+					break;
+				default:
+					break;
 			}
 			pi.next();
 		}

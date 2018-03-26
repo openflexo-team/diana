@@ -307,32 +307,30 @@ public abstract class ScreenshotBuilder<T> {
 			}
 			return i;
 		}
-		else {
-			JFrame frame = new JFrame();
-			try {
-				BufferedImage bi = null;
-				c.setOpaque(true);
-				c.setBackground(Color.WHITE);
-				frame.setBackground(Color.WHITE);
-				frame.setUndecorated(true);
-				frame.getContentPane().add(c);
-				frame.pack();
-				bi = ImageUtils.createImageFromComponent(c);
-				if (trim) {
-					i = trimImage(object, bi);
-				}
-				else {
-					i = new ScreenshotImage<>(object);
-					i.image = bi;
-					i.trimInfo = new Rectangle(0, 0, bi.getWidth(), bi.getHeight());
-				}
-				return i;
-			} finally {
-				if (frame.getContentPane() != null) {
-					frame.getContentPane().removeAll();
-				}
-				frame.dispose();
+		JFrame frame = new JFrame();
+		try {
+			BufferedImage bi = null;
+			c.setOpaque(true);
+			c.setBackground(Color.WHITE);
+			frame.setBackground(Color.WHITE);
+			frame.setUndecorated(true);
+			frame.getContentPane().add(c);
+			frame.pack();
+			bi = ImageUtils.createImageFromComponent(c);
+			if (trim) {
+				i = trimImage(object, bi);
 			}
+			else {
+				i = new ScreenshotImage<>(object);
+				i.image = bi;
+				i.trimInfo = new Rectangle(0, 0, bi.getWidth(), bi.getHeight());
+			}
+			return i;
+		} finally {
+			if (frame.getContentPane() != null) {
+				frame.getContentPane().removeAll();
+			}
+			frame.dispose();
 		}
 	}
 

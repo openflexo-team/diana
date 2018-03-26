@@ -43,7 +43,6 @@ import java.awt.Image;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.openflexo.diana.BackgroundImageBackgroundStyle;
 import org.openflexo.diana.BackgroundStyle;
@@ -69,11 +68,7 @@ import org.openflexo.rm.ResourceLocator;
  * 
  */
 public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, BackgroundStyleType> {
-
-	private static final Logger logger = Logger.getLogger(BackgroundStyleFactory.class.getPackage().getName());
-
 	private static final String DELETED = "deleted";
-	// private AbstractInspectedBackgroundStyle<?> backgroundStyle;
 
 	private BackgroundStyleType backgroundStyleType = BackgroundStyleType.COLOR;
 
@@ -86,11 +81,11 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 	private PropertyChangeSupport pcSupport;
 	private DianaModelFactory fgeFactory;
 
-	private final DianaInteractiveViewer<?, ?, ?> controller;
+	// Unused private final DianaInteractiveViewer<?, ?, ?> controller;
 
 	public BackgroundStyleFactory(DianaInteractiveViewer<?, ?, ?> controller) {
 		pcSupport = new PropertyChangeSupport(this);
-		this.controller = controller;
+		// Unused this.controller = controller;
 		fgeFactory = controller.getFactory();
 		noneBackgroundStyle = new InspectedNoneBackgroundStyle(controller, controller.getFactory().makeEmptyBackground());
 		colorBackgroundStyle = new InspectedColorBackgroundStyle(controller,
@@ -152,9 +147,7 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 					return null;
 			}
 		}
-		else {
-			return null;
-		}
+		return null;
 	}
 
 	/**
@@ -169,9 +162,7 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 			if (newObject == null) {
 				return false;
 			}
-			else {
-				return true;
-			}
+			return true;
 		}
 		return !oldObject.equals(newObject);
 	}

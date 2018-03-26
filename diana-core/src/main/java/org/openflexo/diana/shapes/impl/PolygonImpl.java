@@ -40,7 +40,6 @@
 package org.openflexo.diana.shapes.impl;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
@@ -50,9 +49,6 @@ import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.shapes.Polygon;
 
 public abstract class PolygonImpl extends ShapeSpecificationImpl implements Polygon {
-
-	private static final Logger logger = Logger.getLogger(PolygonImpl.class.getPackage().getName());
-
 	// *******************************************************************************
 	// * Constructor *
 	// *******************************************************************************

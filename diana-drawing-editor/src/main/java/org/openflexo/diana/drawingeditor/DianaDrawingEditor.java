@@ -39,18 +39,21 @@
 
 package org.openflexo.diana.drawingeditor;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
-import javax.swing.*;
+
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
 import org.openflexo.diana.DianaUtils;
-import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.control.actions.DrawConnectorAction;
 import org.openflexo.diana.control.actions.DrawShapeAction;
 import org.openflexo.diana.drawingeditor.model.Connector;
@@ -72,11 +75,6 @@ public class DianaDrawingEditor extends JDianaInteractiveEditor<Diagram> {
 	private static final Logger logger = Logger.getLogger(DianaDrawingEditor.class.getPackage().getName());
 
 	private JPopupMenu contextualMenu;
-
-	// private DrawingTreeNode<?, ?> contextualMenuInvoker;
-	// private Point contextualMenuClickedPoint;
-
-	// private Shape copiedShape;
 
 	public DianaDrawingEditor(final DiagramDrawing aDrawing, DiagramFactory factory, SwingToolFactory toolFactory) {
 		super(aDrawing, factory, toolFactory);
@@ -190,48 +188,11 @@ public class DianaDrawingEditor extends JDianaInteractiveEditor<Diagram> {
 		return (DiagramFactory) super.getFactory();
 	}
 
-	/*private void initPalette() {
-		paletteModel = new DiagramEditorPalette(this);
-		palette = (JDianaPalette) getToolFactory().makeDianaPalette(paletteModel);
-		palette.setEditor(this);
-		activatePalette(palette);
-	}*/
-
-	// private DiagramEditorPalette paletteModel;
-	// private JDianaPalette palette;
-
-	/*public DiagramEditorPalette getPaletteModel() {
-		return paletteModel;
-	}*/
-
-	@Deprecated
-	public void addNewShape(Shape aShape, DiagramElement father) {
-		father.addToShapes(aShape);
-		// aShape.getGraphicalRepresentation().extendParentBoundsToHostThisShape();
-		// getDrawing().addDrawable(aShape,
-		// contextualMenuInvoker.getDrawable());
-	}
-
-	@Deprecated
-	public void addNewConnector(Connector aConnector, DiagramElement father) {
-		// ShapeGraphicalRepresentation startObject = aConnector.getStartObject();
-		// ShapeGraphicalRepresentation endObject = aConnector.getEndObject();
-		// GraphicalRepresentation fatherGR = DianaUtils.getFirstCommonAncestor(startObject, endObject);
-		// ((DiagramElement) fatherGR.getDrawable()).addToChilds(aConnector);
-		// getDrawing().addDrawable(aConnector, fatherGR.getDrawable());
-		father.addToConnectors(aConnector);
-	}
-
 	public void showContextualMenu(DrawingTreeNode<?, ?> dtn, DianaView<?, ?> view, Point p) {
 		// contextualMenuInvoker = dtn;
 		// contextualMenuClickedPoint = p;
 		contextualMenu.show((Component) view, p.x, p.y);
 	}
-
-	/*@Override
-	public JDrawingView<DiagramDrawing> makeDrawingView() {
-		return new DiagramEditorView(drawing, this);
-	}*/
 
 	@Override
 	public DiagramEditorView makeDrawingView() {
