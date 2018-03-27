@@ -81,7 +81,7 @@ import org.openflexo.diana.swing.view.JDrawingView;
 import org.openflexo.diana.swing.view.JShapeView;
 import org.openflexo.diana.view.DianaView;
 
-import sun.awt.dnd.SunDragSourceContextPeer;
+//import sun.awt.dnd.SunDragSourceContextPeer;
 
 /**
  * Utility class storing informations used during a drag & drop scheme
@@ -135,7 +135,7 @@ public class JDNDInfo implements DNDInfo {
 			}
 		};
 		// Hack for bug 1006304
-		synchronized (SunDragSourceContextPeer.class) {
+		/*synchronized (SunDragSourceContextPeer.class) {
 			try {
 				SunDragSourceContextPeer.checkDragDropInProgress();
 			} catch (InvalidDnDOperationException e) {
@@ -147,7 +147,7 @@ public class JDNDInfo implements DNDInfo {
 				}
 				SunDragSourceContextPeer.setDragDropInProgress(false);
 			}
-		}
+		}*/
 		this.dragSource.startDrag(dge, MoveAction.dropKO, new MoveAction.ShapeNodeTransferable(shapeNode, initialPoint), dsListener);
 		getDrawingView().captureDraggedNode(shapeView, dge);
 
