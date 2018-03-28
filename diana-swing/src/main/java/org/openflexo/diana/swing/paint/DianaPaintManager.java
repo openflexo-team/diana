@@ -65,8 +65,8 @@ import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.control.AbstractDianaEditor;
-import org.openflexo.diana.swing.view.JDrawingView;
 import org.openflexo.diana.swing.view.JDianaView;
+import org.openflexo.diana.swing.view.JDrawingView;
 import org.openflexo.diana.swing.view.JLabelView;
 import org.openflexo.diana.swing.view.JShapeView;
 import org.openflexo.diana.view.DianaView;
@@ -450,7 +450,12 @@ public class DianaPaintManager {
 			if (paintRequestLogger.isLoggable(Level.FINEST)) {
 				paintRequestLogger.finest("painting DirtyRegions");
 			}
-			super.paintDirtyRegions();
+			try {
+				super.paintDirtyRegions();
+			} catch (NullPointerException e) {
+				logger.warning("Unexpected " + e);
+				e.printStackTrace();
+			}
 		}
 
 	}
