@@ -41,7 +41,6 @@ package org.openflexo.diana;
 
 import java.util.logging.Logger;
 
-import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.localization.LocalizedDelegateImpl;
 import org.openflexo.model.exceptions.ModelDefinitionException;
@@ -49,13 +48,12 @@ import org.openflexo.rm.ResourceLocator;
 
 public class DianaCoreUtils {
 
-	static final Logger LOGGER = Logger.getLogger(DianaCoreUtils.class.getPackage().getName());
+	private static final Logger LOGGER = Logger.getLogger(DianaCoreUtils.class.getPackage().getName());
 
 	// Locales for DIANA
 	// (based on deprecated resources, to be removed)
-	public static LocalizedDelegate DIANA_LOCALIZATION = new LocalizedDelegateImpl(ResourceLocator.locateResource("DianaLocalization"),
-			/*new LocalizedDelegateImpl(ResourceLocator.locateResource("FlexoLocalization/Deprecated"), null, false, false)*/null, true,
-			true);
+	public static final LocalizedDelegate DIANA_LOCALIZATION = new LocalizedDelegateImpl(
+			ResourceLocator.locateResource("DianaLocalization"), null, true, true);
 	/**
 	 * This is the Diana model factory shared by all Diana tools
 	 */
