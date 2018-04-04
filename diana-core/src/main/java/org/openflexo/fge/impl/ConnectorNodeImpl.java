@@ -38,6 +38,7 @@
 
 package org.openflexo.fge.impl;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
@@ -55,6 +56,7 @@ import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.GRBinding;
+import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.connectors.Connector;
 import org.openflexo.fge.connectors.ConnectorSpecification;
 import org.openflexo.fge.connectors.impl.ConnectorImpl;
@@ -395,8 +397,38 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 	public Point getLabelLocation(double scale) {
 		if (getConnector() != null) {
 			Point connectorCenter = convertNormalizedPointToViewCoordinates(getConnector().getMiddleSymbolLocation(), scale);
-			return new Point((int) (connectorCenter.x + getGraphicalRepresentation().getAbsoluteTextX() * scale + getViewX(scale)),
+			Point point = new Point((int) (connectorCenter.x + getGraphicalRepresentation().getAbsoluteTextX() * scale + getViewX(scale)),
 					(int) (connectorCenter.y + getGraphicalRepresentation().getAbsoluteTextY() * scale + getViewY(scale)));
+
+			Dimension d = getLabelDimension(scale);
+			if (getGraphicalRepresentation().getHorizontalTextAlignment() != null) {
+				switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
+					case CENTER:
+						point.x -= d.width / 2;
+						break;
+					case LEFT:
+						break;
+					case RIGHT:
+						point.x -= d.width;
+						break;
+
+				}
+			}
+			if (getGraphicalRepresentation().getVerticalTextAlignment() != null) {
+				switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
+					case TOP:
+						point.y -= d.height;
+						break;
+					case MIDDLE:
+						point.y -= d.height / 2;
+						break;
+					case BOTTOM:
+						break;
+				}
+			}
+
+			return point;
+
 		}
 		return null;
 	}
@@ -404,8 +436,43 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 	@Override
 	public void setLabelLocation(Point point, double scale) {
 		Point connectorCenter = convertNormalizedPointToViewCoordinates(getConnector().getMiddleSymbolLocation(), scale);
-		getGraphicalRepresentation().setAbsoluteTextX(((double) point.x - connectorCenter.x - getViewX(scale)) / scale);
-		getGraphicalRepresentation().setAbsoluteTextY(((double) point.y - connectorCenter.y - getViewY(scale)) / scale);
+
+		Double oldAbsoluteTextX = getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X);
+		Double oldAbsoluteTextY = getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y);
+		Dimension d = getLabelDimension(scale);
+		switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
+			case CENTER:
+				point.x += d.width / 2;
+				break;
+			case LEFT:
+				break;
+			case RIGHT:
+				point.x += d.width;
+				break;
+
+		}
+		switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
+			case BOTTOM:
+				point.y += d.height;
+				break;
+			case MIDDLE:
+				point.y += d.height / 2;
+				break;
+			case TOP:
+				break;
+		}
+
+		FGEPoint p = new FGEPoint((point.x - connectorCenter.x - getViewX(scale)) / scale,
+				(point.y - connectorCenter.y - getViewY(scale)) / scale);
+		setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X, p.x);
+		setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y, p.y);
+		notifyAttributeChanged(GraphicalRepresentation.ABSOLUTE_TEXT_X, oldAbsoluteTextX,
+				getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X));
+		notifyAttributeChanged(GraphicalRepresentation.ABSOLUTE_TEXT_Y, oldAbsoluteTextY,
+				getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y));
+
+		// getGraphicalRepresentation().setAbsoluteTextX(((double) point.x - connectorCenter.x - getViewX(scale)) / scale);
+		// getGraphicalRepresentation().setAbsoluteTextY(((double) point.y - connectorCenter.y - getViewY(scale)) / scale);
 	}
 
 	@Override
@@ -444,6 +511,11 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 				|| evt.getPropertyName().equals(ConnectorGraphicalRepresentation.CONNECTOR_TYPE.getName())) {
 			// Connector Specification has changed
 			fireConnectorSpecificationChanged();
+		}
+
+		else if (evt.getPropertyName() == GraphicalRepresentation.HORIZONTAL_TEXT_ALIGNEMENT.getName()
+				|| evt.getPropertyName() == GraphicalRepresentation.VERTICAL_TEXT_ALIGNEMENT.getName()) {
+			// System.out.println("Hop, on change l'alignement du texte du connecteur");
 		}
 
 		/*if (notification instanceof ConnectorModified) {
