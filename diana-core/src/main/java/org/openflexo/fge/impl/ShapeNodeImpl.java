@@ -88,6 +88,7 @@ import org.openflexo.fge.geom.area.FGEIntersectionArea;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 import org.openflexo.fge.graphics.ShapeDecorationPainter;
 import org.openflexo.fge.graphics.ShapePainter;
+import org.openflexo.fge.notifications.ControlAreasChange;
 import org.openflexo.fge.notifications.ObjectHasMoved;
 import org.openflexo.fge.notifications.ObjectHasResized;
 import org.openflexo.fge.notifications.ObjectMove;
@@ -1724,8 +1725,19 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				}
 			}
 
+			notifyObservers(new ControlAreasChange());
+
+			/*notifyObjectHasMoved();
+			notifyShapeChanged();
+			notifyShapeNeedsToBeRedrawn();*/
 		}
 		return controlAreas;
+	}
+
+	@Override
+	public void clearControlAreas() {
+		super.clearControlAreas();
+		controlAreas = null;
 	}
 
 	/**

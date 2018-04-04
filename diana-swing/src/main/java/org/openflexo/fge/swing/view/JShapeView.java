@@ -70,6 +70,7 @@ import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.DianaInteractiveViewer;
 import org.openflexo.fge.control.tools.DianaPalette;
 import org.openflexo.fge.impl.GraphNodeImpl;
+import org.openflexo.fge.notifications.ControlAreasChange;
 import org.openflexo.fge.notifications.NodeAdded;
 import org.openflexo.fge.notifications.NodeDeleted;
 import org.openflexo.fge.notifications.NodeRemoved;
@@ -461,10 +462,18 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 			else if (evt.getPropertyName().equals(NodeRemoved.EVENT_NAME)) {
 				handleNodeRemoved((DrawingTreeNode<?, ?>) evt.getOldValue(), (ContainerNode<?, ?>) evt.getNewValue());
 			}
-			/*else if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) {
-				System.out.println("OK on supprime la shape view pour " + getNode());
-				delete();
-			}*/
+			else if (evt.getPropertyName().equals(ControlAreasChange.EVENT_NAME)) {
+				// Updating control areas
+				relocateAndResizeView();
+				if (getPaintManager().isPaintingCacheEnabled()) {
+					getPaintManager().invalidate(shapeNode);
+					getPaintManager().invalidate(shapeNode.getParentNode());
+					getPaintManager().repaint(getParentView());
+				}
+				if (getParentView() != null) {
+					getPaintManager().repaint(this);
+				}
+			}
 			else if (evt.getPropertyName().equals(ObjectWillMove.EVENT_NAME)) {
 				if (getPaintManager().isPaintingCacheEnabled()) {
 					getPaintManager().addToTemporaryObjects(shapeNode);

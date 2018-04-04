@@ -531,6 +531,11 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 	}
 
 	@Override
+	public void clearControlAreas() {
+		controlAreas = null;
+	}
+
+	@Override
 	public boolean delete() {
 		if (!isDeleted()) {
 			// System.out.println("ConnectorNode deleted");

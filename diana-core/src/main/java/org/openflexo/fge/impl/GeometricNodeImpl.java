@@ -129,6 +129,11 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	}
 
 	@Override
+	public void clearControlAreas() {
+		controlAreas = null;
+	}
+
+	@Override
 	public List<ControlPoint> getControlPoints() {
 		if (controlPoints == null) {
 			rebuildControlPoints();
