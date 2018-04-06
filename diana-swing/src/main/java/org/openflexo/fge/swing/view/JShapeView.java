@@ -470,6 +470,14 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 					getPaintManager().invalidate(shapeNode.getParentNode());
 					getPaintManager().repaint(getParentView());
 				}
+
+				/*setDoubleBuffered(false);
+				getPaintManager().addToTemporaryObjects(shapeNode);
+				getPaintManager().invalidate(shapeNode);
+				getPaintManager().repaint(getParentView());
+				setDoubleBuffered(true);
+				getPaintManager().removeFromTemporaryObjects(shapeNode);*/
+
 				if (getParentView() != null) {
 					getPaintManager().repaint(this);
 				}
