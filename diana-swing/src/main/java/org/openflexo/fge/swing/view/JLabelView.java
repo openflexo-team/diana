@@ -319,11 +319,6 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		return delegateView;
 	}
 
-	/*@Override
-	public GraphicalRepresentation getGraphicalRepresentation() {
-		return graphicalRepresentation;
-	}*/
-
 	@Override
 	public double getScale() {
 		if (getController() != null) {
@@ -618,14 +613,44 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		if (isEditing || isDeleted) {
 			return;
 		}
+		/*if (node.getText() != null && node.getText().equals("Noeud1")) {
+			System.out.println(Thread.currentThread() + " ******* On met a jour le label pour le Noeud1");
+		}*/
+		// TODO: investigate on that problem
+		// If we uncomment this, text is not updated yet (normal), but when done later
+		// Label does not display immediately
 		if (!SwingUtilities.isEventDispatchThread()) {
+			/*if (node.getText() != null && node.getText().equals("Noeud1")) {
+				System.out.println(Thread.currentThread() + " ******* On met a jour PLUS TARD le label pour le Noeud1");
+			}*/
+			// textComponent.setText(node.getText());
 			SwingUtilities.invokeLater(() -> updateText());
 			return;
 		}
 		if (node.hasText() && node.getText() != null) {
 			if (!node.getText().equals(textComponent.getText())) {
+				/*if (node.getText() != null && node.getText().equals("Noeud1")) {
+					System.out.println(Thread.currentThread() + " ******* On met VRAIMENT a jour le label pour le Noeud1");
+				}*/
 				textComponent.setText(node.getText());
 				updateBounds();
+				// repaint();
+				if (node.getText() != null && node.getText().equals("Noeud1")) {
+					System.out.println(Thread.currentThread() + " ******* Et donc pour le Noeud1");
+					System.out.println("textComponent=" + textComponent);
+					System.out.println("text=" + textComponent.getText());
+					System.out.println("size=" + textComponent.getSize());
+					System.out.println("preferred=" + textComponent.getPreferredSize());
+					System.out.println("Et pourtant: " + node.getLabelBounds(getScale()));
+					Thread.dumpStack();
+				}
+				setDoubleBuffered(false);
+				getPaintManager().addToTemporaryObjects(node);
+				getPaintManager().invalidate(node);
+				getPaintManager().repaint(this);
+				setDoubleBuffered(true);
+				getPaintManager().removeFromTemporaryObjects(node);
+
 			}
 		}
 		else {
