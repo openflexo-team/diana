@@ -144,14 +144,6 @@ public abstract class DrawCustomShapeToolController<S extends DianaShape<S>, ME>
 
 		graphics = makeGraphics(getFactory().makeForegroundStyle(Color.GREEN));
 
-		// TODO Check this / fge_under_pamela
-		/*currentEditedShapeGeometricNode = new GeometricGraphicalRepresentationImpl(shape, shape, controller.getDrawing()) {
-			@Override
-			public void notifyGeometryChanged() {
-				super.notifyGeometryChanged();
-				geometryChanged();
-			}
-		};*/
 		currentEditedShapeGeometricNode.getGraphicalRepresentation()
 				.setBackground(getController().getInspectedBackgroundStyle().cloneStyle());
 		currentEditedShapeGeometricNode.getGraphicalRepresentation()
