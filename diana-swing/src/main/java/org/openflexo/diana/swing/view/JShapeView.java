@@ -61,15 +61,16 @@ import javax.swing.SwingUtilities;
 
 import org.openflexo.diana.ContainerGraphicalRepresentation;
 import org.openflexo.diana.DianaConstants;
-import org.openflexo.diana.GraphicalRepresentation;
-import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.GraphicalRepresentation;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.control.tools.DianaPalette;
 import org.openflexo.diana.impl.GraphNodeImpl;
+import org.openflexo.diana.notifications.ControlAreasChange;
 import org.openflexo.diana.notifications.NodeAdded;
 import org.openflexo.diana.notifications.NodeDeleted;
 import org.openflexo.diana.notifications.NodeRemoved;
@@ -461,10 +462,26 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 			else if (evt.getPropertyName().equals(NodeRemoved.EVENT_NAME)) {
 				handleNodeRemoved((DrawingTreeNode<?, ?>) evt.getOldValue(), (ContainerNode<?, ?>) evt.getNewValue());
 			}
-			/*else if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) {
-				System.out.println("OK on supprime la shape view pour " + getNode());
-				delete();
-			}*/
+			else if (evt.getPropertyName().equals(ControlAreasChange.EVENT_NAME)) {
+				// Updating control areas
+				relocateAndResizeView();
+				if (getPaintManager().isPaintingCacheEnabled()) {
+					getPaintManager().invalidate(shapeNode);
+					getPaintManager().invalidate(shapeNode.getParentNode());
+					getPaintManager().repaint(getParentView());
+				}
+
+				/*setDoubleBuffered(false);
+				getPaintManager().addToTemporaryObjects(shapeNode);
+				getPaintManager().invalidate(shapeNode);
+				getPaintManager().repaint(getParentView());
+				setDoubleBuffered(true);
+				getPaintManager().removeFromTemporaryObjects(shapeNode);*/
+
+				if (getParentView() != null) {
+					getPaintManager().repaint(this);
+				}
+			}
 			else if (evt.getPropertyName().equals(ObjectWillMove.EVENT_NAME)) {
 				if (getPaintManager().isPaintingCacheEnabled()) {
 					getPaintManager().addToTemporaryObjects(shapeNode);

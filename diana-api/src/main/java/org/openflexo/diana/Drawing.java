@@ -283,6 +283,11 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		public List<? extends ControlArea<?>> getControlAreas();
 
 		/**
+		 * Clear control area: allows to recompute control areas
+		 */
+		public void clearControlAreas();
+
+		/**
 		 * Recursively delete this DrawingTreeNode and all its descendants
 		 */
 		public boolean delete();

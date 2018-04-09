@@ -1023,4 +1023,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		return controlAreas;
 	}
 
+	@Override
+	public void clearControlAreas() {
+		controlAreas = null;
+	}
 }

@@ -87,6 +87,7 @@ import org.openflexo.diana.geom.area.DianaIntersectionArea;
 import org.openflexo.diana.graphics.DianaShapeGraphics;
 import org.openflexo.diana.graphics.ShapeDecorationPainter;
 import org.openflexo.diana.graphics.ShapePainter;
+import org.openflexo.diana.notifications.ControlAreasChange;
 import org.openflexo.diana.notifications.ObjectHasMoved;
 import org.openflexo.diana.notifications.ObjectHasResized;
 import org.openflexo.diana.notifications.ObjectMove;
@@ -1697,10 +1698,17 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				else {
 					controlAreas = new ConcatenedList<>(shapeControlAreas, controlAreas);
 				}
+				notifyObservers(new ControlAreasChange());
 			}
 
 		}
 		return controlAreas;
+	}
+
+	@Override
+	public void clearControlAreas() {
+		super.clearControlAreas();
+		controlAreas = null;
 	}
 
 	/**

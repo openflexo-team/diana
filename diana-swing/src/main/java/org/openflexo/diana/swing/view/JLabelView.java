@@ -82,12 +82,12 @@ import javax.swing.text.StyledDocument;
 import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.DianaUtils;
-import org.openflexo.diana.GraphicalRepresentation;
-import org.openflexo.diana.ShapeGraphicalRepresentation;
-import org.openflexo.diana.TextStyle;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.GraphicalRepresentation.LabelMetricsProvider;
 import org.openflexo.diana.GraphicalRepresentation.ParagraphAlignment;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
+import org.openflexo.diana.TextStyle;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.control.tools.DianaPalette;
@@ -318,11 +318,6 @@ public class JLabelView<O> extends JScrollPane implements JDianaView<O, JPanel>,
 	public DianaView<O, ? extends JComponent> getDelegateView() {
 		return delegateView;
 	}
-
-	/*@Override
-	public GraphicalRepresentation getGraphicalRepresentation() {
-		return graphicalRepresentation;
-	}*/
 
 	@Override
 	public double getScale() {
@@ -626,12 +621,23 @@ public class JLabelView<O> extends JScrollPane implements JDianaView<O, JPanel>,
 			if (!node.getText().equals(textComponent.getText())) {
 				textComponent.setText(node.getText());
 				updateBounds();
+				// Force repaint (see FME-19)
+				forceRepaint();
 			}
 		}
 		else {
 			textComponent.setText("");
 			updateBounds();
 		}
+	}
+
+	private void forceRepaint() {
+		setDoubleBuffered(false);
+		getPaintManager().addToTemporaryObjects(node);
+		getPaintManager().invalidate(node);
+		getPaintManager().repaint(this);
+		setDoubleBuffered(true);
+		getPaintManager().removeFromTemporaryObjects(node);
 	}
 
 	public void addDianaMouseListener() {

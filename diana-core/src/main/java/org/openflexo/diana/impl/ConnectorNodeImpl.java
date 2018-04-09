@@ -38,6 +38,7 @@
 
 package org.openflexo.diana.impl;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
@@ -48,23 +49,24 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
-import org.openflexo.diana.Drawing;
 import org.openflexo.diana.DianaUtils;
-import org.openflexo.diana.ForegroundStyle;
-import org.openflexo.diana.GRBinding;
+import org.openflexo.diana.Drawing;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.ForegroundStyle;
+import org.openflexo.diana.GRBinding;
+import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.connectors.Connector;
 import org.openflexo.diana.connectors.ConnectorSpecification;
 import org.openflexo.diana.connectors.impl.ConnectorImpl;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
 import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.GeomUtils;
-import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.graphics.DianaConnectorGraphics;
 import org.openflexo.diana.notifications.ConnectorModified;
 import org.openflexo.diana.notifications.ObjectHasMoved;
@@ -395,8 +397,36 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 	public Point getLabelLocation(double scale) {
 		if (getConnector() != null) {
 			Point connectorCenter = convertNormalizedPointToViewCoordinates(getConnector().getMiddleSymbolLocation(), scale);
-			return new Point((int) (connectorCenter.x + getGraphicalRepresentation().getAbsoluteTextX() * scale + getViewX(scale)),
+			Point point = new Point((int) (connectorCenter.x + getGraphicalRepresentation().getAbsoluteTextX() * scale + getViewX(scale)),
 					(int) (connectorCenter.y + getGraphicalRepresentation().getAbsoluteTextY() * scale + getViewY(scale)));
+
+			Dimension d = getLabelDimension(scale);
+			if (getGraphicalRepresentation().getHorizontalTextAlignment() != null) {
+				switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
+					case CENTER:
+						point.x -= d.width / 2;
+						break;
+					case LEFT:
+						break;
+					case RIGHT:
+						point.x -= d.width;
+						break;
+
+				}
+			}
+			if (getGraphicalRepresentation().getVerticalTextAlignment() != null) {
+				switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
+					case TOP:
+						point.y -= d.height;
+						break;
+					case MIDDLE:
+						point.y -= d.height / 2;
+						break;
+					case BOTTOM:
+						break;
+				}
+			}
+			return point;
 		}
 		return null;
 	}
@@ -404,8 +434,40 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 	@Override
 	public void setLabelLocation(Point point, double scale) {
 		Point connectorCenter = convertNormalizedPointToViewCoordinates(getConnector().getMiddleSymbolLocation(), scale);
-		getGraphicalRepresentation().setAbsoluteTextX(((double) point.x - connectorCenter.x - getViewX(scale)) / scale);
-		getGraphicalRepresentation().setAbsoluteTextY(((double) point.y - connectorCenter.y - getViewY(scale)) / scale);
+
+		Double oldAbsoluteTextX = getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X);
+		Double oldAbsoluteTextY = getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y);
+		Dimension d = getLabelDimension(scale);
+		switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
+			case CENTER:
+				point.x += d.width / 2;
+				break;
+			case LEFT:
+				break;
+			case RIGHT:
+				point.x += d.width;
+				break;
+
+		}
+		switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
+			case BOTTOM:
+				point.y += d.height;
+				break;
+			case MIDDLE:
+				point.y += d.height / 2;
+				break;
+			case TOP:
+				break;
+		}
+
+		DianaPoint p = new DianaPoint((point.x - connectorCenter.x - getViewX(scale)) / scale,
+				(point.y - connectorCenter.y - getViewY(scale)) / scale);
+		setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X, p.x);
+		setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y, p.y);
+		notifyAttributeChanged(GraphicalRepresentation.ABSOLUTE_TEXT_X, oldAbsoluteTextX,
+				getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X));
+		notifyAttributeChanged(GraphicalRepresentation.ABSOLUTE_TEXT_Y, oldAbsoluteTextY,
+				getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y));
 	}
 
 	@Override
@@ -444,6 +506,11 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 				|| evt.getPropertyName().equals(ConnectorGraphicalRepresentation.CONNECTOR_TYPE.getName())) {
 			// Connector Specification has changed
 			fireConnectorSpecificationChanged();
+		}
+
+		else if (evt.getPropertyName() == GraphicalRepresentation.HORIZONTAL_TEXT_ALIGNEMENT.getName()
+				|| evt.getPropertyName() == GraphicalRepresentation.VERTICAL_TEXT_ALIGNEMENT.getName()) {
+			// System.out.println("Hop, on change l'alignement du texte du connecteur");
 		}
 
 		/*if (notification instanceof ConnectorModified) {
@@ -528,6 +595,11 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 		}
 		return controlAreas;
 		// return getConnector().getControlAreas();
+	}
+
+	@Override
+	public void clearControlAreas() {
+		controlAreas = null;
 	}
 
 	@Override
