@@ -37,7 +37,6 @@
  * 
  */
 
-
 package org.openflexo.diana.control;
 
 import java.util.logging.Logger;

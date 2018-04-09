@@ -115,9 +115,11 @@ public interface ForegroundStyle extends DianaStyle {
 		public ImageIcon getIcon() {
 			if (this == JOIN_MITER) {
 				return DianaIconLibrary.JOIN_MITER_ICON;
-			} else if (this == JOIN_ROUND) {
+			}
+			else if (this == JOIN_ROUND) {
 				return DianaIconLibrary.JOIN_ROUND_ICON;
-			} else if (this == JOIN_BEVEL) {
+			}
+			else if (this == JOIN_BEVEL) {
 				return DianaIconLibrary.JOIN_BEVEL_ICON;
 			}
 			return null;
@@ -145,9 +147,11 @@ public interface ForegroundStyle extends DianaStyle {
 		public ImageIcon getIcon() {
 			if (this == CAP_BUTT) {
 				return DianaIconLibrary.CAP_BUTT_ICON;
-			} else if (this == CAP_ROUND) {
+			}
+			else if (this == CAP_ROUND) {
 				return DianaIconLibrary.CAP_ROUND_ICON;
-			} else if (this == CAP_SQUARE) {
+			}
+			else if (this == CAP_SQUARE) {
 				return DianaIconLibrary.CAP_SQUARE_ICON;
 			}
 			return null;
@@ -162,17 +166,23 @@ public interface ForegroundStyle extends DianaStyle {
 		public ImageIcon getIcon() {
 			if (this == PLAIN_STROKE) {
 				return DianaIconLibrary.PLAIN_STROKE_ICON;
-			} else if (this == SMALL_DASHES) {
+			}
+			else if (this == SMALL_DASHES) {
 				return DianaIconLibrary.SMALL_DASHES_ICON;
-			} else if (this == MEDIUM_DASHES) {
+			}
+			else if (this == MEDIUM_DASHES) {
 				return DianaIconLibrary.MEDIUM_DASHES_ICON;
-			} else if (this == MEDIUM_SPACED_DASHES) {
+			}
+			else if (this == MEDIUM_SPACED_DASHES) {
 				return DianaIconLibrary.MEDIUM_SPACED_DASHES_ICON;
-			} else if (this == BIG_DASHES) {
+			}
+			else if (this == BIG_DASHES) {
 				return DianaIconLibrary.BIG_DASHES_ICON;
-			} else if (this == DOTS_DASHES) {
+			}
+			else if (this == DOTS_DASHES) {
 				return DianaIconLibrary.DOTS_DASHES_ICON;
-			} else if (this == DOT_LINES_DASHES) {
+			}
+			else if (this == DOT_LINES_DASHES) {
 				return DianaIconLibrary.DOTS_LINES_DASHES_ICON;
 			}
 			return null;
@@ -190,22 +200,28 @@ public interface ForegroundStyle extends DianaStyle {
 		public float[] getDashArray() {
 			if (this == PLAIN_STROKE) {
 				return null;
-			} else if (this == SMALL_DASHES) {
+			}
+			else if (this == SMALL_DASHES) {
 				float[] da = { 3, 2 };
 				return da;
-			} else if (this == MEDIUM_DASHES) {
+			}
+			else if (this == MEDIUM_DASHES) {
 				float[] da = { 5, 3 };
 				return da;
-			} else if (this == MEDIUM_SPACED_DASHES) {
+			}
+			else if (this == MEDIUM_SPACED_DASHES) {
 				float[] da = { 5, 5 };
 				return da;
-			} else if (this == BIG_DASHES) {
+			}
+			else if (this == BIG_DASHES) {
 				float[] da = { 10, 5 };
 				return da;
-			} else if (this == DOTS_DASHES) {
+			}
+			else if (this == DOTS_DASHES) {
 				float[] da = { 1, 4 };
 				return da;
-			} else if (this == DOT_LINES_DASHES) {
+			}
+			else if (this == DOT_LINES_DASHES) {
 				float[] da = { 15, 3, 3, 3 };
 				return da;
 			}
@@ -222,17 +238,23 @@ public interface ForegroundStyle extends DianaStyle {
 		public float getDashPhase() {
 			if (this == PLAIN_STROKE) {
 				return 0;
-			} else if (this == SMALL_DASHES) {
+			}
+			else if (this == SMALL_DASHES) {
 				return 0;
-			} else if (this == MEDIUM_DASHES) {
+			}
+			else if (this == MEDIUM_DASHES) {
 				return 0;
-			} else if (this == MEDIUM_SPACED_DASHES) {
+			}
+			else if (this == MEDIUM_SPACED_DASHES) {
 				return 0;
-			} else if (this == BIG_DASHES) {
+			}
+			else if (this == BIG_DASHES) {
 				return 0;
-			} else if (this == DOTS_DASHES) {
+			}
+			else if (this == DOTS_DASHES) {
 				return 0;
-			} else if (this == DOT_LINES_DASHES) {
+			}
+			else if (this == DOT_LINES_DASHES) {
 				return 0;
 			}
 			return 0;
@@ -305,11 +327,6 @@ public interface ForegroundStyle extends DianaStyle {
 
 	// TODO remove this
 	public void setColorNoNotification(Color aColor);
-
-	// TODO remove this
-	// public Stroke getStroke(double scale);
-
-	// public ForegroundStyle clone();
 
 	// TODO remove this
 	public String toNiceString();
