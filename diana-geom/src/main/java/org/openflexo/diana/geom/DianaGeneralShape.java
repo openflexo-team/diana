@@ -123,7 +123,8 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 			if (currentPoint == null) {
 				beginAtPoint(((DianaCubicCurve) element).getP1());
 			}
-			addCubicCurve(((DianaCubicCurve) element).getCtrlP1(), ((DianaCubicCurve) element).getCtrlP2(), ((DianaCubicCurve) element).getP2());
+			addCubicCurve(((DianaCubicCurve) element).getCtrlP1(), ((DianaCubicCurve) element).getCtrlP2(),
+					((DianaCubicCurve) element).getP2());
 		}
 	}
 
@@ -308,7 +309,6 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 
 	@Override
 	public DianaArea getOrthogonalPerspectiveArea(org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection orientation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -79,7 +79,6 @@ public abstract class GeomEditAdjustingControlPoint<O extends FGEArea> extends G
 
 	@Override
 	public void stopDragging(AbstractDianaEditor controller, GraphicalRepresentation focusedGR) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

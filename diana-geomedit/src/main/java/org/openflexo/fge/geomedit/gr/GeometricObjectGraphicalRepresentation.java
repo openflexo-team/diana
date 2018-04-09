@@ -74,7 +74,6 @@ public class GeometricObjectGraphicalRepresentation<A extends FGEArea, G extends
 
 	/*@Override
 	public G getDrawable() {
-		// TODO Auto-generated method stub
 		return super.getDrawable();
 	}*/
 

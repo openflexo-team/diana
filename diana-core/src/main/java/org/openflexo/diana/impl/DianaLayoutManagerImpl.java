@@ -389,8 +389,6 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 
 	@Override
 	public void setLayoutedNodes(List<ShapeNode<?>> nodes) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -407,7 +405,6 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 
 	@Override
 	public BindingModel getBindingModel() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -420,11 +417,9 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 
 	@Override
 	public void notifiedBindingChanged(DataBinding<?> dataBinding) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void notifiedBindingDecoded(DataBinding<?> dataBinding) {
-		// TODO Auto-generated method stub
 	}
 }

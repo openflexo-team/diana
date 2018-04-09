@@ -268,7 +268,6 @@ public class DianaQuadCurve extends Double implements DianaGeneralShape.GeneralS
 
 	@Override
 	public DianaArea getOrthogonalPerspectiveArea(org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection orientation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

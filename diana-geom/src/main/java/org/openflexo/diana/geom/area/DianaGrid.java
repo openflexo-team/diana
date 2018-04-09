@@ -146,7 +146,6 @@ public class DianaGrid implements DianaArea {
 
 	@Override
 	public DianaArea getOrthogonalPerspectiveArea(SimplifiedCardinalDirection orientation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

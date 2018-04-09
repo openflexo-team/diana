@@ -79,16 +79,12 @@ public class FIBInspector extends FIBPanel {
 				System.out.println("Clone container:\n"+XMLCoder.encodeObjectWithMapping(superInspector, FIBLibrary.getFIBMapping(),StringEncoder.getDefaultInstance()));
 				System.out.println("Found this:\n"+XMLCoder.encodeObjectWithMapping((XMLSerializable)Cloner.cloneObjectWithMapping(superInspector, FIBLibrary.getFIBMapping()), FIBLibrary.getFIBMapping(),StringEncoder.getDefaultInstance()));
 			} catch (InvalidObjectSpecificationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (InvalidModelException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (AccessorInvocationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (DuplicateSerializationIdentifierException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}*/
 			append((FIBPanel) Cloner.cloneObjectWithMapping(superInspector, FIBLibrary.getFIBMapping()));
@@ -104,16 +100,12 @@ public class FIBInspector extends FIBPanel {
 		try {
 			return XMLCoder.encodeObjectWithMapping(this, FIBLibrary.getFIBMapping(), StringEncoder.getDefaultInstance());
 		} catch (InvalidObjectSpecificationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidModelException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (AccessorInvocationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (DuplicateSerializationIdentifierException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "Error ???";

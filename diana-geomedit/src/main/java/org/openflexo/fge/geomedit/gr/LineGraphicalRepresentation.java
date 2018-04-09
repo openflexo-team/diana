@@ -76,13 +76,11 @@ public class LineGraphicalRepresentation extends GeometricObjectGraphicalReprese
 
 	/*@Override
 	public Line getDrawable() {
-		// TODO Auto-generated method stub
 		return super.getDrawable();
 	}
 	
 	@Override
 	public FGELine getGeometricObject() {
-		// TODO Auto-generated method stub
 		return super.getGeometricObject();
 	}*/
 

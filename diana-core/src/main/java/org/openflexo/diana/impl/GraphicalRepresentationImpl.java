@@ -1760,7 +1760,6 @@ public abstract class GraphicalRepresentationImpl extends DianaObjectImpl implem
 		// logger.info("Searching dependancies for "+this);
 	
 		GraphicalRepresentation component = this;
-		// TODO !!!!
 		List<TargetObject> targetList = binding.getTargetObjects(this);
 		if (targetList != null) {
 			for (TargetObject o : targetList) {

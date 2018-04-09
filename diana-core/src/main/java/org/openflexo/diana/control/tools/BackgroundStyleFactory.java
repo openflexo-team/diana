@@ -555,20 +555,14 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 
 		@Override
 		public void setImage(Image image) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void setScaleXNoNotification(double aScaleX) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void setScaleYNoNotification(double aScaleY) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override

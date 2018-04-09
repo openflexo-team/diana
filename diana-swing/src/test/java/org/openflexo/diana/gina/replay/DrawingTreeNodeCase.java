@@ -268,8 +268,6 @@ public class DrawingTreeNodeCase extends Case {
 
 	@Override
 	public void initWindow(Window w) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -279,8 +277,6 @@ public class DrawingTreeNodeCase extends Case {
 
 	@Override
 	public Dimension getWindowSize() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

@@ -76,26 +76,20 @@ public abstract class DianaLayoutManagerSpecificationImpl<LM extends DianaLayout
 
 	@Override
 	public BindingModel getBindingModel() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public BindingFactory getBindingFactory() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void notifiedBindingChanged(DataBinding<?> dataBinding) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void notifiedBindingDecoded(DataBinding<?> dataBinding) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

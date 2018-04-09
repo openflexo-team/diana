@@ -162,13 +162,11 @@ public class DianaCubicCurve extends Double implements DianaGeneralShape.General
 
 	@Override
 	public DianaPoint getNearestPoint(DianaPoint aPoint) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public DianaArea getOrthogonalPerspectiveArea(org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection orientation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

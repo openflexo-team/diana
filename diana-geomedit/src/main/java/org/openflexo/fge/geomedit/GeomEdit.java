@@ -93,10 +93,8 @@ public class GeomEdit {
 			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
 			FlexoLocalization.initWith(LOCALIZATION);
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -402,7 +400,6 @@ public class GeomEdit {
 				try {
 					Thread.sleep(60000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				logger.info("Stopping application");
