@@ -95,6 +95,7 @@ import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.localization.LocalizedDelegateImpl;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
+import org.openflexo.rm.FileSystemResourceLocatorImpl;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.swing.FlexoFileChooser;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
@@ -152,6 +153,10 @@ public class PPTEditorApplication {
 	@SuppressWarnings("serial")
 	public PPTEditorApplication() {
 		super();
+
+		final FileSystemResourceLocatorImpl fsrl = new FileSystemResourceLocatorImpl();
+		fsrl.appendToDirectories(System.getProperty("user.dir"));
+		ResourceLocator.appendDelegate(fsrl);
 
 		frame = new JFrame();
 		frame.setPreferredSize(new Dimension(1100, 800));
@@ -590,10 +595,14 @@ public class PPTEditorApplication {
 	public void loadDiagramEditor() {
 		if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
-			SlideShowEditor loadedDiagramEditor = SlideShowEditor.loadSlideShowEditor(file, this);
-			if (loadedDiagramEditor != null) {
-				addSlideShowEditor(loadedDiagramEditor);
-			}
+			loadDiagramEditor(file);
+		}
+	}
+
+	public void loadDiagramEditor(File file) {
+		SlideShowEditor loadedDiagramEditor = SlideShowEditor.loadSlideShowEditor(file, this);
+		if (loadedDiagramEditor != null) {
+			addSlideShowEditor(loadedDiagramEditor);
 		}
 	}
 

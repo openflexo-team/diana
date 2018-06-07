@@ -39,6 +39,7 @@
 
 package org.openflexo.fge.ppteditor;
 
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -80,6 +81,9 @@ public class LaunchPPTEditor {
 		PPTEditorApplication application = new PPTEditorApplication();
 		application.showMainPanel();
 		// application.newDiagramEditor();
+
+		application.loadDiagramEditor(new File("/Users/sylvain/GIT-1.9.0/diana/diana-ppt-editor/src/test/resources/ppt/TestPPT1.ppt"));
+
 	}
 
 }

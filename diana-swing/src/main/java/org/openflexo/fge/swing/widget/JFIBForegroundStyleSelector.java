@@ -367,8 +367,8 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 			if (getEditedObject() == null) {
 				return;
 			}
-			System.out.println("update() in PreviewPanel, lineGR setForeground with " + getEditedObject());
-			System.out.println("lineGR=" + lineGR);
+			//System.out.println("update() in PreviewPanel, lineGR setForeground with " + getEditedObject());
+			//System.out.println("lineGR=" + lineGR);
 			lineGR.setForeground(getEditedObject());
 		}
 
