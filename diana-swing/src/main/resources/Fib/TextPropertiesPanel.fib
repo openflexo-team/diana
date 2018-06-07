@@ -85,6 +85,26 @@
 			format="object.name.toLowerCase" showText="true"
 			iteratorClassName="org.openflexo.fge.GraphicalRepresentation$ParagraphAlignment"
 			showIcon="true" name="ParagraphAlignment" icon="object.icon" />
+
+		<Label id="26" visible="data.isRelativeHorizontalTextAlignment"
+			name="BorderRightLabel" index="16" localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)"
+			label="relative_text_x" />
+		<Number id="27" visible="data.isRelativeHorizontalTextAlignment"
+			minValue="0" columns="4" name="NumberSelector3" data="data.relativeTextX"
+			maxValue="1" increment="0.05" index="17"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)"
+			numberType="DoubleType" />
+		<Label id="28" visible="data.isRelativeVerticalTextAlignment"
+			name="BorderRightLabel" index="18" localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)"
+			label="relative_text_y" />
+		<Number id="29" visible="data.isRelativeVerticalTextAlignment"
+			minValue="0" columns="4" name="NumberSelector4" data="data.relativeTextY"
+			maxValue="1" increment="0.05" index="19"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)"
+			numberType="DoubleType" />
+
 	</Panel>
 	<Panel id="19" borderLeft="10" sizeAdjustment="OriginalSize"
 		opaque="false" borderRight="10" border="rounded3d" trackViewPortWidth="true"
@@ -116,24 +136,6 @@
 		<Number id="25" visible="data.isFloatingLabel" minValue="-10000"
 			columns="4" name="NumberSelector2" data="data.absoluteTextY"
 			maxValue="10000" increment="1" index="15"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)"
-			numberType="DoubleType" />
-		<Label id="26" visible="(!(data.isFloatingLabel))" name="BorderRightLabel"
-			index="16" localize="true" align="left"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)"
-			label="relative_text_x" />
-		<Number id="27" visible="(!(data.isFloatingLabel))" minValue="0"
-			columns="4" name="NumberSelector3" data="data.relativeTextX"
-			maxValue="1" increment="0.05" index="17"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)"
-			numberType="DoubleType" />
-		<Label id="28" visible="(!(data.isFloatingLabel))" name="BorderRightLabel"
-			index="18" localize="true" align="left"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)"
-			label="relative_text_y" />
-		<Number id="29" visible="(!(data.isFloatingLabel))" minValue="0"
-			columns="4" name="NumberSelector4" data="data.relativeTextY"
-			maxValue="1" increment="0.05" index="19"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)"
 			numberType="DoubleType" />
 		<CheckBox id="30" name="IsMultilineAllowed" data="data.isMultilineAllowed"

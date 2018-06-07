@@ -164,6 +164,26 @@ public class InspectedTextProperties extends InspectedStyle<GraphicalRepresentat
 
 	public void setHorizontalTextAlignment(HorizontalTextAlignment alignment) {
 		setPropertyValue(GraphicalRepresentation.HORIZONTAL_TEXT_ALIGNEMENT, alignment);
+		getPropertyChangeSupport().firePropertyChange("isRelativeHorizontalTextAlignment", !isRelativeHorizontalTextAlignment(),
+				isRelativeHorizontalTextAlignment());
+	}
+
+	/**
+	 * Convenient method returning flag indicating if horizontal text alignment is relative
+	 * 
+	 * @return
+	 */
+	public boolean isRelativeHorizontalTextAlignment() {
+		return getHorizontalTextAlignment() == HorizontalTextAlignment.RELATIVE;
+	}
+
+	/**
+	 * Convenient method returning flag indicating if vertical text alignment is relative
+	 * 
+	 * @return
+	 */
+	public boolean isRelativeVerticalTextAlignment() {
+		return getVerticalTextAlignment() == VerticalTextAlignment.RELATIVE;
 	}
 
 	public VerticalTextAlignment getVerticalTextAlignment() {
@@ -172,6 +192,8 @@ public class InspectedTextProperties extends InspectedStyle<GraphicalRepresentat
 
 	public void setVerticalTextAlignment(VerticalTextAlignment alignment) {
 		setPropertyValue(GraphicalRepresentation.VERTICAL_TEXT_ALIGNEMENT, alignment);
+		getPropertyChangeSupport().firePropertyChange("isRelativeVerticalTextAlignment", !isRelativeVerticalTextAlignment(),
+				isRelativeVerticalTextAlignment());
 	}
 
 	public ParagraphAlignment getParagraphAlignment() {

@@ -68,6 +68,8 @@ import org.openflexo.fge.GRBinding;
 import org.openflexo.fge.GRBinding.ShapeGRBinding;
 import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.GraphicalRepresentation;
+import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
+import org.openflexo.fge.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.fge.ShadowStyle;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
@@ -82,7 +84,6 @@ import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.geom.FGESegment;
 import org.openflexo.fge.geom.FGEShape;
-import org.openflexo.fge.geom.GeomUtils;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.geom.area.FGEIntersectionArea;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
@@ -1136,7 +1137,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		setXNoNotification(newLocation.x);
 		setYNoNotification(newLocation.y);
 	}
-	*/
+	 */
 
 	private void setLocationForContainerLayout(FGEPoint newLocation) {
 		if (getParentNode() instanceof ShapeNodeImpl) {
@@ -1480,14 +1481,22 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					(int) (getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y) * scale + getViewY(scale)));
 		}
 		else {
-			FGEPoint relativePosition = new FGEPoint(getPropertyValue(ShapeGraphicalRepresentation.RELATIVE_TEXT_X),
-					getPropertyValue(ShapeGraphicalRepresentation.RELATIVE_TEXT_Y));
+			double baseX = 0.5;
+			if (getGraphicalRepresentation().getHorizontalTextAlignment() == HorizontalTextAlignment.RELATIVE) {
+				baseX = getGraphicalRepresentation().getRelativeTextX();
+			}
+			double baseY = 0.5;
+			if (getGraphicalRepresentation().getVerticalTextAlignment() == VerticalTextAlignment.RELATIVE) {
+				baseY = getGraphicalRepresentation().getRelativeTextY();
+			}
+			FGEPoint relativePosition = new FGEPoint(baseX, baseY);
 			point = convertLocalNormalizedPointToRemoteViewCoordinates(relativePosition, getParentNode(), scale);
 		}
 		Dimension d = getLabelDimension(scale);
 		if (getGraphicalRepresentation().getHorizontalTextAlignment() != null) {
 			switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
 				case CENTER:
+				case RELATIVE:
 					point.x -= d.width / 2;
 					break;
 				case LEFT:
@@ -1502,11 +1511,11 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (getGraphicalRepresentation().getVerticalTextAlignment() != null) {
 			switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
 				case BOTTOM:
-
 					point.y = (int) (point.y + getHeight() / 2) - d.height;
 					// point.y -= d.height;
 					break;
 				case MIDDLE:
+				case RELATIVE:
 					point.y -= d.height / 2;
 					break;
 				case TOP:
@@ -1572,48 +1581,53 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public int getAvailableLabelWidth(double scale) {
 		if (getGraphicalRepresentation().getLineWrap()) {
-			double rpx = getGraphicalRepresentation().getRelativeTextX();
-			switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
-				case RIGHT:
-					if (GeomUtils.doubleEquals(rpx, 0.0)) {
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning("Impossible to handle RIGHT alignement with relative x position set to 0!");
-						}
-					}
-					else {
-						return (int) (getWidth() * rpx * scale);
-					}
-				case CENTER:
-					if (GeomUtils.doubleEquals(rpx, 0.0)) {
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning("Impossible to handle CENTER alignement with relative x position set to 0");
-						}
-					}
-					else if (GeomUtils.doubleEquals(rpx, 1.0)) {
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning("Impossible to handle CENTER alignement with relative x position set to 1");
-						}
-					}
-					else {
-						if (rpx > 0.5) {
-							return (int) (getWidth() * 2 * (1 - rpx) * scale);
+			// if (!getGraphicalRepresentation().getIsFloatingLabel()) {
+			return (int) (getWidth() * scale);
+			/*}
+			else {
+				double rpx = getGraphicalRepresentation().getRelativeTextX();
+				switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
+					case RIGHT:
+						if (GeomUtils.doubleEquals(rpx, 0.0)) {
+							if (logger.isLoggable(Level.WARNING)) {
+								logger.warning("Impossible to handle RIGHT alignement with relative x position set to 0!");
+							}
 						}
 						else {
-							return (int) (getWidth() * 2 * rpx * scale);
+							return (int) (getWidth() * rpx * scale);
 						}
-					}
-					break;
-				case LEFT:
-					if (GeomUtils.doubleEquals(rpx, 1.0)) {
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning("Impossible to handle LEFT alignement with relative x position set to 1");
+					case CENTER:
+						if (GeomUtils.doubleEquals(rpx, 0.0)) {
+							if (logger.isLoggable(Level.WARNING)) {
+								logger.warning("Impossible to handle CENTER alignement with relative x position set to 0");
+							}
 						}
-					}
-					else {
-						return (int) (getWidth() * (1 - rpx) * scale);
-					}
-					break;
-			}
+						else if (GeomUtils.doubleEquals(rpx, 1.0)) {
+							if (logger.isLoggable(Level.WARNING)) {
+								logger.warning("Impossible to handle CENTER alignement with relative x position set to 1");
+							}
+						}
+						else {
+							if (rpx > 0.5) {
+								return (int) (getWidth() * 2 * (1 - rpx) * scale);
+							}
+							else {
+								return (int) (getWidth() * 2 * rpx * scale);
+							}
+						}
+						break;
+					case LEFT:
+						if (GeomUtils.doubleEquals(rpx, 1.0)) {
+							if (logger.isLoggable(Level.WARNING)) {
+								logger.warning("Impossible to handle LEFT alignement with relative x position set to 1");
+							}
+						}
+						else {
+							return (int) (getWidth() * (1 - rpx) * scale);
+						}
+						break;
+				}
+			}*/
 		}
 		return super.getAvailableLabelWidth(scale);
 	}
@@ -1816,95 +1830,105 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		Dimension normalizedLabelSize = getNormalizedLabelSize();
 		int labelWidth = normalizedLabelSize.width;
 		int labelHeight = normalizedLabelSize.height;
-		double rh = 0, rw = 0;
-		FGEPoint rp = new FGEPoint(getGraphicalRepresentation().getRelativeTextX(), getGraphicalRepresentation().getRelativeTextY());
-		switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
-			case BOTTOM:
-				if (GeomUtils.doubleEquals(rp.y, 0.0)) {
-					if (logger.isLoggable(Level.WARNING)) {
-						logger.warning("Impossible to handle BOTTOM alignement with relative y position set to 0!");
-					}
-				}
-				else {
-					rh = labelHeight / rp.y;
-				}
-				break;
-			case MIDDLE:
-				if (GeomUtils.doubleEquals(rp.y, 0.0)) {
-					if (logger.isLoggable(Level.WARNING)) {
-						logger.warning("Impossible to handle MIDDLE alignement with relative y position set to 0");
-					}
-				}
-				else if (GeomUtils.doubleEquals(rp.y, 1.0)) {
-					if (logger.isLoggable(Level.WARNING)) {
-						logger.warning("Impossible to handle MIDDLE alignement with relative y position set to 1");
-					}
-				}
-				else {
-					if (rp.y > 0.5) {
-						rh = labelHeight / (2 * (1 - rp.y));
+
+		return new FGEDimension(labelWidth, labelHeight);
+
+		// If label is not floating, just return this required label size
+		/*if (!getGraphicalRepresentation().getIsFloatingLabel()) {
+			return new FGEDimension(labelWidth, labelHeight);
+		}
+		else {
+			// Otherwise, take relative position under consideration
+			double rh = 0, rw = 0;
+			FGEPoint rp = new FGEPoint(getGraphicalRepresentation().getRelativeTextX(), getGraphicalRepresentation().getRelativeTextY());
+			switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
+				case BOTTOM:
+					if (GeomUtils.doubleEquals(rp.y, 0.0)) {
+						if (logger.isLoggable(Level.WARNING)) {
+							logger.warning("Impossible to handle BOTTOM alignement with relative y position set to 0!");
+						}
 					}
 					else {
-						rh = labelHeight / (2 * rp.y);
+						rh = labelHeight / rp.y;
 					}
-				}
-				break;
-			case TOP:
-				if (GeomUtils.doubleEquals(rp.x, 1.0)) {
-					if (logger.isLoggable(Level.WARNING)) {
-						logger.warning("Impossible to handle TOP alignement with relative y position set to 1!");
+					break;
+				case MIDDLE:
+					if (GeomUtils.doubleEquals(rp.y, 0.0)) {
+						if (logger.isLoggable(Level.WARNING)) {
+							logger.warning("Impossible to handle MIDDLE alignement with relative y position set to 0");
+						}
 					}
-				}
-				else {
-					rh = labelHeight / (1 - rp.y);
-				}
-				break;
-
-		}
-
-		switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
-			case RIGHT:
-				if (GeomUtils.doubleEquals(rp.x, 0.0)) {
-					if (logger.isLoggable(Level.WARNING)) {
-						logger.warning("Impossible to handle RIGHT alignement with relative x position set to 0!");
-					}
-				}
-				else {
-					rw = labelWidth / rp.x;
-				}
-			case CENTER:
-				if (GeomUtils.doubleEquals(rp.x, 0.0)) {
-					if (logger.isLoggable(Level.WARNING)) {
-						logger.warning("Impossible to handle CENTER alignement with relative x position set to 0");
-					}
-				}
-				else if (GeomUtils.doubleEquals(rp.x, 1.0)) {
-					if (logger.isLoggable(Level.WARNING)) {
-						logger.warning("Impossible to handle CENTER alignement with relative x position set to 1");
-					}
-				}
-				else {
-					if (rp.x > 0.5) {
-						rw = labelWidth / (2 * (1 - rp.x));
+					else if (GeomUtils.doubleEquals(rp.y, 1.0)) {
+						if (logger.isLoggable(Level.WARNING)) {
+							logger.warning("Impossible to handle MIDDLE alignement with relative y position set to 1");
+						}
 					}
 					else {
-						rw = labelWidth / (2 * rp.x);
+						if (rp.y > 0.5) {
+							rh = labelHeight / (2 * (1 - rp.y));
+						}
+						else {
+							rh = labelHeight / (2 * rp.y);
+						}
 					}
-				}
-				break;
-			case LEFT:
-				if (GeomUtils.doubleEquals(rp.x, 1.0)) {
-					if (logger.isLoggable(Level.WARNING)) {
-						logger.warning("Impossible to handle LEFT alignement with relative x position set to 1!");
+					break;
+				case TOP:
+					if (GeomUtils.doubleEquals(rp.x, 1.0)) {
+						if (logger.isLoggable(Level.WARNING)) {
+							logger.warning("Impossible to handle TOP alignement with relative y position set to 1!");
+						}
 					}
-				}
-				else {
-					rw = labelWidth / (1 - rp.x);
-				}
-				break;
-		}
+					else {
+						rh = labelHeight / (1 - rp.y);
+					}
+					break;
+		
+			}
+		
+			switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
+				case RIGHT:
+					if (GeomUtils.doubleEquals(rp.x, 0.0)) {
+						if (logger.isLoggable(Level.WARNING)) {
+							logger.warning("Impossible to handle RIGHT alignement with relative x position set to 0!");
+						}
+					}
+					else {
+						rw = labelWidth / rp.x;
+					}
+				case CENTER:
+					if (GeomUtils.doubleEquals(rp.x, 0.0)) {
+						if (logger.isLoggable(Level.WARNING)) {
+							logger.warning("Impossible to handle CENTER alignement with relative x position set to 0");
+						}
+					}
+					else if (GeomUtils.doubleEquals(rp.x, 1.0)) {
+						if (logger.isLoggable(Level.WARNING)) {
+							logger.warning("Impossible to handle CENTER alignement with relative x position set to 1");
+						}
+					}
+					else {
+						if (rp.x > 0.5) {
+							rw = labelWidth / (2 * (1 - rp.x));
+						}
+						else {
+							rw = labelWidth / (2 * rp.x);
+						}
+					}
+					break;
+				case LEFT:
+					if (GeomUtils.doubleEquals(rp.x, 1.0)) {
+						if (logger.isLoggable(Level.WARNING)) {
+							logger.warning("Impossible to handle LEFT alignement with relative x position set to 1!");
+						}
+					}
+					else {
+						rw = labelWidth / (1 - rp.x);
+					}
+					break;
+			}
+			return new FGEDimension(rw, rh);
+		}*/
 
-		return new FGEDimension(rw, rh);
 	}
 
 	protected void updateRequiredBoundsForChildGRLocation(ShapeNode<?> child, FGEPoint newChildLocation) {
