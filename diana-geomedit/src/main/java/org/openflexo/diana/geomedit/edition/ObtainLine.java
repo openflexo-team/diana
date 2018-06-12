@@ -42,11 +42,10 @@ package org.openflexo.diana.geomedit.edition;
 import java.awt.event.MouseEvent;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
-import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
 import org.openflexo.diana.geomedit.model.construction.LineConstruction;
+import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.GeometricGraphicalRepresentation;
-import org.openflexo.fge.GraphicalRepresentation;
+import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geomedit.Line;
 
@@ -72,6 +71,7 @@ public class ObtainLine extends EditionInput<FGELine> {
 
 	public class LineSelection extends EditionInputMethod<FGELine, ObtainLine> {
 
+		// private ControlPoint focusedControlPoint;
 		private GeometricNode<?> focusedObject;
 
 		public LineSelection() {
@@ -83,21 +83,46 @@ public class ObtainLine extends EditionInput<FGELine> {
 			if (focusedObject != null) {
 				focusedObject.setIsFocused(false);
 				referencedLine = (Line) focusedObject.getDrawable();
-				setConstruction(
-						getFactory().makeLineReference(((DraggableControlPoint) focusedControlPoint).getExplicitPointConstruction()));
-				setConstruction(makeLineReference(referencedLine.getConstruction()));
+				// setConstruction(
+				// getFactory().makeLineReference(((DraggableControlPoint) focusedControlPoint).getExplicitPointConstruction()));
+				setConstruction(getFactory().makeLineReference(referencedLine.getConstruction()));
 				done();
 			}
 		}
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			GraphicalRepresentation focused = getFocusRetriever().getFocusedObject(e);
+			DrawingTreeNode<?, ?> focused = getFocusRetriever().getFocusedObject(e);
 
 			if (focusedObject != null && focusedObject != focused) {
 				focusedObject.setIsFocused(false);
 			}
 
+			if (focused instanceof GeometricNode) {
+				focusedObject = (GeometricNode<?>) focused;
+				focusedObject.setIsFocused(true);
+			}
+
+			ControlArea<?> controlArea = (focused != null ? getFocusRetriever().getFocusedControlAreaForDrawable(focused, e) : null);
+			/*if (controlArea instanceof ControlPoint) {
+				focusedControlPoint = (ControlPoint) controlArea;
+			}
+			
+			if (!(focusedControlPoint instanceof DraggableControlPoint || focusedControlPoint instanceof ComputedControlPoint)) {
+				focusedControlPoint = null;
+			}*/
+
+			System.out.println("Focus on " + controlArea);
+		}
+
+		/*@Override
+		public void mouseMoved(MouseEvent e) {
+			GraphicalRepresentation focused = getFocusRetriever().getFocusedObject(e);
+		
+			if (focusedObject != null && focusedObject != focused) {
+				focusedObject.setIsFocused(false);
+			}
+		
 			if (focused instanceof GeometricGraphicalRepresentation
 					&& ((GeometricGraphicalRepresentation) focused).getGeometricObject() instanceof FGELine) {
 				focusedObject = (GeometricGraphicalRepresentation) focused;
@@ -106,8 +131,8 @@ public class ObtainLine extends EditionInput<FGELine> {
 			else {
 				focusedObject = null;
 			}
-
-		}
+		
+		}*/
 
 		@Override
 		public InputComponent getInputComponent() {

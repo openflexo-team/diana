@@ -39,25 +39,47 @@
 
 package org.openflexo.fge.geomedit.construction;
 
+import org.openflexo.diana.geomedit.model.construction.GeometricConstruction;
 import org.openflexo.fge.geom.FGEEllips;
+import org.openflexo.fge.geomedit.construction.EllipsConstruction.EllipsConstructionImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
+import org.openflexo.model.annotations.ModelEntity;
 
-public abstract class EllipsConstruction<E extends FGEEllips> extends GeometricConstruction<E> {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(EllipsConstructionImpl.class)
+@Imports({ @Import(CircleConstruction.class) })
+public interface EllipsConstruction<E extends FGEEllips> extends GeometricConstruction<E> {
 
-	private boolean isFilled;
+	public FGEEllips getEllips();
 
-	public final FGEEllips getEllips() {
-		return getData();
-	}
+	public boolean getIsFilled();
 
-	@Override
-	protected abstract E computeData();
+	public void setIsFilled(boolean isFilled);
 
-	public boolean getIsFilled() {
-		return isFilled;
-	}
+	public abstract class EllipsConstructionImpl<E extends FGEEllips> extends GeometricConstructionImpl<E>
+			implements EllipsConstruction<E> {
 
-	public void setIsFilled(boolean isFilled) {
-		this.isFilled = isFilled;
-		setModified();
+		private boolean isFilled;
+
+		@Override
+		public final FGEEllips getEllips() {
+			return getData();
+		}
+
+		@Override
+		protected abstract E computeData();
+
+		@Override
+		public boolean getIsFilled() {
+			return isFilled;
+		}
+
+		@Override
+		public void setIsFilled(boolean isFilled) {
+			this.isFilled = isFilled;
+			setModified(true);
+		}
 	}
 }

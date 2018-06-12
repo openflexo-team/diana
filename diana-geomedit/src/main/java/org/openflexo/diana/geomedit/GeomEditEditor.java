@@ -50,7 +50,6 @@ import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
 import org.openflexo.diana.geomedit.view.GeomEditDrawingView;
 import org.openflexo.diana.geomedit.view.GeometricDiagramView;
-import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.model.exceptions.InvalidDataException;
 import org.openflexo.model.exceptions.ModelDefinitionException;
@@ -164,7 +163,7 @@ public class GeomEditEditor {
 			return file.getName();
 		}
 		else {
-			return FlexoLocalization.localizedForKey(GeomEditApplication.LOCALIZATION, "untitled") + "-" + index;
+			return GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("untitled") + "-" + index;
 		}
 	}
 

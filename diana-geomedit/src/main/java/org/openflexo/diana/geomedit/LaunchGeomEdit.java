@@ -39,7 +39,6 @@
 
 package org.openflexo.diana.geomedit;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -50,7 +49,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
-import org.openflexo.toolbox.ToolBox;
 
 public class LaunchGeomEdit {
 
@@ -67,46 +65,38 @@ public class LaunchGeomEdit {
 	}
 
 	private static void init() {
+
 		try {
-
-			if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
-				try {
-					System.setProperty("apple.laf.useScreenMenuBar", "true");
-					System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Test");
-					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-				} catch (ClassNotFoundException e) {
-					System.out.println("ClassNotFoundException: " + e.getMessage());
-				} catch (InstantiationException e) {
-					System.out.println("InstantiationException: " + e.getMessage());
-				} catch (IllegalAccessException e) {
-					System.out.println("IllegalAccessException: " + e.getMessage());
-				} catch (UnsupportedLookAndFeelException e) {
-					System.out.println("UnsupportedLookAndFeelException: " + e.getMessage());
-				}
-			}
-
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
-			FlexoLocalization.initWith(GeomEditApplication.LOCALIZATION);
+			FlexoLocalization.initWith(GeomEditApplication.GEOMEDIT_LOCALIZATION);
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		/*if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
+			try {
+				System.setProperty("apple.laf.useScreenMenuBar", "true");
+				System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Test");
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} catch (ClassNotFoundException e) {
+				System.out.println("ClassNotFoundException: " + e.getMessage());
+			} catch (InstantiationException e) {
+				System.out.println("InstantiationException: " + e.getMessage());
+			} catch (IllegalAccessException e) {
+				System.out.println("IllegalAccessException: " + e.getMessage());
+			} catch (UnsupportedLookAndFeelException e) {
+				System.out.println("UnsupportedLookAndFeelException: " + e.getMessage());
+			}
+		}*/
 
 		// StringEncoder.getDefaultInstance()._addConverter(DataBinding.CONVERTER);
 

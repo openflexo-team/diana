@@ -39,15 +39,31 @@
 
 package org.openflexo.fge.geomedit.construction;
 
+import org.openflexo.diana.geomedit.model.construction.GeometricConstruction;
 import org.openflexo.fge.geom.FGESegment;
+import org.openflexo.fge.geomedit.construction.SegmentConstruction.SegmentConstructionImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
+import org.openflexo.model.annotations.ModelEntity;
 
-public abstract class SegmentConstruction extends GeometricConstruction<FGESegment> {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(SegmentConstructionImpl.class)
+@Imports({ @Import(SegmentReference.class) })
+public interface SegmentConstruction extends GeometricConstruction<FGESegment> {
 
-	public final FGESegment getSegment() {
-		return getData();
+	public FGESegment getSegment();
+
+	public abstract class SegmentConstructionImpl extends GeometricConstructionImpl<FGESegment> implements SegmentConstruction {
+
+		@Override
+		public final FGESegment getSegment() {
+			return getData();
+		}
+
+		@Override
+		protected abstract FGESegment computeData();
+
 	}
-
-	@Override
-	protected abstract FGESegment computeData();
 
 }
