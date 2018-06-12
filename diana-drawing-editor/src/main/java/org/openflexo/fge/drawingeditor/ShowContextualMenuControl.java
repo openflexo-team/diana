@@ -54,7 +54,7 @@ public class ShowContextualMenuControl extends MouseClickControlImpl<DianaDrawin
 		super("Show contextual menu", MouseButton.RIGHT, 1, new MouseClickControlActionImpl<DianaDrawingEditor>() {
 			@Override
 			public boolean handleClick(DrawingTreeNode<?, ?> dtn, DianaDrawingEditor controller, MouseControlContext context) {
-				FGEView view = controller.getDrawingView().viewForNode(dtn);
+				FGEView<?, ?> view = controller.getDrawingView().viewForNode(dtn);
 				Point newPoint = getPointInView(dtn, controller, context);
 				controller.showContextualMenu(dtn, view, newPoint);
 				return false;

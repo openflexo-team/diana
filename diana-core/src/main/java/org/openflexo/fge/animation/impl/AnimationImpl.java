@@ -144,15 +144,10 @@ public class AnimationImpl implements Animation {
 				}
 			}
 		});
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				logger.info("Starting animation");
-				timer.start();
-			}
+		SwingUtilities.invokeLater(() -> {
+			logger.info("Starting animation");
+			timer.start();
 		});
-
 		// timer.start();
 	}
 

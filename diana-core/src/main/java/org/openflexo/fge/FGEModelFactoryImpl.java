@@ -38,11 +38,9 @@
 
 package org.openflexo.fge;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-
-import org.openflexo.fge.ShapeGraphicalRepresentation.ShapeBorder;
+import java.util.Collections;
 import org.openflexo.fge.connectors.ConnectorSpecification;
 import org.openflexo.fge.connectors.CurveConnectorSpecification;
 import org.openflexo.fge.connectors.CurvedPolylinConnectorSpecification;
@@ -84,29 +82,36 @@ import org.openflexo.fge.impl.GraphicalRepresentationImpl;
 import org.openflexo.fge.impl.NoneBackgroundStyleImpl;
 import org.openflexo.fge.impl.ShadowStyleImpl;
 import org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl;
-import org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl.ShapeBorderImpl;
 import org.openflexo.fge.impl.TextStyleImpl;
 import org.openflexo.fge.impl.TextureBackgroundStyleImpl;
 import org.openflexo.fge.layout.BalloonLayoutManager;
 import org.openflexo.fge.layout.BalloonLayoutManagerSpecification;
+import org.openflexo.fge.layout.FlowLayoutManager;
+import org.openflexo.fge.layout.FlowLayoutManagerSpecification;
 import org.openflexo.fge.layout.ForceDirectedGraphLayoutManager;
 import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
 import org.openflexo.fge.layout.GridLayoutManager;
 import org.openflexo.fge.layout.GridLayoutManagerSpecification;
 import org.openflexo.fge.layout.ISOMGraphLayoutManager;
 import org.openflexo.fge.layout.ISOMGraphLayoutManagerSpecification;
+import org.openflexo.fge.layout.OutlineLayoutManager;
+import org.openflexo.fge.layout.OutlineLayoutManagerSpecification;
 import org.openflexo.fge.layout.RadialTreeLayoutManager;
 import org.openflexo.fge.layout.RadialTreeLayoutManagerSpecification;
 import org.openflexo.fge.layout.TreeLayoutManager;
 import org.openflexo.fge.layout.TreeLayoutManagerSpecification;
 import org.openflexo.fge.layout.impl.BalloonLayoutManagerImpl;
 import org.openflexo.fge.layout.impl.BalloonLayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.impl.FlowLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.FlowLayoutManagerSpecificationImpl;
 import org.openflexo.fge.layout.impl.ForceDirectedGraphLayoutManagerImpl;
 import org.openflexo.fge.layout.impl.ForceDirectedGraphLayoutManagerSpecificationImpl;
 import org.openflexo.fge.layout.impl.GridLayoutManagerImpl;
 import org.openflexo.fge.layout.impl.GridLayoutManagerSpecificationImpl;
 import org.openflexo.fge.layout.impl.ISOMGraphLayoutManagerImpl;
 import org.openflexo.fge.layout.impl.ISOMGraphLayoutManagerSpecificationImpl;
+import org.openflexo.fge.layout.impl.OutlineLayoutManagerImpl;
+import org.openflexo.fge.layout.impl.OutlineLayoutManagerSpecificationImpl;
 import org.openflexo.fge.layout.impl.RadialTreeLayoutManagerImpl;
 import org.openflexo.fge.layout.impl.RadialTreeLayoutManagerSpecificationImpl;
 import org.openflexo.fge.layout.impl.TreeLayoutManagerImpl;
@@ -154,7 +159,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	 * @throws ModelDefinitionException
 	 */
 	public FGEModelFactoryImpl() throws ModelDefinitionException {
-		this(new ArrayList<Class<?>>());
+		this(Collections.emptyList());
 	}
 
 	/**
@@ -191,7 +196,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		modelFactory.setImplementingClassForInterface(ContainerGraphicalRepresentationImpl.class, ContainerGraphicalRepresentation.class);
 		modelFactory.setImplementingClassForInterface(GeometricGraphicalRepresentationImpl.class, GeometricGraphicalRepresentation.class);
 
-		modelFactory.setImplementingClassForInterface(ShapeBorderImpl.class, ShapeBorder.class);
+		// modelFactory.setImplementingClassForInterface(ShapeBorderImpl.class, ShapeBorder.class);
 
 		modelFactory.setImplementingClassForInterface(FGEStyleImpl.class, FGEStyle.class);
 		modelFactory.setImplementingClassForInterface(ForegroundStyleImpl.class, ForegroundStyle.class);
@@ -229,8 +234,12 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 				CurvedPolylinConnectorSpecification.class);
 
 		// Layout managers
+		modelFactory.setImplementingClassForInterface(FlowLayoutManagerImpl.class, FlowLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(FlowLayoutManagerSpecificationImpl.class, FlowLayoutManagerSpecification.class);
 		modelFactory.setImplementingClassForInterface(GridLayoutManagerImpl.class, GridLayoutManager.class);
 		modelFactory.setImplementingClassForInterface(GridLayoutManagerSpecificationImpl.class, GridLayoutManagerSpecification.class);
+		modelFactory.setImplementingClassForInterface(OutlineLayoutManagerImpl.class, OutlineLayoutManager.class);
+		modelFactory.setImplementingClassForInterface(OutlineLayoutManagerSpecificationImpl.class, OutlineLayoutManagerSpecification.class);
 		modelFactory.setImplementingClassForInterface(ForceDirectedGraphLayoutManagerImpl.class, ForceDirectedGraphLayoutManager.class);
 		modelFactory.setImplementingClassForInterface(ForceDirectedGraphLayoutManagerSpecificationImpl.class,
 				ForceDirectedGraphLayoutManagerSpecification.class);
@@ -249,8 +258,8 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	@Override
 	public MouseClickControl<AbstractDianaEditor<?, ?, ?>> makeMouseClickControl(String aName, MouseButton button, int clickCount,
 			boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed) {
-		return new MouseClickControlImpl<AbstractDianaEditor<?, ?, ?>>(aName, button, clickCount, null, shiftPressed, ctrlPressed,
-				metaPressed, altPressed, getEditingContext());
+		return new MouseClickControlImpl<>(aName, button, clickCount, null, shiftPressed, ctrlPressed, metaPressed, altPressed,
+				getEditingContext());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -258,7 +267,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseClickControl<AbstractDianaEditor<?, ?, ?>> makeMouseClickControl(String aName, MouseButton button, int clickCount,
 			PredefinedMouseClickControlActionType actionType, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed,
 			boolean altPressed) {
-		return new MouseClickControlImpl<AbstractDianaEditor<?, ?, ?>>(aName, button, clickCount,
+		return new MouseClickControlImpl<>(aName, button, clickCount,
 				(MouseClickControlAction<AbstractDianaEditor<?, ?, ?>>) makeMouseClickControlAction(actionType), shiftPressed, ctrlPressed,
 				metaPressed, altPressed, getEditingContext());
 	}
@@ -278,15 +287,14 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	private <E2 extends AbstractDianaEditor<?, ?, ?>> MouseClickControl<E2> makeMouseClickControl2(String aName, MouseButton button,
 			int clickCount, MouseClickControlAction<E2> action, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed,
 			boolean altPressed) {
-		return new MouseClickControlImpl<E2>(aName, button, clickCount, action, shiftPressed, ctrlPressed, metaPressed, altPressed,
+		return new MouseClickControlImpl<>(aName, button, clickCount, action, shiftPressed, ctrlPressed, metaPressed, altPressed,
 				getEditingContext());
 	}
 
 	@Override
 	public MouseDragControl<? extends AbstractDianaEditor<?, ?, ?>> makeMouseDragControl(String aName, MouseButton button,
 			boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed) {
-		return new MouseDragControlImpl<AbstractDianaEditor<?, ?, ?>>(aName, button, null, shiftPressed, ctrlPressed, metaPressed,
-				altPressed, getEditingContext());
+		return new MouseDragControlImpl<>(aName, button, null, shiftPressed, ctrlPressed, metaPressed, altPressed, getEditingContext());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -294,7 +302,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseDragControl<AbstractDianaEditor<?, ?, ?>> makeMouseDragControl(String aName, MouseButton button,
 			PredefinedMouseDragControlActionType actionType, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed,
 			boolean altPressed) {
-		return new MouseDragControlImpl<AbstractDianaEditor<?, ?, ?>>(aName, button,
+		return new MouseDragControlImpl<>(aName, button,
 				(MouseDragControlAction<AbstractDianaEditor<?, ?, ?>>) makeMouseDragControlAction(actionType), shiftPressed, ctrlPressed,
 				metaPressed, altPressed, getEditingContext());
 	}
@@ -313,22 +321,22 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	// ?>)
 	private <E2 extends AbstractDianaEditor<?, ?, ?>> MouseDragControl<E2> makeMouseDragControl2(String aName, MouseButton button,
 			MouseDragControlAction<E2> action, boolean shiftPressed, boolean ctrlPressed, boolean metaPressed, boolean altPressed) {
-		return new MouseDragControlImpl<E2>(aName, button, action, shiftPressed, ctrlPressed, metaPressed, altPressed, getEditingContext());
+		return new MouseDragControlImpl<>(aName, button, action, shiftPressed, ctrlPressed, metaPressed, altPressed, getEditingContext());
 	}
 
 	@Override
 	public MouseDragControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseDragControlAction(
 			PredefinedMouseDragControlActionType actionType) {
 		switch (actionType) {
-		case MOVE:
-			return new MoveAction();
-		case RECTANGLE_SELECTING:
-			return new RectangleSelectingAction();
-		case ZOOM:
-			return new ZoomAction();
-		default:
-			LOGGER.warning("Unexpected actionType " + actionType);
-			return null;
+			case MOVE:
+				return new MoveAction();
+			case RECTANGLE_SELECTING:
+				return new RectangleSelectingAction();
+			case ZOOM:
+				return new ZoomAction();
+			default:
+				LOGGER.warning("Unexpected actionType " + actionType);
+				return null;
 		}
 	}
 
@@ -336,15 +344,15 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 	public MouseClickControlAction<? extends AbstractDianaEditor<?, ?, ?>> makeMouseClickControlAction(
 			PredefinedMouseClickControlActionType actionType) {
 		switch (actionType) {
-		case SELECTION:
-			return new SelectionAction();
-		case CONTINUOUS_SELECTION:
-			return new ContinuousSelectionAction();
-		case MULTIPLE_SELECTION:
-			return new MultipleSelectionAction();
-		default:
-			LOGGER.warning("Unexpected actionType " + actionType);
-			return null;
+			case SELECTION:
+				return new SelectionAction();
+			case CONTINUOUS_SELECTION:
+				return new ContinuousSelectionAction();
+			case MULTIPLE_SELECTION:
+				return new MultipleSelectionAction();
+			default:
+				LOGGER.warning("Unexpected actionType " + actionType);
+				return null;
 		}
 	}
 

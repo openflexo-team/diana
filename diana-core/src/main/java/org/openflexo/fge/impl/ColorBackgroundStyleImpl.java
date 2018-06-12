@@ -69,7 +69,7 @@ public abstract class ColorBackgroundStyleImpl extends BackgroundStyleImpl imple
 			java.awt.Color oldColor = color;
 			this.color = aColor;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(COLOR, oldColor, aColor));
+			notifyObservers(new FGEAttributeNotification<>(COLOR, oldColor, aColor));
 		}
 	}
 
@@ -78,11 +78,12 @@ public abstract class ColorBackgroundStyleImpl extends BackgroundStyleImpl imple
 		return "BackgroundStyle.COLOR(" + getColor() + ")";
 	}*/
 
-	private boolean requireChange(Object oldObject, Object newObject) {
+	private static boolean requireChange(Object oldObject, Object newObject) {
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;
-			} else {
+			}
+			else {
 				return true;
 			}
 		}

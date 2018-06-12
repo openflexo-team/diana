@@ -47,6 +47,7 @@ import org.openflexo.connie.BindingFactory;
 import org.openflexo.connie.BindingModel;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.java.JavaBindingFactory;
+import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGELayoutManager;
@@ -62,8 +63,8 @@ import org.openflexo.fge.graphics.FGEGraphics;
  * @author sylvain
  * 
  */
-public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecification<?>, O> extends FGEObjectImpl implements
-		FGELayoutManager<LMS, O> {
+public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecification<?>, O> extends FGEObjectImpl
+implements FGELayoutManager<LMS, O> {
 
 	private boolean invalidated = true;
 
@@ -117,10 +118,14 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 	@Override
 	public void invalidate() {
 		invalidated = true;
-		for (DrawingTreeNode<?, ?> dtn : getContainerNode().getChildNodes()) {
-			if (dtn instanceof ShapeNode) {
-				if (((ShapeNode<O>) dtn).getLayoutManager() == this) {
-					invalidate((ShapeNode<O>) dtn);
+		ContainerNode<O, ?> ctn = getContainerNode();
+		// NPE Protection
+		if (ctn != null){
+			for (DrawingTreeNode<?, ?> dtn : ctn.getChildNodes()) {
+				if (dtn instanceof ShapeNode) {
+					if (((ShapeNode<O>) dtn).getLayoutManager() == this) {
+						invalidate((ShapeNode<O>) dtn);
+					}
 				}
 			}
 		}
@@ -199,6 +204,7 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 	 * Perform layout for supplied {@link ShapeNode}
 	 * 
 	 * @param node
+	 *            node to layout
 	 */
 	protected abstract void performLayout(ShapeNode<?> node);
 
@@ -238,8 +244,6 @@ public abstract class FGELayoutManagerImpl<LMS extends FGELayoutManagerSpecifica
 	 * Internally used to retrieve in the container all layoutedNodes which are to be layouted
 	 */
 	private void retrieveNodesToLayout() {
-
-		System.out.println("Hop, on recalcule les noeuds pour faire le layout");
 
 		layoutedNodes.clear();
 		for (DrawingTreeNode<?, ?> dtn : getContainerNode().getChildNodes()) {

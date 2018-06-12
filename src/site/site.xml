@@ -45,6 +45,10 @@
 			<item name="Javadoc" href="./apidocs/index.html" />
 		</menu>
 
+		<menu name="HowTos">
+			<item name="Define a new layout manager" href="HowToDefineALayoutManagerInDianaEngine.html" />
+		</menu>
+
 		<menu ref="modules" />
 		<menu ref="reports" />
 	</body>

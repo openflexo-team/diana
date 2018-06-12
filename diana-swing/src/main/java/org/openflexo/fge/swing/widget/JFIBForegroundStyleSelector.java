@@ -60,16 +60,18 @@ import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.fge.swing.JDianaViewer;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.view.widget.FIBForegroundStyleSelector;
-import org.openflexo.fib.FIBLibrary;
-import org.openflexo.fib.controller.FIBController;
-import org.openflexo.fib.model.FIBComponent;
-import org.openflexo.fib.model.FIBCustom;
-import org.openflexo.fib.view.FIBView;
+import org.openflexo.gina.controller.FIBController;
+import org.openflexo.gina.model.FIBComponent;
+import org.openflexo.gina.model.widget.FIBCustom;
+import org.openflexo.gina.swing.view.JFIBView;
+import org.openflexo.gina.swing.view.SwingViewFactory;
+import org.openflexo.gina.view.GinaViewFactory;
 import org.openflexo.swing.CustomPopup;
 
 /**
@@ -79,8 +81,7 @@ import org.openflexo.swing.CustomPopup;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> implements
-		FIBForegroundStyleSelector<JFIBForegroundStyleSelector> {
+public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> implements FIBForegroundStyleSelector {
 
 	static final Logger logger = Logger.getLogger(JFIBForegroundStyleSelector.class.getPackage().getName());
 
@@ -131,7 +132,8 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 		// WARNING: we need here to clone to keep track back of previous data !!!
 		if (oldValue != null) {
 			_revertValue = (ForegroundStyle) oldValue.clone();
-		} else {
+		}
+		else {
 			_revertValue = null;
 		}
 		if (logger.isLoggable(Level.FINE)) {
@@ -162,22 +164,17 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 		getFrontComponent().update();
 	}
 
-	@Override
-	public JFIBForegroundStyleSelector getJComponent() {
-		return this;
-	}
-
 	public class ForegroundStyleDetailsPanel extends ResizablePanel {
 		private FIBComponent fibComponent;
-		private FIBView<?, ?, ?> fibView;
+		private JFIBView<?, ?> fibView;
 		private CustomFIBController controller;
 
 		protected ForegroundStyleDetailsPanel(ForegroundStyle fs) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
-			controller = new CustomFIBController(fibComponent);
-			fibView = controller.buildView(fibComponent);
+			fibComponent = AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(FIB_FILE, true);
+			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
+			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent, null, true);
 
 			controller.setDataObject(fs);
 
@@ -207,8 +204,8 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 		}
 
 		public class CustomFIBController extends FIBController {
-			public CustomFIBController(FIBComponent component) {
-				super(component);
+			public CustomFIBController(FIBComponent component, GinaViewFactory<?> viewFactory) {
+				super(component, viewFactory);
 			}
 
 			public void apply() {
@@ -304,8 +301,8 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 			drawing = new DrawingImpl<ForegroundStylePreviewPanel>(this, factory, PersistenceMode.UniqueGraphicalRepresentations) {
 				@Override
 				public void init() {
-					final DrawingGRBinding<ForegroundStylePreviewPanel> previewPanelBinding = bindDrawing(
-							ForegroundStylePreviewPanel.class, "previewPanel", new DrawingGRProvider<ForegroundStylePreviewPanel>() {
+					final DrawingGRBinding<ForegroundStylePreviewPanel> previewPanelBinding = bindDrawing(ForegroundStylePreviewPanel.class,
+							"previewPanel", new DrawingGRProvider<ForegroundStylePreviewPanel>() {
 								@Override
 								public DrawingGraphicalRepresentation provideGR(ForegroundStylePreviewPanel drawable,
 										FGEModelFactory factory) {
@@ -315,7 +312,8 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 					final ShapeGRBinding<ForegroundStylePreviewPanel> shapeBinding = bindShape(ForegroundStylePreviewPanel.class, "line",
 							new ShapeGRProvider<ForegroundStylePreviewPanel>() {
 								@Override
-								public ShapeGraphicalRepresentation provideGR(ForegroundStylePreviewPanel drawable, FGEModelFactory factory) {
+								public ShapeGraphicalRepresentation provideGR(ForegroundStylePreviewPanel drawable,
+										FGEModelFactory factory) {
 									return lineGR;
 								}
 							});
@@ -347,7 +345,7 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 			lineGR.setIsSelectable(false);
 			lineGR.setIsFocusable(false);
 			lineGR.setIsReadOnly(true);
-			lineGR.setBorder(factory.makeShapeBorder(10, 10, 10, 10));
+			// lineGR.setBorder(factory.makeShapeBorder(10, 10, 10, 10));
 
 			System.out.println("lineGR setForeground with " + getEditedObject());
 
@@ -369,8 +367,8 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 			if (getEditedObject() == null) {
 				return;
 			}
-			System.out.println("update() in PreviewPanel, lineGR setForeground with " + getEditedObject());
-			System.out.println("lineGR=" + lineGR);
+			//System.out.println("update() in PreviewPanel, lineGR setForeground with " + getEditedObject());
+			//System.out.println("lineGR=" + lineGR);
 			lineGR.setForeground(getEditedObject());
 		}
 

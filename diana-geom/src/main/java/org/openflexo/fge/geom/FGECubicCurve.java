@@ -121,7 +121,7 @@ public class FGECubicCurve extends Double implements FGEGeneralShape.GeneralShap
 
 	@Override
 	public List<FGEPoint> getControlPoints() {
-		Vector<FGEPoint> returned = new Vector<FGEPoint>();
+		Vector<FGEPoint> returned = new Vector<>();
 		returned.add(getP1());
 		returned.add(getP2());
 		return returned;
@@ -182,7 +182,8 @@ public class FGECubicCurve extends Double implements FGEGeneralShape.GeneralShap
 		FGEIntersectionArea returned = new FGEIntersectionArea(this, area);
 		if (returned.isDevelopable()) {
 			return returned.makeDevelopped();
-		} else {
+		}
+		else {
 			return returned;
 		}
 	}
@@ -213,14 +214,15 @@ public class FGECubicCurve extends Double implements FGEGeneralShape.GeneralShap
 	public int hashCode() {
 		return getP1().hashCode() + getP2().hashCode() + getCtrlP1().hashCode() + getCtrlP2().hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGECubicCurve) {
 			FGECubicCurve s = (FGECubicCurve) obj;
 			return getP1().equals(s.getP1()) && getP2().equals(s.getP2()) && getCtrlP1().equals(s.getCtrlP1())
-					&& getCtrlP2().equals(s.getCtrlP2()) || getP1().equals(s.getP2()) && getP2().equals(s.getP1())
-					&& getCtrlP1().equals(s.getCtrlP2()) && getCtrlP2().equals(s.getCtrlP1());
+					&& getCtrlP2().equals(s.getCtrlP2())
+					|| getP1().equals(s.getP2()) && getP2().equals(s.getP1()) && getCtrlP1().equals(s.getCtrlP2())
+							&& getCtrlP2().equals(s.getCtrlP1());
 		}
 		return false;
 	}

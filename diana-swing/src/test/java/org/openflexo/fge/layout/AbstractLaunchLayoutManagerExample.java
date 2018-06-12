@@ -53,14 +53,15 @@ import javax.swing.JScrollPane;
 
 import org.openflexo.fge.Drawing;
 import org.openflexo.fge.FGELayoutManager;
-import org.openflexo.fge.TestGraph;
-import org.openflexo.fge.TestGraphNode;
 import org.openflexo.fge.swing.JDianaInteractiveEditor;
 import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
-import org.openflexo.fib.swing.logging.FlexoLoggingViewer;
-import org.openflexo.fib.swing.toolbox.JFIBInspectorController;
+import org.openflexo.fge.test.TestGraph;
+import org.openflexo.fge.test.TestGraphNode;
+import org.openflexo.gina.ApplicationFIBLibrary.ApplicationFIBLibraryImpl;
+import org.openflexo.gina.swing.utils.JFIBDialogInspectorController;
+import org.openflexo.gina.swing.utils.logging.FlexoLoggingViewer;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.rm.ResourceLocator;
@@ -75,7 +76,7 @@ public class AbstractLaunchLayoutManagerExample {
 
 	private static final Logger LOGGER = FlexoLogger.getLogger(AbstractLaunchLayoutManagerExample.class.getPackage().getName());
 
-	private static JFIBInspectorController inspector;
+	private static JFIBDialogInspectorController inspector;
 
 	public static TestGraph makeTestGraph() {
 		TestGraph graph = new TestGraph();
@@ -113,7 +114,7 @@ public class AbstractLaunchLayoutManagerExample {
 		// private final JPopupMenu contextualMenu;
 		private final JDianaScaleSelector scaleSelector;
 
-		public TestDrawingController(Drawing aDrawing) {
+		public TestDrawingController(Drawing<TestGraph> aDrawing) {
 			super(aDrawing, aDrawing.getFactory(), SwingViewFactory.INSTANCE, SwingToolFactory.DEFAULT);
 			scaleSelector = (JDianaScaleSelector) getToolFactory().makeDianaScaleSelector(this);
 			// contextualMenu = new JPopupMenu();
@@ -126,7 +127,7 @@ public class AbstractLaunchLayoutManagerExample {
 
 		final TestDrawingController drawingController;
 
-		public LayoutDemoPanel(Drawing drawing) {
+		public LayoutDemoPanel(Drawing<TestGraph> drawing) {
 			super(new BorderLayout());
 
 			drawingController = new TestDrawingController(drawing);
@@ -147,7 +148,7 @@ public class AbstractLaunchLayoutManagerExample {
 			logButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), null);
+					FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), ApplicationFIBLibraryImpl.instance(), null);
 				}
 			});
 
@@ -190,11 +191,11 @@ public class AbstractLaunchLayoutManagerExample {
 
 	}
 
-	public static LayoutDemoPanel makePanel(final Drawing d) {
+	public static LayoutDemoPanel makePanel(final Drawing<TestGraph> d) {
 		return new LayoutDemoPanel(d);
 	}
 
-	public static void showPanel(final Drawing d) {
+	public static void showPanel(final Drawing<TestGraph> d) {
 		final JDialog dialog = new JDialog((Frame) null, false);
 
 		LayoutDemoPanel panel = new LayoutDemoPanel(d);
@@ -204,7 +205,8 @@ public class AbstractLaunchLayoutManagerExample {
 		dialog.validate();
 		dialog.pack();
 
-		inspector = new JFIBInspectorController(null, ResourceLocator.locateResource("LayoutInspectors"), null);
+		inspector = new JFIBDialogInspectorController(null, ResourceLocator.locateResource("LayoutInspectors"),
+				ApplicationFIBLibraryImpl.instance(), null);
 		inspector.inspectObject(panel.getLayoutManager());
 
 		dialog.setVisible(true);

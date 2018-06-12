@@ -7,13 +7,14 @@
 /.idea
 
 # Package Files #
-*.jar
+# *.jar
 *.war
 *.ear
 .classpath
 .project
 .settings
 /.pmd
-/.gitignore
-/target
-.gradle
+target/
+/.gradle/
+build/
+**/out/

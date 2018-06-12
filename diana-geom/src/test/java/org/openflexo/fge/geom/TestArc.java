@@ -39,13 +39,13 @@
 
 package org.openflexo.fge.geom;
 
-import junit.framework.TestCase;
-
 import org.openflexo.fge.geom.FGEArc.ArcType;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.geom.area.FGEEmptyArea;
 import org.openflexo.fge.geom.area.FGEUnionArea;
+
+import junit.framework.TestCase;
 
 public class TestArc extends TestCase {
 
@@ -219,12 +219,12 @@ public class TestArc extends TestCase {
 		System.out.println("arc.intersect(line)=" + arc.intersect(line));
 	}
 
-	private FGEArc buildArc(double angleStart, double angleEnd) {
+	private static FGEArc buildArc(double angleStart, double angleEnd) {
 		return new FGEArc(0, 0, 1, 1, angleStart, Math.toDegrees(FGEArc.angleExtent(Math.toRadians(angleStart), Math.toRadians(angleEnd))),
 				ArcType.OPEN);
 	}
 
-	private FGEArc buildEllips() {
+	private static FGEArc buildEllips() {
 		return new FGEEllips(0, 0, 1, 1, Filling.NOT_FILLED);
 	}
 

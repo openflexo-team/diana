@@ -38,12 +38,12 @@
 
 package org.openflexo.fge.graph;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.openflexo.connie.Bindable;
 import org.openflexo.connie.BindingEvaluationContext;
 import org.openflexo.connie.BindingFactory;
 import org.openflexo.connie.BindingModel;
@@ -51,40 +51,62 @@ import org.openflexo.connie.BindingVariable;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.DefaultBindable;
 import org.openflexo.connie.java.JavaBindingFactory;
+import org.openflexo.fge.BackgroundStyle;
+import org.openflexo.fge.ForegroundStyle;
+import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.fge.graph.FGEFunction.FGEGraphType;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 
 /**
- * This is the common super class for all graphs
+ * This is the common super class for all graphs<br>
+ * 
+ * This is the "model" of an instance of a graph
+ * 
+ * Regarding the life-cycle, some methods are used to update the data beeing represented by the graph:, see {@link #update()}<br>
+ * And some other methods are used to draw the graph, see {@link #paint(FGEShapeGraphics)}
+ * 
+ * From performance point of view, remember that {@link #paint(FGEShapeGraphics)} will be continuously called while update() will be called
+ * only when some data change and when graph has to be recomputed
  * 
  * @author sylvain
  * 
  */
-public abstract class FGEGraph extends DefaultBindable implements Bindable {
+public abstract class FGEGraph extends DefaultBindable {
 
 	private static BindingFactory JAVA_BINDING_FACTORY = new JavaBindingFactory();
-
-	public static enum GraphType {
-		POINTS, POLYLIN, RECT_POLYLIN, CURVE, BAR_GRAPH
-	}
 
 	private BindingModel bindingModel = null;
 	private BindingFactory bindingFactory = null;
 	private final List<FGEFunction<?>> functions;
 
-	protected final Map<String, Class<?>> parameterTypes;
+	protected final Map<String, Type> parameterTypes;
 
 	private final FGEGraphEvaluator evaluator;
 
 	public FGEGraph() {
-		functions = new ArrayList<FGEFunction<?>>();
-		parameterTypes = new HashMap<String, Class<?>>();
+		functions = new ArrayList<>();
+		parameterTypes = new HashMap<>();
 		bindingModel = new BindingModel();
 		evaluator = new FGEGraphEvaluator();
 	}
 
-	public void setParameter(String parameterName, Class<?> parameterType) {
+	public void update() {
+		// System.out.println("Updating graph " + this);
+		for (FGEFunction<?> f : functions) {
+			// System.out.println("On recalcule la representation de la fonction " + f.getFunctionExpression());
+			f.updateRepresentation();
+		}
+	}
+
+	public void clearParameter(String parameterName) {
+		parameterTypes.remove(parameterName);
+	}
+
+	public void setParameter(String parameterName, Type parameterType) {
 		parameterTypes.put(parameterName, parameterType);
-		bindingModel.addToBindingVariables(new BindingVariable(parameterName, parameterType));
+		BindingVariable parameterBindingVariable = new BindingVariable(parameterName, parameterType);
+		parameterBindingVariable.setCacheable(false);
+		bindingModel.addToBindingVariables(parameterBindingVariable);
 	}
 
 	/**
@@ -94,27 +116,38 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 	 */
 	public void paint(FGEShapeGraphics g) {
 
+		g.translate(getBorderLeft(), getBorderTop());
 	}
 
-	public <T> FGEFunction<T> addFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression, GraphType type) {
-		FGEFunction<T> returned = new FGEFunction<T>(functionName, functionType, functionExpression, type, this);
+	public <T> FGEFunction<T> addDiscreteFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression,
+			FGEGraphType type) {
+		FGEFunction<T> returned = new FGEDiscreteFunction<>(functionName, functionType, functionExpression, type, this);
 		functions.add(returned);
 		return returned;
 	}
 
-	public <T extends Number> FGENumericFunction<T> addNumericFunction(String functionName, Class<T> functionType,
-			DataBinding<T> functionExpression, GraphType type, T minValue, T maxValue) {
-		FGENumericFunction<T> returned = new FGENumericFunction<T>(functionName, functionType, functionExpression, type, minValue,
-				maxValue, this);
+	public <T extends Number> FGENumericFunction<T> addNumericFunction(String functionName, Type functionType,
+			DataBinding<T> functionExpression, FGEGraphType type, T minValue, T maxValue) {
+		FGENumericFunction<T> returned = new FGENumericFunction<>(functionName, functionType, functionExpression, type, minValue, maxValue,
+				this);
 		functions.add(returned);
 		return returned;
 	}
 
-	public <T extends Number> FGENumericFunction<T> addNumericFunction(String functionName, Class<T> functionType,
-			DataBinding<T> functionExpression, GraphType type) {
-		FGENumericFunction<T> returned = new FGENumericFunction<T>(functionName, functionType, functionExpression, type, this);
+	public <T extends Number> FGENumericFunction<T> addNumericFunction(String functionName, Type functionType,
+			DataBinding<T> functionExpression, FGEGraphType type) {
+		FGENumericFunction<T> returned = new FGENumericFunction<>(functionName, functionType, functionExpression, type, this);
 		functions.add(returned);
 		return returned;
+	}
+
+	public FGEFunction<?> getFunction(String functionName) {
+		for (FGEFunction<?> f : getFunctions()) {
+			if (f.getFunctionName() != null && f.getFunctionName().equals(functionName)) {
+				return f;
+			}
+		}
+		return null;
 	}
 
 	public List<FGEFunction<?>> getFunctions() {
@@ -127,7 +160,7 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 	 * @param graphType
 	 * @return
 	 */
-	public int getNumberOfFunctionsOfType(GraphType graphType) {
+	public int getNumberOfFunctionsOfType(FGEGraphType graphType) {
 		int returned = 0;
 		for (FGEFunction<?> f : functions) {
 			if (f.getGraphType() == graphType) {
@@ -139,12 +172,12 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 
 	/**
 	 * Return the index of supplied function in the collection represented by all functions declared in this FGEGraph which have the same
-	 * {@link GraphType}
+	 * {@link FGEGraphType}
 	 * 
 	 * @param function
 	 * @return
 	 */
-	public int getIndexOfFunctionsOfType(FGEFunction function) {
+	public int getIndexOfFunctionsOfType(FGEFunction<?> function) {
 		int returned = 0;
 		for (FGEFunction<?> f : functions) {
 			if (f == function) {
@@ -176,21 +209,85 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 
 	@Override
 	public void notifiedBindingChanged(DataBinding<?> dataBinding) {
-		System.out.println("On s'en fout que le binding ait change ??? " + dataBinding);
+		// System.out.println("On s'en fout que le binding ait change ??? " + dataBinding);
 	}
 
 	@Override
 	public void notifiedBindingDecoded(DataBinding<?> dataBinding) {
-		System.out.println("On s'en fout que le binding ait ete decode ??? " + dataBinding);
+		// System.out.println("On s'en fout que le binding ait ete decode ??? " + dataBinding);
 	}
 
 	public FGEGraphEvaluator getEvaluator() {
 		return evaluator;
 	}
 
+	protected abstract <T> FunctionRepresentation buildRepresentationForFunction(FGEFunction<T> function);
+
+	public int getBorderTop() {
+		return borderTop;
+	}
+
+	public void setBorderTop(int borderTop) {
+		if (borderTop != this.borderTop) {
+			int oldValue = this.borderTop;
+			this.borderTop = borderTop;
+			getPropertyChangeSupport().firePropertyChange("borderTop", oldValue, borderTop);
+		}
+	}
+
+	public int getBorderBottom() {
+		return borderBottom;
+	}
+
+	public void setBorderBottom(int borderBottom) {
+		if (borderBottom != this.borderBottom) {
+			int oldValue = this.borderBottom;
+			this.borderBottom = borderBottom;
+			getPropertyChangeSupport().firePropertyChange("borderBottom", oldValue, borderBottom);
+		}
+	}
+
+	public int getBorderLeft() {
+		return borderLeft;
+	}
+
+	public void setBorderLeft(int borderLeft) {
+		if (borderLeft != this.borderLeft) {
+			int oldValue = this.borderLeft;
+			this.borderLeft = borderLeft;
+			getPropertyChangeSupport().firePropertyChange("borderLeft", oldValue, borderLeft);
+		}
+	}
+
+	public int getBorderRight() {
+		return borderRight;
+	}
+
+	public void setBorderRight(int borderRight) {
+		if (borderRight != this.borderRight) {
+			int oldValue = this.borderRight;
+			this.borderRight = borderRight;
+			getPropertyChangeSupport().firePropertyChange("borderRight", oldValue, borderRight);
+		}
+	}
+
 	public class FGEGraphEvaluator implements BindingEvaluationContext {
 
-		private final Map<String, Object> values = new HashMap<String, Object>();
+		private final Map<String, Object> values = new HashMap<>();
+		private BindingEvaluationContext evaluationContext;
+
+		public BindingEvaluationContext getEvaluationContext() {
+			return evaluationContext;
+		}
+
+		public void setEvaluationContext(BindingEvaluationContext evaluationContext) {
+			if ((evaluationContext == null && this.evaluationContext != null)
+					|| (evaluationContext != null && !evaluationContext.equals(this.evaluationContext))) {
+				BindingEvaluationContext oldValue = this.evaluationContext;
+				this.evaluationContext = evaluationContext;
+				getPropertyChangeSupport().firePropertyChange("evaluationContext", oldValue, evaluationContext);
+			}
+		}
 
 		public Object get(String parameter) {
 			return values.get(parameter);
@@ -202,7 +299,48 @@ public abstract class FGEGraph extends DefaultBindable implements Bindable {
 
 		@Override
 		public Object getValue(BindingVariable variable) {
-			return values.get(variable.getVariableName());
+			Object returned = values.get(variable.getVariableName());
+			if (returned == null && getEvaluationContext() != null) {
+				returned = getEvaluationContext().getValue(variable);
+			}
+			return returned;
+		}
+
+	}
+
+	private int borderTop = 10;
+	private int borderBottom = 10;
+	private int borderLeft = 10;
+	private int borderRight = 10;
+
+	public class ElementRepresentation {
+		public FGEArea area;
+		public ForegroundStyle foregroundStyle;
+		public BackgroundStyle backgroundStyle;
+
+		public ElementRepresentation(FGEArea area, ForegroundStyle foregroundStyle, BackgroundStyle backgroundStyle) {
+			super();
+			this.area = area;
+			this.foregroundStyle = foregroundStyle;
+			this.backgroundStyle = backgroundStyle;
+		}
+	}
+
+	public class FunctionRepresentation {
+		public List<ElementRepresentation> elements;
+
+		public FunctionRepresentation() {
+			elements = new ArrayList<>();
+		}
+
+		public FunctionRepresentation(FGEArea area, ForegroundStyle foregroundStyle, BackgroundStyle backgroundStyle) {
+			this();
+			elements.add(new ElementRepresentation(area, foregroundStyle, backgroundStyle));
+		}
+
+		public FunctionRepresentation(List<ElementRepresentation> elements) {
+			super();
+			this.elements = elements;
 		}
 
 	}

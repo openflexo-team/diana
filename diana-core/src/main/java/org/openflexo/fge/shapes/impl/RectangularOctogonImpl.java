@@ -49,7 +49,7 @@ import org.openflexo.fge.shapes.RectangularOctogon;
 
 public abstract class RectangularOctogonImpl extends ShapeSpecificationImpl implements RectangularOctogon {
 
-	private double	ratio	= 0.2;
+	private double ratio = 0.2;
 
 	@Override
 	public ShapeType getShapeType() {
@@ -74,7 +74,6 @@ public abstract class RectangularOctogonImpl extends ShapeSpecificationImpl impl
 	 *            if ratio > 0.5 ratio is divide by 2
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public void setRatio(final double aRatio) {
 		final FGEAttributeNotification<Double> notification = this.requireChange(RATIO, aRatio);
 		if (notification != null) {

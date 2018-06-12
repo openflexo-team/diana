@@ -38,7 +38,9 @@
 
 package org.openflexo.fge.graph;
 
+import java.lang.reflect.Type;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
 
@@ -53,18 +55,25 @@ import org.openflexo.connie.DataBinding;
  */
 public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 
+	private static final Logger logger = Logger.getLogger(FGENumericFunction.class.getPackage().getName());
+
 	private T minValue = null;
 	private T maxValue = null;
 	private T minorTickSpacing = null;
 	private T majorTickSpacing = null;
+	private int stepsNb = 10;
 
-	public FGENumericFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression,
-			FGEFunctionGraph.GraphType graphType, FGEGraph graph) {
+	private boolean displayMajorTicks = true;
+	private boolean displayMinorTicks = false;
+	private boolean displayLabels = true;
+
+	public FGENumericFunction(String functionName, Type functionType, DataBinding<T> functionExpression, FGEGraphType graphType,
+			FGEGraph graph) {
 		super(functionName, functionType, functionExpression, graphType, graph);
 	}
 
-	public FGENumericFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression,
-			FGEFunctionGraph.GraphType graphType, T minValue, T maxValue, FGEGraph graph) {
+	public FGENumericFunction(String functionName, Type functionType, DataBinding<T> functionExpression, FGEGraphType graphType, T minValue,
+			T maxValue, FGEGraph graph) {
 		super(functionName, functionType, functionExpression, graphType, graph);
 		this.minValue = minValue;
 		this.maxValue = maxValue;
@@ -135,61 +144,120 @@ public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 		this.minorTickSpacing = minorTickSpacing;
 	}
 
+	/**
+	 * Return the number of steps to represent for the function when graph type is relevant (values are rounded and put to adequate step)
+	 * 
+	 * @return
+	 */
+	public int getStepsNb() {
+		return stepsNb;
+	}
+
+	public void setStepsNb(int stepsNb) {
+		if (stepsNb != this.stepsNb) {
+			// int oldValue = this.stepsNb;
+			this.stepsNb = stepsNb;
+			// getPropertyChangeSupport().firePropertyChange("stepsNb", oldValue, stepsNb);
+		}
+	}
+
+	public boolean getDisplayMajorTicks() {
+		return displayMajorTicks;
+	}
+
+	public void setDisplayMajorTicks(boolean displayMajorTicks) {
+		if (displayMajorTicks != this.displayMajorTicks) {
+			this.displayMajorTicks = displayMajorTicks;
+			getPropertyChangeSupport().firePropertyChange("displayMajorTicks", !displayMajorTicks, displayMajorTicks);
+		}
+	}
+
+	public boolean getDisplayMinorTicks() {
+		return displayMinorTicks;
+	}
+
+	public void setDisplayMinorTicks(boolean displayMinorTicks) {
+		if (displayMinorTicks != this.displayMinorTicks) {
+			this.displayMinorTicks = displayMinorTicks;
+			getPropertyChangeSupport().firePropertyChange("displayMinorTicks", !displayMinorTicks, displayMinorTicks);
+		}
+	}
+
+	public boolean getDisplayLabels() {
+		return displayLabels;
+	}
+
+	public void setDisplayLabels(boolean displayLabels) {
+		if (displayLabels != this.displayLabels) {
+			this.displayLabels = displayLabels;
+			getPropertyChangeSupport().firePropertyChange("displayLabels", !displayLabels, displayLabels);
+		}
+	}
+
 	private T computedMinValue;
 	private T computedMaxValue;
 
 	@Override
-	protected <X> List<FunctionSample<X>> retrieveSamples(FGEFunctionGraph<X> graph) {
+	protected <X> List<FunctionSample<X, T>> retrieveSamples(FGESingleParameteredGraph<X> graph) {
 
-		List<FunctionSample<X>> samples = super.retrieveSamples(graph);
+		List<FunctionSample<X, T>> samples = super.retrieveSamples(graph);
 
 		computedMinValue = null;
 		computedMaxValue = null;
 
-		for (FunctionSample<X> s : samples) {
-			T value = s.value;
-			if (value instanceof Double) {
-				if (computedMinValue == null || (Double) value < (Double) computedMinValue) {
-					computedMinValue = value;
+		for (FunctionSample<X, T> s : samples) {
+			try {
+				T value = s.value;
+				if (value instanceof Double) {
+					if (computedMinValue == null || (Double) value < (Double) computedMinValue) {
+						computedMinValue = value;
+					}
+					if (computedMaxValue == null || (Double) value > (Double) computedMaxValue) {
+						computedMaxValue = value;
+					}
 				}
-				if (computedMaxValue == null || (Double) value > (Double) computedMaxValue) {
-					computedMaxValue = value;
+				else if (value instanceof Float) {
+					if (computedMinValue == null || (Float) value < (Float) computedMinValue) {
+						computedMinValue = value;
+					}
+					if (computedMaxValue == null || (Float) value > (Float) computedMaxValue) {
+						computedMaxValue = value;
+					}
 				}
-			} else if (value instanceof Float) {
-				if (computedMinValue == null || (Float) value < (Float) computedMinValue) {
-					computedMinValue = value;
+				else if (value instanceof Long) {
+					if (computedMinValue == null || (Long) value < (Long) computedMinValue) {
+						computedMinValue = value;
+					}
+					if (computedMaxValue == null || (Long) value > (Long) computedMaxValue) {
+						computedMaxValue = value;
+					}
 				}
-				if (computedMaxValue == null || (Float) value > (Float) computedMaxValue) {
-					computedMaxValue = value;
+				else if (value instanceof Integer) {
+					if (computedMinValue == null || (Integer) value < (Integer) computedMinValue) {
+						computedMinValue = value;
+					}
+					if (computedMaxValue == null || (Integer) value > (Integer) computedMaxValue) {
+						computedMaxValue = value;
+					}
 				}
-			} else if (value instanceof Long) {
-				if (computedMinValue == null || (Long) value < (Long) computedMinValue) {
-					computedMinValue = value;
+				else if (value instanceof Short) {
+					if (computedMinValue == null || (Short) value < (Short) computedMinValue) {
+						computedMinValue = value;
+					}
+					if (computedMaxValue == null || (Short) value > (Short) computedMaxValue) {
+						computedMaxValue = value;
+					}
 				}
-				if (computedMaxValue == null || (Long) value > (Long) computedMaxValue) {
-					computedMaxValue = value;
+				else if (value instanceof Byte) {
+					if (computedMinValue == null || (Byte) value < (Byte) computedMinValue) {
+						computedMinValue = value;
+					}
+					if (computedMaxValue == null || (Byte) value > (Byte) computedMaxValue) {
+						computedMaxValue = value;
+					}
 				}
-			} else if (value instanceof Integer) {
-				if (computedMinValue == null || (Integer) value < (Integer) computedMinValue) {
-					computedMinValue = value;
-				}
-				if (computedMaxValue == null || (Integer) value > (Integer) computedMaxValue) {
-					computedMaxValue = value;
-				}
-			} else if (value instanceof Short) {
-				if (computedMinValue == null || (Short) value < (Short) computedMinValue) {
-					computedMinValue = value;
-				}
-				if (computedMaxValue == null || (Short) value > (Short) computedMaxValue) {
-					computedMaxValue = value;
-				}
-			} else if (value instanceof Byte) {
-				if (computedMinValue == null || (Byte) value < (Byte) computedMinValue) {
-					computedMinValue = value;
-				}
-				if (computedMaxValue == null || (Byte) value > (Byte) computedMaxValue) {
-					computedMaxValue = value;
-				}
+			} catch (ClassCastException e) {
+				logger.warning("Unexpected ClassCastException: " + e.getMessage());
 			}
 		}
 
@@ -198,6 +266,14 @@ public class FGENumericFunction<T extends Number> extends FGEFunction<T> {
 
 	@Override
 	protected Double getNormalizedPosition(T value) {
+		if (value == null) {
+			// System.out.println("Bizarre on m'envoie une valeur null a normaliser");
+			// Thread.dumpStack();
+			return 0.0;
+		}
+		if (getMinValue() == null || getMaxValue() == null) {
+			return 0.0;
+		}
 		return (value.doubleValue() - getMinValue().doubleValue()) / (getMaxValue().doubleValue() - getMinValue().doubleValue());
 	}
 }

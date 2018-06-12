@@ -1,0 +1,16 @@
+dependencies {
+  compile project(':diana-api')
+  compile ginaApi()
+  compile gina()
+
+  compile group: 'net.sf.jung', name: 'jung-graph-impl', version: '2.0.1'
+  compile group: 'net.sf.jung', name: 'jung-algorithms', version: '2.0.1'
+
+  testCompile testUtils()
+}
+
+if (JavaVersion.current().isJava9Compatible()) {
+	tasks.withType(JavaCompile) {
+		options.compilerArgs.addAll(['--add-modules', 'java.xml.bind'])
+    }
+}  

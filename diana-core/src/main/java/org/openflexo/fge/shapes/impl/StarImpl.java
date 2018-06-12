@@ -68,7 +68,7 @@ public abstract class StarImpl extends ShapeSpecificationImpl implements Star {
 	private StarImpl(ShapeGraphicalRepresentation aGraphicalRepresentation) {
 		this(aGraphicalRepresentation, 5);
 	}
-
+	
 	@Deprecated
 	private StarImpl(ShapeGraphicalRepresentation aGraphicalRepresentation, int pointsNb) {
 		this();
@@ -91,7 +91,7 @@ public abstract class StarImpl extends ShapeSpecificationImpl implements Star {
 
 	@Override
 	public void setNPoints(int pointsNb) {
-		FGEAttributeNotification notification = requireChange(N_POINTS, pointsNb);
+		FGEAttributeNotification<?> notification = requireChange(N_POINTS, pointsNb);
 		if (notification != null) {
 			npoints = pointsNb;
 			hasChanged(notification);
@@ -105,7 +105,7 @@ public abstract class StarImpl extends ShapeSpecificationImpl implements Star {
 
 	@Override
 	public void setStartAngle(int anAngle) {
-		FGEAttributeNotification notification = requireChange(START_ANGLE, anAngle);
+		FGEAttributeNotification<?> notification = requireChange(START_ANGLE, anAngle);
 		if (notification != null) {
 			startAngle = anAngle;
 			hasChanged(notification);
@@ -120,7 +120,7 @@ public abstract class StarImpl extends ShapeSpecificationImpl implements Star {
 	@Override
 	public void setRatio(double aRatio) {
 		if (aRatio > 0 && aRatio < 1.0) {
-			FGEAttributeNotification notification = requireChange(RATIO, aRatio);
+			FGEAttributeNotification<?> notification = requireChange(RATIO, aRatio);
 			if (notification != null) {
 				ratio = aRatio;
 				hasChanged(notification);

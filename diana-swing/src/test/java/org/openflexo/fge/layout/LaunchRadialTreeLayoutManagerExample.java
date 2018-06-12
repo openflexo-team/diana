@@ -38,13 +38,13 @@
 
 package org.openflexo.fge.layout;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
-import org.openflexo.fge.TestGraph;
+import org.openflexo.fge.test.TestGraph;
+import org.openflexo.fge.test.layout.RadialTreeLayoutManagerDrawing;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.model.exceptions.ModelDefinitionException;
@@ -63,10 +63,6 @@ public class LaunchRadialTreeLayoutManagerExample extends AbstractLaunchLayoutMa
 		try {
 			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

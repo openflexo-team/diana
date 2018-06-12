@@ -36,7 +36,6 @@
  * 
  */
 
-
 package org.openflexo.fge.shapes.impl;
 
 import org.openflexo.fge.Drawing.ShapeNode;
@@ -71,7 +70,6 @@ public abstract class ChevronImpl extends ShapeSpecificationImpl implements Chev
 		return this.arrowLength;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void setArrowLength(final double anArrowLength) {
 		final FGEAttributeNotification<Double> notification = this.requireChange(ARROW_LENGTH, anArrowLength);

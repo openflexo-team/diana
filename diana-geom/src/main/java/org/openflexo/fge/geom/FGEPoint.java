@@ -125,10 +125,10 @@ public class FGEPoint extends Point2D.Double implements FGEGeometricObject<FGEPo
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEPoint) {
 			FGEPoint p = (FGEPoint) obj;
-			boolean result = (Math.abs(getX() - p.getX()) < EPSILON || java.lang.Double.isNaN(getX()) && java.lang.Double.isNaN(p.getX()) || getX() == p
-					.getX())
-					&& (Math.abs(getY() - p.getY()) < EPSILON || java.lang.Double.isNaN(getY()) && java.lang.Double.isNaN(p.getY()) || getY() == p
-							.getY());
+			boolean result = (Math.abs(getX() - p.getX()) < EPSILON || java.lang.Double.isNaN(getX()) && java.lang.Double.isNaN(p.getX())
+					|| getX() == p.getX())
+					&& (Math.abs(getY() - p.getY()) < EPSILON || java.lang.Double.isNaN(getY()) && java.lang.Double.isNaN(p.getY())
+							|| getY() == p.getY());
 			return result;
 		}
 		return super.equals(obj);
@@ -158,7 +158,8 @@ public class FGEPoint extends Point2D.Double implements FGEGeometricObject<FGEPo
 	public FGEArea intersect(FGEArea area) {
 		if (area.containsPoint(this)) {
 			return this.clone();
-		} else {
+		}
+		else {
 			return new FGEEmptyArea();
 		}
 	}
@@ -167,7 +168,8 @@ public class FGEPoint extends Point2D.Double implements FGEGeometricObject<FGEPo
 	public FGEArea substract(FGEArea area, boolean isStrict) {
 		if (area.containsPoint(this)) {
 			return new FGEEmptyArea();
-		} else {
+		}
+		else {
 			return this.clone();
 		}
 	}
@@ -207,7 +209,7 @@ public class FGEPoint extends Point2D.Double implements FGEGeometricObject<FGEPo
 
 	@Override
 	public List<FGEPoint> getControlPoints() {
-		Vector<FGEPoint> returned = new Vector<FGEPoint>();
+		Vector<FGEPoint> returned = new Vector<>();
 		returned.add(new FGEPoint(x, y));
 		return returned;
 	}
@@ -227,13 +229,16 @@ public class FGEPoint extends Point2D.Double implements FGEGeometricObject<FGEPo
 		if (destination.x > source.x) {
 			if (destination.y > source.y) {
 				return CardinalQuadrant.SOUTH_EAST;
-			} else {
+			}
+			else {
 				return CardinalQuadrant.NORTH_EAST;
 			}
-		} else {
+		}
+		else {
 			if (destination.y > source.y) {
 				return CardinalQuadrant.SOUTH_WEST;
-			} else {
+			}
+			else {
 				return CardinalQuadrant.NORTH_WEST;
 			}
 		}
@@ -246,11 +251,14 @@ public class FGEPoint extends Point2D.Double implements FGEGeometricObject<FGEPo
 		CardinalQuadrant d = getCardinalQuadrant(s2, d2);
 		if (d == CardinalQuadrant.NORTH_EAST) {
 			return SimplifiedCardinalDirection.NORTH;
-		} else if (d == CardinalQuadrant.SOUTH_EAST) {
+		}
+		else if (d == CardinalQuadrant.SOUTH_EAST) {
 			return SimplifiedCardinalDirection.EAST;
-		} else if (d == CardinalQuadrant.SOUTH_WEST) {
+		}
+		else if (d == CardinalQuadrant.SOUTH_WEST) {
 			return SimplifiedCardinalDirection.SOUTH;
-		} else if (d == CardinalQuadrant.NORTH_WEST) {
+		}
+		else if (d == CardinalQuadrant.NORTH_WEST) {
 			return SimplifiedCardinalDirection.WEST;
 		}
 		return null;
@@ -266,40 +274,51 @@ public class FGEPoint extends Point2D.Double implements FGEGeometricObject<FGEPo
 				if (slope < tanPI_8) {
 					if (destination.x > source.x) {
 						return CardinalDirection.EAST;
-					} else {
+					}
+					else {
 						return CardinalDirection.WEST;
 					}
-				} else if (slope > tanPI_8 && slope < tan3PI_8) {
+				}
+				else if (slope > tanPI_8 && slope < tan3PI_8) {
 					if (destination.y > source.y) {
 						return CardinalDirection.SOUTH_EAST;
-					} else {
+					}
+					else {
 						return CardinalDirection.NORTH_WEST;
 					}
-				} else {
+				}
+				else {
 					if (destination.y > source.y) {
 						return CardinalDirection.SOUTH;
-					} else {
+					}
+					else {
 						return CardinalDirection.NORTH;
 					}
 				}
-			} else {
+			}
+			else {
 				slope = -slope;
 				if (slope < tanPI_8) {
 					if (destination.x > source.x) {
 						return CardinalDirection.EAST;
-					} else {
+					}
+					else {
 						return CardinalDirection.WEST;
 					}
-				} else if (slope > tanPI_8 && slope < tan3PI_8) {
+				}
+				else if (slope > tanPI_8 && slope < tan3PI_8) {
 					if (destination.y > source.y) {
 						return CardinalDirection.SOUTH_WEST;
-					} else {
+					}
+					else {
 						return CardinalDirection.NORTH_EAST;
 					}
-				} else {
+				}
+				else {
 					if (destination.y > source.y) {
 						return CardinalDirection.SOUTH;
-					} else {
+					}
+					else {
 						return CardinalDirection.NORTH;
 					}
 				}
@@ -307,7 +326,8 @@ public class FGEPoint extends Point2D.Double implements FGEGeometricObject<FGEPo
 		} catch (ArithmeticException e) {
 			if (destination.y > source.y) {
 				return CardinalDirection.SOUTH;
-			} else {
+			}
+			else {
 				return CardinalDirection.NORTH;
 			}
 		}
@@ -315,7 +335,7 @@ public class FGEPoint extends Point2D.Double implements FGEGeometricObject<FGEPo
 	}
 
 	public static FGEPoint getNearestPoint(FGEPoint aPoint, FGEPoint... pts) {
-		Vector<FGEPoint> v = new Vector<FGEPoint>();
+		Vector<FGEPoint> v = new Vector<>();
 		for (FGEPoint pt : pts) {
 			v.add(pt);
 		}
@@ -346,11 +366,14 @@ public class FGEPoint extends Point2D.Double implements FGEGeometricObject<FGEPo
 	public FGEHalfLine getOrthogonalPerspectiveArea(SimplifiedCardinalDirection orientation) {
 		if (orientation == SimplifiedCardinalDirection.NORTH) {
 			return new FGEHalfLine(this, new FGEPoint(x, y - 1));
-		} else if (orientation == SimplifiedCardinalDirection.SOUTH) {
+		}
+		else if (orientation == SimplifiedCardinalDirection.SOUTH) {
 			return new FGEHalfLine(this, new FGEPoint(x, y + 1));
-		} else if (orientation == SimplifiedCardinalDirection.EAST) {
+		}
+		else if (orientation == SimplifiedCardinalDirection.EAST) {
 			return new FGEHalfLine(this, new FGEPoint(x + 1, y));
-		} else if (orientation == SimplifiedCardinalDirection.WEST) {
+		}
+		else if (orientation == SimplifiedCardinalDirection.WEST) {
 			return new FGEHalfLine(this, new FGEPoint(x - 1, y));
 		}
 		return null;
@@ -404,7 +427,8 @@ public class FGEPoint extends Point2D.Double implements FGEGeometricObject<FGEPo
 
 		if (hl.contains(this)) {
 			return clone();
-		} else {
+		}
+		else {
 			return null;
 		}
 

@@ -47,10 +47,11 @@ import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
  * @author sylvain
  * 
  */
-public abstract class ForceDirectedGraphLayoutManagerSpecificationImpl extends
-		GraphBasedLayoutManagerSpecificationImpl<ForceDirectedGraphLayoutManager<?>, Object> implements
-		ForceDirectedGraphLayoutManagerSpecification {
+public abstract class ForceDirectedGraphLayoutManagerSpecificationImpl
+		extends GraphBasedLayoutManagerSpecificationImpl<ForceDirectedGraphLayoutManager<?>, Object>
+		implements ForceDirectedGraphLayoutManagerSpecification {
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Class<ForceDirectedGraphLayoutManager<?>> getLayoutManagerClass() {
 		return (Class) ForceDirectedGraphLayoutManager.class;

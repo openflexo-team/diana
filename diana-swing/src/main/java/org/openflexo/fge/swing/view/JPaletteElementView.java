@@ -98,7 +98,6 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public JPaletteController getController() {
 		return (JPaletteController) super.getController();
@@ -199,7 +198,8 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 						SunDragSourceContextPeer.checkDragDropInProgress();
 					} catch (InvalidDnDOperationException ex) {
 						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning("For some reason there was still a Dnd in progress. Will set it back to false. God knows why this happens");
+							logger.warning(
+									"For some reason there was still a Dnd in progress. Will set it back to false. God knows why this happens");
 						}
 						if (logger.isLoggable(Level.FINE)) {
 							logger.log(Level.FINE, "Stacktrace for DnD still in progress", ex);
@@ -267,7 +267,8 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 			int myaction = e.getDropAction();
 			if ((myaction & dragAction) != 0) {
 				context.setCursor(DragSource.DefaultCopyDrop);
-			} else {
+			}
+			else {
 				context.setCursor(DragSource.DefaultCopyNoDrop);
 			}
 		}

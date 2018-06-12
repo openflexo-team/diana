@@ -42,8 +42,6 @@ import org.openflexo.fge.notifications.FGEAttributeNotification;
 import org.openflexo.model.factory.AccessibleProxyObject;
 import org.openflexo.model.factory.CloneableProxyObject;
 import org.openflexo.model.factory.DeletableProxyObject;
-import org.openflexo.model.factory.KeyValueCoding;
-import org.openflexo.toolbox.HasPropertyChangeSupport;
 
 /**
  * Root interface for all model objects involved in Diana modelling layer
@@ -51,8 +49,7 @@ import org.openflexo.toolbox.HasPropertyChangeSupport;
  * @author sylvain
  * 
  */
-public interface FGEObject extends AccessibleProxyObject, DeletableProxyObject, CloneableProxyObject, Cloneable, KeyValueCoding,
-		FGEConstants, HasPropertyChangeSupport {
+public interface FGEObject extends AccessibleProxyObject, DeletableProxyObject, CloneableProxyObject, Cloneable, FGEConstants {
 
 	// TODO: remove this, don't reference the factory in the object
 	@Deprecated
@@ -68,7 +65,7 @@ public interface FGEObject extends AccessibleProxyObject, DeletableProxyObject, 
 
 	public <T> void notifyAttributeChange(GRProperty<T> parameter);
 
-	public void notify(FGEAttributeNotification notification);
+	public void notify(FGEAttributeNotification<?> notification);
 
 	// *******************************************************************************
 	// * Deletion management

@@ -106,7 +106,8 @@ public class DiagramEditorPalette extends DrawingPalette {
 			gr.setY(py * GRID_HEIGHT + 10);
 			gr.setWidth(50);
 			gr.setHeight(50);
-		} else {
+		}
+		else {
 			gr.setX(px * GRID_WIDTH + 10);
 			gr.setY(py * GRID_HEIGHT + 10);
 			gr.setWidth(60);
@@ -232,6 +233,8 @@ public class DiagramEditorPalette extends DrawingPalette {
 				// getController().getDrawing()),container);
 
 				CompoundEdit edit = getEditor().getFactory().getUndoManager().startRecording("Dragging new Element");
+
+				System.out.println("dropLocation=" + dropLocation);
 
 				Shape newShape = getEditor().getFactory().makeNewShape(getGraphicalRepresentation(), dropLocation, container.getDiagram());
 

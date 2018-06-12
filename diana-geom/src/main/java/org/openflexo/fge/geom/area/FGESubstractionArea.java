@@ -76,8 +76,8 @@ public class FGESubstractionArea extends FGEOperationArea {
 	 *            boolean indicating if a point located in the border of substracted area should be consider inside resulting area or not If
 	 * 
 	 *            <pre>
-	 * isStrict
-	 * </pre>
+	 *            isStrict
+	 *            </pre>
 	 * 
 	 *            is true, point should NOT be considered.
 	 */
@@ -99,8 +99,8 @@ public class FGESubstractionArea extends FGEOperationArea {
 	 *            boolean indicating if a point located in the border of substracted area should be consider inside resulting area or not If
 	 * 
 	 *            <pre>
-	 * isStrict
-	 * </pre>
+	 *            isStrict
+	 *            </pre>
 	 * 
 	 *            is true, point should NOT be considered.
 	 * @return
@@ -120,8 +120,8 @@ public class FGESubstractionArea extends FGEOperationArea {
 	 *            boolean indicating if a point located in the border of substracted area should be consider inside resulting area or not If
 	 * 
 	 *            <pre>
-	 * isStrict
-	 * </pre>
+	 *            isStrict
+	 *            </pre>
 	 * 
 	 *            is true, point should NOT be considered.
 	 * @param checkNonNullIntersection
@@ -143,7 +143,7 @@ public class FGESubstractionArea extends FGEOperationArea {
 			return new FGEEmptyArea();
 		}
 		if (containerArea instanceof FGEUnionArea) {
-			List<FGEArea> objects = new ArrayList<FGEArea>();
+			List<FGEArea> objects = new ArrayList<>();
 			FGEUnionArea union = (FGEUnionArea) containerArea;
 			for (FGEArea a : union.getObjects()) {
 				if (substractedArea.containsArea(a)) {
@@ -153,9 +153,11 @@ public class FGESubstractionArea extends FGEOperationArea {
 			}
 			if (objects.size() == 0) {
 				return new FGEEmptyArea();
-			} else if (objects.size() == 1) {
+			}
+			else if (objects.size() == 1) {
 				return objects.get(0);
-			} else {
+			}
+			else {
 				return FGEUnionArea.makeUnion(objects);
 			}
 		}
@@ -199,7 +201,8 @@ public class FGESubstractionArea extends FGEOperationArea {
 
 		if (substractedArea instanceof FGEShape) {
 			return ((FGEShape<?>) substractedArea).nearestOutlinePoint(testPoint).equals(testPoint);
-		} else {
+		}
+		else {
 			// Little hack
 			// Test with 4 points located juste near this point (at 2*EPSILON, which is the equals criteria)
 			// If one of those point is not located inside substracted area, this means
@@ -336,12 +339,12 @@ public class FGESubstractionArea extends FGEOperationArea {
 	public FGEArea getSubstractedArea() {
 		return substractedArea;
 	}
-	
+
 	@Override
 	public int hashCode() {
-		return getContainerArea().hashCode() + getSubstractedArea().hashCode() + (isStrict?1:0);
+		return getContainerArea().hashCode() + getSubstractedArea().hashCode() + (isStrict ? 1 : 0);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGESubstractionArea) {

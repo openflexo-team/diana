@@ -60,17 +60,18 @@ import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.TextStyle;
+import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.fge.swing.JDianaViewer;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.view.widget.FIBTextStyleSelector;
-import org.openflexo.fib.FIBLibrary;
-import org.openflexo.fib.controller.FIBController;
-import org.openflexo.fib.model.FIBComponent;
-import org.openflexo.fib.model.FIBCustom;
-import org.openflexo.fib.view.FIBView;
-import org.openflexo.localization.FlexoLocalization;
+import org.openflexo.gina.controller.FIBController;
+import org.openflexo.gina.model.FIBComponent;
+import org.openflexo.gina.model.widget.FIBCustom;
+import org.openflexo.gina.swing.view.JFIBView;
+import org.openflexo.gina.swing.view.SwingViewFactory;
+import org.openflexo.gina.view.GinaViewFactory;
 import org.openflexo.swing.CustomPopup;
 import org.openflexo.swing.JFontChooser;
 
@@ -81,7 +82,7 @@ import org.openflexo.swing.JFontChooser;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIBTextStyleSelector<JFIBTextStyleSelector> {
+public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIBTextStyleSelector {
 
 	static final Logger logger = Logger.getLogger(JFIBTextStyleSelector.class.getPackage().getName());
 
@@ -127,7 +128,8 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 		// WARNING: we need here to clone to keep track back of previous data !!!
 		if (oldValue != null) {
 			_revertValue = (TextStyle) oldValue.clone();
-		} else {
+		}
+		else {
 			_revertValue = null;
 		}
 		if (logger.isLoggable(Level.FINE)) {
@@ -160,15 +162,15 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 
 	public class TextStyleDetailsPanel extends ResizablePanel {
 		private FIBComponent fibComponent;
-		private FIBView<?, ?, ?> fibView;
+		private JFIBView<?, ?> fibView;
 		private CustomFIBController controller;
 
 		protected TextStyleDetailsPanel(TextStyle textStyle) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
-			controller = new CustomFIBController(fibComponent);
-			fibView = controller.buildView(fibComponent);
+			fibComponent = AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(FIB_FILE, true);
+			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
+			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent, null, true);
 
 			controller.setDataObject(textStyle);
 
@@ -195,8 +197,8 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 		}
 
 		public class CustomFIBController extends FIBController {
-			public CustomFIBController(FIBComponent component) {
-				super(component);
+			public CustomFIBController(FIBComponent component, GinaViewFactory<?> viewFactory) {
+				super(component, viewFactory);
 			}
 
 			public void apply() {
@@ -329,7 +331,7 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 			textGR.setHeight(20);
 			textGR.setX(0);
 			textGR.setY(0);
-			textGR.setText(FlexoLocalization.localizedForKey(FGECoreUtils.LOCALIZATION, "no_font_selected"));
+			textGR.setText(FGECoreUtils.DIANA_LOCALIZATION.localizedForKey("no_font_selected"));
 			textGR.setIsFloatingLabel(false);
 			textGR.setRelativeTextX(0.5);
 			textGR.setRelativeTextY(0.35);
@@ -340,7 +342,7 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 			textGR.setIsSelectable(false);
 			textGR.setIsFocusable(false);
 			textGR.setIsReadOnly(true);
-			textGR.setBorder(factory.makeShapeBorder(0, 0, 0, 0));
+			// textGR.setBorder(factory.makeShapeBorder(0, 0, 0, 0));
 
 			controller = new JDianaViewer<TextStylePreviewPanel>(drawing, factory, SwingToolFactory.DEFAULT);
 			add(controller.getDrawingView());
@@ -366,11 +368,6 @@ public class JFIBTextStyleSelector extends CustomPopup<TextStyle> implements FIB
 			textGR.setText(JFontChooser.fontDescription(getEditedObject().getFont()));
 		}
 
-	}
-
-	@Override
-	public JFIBTextStyleSelector getJComponent() {
-		return this;
 	}
 
 	@Override

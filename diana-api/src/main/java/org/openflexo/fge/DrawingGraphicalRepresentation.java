@@ -77,14 +77,14 @@ public interface DrawingGraphicalRepresentation extends ContainerGraphicalRepres
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String IS_RESIZABLE_KEY = "isResizable";
 
-	public static GRProperty<Color> BACKGROUND_COLOR = GRProperty.getGRParameter(DrawingGraphicalRepresentation.class,
-			BACKGROUND_COLOR_KEY, Color.class);
+	public static GRProperty<Color> BACKGROUND_COLOR = GRProperty.getGRParameter(DrawingGraphicalRepresentation.class, BACKGROUND_COLOR_KEY,
+			Color.class);
 	public static GRProperty<Color> RECTANGLE_SELECTING_SELECTION_COLOR = GRProperty.getGRParameter(DrawingGraphicalRepresentation.class,
 			RECTANGLE_SELECTING_SELECTION_COLOR_KEY, Color.class);
 	public static GRProperty<Color> FOCUS_COLOR = GRProperty.getGRParameter(DrawingGraphicalRepresentation.class, FOCUS_COLOR_KEY,
 			Color.class);
-	public static GRProperty<Color> SELECTION_COLOR = GRProperty.getGRParameter(DrawingGraphicalRepresentation.class,
-			SELECTION_COLOR_KEY, Color.class);
+	public static GRProperty<Color> SELECTION_COLOR = GRProperty.getGRParameter(DrawingGraphicalRepresentation.class, SELECTION_COLOR_KEY,
+			Color.class);
 	public static GRProperty<Boolean> DRAW_WORKING_AREA = GRProperty.getGRParameter(DrawingGraphicalRepresentation.class,
 			DRAW_WORKING_AREA_KEY, Boolean.TYPE);
 	public static GRProperty<Boolean> IS_RESIZABLE = GRProperty.getGRParameter(DrawingGraphicalRepresentation.class, IS_RESIZABLE_KEY,

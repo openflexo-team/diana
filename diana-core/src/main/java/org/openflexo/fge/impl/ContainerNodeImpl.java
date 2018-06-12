@@ -99,8 +99,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	protected ContainerNodeImpl(DrawingImpl<?> drawing, O drawable, ContainerGRBinding<O, GR> grBinding,
 			ContainerNodeImpl<?, ?> parentNode) {
 		super(drawing, drawable, grBinding, parentNode);
-		childNodes = new ArrayList<DrawingTreeNodeImpl<?, ?>>();
-		layoutManagers = new ArrayList<FGELayoutManager<?, O>>();
+		childNodes = new ArrayList<>();
+		layoutManagers = new ArrayList<>();
 		/*for (FGELayoutManagerSpecification<?> spec : getGraphicalRepresentation().getLayoutManagerSpecifications()) {
 			FGELayoutManager<?, O> layoutManager = (FGELayoutManager<?, O>) spec.makeLayoutManager(this);
 			layoutManagers.add(layoutManager);
@@ -133,8 +133,11 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	 */
 	private void updateLayoutManagers() {
 		FGELayoutManager<?, O> oldDefaultLayoutManager = getDefaultLayoutManager();
-		List<FGELayoutManager<?, O>> lmToRemove = new ArrayList<FGELayoutManager<?, O>>(getLayoutManagers());
+		List<FGELayoutManager<?, O>> lmToRemove = new ArrayList<>(getLayoutManagers());
 		for (FGELayoutManagerSpecification<?> spec : getGraphicalRepresentation().getLayoutManagerSpecifications()) {
+			if (spec.isDeleted())
+				continue;
+
 			boolean found = false;
 			for (FGELayoutManager<?, ?> lm : getLayoutManagers()) {
 				if (lm.getLayoutManagerSpecification() == spec) {
@@ -148,7 +151,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 				layoutManagers.add(newLayoutManager);
 			}
 		}
-		for (FGELayoutManager<?, ?> lm : new ArrayList<FGELayoutManager<?, O>>(lmToRemove)) {
+		for (FGELayoutManager<?, ?> lm : new ArrayList<>(lmToRemove)) {
 			lm.delete();
 			layoutManagers.remove(lm);
 		}
@@ -228,7 +231,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 
 	private ShapeNode<?> getTopLevelShapeGraphicalRepresentation(ContainerNode<?, ?> container, FGEPoint p) {
 
-		List<ShapeNode<?>> enclosingShapes = new ArrayList<ShapeNode<?>>();
+		List<ShapeNode<?>> enclosingShapes = new ArrayList<>();
 
 		for (DrawingTreeNode<?, ?> dtn : container.getChildNodes()) {
 			if (dtn instanceof ShapeNode) {
@@ -277,11 +280,18 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 
 	@Override
 	public List<ShapeNodeImpl<?>> getShapeNodes() {
-		List<ShapeNodeImpl<?>> returned = new ArrayList<ShapeNodeImpl<?>>();
-		for (DrawingTreeNodeImpl<?, ?> child : getChildNodes()) {
-			if (child instanceof ShapeNodeImpl) {
-				returned.add((ShapeNodeImpl) child);
+		List<ShapeNodeImpl<?>> returned = new ArrayList<>();
+
+		List<DrawingTreeNodeImpl<?, ?>> children = getChildNodes();
+		if (children != null) {
+			for (DrawingTreeNodeImpl<?, ?> child : getChildNodes()) {
+				if (child instanceof ShapeNodeImpl) {
+					returned.add((ShapeNodeImpl) child);
+				}
 			}
+		}
+		else {
+			logger.warning("INVESTIGATE: found a container with no child");
 		}
 		return returned;
 	}
@@ -370,8 +380,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 
 	@Override
 	public void notifyNodeLayoutDecorationChanged(FGELayoutManager<?, O> layoutManager) {
-		getPropertyChangeSupport().firePropertyChange(LAYOUT_DECORATION_KEY, new Boolean(!layoutManager.paintDecoration()),
-				new Boolean(layoutManager.paintDecoration()));
+		getPropertyChangeSupport().firePropertyChange(LAYOUT_DECORATION_KEY, Boolean.valueOf(!layoutManager.paintDecoration()),
+				Boolean.valueOf(layoutManager.paintDecoration()));
 
 	}
 
@@ -395,7 +405,6 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		if (addedNode.getGraphicalRepresentation() != null) {
 			addedNode.getGraphicalRepresentation().updateBindingModel();
 		}
-		setChanged();
 		notifyObservers(new NodeAdded(addedNode, this));
 
 		performRelayout(true);
@@ -406,7 +415,6 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		if (removedNode.getGraphicalRepresentation() != null) {
 			removedNode.getGraphicalRepresentation().updateBindingModel();
 		}
-		setChanged();
 		notifyObservers(new NodeRemoved(removedNode, this));
 
 		if (!getDrawing().isDeleting()) {
@@ -722,7 +730,6 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	 */
 	@Override
 	public void notifyObjectResized(FGEDimension oldSize) {
-		setChanged();
 		notifyObservers(new ObjectResized(oldSize, getSize()));
 	}
 
@@ -732,7 +739,6 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	@Override
 	public void notifyObjectWillResize() {
 		isResizing = true;
-		setChanged();
 		notifyObservers(new ObjectWillResize());
 	}
 
@@ -748,7 +754,6 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 				((ShapeNodeImpl<?>) gr).checkAndUpdateLocationIfRequired();
 			}
 		}
-		setChanged();
 		notifyObservers(new ObjectHasResized());
 	}
 
@@ -906,7 +911,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		for (DrawingTreeNode<?, ?> gr : getChildNodes()) {
 			if (gr instanceof ShapeNode) {
 				ShapeNodeImpl<?> shapeGR = (ShapeNodeImpl<?>) gr;
-				FGERectangle bounds = shapeGR.getBoundsNoBorder();
+				FGERectangle bounds = shapeGR.getBounds();
 				if (shapeGR.hasText()) {
 					Rectangle labelBounds = shapeGR.getNormalizedLabelBounds(); // getLabelBounds((new JLabel()), 1.0);
 					FGERectangle labelBounds2 = new FGERectangle(labelBounds.x, labelBounds.y, labelBounds.width, labelBounds.height);
@@ -991,7 +996,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 						((ConcatenedList<ControlArea<?>>) layoutManagerAreas).addElementList(layoutManager.getControlAreas());
 					}
 					else {
-						controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, layoutManager.getControlAreas());
+						controlAreas = new ConcatenedList<>(controlAreas, layoutManager.getControlAreas());
 					}
 				}
 			}
@@ -1003,7 +1008,7 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 					((ConcatenedList<ControlArea<?>>) controlAreas).addElementList(customControlAreas);
 				}
 				else {
-					controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, customControlAreas);
+					controlAreas = new ConcatenedList<>(controlAreas, customControlAreas);
 				}
 			}
 			if (layoutManagerAreas != null && layoutManagerAreas.size() > 0) {
@@ -1014,11 +1019,16 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 					((ConcatenedList<ControlArea<?>>) controlAreas).addElementList(layoutManagerAreas);
 				}
 				else {
-					controlAreas = new ConcatenedList<ControlArea<?>>(controlAreas, layoutManagerAreas);
+					controlAreas = new ConcatenedList<>(controlAreas, layoutManagerAreas);
 				}
 			}
 		}
 		return controlAreas;
+	}
+
+	@Override
+	public void clearControlAreas() {
+		controlAreas = null;
 	}
 
 }

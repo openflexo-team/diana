@@ -47,7 +47,6 @@ import java.util.logging.Logger;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
-import org.openflexo.fge.ShapeGraphicalRepresentation.LocationConstraints;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 
@@ -95,7 +94,7 @@ public class DrawingPalette implements HasPropertyChangeSupport {
 		this.width = width;
 		this.height = height;
 		this.title = title;
-		elements = new ArrayList<PaletteElement>();
+		elements = new ArrayList<>();
 		if (logger.isLoggable(Level.FINE)) {
 			logger.fine("Build palette " + title + " " + Integer.toHexString(hashCode()) + " of " + getClass().getName());
 		}
@@ -141,10 +140,10 @@ public class DrawingPalette implements HasPropertyChangeSupport {
 			if (gr != null) {
 				// Try to perform some checks and initialization of
 				// expecting behaviour for a PaletteElement
-				element.getGraphicalRepresentation().setIsFocusable(false);
+				/*element.getGraphicalRepresentation().setIsFocusable(false);
 				element.getGraphicalRepresentation().setIsSelectable(false);
 				element.getGraphicalRepresentation().setIsReadOnly(true);
-				element.getGraphicalRepresentation().setLocationConstraints(LocationConstraints.UNMOVABLE);
+				element.getGraphicalRepresentation().setLocationConstraints(LocationConstraints.UNMOVABLE);*/
 				// element.getGraphicalRepresentation().addToMouseDragControls(mouseDragControl)
 			}
 			else {

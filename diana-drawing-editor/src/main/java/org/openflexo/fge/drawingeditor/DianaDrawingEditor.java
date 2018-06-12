@@ -39,15 +39,14 @@
 
 package org.openflexo.fge.drawingeditor;
 
-import java.awt.Component;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
-
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-
+import javax.swing.*;
+import org.openflexo.exceptions.CopyException;
+import org.openflexo.exceptions.CutException;
+import org.openflexo.exceptions.PasteException;
 import org.openflexo.fge.ConnectorGraphicalRepresentation;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
@@ -56,9 +55,6 @@ import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.control.actions.DrawConnectorAction;
 import org.openflexo.fge.control.actions.DrawShapeAction;
-import org.openflexo.fge.control.exceptions.CopyException;
-import org.openflexo.fge.control.exceptions.CutException;
-import org.openflexo.fge.control.exceptions.PasteException;
 import org.openflexo.fge.drawingeditor.model.Connector;
 import org.openflexo.fge.drawingeditor.model.Diagram;
 import org.openflexo.fge.drawingeditor.model.DiagramElement;
@@ -98,8 +94,8 @@ public class DianaDrawingEditor extends JDianaInteractiveEditor<Diagram> {
 			@Override
 			public void performedDrawNewConnector(ConnectorGraphicalRepresentation graphicalRepresentation, ShapeNode<?> startNode,
 					ShapeNode<?> endNode) {
-				System.out.println("OK, perform draw new connector with " + graphicalRepresentation + " start: " + startNode + " end: "
-						+ endNode);
+				System.out.println(
+						"OK, perform draw new connector with " + graphicalRepresentation + " start: " + startNode + " end: " + endNode);
 				Connector newConnector = getFactory().makeNewConnector(graphicalRepresentation, (Shape) startNode.getDrawable(),
 						(Shape) endNode.getDrawable(), getDrawing().getModel());
 				DrawingTreeNode<?, ?> fatherNode = FGEUtils.getFirstCommonAncestor(startNode, endNode);
@@ -225,7 +221,7 @@ public class DianaDrawingEditor extends JDianaInteractiveEditor<Diagram> {
 		father.addToConnectors(aConnector);
 	}
 
-	public void showContextualMenu(DrawingTreeNode<?, ?> dtn, FGEView view, Point p) {
+	public void showContextualMenu(DrawingTreeNode<?, ?> dtn, FGEView<?, ?> view, Point p) {
 		// contextualMenuInvoker = dtn;
 		// contextualMenuClickedPoint = p;
 		contextualMenu.show((Component) view, p.x, p.y);
@@ -246,6 +242,7 @@ public class DianaDrawingEditor extends JDianaInteractiveEditor<Diagram> {
 		return (DiagramEditorView) super.getDrawingView();
 	}
 
+	@Override
 	protected void prepareClipboardForPasting(FGEPoint proposedPastingLocation) {
 		logger.info("Pasting in " + getPastingContext().getDrawable() + " at " + proposedPastingLocation);
 		if (getClipboard().isSingleObject()) {
@@ -254,17 +251,20 @@ public class DianaDrawingEditor extends JDianaInteractiveEditor<Diagram> {
 				shapeBeingPasted.setName(shapeBeingPasted.getName() + "-new");
 				shapeBeingPasted.getGraphicalRepresentation().setX(proposedPastingLocation.x);
 				shapeBeingPasted.getGraphicalRepresentation().setY(proposedPastingLocation.y);
-			} else if (getClipboard().getSingleContents() instanceof Connector) {
+			}
+			else if (getClipboard().getSingleContents() instanceof Connector) {
 				Connector connectorBeingPasted = (Connector) getClipboard().getSingleContents();
 				connectorBeingPasted.setName(connectorBeingPasted.getName() + "-new");
 			}
-		} else {
+		}
+		else {
 			for (Object o : getClipboard().getMultipleContents()) {
 				if (o instanceof Shape) {
 					((Shape) o).getGraphicalRepresentation().setX(((Shape) o).getGraphicalRepresentation().getX() + PASTE_DELTA);
 					((Shape) o).getGraphicalRepresentation().setY(((Shape) o).getGraphicalRepresentation().getY() + PASTE_DELTA);
 					((Shape) o).setName(((Shape) o).getName() + "-new");
-				} else if (o instanceof Connector) {
+				}
+				else if (o instanceof Connector) {
 					((Connector) o).setName(((Connector) o).getName() + "-new");
 				}
 			}

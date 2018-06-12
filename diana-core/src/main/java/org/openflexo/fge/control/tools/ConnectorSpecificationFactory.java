@@ -185,22 +185,22 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		System.out.println("oldCS=" + oldCS);
 
 		// Retaining some values to be applied to new inspected connector specification
-		StartSymbolType startSymbol = oldCS.getStartSymbol();
+	/*	StartSymbolType startSymbol = oldCS.getStartSymbol();
 		MiddleSymbolType middleSymbol = oldCS.getMiddleSymbol();
 		EndSymbolType endSymbol = oldCS.getEndSymbol();
 		double startSymbolSize = oldCS.getStartSymbolSize();
 		double middleSymbolSize = oldCS.getMiddleSymbolSize();
 		double endSymbolSize = oldCS.getEndSymbolSize();
-
+*/
 		this.connectorType = connectorType;
 		if (pcSupport != null) {
 			pcSupport.firePropertyChange(STYLE_CLASS_CHANGED, oldConnectorType, getStyleType());
-			pcSupport.firePropertyChange("connectorSpecification", oldCS, getConnectorSpecification());
 			pcSupport.firePropertyChange("styleType", oldConnectorType, getStyleType());
+			pcSupport.firePropertyChange("connectorSpecification", oldCS, getConnectorSpecification());
 		}
 
 		// Applying some values to new inspected connector specification
-		if (startSymbol != null) {
+/*		if (startSymbol != null) {
 			getConnectorSpecification().setStartSymbol(startSymbol);
 		}
 		if (middleSymbol != null) {
@@ -217,7 +217,7 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		}
 		if (endSymbolSize > 0) {
 			getConnectorSpecification().setEndSymbolSize(endSymbolSize);
-		}
+		} */
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Panel layout="gridbag" borderBottom="5" titleFont="SansSerif,0,11"
 	darkLevel="0" dataClassName="org.openflexo.fge.control.tools.ShapeSpecificationFactory"
-	font="SansSerif,0,11" opaque="false" width="250" height="310" name="ShapePanel">
+	font="SansSerif,0,11" opaque="false" name="ShapePanel">
 	<Custom componentClassName="org.openflexo.fge.swing.widget.JShapePreviewPanel"
 		localize="true" manageDynamicModel="true" name="PreviewPanel" index="0"
 		data="data.shapeSpecification"
@@ -12,7 +12,7 @@
 		borderBottom="2" borderLeft="10" borderRight="10" titleFont="SansSerif,0,11"
 		darkLevel="0" index="1"
 		constraints="gridbag(anchor=center;fill=horizontal;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=0.0;weightY=0.0)"
-		opaque="false" width="80" height="60" name="ShapeTypePanel">
+		opaque="false" name="ShapeTypePanel">
 		<Label label="shape_type" index="0"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
@@ -26,39 +26,41 @@
 	<Panel layout="twocols" border="rounded3d" borderTitle=""
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="2"
-		data="($org.openflexo.fge.shapes.Rectangle)data.shapeSpecification"
-		dataClassName="org.openflexo.fge.shapes.Rectangle"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=2;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;RECTANGLE&quot;)" opaque="false"
 		name="RectanglePanel">
+		<FIBVariable name="rectangle"
+			value="($org.openflexo.fge.shapes.Rectangle)data.shapeSpecification"
+			type="org.openflexo.fge.shapes.Rectangle" />
 		<Label label="rounded" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
 		<CheckBox selected="true" index="1"
-			data="RectanglePanel.data.isRounded"
+			data="rectangle.isRounded"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="roundedCheckbox" localize="true" />
 		<Label label="arc_size" index="2"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-			localize="true" enable="RectanglePanel.data.isRounded" />
+			localize="true" enable="rectangle.isRounded" />
 		<Number allowsNull="false" minValue="0" maxValue="255"
 			increment="1" numberType="DoubleType" columns="3" index="3"
-			data="RectanglePanel.data.arcSize"
+			data="rectangle.arcSize"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
-			name="arcSizeInteger" localize="true" enable="RectanglePanel.data.isRounded" />
+			name="arcSizeInteger" localize="true" enable="rectangle.isRounded" />
 		<Dependancy componentName="shapeTypeDropdown" />
 	</Panel>
 	<Panel layout="twocols" border="rounded3d" borderTitle=""
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="3"
-		data="($org.openflexo.fge.shapes.Square)data.shapeSpecification"
-		dataClassName="org.openflexo.fge.shapes.Square"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=3;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;SQUARE&quot;)" opaque="false" name="SquarePanel">
+		<FIBVariable name="square"
+			value="($org.openflexo.fge.shapes.Square)data.shapeSpecification"
+			type="org.openflexo.fge.shapes.Square" />
 		<Label label="rounded" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
-		<CheckBox selected="true" index="1" data="SquarePanel.data.isRounded"
+		<CheckBox selected="true" index="1" data="square.isRounded"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="roundedCheckbox" localize="true" />
 		<Label label="arc_size" index="2"
@@ -66,7 +68,7 @@
 			localize="true" />
 		<Number allowsNull="false" minValue="0" maxValue="255"
 			increment="1" numberType="DoubleType" columns="3" index="3"
-			data="SquarePanel.data.arcSize"
+			data="square.arcSize"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="arcSizeInteger" localize="true" />
 		<Dependancy componentName="shapeTypeDropdown" />
@@ -74,16 +76,17 @@
 	<Panel layout="twocols" border="rounded3d" borderTitle=""
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="4"
-		data="($org.openflexo.fge.shapes.RegularPolygon)data.shapeSpecification"
-		dataClassName="org.openflexo.fge.shapes.RegularPolygon"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=4;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;POLYGON&quot;)" opaque="false" name="PolygonPanel">
+		<FIBVariable name="polygon"
+			value="($org.openflexo.fge.shapes.RegularPolygon)data.shapeSpecification"
+			type="org.openflexo.fge.shapes.RegularPolygon" />
 		<Label label="points_number" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
 		<Number allowsNull="false" minValue="3" maxValue="255"
 			increment="1" numberType="IntegerType" columns="3" index="2"
-			data="PolygonPanel.data.nPoints"
+			data="polygon.nPoints"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="PolygonPointsNumber" localize="true" />
 		<Label label="start_angle" index="2"
@@ -91,7 +94,7 @@
 			localize="true" />
 		<Number allowsNull="false" minValue="-360" maxValue="360"
 			increment="5" numberType="IntegerType" columns="3" index="3"
-			data="PolygonPanel.data.startAngle"
+			data="polygon.startAngle"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="PolygonStartAngle" localize="true" />
 		<Dependancy componentName="shapeTypeDropdown" />
@@ -99,17 +102,18 @@
 	<Panel layout="twocols" border="rounded3d" borderTitle=""
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="5"
-		data="($org.openflexo.fge.shapes.Triangle)data.shapeSpecification"
-		dataClassName="org.openflexo.fge.shapes.Triangle"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=5;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;TRIANGLE&quot;)" opaque="false"
 		name="TrianglePanel">
+		<FIBVariable name="triangle"
+			value="($org.openflexo.fge.shapes.Triangle)data.shapeSpecification"
+			type="org.openflexo.fge.shapes.Triangle" />
 		<Label label="start_angle" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
 		<Number allowsNull="false" minValue="-360" maxValue="360"
 			increment="5" numberType="IntegerType" columns="3" index="1"
-			data="TrianglePanel.data.startAngle"
+			data="triangle.startAngle"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="TriangleStartAngle" localize="true" />
 		<Dependancy componentName="shapeTypeDropdown" />
@@ -117,26 +121,28 @@
 	<Panel layout="twocols" border="rounded3d" borderTitle=""
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="6"
-		data="($org.openflexo.fge.shapes.Losange)data.shapeSpecification"
-		dataClassName="org.openflexo.fge.shapes.Losange"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;LOSANGE&quot;)" opaque="false" name="LosangePanel">
+		<FIBVariable name="losange"
+			value="($org.openflexo.fge.shapes.Losange)data.shapeSpecification"
+			type="org.openflexo.fge.shapes.Losange" />
 		<Dependancy componentName="shapeTypeDropdown" />
 	</Panel>
 	<Panel layout="twocols" border="rounded3d" borderTitle=""
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="6"
-		data="($org.openflexo.fge.shapes.RectangularOctogon)data.shapeSpecification"
-		dataClassName="org.openflexo.fge.shapes.RectangularOctogon"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;RECTANGULAROCTOGON&quot;)" opaque="false"
 		name="RectangularOctogonPanel">
+		<FIBVariable name="regularOctogon"
+			value="($org.openflexo.fge.shapes.RectangularOctogon)data.shapeSpecification"
+			type="org.openflexo.fge.shapes.RectangularOctogon" />
 		<Dependancy componentName="shapeTypeDropdown" />
 		<Label label="ratio" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
 		<Number allowsNull="false" minValue="0" maxValue="0.51" increment="0.05"
-			numberType="DoubleType" columns="3" index="2" data="RectangularOctogonPanel.data.ratio"
+			numberType="DoubleType" columns="3" index="2" data="regularOctogon.ratio"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="RatioNumber" localize="true" />
 		<Dependancy componentName="shapeTypeDropdown" />
@@ -144,17 +150,18 @@
     <Panel layout="twocols" border="rounded3d" borderTitle=""
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="6"
-		data="($org.openflexo.fge.shapes.Parallelogram)data.shapeSpecification"
-		dataClassName="org.openflexo.fge.shapes.Parallelogram"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;PARALLELOGRAM&quot;)" opaque="false"
 		name="ParallelogramPanel">
+		<FIBVariable name="parallelogram"
+			value="($org.openflexo.fge.shapes.Parallelogram)data.shapeSpecification"
+			type="org.openflexo.fge.shapes.Parallelogram" />
 		<Dependancy componentName="shapeTypeDropdown" />
 		<Label label="shift_ratio" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
 		<Number allowsNull="false" minValue="-0.95" maxValue="0.95" increment="0.05"
-			numberType="DoubleType" columns="3" index="2" data="ParallelogramPanel.data.shiftRatio"
+			numberType="DoubleType" columns="3" index="2" data="parallelogram.shiftRatio"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="RatioNumber" localize="true" />
 		<Dependancy componentName="shapeTypeDropdown" />
@@ -162,34 +169,37 @@
 	<Panel layout="twocols" border="rounded3d" borderTitle=""
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="7"
-		data="($org.openflexo.fge.shapes.Oval)data.shapeSpecification"
-		dataClassName="org.openflexo.fge.shapes.Oval"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;OVAL&quot;)" opaque="false" name="OvalPanel">
+		<FIBVariable name="oval"
+			value="($org.openflexo.fge.shapes.Oval)data.shapeSpecification"
+			type="org.openflexo.fge.shapes.Oval" />
 		<Dependancy componentName="shapeTypeDropdown" />
 	</Panel>
 	<Panel layout="twocols" border="rounded3d" borderTitle=""
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="8"
-		data="($org.openflexo.fge.shapes.Circle)data.shapeSpecification"
-		dataClassName="org.openflexo.fge.shapes.Circle"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=8;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;CIRCLE&quot;)" opaque="false" name="CirclePanel">
 		<Dependancy componentName="shapeTypeDropdown" />
+		<FIBVariable name="circle"
+			value="($org.openflexo.fge.shapes.Circle)data.shapeSpecification"
+			type="org.openflexo.fge.shapes.Circle" />
 	</Panel>
 	<Panel layout="twocols" border="rounded3d" borderTitle=""
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="9"
-		data="($org.openflexo.fge.shapes.Star)data.shapeSpecification"
-		dataClassName="org.openflexo.fge.shapes.Star"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=9;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;STAR&quot;)" opaque="false" name="StarPanel">
+		<FIBVariable name="star"
+			value="($org.openflexo.fge.shapes.Star)data.shapeSpecification"
+			type="org.openflexo.fge.shapes.Star" />
 		<Label label="points_number" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
 		<Number allowsNull="false" minValue="3" maxValue="255"
 			increment="1" numberType="IntegerType" columns="3" index="2"
-			data="StarPanel.data.nPoints"
+			data="star.nPoints"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="StarPointsNumber" localize="true" />
 		<Label label="start_angle" index="2"
@@ -197,7 +207,7 @@
 			localize="true" />
 		<Number allowsNull="false" minValue="-360" maxValue="360"
 			increment="5" numberType="IntegerType" columns="3" index="3"
-			data="StarPanel.data.startAngle"
+			data="star.startAngle"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="StarStartAngle" localize="true" />
 		<Label label="ratio" index="4"
@@ -205,7 +215,7 @@
 			localize="true" />
 		<Number allowsNull="false" minValue="0.0" maxValue="1.0"
 			increment="0.05" numberType="FloatType" columns="3" index="5"
-			data="StarPanel.data.ratio"
+			data="star.ratio"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="StarRatio" localize="true" />
 		<Dependancy componentName="shapeTypeDropdown" />
@@ -213,16 +223,17 @@
 	<Panel layout="twocols" border="rounded3d" borderTitle=""
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="10"
-		data="($org.openflexo.fge.shapes.Arc)data.shapeSpecification"
-		dataClassName="org.openflexo.fge.shapes.Arc"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=10;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;ARC&quot;)" opaque="false" name="ArcPanel">
+		<FIBVariable name="arc"
+			value="($org.openflexo.fge.shapes.Arc)data.shapeSpecification"
+			type="org.openflexo.fge.shapes.Arc" />
 		<Label label="start_angle" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
 		<Number allowsNull="false" minValue="-360" maxValue="360"
 			increment="5" numberType="IntegerType" columns="3" index="2"
-			data="ArcPanel.data.angleStart"
+			data="arc.angleStart"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="ArcStartAngle" localize="true" />
 		<Label label="angle_extent" index="2"
@@ -230,13 +241,13 @@
 			localize="true" />
 		<Number allowsNull="false" minValue="-360" maxValue="360"
 			increment="5" numberType="IntegerType" columns="3" index="3"
-			data="ArcPanel.data.angleExtent"
+			data="arc.angleExtent"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="ArcAngleExtent" localize="true" />
 		<Label label="arc_type" index="4"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
-		<DropDown index="5" data="ArcPanel.data.arcType"
+		<DropDown index="5" data="arc.arcType"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="arcTypeDropdown" format="object.name.toLowerCase" localize="true"
 			staticList="" iteratorClassName="org.openflexo.fge.geom.FGEArc$ArcType"
@@ -247,17 +258,18 @@
 	<Panel layout="twocols" border="rounded3d" borderTitle=""
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="8"
-		data="($org.openflexo.fge.shapes.Chevron)data.shapeSpecification"
-		dataClassName="org.openflexo.fge.shapes.Chevron"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=8;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;CHEVRON&quot;)" opaque="false" name="ChevronPanel">
+		<FIBVariable name="chevron"
+			value="($org.openflexo.fge.shapes.Chevron)data.shapeSpecification"
+			type="org.openflexo.fge.shapes.Chevron" />
 		<Dependancy componentName="shapeTypeDropdown" />
 		<Label label="arrow_length" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
 		<Number allowsNull="false" minValue="0" maxValue="0.51" increment="0.02"
 			numberType="DoubleType" columns="3" index="2"
-			data="ChevronPanel.data.arrowLength"
+			data="chevron.arrowLength"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="ArrowLengthNumber" localize="true" />
 		<LocalizedDictionary />
@@ -266,16 +278,17 @@
 	<Panel layout="twocols" border="rounded3d" borderTitle=""
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="8"
-		data="($org.openflexo.fge.shapes.Plus)data.shapeSpecification"
-		dataClassName="org.openflexo.fge.shapes.Plus"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=8;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;PLUS&quot;)" opaque="false" name="PlusPanel">
+		<FIBVariable name="plus"
+			value="($org.openflexo.fge.shapes.Plus)data.shapeSpecification"
+			type="org.openflexo.fge.shapes.Plus" />
 		<Dependancy componentName="shapeTypeDropdown" />
 		<Label label="ratio" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
 		<Number allowsNull="false" minValue="0" maxValue="0.51" increment="0.02"
-			numberType="DoubleType" columns="3" index="2" data="PlusPanel.data.ratio"
+			numberType="DoubleType" columns="3" index="2" data="plus.ratio"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="RatioNumber" localize="true" />
 		<LocalizedDictionary />
@@ -284,11 +297,12 @@
 	<Panel layout="border" border="rounded3d" borderTitle=""
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="11"
-		data="($org.openflexo.fge.shapes.Polygon)data.shapeSpecification"
-		dataClassName="org.openflexo.fge.shapes.Polygon"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=11;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;CUSTOM_POLYGON&quot;)" opaque="false"
 		name="CustomPolygonPanel">
+		<FIBVariable name="polygon"
+			value="($org.openflexo.fge.shapes.Polygon)data.shapeSpecification"
+			type="org.openflexo.fge.shapes.Polygon" />
 		<Table iteratorClassName="org.openflexo.fge.geom.FGEPoint"
 			visibleRowCount="3" rowHeight="18" autoSelectFirstRow="false"
 			createNewRowOnClick="true" boundToSelectionManager="false"
@@ -298,10 +312,10 @@
 			backgroundSecondarySelectionColor="173,215,255"
 			backgroundNonSelectionColor="255,255,255" localize="true"
 			manageDynamicModel="true" name="CustomPolygonPointTable" index="0"
-			data="CustomPolygonPanel.data.points"
+			data="polygon.points"
 			constraints="border(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=center)"
 			enable="data.isSingleSelection">
-			<LabelColumn data="CustomPolygonPanel.data.points.indexOf(iterator)"
+			<LabelColumn data="polygon.points.indexOf(iterator)"
 				title="id" columnWidth="15" resizable="true" displayTitle="true"
 				name="label" />
 			<NumberColumn numberType="DoubleType" data="iterator.x"
@@ -319,15 +333,16 @@
 	<Panel layout="twocols" border="rounded3d" borderTitle=""
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="11"
-		data="($org.openflexo.fge.shapes.ComplexCurve)data.shapeSpecification"
-		dataClassName="org.openflexo.fge.shapes.ComplexCurve"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=11;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		visible="(data.styleType = &quot;COMPLEX_CURVE&quot;)" opaque="false"
 		name="ComplexCurvePanel">
+		<FIBVariable name="curve"
+			value="($org.openflexo.fge.shapes.ComplexCurve)data.shapeSpecification"
+			type="org.openflexo.fge.shapes.ComplexCurve" />
 		<Label label="closure" index="4"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 			localize="true" />
-		<DropDown index="5" data="ComplexCurvePanel.data.closure"
+		<DropDown index="5" data="curve.closure"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			name="arcTypeDropdown" format="object.name.toLowerCase" localize="true"
 			staticList="" iteratorClassName="org.openflexo.fge.geom.FGEGeneralShape$Closure"
@@ -342,9 +357,9 @@
 			backgroundSecondarySelectionColor="173,215,255"
 			backgroundNonSelectionColor="255,255,255" localize="true"
 			manageDynamicModel="true" name="ComplexCurvePointTable" index="5"
-			data="CustomPolygonPanel.data.points"
+			data="curve.points"
 			constraints="twocols(expandHorizontally=true;expandVertically=true;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=center)">
-			<LabelColumn data="ComplexCurvePanel.data.points.indexOf(iterator)"
+			<LabelColumn data="curve.points.indexOf(iterator)"
 				title="id" columnWidth="15" resizable="true" displayTitle="true"
 				name="label" />
 			<NumberColumn numberType="DoubleType" data="iterator.x"

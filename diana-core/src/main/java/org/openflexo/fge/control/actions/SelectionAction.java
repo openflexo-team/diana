@@ -49,8 +49,8 @@ public class SelectionAction extends MouseClickControlActionImpl<DianaInteractiv
 
 	@Override
 	public boolean handleClick(DrawingTreeNode<?, ?> node, DianaInteractiveViewer<?, ?, ?> editor, MouseControlContext context) {
-		if (editor instanceof DianaInteractiveViewer) {
-			DianaInteractiveViewer<?, ?, ?> controller = (DianaInteractiveViewer<?, ?, ?>) editor;
+		if (editor != null) {
+			DianaInteractiveViewer<?, ?, ?> controller = editor;
 			if (controller.getDrawingView() == null) {
 				return false;
 			}

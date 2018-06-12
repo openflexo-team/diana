@@ -27,7 +27,7 @@ public class DianaTreeLayout<V, E> extends TreeLayout<V, E> {
 
 	@Override
 	protected void buildTree() {
-		verticesByRows = new HashMap<Integer, List<V>>();
+		verticesByRows = new HashMap<>();
 		super.buildTree();
 		/*for (V n : getGraph().getVertices()) {
 			int depth = getDepth(n);
@@ -51,7 +51,7 @@ public class DianaTreeLayout<V, E> extends TreeLayout<V, E> {
 		// System.out.println("Base position " + basePositions.get(n) + " depth=" + depth + " for node " + n);
 		List<V> l = verticesByRows.get(depth);
 		if (l == null) {
-			l = new ArrayList<V>();
+			l = new ArrayList<>();
 			verticesByRows.put(depth, l);
 		}
 		l.add(n);
@@ -60,7 +60,7 @@ public class DianaTreeLayout<V, E> extends TreeLayout<V, E> {
 	protected int getDepth(V node) {
 		if (getGraph().getPredecessorCount(node) > 0) {
 			int returned = -1;
-			List<V> predecessors = new ArrayList<V>(getGraph().getPredecessors(node));
+			List<V> predecessors = new ArrayList<>(getGraph().getPredecessors(node));
 			for (int i = 0; i < predecessors.size(); i++) {
 				int parentDepth = getDepth(predecessors.get(i));
 				if (parentDepth + 1 > returned) {

@@ -41,10 +41,12 @@ package org.openflexo.fge;
 import org.openflexo.connie.Bindable;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.layout.BalloonLayoutManagerSpecification;
+import org.openflexo.fge.layout.FlowLayoutManagerSpecification;
 import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
 import org.openflexo.fge.layout.GraphBasedLayoutManagerSpecification;
 import org.openflexo.fge.layout.GridLayoutManagerSpecification;
 import org.openflexo.fge.layout.ISOMGraphLayoutManagerSpecification;
+import org.openflexo.fge.layout.OutlineLayoutManagerSpecification;
 import org.openflexo.fge.layout.RadialTreeLayoutManagerSpecification;
 import org.openflexo.fge.layout.TreeBasedLayoutManagerSpecification;
 import org.openflexo.fge.layout.TreeLayoutManagerSpecification;
@@ -55,7 +57,6 @@ import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLAttribute;
-import org.openflexo.model.factory.KeyValueCoding;
 
 /**
  * Represents the specification of a LayoutManager in DIANA<br>
@@ -64,9 +65,10 @@ import org.openflexo.model.factory.KeyValueCoding;
  * 
  */
 @ModelEntity(isAbstract = true)
-@Imports({ @Import(GridLayoutManagerSpecification.class), @Import(GraphBasedLayoutManagerSpecification.class),
+@Imports({ @Import(GridLayoutManagerSpecification.class), @Import(OutlineLayoutManagerSpecification.class),
+		@Import(FlowLayoutManagerSpecification.class), @Import(GraphBasedLayoutManagerSpecification.class),
 		@Import(TreeBasedLayoutManagerSpecification.class) })
-public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>> extends FGEObject, Bindable, KeyValueCoding {
+public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>> extends FGEObject, Bindable {
 
 	/**
 	 * Exhaustive list of all available {@link FGELayoutManagerSpecification}
@@ -96,6 +98,17 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 				return "grid";
 			}
 		},
+		OUTLINE {
+			@Override
+			public Class<OutlineLayoutManagerSpecification> getLayoutManagerSpecificationClass() {
+				return OutlineLayoutManagerSpecification.class;
+			}
+
+			@Override
+			public String getDefaultLayoutManagerName() {
+				return "outline";
+			}
+		},
 		FORCE_DIRECTED_GRAPH {
 			@Override
 			public Class<ForceDirectedGraphLayoutManagerSpecification> getLayoutManagerSpecificationClass() {
@@ -119,6 +132,7 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 			}
 		},
 		TREE_LAYOUT {
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
 			public Class<TreeLayoutManagerSpecification<?>> getLayoutManagerSpecificationClass() {
 				return (Class) TreeLayoutManagerSpecification.class;
@@ -130,6 +144,7 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 			}
 		},
 		BALLOON_LAYOUT {
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
 			public Class<BalloonLayoutManagerSpecification<?>> getLayoutManagerSpecificationClass() {
 				return (Class) BalloonLayoutManagerSpecification.class;
@@ -141,6 +156,7 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 			}
 		},
 		RADIAL_TREE {
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
 			public Class<RadialTreeLayoutManagerSpecification<?>> getLayoutManagerSpecificationClass() {
 				return (Class) RadialTreeLayoutManagerSpecification.class;
@@ -149,6 +165,17 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 			@Override
 			public String getDefaultLayoutManagerName() {
 				return "radial-tree";
+			}
+		},
+		FLOW {
+			@Override
+			public Class<FlowLayoutManagerSpecification> getLayoutManagerSpecificationClass() {
+				return FlowLayoutManagerSpecification.class;
+			}
+
+			@Override
+			public String getDefaultLayoutManagerName() {
+				return "flow";
 			}
 		};
 
@@ -174,8 +201,8 @@ public interface FGELayoutManagerSpecification<LM extends FGELayoutManager<?, ?>
 			String.class);
 	public static GRProperty<Boolean> PAINT_DECORATION = GRProperty.getGRParameter(FGELayoutManagerSpecification.class,
 			PAINT_DECORATION_KEY, Boolean.class);
-	public static GRProperty<DraggingMode> DRAGGING_MODE = GRProperty.getGRParameter(FGELayoutManagerSpecification.class,
-			DRAGGING_MODE_KEY, DraggingMode.class);
+	public static GRProperty<DraggingMode> DRAGGING_MODE = GRProperty.getGRParameter(FGELayoutManagerSpecification.class, DRAGGING_MODE_KEY,
+			DraggingMode.class);
 	public static GRProperty<Boolean> ANIMATE_LAYOUT = GRProperty.getGRParameter(FGELayoutManagerSpecification.class, ANIMATE_LAYOUT_KEY,
 			Boolean.class);
 	public static GRProperty<Integer> ANIMATION_STEPS_NUMBER = GRProperty.getGRParameter(FGELayoutManagerSpecification.class,

@@ -47,8 +47,8 @@ public class MultipleSelectionAction extends MouseClickControlActionImpl<DianaIn
 
 	@Override
 	public boolean handleClick(DrawingTreeNode<?, ?> node, DianaInteractiveViewer<?, ?, ?> editor, MouseControlContext context) {
-		if (editor instanceof DianaInteractiveViewer) {
-			DianaInteractiveViewer<?, ?, ?> controller = (DianaInteractiveViewer<?, ?, ?>) editor;
+		if (editor != null) {
+			DianaInteractiveViewer<?, ?, ?> controller = editor;
 			if (node.getGraphicalRepresentation().getIsSelectable()) {
 				controller.toggleSelection(node);
 				return true;

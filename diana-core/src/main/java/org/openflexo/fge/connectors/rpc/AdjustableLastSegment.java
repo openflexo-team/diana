@@ -91,7 +91,8 @@ public class AdjustableLastSegment extends RectPolylinAdjustableSegment {
 		if (!previousSegment.containsPoint(currentSegment.getP2())) {
 			FGEHalfPlane hp = new FGEHalfPlane(previousSegment, currentSegment.getP2());
 			draggingAuthorizedArea = orthogonalPerspectiveArea.intersect(hp);
-		} else {
+		}
+		else {
 			draggingAuthorizedArea = orthogonalPerspectiveArea;
 		}
 
@@ -133,9 +134,11 @@ public class AdjustableLastSegment extends RectPolylinAdjustableSegment {
 		p2 = endArea.nearestPointFrom(pt, currentOrientation);
 		if (currentOrientation.isHorizontal()) {
 			p1.y = pt.y;
-		} else if (currentOrientation.isVertical()) {
+		}
+		else if (currentOrientation.isVertical()) {
 			p1.x = pt.x;
-		} else {
+		}
+		else {
 			LOGGER.warning("Inconsistent data while managing adjustable segment in RectPolylinConnectorSpecification");
 			return false;
 		}

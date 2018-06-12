@@ -97,27 +97,31 @@ public interface FGEShape<O extends FGEGeometricObject<O>> extends FGEGeometricO
 					if (shape1 instanceof FGEPolygon) {
 						if (shape2 instanceof FGEPolygon) {
 							return ((FGEPolygon) shape1).getOutline().intersect(((FGEPolygon) shape2).getOutline());
-						} else if (shape2 instanceof FGERectangle) {
+						}
+						else if (shape2 instanceof FGERectangle) {
 							return ((FGEPolygon) shape1).getOutline().intersect(((FGERectangle) shape2).getOutline());
 						}
-					} else if (shape1 instanceof FGERectangle) {
+					}
+					else if (shape1 instanceof FGERectangle) {
 						if (shape2 instanceof FGEPolygon) {
 							return ((FGERectangle) shape1).getOutline().intersect(((FGEPolygon) shape2).getOutline());
-						} else if (shape2 instanceof FGERectangle) {
+						}
+						else if (shape2 instanceof FGERectangle) {
 							return ((FGERectangle) shape1).getOutline().intersect(((FGERectangle) shape2).getOutline());
 						}
 					}
 				}
 				return returned;
-			} else {
+			}
+			else {
 				logger.warning("Non-polygonal shapes not supported yet...");
 				return new FGEEmptyArea();
 			}
 		}
 
 		protected static FGEArea makePolygonalShapeFromPathIterator(PathIterator pathIterator) {
-			Vector<FGEPolygon> polygons = new Vector<FGEPolygon>();
-			Vector<FGEPoint> currentPolygon = new Vector<FGEPoint>();
+			Vector<FGEPolygon> polygons = new Vector<>();
+			Vector<FGEPoint> currentPolygon = new Vector<>();
 
 			while (!pathIterator.isDone()) {
 				double[] coords = new double[6];
@@ -125,22 +129,22 @@ public interface FGEShape<O extends FGEGeometricObject<O>> extends FGEGeometricO
 				@SuppressWarnings("unused")
 				String pathType = "";
 				switch (i) {
-				case PathIterator.SEG_LINETO:
-					pathType = "SEG_LINETO";
-					currentPolygon.add(new FGEPoint(coords[0], coords[1]));
-					break;
-				case PathIterator.SEG_MOVETO:
-					pathType = "SEG_MOVETO";
-					currentPolygon = new Vector<FGEPoint>();
-					currentPolygon.add(new FGEPoint(coords[0], coords[1]));
-					break;
-				case PathIterator.SEG_CLOSE:
-					pathType = "SEG_CLOSE";
-					polygons.add(new FGEPolygon(Filling.FILLED, currentPolygon));
-					break;
-				default:
-					logger.warning("Unexpected PathIterator item found: " + i);
-					return new FGEEmptyArea();
+					case PathIterator.SEG_LINETO:
+						pathType = "SEG_LINETO";
+						currentPolygon.add(new FGEPoint(coords[0], coords[1]));
+						break;
+					case PathIterator.SEG_MOVETO:
+						pathType = "SEG_MOVETO";
+						currentPolygon = new Vector<>();
+						currentPolygon.add(new FGEPoint(coords[0], coords[1]));
+						break;
+					case PathIterator.SEG_CLOSE:
+						pathType = "SEG_CLOSE";
+						polygons.add(new FGEPolygon(Filling.FILLED, currentPolygon));
+						break;
+					default:
+						logger.warning("Unexpected PathIterator item found: " + i);
+						return new FGEEmptyArea();
 				}
 				// logger.info(pathType+" "+coords[0]+" "+coords[1]+" "+coords[2]+" "+coords[3]+" "+coords[4]+" "+coords[5]);
 				pathIterator.next();
@@ -162,12 +166,12 @@ public interface FGEShape<O extends FGEGeometricObject<O>> extends FGEGeometricO
 			while (!pathIterator.isDone()) {
 				int i = pathIterator.currentSegment(coords);
 				switch (i) {
-				case PathIterator.SEG_CUBICTO:
-					return false;
-				case PathIterator.SEG_QUADTO:
-					return false;
-				default:
-					break;
+					case PathIterator.SEG_CUBICTO:
+						return false;
+					case PathIterator.SEG_QUADTO:
+						return false;
+					default:
+						break;
 				}
 				pathIterator.next();
 			}
@@ -184,23 +188,23 @@ public interface FGEShape<O extends FGEGeometricObject<O>> extends FGEGeometricO
 				int i = pi.currentSegment(coords);
 				String pathType = "";
 				switch (i) {
-				case PathIterator.SEG_LINETO:
-					pathType = "SEG_LINETO";
-					break;
-				case PathIterator.SEG_MOVETO:
-					pathType = "SEG_MOVETO";
-					break;
-				case PathIterator.SEG_CUBICTO:
-					pathType = "SEG_CUBICTO";
-					break;
-				case PathIterator.SEG_QUADTO:
-					pathType = "SEG_QUADTO";
-					break;
-				case PathIterator.SEG_CLOSE:
-					pathType = "SEG_CLOSE";
-					break;
-				default:
-					break;
+					case PathIterator.SEG_LINETO:
+						pathType = "SEG_LINETO";
+						break;
+					case PathIterator.SEG_MOVETO:
+						pathType = "SEG_MOVETO";
+						break;
+					case PathIterator.SEG_CUBICTO:
+						pathType = "SEG_CUBICTO";
+						break;
+					case PathIterator.SEG_QUADTO:
+						pathType = "SEG_QUADTO";
+						break;
+					case PathIterator.SEG_CLOSE:
+						pathType = "SEG_CLOSE";
+						break;
+					default:
+						break;
 				}
 				System.out.println(pathType + " " + coords[0] + " " + coords[1] + " " + coords[2] + " " + coords[3] + " " + coords[4] + " "
 						+ coords[5]);

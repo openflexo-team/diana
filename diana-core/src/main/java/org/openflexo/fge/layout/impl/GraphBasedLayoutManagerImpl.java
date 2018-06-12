@@ -69,7 +69,7 @@ import edu.uci.ics.jung.graph.Graph;
  * 
  */
 public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutManagerSpecification<?>, O>
-		extends FGELayoutManagerImpl<LMS, O>implements GraphBasedLayoutManager<LMS, O> {
+		extends FGELayoutManagerImpl<LMS, O> implements GraphBasedLayoutManager<LMS, O> {
 
 	private static final Logger logger = Logger.getLogger(GraphBasedLayoutManagerImpl.class.getPackage().getName());
 
@@ -143,7 +143,7 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 	public void initLayout() {
 		super.initLayout();
 
-		graph = new DirectedOrderedSparseMultigraph<ShapeNode<?>, ConnectorNode<?>>();
+		graph = new DirectedOrderedSparseMultigraph<>();
 
 		for (DrawingTreeNode<?, ?> dtn : getContainerNode().getChildNodes()) {
 			if (dtn instanceof ShapeNode) {
@@ -172,8 +172,8 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 
 		super.computeLayout();
 
-		Map<ShapeNode<?>, Double> xMap = new HashMap<ShapeNode<?>, Double>();
-		Map<ShapeNode<?>, Double> yMap = new HashMap<ShapeNode<?>, Double>();
+		Map<ShapeNode<?>, Double> xMap = new HashMap<>();
+		Map<ShapeNode<?>, Double> yMap = new HashMap<>();
 
 		for (ShapeNode<?> shapeNode : getLayoutedNodes()) {
 			getLayout().setLocation(shapeNode, shapeNode.getX(), shapeNode.getY());
@@ -195,12 +195,12 @@ public abstract class GraphBasedLayoutManagerImpl<LMS extends GraphBasedLayoutMa
 		}
 
 		if (animateLayout() && !layoutInProgress) {
-			List<TranslationTransition> transitions = new ArrayList<TranslationTransition>();
+			List<TranslationTransition> transitions = new ArrayList<>();
 			for (ShapeNode<?> shapeNode : getLayoutedNodes()) {
 				transitions.add(new TranslationTransition(shapeNode, new FGEPoint(xMap.get(shapeNode), yMap.get(shapeNode)),
 						new FGEPoint(getLayout().getX(shapeNode), getLayout().getY(shapeNode))));
-				//System.out.println("-----------> Node " + shapeNode + " moved from " + xMap.get(shapeNode) + "," + yMap.get(shapeNode)
-				//		+ " to " + getLayout().getX(shapeNode) + "," + getLayout().getY(shapeNode));
+				// System.out.println("-----------> Node " + shapeNode + " moved from " + xMap.get(shapeNode) + "," + yMap.get(shapeNode)
+				// + " to " + getLayout().getX(shapeNode) + "," + getLayout().getY(shapeNode));
 			}
 
 			AnimationImpl.performTransitions(transitions, getAnimationStepsNumber(), getContainerNode().getDrawing());

@@ -55,7 +55,7 @@ import org.openflexo.fge.shapes.Plus;
 public abstract class PlusImpl extends ShapeSpecificationImpl implements Plus {
 
 	/** Ratio of cut of the base rectangle. 0.5 is no short side. */
-	private double	ratio	= 0.25;
+	private double ratio = 0.25;
 
 	public PlusImpl() {
 		super();
@@ -73,7 +73,6 @@ public abstract class PlusImpl extends ShapeSpecificationImpl implements Plus {
 	 *            0 < ratio < 0.5, handled in serialization
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public void setRatio(final double aRatio) {
 		final FGEAttributeNotification<Double> notification = this.requireChange(RATIO, aRatio);
 		if (notification != null) {

@@ -1,0 +1,35 @@
+dependencies {
+  compile project(':diana-geom')
+  compile project(':diana-api')
+  compile project(':diana-core')
+  testCompile project(':diana-core-test')
+
+  compile ginaSwing()
+  testCompile ginaTest()
+  testCompile ginaReplayTest()
+}
+// To be able to use private apple api
+compileJava {
+    options.compilerArgs << "-XDignore.symbol.file=true"
+    options.fork = true
+    options.forkOptions.executable = 'javac'
+}
+if (JavaVersion.current().isJava9Compatible()) {
+	tasks.withType(JavaCompile) {
+		options.compilerArgs.addAll(['--add-exports', 'java.desktop/sun.awt.image=ALL-UNNAMED'])
+		options.compilerArgs.addAll(['--add-exports', 'java.desktop/sun.awt.dnd=ALL-UNNAMED'])
+    }
+}
+task nonuiTest(type: Test) {
+  ignoreFailures = true
+  include '**/TestDianaFibs.class'
+  jvmArgs += ["-Djava.awt.headless=true"]
+}
+
+task uiTest(type: Test,dependsOn: 'nonuiTest') {
+  ignoreFailures = true
+  exclude '**/TestDianaFibs.class'
+}
+
+task test(overwrite: true,dependsOn: 'uiTest') {
+}

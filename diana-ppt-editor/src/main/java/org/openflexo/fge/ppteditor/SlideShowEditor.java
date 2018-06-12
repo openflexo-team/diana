@@ -45,6 +45,7 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -62,11 +63,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.apache.poi.hslf.model.Shape;
-import org.apache.poi.hslf.model.Slide;
-import org.apache.poi.hslf.usermodel.SlideShow;
-import org.openflexo.localization.FlexoLocalization;
+import org.apache.poi.sl.usermodel.Shape;
+import org.apache.poi.sl.usermodel.Slide;
+import org.apache.poi.sl.usermodel.SlideShow;
+import org.apache.poi.sl.usermodel.SlideShowFactory;
 import org.openflexo.logging.FlexoLogger;
+import org.openflexo.rm.FileSystemResourceLocatorImpl;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.swing.VerticalLayout;
 
@@ -74,7 +76,7 @@ public class SlideShowEditor extends JPanel {
 
 	private static final Logger logger = FlexoLogger.getLogger(SlideShowEditor.class.getPackage().getName());
 
-	private SlideShow slideShow;
+	private SlideShow<?, ?> slideShow;
 	private int index;
 	private File file = null;
 	private PPTEditorApplication application;
@@ -84,9 +86,8 @@ public class SlideShowEditor extends JPanel {
 
 		SlideShowEditor returned = new SlideShowEditor(application);
 
-		try {
-			FileInputStream fis = new FileInputStream(file);
-			returned.slideShow = new SlideShow(fis);
+		try (FileInputStream fis = new FileInputStream(file)) {
+			returned.slideShow = SlideShowFactory.create(fis);
 			returned.file = file;
 			System.out.println("Loaded " + file.getAbsolutePath());
 			returned.init();
@@ -108,27 +109,26 @@ public class SlideShowEditor extends JPanel {
 	private void init() {
 		JPanel miniatures = new JPanel();
 		miniatures.setLayout(new VerticalLayout(10, 30, 10));
-		for (Slide s : slideShow.getSlides()) {
+		for (Slide<?, ?> s : slideShow.getSlides()) {
 			miniatures.add(getMiniature(s));
 		}
 		add(new JScrollPane(miniatures, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER),
 				BorderLayout.WEST);
-		select(slideShow.getSlides()[0]);
+		select(slideShow.getSlides().get(0));
 	}
 
 	public String getTitle() {
 		if (file != null) {
 			return file.getName();
-		} else {
-			return FlexoLocalization.localizedForKey(PPTEditorApplication.LOCALIZATION, "untitled") + "-" + index;
 		}
+		return PPTEditorApplication.PPT_EDITOR_LOCALIZATION.localizedForKey("untitled") + "-" + index;
 	}
 
 	public boolean save() {
 		System.out.println("Saving " + file);
 
-		try {
-			slideShow.write(new FileOutputStream(file));
+		try (FileOutputStream fos = new FileOutputStream(file)) {
+			slideShow.write(fos);
 			System.out.println("Saved " + file.getAbsolutePath());
 			return true;
 		} catch (FileNotFoundException e1) {
@@ -176,38 +176,36 @@ public class SlideShowEditor extends JPanel {
 	}
 
 	public static void main(String[] args) {
-		InputStream fis;
-
-		
-		try {
-			fis = (ResourceLocator.locateResource("TestPPT2.ppt")).openInputStream();
-			SlideShow ssOpenned = new SlideShow(fis);
+		final FileSystemResourceLocatorImpl fsrl = new FileSystemResourceLocatorImpl();
+		fsrl.appendToDirectories(System.getProperty("user.dir"));
+		ResourceLocator.appendDelegate(fsrl);
+		try (InputStream fis = (ResourceLocator
+				.locateResource("/Users/sylvain/GIT-1.9.0/diana/diana-ppt-editor/src/test/resources/ppt/TestPPT2.ppt")).openInputStream()) {
+			SlideShow<?, ?> ssOpenned = SlideShowFactory.create(fis);
 			System.out.println("Yes, j'ai ouvert le truc");
-			System.out.println("Slides:" + ssOpenned.getSlides().length);
-			Slide slide = ssOpenned.getSlides()[0];
-			System.out.println("shapes=" + slide.getShapes().length);
-			for (Shape s : slide.getShapes()) {
+			System.out.println("Slides:" + ssOpenned.getSlides().size());
+			Slide<?, ?> slide = ssOpenned.getSlides().get(0);
+			System.out.println("shapes=" + slide.getShapes().size());
+			for (Shape<?, ?> s : slide.getShapes()) {
 				System.out.println("Shape: " + s);
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
 
-	private Slide currentSlide = null;
+	private Slide<?, ?> currentSlide = null;
 
 	public void select(Slide slide) {
 		if (currentSlide != null) {
 			remove(getEditor(currentSlide).getDrawingView());
 		}
-		System.out.println("selecting " + slide);
+		// System.out.println("selecting " + slide);
 		currentSlide = slide;
-		for (Slide s : slideShow.getSlides()) {
+		for (Slide<?, ?> s : slideShow.getSlides()) {
 			getMiniature(s).setBorder(s == slide ? BorderFactory.createLineBorder(Color.BLUE, 2) : BorderFactory.createEmptyBorder());
 		}
 		add(getEditor(slide).getDrawingView(), BorderLayout.CENTER);
@@ -224,7 +222,7 @@ public class SlideShowEditor extends JPanel {
 		slideShow.getSlides()[0].draw((Graphics2D) g);
 	}*/
 
-	private Map<Slide, MiniatureSlidePanel> miniatures = new HashMap<Slide, SlideShowEditor.MiniatureSlidePanel>();
+	private Map<Slide, MiniatureSlidePanel> miniatures = new HashMap<>();
 
 	protected MiniatureSlidePanel getMiniature(Slide s) {
 		MiniatureSlidePanel returned = miniatures.get(s);
@@ -235,9 +233,9 @@ public class SlideShowEditor extends JPanel {
 		return returned;
 	}
 
-	private Map<Slide, SlideEditor> editors = new HashMap<Slide, SlideEditor>();
+	private Map<Slide<?, ?>, SlideEditor> editors = new HashMap<>();
 
-	protected SlideEditor getEditor(Slide s) {
+	protected SlideEditor getEditor(Slide<?, ?> s) {
 		SlideEditor returned = editors.get(s);
 		if (returned == null) {
 			SlideDrawing sDrawing = new SlideDrawing(s);
@@ -260,6 +258,11 @@ public class SlideShowEditor extends JPanel {
 
 			BufferedImage i = new BufferedImage((int) WIDTH, (int) (WIDTH * d.height / d.width), BufferedImage.TYPE_INT_RGB);
 			Graphics2D graphics = i.createGraphics();
+
+			// clear the drawing area
+			graphics.setPaint(Color.white);
+			graphics.fill(new Rectangle2D.Float(0, 0, (int) WIDTH, (int) (WIDTH * d.height / d.width)));
+
 			graphics.transform(AffineTransform.getScaleInstance(WIDTH / d.width, WIDTH / d.width));
 			s.draw(graphics);
 			setIcon(new ImageIcon(i));

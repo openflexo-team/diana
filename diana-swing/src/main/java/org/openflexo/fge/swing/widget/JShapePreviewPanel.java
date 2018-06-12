@@ -67,12 +67,12 @@ import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.fge.swing.JDianaViewer;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.view.widget.ShapePreviewPanel;
-import org.openflexo.fib.controller.FIBController;
-import org.openflexo.fib.model.FIBCustom;
+import org.openflexo.gina.controller.FIBController;
+import org.openflexo.gina.model.widget.FIBCustom;
 import org.openflexo.swing.CustomPopup.ApplyCancelListener;
 
 @SuppressWarnings("serial")
-public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel<JShapePreviewPanel> {
+public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel {
 
 	static final Logger logger = Logger.getLogger(JShapePreviewPanel.class.getPackage().getName());
 
@@ -116,18 +116,18 @@ public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel<JSha
 			public void init() {
 				final DrawingGRBinding<JShapePreviewPanel> previewPanelBinding = bindDrawing(JShapePreviewPanel.class, "previewPanel",
 						new DrawingGRProvider<JShapePreviewPanel>() {
-							@Override
-							public DrawingGraphicalRepresentation provideGR(JShapePreviewPanel drawable, FGEModelFactory factory) {
-								return drawingGR;
-							}
-						});
+					@Override
+					public DrawingGraphicalRepresentation provideGR(JShapePreviewPanel drawable, FGEModelFactory factory) {
+						return drawingGR;
+					}
+				});
 				final ShapeGRBinding<JShapePreviewPanel> shapeBinding = bindShape(JShapePreviewPanel.class, "line",
 						new ShapeGRProvider<JShapePreviewPanel>() {
-							@Override
-							public ShapeGraphicalRepresentation provideGR(JShapePreviewPanel drawable, FGEModelFactory factory) {
-								return shapeGR;
-							}
-						});
+					@Override
+					public ShapeGraphicalRepresentation provideGR(JShapePreviewPanel drawable, FGEModelFactory factory) {
+						return shapeGR;
+					}
+				});
 
 				previewPanelBinding.addToWalkers(new GRStructureVisitor<JShapePreviewPanel>() {
 
@@ -157,7 +157,7 @@ public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel<JSha
 		shapeGR.setIsSelectable(false);
 		shapeGR.setIsFocusable(false);
 		shapeGR.setIsReadOnly(true);
-		shapeGR.setBorder(factory.makeShapeBorder(getBorderSize(), getBorderSize(), getBorderSize(), getBorderSize()));
+		// shapeGR.setBorder(factory.makeShapeBorder(getBorderSize(), getBorderSize(), getBorderSize(), getBorderSize()));
 
 		controller = new JDianaViewer<JShapePreviewPanel>(drawing, factory, SwingToolFactory.DEFAULT);
 		add(controller.getDrawingView());
@@ -171,7 +171,8 @@ public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel<JSha
 	public float getRatio() {
 		if (getShape().areDimensionConstrained()) {
 			return 1.0f;
-		} else {
+		}
+		else {
 			return RATIO;
 		}
 	}
@@ -182,7 +183,7 @@ public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel<JSha
 
 	public void setBorderSize(int border) {
 		this.border = border;
-		shapeGR.setBorder(factory.makeShapeBorder(getBorderSize(), getBorderSize(), getBorderSize(), getBorderSize()));
+		// shapeGR.setBorder(factory.makeShapeBorder(getBorderSize(), getBorderSize(), getBorderSize(), getBorderSize()));
 		shapeGR.setX(getShapeX());
 		shapeGR.setY(getShapeY());
 		shapeGR.setWidth(getShapeWidth());
@@ -196,24 +197,27 @@ public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel<JSha
 
 	private int getShapeX() {
 		if (sizeConstrainedWithWidth()) {
-			return 0;
-		} else {
-			return (getPanelWidth() - getShapeWidth()) / 2 - getBorderSize();
+			return getBorderSize();
+		}
+		else {
+			return (getPanelWidth() - getShapeWidth()) / 2/* - getBorderSize()*/;
 		}
 	}
 
 	private int getShapeY() {
 		if (sizeConstrainedWithWidth()) {
-			return (getPanelHeight() - getShapeHeight()) / 2 - getBorderSize();
-		} else {
-			return 0;
+			return (getPanelHeight() - getShapeHeight()) / 2/* - getBorderSize()*/;
+		}
+		else {
+			return getBorderSize();
 		}
 	}
 
 	private int getShapeWidth() {
 		if (sizeConstrainedWithWidth()) {
 			return getPanelWidth() - 2 * getBorderSize();
-		} else {
+		}
+		else {
 			return (int) (getShapeHeight() / getRatio());
 		}
 	}
@@ -221,7 +225,8 @@ public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel<JSha
 	private int getShapeHeight() {
 		if (sizeConstrainedWithWidth()) {
 			return (int) (getShapeWidth() * getRatio());
-		} else {
+		}
+		else {
 			return getPanelHeight() - 2 * getBorderSize();
 		}
 	}
@@ -288,11 +293,6 @@ public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel<JSha
 	}
 
 	@Override
-	public JShapePreviewPanel getJComponent() {
-		return this;
-	}
-
-	@Override
 	public ShapeSpecification getEditedObject() {
 		return getShape();
 	}
@@ -330,7 +330,7 @@ public class JShapePreviewPanel extends JPanel implements ShapePreviewPanel<JSha
 
 	/*public class RepresentedDrawing {
 	}
-
+	
 	public class RepresentedShape {
 		public ShapeSpecification getRepresentedShape() {
 			return getShape();

@@ -69,6 +69,9 @@ import org.openflexo.model.annotations.XMLElement;
 @ModelEntity(isAbstract = true)
 public interface ContainerGraphicalRepresentation extends GraphicalRepresentation {
 
+	public static final double DEFAULT_WIDTH = 100;
+	public static final double DEFAULT_HEIGHT = 100;
+
 	// Property keys
 
 	@PropertyIdentifier(type = Double.class)
@@ -134,14 +137,14 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 	// * Properties
 	// *******************************************************************************
 
-	@Getter(value = WIDTH_KEY, defaultValue = "100")
+	@Getter(value = WIDTH_KEY, defaultValue = "" + DEFAULT_WIDTH)
 	@XMLAttribute
 	public abstract double getWidth();
 
 	@Setter(value = WIDTH_KEY)
 	public abstract void setWidth(double aValue);
 
-	@Getter(value = HEIGHT_KEY, defaultValue = "100")
+	@Getter(value = HEIGHT_KEY, defaultValue = "" + DEFAULT_HEIGHT)
 	@XMLAttribute
 	public abstract double getHeight();
 

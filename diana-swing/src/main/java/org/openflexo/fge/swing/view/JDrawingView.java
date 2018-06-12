@@ -129,7 +129,7 @@ import org.openflexo.swing.MouseResizer;
  *            the type of represented model
  */
 @SuppressWarnings("serial")
-public class JDrawingView<M> extends JDianaLayeredView<M>implements Autoscroll, DrawingView<M, JLayeredPane> {
+public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll, DrawingView<M, JLayeredPane> {
 
 	private static final Logger logger = Logger.getLogger(JDrawingView.class.getPackage().getName());
 
@@ -372,16 +372,10 @@ public class JDrawingView<M> extends JDianaLayeredView<M>implements Autoscroll, 
 			return;
 		}
 		if (!SwingUtilities.isEventDispatchThread()) {
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					propertyChange(evt);
-				}
-			});
+			SwingUtilities.invokeLater(() -> propertyChange(evt));
 		}
 		else {
-			// logger.info("Received: "+notification);
+			// logger.info("Received: " + evt.getPropertyName() + " evt=" + evt);
 
 			if (evt.getPropertyName().equals(NodeAdded.EVENT_NAME)) {
 				handleNodeAdded((DrawingTreeNode<?, ?>) evt.getNewValue());
@@ -1292,10 +1286,10 @@ public class JDrawingView<M> extends JDianaLayeredView<M>implements Autoscroll, 
 				requiredBounds.width = 100;
 			if (requiredBounds.height < 100)
 				requiredBounds.height = 100;
-			System.out.println("requiredBounds: " + requiredBounds);
 			Rectangle croppedBounds = new Rectangle((int) requiredBounds.x, (int) requiredBounds.y, (int) (requiredBounds.width),
 					(int) (requiredBounds.height));
-			System.out.println("croppedBounds: " + croppedBounds);
+
+			croppedBounds = croppedBounds.intersection(new Rectangle(0, 0, screenshot.getWidth(), screenshot.getHeight()));
 			screenshot = screenshot.getSubimage(croppedBounds.x, croppedBounds.y, croppedBounds.width, croppedBounds.height);
 
 			if (logger.isLoggable(Level.INFO)) {

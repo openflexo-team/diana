@@ -85,6 +85,7 @@ public abstract class DrawComplexCurveToolController<ME> extends DrawCustomShape
 	 * 
 	 * @return
 	 */
+	@Override
 	public DrawingView<?, ?> getDrawingView() {
 		if (getController() != null) {
 			return getController().getDrawingView();
@@ -121,7 +122,8 @@ public abstract class DrawComplexCurveToolController<ME> extends DrawCustomShape
 		// System.out.println("Mouse clicked");
 		if (!editionHasBeenStarted()) {
 			startMouseEdition(e);
-		} else {
+		}
+		else {
 			logger.info("Edition started");
 			if (isBuildingPoints) {
 				FGEPoint newPoint = getPoint(e);
@@ -131,13 +133,15 @@ public abstract class DrawComplexCurveToolController<ME> extends DrawCustomShape
 					getShape().getPoints().lastElement().setY(newPoint.y);
 					stopMouseEdition();
 					getController().setCurrentTool(EditorTool.SelectionTool);
-				} else {
+				}
+				else {
 					// System.out.println("add point " + newPoint);
 					getShape().addToPoints(newPoint);
 				}
 				getCurrentEditedShape().rebuildControlPoints();
 				geometryChanged();
-			} else {
+			}
+			else {
 				// System.out.println("Done edited shape");
 				getController().setCurrentTool(EditorTool.SelectionTool);
 			}
@@ -181,8 +185,9 @@ public abstract class DrawComplexCurveToolController<ME> extends DrawCustomShape
 	@Override
 	public ShapeGraphicalRepresentation buildShapeGraphicalRepresentation() {
 		ShapeGraphicalRepresentation returned = getController().getFactory().makeShapeGraphicalRepresentation(ShapeType.COMPLEX_CURVE);
-		returned.setBorder(getController().getFactory().makeShapeBorder(FGEConstants.DEFAULT_BORDER_SIZE, FGEConstants.DEFAULT_BORDER_SIZE,
-				FGEConstants.DEFAULT_BORDER_SIZE, FGEConstants.DEFAULT_BORDER_SIZE));
+		// returned.setBorder(getController().getFactory().makeShapeBorder(FGEConstants.DEFAULT_BORDER_SIZE,
+		// FGEConstants.DEFAULT_BORDER_SIZE,
+		// FGEConstants.DEFAULT_BORDER_SIZE, FGEConstants.DEFAULT_BORDER_SIZE));
 		returned.setBackground(getController().getInspectedBackgroundStyle().cloneStyle());
 		returned.setForeground(getController().getInspectedForegroundStyle().cloneStyle());
 		returned.setTextStyle(getController().getInspectedTextStyle().cloneStyle());
@@ -202,7 +207,8 @@ public abstract class DrawComplexCurveToolController<ME> extends DrawCustomShape
 			FGEPoint pt = FGEUtils.convertNormalizedPoint(parentNode, new FGEPoint(0, 0), getController().getDrawing().getRoot());
 			returned.setX(boundingBox.getX() - pt.x);
 			returned.setY(boundingBox.getY() - pt.y);
-		} else {
+		}
+		else {
 			returned.setX(boundingBox.getX() - FGEConstants.DEFAULT_BORDER_SIZE);
 			returned.setY(boundingBox.getY() - FGEConstants.DEFAULT_BORDER_SIZE);
 		}

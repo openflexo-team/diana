@@ -49,7 +49,7 @@ public abstract class ColorGradientBackgroundStyleImpl extends BackgroundStyleIm
 
 	public ColorGradientBackgroundStyleImpl() {
 		this(java.awt.Color.WHITE, java.awt.Color.BLACK,
-				org.openflexo.fge.ColorGradientBackgroundStyle.ColorGradientDirection.SOUTH_EAST_NORTH_WEST);
+				org.openflexo.fge.ColorGradientBackgroundStyle.ColorGradientDirection.NORTH_WEST_SOUTH_EAST);
 	}
 
 	public ColorGradientBackgroundStyleImpl(java.awt.Color aColor1, java.awt.Color aColor2,
@@ -76,7 +76,7 @@ public abstract class ColorGradientBackgroundStyleImpl extends BackgroundStyleIm
 			java.awt.Color oldColor = color1;
 			this.color1 = aColor;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(COLOR1, oldColor, aColor));
+			notifyObservers(new FGEAttributeNotification<>(COLOR1, oldColor, aColor));
 		}
 	}
 
@@ -91,7 +91,7 @@ public abstract class ColorGradientBackgroundStyleImpl extends BackgroundStyleIm
 			java.awt.Color oldColor = color2;
 			this.color2 = aColor;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(COLOR2, oldColor, aColor));
+			notifyObservers(new FGEAttributeNotification<>(COLOR2, oldColor, aColor));
 		}
 	}
 
@@ -106,7 +106,7 @@ public abstract class ColorGradientBackgroundStyleImpl extends BackgroundStyleIm
 			ColorGradientBackgroundStyle.ColorGradientDirection oldTexture = direction;
 			this.direction = aDirection;
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(DIRECTION, oldTexture, aDirection));
+			notifyObservers(new FGEAttributeNotification<>(DIRECTION, oldTexture, aDirection));
 		}
 	}
 
@@ -115,11 +115,12 @@ public abstract class ColorGradientBackgroundStyleImpl extends BackgroundStyleIm
 		return "BackgroundStyle.COLOR_GRADIENT(" + getColor1() + "," + getColor2() + "," + getDirection() + ")";
 	}*/
 
-	private boolean requireChange(Object oldObject, Object newObject) {
+	private static boolean requireChange(Object oldObject, Object newObject) {
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;
-			} else {
+			}
+			else {
 				return true;
 			}
 		}

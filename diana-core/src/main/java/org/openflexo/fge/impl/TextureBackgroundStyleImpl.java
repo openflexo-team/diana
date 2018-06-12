@@ -76,7 +76,7 @@ public abstract class TextureBackgroundStyleImpl extends BackgroundStyleImpl imp
 			this.textureType = aTextureType;
 			// rebuildColoredTexture();
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(TEXTURE_TYPE, oldTexture, aTextureType));
+			notifyObservers(new FGEAttributeNotification<>(TEXTURE_TYPE, oldTexture, aTextureType));
 		}
 	}
 
@@ -92,7 +92,7 @@ public abstract class TextureBackgroundStyleImpl extends BackgroundStyleImpl imp
 			this.color1 = aColor;
 			// rebuildColoredTexture();
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(COLOR1, oldColor, aColor));
+			notifyObservers(new FGEAttributeNotification<>(COLOR1, oldColor, aColor));
 		}
 	}
 
@@ -108,7 +108,7 @@ public abstract class TextureBackgroundStyleImpl extends BackgroundStyleImpl imp
 			this.color2 = aColor;
 			// rebuildColoredTexture();
 			setChanged();
-			notifyObservers(new FGEAttributeNotification(COLOR2, oldColor, aColor));
+			notifyObservers(new FGEAttributeNotification<>(COLOR2, oldColor, aColor));
 		}
 	}
 
@@ -117,11 +117,12 @@ public abstract class TextureBackgroundStyleImpl extends BackgroundStyleImpl imp
 		return "BackgroundStyle.TEXTURE(" + getColor1() + "," + getColor2() + "," + getTextureType() + ")";
 	}*/
 
-	private boolean requireChange(Object oldObject, Object newObject) {
+	private static boolean requireChange(Object oldObject, Object newObject) {
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;
-			} else {
+			}
+			else {
 				return true;
 			}
 		}

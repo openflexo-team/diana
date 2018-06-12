@@ -48,7 +48,6 @@ import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
-import org.openflexo.fge.Drawing;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.GRBinding.DrawingGRBinding;
@@ -66,7 +65,7 @@ import org.openflexo.fge.control.PaletteElement;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.view.DianaViewFactory;
 import org.openflexo.fge.view.DrawingView;
-import org.openflexo.fib.utils.FIBIconLibrary;
+import org.openflexo.gina.utils.FIBIconLibrary;
 import org.openflexo.toolbox.ToolBox;
 
 /**
@@ -83,11 +82,13 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 	private static Image DROP_OK_IMAGE = FIBIconLibrary.DROP_OK_CURSOR.getImage();
 	private static Image DROP_KO_IMAGE = FIBIconLibrary.DROP_KO_CURSOR.getImage();
 
-	public static final Cursor dropOK = ToolBox.getPLATFORM() == ToolBox.MACOS ? Toolkit.getDefaultToolkit().createCustomCursor(
-			DROP_OK_IMAGE, new Point(16, 16), "Drop OK") : DragSource.DefaultMoveDrop;
+	public static final Cursor dropOK = ToolBox.isMacOS()
+			? Toolkit.getDefaultToolkit().createCustomCursor(DROP_OK_IMAGE, new Point(16, 16), "Drop OK")
+			: DragSource.DefaultMoveDrop;
 
-	public static final Cursor dropKO = ToolBox.getPLATFORM() == ToolBox.MACOS ? Toolkit.getDefaultToolkit().createCustomCursor(
-			DROP_KO_IMAGE, new Point(16, 16), "Drop KO") : DragSource.DefaultMoveNoDrop;
+	public static final Cursor dropKO = ToolBox.isMacOS()
+			? Toolkit.getDefaultToolkit().createCustomCursor(DROP_KO_IMAGE, new Point(16, 16), "Drop KO")
+			: DragSource.DefaultMoveNoDrop;
 
 	private DrawingPalette palette = null;
 
@@ -160,7 +161,7 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 		return paletteDrawing;
 	}
 
-	public static class PaletteDrawing extends DrawingImpl<DrawingPalette> implements Drawing<DrawingPalette> {
+	public static class PaletteDrawing extends DrawingImpl<DrawingPalette> {
 
 		private final DrawingGraphicalRepresentation gr;
 

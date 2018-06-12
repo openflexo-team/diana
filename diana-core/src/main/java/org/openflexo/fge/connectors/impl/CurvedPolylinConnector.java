@@ -69,7 +69,7 @@ public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnector
 	// Used for deserialization
 	public CurvedPolylinConnector(ConnectorNode<?> connectorNode) {
 		super(connectorNode);
-		controlPoints = new ArrayList<ControlPoint>();
+		controlPoints = new ArrayList<>();
 	}
 
 	@Override
@@ -148,7 +148,6 @@ public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnector
 
 	@Override
 	public FGEPoint getMiddleSymbolLocation() {
-		// TODO Auto-generated method stub
 		return new FGEPoint(0.5, 0.5);
 	}
 
@@ -187,7 +186,8 @@ public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnector
 		if (getConnectorNode() == null) {
 			// logger.warning("Called getPropertyValue() for null ConnectorNode");
 			return;
-		} else if (getConnectorNode().isDeleted()) {
+		}
+		else if (getConnectorNode().isDeleted()) {
 			// logger.warning("Called getPropertyValue() for deleted ConnectorNode");
 			return;
 		}

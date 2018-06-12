@@ -42,11 +42,7 @@ package org.openflexo.fge.impl;
 import java.awt.Color;
 import java.util.logging.Logger;
 
-import org.openflexo.fge.Drawing;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
-import org.openflexo.fge.control.MouseControl.MouseButton;
-import org.openflexo.fge.control.PredefinedMouseClickControlActionType;
-import org.openflexo.fge.control.PredefinedMouseDragControlActionType;
 import org.openflexo.fge.geom.FGEDimension;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGERectangle;
@@ -57,8 +53,8 @@ import org.openflexo.fge.notifications.ObjectHasResized;
 import org.openflexo.fge.notifications.ObjectResized;
 import org.openflexo.fge.notifications.ObjectWillResize;
 
-public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphicalRepresentationImpl implements
-		DrawingGraphicalRepresentation {
+public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphicalRepresentationImpl
+		implements DrawingGraphicalRepresentation {
 
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(DrawingGraphicalRepresentation.class.getPackage().getName());
@@ -77,16 +73,18 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 	 */
 	public DrawingGraphicalRepresentationImpl() {
 		super();
-		// graphics = new FGEDrawingGraphicsImpl(this);
+		width = DEFAULT_DRAWING_WIDTH;
+		height = DEFAULT_DRAWING_HEIGHT;
 	}
 
+	/*
 	@Deprecated
 	private DrawingGraphicalRepresentationImpl(Drawing<?> aDrawing) {
 		this();
 		// setDrawing(aDrawing);
 		// setDrawable(aDrawing != null ? aDrawing.getModel() : null);
 	}
-
+	
 	@SuppressWarnings("unused")
 	@Deprecated
 	private DrawingGraphicalRepresentationImpl(Drawing<?> aDrawing, boolean initBasicControls) {
@@ -102,7 +100,7 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 		// height = FGEConstants.DEFAULT_DRAWING_HEIGHT;
 		// bgStyle = getFactory().makeColoredBackground(getBackgroundColor());
 	}
-
+	*/
 	@Override
 	public boolean delete(Object... context) {
 		boolean returned = super.delete();
@@ -189,7 +187,7 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 	public void setBackgroundColor(Color backgroundColor) {
 		// logger.info("For "+this+" Set bg color to "+backgroundColor);
 
-		FGEAttributeNotification notification = requireChange(BACKGROUND_COLOR, backgroundColor);
+		FGEAttributeNotification<?> notification = requireChange(BACKGROUND_COLOR, backgroundColor);
 		if (notification != null) {
 			this.backgroundColor = backgroundColor;
 			// bgStyle = getFactory().makeColoredBackground(backgroundColor);
@@ -204,7 +202,7 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 
 	@Override
 	public void setFocusColor(Color focusColor) {
-		FGEAttributeNotification notification = requireChange(FOCUS_COLOR, focusColor);
+		FGEAttributeNotification<?> notification = requireChange(FOCUS_COLOR, focusColor);
 		if (notification != null) {
 			this.focusColor = focusColor;
 			hasChanged(notification);
@@ -218,7 +216,7 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 
 	@Override
 	public void setSelectionColor(Color selectionColor) {
-		FGEAttributeNotification notification = requireChange(SELECTION_COLOR, selectionColor);
+		FGEAttributeNotification<?> notification = requireChange(SELECTION_COLOR, selectionColor);
 		if (notification != null) {
 			this.selectionColor = selectionColor;
 			hasChanged(notification);
@@ -232,7 +230,7 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 
 	@Override
 	public void setRectangleSelectingSelectionColor(Color selectionColor) {
-		FGEAttributeNotification notification = requireChange(RECTANGLE_SELECTING_SELECTION_COLOR, selectionColor);
+		FGEAttributeNotification<?> notification = requireChange(RECTANGLE_SELECTING_SELECTION_COLOR, selectionColor);
 		if (notification != null) {
 			this.rectangleSelectingSelectionColor = selectionColor;
 			hasChanged(notification);
@@ -269,7 +267,7 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 	public void setDrawWorkingArea(boolean drawWorkingArea) {
 		// logger.info("setDrawWorkingArea with "+drawWorkingArea);
 
-		FGEAttributeNotification notification = requireChange(DRAW_WORKING_AREA, drawWorkingArea);
+		FGEAttributeNotification<?> notification = requireChange(DRAW_WORKING_AREA, drawWorkingArea);
 		if (notification != null) {
 			this.drawWorkingArea = drawWorkingArea;
 			hasChanged(notification);
@@ -283,7 +281,7 @@ public abstract class DrawingGraphicalRepresentationImpl extends ContainerGraphi
 
 	@Override
 	public void setIsResizable(boolean isResizable) {
-		FGEAttributeNotification notification = requireChange(IS_RESIZABLE, isResizable);
+		FGEAttributeNotification<?> notification = requireChange(IS_RESIZABLE, isResizable);
 		if (notification != null) {
 			this.isResizable = isResizable;
 			hasChanged(notification);

@@ -45,12 +45,16 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+
 import org.openflexo.connie.Bindable;
 import org.openflexo.connie.BindingFactory;
 import org.openflexo.connie.BindingModel;
 import org.openflexo.connie.DataBinding;
+import org.openflexo.fge.FGEUtils.HasIcon;
 import org.openflexo.fge.control.MouseClickControl;
 import org.openflexo.fge.control.MouseDragControl;
+import org.openflexo.icon.ImageIconResource;
 import org.openflexo.model.annotations.Adder;
 import org.openflexo.model.annotations.CloningStrategy;
 import org.openflexo.model.annotations.CloningStrategy.StrategyType;
@@ -63,6 +67,7 @@ import org.openflexo.model.annotations.Remover;
 import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLAttribute;
 import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.rm.ResourceLocator;
 
 /**
  * This is the common super interfaces for all graphical representation object encoded in a diagram<br>
@@ -129,61 +134,98 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	@PropertyIdentifier(type = String.class)
 	public static final String TOOLTIP_TEXT_KEY = "toolTipText";
 
-	// public static final String VARIABLES = "variables";
-
-	// *******************************************************************************
-	// * Inner concepts
-	// *******************************************************************************
-
 	public static interface LabelMetricsProvider {
 		public Dimension getScaledPreferredDimension(double scale);
 
 	}
 
-	/*public static interface GRProperty {
-		public String name();
-	}
-
-	public static enum Parameters implements GRProperty {
-		identifier, layer, hasText, text, isMultilineAllowed, lineWrap, continuousTextEditing, textStyle, absoluteTextX, // TODO: remove ?
-		absoluteTextY, // TODO: remove ?
-		horizontalTextAlignment,
-		verticalTextAlignment,
-		paragraphAlignment,
-		isSelectable,
-		isFocusable,
-		// isSelected,
-		// isFocused,
-		drawControlPointsWhenFocused,
-		drawControlPointsWhenSelected,
-		isReadOnly,
-		isLabelEditable,
-		isVisible, // TODO: remove ?
-		mouseClickControls,
-		mouseDragControls,
-		toolTipText,
-		variables;
-
-	}*/
-
-	public static enum ParagraphAlignment {
-		LEFT, CENTER, RIGHT, JUSTIFY;
+	public static enum ParagraphAlignment implements HasIcon {
+		LEFT {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignLeft.png"));
+			}
+		},
+		CENTER {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignCenter.png"));
+			}
+		},
+		RIGHT {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignRight.png"));
+			}
+		},
+		JUSTIFY {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignJustify.png"));
+			}
+		};
 	}
 
 	// TODO: rename to HorizontalAlignment
-	public static enum HorizontalTextAlignment {
-		LEFT, CENTER, RIGHT
+	public static enum HorizontalTextAlignment implements HasIcon {
+		LEFT {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignLeft.png"));
+			}
+		},
+		CENTER {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignCenter.png"));
+			}
+		},
+		RIGHT {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignRight.png"));
+			}
+		},
+		RELATIVE {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignRelativeX.png"));
+			}
+		}
 	}
 
 	// TODO: rename to VerticalAlignment
-	public static enum VerticalTextAlignment {
-		TOP, MIDDLE, BOTTOM;
+	public static enum VerticalTextAlignment implements HasIcon {
+		TOP {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignTop.png"));
+			}
+		},
+		MIDDLE {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignMiddle.png"));
+			}
+		},
+		BOTTOM {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignBottom.png"));
+			}
+		},
+		RELATIVE {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignRelativeY.png"));
+			}
+		};
 	}
 
 	public static GRProperty<String> IDENTIFIER = GRProperty.getGRParameter(GraphicalRepresentation.class, IDENTIFIER_KEY, String.class);
 	public static GRProperty<Integer> LAYER = GRProperty.getGRParameter(GraphicalRepresentation.class, LAYER_KEY, Integer.class);
-	public static GRProperty<Double> TRANSPARENCY = GRProperty
-			.getGRParameter(GraphicalRepresentation.class, TRANSPARENCY_KEY, Double.class);
+	public static GRProperty<Double> TRANSPARENCY = GRProperty.getGRParameter(GraphicalRepresentation.class, TRANSPARENCY_KEY,
+			Double.class);
 	public static GRProperty<String> TEXT = GRProperty.getGRParameter(GraphicalRepresentation.class, TEXT_KEY, String.class);
 	public static GRProperty<TextStyle> TEXT_STYLE = GRProperty.getGRParameter(GraphicalRepresentation.class, TEXT_STYLE_KEY,
 			TextStyle.class);
@@ -216,12 +258,12 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	public static GRProperty<Boolean> IS_LABEL_EDITABLE = GRProperty.getGRParameter(GraphicalRepresentation.class, IS_LABEL_EDITABLE_KEY,
 			Boolean.class);
 	public static GRProperty<Boolean> IS_VISIBLE = GRProperty.getGRParameter(GraphicalRepresentation.class, IS_VISIBLE_KEY, Boolean.class);
-	public static GRProperty<List> MOUSE_CLICK_CONTROLS = GRProperty.getGRParameter(GraphicalRepresentation.class,
-			MOUSE_CLICK_CONTROLS_KEY, List.class);
+	public static GRProperty<List> MOUSE_CLICK_CONTROLS = GRProperty.getGRParameter(GraphicalRepresentation.class, MOUSE_CLICK_CONTROLS_KEY,
+			List.class);
 	public static GRProperty<List> MOUSE_DRAG_CONTROLS = GRProperty.getGRParameter(GraphicalRepresentation.class, MOUSE_DRAG_CONTROLS_KEY,
 			List.class);
-	public static GRProperty<String> TOOLTIP_TEXT = GRProperty
-			.getGRParameter(GraphicalRepresentation.class, TOOLTIP_TEXT_KEY, String.class);
+	public static GRProperty<String> TOOLTIP_TEXT = GRProperty.getGRParameter(GraphicalRepresentation.class, TOOLTIP_TEXT_KEY,
+			String.class);
 
 	// *******************************************************************************
 	// * Model
@@ -230,7 +272,7 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	/*@Getter(value = DRAWING_KEY, ignoreType = true)
 	@CloningStrategy(CloningStrategy.StrategyType.REFERENCE)
 	public Drawing<?> getDrawing();
-
+	
 	@Setter(value = DRAWING_KEY)
 	public void setDrawing(Drawing<?> drawing);*/
 
@@ -255,7 +297,7 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	/*@Getter(value = HAS_TEXT, defaultValue = "true")
 	@XMLAttribute
 	public boolean getHasText();
-
+	
 	@Setter(value = HAS_TEXT)
 	public void setHasText(boolean hasText);*/
 
@@ -352,14 +394,14 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	/*@Getter(value = IS_SELECTED, defaultValue = "false")
 	@XMLAttribute
 	public boolean getIsSelected();
-
+	
 	@Setter(value = IS_SELECTED)
 	public void setIsSelected(boolean aFlag);
-
+	
 	@Getter(value = IS_FOCUSED, defaultValue = "false")
 	@XMLAttribute
 	public boolean getIsFocused();
-
+	
 	@Setter(value = IS_FOCUSED)
 	public void setIsFocused(boolean aFlag);*/
 
@@ -485,17 +527,17 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	// public boolean shouldBeDisplayed();
 
 	/*public DrawingGraphicalRepresentation getDrawingGraphicalRepresentation();
-
+	
 	public GraphicalRepresentation getGraphicalRepresentation(Object drawable);
-
+	
 	public List<? extends Object> getContainedObjects(Object drawable);
-
+	
 	public Object getContainer(Object drawable);
-
+	
 	public List<? extends Object> getContainedObjects();
-
+	
 	public List<GraphicalRepresentation> getContainedGraphicalRepresentations();
-
+	
 	public List<GraphicalRepresentation> getOrderedContainedGraphicalRepresentations();*/
 
 	public void moveToTop(GraphicalRepresentation gr);
@@ -507,21 +549,21 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	// public int getIndex();
 
 	/*public Object getContainer();
-
+	
 	public GraphicalRepresentation getContainerGraphicalRepresentation();
-
+	
 	public GraphicalRepresentation getParentGraphicalRepresentation();
-
+	
 	public boolean contains(GraphicalRepresentation gr);
-
+	
 	public boolean contains(Object drawable);
-
+	
 	public List<Object> getAncestors();
-
+	
 	public List<Object> getAncestors(boolean forceRecompute);
-
+	
 	public boolean isConnectedToDrawing();
-
+	
 	public boolean isAncestorOf(GraphicalRepresentation child);*/
 
 	// public boolean isPointVisible(FGEPoint p);
@@ -531,33 +573,33 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	// public boolean hasText();
 
 	/*public int getViewX(double scale);
-
+	
 	public int getViewY(double scale);
-
+	
 	public int getViewWidth(double scale);
-
+	
 	public int getViewHeight(double scale);
-
+	
 	public Rectangle getViewBounds(double scale);
-
+	
 	public FGERectangle getNormalizedBounds();*/
 
 	/*public Point getLabelLocation(double scale);
-
+	
 	public Dimension getLabelDimension(double scale);
-
+	
 	public void setLabelLocation(Point point, double scale);
-
+	
 	public Rectangle getLabelBounds(double scale);
-
+	
 	public void paint(Graphics g, DianaEditor controller);*/
 
 	/*public void notifyChange(GRProperty parameter, Object oldValue, Object newValue);
-
+	
 	public void notifyChange(GRProperty parameter);
-
+	
 	public void notifyAttributeChange(GRProperty parameter);
-
+	
 	public void notify(FGENotification notification);*/
 
 	// @Override
@@ -577,28 +619,28 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	// public void update(Observable observable, Object notification);
 
 	/*public Point convertNormalizedPointToViewCoordinates(double x, double y, double scale);
-
+	
 	public Rectangle convertNormalizedRectangleToViewCoordinates(FGERectangle r, double scale);
-
+	
 	public AffineTransform convertNormalizedPointToViewCoordinatesAT(double scale);
-
+	
 	public FGEPoint convertViewCoordinatesToNormalizedPoint(int x, int y, double scale);
-
+	
 	public AffineTransform convertViewCoordinatesToNormalizedPointAT(double scale);
-
+	
 	public Point convertNormalizedPointToViewCoordinates(FGEPoint p, double scale);
-
+	
 	public FGEPoint convertViewCoordinatesToNormalizedPoint(Point p, double scale);
-
+	
 	public FGEPoint convertRemoteViewCoordinatesToLocalNormalizedPoint(Point p, GraphicalRepresentation source, double scale);
-
+	
 	public FGEPoint convertLocalViewCoordinatesToRemoteNormalizedPoint(Point p, GraphicalRepresentation destination, double scale);
-
+	
 	public Point convertLocalNormalizedPointToRemoteViewCoordinates(FGEPoint p, GraphicalRepresentation destination, double scale);
-
+	
 	public Rectangle convertLocalNormalizedRectangleToRemoteViewCoordinates(FGERectangle r, GraphicalRepresentation destination,
 			double scale);
-
+	
 	public Point convertRemoteNormalizedPointToLocalViewCoordinates(FGEPoint p, GraphicalRepresentation source, double scale);
 	*/
 
@@ -621,11 +663,11 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	// public boolean isContainedInSelection(Rectangle drawingViewSelection, double scale);
 
 	/*public void notifyLabelWillBeEdited();
-
+	
 	public void notifyLabelHasBeenEdited();
-
+	
 	public void notifyLabelWillMove();
-
+	
 	public void notifyLabelHasMoved();*/
 
 	// Override when required
@@ -643,7 +685,7 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	public void setSpecificStroke(Stroke aStroke);
 
 	/*public boolean isRootGraphicalRepresentation();
-
+	
 	public GraphicalRepresentation getRootGraphicalRepresentation();*/
 
 	public void createBindingModel();
@@ -670,9 +712,9 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	// public Iterator<GraphicalRepresentation> allContainedGRIterator();
 
 	/*public Vector<ConstraintDependency> getDependancies();
-
+	
 	public Vector<ConstraintDependency> getAlterings();
-
+	
 	public void declareDependantOf(GraphicalRepresentation aComponent, GRProperty requiringParameter, GRProperty requiredParameter)
 			throws DependencyLoopException;
 	*/
@@ -689,13 +731,13 @@ public interface GraphicalRepresentation extends FGEObject, Bindable, PropertyCh
 	public String getDeletedProperty();
 
 	/*public boolean isValidated();
-
+	
 	public void setValidated(boolean validated);
-
+	
 	public LabelMetricsProvider getLabelMetricsProvider();
-
+	
 	public void setLabelMetricsProvider(LabelMetricsProvider labelMetricsProvider);
-
+	
 	public int getAvailableLabelWidth(double scale);*/
 
 }

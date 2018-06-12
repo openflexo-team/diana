@@ -71,7 +71,7 @@ public abstract class RegularPolygonImpl extends PolygonImpl implements RegularP
 
 	public RegularPolygonImpl(ShapeGraphicalRepresentation aGraphicalRepresentation, List<FGEPoint> points) {
 		this();
-		setPoints(new ArrayList<FGEPoint>(points));
+		setPoints(new ArrayList<>(points));
 	}
 
 	public RegularPolygonImpl(ShapeGraphicalRepresentation aGraphicalRepresentation, int pointsNb) {
@@ -87,14 +87,14 @@ public abstract class RegularPolygonImpl extends PolygonImpl implements RegularP
 		this();
 		setGraphicalRepresentation(aGraphicalRepresentation);
 	}
-
+	
 	@Deprecated
 	private RegularPolygonImpl(ShapeGraphicalRepresentation aGraphicalRepresentation, List<FGEPoint> points) {
 		this();
 		setGraphicalRepresentation(aGraphicalRepresentation);
 		setPoints(new ArrayList<FGEPoint>(points));
 	}
-
+	
 	@Deprecated
 	private RegularPolygonImpl(ShapeGraphicalRepresentation aGraphicalRepresentation, int pointsNb) {
 		this();
@@ -110,7 +110,8 @@ public abstract class RegularPolygonImpl extends PolygonImpl implements RegularP
 	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
 		if (getPoints() != null && getPoints().size() > 0) {
 			return new FGEPolygon(Filling.FILLED, getPoints());
-		} else if (getNPoints() > 2) {
+		}
+		else if (getNPoints() > 2) {
 			return new FGERegularPolygon(0, 0, 1, 1, Filling.FILLED, getNPoints(), startAngle);
 		}
 		return null;
@@ -128,7 +129,7 @@ public abstract class RegularPolygonImpl extends PolygonImpl implements RegularP
 
 	@Override
 	public void setNPoints(int pointsNb) {
-		FGEAttributeNotification notification = requireChange(N_POINTS, pointsNb);
+		FGEAttributeNotification<?> notification = requireChange(N_POINTS, pointsNb);
 		if (notification != null) {
 			npoints = pointsNb;
 			hasChanged(notification);
@@ -142,7 +143,7 @@ public abstract class RegularPolygonImpl extends PolygonImpl implements RegularP
 
 	@Override
 	public void setStartAngle(int anAngle) {
-		FGEAttributeNotification notification = requireChange(START_ANGLE, anAngle);
+		FGEAttributeNotification<?> notification = requireChange(START_ANGLE, anAngle);
 		if (notification != null) {
 			startAngle = anAngle;
 			hasChanged(notification);
