@@ -39,9 +39,9 @@
 
 package org.openflexo.fge.geomedit;
 
-import org.openflexo.diana.geomedit.model.construction.LineConstruction;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
+import org.openflexo.fge.geomedit.construction.LineConstruction;
 import org.openflexo.fge.geomedit.gr.LineGraphicalRepresentation;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 

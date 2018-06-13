@@ -39,17 +39,17 @@
 
 package org.openflexo.fge.geomedit.edition;
 
+import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
 import org.openflexo.diana.geomedit.edition.Edition;
 import org.openflexo.diana.geomedit.edition.ObtainLine;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geomedit.Band;
-import org.openflexo.fge.geomedit.GeomEditController;
 import org.openflexo.fge.geomedit.construction.BandWithTwoLinesConstruction;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateBandFromLines extends Edition {
 
-	public CreateBandFromLines(GeomEditController controller) {
+	public CreateBandFromLines(GeomEditDrawingEditor controller) {
 		super("Create band from lines", controller);
 		inputs.add(new ObtainLine("Select first line", controller));
 		inputs.add(new ObtainLine("Select second line", controller));
@@ -60,8 +60,8 @@ public class CreateBandFromLines extends Edition {
 		ObtainLine l1 = (ObtainLine) inputs.get(0);
 		ObtainLine l2 = (ObtainLine) inputs.get(1);
 
-		addObject(new Band(getController().getDrawing().getModel(), new BandWithTwoLinesConstruction(l1.getConstruction(),
-				l2.getConstruction())));
+		addObject(new Band(getController().getDrawing().getModel(),
+				new BandWithTwoLinesConstruction(l1.getConstruction(), l2.getConstruction())));
 
 	}
 
@@ -69,7 +69,8 @@ public class CreateBandFromLines extends Edition {
 	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
-		} else if (currentStep == 1) {
+		}
+		else if (currentStep == 1) {
 			// Nothing to draw
 		}
 	}

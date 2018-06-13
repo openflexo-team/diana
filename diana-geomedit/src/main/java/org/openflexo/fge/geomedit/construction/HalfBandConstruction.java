@@ -40,14 +40,29 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.area.FGEHalfBand;
+import org.openflexo.fge.geomedit.construction.HalfBandConstruction.HalfBandConstructionImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
+import org.openflexo.model.annotations.ModelEntity;
 
-public abstract class HalfBandConstruction extends GeometricConstruction<FGEHalfBand> {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(HalfBandConstructionImpl.class)
+@Imports({ @Import(HalfBandWithLinesConstruction.class) })
+public interface HalfBandConstruction extends GeometricConstruction<FGEHalfBand> {
 
-	public final FGEHalfBand getHalfBand() {
-		return getData();
+	public FGEHalfBand getHalfBand();
+
+	public static abstract class HalfBandConstructionImpl extends GeometricConstructionImpl<FGEHalfBand> implements HalfBandConstruction {
+
+		@Override
+		public final FGEHalfBand getHalfBand() {
+			return getData();
+		}
+
+		@Override
+		protected abstract FGEHalfBand computeData();
+
 	}
-
-	@Override
-	protected abstract FGEHalfBand computeData();
 
 }

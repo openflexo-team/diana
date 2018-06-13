@@ -45,8 +45,6 @@ import java.util.Vector;
 
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
-import org.openflexo.diana.geomedit.model.construction.LineConstruction;
-import org.openflexo.diana.geomedit.model.construction.LineWithTwoPointsConstruction;
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEAbstractLine;
@@ -57,6 +55,8 @@ import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.Line;
 import org.openflexo.fge.geomedit.construction.ExplicitPointConstruction;
 import org.openflexo.fge.geomedit.construction.HorizontalLineWithPointConstruction;
+import org.openflexo.fge.geomedit.construction.LineConstruction;
+import org.openflexo.fge.geomedit.construction.LineWithTwoPointsConstruction;
 import org.openflexo.fge.geomedit.construction.OrthogonalLineWithPointConstruction;
 import org.openflexo.fge.geomedit.construction.ParallelLineWithPointConstruction;
 import org.openflexo.fge.geomedit.construction.RotatedLineWithPointConstruction;

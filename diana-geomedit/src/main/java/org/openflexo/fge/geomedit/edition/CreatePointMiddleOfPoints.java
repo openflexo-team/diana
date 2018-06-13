@@ -39,17 +39,17 @@
 
 package org.openflexo.fge.geomedit.edition;
 
+import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
 import org.openflexo.diana.geomedit.edition.Edition;
 import org.openflexo.diana.geomedit.edition.ObtainPoint;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.GeomEditController;
 import org.openflexo.fge.geomedit.Point;
 import org.openflexo.fge.geomedit.construction.PointMiddleOfTwoPointsConstruction;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreatePointMiddleOfPoints extends Edition {
 
-	public CreatePointMiddleOfPoints(GeomEditController controller) {
+	public CreatePointMiddleOfPoints(GeomEditDrawingEditor controller) {
 		super("Create point as middle of points", controller);
 		inputs.add(new ObtainPoint("Select first point", controller));
 		inputs.add(new ObtainPoint("Select second point", controller));
@@ -60,8 +60,8 @@ public class CreatePointMiddleOfPoints extends Edition {
 		ObtainPoint p1 = (ObtainPoint) inputs.get(0);
 		ObtainPoint p2 = (ObtainPoint) inputs.get(1);
 
-		addObject(new Point(getController().getDrawing().getModel(), new PointMiddleOfTwoPointsConstruction(p1.getConstruction(),
-				p2.getConstruction())));
+		addObject(new Point(getController().getDrawing().getModel(),
+				new PointMiddleOfTwoPointsConstruction(p1.getConstruction(), p2.getConstruction())));
 
 	}
 

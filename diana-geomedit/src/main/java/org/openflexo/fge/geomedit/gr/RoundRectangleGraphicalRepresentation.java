@@ -104,8 +104,8 @@ public class RoundRectangleGraphicalRepresentation extends GeometricObjectGraphi
 					super.startDragging(controller, startPoint);
 					initialWidth = getGeometricObject().width;
 					initialHeight = getGeometricObject().height;
-					setDraggingAuthorizedArea(FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getSouthEastPt(),
-							CardinalQuadrant.NORTH_WEST));
+					setDraggingAuthorizedArea(
+							FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getSouthEastPt(), CardinalQuadrant.NORTH_WEST));
 				}
 
 				@Override
@@ -128,7 +128,8 @@ public class RoundRectangleGraphicalRepresentation extends GeometricObjectGraphi
 					setPoint(geometricObject.getNorthWestPt());
 				}
 			});
-		} else {
+		}
+		else {
 			returned.add(new ComputedControlPoint<FGERoundRectangle>(this, "northWest", rectangle.getNorthWestPt()) {
 				@Override
 				public void update(FGERoundRectangle geometricObject) {
@@ -147,8 +148,8 @@ public class RoundRectangleGraphicalRepresentation extends GeometricObjectGraphi
 					super.startDragging(controller, startPoint);
 					initialWidth = getGeometricObject().width;
 					initialHeight = getGeometricObject().height;
-					setDraggingAuthorizedArea(FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getNorthWestPt(),
-							CardinalQuadrant.SOUTH_EAST));
+					setDraggingAuthorizedArea(
+							FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getNorthWestPt(), CardinalQuadrant.SOUTH_EAST));
 				}
 
 				@Override
@@ -169,7 +170,8 @@ public class RoundRectangleGraphicalRepresentation extends GeometricObjectGraphi
 					setPoint(geometricObject.getSouthEastPt());
 				}
 			});
-		} else {
+		}
+		else {
 			returned.add(new ComputedControlPoint<FGERoundRectangle>(this, "southEast", rectangle.getSouthEastPt()) {
 				@Override
 				public void update(FGERoundRectangle geometricObject) {
@@ -193,8 +195,8 @@ public class RoundRectangleGraphicalRepresentation extends GeometricObjectGraphi
 					super.startDragging(controller, startPoint);
 					initialWidth = getGeometricObject().width;
 					initialHeight = getGeometricObject().height;
-					setDraggingAuthorizedArea(FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getSouthWestPt(),
-							CardinalQuadrant.NORTH_EAST));
+					setDraggingAuthorizedArea(
+							FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getSouthWestPt(), CardinalQuadrant.NORTH_EAST));
 				}
 
 				@Override
@@ -219,7 +221,8 @@ public class RoundRectangleGraphicalRepresentation extends GeometricObjectGraphi
 					setPoint(geometricObject.getNorthEastPt());
 				}
 			});
-		} else {
+		}
+		else {
 			returned.add(new ComputedControlPoint<FGERoundRectangle>(this, "northEast", rectangle.getSouthEastPt()) {
 				@Override
 				public void update(FGERoundRectangle geometricObject) {
@@ -243,8 +246,8 @@ public class RoundRectangleGraphicalRepresentation extends GeometricObjectGraphi
 					super.startDragging(controller, startPoint);
 					initialWidth = getGeometricObject().width;
 					initialHeight = getGeometricObject().height;
-					setDraggingAuthorizedArea(FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getNorthEastPt(),
-							CardinalQuadrant.SOUTH_WEST));
+					setDraggingAuthorizedArea(
+							FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getNorthEastPt(), CardinalQuadrant.SOUTH_WEST));
 				}
 
 				@Override
@@ -269,7 +272,8 @@ public class RoundRectangleGraphicalRepresentation extends GeometricObjectGraphi
 					setPoint(geometricObject.getSouthWestPt());
 				}
 			});
-		} else {
+		}
+		else {
 			returned.add(new ComputedControlPoint<FGERoundRectangle>(this, "southWest", rectangle.getSouthEastPt()) {
 				@Override
 				public void update(FGERoundRectangle geometricObject) {

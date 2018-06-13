@@ -37,10 +37,12 @@
  * 
  */
 
-package org.openflexo.diana.geomedit.model.construction;
+package org.openflexo.fge.geomedit.construction;
 
-import org.openflexo.diana.geomedit.model.construction.PointReference.PointReferenceImpl;
+import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
+import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geomedit.construction.PointReference.PointReferenceImpl;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
@@ -51,27 +53,50 @@ import org.openflexo.model.annotations.XMLElement;
 @ModelEntity
 @ImplementationClass(PointReferenceImpl.class)
 @XMLElement
-public interface PointReference extends PointConstruction {
+public interface ControlPointReference extends PointConstruction {
 
-	@PropertyIdentifier(type = PointConstruction.class)
+	@PropertyIdentifier(type = GeometricConstruction.class)
 	public static final String REFERENCE_KEY = "reference";
+	@PropertyIdentifier(type = String.class)
+	public static final String CONTROL_POINT_NAME_KEY = "controlPointName";
 
 	@Getter(value = REFERENCE_KEY)
-	public PointConstruction getReference();
+	public GeometricConstruction<?> getReference();
 
 	@Setter(value = REFERENCE_KEY)
-	public void setReference(PointConstruction reference);
+	public void setReference(GeometricConstruction<?> reference);
 
-	public static abstract class PointReferenceImpl extends GeometricConstructionImpl<FGEPoint>implements PointReference {
+	@Getter(value = CONTROL_POINT_NAME_KEY)
+	public String getControlPointName();
+
+	@Setter(value = CONTROL_POINT_NAME_KEY)
+	public void setControlPointName(String cpName);
+
+	public static abstract class ControlPointReferenceImpl extends PointConstructionImpl implements ControlPointReference {
+
+		protected ComputedControlPoint getControlPoint() {
+			for (ControlPoint cp : getReference().getControlPoints()) {
+				if (cp instanceof ComputedControlPoint && ((ComputedControlPoint) cp).getName().equals(getControlPointName())) {
+					return (ComputedControlPoint) cp;
+				}
+			}
+			return null;
+		}
 
 		@Override
 		protected FGEPoint computeData() {
-			return getReference().getData();
+			if (getControlPoint() != null) {
+				return getControlPoint().getPoint();
+			}
+			System.out
+					.println("computeData() for ControlPointReference: cannot find cp " + getControlPointName() + " for " + getReference());
+			setModified(true);
+			return new FGEPoint(0, 0);
 		}
 
 		@Override
 		public String toString() {
-			return "PointReference[" + getReference().toString() + "]";
+			return "ControlPointReference[" + getControlPointName() + "," + getReference() + "]";
 		}
 
 		@Override

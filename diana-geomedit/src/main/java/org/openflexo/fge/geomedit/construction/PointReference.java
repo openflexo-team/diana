@@ -37,47 +37,47 @@
  * 
  */
 
-package org.openflexo.diana.geomedit.model.construction;
+package org.openflexo.fge.geomedit.construction;
 
-import org.openflexo.diana.geomedit.model.construction.ExplicitPointConstruction.ExplicitPointConstructionImpl;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geomedit.construction.PointReference.PointReferenceImpl;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
-@ImplementationClass(ExplicitPointConstructionImpl.class)
+@ImplementationClass(PointReferenceImpl.class)
 @XMLElement
-public interface ExplicitPointConstruction extends PointConstruction {
+public interface PointReference extends PointConstruction {
 
-	public void setPoint(FGEPoint p);
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String REFERENCE_KEY = "reference";
 
-	public static abstract class ExplicitPointConstructionImpl extends PointConstructionImpl implements ExplicitPointConstruction {
+	@Getter(value = REFERENCE_KEY)
+	public PointConstruction getReference();
 
-		public FGEPoint point;
+	@Setter(value = REFERENCE_KEY)
+	public void setReference(PointConstruction reference);
 
-		@Override
-		public void setPoint(FGEPoint p) {
-			point = p;
-			System.out.println("Je mets le point a " + p);
-			setModified(true);
-		}
+	public static abstract class PointReferenceImpl extends GeometricConstructionImpl<FGEPoint>implements PointReference {
 
 		@Override
 		protected FGEPoint computeData() {
-			System.out.println("Voila j'ai mon point: " + point);
-			return point;
+			return getReference().getData();
 		}
 
 		@Override
 		public String toString() {
-			return "ExplicitPointConstruction[" + point.toString() + "]";
+			return "PointReference[" + getReference().toString() + "]";
 		}
 
 		@Override
-		public GeometricConstruction<?>[] getDepends() {
-			return null;
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { getReference() };
+			return returned;
 		}
 	}
-
 }

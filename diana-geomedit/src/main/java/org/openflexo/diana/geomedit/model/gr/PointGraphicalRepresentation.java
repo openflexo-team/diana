@@ -45,15 +45,15 @@ import java.util.List;
 
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
-import org.openflexo.diana.geomedit.model.construction.ExplicitPointConstruction;
-import org.openflexo.diana.geomedit.model.construction.GeometricConstruction;
-import org.openflexo.diana.geomedit.model.construction.PointConstruction;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geomedit.construction.ExplicitPointConstruction;
+import org.openflexo.fge.geomedit.construction.GeometricConstruction;
+import org.openflexo.fge.geomedit.construction.PointConstruction;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.XMLElement;

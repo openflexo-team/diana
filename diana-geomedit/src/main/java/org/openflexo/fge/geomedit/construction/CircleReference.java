@@ -40,34 +40,54 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGECircle;
+import org.openflexo.fge.geomedit.construction.CircleReference.CircleReferenceImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
-public class CircleReference extends CircleConstruction {
+@ModelEntity
+@ImplementationClass(CircleReferenceImpl.class)
+@XMLElement
+public interface CircleReference extends CircleConstruction {
 
-	public CircleConstruction reference;
+	public CircleConstruction getReference();
 
-	public CircleReference() {
-		super();
-	}
+	public void setReference(CircleConstruction reference);
 
-	public CircleReference(CircleConstruction aReference) {
-		this();
-		this.reference = aReference;
-	}
+	public static abstract class CircleReferenceImpl extends CircleConstructionImpl implements CircleReference {
 
-	@Override
-	protected FGECircle computeData() {
-		return reference.getData();
-	}
+		private CircleConstruction reference;
 
-	@Override
-	public String toString() {
-		return "CircleReference[" + reference.toString() + "]";
-	}
+		@Override
+		public CircleConstruction getReference() {
+			return reference;
+		}
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { reference };
-		return returned;
+		@Override
+		public void setReference(CircleConstruction reference) {
+			if ((reference == null && this.reference != null) || (reference != null && !reference.equals(this.reference))) {
+				CircleConstruction oldValue = this.reference;
+				this.reference = reference;
+				getPropertyChangeSupport().firePropertyChange("reference", oldValue, reference);
+			}
+		}
+
+		@Override
+		protected FGECircle computeData() {
+			return reference.getData();
+		}
+
+		@Override
+		public String toString() {
+			return "CircleReference[" + reference.toString() + "]";
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { reference };
+			return returned;
+		}
+
 	}
 
 }

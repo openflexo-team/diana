@@ -40,34 +40,54 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGEEllips;
+import org.openflexo.fge.geomedit.construction.EllipsReference.EllipsReferenceImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
-public class EllipsReference extends EllipsConstruction<FGEEllips> {
+@ModelEntity
+@ImplementationClass(EllipsReferenceImpl.class)
+@XMLElement
+public interface EllipsReference extends EllipsConstruction<FGEEllips> {
 
-	public EllipsConstruction<FGEEllips> reference;
+	public EllipsConstruction<FGEEllips> getReference();
 
-	public EllipsReference() {
-		super();
-	}
+	public void setReference(EllipsConstruction<FGEEllips> reference);
 
-	public EllipsReference(EllipsConstruction<FGEEllips> aReference) {
-		this();
-		this.reference = aReference;
-	}
+	public static abstract class EllipsReferenceImpl extends EllipsConstructionImpl<FGEEllips> implements EllipsReference {
 
-	@Override
-	protected FGEEllips computeData() {
-		return reference.getData();
-	}
+		private EllipsConstruction<FGEEllips> reference;
 
-	@Override
-	public String toString() {
-		return "EllipsReference[" + reference.toString() + "]";
-	}
+		@Override
+		public EllipsConstruction<FGEEllips> getReference() {
+			return reference;
+		}
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { reference };
-		return returned;
+		@Override
+		public void setReference(EllipsConstruction<FGEEllips> reference) {
+			if ((reference == null && this.reference != null) || (reference != null && !reference.equals(this.reference))) {
+				EllipsConstruction<FGEEllips> oldValue = this.reference;
+				this.reference = reference;
+				getPropertyChangeSupport().firePropertyChange("reference", oldValue, reference);
+			}
+		}
+
+		@Override
+		protected FGEEllips computeData() {
+			return reference.getData();
+		}
+
+		@Override
+		public String toString() {
+			return "EllipsReference[" + reference.toString() + "]";
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { reference };
+			return returned;
+		}
+
 	}
 
 }

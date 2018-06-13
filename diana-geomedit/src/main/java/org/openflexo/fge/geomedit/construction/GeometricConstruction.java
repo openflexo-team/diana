@@ -37,7 +37,7 @@
  * 
  */
 
-package org.openflexo.diana.geomedit.model.construction;
+package org.openflexo.fge.geomedit.construction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +45,10 @@ import java.util.List;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
 import org.openflexo.diana.geomedit.model.GeometricElement;
-import org.openflexo.diana.geomedit.model.construction.GeometricConstruction.GeometricConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.fge.geomedit.construction.GeometricConstruction.GeometricConstructionImpl;
 import org.openflexo.model.annotations.CloningStrategy;
 import org.openflexo.model.annotations.CloningStrategy.StrategyType;
 import org.openflexo.model.annotations.Embedded;
@@ -63,7 +63,9 @@ import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(GeometricConstructionImpl.class)
-@Imports({ @Import(LineConstruction.class), @Import(PointConstruction.class) })
+@Imports({ @Import(LineConstruction.class), @Import(PointConstruction.class), @Import(EllipsConstruction.class),
+		@Import(HalfLineConstruction.class), @Import(CubicCurveConstruction.class), @Import(ComplexCurveConstruction.class),
+		@Import(HalfBandConstruction.class) })
 public interface GeometricConstruction<A extends FGEArea> extends GeometricElement {
 
 	@PropertyIdentifier(type = GeometricObjectGraphicalRepresentation.class)

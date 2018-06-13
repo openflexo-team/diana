@@ -39,7 +39,6 @@
 
 package org.openflexo.fge.geomedit.construction;
 
-import org.openflexo.diana.geomedit.model.construction.GeometricConstruction;
 import org.openflexo.fge.geom.FGEEllips;
 import org.openflexo.fge.geomedit.construction.EllipsConstruction.EllipsConstructionImpl;
 import org.openflexo.model.annotations.ImplementationClass;
@@ -49,7 +48,7 @@ import org.openflexo.model.annotations.ModelEntity;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(EllipsConstructionImpl.class)
-@Imports({ @Import(CircleConstruction.class) })
+@Imports({ @Import(CircleConstruction.class), @Import(EllipsReference.class) })
 public interface EllipsConstruction<E extends FGEEllips> extends GeometricConstruction<E> {
 
 	public FGEEllips getEllips();

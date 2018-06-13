@@ -39,38 +39,57 @@
 
 package org.openflexo.fge.geomedit.construction;
 
-import org.openflexo.diana.geomedit.model.construction.LineConstruction;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geomedit.construction.LineIntersectionPointConstruction.LineIntersectionPointConstructionImpl;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLElement;
 
-public class LineIntersectionPointConstruction extends PointConstruction {
+@ModelEntity
+@ImplementationClass(LineIntersectionPointConstructionImpl.class)
+@XMLElement
+public interface LineIntersectionPointConstruction extends PointConstruction {
 
-	public LineConstruction lineConstruction1;
-	public LineConstruction lineConstruction2;
+	@PropertyIdentifier(type = LineConstruction.class)
+	public static final String LINE_CONSTRUCTION_1_KEY = "lineConstruction1";
+	@PropertyIdentifier(type = LineConstruction.class)
+	public static final String LINE_CONSTRUCTION_2_KEY = "lineConstruction2";
 
-	public LineIntersectionPointConstruction() {
-		super();
-	}
+	@Getter(value = LINE_CONSTRUCTION_1_KEY)
+	public LineConstruction getLineConstruction1();
 
-	public LineIntersectionPointConstruction(LineConstruction lineConstruction1, LineConstruction lineConstruction2) {
-		this();
-		this.lineConstruction1 = lineConstruction1;
-		this.lineConstruction2 = lineConstruction2;
-	}
+	@Setter(value = LINE_CONSTRUCTION_1_KEY)
+	public void setLineConstruction1(LineConstruction lineConstruction1);
 
-	@Override
-	protected FGEPoint computeData() {
-		return lineConstruction1.getData().getLineIntersection(lineConstruction2.getData());
-	}
+	@Getter(value = LINE_CONSTRUCTION_2_KEY)
+	public LineConstruction getLineConstruction2();
 
-	@Override
-	public String toString() {
-		return "LineIntersectionPointConstruction[\n" + "> " + lineConstruction1.toString() + "\n> " + lineConstruction2.toString() + "\n]";
-	}
+	@Setter(value = LINE_CONSTRUCTION_2_KEY)
+	public void setLineConstruction2(LineConstruction lineConstruction2);
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { lineConstruction1, lineConstruction2 };
-		return returned;
+	public static abstract class LineIntersectionPointConstructionImpl extends PointConstructionImpl
+			implements LineIntersectionPointConstruction {
+
+		@Override
+		protected FGEPoint computeData() {
+			return getLineConstruction1().getData().getLineIntersection(getLineConstruction2().getData());
+		}
+
+		@Override
+		public String toString() {
+			return "LineIntersectionPointConstruction[\n" + "> " + getLineConstruction1().toString() + "\n> "
+					+ getLineConstruction2().toString() + "\n]";
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { getLineConstruction1(), getLineConstruction2() };
+			return returned;
+		}
+
 	}
 
 }

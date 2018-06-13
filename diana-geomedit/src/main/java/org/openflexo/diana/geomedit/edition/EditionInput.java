@@ -54,7 +54,7 @@ import javax.swing.JPanel;
 import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
 import org.openflexo.diana.geomedit.edition.EditionInputMethod.InputComponent;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
-import org.openflexo.diana.geomedit.model.construction.GeometricConstruction;
+import org.openflexo.fge.geomedit.construction.GeometricConstruction;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public abstract class EditionInput<O> {

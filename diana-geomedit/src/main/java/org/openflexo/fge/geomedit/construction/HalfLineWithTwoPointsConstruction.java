@@ -40,37 +40,77 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.area.FGEHalfLine;
+import org.openflexo.fge.geomedit.construction.HalfBandWithLinesConstruction.HalfBandWithLinesConstructionImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
-public class HalfLineWithTwoPointsConstruction extends HalfLineConstruction {
+@ModelEntity
+@ImplementationClass(HalfBandWithLinesConstructionImpl.class)
+@XMLElement
+public interface HalfLineWithTwoPointsConstruction extends HalfLineConstruction {
 
-	public PointConstruction limitPointConstruction;
-	public PointConstruction oppositePointConstruction;
+	public PointConstruction getLimitPointConstruction();
 
-	public HalfLineWithTwoPointsConstruction() {
-		super();
-	}
+	public void setLimitPointConstruction(PointConstruction limitPointConstruction);
 
-	public HalfLineWithTwoPointsConstruction(PointConstruction pointConstruction1, PointConstruction pointConstruction2) {
-		this();
-		this.limitPointConstruction = pointConstruction1;
-		this.oppositePointConstruction = pointConstruction2;
-	}
+	public PointConstruction getOppositePointConstruction();
 
-	@Override
-	protected FGEHalfLine computeData() {
-		return new FGEHalfLine(limitPointConstruction.getPoint(), oppositePointConstruction.getPoint());
-	}
+	public void setOppositePointConstruction(PointConstruction oppositePointConstruction);
 
-	@Override
-	public String toString() {
-		return "HalfLineWithTwoPointsConstruction[\n" + "> " + limitPointConstruction.toString() + "\n> "
-				+ oppositePointConstruction.toString() + "\n]";
-	}
+	public static abstract class HalfLineWithTwoPointsConstructionImpl extends HalfLineConstructionImpl
+			implements HalfLineWithTwoPointsConstruction {
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { limitPointConstruction, oppositePointConstruction };
-		return returned;
+		private PointConstruction limitPointConstruction;
+		private PointConstruction oppositePointConstruction;
+
+		@Override
+		public PointConstruction getLimitPointConstruction() {
+			return limitPointConstruction;
+		}
+
+		@Override
+		public void setLimitPointConstruction(PointConstruction limitPointConstruction) {
+			if ((limitPointConstruction == null && this.limitPointConstruction != null)
+					|| (limitPointConstruction != null && !limitPointConstruction.equals(this.limitPointConstruction))) {
+				PointConstruction oldValue = this.limitPointConstruction;
+				this.limitPointConstruction = limitPointConstruction;
+				getPropertyChangeSupport().firePropertyChange("limitPointConstruction", oldValue, limitPointConstruction);
+			}
+		}
+
+		@Override
+		public PointConstruction getOppositePointConstruction() {
+			return oppositePointConstruction;
+		}
+
+		@Override
+		public void setOppositePointConstruction(PointConstruction oppositePointConstruction) {
+			if ((oppositePointConstruction == null && this.oppositePointConstruction != null)
+					|| (oppositePointConstruction != null && !oppositePointConstruction.equals(this.oppositePointConstruction))) {
+				PointConstruction oldValue = this.oppositePointConstruction;
+				this.oppositePointConstruction = oppositePointConstruction;
+				getPropertyChangeSupport().firePropertyChange("oppositePointConstruction", oldValue, oppositePointConstruction);
+			}
+		}
+
+		@Override
+		protected FGEHalfLine computeData() {
+			return new FGEHalfLine(limitPointConstruction.getPoint(), oppositePointConstruction.getPoint());
+		}
+
+		@Override
+		public String toString() {
+			return "HalfLineWithTwoPointsConstruction[\n" + "> " + limitPointConstruction.toString() + "\n> "
+					+ oppositePointConstruction.toString() + "\n]";
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { limitPointConstruction, oppositePointConstruction };
+			return returned;
+		}
+
 	}
 
 }

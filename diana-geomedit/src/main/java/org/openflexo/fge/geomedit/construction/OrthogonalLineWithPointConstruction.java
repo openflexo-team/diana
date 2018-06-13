@@ -39,7 +39,6 @@
 
 package org.openflexo.fge.geomedit.construction;
 
-import org.openflexo.diana.geomedit.model.construction.LineConstruction;
 import org.openflexo.fge.geom.FGEDimension;
 import org.openflexo.fge.geom.FGEEllips;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;

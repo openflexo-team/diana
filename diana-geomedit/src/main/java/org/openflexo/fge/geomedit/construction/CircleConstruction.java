@@ -40,14 +40,26 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGECircle;
+import org.openflexo.fge.geomedit.construction.CircleConstruction.CircleConstructionImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
+import org.openflexo.model.annotations.ModelEntity;
 
-public abstract class CircleConstruction extends EllipsConstruction<FGECircle> {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(CircleConstructionImpl.class)
+@Imports({ @Import(CircleReference.class), @Import(CircleWithCenterAndPointConstruction.class) })
+public interface CircleConstruction extends EllipsConstruction<FGECircle> {
 
-	public final FGECircle getCircle() {
-		return getData();
+	public static abstract class CircleConstructionImpl extends EllipsConstructionImpl<FGECircle> implements CircleConstruction {
+
+		public final FGECircle getCircle() {
+			return getData();
+		}
+
+		@Override
+		protected abstract FGECircle computeData();
+
 	}
-
-	@Override
-	protected abstract FGECircle computeData();
 
 }

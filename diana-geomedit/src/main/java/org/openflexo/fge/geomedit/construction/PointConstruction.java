@@ -37,46 +37,42 @@
  * 
  */
 
-package org.openflexo.diana.geomedit.model.construction;
+package org.openflexo.fge.geomedit.construction;
 
-import org.openflexo.diana.geomedit.model.construction.LineReference.LineReferenceImpl;
-import org.openflexo.fge.geom.FGELine;
-import org.openflexo.model.annotations.Getter;
+import java.awt.Color;
+
+import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
+import org.openflexo.diana.geomedit.model.gr.PointGraphicalRepresentation;
+import org.openflexo.fge.TextureBackgroundStyle.TextureType;
+import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geomedit.construction.PointConstruction.PointConstructionImpl;
 import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
 
-@ModelEntity
-@ImplementationClass(LineReferenceImpl.class)
-@XMLElement
-public interface LineReference extends LineConstruction {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(PointConstructionImpl.class)
+@Imports({ @Import(PointReference.class), @Import(ExplicitPointConstruction.class), @Import(ControlPointReference.class),
+		@Import(LineIntersectionPointConstruction.class) })
+public interface PointConstruction extends GeometricConstruction<FGEPoint> {
 
-	@PropertyIdentifier(type = LineConstruction.class)
-	public static final String REFERENCE_KEY = "reference";
+	public FGEPoint getPoint();
 
-	@Getter(value = REFERENCE_KEY)
-	public LineConstruction getReference();
-
-	@Setter(value = REFERENCE_KEY)
-	public void setReference(LineConstruction reference);
-
-	public static abstract class LineReferenceImpl extends LineConstructionImpl implements LineReference {
+	public static abstract class PointConstructionImpl extends GeometricConstructionImpl<FGEPoint>implements PointConstruction {
 
 		@Override
-		protected FGELine computeData() {
-			return getReference().getData();
+		public final FGEPoint getPoint() {
+			return getData();
 		}
 
 		@Override
-		public String toString() {
-			return "LineReference[" + getReference().toString() + "]";
-		}
+		protected abstract FGEPoint computeData();
 
 		@Override
-		public GeometricConstruction[] getDepends() {
-			GeometricConstruction[] returned = { getReference() };
+		public PointGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			PointGraphicalRepresentation returned = factory.newInstance(PointGraphicalRepresentation.class);
+			returned.setBackground(factory.makeTexturedBackground(TextureType.TEXTURE1, Color.RED, Color.WHITE));
 			return returned;
 		}
 	}

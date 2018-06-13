@@ -37,10 +37,10 @@
  * 
  */
 
-package org.openflexo.diana.geomedit.model.construction;
+package org.openflexo.fge.geomedit.construction;
 
-import org.openflexo.diana.geomedit.model.construction.LineConstruction.LineConstructionImpl;
 import org.openflexo.fge.geom.FGELine;
+import org.openflexo.fge.geomedit.construction.LineConstruction.LineConstructionImpl;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;

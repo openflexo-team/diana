@@ -42,8 +42,8 @@ package org.openflexo.diana.geomedit.model;
 import java.util.List;
 
 import org.openflexo.diana.geomedit.model.GeometricDiagram.GeometricDiagramImpl;
-import org.openflexo.diana.geomedit.model.construction.GeometricConstruction;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
+import org.openflexo.fge.geomedit.construction.GeometricConstruction;
 import org.openflexo.model.annotations.Adder;
 import org.openflexo.model.annotations.CloningStrategy;
 import org.openflexo.model.annotations.CloningStrategy.StrategyType;

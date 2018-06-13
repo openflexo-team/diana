@@ -43,41 +43,81 @@ import org.openflexo.fge.geom.FGECircle;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGESegment;
+import org.openflexo.fge.geomedit.construction.CircleReference.CircleReferenceImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
-public class CircleWithCenterAndPointConstruction extends CircleConstruction {
+@ModelEntity
+@ImplementationClass(CircleReferenceImpl.class)
+@XMLElement
+public interface CircleWithCenterAndPointConstruction extends CircleConstruction {
 
-	public PointConstruction centerConstruction;
-	public PointConstruction pointConstruction;
+	public PointConstruction getCenterConstruction();
 
-	public CircleWithCenterAndPointConstruction() {
-		super();
-	}
+	public void setCenterConstruction(PointConstruction centerConstruction);
 
-	public CircleWithCenterAndPointConstruction(PointConstruction pointConstruction1, PointConstruction pointConstruction2) {
-		this();
-		this.centerConstruction = pointConstruction1;
-		this.pointConstruction = pointConstruction2;
-	}
+	public PointConstruction getPointConstruction();
 
-	@Override
-	protected FGECircle computeData() {
-		FGEPoint center = centerConstruction.getPoint();
-		FGEPoint p = pointConstruction.getPoint();
+	public void setPointConstruction(PointConstruction pointConstruction);
 
-		double radius = FGESegment.getLength(center, p);
-		return new FGECircle(center, radius, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
-	}
+	public static abstract class CircleWithCenterAndPointConstructionImpl extends CircleConstructionImpl
+			implements CircleWithCenterAndPointConstruction {
 
-	@Override
-	public String toString() {
-		return "CircleWithCenterAndPointConstruction[\n" + "> " + centerConstruction.toString() + "\n> " + pointConstruction.toString()
-				+ "\n]";
-	}
+		private PointConstruction centerConstruction;
+		private PointConstruction pointConstruction;
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { centerConstruction, pointConstruction };
-		return returned;
+		@Override
+		public PointConstruction getCenterConstruction() {
+			return centerConstruction;
+		}
+
+		@Override
+		public void setCenterConstruction(PointConstruction centerConstruction) {
+			if ((centerConstruction == null && this.centerConstruction != null)
+					|| (centerConstruction != null && !centerConstruction.equals(this.centerConstruction))) {
+				PointConstruction oldValue = this.centerConstruction;
+				this.centerConstruction = centerConstruction;
+				getPropertyChangeSupport().firePropertyChange("centerConstruction", oldValue, centerConstruction);
+			}
+		}
+
+		@Override
+		public PointConstruction getPointConstruction() {
+			return pointConstruction;
+		}
+
+		@Override
+		public void setPointConstruction(PointConstruction pointConstruction) {
+			if ((pointConstruction == null && this.pointConstruction != null)
+					|| (pointConstruction != null && !pointConstruction.equals(this.pointConstruction))) {
+				PointConstruction oldValue = this.pointConstruction;
+				this.pointConstruction = pointConstruction;
+				getPropertyChangeSupport().firePropertyChange("pointConstruction", oldValue, pointConstruction);
+			}
+		}
+
+		@Override
+		protected FGECircle computeData() {
+			FGEPoint center = centerConstruction.getPoint();
+			FGEPoint p = pointConstruction.getPoint();
+
+			double radius = FGESegment.getLength(center, p);
+			return new FGECircle(center, radius, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
+		}
+
+		@Override
+		public String toString() {
+			return "CircleWithCenterAndPointConstruction[\n" + "> " + centerConstruction.toString() + "\n> " + pointConstruction.toString()
+					+ "\n]";
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { centerConstruction, pointConstruction };
+			return returned;
+		}
+
 	}
 
 }

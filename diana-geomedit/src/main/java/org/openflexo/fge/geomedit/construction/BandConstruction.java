@@ -40,14 +40,29 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.area.FGEBand;
+import org.openflexo.fge.geomedit.construction.BandConstruction.BandConstructionImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
+import org.openflexo.model.annotations.ModelEntity;
 
-public abstract class BandConstruction extends GeometricConstruction<FGEBand> {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(BandConstructionImpl.class)
+@Imports({ @Import(BandWithTwoLinesConstruction.class) })
+public interface BandConstruction extends GeometricConstruction<FGEBand> {
 
-	public final FGEBand getBand() {
-		return getData();
+	public FGEBand getBand();
+
+	public static abstract class BandConstructionImpl extends GeometricConstructionImpl<FGEBand> implements BandConstruction {
+
+		@Override
+		public final FGEBand getBand() {
+			return getData();
+		}
+
+		@Override
+		protected abstract FGEBand computeData();
+
 	}
-
-	@Override
-	protected abstract FGEBand computeData();
 
 }

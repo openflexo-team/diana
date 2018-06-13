@@ -37,12 +37,10 @@
  * 
  */
 
-package org.openflexo.diana.geomedit.model.construction;
+package org.openflexo.fge.geomedit.construction;
 
-import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
-import org.openflexo.diana.geomedit.model.construction.PointReference.PointReferenceImpl;
-import org.openflexo.fge.cp.ControlPoint;
-import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geom.FGELine;
+import org.openflexo.fge.geomedit.construction.LineWithTwoPointsConstruction.LineWithTwoPointsConstructionImpl;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
@@ -51,57 +49,43 @@ import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
-@ImplementationClass(PointReferenceImpl.class)
+@ImplementationClass(LineWithTwoPointsConstructionImpl.class)
 @XMLElement
-public interface ControlPointReference extends PointConstruction {
+public interface LineWithTwoPointsConstruction extends LineConstruction {
 
-	@PropertyIdentifier(type = GeometricConstruction.class)
-	public static final String REFERENCE_KEY = "reference";
-	@PropertyIdentifier(type = String.class)
-	public static final String CONTROL_POINT_NAME_KEY = "controlPointName";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String POINT_CONSTRUCTION_1_KEY = "pointConstruction1";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String POINT_CONSTRUCTION_2_KEY = "pointConstruction2";
 
-	@Getter(value = REFERENCE_KEY)
-	public GeometricConstruction<?> getReference();
+	@Getter(value = POINT_CONSTRUCTION_1_KEY)
+	public PointConstruction getPointConstruction1();
 
-	@Setter(value = REFERENCE_KEY)
-	public void setReference(GeometricConstruction<?> reference);
+	@Setter(value = POINT_CONSTRUCTION_1_KEY)
+	public void setPointConstruction1(PointConstruction pointConstruction1);
 
-	@Getter(value = CONTROL_POINT_NAME_KEY)
-	public String getControlPointName();
+	@Getter(value = POINT_CONSTRUCTION_2_KEY)
+	public PointConstruction getPointConstruction2();
 
-	@Setter(value = CONTROL_POINT_NAME_KEY)
-	public void setControlPointName(String cpName);
+	@Setter(value = POINT_CONSTRUCTION_2_KEY)
+	public void setPointConstruction2(PointConstruction pointConstruction2);
 
-	public static abstract class ControlPointReferenceImpl extends PointConstructionImpl implements ControlPointReference {
-
-		protected ComputedControlPoint getControlPoint() {
-			for (ControlPoint cp : getReference().getControlPoints()) {
-				if (cp instanceof ComputedControlPoint && ((ComputedControlPoint) cp).getName().equals(getControlPointName())) {
-					return (ComputedControlPoint) cp;
-				}
-			}
-			return null;
-		}
+	public static abstract class LineWithTwoPointsConstructionImpl extends LineConstructionImpl implements LineWithTwoPointsConstruction {
 
 		@Override
-		protected FGEPoint computeData() {
-			if (getControlPoint() != null) {
-				return getControlPoint().getPoint();
-			}
-			System.out
-					.println("computeData() for ControlPointReference: cannot find cp " + getControlPointName() + " for " + getReference());
-			setModified(true);
-			return new FGEPoint(0, 0);
+		protected FGELine computeData() {
+			return new FGELine(getPointConstruction1().getPoint(), getPointConstruction2().getPoint());
 		}
 
 		@Override
 		public String toString() {
-			return "ControlPointReference[" + getControlPointName() + "," + getReference() + "]";
+			return "LineWithTwoPointsConstruction[\n" + "> " + getPointConstruction1().toString() + "\n> "
+					+ getPointConstruction2().toString() + "\n]";
 		}
 
 		@Override
 		public GeometricConstruction[] getDepends() {
-			GeometricConstruction[] returned = { getReference() };
+			GeometricConstruction[] returned = { getPointConstruction1(), getPointConstruction2() };
 			return returned;
 		}
 	}

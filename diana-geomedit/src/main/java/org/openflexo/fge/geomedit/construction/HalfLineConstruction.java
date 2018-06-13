@@ -40,14 +40,29 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.area.FGEHalfLine;
+import org.openflexo.fge.geomedit.construction.HalfLineConstruction.HalfLineConstructionImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
+import org.openflexo.model.annotations.ModelEntity;
 
-public abstract class HalfLineConstruction extends GeometricConstruction<FGEHalfLine> {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(HalfLineConstructionImpl.class)
+@Imports({ @Import(HalfLineWithTwoPointsConstruction.class) })
+public interface HalfLineConstruction extends GeometricConstruction<FGEHalfLine> {
 
-	public final FGEHalfLine getHalfLine() {
-		return getData();
+	public FGEHalfLine getHalfLine();
+
+	public static abstract class HalfLineConstructionImpl extends GeometricConstructionImpl<FGEHalfLine> implements HalfLineConstruction {
+
+		@Override
+		public final FGEHalfLine getHalfLine() {
+			return getData();
+		}
+
+		@Override
+		protected abstract FGEHalfLine computeData();
+
 	}
-
-	@Override
-	protected abstract FGEHalfLine computeData();
 
 }

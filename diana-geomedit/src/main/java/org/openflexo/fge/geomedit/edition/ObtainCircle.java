@@ -41,20 +41,20 @@ package org.openflexo.fge.geomedit.edition;
 
 import java.awt.event.MouseEvent;
 
+import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
 import org.openflexo.diana.geomedit.edition.EditionInput;
 import org.openflexo.diana.geomedit.edition.EditionInputMethod;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.geom.FGECircle;
 import org.openflexo.fge.geomedit.Circle;
-import org.openflexo.fge.geomedit.GeomEditController;
 import org.openflexo.fge.geomedit.construction.CircleConstruction;
 import org.openflexo.fge.geomedit.construction.CircleReference;
 
 public class ObtainCircle extends EditionInput<FGECircle> {
 	public static int preferredMethodIndex = 0;
 
-	public ObtainCircle(String anInputLabel, GeomEditController controller) {
+	public ObtainCircle(String anInputLabel, GeomEditDrawingEditor controller) {
 		super(anInputLabel, controller);
 
 		availableMethods.add(new CircleSelection());
@@ -101,7 +101,8 @@ public class ObtainCircle extends EditionInput<FGECircle> {
 					&& ((GeometricGraphicalRepresentation) focused).getGeometricObject() instanceof FGECircle) {
 				focusedObject = (GeometricGraphicalRepresentation) focused;
 				focusedObject.setIsFocused(true);
-			} else {
+			}
+			else {
 				focusedObject = null;
 			}
 

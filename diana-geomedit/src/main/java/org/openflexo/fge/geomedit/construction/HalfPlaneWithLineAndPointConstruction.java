@@ -39,7 +39,6 @@
 
 package org.openflexo.fge.geomedit.construction;
 
-import org.openflexo.diana.geomedit.model.construction.LineConstruction;
 import org.openflexo.fge.geom.area.FGEHalfPlane;
 
 public class HalfPlaneWithLineAndPointConstruction extends HalfPlaneConstruction {

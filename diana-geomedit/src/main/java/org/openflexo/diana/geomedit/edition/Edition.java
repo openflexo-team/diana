@@ -43,11 +43,11 @@ import java.awt.Color;
 import java.util.Vector;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
-import org.openflexo.diana.geomedit.model.construction.GeometricConstruction;
 import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.TextureBackgroundStyle.TextureType;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geomedit.construction.GeometricConstruction;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public abstract class Edition {

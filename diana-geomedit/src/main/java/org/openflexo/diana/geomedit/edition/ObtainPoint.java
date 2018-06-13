@@ -45,8 +45,6 @@ import java.awt.event.MouseEvent;
 import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
-import org.openflexo.diana.geomedit.model.construction.GeometricConstruction;
-import org.openflexo.diana.geomedit.model.construction.PointConstruction;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.FGEConstants;
@@ -54,6 +52,8 @@ import org.openflexo.fge.converter.PointConverter;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geomedit.construction.GeometricConstruction;
+import org.openflexo.fge.geomedit.construction.PointConstruction;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class ObtainPoint extends EditionInput<FGEPoint> {

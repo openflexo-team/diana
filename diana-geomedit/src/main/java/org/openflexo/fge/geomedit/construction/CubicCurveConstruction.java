@@ -40,14 +40,30 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGECubicCurve;
+import org.openflexo.fge.geomedit.construction.CubicCurveConstruction.CubicCurveConstructionImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
+import org.openflexo.model.annotations.ModelEntity;
 
-public abstract class CubicCurveConstruction extends GeometricConstruction<FGECubicCurve> {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(CubicCurveConstructionImpl.class)
+@Imports({ @Import(CubicCurveWithFourPointsConstruction.class) })
+public interface CubicCurveConstruction extends GeometricConstruction<FGECubicCurve> {
 
-	public final FGECubicCurve getCurve() {
-		return getData();
+	public FGECubicCurve getCurve();
+
+	public static abstract class CubicCurveConstructionImpl extends GeometricConstructionImpl<FGECubicCurve>
+			implements CubicCurveConstruction {
+
+		@Override
+		public final FGECubicCurve getCurve() {
+			return getData();
+		}
+
+		@Override
+		protected abstract FGECubicCurve computeData();
+
 	}
-
-	@Override
-	protected abstract FGECubicCurve computeData();
 
 }

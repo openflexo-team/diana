@@ -37,56 +37,47 @@
  * 
  */
 
-package org.openflexo.diana.geomedit.model.construction;
+package org.openflexo.fge.geomedit.construction;
 
-import org.openflexo.diana.geomedit.model.construction.LineWithTwoPointsConstruction.LineWithTwoPointsConstructionImpl;
-import org.openflexo.fge.geom.FGELine;
-import org.openflexo.model.annotations.Getter;
+import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geomedit.construction.ExplicitPointConstruction.ExplicitPointConstructionImpl;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
-@ImplementationClass(LineWithTwoPointsConstructionImpl.class)
+@ImplementationClass(ExplicitPointConstructionImpl.class)
 @XMLElement
-public interface LineWithTwoPointsConstruction extends LineConstruction {
+public interface ExplicitPointConstruction extends PointConstruction {
 
-	@PropertyIdentifier(type = PointConstruction.class)
-	public static final String POINT_CONSTRUCTION_1_KEY = "pointConstruction1";
-	@PropertyIdentifier(type = PointConstruction.class)
-	public static final String POINT_CONSTRUCTION_2_KEY = "pointConstruction2";
+	public void setPoint(FGEPoint p);
 
-	@Getter(value = POINT_CONSTRUCTION_1_KEY)
-	public PointConstruction getPointConstruction1();
+	public static abstract class ExplicitPointConstructionImpl extends PointConstructionImpl implements ExplicitPointConstruction {
 
-	@Setter(value = POINT_CONSTRUCTION_1_KEY)
-	public void setPointConstruction1(PointConstruction pointConstruction1);
-
-	@Getter(value = POINT_CONSTRUCTION_2_KEY)
-	public PointConstruction getPointConstruction2();
-
-	@Setter(value = POINT_CONSTRUCTION_2_KEY)
-	public void setPointConstruction2(PointConstruction pointConstruction2);
-
-	public static abstract class LineWithTwoPointsConstructionImpl extends LineConstructionImpl implements LineWithTwoPointsConstruction {
+		public FGEPoint point;
 
 		@Override
-		protected FGELine computeData() {
-			return new FGELine(getPointConstruction1().getPoint(), getPointConstruction2().getPoint());
+		public void setPoint(FGEPoint p) {
+			point = p;
+			System.out.println("Je mets le point a " + p);
+			setModified(true);
+		}
+
+		@Override
+		protected FGEPoint computeData() {
+			System.out.println("Voila j'ai mon point: " + point);
+			return point;
 		}
 
 		@Override
 		public String toString() {
-			return "LineWithTwoPointsConstruction[\n" + "> " + getPointConstruction1().toString() + "\n> "
-					+ getPointConstruction2().toString() + "\n]";
+			return "ExplicitPointConstruction[" + point.toString() + "]";
 		}
 
 		@Override
-		public GeometricConstruction[] getDepends() {
-			GeometricConstruction[] returned = { getPointConstruction1(), getPointConstruction2() };
-			return returned;
+		public GeometricConstruction<?>[] getDepends() {
+			return null;
 		}
 	}
+
 }

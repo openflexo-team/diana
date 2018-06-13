@@ -40,45 +40,111 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGECubicCurve;
+import org.openflexo.fge.geomedit.construction.CubicCurveWithFourPointsConstruction.CubicCurveWithFourPointsConstructionImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
-public class CubicCurveWithFourPointsConstruction extends CubicCurveConstruction {
+@ModelEntity
+@ImplementationClass(CubicCurveWithFourPointsConstructionImpl.class)
+@XMLElement
+public interface CubicCurveWithFourPointsConstruction extends CubicCurveConstruction {
 
-	public PointConstruction startPointConstruction;
-	public PointConstruction controlPointConstruction1;
-	public PointConstruction controlPointConstruction2;
-	public PointConstruction endPointConstruction;
+	public PointConstruction getStartPointConstruction();
 
-	public CubicCurveWithFourPointsConstruction() {
-		super();
-	}
+	public void setStartPointConstruction(PointConstruction startPointConstruction);
 
-	public CubicCurveWithFourPointsConstruction(PointConstruction pointConstruction1, PointConstruction pointConstruction2,
-			PointConstruction pointConstruction3, PointConstruction pointConstruction4) {
-		this();
-		this.startPointConstruction = pointConstruction1;
-		this.controlPointConstruction1 = pointConstruction2;
-		this.controlPointConstruction2 = pointConstruction3;
-		this.endPointConstruction = pointConstruction4;
-	}
+	public PointConstruction getControlPointConstruction1();
 
-	@Override
-	protected FGECubicCurve computeData() {
-		return new FGECubicCurve(startPointConstruction.getPoint(), controlPointConstruction1.getPoint(),
-				controlPointConstruction2.getPoint(), endPointConstruction.getPoint());
-	}
+	public void setControlPointConstruction1(PointConstruction controlPointConstruction1);
 
-	@Override
-	public String toString() {
-		return "CubicCurveWithFourPointsConstruction[\n" + "> " + startPointConstruction.toString() + "\n> "
-				+ controlPointConstruction1.toString() + "\n> " + controlPointConstruction2.toString() + "\n> "
-				+ endPointConstruction.toString() + "\n]";
-	}
+	public PointConstruction getControlPointConstruction2();
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { startPointConstruction, controlPointConstruction1, controlPointConstruction2,
-				endPointConstruction };
-		return returned;
+	public void setControlPointConstruction2(PointConstruction controlPointConstruction2);
+
+	public PointConstruction getEndPointConstruction();
+
+	public void setEndPointConstruction(PointConstruction endPointConstruction);
+
+	public static abstract class CubicCurveWithFourPointsConstructionImpl extends CubicCurveConstructionImpl {
+
+		private PointConstruction startPointConstruction;
+		private PointConstruction controlPointConstruction1;
+		private PointConstruction controlPointConstruction2;
+		private PointConstruction endPointConstruction;
+
+		@Override
+		protected FGECubicCurve computeData() {
+			return new FGECubicCurve(startPointConstruction.getPoint(), controlPointConstruction1.getPoint(),
+					controlPointConstruction2.getPoint(), endPointConstruction.getPoint());
+		}
+
+		@Override
+		public String toString() {
+			return "CubicCurveWithFourPointsConstruction[\n" + "> " + startPointConstruction.toString() + "\n> "
+					+ controlPointConstruction1.toString() + "\n> " + controlPointConstruction2.toString() + "\n> "
+					+ endPointConstruction.toString() + "\n]";
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { startPointConstruction, controlPointConstruction1, controlPointConstruction2,
+					endPointConstruction };
+			return returned;
+		}
+
+		public PointConstruction getStartPointConstruction() {
+			return startPointConstruction;
+		}
+
+		public void setStartPointConstruction(PointConstruction startPointConstruction) {
+			if ((startPointConstruction == null && this.startPointConstruction != null)
+					|| (startPointConstruction != null && !startPointConstruction.equals(this.startPointConstruction))) {
+				PointConstruction oldValue = this.startPointConstruction;
+				this.startPointConstruction = startPointConstruction;
+				getPropertyChangeSupport().firePropertyChange("startPointConstruction", oldValue, startPointConstruction);
+			}
+		}
+
+		public PointConstruction getControlPointConstruction1() {
+			return controlPointConstruction1;
+		}
+
+		public void setControlPointConstruction1(PointConstruction controlPointConstruction1) {
+			if ((controlPointConstruction1 == null && this.controlPointConstruction1 != null)
+					|| (controlPointConstruction1 != null && !controlPointConstruction1.equals(this.controlPointConstruction1))) {
+				PointConstruction oldValue = this.controlPointConstruction1;
+				this.controlPointConstruction1 = controlPointConstruction1;
+				getPropertyChangeSupport().firePropertyChange("controlPointConstruction1", oldValue, controlPointConstruction1);
+			}
+		}
+
+		public PointConstruction getControlPointConstruction2() {
+			return controlPointConstruction2;
+		}
+
+		public void setControlPointConstruction2(PointConstruction controlPointConstruction2) {
+			if ((controlPointConstruction2 == null && this.controlPointConstruction2 != null)
+					|| (controlPointConstruction2 != null && !controlPointConstruction2.equals(this.controlPointConstruction2))) {
+				PointConstruction oldValue = this.controlPointConstruction2;
+				this.controlPointConstruction2 = controlPointConstruction2;
+				getPropertyChangeSupport().firePropertyChange("controlPointConstruction2", oldValue, controlPointConstruction2);
+			}
+		}
+
+		public PointConstruction getEndPointConstruction() {
+			return endPointConstruction;
+		}
+
+		public void setEndPointConstruction(PointConstruction endPointConstruction) {
+			if ((endPointConstruction == null && this.endPointConstruction != null)
+					|| (endPointConstruction != null && !endPointConstruction.equals(this.endPointConstruction))) {
+				PointConstruction oldValue = this.endPointConstruction;
+				this.endPointConstruction = endPointConstruction;
+				getPropertyChangeSupport().firePropertyChange("endPointConstruction", oldValue, endPointConstruction);
+			}
+		}
+
 	}
 
 }

@@ -39,7 +39,6 @@
 
 package org.openflexo.fge.geomedit.construction;
 
-import org.openflexo.diana.geomedit.model.construction.GeometricConstruction;
 import org.openflexo.fge.geom.FGESegment;
 import org.openflexo.fge.geomedit.construction.SegmentReference.SegmentReferenceImpl;
 import org.openflexo.model.annotations.ImplementationClass;

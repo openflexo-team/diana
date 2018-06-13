@@ -39,39 +39,77 @@
 
 package org.openflexo.fge.geomedit.construction;
 
-import org.openflexo.diana.geomedit.model.construction.LineConstruction;
 import org.openflexo.fge.geom.area.FGEBand;
+import org.openflexo.fge.geomedit.construction.BandWithTwoLinesConstruction.BandWithTwoLinesConstructionImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
-public class BandWithTwoLinesConstruction extends BandConstruction {
+@ModelEntity
+@ImplementationClass(BandWithTwoLinesConstructionImpl.class)
+@XMLElement
+public interface BandWithTwoLinesConstruction extends BandConstruction {
 
-	public LineConstruction lineConstruction1;
-	public LineConstruction lineConstruction2;
+	public LineConstruction getLineConstruction1();
 
-	public BandWithTwoLinesConstruction() {
-		super();
-	}
+	public void setLineConstruction1(LineConstruction lineConstruction1);
 
-	public BandWithTwoLinesConstruction(LineConstruction aLineConstruction1, LineConstruction aLineConstruction2) {
-		this();
-		this.lineConstruction1 = aLineConstruction1;
-		this.lineConstruction2 = aLineConstruction2;
-	}
+	public LineConstruction getLineConstruction2();
 
-	@Override
-	protected FGEBand computeData() {
-		FGEBand returned = new FGEBand(lineConstruction1.getLine(), lineConstruction2.getLine());
-		return returned;
-	}
+	public void setLineConstruction2(LineConstruction lineConstruction2);
 
-	@Override
-	public String toString() {
-		return "BandWithTwoLinesConstruction[\n" + "> " + lineConstruction1.toString() + "\n> " + lineConstruction2.toString() + "\n]";
-	}
+	public static abstract class BandWithTwoLinesConstructionImpl extends BandConstructionImpl implements BandWithTwoLinesConstruction {
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { lineConstruction1, lineConstruction2 };
-		return returned;
+		private LineConstruction lineConstruction1;
+		private LineConstruction lineConstruction2;
+
+		@Override
+		public LineConstruction getLineConstruction1() {
+			return lineConstruction1;
+		}
+
+		@Override
+		public void setLineConstruction1(LineConstruction lineConstruction1) {
+			if ((lineConstruction1 == null && this.lineConstruction1 != null)
+					|| (lineConstruction1 != null && !lineConstruction1.equals(this.lineConstruction1))) {
+				LineConstruction oldValue = this.lineConstruction1;
+				this.lineConstruction1 = lineConstruction1;
+				getPropertyChangeSupport().firePropertyChange("lineConstruction1", oldValue, lineConstruction1);
+			}
+		}
+
+		@Override
+		public LineConstruction getLineConstruction2() {
+			return lineConstruction2;
+		}
+
+		@Override
+		public void setLineConstruction2(LineConstruction lineConstruction2) {
+			if ((lineConstruction2 == null && this.lineConstruction2 != null)
+					|| (lineConstruction2 != null && !lineConstruction2.equals(this.lineConstruction2))) {
+				LineConstruction oldValue = this.lineConstruction2;
+				this.lineConstruction2 = lineConstruction2;
+				getPropertyChangeSupport().firePropertyChange("lineConstruction2", oldValue, lineConstruction2);
+			}
+		}
+
+		@Override
+		protected FGEBand computeData() {
+			FGEBand returned = new FGEBand(lineConstruction1.getLine(), lineConstruction2.getLine());
+			return returned;
+		}
+
+		@Override
+		public String toString() {
+			return "BandWithTwoLinesConstruction[\n" + "> " + lineConstruction1.toString() + "\n> " + lineConstruction2.toString() + "\n]";
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { lineConstruction1, lineConstruction2 };
+			return returned;
+		}
+
 	}
 
 }
