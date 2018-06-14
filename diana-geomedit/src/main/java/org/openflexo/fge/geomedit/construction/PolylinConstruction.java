@@ -40,14 +40,29 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGEPolylin;
+import org.openflexo.fge.geomedit.construction.PolylinConstruction.PolylinConstructionImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
+import org.openflexo.model.annotations.ModelEntity;
 
-public abstract class PolylinConstruction extends GeometricConstruction<FGEPolylin> {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(PolylinConstructionImpl.class)
+@Imports({ @Import(PolylinWithNPointsConstruction.class) })
+public interface PolylinConstruction extends GeometricConstruction<FGEPolylin> {
 
-	public final FGEPolylin getPolylin() {
-		return getData();
+	public FGEPolylin getPolylin();
+
+	public static abstract class PolylinConstructionImpl extends GeometricConstructionImpl<FGEPolylin> implements PolylinConstruction {
+
+		@Override
+		public final FGEPolylin getPolylin() {
+			return getData();
+		}
+
+		@Override
+		protected abstract FGEPolylin computeData();
+
 	}
-
-	@Override
-	protected abstract FGEPolylin computeData();
 
 }

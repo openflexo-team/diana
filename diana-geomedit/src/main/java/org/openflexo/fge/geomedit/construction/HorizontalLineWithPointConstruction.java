@@ -40,34 +40,64 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGELine;
+import org.openflexo.fge.geomedit.construction.HorizontalLineWithPointConstruction.HorizontalLineWithPointConstructionImpl;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLElement;
 
-public class HorizontalLineWithPointConstruction extends LineConstruction {
+@ModelEntity
+@ImplementationClass(HorizontalLineWithPointConstructionImpl.class)
+@XMLElement
+public interface HorizontalLineWithPointConstruction extends LineConstruction {
 
-	public PointConstruction pointConstruction;
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String POINT_CONSTRUCTION_KEY = "pointConstruction";
 
-	public HorizontalLineWithPointConstruction() {
-		super();
-	}
+	@Getter(value = POINT_CONSTRUCTION_KEY)
+	public PointConstruction getPointConstruction();
 
-	public HorizontalLineWithPointConstruction(PointConstruction pointConstruction) {
-		this();
-		this.pointConstruction = pointConstruction;
-	}
+	@Setter(value = POINT_CONSTRUCTION_KEY)
+	public void setPointConstruction(PointConstruction pointConstruction);
 
-	@Override
-	protected FGELine computeData() {
-		return FGELine.makeHorizontalLine(pointConstruction.getPoint(), 100);
-	}
+	public static abstract class HorizontalLineWithPointConstructionImpl extends LineConstructionImpl
+			implements HorizontalLineWithPointConstruction {
 
-	@Override
-	public String toString() {
-		return "HorizontalLineWithPointConstruction[\n" + "> " + pointConstruction.toString() + "\n]";
-	}
+		private PointConstruction pointConstruction;
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { pointConstruction };
-		return returned;
+		@Override
+		public PointConstruction getPointConstruction() {
+			return pointConstruction;
+		}
+
+		@Override
+		public void setPointConstruction(PointConstruction pointConstruction) {
+			if ((pointConstruction == null && this.pointConstruction != null)
+					|| (pointConstruction != null && !pointConstruction.equals(this.pointConstruction))) {
+				PointConstruction oldValue = this.pointConstruction;
+				this.pointConstruction = pointConstruction;
+				getPropertyChangeSupport().firePropertyChange("pointConstruction", oldValue, pointConstruction);
+			}
+		}
+
+		@Override
+		protected FGELine computeData() {
+			return FGELine.makeHorizontalLine(pointConstruction.getPoint(), 100);
+		}
+
+		@Override
+		public String toString() {
+			return "HorizontalLineWithPointConstruction[\n" + "> " + pointConstruction.toString() + "\n]";
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { pointConstruction };
+			return returned;
+		}
+
 	}
 
 }

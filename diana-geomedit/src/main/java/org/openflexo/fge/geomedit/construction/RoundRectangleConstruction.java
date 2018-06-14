@@ -40,45 +40,79 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGERoundRectangle;
+import org.openflexo.fge.geomedit.construction.RoundRectangleConstruction.RoundRectangleConstructionImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
+import org.openflexo.model.annotations.ModelEntity;
 
-public abstract class RoundRectangleConstruction extends GeometricConstruction<FGERoundRectangle> {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(RoundRectangleConstructionImpl.class)
+@Imports({ @Import(RoundRectangleWithTwoPointsConstruction.class) })
+public interface RoundRectangleConstruction extends GeometricConstruction<FGERoundRectangle> {
 
-	private boolean isFilled;
+	public FGERoundRectangle getRectangle();
 
-	private double arcWidth = 30;
-	private double arcHeight = 30;
+	public boolean getIsFilled();
 
-	public final FGERoundRectangle getRectangle() {
-		return getData();
+	public void setIsFilled(boolean isFilled);
+
+	public double getArcHeight();
+
+	public void setArcHeight(double arcHeight);
+
+	public double getArcWidth();
+
+	public void setArcWidth(double arcWidth);
+
+	public static abstract class RoundRectangleConstructionImpl extends GeometricConstructionImpl<FGERoundRectangle>
+			implements RoundRectangleConstruction {
+
+		private boolean isFilled;
+
+		private double arcWidth = 30;
+		private double arcHeight = 30;
+
+		@Override
+		public final FGERoundRectangle getRectangle() {
+			return getData();
+		}
+
+		@Override
+		protected abstract FGERoundRectangle computeData();
+
+		@Override
+		public boolean getIsFilled() {
+			return isFilled;
+		}
+
+		@Override
+		public void setIsFilled(boolean isFilled) {
+			this.isFilled = isFilled;
+			setModified(true);
+		}
+
+		@Override
+		public double getArcHeight() {
+			return arcHeight;
+		}
+
+		@Override
+		public void setArcHeight(double arcHeight) {
+			this.arcHeight = arcHeight;
+			setModified(true);
+		}
+
+		@Override
+		public double getArcWidth() {
+			return arcWidth;
+		}
+
+		@Override
+		public void setArcWidth(double arcWidth) {
+			this.arcWidth = arcWidth;
+			setModified(true);
+		}
 	}
 
-	@Override
-	protected abstract FGERoundRectangle computeData();
-
-	public boolean getIsFilled() {
-		return isFilled;
-	}
-
-	public void setIsFilled(boolean isFilled) {
-		this.isFilled = isFilled;
-		setModified();
-	}
-
-	public double getArcHeight() {
-		return arcHeight;
-	}
-
-	public void setArcHeight(double arcHeight) {
-		this.arcHeight = arcHeight;
-		setModified();
-	}
-
-	public double getArcWidth() {
-		return arcWidth;
-	}
-
-	public void setArcWidth(double arcWidth) {
-		this.arcWidth = arcWidth;
-		setModified();
-	}
 }

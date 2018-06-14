@@ -45,50 +45,77 @@ import org.openflexo.fge.geom.FGEEllips;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geomedit.construction.RotatedLineWithPointConstruction.RotatedLineWithPointConstructionImpl;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLElement;
 
-public class RotatedLineWithPointConstruction extends LineConstruction {
+@ModelEntity
+@ImplementationClass(RotatedLineWithPointConstructionImpl.class)
+@XMLElement
+public interface RotatedLineWithPointConstruction extends LineConstruction {
 
-	public PointConstruction pointConstruction;
-	public LineConstruction lineConstruction;
-	public double angle;
+	@PropertyIdentifier(type = LineConstruction.class)
+	public static final String LINE_CONSTRUCTION_KEY = "lineConstruction";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String POINT_CONSTRUCTION_KEY = "pointConstruction";
+	@PropertyIdentifier(type = Double.class)
+	public static final String ANGLE_KEY = "angle";
 
-	public RotatedLineWithPointConstruction() {
-		super();
-	}
+	@Getter(value = LINE_CONSTRUCTION_KEY)
+	public LineConstruction getLineConstruction();
 
-	public RotatedLineWithPointConstruction(LineConstruction lineConstruction, PointConstruction pointConstruction, double anAngle) {
-		this();
-		this.lineConstruction = lineConstruction;
-		this.pointConstruction = pointConstruction;
-		angle = anAngle;
-	}
+	@Setter(value = LINE_CONSTRUCTION_KEY)
+	public void setLineConstruction(LineConstruction lineConstruction);
 
-	@Override
-	protected FGELine computeData() {
-		FGELine computedLine = FGEAbstractLine.getRotatedLine(lineConstruction.getLine(), angle, pointConstruction.getPoint());
+	@Getter(value = POINT_CONSTRUCTION_KEY)
+	public PointConstruction getPointConstruction();
 
-		FGEPoint p1, p2;
-		p1 = pointConstruction.getPoint().clone();
-		if (lineConstruction.getLine().contains(pointConstruction.getPoint())) {
-			FGEEllips ellips = new FGEEllips(p1, new FGEDimension(200, 200), Filling.NOT_FILLED);
-			p2 = ellips.intersect(computedLine).getNearestPoint(p1);
-		} else {
-			p2 = computedLine.getLineIntersection(lineConstruction.getLine()).clone();
+	@Setter(value = POINT_CONSTRUCTION_KEY)
+	public void setPointConstruction(PointConstruction pointConstruction);
+
+	@Getter(ANGLE_KEY)
+	public double getAngle();
+
+	@Setter(ANGLE_KEY)
+	public void setAngle(double angle);
+
+	public static abstract class RotatedLineWithPointConstructionImpl extends LineConstructionImpl
+			implements RotatedLineWithPointConstruction {
+
+		@Override
+		protected FGELine computeData() {
+			FGELine computedLine = FGEAbstractLine.getRotatedLine(getLineConstruction().getLine(), getAngle(),
+					getPointConstruction().getPoint());
+
+			FGEPoint p1, p2;
+			p1 = getPointConstruction().getPoint().clone();
+			if (getLineConstruction().getLine().contains(getPointConstruction().getPoint())) {
+				FGEEllips ellips = new FGEEllips(p1, new FGEDimension(200, 200), Filling.NOT_FILLED);
+				p2 = ellips.intersect(computedLine).getNearestPoint(p1);
+			}
+			else {
+				p2 = computedLine.getLineIntersection(getLineConstruction().getLine()).clone();
+			}
+			return new FGELine(p1, p2);
+
 		}
-		return new FGELine(p1, p2);
 
-	}
+		@Override
+		public String toString() {
+			return "RotatedLineWithPointConstruction[" + getAngle() + "\n" + "> " + getLineConstruction().toString() + "\n> "
+					+ getPointConstruction().toString() + "\n]";
+		}
 
-	@Override
-	public String toString() {
-		return "RotatedLineWithPointConstruction[" + angle + "\n" + "> " + lineConstruction.toString() + "\n> "
-				+ pointConstruction.toString() + "\n]";
-	}
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { getPointConstruction(), getLineConstruction() };
+			return returned;
+		}
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { pointConstruction, lineConstruction };
-		return returned;
 	}
 
 }

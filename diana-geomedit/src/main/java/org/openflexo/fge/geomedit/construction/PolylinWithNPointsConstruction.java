@@ -39,49 +39,82 @@
 
 package org.openflexo.fge.geomedit.construction;
 
+import java.util.List;
 import java.util.Vector;
 
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geom.FGERectPolylin;
+import org.openflexo.fge.geomedit.construction.PolylinWithNPointsConstruction.PolylinWithNPointsConstructionImpl;
+import org.openflexo.model.annotations.Adder;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.Getter.Cardinality;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Remover;
+import org.openflexo.model.annotations.XMLElement;
 
-public class PolylinWithNPointsConstruction extends PolylinConstruction {
+@ModelEntity
+@ImplementationClass(PolylinWithNPointsConstructionImpl.class)
+@XMLElement
+public interface PolylinWithNPointsConstruction extends PolylinConstruction {
 
-	public Vector<PointConstruction> pointConstructions;
+	@PropertyIdentifier(type = PointConstruction.class, cardinality = Cardinality.LIST)
+	public static final String POINT_CONSTRUCTIONS_KEY = "pointConstructions";
 
-	public PolylinWithNPointsConstruction() {
-		super();
-		pointConstructions = new Vector<PointConstruction>();
-	}
+	@Getter(POINT_CONSTRUCTIONS_KEY)
+	public List<PointConstruction> getPointConstructions();
 
-	public PolylinWithNPointsConstruction(Vector<PointConstruction> somePointConstructions) {
-		this();
-		this.pointConstructions.addAll(somePointConstructions);
-	}
+	@Adder(POINT_CONSTRUCTIONS_KEY)
+	public void addToPointConstructions(PointConstruction pointConstruction);
 
-	@Override
-	protected FGEPolylin computeData() {
-		Vector<FGEPoint> pts = new Vector<FGEPoint>();
-		for (PointConstruction pc : pointConstructions) {
-			pts.add(pc.getPoint());
+	@Remover(POINT_CONSTRUCTIONS_KEY)
+	public void removeFromPointConstructions(PointConstruction pointConstruction);
+
+	public static abstract class PolylinWithNPointsConstructionImpl extends PolylinConstructionImpl
+			implements PolylinWithNPointsConstruction {
+
+		public List<PointConstruction> pointConstructions;
+
+		@Override
+		public List<PointConstruction> getPointConstructions() {
+			return pointConstructions;
 		}
-		return new FGERectPolylin(pts);
-	}
 
-	@Override
-	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("PolylinWithNPointsConstruction[\n");
-		for (PointConstruction pc : pointConstructions) {
-			sb.append("> " + pc.toString() + "\n");
+		@Override
+		public void addToPointConstructions(PointConstruction pointConstruction) {
+			pointConstructions.add(pointConstruction);
 		}
-		sb.append("]");
-		return sb.toString();
-	}
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		return pointConstructions.toArray(new GeometricConstruction[pointConstructions.size()]);
-	}
+		@Override
+		public void removeFromPointConstructions(PointConstruction pointConstruction) {
+			pointConstructions.remove(pointConstruction);
+		}
 
+		@Override
+		protected FGEPolylin computeData() {
+			Vector<FGEPoint> pts = new Vector<FGEPoint>();
+			for (PointConstruction pc : pointConstructions) {
+				pts.add(pc.getPoint());
+			}
+			return new FGERectPolylin(pts);
+		}
+
+		@Override
+		public String toString() {
+			StringBuffer sb = new StringBuffer();
+			sb.append("PolylinWithNPointsConstruction[\n");
+			for (PointConstruction pc : pointConstructions) {
+				sb.append("> " + pc.toString() + "\n");
+			}
+			sb.append("]");
+			return sb.toString();
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			return pointConstructions.toArray(new GeometricConstruction[pointConstructions.size()]);
+		}
+	}
 }

@@ -39,55 +39,71 @@
 
 package org.openflexo.fge.geomedit.construction;
 
-import java.util.Vector;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.logging.FlexoLogger;
 
-public class IntersectionConstruction extends GeometricConstruction<FGEArea> {
+public interface IntersectionConstruction extends GeometricConstruction<FGEArea> {
 
-	private static final Logger logger = FlexoLogger.getLogger(IntersectionConstruction.class.getPackage().getName());
+	public List<ObjectReference<? extends FGEArea>> getObjectConstructions();
 
-	public Vector<ObjectReference<? extends FGEArea>> objectConstructions;
+	public void addToObjectConstructions(ObjectReference<? extends FGEArea> objectReference);
 
-	public IntersectionConstruction() {
-		super();
-		objectConstructions = new Vector<ObjectReference<? extends FGEArea>>();
-	}
+	public void removeFromObjectConstructions(ObjectReference<? extends FGEArea> objectReference);
 
-	public IntersectionConstruction(Vector<ObjectReference<? extends FGEArea>> someGeometricConstructions) {
-		this();
-		this.objectConstructions.addAll(someGeometricConstructions);
-	}
+	public static abstract class IntersectionConstructionImpl extends GeometricConstructionImpl<FGEArea>
+			implements IntersectionConstruction {
 
-	@Override
-	protected FGEArea computeData() {
-		FGEArea o1 = objectConstructions.get(0).getData();
-		FGEArea o2 = objectConstructions.get(1).getData();
-		FGEArea returned = o1.intersect(o2);
-		logger.info("Intersection between " + o1 + " and " + o2 + " gives " + returned);
-		if (returned == null) {
-			new Exception("Unexpected intersection").printStackTrace();
+		private static final Logger logger = FlexoLogger.getLogger(IntersectionConstruction.class.getPackage().getName());
+
+		private List<ObjectReference<? extends FGEArea>> objectConstructions;
+
+		@Override
+		public List<ObjectReference<? extends FGEArea>> getObjectConstructions() {
+			return objectConstructions;
 		}
-		return returned;
-	}
 
-	@Override
-	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("IntersectionConstruction[\n");
-		for (GeometricConstruction c : objectConstructions) {
-			sb.append("> " + c.toString() + "\n");
+		@Override
+		public void addToObjectConstructions(ObjectReference<? extends FGEArea> objectReference) {
+			objectConstructions.add(objectReference);
 		}
-		sb.append("-> " + getData() + "\n");
-		sb.append("]");
-		return sb.toString();
-	}
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		return objectConstructions.toArray(new GeometricConstruction[objectConstructions.size()]);
+		@Override
+		public void removeFromObjectConstructions(ObjectReference<? extends FGEArea> objectReference) {
+			objectConstructions.remove(objectReference);
+		}
+
+		@Override
+		protected FGEArea computeData() {
+			FGEArea o1 = objectConstructions.get(0).getData();
+			FGEArea o2 = objectConstructions.get(1).getData();
+			FGEArea returned = o1.intersect(o2);
+			logger.info("Intersection between " + o1 + " and " + o2 + " gives " + returned);
+			if (returned == null) {
+				new Exception("Unexpected intersection").printStackTrace();
+			}
+			return returned;
+		}
+
+		@Override
+		public String toString() {
+			StringBuffer sb = new StringBuffer();
+			sb.append("IntersectionConstruction[\n");
+			for (GeometricConstruction c : objectConstructions) {
+				sb.append("> " + c.toString() + "\n");
+			}
+			sb.append("-> " + getData() + "\n");
+			sb.append("]");
+			return sb.toString();
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			return objectConstructions.toArray(new GeometricConstruction[objectConstructions.size()]);
+		}
+
 	}
 
 }

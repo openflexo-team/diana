@@ -51,8 +51,11 @@ import org.openflexo.model.annotations.ModelEntity;
 @Imports({ @Import(CircleReference.class), @Import(CircleWithCenterAndPointConstruction.class) })
 public interface CircleConstruction extends EllipsConstruction<FGECircle> {
 
+	public FGECircle getCircle();
+
 	public static abstract class CircleConstructionImpl extends EllipsConstructionImpl<FGECircle> implements CircleConstruction {
 
+		@Override
 		public final FGECircle getCircle() {
 			return getData();
 		}

@@ -40,24 +40,44 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGERectangle;
+import org.openflexo.fge.geomedit.construction.RectangleConstruction.RectangleConstructionImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
+import org.openflexo.model.annotations.ModelEntity;
 
-public abstract class RectangleConstruction extends GeometricConstruction<FGERectangle> {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(RectangleConstructionImpl.class)
+@Imports({ @Import(RectangleWithTwoPointsConstruction.class) })
+public interface RectangleConstruction extends GeometricConstruction<FGERectangle> {
 
-	private boolean isFilled;
+	public FGERectangle getRectangle();
 
-	public final FGERectangle getRectangle() {
-		return getData();
-	}
+	public boolean getIsFilled();
 
-	@Override
-	protected abstract FGERectangle computeData();
+	public void setIsFilled(boolean isFilled);
 
-	public boolean getIsFilled() {
-		return isFilled;
-	}
+	public abstract class RectangleConstructionImpl extends GeometricConstructionImpl<FGERectangle> implements RectangleConstruction {
 
-	public void setIsFilled(boolean isFilled) {
-		this.isFilled = isFilled;
-		setModified();
+		private boolean isFilled;
+
+		@Override
+		public final FGERectangle getRectangle() {
+			return getData();
+		}
+
+		@Override
+		protected abstract FGERectangle computeData();
+
+		@Override
+		public boolean getIsFilled() {
+			return isFilled;
+		}
+
+		@Override
+		public void setIsFilled(boolean isFilled) {
+			this.isFilled = isFilled;
+			setModified(true);
+		}
 	}
 }

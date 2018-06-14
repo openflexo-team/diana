@@ -42,47 +42,99 @@ package org.openflexo.fge.geomedit.construction;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
+import org.openflexo.fge.geomedit.construction.RectangleWithTwoPointsConstruction.RectangleWithTwoPointsConstructionImpl;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLElement;
 
-public class RectangleWithTwoPointsConstruction extends RectangleConstruction {
+@ModelEntity
+@ImplementationClass(RectangleWithTwoPointsConstructionImpl.class)
+@XMLElement
+public interface RectangleWithTwoPointsConstruction extends RectangleConstruction {
 
-	public PointConstruction pointConstruction1;
-	public PointConstruction pointConstruction2;
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String POINT_CONSTRUCTION_1_KEY = "pointConstruction1";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String POINT_CONSTRUCTION_2_KEY = "pointConstruction2";
 
-	public RectangleWithTwoPointsConstruction() {
-		super();
-	}
+	@Getter(value = POINT_CONSTRUCTION_1_KEY)
+	public PointConstruction getPointConstruction1();
 
-	public RectangleWithTwoPointsConstruction(PointConstruction pointConstruction1, PointConstruction pointConstruction2) {
-		super();
-		this.pointConstruction1 = pointConstruction1;
-		this.pointConstruction2 = pointConstruction2;
-	}
+	@Setter(value = POINT_CONSTRUCTION_1_KEY)
+	public void setPointConstruction1(PointConstruction pointConstruction);
 
-	@Override
-	protected FGERectangle computeData() {
-		FGEPoint p1 = pointConstruction1.getPoint();
-		FGEPoint p2 = pointConstruction2.getPoint();
+	@Getter(value = POINT_CONSTRUCTION_2_KEY)
+	public PointConstruction getPointConstruction2();
 
-		FGEPoint p = new FGEPoint();
-		p.x = Math.min(p1.x, p2.x);
-		p.y = Math.min(p1.y, p2.y);
+	@Setter(value = POINT_CONSTRUCTION_2_KEY)
+	public void setPointConstruction2(PointConstruction pointConstruction);
 
-		double width = Math.abs(p1.x - p2.x);
-		double height = Math.abs(p1.y - p2.y);
+	public static abstract class RectangleWithTwoPointsConstructionImpl extends RectangleConstructionImpl
+			implements RectangleWithTwoPointsConstruction {
 
-		return new FGERectangle(p.x, p.y, width, height, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
-	}
+		private PointConstruction pointConstruction1;
+		private PointConstruction pointConstruction2;
 
-	@Override
-	public String toString() {
-		return "RectangleWithTwoPointsConstruction[\n" + "> " + pointConstruction1.toString() + "\n> " + pointConstruction2.toString()
-				+ "\n]";
-	}
+		@Override
+		protected FGERectangle computeData() {
+			FGEPoint p1 = pointConstruction1.getPoint();
+			FGEPoint p2 = pointConstruction2.getPoint();
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { pointConstruction1, pointConstruction2 };
-		return returned;
+			FGEPoint p = new FGEPoint();
+			p.x = Math.min(p1.x, p2.x);
+			p.y = Math.min(p1.y, p2.y);
+
+			double width = Math.abs(p1.x - p2.x);
+			double height = Math.abs(p1.y - p2.y);
+
+			return new FGERectangle(p.x, p.y, width, height, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
+		}
+
+		@Override
+		public String toString() {
+			return "RectangleWithTwoPointsConstruction[\n" + "> " + pointConstruction1.toString() + "\n> " + pointConstruction2.toString()
+					+ "\n]";
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { pointConstruction1, pointConstruction2 };
+			return returned;
+		}
+
+		@Override
+		public PointConstruction getPointConstruction1() {
+			return pointConstruction1;
+		}
+
+		@Override
+		public void setPointConstruction1(PointConstruction pointConstruction1) {
+			if ((pointConstruction1 == null && this.pointConstruction1 != null)
+					|| (pointConstruction1 != null && !pointConstruction1.equals(this.pointConstruction1))) {
+				PointConstruction oldValue = this.pointConstruction1;
+				this.pointConstruction1 = pointConstruction1;
+				getPropertyChangeSupport().firePropertyChange("pointConstruction1", oldValue, pointConstruction1);
+			}
+		}
+
+		@Override
+		public PointConstruction getPointConstruction2() {
+			return pointConstruction2;
+		}
+
+		@Override
+		public void setPointConstruction2(PointConstruction pointConstruction2) {
+			if ((pointConstruction2 == null && this.pointConstruction2 != null)
+					|| (pointConstruction2 != null && !pointConstruction2.equals(this.pointConstruction2))) {
+				PointConstruction oldValue = this.pointConstruction2;
+				this.pointConstruction2 = pointConstruction2;
+				getPropertyChangeSupport().firePropertyChange("pointConstruction2", oldValue, pointConstruction2);
+			}
+		}
+
 	}
 
 }

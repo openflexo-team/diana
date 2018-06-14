@@ -40,24 +40,44 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGEPolygon;
+import org.openflexo.fge.geomedit.construction.PolygonConstruction.PolygonConstructionImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
+import org.openflexo.model.annotations.ModelEntity;
 
-public abstract class PolygonConstruction extends GeometricConstruction<FGEPolygon> {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(PolygonConstructionImpl.class)
+@Imports({ @Import(PolygonWithNPointsConstruction.class) })
+public interface PolygonConstruction extends GeometricConstruction<FGEPolygon> {
 
-	private boolean isFilled;
+	public boolean getIsFilled();
 
-	public final FGEPolygon getPolygon() {
-		return getData();
-	}
+	public void setIsFilled(boolean isFilled);
 
-	@Override
-	protected abstract FGEPolygon computeData();
+	public FGEPolygon getPolygon();
 
-	public boolean getIsFilled() {
-		return isFilled;
-	}
+	public static abstract class PolygonConstructionImpl extends GeometricConstructionImpl<FGEPolygon> implements PolygonConstruction {
 
-	public void setIsFilled(boolean isFilled) {
-		this.isFilled = isFilled;
-		setModified();
+		private boolean isFilled;
+
+		@Override
+		public final FGEPolygon getPolygon() {
+			return getData();
+		}
+
+		@Override
+		protected abstract FGEPolygon computeData();
+
+		@Override
+		public boolean getIsFilled() {
+			return isFilled;
+		}
+
+		@Override
+		public void setIsFilled(boolean isFilled) {
+			this.isFilled = isFilled;
+			setModified(true);
+		}
 	}
 }

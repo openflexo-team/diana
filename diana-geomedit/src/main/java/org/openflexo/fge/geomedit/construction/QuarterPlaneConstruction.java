@@ -40,14 +40,27 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.area.FGEQuarterPlane;
+import org.openflexo.fge.geomedit.construction.QuarterPlaneConstruction.QuarterPlaneConstructionImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
 
-public abstract class QuarterPlaneConstruction extends GeometricConstruction<FGEQuarterPlane> {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(QuarterPlaneConstructionImpl.class)
+public interface QuarterPlaneConstruction extends GeometricConstruction<FGEQuarterPlane> {
 
-	public final FGEQuarterPlane getQuarterPlane() {
-		return getData();
+	public FGEQuarterPlane getQuarterPlane();
+
+	public static abstract class QuarterPlaneConstructionImpl extends GeometricConstructionImpl<FGEQuarterPlane>
+			implements QuarterPlaneConstruction {
+
+		@Override
+		public final FGEQuarterPlane getQuarterPlane() {
+			return getData();
+		}
+
+		@Override
+		protected abstract FGEQuarterPlane computeData();
+
 	}
-
-	@Override
-	protected abstract FGEQuarterPlane computeData();
 
 }

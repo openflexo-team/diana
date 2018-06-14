@@ -40,34 +40,54 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.fge.geomedit.construction.ObjectReference.ObjectReferenceImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
-public class ObjectReference<O extends FGEArea> extends GeometricConstruction<O> {
+@ModelEntity
+@ImplementationClass(ObjectReferenceImpl.class)
+@XMLElement
+public interface ObjectReference<O extends FGEArea> extends GeometricConstruction<O> {
 
-	public GeometricConstruction<O> reference;
+	public GeometricConstruction<O> getReference();
 
-	public ObjectReference() {
-		super();
-	}
+	public void setReference(GeometricConstruction<O> reference);
 
-	public ObjectReference(GeometricConstruction<O> aReference) {
-		this();
-		this.reference = aReference;
-	}
+	public static abstract class ObjectReferenceImpl<O extends FGEArea> extends GeometricConstructionImpl<O> implements ObjectReference<O> {
 
-	@Override
-	protected O computeData() {
-		return reference.getData();
-	}
+		private GeometricConstruction<O> reference;
 
-	@Override
-	public String toString() {
-		return "ObjectReference[" + reference.toString() + "]";
-	}
+		@Override
+		public GeometricConstruction<O> getReference() {
+			return reference;
+		}
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { reference };
-		return returned;
+		@Override
+		public void setReference(GeometricConstruction<O> reference) {
+			if ((reference == null && this.reference != null) || (reference != null && !reference.equals(this.reference))) {
+				GeometricConstruction<O> oldValue = this.reference;
+				this.reference = reference;
+				getPropertyChangeSupport().firePropertyChange("reference", oldValue, reference);
+			}
+		}
+
+		@Override
+		protected O computeData() {
+			return reference.getData();
+		}
+
+		@Override
+		public String toString() {
+			return "ObjectReference[" + reference.toString() + "]";
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { reference };
+			return returned;
+		}
+
 	}
 
 }

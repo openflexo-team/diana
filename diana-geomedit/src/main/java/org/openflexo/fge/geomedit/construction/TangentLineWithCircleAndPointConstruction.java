@@ -44,48 +44,121 @@ import java.util.logging.Logger;
 import org.openflexo.fge.geom.FGECircle;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.area.FGEUnionArea;
+import org.openflexo.fge.geomedit.construction.TangentLineWithCircleAndPointConstruction.TangentLineWithCircleAndPointConstructionImpl;
 import org.openflexo.logging.FlexoLogger;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLElement;
 
-public class TangentLineWithCircleAndPointConstruction extends LineConstruction {
+@ModelEntity
+@ImplementationClass(TangentLineWithCircleAndPointConstructionImpl.class)
+@XMLElement
+public interface TangentLineWithCircleAndPointConstruction extends LineConstruction {
 
-	private static final Logger logger = FlexoLogger.getLogger(TangentLineWithCircleAndPointConstruction.class.getPackage().getName());
+	@PropertyIdentifier(type = CircleConstruction.class)
+	public static final String CIRCLE_CONSTRUCTION_KEY = "circleConstruction";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String POINT_CONSTRUCTION_KEY = "pointConstruction";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String CHOOSING_POINT_CONSTRUCTION_KEY = "choosingPointConstruction";
 
-	public CircleConstruction circleConstruction;
-	public PointConstruction pointConstruction;
-	public PointConstruction choosingPointConstruction;
+	@Getter(value = CIRCLE_CONSTRUCTION_KEY)
+	public CircleConstruction getCircleConstruction();
 
-	public TangentLineWithCircleAndPointConstruction() {
-		super();
-	}
+	@Setter(value = CIRCLE_CONSTRUCTION_KEY)
+	public void setCircleConstruction(CircleConstruction pointConstruction);
 
-	public TangentLineWithCircleAndPointConstruction(CircleConstruction circleConstruction, PointConstruction pointConstruction,
-			PointConstruction choosingPointConstruction) {
-		this();
-		this.circleConstruction = circleConstruction;
-		this.pointConstruction = pointConstruction;
-		this.choosingPointConstruction = choosingPointConstruction;
-	}
+	@Getter(value = POINT_CONSTRUCTION_KEY)
+	public PointConstruction getPointConstruction();
 
-	@Override
-	protected FGELine computeData() {
-		FGEUnionArea tangentPoints = FGECircle.getTangentsPointsToCircle(circleConstruction.getCircle(), pointConstruction.getPoint());
-		if (tangentPoints.isUnionOfPoints()) {
-			return new FGELine(tangentPoints.getNearestPoint(choosingPointConstruction.getPoint()), pointConstruction.getPoint());
+	@Setter(value = POINT_CONSTRUCTION_KEY)
+	public void setPointConstruction(PointConstruction pointConstruction);
+
+	@Getter(value = CHOOSING_POINT_CONSTRUCTION_KEY)
+	public PointConstruction getChoosingPointConstruction();
+
+	@Setter(value = CHOOSING_POINT_CONSTRUCTION_KEY)
+	public void setChoosingPointConstruction(PointConstruction pointConstruction);
+
+	public static abstract class TangentLineWithCircleAndPointConstructionImpl extends LineConstructionImpl
+			implements TangentLineWithCircleAndPointConstruction {
+
+		private static final Logger logger = FlexoLogger.getLogger(TangentLineWithCircleAndPointConstruction.class.getPackage().getName());
+
+		private CircleConstruction circleConstruction;
+		private PointConstruction pointConstruction;
+		private PointConstruction choosingPointConstruction;
+
+		@Override
+		protected FGELine computeData() {
+			FGEUnionArea tangentPoints = FGECircle.getTangentsPointsToCircle(circleConstruction.getCircle(), pointConstruction.getPoint());
+			if (tangentPoints.isUnionOfPoints()) {
+				return new FGELine(tangentPoints.getNearestPoint(choosingPointConstruction.getPoint()), pointConstruction.getPoint());
+			}
+			logger.warning("Received strange result for FGEEllips.getTangentsPointsToCircle()");
+			return null;
 		}
-		logger.warning("Received strange result for FGEEllips.getTangentsPointsToCircle()");
-		return null;
-	}
 
-	@Override
-	public String toString() {
-		return "TangentLineWithCircleAndPoint[\n" + "> " + circleConstruction.toString() + "\n> " + pointConstruction.toString() + "\n> "
-				+ choosingPointConstruction.toString() + "\n]";
-	}
+		@Override
+		public String toString() {
+			return "TangentLineWithCircleAndPoint[\n" + "> " + circleConstruction.toString() + "\n> " + pointConstruction.toString()
+					+ "\n> " + choosingPointConstruction.toString() + "\n]";
+		}
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { circleConstruction, pointConstruction, choosingPointConstruction };
-		return returned;
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { circleConstruction, pointConstruction, choosingPointConstruction };
+			return returned;
+		}
+
+		@Override
+		public CircleConstruction getCircleConstruction() {
+			return circleConstruction;
+		}
+
+		@Override
+		public void setCircleConstruction(CircleConstruction circleConstruction) {
+			if ((circleConstruction == null && this.circleConstruction != null)
+					|| (circleConstruction != null && !circleConstruction.equals(this.circleConstruction))) {
+				CircleConstruction oldValue = this.circleConstruction;
+				this.circleConstruction = circleConstruction;
+				getPropertyChangeSupport().firePropertyChange("circleConstruction", oldValue, circleConstruction);
+			}
+		}
+
+		@Override
+		public PointConstruction getPointConstruction() {
+			return pointConstruction;
+		}
+
+		@Override
+		public void setPointConstruction(PointConstruction pointConstruction) {
+			if ((pointConstruction == null && this.pointConstruction != null)
+					|| (pointConstruction != null && !pointConstruction.equals(this.pointConstruction))) {
+				PointConstruction oldValue = this.pointConstruction;
+				this.pointConstruction = pointConstruction;
+				getPropertyChangeSupport().firePropertyChange("pointConstruction", oldValue, pointConstruction);
+			}
+		}
+
+		@Override
+		public PointConstruction getChoosingPointConstruction() {
+			return choosingPointConstruction;
+		}
+
+		@Override
+		public void setChoosingPointConstruction(PointConstruction choosingPointConstruction) {
+			if ((choosingPointConstruction == null && this.choosingPointConstruction != null)
+					|| (choosingPointConstruction != null && !choosingPointConstruction.equals(this.choosingPointConstruction))) {
+				PointConstruction oldValue = this.choosingPointConstruction;
+				this.choosingPointConstruction = choosingPointConstruction;
+				getPropertyChangeSupport().firePropertyChange("choosingPointConstruction", oldValue, choosingPointConstruction);
+			}
+		}
+
 	}
 
 }

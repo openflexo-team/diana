@@ -40,14 +40,30 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGEQuadCurve;
+import org.openflexo.fge.geomedit.construction.QuadCurveConstruction.QuadCurveConstructionImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.Import;
+import org.openflexo.model.annotations.Imports;
+import org.openflexo.model.annotations.ModelEntity;
 
-public abstract class QuadCurveConstruction extends GeometricConstruction<FGEQuadCurve> {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(QuadCurveConstructionImpl.class)
+@Imports({ @Import(QuadCurveWithThreePointsConstruction.class) })
+public interface QuadCurveConstruction extends GeometricConstruction<FGEQuadCurve> {
 
-	public final FGEQuadCurve getCurve() {
-		return getData();
+	public FGEQuadCurve getCurve();
+
+	public static abstract class QuadCurveConstructionImpl extends GeometricConstructionImpl<FGEQuadCurve>
+			implements QuadCurveConstruction {
+
+		@Override
+		public final FGEQuadCurve getCurve() {
+			return getData();
+		}
+
+		@Override
+		protected abstract FGEQuadCurve computeData();
+
 	}
-
-	@Override
-	protected abstract FGEQuadCurve computeData();
 
 }

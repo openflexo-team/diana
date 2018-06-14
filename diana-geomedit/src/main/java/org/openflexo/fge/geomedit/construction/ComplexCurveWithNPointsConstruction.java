@@ -39,13 +39,19 @@
 
 package org.openflexo.fge.geomedit.construction;
 
+import java.util.List;
 import java.util.Vector;
 
 import org.openflexo.fge.geom.FGEComplexCurve;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geomedit.construction.ComplexCurveWithNPointsConstruction.ComplexCurveWithNPointsConstructionImpl;
+import org.openflexo.model.annotations.Adder;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.Getter.Cardinality;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Remover;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
@@ -53,19 +59,25 @@ import org.openflexo.model.annotations.XMLElement;
 @XMLElement
 public interface ComplexCurveWithNPointsConstruction extends ComplexCurveConstruction {
 
-	public Vector<PointConstruction> getPointConstructions();
+	@PropertyIdentifier(type = PointConstruction.class, cardinality = Cardinality.LIST)
+	public static final String POINT_CONSTRUCTIONS_KEY = "pointConstructions";
 
+	@Getter(POINT_CONSTRUCTIONS_KEY)
+	public List<PointConstruction> getPointConstructions();
+
+	@Adder(POINT_CONSTRUCTIONS_KEY)
 	public void addToPointConstructions(PointConstruction pointConstruction);
 
+	@Remover(POINT_CONSTRUCTIONS_KEY)
 	public void removeFromPointConstructions(PointConstruction pointConstruction);
 
 	public static abstract class ComplexCurveWithNPointsConstructionImpl extends ComplexCurveConstructionImpl
 			implements ComplexCurveWithNPointsConstruction {
 
-		public Vector<PointConstruction> pointConstructions;
+		public List<PointConstruction> pointConstructions;
 
 		@Override
-		public Vector<PointConstruction> getPointConstructions() {
+		public List<PointConstruction> getPointConstructions() {
 			return pointConstructions;
 		}
 

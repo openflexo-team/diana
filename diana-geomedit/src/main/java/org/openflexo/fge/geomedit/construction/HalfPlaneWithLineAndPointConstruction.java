@@ -40,38 +40,78 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.area.FGEHalfPlane;
+import org.openflexo.fge.geomedit.construction.HalfPlaneWithLineAndPointConstruction.HalfPlaneWithLineAndPointConstructionImpl;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
-public class HalfPlaneWithLineAndPointConstruction extends HalfPlaneConstruction {
+@ModelEntity
+@ImplementationClass(HalfPlaneWithLineAndPointConstructionImpl.class)
+@XMLElement
+public interface HalfPlaneWithLineAndPointConstruction extends HalfPlaneConstruction {
 
-	public LineConstruction lineConstruction;
-	public PointConstruction pointConstruction;
+	public LineConstruction getLineConstruction();
 
-	public HalfPlaneWithLineAndPointConstruction() {
-		super();
-	}
+	public void setLineConstruction(LineConstruction lineConstruction);
 
-	public HalfPlaneWithLineAndPointConstruction(LineConstruction aLineConstruction, PointConstruction aPointConstruction) {
-		this();
-		this.lineConstruction = aLineConstruction;
-		this.pointConstruction = aPointConstruction;
-	}
+	public PointConstruction getPointConstruction();
 
-	@Override
-	protected FGEHalfPlane computeData() {
-		FGEHalfPlane returned = new FGEHalfPlane(lineConstruction.getLine(), pointConstruction.getPoint());
-		return returned;
-	}
+	public void setPointConstruction(PointConstruction pointConstruction);
 
-	@Override
-	public String toString() {
-		return "HalfPlaneWithLineAndPointConstruction[\n" + "> " + lineConstruction.toString() + "\n> " + pointConstruction.toString()
-				+ "\n]";
-	}
+	public static abstract class HalfPlaneWithLineAndPointConstructionImpl extends HalfPlaneConstructionImpl
+			implements HalfPlaneWithLineAndPointConstruction {
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { lineConstruction, pointConstruction };
-		return returned;
+		private LineConstruction lineConstruction;
+		private PointConstruction pointConstruction;
+
+		@Override
+		protected FGEHalfPlane computeData() {
+			FGEHalfPlane returned = new FGEHalfPlane(lineConstruction.getLine(), pointConstruction.getPoint());
+			return returned;
+		}
+
+		@Override
+		public String toString() {
+			return "HalfPlaneWithLineAndPointConstruction[\n" + "> " + lineConstruction.toString() + "\n> " + pointConstruction.toString()
+					+ "\n]";
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { lineConstruction, pointConstruction };
+			return returned;
+		}
+
+		@Override
+		public LineConstruction getLineConstruction() {
+			return lineConstruction;
+		}
+
+		@Override
+		public void setLineConstruction(LineConstruction lineConstruction) {
+			if ((lineConstruction == null && this.lineConstruction != null)
+					|| (lineConstruction != null && !lineConstruction.equals(this.lineConstruction))) {
+				LineConstruction oldValue = this.lineConstruction;
+				this.lineConstruction = lineConstruction;
+				getPropertyChangeSupport().firePropertyChange("lineConstruction", oldValue, lineConstruction);
+			}
+		}
+
+		@Override
+		public PointConstruction getPointConstruction() {
+			return pointConstruction;
+		}
+
+		@Override
+		public void setPointConstruction(PointConstruction pointConstruction) {
+			if ((pointConstruction == null && this.pointConstruction != null)
+					|| (pointConstruction != null && !pointConstruction.equals(this.pointConstruction))) {
+				PointConstruction oldValue = this.pointConstruction;
+				this.pointConstruction = pointConstruction;
+				getPropertyChangeSupport().firePropertyChange("pointConstruction", oldValue, pointConstruction);
+			}
+		}
+
 	}
 
 }

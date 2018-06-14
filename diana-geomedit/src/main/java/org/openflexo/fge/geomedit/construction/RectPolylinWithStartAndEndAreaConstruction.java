@@ -43,51 +43,80 @@ import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geom.FGERectPolylin;
 import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.fge.geomedit.construction.RectPolylinWithStartAndEndAreaConstruction.RectPolylinWithStartAndEndAreaConstructionImpl;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLElement;
 
-public class RectPolylinWithStartAndEndAreaConstruction extends PolylinConstruction {
+@ModelEntity
+@ImplementationClass(RectPolylinWithStartAndEndAreaConstructionImpl.class)
+@XMLElement
+public interface RectPolylinWithStartAndEndAreaConstruction extends PolylinConstruction {
 
-	public ObjectReference<? extends FGEArea> startAreaConstruction;
-	public ObjectReference<? extends FGEArea> endAreaConstruction;
-	public SimplifiedCardinalDirection startOrientation;
-	public SimplifiedCardinalDirection endOrientation;
+	@PropertyIdentifier(type = ObjectReference.class)
+	public static final String START_AREA_CONSTRUCTION_KEY = "startAreaConstruction";
+	@PropertyIdentifier(type = ObjectReference.class)
+	public static final String END_AREA_CONSTRUCTION_KEY = "endAreaConstruction";
+	@PropertyIdentifier(type = SimplifiedCardinalDirection.class)
+	public static final String START_ORIENTATION_KEY = "startOrientation";
+	@PropertyIdentifier(type = SimplifiedCardinalDirection.class)
+	public static final String END_ORIENTATION_KEY = "endOrientation";
 
-	public RectPolylinWithStartAndEndAreaConstruction() {
-		super();
-	}
+	@Getter(START_AREA_CONSTRUCTION_KEY)
+	public ObjectReference<? extends FGEArea> getStartAreaConstruction();
 
-	public RectPolylinWithStartAndEndAreaConstruction(ObjectReference<? extends FGEArea> aStartAreaConstruction,
-			SimplifiedCardinalDirection aStartOrientation, ObjectReference<? extends FGEArea> anEndAreaConstruction,
-			SimplifiedCardinalDirection aEndOrientation) {
-		this();
-		this.startAreaConstruction = aStartAreaConstruction;
-		this.startOrientation = aStartOrientation;
-		this.endAreaConstruction = anEndAreaConstruction;
-		this.endOrientation = aEndOrientation;
-	}
+	@Setter(START_AREA_CONSTRUCTION_KEY)
+	public void setStartAreaConstruction(ObjectReference<? extends FGEArea> startAreaConstruction);
 
-	@Override
-	protected FGEPolylin computeData() {
-		FGEArea startArea = startAreaConstruction.getData();
-		FGEArea endArea = endAreaConstruction.getData();
-		if (startOrientation == null) {
-			startOrientation = SimplifiedCardinalDirection.NORTH;
+	@Getter(END_AREA_CONSTRUCTION_KEY)
+	public ObjectReference<? extends FGEArea> getEndAreaConstruction();
+
+	@Setter(END_AREA_CONSTRUCTION_KEY)
+	public void setEndAreaConstruction(ObjectReference<? extends FGEArea> endAreaConstruction);
+
+	@Getter(START_ORIENTATION_KEY)
+	public SimplifiedCardinalDirection getStartOrientation();
+
+	@Setter(START_ORIENTATION_KEY)
+	public void setStartOrientation(SimplifiedCardinalDirection startOrientation);
+
+	@Getter(END_ORIENTATION_KEY)
+	public SimplifiedCardinalDirection getEndOrientation();
+
+	@Setter(END_ORIENTATION_KEY)
+	public void setEndOrientation(SimplifiedCardinalDirection endOrientation);
+
+	public static abstract class RectPolylinWithStartAndEndAreaConstructionImpl extends PolylinConstructionImpl
+			implements RectPolylinWithStartAndEndAreaConstruction {
+
+		@Override
+		protected FGEPolylin computeData() {
+			FGEArea startArea = getStartAreaConstruction().getData();
+			FGEArea endArea = getEndAreaConstruction().getData();
+			if (getStartOrientation() == null) {
+				setStartOrientation(SimplifiedCardinalDirection.NORTH);
+			}
+			if (getEndOrientation() == null) {
+				setEndOrientation(SimplifiedCardinalDirection.SOUTH);
+			}
+			return new FGERectPolylin(startArea, getStartOrientation(), endArea, getEndOrientation(), false, 10, 10);
 		}
-		if (endOrientation == null) {
-			endOrientation = SimplifiedCardinalDirection.SOUTH;
+
+		@Override
+		public String toString() {
+			return "RectPolylinWithStartAndEndAreaConstruction[\n" + "> " + getStartAreaConstruction().toString() + "-"
+					+ getStartOrientation() + "\n> " + "> " + getEndAreaConstruction().toString() + "-" + getEndOrientation() + "\n]";
 		}
-		return new FGERectPolylin(startArea, startOrientation, endArea, endOrientation, false, 10, 10);
-	}
 
-	@Override
-	public String toString() {
-		return "RectPolylinWithStartAndEndAreaConstruction[\n" + "> " + startAreaConstruction.toString() + "-" + startOrientation + "\n> "
-				+ "> " + endAreaConstruction.toString() + "-" + endOrientation + "\n]";
-	}
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { getStartAreaConstruction(), getEndAreaConstruction() };
+			return returned;
+		}
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { startAreaConstruction, endAreaConstruction };
-		return returned;
 	}
 
 }

@@ -41,8 +41,11 @@ package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGECubicCurve;
 import org.openflexo.fge.geomedit.construction.CubicCurveWithFourPointsConstruction.CubicCurveWithFourPointsConstructionImpl;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
@@ -50,23 +53,41 @@ import org.openflexo.model.annotations.XMLElement;
 @XMLElement
 public interface CubicCurveWithFourPointsConstruction extends CubicCurveConstruction {
 
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String START_POINT_CONSTRUCTION_KEY = "startPointConstruction";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String END_POINT_CONSTRUCTION_KEY = "endPointConstruction";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String CONTROL_POINT_CONSTRUCTION_1_KEY = "controlPointConstruction1";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String CONTROL_POINT_CONSTRUCTION_2_KEY = "controlPointConstruction2";
+
+	@Getter(value = START_POINT_CONSTRUCTION_KEY)
 	public PointConstruction getStartPointConstruction();
 
+	@Setter(value = START_POINT_CONSTRUCTION_KEY)
 	public void setStartPointConstruction(PointConstruction startPointConstruction);
 
+	@Getter(value = CONTROL_POINT_CONSTRUCTION_1_KEY)
 	public PointConstruction getControlPointConstruction1();
 
-	public void setControlPointConstruction1(PointConstruction controlPointConstruction1);
+	@Setter(value = CONTROL_POINT_CONSTRUCTION_1_KEY)
+	public void setControlPointConstruction1(PointConstruction controlPointConstruction);
 
+	@Getter(value = CONTROL_POINT_CONSTRUCTION_2_KEY)
 	public PointConstruction getControlPointConstruction2();
 
-	public void setControlPointConstruction2(PointConstruction controlPointConstruction2);
+	@Setter(value = CONTROL_POINT_CONSTRUCTION_2_KEY)
+	public void setControlPointConstruction2(PointConstruction controlPointConstruction);
 
+	@Getter(value = END_POINT_CONSTRUCTION_KEY)
 	public PointConstruction getEndPointConstruction();
 
+	@Setter(value = END_POINT_CONSTRUCTION_KEY)
 	public void setEndPointConstruction(PointConstruction endPointConstruction);
 
-	public static abstract class CubicCurveWithFourPointsConstructionImpl extends CubicCurveConstructionImpl {
+	public static abstract class CubicCurveWithFourPointsConstructionImpl extends CubicCurveConstructionImpl
+			implements CubicCurveWithFourPointsConstruction {
 
 		private PointConstruction startPointConstruction;
 		private PointConstruction controlPointConstruction1;
@@ -93,10 +114,12 @@ public interface CubicCurveWithFourPointsConstruction extends CubicCurveConstruc
 			return returned;
 		}
 
+		@Override
 		public PointConstruction getStartPointConstruction() {
 			return startPointConstruction;
 		}
 
+		@Override
 		public void setStartPointConstruction(PointConstruction startPointConstruction) {
 			if ((startPointConstruction == null && this.startPointConstruction != null)
 					|| (startPointConstruction != null && !startPointConstruction.equals(this.startPointConstruction))) {
@@ -106,10 +129,12 @@ public interface CubicCurveWithFourPointsConstruction extends CubicCurveConstruc
 			}
 		}
 
+		@Override
 		public PointConstruction getControlPointConstruction1() {
 			return controlPointConstruction1;
 		}
 
+		@Override
 		public void setControlPointConstruction1(PointConstruction controlPointConstruction1) {
 			if ((controlPointConstruction1 == null && this.controlPointConstruction1 != null)
 					|| (controlPointConstruction1 != null && !controlPointConstruction1.equals(this.controlPointConstruction1))) {
@@ -119,10 +144,12 @@ public interface CubicCurveWithFourPointsConstruction extends CubicCurveConstruc
 			}
 		}
 
+		@Override
 		public PointConstruction getControlPointConstruction2() {
 			return controlPointConstruction2;
 		}
 
+		@Override
 		public void setControlPointConstruction2(PointConstruction controlPointConstruction2) {
 			if ((controlPointConstruction2 == null && this.controlPointConstruction2 != null)
 					|| (controlPointConstruction2 != null && !controlPointConstruction2.equals(this.controlPointConstruction2))) {
@@ -132,10 +159,12 @@ public interface CubicCurveWithFourPointsConstruction extends CubicCurveConstruc
 			}
 		}
 
+		@Override
 		public PointConstruction getEndPointConstruction() {
 			return endPointConstruction;
 		}
 
+		@Override
 		public void setEndPointConstruction(PointConstruction endPointConstruction) {
 			if ((endPointConstruction == null && this.endPointConstruction != null)
 					|| (endPointConstruction != null && !endPointConstruction.equals(this.endPointConstruction))) {

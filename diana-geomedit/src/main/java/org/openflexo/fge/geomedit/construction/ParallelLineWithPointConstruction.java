@@ -41,41 +41,94 @@ package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geomedit.construction.ParallelLineWithPointConstruction.ParallelLineWithPointConstructionImpl;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLElement;
 
-public class ParallelLineWithPointConstruction extends LineConstruction {
+@ModelEntity
+@ImplementationClass(ParallelLineWithPointConstructionImpl.class)
+@XMLElement
+public interface ParallelLineWithPointConstruction extends LineConstruction {
 
-	public LineConstruction lineConstruction;
-	public PointConstruction pointConstruction;
+	@PropertyIdentifier(type = LineConstruction.class)
+	public static final String LINE_CONSTRUCTION_KEY = "lineConstruction";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String POINT_CONSTRUCTION_KEY = "pointConstruction";
 
-	public ParallelLineWithPointConstruction() {
-		super();
-	}
+	@Getter(value = LINE_CONSTRUCTION_KEY)
+	public LineConstruction getLineConstruction();
 
-	public ParallelLineWithPointConstruction(LineConstruction aLineConstruction, PointConstruction aPointConstruction) {
-		this();
-		this.lineConstruction = aLineConstruction;
-		this.pointConstruction = aPointConstruction;
-	}
+	@Setter(value = LINE_CONSTRUCTION_KEY)
+	public void setLineConstruction(LineConstruction lineConstruction);
 
-	@Override
-	protected FGELine computeData() {
-		FGELine computedLine = lineConstruction.getLine().getParallelLine(pointConstruction.getPoint());
-		FGEPoint pp1 = computedLine.getProjection(lineConstruction.getLine().getP1());
-		FGEPoint pp2 = computedLine.getProjection(lineConstruction.getLine().getP2());
-		computedLine.setP1(pp1);
-		computedLine.setP2(pp2);
-		return computedLine;
-	}
+	@Getter(value = POINT_CONSTRUCTION_KEY)
+	public PointConstruction getPointConstruction();
 
-	@Override
-	public String toString() {
-		return "ParallelLineWithPointConstruction[\n" + "> " + lineConstruction.toString() + "\n> " + pointConstruction.toString() + "\n]";
-	}
+	@Setter(value = POINT_CONSTRUCTION_KEY)
+	public void setPointConstruction(PointConstruction pointConstruction);
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { lineConstruction, pointConstruction };
-		return returned;
+	public static abstract class ParallelLineWithPointConstructionImpl extends LineConstructionImpl
+			implements ParallelLineWithPointConstruction {
+
+		private LineConstruction lineConstruction;
+		private PointConstruction pointConstruction;
+
+		@Override
+		protected FGELine computeData() {
+			FGELine computedLine = lineConstruction.getLine().getParallelLine(pointConstruction.getPoint());
+			FGEPoint pp1 = computedLine.getProjection(lineConstruction.getLine().getP1());
+			FGEPoint pp2 = computedLine.getProjection(lineConstruction.getLine().getP2());
+			computedLine.setP1(pp1);
+			computedLine.setP2(pp2);
+			return computedLine;
+		}
+
+		@Override
+		public String toString() {
+			return "ParallelLineWithPointConstruction[\n" + "> " + lineConstruction.toString() + "\n> " + pointConstruction.toString()
+					+ "\n]";
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { lineConstruction, pointConstruction };
+			return returned;
+		}
+
+		@Override
+		public LineConstruction getLineConstruction() {
+			return lineConstruction;
+		}
+
+		@Override
+		public void setLineConstruction(LineConstruction lineConstruction) {
+			if ((lineConstruction == null && this.lineConstruction != null)
+					|| (lineConstruction != null && !lineConstruction.equals(this.lineConstruction))) {
+				LineConstruction oldValue = this.lineConstruction;
+				this.lineConstruction = lineConstruction;
+				getPropertyChangeSupport().firePropertyChange(LINE_CONSTRUCTION_KEY, oldValue, lineConstruction);
+			}
+		}
+
+		@Override
+		public PointConstruction getPointConstruction() {
+			return pointConstruction;
+		}
+
+		@Override
+		public void setPointConstruction(PointConstruction pointConstruction) {
+			if ((pointConstruction == null && this.pointConstruction != null)
+					|| (pointConstruction != null && !pointConstruction.equals(this.pointConstruction))) {
+				PointConstruction oldValue = this.pointConstruction;
+				this.pointConstruction = pointConstruction;
+				getPropertyChangeSupport().firePropertyChange(POINT_CONSTRUCTION_KEY, oldValue, pointConstruction);
+			}
+		}
+
 	}
 
 }

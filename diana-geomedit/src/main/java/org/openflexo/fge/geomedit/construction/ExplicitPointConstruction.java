@@ -54,7 +54,12 @@ public interface ExplicitPointConstruction extends PointConstruction {
 
 	public static abstract class ExplicitPointConstructionImpl extends PointConstructionImpl implements ExplicitPointConstruction {
 
-		public FGEPoint point;
+		private FGEPoint point;
+
+		@Override
+		public final FGEPoint getPoint() {
+			return point;
+		}
 
 		@Override
 		public void setPoint(FGEPoint p) {

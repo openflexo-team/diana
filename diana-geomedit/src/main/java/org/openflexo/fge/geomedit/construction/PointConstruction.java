@@ -59,10 +59,10 @@ public interface PointConstruction extends GeometricConstruction<FGEPoint> {
 
 	public FGEPoint getPoint();
 
-	public static abstract class PointConstructionImpl extends GeometricConstructionImpl<FGEPoint>implements PointConstruction {
+	public static abstract class PointConstructionImpl extends GeometricConstructionImpl<FGEPoint> implements PointConstruction {
 
 		@Override
-		public final FGEPoint getPoint() {
+		public FGEPoint getPoint() {
 			return getData();
 		}
 

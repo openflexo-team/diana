@@ -42,48 +42,67 @@ package org.openflexo.fge.geomedit.construction;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERoundRectangle;
+import org.openflexo.fge.geomedit.construction.RoundRectangleWithTwoPointsConstruction.RoundRectangleWithTwoPointsConstructionImpl;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLElement;
 
-public class RoundRectangleWithTwoPointsConstruction extends RoundRectangleConstruction {
+@ModelEntity
+@ImplementationClass(RoundRectangleWithTwoPointsConstructionImpl.class)
+@XMLElement
+public interface RoundRectangleWithTwoPointsConstruction extends RoundRectangleConstruction {
 
-	public PointConstruction pointConstruction1;
-	public PointConstruction pointConstruction2;
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String POINT_CONSTRUCTION_1_KEY = "pointConstruction1";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String POINT_CONSTRUCTION_2_KEY = "pointConstruction2";
 
-	public RoundRectangleWithTwoPointsConstruction() {
-		super();
-	}
+	@Getter(value = POINT_CONSTRUCTION_1_KEY)
+	public PointConstruction getPointConstruction1();
 
-	public RoundRectangleWithTwoPointsConstruction(PointConstruction pointConstruction1, PointConstruction pointConstruction2) {
-		super();
-		this.pointConstruction1 = pointConstruction1;
-		this.pointConstruction2 = pointConstruction2;
-	}
+	@Setter(value = POINT_CONSTRUCTION_1_KEY)
+	public void setPointConstruction1(PointConstruction pointConstruction1);
 
-	@Override
-	protected FGERoundRectangle computeData() {
-		FGEPoint p1 = pointConstruction1.getPoint();
-		FGEPoint p2 = pointConstruction2.getPoint();
+	@Getter(value = POINT_CONSTRUCTION_2_KEY)
+	public PointConstruction getPointConstruction2();
 
-		FGEPoint p = new FGEPoint();
-		p.x = Math.min(p1.x, p2.x);
-		p.y = Math.min(p1.y, p2.y);
+	@Setter(value = POINT_CONSTRUCTION_2_KEY)
+	public void setPointConstruction2(PointConstruction pointConstruction2);
 
-		double width = Math.abs(p1.x - p2.x);
-		double height = Math.abs(p1.y - p2.y);
+	public static abstract class RoundRectangleWithTwoPointsConstructionImpl extends RoundRectangleConstructionImpl
+			implements RoundRectangleWithTwoPointsConstruction {
 
-		return new FGERoundRectangle(p.x, p.y, width, height, getArcWidth(), getArcHeight(), getIsFilled() ? Filling.FILLED
-				: Filling.NOT_FILLED);
-	}
+		@Override
+		protected FGERoundRectangle computeData() {
+			FGEPoint p1 = getPointConstruction1().getPoint();
+			FGEPoint p2 = getPointConstruction2().getPoint();
 
-	@Override
-	public String toString() {
-		return "RoundRectangleWithTwoPointsConstruction[\n" + "> " + pointConstruction1.toString() + "\n> " + pointConstruction2.toString()
-				+ "\n]";
-	}
+			FGEPoint p = new FGEPoint();
+			p.x = Math.min(p1.x, p2.x);
+			p.y = Math.min(p1.y, p2.y);
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { pointConstruction1, pointConstruction2 };
-		return returned;
+			double width = Math.abs(p1.x - p2.x);
+			double height = Math.abs(p1.y - p2.y);
+
+			return new FGERoundRectangle(p.x, p.y, width, height, getArcWidth(), getArcHeight(),
+					getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
+		}
+
+		@Override
+		public String toString() {
+			return "RoundRectangleWithTwoPointsConstruction[\n" + "> " + getPointConstruction1().toString() + "\n> "
+					+ getPointConstruction2().toString() + "\n]";
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { getPointConstruction1(), getPointConstruction2() };
+			return returned;
+		}
+
 	}
 
 }

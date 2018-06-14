@@ -40,37 +40,49 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGESegment;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 
-public class SegmentWithTwoPointsConstruction extends SegmentConstruction {
+public interface SegmentWithTwoPointsConstruction extends SegmentConstruction {
 
-	public PointConstruction pointConstruction1;
-	public PointConstruction pointConstruction2;
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String POINT_CONSTRUCTION_1_KEY = "pointConstruction1";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String POINT_CONSTRUCTION_2_KEY = "pointConstruction2";
 
-	public SegmentWithTwoPointsConstruction() {
-		super();
-	}
+	@Getter(value = POINT_CONSTRUCTION_1_KEY)
+	public PointConstruction getPointConstruction1();
 
-	public SegmentWithTwoPointsConstruction(PointConstruction pointConstruction1, PointConstruction pointConstruction2) {
-		this();
-		this.pointConstruction1 = pointConstruction1;
-		this.pointConstruction2 = pointConstruction2;
-	}
+	@Setter(value = POINT_CONSTRUCTION_1_KEY)
+	public void setPointConstruction1(PointConstruction pointConstruction1);
 
-	@Override
-	protected FGESegment computeData() {
-		return new FGESegment(pointConstruction1.getPoint(), pointConstruction2.getPoint());
-	}
+	@Getter(value = POINT_CONSTRUCTION_2_KEY)
+	public PointConstruction getPointConstruction2();
 
-	@Override
-	public String toString() {
-		return "SegmentWithTwoPointsConstruction[\n" + "> " + pointConstruction1.toString() + "\n> " + pointConstruction2.toString()
-				+ "\n]";
-	}
+	@Setter(value = POINT_CONSTRUCTION_2_KEY)
+	public void setPointConstruction2(PointConstruction pointConstruction2);
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { pointConstruction1, pointConstruction2 };
-		return returned;
+	public static abstract class SegmentWithTwoPointsConstructionImpl extends SegmentConstructionImpl
+			implements SegmentWithTwoPointsConstruction {
+
+		@Override
+		protected FGESegment computeData() {
+			return new FGESegment(getPointConstruction1().getPoint(), getPointConstruction2().getPoint());
+		}
+
+		@Override
+		public String toString() {
+			return "SegmentWithTwoPointsConstruction[\n" + "> " + getPointConstruction1().toString() + "\n> "
+					+ getPointConstruction2().toString() + "\n]";
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { getPointConstruction1(), getPointConstruction2() };
+			return returned;
+		}
+
 	}
 
 }

@@ -44,46 +44,99 @@ import org.openflexo.fge.geom.FGEEllips;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geomedit.construction.OrthogonalLineWithPointConstruction.OrthogonalLineWithPointConstructionImpl;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLElement;
 
-public class OrthogonalLineWithPointConstruction extends LineConstruction {
+@ModelEntity
+@ImplementationClass(OrthogonalLineWithPointConstructionImpl.class)
+@XMLElement
+public interface OrthogonalLineWithPointConstruction extends LineConstruction {
 
-	public LineConstruction lineConstruction;
-	public PointConstruction pointConstruction;
+	@PropertyIdentifier(type = LineConstruction.class)
+	public static final String LINE_CONSTRUCTION_KEY = "lineConstruction";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String POINT_CONSTRUCTION_KEY = "pointConstruction";
 
-	public OrthogonalLineWithPointConstruction() {
-		super();
-	}
+	@Getter(value = LINE_CONSTRUCTION_KEY)
+	public LineConstruction getLineConstruction();
 
-	public OrthogonalLineWithPointConstruction(LineConstruction aLineConstruction, PointConstruction aPointConstruction) {
-		this();
-		this.lineConstruction = aLineConstruction;
-		this.pointConstruction = aPointConstruction;
-	}
+	@Setter(value = LINE_CONSTRUCTION_KEY)
+	public void setLineConstruction(LineConstruction lineConstruction);
 
-	@Override
-	protected FGELine computeData() {
-		FGELine computedLine = lineConstruction.getLine().getOrthogonalLine(pointConstruction.getPoint());
-		FGEPoint p1, p2;
-		p1 = pointConstruction.getPoint().clone();
-		if (lineConstruction.getLine().contains(pointConstruction.getPoint())) {
-			FGEEllips ellips = new FGEEllips(p1, new FGEDimension(200, 200), Filling.NOT_FILLED);
-			p2 = ellips.intersect(computedLine).getNearestPoint(p1);
-		} else {
-			p2 = computedLine.getLineIntersection(lineConstruction.getLine()).clone();
+	@Getter(value = POINT_CONSTRUCTION_KEY)
+	public PointConstruction getPointConstruction();
+
+	@Setter(value = POINT_CONSTRUCTION_KEY)
+	public void setPointConstruction(PointConstruction pointConstruction);
+
+	public static abstract class OrthogonalLineWithPointConstructionImpl extends LineConstructionImpl
+			implements OrthogonalLineWithPointConstruction {
+
+		private LineConstruction lineConstruction;
+		private PointConstruction pointConstruction;
+
+		@Override
+		protected FGELine computeData() {
+			FGELine computedLine = lineConstruction.getLine().getOrthogonalLine(pointConstruction.getPoint());
+			FGEPoint p1, p2;
+			p1 = pointConstruction.getPoint().clone();
+			if (lineConstruction.getLine().contains(pointConstruction.getPoint())) {
+				FGEEllips ellips = new FGEEllips(p1, new FGEDimension(200, 200), Filling.NOT_FILLED);
+				p2 = ellips.intersect(computedLine).getNearestPoint(p1);
+			}
+			else {
+				p2 = computedLine.getLineIntersection(lineConstruction.getLine()).clone();
+			}
+			return new FGELine(p1, p2);
 		}
-		return new FGELine(p1, p2);
-	}
 
-	@Override
-	public String toString() {
-		return "OrthogonalLineWithPointConstruction[\n" + "> " + lineConstruction.toString() + "\n> " + pointConstruction.toString()
-				+ "\n]";
-	}
+		@Override
+		public String toString() {
+			return "OrthogonalLineWithPointConstruction[\n" + "> " + lineConstruction.toString() + "\n> " + pointConstruction.toString()
+					+ "\n]";
+		}
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { lineConstruction, pointConstruction };
-		return returned;
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { lineConstruction, pointConstruction };
+			return returned;
+		}
+
+		@Override
+		public LineConstruction getLineConstruction() {
+			return lineConstruction;
+		}
+
+		@Override
+		public void setLineConstruction(LineConstruction lineConstruction) {
+			if ((lineConstruction == null && this.lineConstruction != null)
+					|| (lineConstruction != null && !lineConstruction.equals(this.lineConstruction))) {
+				LineConstruction oldValue = this.lineConstruction;
+				this.lineConstruction = lineConstruction;
+				getPropertyChangeSupport().firePropertyChange(LINE_CONSTRUCTION_KEY, oldValue, lineConstruction);
+			}
+		}
+
+		@Override
+		public PointConstruction getPointConstruction() {
+			return pointConstruction;
+		}
+
+		@Override
+		public void setPointConstruction(PointConstruction pointConstruction) {
+			if ((pointConstruction == null && this.pointConstruction != null)
+					|| (pointConstruction != null && !pointConstruction.equals(this.pointConstruction))) {
+				PointConstruction oldValue = this.pointConstruction;
+				this.pointConstruction = pointConstruction;
+				getPropertyChangeSupport().firePropertyChange(POINT_CONSTRUCTION_KEY, oldValue, pointConstruction);
+			}
+		}
+
 	}
 
 }

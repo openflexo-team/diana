@@ -41,36 +41,87 @@ package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGESegment;
+import org.openflexo.fge.geomedit.construction.SymetricPointConstruction.SymetricPointConstructionImpl;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLElement;
 
-public class SymetricPointConstruction extends PointConstruction {
+@ModelEntity
+@ImplementationClass(SymetricPointConstructionImpl.class)
+@XMLElement
+public interface SymetricPointConstruction extends PointConstruction {
 
-	public PointConstruction pointConstruction;
-	public PointConstruction pivotConstruction;
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String POINT_CONSTRUCTION_KEY = "pointConstruction";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String PIVOT_CONSTRUCTION_KEY = "pivotConstruction";
 
-	public SymetricPointConstruction() {
-		super();
-	}
+	@Getter(value = POINT_CONSTRUCTION_KEY)
+	public PointConstruction getPointConstruction();
 
-	public SymetricPointConstruction(PointConstruction pointConstruction, PointConstruction pivotConstruction) {
-		this();
-		this.pointConstruction = pointConstruction;
-		this.pivotConstruction = pivotConstruction;
-	}
+	@Setter(value = POINT_CONSTRUCTION_KEY)
+	public void setPointConstruction(PointConstruction pointConstruction);
 
-	@Override
-	protected FGEPoint computeData() {
-		return new FGESegment(pointConstruction.getPoint(), pivotConstruction.getPoint()).getScaledPoint(2);
-	}
+	@Getter(value = PIVOT_CONSTRUCTION_KEY)
+	public PointConstruction getPivotConstruction();
 
-	@Override
-	public String toString() {
-		return "SymetricPointConstruction[\n" + "> " + pointConstruction.toString() + "\n> " + pivotConstruction.toString() + "\n]";
-	}
+	@Setter(value = PIVOT_CONSTRUCTION_KEY)
+	public void setPivotConstruction(PointConstruction pivotConstruction);
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { pointConstruction, pivotConstruction };
-		return returned;
+	public static abstract class SymetricPointConstructionImpl extends PointConstructionImpl implements SymetricPointConstruction {
+
+		private PointConstruction pointConstruction;
+		private PointConstruction pivotConstruction;
+
+		@Override
+		protected FGEPoint computeData() {
+			return new FGESegment(pointConstruction.getPoint(), pivotConstruction.getPoint()).getScaledPoint(2);
+		}
+
+		@Override
+		public String toString() {
+			return "SymetricPointConstruction[\n" + "> " + pointConstruction.toString() + "\n> " + pivotConstruction.toString() + "\n]";
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { pointConstruction, pivotConstruction };
+			return returned;
+		}
+
+		@Override
+		public PointConstruction getPointConstruction() {
+			return pointConstruction;
+		}
+
+		@Override
+		public void setPointConstruction(PointConstruction pointConstruction) {
+			if ((pointConstruction == null && this.pointConstruction != null)
+					|| (pointConstruction != null && !pointConstruction.equals(this.pointConstruction))) {
+				PointConstruction oldValue = this.pointConstruction;
+				this.pointConstruction = pointConstruction;
+				getPropertyChangeSupport().firePropertyChange("pointConstruction", oldValue, pointConstruction);
+			}
+		}
+
+		@Override
+		public PointConstruction getPivotConstruction() {
+			return pivotConstruction;
+		}
+
+		@Override
+		public void setPivotConstruction(PointConstruction pivotConstruction) {
+			if ((pivotConstruction == null && this.pivotConstruction != null)
+					|| (pivotConstruction != null && !pivotConstruction.equals(this.pivotConstruction))) {
+				PointConstruction oldValue = this.pivotConstruction;
+				this.pivotConstruction = pivotConstruction;
+				getPropertyChangeSupport().firePropertyChange("pivotConstruction", oldValue, pivotConstruction);
+			}
+		}
+
 	}
 
 }

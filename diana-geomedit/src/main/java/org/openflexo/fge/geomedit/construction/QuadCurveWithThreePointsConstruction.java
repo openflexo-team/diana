@@ -40,40 +40,114 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGEQuadCurve;
+import org.openflexo.fge.geomedit.construction.QuadCurveWithThreePointsConstruction.QuadCurveWithThreePointsConstructionImpl;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLElement;
 
-public class QuadCurveWithThreePointsConstruction extends QuadCurveConstruction {
+@ModelEntity
+@ImplementationClass(QuadCurveWithThreePointsConstructionImpl.class)
+@XMLElement
+public interface QuadCurveWithThreePointsConstruction extends QuadCurveConstruction {
 
-	public PointConstruction startPointConstruction;
-	public PointConstruction controlPointConstruction;
-	public PointConstruction endPointConstruction;
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String START_POINT_CONSTRUCTION_KEY = "startPointConstruction";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String END_POINT_CONSTRUCTION_KEY = "endPointConstruction";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String CONTROL_POINT_CONSTRUCTION_KEY = "controlPointConstruction";
 
-	public QuadCurveWithThreePointsConstruction() {
-		super();
-	}
+	@Getter(value = START_POINT_CONSTRUCTION_KEY)
+	public PointConstruction getStartPointConstruction();
 
-	public QuadCurveWithThreePointsConstruction(PointConstruction pointConstruction1, PointConstruction pointConstruction2,
-			PointConstruction pointConstruction3) {
-		this();
-		this.startPointConstruction = pointConstruction1;
-		this.controlPointConstruction = pointConstruction2;
-		this.endPointConstruction = pointConstruction3;
-	}
+	@Setter(value = START_POINT_CONSTRUCTION_KEY)
+	public void setStartPointConstruction(PointConstruction startPointConstruction);
 
-	@Override
-	protected FGEQuadCurve computeData() {
-		return new FGEQuadCurve(startPointConstruction.getPoint(), controlPointConstruction.getPoint(), endPointConstruction.getPoint());
-	}
+	@Getter(value = CONTROL_POINT_CONSTRUCTION_KEY)
+	public PointConstruction getControlPointConstruction();
 
-	@Override
-	public String toString() {
-		return "QuadCurveWithThreePointsConstruction[\n" + "> " + startPointConstruction.toString() + "\n> "
-				+ controlPointConstruction.toString() + "\n> " + endPointConstruction.toString() + "\n]";
-	}
+	@Setter(value = CONTROL_POINT_CONSTRUCTION_KEY)
+	public void setControlPointConstruction(PointConstruction controlPointConstruction);
 
-	@Override
-	public GeometricConstruction[] getDepends() {
-		GeometricConstruction[] returned = { startPointConstruction, controlPointConstruction, endPointConstruction };
-		return returned;
+	@Getter(value = END_POINT_CONSTRUCTION_KEY)
+	public PointConstruction getEndPointConstruction();
+
+	@Setter(value = END_POINT_CONSTRUCTION_KEY)
+	public void setEndPointConstruction(PointConstruction endPointConstruction);
+
+	public static abstract class QuadCurveWithThreePointsConstructionImpl extends QuadCurveConstructionImpl
+			implements QuadCurveWithThreePointsConstruction {
+
+		private PointConstruction startPointConstruction;
+		private PointConstruction controlPointConstruction;
+		private PointConstruction endPointConstruction;
+
+		@Override
+		protected FGEQuadCurve computeData() {
+			return new FGEQuadCurve(startPointConstruction.getPoint(), controlPointConstruction.getPoint(),
+					endPointConstruction.getPoint());
+		}
+
+		@Override
+		public String toString() {
+			return "QuadCurveWithThreePointsConstruction[\n" + "> " + startPointConstruction.toString() + "\n> "
+					+ controlPointConstruction.toString() + "\n> " + endPointConstruction.toString() + "\n]";
+		}
+
+		@Override
+		public GeometricConstruction[] getDepends() {
+			GeometricConstruction[] returned = { startPointConstruction, controlPointConstruction, endPointConstruction };
+			return returned;
+		}
+
+		@Override
+		public PointConstruction getStartPointConstruction() {
+			return startPointConstruction;
+		}
+
+		@Override
+		public void setStartPointConstruction(PointConstruction startPointConstruction) {
+			if ((startPointConstruction == null && this.startPointConstruction != null)
+					|| (startPointConstruction != null && !startPointConstruction.equals(this.startPointConstruction))) {
+				PointConstruction oldValue = this.startPointConstruction;
+				this.startPointConstruction = startPointConstruction;
+				getPropertyChangeSupport().firePropertyChange("startPointConstruction", oldValue, startPointConstruction);
+			}
+		}
+
+		@Override
+		public PointConstruction getControlPointConstruction() {
+			return controlPointConstruction;
+		}
+
+		@Override
+		public void setControlPointConstruction(PointConstruction controlPointConstruction) {
+			if ((controlPointConstruction == null && this.controlPointConstruction != null)
+					|| (controlPointConstruction != null && !controlPointConstruction.equals(this.controlPointConstruction))) {
+				PointConstruction oldValue = this.controlPointConstruction;
+				this.controlPointConstruction = controlPointConstruction;
+				getPropertyChangeSupport().firePropertyChange("controlPointConstruction", oldValue, controlPointConstruction);
+			}
+		}
+
+		@Override
+		public PointConstruction getEndPointConstruction() {
+			return endPointConstruction;
+		}
+
+		@Override
+		public void setEndPointConstruction(PointConstruction endPointConstruction) {
+			if ((endPointConstruction == null && this.endPointConstruction != null)
+					|| (endPointConstruction != null && !endPointConstruction.equals(this.endPointConstruction))) {
+				PointConstruction oldValue = this.endPointConstruction;
+				this.endPointConstruction = endPointConstruction;
+				getPropertyChangeSupport().firePropertyChange("endPointConstruction", oldValue, endPointConstruction);
+			}
+		}
+
 	}
 
 }
