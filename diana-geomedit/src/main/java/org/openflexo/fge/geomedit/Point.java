@@ -43,70 +43,81 @@ import org.openflexo.diana.geomedit.model.gr.PointGraphicalRepresentation;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.PointConstruction;
+import org.openflexo.fge.geomedit.construction.EllipsReference.EllipsReferenceImpl;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
-public class Point extends GeometricObject<FGEPoint> {
+@ModelEntity
+@ImplementationClass(PointImpl.class)
+@XMLElement
+public interface Point extends GeometricObject<FGEPoint> {
 
-	private PointGraphicalRepresentation graphicalRepresentation;
+	public static abstract class PointImpl extends GeometricObjectImpl<FGEPoint> {
 
-	// Called for LOAD
-	public Point(GeomEditBuilder builder) {
-		super(builder);
-	}
+		private PointGraphicalRepresentation graphicalRepresentation;
 
-	public Point(GeometricSet set, PointConstruction construction) {
-		super(set, construction);
-		graphicalRepresentation = new PointGraphicalRepresentation(this, set.getEditedDrawing());
-	}
-
-	@Override
-	public String getInspectorName() {
-		return "Point.inspector";
-	}
-
-	@Override
-	public PointGraphicalRepresentation getGraphicalRepresentation() {
-		return graphicalRepresentation;
-	}
-
-	public void setGraphicalRepresentation(PointGraphicalRepresentation aGR) {
-		aGR.setDrawable(this);
-		graphicalRepresentation = aGR;
-	}
-
-	@Override
-	public PointConstruction getConstruction() {
-		return (PointConstruction) super.getConstruction();
-	}
-
-	public void setConstruction(PointConstruction pointConstruction) {
-		_setConstruction(pointConstruction);
-	}
-
-	public double getX() {
-		return getGeometricObject().getX();
-	}
-
-	public void setX(double x) {
-		if (x != getX()) {
-			double oldX = getX();
-			getGeometricObject().x = x;
-			getGraphicalRepresentation().notify(new FGEAttributeNotification("x", oldX, x));
-			getGraphicalRepresentation().notifyGeometryChanged();
+		// Called for LOAD
+		public Point(GeomEditBuilder builder) {
+			super(builder);
 		}
-	}
 
-	public double getY() {
-		return getGeometricObject().getY();
-	}
-
-	public void setY(double y) {
-		if (y != getY()) {
-			double oldY = getY();
-			getGeometricObject().y = y;
-			getGraphicalRepresentation().notify(new FGEAttributeNotification("y", oldY, y));
-			getGraphicalRepresentation().notifyGeometryChanged();
+		public Point(GeometricSet set, PointConstruction construction) {
+			super(set, construction);
+			graphicalRepresentation = new PointGraphicalRepresentation(this, set.getEditedDrawing());
 		}
+
+		@Override
+		public String getInspectorName() {
+			return "Point.inspector";
+		}
+
+		@Override
+		public PointGraphicalRepresentation getGraphicalRepresentation() {
+			return graphicalRepresentation;
+		}
+
+		public void setGraphicalRepresentation(PointGraphicalRepresentation aGR) {
+			aGR.setDrawable(this);
+			graphicalRepresentation = aGR;
+		}
+
+		@Override
+		public PointConstruction getConstruction() {
+			return (PointConstruction) super.getConstruction();
+		}
+
+		public void setConstruction(PointConstruction pointConstruction) {
+			_setConstruction(pointConstruction);
+		}
+
+		public double getX() {
+			return getGeometricObject().getX();
+		}
+
+		public void setX(double x) {
+			if (x != getX()) {
+				double oldX = getX();
+				getGeometricObject().x = x;
+				getGraphicalRepresentation().notify(new FGEAttributeNotification("x", oldX, x));
+				getGraphicalRepresentation().notifyGeometryChanged();
+			}
+		}
+
+		public double getY() {
+			return getGeometricObject().getY();
+		}
+
+		public void setY(double y) {
+			if (y != getY()) {
+				double oldY = getY();
+				getGeometricObject().y = y;
+				getGraphicalRepresentation().notify(new FGEAttributeNotification("y", oldY, y));
+				getGraphicalRepresentation().notifyGeometryChanged();
+			}
+		}
+
 	}
 
 }
