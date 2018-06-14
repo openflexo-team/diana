@@ -48,7 +48,7 @@ import org.openflexo.model.annotations.ModelEntity;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(SegmentConstructionImpl.class)
-@Imports({ @Import(SegmentReference.class) })
+@Imports({ @Import(SegmentReference.class), @Import(SegmentWithTwoPointsConstruction.class) })
 public interface SegmentConstruction extends GeometricConstruction<FGESegment> {
 
 	public FGESegment getSegment();

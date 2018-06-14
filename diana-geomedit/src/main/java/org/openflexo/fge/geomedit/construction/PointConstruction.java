@@ -54,7 +54,8 @@ import org.openflexo.model.annotations.ModelEntity;
 @ModelEntity(isAbstract = true)
 @ImplementationClass(PointConstructionImpl.class)
 @Imports({ @Import(PointReference.class), @Import(ExplicitPointConstruction.class), @Import(ControlPointReference.class),
-		@Import(LineIntersectionPointConstruction.class) })
+		@Import(LineIntersectionPointConstruction.class), @Import(PointMiddleOfTwoPointsConstruction.class),
+		@Import(SymetricPointConstruction.class) })
 public interface PointConstruction extends GeometricConstruction<FGEPoint> {
 
 	public FGEPoint getPoint();

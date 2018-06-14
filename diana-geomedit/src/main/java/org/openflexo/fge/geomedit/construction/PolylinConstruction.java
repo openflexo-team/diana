@@ -48,7 +48,7 @@ import org.openflexo.model.annotations.ModelEntity;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(PolylinConstructionImpl.class)
-@Imports({ @Import(PolylinWithNPointsConstruction.class) })
+@Imports({ @Import(PolylinWithNPointsConstruction.class), @Import(RectPolylinWithStartAndEndAreaConstruction.class) })
 public interface PolylinConstruction extends GeometricConstruction<FGEPolylin> {
 
 	public FGEPolylin getPolylin();

@@ -48,7 +48,10 @@ import org.openflexo.model.annotations.ModelEntity;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(LineConstructionImpl.class)
-@Imports({ @Import(LineReference.class), @Import(HorizontalLineWithPointConstruction.class) })
+@Imports({ @Import(HorizontalLineWithPointConstruction.class), @Import(LineReference.class), @Import(LineWithTwoPointsConstruction.class),
+		@Import(OrthogonalLineWithPointConstruction.class), @Import(ParallelLineWithPointConstruction.class),
+		@Import(RotatedLineWithPointConstruction.class), @Import(TangentLineWithCircleAndPointConstruction.class),
+		@Import(VerticalLineWithPointConstruction.class) })
 public interface LineConstruction extends GeometricConstruction<FGELine> {
 
 	public FGELine getLine();
