@@ -39,10 +39,10 @@
 
 package org.openflexo.fge.geomedit;
 
+import org.openflexo.diana.geomedit.model.gr.HalfLineGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEHalfLine;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.HalfLineConstruction;
-import org.openflexo.fge.geomedit.gr.HalfLineGraphicalRepresentation;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 
 public class HalfLine extends GeometricObject<FGEHalfLine> {

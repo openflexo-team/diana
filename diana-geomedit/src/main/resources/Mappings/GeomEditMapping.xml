@@ -563,67 +563,67 @@
      <description>Point graphical representation</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.gr.LineGraphicalRepresentation" xmlTag="LineGraphicalRepresentation">
+  <entity name="org.openflexo.diana.geomedit.model.gr.LineGraphicalRepresentation" xmlTag="LineGraphicalRepresentation">
      <description>Line graphical representation</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.gr.HalfLineGraphicalRepresentation" xmlTag="HalfLineGraphicalRepresentation">
+  <entity name="org.openflexo.diana.geomedit.model.gr.HalfLineGraphicalRepresentation" xmlTag="HalfLineGraphicalRepresentation">
      <description>Line graphical representation</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.gr.SegmentGraphicalRepresentation" xmlTag="SegmentGraphicalRepresentation">
+  <entity name="org.openflexo.diana.geomedit.model.gr.SegmentGraphicalRepresentation" xmlTag="SegmentGraphicalRepresentation">
      <description>Line graphical representation</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.gr.RectangleGraphicalRepresentation" xmlTag="RectangleGraphicalRepresentation">
+  <entity name="org.openflexo.diana.geomedit.model.gr.RectangleGraphicalRepresentation" xmlTag="RectangleGraphicalRepresentation">
      <description>Rectangle graphical representation</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.gr.RoundRectangleGraphicalRepresentation" xmlTag="RoundRectangleGraphicalRepresentation">
+  <entity name="org.openflexo.diana.geomedit.model.gr.RoundRectangleGraphicalRepresentation" xmlTag="RoundRectangleGraphicalRepresentation">
      <description>Round rectangle graphical representation</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.gr.EllipsGraphicalRepresentation" xmlTag="EllipsGraphicalRepresentation">
+  <entity name="org.openflexo.diana.geomedit.model.gr.EllipsGraphicalRepresentation" xmlTag="EllipsGraphicalRepresentation">
      <description>Ellips graphical representation</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.gr.PolygonGraphicalRepresentation" xmlTag="PolygonGraphicalRepresentation">
+  <entity name="org.openflexo.diana.geomedit.model.gr.PolygonGraphicalRepresentation" xmlTag="PolygonGraphicalRepresentation">
      <description>Polygon graphical representation</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.gr.PolylinGraphicalRepresentation" xmlTag="PolylinGraphicalRepresentation">
+  <entity name="org.openflexo.diana.geomedit.model.gr.PolylinGraphicalRepresentation" xmlTag="PolylinGraphicalRepresentation">
      <description>Polylin graphical representation</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.gr.QuadCurveGraphicalRepresentation" xmlTag="QuadCurveGraphicalRepresentation">
+  <entity name="org.openflexo.diana.geomedit.model.gr.QuadCurveGraphicalRepresentation" xmlTag="QuadCurveGraphicalRepresentation">
      <description>Quadratic curve graphical representation</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.gr.CubicCurveGraphicalRepresentation" xmlTag="CubicCurveGraphicalRepresentation">
+  <entity name="org.openflexo.diana.geomedit.model.gr.CubicCurveGraphicalRepresentation" xmlTag="CubicCurveGraphicalRepresentation">
      <description>Cubic curve graphical representation</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.gr.ComplexCurveGraphicalRepresentation" xmlTag="ComplexCurveGraphicalRepresentation">
+  <entity name="org.openflexo.diana.geomedit.model.gr.ComplexCurveGraphicalRepresentation" xmlTag="ComplexCurveGraphicalRepresentation">
      <description>Complex curve graphical representation</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.gr.BandGraphicalRepresentation" xmlTag="BandGraphicalRepresentation">
+  <entity name="org.openflexo.diana.geomedit.model.gr.BandGraphicalRepresentation" xmlTag="BandGraphicalRepresentation">
      <description>Band graphical representation</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.gr.HalfBandGraphicalRepresentation" xmlTag="HalfBandGraphicalRepresentation">
+  <entity name="org.openflexo.diana.geomedit.model.gr.HalfBandGraphicalRepresentation" xmlTag="HalfBandGraphicalRepresentation">
      <description>Half band graphical representation</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.gr.HalfPlaneGraphicalRepresentation" xmlTag="HalfPlaneGraphicalRepresentation">
+  <entity name="org.openflexo.diana.geomedit.model.gr.HalfPlaneGraphicalRepresentation" xmlTag="HalfPlaneGraphicalRepresentation">
      <description>Half plane graphical representation</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.gr.QuarterPlaneGraphicalRepresentation" xmlTag="QuarterPlaneGraphicalRepresentation">
+  <entity name="org.openflexo.diana.geomedit.model.gr.QuarterPlaneGraphicalRepresentation" xmlTag="QuarterPlaneGraphicalRepresentation">
      <description>Quarter plane graphical representation</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.gr.ComputedAreaGraphicalRepresentation" xmlTag="ComputedAreaGraphicalRepresentation">
+  <entity name="org.openflexo.diana.geomedit.model.gr.ComputedAreaGraphicalRepresentation" xmlTag="ComputedAreaGraphicalRepresentation">
      <description>Computed area graphical representation</description>
   </entity>
 

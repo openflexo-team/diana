@@ -39,10 +39,10 @@
 
 package org.openflexo.fge.geomedit;
 
+import org.openflexo.diana.geomedit.model.gr.BandGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEBand;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.BandConstruction;
-import org.openflexo.fge.geomedit.gr.BandGraphicalRepresentation;
 
 public class Band extends GeometricObject<FGEBand> {
 

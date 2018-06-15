@@ -39,10 +39,10 @@
 
 package org.openflexo.fge.geomedit;
 
+import org.openflexo.diana.geomedit.model.gr.CubicCurveGraphicalRepresentation;
 import org.openflexo.fge.geom.FGECubicCurve;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.CubicCurveConstruction;
-import org.openflexo.fge.geomedit.gr.CubicCurveGraphicalRepresentation;
 
 public class CubicCurve extends GeometricObject<FGECubicCurve> {
 

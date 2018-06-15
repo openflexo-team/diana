@@ -39,10 +39,10 @@
 
 package org.openflexo.fge.geomedit;
 
+import org.openflexo.diana.geomedit.model.gr.RoundRectangleGraphicalRepresentation;
 import org.openflexo.fge.geom.FGERoundRectangle;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.RoundRectangleConstruction;
-import org.openflexo.fge.geomedit.gr.RoundRectangleGraphicalRepresentation;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 
 public class RoundRectangle extends GeometricObject<FGERoundRectangle> {

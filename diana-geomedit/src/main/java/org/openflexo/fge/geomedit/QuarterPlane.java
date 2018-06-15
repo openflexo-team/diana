@@ -39,10 +39,10 @@
 
 package org.openflexo.fge.geomedit;
 
+import org.openflexo.diana.geomedit.model.gr.QuarterPlaneGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEQuarterPlane;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.QuarterPlaneConstruction;
-import org.openflexo.fge.geomedit.gr.QuarterPlaneGraphicalRepresentation;
 
 public class QuarterPlane extends GeometricObject<FGEQuarterPlane> {
 

@@ -39,11 +39,11 @@
 
 package org.openflexo.fge.geomedit;
 
+import org.openflexo.diana.geomedit.model.gr.ComplexCurveGraphicalRepresentation;
 import org.openflexo.fge.geom.FGEComplexCurve;
 import org.openflexo.fge.geom.FGEGeneralShape.Closure;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.ComplexCurveConstruction;
-import org.openflexo.fge.geomedit.gr.ComplexCurveGraphicalRepresentation;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 
 public class ComplexCurve extends GeometricObject<FGEComplexCurve> {

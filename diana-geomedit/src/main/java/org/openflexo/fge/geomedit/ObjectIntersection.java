@@ -41,11 +41,11 @@ package org.openflexo.fge.geomedit;
 
 import java.util.Vector;
 
+import org.openflexo.diana.geomedit.model.gr.ComputedAreaGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.IntersectionConstruction;
 import org.openflexo.fge.geomedit.construction.ObjectReference;
-import org.openflexo.fge.geomedit.gr.ComputedAreaGraphicalRepresentation;
 
 public class ObjectIntersection extends GeometricObject<FGEArea> {
 

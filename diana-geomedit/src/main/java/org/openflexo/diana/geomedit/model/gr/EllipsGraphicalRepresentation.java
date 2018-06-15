@@ -37,7 +37,7 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.gr;
+package org.openflexo.diana.geomedit.model.gr;
 
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -45,7 +45,6 @@ import java.util.Vector;
 
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
-import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEEllips;
 import org.openflexo.fge.geom.FGEPoint;

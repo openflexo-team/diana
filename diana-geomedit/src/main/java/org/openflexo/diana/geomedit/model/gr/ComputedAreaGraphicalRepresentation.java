@@ -37,24 +37,38 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.gr;
+package org.openflexo.diana.geomedit.model.gr;
 
-import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
-import org.openflexo.fge.geom.area.FGEBand;
-import org.openflexo.fge.geomedit.Band;
+import java.util.List;
+import java.util.Vector;
+
+import org.openflexo.fge.cp.ControlPoint;
+import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.geomedit.GeometricDrawing;
+import org.openflexo.fge.geomedit.GeometricObject;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
-import org.openflexo.xmlcode.XMLSerializable;
 
-public class BandGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEBand, Band> implements XMLSerializable {
+public class ComputedAreaGraphicalRepresentation<G extends GeometricObject<FGEArea>> extends
+		GeometricObjectGraphicalRepresentation<FGEArea, G> {
+
 	// Called for LOAD
-	public BandGraphicalRepresentation(GeomEditBuilder builder) {
+	public ComputedAreaGraphicalRepresentation(GeomEditBuilder builder) {
 		this(null, builder.drawing);
 		initializeDeserialization();
 	}
 
-	public BandGraphicalRepresentation(Band band, GeometricDrawing aDrawing) {
-		super(band, aDrawing);
+	public ComputedAreaGraphicalRepresentation(G object, GeometricDrawing aDrawing) {
+		super(object, aDrawing);
 	}
 
+	@Override
+	public List<ControlPoint> rebuildControlPoints() {
+		_controlPoints = new Vector<ControlPoint>();
+		_controlPoints.clear();
+		return _controlPoints;
+	}
+
+	public void recompute() {
+		getDrawable().resetResultingGeometricObject();
+	}
 }

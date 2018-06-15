@@ -39,10 +39,10 @@
 
 package org.openflexo.fge.geomedit;
 
+import org.openflexo.diana.geomedit.model.gr.PolylinGraphicalRepresentation;
 import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.PolylinConstruction;
-import org.openflexo.fge.geomedit.gr.PolylinGraphicalRepresentation;
 
 public class Polylin extends GeometricObject<FGEPolylin> {
 

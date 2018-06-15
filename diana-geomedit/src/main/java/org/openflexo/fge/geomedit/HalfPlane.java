@@ -39,10 +39,10 @@
 
 package org.openflexo.fge.geomedit;
 
+import org.openflexo.diana.geomedit.model.gr.HalfPlaneGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEHalfPlane;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.HalfPlaneConstruction;
-import org.openflexo.fge.geomedit.gr.HalfPlaneGraphicalRepresentation;
 
 public class HalfPlane extends GeometricObject<FGEHalfPlane> {
 

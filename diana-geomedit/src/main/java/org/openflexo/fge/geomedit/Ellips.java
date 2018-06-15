@@ -39,10 +39,10 @@
 
 package org.openflexo.fge.geomedit;
 
+import org.openflexo.diana.geomedit.model.gr.EllipsGraphicalRepresentation;
 import org.openflexo.fge.geom.FGEEllips;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.EllipsConstruction;
-import org.openflexo.fge.geomedit.gr.EllipsGraphicalRepresentation;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 
 public class Ellips extends GeometricObject<FGEEllips> {

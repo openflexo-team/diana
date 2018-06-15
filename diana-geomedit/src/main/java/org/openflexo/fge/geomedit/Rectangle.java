@@ -39,10 +39,10 @@
 
 package org.openflexo.fge.geomedit;
 
+import org.openflexo.diana.geomedit.model.gr.RectangleGraphicalRepresentation;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.RectangleConstruction;
-import org.openflexo.fge.geomedit.gr.RectangleGraphicalRepresentation;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 
 public class Rectangle extends GeometricObject<FGERectangle> {

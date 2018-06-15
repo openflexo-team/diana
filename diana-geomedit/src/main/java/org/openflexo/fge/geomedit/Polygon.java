@@ -39,10 +39,10 @@
 
 package org.openflexo.fge.geomedit;
 
+import org.openflexo.diana.geomedit.model.gr.PolygonGraphicalRepresentation;
 import org.openflexo.fge.geom.FGEPolygon;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.PolygonConstruction;
-import org.openflexo.fge.geomedit.gr.PolygonGraphicalRepresentation;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 
 public class Polygon extends GeometricObject<FGEPolygon> {

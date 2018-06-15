@@ -39,10 +39,10 @@
 
 package org.openflexo.fge.geomedit;
 
+import org.openflexo.diana.geomedit.model.gr.QuadCurveGraphicalRepresentation;
 import org.openflexo.fge.geom.FGEQuadCurve;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.QuadCurveConstruction;
-import org.openflexo.fge.geomedit.gr.QuadCurveGraphicalRepresentation;
 
 public class QuadCurve extends GeometricObject<FGEQuadCurve> {
 

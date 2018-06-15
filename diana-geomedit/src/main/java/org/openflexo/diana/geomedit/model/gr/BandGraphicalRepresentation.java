@@ -37,25 +37,23 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.gr;
+package org.openflexo.diana.geomedit.model.gr;
 
-import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
-import org.openflexo.fge.geom.area.FGEQuarterPlane;
+import org.openflexo.fge.geom.area.FGEBand;
+import org.openflexo.fge.geomedit.Band;
 import org.openflexo.fge.geomedit.GeometricDrawing;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
-import org.openflexo.fge.geomedit.QuarterPlane;
 import org.openflexo.xmlcode.XMLSerializable;
 
-public class QuarterPlaneGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEQuarterPlane, QuarterPlane> implements
-		XMLSerializable {
+public class BandGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEBand, Band> implements XMLSerializable {
 	// Called for LOAD
-	public QuarterPlaneGraphicalRepresentation(GeomEditBuilder builder) {
+	public BandGraphicalRepresentation(GeomEditBuilder builder) {
 		this(null, builder.drawing);
 		initializeDeserialization();
 	}
 
-	public QuarterPlaneGraphicalRepresentation(QuarterPlane quarterPlane, GeometricDrawing aDrawing) {
-		super(quarterPlane, aDrawing);
+	public BandGraphicalRepresentation(Band band, GeometricDrawing aDrawing) {
+		super(band, aDrawing);
 	}
 
 }

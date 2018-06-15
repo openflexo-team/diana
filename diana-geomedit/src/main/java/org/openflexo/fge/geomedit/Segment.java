@@ -39,10 +39,10 @@
 
 package org.openflexo.fge.geomedit;
 
+import org.openflexo.diana.geomedit.model.gr.SegmentGraphicalRepresentation;
 import org.openflexo.fge.geom.FGESegment;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.SegmentConstruction;
-import org.openflexo.fge.geomedit.gr.SegmentGraphicalRepresentation;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
 
 public class Segment extends GeometricObject<FGESegment> {

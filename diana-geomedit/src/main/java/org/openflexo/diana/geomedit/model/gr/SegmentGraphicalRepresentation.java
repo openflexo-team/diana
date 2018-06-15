@@ -37,7 +37,7 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.gr;
+package org.openflexo.diana.geomedit.model.gr;
 
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -45,95 +45,93 @@ import java.util.Vector;
 
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
-import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEAbstractLine;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.area.FGEHalfLine;
+import org.openflexo.fge.geom.FGESegment;
 import org.openflexo.fge.geomedit.GeometricDrawing;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
-import org.openflexo.fge.geomedit.HalfLine;
+import org.openflexo.fge.geomedit.Segment;
 import org.openflexo.fge.geomedit.construction.ExplicitPointConstruction;
-import org.openflexo.fge.geomedit.construction.HalfLineConstruction;
-import org.openflexo.fge.geomedit.construction.HalfLineWithTwoPointsConstruction;
+import org.openflexo.fge.geomedit.construction.SegmentConstruction;
+import org.openflexo.fge.geomedit.construction.SegmentWithTwoPointsConstruction;
 import org.openflexo.xmlcode.XMLSerializable;
 
-public class HalfLineGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEHalfLine, HalfLine> implements
-		XMLSerializable {
+public class SegmentGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGESegment, Segment> implements XMLSerializable {
 	// Called for LOAD
-	public HalfLineGraphicalRepresentation(GeomEditBuilder builder) {
+	public SegmentGraphicalRepresentation(GeomEditBuilder builder) {
 		this(null, builder.drawing);
 		initializeDeserialization();
 	}
 
-	public HalfLineGraphicalRepresentation(HalfLine halfLine, GeometricDrawing aDrawing) {
-		super(halfLine, aDrawing);
+	public SegmentGraphicalRepresentation(Segment segment, GeometricDrawing aDrawing) {
+		super(segment, aDrawing);
 	}
 
 	@Override
 	protected List<ControlPoint> buildControlPointsForLine(FGEAbstractLine line) {
 		Vector<ControlPoint> returned = new Vector<ControlPoint>();
 
-		HalfLineConstruction lineConstruction = getDrawable().getConstruction();
+		SegmentConstruction segmentConstruction = getDrawable().getConstruction();
 
 		ExplicitPointConstruction pc1 = null;
 		ExplicitPointConstruction pc2 = null;
 
-		if (lineConstruction instanceof HalfLineWithTwoPointsConstruction) {
-			if (((HalfLineWithTwoPointsConstruction) lineConstruction).limitPointConstruction instanceof ExplicitPointConstruction) {
-				pc1 = (ExplicitPointConstruction) ((HalfLineWithTwoPointsConstruction) lineConstruction).limitPointConstruction;
+		if (segmentConstruction instanceof SegmentWithTwoPointsConstruction) {
+			if (((SegmentWithTwoPointsConstruction) segmentConstruction).pointConstruction1 instanceof ExplicitPointConstruction) {
+				pc1 = (ExplicitPointConstruction) ((SegmentWithTwoPointsConstruction) segmentConstruction).pointConstruction1;
 			}
-			if (((HalfLineWithTwoPointsConstruction) lineConstruction).oppositePointConstruction instanceof ExplicitPointConstruction) {
-				pc2 = (ExplicitPointConstruction) ((HalfLineWithTwoPointsConstruction) lineConstruction).oppositePointConstruction;
+			if (((SegmentWithTwoPointsConstruction) segmentConstruction).pointConstruction2 instanceof ExplicitPointConstruction) {
+				pc2 = (ExplicitPointConstruction) ((SegmentWithTwoPointsConstruction) segmentConstruction).pointConstruction2;
 			}
 		}
 
 		if (pc1 != null) {
-			returned.add(new DraggableControlPoint<FGEHalfLine>(this, "limit", line.getP1(), pc1) {
+			returned.add(new DraggableControlPoint<FGESegment>(this, "p1", line.getP1(), pc1) {
 				@Override
 				public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
 						FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
-					getGeometricObject().setLimit(newAbsolutePoint);
+					getGeometricObject().setP1(newAbsolutePoint);
 					setPoint(newAbsolutePoint);
 					notifyGeometryChanged();
 					return true;
 				}
 
 				@Override
-				public void update(FGEHalfLine geometricObject) {
-					setPoint(geometricObject.getLimit());
+				public void update(FGESegment geometricObject) {
+					setPoint(geometricObject.getP1());
 				}
 			});
 		} else {
-			returned.add(new ComputedControlPoint<FGEHalfLine>(this, "limit", line.getP1()) {
+			returned.add(new ComputedControlPoint<FGESegment>(this, "p1", line.getP1()) {
 				@Override
-				public void update(FGEHalfLine geometricObject) {
-					setPoint(geometricObject.getLimit());
+				public void update(FGESegment geometricObject) {
+					setPoint(geometricObject.getP1());
 				}
 			});
 		}
 
 		if (pc2 != null) {
-			returned.add(new DraggableControlPoint<FGEHalfLine>(this, "opposite", line.getP2(), pc2) {
+			returned.add(new DraggableControlPoint<FGESegment>(this, "p2", line.getP2(), pc2) {
 				@Override
 				public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
 						FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
-					getGeometricObject().setOpposite(newAbsolutePoint);
+					getGeometricObject().setP2(newAbsolutePoint);
 					setPoint(newAbsolutePoint);
 					notifyGeometryChanged();
 					return true;
 				}
 
 				@Override
-				public void update(FGEHalfLine geometricObject) {
-					setPoint(geometricObject.getOpposite());
+				public void update(FGESegment geometricObject) {
+					setPoint(geometricObject.getP2());
 				}
 			});
 		} else {
-			returned.add(new ComputedControlPoint<FGEHalfLine>(this, "opposite", line.getP1()) {
+			returned.add(new ComputedControlPoint<FGESegment>(this, "p2", line.getP1()) {
 				@Override
-				public void update(FGEHalfLine geometricObject) {
-					setPoint(geometricObject.getOpposite());
+				public void update(FGESegment geometricObject) {
+					setPoint(geometricObject.getP2());
 				}
 			});
 		}

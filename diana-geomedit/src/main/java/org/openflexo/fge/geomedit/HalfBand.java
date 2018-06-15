@@ -39,10 +39,10 @@
 
 package org.openflexo.fge.geomedit;
 
+import org.openflexo.diana.geomedit.model.gr.HalfBandGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEHalfBand;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.HalfBandConstruction;
-import org.openflexo.fge.geomedit.gr.HalfBandGraphicalRepresentation;
 
 public class HalfBand extends GeometricObject<FGEHalfBand> {
 

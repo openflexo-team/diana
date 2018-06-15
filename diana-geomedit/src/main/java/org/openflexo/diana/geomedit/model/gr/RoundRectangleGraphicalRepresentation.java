@@ -37,7 +37,7 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.gr;
+package org.openflexo.diana.geomedit.model.gr;
 
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -45,30 +45,30 @@ import java.util.Vector;
 
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
-import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEGeometricObject.CardinalQuadrant;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
+import org.openflexo.fge.geom.FGERoundRectangle;
 import org.openflexo.fge.geom.area.FGEQuarterPlane;
 import org.openflexo.fge.geomedit.GeometricDrawing;
 import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
-import org.openflexo.fge.geomedit.Rectangle;
+import org.openflexo.fge.geomedit.RoundRectangle;
 import org.openflexo.fge.geomedit.construction.ExplicitPointConstruction;
-import org.openflexo.fge.geomedit.construction.RectangleConstruction;
-import org.openflexo.fge.geomedit.construction.RectangleWithTwoPointsConstruction;
+import org.openflexo.fge.geomedit.construction.RoundRectangleConstruction;
+import org.openflexo.fge.geomedit.construction.RoundRectangleWithTwoPointsConstruction;
 import org.openflexo.xmlcode.XMLSerializable;
 
-public class RectangleGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGERectangle, Rectangle> implements
-		XMLSerializable {
+public class RoundRectangleGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGERoundRectangle, RoundRectangle>
+		implements XMLSerializable {
 	// Called for LOAD
-	public RectangleGraphicalRepresentation(GeomEditBuilder builder) {
+	public RoundRectangleGraphicalRepresentation(GeomEditBuilder builder) {
 		this(null, builder.drawing);
 		initializeDeserialization();
 	}
 
-	public RectangleGraphicalRepresentation(Rectangle rectangle, GeometricDrawing aDrawing) {
+	public RoundRectangleGraphicalRepresentation(RoundRectangle rectangle, GeometricDrawing aDrawing) {
 		super(rectangle, aDrawing);
 	}
 
@@ -79,22 +79,22 @@ public class RectangleGraphicalRepresentation extends GeometricObjectGraphicalRe
 	protected List<ControlPoint> buildControlPointsForRectangle(FGERectangle rectangle) {
 		Vector<ControlPoint> returned = new Vector<ControlPoint>();
 
-		RectangleConstruction rectangleConstruction = getDrawable().getConstruction();
+		RoundRectangleConstruction rectangleConstruction = getDrawable().getConstruction();
 
 		ExplicitPointConstruction pc1 = null;
 		ExplicitPointConstruction pc2 = null;
 
-		if (rectangleConstruction instanceof RectangleWithTwoPointsConstruction) {
-			if (((RectangleWithTwoPointsConstruction) rectangleConstruction).pointConstruction1 instanceof ExplicitPointConstruction) {
-				pc1 = (ExplicitPointConstruction) ((RectangleWithTwoPointsConstruction) rectangleConstruction).pointConstruction1;
+		if (rectangleConstruction instanceof RoundRectangleWithTwoPointsConstruction) {
+			if (((RoundRectangleWithTwoPointsConstruction) rectangleConstruction).pointConstruction1 instanceof ExplicitPointConstruction) {
+				pc1 = (ExplicitPointConstruction) ((RoundRectangleWithTwoPointsConstruction) rectangleConstruction).pointConstruction1;
 			}
-			if (((RectangleWithTwoPointsConstruction) rectangleConstruction).pointConstruction2 instanceof ExplicitPointConstruction) {
-				pc2 = (ExplicitPointConstruction) ((RectangleWithTwoPointsConstruction) rectangleConstruction).pointConstruction2;
+			if (((RoundRectangleWithTwoPointsConstruction) rectangleConstruction).pointConstruction2 instanceof ExplicitPointConstruction) {
+				pc2 = (ExplicitPointConstruction) ((RoundRectangleWithTwoPointsConstruction) rectangleConstruction).pointConstruction2;
 			}
 		}
 
 		if (pc1 != null) {
-			returned.add(nwCP1 = new DraggableControlPoint<FGERectangle>(this, "northWest", rectangle.getNorthWestPt(), pc1) {
+			returned.add(nwCP1 = new DraggableControlPoint<FGERoundRectangle>(this, "northWest", rectangle.getNorthWestPt(), pc1) {
 				private double initialWidth;
 				private double initialHeight;
 
@@ -103,8 +103,8 @@ public class RectangleGraphicalRepresentation extends GeometricObjectGraphicalRe
 					super.startDragging(controller, startPoint);
 					initialWidth = getGeometricObject().width;
 					initialHeight = getGeometricObject().height;
-					setDraggingAuthorizedArea(FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getSouthEastPt(),
-							CardinalQuadrant.NORTH_WEST));
+					setDraggingAuthorizedArea(
+							FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getSouthEastPt(), CardinalQuadrant.NORTH_WEST));
 				}
 
 				@Override
@@ -123,21 +123,22 @@ public class RectangleGraphicalRepresentation extends GeometricObjectGraphicalRe
 				}
 
 				@Override
-				public void update(FGERectangle geometricObject) {
+				public void update(FGERoundRectangle geometricObject) {
 					setPoint(geometricObject.getNorthWestPt());
 				}
 			});
-		} else {
-			returned.add(new ComputedControlPoint<FGERectangle>(this, "northWest", rectangle.getNorthWestPt()) {
+		}
+		else {
+			returned.add(new ComputedControlPoint<FGERoundRectangle>(this, "northWest", rectangle.getNorthWestPt()) {
 				@Override
-				public void update(FGERectangle geometricObject) {
+				public void update(FGERoundRectangle geometricObject) {
 					setPoint(geometricObject.getNorthWestPt());
 				}
 			});
 		}
 
 		if (pc2 != null) {
-			returned.add(seCP2 = new DraggableControlPoint<FGERectangle>(this, "southEast", rectangle.getSouthEastPt(), pc2) {
+			returned.add(seCP2 = new DraggableControlPoint<FGERoundRectangle>(this, "southEast", rectangle.getSouthEastPt(), pc2) {
 				private double initialWidth;
 				private double initialHeight;
 
@@ -146,8 +147,8 @@ public class RectangleGraphicalRepresentation extends GeometricObjectGraphicalRe
 					super.startDragging(controller, startPoint);
 					initialWidth = getGeometricObject().width;
 					initialHeight = getGeometricObject().height;
-					setDraggingAuthorizedArea(FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getNorthWestPt(),
-							CardinalQuadrant.SOUTH_EAST));
+					setDraggingAuthorizedArea(
+							FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getNorthWestPt(), CardinalQuadrant.SOUTH_EAST));
 				}
 
 				@Override
@@ -164,21 +165,22 @@ public class RectangleGraphicalRepresentation extends GeometricObjectGraphicalRe
 				}
 
 				@Override
-				public void update(FGERectangle geometricObject) {
+				public void update(FGERoundRectangle geometricObject) {
 					setPoint(geometricObject.getSouthEastPt());
 				}
 			});
-		} else {
-			returned.add(new ComputedControlPoint<FGERectangle>(this, "southEast", rectangle.getSouthEastPt()) {
+		}
+		else {
+			returned.add(new ComputedControlPoint<FGERoundRectangle>(this, "southEast", rectangle.getSouthEastPt()) {
 				@Override
-				public void update(FGERectangle geometricObject) {
+				public void update(FGERoundRectangle geometricObject) {
 					setPoint(geometricObject.getSouthEastPt());
 				}
 			});
 		}
 
 		if (pc1 != null && pc2 != null) {
-			returned.add(new ComputedControlPoint<FGERectangle>(this, "northEast", rectangle.getNorthEastPt()) {
+			returned.add(new ComputedControlPoint<FGERoundRectangle>(this, "northEast", rectangle.getNorthEastPt()) {
 				private double initialWidth;
 				private double initialHeight;
 
@@ -192,8 +194,8 @@ public class RectangleGraphicalRepresentation extends GeometricObjectGraphicalRe
 					super.startDragging(controller, startPoint);
 					initialWidth = getGeometricObject().width;
 					initialHeight = getGeometricObject().height;
-					setDraggingAuthorizedArea(FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getSouthWestPt(),
-							CardinalQuadrant.NORTH_EAST));
+					setDraggingAuthorizedArea(
+							FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getSouthWestPt(), CardinalQuadrant.NORTH_EAST));
 				}
 
 				@Override
@@ -214,21 +216,22 @@ public class RectangleGraphicalRepresentation extends GeometricObjectGraphicalRe
 				}
 
 				@Override
-				public void update(FGERectangle geometricObject) {
+				public void update(FGERoundRectangle geometricObject) {
 					setPoint(geometricObject.getNorthEastPt());
 				}
 			});
-		} else {
-			returned.add(new ComputedControlPoint<FGERectangle>(this, "northEast", rectangle.getSouthEastPt()) {
+		}
+		else {
+			returned.add(new ComputedControlPoint<FGERoundRectangle>(this, "northEast", rectangle.getSouthEastPt()) {
 				@Override
-				public void update(FGERectangle geometricObject) {
+				public void update(FGERoundRectangle geometricObject) {
 					setPoint(geometricObject.getNorthEastPt());
 				}
 			});
 		}
 
 		if (pc1 != null && pc2 != null) {
-			returned.add(new ComputedControlPoint<FGERectangle>(this, "southWest", rectangle.getSouthWestPt()) {
+			returned.add(new ComputedControlPoint<FGERoundRectangle>(this, "southWest", rectangle.getSouthWestPt()) {
 				private double initialWidth;
 				private double initialHeight;
 
@@ -242,8 +245,8 @@ public class RectangleGraphicalRepresentation extends GeometricObjectGraphicalRe
 					super.startDragging(controller, startPoint);
 					initialWidth = getGeometricObject().width;
 					initialHeight = getGeometricObject().height;
-					setDraggingAuthorizedArea(FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getNorthEastPt(),
-							CardinalQuadrant.SOUTH_WEST));
+					setDraggingAuthorizedArea(
+							FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getNorthEastPt(), CardinalQuadrant.SOUTH_WEST));
 				}
 
 				@Override
@@ -264,14 +267,15 @@ public class RectangleGraphicalRepresentation extends GeometricObjectGraphicalRe
 				}
 
 				@Override
-				public void update(FGERectangle geometricObject) {
+				public void update(FGERoundRectangle geometricObject) {
 					setPoint(geometricObject.getSouthWestPt());
 				}
 			});
-		} else {
-			returned.add(new ComputedControlPoint<FGERectangle>(this, "southWest", rectangle.getSouthEastPt()) {
+		}
+		else {
+			returned.add(new ComputedControlPoint<FGERoundRectangle>(this, "southWest", rectangle.getSouthEastPt()) {
 				@Override
-				public void update(FGERectangle geometricObject) {
+				public void update(FGERoundRectangle geometricObject) {
 					setPoint(geometricObject.getSouthWestPt());
 				}
 			});

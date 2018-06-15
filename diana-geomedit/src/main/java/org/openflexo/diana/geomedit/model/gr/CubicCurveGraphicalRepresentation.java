@@ -37,12 +37,11 @@
  * 
  */
 
-package org.openflexo.fge.geomedit.gr;
+package org.openflexo.diana.geomedit.model.gr;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
-import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.fge.ForegroundStyle.DashStyle;
 import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.geom.FGECubicCurve;
