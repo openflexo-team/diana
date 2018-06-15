@@ -48,18 +48,18 @@ import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import org.openflexo.diana.Drawing;
-import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.DianaModelFactory;
-import org.openflexo.diana.ForegroundStyle;
-import org.openflexo.diana.GRStructureVisitor;
-import org.openflexo.diana.ShapeGraphicalRepresentation;
+import org.openflexo.diana.Drawing;
 import org.openflexo.diana.Drawing.PersistenceMode;
+import org.openflexo.diana.DrawingGraphicalRepresentation;
+import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.GRBinding.DrawingGRBinding;
 import org.openflexo.diana.GRBinding.ShapeGRBinding;
 import org.openflexo.diana.GRProvider.DrawingGRProvider;
 import org.openflexo.diana.GRProvider.ShapeGRProvider;
+import org.openflexo.diana.GRStructureVisitor;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.impl.DrawingImpl;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
@@ -367,8 +367,8 @@ public class JFIBForegroundStyleSelector extends CustomPopup<ForegroundStyle> im
 			if (getEditedObject() == null) {
 				return;
 			}
-			System.out.println("update() in PreviewPanel, lineGR setForeground with " + getEditedObject());
-			System.out.println("lineGR=" + lineGR);
+			// System.out.println("update() in PreviewPanel, lineGR setForeground with " + getEditedObject());
+			// System.out.println("lineGR=" + lineGR);
 			lineGR.setForeground(getEditedObject());
 		}
 

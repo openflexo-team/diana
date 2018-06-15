@@ -42,12 +42,12 @@ import java.util.logging.Logger;
 
 import javax.swing.JPopupMenu;
 
-import org.apache.poi.hslf.model.Slide;
+import org.apache.poi.sl.usermodel.Slide;
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
 import org.openflexo.diana.DianaCoreUtils;
-import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.control.actions.DrawConnectorAction;
 import org.openflexo.diana.control.actions.DrawShapeAction;
 import org.openflexo.diana.swing.JDianaInteractiveEditor;
@@ -79,8 +79,8 @@ public class SlideEditor extends JDianaInteractiveEditor<Slide> {
 			@Override
 			public void performedDrawNewConnector(ConnectorGraphicalRepresentation graphicalRepresentation, ShapeNode<?> startNode,
 					ShapeNode<?> endNode) {
-				System.out.println("OK, perform draw new connector with " + graphicalRepresentation + " start: " + startNode + " end: "
-						+ endNode);
+				System.out.println(
+						"OK, perform draw new connector with " + graphicalRepresentation + " start: " + startNode + " end: " + endNode);
 
 			}
 		};

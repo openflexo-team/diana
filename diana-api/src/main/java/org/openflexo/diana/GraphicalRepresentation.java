@@ -185,6 +185,12 @@ public interface GraphicalRepresentation extends DianaObject, Bindable, Property
 			public ImageIcon getIcon() {
 				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignRight.png"));
 			}
+		},
+		RELATIVE {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignRelativeX.png"));
+			}
 		}
 	}
 
@@ -206,6 +212,12 @@ public interface GraphicalRepresentation extends DianaObject, Bindable, Property
 			@Override
 			public ImageIcon getIcon() {
 				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignBottom.png"));
+			}
+		},
+		RELATIVE {
+			@Override
+			public ImageIcon getIcon() {
+				return new ImageIconResource(ResourceLocator.locateResource("Icons/Layout/TextAlignRelativeY.png"));
 			}
 		};
 	}

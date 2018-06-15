@@ -38,38 +38,47 @@
 
 package org.openflexo.diana.ppteditor;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Rectangle2D;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
-import org.apache.poi.hslf.model.AutoShape;
-import org.apache.poi.hslf.model.MasterSheet;
-import org.apache.poi.hslf.model.Picture;
-import org.apache.poi.hslf.model.Shape;
-import org.apache.poi.hslf.model.Slide;
-import org.apache.poi.hslf.model.TextBox;
-import org.apache.poi.hslf.model.TextRun;
-import org.apache.poi.hslf.model.TextShape;
-import org.apache.poi.hslf.usermodel.RichTextRun;
+import org.apache.poi.hslf.usermodel.HSLFShape;
+import org.apache.poi.sl.draw.geom.Context;
+import org.apache.poi.sl.draw.geom.CustomGeometry;
+import org.apache.poi.sl.draw.geom.Path;
+import org.apache.poi.sl.usermodel.AutoShape;
+import org.apache.poi.sl.usermodel.MasterSheet;
+import org.apache.poi.sl.usermodel.PaintStyle;
+import org.apache.poi.sl.usermodel.PaintStyle.SolidPaint;
+import org.apache.poi.sl.usermodel.Shape;
+import org.apache.poi.sl.usermodel.Slide;
+import org.apache.poi.sl.usermodel.TextBox;
+import org.apache.poi.sl.usermodel.TextParagraph;
+import org.apache.poi.sl.usermodel.TextRun;
+import org.apache.poi.sl.usermodel.TextShape;
+import org.apache.poi.ss.usermodel.Picture;
+import org.apache.poi.util.Units;
 import org.openflexo.connie.DataBinding;
-import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.DianaModelFactory;
-import org.openflexo.diana.GRStructureVisitor;
-import org.openflexo.diana.GraphicalRepresentation;
-import org.openflexo.diana.ShapeGraphicalRepresentation;
-import org.openflexo.diana.TextStyle;
+import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.ForegroundStyle.DashStyle;
 import org.openflexo.diana.GRBinding.DrawingGRBinding;
 import org.openflexo.diana.GRBinding.ShapeGRBinding;
 import org.openflexo.diana.GRProvider.DrawingGRProvider;
 import org.openflexo.diana.GRProvider.ShapeGRProvider;
+import org.openflexo.diana.GRStructureVisitor;
+import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.diana.GraphicalRepresentation.ParagraphAlignment;
 import org.openflexo.diana.GraphicalRepresentation.VerticalTextAlignment;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
+import org.openflexo.diana.TextStyle;
 import org.openflexo.diana.impl.DrawingImpl;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 
@@ -131,26 +140,39 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 
 				MasterSheet master = slide.getMasterSheet();
 
+				System.out.println("******* Tiens, pour la slide " + slide);
 				if (slide.getFollowMasterObjects()) {
-					Shape[] sh = master.getShapes();
-					for (int i = sh.length - 1; i >= 0; i--) {
-						if (MasterSheet.isPlaceholder(sh[i])) {
+					List<Shape> sh = master.getShapes();
+					for (int i = sh.size() - 1; i >= 0; i--) {
+						/*if (MasterSheet.isPlaceholder(sh.get(i))) {
 							continue;
+						}*/
+						Shape<?, ?> shape = sh.get(i);
+
+						if (shape instanceof HSLFShape) {
+							if (((HSLFShape) shape).isPlaceholder()) {
+								continue;
+							}
 						}
-						Shape shape = sh[i];
+
+						System.out.println(" > " + shape.getClass());
+
 						if (shape instanceof Picture) {
+							System.out.println("Hop, une Picture");
 							drawShape(pictureBinding, (Picture) shape, slide);
 						}
 						else if (shape instanceof AutoShape) {
+							System.out.println("Hop, une AutoShape avec le texte " + ((AutoShape) shape).getText());
 							drawShape(autoShapeBinding, (AutoShape) shape, slide);
 						}
 						else if (shape instanceof TextBox) {
+							System.out.println("Hop, une TextBox");
 							drawShape(textBoxBinding, (TextBox) shape, slide);
 						}
 					}
 				}
 
-				for (Shape shape : slide.getShapes()) {
+				for (Shape shape : ((Slide<?, ?>) slide).getShapes()) {
 					if (shape instanceof Picture) {
 						drawShape(pictureBinding, (Picture) shape, slide);
 					}
@@ -170,21 +192,133 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 	}
 
 	private ShapeGraphicalRepresentation makeAutoShapeGraphicalRepresentation(AutoShape autoShape) {
+
+		System.out.println(">>>>>> Attention, on tombe sur " + autoShape.getText() + " ShapeType " + autoShape.getShapeType().nativeName);
+
+		Rectangle2D anchor = autoShape.getAnchor();
+
+		System.out.println("anchor=" + anchor);
+
+		CustomGeometry geometry = autoShape.getGeometry();
+		if (geometry != null) {
+			for (Path p : geometry) {
+				System.out.println(" > " + p + " of " + p.getClass());
+
+				double w = p.getW(), h = p.getH(), scaleX = Units.toPoints(1), scaleY = scaleX;
+				if (w == -1) {
+					w = Units.toEMU(anchor.getWidth());
+				}
+				else {
+					scaleX = anchor.getWidth() / w;
+				}
+				if (h == -1) {
+					h = Units.toEMU(anchor.getHeight());
+				}
+				else {
+					scaleY = anchor.getHeight() / h;
+				}
+
+				// the guides in the shape definitions are all defined relative to each other,
+				// so we build the path starting from (0,0).
+				final Rectangle2D pathAnchor = new Rectangle2D.Double(0, 0, w, h);
+
+				Context ctx = new Context(geometry, pathAnchor, autoShape);
+
+				java.awt.geom.Path2D.Double path = p.getPath(ctx);
+
+				// java.awt.Shape gp = p.getPath(ctx);
+
+				// translate the result to the canvas coordinates in points
+				AffineTransform at = new AffineTransform();
+				at.translate(anchor.getX(), anchor.getY());
+				at.scale(scaleX, scaleY);
+
+				PathIterator pathIterator = path.getPathIterator(at);
+
+				final float[] coords = new float[6];
+
+				int n = 0;
+				for (; !pathIterator.isDone(); pathIterator.next()) {
+					int type = pathIterator.currentSegment(coords);
+					System.out.println(" - segment type= " + type + " with coords: " + Arrays.toString(coords));
+					n++;
+				}
+
+				java.awt.Shape canvasShape = at.createTransformedShape(path);
+
+				System.out.println("Et hop, on obtient la shape: " + canvasShape);
+
+			}
+		}
+		else {
+			System.out.println("cannot retrieve geometry for " + autoShape.getText());
+		}
+
+		/*
+		 *         final SimpleShape<?,?> sh = getShape();
+		
+		List<Outline> lst = new ArrayList<Outline>();
+		CustomGeometry geom = sh.getGeometry();
+		if(geom == null) {
+		    return lst;
+		}
+		
+		Rectangle2D anchor = getAnchor(graphics, sh);
+		for (Path p : geom) {
+		
+		    double w = p.getW(), h = p.getH(), scaleX = Units.toPoints(1), scaleY = scaleX;
+		    if (w == -1) {
+		        w = Units.toEMU(anchor.getWidth());
+		    } else {
+		        scaleX = anchor.getWidth() / w;
+		    }
+		    if (h == -1) {
+		        h = Units.toEMU(anchor.getHeight());
+		    } else {
+		        scaleY = anchor.getHeight() / h;
+		    }
+		
+		    // the guides in the shape definitions are all defined relative to each other,
+		    // so we build the path starting from (0,0).
+		    final Rectangle2D pathAnchor = new Rectangle2D.Double(0,0,w,h);
+		
+		    Context ctx = new Context(geom, pathAnchor, sh);
+		
+		    java.awt.Shape gp = p.getPath(ctx);
+		
+		    // translate the result to the canvas coordinates in points
+		    AffineTransform at = new AffineTransform();
+		    at.translate(anchor.getX(), anchor.getY());
+		    at.scale(scaleX, scaleY);
+		
+		    java.awt.Shape canvasShape = at.createTransformedShape(gp);
+		
+		    lst.add(new Outline(canvasShape, p));
+		}
+		
+		return lst;
+		}
+		
+		 */
 		ShapeGraphicalRepresentation returned = getFactory().makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
-		returned.setX(autoShape.getAnchor2D().getX());
-		returned.setY(autoShape.getAnchor2D().getY());
-		returned.setWidth(autoShape.getAnchor2D().getWidth());
-		returned.setHeight(autoShape.getAnchor2D().getHeight());
+		returned.setX(autoShape.getAnchor().getX());
+		returned.setY(autoShape.getAnchor().getY());
+		returned.setWidth(autoShape.getAnchor().getWidth());
+		returned.setHeight(autoShape.getAnchor().getHeight());
 		// returned.setBorder(getFactory().makeShapeBorder(0, 0, 0, 0));
 
 		returned.setShadowStyle(getFactory().makeDefaultShadowStyle());
 
-		if (autoShape.getLineColor() != null) {
-			returned.setForeground(getFactory().makeForegroundStyle(autoShape.getLineColor(), (float) autoShape.getLineWidth(),
-					DashStyle.values()[autoShape.getLineDashing()]));
-		}
-		else {
+		// System.out.println("autoShape.getStrokeStyle()=" + autoShape.getStrokeStyle());
+		// System.out.println("autoShape.getStrokeStyle().getPaint()=" + autoShape.getStrokeStyle().getPaint());
+
+		if (autoShape.getStrokeStyle().getPaint() == null) {
 			returned.setForeground(getFactory().makeNoneForegroundStyle());
+		}
+		else if (autoShape.getStrokeStyle().getPaint() instanceof SolidPaint) {
+			Color lineColor = ((SolidPaint) autoShape.getStrokeStyle().getPaint()).getSolidColor().getColor();
+			returned.setForeground(getFactory().makeForegroundStyle(lineColor, (float) autoShape.getStrokeStyle().getLineWidth(),
+					/*DashStyle.values()[autoShape.getStrokeStyle().getLineDashing()]*/DashStyle.PLAIN_STROKE));
 		}
 
 		if (autoShape.getFillColor() != null) {
@@ -197,22 +331,38 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 
 		setTextProperties(returned, autoShape);
 
-		System.out.println("autoshape text=" + autoShape.getText());
-		System.out.println("getFillColor()=" + autoShape.getFillColor());
-		System.out.println("getLineStyle()=" + autoShape.getLineStyle());
-		System.out.println("getLineColor()=" + autoShape.getLineColor());
-		System.out.println("getLineWidth()=" + autoShape.getLineWidth());
-
-		System.out.println("gr=" + getFactory().stringRepresentation(returned));
+		// System.out.println("autoshape text=" + autoShape.getText());
+		// System.out.println("gr=" + getFactory().stringRepresentation(returned));
 		return returned;
 	}
 
-	private void setTextProperties(ShapeGraphicalRepresentation returned, TextShape textShape) {
+	private void setTextProperties(ShapeGraphicalRepresentation returned, TextShape<?, ?> textShape) {
 
-		if (textShape.getTextRun() != null) {
+		for (TextParagraph<?, ?, ?> textParagraph : textShape.getTextParagraphs()) {
+			for (TextRun textRun : textParagraph.getTextRuns()) {
+				String fontName = textRun.getFontFamily();
+				Double fontSize = textRun.getFontSize();
+				if (fontSize == null) {
+					fontSize = 12.0;
+				}
+				PaintStyle paintStyle = textRun.getFontColor();
+				Color color = Color.BLACK;
+				if (paintStyle instanceof SolidPaint) {
+					color = ((SolidPaint) paintStyle).getSolidColor().getColor();
+				}
+
+				int fontStyle = Font.PLAIN | (textRun.isBold() ? Font.BOLD : Font.PLAIN) | (textRun.isItalic() ? Font.ITALIC : Font.PLAIN);
+				Font f = new Font(fontName, fontStyle, fontSize.intValue());
+				TextStyle textStyle = getFactory().makeTextStyle(color, f);
+				returned.setTextStyle(textStyle);
+
+			}
+		}
+
+		/*if (textShape.getTextRun() != null) {
 			TextRun textRun = textShape.getTextRun();
 			RichTextRun[] rt = textRun.getRichTextRuns();
-
+		
 			if (rt.length > 0) {
 				RichTextRun rtr = rt[0];
 				String fontName = rtr.getFontName();
@@ -223,52 +373,31 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 				TextStyle textStyle = getFactory().makeTextStyle(color, f);
 				returned.setTextStyle(textStyle);
 			}
-		}
+		}*/
 
 		returned.setIsFloatingLabel(false);
 		returned.setIsMultilineAllowed(true);
 
-		returned.setRelativeTextX(0.5);
-		returned.setRelativeTextY(0.5);
+		// returned.setRelativeTextX(0.5);
+		// returned.setRelativeTextY(0.5);
 
-		try {
-			switch (textShape.getVerticalAlignment()) {
-				case TextShape.AnchorTop:
-					returned.setVerticalTextAlignment(VerticalTextAlignment.BOTTOM);
-					break;
-				case TextShape.AnchorMiddle:
-					returned.setVerticalTextAlignment(VerticalTextAlignment.MIDDLE);
-					break;
-				case TextShape.AnchorBottom:
-					returned.setVerticalTextAlignment(VerticalTextAlignment.TOP);
-					break;
-				case TextShape.AnchorTopCentered:
-					returned.setVerticalTextAlignment(VerticalTextAlignment.BOTTOM);
-					break;
-				case TextShape.AnchorMiddleCentered:
-					returned.setVerticalTextAlignment(VerticalTextAlignment.MIDDLE);
-					break;
-				case TextShape.AnchorBottomCentered:
-					returned.setVerticalTextAlignment(VerticalTextAlignment.TOP);
-					break;
-				case TextShape.AnchorTopBaseline:
-					returned.setVerticalTextAlignment(VerticalTextAlignment.BOTTOM);
-					break;
-				case TextShape.AnchorBottomBaseline:
-					returned.setVerticalTextAlignment(VerticalTextAlignment.TOP);
-					break;
-				case TextShape.AnchorTopCenteredBaseline:
-					returned.setVerticalTextAlignment(VerticalTextAlignment.BOTTOM);
-					break;
-				case TextShape.AnchorBottomCenteredBaseline:
-					returned.setVerticalTextAlignment(VerticalTextAlignment.TOP);
-					break;
-			}
-		} catch (NullPointerException e) {
-			logger.warning("Unexpected POI exception while retrieving vertical alignment");
+		switch (textShape.getVerticalAlignment()) {
+			case TOP:
+				returned.setVerticalTextAlignment(VerticalTextAlignment.TOP);
+				break;
+			case BOTTOM:
+				returned.setVerticalTextAlignment(VerticalTextAlignment.BOTTOM);
+				break;
+			case MIDDLE:
+				returned.setVerticalTextAlignment(VerticalTextAlignment.MIDDLE);
+				break;
+			default:
+				returned.setVerticalTextAlignment(VerticalTextAlignment.MIDDLE);
+				break;
 		}
 
-		switch (textShape.getHorizontalAlignment()) {
+		/*switch(textShape.getHorizontalAlignment())
+		{
 			case TextShape.AlignLeft:
 				returned.setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT);
 				returned.setParagraphAlignment(ParagraphAlignment.LEFT);
@@ -285,7 +414,50 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 				returned.setParagraphAlignment(ParagraphAlignment.RIGHT);
 				returned.setParagraphAlignment(ParagraphAlignment.JUSTIFY);
 				break;
+		}*/
+
+		// System.out.println("Je traite la shape " + textShape + " avec " + textShape.getText());
+		// System.out.println("Centre: " + textShape.isHorizontalCentered());
+
+		if (textShape.getTextParagraphs().size() > 0) {
+			TextParagraph<?, ?, ?> firstTextParagraph = textShape.getTextParagraphs().get(0);
+			/*System.out.println("Premier paragraphe: " + firstTextParagraph + " align=" + firstTextParagraph.getTextAlign());
+			for (TextRun textRun : firstTextParagraph.getTextRuns()) {
+				System.out.println(" > (run) " + textRun.getRawText());
+			}*/
+			if (firstTextParagraph.getTextAlign() != null) {
+				switch (firstTextParagraph.getTextAlign()) {
+					case CENTER:
+						returned.setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
+						returned.setParagraphAlignment(ParagraphAlignment.CENTER);
+						break;
+					case LEFT:
+						returned.setHorizontalTextAlignment(HorizontalTextAlignment.LEFT);
+						// returned.setParagraphAlignment(ParagraphAlignment.LEFT);
+						break;
+					case RIGHT:
+						returned.setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT);
+						// returned.setParagraphAlignment(ParagraphAlignment.RIGHT);
+						break;
+					case JUSTIFY:
+						returned.setParagraphAlignment(ParagraphAlignment.JUSTIFY);
+						// returned.setParagraphAlignment(ParagraphAlignment.JUSTIFY);
+						break;
+
+					default:
+						break;
+				}
+			}
 		}
+
+		/*if (textShape.isHorizontalCentered()) {
+			returned.setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
+			returned.setParagraphAlignment(ParagraphAlignment.CENTER);
+		}
+		else {
+			returned.setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT);
+			returned.setParagraphAlignment(ParagraphAlignment.LEFT);
+		}*/
 
 		returned.setLineWrap(true);
 
@@ -293,10 +465,10 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 
 	private ShapeGraphicalRepresentation makeTextBoxGraphicalRepresentation(TextBox textBox) {
 		ShapeGraphicalRepresentation returned = getFactory().makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
-		returned.setX(textBox.getAnchor2D().getX());
-		returned.setY(textBox.getAnchor2D().getY());
-		returned.setWidth(textBox.getAnchor2D().getWidth());
-		returned.setHeight(textBox.getAnchor2D().getHeight());
+		returned.setX(textBox.getAnchor().getX());
+		returned.setY(textBox.getAnchor().getY());
+		returned.setWidth(textBox.getAnchor().getWidth());
+		returned.setHeight(textBox.getAnchor().getHeight());
 		// returned.setBorder(getFactory().makeShapeBorder(0, 0, 0, 0));
 
 		returned.setForeground(getFactory().makeNoneForegroundStyle());
@@ -312,12 +484,12 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 
 	private ShapeGraphicalRepresentation makePictureGraphicalRepresentation(Picture pictureShape) {
 		ShapeGraphicalRepresentation returned = getFactory().makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
-		returned.setX(pictureShape.getAnchor2D().getX());
+		/*returned.setX(pictureShape.getAnchor2D().getX());
 		returned.setY(pictureShape.getAnchor2D().getY());
 		returned.setWidth(pictureShape.getAnchor2D().getWidth());
 		returned.setHeight(pictureShape.getAnchor2D().getHeight());
 		// returned.setBorder(getFactory().makeShapeBorder(0, 0, 0, 0));
-
+		
 		BufferedImage image = new BufferedImage((int) pictureShape.getAnchor2D().getWidth(), (int) pictureShape.getAnchor2D().getHeight(),
 				BufferedImage.TYPE_INT_RGB);
 		Graphics2D graphics = image.createGraphics();
@@ -326,14 +498,14 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 		graphics.clipRect((int) pictureShape.getAnchor2D().getX(), (int) pictureShape.getAnchor2D().getY(),
 				(int) pictureShape.getAnchor2D().getWidth(), (int) pictureShape.getAnchor2D().getHeight());
 		// graphics.transform(AffineTransform.getScaleInstance(WIDTH / d.width, WIDTH / d.width));
-
+		
 		graphics.setPaint(Color.WHITE);
 		graphics.fillRect((int) pictureShape.getAnchor2D().getX(), (int) pictureShape.getAnchor2D().getY(),
 				(int) pictureShape.getAnchor2D().getWidth(), (int) pictureShape.getAnchor2D().getHeight());
-
+		
 		pictureShape.getPictureData().draw(graphics, pictureShape);
 		returned.setBackground(getFactory().makeImageBackground(image));
-		returned.setForeground(getFactory().makeNoneForegroundStyle());
+		returned.setForeground(getFactory().makeNoneForegroundStyle());*/
 
 		System.out.println("picture gr = " + getFactory().stringRepresentation(returned));
 		return returned;
