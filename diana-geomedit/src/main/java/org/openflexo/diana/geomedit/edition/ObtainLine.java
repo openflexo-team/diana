@@ -46,7 +46,6 @@ import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.FGELine;
-import org.openflexo.fge.geomedit.Line;
 import org.openflexo.fge.geomedit.construction.LineConstruction;
 
 public class ObtainLine extends EditionInput<FGELine> {
@@ -82,10 +81,14 @@ public class ObtainLine extends EditionInput<FGELine> {
 		public void mouseClicked(MouseEvent e) {
 			if (focusedObject != null) {
 				focusedObject.setIsFocused(false);
-				referencedLine = (Line) focusedObject.getDrawable();
+
+				if (focusedObject.getDrawable() instanceof LineConstruction) {
+					setConstruction(getFactory().makeLineReference((LineConstruction) focusedObject.getDrawable()));
+				}
+				// referencedLine = (Line) focusedObject.getDrawable();
 				// setConstruction(
 				// getFactory().makeLineReference(((DraggableControlPoint) focusedControlPoint).getExplicitPointConstruction()));
-				setConstruction(getFactory().makeLineReference(referencedLine.getConstruction()));
+				// setConstruction(getFactory().makeLineReference(referencedLine.getConstruction()));
 				done();
 			}
 		}
@@ -151,10 +154,10 @@ public class ObtainLine extends EditionInput<FGELine> {
 		return false;
 	}
 
-	private Line referencedLine;
-
+	/*private Line referencedLine;
+	
 	public Line getReferencedLine() {
 		return referencedLine;
-	}
+	}*/
 
 }

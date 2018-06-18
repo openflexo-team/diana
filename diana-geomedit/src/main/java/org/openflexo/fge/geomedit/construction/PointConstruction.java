@@ -46,10 +46,13 @@ import org.openflexo.diana.geomedit.model.gr.PointGraphicalRepresentation;
 import org.openflexo.fge.TextureBackgroundStyle.TextureType;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geomedit.construction.PointConstruction.PointConstructionImpl;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(PointConstructionImpl.class)
@@ -57,6 +60,23 @@ import org.openflexo.model.annotations.ModelEntity;
 		@Import(LineIntersectionPointConstruction.class), @Import(PointMiddleOfTwoPointsConstruction.class),
 		@Import(SymetricPointConstruction.class) })
 public interface PointConstruction extends GeometricConstruction<FGEPoint> {
+
+	@PropertyIdentifier(type = Double.class)
+	public static final String X_KEY = "x";
+	@PropertyIdentifier(type = Double.class)
+	public static final String Y_KEY = "y";
+
+	@Getter(value = X_KEY)
+	public double getX();
+
+	@Setter(value = X_KEY)
+	public void setX(double value);
+
+	@Getter(value = Y_KEY)
+	public double getY();
+
+	@Setter(value = Y_KEY)
+	public void setY(double value);
 
 	public FGEPoint getPoint();
 
@@ -76,5 +96,38 @@ public interface PointConstruction extends GeometricConstruction<FGEPoint> {
 			returned.setBackground(factory.makeTexturedBackground(TextureType.TEXTURE1, Color.RED, Color.WHITE));
 			return returned;
 		}
+
+		@Override
+		public double getX() {
+			return getPoint().getX();
+		}
+
+		@Override
+		public void setX(double x) {
+			if (x != getX()) {
+				double oldX = getX();
+				getPoint().x = x;
+				getPropertyChangeSupport().firePropertyChange(X_KEY, oldX, x);
+				// getGraphicalRepresentation().notify(new FGEAttributeNotification("x", oldX, x));
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public double getY() {
+			return getPoint().getY();
+		}
+
+		@Override
+		public void setY(double y) {
+			if (y != getY()) {
+				double oldY = getY();
+				getPoint().y = y;
+				getPropertyChangeSupport().firePropertyChange(Y_KEY, oldY, y);
+				// getGraphicalRepresentation().notify(new FGEAttributeNotification("y", oldY, y));
+				notifyGeometryChanged();
+			}
+		}
+
 	}
 }

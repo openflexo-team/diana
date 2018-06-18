@@ -41,15 +41,51 @@ package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.area.FGEHalfLine;
 import org.openflexo.fge.geomedit.construction.HalfLineConstruction.HalfLineConstructionImpl;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(HalfLineConstructionImpl.class)
 @Imports({ @Import(HalfLineWithTwoPointsConstruction.class) })
 public interface HalfLineConstruction extends GeometricConstruction<FGEHalfLine> {
+
+	@PropertyIdentifier(type = Double.class)
+	public static final String LIMIT_X_KEY = "limitX";
+	@PropertyIdentifier(type = Double.class)
+	public static final String LIMIT_Y_KEY = "limitY";
+	@PropertyIdentifier(type = Double.class)
+	public static final String OPPOSITE_X_KEY = "oppositeX";
+	@PropertyIdentifier(type = Double.class)
+	public static final String OPPOSITE_Y_KEY = "oppositeY";
+
+	@Getter(LIMIT_X_KEY)
+	public double getLimitX();
+
+	@Setter(LIMIT_X_KEY)
+	public void setLimitX(double value);
+
+	@Getter(LIMIT_Y_KEY)
+	public double getLimitY();
+
+	@Setter(LIMIT_Y_KEY)
+	public void setLimitY(double value);
+
+	@Getter(OPPOSITE_X_KEY)
+	public double getOppositeX();
+
+	@Setter(OPPOSITE_X_KEY)
+	public void setOppositeX(double value);
+
+	@Getter(OPPOSITE_Y_KEY)
+	public double getOppositeY();
+
+	@Setter(OPPOSITE_Y_KEY)
+	public void setOppositeY(double value);
 
 	public FGEHalfLine getHalfLine();
 
@@ -62,6 +98,66 @@ public interface HalfLineConstruction extends GeometricConstruction<FGEHalfLine>
 
 		@Override
 		protected abstract FGEHalfLine computeData();
+
+		@Override
+		public double getLimitX() {
+			return getHalfLine().getX1();
+		}
+
+		@Override
+		public void setLimitX(double limitX) {
+			if (limitX != getLimitX()) {
+				double oldLimitX = getLimitX();
+				getHalfLine().setX1(limitX);
+				getPropertyChangeSupport().firePropertyChange(LIMIT_X_KEY, oldLimitX, limitX);
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public double getLimitY() {
+			return getHalfLine().getY1();
+		}
+
+		@Override
+		public void setLimitY(double limitY) {
+			if (limitY != getLimitY()) {
+				double oldLimitY = getLimitY();
+				getHalfLine().setY1(limitY);
+				getPropertyChangeSupport().firePropertyChange(LIMIT_Y_KEY, oldLimitY, limitY);
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public double getOppositeX() {
+			return getHalfLine().getX2();
+		}
+
+		@Override
+		public void setOppositeX(double oppositeX) {
+			if (oppositeX != getOppositeX()) {
+				double oldOppositeX = getOppositeX();
+				getHalfLine().setX2(oppositeX);
+				getPropertyChangeSupport().firePropertyChange(OPPOSITE_X_KEY, oldOppositeX, oppositeX);
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public double getOppositeY() {
+			return getHalfLine().getY2();
+		}
+
+		@Override
+		public void setOppositeY(double oppositeY) {
+			if (oppositeY != getOppositeY()) {
+				double oldOppositeY = getOppositeY();
+				getHalfLine().setY2(oppositeY);
+				getPropertyChangeSupport().firePropertyChange(OPPOSITE_Y_KEY, oldOppositeY, oppositeY);
+				notifyGeometryChanged();
+			}
+		}
 
 	}
 

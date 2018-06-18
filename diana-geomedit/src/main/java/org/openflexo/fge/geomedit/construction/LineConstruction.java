@@ -39,12 +39,17 @@
 
 package org.openflexo.fge.geomedit.construction;
 
+import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
+import org.openflexo.diana.geomedit.model.gr.LineGraphicalRepresentation;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geomedit.construction.LineConstruction.LineConstructionImpl;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(LineConstructionImpl.class)
@@ -53,6 +58,39 @@ import org.openflexo.model.annotations.ModelEntity;
 		@Import(RotatedLineWithPointConstruction.class), @Import(TangentLineWithCircleAndPointConstruction.class),
 		@Import(VerticalLineWithPointConstruction.class) })
 public interface LineConstruction extends GeometricConstruction<FGELine> {
+
+	@PropertyIdentifier(type = Double.class)
+	public static final String X1_KEY = "x1";
+	@PropertyIdentifier(type = Double.class)
+	public static final String Y1_KEY = "y1";
+	@PropertyIdentifier(type = Double.class)
+	public static final String X2_KEY = "x2";
+	@PropertyIdentifier(type = Double.class)
+	public static final String Y2_KEY = "y2";
+
+	@Getter(value = X1_KEY)
+	public double getX1();
+
+	@Setter(value = X1_KEY)
+	public void setX1(double value);
+
+	@Getter(value = Y1_KEY)
+	public double getY1();
+
+	@Setter(value = Y1_KEY)
+	public void setY1(double value);
+
+	@Getter(value = X2_KEY)
+	public double getX2();
+
+	@Setter(value = X2_KEY)
+	public void setX2(double value);
+
+	@Getter(value = Y2_KEY)
+	public double getY2();
+
+	@Setter(value = Y2_KEY)
+	public void setY2(double value);
 
 	public FGELine getLine();
 
@@ -64,6 +102,73 @@ public interface LineConstruction extends GeometricConstruction<FGELine> {
 		}
 
 		@Override
+		public LineGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			LineGraphicalRepresentation returned = factory.newInstance(LineGraphicalRepresentation.class);
+			return returned;
+		}
+
+		@Override
 		protected abstract FGELine computeData();
+
+		@Override
+		public double getX1() {
+			return getLine().getX1();
+		}
+
+		@Override
+		public void setX1(double x1) {
+			if (x1 != getX1()) {
+				double oldX1 = getX1();
+				getLine().setX1(x1);
+				getPropertyChangeSupport().firePropertyChange(X1_KEY, oldX1, x1);
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public double getX2() {
+			return getLine().getX2();
+		}
+
+		@Override
+		public void setX2(double x2) {
+			if (x2 != getX2()) {
+				double oldX2 = getX2();
+				getLine().setX2(x2);
+				getPropertyChangeSupport().firePropertyChange(X2_KEY, oldX2, x2);
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public double getY1() {
+			return getLine().getY1();
+		}
+
+		@Override
+		public void setY1(double y1) {
+			if (y1 != getY1()) {
+				double oldY1 = getY1();
+				getLine().setY1(y1);
+				getPropertyChangeSupport().firePropertyChange(Y1_KEY, oldY1, y1);
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public double getY2() {
+			return getLine().getY2();
+		}
+
+		@Override
+		public void setY2(double y2) {
+			if (y2 != getY2()) {
+				double oldY2 = getY2();
+				getLine().setY2(y2);
+				getPropertyChangeSupport().firePropertyChange(Y2_KEY, oldY2, y2);
+				notifyGeometryChanged();
+			}
+		}
+
 	}
 }

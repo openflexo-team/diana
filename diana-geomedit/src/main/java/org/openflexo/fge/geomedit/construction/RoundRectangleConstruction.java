@@ -41,37 +41,80 @@ package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGERoundRectangle;
 import org.openflexo.fge.geomedit.construction.RoundRectangleConstruction.RoundRectangleConstructionImpl;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(RoundRectangleConstructionImpl.class)
 @Imports({ @Import(RoundRectangleWithTwoPointsConstruction.class) })
 public interface RoundRectangleConstruction extends GeometricConstruction<FGERoundRectangle> {
 
-	public FGERoundRectangle getRectangle();
+	@PropertyIdentifier(type = Double.class)
+	public static final String X_KEY = "x";
+	@PropertyIdentifier(type = Double.class)
+	public static final String Y_KEY = "y";
+	@PropertyIdentifier(type = Double.class)
+	public static final String WIDTH_KEY = "width";
+	@PropertyIdentifier(type = Double.class)
+	public static final String HEIGHT_KEY = "height";
+	@PropertyIdentifier(type = Double.class)
+	public static final String ARC_WIDTH_KEY = "arcWidth";
+	@PropertyIdentifier(type = Double.class)
+	public static final String ARC_HEIGHT_KEY = "arcHeight";
+	@PropertyIdentifier(type = Boolean.class)
+	public static final String IS_FILLED_KEY = "isFilled";
 
+	@Getter(X_KEY)
+	public double getX();
+
+	@Setter(X_KEY)
+	public void setX(double value);
+
+	@Getter(Y_KEY)
+	public double getY();
+
+	@Setter(Y_KEY)
+	public void setY(double value);
+
+	@Getter(WIDTH_KEY)
+	public double getWidth();
+
+	@Setter(WIDTH_KEY)
+	public void setWidth(double value);
+
+	@Getter(HEIGHT_KEY)
+	public double getHeight();
+
+	@Setter(HEIGHT_KEY)
+	public void setHeight(double value);
+
+	@Getter(IS_FILLED_KEY)
 	public boolean getIsFilled();
 
+	@Setter(IS_FILLED_KEY)
 	public void setIsFilled(boolean isFilled);
 
-	public double getArcHeight();
-
-	public void setArcHeight(double arcHeight);
-
+	@Getter(ARC_WIDTH_KEY)
 	public double getArcWidth();
 
+	@Setter(ARC_WIDTH_KEY)
 	public void setArcWidth(double arcWidth);
+
+	@Getter(ARC_HEIGHT_KEY)
+	public double getArcHeight();
+
+	@Setter(ARC_HEIGHT_KEY)
+	public void setArcHeight(double arcHeight);
+
+	public FGERoundRectangle getRectangle();
 
 	public static abstract class RoundRectangleConstructionImpl extends GeometricConstructionImpl<FGERoundRectangle>
 			implements RoundRectangleConstruction {
-
-		private boolean isFilled;
-
-		private double arcWidth = 30;
-		private double arcHeight = 30;
 
 		@Override
 		public final FGERoundRectangle getRectangle() {
@@ -82,36 +125,106 @@ public interface RoundRectangleConstruction extends GeometricConstruction<FGERou
 		protected abstract FGERoundRectangle computeData();
 
 		@Override
-		public boolean getIsFilled() {
-			return isFilled;
+		public double getX() {
+			return getRectangle().getX();
 		}
 
 		@Override
-		public void setIsFilled(boolean isFilled) {
-			this.isFilled = isFilled;
-			setModified(true);
+		public void setX(double x) {
+			if (x != getX()) {
+				double oldX = getX();
+				getRectangle().x = x;
+				getPropertyChangeSupport().firePropertyChange(X_KEY, oldX, x);
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public double getWidth() {
+			return getRectangle().getWidth();
+		}
+
+		@Override
+		public void setWidth(double width) {
+			if (width != getWidth()) {
+				double oldWidth = getWidth();
+				getRectangle().width = width;
+				getPropertyChangeSupport().firePropertyChange(WIDTH_KEY, oldWidth, width);
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public double getY() {
+			return getRectangle().getY();
+		}
+
+		@Override
+		public void setY(double y) {
+			if (y != getY()) {
+				double oldY = getY();
+				getRectangle().y = y;
+				getPropertyChangeSupport().firePropertyChange(Y_KEY, oldY, y);
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public double getHeight() {
+			return getRectangle().getHeight();
+		}
+
+		@Override
+		public void setHeight(double height) {
+			if (height != getHeight()) {
+				double oldHeight = getHeight();
+				getRectangle().height = height;
+				getPropertyChangeSupport().firePropertyChange(HEIGHT_KEY, oldHeight, height);
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public boolean getIsFilled() {
+			return getRectangle().getIsFilled();
+		}
+
+		@Override
+		public void setIsFilled(boolean filled) {
+			if (filled != getIsFilled()) {
+				getRectangle().setIsFilled(filled);
+				getPropertyChangeSupport().firePropertyChange(IS_FILLED_KEY, !filled, filled);
+			}
 		}
 
 		@Override
 		public double getArcHeight() {
-			return arcHeight;
+			return getRectangle().getArcHeight();
 		}
 
 		@Override
 		public void setArcHeight(double arcHeight) {
-			this.arcHeight = arcHeight;
-			setModified(true);
+			if (arcHeight != getArcHeight()) {
+				double oldHeight = getArcHeight();
+				getRectangle().archeight = arcHeight;
+				getPropertyChangeSupport().firePropertyChange(ARC_HEIGHT_KEY, oldHeight, arcHeight);
+				notifyGeometryChanged();
+			}
 		}
 
 		@Override
 		public double getArcWidth() {
-			return arcWidth;
+			return getRectangle().getArcWidth();
 		}
 
 		@Override
 		public void setArcWidth(double arcWidth) {
-			this.arcWidth = arcWidth;
-			setModified(true);
+			if (arcWidth != getArcWidth()) {
+				double oldWidth = getArcWidth();
+				getRectangle().arcwidth = arcWidth;
+				getPropertyChangeSupport().firePropertyChange(ARC_WIDTH_KEY, oldWidth, arcWidth);
+				notifyGeometryChanged();
+			}
 		}
 	}
 

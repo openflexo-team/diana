@@ -213,7 +213,7 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 			if (currentChildInputStep == 0) {
 				// Nothing to draw
 			}
-			else if (currentChildInputStep == 1 && ((ObtainLine) childInputs.get(0)).getReferencedLine() != null) {
+			else if (currentChildInputStep == 1 && ((ObtainLine) childInputs.get(0)).getConstruction() != null) {
 				// TODO
 				System.out.println("Faire un truc ici pour selectionner la ligne !");
 				// ((ObtainLine) childInputs.get(0)).getReferencedLine().getGraphicalRepresentation().setIsSelected(true);

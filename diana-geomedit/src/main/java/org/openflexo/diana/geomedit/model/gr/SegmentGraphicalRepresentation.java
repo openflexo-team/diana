@@ -45,98 +45,97 @@ import java.util.Vector;
 
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
+import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.Drawing.GeometricNode;
+import org.openflexo.fge.GeometricGraphicalRepresentation;
+import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.cp.ControlPoint;
-import org.openflexo.fge.geom.FGEAbstractLine;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.fge.geomedit.GeometricDrawing;
-import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
-import org.openflexo.fge.geomedit.Segment;
 import org.openflexo.fge.geomedit.construction.ExplicitPointConstruction;
+import org.openflexo.fge.geomedit.construction.GeometricConstruction;
 import org.openflexo.fge.geomedit.construction.SegmentConstruction;
 import org.openflexo.fge.geomedit.construction.SegmentWithTwoPointsConstruction;
-import org.openflexo.xmlcode.XMLSerializable;
 
-public class SegmentGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGESegment, Segment> implements XMLSerializable {
-	// Called for LOAD
-	public SegmentGraphicalRepresentation(GeomEditBuilder builder) {
-		this(null, builder.drawing);
-		initializeDeserialization();
-	}
+public interface SegmentGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGESegment> {
 
-	public SegmentGraphicalRepresentation(Segment segment, GeometricDrawing aDrawing) {
-		super(segment, aDrawing);
-	}
+	public static abstract class SegmentGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGESegment>
+			implements SegmentGraphicalRepresentation {
 
-	@Override
-	protected List<ControlPoint> buildControlPointsForLine(FGEAbstractLine line) {
-		Vector<ControlPoint> returned = new Vector<ControlPoint>();
+		@Override
+		public List<? extends ControlArea<?>> makeControlAreasFor(
+				DrawingTreeNode<GeometricConstruction<FGESegment>, GeometricGraphicalRepresentation> dtn) {
 
-		SegmentConstruction segmentConstruction = getDrawable().getConstruction();
+			Vector<ControlPoint> returned = new Vector<ControlPoint>();
 
-		ExplicitPointConstruction pc1 = null;
-		ExplicitPointConstruction pc2 = null;
+			SegmentConstruction segmentConstruction = (SegmentConstruction) dtn.getDrawable();
+			FGESegment segment = segmentConstruction.getSegment();
 
-		if (segmentConstruction instanceof SegmentWithTwoPointsConstruction) {
-			if (((SegmentWithTwoPointsConstruction) segmentConstruction).pointConstruction1 instanceof ExplicitPointConstruction) {
-				pc1 = (ExplicitPointConstruction) ((SegmentWithTwoPointsConstruction) segmentConstruction).pointConstruction1;
+			ExplicitPointConstruction pc1 = null;
+			ExplicitPointConstruction pc2 = null;
+
+			if (segmentConstruction instanceof SegmentWithTwoPointsConstruction) {
+				if (((SegmentWithTwoPointsConstruction) segmentConstruction).getPointConstruction1() instanceof ExplicitPointConstruction) {
+					pc1 = (ExplicitPointConstruction) ((SegmentWithTwoPointsConstruction) segmentConstruction).getPointConstruction1();
+				}
+				if (((SegmentWithTwoPointsConstruction) segmentConstruction).getPointConstruction2() instanceof ExplicitPointConstruction) {
+					pc2 = (ExplicitPointConstruction) ((SegmentWithTwoPointsConstruction) segmentConstruction).getPointConstruction2();
+				}
 			}
-			if (((SegmentWithTwoPointsConstruction) segmentConstruction).pointConstruction2 instanceof ExplicitPointConstruction) {
-				pc2 = (ExplicitPointConstruction) ((SegmentWithTwoPointsConstruction) segmentConstruction).pointConstruction2;
+
+			if (pc1 != null) {
+				returned.add(new DraggableControlPoint<FGESegment>((GeometricNode<?>) dtn, "p1", segment.getP1(), pc1) {
+					@Override
+					public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
+							FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+						getGeometricObject().setP1(newAbsolutePoint);
+						setPoint(newAbsolutePoint);
+						((GeometricNode<?>) dtn).notifyGeometryChanged();
+						return true;
+					}
+
+					@Override
+					public void update(FGESegment geometricObject) {
+						setPoint(geometricObject.getP1());
+					}
+				});
 			}
+			else {
+				returned.add(new ComputedControlPoint<FGESegment>((GeometricNode<?>) dtn, "p1", segment.getP1()) {
+					@Override
+					public void update(FGESegment geometricObject) {
+						setPoint(geometricObject.getP1());
+					}
+				});
+			}
+
+			if (pc2 != null) {
+				returned.add(new DraggableControlPoint<FGESegment>((GeometricNode<?>) dtn, "p2", segment.getP2(), pc2) {
+					@Override
+					public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
+							FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+						getGeometricObject().setP2(newAbsolutePoint);
+						setPoint(newAbsolutePoint);
+						((GeometricNode<?>) dtn).notifyGeometryChanged();
+						return true;
+					}
+
+					@Override
+					public void update(FGESegment geometricObject) {
+						setPoint(geometricObject.getP2());
+					}
+				});
+			}
+			else {
+				returned.add(new ComputedControlPoint<FGESegment>((GeometricNode<?>) dtn, "p2", segment.getP1()) {
+					@Override
+					public void update(FGESegment geometricObject) {
+						setPoint(geometricObject.getP2());
+					}
+				});
+			}
+
+			return returned;
 		}
-
-		if (pc1 != null) {
-			returned.add(new DraggableControlPoint<FGESegment>(this, "p1", line.getP1(), pc1) {
-				@Override
-				public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-						FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
-					getGeometricObject().setP1(newAbsolutePoint);
-					setPoint(newAbsolutePoint);
-					notifyGeometryChanged();
-					return true;
-				}
-
-				@Override
-				public void update(FGESegment geometricObject) {
-					setPoint(geometricObject.getP1());
-				}
-			});
-		} else {
-			returned.add(new ComputedControlPoint<FGESegment>(this, "p1", line.getP1()) {
-				@Override
-				public void update(FGESegment geometricObject) {
-					setPoint(geometricObject.getP1());
-				}
-			});
-		}
-
-		if (pc2 != null) {
-			returned.add(new DraggableControlPoint<FGESegment>(this, "p2", line.getP2(), pc2) {
-				@Override
-				public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-						FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
-					getGeometricObject().setP2(newAbsolutePoint);
-					setPoint(newAbsolutePoint);
-					notifyGeometryChanged();
-					return true;
-				}
-
-				@Override
-				public void update(FGESegment geometricObject) {
-					setPoint(geometricObject.getP2());
-				}
-			});
-		} else {
-			returned.add(new ComputedControlPoint<FGESegment>(this, "p2", line.getP1()) {
-				@Override
-				public void update(FGESegment geometricObject) {
-					setPoint(geometricObject.getP2());
-				}
-			});
-		}
-
-		return returned;
 	}
-
 }

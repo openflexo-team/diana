@@ -90,6 +90,7 @@ public interface GeometricObjectGraphicalRepresentation<A extends FGEArea> exten
 		public A getGeometricObject() {
 			return (A) super.getGeometricObject();
 		}
+
 	}
 
 }

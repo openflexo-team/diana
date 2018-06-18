@@ -104,6 +104,8 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 
 	public void setControlPoints(List<ControlPoint> controlPoints);
 
+	public void notifyGeometryChanged();
+
 	public static abstract class GeometricConstructionImpl<A extends FGEArea> extends GeometricElementImpl
 			implements GeometricConstruction<A> {
 
@@ -189,6 +191,12 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 		public void setControlPoints(List<ControlPoint> controlPoints) {
 			this.controlPoints = controlPoints;
 		}
+
+		@Override
+		public void notifyGeometryChanged() {
+			System.out.println("TODO: notifyGeometryChanged");
+		}
+
 	}
 
 }

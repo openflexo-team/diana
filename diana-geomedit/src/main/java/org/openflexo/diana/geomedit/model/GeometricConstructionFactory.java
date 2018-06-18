@@ -99,7 +99,9 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 	}
 
 	public <A extends FGEArea> GeometricObjectGraphicalRepresentation<A> makeNewConstructionGR(GeometricConstruction<A> construction) {
-		return construction.makeNewConstructionGR(this);
+		GeometricObjectGraphicalRepresentation<A> returned = construction.makeNewConstructionGR(this);
+		returned.setGeometricObject(construction.getData());
+		return returned;
 	}
 
 	@Override

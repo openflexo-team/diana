@@ -74,27 +74,6 @@ public interface LineGraphicalRepresentation extends GeometricObjectGraphicalRep
 
 	public static abstract class LineGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGELine>
 			implements LineGraphicalRepresentation {
-		// Called for LOAD
-		/*public LineGraphicalRepresentation(GeomEditBuilder builder) {
-			this(null, builder.drawing);
-			initializeDeserialization();
-		}
-		
-		public LineGraphicalRepresentation(Line line, GeometricDrawing aDrawing) {
-			super(line, aDrawing);
-		}*/
-
-		/*@Override
-		public Line getDrawable() {
-			// TODO Auto-generated method stub
-			return super.getDrawable();
-		}
-		
-		@Override
-		public FGELine getGeometricObject() {
-			// TODO Auto-generated method stub
-			return super.getGeometricObject();
-		}*/
 
 		@Override
 		public List<? extends ControlArea<?>> makeControlAreasFor(

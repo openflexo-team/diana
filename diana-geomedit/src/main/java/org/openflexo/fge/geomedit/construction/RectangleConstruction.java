@@ -39,27 +39,67 @@
 
 package org.openflexo.fge.geomedit.construction;
 
+import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
+import org.openflexo.diana.geomedit.model.gr.RectangleGraphicalRepresentation;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.geomedit.construction.RectangleConstruction.RectangleConstructionImpl;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(RectangleConstructionImpl.class)
 @Imports({ @Import(RectangleWithTwoPointsConstruction.class) })
 public interface RectangleConstruction extends GeometricConstruction<FGERectangle> {
 
+	@PropertyIdentifier(type = Double.class)
+	public static final String X_KEY = "x";
+	@PropertyIdentifier(type = Double.class)
+	public static final String Y_KEY = "y";
+	@PropertyIdentifier(type = Double.class)
+	public static final String WIDTH_KEY = "width";
+	@PropertyIdentifier(type = Double.class)
+	public static final String HEIGHT_KEY = "height";
+	@PropertyIdentifier(type = Boolean.class)
+	public static final String IS_FILLED_KEY = "isFilled";
+
+	@Getter(X_KEY)
+	public double getX();
+
+	@Setter(X_KEY)
+	public void setX(double value);
+
+	@Getter(Y_KEY)
+	public double getY();
+
+	@Setter(Y_KEY)
+	public void setY(double value);
+
+	@Getter(WIDTH_KEY)
+	public double getWidth();
+
+	@Setter(WIDTH_KEY)
+	public void setWidth(double value);
+
+	@Getter(HEIGHT_KEY)
+	public double getHeight();
+
+	@Setter(HEIGHT_KEY)
+	public void setHeight(double value);
+
 	public FGERectangle getRectangle();
 
+	@Getter(IS_FILLED_KEY)
 	public boolean getIsFilled();
 
+	@Setter(IS_FILLED_KEY)
 	public void setIsFilled(boolean isFilled);
 
 	public abstract class RectangleConstructionImpl extends GeometricConstructionImpl<FGERectangle> implements RectangleConstruction {
-
-		private boolean isFilled;
 
 		@Override
 		public final FGERectangle getRectangle() {
@@ -67,17 +107,86 @@ public interface RectangleConstruction extends GeometricConstruction<FGERectangl
 		}
 
 		@Override
+		public RectangleGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			RectangleGraphicalRepresentation returned = factory.newInstance(RectangleGraphicalRepresentation.class);
+			return returned;
+		}
+
+		@Override
 		protected abstract FGERectangle computeData();
 
 		@Override
-		public boolean getIsFilled() {
-			return isFilled;
+		public double getX() {
+			return getRectangle().getX();
 		}
 
 		@Override
-		public void setIsFilled(boolean isFilled) {
-			this.isFilled = isFilled;
-			setModified(true);
+		public void setX(double x) {
+			if (x != getX()) {
+				double oldX = getX();
+				getRectangle().x = x;
+				getPropertyChangeSupport().firePropertyChange(X_KEY, oldX, x);
+				notifyGeometryChanged();
+			}
 		}
+
+		@Override
+		public double getWidth() {
+			return getRectangle().getWidth();
+		}
+
+		@Override
+		public void setWidth(double width) {
+			if (width != getWidth()) {
+				double oldWidth = getWidth();
+				getRectangle().width = width;
+				getPropertyChangeSupport().firePropertyChange(WIDTH_KEY, oldWidth, width);
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public double getY() {
+			return getRectangle().getY();
+		}
+
+		@Override
+		public void setY(double y) {
+			if (y != getY()) {
+				double oldY = getY();
+				getRectangle().y = y;
+				getPropertyChangeSupport().firePropertyChange(Y_KEY, oldY, y);
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public double getHeight() {
+			return getRectangle().getHeight();
+		}
+
+		@Override
+		public void setHeight(double height) {
+			if (height != getHeight()) {
+				double oldHeight = getHeight();
+				getRectangle().height = height;
+				getPropertyChangeSupport().firePropertyChange(HEIGHT_KEY, oldHeight, height);
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public boolean getIsFilled() {
+			return getRectangle().getIsFilled();
+		}
+
+		@Override
+		public void setIsFilled(boolean filled) {
+			if (filled != getIsFilled()) {
+				getRectangle().setIsFilled(filled);
+				getPropertyChangeSupport().firePropertyChange(IS_FILLED_KEY, !filled, filled);
+			}
+		}
+
 	}
 }
