@@ -40,21 +40,12 @@
 package org.openflexo.diana.geomedit.model.gr;
 
 import org.openflexo.fge.geom.area.FGEHalfPlane;
-import org.openflexo.fge.geomedit.GeometricDrawing;
-import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
-import org.openflexo.fge.geomedit.HalfPlane;
-import org.openflexo.xmlcode.XMLSerializable;
 
-public class HalfPlaneGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEHalfPlane, HalfPlane> implements
-		XMLSerializable {
-	// Called for LOAD
-	public HalfPlaneGraphicalRepresentation(GeomEditBuilder builder) {
-		this(null, builder.drawing);
-		initializeDeserialization();
-	}
+public interface HalfPlaneGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEHalfPlane> {
 
-	public HalfPlaneGraphicalRepresentation(HalfPlane halfPlane, GeometricDrawing aDrawing) {
-		super(halfPlane, aDrawing);
+	public static abstract class HalfPlaneGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEHalfPlane>
+			implements HalfPlaneGraphicalRepresentation {
+
 	}
 
 }

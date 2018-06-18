@@ -39,6 +39,8 @@
 
 package org.openflexo.fge.geomedit.construction;
 
+import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
+import org.openflexo.diana.geomedit.model.gr.QuarterPlaneGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEQuarterPlane;
 import org.openflexo.fge.geomedit.construction.QuarterPlaneConstruction.QuarterPlaneConstructionImpl;
 import org.openflexo.model.annotations.ImplementationClass;
@@ -56,6 +58,12 @@ public interface QuarterPlaneConstruction extends GeometricConstruction<FGEQuart
 		@Override
 		public final FGEQuarterPlane getQuarterPlane() {
 			return getData();
+		}
+
+		@Override
+		public QuarterPlaneGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			QuarterPlaneGraphicalRepresentation returned = factory.newInstance(QuarterPlaneGraphicalRepresentation.class);
+			return returned;
 		}
 
 		@Override

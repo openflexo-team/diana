@@ -39,6 +39,8 @@
 
 package org.openflexo.fge.geomedit.construction;
 
+import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
+import org.openflexo.diana.geomedit.model.gr.BandGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEBand;
 import org.openflexo.fge.geomedit.construction.BandConstruction.BandConstructionImpl;
 import org.openflexo.model.annotations.ImplementationClass;
@@ -58,6 +60,12 @@ public interface BandConstruction extends GeometricConstruction<FGEBand> {
 		@Override
 		public final FGEBand getBand() {
 			return getData();
+		}
+
+		@Override
+		public BandGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			BandGraphicalRepresentation returned = factory.newInstance(BandGraphicalRepresentation.class);
+			return returned;
 		}
 
 		@Override

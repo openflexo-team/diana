@@ -39,6 +39,8 @@
 
 package org.openflexo.fge.geomedit.construction;
 
+import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
+import org.openflexo.diana.geomedit.model.gr.SegmentGraphicalRepresentation;
 import org.openflexo.fge.geom.FGESegment;
 import org.openflexo.fge.geomedit.construction.SegmentConstruction.SegmentConstructionImpl;
 import org.openflexo.model.annotations.Getter;
@@ -94,6 +96,12 @@ public interface SegmentConstruction extends GeometricConstruction<FGESegment> {
 		@Override
 		public final FGESegment getSegment() {
 			return getData();
+		}
+
+		@Override
+		public SegmentGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			SegmentGraphicalRepresentation returned = factory.newInstance(SegmentGraphicalRepresentation.class);
+			return returned;
 		}
 
 		@Override

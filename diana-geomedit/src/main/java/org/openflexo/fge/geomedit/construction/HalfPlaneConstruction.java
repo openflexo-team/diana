@@ -39,6 +39,8 @@
 
 package org.openflexo.fge.geomedit.construction;
 
+import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
+import org.openflexo.diana.geomedit.model.gr.HalfPlaneGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEHalfPlane;
 import org.openflexo.fge.geomedit.construction.HalfPlaneConstruction.HalfPlaneConstructionImpl;
 import org.openflexo.model.annotations.ImplementationClass;
@@ -59,6 +61,12 @@ public interface HalfPlaneConstruction extends GeometricConstruction<FGEHalfPlan
 		@Override
 		public final FGEHalfPlane getHalfPlane() {
 			return getData();
+		}
+
+		@Override
+		public HalfPlaneGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			HalfPlaneGraphicalRepresentation returned = factory.newInstance(HalfPlaneGraphicalRepresentation.class);
+			return returned;
 		}
 
 		@Override

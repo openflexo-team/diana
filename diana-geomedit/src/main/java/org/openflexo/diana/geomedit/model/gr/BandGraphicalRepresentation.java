@@ -40,20 +40,11 @@
 package org.openflexo.diana.geomedit.model.gr;
 
 import org.openflexo.fge.geom.area.FGEBand;
-import org.openflexo.fge.geomedit.Band;
-import org.openflexo.fge.geomedit.GeometricDrawing;
-import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
-import org.openflexo.xmlcode.XMLSerializable;
 
-public class BandGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEBand, Band> implements XMLSerializable {
-	// Called for LOAD
-	public BandGraphicalRepresentation(GeomEditBuilder builder) {
-		this(null, builder.drawing);
-		initializeDeserialization();
-	}
+public interface BandGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEBand> {
 
-	public BandGraphicalRepresentation(Band band, GeometricDrawing aDrawing) {
-		super(band, aDrawing);
+	public static abstract class BandGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEBand>
+			implements BandGraphicalRepresentation {
 	}
 
 }

@@ -41,15 +41,43 @@ package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGECircle;
 import org.openflexo.fge.geomedit.construction.CircleConstruction.CircleConstructionImpl;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(CircleConstructionImpl.class)
 @Imports({ @Import(CircleReference.class), @Import(CircleWithCenterAndPointConstruction.class) })
 public interface CircleConstruction extends EllipsConstruction<FGECircle> {
+
+	@PropertyIdentifier(type = Double.class)
+	public static final String CENTER_X_KEY = "centerX";
+	@PropertyIdentifier(type = Double.class)
+	public static final String CENTER_Y_KEY = "centerY";
+	@PropertyIdentifier(type = Double.class)
+	public static final String RADIUS_KEY = "radius";
+
+	@Getter(CENTER_X_KEY)
+	public double getCenterX();
+
+	@Setter(CENTER_X_KEY)
+	public void setCenterX(double value);
+
+	@Getter(CENTER_Y_KEY)
+	public double getCenterY();
+
+	@Setter(CENTER_Y_KEY)
+	public void setCenterY(double value);
+
+	@Getter(RADIUS_KEY)
+	public double getRadius();
+
+	@Setter(RADIUS_KEY)
+	public void setRadius(double value);
 
 	public FGECircle getCircle();
 
@@ -62,6 +90,51 @@ public interface CircleConstruction extends EllipsConstruction<FGECircle> {
 
 		@Override
 		protected abstract FGECircle computeData();
+
+		@Override
+		public double getCenterX() {
+			return getCircle().getCenterX();
+		}
+
+		@Override
+		public void setCenterX(double centerX) {
+			if (centerX != getCenterX()) {
+				double oldCenterX = getCenterX();
+				getCircle().x = centerX - getCircle().getRadius();
+				getPropertyChangeSupport().firePropertyChange(CENTER_X_KEY, oldCenterX, centerX);
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public double getCenterY() {
+			return getCircle().getCenterY();
+		}
+
+		@Override
+		public void setCenterY(double centerY) {
+			if (centerY != getCenterY()) {
+				double oldCenterY = getCenterY();
+				getCircle().y = centerY - getCircle().getRadius();
+				getPropertyChangeSupport().firePropertyChange(CENTER_Y_KEY, oldCenterY, centerY);
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public double getRadius() {
+			return getCircle().getRadius();
+		}
+
+		@Override
+		public void setRadius(double aRadius) {
+			if (aRadius != getRadius()) {
+				double oldRadius = getRadius();
+				getCircle().setRadius(aRadius);
+				getPropertyChangeSupport().firePropertyChange(CENTER_X_KEY, oldRadius, aRadius);
+				notifyGeometryChanged();
+			}
+		}
 
 	}
 

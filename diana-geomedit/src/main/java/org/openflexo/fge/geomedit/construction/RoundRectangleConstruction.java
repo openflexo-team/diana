@@ -39,6 +39,8 @@
 
 package org.openflexo.fge.geomedit.construction;
 
+import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
+import org.openflexo.diana.geomedit.model.gr.RoundRectangleGraphicalRepresentation;
 import org.openflexo.fge.geom.FGERoundRectangle;
 import org.openflexo.fge.geomedit.construction.RoundRectangleConstruction.RoundRectangleConstructionImpl;
 import org.openflexo.model.annotations.Getter;
@@ -119,6 +121,12 @@ public interface RoundRectangleConstruction extends GeometricConstruction<FGERou
 		@Override
 		public final FGERoundRectangle getRectangle() {
 			return getData();
+		}
+
+		@Override
+		public RoundRectangleGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			RoundRectangleGraphicalRepresentation returned = factory.newInstance(RoundRectangleGraphicalRepresentation.class);
+			return returned;
 		}
 
 		@Override

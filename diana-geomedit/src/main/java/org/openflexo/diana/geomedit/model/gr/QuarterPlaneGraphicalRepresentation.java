@@ -40,21 +40,11 @@
 package org.openflexo.diana.geomedit.model.gr;
 
 import org.openflexo.fge.geom.area.FGEQuarterPlane;
-import org.openflexo.fge.geomedit.GeometricDrawing;
-import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
-import org.openflexo.fge.geomedit.QuarterPlane;
-import org.openflexo.xmlcode.XMLSerializable;
 
-public class QuarterPlaneGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEQuarterPlane, QuarterPlane> implements
-		XMLSerializable {
-	// Called for LOAD
-	public QuarterPlaneGraphicalRepresentation(GeomEditBuilder builder) {
-		this(null, builder.drawing);
-		initializeDeserialization();
-	}
+public interface QuarterPlaneGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEQuarterPlane> {
 
-	public QuarterPlaneGraphicalRepresentation(QuarterPlane quarterPlane, GeometricDrawing aDrawing) {
-		super(quarterPlane, aDrawing);
+	public static abstract class QuarterPlaneGraphicalRepresentationImpl
+			extends GeometricObjectGraphicalRepresentationImpl<FGEQuarterPlane> {
 	}
 
 }
