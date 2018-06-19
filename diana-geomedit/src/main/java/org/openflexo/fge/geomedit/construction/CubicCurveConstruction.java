@@ -39,6 +39,8 @@
 
 package org.openflexo.fge.geomedit.construction;
 
+import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
+import org.openflexo.diana.geomedit.model.gr.CubicCurveGraphicalRepresentation;
 import org.openflexo.fge.geom.FGECubicCurve;
 import org.openflexo.fge.geomedit.construction.CubicCurveConstruction.CubicCurveConstructionImpl;
 import org.openflexo.model.annotations.ImplementationClass;
@@ -59,6 +61,12 @@ public interface CubicCurveConstruction extends GeometricConstruction<FGECubicCu
 		@Override
 		public final FGECubicCurve getCurve() {
 			return getData();
+		}
+
+		@Override
+		public CubicCurveGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			CubicCurveGraphicalRepresentation returned = factory.newInstance(CubicCurveGraphicalRepresentation.class);
+			return returned;
 		}
 
 		@Override

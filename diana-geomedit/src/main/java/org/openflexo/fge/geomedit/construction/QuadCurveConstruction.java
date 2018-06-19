@@ -39,6 +39,8 @@
 
 package org.openflexo.fge.geomedit.construction;
 
+import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
+import org.openflexo.diana.geomedit.model.gr.QuadCurveGraphicalRepresentation;
 import org.openflexo.fge.geom.FGEQuadCurve;
 import org.openflexo.fge.geomedit.construction.QuadCurveConstruction.QuadCurveConstructionImpl;
 import org.openflexo.model.annotations.ImplementationClass;
@@ -59,6 +61,12 @@ public interface QuadCurveConstruction extends GeometricConstruction<FGEQuadCurv
 		@Override
 		public final FGEQuadCurve getCurve() {
 			return getData();
+		}
+
+		@Override
+		public QuadCurveGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			QuadCurveGraphicalRepresentation returned = factory.newInstance(QuadCurveGraphicalRepresentation.class);
+			return returned;
 		}
 
 		@Override

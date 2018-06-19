@@ -45,89 +45,90 @@ import java.util.Vector;
 
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
+import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.Drawing.GeometricNode;
+import org.openflexo.fge.GeometricGraphicalRepresentation;
+import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEComplexCurve;
-import org.openflexo.fge.geom.FGEGeneralShape;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.ComplexCurve;
-import org.openflexo.fge.geomedit.GeometricDrawing;
-import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 import org.openflexo.fge.geomedit.construction.ComplexCurveConstruction;
 import org.openflexo.fge.geomedit.construction.ComplexCurveWithNPointsConstruction;
 import org.openflexo.fge.geomedit.construction.ExplicitPointConstruction;
+import org.openflexo.fge.geomedit.construction.GeometricConstruction;
 import org.openflexo.fge.geomedit.construction.PointConstruction;
-import org.openflexo.xmlcode.XMLSerializable;
 
-public class ComplexCurveGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEComplexCurve, ComplexCurve> implements
-		XMLSerializable {
-	// Called for LOAD
-	public ComplexCurveGraphicalRepresentation(GeomEditBuilder builder) {
-		this(null, builder.drawing);
-		initializeDeserialization();
-	}
+public interface ComplexCurveGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEComplexCurve> {
 
-	public ComplexCurveGraphicalRepresentation(ComplexCurve curve, GeometricDrawing aDrawing) {
-		super(curve, aDrawing);
-	}
+	public static abstract class ComplexCurveGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEComplexCurve>
+			implements ComplexCurveGraphicalRepresentation {
 
-	@Override
-	protected List<ControlPoint> buildControlPointsForGeneralShape(FGEGeneralShape shape) {
-		Vector<ControlPoint> returned = new Vector<ControlPoint>();
+		@Override
+		public List<? extends ControlArea<?>> makeControlAreasFor(
+				DrawingTreeNode<GeometricConstruction<FGEComplexCurve>, GeometricGraphicalRepresentation> dtn) {
+			Vector<ControlPoint> returned = new Vector<ControlPoint>();
 
-		ComplexCurveConstruction curveContruction = getDrawable().getConstruction();
+			ComplexCurveConstruction curveContruction = (ComplexCurveConstruction) dtn.getDrawable();
 
-		if (curveContruction instanceof ComplexCurveWithNPointsConstruction) {
+			if (curveContruction instanceof ComplexCurveWithNPointsConstruction) {
 
-			for (int i = 0; i < ((ComplexCurveWithNPointsConstruction) curveContruction).pointConstructions.size(); i++) {
+				for (int i = 0; i < ((ComplexCurveWithNPointsConstruction) curveContruction).getPointConstructions().size(); i++) {
 
-				final int pointIndex = i;
-				PointConstruction pc = ((ComplexCurveWithNPointsConstruction) curveContruction).pointConstructions.get(i);
+					final int pointIndex = i;
+					PointConstruction pc = ((ComplexCurveWithNPointsConstruction) curveContruction).getPointConstructions().get(i);
 
-				if (pc instanceof ExplicitPointConstruction) {
-					returned.add(new DraggableControlPoint<FGEComplexCurve>(this, "pt" + i, pc.getPoint(), (ExplicitPointConstruction) pc) {
-						@Override
-						public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-								FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
-							if (pointIndex == 0) {
-								getGeometricObject().getElementAt(0).getP1().x = newAbsolutePoint.x;
-								getGeometricObject().getElementAt(0).getP1().y = newAbsolutePoint.y;
-								getGeometricObject().refresh();
-							} else {
-								getGeometricObject().getElementAt(pointIndex - 1).getP2().x = newAbsolutePoint.x;
-								getGeometricObject().getElementAt(pointIndex - 1).getP2().y = newAbsolutePoint.y;
-								getGeometricObject().refresh();
+					if (pc instanceof ExplicitPointConstruction) {
+						returned.add(new DraggableControlPoint<FGEComplexCurve>((GeometricNode<?>) dtn, "pt" + i, pc.getPoint(),
+								(ExplicitPointConstruction) pc) {
+							@Override
+							public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
+									FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+								if (pointIndex == 0) {
+									getGeometricObject().getElementAt(0).getP1().x = newAbsolutePoint.x;
+									getGeometricObject().getElementAt(0).getP1().y = newAbsolutePoint.y;
+									getGeometricObject().refresh();
+								}
+								else {
+									getGeometricObject().getElementAt(pointIndex - 1).getP2().x = newAbsolutePoint.x;
+									getGeometricObject().getElementAt(pointIndex - 1).getP2().y = newAbsolutePoint.y;
+									getGeometricObject().refresh();
+								}
+								setPoint(newAbsolutePoint);
+								((GeometricNode<?>) dtn).notifyGeometryChanged();
+								return true;
 							}
-							setPoint(newAbsolutePoint);
-							notifyGeometryChanged();
-							return true;
-						}
 
-						@Override
-						public void update(FGEComplexCurve geometricObject) {
-							if (pointIndex == 0) {
-								setPoint(geometricObject.getElementAt(0).getP1());
-							} else {
-								setPoint(geometricObject.getElementAt(pointIndex - 1).getP2());
+							@Override
+							public void update(FGEComplexCurve geometricObject) {
+								if (pointIndex == 0) {
+									setPoint(geometricObject.getElementAt(0).getP1());
+								}
+								else {
+									setPoint(geometricObject.getElementAt(pointIndex - 1).getP2());
+								}
 							}
-						}
-					});
-				} else {
-					returned.add(new ComputedControlPoint<FGEComplexCurve>(this, "pt" + i, pc.getPoint()) {
-						@Override
-						public void update(FGEComplexCurve geometricObject) {
-							if (pointIndex == 0) {
-								setPoint(geometricObject.getElementAt(0).getP1());
-							} else {
-								setPoint(geometricObject.getElementAt(pointIndex - 1).getP2());
+						});
+					}
+					else {
+						returned.add(new ComputedControlPoint<FGEComplexCurve>((GeometricNode<?>) dtn, "pt" + i, pc.getPoint()) {
+							@Override
+							public void update(FGEComplexCurve geometricObject) {
+								if (pointIndex == 0) {
+									setPoint(geometricObject.getElementAt(0).getP1());
+								}
+								else {
+									setPoint(geometricObject.getElementAt(pointIndex - 1).getP2());
+								}
 							}
-						}
-					});
+						});
+					}
+
 				}
-
 			}
-		}
 
-		return returned;
+			return returned;
+
+		}
 
 	}
 

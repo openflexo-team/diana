@@ -40,21 +40,12 @@
 package org.openflexo.diana.geomedit.model.gr;
 
 import org.openflexo.fge.geom.area.FGEHalfBand;
-import org.openflexo.fge.geomedit.GeometricDrawing;
-import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
-import org.openflexo.fge.geomedit.HalfBand;
-import org.openflexo.xmlcode.XMLSerializable;
 
-public class HalfBandGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEHalfBand, HalfBand> implements
-		XMLSerializable {
-	// Called for LOAD
-	public HalfBandGraphicalRepresentation(GeomEditBuilder builder) {
-		this(null, builder.drawing);
-		initializeDeserialization();
-	}
+public interface HalfBandGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEHalfBand> {
 
-	public HalfBandGraphicalRepresentation(HalfBand halfBand, GeometricDrawing aDrawing) {
-		super(halfBand, aDrawing);
+	public static abstract class HalfBandGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEHalfBand>
+			implements HalfBandGraphicalRepresentation {
+
 	}
 
 }

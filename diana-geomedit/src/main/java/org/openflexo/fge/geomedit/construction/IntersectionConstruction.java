@@ -42,6 +42,8 @@ package org.openflexo.fge.geomedit.construction;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
+import org.openflexo.diana.geomedit.model.gr.ComputedAreaGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.logging.FlexoLogger;
 
@@ -73,6 +75,12 @@ public interface IntersectionConstruction extends GeometricConstruction<FGEArea>
 		@Override
 		public void removeFromObjectConstructions(ObjectReference<? extends FGEArea> objectReference) {
 			objectConstructions.remove(objectReference);
+		}
+
+		@Override
+		public ComputedAreaGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			ComputedAreaGraphicalRepresentation returned = factory.newInstance(ComputedAreaGraphicalRepresentation.class);
+			return returned;
 		}
 
 		@Override

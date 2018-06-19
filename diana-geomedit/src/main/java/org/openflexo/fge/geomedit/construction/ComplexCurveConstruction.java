@@ -42,20 +42,28 @@ package org.openflexo.fge.geomedit.construction;
 import org.openflexo.fge.geom.FGEComplexCurve;
 import org.openflexo.fge.geom.FGEGeneralShape.Closure;
 import org.openflexo.fge.geomedit.construction.ComplexCurveConstruction.ComplexCurveConstructionImpl;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(ComplexCurveConstructionImpl.class)
 @Imports({ @Import(ComplexCurveWithNPointsConstruction.class) })
 public interface ComplexCurveConstruction extends GeometricConstruction<FGEComplexCurve> {
 
+	@PropertyIdentifier(type = Closure.class)
+	public static final String CLOSURE_KEY = "closure";
+
 	public FGEComplexCurve getCurve();
 
+	@Getter(CLOSURE_KEY)
 	public Closure getClosure();
 
+	@Setter(CLOSURE_KEY)
 	public void setClosure(Closure aClosure);
 
 	public static abstract class ComplexCurveConstructionImpl extends GeometricConstructionImpl<FGEComplexCurve>
@@ -69,17 +77,18 @@ public interface ComplexCurveConstruction extends GeometricConstruction<FGECompl
 		@Override
 		protected abstract FGEComplexCurve computeData();
 
-		private Closure closure = Closure.OPEN_NOT_FILLED;
-
 		@Override
 		public Closure getClosure() {
-			return closure;
+			return getCurve().getClosure();
 		}
 
 		@Override
 		public void setClosure(Closure aClosure) {
-			this.closure = aClosure;
-			setModified(true);
+			if (aClosure != getClosure()) {
+				Closure oldClosure = getClosure();
+				getCurve().setClosure(aClosure);
+				getPropertyChangeSupport().firePropertyChange(CLOSURE_KEY, oldClosure, aClosure);
+			}
 		}
 
 	}

@@ -39,6 +39,8 @@
 
 package org.openflexo.fge.geomedit.construction;
 
+import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
+import org.openflexo.diana.geomedit.model.gr.HalfBandGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEHalfBand;
 import org.openflexo.fge.geomedit.construction.HalfBandConstruction.HalfBandConstructionImpl;
 import org.openflexo.model.annotations.ImplementationClass;
@@ -58,6 +60,12 @@ public interface HalfBandConstruction extends GeometricConstruction<FGEHalfBand>
 		@Override
 		public final FGEHalfBand getHalfBand() {
 			return getData();
+		}
+
+		@Override
+		public HalfBandGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			HalfBandGraphicalRepresentation returned = factory.newInstance(HalfBandGraphicalRepresentation.class);
+			return returned;
 		}
 
 		@Override

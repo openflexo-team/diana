@@ -39,36 +39,24 @@
 
 package org.openflexo.diana.geomedit.model.gr;
 
-import java.util.List;
-import java.util.Vector;
-
-import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.geomedit.GeometricDrawing;
 import org.openflexo.fge.geomedit.GeometricObject;
-import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
 
-public class ComputedAreaGraphicalRepresentation<G extends GeometricObject<FGEArea>> extends
-		GeometricObjectGraphicalRepresentation<FGEArea, G> {
+public interface ComputedAreaGraphicalRepresentation<G extends GeometricObject<FGEArea>>
+		extends GeometricObjectGraphicalRepresentation<FGEArea> {
 
-	// Called for LOAD
-	public ComputedAreaGraphicalRepresentation(GeomEditBuilder builder) {
-		this(null, builder.drawing);
-		initializeDeserialization();
-	}
+	public static abstract class ComputedAreaGraphicalRepresentationImpl<G extends GeometricObject<FGEArea>>
+			extends GeometricObjectGraphicalRepresentationImpl<FGEArea> implements ComputedAreaGraphicalRepresentation<G> {
 
-	public ComputedAreaGraphicalRepresentation(G object, GeometricDrawing aDrawing) {
-		super(object, aDrawing);
-	}
-
-	@Override
-	public List<ControlPoint> rebuildControlPoints() {
-		_controlPoints = new Vector<ControlPoint>();
-		_controlPoints.clear();
-		return _controlPoints;
-	}
-
-	public void recompute() {
-		getDrawable().resetResultingGeometricObject();
+		/*@Override
+		public List<ControlPoint> rebuildControlPoints() {
+			_controlPoints = new Vector<ControlPoint>();
+			_controlPoints.clear();
+			return _controlPoints;
+		}
+		
+		public void recompute() {
+			getDrawable().resetResultingGeometricObject();
+		}*/
 	}
 }

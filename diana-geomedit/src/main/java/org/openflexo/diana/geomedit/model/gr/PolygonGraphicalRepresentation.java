@@ -45,73 +45,72 @@ import java.util.Vector;
 
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
+import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.Drawing.GeometricNode;
+import org.openflexo.fge.GeometricGraphicalRepresentation;
+import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEPolygon;
-import org.openflexo.fge.geomedit.GeometricDrawing;
-import org.openflexo.fge.geomedit.GeometricSet.GeomEditBuilder;
-import org.openflexo.fge.geomedit.Polygon;
 import org.openflexo.fge.geomedit.construction.ExplicitPointConstruction;
+import org.openflexo.fge.geomedit.construction.GeometricConstruction;
 import org.openflexo.fge.geomedit.construction.PointConstruction;
 import org.openflexo.fge.geomedit.construction.PolygonConstruction;
 import org.openflexo.fge.geomedit.construction.PolygonWithNPointsConstruction;
-import org.openflexo.xmlcode.XMLSerializable;
 
-public class PolygonGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEPolygon, Polygon> implements XMLSerializable {
-	// Called for LOAD
-	public PolygonGraphicalRepresentation(GeomEditBuilder builder) {
-		this(null, builder.drawing);
-		initializeDeserialization();
-	}
+public interface PolygonGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEPolygon> {
 
-	public PolygonGraphicalRepresentation(Polygon polygon, GeometricDrawing aDrawing) {
-		super(polygon, aDrawing);
-	}
+	public static abstract class PolygonGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEPolygon>
+			implements PolygonGraphicalRepresentation {
 
-	@Override
-	protected List<ControlPoint> buildControlPointsForPolygon(FGEPolygon polygon) {
-		Vector<ControlPoint> returned = new Vector<ControlPoint>();
+		@Override
+		public List<? extends ControlArea<?>> makeControlAreasFor(
+				DrawingTreeNode<GeometricConstruction<FGEPolygon>, GeometricGraphicalRepresentation> dtn) {
+			Vector<ControlPoint> returned = new Vector<ControlPoint>();
 
-		PolygonConstruction polygonContruction = getDrawable().getConstruction();
+			PolygonConstruction polygonContruction = (PolygonConstruction) dtn.getDrawable();
 
-		if (polygonContruction instanceof PolygonWithNPointsConstruction) {
+			if (polygonContruction instanceof PolygonWithNPointsConstruction) {
 
-			for (int i = 0; i < ((PolygonWithNPointsConstruction) polygonContruction).pointConstructions.size(); i++) {
+				for (int i = 0; i < ((PolygonWithNPointsConstruction) polygonContruction).getPointConstructions().size(); i++) {
 
-				final int pointIndex = i;
-				PointConstruction pc = ((PolygonWithNPointsConstruction) polygonContruction).pointConstructions.get(i);
+					final int pointIndex = i;
+					PointConstruction pc = ((PolygonWithNPointsConstruction) polygonContruction).getPointConstructions().get(i);
 
-				if (pc instanceof ExplicitPointConstruction) {
-					returned.add(new DraggableControlPoint<FGEPolygon>(this, "pt" + i, pc.getPoint(), (ExplicitPointConstruction) pc) {
-						@Override
-						public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-								FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
-							getGeometricObject().getPointAt(pointIndex).x = newAbsolutePoint.x;
-							getGeometricObject().getPointAt(pointIndex).y = newAbsolutePoint.y;
-							setPoint(newAbsolutePoint);
-							notifyGeometryChanged();
-							return true;
-						}
+					if (pc instanceof ExplicitPointConstruction) {
+						returned.add(new DraggableControlPoint<FGEPolygon>((GeometricNode<?>) dtn, "pt" + i, pc.getPoint(),
+								(ExplicitPointConstruction) pc) {
+							@Override
+							public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
+									FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+								getGeometricObject().getPointAt(pointIndex).x = newAbsolutePoint.x;
+								getGeometricObject().getPointAt(pointIndex).y = newAbsolutePoint.y;
+								setPoint(newAbsolutePoint);
+								((GeometricNode<?>) dtn).notifyGeometryChanged();
+								return true;
+							}
 
-						@Override
-						public void update(FGEPolygon geometricObject) {
-							setPoint(geometricObject.getPointAt(pointIndex));
-						}
-					});
-				} else {
-					returned.add(new ComputedControlPoint<FGEPolygon>(this, "pt" + i, pc.getPoint()) {
-						@Override
-						public void update(FGEPolygon geometricObject) {
-							setPoint(geometricObject.getPointAt(pointIndex));
-						}
-					});
+							@Override
+							public void update(FGEPolygon geometricObject) {
+								setPoint(geometricObject.getPointAt(pointIndex));
+							}
+						});
+					}
+					else {
+						returned.add(new ComputedControlPoint<FGEPolygon>((GeometricNode<?>) dtn, "pt" + i, pc.getPoint()) {
+							@Override
+							public void update(FGEPolygon geometricObject) {
+								setPoint(geometricObject.getPointAt(pointIndex));
+							}
+						});
+					}
+
 				}
-
 			}
+
+			return returned;
+
 		}
 
-		return returned;
-
 	}
-
 }

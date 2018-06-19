@@ -39,6 +39,8 @@
 
 package org.openflexo.fge.geomedit.construction;
 
+import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
+import org.openflexo.diana.geomedit.model.gr.PolylinGraphicalRepresentation;
 import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geomedit.construction.PolylinConstruction.PolylinConstructionImpl;
 import org.openflexo.model.annotations.ImplementationClass;
@@ -58,6 +60,12 @@ public interface PolylinConstruction extends GeometricConstruction<FGEPolylin> {
 		@Override
 		public final FGEPolylin getPolylin() {
 			return getData();
+		}
+
+		@Override
+		public PolylinGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			PolylinGraphicalRepresentation returned = factory.newInstance(PolylinGraphicalRepresentation.class);
+			return returned;
 		}
 
 		@Override

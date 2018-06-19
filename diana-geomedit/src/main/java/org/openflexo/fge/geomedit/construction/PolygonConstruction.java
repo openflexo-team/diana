@@ -39,27 +39,35 @@
 
 package org.openflexo.fge.geomedit.construction;
 
+import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
+import org.openflexo.diana.geomedit.model.gr.PolygonGraphicalRepresentation;
 import org.openflexo.fge.geom.FGEPolygon;
 import org.openflexo.fge.geomedit.construction.PolygonConstruction.PolygonConstructionImpl;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(PolygonConstructionImpl.class)
 @Imports({ @Import(PolygonWithNPointsConstruction.class) })
 public interface PolygonConstruction extends GeometricConstruction<FGEPolygon> {
 
+	@PropertyIdentifier(type = Boolean.class)
+	public static final String IS_FILLED_KEY = "isFilled";
+
+	@Getter(IS_FILLED_KEY)
 	public boolean getIsFilled();
 
+	@Setter(IS_FILLED_KEY)
 	public void setIsFilled(boolean isFilled);
 
 	public FGEPolygon getPolygon();
 
 	public static abstract class PolygonConstructionImpl extends GeometricConstructionImpl<FGEPolygon> implements PolygonConstruction {
-
-		private boolean isFilled;
 
 		@Override
 		public final FGEPolygon getPolygon() {
@@ -67,17 +75,25 @@ public interface PolygonConstruction extends GeometricConstruction<FGEPolygon> {
 		}
 
 		@Override
+		public PolygonGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			PolygonGraphicalRepresentation returned = factory.newInstance(PolygonGraphicalRepresentation.class);
+			return returned;
+		}
+
+		@Override
 		protected abstract FGEPolygon computeData();
 
 		@Override
 		public boolean getIsFilled() {
-			return isFilled;
+			return getPolygon().getIsFilled();
 		}
 
 		@Override
-		public void setIsFilled(boolean isFilled) {
-			this.isFilled = isFilled;
-			setModified(true);
+		public void setIsFilled(boolean filled) {
+			if (filled != getIsFilled()) {
+				getPolygon().setIsFilled(filled);
+				getPropertyChangeSupport().firePropertyChange(IS_FILLED_KEY, !filled, filled);
+			}
 		}
 	}
 }
