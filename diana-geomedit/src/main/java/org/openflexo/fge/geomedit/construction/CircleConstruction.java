@@ -61,19 +61,19 @@ public interface CircleConstruction extends EllipsConstruction<FGECircle> {
 	@PropertyIdentifier(type = Double.class)
 	public static final String RADIUS_KEY = "radius";
 
-	@Getter(CENTER_X_KEY)
+	@Getter(value = CENTER_X_KEY, defaultValue = "0.0")
 	public double getCenterX();
 
 	@Setter(CENTER_X_KEY)
 	public void setCenterX(double value);
 
-	@Getter(CENTER_Y_KEY)
+	@Getter(value = CENTER_Y_KEY, defaultValue = "0.0")
 	public double getCenterY();
 
 	@Setter(CENTER_Y_KEY)
 	public void setCenterY(double value);
 
-	@Getter(RADIUS_KEY)
+	@Getter(value = RADIUS_KEY, defaultValue = "0.0")
 	public double getRadius();
 
 	@Setter(RADIUS_KEY)

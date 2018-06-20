@@ -40,10 +40,17 @@
 package org.openflexo.fge.geomedit.construction;
 
 import org.openflexo.fge.geom.FGESegment;
+import org.openflexo.fge.geomedit.construction.SegmentWithTwoPointsConstruction.SegmentWithTwoPointsConstructionImpl;
 import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLElement;
 
+@ModelEntity
+@ImplementationClass(SegmentWithTwoPointsConstructionImpl.class)
+@XMLElement
 public interface SegmentWithTwoPointsConstruction extends SegmentConstruction {
 
 	@PropertyIdentifier(type = PointConstruction.class)

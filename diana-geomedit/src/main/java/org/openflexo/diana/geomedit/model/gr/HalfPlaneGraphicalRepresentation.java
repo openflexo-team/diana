@@ -39,8 +39,15 @@
 
 package org.openflexo.diana.geomedit.model.gr;
 
+import org.openflexo.diana.geomedit.model.gr.HalfPlaneGraphicalRepresentation.HalfPlaneGraphicalRepresentationImpl;
 import org.openflexo.fge.geom.area.FGEHalfPlane;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
+@ModelEntity
+@ImplementationClass(HalfPlaneGraphicalRepresentationImpl.class)
+@XMLElement
 public interface HalfPlaneGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEHalfPlane> {
 
 	public static abstract class HalfPlaneGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEHalfPlane>

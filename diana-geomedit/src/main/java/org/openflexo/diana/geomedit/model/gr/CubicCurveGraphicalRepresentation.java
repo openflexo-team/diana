@@ -39,9 +39,17 @@
 
 package org.openflexo.diana.geomedit.model.gr;
 
+import org.openflexo.diana.geomedit.model.gr.CubicCurveGraphicalRepresentation.CubicCurveGraphicalRepresentationImpl;
 import org.openflexo.fge.geom.FGECubicCurve;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
+@ModelEntity
+@ImplementationClass(CubicCurveGraphicalRepresentationImpl.class)
+@XMLElement
 public interface CubicCurveGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGECubicCurve> {
+
 	public static abstract class CubicCurveGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGECubicCurve>
 			implements CubicCurveGraphicalRepresentation {
 		/*@Override

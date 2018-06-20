@@ -66,13 +66,13 @@ public interface PointConstruction extends GeometricConstruction<FGEPoint> {
 	@PropertyIdentifier(type = Double.class)
 	public static final String Y_KEY = "y";
 
-	@Getter(value = X_KEY)
+	@Getter(value = X_KEY, defaultValue = "0.0")
 	public double getX();
 
 	@Setter(value = X_KEY)
 	public void setX(double value);
 
-	@Getter(value = Y_KEY)
+	@Getter(value = Y_KEY, defaultValue = "0.0")
 	public double getY();
 
 	@Setter(value = Y_KEY)

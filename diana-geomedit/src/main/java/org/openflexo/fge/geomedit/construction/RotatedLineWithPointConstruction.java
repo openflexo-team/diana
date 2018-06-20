@@ -77,7 +77,7 @@ public interface RotatedLineWithPointConstruction extends LineConstruction {
 	@Setter(value = POINT_CONSTRUCTION_KEY)
 	public void setPointConstruction(PointConstruction pointConstruction);
 
-	@Getter(ANGLE_KEY)
+	@Getter(value = ANGLE_KEY, defaultValue = "0.0")
 	public double getAngle();
 
 	@Setter(ANGLE_KEY)

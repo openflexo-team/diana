@@ -45,6 +45,7 @@ import java.util.Vector;
 
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
+import org.openflexo.diana.geomedit.model.gr.PolylinGraphicalRepresentation.PolylinGraphicalRepresentationImpl;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
@@ -57,7 +58,13 @@ import org.openflexo.fge.geomedit.construction.GeometricConstruction;
 import org.openflexo.fge.geomedit.construction.PointConstruction;
 import org.openflexo.fge.geomedit.construction.PolylinConstruction;
 import org.openflexo.fge.geomedit.construction.PolylinWithNPointsConstruction;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
+@ModelEntity
+@ImplementationClass(PolylinGraphicalRepresentationImpl.class)
+@XMLElement
 public interface PolylinGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEPolylin> {
 
 	public static abstract class PolylinGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEPolylin>

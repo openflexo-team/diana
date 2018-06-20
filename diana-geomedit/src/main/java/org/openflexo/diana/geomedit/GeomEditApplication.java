@@ -497,7 +497,7 @@ public class GeomEditApplication {
 		};
 		fileChooser = new FlexoFileChooser(frame);
 		fileChooser.setFileFilterAsString("*.geom");
-		fileChooser.setCurrentDirectory(ResourceLocator.retrieveResourceAsFile(ResourceLocator.locateResource("DrawingExamples")));
+		fileChooser.setCurrentDirectory(ResourceLocator.retrieveResourceAsFile(ResourceLocator.locateResource("GeomEditExamples")));
 
 		resourceLocator = new FileSystemResourceLocatorImpl();
 		if (GeomEditPreferences.getLastDirectory() != null) {

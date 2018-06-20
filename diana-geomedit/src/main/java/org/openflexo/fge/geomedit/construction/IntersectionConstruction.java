@@ -45,8 +45,15 @@ import java.util.logging.Logger;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.gr.ComputedAreaGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.fge.geomedit.construction.IntersectionConstruction.IntersectionConstructionImpl;
 import org.openflexo.logging.FlexoLogger;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
+@ModelEntity
+@ImplementationClass(IntersectionConstructionImpl.class)
+@XMLElement
 public interface IntersectionConstruction extends GeometricConstruction<FGEArea> {
 
 	public List<ObjectReference<? extends FGEArea>> getObjectConstructions();

@@ -59,7 +59,7 @@ public interface PolygonConstruction extends GeometricConstruction<FGEPolygon> {
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String IS_FILLED_KEY = "isFilled";
 
-	@Getter(IS_FILLED_KEY)
+	@Getter(value = IS_FILLED_KEY, defaultValue = "true")
 	public boolean getIsFilled();
 
 	@Setter(IS_FILLED_KEY)

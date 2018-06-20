@@ -62,7 +62,7 @@ public interface ComplexCurveWithNPointsConstruction extends ComplexCurveConstru
 	@PropertyIdentifier(type = PointConstruction.class, cardinality = Cardinality.LIST)
 	public static final String POINT_CONSTRUCTIONS_KEY = "pointConstructions";
 
-	@Getter(POINT_CONSTRUCTIONS_KEY)
+	@Getter(value = POINT_CONSTRUCTIONS_KEY, cardinality = Cardinality.LIST)
 	public List<PointConstruction> getPointConstructions();
 
 	@Adder(POINT_CONSTRUCTIONS_KEY)

@@ -50,10 +50,20 @@ import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(GeometricObjectGraphicalRepresentation.GeometricObjectGraphicalRepresentationImpl.class)
-@Imports({ @Import(PointGraphicalRepresentation.class) })
+@Imports({ @Import(BandGraphicalRepresentation.class), @Import(ComplexCurveGraphicalRepresentation.class),
+		@Import(ComputedAreaGraphicalRepresentation.class), @Import(CubicCurveGraphicalRepresentation.class),
+		@Import(EllipsGraphicalRepresentation.class), @Import(HalfBandGraphicalRepresentation.class),
+		@Import(HalfLineGraphicalRepresentation.class), @Import(HalfPlaneGraphicalRepresentation.class),
+		@Import(LineGraphicalRepresentation.class), @Import(PointGraphicalRepresentation.class),
+		@Import(PolygonGraphicalRepresentation.class), @Import(PolylinGraphicalRepresentation.class),
+		@Import(QuadCurveGraphicalRepresentation.class), @Import(QuarterPlaneGraphicalRepresentation.class),
+		@Import(RectangleGraphicalRepresentation.class), @Import(RoundRectangleGraphicalRepresentation.class),
+		@Import(SegmentGraphicalRepresentation.class) })
+@XMLElement
 public interface GeometricObjectGraphicalRepresentation<A extends FGEArea> extends GeometricGraphicalRepresentation {
 
 	public boolean getDisplayLabel();

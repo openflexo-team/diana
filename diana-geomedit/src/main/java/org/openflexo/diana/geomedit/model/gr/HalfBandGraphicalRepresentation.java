@@ -39,8 +39,15 @@
 
 package org.openflexo.diana.geomedit.model.gr;
 
+import org.openflexo.diana.geomedit.model.gr.HalfBandGraphicalRepresentation.HalfBandGraphicalRepresentationImpl;
 import org.openflexo.fge.geom.area.FGEHalfBand;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
+@ModelEntity
+@ImplementationClass(HalfBandGraphicalRepresentationImpl.class)
+@XMLElement
 public interface HalfBandGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEHalfBand> {
 
 	public static abstract class HalfBandGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEHalfBand>

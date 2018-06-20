@@ -45,6 +45,7 @@ import java.util.Vector;
 
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
+import org.openflexo.diana.geomedit.model.gr.RectangleGraphicalRepresentation.RectangleGraphicalRepresentationImpl;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
@@ -59,7 +60,13 @@ import org.openflexo.fge.geomedit.construction.ExplicitPointConstruction;
 import org.openflexo.fge.geomedit.construction.GeometricConstruction;
 import org.openflexo.fge.geomedit.construction.RectangleConstruction;
 import org.openflexo.fge.geomedit.construction.RectangleWithTwoPointsConstruction;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
+@ModelEntity
+@ImplementationClass(RectangleGraphicalRepresentationImpl.class)
+@XMLElement
 public interface RectangleGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGERectangle> {
 
 	public static abstract class RectangleGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGERectangle>

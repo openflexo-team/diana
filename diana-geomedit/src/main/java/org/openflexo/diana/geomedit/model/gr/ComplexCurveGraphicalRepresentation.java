@@ -45,6 +45,7 @@ import java.util.Vector;
 
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
+import org.openflexo.diana.geomedit.model.gr.ComplexCurveGraphicalRepresentation.ComplexCurveGraphicalRepresentationImpl;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
@@ -57,7 +58,13 @@ import org.openflexo.fge.geomedit.construction.ComplexCurveWithNPointsConstructi
 import org.openflexo.fge.geomedit.construction.ExplicitPointConstruction;
 import org.openflexo.fge.geomedit.construction.GeometricConstruction;
 import org.openflexo.fge.geomedit.construction.PointConstruction;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
+@ModelEntity
+@ImplementationClass(ComplexCurveGraphicalRepresentationImpl.class)
+@XMLElement
 public interface ComplexCurveGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEComplexCurve> {
 
 	public static abstract class ComplexCurveGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEComplexCurve>

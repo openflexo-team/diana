@@ -65,25 +65,25 @@ public interface SegmentConstruction extends GeometricConstruction<FGESegment> {
 	@PropertyIdentifier(type = Double.class)
 	public static final String Y2_KEY = "y2";
 
-	@Getter(value = X1_KEY)
+	@Getter(value = X1_KEY, defaultValue = "0.0")
 	public double getX1();
 
 	@Setter(value = X1_KEY)
 	public void setX1(double value);
 
-	@Getter(value = Y1_KEY)
+	@Getter(value = Y1_KEY, defaultValue = "0.0")
 	public double getY1();
 
 	@Setter(value = Y1_KEY)
 	public void setY1(double value);
 
-	@Getter(value = X2_KEY)
+	@Getter(value = X2_KEY, defaultValue = "0.0")
 	public double getX2();
 
 	@Setter(value = X2_KEY)
 	public void setX2(double value);
 
-	@Getter(value = Y2_KEY)
+	@Getter(value = Y2_KEY, defaultValue = "0.0")
 	public double getY2();
 
 	@Setter(value = Y2_KEY)

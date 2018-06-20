@@ -65,25 +65,25 @@ public interface HalfLineConstruction extends GeometricConstruction<FGEHalfLine>
 	@PropertyIdentifier(type = Double.class)
 	public static final String OPPOSITE_Y_KEY = "oppositeY";
 
-	@Getter(LIMIT_X_KEY)
+	@Getter(value = LIMIT_X_KEY, defaultValue = "0.0")
 	public double getLimitX();
 
 	@Setter(LIMIT_X_KEY)
 	public void setLimitX(double value);
 
-	@Getter(LIMIT_Y_KEY)
+	@Getter(value = LIMIT_Y_KEY, defaultValue = "0.0")
 	public double getLimitY();
 
 	@Setter(LIMIT_Y_KEY)
 	public void setLimitY(double value);
 
-	@Getter(OPPOSITE_X_KEY)
+	@Getter(value = OPPOSITE_X_KEY, defaultValue = "0.0")
 	public double getOppositeX();
 
 	@Setter(OPPOSITE_X_KEY)
 	public void setOppositeX(double value);
 
-	@Getter(OPPOSITE_Y_KEY)
+	@Getter(value = OPPOSITE_Y_KEY, defaultValue = "0.0")
 	public double getOppositeY();
 
 	@Setter(OPPOSITE_Y_KEY)

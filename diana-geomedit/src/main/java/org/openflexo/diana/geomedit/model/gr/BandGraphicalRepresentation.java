@@ -39,8 +39,15 @@
 
 package org.openflexo.diana.geomedit.model.gr;
 
+import org.openflexo.diana.geomedit.model.gr.BandGraphicalRepresentation.BandGraphicalRepresentationImpl;
 import org.openflexo.fge.geom.area.FGEBand;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
+@ModelEntity
+@ImplementationClass(BandGraphicalRepresentationImpl.class)
+@XMLElement
 public interface BandGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEBand> {
 
 	public static abstract class BandGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEBand>

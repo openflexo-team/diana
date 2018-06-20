@@ -71,43 +71,43 @@ public interface RoundRectangleConstruction extends GeometricConstruction<FGERou
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String IS_FILLED_KEY = "isFilled";
 
-	@Getter(X_KEY)
+	@Getter(value = X_KEY, defaultValue = "0.0")
 	public double getX();
 
 	@Setter(X_KEY)
 	public void setX(double value);
 
-	@Getter(Y_KEY)
+	@Getter(value = Y_KEY, defaultValue = "0.0")
 	public double getY();
 
 	@Setter(Y_KEY)
 	public void setY(double value);
 
-	@Getter(WIDTH_KEY)
+	@Getter(value = WIDTH_KEY, defaultValue = "0.0")
 	public double getWidth();
 
 	@Setter(WIDTH_KEY)
 	public void setWidth(double value);
 
-	@Getter(HEIGHT_KEY)
+	@Getter(value = HEIGHT_KEY, defaultValue = "0.0")
 	public double getHeight();
 
 	@Setter(HEIGHT_KEY)
 	public void setHeight(double value);
 
-	@Getter(IS_FILLED_KEY)
+	@Getter(value = IS_FILLED_KEY, defaultValue = "0.0")
 	public boolean getIsFilled();
 
 	@Setter(IS_FILLED_KEY)
 	public void setIsFilled(boolean isFilled);
 
-	@Getter(ARC_WIDTH_KEY)
+	@Getter(value = ARC_WIDTH_KEY, defaultValue = "0.0")
 	public double getArcWidth();
 
 	@Setter(ARC_WIDTH_KEY)
 	public void setArcWidth(double arcWidth);
 
-	@Getter(ARC_HEIGHT_KEY)
+	@Getter(value = ARC_HEIGHT_KEY, defaultValue = "0.0")
 	public double getArcHeight();
 
 	@Setter(ARC_HEIGHT_KEY)

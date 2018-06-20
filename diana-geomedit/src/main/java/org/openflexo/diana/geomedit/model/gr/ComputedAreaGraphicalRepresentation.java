@@ -39,9 +39,16 @@
 
 package org.openflexo.diana.geomedit.model.gr;
 
+import org.openflexo.diana.geomedit.model.gr.ComputedAreaGraphicalRepresentation.ComputedAreaGraphicalRepresentationImpl;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.geomedit.GeometricObject;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
+@ModelEntity
+@ImplementationClass(ComputedAreaGraphicalRepresentationImpl.class)
+@XMLElement
 public interface ComputedAreaGraphicalRepresentation<G extends GeometricObject<FGEArea>>
 		extends GeometricObjectGraphicalRepresentation<FGEArea> {
 

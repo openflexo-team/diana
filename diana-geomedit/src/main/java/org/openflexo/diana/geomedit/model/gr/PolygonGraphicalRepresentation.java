@@ -45,6 +45,7 @@ import java.util.Vector;
 
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
+import org.openflexo.diana.geomedit.model.gr.PolygonGraphicalRepresentation.PolygonGraphicalRepresentationImpl;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
@@ -57,7 +58,13 @@ import org.openflexo.fge.geomedit.construction.GeometricConstruction;
 import org.openflexo.fge.geomedit.construction.PointConstruction;
 import org.openflexo.fge.geomedit.construction.PolygonConstruction;
 import org.openflexo.fge.geomedit.construction.PolygonWithNPointsConstruction;
+import org.openflexo.model.annotations.ImplementationClass;
+import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.XMLElement;
 
+@ModelEntity
+@ImplementationClass(PolygonGraphicalRepresentationImpl.class)
+@XMLElement
 public interface PolygonGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEPolygon> {
 
 	public static abstract class PolygonGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEPolygon>
