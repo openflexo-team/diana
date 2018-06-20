@@ -63,7 +63,7 @@ public class DiagramEditorPalette extends DrawingPalette {
 	public static final Font DEFAULT_TEXT_FONT = new Font("SansSerif", Font.PLAIN, 9);
 	public static final Font LABEL_FONT = new Font("SansSerif", Font.PLAIN, 11);
 
-	private GeomEditDrawingEditor editor;
+	private GeomEditDrawingController editor;
 
 	public DiagramEditorPalette() {
 		super(360, 350, "default");
@@ -86,11 +86,11 @@ public class DiagramEditorPalette extends DrawingPalette {
 
 	}
 
-	public GeomEditDrawingEditor getEditor() {
+	public GeomEditDrawingController getEditor() {
 		return editor;
 	}
 
-	public void setEditor(GeomEditDrawingEditor editor) {
+	public void setEditor(GeomEditDrawingController editor) {
 		this.editor = editor;
 	}
 

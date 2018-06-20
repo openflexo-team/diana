@@ -41,17 +41,17 @@ package org.openflexo.diana.geomedit.edition;
 
 import java.awt.event.MouseEvent;
 
-import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
+import org.openflexo.diana.geomedit.model.LineConstruction;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.FGELine;
-import org.openflexo.fge.geomedit.construction.LineConstruction;
 
 public class ObtainLine extends EditionInput<FGELine> {
 	public static int preferredMethodIndex = 0;
 
-	public ObtainLine(String anInputLabel, GeomEditDrawingEditor controller) {
+	public ObtainLine(String anInputLabel, GeomEditDrawingController controller) {
 		super(anInputLabel, controller);
 
 		availableMethods.add(new LineSelection());

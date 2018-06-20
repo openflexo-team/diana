@@ -22,381 +22,381 @@
   <entity name="org.openflexo.fge.geomedit.Point" xmlTag="Point">
      <description>Point</description>
   	 <property name="graphicalRepresentation" xmlTag="PointGraphicalRepresentation"/>
-  	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.PointConstruction"/>
+  	 <property name="construction" contains="org.openflexo.diana.geomedit.model.PointConstruction"/>
   </entity>
 
   <entity name="org.openflexo.fge.geomedit.Line" xmlTag="Line">
      <description>Line</description>
   	 <property name="graphicalRepresentation" xmlTag="LineGraphicalRepresentation"/>
-  	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.LineConstruction"/>
+  	 <property name="construction" contains="org.openflexo.diana.geomedit.model.LineConstruction"/>
   </entity>
 
   <entity name="org.openflexo.fge.geomedit.HalfLine" xmlTag="HalfLine">
      <description>HalfLine</description>
   	 <property name="graphicalRepresentation" xmlTag="HalfLineGraphicalRepresentation"/>
-  	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.HalfLineConstruction"/>
+  	 <property name="construction" contains="org.openflexo.diana.geomedit.model.HalfLineConstruction"/>
   </entity>
 
   <entity name="org.openflexo.fge.geomedit.Segment" xmlTag="Segment">
      <description>Segment</description>
   	 <property name="graphicalRepresentation" xmlTag="SegmentGraphicalRepresentation"/>
-  	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.SegmentConstruction"/>
+  	 <property name="construction" contains="org.openflexo.diana.geomedit.model.SegmentConstruction"/>
   </entity>
 
   <entity name="org.openflexo.fge.geomedit.Rectangle" xmlTag="Rectangle">
      <description>Rectangle</description>
   	 <property name="graphicalRepresentation" xmlTag="RectangleGraphicalRepresentation"/>
-   	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.RectangleConstruction"/>
+   	 <property name="construction" contains="org.openflexo.diana.geomedit.model.RectangleConstruction"/>
  </entity>
 
  <entity name="org.openflexo.fge.geomedit.RoundRectangle" xmlTag="RoundRectangle">
      <description>Rounded Rectangle</description>
   	 <property name="graphicalRepresentation" xmlTag="RoundRectangleGraphicalRepresentation"/>
-   	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.RoundRectangleConstruction"/>
+   	 <property name="construction" contains="org.openflexo.diana.geomedit.model.RoundRectangleConstruction"/>
  </entity>
 
   <entity name="org.openflexo.fge.geomedit.Ellips" xmlTag="Ellips">
      <description>Ellips</description>
   	 <property name="graphicalRepresentation" xmlTag="EllipsGraphicalRepresentation"/>
-  	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.EllipsConstruction"/>
+  	 <property name="construction" contains="org.openflexo.diana.geomedit.model.EllipsConstruction"/>
   </entity>
 
   <entity name="org.openflexo.fge.geomedit.Circle" xmlTag="Circle">
      <description>Circle</description>
-   	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.CircleConstruction"/>
+   	 <property name="construction" contains="org.openflexo.diana.geomedit.model.CircleConstruction"/>
   </entity>
 
   <entity name="org.openflexo.fge.geomedit.Polygon" xmlTag="Polygon">
      <description>Polygon</description>
   	 <property name="graphicalRepresentation" xmlTag="PolygonGraphicalRepresentation"/>
-  	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.PolygonConstruction"/>
+  	 <property name="construction" contains="org.openflexo.diana.geomedit.model.PolygonConstruction"/>
   </entity>
 
   <entity name="org.openflexo.fge.geomedit.Polylin" xmlTag="Polylin">
      <description>Polylin</description>
   	 <property name="graphicalRepresentation" xmlTag="PolylinGraphicalRepresentation"/>
-  	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.PolylinConstruction"/>
+  	 <property name="construction" contains="org.openflexo.diana.geomedit.model.PolylinConstruction"/>
   </entity>
 
   <entity name="org.openflexo.fge.geomedit.QuadCurve" xmlTag="QuadCurve">
      <description>Quadradic Curve</description>
   	 <property name="graphicalRepresentation" xmlTag="QuadCurveGraphicalRepresentation"/>
-  	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.QuadCurveConstruction"/>
+  	 <property name="construction" contains="org.openflexo.diana.geomedit.model.QuadCurveConstruction"/>
   </entity>
 
   <entity name="org.openflexo.fge.geomedit.CubicCurve" xmlTag="CubicCurve">
      <description>Cubic Curve</description>
   	 <property name="graphicalRepresentation" xmlTag="CubicCurveGraphicalRepresentation"/>
-  	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.CubicCurveConstruction"/>
+  	 <property name="construction" contains="org.openflexo.diana.geomedit.model.CubicCurveConstruction"/>
   </entity>
 
   <entity name="org.openflexo.fge.geomedit.ComplexCurve" xmlTag="ComplexCurve">
      <description>Complex Curve</description>
   	 <property name="graphicalRepresentation" xmlTag="ComplexCurveGraphicalRepresentation"/>
-  	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.ComplexCurveConstruction"/>
+  	 <property name="construction" contains="org.openflexo.diana.geomedit.model.ComplexCurveConstruction"/>
   </entity>
 
   <entity name="org.openflexo.fge.geomedit.Band" xmlTag="Band">
      <description>Band</description>
   	 <property name="graphicalRepresentation" xmlTag="BandGraphicalRepresentation"/>
-  	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.BandConstruction"/>
+  	 <property name="construction" contains="org.openflexo.diana.geomedit.model.BandConstruction"/>
   </entity>
 
   <entity name="org.openflexo.fge.geomedit.HalfBand" xmlTag="HalfBand">
      <description>HalfBand</description>
   	 <property name="graphicalRepresentation" xmlTag="HalfBandGraphicalRepresentation"/>
-  	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.HalfBandConstruction"/>
+  	 <property name="construction" contains="org.openflexo.diana.geomedit.model.HalfBandConstruction"/>
   </entity>
 
   <entity name="org.openflexo.fge.geomedit.HalfPlane" xmlTag="HalfPlane">
      <description>HalfPlane</description>
   	 <property name="graphicalRepresentation" xmlTag="HalfPlaneGraphicalRepresentation"/>
-  	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.HalfPlaneConstruction"/>
+  	 <property name="construction" contains="org.openflexo.diana.geomedit.model.HalfPlaneConstruction"/>
   </entity>
 
   <entity name="org.openflexo.fge.geomedit.QuarterPlane" xmlTag="QuarterPlane">
      <description>QuarterPlane</description>
   	 <property name="graphicalRepresentation" xmlTag="QuarterPlaneGraphicalRepresentation"/>
-  	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.QuarterPlaneConstruction"/>
+  	 <property name="construction" contains="org.openflexo.diana.geomedit.model.QuarterPlaneConstruction"/>
   </entity>
 
   <entity name="org.openflexo.fge.geomedit.ObjectIntersection" xmlTag="ObjectIntersection">
      <description>Polygon</description>
   	 <property name="graphicalRepresentation" xmlTag="ComputedAreaGraphicalRepresentation"/>
-  	 <property name="construction" contains="org.openflexo.fge.geomedit.construction.IntersectionConstruction"/>
+  	 <property name="construction" contains="org.openflexo.diana.geomedit.model.IntersectionConstruction"/>
   </entity>
 
   <!-- Geometric constructions -->
 	
-  <entity name="org.openflexo.fge.geomedit.construction.GeometricConstruction" abstract="yes" contexts="Reference_">
+  <entity name="org.openflexo.diana.geomedit.model.GeometricConstruction" abstract="yes" contexts="Reference_">
      <description>Abstract geometric construction</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.PointConstruction" abstract="yes" contexts="P_,P1_,P2_,CP_,CP1_,CP2_,Reference_,Center_">
+  <entity name="org.openflexo.diana.geomedit.model.PointConstruction" abstract="yes" contexts="P_,P1_,P2_,CP_,CP1_,CP2_,Reference_,Center_">
      <description>Abstract point construction</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.ExplicitPointConstruction" xmlTag="ExplicitPointConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.ExplicitPointConstruction" xmlTag="ExplicitPointConstruction">
      <description>Explicit point construction</description>
    	 <property name="point" xmlTag="point" attribute="YES"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.PointMiddleOfTwoPointsConstruction" xmlTag="PointMiddleOfTwoPointsConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.PointMiddleOfTwoPointsConstruction" xmlTag="PointMiddleOfTwoPointsConstruction">
      <description>Construction for a point located in the middle of two other points</description>
-   	 <property name="pointConstruction1" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P1_" primary="yes"/>
-   	 <property name="pointConstruction2" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P2_" primary="yes"/>
+   	 <property name="pointConstruction1" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P1_" primary="yes"/>
+   	 <property name="pointConstruction2" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P2_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.SymetricPointConstruction" xmlTag="SymetricPointConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.SymetricPointConstruction" xmlTag="SymetricPointConstruction">
      <description>Construction for a point symetric to an other point</description>
-   	 <property name="pointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P1_" primary="yes"/>
-   	 <property name="pivotConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P2_" primary="yes"/>
+   	 <property name="pointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P1_" primary="yes"/>
+   	 <property name="pivotConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P2_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.PointReference" xmlTag="PointReference">
+  <entity name="org.openflexo.diana.geomedit.model.PointReference" xmlTag="PointReference">
      <description>Reference point construction</description>
-   	 <property name="reference" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="Reference_" primary="no"/>
+   	 <property name="reference" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="Reference_" primary="no"/>
    </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.ControlPointReference" xmlTag="ControlPointReference">
+  <entity name="org.openflexo.diana.geomedit.model.ControlPointReference" xmlTag="ControlPointReference">
      <description>Control point reference construction</description>
    	 <property name="reference" contains="org.openflexo.fge.geomedit.gr.GeometricObjectGraphicalRepresentation" context="Reference_" primary="no"/>
  	 <property name="cpName" xmlTag="cpName" attribute="YES"/>
     </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.LineIntersectionPointConstruction" xmlTag="LineIntersectionPointConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.LineIntersectionPointConstruction" xmlTag="LineIntersectionPointConstruction">
      <description>Lines intersection construction</description>
-     <property name="lineConstruction1" contains="org.openflexo.fge.geomedit.construction.LineConstruction" context="L1_" primary="yes"/>
-   	 <property name="lineConstruction2" contains="org.openflexo.fge.geomedit.construction.LineConstruction" context="L2_" primary="yes"/>
+     <property name="lineConstruction1" contains="org.openflexo.diana.geomedit.model.LineConstruction" context="L1_" primary="yes"/>
+   	 <property name="lineConstruction2" contains="org.openflexo.diana.geomedit.model.LineConstruction" context="L2_" primary="yes"/>
    </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.LineConstruction" abstract="yes" contexts="L_,L1_,L2_,Reference_">
+  <entity name="org.openflexo.diana.geomedit.model.LineConstruction" abstract="yes" contexts="L_,L1_,L2_,Reference_">
      <description>Abstract line construction</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.LineWithTwoPointsConstruction" xmlTag="LineWithTwoPointsConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.LineWithTwoPointsConstruction" xmlTag="LineWithTwoPointsConstruction">
      <description>Construction for a line with two points</description>
-   	 <property name="pointConstruction1" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P1_" primary="yes"/>
-   	 <property name="pointConstruction2" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P2_" primary="yes"/>
+   	 <property name="pointConstruction1" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P1_" primary="yes"/>
+   	 <property name="pointConstruction2" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P2_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.LineReference" xmlTag="LineReference">
+  <entity name="org.openflexo.diana.geomedit.model.LineReference" xmlTag="LineReference">
      <description>Reference line construction</description>
-   	 <property name="reference" contains="org.openflexo.fge.geomedit.construction.LineConstruction" context="Reference_" primary="no"/>
+   	 <property name="reference" contains="org.openflexo.diana.geomedit.model.LineConstruction" context="Reference_" primary="no"/>
    </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.HalfLineConstruction" abstract="yes" contexts="HL_,HL1_,HL2_,Reference_">
+  <entity name="org.openflexo.diana.geomedit.model.HalfLineConstruction" abstract="yes" contexts="HL_,HL1_,HL2_,Reference_">
      <description>Abstract line construction</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.HalfLineWithTwoPointsConstruction" xmlTag="HalfLineWithTwoPointsConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.HalfLineWithTwoPointsConstruction" xmlTag="HalfLineWithTwoPointsConstruction">
      <description>Construction for a line with two points</description>
-   	 <property name="limitPointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P1_" primary="yes"/>
-   	 <property name="oppositePointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P2_" primary="yes"/>
+   	 <property name="limitPointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P1_" primary="yes"/>
+   	 <property name="oppositePointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P2_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.SegmentConstruction" abstract="yes" contexts="S_,S1_,S2_,Reference_">
+  <entity name="org.openflexo.diana.geomedit.model.SegmentConstruction" abstract="yes" contexts="S_,S1_,S2_,Reference_">
      <description>Abstract segment construction</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.SegmentWithTwoPointsConstruction" xmlTag="SegmentWithTwoPointsConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.SegmentWithTwoPointsConstruction" xmlTag="SegmentWithTwoPointsConstruction">
      <description>Construction for a segment with two points</description>
-   	 <property name="pointConstruction1" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P1_" primary="yes"/>
-   	 <property name="pointConstruction2" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P2_" primary="yes"/>
+   	 <property name="pointConstruction1" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P1_" primary="yes"/>
+   	 <property name="pointConstruction2" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P2_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.ObjectReference" xmlTag="ObjectReference" contexts="Start_,End_">
+  <entity name="org.openflexo.diana.geomedit.model.ObjectReference" xmlTag="ObjectReference" contexts="Start_,End_">
      <description>Reference object construction</description>
-   	 <property name="reference" contains="org.openflexo.fge.geomedit.construction.GeometricConstruction" context="Reference_" primary="no"/>
+   	 <property name="reference" contains="org.openflexo.diana.geomedit.model.GeometricConstruction" context="Reference_" primary="no"/>
    </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.ParallelLineWithPointConstruction" xmlTag="ParallelLineWithPointConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.ParallelLineWithPointConstruction" xmlTag="ParallelLineWithPointConstruction">
      <description>Construction for a line parallel to an other one and crossing a point</description>
-   	 <property name="lineConstruction" contains="org.openflexo.fge.geomedit.construction.LineConstruction" context="L_" primary="yes"/>
-   	 <property name="pointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P_" primary="yes"/>
+   	 <property name="lineConstruction" contains="org.openflexo.diana.geomedit.model.LineConstruction" context="L_" primary="yes"/>
+   	 <property name="pointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.OrthogonalLineWithPointConstruction" xmlTag="OrthogonalLineWithPointConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.OrthogonalLineWithPointConstruction" xmlTag="OrthogonalLineWithPointConstruction">
      <description>Construction for a line orthogonal to an other one and crossing a point</description>
-   	 <property name="lineConstruction" contains="org.openflexo.fge.geomedit.construction.LineConstruction" context="L_" primary="yes"/>
-   	 <property name="pointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P_" primary="yes"/>
+   	 <property name="lineConstruction" contains="org.openflexo.diana.geomedit.model.LineConstruction" context="L_" primary="yes"/>
+   	 <property name="pointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.HorizontalLineWithPointConstruction" xmlTag="HorizontalLineWithPointConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.HorizontalLineWithPointConstruction" xmlTag="HorizontalLineWithPointConstruction">
      <description>Construction for an horizontal line crossing a point</description>
-   	 <property name="pointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P_" primary="yes"/>
+   	 <property name="pointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.VerticalLineWithPointConstruction" xmlTag="VerticalLineWithPointConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.VerticalLineWithPointConstruction" xmlTag="VerticalLineWithPointConstruction">
      <description>Construction for an horizontal line crossing a point</description>
-   	 <property name="pointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P_" primary="yes"/>
+   	 <property name="pointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.RotatedLineWithPointConstruction" xmlTag="RotatedLineWithPointConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.RotatedLineWithPointConstruction" xmlTag="RotatedLineWithPointConstruction">
      <description>Construction for a line obtained by a rotation and crossing a point</description>
-   	 <property name="lineConstruction" contains="org.openflexo.fge.geomedit.construction.LineConstruction" context="L_" primary="yes"/>
-   	 <property name="pointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P_" primary="yes"/>
+   	 <property name="lineConstruction" contains="org.openflexo.diana.geomedit.model.LineConstruction" context="L_" primary="yes"/>
+   	 <property name="pointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P_" primary="yes"/>
 	 <property name="angle" xmlTag="angle" attribute="YES"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.TangentLineWithCircleAndPointConstruction" xmlTag="TangentLineWithCircleAndPointConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.TangentLineWithCircleAndPointConstruction" xmlTag="TangentLineWithCircleAndPointConstruction">
      <description>Construction for a line tangent to a circle and crossing a point</description>
-   	 <property name="circleConstruction" contains="org.openflexo.fge.geomedit.construction.CircleConstruction" context="C_" primary="yes"/>
-   	 <property name="pointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P1_" primary="yes"/>
-   	 <property name="choosingPointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P2_" primary="yes"/>
+   	 <property name="circleConstruction" contains="org.openflexo.diana.geomedit.model.CircleConstruction" context="C_" primary="yes"/>
+   	 <property name="pointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P1_" primary="yes"/>
+   	 <property name="choosingPointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P2_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.RectangleConstruction" abstract="yes" contexts="Reference_">
+  <entity name="org.openflexo.diana.geomedit.model.RectangleConstruction" abstract="yes" contexts="Reference_">
      <description>Abstract rectangle construction</description>
 	 <property name="isFilled" xmlTag="isFilled" attribute="YES"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.RectangleWithTwoPointsConstruction" xmlTag="RectangleWithTwoPointsConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.RectangleWithTwoPointsConstruction" xmlTag="RectangleWithTwoPointsConstruction">
      <description>Construction for a rectangle with two points</description>
-   	 <property name="pointConstruction1" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P1_" primary="yes"/>
-   	 <property name="pointConstruction2" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P2_" primary="yes"/>
+   	 <property name="pointConstruction1" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P1_" primary="yes"/>
+   	 <property name="pointConstruction2" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P2_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.RoundRectangleConstruction" abstract="yes" contexts="Reference_">
+  <entity name="org.openflexo.diana.geomedit.model.RoundRectangleConstruction" abstract="yes" contexts="Reference_">
      <description>Abstract round rectangle construction</description>
 	 <property name="isFilled" xmlTag="isFilled" attribute="YES"/>
 	 <property name="arcWidth" xmlTag="arcWidth" attribute="YES"/>
 	 <property name="arcHeight" xmlTag="arcHeight" attribute="YES"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.RoundRectangleWithTwoPointsConstruction" xmlTag="RoundRectangleWithTwoPointsConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.RoundRectangleWithTwoPointsConstruction" xmlTag="RoundRectangleWithTwoPointsConstruction">
      <description>Construction for a round rectangle with two points</description>
-   	 <property name="pointConstruction1" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P1_" primary="yes"/>
-   	 <property name="pointConstruction2" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P2_" primary="yes"/>
+   	 <property name="pointConstruction1" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P1_" primary="yes"/>
+   	 <property name="pointConstruction2" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P2_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.EllipsConstruction" abstract="yes" contexts="Reference_">
+  <entity name="org.openflexo.diana.geomedit.model.EllipsConstruction" abstract="yes" contexts="Reference_">
      <description>Abstract ellips or circle construction</description>
 	 <property name="isFilled" xmlTag="isFilled" attribute="YES"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.CircleConstruction" abstract="yes" contexts="Reference_,C_">
+  <entity name="org.openflexo.diana.geomedit.model.CircleConstruction" abstract="yes" contexts="Reference_,C_">
      <description>Abstract circle construction</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.EllipsReference" xmlTag="EllipsReference">
+  <entity name="org.openflexo.diana.geomedit.model.EllipsReference" xmlTag="EllipsReference">
      <description>Reference ellips construction</description>
-   	 <property name="reference" contains="org.openflexo.fge.geomedit.construction.EllipsConstruction" context="Reference_" primary="no"/>
+   	 <property name="reference" contains="org.openflexo.diana.geomedit.model.EllipsConstruction" context="Reference_" primary="no"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.CircleReference" xmlTag="CircleReference">
+  <entity name="org.openflexo.diana.geomedit.model.CircleReference" xmlTag="CircleReference">
      <description>Reference circle construction</description>
-   	 <property name="reference" contains="org.openflexo.fge.geomedit.construction.CircleConstruction" context="Reference_" primary="no"/>
+   	 <property name="reference" contains="org.openflexo.diana.geomedit.model.CircleConstruction" context="Reference_" primary="no"/>
   </entity>
 
 
-  <entity name="org.openflexo.fge.geomedit.construction.CircleWithCenterAndPointConstruction" xmlTag="CircleWithCenterAndPointConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.CircleWithCenterAndPointConstruction" xmlTag="CircleWithCenterAndPointConstruction">
      <description>Construction for a circle given center and a point located on circle</description>
-   	 <property name="centerConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="Center_" primary="yes"/>
-   	 <property name="pointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P_" primary="yes"/>
+   	 <property name="centerConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="Center_" primary="yes"/>
+   	 <property name="pointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.PolygonConstruction" abstract="yes" contexts="Reference_">
+  <entity name="org.openflexo.diana.geomedit.model.PolygonConstruction" abstract="yes" contexts="Reference_">
      <description>Abstract polygon construction</description>
 	 <property name="isFilled" xmlTag="isFilled" attribute="YES"/>
    </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.PolygonWithNPointsConstruction" xmlTag="PolygonWithNPointsConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.PolygonWithNPointsConstruction" xmlTag="PolygonWithNPointsConstruction">
      <description>Construction for a polygon given n points</description>
-   	 <property name="pointConstructions" contains="org.openflexo.fge.geomedit.construction.PointConstruction" type="vector" context="P_" primary="yes"/>
+   	 <property name="pointConstructions" contains="org.openflexo.diana.geomedit.model.PointConstruction" type="vector" context="P_" primary="yes"/>
   </entity>
 
-   <entity name="org.openflexo.fge.geomedit.construction.PolylinConstruction" abstract="yes" contexts="Reference_">
+   <entity name="org.openflexo.diana.geomedit.model.PolylinConstruction" abstract="yes" contexts="Reference_">
      <description>Abstract polylin construction</description>
    </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.RectPolylinWithStartAndEndAreaConstruction" xmlTag="RectPolylinWithStartAndEndAreaConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.RectPolylinWithStartAndEndAreaConstruction" xmlTag="RectPolylinWithStartAndEndAreaConstruction">
      <description>Construction for a path of orthogonal segments joining a start and an end area, with orientations</description>
-   	 <property name="startAreaConstruction" contains="org.openflexo.fge.geomedit.construction.ObjectReference" context="Start_" primary="yes"/>
+   	 <property name="startAreaConstruction" contains="org.openflexo.diana.geomedit.model.ObjectReference" context="Start_" primary="yes"/>
 	 <property name="startOrientation" xmlTag="startOrientation" attribute="YES"/>
-   	 <property name="endAreaConstruction" contains="org.openflexo.fge.geomedit.construction.ObjectReference" context="End_" primary="yes"/>
+   	 <property name="endAreaConstruction" contains="org.openflexo.diana.geomedit.model.ObjectReference" context="End_" primary="yes"/>
  	 <property name="endOrientation" xmlTag="endOrientation" attribute="YES"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.PolylinWithNPointsConstruction" xmlTag="PolylinWithNPointsConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.PolylinWithNPointsConstruction" xmlTag="PolylinWithNPointsConstruction">
      <description>Construction for a polylin given n points</description>
-   	 <property name="pointConstructions" contains="org.openflexo.fge.geomedit.construction.PointConstruction" type="vector" context="P_" primary="yes"/>
+   	 <property name="pointConstructions" contains="org.openflexo.diana.geomedit.model.PointConstruction" type="vector" context="P_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.QuadCurveConstruction" abstract="yes" contexts="C_,C1_,C2_,Reference_">
+  <entity name="org.openflexo.diana.geomedit.model.QuadCurveConstruction" abstract="yes" contexts="C_,C1_,C2_,Reference_">
      <description>Abstract quadractic curve construction</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.QuadCurveWithThreePointsConstruction" xmlTag="QuadCurveWithThreePointsConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.QuadCurveWithThreePointsConstruction" xmlTag="QuadCurveWithThreePointsConstruction">
      <description>Construction for a quadratic curve with 3 points</description>
-   	 <property name="startPointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P1_" primary="yes"/>
-   	 <property name="controlPointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="CP_" primary="yes"/>
-   	 <property name="endPointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P2_" primary="yes"/>
+   	 <property name="startPointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P1_" primary="yes"/>
+   	 <property name="controlPointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="CP_" primary="yes"/>
+   	 <property name="endPointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P2_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.CubicCurveConstruction" abstract="yes" contexts="C_,C1_,C2_,Reference_">
+  <entity name="org.openflexo.diana.geomedit.model.CubicCurveConstruction" abstract="yes" contexts="C_,C1_,C2_,Reference_">
      <description>Abstract cubic curve construction</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.CubicCurveWithFourPointsConstruction" xmlTag="CubicCurveWithFourPointsConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.CubicCurveWithFourPointsConstruction" xmlTag="CubicCurveWithFourPointsConstruction">
      <description>Construction for cubic curve with 4 points</description>
-   	 <property name="startPointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P1_" primary="yes"/>
-   	 <property name="controlPointConstruction1" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="CP1_" primary="yes"/>
-   	 <property name="controlPointConstruction2" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="CP2_" primary="yes"/>
-   	 <property name="endPointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P2_" primary="yes"/>
+   	 <property name="startPointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P1_" primary="yes"/>
+   	 <property name="controlPointConstruction1" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="CP1_" primary="yes"/>
+   	 <property name="controlPointConstruction2" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="CP2_" primary="yes"/>
+   	 <property name="endPointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P2_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.ComplexCurveConstruction" abstract="yes" contexts="Reference_">
+  <entity name="org.openflexo.diana.geomedit.model.ComplexCurveConstruction" abstract="yes" contexts="Reference_">
      <description>Abstract complex curve construction</description>
 	 <property name="closure" xmlTag="closure" attribute="YES"/>
    </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.ComplexCurveWithNPointsConstruction" xmlTag="ComplexCurveWithNPointsConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.ComplexCurveWithNPointsConstruction" xmlTag="ComplexCurveWithNPointsConstruction">
      <description>Construction for a complex curve given n points</description>
-   	 <property name="pointConstructions" contains="org.openflexo.fge.geomedit.construction.PointConstruction" type="vector" context="P_" primary="yes"/>
+   	 <property name="pointConstructions" contains="org.openflexo.diana.geomedit.model.PointConstruction" type="vector" context="P_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.BandConstruction" abstract="yes" contexts="Reference_">
+  <entity name="org.openflexo.diana.geomedit.model.BandConstruction" abstract="yes" contexts="Reference_">
      <description>Abstract band construction</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.BandWithTwoLinesConstruction" xmlTag="BandWithTwoLinesConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.BandWithTwoLinesConstruction" xmlTag="BandWithTwoLinesConstruction">
      <description>Construction for a band with two lines</description>
-   	 <property name="lineConstruction1" contains="org.openflexo.fge.geomedit.construction.LineConstruction" context="L1_" primary="yes"/>
-   	 <property name="lineConstruction2" contains="org.openflexo.fge.geomedit.construction.LineConstruction" context="L2_" primary="yes"/>
+   	 <property name="lineConstruction1" contains="org.openflexo.diana.geomedit.model.LineConstruction" context="L1_" primary="yes"/>
+   	 <property name="lineConstruction2" contains="org.openflexo.diana.geomedit.model.LineConstruction" context="L2_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.HalfBandConstruction" abstract="yes" contexts="Reference_">
+  <entity name="org.openflexo.diana.geomedit.model.HalfBandConstruction" abstract="yes" contexts="Reference_">
      <description>Abstract half band construction</description>
   </entity>
 	
-  <entity name="org.openflexo.fge.geomedit.construction.HalfBandWithLinesConstruction" xmlTag="HalfBandWithLinesConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.HalfBandWithLinesConstruction" xmlTag="HalfBandWithLinesConstruction">
      <description>Construction for a band with two lines, a delimiting line and a point identifying side</description>
-   	 <property name="lineConstruction1" contains="org.openflexo.fge.geomedit.construction.LineConstruction" context="L1_" primary="yes"/>
-   	 <property name="lineConstruction2" contains="org.openflexo.fge.geomedit.construction.LineConstruction" context="L2_" primary="yes"/>
-   	 <property name="limitLineConstruction" contains="org.openflexo.fge.geomedit.construction.LineConstruction" context="L_" primary="yes"/>
-   	 <property name="pointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P_" primary="yes"/>
+   	 <property name="lineConstruction1" contains="org.openflexo.diana.geomedit.model.LineConstruction" context="L1_" primary="yes"/>
+   	 <property name="lineConstruction2" contains="org.openflexo.diana.geomedit.model.LineConstruction" context="L2_" primary="yes"/>
+   	 <property name="limitLineConstruction" contains="org.openflexo.diana.geomedit.model.LineConstruction" context="L_" primary="yes"/>
+   	 <property name="pointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P_" primary="yes"/>
   </entity>	
 
-  <entity name="org.openflexo.fge.geomedit.construction.HalfPlaneConstruction" abstract="yes" contexts="Reference_">
+  <entity name="org.openflexo.diana.geomedit.model.HalfPlaneConstruction" abstract="yes" contexts="Reference_">
      <description>Abstract half plane construction</description>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.HalfPlaneWithLineAndPointConstruction" xmlTag="HalfPlaneWithLineAndPointConstruction">
+  <entity name="org.openflexo.diana.geomedit.model.HalfPlaneWithLineAndPointConstruction" xmlTag="HalfPlaneWithLineAndPointConstruction">
      <description>Construction for an half-plane with a delimiting line and a test point</description>
-   	 <property name="lineConstruction" contains="org.openflexo.fge.geomedit.construction.LineConstruction" context="L_" primary="yes"/>
-   	 <property name="pointConstruction" contains="org.openflexo.fge.geomedit.construction.PointConstruction" context="P_" primary="yes"/>
+   	 <property name="lineConstruction" contains="org.openflexo.diana.geomedit.model.LineConstruction" context="L_" primary="yes"/>
+   	 <property name="pointConstruction" contains="org.openflexo.diana.geomedit.model.PointConstruction" context="P_" primary="yes"/>
   </entity>
 
-  <entity name="org.openflexo.fge.geomedit.construction.QuarterPlaneConstruction" abstract="yes" contexts="Reference_">
+  <entity name="org.openflexo.diana.geomedit.model.QuarterPlaneConstruction" abstract="yes" contexts="Reference_">
      <description>Quarter plane construction</description>
   </entity>
 
 
 	
- <entity name="org.openflexo.fge.geomedit.construction.IntersectionConstruction" xmlTag="IntersectionConstruction">
+ <entity name="org.openflexo.diana.geomedit.model.IntersectionConstruction" xmlTag="IntersectionConstruction">
      <description>Construction for an intersection of n objects</description>
-   	 <property name="objectConstructions" contains="org.openflexo.fge.geomedit.construction.ObjectReference" type="vector" context="Reference_" primary="yes"/>
+   	 <property name="objectConstructions" contains="org.openflexo.diana.geomedit.model.ObjectReference" type="vector" context="Reference_" primary="yes"/>
   </entity>
 
   <!-- Geometry -->

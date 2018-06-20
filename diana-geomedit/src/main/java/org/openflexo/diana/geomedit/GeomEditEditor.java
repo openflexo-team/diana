@@ -68,11 +68,11 @@ public class GeomEditEditor {
 
 	private GeometricDiagram diagram;
 	private GeometricDiagramDrawing drawing;
-	private GeomEditDrawingEditor controller;
+	private GeomEditDrawingController controller;
 
 	private GeometricDiagramView diagramView;
 
-	private int index;
+	private static int index;
 	private File file = null;
 	private final GeometricConstructionFactory factory;
 	private final GeomEditApplication application;
@@ -81,6 +81,7 @@ public class GeomEditEditor {
 
 		GeomEditEditor returned = new GeomEditEditor(factory, application);
 		returned.diagram = factory.makeNewGeometricDiagram();
+		returned.diagram.setName(returned.getTitle());
 		return returned;
 
 	}
@@ -93,6 +94,7 @@ public class GeomEditEditor {
 		try {
 			returned.diagram = (GeometricDiagram) factory.deserialize(new FileInputStream(file));
 			returned.file = file;
+			returned.diagram.setName(returned.getTitle());
 			System.out.println("Loaded " + factory.stringRepresentation(returned.diagram));
 			return returned;
 		} catch (FileNotFoundException e) {
@@ -129,6 +131,7 @@ public class GeomEditEditor {
 	private GeomEditEditor(GeometricConstructionFactory factory, GeomEditApplication application) {
 		this.factory = factory;
 		this.application = application;
+		index++;
 	}
 
 	public GeometricDiagram getDiagram() {
@@ -142,10 +145,10 @@ public class GeomEditEditor {
 		return drawing;
 	}
 
-	public GeomEditDrawingEditor getController() {
+	public GeomEditDrawingController getController() {
 		if (controller == null) {
 			CompoundEdit edit = factory.getUndoManager().startRecording("Initialize diagram");
-			controller = new GeomEditDrawingEditor(getDrawing(), factory, application.getToolFactory());
+			controller = new GeomEditDrawingController(getDrawing(), factory, application.getToolFactory());
 			factory.getUndoManager().stopRecording(edit);
 		}
 		return controller;

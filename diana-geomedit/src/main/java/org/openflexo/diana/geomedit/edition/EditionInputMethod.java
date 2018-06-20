@@ -53,8 +53,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.construction.GeometricConstruction;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 import org.openflexo.fge.swing.view.FGEViewMouseListener;
 import org.openflexo.fge.swing.view.JDrawingView;

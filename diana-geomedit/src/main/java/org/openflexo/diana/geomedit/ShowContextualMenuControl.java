@@ -48,12 +48,12 @@ import org.openflexo.fge.control.actions.MouseClickControlImpl;
 import org.openflexo.fge.view.FGEView;
 import org.openflexo.model.factory.EditingContext;
 
-public class ShowContextualMenuControl extends MouseClickControlImpl<GeomEditDrawingEditor> {
+public class ShowContextualMenuControl extends MouseClickControlImpl<GeomEditDrawingController> {
 
 	public ShowContextualMenuControl(EditingContext editingContext) {
-		super("Show contextual menu", MouseButton.RIGHT, 1, new MouseClickControlActionImpl<GeomEditDrawingEditor>() {
+		super("Show contextual menu", MouseButton.RIGHT, 1, new MouseClickControlActionImpl<GeomEditDrawingController>() {
 			@Override
-			public boolean handleClick(DrawingTreeNode<?, ?> dtn, GeomEditDrawingEditor controller, MouseControlContext context) {
+			public boolean handleClick(DrawingTreeNode<?, ?> dtn, GeomEditDrawingController controller, MouseControlContext context) {
 				FGEView view = controller.getDrawingView().viewForNode(dtn);
 				Point newPoint = getPointInView(dtn, controller, context);
 				controller.showContextualMenu(dtn, view, newPoint);

@@ -42,24 +42,24 @@ package org.openflexo.diana.geomedit.edition;
 import java.awt.Color;
 import java.util.Vector;
 
-import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
+import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.TextureBackgroundStyle.TextureType;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.construction.GeometricConstruction;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public abstract class Edition {
 	public int currentStep;
 	public Vector<EditionInput> inputs;
 	private String label;
-	private GeomEditDrawingEditor controller;
+	private GeomEditDrawingController controller;
 
 	protected ForegroundStyle focusedForegroundStyle;
 	protected BackgroundStyle focusedBackgroundStyle;
 
-	public Edition(String aLabel, GeomEditDrawingEditor aController) {
+	public Edition(String aLabel, GeomEditDrawingController aController) {
 		super();
 		controller = aController;
 		focusedForegroundStyle = aController.getFactory().makeForegroundStyle(Color.RED);
@@ -74,7 +74,7 @@ public abstract class Edition {
 		return label;
 	}
 
-	public GeomEditDrawingEditor getController() {
+	public GeomEditDrawingController getController() {
 		return controller;
 	}
 

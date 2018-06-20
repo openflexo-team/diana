@@ -49,7 +49,7 @@ import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 
-import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.edition.EditionInputMethod;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
 import org.openflexo.fge.geom.FGEPoint;
@@ -61,7 +61,7 @@ public class GeomEditDrawingView extends JDrawingView<GeometricDiagram> {
 
 	private FGEPoint lastMouseLocation;
 
-	public GeomEditDrawingView(GeomEditDrawingEditor controller) {
+	public GeomEditDrawingView(GeomEditDrawingController controller) {
 		super(controller);
 
 		// getPaintManager().disablePaintingCache();
@@ -83,8 +83,8 @@ public class GeomEditDrawingView extends JDrawingView<GeometricDiagram> {
 	}
 
 	@Override
-	public GeomEditDrawingEditor getController() {
-		return (GeomEditDrawingEditor) super.getController();
+	public GeomEditDrawingController getController() {
+		return (GeomEditDrawingController) super.getController();
 	}
 
 	@Override

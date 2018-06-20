@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel id="0" darkLevel="0" useScrollBar="true" protectContent="false"
+	height="200" name="main" layout="border"
+	controllerClassName="org.openflexo.diana.geomedit.view.BrowserFIBController"
+	border="empty" trackViewPortWidth="true" width="200"
+	dataClassName="org.openflexo.diana.geomedit.model.GeometricDiagram" titleFont="Lucida Grande,0,13"
+	trackViewPortHeight="true">
+	<Browser id="1" deepExploration="true" showFooter="true" allowsDragAndDrop="true"
+		rowHeight="18" showRootsHandle="true" manageDynamicModel="true" root="data"
+		selectionMode="DiscontiguousTreeSelection" rightClickAction="controller.rightClick(ComponentBrowser.selected,event)"
+		boundToSelectionManager="true" localize="true"
+		constraints="border(location=center;x=0;y=0)" iteratorClassName="org.openflexo.gina.model.FIBModelObject"
+		useScrollBar="false" selected="controller.editorController.selectedObject"
+		name="ComponentBrowser" rootVisible="true" readOnly="false">
+
+		<BrowserElement icon="controller.iconForObject(diagram)"
+			filtered="false" label="diagram.name" defaultVisible="true"
+			dataClassName="org.openflexo.diana.geomedit.model.GeometricDiagram" name="diagram"
+			isEditable="true" editableLabel="diagram.name">
+			<Children name="constructions" data="diagram.constructions" />
+			<!--  <BrowserAddAction name="new_element"
+				method="controller.createElement(selected)" />-->
+		</BrowserElement>
+
+		<BrowserElement icon="controller.iconForObject(construction)"
+			filtered="false" label="construction.name" defaultVisible="true"
+			dataClassName="org.openflexo.diana.geomedit.model.GeometricConstruction" name="construction"
+			isEditable="true" editableLabel="construction.name">
+			<!--  <Children name="constructions" data="diagram.constructions" /> -->
+			<!--  <BrowserAddAction name="new_element"
+				method="controller.createElement(selected)" />-->
+		</BrowserElement>
+	</Browser>
+	
+	<!--  <Panel id="5" darkLevel="0" vGap="5" useScrollBar="false"
+		protectContent="false" hGap="5" layout="border" border="empty"
+		flowAlignment="LEADING" trackViewPortWidth="true" constraints="border(location=north)"
+		trackViewPortHeight="true">
+		<TextField id="6" passwd="false" manageDynamicModel="false"
+			useScrollBar="false" data="controller.searchedLabel" columns="7"
+			text="TextField" localize="true" constraints="border(location=center)"
+			readOnly="false" validateOnReturn="false" />
+		<Button id="7" manageDynamicModel="false" useScrollBar="false"
+			buttonType="Trigger" action="controller.search()" localize="true"
+			constraints="border(location=east)" label="search" readOnly="false" />
+	</Panel> -->
+</Panel>

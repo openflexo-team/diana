@@ -717,12 +717,17 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			return;
 		}
 		JFGEView<?, ?> view = viewForNode(focusedFloatingLabel);
-		JLabelView<?> labelView = view.getLabelView();
-		if (labelView != null) {
-			Point p1 = SwingUtilities.convertPoint(labelView, new Point(0, labelView.getHeight() / 2), this);
-			Point p2 = SwingUtilities.convertPoint(labelView, new Point(labelView.getWidth(), labelView.getHeight() / 2), this);
-			paintControlPoint(p1, color, g);
-			paintControlPoint(p2, color, g);
+		if (view != null) {
+			JLabelView<?> labelView = view.getLabelView();
+			if (labelView != null) {
+				Point p1 = SwingUtilities.convertPoint(labelView, new Point(0, labelView.getHeight() / 2), this);
+				Point p2 = SwingUtilities.convertPoint(labelView, new Point(labelView.getWidth(), labelView.getHeight() / 2), this);
+				paintControlPoint(p1, color, g);
+				paintControlPoint(p2, color, g);
+			}
+		}
+		else {
+			logger.warning("Could not find view for node " + focusedFloatingLabel);
 		}
 	}
 

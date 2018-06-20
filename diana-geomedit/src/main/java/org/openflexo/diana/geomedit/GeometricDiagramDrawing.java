@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openflexo.connie.DataBinding;
+import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
@@ -56,7 +57,6 @@ import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.geomedit.construction.GeometricConstruction;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.model.factory.EditingContextImpl;

@@ -39,10 +39,10 @@
 
 package org.openflexo.fge.geomedit;
 
+import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.geomedit.GeometricObject.GeometricObjectImpl;
-import org.openflexo.fge.geomedit.construction.GeometricConstruction;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.Import;

@@ -41,10 +41,10 @@ package org.openflexo.diana.geomedit.model.gr;
 
 import java.util.List;
 
+import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.geomedit.construction.GeometricConstruction;
 import org.openflexo.fge.impl.GeometricGraphicalRepresentationImpl;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.Import;

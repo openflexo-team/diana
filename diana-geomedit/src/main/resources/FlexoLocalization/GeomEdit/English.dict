@@ -1,3 +1,6 @@
+Dutch=Dutch
+English=English
+French=French
 background_inspector=background_inspector
 close=Close
 close_drawing=Close drawing
@@ -27,6 +30,7 @@ save_diagram=Save diagram
 save_diagram_as=Save diagram as
 save_drawing=Save drawing
 save_drawing_as=Save drawing as...
+search=Search
 shadow_inspector=shadow_inspector
 shape_inspector=shape_inspector
 show_palette=Show palette

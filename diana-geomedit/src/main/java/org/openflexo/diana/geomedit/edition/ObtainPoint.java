@@ -42,9 +42,11 @@ package org.openflexo.diana.geomedit.edition;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 
-import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
+import org.openflexo.diana.geomedit.model.GeometricConstruction;
+import org.openflexo.diana.geomedit.model.PointConstruction;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.FGEConstants;
@@ -52,8 +54,6 @@ import org.openflexo.fge.converter.PointConverter;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.construction.GeometricConstruction;
-import org.openflexo.fge.geomedit.construction.PointConstruction;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class ObtainPoint extends EditionInput<FGEPoint> {
@@ -61,7 +61,7 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 
 	private boolean endOnRightClick = false;
 
-	public ObtainPoint(String anInputLabel, GeomEditDrawingEditor controller) {
+	public ObtainPoint(String anInputLabel, GeomEditDrawingController controller) {
 		super(anInputLabel, controller);
 
 		availableMethods.add(new CursorSelection());
@@ -70,7 +70,7 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 		availableMethods.add(new KeyboardSelection());
 	}
 
-	public ObtainPoint(String anInputLabel, GeomEditDrawingEditor controller, boolean appendEndSelection) {
+	public ObtainPoint(String anInputLabel, GeomEditDrawingController controller, boolean appendEndSelection) {
 		this(anInputLabel, controller);
 		if (appendEndSelection) {
 			availableMethods.add(new EndEditionSelection());

@@ -51,10 +51,10 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.edition.EditionInputMethod.InputComponent;
+import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
-import org.openflexo.fge.geomedit.construction.GeometricConstruction;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public abstract class EditionInput<O> {
@@ -63,11 +63,11 @@ public abstract class EditionInput<O> {
 	public Vector<EditionInputMethod> availableMethods;
 	public EditionInputMethod activeMethod;
 
-	private GeomEditDrawingEditor controller;
+	private GeomEditDrawingController controller;
 
 	private GeometricConstruction<?> contruction;
 
-	public EditionInput(String anInputLabel, GeomEditDrawingEditor aController) {
+	public EditionInput(String anInputLabel, GeomEditDrawingController aController) {
 		super();
 		controller = aController;
 		inputLabel = anInputLabel;
@@ -148,7 +148,7 @@ public abstract class EditionInput<O> {
 		}
 	}
 
-	public GeomEditDrawingEditor getController() {
+	public GeomEditDrawingController getController() {
 		return controller;
 	}
 

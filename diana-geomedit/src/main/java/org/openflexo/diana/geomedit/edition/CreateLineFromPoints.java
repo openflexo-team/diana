@@ -39,14 +39,14 @@
 
 package org.openflexo.diana.geomedit.edition;
 
-import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateLineFromPoints extends Edition {
 
-	public CreateLineFromPoints(GeomEditDrawingEditor controller) {
+	public CreateLineFromPoints(GeomEditDrawingController controller) {
 		super("Create line from points", controller);
 		inputs.add(new ObtainPoint("Select first point", controller));
 		inputs.add(new ObtainPoint("Select second point", controller));

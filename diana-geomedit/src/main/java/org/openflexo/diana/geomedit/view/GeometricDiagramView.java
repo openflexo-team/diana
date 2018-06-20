@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 
-import org.openflexo.diana.geomedit.GeomEditDrawingEditor;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.GeometricDiagramDrawing;
 import org.openflexo.diana.geomedit.edition.EditionInputMethod;
 import org.openflexo.fge.geom.FGEPoint;
@@ -25,12 +25,12 @@ public class GeometricDiagramView extends JPanel {
 	private static final Logger logger = FlexoLogger.getLogger(GeometricDrawingView.class.getPackage().getName());
 
 	private FGEPoint lastMouseLocation;
-	private GeomEditDrawingEditor controller;
+	private GeomEditDrawingController controller;
 
 	private JScrollPane scrollPane;
 	private JSplitPane splitPane;
 
-	public GeometricDiagramView(GeomEditDrawingEditor controller) {
+	public GeometricDiagramView(GeomEditDrawingController controller) {
 		super(new BorderLayout());
 
 		this.controller = controller;
@@ -57,10 +57,13 @@ public class GeometricDiagramView extends JPanel {
 
 		add(getControlPanel(), BorderLayout.NORTH);
 
-		JScrollPane browser = new JScrollPane(new JLabel("browser"));// v.getController().getTree());
+		// JScrollPane browser = new JScrollPane(new JLabel("browser"));// v.getController().getTree());
 		// browser.setPreferredSize(new Dimension(200,200));
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, browser, scrollPane);
-		splitPane.setDividerLocation(150);
+
+		GeomEditBrowserView browserView = new GeomEditBrowserView(controller.getDiagram(), controller);
+
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, browserView, scrollPane);
+		// splitPane.setDividerLocation(200);
 		splitPane.setResizeWeight(0);
 
 		add(splitPane, BorderLayout.CENTER);
@@ -90,7 +93,7 @@ public class GeometricDiagramView extends JPanel {
 		return getController().getEditionLabel();
 	}
 
-	public GeomEditDrawingEditor getController() {
+	public GeomEditDrawingController getController() {
 		return controller;
 	}
 

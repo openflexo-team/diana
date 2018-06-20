@@ -1,3 +1,6 @@
+Dutch=Dutch
+English=English
+French=French
 close=close
 close_drawing=Close drawing
 copy=copy
@@ -21,6 +24,7 @@ save_diagram=save_diagram
 save_diagram_as=save_diagram_as
 save_drawing=Save drawing
 save_drawing_as=Save drawing as...
+search=search
 show_palette=show_palette
 tools=Tools
 undefined_value=undefined_value
