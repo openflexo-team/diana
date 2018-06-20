@@ -100,6 +100,15 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 
 	public <A extends FGEArea> GeometricObjectGraphicalRepresentation<A> makeNewConstructionGR(GeometricConstruction<A> construction) {
 		GeometricObjectGraphicalRepresentation<A> returned = construction.makeNewConstructionGR(this);
+		if (returned.getForeground() == null) {
+			returned.setForeground(makeDefaultForegroundStyle());
+		}
+		if (returned.getBackground() == null) {
+			returned.setBackground(makeDefaultBackgroundStyle());
+		}
+		if (returned.getTextStyle() == null) {
+			returned.setTextStyle(makeDefaultTextStyle());
+		}
 		returned.setGeometricObject(construction.getData());
 		return returned;
 	}

@@ -788,8 +788,8 @@ public class GeomEditApplication {
 		frame.setJMenuBar(mb);*/
 
 		frame.getContentPane().add(mainPanel);
-		frame.validate();
-		frame.pack();
+		// frame.validate();
+		// frame.pack();
 
 	}
 
@@ -933,6 +933,8 @@ public class GeomEditApplication {
 
 	public void showMainPanel() {
 
+		frame.validate();
+		frame.pack();
 		frame.setVisible(true);
 
 	}

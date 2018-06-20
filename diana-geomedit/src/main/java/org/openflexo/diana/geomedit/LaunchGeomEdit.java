@@ -101,8 +101,8 @@ public class LaunchGeomEdit {
 		// StringEncoder.getDefaultInstance()._addConverter(DataBinding.CONVERTER);
 
 		GeomEditApplication application = new GeomEditApplication();
-		application.showMainPanel();
 		application.newDiagramEditor();
+		application.showMainPanel();
 	}
 
 }
