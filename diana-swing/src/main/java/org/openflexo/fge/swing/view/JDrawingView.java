@@ -430,6 +430,13 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					removeMouseListener(resizer);
 				}
 			}
+			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_FOCUSED.getName())) {
+				if (evt.getSource() instanceof GeometricNode) {
+					// Painting a geometric node being focused or unfocused
+					// TODO: optimize this later
+					getPaintManager().repaint(this);
+				}
+			}
 			else if (evt.getPropertyName().equals(DrawingNeedsToBeRedrawn.EVENT_NAME)) {
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
