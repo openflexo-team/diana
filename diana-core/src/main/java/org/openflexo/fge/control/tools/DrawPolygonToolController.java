@@ -135,7 +135,7 @@ public abstract class DrawPolygonToolController<ME> extends DrawCustomShapeToolC
 					// System.out.println("add point " + newPoint);
 					getShape().addToPoints(newPoint);
 				}
-				getCurrentEditedShape().rebuildControlPoints();
+				getCurrentEditedShape().clearControlAreas();
 				geometryChanged();
 			}
 			else {

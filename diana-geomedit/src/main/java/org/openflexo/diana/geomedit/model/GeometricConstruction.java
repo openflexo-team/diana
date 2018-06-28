@@ -39,6 +39,8 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +48,7 @@ import org.openflexo.diana.geomedit.model.GeometricConstruction.GeometricConstru
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.fge.notifications.GeometryModified;
 import org.openflexo.model.annotations.CloningStrategy;
 import org.openflexo.model.annotations.CloningStrategy.StrategyType;
 import org.openflexo.model.annotations.Embedded;
@@ -104,15 +107,15 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 	public void notifyGeometryChanged();
 
 	public static abstract class GeometricConstructionImpl<A extends FGEArea> extends GeometricElementImpl
-			implements GeometricConstruction<A> {
+			implements GeometricConstruction<A>, PropertyChangeListener {
 
 		private A computedData;
-		private List<GeometricConstruction<?>> _altered = new ArrayList<GeometricConstruction<?>>();
+		private List<GeometricConstruction<?>> listened = new ArrayList<GeometricConstruction<?>>();
 
 		protected abstract A computeData();
 
 		@Override
-		public final A getData() {
+		public A getData() {
 			// System.out.println("getData() for "+this.getClass().getSimpleName());
 
 			ensureUpToDate();
@@ -132,20 +135,35 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 			// Recursively called ensureUpToDate() on dependancies
 			if (getDepends() != null) {
 				for (GeometricConstruction<?> d : getDepends()) {
-					GeometricConstructionImpl<?> c = (GeometricConstructionImpl<?>) d;
-					if (!c._altered.contains(this)) {
-						c._altered.add(this);
+					// GeometricConstructionImpl<?> c = (GeometricConstructionImpl<?>) d;
+					if (!listened.contains(d)) {
+						listened.add(d);
+						d.getPropertyChangeSupport().addPropertyChangeListener(this);
+						System.out.println("Je suis " + this + " et j'ecoute " + d);
 					}
-					c.ensureUpToDate(updatedConstructions);
+
+					/*if (!c._altered.contains(this)) {
+						c._altered.add(this);
+					}*/
+					((GeometricConstructionImpl<?>) d).ensureUpToDate(updatedConstructions);
 				}
 			}
 
-			if (modified || updatedConstructions.size() > 0) {
+			/*if (modified || updatedConstructions.size() > 0) {
 				// System.out.println("Recompute data for "+this.getClass().getSimpleName());
 				computedData = computeData();
 				updatedConstructions.add(this);
 				modified = false;
+			}*/
+		}
+
+		@Override
+		public boolean delete(Object... arg0) {
+			for (GeometricConstruction<?> c : listened) {
+				c.getPropertyChangeSupport().removePropertyChangeListener(this);
 			}
+			listened.clear();
+			return true;
 		}
 
 		@Override
@@ -165,9 +183,9 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 		@Override
 		public abstract GeometricConstruction<?>[] getDepends();
 
-		private boolean modified = false;
+		// private boolean modified = false;
 
-		@Override
+		/*@Override
 		public void setModified(boolean modified) {
 			this.modified = modified;
 			performSuperSetModified(modified);
@@ -175,7 +193,7 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 				((GeometricConstructionImpl<?>) c).computedData = null;
 				c.setModified(modified);
 			}
-		}
+		}*/
 
 		@Override
 		public String getName() {
@@ -215,9 +233,18 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 
 		@Override
 		public void notifyGeometryChanged() {
-			System.out.println("TODO: notifyGeometryChanged");
+			System.out.println("notifyGeometryChanged called in " + this);
+			System.out.println("Qui m'ecoute ? " + listened);
+			getPropertyChangeSupport().firePropertyChange(GeometryModified.EVENT_NAME, false, true);
 		}
 
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			System.out.println("Tiens, je suis " + this);
+			System.out.println("La geometrie de " + evt.getSource() + " a change");
+			refresh();
+			notifyGeometryChanged();
+		}
 	}
 
 }

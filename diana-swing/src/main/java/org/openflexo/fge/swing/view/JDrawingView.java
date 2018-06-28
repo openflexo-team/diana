@@ -97,6 +97,7 @@ import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.impl.FGECachedModelFactory;
 import org.openflexo.fge.notifications.DrawingNeedsToBeRedrawn;
+import org.openflexo.fge.notifications.GeometryModified;
 import org.openflexo.fge.notifications.NodeAdded;
 import org.openflexo.fge.notifications.NodeDeleted;
 import org.openflexo.fge.notifications.NodeRemoved;
@@ -434,6 +435,15 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 				if (evt.getSource() instanceof GeometricNode) {
 					// Painting a geometric node being focused or unfocused
 					// TODO: optimize this later
+					getPaintManager().invalidate(getDrawing().getRoot());
+					getPaintManager().repaint(this);
+				}
+			}
+			else if (evt.getPropertyName().equals(GeometryModified.EVENT_NAME)) {
+				if (evt.getSource() instanceof GeometricNode) {
+					// Painting a geometric node being focused or unfocused
+					// TODO: optimize this later
+					getPaintManager().invalidate(getDrawing().getRoot());
 					getPaintManager().repaint(this);
 				}
 			}

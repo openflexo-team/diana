@@ -931,9 +931,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public void paintGeometricObject(FGEGeometricGraphics graphics);
 
-		public List<ControlPoint> getControlPoints();
-
-		public List<ControlPoint> rebuildControlPoints();
+		public List<ControlPoint> makeDefaultControlPoints();
 
 		public void notifyGeometryChanged();
 

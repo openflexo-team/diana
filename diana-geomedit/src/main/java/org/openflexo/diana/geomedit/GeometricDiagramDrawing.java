@@ -45,6 +45,7 @@ import org.openflexo.connie.DataBinding;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
+import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.GRBinding.DrawingGRBinding;
@@ -94,7 +95,10 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 							return drawable.getGraphicalRepresentation();
 						}
 						else {
-							return ((GeometricConstructionFactory) factory).makeNewConstructionGR(drawable);
+							GeometricObjectGraphicalRepresentation returned = ((GeometricConstructionFactory) factory)
+									.makeNewConstructionGR(drawable);
+							drawable.setGraphicalRepresentation(returned);
+							return returned;
 						}
 					}
 
@@ -102,7 +106,7 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 					public List<? extends ControlArea<?>> makeControlAreasFor(
 							DrawingTreeNode<GeometricConstruction, GeometricGraphicalRepresentation> dtn) {
 						// TODO
-						System.out.println("Ici, initialiser les control areas !!!");
+						System.out.println("Ici, initialiser les control areas pour " + dtn.getDrawable().getGraphicalRepresentation());
 						List<? extends ControlArea<?>> returned = dtn.getDrawable().getGraphicalRepresentation().makeControlAreasFor(dtn);
 						List<ControlPoint> controlPoints = new ArrayList<ControlPoint>();
 						for (ControlArea<?> ca : returned) {

@@ -62,7 +62,7 @@ public interface PointReference extends PointConstruction {
 	@Setter(value = REFERENCE_KEY)
 	public void setReference(PointConstruction reference);
 
-	public static abstract class PointReferenceImpl extends GeometricConstructionImpl<FGEPoint>implements PointReference {
+	public static abstract class PointReferenceImpl extends PointConstructionImpl implements PointReference {
 
 		@Override
 		protected FGEPoint computeData() {

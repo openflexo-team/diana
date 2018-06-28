@@ -41,8 +41,8 @@ package org.openflexo.diana.geomedit.controller;
 
 import java.awt.event.MouseEvent;
 
-import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.diana.geomedit.model.ExplicitPointConstruction;
+import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.FGEConstants;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.area.FGEArea;
@@ -75,6 +75,7 @@ public abstract class DraggableControlPoint<O extends FGEArea> extends GeomEditA
 	public void setPoint(FGEPoint point) {
 		super.setPoint(point);
 		explicitPointConstruction.setPoint(point);
+		explicitPointConstruction.notifyGeometryChanged();
 	}
 
 	public ExplicitPointConstruction getExplicitPointConstruction() {

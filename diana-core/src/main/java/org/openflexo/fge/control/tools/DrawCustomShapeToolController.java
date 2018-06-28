@@ -202,7 +202,7 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 	}
 
 	public List<? extends ControlArea<?>> getControlAreas() {
-		return currentEditedShapeGeometricNode.getControlPoints();
+		return currentEditedShapeGeometricNode.getControlAreas();
 	}
 
 	public abstract ShapeGraphicalRepresentation buildShapeGraphicalRepresentation();
