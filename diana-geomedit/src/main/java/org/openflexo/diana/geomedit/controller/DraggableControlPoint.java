@@ -75,7 +75,7 @@ public abstract class DraggableControlPoint<O extends FGEArea> extends GeomEditA
 	public void setPoint(FGEPoint point) {
 		super.setPoint(point);
 		explicitPointConstruction.setPoint(point);
-		explicitPointConstruction.notifyGeometryChanged();
+		// explicitPointConstruction.notifyGeometryChanged();
 	}
 
 	public ExplicitPointConstruction getExplicitPointConstruction() {
