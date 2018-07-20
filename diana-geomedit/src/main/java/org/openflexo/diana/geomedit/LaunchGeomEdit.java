@@ -49,6 +49,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
+import org.openflexo.toolbox.ToolBox;
 
 public class LaunchGeomEdit {
 
@@ -68,6 +69,12 @@ public class LaunchGeomEdit {
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+			if (ToolBox.isMacOS()) {
+				System.setProperty("apple.laf.useScreenMenuBar", "true");
+				System.setProperty("com.apple.mrj.application.apple.menu.about.name", "FIBEditor");
+			}
+
 			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
 			FlexoLocalization.initWith(GeomEditApplication.GEOMEDIT_LOCALIZATION);
 		} catch (SecurityException e) {
