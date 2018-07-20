@@ -92,6 +92,7 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 					public GeometricGraphicalRepresentation provideGR(GeometricConstruction drawable, FGEModelFactory factory) {
 						if (drawable.getGraphicalRepresentation() != null) {
 							drawable.getGraphicalRepresentation().setFactory(factory);
+							drawable.getGraphicalRepresentation().setGeometricObject(drawable.getData());
 							return drawable.getGraphicalRepresentation();
 						}
 						else {

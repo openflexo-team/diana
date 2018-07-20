@@ -41,8 +41,12 @@ package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.model.ExplicitPointConstruction.ExplicitPointConstructionImpl;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
@@ -50,6 +54,15 @@ import org.openflexo.model.annotations.XMLElement;
 @XMLElement
 public interface ExplicitPointConstruction extends PointConstruction {
 
+	@PropertyIdentifier(type = FGEPoint.class)
+	public static final String POINT_KEY = "point";
+
+	@Override
+	@Getter(value = POINT_KEY, isStringConvertable = true)
+	@XMLAttribute
+	public FGEPoint getPoint();
+
+	@Setter(POINT_KEY)
 	public void setPoint(FGEPoint p);
 
 	public static abstract class ExplicitPointConstructionImpl extends PointConstructionImpl implements ExplicitPointConstruction {

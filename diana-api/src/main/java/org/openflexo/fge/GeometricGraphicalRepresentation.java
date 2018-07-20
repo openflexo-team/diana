@@ -105,7 +105,7 @@ public interface GeometricGraphicalRepresentation extends GraphicalRepresentatio
 	public void setBackground(BackgroundStyle aBackground);
 
 	@Getter(value = GEOMETRIC_OBJECT_KEY, isStringConvertable = true)
-	@XMLElement
+	// @XMLElement
 	public FGEArea getGeometricObject();
 
 	@Setter(value = GEOMETRIC_OBJECT_KEY)
@@ -124,13 +124,13 @@ public interface GeometricGraphicalRepresentation extends GraphicalRepresentatio
 	public void setBackgroundType(BackgroundStyleType backgroundType);
 
 	/*public Rectangle getBounds(double scale);
-
+	
 	public void paintGeometricObject(FGEGeometricGraphics graphics);
-
+	
 	public List<ControlPoint> getControlPoints();
-
+	
 	public List<ControlPoint> rebuildControlPoints();
-
+	
 	public void notifyGeometryChanged();*/
 
 }
