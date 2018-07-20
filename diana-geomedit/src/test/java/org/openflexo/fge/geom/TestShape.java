@@ -37,7 +37,7 @@
  * 
  */
 
-package org.openflexo.fge.geomedit;
+package org.openflexo.fge.geom;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
