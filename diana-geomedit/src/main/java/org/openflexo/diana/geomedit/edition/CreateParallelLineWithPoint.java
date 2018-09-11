@@ -39,16 +39,14 @@
 
 package org.openflexo.diana.geomedit.edition;
 
-import org.openflexo.diana.geomedit.model.ParallelLineWithPointConstruction;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.Line;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateParallelLineWithPoint extends Edition {
 
-	public CreateParallelLineWithPoint(GeomEditController controller) {
+	public CreateParallelLineWithPoint(GeomEditDrawingController controller) {
 		super("Create parallel line with point", controller);
 		inputs.add(new ObtainLine("Select line", controller));
 		inputs.add(new ObtainPoint("Select point", controller));
@@ -59,8 +57,7 @@ public class CreateParallelLineWithPoint extends Edition {
 		ObtainLine l = (ObtainLine) inputs.get(0);
 		ObtainPoint p = (ObtainPoint) inputs.get(1);
 
-		addObject(new Line(getController().getDrawing().getModel(), new ParallelLineWithPointConstruction(l.getConstruction(),
-				p.getConstruction())));
+		addConstruction(getController().getFactory().makeParallelLineWithPointConstruction(l.getConstruction(), p.getConstruction()));
 
 	}
 
@@ -73,7 +70,8 @@ public class CreateParallelLineWithPoint extends Edition {
 	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
-		} else if (currentStep == 1) {
+		}
+		else if (currentStep == 1) {
 			FGELine line = ((ObtainLine) inputs.get(0)).getInputData();
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			FGELine l = line.getParallelLine(lastMouseLocation);

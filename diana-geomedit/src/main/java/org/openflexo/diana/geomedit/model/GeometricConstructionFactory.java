@@ -156,4 +156,33 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		returned.setPointConstruction2(pointConstruction2);
 		return returned;
 	}
+
+	public HorizontalLineWithPointConstruction makeHorizontalLineWithPointConstruction(PointConstruction pointConstruction) {
+		HorizontalLineWithPointConstruction returned = newInstance(HorizontalLineWithPointConstruction.class);
+		returned.setPointConstruction(pointConstruction);
+		return returned;
+	}
+
+	public VerticalLineWithPointConstruction makeVerticalLineWithPointConstruction(PointConstruction pointConstruction) {
+		VerticalLineWithPointConstruction returned = newInstance(VerticalLineWithPointConstruction.class);
+		returned.setPointConstruction(pointConstruction);
+		return returned;
+	}
+
+	public ParallelLineWithPointConstruction makeParallelLineWithPointConstruction(LineConstruction lineConstruction,
+			PointConstruction pointConstruction) {
+		ParallelLineWithPointConstruction returned = newInstance(ParallelLineWithPointConstruction.class);
+		returned.setLineConstruction(lineConstruction);
+		returned.setPointConstruction(pointConstruction);
+		return returned;
+	}
+
+	public OrthogonalLineWithPointConstruction makeOrthogonalLineWithPointConstruction(LineConstruction lineConstruction,
+			PointConstruction pointConstruction) {
+		OrthogonalLineWithPointConstruction returned = newInstance(OrthogonalLineWithPointConstruction.class);
+		returned.setLineConstruction(lineConstruction);
+		returned.setPointConstruction(pointConstruction);
+		return returned;
+	}
+
 }

@@ -39,16 +39,14 @@
 
 package org.openflexo.diana.geomedit.edition;
 
-import org.openflexo.diana.geomedit.model.OrthogonalLineWithPointConstruction;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.Line;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateOrthogonalLineWithPoint extends Edition {
 
-	public CreateOrthogonalLineWithPoint(GeomEditController controller) {
+	public CreateOrthogonalLineWithPoint(GeomEditDrawingController controller) {
 		super("Create orthogonal line with point", controller);
 		inputs.add(new ObtainLine("Select line", controller));
 		inputs.add(new ObtainPoint("Select point", controller));
@@ -59,21 +57,16 @@ public class CreateOrthogonalLineWithPoint extends Edition {
 		ObtainLine l = (ObtainLine) inputs.get(0);
 		ObtainPoint p = (ObtainPoint) inputs.get(1);
 
-		addObject(new Line(getController().getDrawing().getModel(), new OrthogonalLineWithPointConstruction(l.getConstruction(),
-				p.getConstruction())));
+		addConstruction(getController().getFactory().makeOrthogonalLineWithPointConstruction(l.getConstruction(), p.getConstruction()));
 
 	}
-
-	/*public void addObject(GeometricObject object)
-	{
-		getController().getDrawing().getModel().addToChilds(object);
-	}*/
 
 	@Override
 	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
-		} else if (currentStep == 1) {
+		}
+		else if (currentStep == 1) {
 			FGELine line = ((ObtainLine) inputs.get(0)).getInputData();
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			FGELine l = line.getOrthogonalLine(lastMouseLocation);

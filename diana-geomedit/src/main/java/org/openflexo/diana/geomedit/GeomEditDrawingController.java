@@ -54,8 +54,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import org.openflexo.diana.geomedit.edition.CreateHorizontalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateLineFromPoints;
+import org.openflexo.diana.geomedit.edition.CreateOrthogonalLineWithPoint;
+import org.openflexo.diana.geomedit.edition.CreateParallelLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreatePoint;
+import org.openflexo.diana.geomedit.edition.CreateVerticalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.Edition;
 import org.openflexo.diana.geomedit.edition.EditionInput;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
@@ -241,7 +245,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		});
 		createLineItem.add(createLineFromPointsItem);
 
-		/*JMenuItem createHorizontalLineWithPointItem = new JMenuItem("Horizontal crossing point");
+		JMenuItem createHorizontalLineWithPointItem = new JMenuItem("Horizontal crossing point");
 		createHorizontalLineWithPointItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -249,7 +253,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 			}
 		});
 		createLineItem.add(createHorizontalLineWithPointItem);
-		
+
 		JMenuItem createVerticalLineWithPointItem = new JMenuItem("Vertical crossing point");
 		createVerticalLineWithPointItem.addActionListener(new ActionListener() {
 			@Override
@@ -258,7 +262,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 			}
 		});
 		createLineItem.add(createVerticalLineWithPointItem);
-		
+
 		JMenuItem createParallelLineWithPointItem = new JMenuItem("Parallel crossing point");
 		createParallelLineWithPointItem.addActionListener(new ActionListener() {
 			@Override
@@ -267,7 +271,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 			}
 		});
 		createLineItem.add(createParallelLineWithPointItem);
-		
+
 		JMenuItem createOrthogonalLineWithPointItem = new JMenuItem("Orthogonal crossing point");
 		createOrthogonalLineWithPointItem.addActionListener(new ActionListener() {
 			@Override
@@ -276,8 +280,8 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 			}
 		});
 		createLineItem.add(createOrthogonalLineWithPointItem);
-		
-		JMenuItem createRotatedLineWithPointItem = new JMenuItem("Rotated line crossing point");
+
+		/*JMenuItem createRotatedLineWithPointItem = new JMenuItem("Rotated line crossing point");
 		createRotatedLineWithPointItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

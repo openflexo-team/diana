@@ -61,11 +61,6 @@ public class CreateLineFromPoints extends Edition {
 
 	}
 
-	/*public void addObject(GeometricObject object)
-	{
-		getController().getDrawing().getModel().addToChilds(object);
-	}*/
-
 	@Override
 	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
 		if (currentStep == 0) {

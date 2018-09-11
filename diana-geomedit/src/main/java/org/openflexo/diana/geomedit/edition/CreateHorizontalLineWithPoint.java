@@ -39,16 +39,14 @@
 
 package org.openflexo.diana.geomedit.edition;
 
-import org.openflexo.diana.geomedit.model.HorizontalLineWithPointConstruction;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.Line;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateHorizontalLineWithPoint extends Edition {
 
-	public CreateHorizontalLineWithPoint(GeomEditController controller) {
+	public CreateHorizontalLineWithPoint(GeomEditDrawingController controller) {
 		super("Create horizontal line crossing point", controller);
 		inputs.add(new ObtainPoint("Select point", controller));
 	}
@@ -56,9 +54,7 @@ public class CreateHorizontalLineWithPoint extends Edition {
 	@Override
 	public void performEdition() {
 		ObtainPoint p = (ObtainPoint) inputs.get(0);
-
-		addObject(new Line(getController().getDrawing().getModel(), new HorizontalLineWithPointConstruction(p.getConstruction())));
-
+		addConstruction(getController().getFactory().makeHorizontalLineWithPointConstruction(p.getConstruction()));
 	}
 
 	@Override
