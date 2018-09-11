@@ -128,33 +128,16 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 		}
 
 		private void ensureUpToDate() {
-			ensureUpToDate(new ArrayList<GeometricConstruction<?>>());
-		}
-
-		private void ensureUpToDate(List<GeometricConstruction<?>> updatedConstructions) {
 			// Recursively called ensureUpToDate() on dependancies
 			if (getDepends() != null) {
 				for (GeometricConstruction<?> d : getDepends()) {
-					// GeometricConstructionImpl<?> c = (GeometricConstructionImpl<?>) d;
 					if (!listened.contains(d)) {
 						listened.add(d);
 						d.getPropertyChangeSupport().addPropertyChangeListener(this);
-						System.out.println("Je suis " + this + " et j'ecoute " + d);
 					}
-
-					/*if (!c._altered.contains(this)) {
-						c._altered.add(this);
-					}*/
-					((GeometricConstructionImpl<?>) d).ensureUpToDate(updatedConstructions);
+					((GeometricConstructionImpl<?>) d).ensureUpToDate();
 				}
 			}
-
-			/*if (modified || updatedConstructions.size() > 0) {
-				// System.out.println("Recompute data for "+this.getClass().getSimpleName());
-				computedData = computeData();
-				updatedConstructions.add(this);
-				modified = false;
-			}*/
 		}
 
 		@Override
@@ -182,18 +165,6 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 
 		@Override
 		public abstract GeometricConstruction<?>[] getDepends();
-
-		// private boolean modified = false;
-
-		/*@Override
-		public void setModified(boolean modified) {
-			this.modified = modified;
-			performSuperSetModified(modified);
-			for (GeometricConstruction<?> c : _altered) {
-				((GeometricConstructionImpl<?>) c).computedData = null;
-				c.setModified(modified);
-			}
-		}*/
 
 		@Override
 		public String getName() {
@@ -233,15 +204,12 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 
 		@Override
 		public void notifyGeometryChanged() {
-			System.out.println("notifyGeometryChanged called in " + this);
-			System.out.println("Qui m'ecoute ? " + listened);
+			//System.out.println("notifyGeometryChanged called in " + this);
 			getPropertyChangeSupport().firePropertyChange(GeometryModified.EVENT_NAME, false, true);
 		}
 
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
-			System.out.println("Tiens, je suis " + this);
-			System.out.println("La geometrie de " + evt.getSource() + " a change");
 			refresh();
 			notifyGeometryChanged();
 		}

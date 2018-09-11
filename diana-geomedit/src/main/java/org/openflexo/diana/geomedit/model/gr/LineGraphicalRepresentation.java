@@ -75,6 +75,12 @@ public interface LineGraphicalRepresentation extends GeometricObjectGraphicalRep
 	public static abstract class LineGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGELine>
 			implements LineGraphicalRepresentation {
 
+		/*@Override
+		public FGELine getGeometricObject() {
+			System.out.println("LineGraphicalRepresentation geometricObject=" + super.getGeometricObject());
+			return super.getGeometricObject();
+		}*/
+
 		@Override
 		public List<? extends ControlArea<?>> makeControlAreasFor(
 				DrawingTreeNode<GeometricConstruction<FGELine>, GeometricGraphicalRepresentation> dtn) {

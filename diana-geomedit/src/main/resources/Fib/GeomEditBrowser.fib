@@ -9,7 +9,7 @@
 		rowHeight="18" showRootsHandle="true" manageDynamicModel="true" root="data"
 		selectionMode="DiscontiguousTreeSelection" rightClickAction="controller.rightClick(ComponentBrowser.selected,event)"
 		boundToSelectionManager="true" localize="true"
-		constraints="border(location=center;x=0;y=0)" iteratorClassName="org.openflexo.gina.model.FIBModelObject"
+		constraints="border(location=center;x=0;y=0)" iteratorClassName="org.openflexo.diana.geomedit.model.GeometricConstruction"
 		useScrollBar="false" selected="controller.editorController.selectedObject"
 		name="ComponentBrowser" rootVisible="true" readOnly="false">
 

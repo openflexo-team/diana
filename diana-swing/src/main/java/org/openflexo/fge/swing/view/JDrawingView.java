@@ -440,6 +440,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 				}
 			}
 			else if (evt.getPropertyName().equals(GeometryModified.EVENT_NAME)) {
+
 				if (evt.getSource() instanceof GeometricNode) {
 					// Painting a geometric node being focused or unfocused
 					// TODO: optimize this later
@@ -744,7 +745,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			}
 		}
 		else {
-			logger.warning("Could not find view for node " + focusedFloatingLabel);
+			// logger.warning("Could not find view for node " + focusedFloatingLabel);
 		}
 	}
 

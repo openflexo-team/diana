@@ -82,6 +82,7 @@ import org.openflexo.fge.swing.control.tools.JDianaPalette;
 import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
 import org.openflexo.fge.swing.control.tools.JDianaStyles;
 import org.openflexo.fge.swing.control.tools.JDianaToolSelector;
+import org.openflexo.gina.ApplicationFIBLibrary.ApplicationFIBLibraryImpl;
 import org.openflexo.gina.swing.utils.localization.LocalizedEditor;
 import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.localization.LocalizedDelegateImpl;
@@ -142,6 +143,8 @@ public class GeomEditApplication {
 
 	private GeomEditMenuBar geomEditMenuBar;
 
+	private GeomEditInspectorController constructionInspector;
+
 	public GeomEditApplication() {
 		super();
 
@@ -200,6 +203,16 @@ public class GeomEditApplication {
 		inspectors.getConnectorInspector().setLocation(1000, 700);
 		inspectors.getLocationSizeInspector().setLocation(1000, 50);
 		inspectors.getLayoutManagersInspector().setLocation(1000, 300);
+
+		constructionInspector = new GeomEditInspectorController(frame, ResourceLocator.locateResource("Inspectors/Basic"),
+				ApplicationFIBLibraryImpl.instance(), GEOMEDIT_LOCALIZATION);
+		constructionInspector.setVisible(true);
+
+		/*constructionInspector = new JDialogInspector<GeometricElement>(
+				AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(JDianaInspectorsResources.SHAPE_SPECIFICATION_PANEL_FIB_FILE,
+						true),
+				(getInspectedShapeSpecification() != null ? getInspectedShapeSpecification().getStyleFactory() : null), frame,
+				JDianaInspectorsResources.SHAPE_NAME);*/
 
 		JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		topPanel.add(toolSelector.getComponent());
@@ -334,10 +347,11 @@ public class GeomEditApplication {
 
 		logger.info("Switch to editor " + diagramEditor);
 
-		/*if (currentDiagramEditor != null) {
+		if (currentDiagramEditor != null) {
 			// mainPanel.remove(currentDiagramEditor.getController().getScalePanel());
-			currentDiagramEditor.getController().deleteObserver(inspector);
-		}*/
+			// currentDiagramEditor.getController().deleteObserver(inspector);
+			currentDiagramEditor.getController().getPropertyChangeSupport().removePropertyChangeListener(constructionInspector);
+		}
 		currentDiagramEditor = diagramEditor;
 		toolSelector.attachToEditor(diagramEditor.getController());
 		stylesWidget.attachToEditor(diagramEditor.getController());
@@ -346,6 +360,8 @@ public class GeomEditApplication {
 		commonPaletteModel.setEditor(diagramEditor.getController());
 		commonPalette.attachToEditor(diagramEditor.getController());
 		inspectors.attachToEditor(diagramEditor.getController());
+
+		diagramEditor.getController().getPropertyChangeSupport().addPropertyChangeListener(constructionInspector);
 
 		/*JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		topPanel.add(currentDiagramEditor.getController().getToolbox().getStyleToolBar());

@@ -81,6 +81,8 @@ public interface PointGraphicalRepresentation extends GeometricObjectGraphicalRe
 							FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
 						getGeometricObject().x = newAbsolutePoint.x;
 						getGeometricObject().y = newAbsolutePoint.y;
+						((ExplicitPointConstruction) pc).setPoint(newAbsolutePoint);
+						pc.notifyGeometryChanged();
 						setPoint(newAbsolutePoint);
 						((GeometricNode<?>) dtn).notifyGeometryChanged();
 						return true;

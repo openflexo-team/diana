@@ -59,12 +59,14 @@ public interface LineWithTwoPointsConstruction extends LineConstruction {
 	public static final String POINT_CONSTRUCTION_2_KEY = "pointConstruction2";
 
 	@Getter(value = POINT_CONSTRUCTION_1_KEY)
+	@XMLElement(context = "P1_")
 	public PointConstruction getPointConstruction1();
 
 	@Setter(value = POINT_CONSTRUCTION_1_KEY)
 	public void setPointConstruction1(PointConstruction pointConstruction1);
 
 	@Getter(value = POINT_CONSTRUCTION_2_KEY)
+	@XMLElement(context = "P2_")
 	public PointConstruction getPointConstruction2();
 
 	@Setter(value = POINT_CONSTRUCTION_2_KEY)
@@ -72,17 +74,16 @@ public interface LineWithTwoPointsConstruction extends LineConstruction {
 
 	public static abstract class LineWithTwoPointsConstructionImpl extends LineConstructionImpl implements LineWithTwoPointsConstruction {
 
-		@Override
+		/*@Override
 		public final FGELine getData() {
-			System.out.println(">>>>>>>>> Tiens, c'est quoi la ligne au fait ???");
 			return super.getData();
-		}
+		}*/
 
 		@Override
 		protected FGELine computeData() {
-			System.out.println("************* On recalcule la ligne ici");
+			/*System.out.println("************* On recalcule la ligne ici");
 			System.out.println("PC1 = " + getPointConstruction1());
-			System.out.println("PC2 = " + getPointConstruction2());
+			System.out.println("PC2 = " + getPointConstruction2());*/
 			return new FGELine(getPointConstruction1().getPoint(), getPointConstruction2().getPoint());
 		}
 

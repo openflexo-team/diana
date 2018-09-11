@@ -107,7 +107,7 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 					public List<? extends ControlArea<?>> makeControlAreasFor(
 							DrawingTreeNode<GeometricConstruction, GeometricGraphicalRepresentation> dtn) {
 						// TODO
-						System.out.println("Ici, initialiser les control areas pour " + dtn.getDrawable().getGraphicalRepresentation());
+						//System.out.println("Ici, initialiser les control areas pour " + dtn.getDrawable().getGraphicalRepresentation());
 						List<? extends ControlArea<?>> returned = dtn.getDrawable().getGraphicalRepresentation().makeControlAreasFor(dtn);
 						List<ControlPoint> controlPoints = new ArrayList<ControlPoint>();
 						for (ControlArea<?> ca : returned) {
@@ -129,9 +129,13 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 			}
 		});
 
+		// We bind the text of the graphical representation to the name of GeometricConstruction as read/write binding
 		constructionBinding.setDynamicPropertyValue(GraphicalRepresentation.TEXT, new DataBinding<String>("drawable.name"), true);
+
+		// We bind the geometric object to be displayed (in graphical representation) to the data given by GeometricConstruction as a read
+		// binding
 		constructionBinding.setDynamicPropertyValue(GeometricGraphicalRepresentation.GEOMETRIC_OBJECT,
-				new DataBinding<FGEArea>("drawable.data"), true);
+				new DataBinding<FGEArea>("drawable.data"), false);
 
 	}
 

@@ -1,6 +1,7 @@
 Dutch=Dutch
 English=English
 French=French
+cancel=cancel
 close=close
 close_drawing=Fermer le dessin
 copy=copy
@@ -13,6 +14,7 @@ localized_editor=Edition des traductions
 logs=Logs
 new_diagram=new_diagram
 new_drawing=Nouveau dessin...
+ok=ok
 open_diagram=open_diagram
 open_drawing=Ouvrir un dessin...
 open_recent=open_recent

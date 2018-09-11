@@ -78,7 +78,7 @@ public interface ExplicitPointConstruction extends PointConstruction {
 		public void setPoint(FGEPoint p) {
 			if (point == null || p.x != point.x || p.y != point.y) {
 				point = p;
-				System.out.println("Je mets le point a " + p);
+				//System.out.println("Je mets le point a " + p);
 				setModified(true);
 				notifyGeometryChanged();
 			}
@@ -86,7 +86,6 @@ public interface ExplicitPointConstruction extends PointConstruction {
 
 		@Override
 		protected FGEPoint computeData() {
-			System.out.println("Voila j'ai mon point: " + point);
 			return point;
 		}
 

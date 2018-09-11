@@ -58,6 +58,7 @@ import org.openflexo.diana.geomedit.edition.CreateLineFromPoints;
 import org.openflexo.diana.geomedit.edition.CreatePoint;
 import org.openflexo.diana.geomedit.edition.Edition;
 import org.openflexo.diana.geomedit.edition.EditionInput;
+import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
 import org.openflexo.diana.geomedit.view.GeomEditDrawingView;
@@ -65,6 +66,7 @@ import org.openflexo.exceptions.CopyException;
 import org.openflexo.exceptions.CutException;
 import org.openflexo.exceptions.PasteException;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.swing.JDianaInteractiveEditor;
 import org.openflexo.fge.swing.control.SwingToolFactory;
@@ -450,6 +452,35 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 
 	public JLabel getPositionLabel() {
 		return positionLabel;
+	}
+
+	private GeometricConstruction<?> selectedObject;
+
+	public GeometricConstruction<?> getSelectedObject() {
+
+		return selectedObject;
+	}
+
+	public void setSelectedObject(GeometricConstruction<?> aConstruction) {
+		if (aConstruction != selectedObject) {
+			System.out.println("setSelectedObject from " + selectedObject + " to " + aConstruction);
+			GeometricConstruction<?> oldValue = selectedObject;
+			/*
+			// SelectedObjectChange change = new SelectedObjectChange(oldValue, aComponent);
+			selectedObject = aConstruction;
+			// setChanged();
+			// notifyObservers(change);
+			// editorPanel.repaint();
+			getPropertyChangeSupport().firePropertyChange(SelectionCleared.EVENT_NAME, false, true);
+			getPropertyChangeSupport().firePropertyChange(ObjectAddedToSelection.EVENT_NAME, oldValue, selectedObject);*/
+
+			DrawingTreeNode<?, GraphicalRepresentation> drawingTreeNode = getDrawing().getDrawingTreeNode(aConstruction);
+
+			System.out.println("On essaie de representer " + drawingTreeNode);
+			clearSelection();
+			addToSelectedObjects(drawingTreeNode);
+		}
+
 	}
 
 }

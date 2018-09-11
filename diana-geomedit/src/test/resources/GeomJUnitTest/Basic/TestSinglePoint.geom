@@ -7,7 +7,7 @@
       <TextStyle id="5" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
     </PointGraphicalRepresentation>
   </ExplicitPointConstruction>
-  <DrawingGraphicalRepresentation id="6" backgroundColor="255,255,255" drawWorkingArea="false" focusColor="255,0,0" selectionColor="0,0,255" rectangleSelectingSelectionColor="0,0,255" dimensionConstraints="FREELY_RESIZABLE" identifier="11ed09b4">
+  <DrawingGraphicalRepresentation id="6" drawWorkingArea="false" backgroundColor="255,255,255" focusColor="255,0,0" selectionColor="0,0,255" rectangleSelectingSelectionColor="0,0,255" dimensionConstraints="FREELY_RESIZABLE" identifier="11ed09b4">
     <TextStyle id="7" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
   </DrawingGraphicalRepresentation>
 </GeometricDiagram>

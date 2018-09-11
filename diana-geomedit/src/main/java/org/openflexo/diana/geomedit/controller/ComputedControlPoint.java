@@ -69,8 +69,7 @@ public abstract class ComputedControlPoint<O extends FGEArea> extends GeometryAd
 
 	@Override
 	public FGEPoint getPoint() {
-		// TODO
-		System.out.println("Faire quelque chose ici pour recalculer le point ???");
+		// TODO Faire quelque chose ici pour recalculer le point ???
 		// update(((GeometricObject<O>) getGraphicalRepresentation().getDrawable()).getGeometricObject());
 		return super.getPoint();
 	}

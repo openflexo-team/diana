@@ -3,7 +3,7 @@
  * Copyright (c) 2013-2014, Openflexo
  * Copyright (c) 2011-2012, AgileBirds
  * 
- * This file is part of Diana-geomedit, a component of the software infrastructure 
+ * This file is part of Gina-swing-editor, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -37,48 +37,42 @@
  * 
  */
 
-package org.openflexo.diana.geomedit.model;
+package org.openflexo.diana.geomedit;
 
-import org.openflexo.diana.geomedit.model.PointReference.PointReferenceImpl;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-@ModelEntity
-@ImplementationClass(PointReferenceImpl.class)
-@XMLElement
-public interface PointReference extends PointConstruction {
+import javax.swing.JFrame;
 
-	@PropertyIdentifier(type = PointConstruction.class)
-	public static final String REFERENCE_KEY = "reference";
+import org.openflexo.fge.Drawing.GeometricNode;
+import org.openflexo.fge.control.notifications.ObjectAddedToSelection;
+import org.openflexo.fge.control.notifications.SelectionCleared;
+import org.openflexo.gina.FIBLibrary;
+import org.openflexo.gina.swing.utils.JFIBDialogInspectorController;
+import org.openflexo.localization.LocalizedDelegate;
+import org.openflexo.rm.Resource;
 
-	@Getter(value = REFERENCE_KEY)
-	@XMLElement(context = "Ref_")
-	public PointConstruction getReference();
+// TODO: move this to super class
+public class GeomEditInspectorController extends JFIBDialogInspectorController implements PropertyChangeListener {
 
-	@Setter(value = REFERENCE_KEY)
-	public void setReference(PointConstruction reference);
-
-	public static abstract class PointReferenceImpl extends PointConstructionImpl implements PointReference {
-
-		@Override
-		protected FGEPoint computeData() {
-			return getReference().getData();
-		}
-
-		@Override
-		public String toString() {
-			return "PointReference[" + getReference().toString() + "]";
-		}
-
-		@Override
-		public GeometricConstruction[] getDepends() {
-			GeometricConstruction[] returned = { getReference() };
-			return returned;
-		}
+	public GeomEditInspectorController(JFrame frame, Resource inspectorDirectory, FIBLibrary fibLibrary, LocalizedDelegate localizer) {
+		super(frame, inspectorDirectory, fibLibrary, localizer);
 	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		System.out.println("Ici avec " + evt);
+		if (evt.getPropertyName().equals(SelectionCleared.EVENT_NAME)) {
+			switchToEmptyContent();
+		}
+		else if (evt.getPropertyName().equals(ObjectAddedToSelection.EVENT_NAME)) {
+			System.out.println("On inspecte " + evt.getNewValue());
+			if (evt.getNewValue() instanceof GeometricNode) {
+				System.out.println("Ne serait ce pas " + ((GeometricNode<?>) evt.getNewValue()).getDrawable());
+				inspectObject(((GeometricNode<?>) evt.getNewValue()).getDrawable());
+			}
+		}
+
+	}
+
 }
