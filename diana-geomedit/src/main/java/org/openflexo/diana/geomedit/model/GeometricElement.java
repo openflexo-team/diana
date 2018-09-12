@@ -69,6 +69,14 @@ public interface GeometricElement extends Cloneable, AccessibleProxyObject, Dele
 
 	public boolean hasChanged();
 
+	public String getImplementedInterface();
+
 	public static abstract class GeometricElementImpl implements GeometricElement {
+
+		@Override
+		public String getImplementedInterface() {
+			return getClass().getSimpleName().substring(0, getClass().getSimpleName().indexOf("$"));
+		}
+
 	}
 }

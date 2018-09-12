@@ -2,7 +2,7 @@
  * 
  * Copyright (c) 2014, Openflexo
  * 
- * This file is part of Gina-swing-editor, a component of the software infrastructure 
+ * This file is part of Openflexo-technology-adapters-ui, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -40,41 +40,47 @@ package org.openflexo.diana.geomedit.view;
 
 import java.util.logging.Logger;
 
-import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
-import org.openflexo.diana.geomedit.GeomEditDrawingController;
+import org.openflexo.diana.geomedit.model.GeometricDiagram;
 import org.openflexo.diana.geomedit.model.GeometricElement;
-import org.openflexo.gina.controller.FIBController;
-import org.openflexo.gina.model.FIBComponent;
-import org.openflexo.gina.view.GinaViewFactory;
+import org.openflexo.diana.geomedit.model.LineConstruction;
+import org.openflexo.diana.geomedit.model.PointConstruction;
+import org.openflexo.icon.ImageIconResource;
+import org.openflexo.rm.ResourceLocator;
 
-public class BrowserFIBController extends FIBController {
+/**
+ * Utility class containing all icons used in GeomEdit context
+ * 
+ * @author sylvain
+ * 
+ */
+public class GeomEditIconLibrary {
 
-	private static final Logger logger = Logger.getLogger(BrowserFIBController.class.getPackage().getName());
+	private static final Logger logger = Logger.getLogger(GeomEditIconLibrary.class.getPackage().getName());
 
-	private GeomEditDrawingController editorController;
+	public static final ImageIconResource DIAGRAM_ICON = new ImageIconResource(
+			ResourceLocator.locateResource("Icons/Model/GeometricDiagram.png"));
 
-	public BrowserFIBController(FIBComponent rootComponent, GinaViewFactory<?> viewFactory) {
-		super(rootComponent, viewFactory);
-	}
+	public static final ImageIconResource POINT_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/Model/Point.png"));
 
-	public GeomEditDrawingController getEditorController() {
-		return editorController;
-	}
+	public static final ImageIconResource LINE_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/Model/Line.png"));
 
-	public void setEditorController(GeomEditDrawingController editorController) {
-		if ((editorController == null && this.editorController != null)
-				|| (editorController != null && !editorController.equals(this.editorController))) {
-			GeomEditDrawingController oldValue = this.editorController;
-			this.editorController = editorController;
-			getPropertyChangeSupport().firePropertyChange("editorController", oldValue, editorController);
+	public static final ImageIconResource UNKNOWN_ICON = new ImageIconResource(
+			ResourceLocator.locateResource("Icons/Model/UnknownIcon.gif"));
+
+	public static ImageIcon iconForObject(GeometricElement object) {
+		if (object instanceof GeometricDiagram) {
+			return DIAGRAM_ICON;
 		}
+		if (object instanceof PointConstruction) {
+			return POINT_ICON;
+		}
+		if (object instanceof LineConstruction) {
+			return LINE_ICON;
+		}
+
+		return UNKNOWN_ICON;
 	}
 
-	public Icon iconForObject(Object object) {
-		if (object instanceof GeometricElement) {
-			return GeomEditIconLibrary.iconForObject((GeometricElement) object);
-		}
-		return null;
-	}
 }
