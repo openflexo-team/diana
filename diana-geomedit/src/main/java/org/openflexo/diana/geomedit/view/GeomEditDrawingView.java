@@ -94,7 +94,7 @@ public class GeomEditDrawingView extends JDrawingView<GeometricDiagram> {
 
 		super.paint(g);
 
-		if (getController().getCurrentEdition() != null) {
+		if (getController().getCurrentEdition() != null && !isBuffering) {
 			Graphics2D g2 = (Graphics2D) g;
 			graphics.createGraphics(g2);
 			getController().getCurrentEdition().paint(graphics, lastMouseLocation);

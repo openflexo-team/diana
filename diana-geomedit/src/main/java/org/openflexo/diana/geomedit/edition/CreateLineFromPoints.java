@@ -67,11 +67,13 @@ public class CreateLineFromPoints extends Edition {
 			// Nothing to draw
 		}
 		else if (currentStep == 1) {
-			// Nothing to draw
-			FGEPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
+			// We draw the line
+			ObtainPoint firstPoint = (ObtainPoint) inputs.get(0);
+			FGEPoint p1 = firstPoint.getInputData();
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			p1.paint(graphics);
-			new FGELine(p1, lastMouseLocation).paint(graphics);
+			FGELine lineToPaint = new FGELine(p1, lastMouseLocation);
+			lineToPaint.paint(graphics);
 		}
 	}
 }

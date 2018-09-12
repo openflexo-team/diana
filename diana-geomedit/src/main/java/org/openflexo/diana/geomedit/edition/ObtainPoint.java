@@ -146,6 +146,15 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 		public void mouseMoved(MouseEvent e) {
 			DrawingTreeNode<?, ?> focused = getFocusRetriever().getFocusedObject(e);
 
+			if (focused == null && focusedObject != null) {
+				// We exit a focused object
+				focusedObject.setIsFocused(false);
+				focusedObject = null;
+				focusedControlPoint = null;
+				setConstruction(null);
+				setInputData(null);
+			}
+
 			if (focusedObject != null && focusedObject != focused) {
 				focusedObject.setIsFocused(false);
 			}

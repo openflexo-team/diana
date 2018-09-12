@@ -79,7 +79,7 @@ public abstract class Edition {
 	}
 
 	public final void addConstruction(GeometricConstruction<?> object) {
-		System.out.println("TODO: implement adding of " + object);
+		//System.out.println("TODO: implement adding of " + object);
 		// getController().getDrawing().getModel().addToChilds(object);
 		controller.getDrawing().getModel().addToConstructions(object);
 	}

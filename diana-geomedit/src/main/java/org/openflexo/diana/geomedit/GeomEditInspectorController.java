@@ -61,7 +61,7 @@ public class GeomEditInspectorController extends JFIBDialogInspectorController i
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		System.out.println("Ici avec " + evt);
+		//System.out.println("Ici avec " + evt);
 		if (evt.getPropertyName().equals(SelectionCleared.EVENT_NAME)) {
 			switchToEmptyContent();
 		}
