@@ -48,6 +48,7 @@ import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
@@ -68,7 +69,7 @@ public interface ControlPointReference extends PointConstruction {
 	public void setReference(GeometricConstruction<?> reference);
 
 	@Getter(value = CONTROL_POINT_NAME_KEY)
-	@XMLElement
+	@XMLAttribute
 	public String getControlPointName();
 
 	@Setter(value = CONTROL_POINT_NAME_KEY)
@@ -77,11 +78,19 @@ public interface ControlPointReference extends PointConstruction {
 	public static abstract class ControlPointReferenceImpl extends PointConstructionImpl implements ControlPointReference {
 
 		protected ComputedControlPoint getControlPoint() {
-			for (ControlPoint cp : getReference().getControlPoints()) {
-				if (cp instanceof ComputedControlPoint && ((ComputedControlPoint) cp).getName().equals(getControlPointName())) {
-					return (ComputedControlPoint) cp;
+
+			if (getReference().getControlPoints() != null) {
+				for (ControlPoint cp : getReference().getControlPoints()) {
+					if (cp instanceof ComputedControlPoint && ((ComputedControlPoint) cp).getName().equals(getControlPointName())) {
+						return (ComputedControlPoint) cp;
+					}
 				}
 			}
+			else {
+				System.out.println("Tiens, c'est trop tot....");
+				Thread.dumpStack();
+			}
+
 			return null;
 		}
 

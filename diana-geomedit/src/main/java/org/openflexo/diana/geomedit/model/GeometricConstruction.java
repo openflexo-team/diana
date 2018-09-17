@@ -133,9 +133,6 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 				for (GeometricConstruction<?> d : getDepends()) {
 					if (!listened.contains(d)) {
 						listened.add(d);
-						if (d == null) {
-							System.out.println("Zut alors d=null pour " + this);
-						}
 						d.getPropertyChangeSupport().addPropertyChangeListener(this);
 					}
 					((GeometricConstructionImpl<?>) d).ensureUpToDate();

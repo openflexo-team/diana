@@ -27,7 +27,27 @@
       <TextStyle id="17" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
     </PointGraphicalRepresentation>
   </PointMiddleOfTwoPointsConstruction>
-  <DrawingGraphicalRepresentation id="18" backgroundColor="255,255,255" drawWorkingArea="false" focusColor="255,0,0" selectionColor="0,0,255" rectangleSelectingSelectionColor="0,0,255" dimensionConstraints="FREELY_RESIZABLE" identifier="11ed09b4">
-    <TextStyle id="19" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  <ExplicitPointConstruction id="18" point="278.0,283.0" name="Construction5">
+    <PointGraphicalRepresentation id="19" identifier="4b72c5b5">
+      <TexturedBackgroundStyle id="20" color1="255,0,0" color2="255,255,255" textureType="TEXTURE1" transparencyLevel="0.5" />
+      <ForegroundStyle id="21" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+      <TextStyle id="22" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+    </PointGraphicalRepresentation>
+  </ExplicitPointConstruction>
+  <SymetricPointConstruction id="23" name="Construction6">
+    <P2_ControlPointReference id="24" controlPointName="point" name="Construction7">
+      <PointMiddleOfTwoPointsConstruction idref="11" />
+    </P2_ControlPointReference>
+    <P1_PointReference id="25" name="Construction8">
+      <Ref_ExplicitPointConstruction idref="18" />
+    </P1_PointReference>
+    <PointGraphicalRepresentation id="26" identifier="3b78835">
+      <TexturedBackgroundStyle id="27" color1="255,0,0" color2="255,255,255" textureType="TEXTURE1" transparencyLevel="0.5" />
+      <ForegroundStyle id="28" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+      <TextStyle id="29" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+    </PointGraphicalRepresentation>
+  </SymetricPointConstruction>
+  <DrawingGraphicalRepresentation id="30" backgroundColor="255,255,255" drawWorkingArea="false" focusColor="255,0,0" selectionColor="0,0,255" rectangleSelectingSelectionColor="0,0,255" dimensionConstraints="FREELY_RESIZABLE" identifier="11ed09b4">
+    <TextStyle id="31" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
   </DrawingGraphicalRepresentation>
 </GeometricDiagram>
