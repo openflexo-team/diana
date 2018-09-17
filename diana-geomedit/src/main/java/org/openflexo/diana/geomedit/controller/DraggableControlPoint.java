@@ -71,11 +71,19 @@ public abstract class DraggableControlPoint<O extends FGEArea> extends GeomEditA
 	@Override
 	public abstract void update(O geometricObject);
 
+	private boolean isUpdatingPoint = false;
+
 	@Override
 	public void setPoint(FGEPoint point) {
-		super.setPoint(point);
-		explicitPointConstruction.setPoint(point);
-		// explicitPointConstruction.notifyGeometryChanged();
+		if (!isUpdatingPoint) {
+			try {
+				isUpdatingPoint = true;
+				super.setPoint(point);
+				explicitPointConstruction.setPoint(point);
+			} finally {
+				isUpdatingPoint = false;
+			}
+		}
 	}
 
 	public ExplicitPointConstruction getExplicitPointConstruction() {

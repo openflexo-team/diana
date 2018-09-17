@@ -468,17 +468,11 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 
 	public void setSelectedConstruction(GeometricConstruction<?> aConstruction) {
 		if (aConstruction != selectedConstruction) {
-			System.out.println("setSelectedObject from " + selectedConstruction + " to " + aConstruction);
 			GeometricConstruction<?> oldValue = selectedConstruction;
 			selectedConstruction = aConstruction;
-
 			DrawingTreeNode<?, GraphicalRepresentation> drawingTreeNode = getDrawing().getDrawingTreeNode(aConstruction);
-
-			System.out.println("On essaie de representer " + drawingTreeNode);
 			clearSelection();
 			addToSelectedObjects(drawingTreeNode);
-
-			System.out.println("on notifie de " + oldValue + " a " + selectedConstruction);
 			getPropertyChangeSupport().firePropertyChange("selectedConstruction", oldValue, selectedConstruction);
 		}
 	}
@@ -495,7 +489,6 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 
 	@Override
 	public List<DrawingTreeNode<?, ?>> getSelectedObjects() {
-		// TODO Auto-generated method stub
 		return super.getSelectedObjects();
 	}
 
@@ -510,7 +503,6 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 	@Override
 	public void addToSelectedObjects(DrawingTreeNode<?, ?> aNode) {
 		GeometricConstruction<?> oldSelectedConstruction = getSelectedConstruction();
-		System.out.println("Hop je rajoute aux objets selectionnes !!!!!!!");
 		super.addToSelectedObjects(aNode);
 		selectedConstruction = _getComputedSelectedConstruction();
 		getPropertyChangeSupport().firePropertyChange("selectedConstruction", oldSelectedConstruction, getSelectedConstruction());

@@ -115,7 +115,7 @@ public class ObtainLine extends EditionInput<FGELine> {
 				focusedControlPoint = null;
 			}*/
 
-			System.out.println("Focus on " + controlArea);
+			//System.out.println("Focus on " + focusedObject + " controlArea="+controlArea);
 		}
 
 		/*@Override
