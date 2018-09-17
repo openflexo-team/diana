@@ -204,7 +204,9 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 
 		@Override
 		public void notifyGeometryChanged() {
-			//System.out.println("notifyGeometryChanged called in " + this);
+			if (getGraphicalRepresentation() != null) {
+				getGraphicalRepresentation().setGeometricObject(computedData);
+			}
 			getPropertyChangeSupport().firePropertyChange(GeometryModified.EVENT_NAME, false, true);
 		}
 

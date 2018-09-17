@@ -10,7 +10,7 @@
 		selectionMode="DiscontiguousTreeSelection" rightClickAction="controller.rightClick(ComponentBrowser.selected,event)"
 		boundToSelectionManager="true" localize="true"
 		constraints="border(location=center;x=0;y=0)" iteratorClassName="org.openflexo.diana.geomedit.model.GeometricConstruction"
-		useScrollBar="false" selected="controller.editorController.selectedObject"
+		useScrollBar="false" selected="controller.editorController.selectedConstruction"
 		name="ComponentBrowser" rootVisible="true" readOnly="false">
 
 		<BrowserElement icon="controller.iconForObject(diagram)"

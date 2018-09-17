@@ -45,6 +45,7 @@ import java.awt.FlowLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
@@ -458,33 +459,69 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		return positionLabel;
 	}
 
-	private GeometricConstruction<?> selectedObject;
+	private GeometricConstruction<?> selectedConstruction;
 
-	public GeometricConstruction<?> getSelectedObject() {
+	public GeometricConstruction<?> getSelectedConstruction() {
 
-		return selectedObject;
+		return selectedConstruction;
 	}
 
-	public void setSelectedObject(GeometricConstruction<?> aConstruction) {
-		if (aConstruction != selectedObject) {
-			System.out.println("setSelectedObject from " + selectedObject + " to " + aConstruction);
-			GeometricConstruction<?> oldValue = selectedObject;
-			/*
-			// SelectedObjectChange change = new SelectedObjectChange(oldValue, aComponent);
-			selectedObject = aConstruction;
-			// setChanged();
-			// notifyObservers(change);
-			// editorPanel.repaint();
-			getPropertyChangeSupport().firePropertyChange(SelectionCleared.EVENT_NAME, false, true);
-			getPropertyChangeSupport().firePropertyChange(ObjectAddedToSelection.EVENT_NAME, oldValue, selectedObject);*/
+	public void setSelectedConstruction(GeometricConstruction<?> aConstruction) {
+		if (aConstruction != selectedConstruction) {
+			System.out.println("setSelectedObject from " + selectedConstruction + " to " + aConstruction);
+			GeometricConstruction<?> oldValue = selectedConstruction;
+			selectedConstruction = aConstruction;
 
 			DrawingTreeNode<?, GraphicalRepresentation> drawingTreeNode = getDrawing().getDrawingTreeNode(aConstruction);
 
 			System.out.println("On essaie de representer " + drawingTreeNode);
 			clearSelection();
 			addToSelectedObjects(drawingTreeNode);
-		}
 
+			System.out.println("on notifie de " + oldValue + " a " + selectedConstruction);
+			getPropertyChangeSupport().firePropertyChange("selectedConstruction", oldValue, selectedConstruction);
+		}
+	}
+
+	private GeometricConstruction<?> _getComputedSelectedConstruction() {
+		if (getSelectedObjects().size() >= 1) {
+			DrawingTreeNode<?, ?> drawingTreeNode = getSelectedObjects().get(0);
+			if (drawingTreeNode.getDrawable() instanceof GeometricConstruction) {
+				return (GeometricConstruction<?>) drawingTreeNode.getDrawable();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<DrawingTreeNode<?, ?>> getSelectedObjects() {
+		// TODO Auto-generated method stub
+		return super.getSelectedObjects();
+	}
+
+	@Override
+	public void setSelectedObjects(List<? extends DrawingTreeNode<?, ?>> someSelectedObjects) {
+		GeometricConstruction<?> oldSelectedConstruction = getSelectedConstruction();
+		super.setSelectedObjects(someSelectedObjects);
+		selectedConstruction = _getComputedSelectedConstruction();
+		getPropertyChangeSupport().firePropertyChange("selectedConstruction", oldSelectedConstruction, getSelectedConstruction());
+	}
+
+	@Override
+	public void addToSelectedObjects(DrawingTreeNode<?, ?> aNode) {
+		GeometricConstruction<?> oldSelectedConstruction = getSelectedConstruction();
+		System.out.println("Hop je rajoute aux objets selectionnes !!!!!!!");
+		super.addToSelectedObjects(aNode);
+		selectedConstruction = _getComputedSelectedConstruction();
+		getPropertyChangeSupport().firePropertyChange("selectedConstruction", oldSelectedConstruction, getSelectedConstruction());
+	}
+
+	@Override
+	public void removeFromSelectedObjects(DrawingTreeNode<?, ?> aNode) {
+		GeometricConstruction<?> oldSelectedConstruction = getSelectedConstruction();
+		super.removeFromSelectedObjects(aNode);
+		selectedConstruction = _getComputedSelectedConstruction();
+		getPropertyChangeSupport().firePropertyChange("selectedConstruction", oldSelectedConstruction, getSelectedConstruction());
 	}
 
 }
