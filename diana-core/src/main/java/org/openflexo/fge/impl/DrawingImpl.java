@@ -395,6 +395,14 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 
 	private void fireGraphicalObjectHierarchyRebuildEnded() {
 		isUpdatingGraphicalObjectsHierarchy = false;
+
+		// Update control areas for all geometric nodes
+		for (DrawingTreeNode<?, ?> dtn : getRoot().getChildNodes()) {
+			if (dtn instanceof GeometricNode) {
+				((GeometricNode<?>) dtn).getControlAreas();
+			}
+		}
+
 		for (FGELayoutManager<?, ?> layoutManager : layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating) {
 			layoutManager.invalidate();
 			layoutManager.doLayout(true);
@@ -425,6 +433,7 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 
 		fireGraphicalObjectHierarchyRebuildStarted();
 		updateGraphicalObjectsHierarchy(getRoot());
+
 		fireGraphicalObjectHierarchyRebuildEnded();
 
 	}

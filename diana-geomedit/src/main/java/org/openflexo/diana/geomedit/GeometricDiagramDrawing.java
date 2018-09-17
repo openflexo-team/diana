@@ -106,11 +106,6 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 					@Override
 					public List<? extends ControlArea<?>> makeControlAreasFor(
 							DrawingTreeNode<GeometricConstruction, GeometricGraphicalRepresentation> dtn) {
-						// TODO
-
-						System.out.println("****** On initialise les CPs pour dtn=" + dtn + " drawable=" + dtn.getDrawable());
-
-						// System.out.println("Ici, initialiser les control areas pour " + dtn.getDrawable().getGraphicalRepresentation());
 						List<? extends ControlArea<?>> returned = dtn.getDrawable().getGraphicalRepresentation().makeControlAreasFor(dtn);
 						List<ControlPoint> controlPoints = new ArrayList<ControlPoint>();
 						for (ControlArea<?> ca : returned) {
@@ -118,7 +113,9 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 								controlPoints.add((ControlPoint) ca);
 							}
 						}
+
 						dtn.getDrawable().setControlPoints(controlPoints);
+
 						return returned;
 					}
 				});

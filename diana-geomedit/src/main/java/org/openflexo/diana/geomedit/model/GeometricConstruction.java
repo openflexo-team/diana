@@ -200,6 +200,7 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 		@Override
 		public void setControlPoints(List<ControlPoint> controlPoints) {
 			this.controlPoints = controlPoints;
+			notifyControlPointsChanged();
 		}
 
 		@Override
@@ -210,8 +211,13 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 			getPropertyChangeSupport().firePropertyChange(GeometryModified.EVENT_NAME, false, true);
 		}
 
+		private void notifyControlPointsChanged() {
+			getPropertyChangeSupport().firePropertyChange("ControlPoints", false, true);
+		}
+
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
+			// TODO: this is really brutal, we can do better here
 			refresh();
 			notifyGeometryChanged();
 		}

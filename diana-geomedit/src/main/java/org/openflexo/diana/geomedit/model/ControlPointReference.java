@@ -39,6 +39,8 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import java.beans.PropertyChangeEvent;
+
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.model.ControlPointReference.ControlPointReferenceImpl;
 import org.openflexo.fge.cp.ControlPoint;
@@ -87,8 +89,8 @@ public interface ControlPointReference extends PointConstruction {
 				}
 			}
 			else {
-				System.out.println("Tiens, c'est trop tot....");
-				Thread.dumpStack();
+				// Will be computed later, once control points for reference will be computed
+				// See DrawingImpl.fireGraphicalObjectHierarchyRebuildEnded()
 			}
 
 			return null;
@@ -99,8 +101,8 @@ public interface ControlPointReference extends PointConstruction {
 			if (getControlPoint() != null) {
 				return getControlPoint().getPoint();
 			}
-			System.out
-					.println("computeData() for ControlPointReference: cannot find cp " + getControlPointName() + " for " + getReference());
+			//System.out
+			//		.println("computeData() for ControlPointReference: cannot find cp " + getControlPointName() + " for " + getReference());
 			setModified(true);
 			return new FGEPoint(0, 0);
 		}
@@ -114,6 +116,12 @@ public interface ControlPointReference extends PointConstruction {
 		public GeometricConstruction[] getDepends() {
 			GeometricConstruction[] returned = { getReference() };
 			return returned;
+		}
+
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			// System.out.println("!!!!!!!!!!! Tiens je recois " + evt.getPropertyName() + " evt=" + evt);
+			super.propertyChange(evt);
 		}
 	}
 }

@@ -95,7 +95,7 @@ public class GeomEditEditor {
 			returned.diagram = (GeometricDiagram) factory.deserialize(new FileInputStream(file));
 			returned.file = file;
 			returned.diagram.setName(returned.getTitle());
-			System.out.println("Loaded " + factory.stringRepresentation(returned.diagram));
+			//System.out.println("Loaded " + factory.stringRepresentation(returned.diagram));
 			return returned;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
