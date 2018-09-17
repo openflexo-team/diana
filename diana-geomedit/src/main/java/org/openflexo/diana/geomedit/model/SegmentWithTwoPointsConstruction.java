@@ -59,12 +59,14 @@ public interface SegmentWithTwoPointsConstruction extends SegmentConstruction {
 	public static final String POINT_CONSTRUCTION_2_KEY = "pointConstruction2";
 
 	@Getter(value = POINT_CONSTRUCTION_1_KEY)
+	@XMLElement(context = "P1_")
 	public PointConstruction getPointConstruction1();
 
 	@Setter(value = POINT_CONSTRUCTION_1_KEY)
 	public void setPointConstruction1(PointConstruction pointConstruction1);
 
 	@Getter(value = POINT_CONSTRUCTION_2_KEY)
+	@XMLElement(context = "P2_")
 	public PointConstruction getPointConstruction2();
 
 	@Setter(value = POINT_CONSTRUCTION_2_KEY)

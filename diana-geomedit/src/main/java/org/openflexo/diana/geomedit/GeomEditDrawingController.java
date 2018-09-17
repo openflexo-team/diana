@@ -64,6 +64,7 @@ import org.openflexo.diana.geomedit.edition.CreatePoint;
 import org.openflexo.diana.geomedit.edition.CreatePointMiddleOfPoints;
 import org.openflexo.diana.geomedit.edition.CreatePointSymetricOfPoint;
 import org.openflexo.diana.geomedit.edition.CreateRotatedLineWithPoint;
+import org.openflexo.diana.geomedit.edition.CreateSegmentFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateTangentLineWithCircleAndPoint;
 import org.openflexo.diana.geomedit.edition.CreateVerticalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.Edition;
@@ -146,6 +147,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 
 		contextualMenu.add(makeCreatePointMenu());
 		contextualMenu.add(makeCreateLineMenu());
+		contextualMenu.add(makeCreateSegmentMenu());
 		contextualMenu.add(makeCreateCircleMenu());
 
 		contextualMenu.addSeparator();
@@ -305,6 +307,21 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 			}
 		});
 		createLineItem.add(createTangentLineWithCircleAndPointItem);
+
+		return createLineItem;
+	}
+
+	private JMenu makeCreateSegmentMenu() {
+		JMenu createLineItem = new JMenu("Create segment");
+
+		JMenuItem createSegmentFromPointsItem = new JMenuItem("From points");
+		createSegmentFromPointsItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateSegmentFromPoints(GeomEditDrawingController.this));
+			}
+		});
+		createLineItem.add(createSegmentFromPointsItem);
 
 		return createLineItem;
 	}

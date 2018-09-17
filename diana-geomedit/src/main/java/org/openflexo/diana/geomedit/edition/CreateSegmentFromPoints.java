@@ -39,16 +39,14 @@
 
 package org.openflexo.diana.geomedit.edition;
 
-import org.openflexo.diana.geomedit.model.SegmentWithTwoPointsConstruction;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.Segment;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateSegmentFromPoints extends Edition {
 
-	public CreateSegmentFromPoints(GeomEditController controller) {
+	public CreateSegmentFromPoints(GeomEditDrawingController controller) {
 		super("Create segment from points", controller);
 		inputs.add(new ObtainPoint("Select first point", controller));
 		inputs.add(new ObtainPoint("Select second point", controller));
@@ -59,8 +57,7 @@ public class CreateSegmentFromPoints extends Edition {
 		ObtainPoint p1 = (ObtainPoint) inputs.get(0);
 		ObtainPoint p2 = (ObtainPoint) inputs.get(1);
 
-		addObject(new Segment(getController().getDrawing().getModel(), new SegmentWithTwoPointsConstruction(p1.getConstruction(),
-				p2.getConstruction())));
+		addConstruction(getController().getFactory().makeSegmentWithTwoPointsConstruction(p1.getConstruction(), p2.getConstruction()));
 
 	}
 
@@ -68,7 +65,8 @@ public class CreateSegmentFromPoints extends Edition {
 	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
-		} else if (currentStep == 1) {
+		}
+		else if (currentStep == 1) {
 			// Nothing to draw
 			FGEPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
 			graphics.setDefaultForeground(focusedForegroundStyle);
