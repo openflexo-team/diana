@@ -41,8 +41,11 @@ package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.model.CircleReference.CircleReferenceImpl;
 import org.openflexo.fge.geom.FGECircle;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
@@ -50,8 +53,14 @@ import org.openflexo.model.annotations.XMLElement;
 @XMLElement
 public interface CircleReference extends CircleConstruction {
 
+	@PropertyIdentifier(type = CircleConstruction.class)
+	public static final String REFERENCE_KEY = "reference";
+
+	@Getter(value = REFERENCE_KEY)
+	@XMLElement(context = "Ref_")
 	public CircleConstruction getReference();
 
+	@Setter(value = REFERENCE_KEY)
 	public void setReference(CircleConstruction reference);
 
 	public static abstract class CircleReferenceImpl extends CircleConstructionImpl implements CircleReference {

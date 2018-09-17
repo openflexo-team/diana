@@ -210,4 +210,27 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
+	public TangentLineWithCircleAndPointConstruction makeTangentLineWithCircleAndPointConstruction(CircleConstruction circleConstruction,
+			PointConstruction pointConstruction, PointConstruction choosingPointConstruction) {
+		TangentLineWithCircleAndPointConstruction returned = newInstance(TangentLineWithCircleAndPointConstruction.class);
+		returned.setCircleConstruction(circleConstruction);
+		returned.setPointConstruction(pointConstruction);
+		returned.setChoosingPointConstruction(choosingPointConstruction);
+		return returned;
+	}
+
+	public CircleReference makeCircleReference(CircleConstruction construction) {
+		CircleReference returned = newInstance(CircleReference.class);
+		returned.setReference(construction);
+		return returned;
+	}
+
+	public CircleWithCenterAndPointConstruction makeCircleWithCenterAndPointConstruction(PointConstruction centerConstruction,
+			PointConstruction pointConstruction) {
+		CircleWithCenterAndPointConstruction returned = newInstance(CircleWithCenterAndPointConstruction.class);
+		returned.setCenterConstruction(centerConstruction);
+		returned.setPointConstruction(pointConstruction);
+		return returned;
+	}
+
 }

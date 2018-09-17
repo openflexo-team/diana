@@ -43,11 +43,9 @@ import java.awt.event.MouseEvent;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.CircleConstruction;
-import org.openflexo.diana.geomedit.model.CircleReference;
-import org.openflexo.fge.GeometricGraphicalRepresentation;
-import org.openflexo.fge.GraphicalRepresentation;
+import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.geom.FGECircle;
-import org.openflexo.fge.geomedit.Circle;
 
 public class ObtainCircle extends EditionInput<FGECircle> {
 	public static int preferredMethodIndex = 0;
@@ -71,7 +69,7 @@ public class ObtainCircle extends EditionInput<FGECircle> {
 
 	public class CircleSelection extends EditionInputMethod<FGECircle, ObtainCircle> {
 
-		private GeometricGraphicalRepresentation focusedObject;
+		private GeometricNode<?> focusedObject;
 
 		public CircleSelection() {
 			super("With mouse", ObtainCircle.this);
@@ -81,27 +79,24 @@ public class ObtainCircle extends EditionInput<FGECircle> {
 		public void mouseClicked(MouseEvent e) {
 			if (focusedObject != null) {
 				focusedObject.setIsFocused(false);
-				referencedCircle = (Circle) focusedObject.getDrawable();
-				setConstruction(new CircleReference(referencedCircle.getConstruction()));
+				if (focusedObject.getDrawable() instanceof CircleConstruction) {
+					setConstruction(getFactory().makeCircleReference((CircleConstruction) focusedObject.getDrawable()));
+				}
 				done();
 			}
 		}
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			GraphicalRepresentation focused = getFocusRetriever().getFocusedObject(e);
+			DrawingTreeNode<?, ?> focused = getFocusRetriever().getFocusedObject(e);
 
 			if (focusedObject != null && focusedObject != focused) {
 				focusedObject.setIsFocused(false);
 			}
 
-			if (focused instanceof GeometricGraphicalRepresentation
-					&& ((GeometricGraphicalRepresentation) focused).getGeometricObject() instanceof FGECircle) {
-				focusedObject = (GeometricGraphicalRepresentation) focused;
+			if (focused instanceof GeometricNode) {
+				focusedObject = (GeometricNode<?>) focused;
 				focusedObject.setIsFocused(true);
-			}
-			else {
-				focusedObject = null;
 			}
 
 		}
@@ -121,12 +116,6 @@ public class ObtainCircle extends EditionInput<FGECircle> {
 	@Override
 	public boolean endOnRightClick() {
 		return false;
-	}
-
-	private Circle referencedCircle;
-
-	public Circle getReferencedCircle() {
-		return referencedCircle;
 	}
 
 }

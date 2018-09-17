@@ -41,21 +41,20 @@ package org.openflexo.diana.geomedit.edition;
 
 import java.awt.Color;
 
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.CircleConstruction;
 import org.openflexo.diana.geomedit.model.PointConstruction;
-import org.openflexo.diana.geomedit.model.TangentLineWithCircleAndPointConstruction;
 import org.openflexo.fge.ForegroundStyle.DashStyle;
 import org.openflexo.fge.geom.FGECircle;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.fge.geom.PointInsideCircleException;
 import org.openflexo.fge.geom.area.FGEUnionArea;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.Line;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateTangentLineWithCircleAndPoint extends Edition {
 
-	public CreateTangentLineWithCircleAndPoint(GeomEditController controller) {
+	public CreateTangentLineWithCircleAndPoint(GeomEditDrawingController controller) {
 		super("Create tangent line to a circle and crossing point", controller);
 		inputs.add(new ObtainCircle("Select circle", controller));
 		inputs.add(new ObtainPoint("Select point", controller));
@@ -64,16 +63,11 @@ public class CreateTangentLineWithCircleAndPoint extends Edition {
 
 	@Override
 	public void performEdition() {
-		if (((ObtainCircle) inputs.get(0)).getReferencedCircle() != null) {
-			((ObtainCircle) inputs.get(0)).getReferencedCircle().getGraphicalRepresentation().setIsSelected(false);
-		}
-
 		CircleConstruction circle = ((ObtainCircle) inputs.get(0)).getConstruction();
 		PointConstruction point = ((ObtainPoint) inputs.get(1)).getConstruction();
 		PointConstruction choosingPoint = ((ObtainPoint) inputs.get(2)).getConstruction();
 
-		addObject(new Line(getController().getDrawing().getModel(), new TangentLineWithCircleAndPointConstruction(circle, point,
-				choosingPoint)));
+		addConstruction(getController().getFactory().makeTangentLineWithCircleAndPointConstruction(circle, point, choosingPoint));
 
 	}
 
@@ -81,24 +75,26 @@ public class CreateTangentLineWithCircleAndPoint extends Edition {
 	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
-		} else if (currentStep == 1) {
-			if (((ObtainCircle) inputs.get(0)).getReferencedCircle() != null) {
-				((ObtainCircle) inputs.get(0)).getReferencedCircle().getGraphicalRepresentation().setIsSelected(true);
-			}
+		}
+		else if (currentStep == 1) {
 			FGECircle circle = ((ObtainCircle) inputs.get(0)).getInputData();
-			FGEUnionArea tangentPoints = FGECircle.getTangentsPointsToCircle(circle, lastMouseLocation);
-
-			if (tangentPoints.isUnionOfPoints()) {
-				graphics.setDefaultForeground(graphics.getFactory().makeForegroundStyle(Color.LIGHT_GRAY, 1, DashStyle.MEDIUM_DASHES));
-				FGELine line1 = new FGELine(lastMouseLocation, (FGEPoint) tangentPoints.getObjects().firstElement());
-				FGELine line2 = new FGELine(lastMouseLocation, (FGEPoint) tangentPoints.getObjects().elementAt(1));
-				line1.paint(graphics);
-				line2.paint(graphics);
-				graphics.setDefaultForeground(graphics.getFactory().makeForegroundStyle(Color.RED, 1));
-				tangentPoints.getObjects().firstElement().paint(graphics);
-				tangentPoints.getObjects().elementAt(1).paint(graphics);
+			try {
+				FGEUnionArea tangentPoints = FGECircle.getTangentsPointsToCircle(circle, lastMouseLocation);
+				if (tangentPoints.isUnionOfPoints()) {
+					graphics.setDefaultForeground(graphics.getFactory().makeForegroundStyle(Color.LIGHT_GRAY, 1, DashStyle.MEDIUM_DASHES));
+					FGELine line1 = new FGELine(lastMouseLocation, (FGEPoint) tangentPoints.getObjects().firstElement());
+					FGELine line2 = new FGELine(lastMouseLocation, (FGEPoint) tangentPoints.getObjects().elementAt(1));
+					line1.paint(graphics);
+					line2.paint(graphics);
+					graphics.setDefaultForeground(graphics.getFactory().makeForegroundStyle(Color.RED, 1));
+					tangentPoints.getObjects().firstElement().paint(graphics);
+					tangentPoints.getObjects().elementAt(1).paint(graphics);
+				}
+			} catch (PointInsideCircleException e) {
+				// Cannot paint
 			}
-		} else if (currentStep == 2) {
+		}
+		else if (currentStep == 2) {
 			FGECircle circle = ((ObtainCircle) inputs.get(0)).getInputData();
 			FGEPoint point = ((ObtainPoint) inputs.get(1)).getInputData();
 			FGEUnionArea tangentPoints = FGECircle.getTangentsPointsToCircle(circle, point);

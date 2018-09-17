@@ -44,6 +44,7 @@ import java.util.logging.Logger;
 import org.openflexo.diana.geomedit.model.TangentLineWithCircleAndPointConstruction.TangentLineWithCircleAndPointConstructionImpl;
 import org.openflexo.fge.geom.FGECircle;
 import org.openflexo.fge.geom.FGELine;
+import org.openflexo.fge.geom.PointInsideCircleException;
 import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.model.annotations.Getter;
@@ -73,14 +74,14 @@ public interface TangentLineWithCircleAndPointConstruction extends LineConstruct
 	public void setCircleConstruction(CircleConstruction pointConstruction);
 
 	@Getter(value = POINT_CONSTRUCTION_KEY)
-	@XMLElement
+	@XMLElement(context = "Point_")
 	public PointConstruction getPointConstruction();
 
 	@Setter(value = POINT_CONSTRUCTION_KEY)
 	public void setPointConstruction(PointConstruction pointConstruction);
 
 	@Getter(value = CHOOSING_POINT_CONSTRUCTION_KEY)
-	@XMLElement
+	@XMLElement(context = "ChoosingPoint_")
 	public PointConstruction getChoosingPointConstruction();
 
 	@Setter(value = CHOOSING_POINT_CONSTRUCTION_KEY)
@@ -97,12 +98,17 @@ public interface TangentLineWithCircleAndPointConstruction extends LineConstruct
 
 		@Override
 		protected FGELine computeData() {
-			FGEUnionArea tangentPoints = FGECircle.getTangentsPointsToCircle(circleConstruction.getCircle(), pointConstruction.getPoint());
-			if (tangentPoints.isUnionOfPoints()) {
-				return new FGELine(tangentPoints.getNearestPoint(choosingPointConstruction.getPoint()), pointConstruction.getPoint());
+			try {
+				FGEUnionArea tangentPoints = FGECircle.getTangentsPointsToCircle(circleConstruction.getCircle(),
+						pointConstruction.getPoint());
+				if (tangentPoints.isUnionOfPoints()) {
+					return new FGELine(tangentPoints.getNearestPoint(choosingPointConstruction.getPoint()), pointConstruction.getPoint());
+				}
+				logger.warning("Received strange result for FGEEllips.getTangentsPointsToCircle()");
+				return null;
+			} catch (PointInsideCircleException e) {
+				return null;
 			}
-			logger.warning("Received strange result for FGEEllips.getTangentsPointsToCircle()");
-			return null;
 		}
 
 		@Override

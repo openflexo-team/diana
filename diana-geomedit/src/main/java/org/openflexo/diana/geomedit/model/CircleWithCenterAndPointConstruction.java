@@ -39,26 +39,40 @@
 
 package org.openflexo.diana.geomedit.model;
 
-import org.openflexo.diana.geomedit.model.CircleReference.CircleReferenceImpl;
+import org.openflexo.diana.geomedit.model.CircleWithCenterAndPointConstruction.CircleWithCenterAndPointConstructionImpl;
 import org.openflexo.fge.geom.FGECircle;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGESegment;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
-@ImplementationClass(CircleReferenceImpl.class)
+@ImplementationClass(CircleWithCenterAndPointConstructionImpl.class)
 @XMLElement
 public interface CircleWithCenterAndPointConstruction extends CircleConstruction {
 
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String CENTER_CONSTRUCTION_KEY = "centerConstruction";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String POINT_CONSTRUCTION_KEY = "pointConstruction";
+
+	@Getter(value = CENTER_CONSTRUCTION_KEY)
+	@XMLElement(context = "Center_")
 	public PointConstruction getCenterConstruction();
 
+	@Setter(value = CENTER_CONSTRUCTION_KEY)
 	public void setCenterConstruction(PointConstruction centerConstruction);
 
+	@Getter(value = POINT_CONSTRUCTION_KEY)
+	@XMLElement(context = "Point_")
 	public PointConstruction getPointConstruction();
 
+	@Setter(value = POINT_CONSTRUCTION_KEY)
 	public void setPointConstruction(PointConstruction pointConstruction);
 
 	public static abstract class CircleWithCenterAndPointConstructionImpl extends CircleConstructionImpl

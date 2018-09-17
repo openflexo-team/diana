@@ -277,7 +277,9 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 
 	@Override
 	public void paintGeometricObject(FGEGeometricGraphics graphics) {
-		getGeometricObject().paint(graphics);
+		if (getGeometricObject() != null) {
+			getGeometricObject().paint(graphics);
+		}
 	}
 
 	protected FGEPoint getLabelRelativePosition() {

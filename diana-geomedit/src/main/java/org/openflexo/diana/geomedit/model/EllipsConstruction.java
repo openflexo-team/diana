@@ -50,6 +50,7 @@ import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(EllipsConstructionImpl.class)
@@ -91,7 +92,8 @@ public interface EllipsConstruction<E extends FGEEllips> extends GeometricConstr
 	@Setter(HEIGHT_KEY)
 	public void setHeight(double value);
 
-	@Getter(value = IS_FILLED_KEY, defaultValue = "0.0")
+	@Getter(value = IS_FILLED_KEY, defaultValue = "false")
+	@XMLAttribute
 	public boolean getIsFilled();
 
 	@Setter(IS_FILLED_KEY)
@@ -173,19 +175,6 @@ public interface EllipsConstruction<E extends FGEEllips> extends GeometricConstr
 				getEllips().height = height;
 				getPropertyChangeSupport().firePropertyChange(HEIGHT_KEY, oldHeight, height);
 				notifyGeometryChanged();
-			}
-		}
-
-		@Override
-		public boolean getIsFilled() {
-			return getEllips().getIsFilled();
-		}
-
-		@Override
-		public void setIsFilled(boolean filled) {
-			if (filled != getIsFilled()) {
-				getEllips().setIsFilled(filled);
-				getPropertyChangeSupport().firePropertyChange(IS_FILLED_KEY, !filled, filled);
 			}
 		}
 

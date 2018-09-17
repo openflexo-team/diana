@@ -55,6 +55,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import org.openflexo.diana.geomedit.edition.CreateCircleWithCenterAndPoint;
 import org.openflexo.diana.geomedit.edition.CreateHorizontalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateLineFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateOrthogonalLineWithPoint;
@@ -63,6 +64,7 @@ import org.openflexo.diana.geomedit.edition.CreatePoint;
 import org.openflexo.diana.geomedit.edition.CreatePointMiddleOfPoints;
 import org.openflexo.diana.geomedit.edition.CreatePointSymetricOfPoint;
 import org.openflexo.diana.geomedit.edition.CreateRotatedLineWithPoint;
+import org.openflexo.diana.geomedit.edition.CreateTangentLineWithCircleAndPoint;
 import org.openflexo.diana.geomedit.edition.CreateVerticalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.Edition;
 import org.openflexo.diana.geomedit.edition.EditionInput;
@@ -144,6 +146,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 
 		contextualMenu.add(makeCreatePointMenu());
 		contextualMenu.add(makeCreateLineMenu());
+		contextualMenu.add(makeCreateCircleMenu());
 
 		contextualMenu.addSeparator();
 		JMenuItem copyItem = new JMenuItem("Copy");
@@ -294,16 +297,31 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		});
 		createLineItem.add(createRotatedLineWithPointItem);
 
-		/*JMenuItem createTangentLineWithCircleAndPointItem = new JMenuItem("Tangent to a circle and crossing point");
+		JMenuItem createTangentLineWithCircleAndPointItem = new JMenuItem("Tangent to a circle and crossing point");
 		createTangentLineWithCircleAndPointItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setCurrentEdition(new CreateTangentLineWithCircleAndPoint(GeomEditDrawingController.this));
 			}
 		});
-		createLineItem.add(createTangentLineWithCircleAndPointItem);*/
+		createLineItem.add(createTangentLineWithCircleAndPointItem);
 
 		return createLineItem;
+	}
+
+	private JMenu makeCreateCircleMenu() {
+		JMenu createCircleItem = new JMenu("Create circle");
+
+		JMenuItem createCircleWithCenterAndPointItem = new JMenuItem("With center and point");
+		createCircleWithCenterAndPointItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateCircleWithCenterAndPoint(GeomEditDrawingController.this));
+			}
+		});
+		createCircleItem.add(createCircleWithCenterAndPointItem);
+
+		return createCircleItem;
 	}
 
 	public GeometricDiagram getDiagram() {

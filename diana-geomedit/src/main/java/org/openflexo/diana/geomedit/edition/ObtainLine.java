@@ -45,7 +45,6 @@ import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.LineConstruction;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.FGELine;
 
 public class ObtainLine extends EditionInput<FGELine> {
@@ -70,7 +69,6 @@ public class ObtainLine extends EditionInput<FGELine> {
 
 	public class LineSelection extends EditionInputMethod<FGELine, ObtainLine> {
 
-		// private ControlPoint focusedControlPoint;
 		private GeometricNode<?> focusedObject;
 
 		public LineSelection() {
@@ -81,14 +79,9 @@ public class ObtainLine extends EditionInput<FGELine> {
 		public void mouseClicked(MouseEvent e) {
 			if (focusedObject != null) {
 				focusedObject.setIsFocused(false);
-
 				if (focusedObject.getDrawable() instanceof LineConstruction) {
 					setConstruction(getFactory().makeLineReference((LineConstruction) focusedObject.getDrawable()));
 				}
-				// referencedLine = (Line) focusedObject.getDrawable();
-				// setConstruction(
-				// getFactory().makeLineReference(((DraggableControlPoint) focusedControlPoint).getExplicitPointConstruction()));
-				// setConstruction(getFactory().makeLineReference(referencedLine.getConstruction()));
 				done();
 			}
 		}
@@ -106,7 +99,7 @@ public class ObtainLine extends EditionInput<FGELine> {
 				focusedObject.setIsFocused(true);
 			}
 
-			ControlArea<?> controlArea = (focused != null ? getFocusRetriever().getFocusedControlAreaForDrawable(focused, e) : null);
+			// ControlArea<?> controlArea = (focused != null ? getFocusRetriever().getFocusedControlAreaForDrawable(focused, e) : null);
 			/*if (controlArea instanceof ControlPoint) {
 				focusedControlPoint = (ControlPoint) controlArea;
 			}
@@ -115,7 +108,7 @@ public class ObtainLine extends EditionInput<FGELine> {
 				focusedControlPoint = null;
 			}*/
 
-			//System.out.println("Focus on " + focusedObject + " controlArea="+controlArea);
+			// System.out.println("Focus on " + focusedObject + " controlArea="+controlArea);
 		}
 
 		/*@Override

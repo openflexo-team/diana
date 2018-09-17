@@ -39,19 +39,17 @@
 
 package org.openflexo.diana.geomedit.edition;
 
-import org.openflexo.diana.geomedit.model.CircleWithCenterAndPointConstruction;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.fge.geom.FGEDimension;
 import org.openflexo.fge.geom.FGEEllips;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.fge.geomedit.Circle;
-import org.openflexo.fge.geomedit.GeomEditController;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateCircleWithCenterAndPoint extends Edition {
 
-	public CreateCircleWithCenterAndPoint(GeomEditController controller) {
+	public CreateCircleWithCenterAndPoint(GeomEditDrawingController controller) {
 		super("Create circle from center and point", controller);
 		inputs.add(new ObtainPoint("Select center", controller));
 		inputs.add(new ObtainPoint("Select a point", controller));
@@ -59,11 +57,11 @@ public class CreateCircleWithCenterAndPoint extends Edition {
 
 	@Override
 	public void performEdition() {
-		ObtainPoint p1 = (ObtainPoint) inputs.get(0);
-		ObtainPoint p2 = (ObtainPoint) inputs.get(1);
+		ObtainPoint center = (ObtainPoint) inputs.get(0);
+		ObtainPoint point = (ObtainPoint) inputs.get(1);
 
-		addObject(new Circle(getController().getDrawing().getModel(), new CircleWithCenterAndPointConstruction(p1.getConstruction(),
-				p2.getConstruction())));
+		addConstruction(
+				getController().getFactory().makeCircleWithCenterAndPointConstruction(center.getConstruction(), point.getConstruction()));
 
 	}
 
@@ -76,7 +74,8 @@ public class CreateCircleWithCenterAndPoint extends Edition {
 	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
-		} else if (currentStep == 1) {
+		}
+		else if (currentStep == 1) {
 			// Nothing to draw
 
 			FGEPoint center = ((ObtainPoint) inputs.get(0)).getInputData();
