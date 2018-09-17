@@ -66,18 +66,21 @@ public interface TangentLineWithCircleAndPointConstruction extends LineConstruct
 	public static final String CHOOSING_POINT_CONSTRUCTION_KEY = "choosingPointConstruction";
 
 	@Getter(value = CIRCLE_CONSTRUCTION_KEY)
+	@XMLElement
 	public CircleConstruction getCircleConstruction();
 
 	@Setter(value = CIRCLE_CONSTRUCTION_KEY)
 	public void setCircleConstruction(CircleConstruction pointConstruction);
 
 	@Getter(value = POINT_CONSTRUCTION_KEY)
+	@XMLElement
 	public PointConstruction getPointConstruction();
 
 	@Setter(value = POINT_CONSTRUCTION_KEY)
 	public void setPointConstruction(PointConstruction pointConstruction);
 
 	@Getter(value = CHOOSING_POINT_CONSTRUCTION_KEY)
+	@XMLElement
 	public PointConstruction getChoosingPointConstruction();
 
 	@Setter(value = CHOOSING_POINT_CONSTRUCTION_KEY)

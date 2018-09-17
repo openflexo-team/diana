@@ -57,6 +57,7 @@ public interface VerticalLineWithPointConstruction extends LineConstruction {
 	public static final String POINT_CONSTRUCTION_KEY = "pointConstruction";
 
 	@Getter(value = POINT_CONSTRUCTION_KEY)
+	@XMLElement
 	public PointConstruction getPointConstruction();
 
 	@Setter(value = POINT_CONSTRUCTION_KEY)

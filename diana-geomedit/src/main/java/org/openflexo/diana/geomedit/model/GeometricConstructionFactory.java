@@ -185,4 +185,13 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
+	public RotatedLineWithPointConstruction makeRotatedLineWithPointConstruction(LineConstruction lineConstruction,
+			PointConstruction pointConstruction, double angle) {
+		RotatedLineWithPointConstruction returned = newInstance(RotatedLineWithPointConstruction.class);
+		returned.setLineConstruction(lineConstruction);
+		returned.setPointConstruction(pointConstruction);
+		returned.setAngle(angle);
+		return returned;
+	}
+
 }

@@ -39,18 +39,16 @@
 
 package org.openflexo.diana.geomedit.edition;
 
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.LineConstruction;
 import org.openflexo.diana.geomedit.model.PointConstruction;
-import org.openflexo.diana.geomedit.model.RotatedLineWithPointConstruction;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.Line;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateRotatedLineWithPoint extends Edition {
 
-	public CreateRotatedLineWithPoint(GeomEditController controller) {
+	public CreateRotatedLineWithPoint(GeomEditDrawingController controller) {
 		super("Create horizontal line crossing point", controller);
 		inputs.add(new ObtainLine("Select line", controller));
 		inputs.add(new ObtainDouble("Select rotation angle (degree)", 45, controller));
@@ -59,15 +57,11 @@ public class CreateRotatedLineWithPoint extends Edition {
 
 	@Override
 	public void performEdition() {
-		if (((ObtainLine) inputs.get(0)).getReferencedLine() != null) {
-			((ObtainLine) inputs.get(0)).getReferencedLine().getGraphicalRepresentation().setIsSelected(false);
-		}
-
-		LineConstruction line = ((ObtainLine) inputs.get(0)).getConstruction();
+		LineConstruction l = ((ObtainLine) inputs.get(0)).getConstruction();
 		double angle = ((ObtainDouble) inputs.get(1)).getInputData();
-		PointConstruction point = ((ObtainPoint) inputs.get(2)).getConstruction();
+		PointConstruction p = ((ObtainPoint) inputs.get(2)).getConstruction();
 
-		addObject(new Line(getController().getDrawing().getModel(), new RotatedLineWithPointConstruction(line, point, angle)));
+		addConstruction(getController().getFactory().makeRotatedLineWithPointConstruction(l, p, angle));
 
 	}
 
@@ -75,11 +69,13 @@ public class CreateRotatedLineWithPoint extends Edition {
 	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
-		} else if (currentStep == 1) {
-			if (((ObtainLine) inputs.get(0)).getReferencedLine() != null) {
+		}
+		else if (currentStep == 1) {
+			/*if (((ObtainLine) inputs.get(0)).getReferencedLine() != null) {
 				((ObtainLine) inputs.get(0)).getReferencedLine().getGraphicalRepresentation().setIsSelected(true);
-			}
-		} else if (currentStep == 2) {
+			}*/
+		}
+		else if (currentStep == 2) {
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			FGELine line = ((ObtainLine) inputs.get(0)).getConstruction().getData();
 			double angle = ((ObtainDouble) inputs.get(1)).getInputData();

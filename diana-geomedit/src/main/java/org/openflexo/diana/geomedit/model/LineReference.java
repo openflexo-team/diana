@@ -57,6 +57,7 @@ public interface LineReference extends LineConstruction {
 	public static final String REFERENCE_KEY = "reference";
 
 	@Getter(value = REFERENCE_KEY)
+	@XMLElement
 	public LineConstruction getReference();
 
 	@Setter(value = REFERENCE_KEY)

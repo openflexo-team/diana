@@ -39,21 +39,20 @@
 
 package org.openflexo.diana.geomedit.edition;
 
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.xmlcode.StringEncoder;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 
 public class ObtainDouble extends EditionInput<Double> {
 	public static int preferredMethodIndex = 0;
 
 	private boolean endOnRightClick = false;
 
-	public ObtainDouble(String anInputLabel, double defaultValue, GeomEditController controller) {
+	public ObtainDouble(String anInputLabel, double defaultValue, GeomEditDrawingController controller) {
 		super(anInputLabel, controller);
 
 		availableMethods.add(new KeyboardSelection(anInputLabel, defaultValue));
 	}
 
-	public ObtainDouble(String anInputLabel, double defaultValue, GeomEditController controller, boolean appendEndSelection) {
+	public ObtainDouble(String anInputLabel, double defaultValue, GeomEditDrawingController controller, boolean appendEndSelection) {
 		this(anInputLabel, defaultValue, controller);
 		if (appendEndSelection) {
 			availableMethods.add(new EndEditionSelection());
@@ -97,8 +96,7 @@ public class ObtainDouble extends EditionInput<Double> {
 					if (data == null) {
 						return "";
 					}
-					StringEncoder.getDefaultInstance();
-					return StringEncoder.encodeDouble(data);
+					return data.toString();
 				}
 
 				@Override
@@ -106,8 +104,17 @@ public class ObtainDouble extends EditionInput<Double> {
 					if (string == null || string.trim().equals("")) {
 						return null;
 					}
-					StringEncoder.getDefaultInstance();
-					return StringEncoder.decodeAsDouble(string);
+					try {
+						return Double.valueOf(string);
+					} catch (NumberFormatException e) {
+						if (string.equals("POSITIVE_INFINITY")) {
+							return Double.POSITIVE_INFINITY;
+						}
+						else if (string.equals("NEGATIVE_INFINITY")) {
+							return Double.NEGATIVE_INFINITY;
+						}
+						throw e;
+					}
 				}
 
 				@Override

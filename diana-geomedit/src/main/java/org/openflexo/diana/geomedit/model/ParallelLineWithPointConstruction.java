@@ -60,12 +60,14 @@ public interface ParallelLineWithPointConstruction extends LineConstruction {
 	public static final String POINT_CONSTRUCTION_KEY = "pointConstruction";
 
 	@Getter(value = LINE_CONSTRUCTION_KEY)
+	@XMLElement
 	public LineConstruction getLineConstruction();
 
 	@Setter(value = LINE_CONSTRUCTION_KEY)
 	public void setLineConstruction(LineConstruction lineConstruction);
 
 	@Getter(value = POINT_CONSTRUCTION_KEY)
+	@XMLElement
 	public PointConstruction getPointConstruction();
 
 	@Setter(value = POINT_CONSTRUCTION_KEY)

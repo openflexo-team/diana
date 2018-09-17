@@ -60,6 +60,7 @@ import org.openflexo.diana.geomedit.edition.CreateLineFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateOrthogonalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateParallelLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreatePoint;
+import org.openflexo.diana.geomedit.edition.CreateRotatedLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateVerticalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.Edition;
 import org.openflexo.diana.geomedit.edition.EditionInput;
@@ -282,7 +283,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		});
 		createLineItem.add(createOrthogonalLineWithPointItem);
 
-		/*JMenuItem createRotatedLineWithPointItem = new JMenuItem("Rotated line crossing point");
+		JMenuItem createRotatedLineWithPointItem = new JMenuItem("Rotated line crossing point");
 		createRotatedLineWithPointItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -290,8 +291,8 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 			}
 		});
 		createLineItem.add(createRotatedLineWithPointItem);
-		
-		JMenuItem createTangentLineWithCircleAndPointItem = new JMenuItem("Tangent to a circle and crossing point");
+
+		/*JMenuItem createTangentLineWithCircleAndPointItem = new JMenuItem("Tangent to a circle and crossing point");
 		createTangentLineWithCircleAndPointItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
