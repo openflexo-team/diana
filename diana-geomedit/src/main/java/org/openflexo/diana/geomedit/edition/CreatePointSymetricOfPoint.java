@@ -39,15 +39,13 @@
 
 package org.openflexo.diana.geomedit.edition;
 
-import org.openflexo.diana.geomedit.model.SymetricPointConstruction;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.Point;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreatePointSymetricOfPoint extends Edition {
 
-	public CreatePointSymetricOfPoint(GeomEditController controller) {
+	public CreatePointSymetricOfPoint(GeomEditDrawingController controller) {
 		super("Create point as symetric of an other point", controller);
 		inputs.add(new ObtainPoint("Select origin point", controller));
 		inputs.add(new ObtainPoint("Select pivot point", controller));
@@ -58,15 +56,8 @@ public class CreatePointSymetricOfPoint extends Edition {
 		ObtainPoint p1 = (ObtainPoint) inputs.get(0);
 		ObtainPoint p2 = (ObtainPoint) inputs.get(1);
 
-		addObject(new Point(getController().getDrawing().getModel(), new SymetricPointConstruction(p1.getConstruction(),
-				p2.getConstruction())));
-
+		addConstruction(getController().getFactory().makeSymetricPointConstruction(p1.getConstruction(), p2.getConstruction()));
 	}
-
-	/*public void addObject(GeometricObject object)
-	{
-		getController().getDrawing().getModel().addToChilds(object);
-	}*/
 
 	@Override
 	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {

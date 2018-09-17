@@ -40,7 +40,7 @@
 package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
-import org.openflexo.diana.geomedit.model.PointReference.PointReferenceImpl;
+import org.openflexo.diana.geomedit.model.ControlPointReference.ControlPointReferenceImpl;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.model.annotations.Getter;
@@ -51,7 +51,7 @@ import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
-@ImplementationClass(PointReferenceImpl.class)
+@ImplementationClass(ControlPointReferenceImpl.class)
 @XMLElement
 public interface ControlPointReference extends PointConstruction {
 
@@ -61,12 +61,14 @@ public interface ControlPointReference extends PointConstruction {
 	public static final String CONTROL_POINT_NAME_KEY = "controlPointName";
 
 	@Getter(value = REFERENCE_KEY)
+	@XMLElement
 	public GeometricConstruction<?> getReference();
 
 	@Setter(value = REFERENCE_KEY)
 	public void setReference(GeometricConstruction<?> reference);
 
 	@Getter(value = CONTROL_POINT_NAME_KEY)
+	@XMLElement
 	public String getControlPointName();
 
 	@Setter(value = CONTROL_POINT_NAME_KEY)

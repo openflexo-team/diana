@@ -60,12 +60,14 @@ public interface SymetricPointConstruction extends PointConstruction {
 	public static final String PIVOT_CONSTRUCTION_KEY = "pivotConstruction";
 
 	@Getter(value = POINT_CONSTRUCTION_KEY)
+	@XMLElement(context = "P1_")
 	public PointConstruction getPointConstruction();
 
 	@Setter(value = POINT_CONSTRUCTION_KEY)
 	public void setPointConstruction(PointConstruction pointConstruction);
 
 	@Getter(value = PIVOT_CONSTRUCTION_KEY)
+	@XMLElement(context = "P2_")
 	public PointConstruction getPivotConstruction();
 
 	@Setter(value = PIVOT_CONSTRUCTION_KEY)

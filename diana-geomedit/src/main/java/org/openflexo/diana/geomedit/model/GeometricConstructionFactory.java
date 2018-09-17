@@ -128,6 +128,22 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
+	public PointMiddleOfTwoPointsConstruction makePointMiddleOfTwoPointsConstruction(PointConstruction pointConstruction1,
+			PointConstruction pointConstruction2) {
+		PointMiddleOfTwoPointsConstruction returned = newInstance(PointMiddleOfTwoPointsConstruction.class);
+		returned.setPointConstruction1(pointConstruction1);
+		returned.setPointConstruction2(pointConstruction2);
+		return returned;
+	}
+
+	public SymetricPointConstruction makeSymetricPointConstruction(PointConstruction pointConstruction,
+			PointConstruction pivotConstruction) {
+		SymetricPointConstruction returned = newInstance(SymetricPointConstruction.class);
+		returned.setPointConstruction(pointConstruction);
+		returned.setPivotConstruction(pivotConstruction);
+		return returned;
+	}
+
 	public LineReference makeLineReference(LineConstruction construction) {
 		LineReference returned = newInstance(LineReference.class);
 		returned.setReference(construction);

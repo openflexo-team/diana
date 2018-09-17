@@ -40,9 +40,7 @@
 package org.openflexo.diana.geomedit.edition;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
-import org.openflexo.diana.geomedit.model.PointMiddleOfTwoPointsConstruction;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.Point;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreatePointMiddleOfPoints extends Edition {
@@ -58,15 +56,9 @@ public class CreatePointMiddleOfPoints extends Edition {
 		ObtainPoint p1 = (ObtainPoint) inputs.get(0);
 		ObtainPoint p2 = (ObtainPoint) inputs.get(1);
 
-		addObject(new Point(getController().getDrawing().getModel(),
-				new PointMiddleOfTwoPointsConstruction(p1.getConstruction(), p2.getConstruction())));
+		addConstruction(getController().getFactory().makePointMiddleOfTwoPointsConstruction(p1.getConstruction(), p2.getConstruction()));
 
 	}
-
-	/*public void addObject(GeometricObject object)
-	{
-		getController().getDrawing().getModel().addToChilds(object);
-	}*/
 
 	@Override
 	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {

@@ -60,6 +60,8 @@ import org.openflexo.diana.geomedit.edition.CreateLineFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateOrthogonalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateParallelLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreatePoint;
+import org.openflexo.diana.geomedit.edition.CreatePointMiddleOfPoints;
+import org.openflexo.diana.geomedit.edition.CreatePointSymetricOfPoint;
 import org.openflexo.diana.geomedit.edition.CreateRotatedLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateVerticalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.Edition;
@@ -214,7 +216,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		});
 		createPointItem.add(createExplicitPoint);
 
-		/*JMenuItem createPointAsMiddleFromPointsItem = new JMenuItem("As middle of two other points");
+		JMenuItem createPointAsMiddleFromPointsItem = new JMenuItem("As middle of two other points");
 		createPointAsMiddleFromPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -222,7 +224,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 			}
 		});
 		createPointItem.add(createPointAsMiddleFromPointsItem);
-		
+
 		JMenuItem createPointSymetricOfPointItem = new JMenuItem("Symetric to an other point");
 		createPointSymetricOfPointItem.addActionListener(new ActionListener() {
 			@Override
@@ -230,7 +232,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 				setCurrentEdition(new CreatePointSymetricOfPoint(GeomEditDrawingController.this));
 			}
 		});
-		createPointItem.add(createPointSymetricOfPointItem);*/
+		createPointItem.add(createPointSymetricOfPointItem);
 
 		return createPointItem;
 	}

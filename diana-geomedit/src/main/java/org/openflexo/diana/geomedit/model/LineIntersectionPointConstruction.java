@@ -59,12 +59,14 @@ public interface LineIntersectionPointConstruction extends PointConstruction {
 	public static final String LINE_CONSTRUCTION_2_KEY = "lineConstruction2";
 
 	@Getter(value = LINE_CONSTRUCTION_1_KEY)
+	@XMLElement(context = "L1_")
 	public LineConstruction getLineConstruction1();
 
 	@Setter(value = LINE_CONSTRUCTION_1_KEY)
 	public void setLineConstruction1(LineConstruction lineConstruction1);
 
 	@Getter(value = LINE_CONSTRUCTION_2_KEY)
+	@XMLElement(context = "L1_")
 	public LineConstruction getLineConstruction2();
 
 	@Setter(value = LINE_CONSTRUCTION_2_KEY)
