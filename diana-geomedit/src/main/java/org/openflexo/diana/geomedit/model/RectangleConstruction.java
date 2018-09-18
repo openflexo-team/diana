@@ -176,5 +176,14 @@ public interface RectangleConstruction extends GeometricConstruction<FGERectangl
 			}
 		}
 
+		@Override
+		public void notifyGeometryChanged() {
+			super.notifyGeometryChanged();
+			getPropertyChangeSupport().firePropertyChange(X_KEY, null, getX());
+			getPropertyChangeSupport().firePropertyChange(Y_KEY, null, getY());
+			getPropertyChangeSupport().firePropertyChange(WIDTH_KEY, null, getWidth());
+			getPropertyChangeSupport().firePropertyChange(HEIGHT_KEY, null, getHeight());
+		}
+
 	}
 }

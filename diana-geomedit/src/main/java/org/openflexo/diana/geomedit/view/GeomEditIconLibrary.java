@@ -46,6 +46,8 @@ import org.openflexo.diana.geomedit.model.GeometricDiagram;
 import org.openflexo.diana.geomedit.model.GeometricElement;
 import org.openflexo.diana.geomedit.model.LineConstruction;
 import org.openflexo.diana.geomedit.model.PointConstruction;
+import org.openflexo.diana.geomedit.model.RectangleConstruction;
+import org.openflexo.diana.geomedit.model.RoundRectangleConstruction;
 import org.openflexo.icon.ImageIconResource;
 import org.openflexo.rm.ResourceLocator;
 
@@ -63,8 +65,9 @@ public class GeomEditIconLibrary {
 			ResourceLocator.locateResource("Icons/Model/GeometricDiagram.png"));
 
 	public static final ImageIconResource POINT_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/Model/Point.png"));
-
 	public static final ImageIconResource LINE_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/Model/Line.png"));
+	public static final ImageIconResource RECTANGLE_ICON = new ImageIconResource(
+			ResourceLocator.locateResource("Icons/Model/Rectangle.png"));
 
 	public static final ImageIconResource UNKNOWN_ICON = new ImageIconResource(
 			ResourceLocator.locateResource("Icons/Model/UnknownIcon.gif"));
@@ -78,6 +81,12 @@ public class GeomEditIconLibrary {
 		}
 		if (object instanceof LineConstruction) {
 			return LINE_ICON;
+		}
+		if (object instanceof RectangleConstruction) {
+			return RECTANGLE_ICON;
+		}
+		if (object instanceof RoundRectangleConstruction) {
+			return RECTANGLE_ICON;
 		}
 
 		return UNKNOWN_ICON;
