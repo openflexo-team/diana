@@ -49,6 +49,7 @@ import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(RectangleConstructionImpl.class)
@@ -93,6 +94,7 @@ public interface RectangleConstruction extends GeometricConstruction<FGERectangl
 	public FGERectangle getRectangle();
 
 	@Getter(value = IS_FILLED_KEY, defaultValue = "true")
+	@XMLAttribute
 	public boolean getIsFilled();
 
 	@Setter(IS_FILLED_KEY)
@@ -171,19 +173,6 @@ public interface RectangleConstruction extends GeometricConstruction<FGERectangl
 				getRectangle().height = height;
 				getPropertyChangeSupport().firePropertyChange(HEIGHT_KEY, oldHeight, height);
 				notifyGeometryChanged();
-			}
-		}
-
-		@Override
-		public boolean getIsFilled() {
-			return getRectangle().getIsFilled();
-		}
-
-		@Override
-		public void setIsFilled(boolean filled) {
-			if (filled != getIsFilled()) {
-				getRectangle().setIsFilled(filled);
-				getPropertyChangeSupport().firePropertyChange(IS_FILLED_KEY, !filled, filled);
 			}
 		}
 

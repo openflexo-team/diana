@@ -227,6 +227,24 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
+	public RectangleWithTwoPointsConstruction makeRectangleWithTwoPointsConstruction(PointConstruction pointConstruction1,
+			PointConstruction pointConstruction2) {
+		RectangleWithTwoPointsConstruction returned = newInstance(RectangleWithTwoPointsConstruction.class);
+		returned.setPointConstruction1(pointConstruction1);
+		returned.setPointConstruction2(pointConstruction2);
+		return returned;
+	}
+
+	public RoundRectangleWithTwoPointsConstruction makeRoundRectangleWithTwoPointsConstruction(PointConstruction pointConstruction1,
+			PointConstruction pointConstruction2, double arcWidth, double arcHeight) {
+		RoundRectangleWithTwoPointsConstruction returned = newInstance(RoundRectangleWithTwoPointsConstruction.class);
+		returned.setPointConstruction1(pointConstruction1);
+		returned.setPointConstruction2(pointConstruction2);
+		returned.setArcWidth(arcWidth);
+		returned.setArcHeight(arcHeight);
+		return returned;
+	}
+
 	public CircleReference makeCircleReference(CircleConstruction construction) {
 		CircleReference returned = newInstance(CircleReference.class);
 		returned.setReference(construction);

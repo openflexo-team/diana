@@ -63,7 +63,9 @@ import org.openflexo.diana.geomedit.edition.CreateParallelLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreatePoint;
 import org.openflexo.diana.geomedit.edition.CreatePointMiddleOfPoints;
 import org.openflexo.diana.geomedit.edition.CreatePointSymetricOfPoint;
+import org.openflexo.diana.geomedit.edition.CreateRectangleFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateRotatedLineWithPoint;
+import org.openflexo.diana.geomedit.edition.CreateRoundRectangleFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateSegmentFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateTangentLineWithCircleAndPoint;
 import org.openflexo.diana.geomedit.edition.CreateVerticalLineWithPoint;
@@ -148,6 +150,8 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		contextualMenu.add(makeCreatePointMenu());
 		contextualMenu.add(makeCreateLineMenu());
 		contextualMenu.add(makeCreateSegmentMenu());
+		contextualMenu.add(makeCreateRectangleMenu());
+		contextualMenu.add(makeCreateRoundRectangleMenu());
 		contextualMenu.add(makeCreateCircleMenu());
 
 		contextualMenu.addSeparator();
@@ -324,6 +328,36 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		createLineItem.add(createSegmentFromPointsItem);
 
 		return createLineItem;
+	}
+
+	private JMenu makeCreateRectangleMenu() {
+		JMenu createRectangleItem = new JMenu("Create rectangle");
+
+		JMenuItem createRectangleFromPointsItem = new JMenuItem("From points");
+		createRectangleFromPointsItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateRectangleFromPoints(GeomEditDrawingController.this));
+			}
+		});
+		createRectangleItem.add(createRectangleFromPointsItem);
+
+		return createRectangleItem;
+	}
+
+	private JMenu makeCreateRoundRectangleMenu() {
+		JMenu createRoundRectangleItem = new JMenu("Create round rectangle");
+
+		JMenuItem createRoundRectangleFromPointsItem = new JMenuItem("From points");
+		createRoundRectangleFromPointsItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateRoundRectangleFromPoints(GeomEditDrawingController.this));
+			}
+		});
+		createRoundRectangleItem.add(createRoundRectangleFromPointsItem);
+
+		return createRoundRectangleItem;
 	}
 
 	private JMenu makeCreateCircleMenu() {

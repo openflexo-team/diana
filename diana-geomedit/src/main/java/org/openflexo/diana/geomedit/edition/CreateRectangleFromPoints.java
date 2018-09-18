@@ -39,16 +39,14 @@
 
 package org.openflexo.diana.geomedit.edition;
 
-import org.openflexo.diana.geomedit.model.RectangleWithTwoPointsConstruction;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.Rectangle;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateRectangleFromPoints extends Edition {
 
-	public CreateRectangleFromPoints(GeomEditController controller) {
+	public CreateRectangleFromPoints(GeomEditDrawingController controller) {
 		super("Create rectangle from points", controller);
 		inputs.add(new ObtainPoint("Select first point", controller));
 		inputs.add(new ObtainPoint("Select second point", controller));
@@ -59,21 +57,16 @@ public class CreateRectangleFromPoints extends Edition {
 		ObtainPoint p1 = (ObtainPoint) inputs.get(0);
 		ObtainPoint p2 = (ObtainPoint) inputs.get(1);
 
-		addObject(new Rectangle(getController().getDrawing().getModel(), new RectangleWithTwoPointsConstruction(p1.getConstruction(),
-				p2.getConstruction())));
+		addConstruction(getController().getFactory().makeRectangleWithTwoPointsConstruction(p1.getConstruction(), p2.getConstruction()));
 
 	}
-
-	/*public void addObject(GeometricObject object)
-	{
-		getController().getDrawing().getModel().addToChilds(object);
-	}*/
 
 	@Override
 	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
-		} else if (currentStep == 1) {
+		}
+		else if (currentStep == 1) {
 			// Nothing to draw
 
 			FGEPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();

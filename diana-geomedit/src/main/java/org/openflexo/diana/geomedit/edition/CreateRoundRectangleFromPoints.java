@@ -39,44 +39,41 @@
 
 package org.openflexo.diana.geomedit.edition;
 
-import org.openflexo.diana.geomedit.model.RoundRectangleWithTwoPointsConstruction;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGERectangle;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.RoundRectangle;
+import org.openflexo.fge.geom.FGERoundRectangle;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateRoundRectangleFromPoints extends Edition {
 
-	public CreateRoundRectangleFromPoints(GeomEditController controller) {
+	public CreateRoundRectangleFromPoints(GeomEditDrawingController controller) {
 		super("Create round rectangle from points", controller);
+		inputs.add(new ObtainDouble("Select arc width", 15, controller));
+		inputs.add(new ObtainDouble("Select arc height", 15, controller));
 		inputs.add(new ObtainPoint("Select first point", controller));
 		inputs.add(new ObtainPoint("Select second point", controller));
 	}
 
 	@Override
 	public void performEdition() {
-		ObtainPoint p1 = (ObtainPoint) inputs.get(0);
-		ObtainPoint p2 = (ObtainPoint) inputs.get(1);
+		ObtainPoint p1 = (ObtainPoint) inputs.get(2);
+		ObtainPoint p2 = (ObtainPoint) inputs.get(3);
+		double arcWidth = ((ObtainDouble) inputs.get(0)).getInputData();
+		double arcHeight = ((ObtainDouble) inputs.get(1)).getInputData();
 
-		addObject(new RoundRectangle(getController().getDrawing().getModel(), new RoundRectangleWithTwoPointsConstruction(
-				p1.getConstruction(), p2.getConstruction())));
-
+		addConstruction(getController().getFactory().makeRoundRectangleWithTwoPointsConstruction(p1.getConstruction(), p2.getConstruction(),
+				arcWidth, arcHeight));
 	}
-
-	/*public void addObject(GeometricObject object)
-	{
-		getController().getDrawing().getModel().addToChilds(object);
-	}*/
 
 	@Override
 	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
-		if (currentStep == 0) {
+		if (currentStep < 3) {
 			// Nothing to draw
-		} else if (currentStep == 1) {
-			// Nothing to draw
-
-			FGEPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
+		}
+		else if (currentStep == 3) {
+			double arcWidth = ((ObtainDouble) inputs.get(0)).getInputData();
+			double arcHeight = ((ObtainDouble) inputs.get(1)).getInputData();
+			FGEPoint p1 = ((ObtainPoint) inputs.get(2)).getInputData();
 			FGEPoint p2 = lastMouseLocation;
 
 			FGEPoint p = new FGEPoint();
@@ -88,7 +85,7 @@ public class CreateRoundRectangleFromPoints extends Edition {
 
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			p1.paint(graphics);
-			new FGERectangle(p.x, p.y, width, height).paint(graphics);
+			new FGERoundRectangle(p.x, p.y, width, height, arcWidth, arcHeight).paint(graphics);
 		}
 	}
 }

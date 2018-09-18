@@ -49,6 +49,7 @@ import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(RoundRectangleConstructionImpl.class)
@@ -94,19 +95,22 @@ public interface RoundRectangleConstruction extends GeometricConstruction<FGERou
 	@Setter(HEIGHT_KEY)
 	public void setHeight(double value);
 
-	@Getter(value = IS_FILLED_KEY, defaultValue = "0.0")
+	@Getter(value = IS_FILLED_KEY, defaultValue = "true")
+	@XMLAttribute
 	public boolean getIsFilled();
 
 	@Setter(IS_FILLED_KEY)
 	public void setIsFilled(boolean isFilled);
 
 	@Getter(value = ARC_WIDTH_KEY, defaultValue = "0.0")
+	@XMLAttribute
 	public double getArcWidth();
 
 	@Setter(ARC_WIDTH_KEY)
 	public void setArcWidth(double arcWidth);
 
 	@Getter(value = ARC_HEIGHT_KEY, defaultValue = "0.0")
+	@XMLAttribute
 	public double getArcHeight();
 
 	@Setter(ARC_HEIGHT_KEY)
@@ -191,48 +195,6 @@ public interface RoundRectangleConstruction extends GeometricConstruction<FGERou
 			}
 		}
 
-		@Override
-		public boolean getIsFilled() {
-			return getRectangle().getIsFilled();
-		}
-
-		@Override
-		public void setIsFilled(boolean filled) {
-			if (filled != getIsFilled()) {
-				getRectangle().setIsFilled(filled);
-				getPropertyChangeSupport().firePropertyChange(IS_FILLED_KEY, !filled, filled);
-			}
-		}
-
-		@Override
-		public double getArcHeight() {
-			return getRectangle().getArcHeight();
-		}
-
-		@Override
-		public void setArcHeight(double arcHeight) {
-			if (arcHeight != getArcHeight()) {
-				double oldHeight = getArcHeight();
-				getRectangle().archeight = arcHeight;
-				getPropertyChangeSupport().firePropertyChange(ARC_HEIGHT_KEY, oldHeight, arcHeight);
-				notifyGeometryChanged();
-			}
-		}
-
-		@Override
-		public double getArcWidth() {
-			return getRectangle().getArcWidth();
-		}
-
-		@Override
-		public void setArcWidth(double arcWidth) {
-			if (arcWidth != getArcWidth()) {
-				double oldWidth = getArcWidth();
-				getRectangle().arcwidth = arcWidth;
-				getPropertyChangeSupport().firePropertyChange(ARC_WIDTH_KEY, oldWidth, arcWidth);
-				notifyGeometryChanged();
-			}
-		}
 	}
 
 }

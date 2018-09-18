@@ -58,7 +58,6 @@ import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEGeometricObject.CardinalQuadrant;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.geom.FGERoundRectangle;
 import org.openflexo.fge.geom.area.FGEQuarterPlane;
 import org.openflexo.model.annotations.ImplementationClass;
@@ -102,7 +101,7 @@ public interface RoundRectangleGraphicalRepresentation extends GeometricObjectGr
 			}
 
 			if (pc1 != null) {
-				returned.add(nwCP1 = new DraggableControlPoint<FGERectangle>((GeometricNode<?>) dtn, "northWest",
+				returned.add(nwCP1 = new DraggableControlPoint<FGERoundRectangle>((GeometricNode<?>) dtn, "northWest",
 						rectangle.getNorthWestPt(), pc1) {
 					private double initialWidth;
 					private double initialHeight;
@@ -133,22 +132,22 @@ public interface RoundRectangleGraphicalRepresentation extends GeometricObjectGr
 					}
 
 					@Override
-					public void update(FGERectangle geometricObject) {
+					public void update(FGERoundRectangle geometricObject) {
 						setPoint(geometricObject.getNorthWestPt());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<FGERectangle>((GeometricNode<?>) dtn, "northWest", rectangle.getNorthWestPt()) {
+				returned.add(new ComputedControlPoint<FGERoundRectangle>((GeometricNode<?>) dtn, "northWest", rectangle.getNorthWestPt()) {
 					@Override
-					public void update(FGERectangle geometricObject) {
+					public void update(FGERoundRectangle geometricObject) {
 						setPoint(geometricObject.getNorthWestPt());
 					}
 				});
 			}
 
 			if (pc2 != null) {
-				returned.add(seCP2 = new DraggableControlPoint<FGERectangle>((GeometricNode<?>) dtn, "southEast",
+				returned.add(seCP2 = new DraggableControlPoint<FGERoundRectangle>((GeometricNode<?>) dtn, "southEast",
 						rectangle.getSouthEastPt(), pc2) {
 					private double initialWidth;
 					private double initialHeight;
@@ -176,22 +175,22 @@ public interface RoundRectangleGraphicalRepresentation extends GeometricObjectGr
 					}
 
 					@Override
-					public void update(FGERectangle geometricObject) {
+					public void update(FGERoundRectangle geometricObject) {
 						setPoint(geometricObject.getSouthEastPt());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<FGERectangle>((GeometricNode<?>) dtn, "southEast", rectangle.getSouthEastPt()) {
+				returned.add(new ComputedControlPoint<FGERoundRectangle>((GeometricNode<?>) dtn, "southEast", rectangle.getSouthEastPt()) {
 					@Override
-					public void update(FGERectangle geometricObject) {
+					public void update(FGERoundRectangle geometricObject) {
 						setPoint(geometricObject.getSouthEastPt());
 					}
 				});
 			}
 
 			if (pc1 != null && pc2 != null) {
-				returned.add(new ComputedControlPoint<FGERectangle>((GeometricNode<?>) dtn, "northEast", rectangle.getNorthEastPt()) {
+				returned.add(new ComputedControlPoint<FGERoundRectangle>((GeometricNode<?>) dtn, "northEast", rectangle.getNorthEastPt()) {
 					private double initialWidth;
 					private double initialHeight;
 
@@ -227,22 +226,22 @@ public interface RoundRectangleGraphicalRepresentation extends GeometricObjectGr
 					}
 
 					@Override
-					public void update(FGERectangle geometricObject) {
+					public void update(FGERoundRectangle geometricObject) {
 						setPoint(geometricObject.getNorthEastPt());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<FGERectangle>((GeometricNode<?>) dtn, "northEast", rectangle.getSouthEastPt()) {
+				returned.add(new ComputedControlPoint<FGERoundRectangle>((GeometricNode<?>) dtn, "northEast", rectangle.getSouthEastPt()) {
 					@Override
-					public void update(FGERectangle geometricObject) {
+					public void update(FGERoundRectangle geometricObject) {
 						setPoint(geometricObject.getNorthEastPt());
 					}
 				});
 			}
 
 			if (pc1 != null && pc2 != null) {
-				returned.add(new ComputedControlPoint<FGERectangle>((GeometricNode<?>) dtn, "southWest", rectangle.getSouthWestPt()) {
+				returned.add(new ComputedControlPoint<FGERoundRectangle>((GeometricNode<?>) dtn, "southWest", rectangle.getSouthWestPt()) {
 					private double initialWidth;
 					private double initialHeight;
 
@@ -278,15 +277,15 @@ public interface RoundRectangleGraphicalRepresentation extends GeometricObjectGr
 					}
 
 					@Override
-					public void update(FGERectangle geometricObject) {
+					public void update(FGERoundRectangle geometricObject) {
 						setPoint(geometricObject.getSouthWestPt());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<FGERectangle>((GeometricNode<?>) dtn, "southWest", rectangle.getSouthEastPt()) {
+				returned.add(new ComputedControlPoint<FGERoundRectangle>((GeometricNode<?>) dtn, "southWest", rectangle.getSouthEastPt()) {
 					@Override
-					public void update(FGERectangle geometricObject) {
+					public void update(FGERoundRectangle geometricObject) {
 						setPoint(geometricObject.getSouthWestPt());
 					}
 				});

@@ -39,8 +39,8 @@
 
 package org.openflexo.diana.geomedit.model;
 
-import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.diana.geomedit.model.RectangleWithTwoPointsConstruction.RectangleWithTwoPointsConstructionImpl;
+import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.model.annotations.Getter;
@@ -61,16 +61,18 @@ public interface RectangleWithTwoPointsConstruction extends RectangleConstructio
 	public static final String POINT_CONSTRUCTION_2_KEY = "pointConstruction2";
 
 	@Getter(value = POINT_CONSTRUCTION_1_KEY)
+	@XMLElement(context = "P1_")
 	public PointConstruction getPointConstruction1();
 
 	@Setter(value = POINT_CONSTRUCTION_1_KEY)
-	public void setPointConstruction1(PointConstruction pointConstruction);
+	public void setPointConstruction1(PointConstruction pointConstruction1);
 
 	@Getter(value = POINT_CONSTRUCTION_2_KEY)
+	@XMLElement(context = "P2_")
 	public PointConstruction getPointConstruction2();
 
 	@Setter(value = POINT_CONSTRUCTION_2_KEY)
-	public void setPointConstruction2(PointConstruction pointConstruction);
+	public void setPointConstruction2(PointConstruction pointConstruction2);
 
 	public static abstract class RectangleWithTwoPointsConstructionImpl extends RectangleConstructionImpl
 			implements RectangleWithTwoPointsConstruction {
