@@ -105,6 +105,11 @@ public interface EllipsConstruction<E extends FGEEllips> extends GeometricConstr
 			implements EllipsConstruction<E> {
 
 		@Override
+		public String getBaseName() {
+			return "Ellips";
+		}
+
+		@Override
 		public final FGEEllips getEllips() {
 			return getData();
 		}

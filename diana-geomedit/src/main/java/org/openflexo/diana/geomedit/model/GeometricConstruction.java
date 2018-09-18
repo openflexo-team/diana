@@ -176,7 +176,11 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 		}
 
 		protected String getDefaultName() {
-			return "Construction" + getIndex();
+			return getBaseName() + getIndex();
+		}
+
+		public String getBaseName() {
+			return "Construction";
 		}
 
 		private static int totalIndex = 0;

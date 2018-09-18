@@ -103,6 +103,11 @@ public interface RectangleConstruction extends GeometricConstruction<FGERectangl
 	public abstract class RectangleConstructionImpl extends GeometricConstructionImpl<FGERectangle> implements RectangleConstruction {
 
 		@Override
+		public String getBaseName() {
+			return "Rectangle";
+		}
+
+		@Override
 		public final FGERectangle getRectangle() {
 			return getData();
 		}

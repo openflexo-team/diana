@@ -84,6 +84,11 @@ public interface CircleConstruction extends EllipsConstruction<FGECircle> {
 	public static abstract class CircleConstructionImpl extends EllipsConstructionImpl<FGECircle> implements CircleConstruction {
 
 		@Override
+		public String getBaseName() {
+			return "Circle";
+		}
+
+		@Override
 		public final FGECircle getCircle() {
 			return getData();
 		}

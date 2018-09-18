@@ -82,6 +82,11 @@ public interface PointConstruction extends GeometricConstruction<FGEPoint> {
 	public static abstract class PointConstructionImpl extends GeometricConstructionImpl<FGEPoint> implements PointConstruction {
 
 		@Override
+		public String getBaseName() {
+			return "Point";
+		}
+
+		@Override
 		public FGEPoint getPoint() {
 			return getData();
 		}

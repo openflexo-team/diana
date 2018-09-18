@@ -93,6 +93,11 @@ public interface SegmentConstruction extends GeometricConstruction<FGESegment> {
 	public abstract class SegmentConstructionImpl extends GeometricConstructionImpl<FGESegment> implements SegmentConstruction {
 
 		@Override
+		public String getBaseName() {
+			return "Segment";
+		}
+
+		@Override
 		public final FGESegment getSegment() {
 			return getData();
 		}

@@ -96,6 +96,11 @@ public interface LineConstruction extends GeometricConstruction<FGELine> {
 	public static abstract class LineConstructionImpl extends GeometricConstructionImpl<FGELine> implements LineConstruction {
 
 		@Override
+		public String getBaseName() {
+			return "Line";
+		}
+
+		@Override
 		public final FGELine getLine() {
 			return getData();
 		}
