@@ -219,6 +219,14 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
+	public HalfLineWithTwoPointsConstruction makeHalfLineWithTwoPointsConstruction(PointConstruction limitPointConstruction,
+			PointConstruction oppositePointConstruction) {
+		HalfLineWithTwoPointsConstruction returned = newInstance(HalfLineWithTwoPointsConstruction.class);
+		returned.setLimitPointConstruction(limitPointConstruction);
+		returned.setOppositePointConstruction(oppositePointConstruction);
+		return returned;
+	}
+
 	public SegmentWithTwoPointsConstruction makeSegmentWithTwoPointsConstruction(PointConstruction pointConstruction1,
 			PointConstruction pointConstruction2) {
 		SegmentWithTwoPointsConstruction returned = newInstance(SegmentWithTwoPointsConstruction.class);

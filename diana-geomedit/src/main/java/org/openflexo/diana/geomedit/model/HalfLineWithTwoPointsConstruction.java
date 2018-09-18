@@ -39,23 +39,37 @@
 
 package org.openflexo.diana.geomedit.model;
 
-import org.openflexo.diana.geomedit.model.HalfBandWithLinesConstruction.HalfBandWithLinesConstructionImpl;
+import org.openflexo.diana.geomedit.model.HalfLineWithTwoPointsConstruction.HalfLineWithTwoPointsConstructionImpl;
 import org.openflexo.fge.geom.area.FGEHalfLine;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
-@ImplementationClass(HalfBandWithLinesConstructionImpl.class)
+@ImplementationClass(HalfLineWithTwoPointsConstructionImpl.class)
 @XMLElement
 public interface HalfLineWithTwoPointsConstruction extends HalfLineConstruction {
 
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String LIMIT_POINT_CONSTRUCTION_KEY = "limitPointConstruction";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String OPPOSITE_POINT_CONSTRUCTION_KEY = "oppositePointConstruction";
+
+	@Getter(value = LIMIT_POINT_CONSTRUCTION_KEY)
+	@XMLElement(context = "Limit_")
 	public PointConstruction getLimitPointConstruction();
 
+	@Setter(value = LIMIT_POINT_CONSTRUCTION_KEY)
 	public void setLimitPointConstruction(PointConstruction limitPointConstruction);
 
+	@Getter(value = OPPOSITE_POINT_CONSTRUCTION_KEY)
+	@XMLElement(context = "Opposite_")
 	public PointConstruction getOppositePointConstruction();
 
+	@Setter(value = OPPOSITE_POINT_CONSTRUCTION_KEY)
 	public void setOppositePointConstruction(PointConstruction oppositePointConstruction);
 
 	public static abstract class HalfLineWithTwoPointsConstructionImpl extends HalfLineConstructionImpl

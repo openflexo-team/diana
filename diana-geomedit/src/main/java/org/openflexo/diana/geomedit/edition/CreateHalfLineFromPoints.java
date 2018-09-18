@@ -39,16 +39,14 @@
 
 package org.openflexo.diana.geomedit.edition;
 
-import org.openflexo.diana.geomedit.model.HalfLineWithTwoPointsConstruction;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.area.FGEHalfLine;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.HalfLine;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateHalfLineFromPoints extends Edition {
 
-	public CreateHalfLineFromPoints(GeomEditController controller) {
+	public CreateHalfLineFromPoints(GeomEditDrawingController controller) {
 		super("Create half-line from points", controller);
 		inputs.add(new ObtainPoint("Select limit point (finite bound)", controller));
 		inputs.add(new ObtainPoint("Select opposite point (infinite side)", controller));
@@ -59,8 +57,7 @@ public class CreateHalfLineFromPoints extends Edition {
 		ObtainPoint p1 = (ObtainPoint) inputs.get(0);
 		ObtainPoint p2 = (ObtainPoint) inputs.get(1);
 
-		addObject(new HalfLine(getController().getDrawing().getModel(), new HalfLineWithTwoPointsConstruction(p1.getConstruction(),
-				p2.getConstruction())));
+		addConstruction(getController().getFactory().makeHalfLineWithTwoPointsConstruction(p1.getConstruction(), p2.getConstruction()));
 
 	}
 
@@ -68,7 +65,8 @@ public class CreateHalfLineFromPoints extends Edition {
 	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
-		} else if (currentStep == 1) {
+		}
+		else if (currentStep == 1) {
 			// Nothing to draw
 			FGEPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
 			graphics.setDefaultForeground(focusedForegroundStyle);

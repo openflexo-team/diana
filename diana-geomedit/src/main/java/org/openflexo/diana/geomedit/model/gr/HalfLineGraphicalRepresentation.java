@@ -66,7 +66,8 @@ import org.openflexo.model.annotations.XMLElement;
 @XMLElement
 public interface HalfLineGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEHalfLine> {
 
-	public static abstract class HalfLineGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEHalfLine> {
+	public static abstract class HalfLineGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEHalfLine>
+			implements HalfLineGraphicalRepresentation {
 
 		@Override
 		public List<? extends ControlArea<?>> makeControlAreasFor(
