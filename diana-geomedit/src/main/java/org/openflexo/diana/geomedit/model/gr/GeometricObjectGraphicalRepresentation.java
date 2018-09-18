@@ -39,9 +39,11 @@
 
 package org.openflexo.diana.geomedit.model.gr;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
+import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.geom.area.FGEArea;
@@ -99,6 +101,12 @@ public interface GeometricObjectGraphicalRepresentation<A extends FGEArea> exten
 		@Override
 		public A getGeometricObject() {
 			return (A) super.getGeometricObject();
+		}
+
+		@Override
+		public List<? extends ControlArea<?>> makeControlAreasFor(
+				DrawingTreeNode<GeometricConstruction<A>, GeometricGraphicalRepresentation> dtn) {
+			return Collections.emptyList();
 		}
 
 	}

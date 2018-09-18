@@ -55,6 +55,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import org.openflexo.diana.geomedit.edition.CreateBandFromLines;
 import org.openflexo.diana.geomedit.edition.CreateCircleWithCenterAndPoint;
 import org.openflexo.diana.geomedit.edition.CreateHorizontalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateLineFromPoints;
@@ -153,6 +154,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		contextualMenu.add(makeCreateRectangleMenu());
 		contextualMenu.add(makeCreateRoundRectangleMenu());
 		contextualMenu.add(makeCreateCircleMenu());
+		contextualMenu.add(makeCreateBandMenu());
 
 		contextualMenu.addSeparator();
 		JMenuItem copyItem = new JMenuItem("Copy");
@@ -373,6 +375,21 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		createCircleItem.add(createCircleWithCenterAndPointItem);
 
 		return createCircleItem;
+	}
+
+	private JMenu makeCreateBandMenu() {
+		JMenu createBandItem = new JMenu("Create band");
+
+		JMenuItem createBandWithTwoLinesItem = new JMenuItem("With two lines");
+		createBandWithTwoLinesItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateBandFromLines(GeomEditDrawingController.this));
+			}
+		});
+		createBandItem.add(createBandWithTwoLinesItem);
+
+		return createBandItem;
 	}
 
 	public GeometricDiagram getDiagram() {

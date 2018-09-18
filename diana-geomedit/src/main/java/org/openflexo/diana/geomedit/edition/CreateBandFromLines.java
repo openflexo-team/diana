@@ -40,9 +40,7 @@
 package org.openflexo.diana.geomedit.edition;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
-import org.openflexo.diana.geomedit.model.BandWithTwoLinesConstruction;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.Band;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateBandFromLines extends Edition {
@@ -58,8 +56,7 @@ public class CreateBandFromLines extends Edition {
 		ObtainLine l1 = (ObtainLine) inputs.get(0);
 		ObtainLine l2 = (ObtainLine) inputs.get(1);
 
-		addObject(new Band(getController().getDrawing().getModel(),
-				new BandWithTwoLinesConstruction(l1.getConstruction(), l2.getConstruction())));
+		addConstruction(getController().getFactory().makeBandWithTwoLinesConstruction(l1.getConstruction(), l2.getConstruction()));
 
 	}
 

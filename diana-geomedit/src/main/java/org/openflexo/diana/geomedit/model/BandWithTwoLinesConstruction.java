@@ -41,8 +41,11 @@ package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.model.BandWithTwoLinesConstruction.BandWithTwoLinesConstructionImpl;
 import org.openflexo.fge.geom.area.FGEBand;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
@@ -50,12 +53,23 @@ import org.openflexo.model.annotations.XMLElement;
 @XMLElement
 public interface BandWithTwoLinesConstruction extends BandConstruction {
 
+	@PropertyIdentifier(type = LineConstruction.class)
+	public static final String LINE_CONSTRUCTION_1_KEY = "lineConstruction1";
+	@PropertyIdentifier(type = LineConstruction.class)
+	public static final String LINE_CONSTRUCTION_2_KEY = "lineConstruction2";
+
+	@Getter(value = LINE_CONSTRUCTION_1_KEY)
+	@XMLElement(context = "L1_")
 	public LineConstruction getLineConstruction1();
 
+	@Setter(value = LINE_CONSTRUCTION_1_KEY)
 	public void setLineConstruction1(LineConstruction lineConstruction1);
 
+	@Getter(value = LINE_CONSTRUCTION_2_KEY)
+	@XMLElement(context = "L2_")
 	public LineConstruction getLineConstruction2();
 
+	@Setter(value = LINE_CONSTRUCTION_2_KEY)
 	public void setLineConstruction2(LineConstruction lineConstruction2);
 
 	public static abstract class BandWithTwoLinesConstructionImpl extends BandConstructionImpl implements BandWithTwoLinesConstruction {

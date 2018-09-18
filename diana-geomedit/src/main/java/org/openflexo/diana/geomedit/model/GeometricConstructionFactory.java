@@ -259,4 +259,12 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
+	public BandWithTwoLinesConstruction makeBandWithTwoLinesConstruction(LineConstruction lineConstruction1,
+			LineConstruction lineConstruction2) {
+		BandWithTwoLinesConstruction returned = newInstance(BandWithTwoLinesConstruction.class);
+		returned.setLineConstruction1(lineConstruction1);
+		returned.setLineConstruction2(lineConstruction2);
+		return returned;
+	}
+
 }
