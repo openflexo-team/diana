@@ -41,19 +41,17 @@ package org.openflexo.diana.geomedit.edition;
 
 import java.util.logging.Logger;
 
-import org.openflexo.diana.geomedit.model.HalfPlaneWithLineAndPointConstruction;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.area.FGEHalfPlane;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.HalfPlane;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateHalfPlaneWithLineAndPoint extends Edition {
 
 	private static final Logger logger = Logger.getLogger(CreateHalfPlaneWithLineAndPoint.class.getPackage().getName());
 
-	public CreateHalfPlaneWithLineAndPoint(GeomEditController controller) {
+	public CreateHalfPlaneWithLineAndPoint(GeomEditDrawingController controller) {
 		super("Create half-plane with line and point", controller);
 		inputs.add(new ObtainLine("Select a line delimiting half-plane", controller));
 		inputs.add(new ObtainPoint("Select point inside half-plane", controller));
@@ -64,8 +62,7 @@ public class CreateHalfPlaneWithLineAndPoint extends Edition {
 		ObtainLine l = (ObtainLine) inputs.get(0);
 		ObtainPoint p = (ObtainPoint) inputs.get(1);
 
-		addObject(new HalfPlane(getController().getDrawing().getModel(), new HalfPlaneWithLineAndPointConstruction(l.getConstruction(),
-				p.getConstruction())));
+		addConstruction(getController().getFactory().makeHalfPlaneWithLineAndPointConstruction(l.getConstruction(), p.getConstruction()));
 
 	}
 
@@ -76,7 +73,8 @@ public class CreateHalfPlaneWithLineAndPoint extends Edition {
 	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
-		} else if (currentStep == 1) {
+		}
+		else if (currentStep == 1) {
 			FGELine line = ((ObtainLine) inputs.get(0)).getInputData();
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			graphics.setDefaultBackground(focusedBackgroundStyle);
@@ -93,7 +91,8 @@ public class CreateHalfPlaneWithLineAndPoint extends Edition {
 			if (hpToPaint == null || !hpToPaint.equals(hp)) {
 				hpToPaint = hp;
 				requireRepaint = true;
-			} else {
+			}
+			else {
 				requireRepaint = false;
 			}
 		}

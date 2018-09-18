@@ -41,8 +41,11 @@ package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.model.HalfPlaneWithLineAndPointConstruction.HalfPlaneWithLineAndPointConstructionImpl;
 import org.openflexo.fge.geom.area.FGEHalfPlane;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
@@ -50,12 +53,23 @@ import org.openflexo.model.annotations.XMLElement;
 @XMLElement
 public interface HalfPlaneWithLineAndPointConstruction extends HalfPlaneConstruction {
 
+	@PropertyIdentifier(type = LineConstruction.class)
+	public static final String LINE_CONSTRUCTION_KEY = "lineConstruction";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String POINT_CONSTRUCTION_KEY = "pointConstruction";
+
+	@Getter(value = LINE_CONSTRUCTION_KEY)
+	@XMLElement
 	public LineConstruction getLineConstruction();
 
+	@Setter(value = LINE_CONSTRUCTION_KEY)
 	public void setLineConstruction(LineConstruction lineConstruction);
 
+	@Getter(value = POINT_CONSTRUCTION_KEY)
+	@XMLElement
 	public PointConstruction getPointConstruction();
 
+	@Setter(value = POINT_CONSTRUCTION_KEY)
 	public void setPointConstruction(PointConstruction pointConstruction);
 
 	public static abstract class HalfPlaneWithLineAndPointConstructionImpl extends HalfPlaneConstructionImpl
