@@ -57,6 +57,7 @@ import javax.swing.JPopupMenu;
 
 import org.openflexo.diana.geomedit.edition.CreateBandFromLines;
 import org.openflexo.diana.geomedit.edition.CreateCircleWithCenterAndPoint;
+import org.openflexo.diana.geomedit.edition.CreateHalfBandWithLines;
 import org.openflexo.diana.geomedit.edition.CreateHalfLineFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateHalfPlaneWithLineAndPoint;
 import org.openflexo.diana.geomedit.edition.CreateHorizontalLineWithPoint;
@@ -159,6 +160,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		contextualMenu.add(makeCreateCircleMenu());
 		contextualMenu.add(makeCreateHalfPlaneMenu());
 		contextualMenu.add(makeCreateBandMenu());
+		contextualMenu.add(makeCreateHalfBandMenu());
 
 		contextualMenu.addSeparator();
 		JMenuItem copyItem = new JMenuItem("Copy");
@@ -424,6 +426,21 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		createBandItem.add(createBandWithTwoLinesItem);
 
 		return createBandItem;
+	}
+
+	private JMenu makeCreateHalfBandMenu() {
+		JMenu createHalfBandItem = new JMenu("Create half-band");
+
+		JMenuItem createHalfBandWithTwoLinesItem = new JMenuItem("With lines");
+		createHalfBandWithTwoLinesItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateHalfBandWithLines(GeomEditDrawingController.this));
+			}
+		});
+		createHalfBandItem.add(createHalfBandWithTwoLinesItem);
+
+		return createHalfBandItem;
 	}
 
 	public GeometricDiagram getDiagram() {

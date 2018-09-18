@@ -41,23 +41,21 @@ package org.openflexo.diana.geomedit.edition;
 
 import java.util.logging.Logger;
 
-import org.openflexo.diana.geomedit.model.HalfBandWithLinesConstruction;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.geom.area.FGEBand;
 import org.openflexo.fge.geom.area.FGEHalfBand;
 import org.openflexo.fge.geom.area.FGEHalfPlane;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.HalfBand;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateHalfBandWithLines extends Edition {
 
 	private static final Logger logger = Logger.getLogger(CreateHalfBandWithLines.class.getPackage().getName());
 
-	public CreateHalfBandWithLines(GeomEditController controller) {
-		super("Create half-plane with line and point", controller);
+	public CreateHalfBandWithLines(GeomEditDrawingController controller) {
+		super("Create half-band with lines and point", controller);
 		inputs.add(new ObtainLine("Select first line", controller));
 		inputs.add(new ObtainLine("Select second line", controller));
 		inputs.add(new ObtainLine("Select a line delimiting half-plane", controller));
@@ -71,9 +69,8 @@ public class CreateHalfBandWithLines extends Edition {
 		ObtainLine l3 = (ObtainLine) inputs.get(2);
 		ObtainPoint p = (ObtainPoint) inputs.get(3);
 
-		addObject(new HalfBand(getController().getDrawing().getModel(), new HalfBandWithLinesConstruction(l1.getConstruction(),
-				l2.getConstruction(), l3.getConstruction(), p.getConstruction())));
-
+		addConstruction(getController().getFactory().makeHalfBandWithLinesConstruction(l1.getConstruction(), l2.getConstruction(),
+				l3.getConstruction(), p.getConstruction()));
 	}
 
 	private FGEArea whatToPaint = null;
@@ -84,14 +81,17 @@ public class CreateHalfBandWithLines extends Edition {
 		if (currentStep == 0) {
 			// Nothing to draw
 			return;
-		} else if (currentStep == 1) {
+		}
+		else if (currentStep == 1) {
 			FGELine line1 = ((ObtainLine) inputs.get(0)).getInputData();
 			whatToPaint = new FGEHalfPlane(line1, lastMouseLocation);
-		} else if (currentStep == 2) {
+		}
+		else if (currentStep == 2) {
 			FGELine line1 = ((ObtainLine) inputs.get(0)).getInputData();
 			FGELine line2 = ((ObtainLine) inputs.get(1)).getInputData();
 			whatToPaint = new FGEBand(line1, line2);
-		} else if (currentStep == 3) {
+		}
+		else if (currentStep == 3) {
 			FGELine line1 = ((ObtainLine) inputs.get(0)).getInputData();
 			FGELine line2 = ((ObtainLine) inputs.get(1)).getInputData();
 			FGELine limitLine = ((ObtainLine) inputs.get(2)).getInputData();
@@ -108,14 +108,17 @@ public class CreateHalfBandWithLines extends Edition {
 		if (currentStep == 0) {
 			// Nothing to draw
 			return false;
-		} else if (currentStep == 1) {
+		}
+		else if (currentStep == 1) {
 			FGELine line1 = ((ObtainLine) inputs.get(0)).getInputData();
 			thingToPaint = new FGEHalfPlane(line1, lastMouseLocation);
-		} else if (currentStep == 2) {
+		}
+		else if (currentStep == 2) {
 			FGELine line1 = ((ObtainLine) inputs.get(0)).getInputData();
 			FGELine line2 = ((ObtainLine) inputs.get(1)).getInputData();
 			thingToPaint = new FGEBand(line1, line2);
-		} else if (currentStep == 3) {
+		}
+		else if (currentStep == 3) {
 			FGELine line1 = ((ObtainLine) inputs.get(0)).getInputData();
 			FGELine line2 = ((ObtainLine) inputs.get(1)).getInputData();
 			FGELine limitLine = ((ObtainLine) inputs.get(2)).getInputData();
@@ -124,7 +127,8 @@ public class CreateHalfBandWithLines extends Edition {
 		if (whatToPaint == null || !whatToPaint.equals(thingToPaint)) {
 			whatToPaint = thingToPaint;
 			requireRepaint = true;
-		} else {
+		}
+		else {
 			requireRepaint = false;
 		}
 

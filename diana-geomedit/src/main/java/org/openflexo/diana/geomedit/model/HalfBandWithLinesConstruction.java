@@ -42,8 +42,11 @@ package org.openflexo.diana.geomedit.model;
 import org.openflexo.diana.geomedit.model.HalfBandWithLinesConstruction.HalfBandWithLinesConstructionImpl;
 import org.openflexo.fge.geom.area.FGEHalfBand;
 import org.openflexo.fge.geom.area.FGEHalfPlane;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
@@ -51,20 +54,41 @@ import org.openflexo.model.annotations.XMLElement;
 @XMLElement
 public interface HalfBandWithLinesConstruction extends HalfBandConstruction {
 
+	@PropertyIdentifier(type = LineConstruction.class)
+	public static final String LINE_CONSTRUCTION_1_KEY = "lineConstruction1";
+	@PropertyIdentifier(type = LineConstruction.class)
+	public static final String LINE_CONSTRUCTION_2_KEY = "lineConstruction2";
+	@PropertyIdentifier(type = LineConstruction.class)
+	public static final String LIMIT_LINE_CONSTRUCTION_KEY = "limitLineConstruction";
+	@PropertyIdentifier(type = PointConstruction.class)
+	public static final String POINT_CONSTRUCTION_KEY = "pointConstruction";
+
+	@Getter(value = LINE_CONSTRUCTION_1_KEY)
+	@XMLElement(context = "L1_")
 	public LineConstruction getLineConstruction1();
 
+	@Setter(value = LINE_CONSTRUCTION_1_KEY)
 	public void setLineConstruction1(LineConstruction lineConstruction1);
 
+	@Getter(value = LINE_CONSTRUCTION_2_KEY)
+	@XMLElement(context = "L2_")
 	public LineConstruction getLineConstruction2();
 
+	@Setter(value = LINE_CONSTRUCTION_2_KEY)
 	public void setLineConstruction2(LineConstruction lineConstruction2);
 
+	@Getter(value = LIMIT_LINE_CONSTRUCTION_KEY)
+	@XMLElement(context = "Limit_")
 	public LineConstruction getLimitLineConstruction();
 
+	@Setter(value = LIMIT_LINE_CONSTRUCTION_KEY)
 	public void setLimitLineConstruction(LineConstruction limitLineConstruction);
 
+	@Getter(value = POINT_CONSTRUCTION_KEY)
+	@XMLElement
 	public PointConstruction getPointConstruction();
 
+	@Setter(value = POINT_CONSTRUCTION_KEY)
 	public void setPointConstruction(PointConstruction pointConstruction);
 
 	public static abstract class HalfBandWithLinesConstructionImpl extends HalfBandConstructionImpl

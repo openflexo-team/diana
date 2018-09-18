@@ -283,4 +283,14 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
+	public HalfBandWithLinesConstruction makeHalfBandWithLinesConstruction(LineConstruction lineConstruction1,
+			LineConstruction lineConstruction2, LineConstruction limitLineConstruction, PointConstruction pointConstruction) {
+		HalfBandWithLinesConstruction returned = newInstance(HalfBandWithLinesConstruction.class);
+		returned.setLineConstruction1(lineConstruction1);
+		returned.setLineConstruction2(lineConstruction2);
+		returned.setLimitLineConstruction(limitLineConstruction);
+		returned.setPointConstruction(pointConstruction);
+		return returned;
+	}
+
 }
