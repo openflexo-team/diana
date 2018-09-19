@@ -49,6 +49,7 @@ import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(PolygonConstructionImpl.class)
@@ -59,6 +60,7 @@ public interface PolygonConstruction extends GeometricConstruction<FGEPolygon> {
 	public static final String IS_FILLED_KEY = "isFilled";
 
 	@Getter(value = IS_FILLED_KEY, defaultValue = "true")
+	@XMLAttribute
 	public boolean getIsFilled();
 
 	@Setter(IS_FILLED_KEY)
@@ -82,17 +84,5 @@ public interface PolygonConstruction extends GeometricConstruction<FGEPolygon> {
 		@Override
 		protected abstract FGEPolygon computeData();
 
-		@Override
-		public boolean getIsFilled() {
-			return getPolygon().getIsFilled();
-		}
-
-		@Override
-		public void setIsFilled(boolean filled) {
-			if (filled != getIsFilled()) {
-				getPolygon().setIsFilled(filled);
-				getPropertyChangeSupport().firePropertyChange(IS_FILLED_KEY, !filled, filled);
-			}
-		}
 	}
 }

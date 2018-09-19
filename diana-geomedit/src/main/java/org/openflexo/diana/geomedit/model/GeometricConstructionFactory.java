@@ -38,6 +38,8 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import java.util.List;
+
 import org.openflexo.diana.geomedit.ShowContextualMenuControl;
 import org.openflexo.diana.geomedit.model.gr.GeometricDrawingGraphicalRepresentation;
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
@@ -256,6 +258,14 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 	public CircleReference makeCircleReference(CircleConstruction construction) {
 		CircleReference returned = newInstance(CircleReference.class);
 		returned.setReference(construction);
+		return returned;
+	}
+
+	public PolygonWithNPointsConstruction makePolygonWithNPointsConstruction(List<PointConstruction> pointConstructions) {
+		PolygonWithNPointsConstruction returned = newInstance(PolygonWithNPointsConstruction.class);
+		for (PointConstruction pc : pointConstructions) {
+			returned.addToPointConstructions(pc);
+		}
 		return returned;
 	}
 

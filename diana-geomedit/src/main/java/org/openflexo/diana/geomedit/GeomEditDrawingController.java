@@ -68,6 +68,7 @@ import org.openflexo.diana.geomedit.edition.CreateParallelLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreatePoint;
 import org.openflexo.diana.geomedit.edition.CreatePointMiddleOfPoints;
 import org.openflexo.diana.geomedit.edition.CreatePointSymetricOfPoint;
+import org.openflexo.diana.geomedit.edition.CreatePolygonWithNPoints;
 import org.openflexo.diana.geomedit.edition.CreateQuadCurveFromThreePoints;
 import org.openflexo.diana.geomedit.edition.CreateRectangleFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateRotatedLineWithPoint;
@@ -159,6 +160,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		contextualMenu.add(makeCreateSegmentMenu());
 		contextualMenu.add(makeCreateRectangleMenu());
 		contextualMenu.add(makeCreateRoundRectangleMenu());
+		contextualMenu.add(makeCreatePolygonMenu());
 		contextualMenu.add(makeCreateCircleMenu());
 		contextualMenu.add(makeCreateHalfPlaneMenu());
 		contextualMenu.add(makeCreateBandMenu());
@@ -385,6 +387,21 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		createRoundRectangleItem.add(createRoundRectangleFromPointsItem);
 
 		return createRoundRectangleItem;
+	}
+
+	private JMenu makeCreatePolygonMenu() {
+		JMenu createPolygonItem = new JMenu("Create polygon");
+
+		JMenuItem CreatePolygonWithNPointsItem = new JMenuItem("With n points");
+		CreatePolygonWithNPointsItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreatePolygonWithNPoints(GeomEditDrawingController.this));
+			}
+		});
+		createPolygonItem.add(CreatePolygonWithNPointsItem);
+
+		return createPolygonItem;
 	}
 
 	private JMenu makeCreateCircleMenu() {

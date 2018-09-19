@@ -42,8 +42,8 @@ package org.openflexo.diana.geomedit.model;
 import java.util.List;
 import java.util.Vector;
 
-import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.diana.geomedit.model.PolygonWithNPointsConstruction.PolygonWithNPointsConstructionImpl;
+import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEPolygon;
 import org.openflexo.model.annotations.Adder;
@@ -64,6 +64,7 @@ public interface PolygonWithNPointsConstruction extends PolygonConstruction {
 	public static final String POINT_CONSTRUCTIONS_KEY = "pointConstructions";
 
 	@Getter(value = POINT_CONSTRUCTIONS_KEY, cardinality = Cardinality.LIST)
+	@XMLElement
 	public List<PointConstruction> getPointConstructions();
 
 	@Adder(POINT_CONSTRUCTIONS_KEY)
@@ -75,27 +76,10 @@ public interface PolygonWithNPointsConstruction extends PolygonConstruction {
 	public static abstract class PolygonWithNPointsConstructionImpl extends PolygonConstructionImpl
 			implements PolygonWithNPointsConstruction {
 
-		public List<PointConstruction> pointConstructions;
-
-		@Override
-		public List<PointConstruction> getPointConstructions() {
-			return pointConstructions;
-		}
-
-		@Override
-		public void addToPointConstructions(PointConstruction pointConstruction) {
-			pointConstructions.add(pointConstruction);
-		}
-
-		@Override
-		public void removeFromPointConstructions(PointConstruction pointConstruction) {
-			pointConstructions.remove(pointConstruction);
-		}
-
 		@Override
 		protected FGEPolygon computeData() {
 			Vector<FGEPoint> pts = new Vector<FGEPoint>();
-			for (PointConstruction pc : pointConstructions) {
+			for (PointConstruction pc : getPointConstructions()) {
 				pts.add(pc.getData());
 			}
 			return new FGEPolygon(getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED, pts);
@@ -105,7 +89,7 @@ public interface PolygonWithNPointsConstruction extends PolygonConstruction {
 		public String toString() {
 			StringBuffer sb = new StringBuffer();
 			sb.append("PolygonWithNPointsConstruction[\n");
-			for (PointConstruction pc : pointConstructions) {
+			for (PointConstruction pc : getPointConstructions()) {
 				sb.append("> " + pc.toString() + "\n");
 			}
 			sb.append("]");
@@ -114,7 +98,7 @@ public interface PolygonWithNPointsConstruction extends PolygonConstruction {
 
 		@Override
 		public GeometricConstruction[] getDepends() {
-			return pointConstructions.toArray(new GeometricConstruction[pointConstructions.size()]);
+			return getPointConstructions().toArray(new GeometricConstruction[getPointConstructions().size()]);
 		}
 
 	}
