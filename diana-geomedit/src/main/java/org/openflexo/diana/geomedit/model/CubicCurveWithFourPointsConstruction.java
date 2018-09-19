@@ -63,24 +63,28 @@ public interface CubicCurveWithFourPointsConstruction extends CubicCurveConstruc
 	public static final String CONTROL_POINT_CONSTRUCTION_2_KEY = "controlPointConstruction2";
 
 	@Getter(value = START_POINT_CONSTRUCTION_KEY)
+	@XMLElement(context = "Start_")
 	public PointConstruction getStartPointConstruction();
 
 	@Setter(value = START_POINT_CONSTRUCTION_KEY)
 	public void setStartPointConstruction(PointConstruction startPointConstruction);
 
 	@Getter(value = CONTROL_POINT_CONSTRUCTION_1_KEY)
+	@XMLElement(context = "Ctrl1_")
 	public PointConstruction getControlPointConstruction1();
 
 	@Setter(value = CONTROL_POINT_CONSTRUCTION_1_KEY)
 	public void setControlPointConstruction1(PointConstruction controlPointConstruction);
 
 	@Getter(value = CONTROL_POINT_CONSTRUCTION_2_KEY)
+	@XMLElement(context = "Ctrl2_")
 	public PointConstruction getControlPointConstruction2();
 
 	@Setter(value = CONTROL_POINT_CONSTRUCTION_2_KEY)
 	public void setControlPointConstruction2(PointConstruction controlPointConstruction);
 
 	@Getter(value = END_POINT_CONSTRUCTION_KEY)
+	@XMLElement(context = "End_")
 	public PointConstruction getEndPointConstruction();
 
 	@Setter(value = END_POINT_CONSTRUCTION_KEY)

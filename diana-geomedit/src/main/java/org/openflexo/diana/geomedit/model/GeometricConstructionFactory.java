@@ -302,4 +302,15 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
+	public CubicCurveWithFourPointsConstruction makeCubicCurveWithFourPointsConstruction(PointConstruction startPointConstruction,
+			PointConstruction endPointConstruction, PointConstruction controlPointConstruction1,
+			PointConstruction controlPointConstruction2) {
+		CubicCurveWithFourPointsConstruction returned = newInstance(CubicCurveWithFourPointsConstruction.class);
+		returned.setStartPointConstruction(startPointConstruction);
+		returned.setEndPointConstruction(endPointConstruction);
+		returned.setControlPointConstruction1(controlPointConstruction1);
+		returned.setControlPointConstruction2(controlPointConstruction2);
+		return returned;
+	}
+
 }

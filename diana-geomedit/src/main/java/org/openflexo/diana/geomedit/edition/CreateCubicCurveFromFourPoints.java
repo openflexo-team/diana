@@ -41,19 +41,17 @@ package org.openflexo.diana.geomedit.edition;
 
 import java.awt.Color;
 
-import org.openflexo.diana.geomedit.model.CubicCurveWithFourPointsConstruction;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.fge.ForegroundStyle.DashStyle;
 import org.openflexo.fge.geom.FGECubicCurve;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEQuadCurve;
 import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.fge.geomedit.CubicCurve;
-import org.openflexo.fge.geomedit.GeomEditController;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateCubicCurveFromFourPoints extends Edition {
 
-	public CreateCubicCurveFromFourPoints(GeomEditController controller) {
+	public CreateCubicCurveFromFourPoints(GeomEditDrawingController controller) {
 		super("Create quadratic curve from three points", controller);
 		inputs.add(new ObtainPoint("Select start point", controller));
 		inputs.add(new ObtainPoint("Select end point", controller));
@@ -68,27 +66,24 @@ public class CreateCubicCurveFromFourPoints extends Edition {
 		ObtainPoint p3 = (ObtainPoint) inputs.get(2);
 		ObtainPoint p4 = (ObtainPoint) inputs.get(3);
 
-		addObject(new CubicCurve(getController().getDrawing().getModel(), new CubicCurveWithFourPointsConstruction(p1.getConstruction(),
-				p3.getConstruction(), p4.getConstruction(), p2.getConstruction())));
+		addConstruction(getController().getFactory().makeCubicCurveWithFourPointsConstruction(p1.getConstruction(), p2.getConstruction(),
+				p3.getConstruction(), p4.getConstruction()));
 
 	}
-
-	/*public void addObject(GeometricObject object)
-	{
-		getController().getDrawing().getModel().addToChilds(object);
-	}*/
 
 	@Override
 	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
-		} else if (currentStep == 1) {
+		}
+		else if (currentStep == 1) {
 			// Nothing to draw
 			FGEPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			p1.paint(graphics);
 			(new FGESegment(p1, lastMouseLocation)).paint(graphics);
-		} else if (currentStep == 2) {
+		}
+		else if (currentStep == 2) {
 			// Draw construction
 			FGEPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
 			FGEPoint p2 = ((ObtainPoint) inputs.get(1)).getInputData();
@@ -103,7 +98,8 @@ public class CreateCubicCurveFromFourPoints extends Edition {
 			lastMouseLocation.paint(graphics);
 
 			(new FGEQuadCurve(p1, lastMouseLocation, p2)).paint(graphics);
-		} else if (currentStep == 3) {
+		}
+		else if (currentStep == 3) {
 			// Draw construction
 			FGEPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
 			FGEPoint p2 = ((ObtainPoint) inputs.get(1)).getInputData();
