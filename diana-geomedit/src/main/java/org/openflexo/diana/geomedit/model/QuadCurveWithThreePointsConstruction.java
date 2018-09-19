@@ -61,18 +61,21 @@ public interface QuadCurveWithThreePointsConstruction extends QuadCurveConstruct
 	public static final String CONTROL_POINT_CONSTRUCTION_KEY = "controlPointConstruction";
 
 	@Getter(value = START_POINT_CONSTRUCTION_KEY)
+	@XMLElement(context = "Start_")
 	public PointConstruction getStartPointConstruction();
 
 	@Setter(value = START_POINT_CONSTRUCTION_KEY)
 	public void setStartPointConstruction(PointConstruction startPointConstruction);
 
 	@Getter(value = CONTROL_POINT_CONSTRUCTION_KEY)
+	@XMLElement(context = "Control_")
 	public PointConstruction getControlPointConstruction();
 
 	@Setter(value = CONTROL_POINT_CONSTRUCTION_KEY)
 	public void setControlPointConstruction(PointConstruction controlPointConstruction);
 
 	@Getter(value = END_POINT_CONSTRUCTION_KEY)
+	@XMLElement(context = "End_")
 	public PointConstruction getEndPointConstruction();
 
 	@Setter(value = END_POINT_CONSTRUCTION_KEY)

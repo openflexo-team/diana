@@ -293,4 +293,13 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
+	public QuadCurveWithThreePointsConstruction makeQuadCurveWithThreePointsConstruction(PointConstruction startPointConstruction,
+			PointConstruction endPointConstruction, PointConstruction controlPointConstruction) {
+		QuadCurveWithThreePointsConstruction returned = newInstance(QuadCurveWithThreePointsConstruction.class);
+		returned.setStartPointConstruction(startPointConstruction);
+		returned.setEndPointConstruction(endPointConstruction);
+		returned.setControlPointConstruction(controlPointConstruction);
+		return returned;
+	}
+
 }

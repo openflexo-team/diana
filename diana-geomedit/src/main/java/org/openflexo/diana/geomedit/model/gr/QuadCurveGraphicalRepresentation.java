@@ -39,6 +39,8 @@
 
 package org.openflexo.diana.geomedit.model.gr;
 
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Vector;
@@ -53,11 +55,13 @@ import org.openflexo.diana.geomedit.model.QuadCurveWithThreePointsConstruction;
 import org.openflexo.diana.geomedit.model.gr.QuadCurveGraphicalRepresentation.QuadCurveGraphicalRepresentationImpl;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
+import org.openflexo.fge.ForegroundStyle.DashStyle;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.cp.ControlArea;
-import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEQuadCurve;
+import org.openflexo.fge.geom.FGESegment;
+import org.openflexo.fge.graphics.FGEGraphics;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.XMLElement;
@@ -70,46 +74,10 @@ public interface QuadCurveGraphicalRepresentation extends GeometricObjectGraphic
 	public static abstract class QuadCurveGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEQuadCurve>
 			implements QuadCurveGraphicalRepresentation {
 
-		/*@Override
-		public void paint(Graphics g, AbstractDianaEditor controller) {
-			// TODO: un petit @brutal pour avancer, il faudrait faire les choses plus proprement
-			rebuildControlPoints();
-			super.paint(g, controller);
-		}
-		
-		@Override
-		public void paintGeometricObject(JFGEGeometricGraphics graphics) {
-			getGeometricObject().paint(graphics);
-		
-			if (getIsSelected() || getIsFocused()) {
-				// Draw construction
-				FGEPoint p1 = getGeometricObject().getP1();
-				FGEPoint p2 = getGeometricObject().getP2();
-				FGEPoint cp = getGeometricObject().getCtrlPoint();
-		
-				FGEPoint pp1 = getGeometricObject().getPP1();
-				FGEPoint pp2 = getGeometricObject().getPP2();
-		
-				graphics.setDefaultForeground(graphics.getFactory().makeForegroundStyle(Color.LIGHT_GRAY, 0.5f, DashStyle.PLAIN_STROKE));
-		
-				FGESegment line1 = new FGESegment(p1, cp);
-				FGESegment line2 = new FGESegment(p2, cp);
-				FGESegment line3 = new FGESegment(pp1, pp2);
-				line1.paint(graphics);
-				line2.paint(graphics);
-				line3.paint(graphics);
-		
-				graphics.useForegroundStyle(graphics.getFactory().makeForegroundStyle(Color.RED, 1));
-		
-				graphics.drawPoint(pp1);
-				graphics.drawPoint(pp2);
-			}
-		}*/
-
 		@Override
 		public List<? extends ControlArea<?>> makeControlAreasFor(
 				DrawingTreeNode<GeometricConstruction<FGEQuadCurve>, GeometricGraphicalRepresentation> dtn) {
-			Vector<ControlPoint> returned = new Vector<ControlPoint>();
+			Vector<ControlArea<?>> returned = new Vector<ControlArea<?>>();
 
 			QuadCurveConstruction curveConstruction = (QuadCurveConstruction) dtn.getDrawable();
 			FGEQuadCurve curve = curveConstruction.getCurve();
@@ -117,6 +85,7 @@ public interface QuadCurveGraphicalRepresentation extends GeometricObjectGraphic
 			if (curveConstruction instanceof QuadCurveWithThreePointsConstruction) {
 				PointConstruction startPointConstruction = ((QuadCurveWithThreePointsConstruction) curveConstruction)
 						.getStartPointConstruction();
+
 				if (startPointConstruction instanceof ExplicitPointConstruction) {
 					returned.add(new DraggableControlPoint<FGEQuadCurve>((GeometricNode<?>) dtn, "p1", curve.getP1(),
 							(ExplicitPointConstruction) startPointConstruction) {
@@ -203,6 +172,39 @@ public interface QuadCurveGraphicalRepresentation extends GeometricObjectGraphic
 					@Override
 					public void update(FGEQuadCurve geometricObject) {
 						setPoint(geometricObject.getP3());
+					}
+				});
+
+				final FGESegment line1 = new FGESegment(getGeometricObject().getP1(), getGeometricObject().getCtrlPoint());
+				returned.add(new ControlArea<FGESegment>(dtn, line1) {
+					@Override
+					public boolean isDraggable() {
+						return false;
+					}
+
+					@Override
+					public Rectangle paint(FGEGraphics graphics) {
+						graphics.setDefaultForeground(
+								graphics.getFactory().makeForegroundStyle(Color.LIGHT_GRAY, 0.5f, DashStyle.BIG_DASHES));
+						graphics.useDefaultForegroundStyle();
+						line1.paint(graphics);
+						return null;
+					}
+				});
+				final FGESegment line2 = new FGESegment(getGeometricObject().getP2(), getGeometricObject().getCtrlPoint());
+				returned.add(new ControlArea<FGESegment>(dtn, line2) {
+					@Override
+					public boolean isDraggable() {
+						return false;
+					}
+
+					@Override
+					public Rectangle paint(FGEGraphics graphics) {
+						graphics.setDefaultForeground(
+								graphics.getFactory().makeForegroundStyle(Color.LIGHT_GRAY, 0.5f, DashStyle.BIG_DASHES));
+						graphics.useDefaultForegroundStyle();
+						line2.paint(graphics);
+						return null;
 					}
 				});
 

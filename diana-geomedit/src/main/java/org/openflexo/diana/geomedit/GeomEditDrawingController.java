@@ -67,6 +67,7 @@ import org.openflexo.diana.geomedit.edition.CreateParallelLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreatePoint;
 import org.openflexo.diana.geomedit.edition.CreatePointMiddleOfPoints;
 import org.openflexo.diana.geomedit.edition.CreatePointSymetricOfPoint;
+import org.openflexo.diana.geomedit.edition.CreateQuadCurveFromThreePoints;
 import org.openflexo.diana.geomedit.edition.CreateRectangleFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateRotatedLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateRoundRectangleFromPoints;
@@ -161,6 +162,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		contextualMenu.add(makeCreateHalfPlaneMenu());
 		contextualMenu.add(makeCreateBandMenu());
 		contextualMenu.add(makeCreateHalfBandMenu());
+		contextualMenu.add(makeCreateQuadCurveMenu());
 
 		contextualMenu.addSeparator();
 		JMenuItem copyItem = new JMenuItem("Copy");
@@ -441,6 +443,21 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		createHalfBandItem.add(createHalfBandWithTwoLinesItem);
 
 		return createHalfBandItem;
+	}
+
+	private JMenu makeCreateQuadCurveMenu() {
+		JMenu createQuadCurveItem = new JMenu("Create quad-curve");
+
+		JMenuItem createQuadCurveFromThreePoints = new JMenuItem("From three points");
+		createQuadCurveFromThreePoints.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateQuadCurveFromThreePoints(GeomEditDrawingController.this));
+			}
+		});
+		createQuadCurveItem.add(createQuadCurveFromThreePoints);
+
+		return createQuadCurveItem;
 	}
 
 	public GeometricDiagram getDiagram() {
