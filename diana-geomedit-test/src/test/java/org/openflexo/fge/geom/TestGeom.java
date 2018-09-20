@@ -242,6 +242,10 @@ public class TestGeom {
 
 		System.out.println("geomedit test on " + testResource);
 
+		if (testResource == null) {
+			return;
+		}
+
 		DiagramEditingContext editingContext = new DiagramEditingContext();
 
 		GeometricConstructionFactory factory = new GeometricConstructionFactory(editingContext);
