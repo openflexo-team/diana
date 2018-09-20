@@ -73,6 +73,11 @@ public interface ComplexCurveConstruction extends GeometricConstruction<FGECompl
 			implements ComplexCurveConstruction {
 
 		@Override
+		public String getBaseName() {
+			return "Curve";
+		}
+
+		@Override
 		public ComplexCurveGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
 			ComplexCurveGraphicalRepresentation returned = factory.newInstance(ComplexCurveGraphicalRepresentation.class);
 			return returned;

@@ -57,6 +57,11 @@ public interface BandConstruction extends GeometricConstruction<FGEBand> {
 	public static abstract class BandConstructionImpl extends GeometricConstructionImpl<FGEBand> implements BandConstruction {
 
 		@Override
+		public String getBaseName() {
+			return "Band";
+		}
+
+		@Override
 		public final FGEBand getBand() {
 			return getData();
 		}

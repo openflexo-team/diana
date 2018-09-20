@@ -93,6 +93,11 @@ public interface HalfLineConstruction extends GeometricConstruction<FGEHalfLine>
 	public static abstract class HalfLineConstructionImpl extends GeometricConstructionImpl<FGEHalfLine> implements HalfLineConstruction {
 
 		@Override
+		public String getBaseName() {
+			return "HalfLine";
+		}
+
+		@Override
 		public final FGEHalfLine getHalfLine() {
 			return getData();
 		}

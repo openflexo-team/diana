@@ -58,6 +58,11 @@ public interface HalfPlaneConstruction extends GeometricConstruction<FGEHalfPlan
 			implements HalfPlaneConstruction {
 
 		@Override
+		public String getBaseName() {
+			return "HalfPlane";
+		}
+
+		@Override
 		public final FGEHalfPlane getHalfPlane() {
 			return getData();
 		}

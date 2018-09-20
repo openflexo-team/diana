@@ -69,6 +69,11 @@ public interface IntersectionConstruction extends GeometricConstruction<FGEArea>
 		private List<ObjectReference<? extends FGEArea>> objectConstructions;
 
 		@Override
+		public String getBaseName() {
+			return "Intersection";
+		}
+
+		@Override
 		public List<ObjectReference<? extends FGEArea>> getObjectConstructions() {
 			return objectConstructions;
 		}

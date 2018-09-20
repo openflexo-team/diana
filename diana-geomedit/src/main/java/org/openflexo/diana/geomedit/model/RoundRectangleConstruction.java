@@ -122,6 +122,11 @@ public interface RoundRectangleConstruction extends GeometricConstruction<FGERou
 			implements RoundRectangleConstruction {
 
 		@Override
+		public String getBaseName() {
+			return "RoundRectangle";
+		}
+
+		@Override
 		public final FGERoundRectangle getRectangle() {
 			return getData();
 		}

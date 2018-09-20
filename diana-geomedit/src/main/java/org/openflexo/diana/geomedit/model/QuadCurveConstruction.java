@@ -58,6 +58,11 @@ public interface QuadCurveConstruction extends GeometricConstruction<FGEQuadCurv
 			implements QuadCurveConstruction {
 
 		@Override
+		public String getBaseName() {
+			return "Curve";
+		}
+
+		@Override
 		public final FGEQuadCurve getCurve() {
 			return getData();
 		}

@@ -58,6 +58,11 @@ public interface CubicCurveConstruction extends GeometricConstruction<FGECubicCu
 			implements CubicCurveConstruction {
 
 		@Override
+		public String getBaseName() {
+			return "Curve";
+		}
+
+		@Override
 		public final FGECubicCurve getCurve() {
 			return getData();
 		}

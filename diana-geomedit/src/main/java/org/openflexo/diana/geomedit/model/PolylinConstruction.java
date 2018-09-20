@@ -57,6 +57,11 @@ public interface PolylinConstruction extends GeometricConstruction<FGEPolylin> {
 	public static abstract class PolylinConstructionImpl extends GeometricConstructionImpl<FGEPolylin> implements PolylinConstruction {
 
 		@Override
+		public String getBaseName() {
+			return "Polyline";
+		}
+
+		@Override
 		public final FGEPolylin getPolylin() {
 			return getData();
 		}

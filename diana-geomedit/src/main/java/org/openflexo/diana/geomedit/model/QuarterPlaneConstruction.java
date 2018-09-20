@@ -55,6 +55,11 @@ public interface QuarterPlaneConstruction extends GeometricConstruction<FGEQuart
 			implements QuarterPlaneConstruction {
 
 		@Override
+		public String getBaseName() {
+			return "QuarterPlane";
+		}
+
+		@Override
 		public final FGEQuarterPlane getQuarterPlane() {
 			return getData();
 		}

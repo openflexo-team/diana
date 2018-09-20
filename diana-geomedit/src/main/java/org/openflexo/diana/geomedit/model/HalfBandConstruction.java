@@ -57,6 +57,11 @@ public interface HalfBandConstruction extends GeometricConstruction<FGEHalfBand>
 	public static abstract class HalfBandConstructionImpl extends GeometricConstructionImpl<FGEHalfBand> implements HalfBandConstruction {
 
 		@Override
+		public String getBaseName() {
+			return "HalfBand";
+		}
+
+		@Override
 		public final FGEHalfBand getHalfBand() {
 			return getData();
 		}

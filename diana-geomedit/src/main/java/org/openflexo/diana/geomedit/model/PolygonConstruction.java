@@ -71,6 +71,11 @@ public interface PolygonConstruction extends GeometricConstruction<FGEPolygon> {
 	public static abstract class PolygonConstructionImpl extends GeometricConstructionImpl<FGEPolygon> implements PolygonConstruction {
 
 		@Override
+		public String getBaseName() {
+			return "Polygon";
+		}
+
+		@Override
 		public final FGEPolygon getPolygon() {
 			return getData();
 		}
