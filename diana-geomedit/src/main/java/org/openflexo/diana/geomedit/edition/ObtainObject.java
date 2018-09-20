@@ -39,7 +39,20 @@
 
 package org.openflexo.diana.geomedit.edition;
 
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.util.Vector;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
@@ -61,7 +74,7 @@ public class ObtainObject extends EditionInput<FGEArea> {
 		super(anInputLabel, controller);
 
 		availableMethods.add(new MouseSelection());
-		// availableMethods.add(new ListSelection(controller));
+		availableMethods.add(new ListSelection(controller));
 	}
 
 	public ObtainObject(String anInputLabel, GeomEditDrawingController controller, boolean appendEndSelection) {
@@ -127,29 +140,31 @@ public class ObtainObject extends EditionInput<FGEArea> {
 
 	}
 
-	/*public class ListSelection extends EditionInputMethod<FGEArea, ObtainObject> {
-	
+	public class ListSelection extends EditionInputMethod<FGEArea, ObtainObject> {
+
 		private DropDownSelection dropDown;
-	
+
 		public ListSelection(GeomEditDrawingController controller) {
 			super("In list", ObtainObject.this);
 			dropDown = new DropDownSelection(this, controller);
 		}
-	
+
 		@Override
 		public InputComponent getInputComponent() {
 			return dropDown;
 		}
-	
+
 		protected class DropDownSelection extends JPanel implements InputComponent {
 			private JComboBox dropDown;
 			private JButton activateButton;
 			private JButton okButton;
-	
+
 			protected DropDownSelection(final ListSelection method, GeomEditDrawingController controller) {
 				super(new FlowLayout(FlowLayout.CENTER, 5, 0));
-	
-				DefaultComboBoxModel model = new DefaultComboBoxModel(controller.getDrawing().getModel().getChilds());
+
+				Vector<GeometricConstruction<?>> allConstructions = new Vector<>();
+				allConstructions.addAll(controller.getDrawing().getModel().getConstructions());
+				DefaultComboBoxModel model = new DefaultComboBoxModel(allConstructions);
 				dropDown = new JComboBox(model);
 				dropDown.setRenderer(new DefaultListCellRenderer() {
 					@Override
@@ -157,7 +172,12 @@ public class ObtainObject extends EditionInput<FGEArea> {
 							boolean cellHasFocus) {
 						Component returned = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 						if (returned instanceof JLabel) {
-							((JLabel) returned).setText(((GeometricObject<?>) value).name);
+							if (value != null) {
+								((JLabel) returned).setText(((GeometricConstruction<?>) value).getName());
+							}
+							/*else {
+								System.out.println("value is null ???");
+							}*/
 						}
 						return returned;
 					}
@@ -174,33 +194,35 @@ public class ObtainObject extends EditionInput<FGEArea> {
 				okButton.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						setConstruction(new ObjectReference(((GeometricObject<?>) dropDown.getSelectedItem()).getConstruction()));
+						ObjectReference<?> objectReference = controller.getFactory()
+								.makeObjectReference(((GeometricConstruction<?>) dropDown.getSelectedItem()));
+						setConstruction(objectReference);
 						done();
 					}
 				});
 				okButton.setEnabled(false);
-	
+
 				add(activateButton);
 				add(dropDown);
 				add(okButton);
-	
+
 			}
-	
+
 			@Override
 			public void disableInputComponent() {
 				dropDown.setEnabled(false);
 				okButton.setEnabled(false);
 			}
-	
+
 			@Override
 			public void enableInputComponent() {
 				dropDown.setEnabled(true);
 				okButton.setEnabled(true);
 			}
-	
+
 		}
-	
-	}*/
+
+	}
 
 	@Override
 	public ObjectReference<? extends FGEArea> getConstruction() {
