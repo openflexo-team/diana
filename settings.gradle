@@ -1,1 +1,1 @@
-include 'diana-geom', 'diana-api', 'diana-core', 'diana-core-test', 'diana-swing', 'diana-ppt-editor', 'diana-drawing-editor', 'diana-geomedit'
+include 'diana-geom', 'diana-api', 'diana-core', 'diana-core-test', 'diana-swing', 'diana-ppt-editor', 'diana-drawing-editor', 'diana-geomedit', 'diana-geomedit-test'
