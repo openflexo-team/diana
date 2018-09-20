@@ -357,4 +357,12 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
+	public IntersectionConstruction makeIntersectionConstruction(List<ObjectReference<?>> objectReferences) {
+		IntersectionConstruction returned = newInstance(IntersectionConstruction.class);
+		for (ObjectReference<?> or : objectReferences) {
+			returned.addToObjectConstructions(or);
+		}
+		return returned;
+	}
+
 }

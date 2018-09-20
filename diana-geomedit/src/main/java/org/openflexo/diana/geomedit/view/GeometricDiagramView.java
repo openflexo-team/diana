@@ -45,8 +45,7 @@ public class GeometricDiagramView extends JPanel {
 				getController().getPositionLabel().setText((int) lastMouseLocation.x + " x " + (int) lastMouseLocation.y);
 				if (getController().getCurrentEdition() != null
 						&& getController().getCurrentEdition().requireRepaint(lastMouseLocation.clone())) {
-					// TODO !
-					System.out.println("Il faut repeindre ici !!!");
+					// TODO ???
 					// getPaintManager().repaint(GeometricDrawingView.this);
 				}
 			}

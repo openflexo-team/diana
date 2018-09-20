@@ -63,6 +63,7 @@ import org.openflexo.diana.geomedit.edition.CreateHalfBandWithLines;
 import org.openflexo.diana.geomedit.edition.CreateHalfLineFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateHalfPlaneWithLineAndPoint;
 import org.openflexo.diana.geomedit.edition.CreateHorizontalLineWithPoint;
+import org.openflexo.diana.geomedit.edition.CreateIntersection;
 import org.openflexo.diana.geomedit.edition.CreateLineFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateOrthogonalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateParallelLineWithPoint;
@@ -169,9 +170,8 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		contextualMenu.add(makeCreateHalfPlaneMenu());
 		contextualMenu.add(makeCreateBandMenu());
 		contextualMenu.add(makeCreateHalfBandMenu());
-		contextualMenu.add(makeCreateQuadCurveMenu());
-		contextualMenu.add(makeCreateCubicCurveMenu());
-		contextualMenu.add(makeCreateComplexCurveMenu());
+		contextualMenu.add(makeCreateCurveMenu());
+		contextualMenu.add(makeCreateOperationMenu());
 
 		contextualMenu.addSeparator();
 		JMenuItem copyItem = new JMenuItem("Copy");
@@ -493,49 +493,52 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		return createHalfBandItem;
 	}
 
-	private JMenu makeCreateQuadCurveMenu() {
-		JMenu createQuadCurveItem = new JMenu("Create quad-curve");
+	private JMenu makeCreateCurveMenu() {
+		JMenu createCurveItem = new JMenu("Create curve");
 
-		JMenuItem createQuadCurveFromThreePoints = new JMenuItem("From three points");
+		JMenuItem createQuadCurveFromThreePoints = new JMenuItem("Quad-curve from three points");
 		createQuadCurveFromThreePoints.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setCurrentEdition(new CreateQuadCurveFromThreePoints(GeomEditDrawingController.this));
 			}
 		});
-		createQuadCurveItem.add(createQuadCurveFromThreePoints);
+		createCurveItem.add(createQuadCurveFromThreePoints);
 
-		return createQuadCurveItem;
-	}
-
-	private JMenu makeCreateCubicCurveMenu() {
-		JMenu createCubicCurveItem = new JMenu("Create cubic-curve");
-
-		JMenuItem createCubicCurveFromFourPoints = new JMenuItem("From four points");
+		JMenuItem createCubicCurveFromFourPoints = new JMenuItem("Cubic-curve from four points");
 		createCubicCurveFromFourPoints.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setCurrentEdition(new CreateCubicCurveFromFourPoints(GeomEditDrawingController.this));
 			}
 		});
-		createCubicCurveItem.add(createCubicCurveFromFourPoints);
+		createCurveItem.add(createCubicCurveFromFourPoints);
 
-		return createCubicCurveItem;
-	}
-
-	private JMenu makeCreateComplexCurveMenu() {
-		JMenu createCurveItem = new JMenu("Create complex curve");
-
-		JMenuItem CreateCurveWithNPointsItem = new JMenuItem("With n points");
-		CreateCurveWithNPointsItem.addActionListener(new ActionListener() {
+		JMenuItem createComplexCurveWithNPointsItem = new JMenuItem("With n points");
+		createComplexCurveWithNPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setCurrentEdition(new CreateCurveWithNPoints(GeomEditDrawingController.this));
 			}
 		});
-		createCurveItem.add(CreateCurveWithNPointsItem);
+		createCurveItem.add(createComplexCurveWithNPointsItem);
 
 		return createCurveItem;
+	}
+
+	private JMenu makeCreateOperationMenu() {
+		JMenu createOperationItem = new JMenu("Create operation");
+
+		JMenuItem createIntersectionItem = new JMenuItem("Intersection");
+		createIntersectionItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateIntersection(GeomEditDrawingController.this));
+			}
+		});
+		createOperationItem.add(createIntersectionItem);
+
+		return createOperationItem;
 	}
 
 	public GeometricDiagram getDiagram() {

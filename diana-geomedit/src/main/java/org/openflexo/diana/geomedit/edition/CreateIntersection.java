@@ -42,11 +42,10 @@ package org.openflexo.diana.geomedit.edition;
 import java.util.Vector;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.geomedit.model.IntersectionConstruction;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.ObjectReference;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.ObjectIntersection;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 import org.openflexo.logging.FlexoLogger;
 
@@ -54,12 +53,12 @@ public class CreateIntersection extends Edition {
 
 	private static final Logger logger = FlexoLogger.getLogger(GeomEditController.class.getPackage().getName());
 
-	public CreateIntersection(GeomEditController controller) {
+	public CreateIntersection(GeomEditDrawingController controller) {
 		super("Create intersection", controller);
 		appendNewObjectEdition(controller, 1);
 	}
 
-	private void appendNewObjectEdition(final GeomEditController controller, int index) {
+	private void appendNewObjectEdition(final GeomEditDrawingController controller, int index) {
 		ObtainObject newObtainObject = new ObtainObject("Select object " + index, controller, true) {
 			@Override
 			public void done() {
@@ -78,7 +77,7 @@ public class CreateIntersection extends Edition {
 
 	@Override
 	public void performEdition() {
-		Vector<ObjectReference<?>> lgc = new Vector<ObjectReference<?>>();
+		/*Vector<ObjectReference<?>> lgc = new Vector<ObjectReference<?>>();
 		for (EditionInput o : inputs) {
 			ObtainObject oo = (ObtainObject) o;
 			if (oo.getReferencedObject() != null) {
@@ -88,24 +87,33 @@ public class CreateIntersection extends Edition {
 			if (or != null) {
 				lgc.add(or);
 			}
+		}*/
+
+		Vector<ObjectReference<?>> objectReferences = new Vector<ObjectReference<?>>();
+		for (EditionInput o : inputs) {
+			ObjectReference<?> or = ((ObtainObject) o).getConstruction();
+			if (or != null) {
+				objectReferences.add(or);
+			}
 		}
 
-		addObject(new ObjectIntersection(getController().getDrawing().getModel(), new IntersectionConstruction(lgc)));
+		addConstruction(getController().getFactory().makeIntersectionConstruction(objectReferences));
 
 	}
 
-	/*public void addObject(GeometricObject object)
-	{
-		getController().getDrawing().getModel().addToChilds(object);
-	}*/
-
 	@Override
 	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
-		for (EditionInput o : inputs) {
+		/*for (EditionInput o : inputs) {
 			ObtainObject oo = (ObtainObject) o;
 			if (oo.getReferencedObject() != null) {
 				oo.getReferencedObject().getGraphicalRepresentation().setIsSelected(true);
 			}
-		}
+		}*/
+
+		/*for (int i = 0; i < currentStep; i++) {
+			ObjectReference<?> oo = ((ObtainObject) inputs.get(i)).getConstruction();
+			oo.getData().paint(graphics);
+		}*/
 	}
+
 }

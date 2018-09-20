@@ -46,8 +46,13 @@ import org.openflexo.diana.geomedit.model.IntersectionConstruction.IntersectionC
 import org.openflexo.diana.geomedit.model.gr.ComputedAreaGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.logging.FlexoLogger;
+import org.openflexo.model.annotations.Adder;
+import org.openflexo.model.annotations.Getter;
+import org.openflexo.model.annotations.Getter.Cardinality;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Remover;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
@@ -55,10 +60,17 @@ import org.openflexo.model.annotations.XMLElement;
 @XMLElement
 public interface IntersectionConstruction extends GeometricConstruction<FGEArea> {
 
+	@PropertyIdentifier(type = ObjectReference.class, cardinality = Cardinality.LIST)
+	public static final String OBJECT_CONSTRUCTIONS_KEY = "pointConstructions";
+
+	@Getter(value = OBJECT_CONSTRUCTIONS_KEY, cardinality = Cardinality.LIST)
+	@XMLElement
 	public List<ObjectReference<? extends FGEArea>> getObjectConstructions();
 
+	@Adder(OBJECT_CONSTRUCTIONS_KEY)
 	public void addToObjectConstructions(ObjectReference<? extends FGEArea> objectReference);
 
+	@Remover(OBJECT_CONSTRUCTIONS_KEY)
 	public void removeFromObjectConstructions(ObjectReference<? extends FGEArea> objectReference);
 
 	public static abstract class IntersectionConstructionImpl extends GeometricConstructionImpl<FGEArea>
@@ -66,38 +78,21 @@ public interface IntersectionConstruction extends GeometricConstruction<FGEArea>
 
 		private static final Logger logger = FlexoLogger.getLogger(IntersectionConstruction.class.getPackage().getName());
 
-		private List<ObjectReference<? extends FGEArea>> objectConstructions;
-
 		@Override
 		public String getBaseName() {
 			return "Intersection";
 		}
 
 		@Override
-		public List<ObjectReference<? extends FGEArea>> getObjectConstructions() {
-			return objectConstructions;
-		}
-
-		@Override
-		public void addToObjectConstructions(ObjectReference<? extends FGEArea> objectReference) {
-			objectConstructions.add(objectReference);
-		}
-
-		@Override
-		public void removeFromObjectConstructions(ObjectReference<? extends FGEArea> objectReference) {
-			objectConstructions.remove(objectReference);
-		}
-
-		@Override
-		public ComputedAreaGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
-			ComputedAreaGraphicalRepresentation returned = factory.newInstance(ComputedAreaGraphicalRepresentation.class);
+		public ComputedAreaGraphicalRepresentation<?> makeNewConstructionGR(GeometricConstructionFactory factory) {
+			ComputedAreaGraphicalRepresentation<?> returned = factory.newInstance(ComputedAreaGraphicalRepresentation.class);
 			return returned;
 		}
 
 		@Override
 		protected FGEArea computeData() {
-			FGEArea o1 = objectConstructions.get(0).getData();
-			FGEArea o2 = objectConstructions.get(1).getData();
+			FGEArea o1 = getObjectConstructions().get(0).getData();
+			FGEArea o2 = getObjectConstructions().get(1).getData();
 			FGEArea returned = o1.intersect(o2);
 			logger.info("Intersection between " + o1 + " and " + o2 + " gives " + returned);
 			if (returned == null) {
@@ -110,7 +105,7 @@ public interface IntersectionConstruction extends GeometricConstruction<FGEArea>
 		public String toString() {
 			StringBuffer sb = new StringBuffer();
 			sb.append("IntersectionConstruction[\n");
-			for (GeometricConstruction c : objectConstructions) {
+			for (GeometricConstruction<?> c : getObjectConstructions()) {
 				sb.append("> " + c.toString() + "\n");
 			}
 			sb.append("-> " + getData() + "\n");
@@ -119,8 +114,8 @@ public interface IntersectionConstruction extends GeometricConstruction<FGEArea>
 		}
 
 		@Override
-		public GeometricConstruction[] getDepends() {
-			return objectConstructions.toArray(new GeometricConstruction[objectConstructions.size()]);
+		public GeometricConstruction<?>[] getDepends() {
+			return getObjectConstructions().toArray(new GeometricConstruction[getObjectConstructions().size()]);
 		}
 
 	}
