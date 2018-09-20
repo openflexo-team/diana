@@ -17,12 +17,11 @@ import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.GeometricDiagramDrawing;
 import org.openflexo.diana.geomedit.edition.EditionInputMethod;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.GeometricDrawingView;
 import org.openflexo.logging.FlexoLogger;
 
 public class GeometricDiagramView extends JPanel {
 
-	private static final Logger logger = FlexoLogger.getLogger(GeometricDrawingView.class.getPackage().getName());
+	private static final Logger logger = FlexoLogger.getLogger(GeometricDiagramView.class.getPackage().getName());
 
 	private FGEPoint lastMouseLocation;
 	private GeomEditDrawingController controller;

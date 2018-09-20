@@ -45,13 +45,12 @@ import java.util.logging.Logger;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.ObjectReference;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.GeomEditController;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 import org.openflexo.logging.FlexoLogger;
 
 public class CreateIntersection extends Edition {
 
-	private static final Logger logger = FlexoLogger.getLogger(GeomEditController.class.getPackage().getName());
+	private static final Logger logger = FlexoLogger.getLogger(CreateIntersection.class.getPackage().getName());
 
 	public CreateIntersection(GeomEditDrawingController controller) {
 		super("Create intersection", controller);

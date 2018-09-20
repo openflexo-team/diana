@@ -39,196 +39,200 @@
 
 package org.openflexo.fge.geom;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.logging.Logger;
 
-import junit.framework.TestCase;
-
-import org.openflexo.diana.geomedit.model.IntersectionConstruction;
+import org.junit.Test;
+import org.openflexo.diana.geomedit.DiagramEditingContext;
+import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
+import org.openflexo.diana.geomedit.model.GeometricDiagram;
 import org.openflexo.fge.geom.FGEGeometricObject.CardinalDirection;
-import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.geom.area.FGEGrid;
-import org.openflexo.fge.geomedit.GeometricObject;
-import org.openflexo.fge.geomedit.GeometricSet;
-import org.openflexo.fge.geomedit.ObjectIntersection;
-import org.openflexo.toolbox.FileResource;
+import org.openflexo.rm.FileResourceImpl;
+import org.openflexo.rm.Resource;
+import org.openflexo.rm.ResourceLocator;
 
-public class TestGeom extends TestCase {
+public class TestGeom {
 
 	private static final Logger logger = Logger.getLogger(TestGeom.class.getPackage().getName());
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Test
+	public void coucou() {
+		System.out.println("Coucou");
+
+		Resource locateResource = ResourceLocator.locateResource("GeomJUnitTest/Basic/TestPoints");
+
+		System.out.println("locateResource=" + locateResource);
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-
-	public void testBasicObjects() {
+	/*public void testBasicObjects() {
 		executeTest(new FileResource("GeomJUnitTest/TestBasicObjects.drw"));
 	}
-
+	
 	public void testLines() {
 		executeTest(new FileResource("GeomJUnitTest/TestLines.drw"));
 	}
-
+	
 	public void testLines2() {
 		executeTest(new FileResource("GeomJUnitTest/TestLines2.drw"));
 	}
-
+	
 	public void testLineIntersection1() {
 		executeTest(new FileResource("GeomJUnitTest/TestLineIntersection1.drw"));
 	}
-
+	
 	public void testLineIntersection2() {
 		executeTest(new FileResource("GeomJUnitTest/TestLineIntersection2.drw"));
 	}
-
+	
 	public void testLineLineIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestLineLineIntersection.drw"));
 	}
-
+	
 	public void testLineHalfLineIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestLineHalfLineIntersection.drw"));
 	}
-
+	
 	public void testHalfLineHalfLineIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestHalfLineHalfLineIntersection.drw"));
 	}
-
+	
 	public void testLineSegmentIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestLineSegmentIntersection.drw"));
 	}
-
+	
 	public void testHalfLineSegmentIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestHalfLineSegmentIntersection.drw"));
 	}
-
+	
 	public void testFilledRectangleLineIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestFilledRectangleLineIntersection.drw"));
 	}
-
+	
 	public void testOpenRectangleLineIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestOpenRectangleLineIntersection.drw"));
 	}
-
+	
 	public void testFilledRectangleHalfLineIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestFilledRectangleHalfLineIntersection.drw"));
 	}
-
+	
 	public void testOpenRectangleHalfLineIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestOpenRectangleHalfLineIntersection.drw"));
 	}
-
+	
 	public void testFilledRectangleSegmentIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestFilledRectangleSegmentIntersection.drw"));
 	}
-
+	
 	public void testOpenRectangleSegmentIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestOpenRectangleSegmentIntersection.drw"));
 	}
-
+	
 	public void testOpenRectangleIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestOpenRectangleIntersection.drw"));
 	}
-
+	
 	public void testFilledRectangleIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestFilledRectangleIntersection.drw"));
 	}
-
+	
 	public void testMixedRectangleIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestMixedRectangleIntersection.drw"));
 	}
-
+	
 	public void testShapeIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestShapeIntersection.drw"));
 	}
-
+	
 	public void testHalfPlaneRectangleIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestHalfPlaneRectangleIntersection.drw"));
 	}
-
+	
 	public void testHalfPlaneLineIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestHalfPlaneLineIntersection.drw"));
 	}
-
+	
 	public void testHalfPlaneHalfLineIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestHalfPlaneHalfLineIntersection.drw"));
 	}
-
+	
 	public void testHalfPlaneSegmentIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestHalfPlaneSegmentIntersection.drw"));
 	}
-
+	
 	public void testBandLineIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestBandLineIntersection.drw"));
 	}
-
+	
 	public void testBandHalfLineIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestBandHalfLineIntersection.drw"));
 	}
-
+	
 	public void testBandSegmentIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestBandSegmentIntersection.drw"));
 	}
-
+	
 	public void testBandFilledRectangleIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestBandFilledRectangleIntersection.drw"));
 	}
-
+	
 	public void testBandOpenRectangleIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestBandOpenRectangleIntersection.drw"));
 	}
-
+	
 	public void testBandHalfPlaneIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestBandHalfPlaneIntersection.drw"));
 	}
-
+	
 	public void testBandBandIntersection1() {
 		executeTest(new FileResource("GeomJUnitTest/TestBandBandIntersection1.drw"));
 	}
-
+	
 	public void testBandBandIntersection2() {
 		executeTest(new FileResource("GeomJUnitTest/TestBandBandIntersection2.drw"));
 	}
-
+	
 	public void testBandHalfBandIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestBandHalfBandIntersection.drw"));
 	}
-
+	
 	public void testHalfBandHalfPlaneIntersection1() {
 		executeTest(new FileResource("GeomJUnitTest/TestHalfBandHalfPlaneIntersection1.drw"));
 	}
-
+	
 	public void testHalfBandHalfPlaneIntersection2() {
 		executeTest(new FileResource("GeomJUnitTest/TestHalfBandHalfPlaneIntersection2.drw"));
 	}
-
+	
 	public void testHalfBandHalfLineIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestHalfBandHalfLineIntersection.drw"));
 	}
-
+	
 	public void testCurves() {
 		executeTest(new FileResource("GeomJUnitTest/TestCurves.drw"));
 	}
-
+	
 	public void testComplexCurve() {
 		executeTest(new FileResource("GeomJUnitTest/TestComplexCurve.drw"));
 	}
-
+	
 	public void testHalfBandCircleIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/HalfBandCircleIntersection.drw"));
 	}
-
+	
 	public void testCircleLineIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestCircleLineIntersection.drw"));
 	}
-
+	
 	public void testRoundRectangleLineIntersection() {
 		executeTest(new FileResource("GeomJUnitTest/TestRoundRectangleLineIntersection.drw"));
-	}
+	}*/
 
 	public void testGrid() {
 		//
@@ -314,8 +318,15 @@ public class TestGeom extends TestCase {
 		assertEquals(CardinalDirection.EAST, FGEPoint.getOrientation(center, right));*/
 	}
 
-	private void executeTest(FileResource testFile) {
-		logger.info(">>>>>>> Test " + testFile.getName());
+	private void executeTest(FileResourceImpl testFile) throws FileNotFoundException, Exception {
+
+		DiagramEditingContext editingContext = new DiagramEditingContext();
+
+		GeometricConstructionFactory factory = new GeometricConstructionFactory(editingContext);
+
+		GeometricDiagram diagram = (GeometricDiagram) factory.deserialize(new FileInputStream(testFile.getFile()));
+
+		/*logger.info(">>>>>>> Test " + testFile.getName());
 		GeometricSet geometricSet = GeometricSet.load(testFile);
 		for (GeometricObject object : geometricSet.getChilds()) {
 			logger.fine("Check equals: " + object.getResultingGeometricObject() + " / " + object.getGeometricObject());
@@ -327,6 +338,6 @@ public class TestGeom extends TestCase {
 				logger.fine("Checking intersection reversibility");
 				assertEquals(o1.intersect(o2), o2.intersect(o1));
 			}
-		}
+		}*/
 	}
 }

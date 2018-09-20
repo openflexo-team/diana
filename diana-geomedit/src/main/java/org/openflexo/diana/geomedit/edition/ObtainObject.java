@@ -59,16 +59,12 @@ import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.ObjectReference;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.geom.FGEGeometricObject;
 import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.geomedit.GeometricObject;
 
 public class ObtainObject extends EditionInput<FGEArea> {
 	public static int preferredMethodIndex = 0;
 
 	private boolean endOnRightClick = false;
-
-	private GeometricObject<? extends FGEGeometricObject> referencedObject;
 
 	public ObtainObject(String anInputLabel, GeomEditDrawingController controller) {
 		super(anInputLabel, controller);
@@ -227,10 +223,6 @@ public class ObtainObject extends EditionInput<FGEArea> {
 	@Override
 	public ObjectReference<? extends FGEArea> getConstruction() {
 		return (ObjectReference<? extends FGEArea>) super.getConstruction();
-	}
-
-	public GeometricObject<? extends FGEGeometricObject> getReferencedObject() {
-		return referencedObject;
 	}
 
 	@Override

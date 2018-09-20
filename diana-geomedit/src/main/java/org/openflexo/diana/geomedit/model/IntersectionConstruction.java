@@ -84,8 +84,8 @@ public interface IntersectionConstruction extends GeometricConstruction<FGEArea>
 		}
 
 		@Override
-		public ComputedAreaGraphicalRepresentation<?> makeNewConstructionGR(GeometricConstructionFactory factory) {
-			ComputedAreaGraphicalRepresentation<?> returned = factory.newInstance(ComputedAreaGraphicalRepresentation.class);
+		public ComputedAreaGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			ComputedAreaGraphicalRepresentation returned = factory.newInstance(ComputedAreaGraphicalRepresentation.class);
 			return returned;
 		}
 
