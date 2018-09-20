@@ -237,6 +237,14 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
+	public PolylinWithNPointsConstruction makePolylinWithNPointsConstruction(List<PointConstruction> pointConstructions) {
+		PolylinWithNPointsConstruction returned = newInstance(PolylinWithNPointsConstruction.class);
+		for (PointConstruction pc : pointConstructions) {
+			returned.addToPointConstructions(pc);
+		}
+		return returned;
+	}
+
 	public RectangleWithTwoPointsConstruction makeRectangleWithTwoPointsConstruction(PointConstruction pointConstruction1,
 			PointConstruction pointConstruction2) {
 		RectangleWithTwoPointsConstruction returned = newInstance(RectangleWithTwoPointsConstruction.class);

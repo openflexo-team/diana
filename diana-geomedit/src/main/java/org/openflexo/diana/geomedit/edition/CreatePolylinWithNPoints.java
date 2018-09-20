@@ -41,23 +41,21 @@ package org.openflexo.diana.geomedit.edition;
 
 import java.util.Vector;
 
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.PointConstruction;
-import org.openflexo.diana.geomedit.model.PolylinWithNPointsConstruction;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.Polylin;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreatePolylinWithNPoints extends Edition {
 
-	public CreatePolylinWithNPoints(GeomEditController controller) {
+	public CreatePolylinWithNPoints(GeomEditDrawingController controller) {
 		super("Create polylin from a list of points", controller);
 		appendNewPointEdition(controller, 1);
 	}
 
-	private void appendNewPointEdition(final GeomEditController controller, int index) {
+	private void appendNewPointEdition(final GeomEditDrawingController controller, int index) {
 		ObtainPoint newObtainPoint = new ObtainPoint("Select point " + index, controller, true) {
 			@Override
 			public void done() {
@@ -83,7 +81,7 @@ public class CreatePolylinWithNPoints extends Edition {
 				pc.add(pp);
 			}
 		}
-		addObject(new Polylin(getController().getDrawing().getModel(), new PolylinWithNPointsConstruction(pc)));
+		addConstruction(getController().getFactory().makePolylinWithNPointsConstruction(pc));
 	}
 
 	@Override
@@ -96,7 +94,8 @@ public class CreatePolylinWithNPoints extends Edition {
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			p1.paint(graphics);
 			new FGESegment(p1, lastMouseLocation).paint(graphics);
-		} else {
+		}
+		else {
 			Vector<FGEPoint> pts = new Vector<FGEPoint>();
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			for (int i = 0; i < currentStep; i++) {

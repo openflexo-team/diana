@@ -146,6 +146,7 @@ public interface PolylinGraphicalRepresentation extends GeometricObjectGraphical
 								getGeometricObject().getPointAt(pointIndex).x = newAbsolutePoint.x;
 								getGeometricObject().getPointAt(pointIndex).y = newAbsolutePoint.y;
 								setPoint(newAbsolutePoint);
+								getGeometricObject().updateSegmentsFromPoints();
 								((GeometricNode<?>) dtn).notifyGeometryChanged();
 								return true;
 							}
@@ -153,6 +154,7 @@ public interface PolylinGraphicalRepresentation extends GeometricObjectGraphical
 							@Override
 							public void update(FGEPolylin geometricObject) {
 								setPoint(geometricObject.getPointAt(pointIndex));
+								geometricObject.updateSegmentsFromPoints();
 							}
 						});
 					}
@@ -161,6 +163,7 @@ public interface PolylinGraphicalRepresentation extends GeometricObjectGraphical
 							@Override
 							public void update(FGEPolylin geometricObject) {
 								setPoint(geometricObject.getPointAt(pointIndex));
+								geometricObject.updateSegmentsFromPoints();
 							}
 						});
 					}

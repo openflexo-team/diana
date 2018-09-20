@@ -93,12 +93,14 @@ public interface PolygonGraphicalRepresentation extends GeometricObjectGraphical
 								getGeometricObject().getPointAt(pointIndex).x = newAbsolutePoint.x;
 								getGeometricObject().getPointAt(pointIndex).y = newAbsolutePoint.y;
 								setPoint(newAbsolutePoint);
+								getGeometricObject().updateSegmentsFromPoints();
 								((GeometricNode<?>) dtn).notifyGeometryChanged();
 								return true;
 							}
 
 							@Override
 							public void update(FGEPolygon geometricObject) {
+								geometricObject.updateSegmentsFromPoints();
 								setPoint(geometricObject.getPointAt(pointIndex));
 							}
 						});
@@ -107,6 +109,7 @@ public interface PolygonGraphicalRepresentation extends GeometricObjectGraphical
 						returned.add(new ComputedControlPoint<FGEPolygon>((GeometricNode<?>) dtn, "pt" + i, pc.getPoint()) {
 							@Override
 							public void update(FGEPolygon geometricObject) {
+								geometricObject.updateSegmentsFromPoints();
 								setPoint(geometricObject.getPointAt(pointIndex));
 							}
 						});

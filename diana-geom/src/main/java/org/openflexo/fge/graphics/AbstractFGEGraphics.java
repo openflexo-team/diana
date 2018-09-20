@@ -49,6 +49,7 @@ import org.openflexo.fge.geom.FGEDimension;
 import org.openflexo.fge.geom.FGEGeneralShape;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEPolygon;
+import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geom.FGEQuadCurve;
 import org.openflexo.fge.geom.FGERectangle;
 
@@ -56,85 +57,12 @@ public interface AbstractFGEGraphics {
 
 	public FGERectangle getNodeNormalizedBounds();
 
-	/*
-	public abstract FGEModelFactory getFactory();
-	
-	public abstract DrawingTreeNode<?, ?> getDrawingTreeNode();
-	
-	public abstract DrawingTreeNode<?, ?> getNode();
-	
-	public abstract GraphicalRepresentation getGraphicalRepresentation();
-	
-	public abstract DrawingControllerImpl<?> getController();
-	
-	public abstract double getScale();
-	
-	public abstract void delete();
-	
-	public abstract void createGraphics(Graphics2D graphics2D, DrawingControllerImpl controller);
-	
-	public abstract void releaseGraphics();
-	
-	public abstract Graphics2D cloneGraphics();
-	
-	public abstract void releaseClonedGraphics(Graphics2D oldGraphics);
-	
-	public abstract Graphics2D getGraphics();
-	public abstract ForegroundStyle getDefaultForeground();
-	
-	public abstract ForegroundStyle getCurrentForeground();
-	
-	public abstract void setDefaultForeground(ForegroundStyle aForegound);
-	
-	public abstract void setStroke(Stroke aStroke);
-	*/
-
 	public abstract void useDefaultForegroundStyle();
 
-	/*	public abstract void useForegroundStyle(ForegroundStyle aStyle);
-	
-		public abstract TextStyle getCurrentTextStyle();
-	
-		public abstract BackgroundStyle getDefaultBackground();
-	
-		public abstract void setDefaultBackground(BackgroundStyle aBackground);
-	*/
 	public abstract void useDefaultBackgroundStyle();
 
-	/*	public abstract void useBackgroundStyle(BackgroundStyle aStyle);
-	
-		public abstract void setDefaultTextStyle(TextStyle aTextStyle);
-	*/
 	public abstract void useDefaultTextStyle();
 
-	/*	public abstract void useTextStyle(TextStyle aStyle);
-	
-		public abstract FGERectangle getNormalizedBounds();
-	
-		public abstract int getViewWidth();
-	
-		public abstract int getViewHeight();
-	
-		public abstract int getViewWidth(double scale);
-	
-		public abstract int getViewHeight(double scale);
-	
-		public abstract Point convertNormalizedPointToViewCoordinates(double x, double y);
-	
-		public abstract Point convertNormalizedPointToViewCoordinates(FGEPoint p);
-	
-		public abstract Rectangle convertNormalizedRectangleToViewCoordinates(FGERectangle r);
-	
-		public abstract Rectangle convertNormalizedRectangleToViewCoordinates(double x, double y, double width, double height);
-	
-		public abstract FGEPoint convertViewCoordinatesToNormalizedPoint(int x, int y);
-	
-		public abstract FGEPoint convertViewCoordinatesToNormalizedPoint(Point p);
-	
-		public abstract FGERectangle convertViewCoordinatesToNormalizedRectangle(Rectangle r);
-	
-		public abstract FGERectangle convertViewCoordinatesToNormalizedRectangle(int x, int y, int width, int height);
-	*/
 	public abstract Rectangle drawControlPoint(double x, double y, int size);
 
 	public abstract void drawPoint(FGEPoint p);
@@ -174,6 +102,10 @@ public interface AbstractFGEGraphics {
 	public abstract void fillRoundRect(double x, double y, double width, double height, double arcwidth, double archeight);
 
 	public abstract void fillRoundRect(FGEPoint p, FGEDimension d, double arcwidth, double archeight);
+
+	public abstract void drawPolyline(FGEPolylin polylin);
+
+	public abstract void drawPolyline(FGEPoint[] points);
 
 	public abstract void drawPolygon(FGEPolygon polygon);
 

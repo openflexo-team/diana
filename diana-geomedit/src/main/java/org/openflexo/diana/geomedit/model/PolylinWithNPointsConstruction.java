@@ -63,7 +63,8 @@ public interface PolylinWithNPointsConstruction extends PolylinConstruction {
 	@PropertyIdentifier(type = PointConstruction.class, cardinality = Cardinality.LIST)
 	public static final String POINT_CONSTRUCTIONS_KEY = "pointConstructions";
 
-	@Getter(POINT_CONSTRUCTIONS_KEY)
+	@Getter(value = POINT_CONSTRUCTIONS_KEY, cardinality = Cardinality.LIST)
+	@XMLElement
 	public List<PointConstruction> getPointConstructions();
 
 	@Adder(POINT_CONSTRUCTIONS_KEY)
@@ -75,28 +76,11 @@ public interface PolylinWithNPointsConstruction extends PolylinConstruction {
 	public static abstract class PolylinWithNPointsConstructionImpl extends PolylinConstructionImpl
 			implements PolylinWithNPointsConstruction {
 
-		public List<PointConstruction> pointConstructions;
-
-		@Override
-		public List<PointConstruction> getPointConstructions() {
-			return pointConstructions;
-		}
-
-		@Override
-		public void addToPointConstructions(PointConstruction pointConstruction) {
-			pointConstructions.add(pointConstruction);
-		}
-
-		@Override
-		public void removeFromPointConstructions(PointConstruction pointConstruction) {
-			pointConstructions.remove(pointConstruction);
-		}
-
 		@Override
 		protected FGEPolylin computeData() {
 			Vector<FGEPoint> pts = new Vector<FGEPoint>();
-			for (PointConstruction pc : pointConstructions) {
-				pts.add(pc.getPoint());
+			for (PointConstruction pc : getPointConstructions()) {
+				pts.add(pc.getData());
 			}
 			return new FGERectPolylin(pts);
 		}
@@ -105,7 +89,7 @@ public interface PolylinWithNPointsConstruction extends PolylinConstruction {
 		public String toString() {
 			StringBuffer sb = new StringBuffer();
 			sb.append("PolylinWithNPointsConstruction[\n");
-			for (PointConstruction pc : pointConstructions) {
+			for (PointConstruction pc : getPointConstructions()) {
 				sb.append("> " + pc.toString() + "\n");
 			}
 			sb.append("]");
@@ -114,7 +98,7 @@ public interface PolylinWithNPointsConstruction extends PolylinConstruction {
 
 		@Override
 		public GeometricConstruction[] getDepends() {
-			return pointConstructions.toArray(new GeometricConstruction[pointConstructions.size()]);
+			return getPointConstructions().toArray(new GeometricConstruction[getPointConstructions().size()]);
 		}
 	}
 }

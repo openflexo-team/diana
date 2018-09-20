@@ -61,6 +61,7 @@ import org.openflexo.fge.geom.FGEGeneralShape;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEPolygon;
+import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geom.FGEQuadCurve;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.view.FGEView;
@@ -336,6 +337,11 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 	}
 
 	@Override
+	public void drawPolyline(FGEPolylin polylin) {
+		drawPolyline(polylin.getPoints().toArray(new FGEPoint[polylin.getPointsNb()]));
+	}
+
+	@Override
 	public void fillPolygon(FGEPolygon polygon) {
 		fillPolygon(polygon.getPoints().toArray(new FGEPoint[polygon.getPointsNb()]));
 	}
@@ -383,35 +389,35 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 			double[] pts = new double[6];
 			FGEPoint p2, cp, cp1, cp2;
 			switch (pi.currentSegment(pts)) {
-			case PathIterator.SEG_MOVETO:
-				current.x = pts[0];
-				current.y = pts[1];
-				first = current.clone();
-				break;
-			case PathIterator.SEG_LINETO:
-				p2 = new FGEPoint(pts[0], pts[1]);
-				drawLine(current, p2);
-				current = p2;
-				break;
-			case PathIterator.SEG_QUADTO:
-				cp = new FGEPoint(pts[0], pts[1]);
-				p2 = new FGEPoint(pts[2], pts[3]);
-				drawCurve(new FGEQuadCurve(current, cp, p2));
-				current = p2;
-				break;
-			case PathIterator.SEG_CUBICTO:
-				cp1 = new FGEPoint(pts[0], pts[1]);
-				cp2 = new FGEPoint(pts[2], pts[3]);
-				p2 = new FGEPoint(pts[4], pts[5]);
-				drawCurve(new FGECubicCurve(current, cp1, cp2, p2));
-				current = p2;
-				break;
-			case PathIterator.SEG_CLOSE:
-				drawLine(current, first);
-				current = first;
-				break;
-			default:
-				break;
+				case PathIterator.SEG_MOVETO:
+					current.x = pts[0];
+					current.y = pts[1];
+					first = current.clone();
+					break;
+				case PathIterator.SEG_LINETO:
+					p2 = new FGEPoint(pts[0], pts[1]);
+					drawLine(current, p2);
+					current = p2;
+					break;
+				case PathIterator.SEG_QUADTO:
+					cp = new FGEPoint(pts[0], pts[1]);
+					p2 = new FGEPoint(pts[2], pts[3]);
+					drawCurve(new FGEQuadCurve(current, cp, p2));
+					current = p2;
+					break;
+				case PathIterator.SEG_CUBICTO:
+					cp1 = new FGEPoint(pts[0], pts[1]);
+					cp2 = new FGEPoint(pts[2], pts[3]);
+					p2 = new FGEPoint(pts[4], pts[5]);
+					drawCurve(new FGECubicCurve(current, cp1, cp2, p2));
+					current = p2;
+					break;
+				case PathIterator.SEG_CLOSE:
+					drawLine(current, first);
+					current = first;
+					break;
+				default:
+					break;
 			}
 			pi.next();
 		}

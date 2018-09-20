@@ -177,6 +177,20 @@ public class FGEPolygon implements FGEShape<FGEPolygon> {
 		reCalculateBounds();
 	}
 
+	public void updateSegmentsFromPoints() {
+		_segments.clear();
+		int index = 0;
+		for (index = 0; index < _points.size(); index++) {
+			if (index > 0) {
+				FGESegment s2 = new FGESegment(_points.elementAt(index - 1), _points.elementAt(index));
+				_segments.add(s2);
+			}
+		}
+		FGESegment s3 = new FGESegment(_points.elementAt(_points.size() - 1), _points.elementAt(0));
+		_segments.add(s3);
+		reCalculateBounds();
+	}
+
 	public Vector<FGESegment> getSegments() {
 		return _segments;
 	}
@@ -564,12 +578,16 @@ public class FGEPolygon implements FGEShape<FGEPolygon> {
 		}
 		g.useDefaultForegroundStyle();
 		g.drawPolygon(getPoints().toArray(new FGEPoint[getPoints().size()]));
-
-		/*
-		g.setDefaultBackground(BackgroundStyle.makeEmptyBackground());
-		g.setDefaultForeground(ForegroundStyle.makeStyle(Color.GRAY,1,DashStyle.MEDIUM_DASHES));
-		getBoundingBox().paint(g);*/
 	}
+
+	// Alternative implementation
+	/*@Override
+	public void paint(AbstractFGEGraphics g) {
+		g.useDefaultForegroundStyle();
+		for (FGESegment s : _segments) {
+			s.paint(g);
+		}
+	}*/
 
 	@Override
 	public String toString() {

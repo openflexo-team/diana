@@ -196,6 +196,18 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 		return -1;
 	}
 
+	public void updateSegmentsFromPoints() {
+		_segments.clear();
+		int index = 0;
+		for (index = 0; index < _points.size(); index++) {
+			if (index > 0) {
+				FGESegment s2 = new FGESegment(_points.elementAt(index - 1), _points.elementAt(index));
+				_segments.add(s2);
+			}
+		}
+		reCalculateBounds();
+	}
+
 	public Vector<FGESegment> getSegments() {
 		return _segments;
 	}
@@ -580,10 +592,17 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 	@Override
 	public void paint(AbstractFGEGraphics g) {
 		g.useDefaultForegroundStyle();
+		g.drawPolyline(getPoints().toArray(new FGEPoint[getPoints().size()]));
+	}
+
+	// Alternative implementation
+	/*@Override
+	public void paint(AbstractFGEGraphics g) {
+		g.useDefaultForegroundStyle();
 		for (FGESegment s : _segments) {
 			s.paint(g);
 		}
-	}
+	}*/
 
 	@Override
 	public String toString() {
@@ -741,7 +760,7 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 		
 			return new FGEPolylin(pts);
 		}
-		*/
+		 */
 	}
 
 	/**

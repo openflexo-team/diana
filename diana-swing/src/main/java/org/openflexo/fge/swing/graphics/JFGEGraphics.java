@@ -439,6 +439,27 @@ public abstract class JFGEGraphics extends FGEGraphicsImpl {
 	}
 
 	@Override
+	public void drawPolyline(FGEPoint[] points) {
+		if (getCurrentForeground().getNoStroke()) {
+			return;
+		}
+		if (points == null || points.length == 0) {
+			return;
+		}
+		int[] xpoints = new int[points.length];
+		int[] ypoints = new int[points.length];
+		for (int i = 0; i < points.length; i++) {
+			Point p = convertNormalizedPointToViewCoordinates(points[i]);
+			xpoints[i] = p.x;
+			ypoints[i] = p.y;
+		}
+		g2d.drawPolyline(xpoints, ypoints, points.length);
+		if (logger.isLoggable(Level.FINER)) {
+			logger.finer("drawPolyline(" + points + ")");
+		}
+	}
+
+	@Override
 	public void drawPolygon(FGEPoint[] points) {
 		if (getCurrentForeground().getNoStroke()) {
 			return;
