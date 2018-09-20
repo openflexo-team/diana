@@ -46,6 +46,7 @@ import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentat
 import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.FGEModelFactoryImpl;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.model.exceptions.ModelDefinitionException;
@@ -245,6 +246,17 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
+	public RectPolylinWithStartAndEndAreaConstruction makeRectPolylinWithStartAndEndAreaConstruction(
+			ObjectReference<?> startAreaConstruction, SimplifiedCardinalDirection startOrientation, ObjectReference<?> endAreaConstruction,
+			SimplifiedCardinalDirection endOrientation) {
+		RectPolylinWithStartAndEndAreaConstruction returned = newInstance(RectPolylinWithStartAndEndAreaConstruction.class);
+		returned.setStartAreaConstruction(startAreaConstruction);
+		returned.setStartOrientation(startOrientation);
+		returned.setEndAreaConstruction(endAreaConstruction);
+		returned.setEndOrientation(endOrientation);
+		return returned;
+	}
+
 	public RectangleWithTwoPointsConstruction makeRectangleWithTwoPointsConstruction(PointConstruction pointConstruction1,
 			PointConstruction pointConstruction2) {
 		RectangleWithTwoPointsConstruction returned = newInstance(RectangleWithTwoPointsConstruction.class);
@@ -336,6 +348,12 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		for (PointConstruction pc : pointConstructions) {
 			returned.addToPointConstructions(pc);
 		}
+		return returned;
+	}
+
+	public ObjectReference<?> makeObjectReference(GeometricConstruction construction) {
+		ObjectReference returned = newInstance(ObjectReference.class);
+		returned.setReference(construction);
 		return returned;
 	}
 

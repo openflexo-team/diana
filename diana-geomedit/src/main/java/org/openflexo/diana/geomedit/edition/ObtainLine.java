@@ -99,36 +99,7 @@ public class ObtainLine extends EditionInput<FGELine> {
 				focusedObject.setIsFocused(true);
 			}
 
-			// ControlArea<?> controlArea = (focused != null ? getFocusRetriever().getFocusedControlAreaForDrawable(focused, e) : null);
-			/*if (controlArea instanceof ControlPoint) {
-				focusedControlPoint = (ControlPoint) controlArea;
-			}
-			
-			if (!(focusedControlPoint instanceof DraggableControlPoint || focusedControlPoint instanceof ComputedControlPoint)) {
-				focusedControlPoint = null;
-			}*/
-
-			// System.out.println("Focus on " + focusedObject + " controlArea="+controlArea);
 		}
-
-		/*@Override
-		public void mouseMoved(MouseEvent e) {
-			GraphicalRepresentation focused = getFocusRetriever().getFocusedObject(e);
-		
-			if (focusedObject != null && focusedObject != focused) {
-				focusedObject.setIsFocused(false);
-			}
-		
-			if (focused instanceof GeometricGraphicalRepresentation
-					&& ((GeometricGraphicalRepresentation) focused).getGeometricObject() instanceof FGELine) {
-				focusedObject = (GeometricGraphicalRepresentation) focused;
-				focusedObject.setIsFocused(true);
-			}
-			else {
-				focusedObject = null;
-			}
-		
-		}*/
 
 		@Override
 		public InputComponent getInputComponent() {
@@ -146,11 +117,5 @@ public class ObtainLine extends EditionInput<FGELine> {
 	public boolean endOnRightClick() {
 		return false;
 	}
-
-	/*private Line referencedLine;
-	
-	public Line getReferencedLine() {
-		return referencedLine;
-	}*/
 
 }

@@ -39,26 +39,15 @@
 
 package org.openflexo.diana.geomedit.edition;
 
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
+import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.ObjectReference;
-import org.openflexo.fge.GeometricGraphicalRepresentation;
-import org.openflexo.fge.GraphicalRepresentation;
+import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.geom.FGEGeometricObject;
 import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.geomedit.GeomEditController;
 import org.openflexo.fge.geomedit.GeometricObject;
 
 public class ObtainObject extends EditionInput<FGEArea> {
@@ -68,14 +57,14 @@ public class ObtainObject extends EditionInput<FGEArea> {
 
 	private GeometricObject<? extends FGEGeometricObject> referencedObject;
 
-	public ObtainObject(String anInputLabel, GeomEditController controller) {
+	public ObtainObject(String anInputLabel, GeomEditDrawingController controller) {
 		super(anInputLabel, controller);
 
 		availableMethods.add(new MouseSelection());
-		availableMethods.add(new ListSelection(controller));
+		// availableMethods.add(new ListSelection(controller));
 	}
 
-	public ObtainObject(String anInputLabel, GeomEditController controller, boolean appendEndSelection) {
+	public ObtainObject(String anInputLabel, GeomEditDrawingController controller, boolean appendEndSelection) {
 		this(anInputLabel, controller);
 		if (appendEndSelection) {
 			availableMethods.add(new EndEditionSelection());
@@ -96,7 +85,7 @@ public class ObtainObject extends EditionInput<FGEArea> {
 
 	public class MouseSelection extends EditionInputMethod<FGEArea, ObtainObject> {
 
-		private GeometricGraphicalRepresentation focusedObject;
+		private GeometricNode<?> focusedObject;
 
 		public MouseSelection() {
 			super("With mouse", ObtainObject.this);
@@ -106,10 +95,9 @@ public class ObtainObject extends EditionInput<FGEArea> {
 		public void mouseClicked(MouseEvent e) {
 			if (focusedObject != null) {
 				focusedObject.setIsFocused(false);
-				GeometricObject<? extends FGEGeometricObject> reference = (GeometricObject<? extends FGEGeometricObject>) focusedObject
-						.getDrawable();
-				referencedObject = reference;
-				setConstruction(new ObjectReference(reference.getConstruction()));
+				if (focusedObject.getDrawable() instanceof GeometricConstruction) {
+					setConstruction(getFactory().makeObjectReference((GeometricConstruction<?>) focusedObject.getDrawable()));
+				}
 				done();
 			}
 			if (endOnRightClick && e.getButton() == MouseEvent.BUTTON3) {
@@ -119,18 +107,15 @@ public class ObtainObject extends EditionInput<FGEArea> {
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			GraphicalRepresentation focused = getFocusRetriever().getFocusedObject(e);
+			DrawingTreeNode<?, ?> focused = getFocusRetriever().getFocusedObject(e);
 
 			if (focusedObject != null && focusedObject != focused) {
 				focusedObject.setIsFocused(false);
 			}
 
-			if (focused instanceof GeometricGraphicalRepresentation
-					&& ((GeometricGraphicalRepresentation) focused).getGeometricObject() != null) {
-				focusedObject = (GeometricGraphicalRepresentation) focused;
+			if (focused instanceof GeometricNode) {
+				focusedObject = (GeometricNode<?>) focused;
 				focusedObject.setIsFocused(true);
-			} else {
-				focusedObject = null;
 			}
 
 		}
@@ -142,28 +127,28 @@ public class ObtainObject extends EditionInput<FGEArea> {
 
 	}
 
-	public class ListSelection extends EditionInputMethod<FGEArea, ObtainObject> {
-
+	/*public class ListSelection extends EditionInputMethod<FGEArea, ObtainObject> {
+	
 		private DropDownSelection dropDown;
-
-		public ListSelection(GeomEditController controller) {
+	
+		public ListSelection(GeomEditDrawingController controller) {
 			super("In list", ObtainObject.this);
 			dropDown = new DropDownSelection(this, controller);
 		}
-
+	
 		@Override
 		public InputComponent getInputComponent() {
 			return dropDown;
 		}
-
+	
 		protected class DropDownSelection extends JPanel implements InputComponent {
 			private JComboBox dropDown;
 			private JButton activateButton;
 			private JButton okButton;
-
-			protected DropDownSelection(final ListSelection method, GeomEditController controller) {
+	
+			protected DropDownSelection(final ListSelection method, GeomEditDrawingController controller) {
 				super(new FlowLayout(FlowLayout.CENTER, 5, 0));
-
+	
 				DefaultComboBoxModel model = new DefaultComboBoxModel(controller.getDrawing().getModel().getChilds());
 				dropDown = new JComboBox(model);
 				dropDown.setRenderer(new DefaultListCellRenderer() {
@@ -194,28 +179,28 @@ public class ObtainObject extends EditionInput<FGEArea> {
 					}
 				});
 				okButton.setEnabled(false);
-
+	
 				add(activateButton);
 				add(dropDown);
 				add(okButton);
-
+	
 			}
-
+	
 			@Override
 			public void disableInputComponent() {
 				dropDown.setEnabled(false);
 				okButton.setEnabled(false);
 			}
-
+	
 			@Override
 			public void enableInputComponent() {
 				dropDown.setEnabled(true);
 				okButton.setEnabled(true);
 			}
-
+	
 		}
-
-	}
+	
+	}*/
 
 	@Override
 	public ObjectReference<? extends FGEArea> getConstruction() {

@@ -39,22 +39,23 @@
 
 package org.openflexo.diana.geomedit.edition;
 
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
-import org.openflexo.fge.geomedit.GeomEditController;
 
 public class ObtainSimplifiedCardinalDirection extends EditionInput<SimplifiedCardinalDirection> {
 	public static int preferredMethodIndex = 0;
 
 	private boolean endOnRightClick = false;
 
-	public ObtainSimplifiedCardinalDirection(String anInputLabel, SimplifiedCardinalDirection defaultValue, GeomEditController controller) {
+	public ObtainSimplifiedCardinalDirection(String anInputLabel, SimplifiedCardinalDirection defaultValue,
+			GeomEditDrawingController controller) {
 		super(anInputLabel, controller);
 
 		availableMethods.add(new KeyboardSelection(anInputLabel, defaultValue));
 	}
 
-	public ObtainSimplifiedCardinalDirection(String anInputLabel, SimplifiedCardinalDirection defaultValue, GeomEditController controller,
-			boolean appendEndSelection) {
+	public ObtainSimplifiedCardinalDirection(String anInputLabel, SimplifiedCardinalDirection defaultValue,
+			GeomEditDrawingController controller, boolean appendEndSelection) {
 		this(anInputLabel, defaultValue, controller);
 		if (appendEndSelection) {
 			availableMethods.add(new EndEditionSelection());

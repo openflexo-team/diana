@@ -39,16 +39,14 @@
 
 package org.openflexo.diana.geomedit.edition;
 
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
-import org.openflexo.diana.geomedit.model.RectPolylinWithStartAndEndAreaConstruction;
 import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geomedit.GeomEditController;
-import org.openflexo.fge.geomedit.Polylin;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateRectPolylinWithStartAndEndArea extends Edition {
 
-	public CreateRectPolylinWithStartAndEndArea(GeomEditController controller) {
+	public CreateRectPolylinWithStartAndEndArea(GeomEditDrawingController controller) {
 		super("Create line from points", controller);
 		inputs.add(new ObtainObject("Select starting area", controller));
 		inputs.add(new ObtainSimplifiedCardinalDirection("Select start orientation", SimplifiedCardinalDirection.NORTH, controller));
@@ -63,18 +61,13 @@ public class CreateRectPolylinWithStartAndEndArea extends Edition {
 		ObtainObject o2 = (ObtainObject) inputs.get(2);
 		ObtainSimplifiedCardinalDirection endOrientation = (ObtainSimplifiedCardinalDirection) inputs.get(3);
 
-		addObject(new Polylin(getController().getDrawing().getModel(), new RectPolylinWithStartAndEndAreaConstruction(o1.getConstruction(),
-				startOrientation.getInputData(), o2.getConstruction(), endOrientation.getInputData())));
+		addConstruction(getController().getFactory().makeRectPolylinWithStartAndEndAreaConstruction(o1.getConstruction(),
+				startOrientation.getInputData(), o2.getConstruction(), endOrientation.getInputData()));
 
 	}
 
-	/*public void addObject(GeometricObject object)
-	{
-		getController().getDrawing().getModel().addToChilds(object);
-	}*/
-
 	@Override
 	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
-		// Nothing to draw
+		// TODO
 	}
 }

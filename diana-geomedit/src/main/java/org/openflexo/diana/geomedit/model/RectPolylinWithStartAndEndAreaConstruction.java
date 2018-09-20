@@ -39,8 +39,8 @@
 
 package org.openflexo.diana.geomedit.model;
 
-import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.geomedit.model.RectPolylinWithStartAndEndAreaConstruction.RectPolylinWithStartAndEndAreaConstructionImpl;
+import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geom.FGERectPolylin;
 import org.openflexo.fge.geom.area.FGEArea;
@@ -49,6 +49,7 @@ import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
@@ -66,24 +67,28 @@ public interface RectPolylinWithStartAndEndAreaConstruction extends PolylinConst
 	public static final String END_ORIENTATION_KEY = "endOrientation";
 
 	@Getter(START_AREA_CONSTRUCTION_KEY)
+	@XMLElement(context = "Start_")
 	public ObjectReference<? extends FGEArea> getStartAreaConstruction();
 
 	@Setter(START_AREA_CONSTRUCTION_KEY)
 	public void setStartAreaConstruction(ObjectReference<? extends FGEArea> startAreaConstruction);
 
 	@Getter(END_AREA_CONSTRUCTION_KEY)
+	@XMLElement(context = "End_")
 	public ObjectReference<? extends FGEArea> getEndAreaConstruction();
 
 	@Setter(END_AREA_CONSTRUCTION_KEY)
 	public void setEndAreaConstruction(ObjectReference<? extends FGEArea> endAreaConstruction);
 
 	@Getter(START_ORIENTATION_KEY)
+	@XMLAttribute
 	public SimplifiedCardinalDirection getStartOrientation();
 
 	@Setter(START_ORIENTATION_KEY)
 	public void setStartOrientation(SimplifiedCardinalDirection startOrientation);
 
 	@Getter(END_ORIENTATION_KEY)
+	@XMLAttribute
 	public SimplifiedCardinalDirection getEndOrientation();
 
 	@Setter(END_ORIENTATION_KEY)
@@ -115,6 +120,44 @@ public interface RectPolylinWithStartAndEndAreaConstruction extends PolylinConst
 		public GeometricConstruction[] getDepends() {
 			GeometricConstruction[] returned = { getStartAreaConstruction(), getEndAreaConstruction() };
 			return returned;
+		}
+
+		@Override
+		public SimplifiedCardinalDirection getStartOrientation() {
+			SimplifiedCardinalDirection returned = (SimplifiedCardinalDirection) performSuperGetter(START_ORIENTATION_KEY);
+			if (returned == null) {
+				return SimplifiedCardinalDirection.NORTH;
+			}
+			return returned;
+		}
+
+		@Override
+		public void setStartOrientation(SimplifiedCardinalDirection orientation) {
+			SimplifiedCardinalDirection oldOrientation = (SimplifiedCardinalDirection) performSuperGetter(START_ORIENTATION_KEY);
+			performSuperSetter(START_ORIENTATION_KEY, orientation);
+			if (oldOrientation != null && oldOrientation != orientation) {
+				refresh();
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public SimplifiedCardinalDirection getEndOrientation() {
+			SimplifiedCardinalDirection returned = (SimplifiedCardinalDirection) performSuperGetter(END_ORIENTATION_KEY);
+			if (returned == null) {
+				return SimplifiedCardinalDirection.NORTH;
+			}
+			return returned;
+		}
+
+		@Override
+		public void setEndOrientation(SimplifiedCardinalDirection orientation) {
+			SimplifiedCardinalDirection oldOrientation = (SimplifiedCardinalDirection) performSuperGetter(END_ORIENTATION_KEY);
+			performSuperSetter(END_ORIENTATION_KEY, orientation);
+			if (oldOrientation != null && oldOrientation != orientation) {
+				refresh();
+				notifyGeometryChanged();
+			}
 		}
 
 	}

@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Panel className="org.openflexo.gina.utils.FIBInspector" layout="border"
 	titleFont="SansSerif,0,12" darkLevel="0"
-	dataClassName="org.openflexo.diana.geomedit.model.ComplexCurveConstruction"
+	dataClassName="org.openflexo.diana.geomedit.model.PolylinConstruction"
 	font="SansSerif,0,12" name="Inspector">
 	<TabPanel name="Tab" constraints="border(location=center)">
 		<Tab title="Basic" layout="twocols" titleFont="SansSerif,0,11"
 			darkLevel="0" index="0" font="SansSerif,0,11" useScrollBar="true"
 			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
 			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="BasicTab">
-		    <Label label="closure" index="18"
-				constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;location=left)"
-				localize="true" />
-			<DropDown index="19" data="data.closure"
-				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
-				width="150" name="ClosureDD" format="object.name" localize="true"
-				iteratorClassName="org.openflexo.fge.geom.FGEGeneralShape$Closure"
-				autoSelectFirstRow="false" />
 			<Label label="foreground" index="100"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=10;insetsRight=2;insetsTop=5;location=left)"
 				name="ForegroundLabel" localize="true" />
@@ -23,13 +15,6 @@
 				localize="true" manageDynamicModel="true" name="ForegroundSelector"
 				index="101" data="data.graphicalRepresentation.foreground"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
-			<Label label="background" index="102"
-				constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
-				name="BackgroundLabel" localize="true" />
-			<Custom componentClassName="org.openflexo.fge.swing.widget.JFIBBackgroundStyleSelector"
-				localize="true" manageDynamicModel="true" name="BackgroundSelector"
-				index="103" data="data.graphicalRepresentation.background"
-				constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
 		</Tab>
 		<Tab title="Advanced" layout="twocols" titleFont="SansSerif,0,11"
 			darkLevel="0" index="2" font="SansSerif,0,11" useScrollBar="true"
@@ -38,5 +23,5 @@
 	</TabPanel>
 	<LocalizedDictionary>
 	</LocalizedDictionary>
-	<Parameter name="title" value="ComplexCurveConstruction" />
+	<Parameter name="title" value="PolylinConstruction" />
 </Panel>

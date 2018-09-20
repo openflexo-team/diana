@@ -41,8 +41,11 @@ package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.model.ObjectReference.ObjectReferenceImpl;
 import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
@@ -50,8 +53,14 @@ import org.openflexo.model.annotations.XMLElement;
 @XMLElement
 public interface ObjectReference<O extends FGEArea> extends GeometricConstruction<O> {
 
+	@PropertyIdentifier(type = GeometricConstruction.class)
+	public static final String REFERENCE_KEY = "reference";
+
+	@Getter(value = REFERENCE_KEY)
+	@XMLElement
 	public GeometricConstruction<O> getReference();
 
+	@Setter(value = REFERENCE_KEY)
 	public void setReference(GeometricConstruction<O> reference);
 
 	public static abstract class ObjectReferenceImpl<O extends FGEArea> extends GeometricConstructionImpl<O> implements ObjectReference<O> {

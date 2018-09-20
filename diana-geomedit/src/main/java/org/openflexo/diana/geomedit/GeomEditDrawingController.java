@@ -72,6 +72,7 @@ import org.openflexo.diana.geomedit.edition.CreatePointSymetricOfPoint;
 import org.openflexo.diana.geomedit.edition.CreatePolygonWithNPoints;
 import org.openflexo.diana.geomedit.edition.CreatePolylinWithNPoints;
 import org.openflexo.diana.geomedit.edition.CreateQuadCurveFromThreePoints;
+import org.openflexo.diana.geomedit.edition.CreateRectPolylinWithStartAndEndArea;
 import org.openflexo.diana.geomedit.edition.CreateRectangleFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateRotatedLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateRoundRectangleFromPoints;
@@ -374,6 +375,15 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 			}
 		});
 		createPolylineItem.add(createPolylinWithNPointsItem);
+
+		JMenuItem createRectPolylinWithStartAndEndAreaItem = new JMenuItem("Rect polylin with start and end area");
+		createRectPolylinWithStartAndEndAreaItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateRectPolylinWithStartAndEndArea(GeomEditDrawingController.this));
+			}
+		});
+		createPolylineItem.add(createRectPolylinWithStartAndEndAreaItem);
 
 		return createPolylineItem;
 	}
