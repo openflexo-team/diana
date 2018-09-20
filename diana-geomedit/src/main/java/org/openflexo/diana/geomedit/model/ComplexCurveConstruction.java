@@ -40,6 +40,7 @@
 package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.model.ComplexCurveConstruction.ComplexCurveConstructionImpl;
+import org.openflexo.diana.geomedit.model.gr.ComplexCurveGraphicalRepresentation;
 import org.openflexo.fge.geom.FGEComplexCurve;
 import org.openflexo.fge.geom.FGEGeneralShape.Closure;
 import org.openflexo.model.annotations.Getter;
@@ -49,6 +50,7 @@ import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(ComplexCurveConstructionImpl.class)
@@ -61,6 +63,7 @@ public interface ComplexCurveConstruction extends GeometricConstruction<FGECompl
 	public FGEComplexCurve getCurve();
 
 	@Getter(CLOSURE_KEY)
+	@XMLAttribute
 	public Closure getClosure();
 
 	@Setter(CLOSURE_KEY)
@@ -68,6 +71,12 @@ public interface ComplexCurveConstruction extends GeometricConstruction<FGECompl
 
 	public static abstract class ComplexCurveConstructionImpl extends GeometricConstructionImpl<FGEComplexCurve>
 			implements ComplexCurveConstruction {
+
+		@Override
+		public ComplexCurveGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			ComplexCurveGraphicalRepresentation returned = factory.newInstance(ComplexCurveGraphicalRepresentation.class);
+			return returned;
+		}
 
 		@Override
 		public final FGEComplexCurve getCurve() {
@@ -79,15 +88,20 @@ public interface ComplexCurveConstruction extends GeometricConstruction<FGECompl
 
 		@Override
 		public Closure getClosure() {
-			return getCurve().getClosure();
+			Closure returned = (Closure) performSuperGetter(CLOSURE_KEY);
+			if (returned == null) {
+				return Closure.OPEN_NOT_FILLED;
+			}
+			return returned;
 		}
 
 		@Override
 		public void setClosure(Closure aClosure) {
-			if (aClosure != getClosure()) {
-				Closure oldClosure = getClosure();
-				getCurve().setClosure(aClosure);
-				getPropertyChangeSupport().firePropertyChange(CLOSURE_KEY, oldClosure, aClosure);
+			Closure oldClosure = (Closure) performSuperGetter(CLOSURE_KEY);
+			performSuperSetter(CLOSURE_KEY, aClosure);
+			if (oldClosure != null && oldClosure != aClosure) {
+				refresh();
+				notifyGeometryChanged();
 			}
 		}
 

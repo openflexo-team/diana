@@ -303,7 +303,8 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O
 
 	@Override
 	public FGEPoint getNearestPoint(FGEPoint aPoint) {
-		return aPoint;
+		// TODO: still to compute
+		return null;
 	}
 
 	@Override

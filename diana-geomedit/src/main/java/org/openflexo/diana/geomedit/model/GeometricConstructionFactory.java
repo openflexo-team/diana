@@ -323,4 +323,12 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
+	public ComplexCurveWithNPointsConstruction makeCurveWithNPointsConstruction(List<PointConstruction> pointConstructions) {
+		ComplexCurveWithNPointsConstruction returned = newInstance(ComplexCurveWithNPointsConstruction.class);
+		for (PointConstruction pc : pointConstructions) {
+			returned.addToPointConstructions(pc);
+		}
+		return returned;
+	}
+
 }

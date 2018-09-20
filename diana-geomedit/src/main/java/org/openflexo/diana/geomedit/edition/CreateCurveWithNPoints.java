@@ -41,24 +41,22 @@ package org.openflexo.diana.geomedit.edition;
 
 import java.util.Vector;
 
-import org.openflexo.diana.geomedit.model.ComplexCurveWithNPointsConstruction;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.PointConstruction;
 import org.openflexo.fge.geom.FGEComplexCurve;
 import org.openflexo.fge.geom.FGEGeneralShape.Closure;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.fge.geomedit.ComplexCurve;
-import org.openflexo.fge.geomedit.GeomEditController;
 import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
 
 public class CreateCurveWithNPoints extends Edition {
 
-	public CreateCurveWithNPoints(GeomEditController controller) {
+	public CreateCurveWithNPoints(GeomEditDrawingController controller) {
 		super("Create curve from a list of points", controller);
 		appendNewPointEdition(controller, 1);
 	}
 
-	private void appendNewPointEdition(final GeomEditController controller, int index) {
+	private void appendNewPointEdition(final GeomEditDrawingController controller, int index) {
 		ObtainPoint newObtainPoint = new ObtainPoint("Select point " + index, controller, true) {
 			@Override
 			public void done() {
@@ -84,7 +82,7 @@ public class CreateCurveWithNPoints extends Edition {
 				pc.add(pp);
 			}
 		}
-		addObject(new ComplexCurve(getController().getDrawing().getModel(), new ComplexCurveWithNPointsConstruction(pc)));
+		addConstruction(getController().getFactory().makeCurveWithNPointsConstruction(pc));
 	}
 
 	/*public void addObject(GeometricObject object)
@@ -102,7 +100,8 @@ public class CreateCurveWithNPoints extends Edition {
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			p1.paint(graphics);
 			new FGESegment(p1, lastMouseLocation).paint(graphics);
-		} else {
+		}
+		else {
 			Vector<FGEPoint> pts = new Vector<FGEPoint>();
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			for (int i = 0; i < currentStep; i++) {

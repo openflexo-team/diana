@@ -58,6 +58,7 @@ import javax.swing.JPopupMenu;
 import org.openflexo.diana.geomedit.edition.CreateBandFromLines;
 import org.openflexo.diana.geomedit.edition.CreateCircleWithCenterAndPoint;
 import org.openflexo.diana.geomedit.edition.CreateCubicCurveFromFourPoints;
+import org.openflexo.diana.geomedit.edition.CreateCurveWithNPoints;
 import org.openflexo.diana.geomedit.edition.CreateHalfBandWithLines;
 import org.openflexo.diana.geomedit.edition.CreateHalfLineFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateHalfPlaneWithLineAndPoint;
@@ -167,6 +168,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		contextualMenu.add(makeCreateHalfBandMenu());
 		contextualMenu.add(makeCreateQuadCurveMenu());
 		contextualMenu.add(makeCreateCubicCurveMenu());
+		contextualMenu.add(makeCreateComplexCurveMenu());
 
 		contextualMenu.addSeparator();
 		JMenuItem copyItem = new JMenuItem("Copy");
@@ -492,6 +494,21 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		createCubicCurveItem.add(createCubicCurveFromFourPoints);
 
 		return createCubicCurveItem;
+	}
+
+	private JMenu makeCreateComplexCurveMenu() {
+		JMenu createCurveItem = new JMenu("Create complex curve");
+
+		JMenuItem CreateCurveWithNPointsItem = new JMenuItem("With n points");
+		CreateCurveWithNPointsItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateCurveWithNPoints(GeomEditDrawingController.this));
+			}
+		});
+		createCurveItem.add(CreateCurveWithNPointsItem);
+
+		return createCurveItem;
 	}
 
 	public GeometricDiagram getDiagram() {

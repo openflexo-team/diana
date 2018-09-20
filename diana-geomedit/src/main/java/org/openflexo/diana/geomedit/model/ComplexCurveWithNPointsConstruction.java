@@ -63,6 +63,7 @@ public interface ComplexCurveWithNPointsConstruction extends ComplexCurveConstru
 	public static final String POINT_CONSTRUCTIONS_KEY = "pointConstructions";
 
 	@Getter(value = POINT_CONSTRUCTIONS_KEY, cardinality = Cardinality.LIST)
+	@XMLElement
 	public List<PointConstruction> getPointConstructions();
 
 	@Adder(POINT_CONSTRUCTIONS_KEY)
@@ -74,27 +75,10 @@ public interface ComplexCurveWithNPointsConstruction extends ComplexCurveConstru
 	public static abstract class ComplexCurveWithNPointsConstructionImpl extends ComplexCurveConstructionImpl
 			implements ComplexCurveWithNPointsConstruction {
 
-		public List<PointConstruction> pointConstructions;
-
-		@Override
-		public List<PointConstruction> getPointConstructions() {
-			return pointConstructions;
-		}
-
-		@Override
-		public void addToPointConstructions(PointConstruction pointConstruction) {
-			pointConstructions.add(pointConstruction);
-		}
-
-		@Override
-		public void removeFromPointConstructions(PointConstruction pointConstruction) {
-			pointConstructions.remove(pointConstruction);
-		}
-
 		@Override
 		protected FGEComplexCurve computeData() {
 			Vector<FGEPoint> pts = new Vector<FGEPoint>();
-			for (PointConstruction pc : pointConstructions) {
+			for (PointConstruction pc : getPointConstructions()) {
 				pts.add(pc.getPoint());
 			}
 			return new FGEComplexCurve(getClosure(), pts);
@@ -104,7 +88,7 @@ public interface ComplexCurveWithNPointsConstruction extends ComplexCurveConstru
 		public String toString() {
 			StringBuffer sb = new StringBuffer();
 			sb.append("CurveWithNPointsConstruction[\n");
-			for (PointConstruction pc : pointConstructions) {
+			for (PointConstruction pc : getPointConstructions()) {
 				sb.append("> " + pc.toString() + "\n");
 			}
 			sb.append("]");
@@ -113,7 +97,7 @@ public interface ComplexCurveWithNPointsConstruction extends ComplexCurveConstru
 
 		@Override
 		public GeometricConstruction[] getDepends() {
-			return pointConstructions.toArray(new GeometricConstruction[pointConstructions.size()]);
+			return getPointConstructions().toArray(new GeometricConstruction[getPointConstructions().size()]);
 		}
 
 	}
