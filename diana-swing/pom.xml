@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.openflexo</groupId>
 		<artifactId>diana</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.4.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>diana-swing</artifactId>
 	<name>Diana-Swing</name>
@@ -25,11 +25,11 @@
 			<groupId>org.openflexo</groupId>
 			<artifactId>gina-replay</artifactId>
 		</dependency>
-		<dependency>
+		<!--  <dependency>
 			<groupId>org.openflexo</groupId>
 			<artifactId>diana-core</artifactId>
 			<classifier>tests</classifier>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.openflexo</groupId>
 			<artifactId>gina-swing</artifactId>
@@ -37,28 +37,26 @@
 		
 		<dependency>
 			<groupId>org.openflexo</groupId>
-			<artifactId>flexoutils</artifactId>
-			<classifier>tests</classifier>
-			<scope>test</scope>
+			<artifactId>testutils</artifactId>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.openflexo</groupId>
 			<artifactId>gina-core</artifactId>
 			<classifier>tests</classifier>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
+		</dependency>-->
+		<!--  <dependency>
 			<groupId>org.openflexo</groupId>
 			<artifactId>gina-swing</artifactId>
 			<classifier>tests</classifier>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
+		</dependency>-->
+		<!--  <dependency>
 			<groupId>org.openflexo</groupId>
 			<artifactId>gina-replay</artifactId>
 			<classifier>tests</classifier>
 			<scope>test</scope>
-		</dependency>
+		</dependency>-->
 		
 	</dependencies>
 </project>

@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.openflexo</groupId>
 		<artifactId>diana</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.4.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>diana-ppt-editor</artifactId>
 	<name>Diana-PowerPointEditor</name>
