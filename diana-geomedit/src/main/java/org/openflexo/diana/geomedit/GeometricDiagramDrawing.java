@@ -46,6 +46,7 @@ import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
+import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.GRBinding.DrawingGRBinding;
@@ -136,6 +137,8 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 		// binding
 		constructionBinding.setDynamicPropertyValue(GeometricGraphicalRepresentation.GEOMETRIC_OBJECT,
 				new DataBinding<FGEArea>("drawable.data"), false);
+		constructionBinding.setDynamicPropertyValue(GeometricGraphicalRepresentation.BACKGROUND,
+				new DataBinding<BackgroundStyle>("drawable.background"), true);
 
 	}
 

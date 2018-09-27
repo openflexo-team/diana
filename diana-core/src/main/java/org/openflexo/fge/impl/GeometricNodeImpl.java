@@ -42,6 +42,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.beans.PropertyChangeEvent;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -52,7 +53,6 @@ import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.GRBinding;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
-import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.control.DianaEditor;
 import org.openflexo.fge.cp.ControlArea;
 import org.openflexo.fge.cp.ControlPoint;
@@ -224,12 +224,12 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			logger.warning("Unsupported controller: " + controller);
 		}*/
 
-		g.setDefaultBackground(getGraphicalRepresentation().getBackground());
-		g.setDefaultForeground(getGraphicalRepresentation().getForeground());
-		g.setDefaultTextStyle(getGraphicalRepresentation().getTextStyle());
+		g.setDefaultBackground(getBackgroundStyle());
+		g.setDefaultForeground(getForegroundStyle());
+		g.setDefaultTextStyle(getTextStyle());
 
 		if (getIsSelected() || getIsFocused()) {
-			ForegroundStyle style = (ForegroundStyle) getGraphicalRepresentation().getForeground().clone();
+			ForegroundStyle style = (ForegroundStyle) getForegroundStyle().clone();
 			if (getIsSelected()) {
 				style.setColorNoNotification(getDrawing().getRoot().getGraphicalRepresentation().getSelectionColor());
 			}
@@ -960,16 +960,6 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 		return null;
 	}
 
-	@Override
-	public ForegroundStyle getForegroundStyle() {
-		return getPropertyValue(ShapeGraphicalRepresentation.FOREGROUND);
-	}
-
-	@Override
-	public void setForegroundStyle(ForegroundStyle aValue) {
-		setPropertyValue(ShapeGraphicalRepresentation.FOREGROUND, aValue);
-	}
-
 	/**
 	 * Convenient method used to retrieve geometric object
 	 */
@@ -982,6 +972,47 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	 */
 	public void setGeometricObject(FGEArea geometricObject) {
 		setPropertyValue(GeometricGraphicalRepresentation.GEOMETRIC_OBJECT, geometricObject);
+	}
+
+	/**
+	 * Convenient method used to retrieve background style property value
+	 */
+	@Override
+	public BackgroundStyle getBackgroundStyle() {
+		return getPropertyValue(GeometricGraphicalRepresentation.BACKGROUND);
+	}
+
+	/**
+	 * Convenient method used to set background style property value
+	 */
+	@Override
+	public void setBackgroundStyle(BackgroundStyle style) {
+		if (hasDynamicSettablePropertyValue(GeometricGraphicalRepresentation.BACKGROUND)) {
+			try {
+				setDynamicPropertyValue(GeometricGraphicalRepresentation.BACKGROUND, style);
+				return;
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+
+		setPropertyValue(GeometricGraphicalRepresentation.BACKGROUND, style);
+	}
+
+	/**
+	 * Convenient method used to retrieve foreground style property value
+	 */
+	@Override
+	public ForegroundStyle getForegroundStyle() {
+		return getPropertyValue(GeometricGraphicalRepresentation.FOREGROUND);
+	}
+
+	/**
+	 * Convenient method used to set foreground style property value
+	 */
+	@Override
+	public void setForegroundStyle(ForegroundStyle aValue) {
+		setPropertyValue(GeometricGraphicalRepresentation.FOREGROUND, aValue);
 	}
 
 }

@@ -946,6 +946,10 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public void setForegroundStyle(ForegroundStyle aValue);
 
+		public BackgroundStyle getBackgroundStyle();
+
+		public void setBackgroundStyle(BackgroundStyle style);
+
 	}
 
 	public PersistenceMode getPersistenceMode();

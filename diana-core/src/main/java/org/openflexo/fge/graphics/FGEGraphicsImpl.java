@@ -108,6 +108,10 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 		return dtn;
 	}
 
+	public void setDrawingTreeNode(DrawingTreeNode<?, ?> dtn) {
+		this.dtn = dtn;
+	}
+
 	@Override
 	public DrawingTreeNode<?, ?> getNode() {
 		return getDrawingTreeNode();

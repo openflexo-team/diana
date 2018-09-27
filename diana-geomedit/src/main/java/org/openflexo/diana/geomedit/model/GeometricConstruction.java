@@ -46,6 +46,8 @@ import java.util.List;
 
 import org.openflexo.diana.geomedit.model.GeometricConstruction.GeometricConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
+import org.openflexo.fge.BackgroundStyle;
+import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.cp.ControlPoint;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.notifications.GeometryModified;
@@ -76,6 +78,11 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 	@PropertyIdentifier(type = GeometricDiagram.class)
 	public static final String GEOMETRIC_DIAGRAM = "geometricDiagram";
 
+	@PropertyIdentifier(type = ForegroundStyle.class)
+	public static final String FOREGROUND_KEY = "foreground";
+	@PropertyIdentifier(type = BackgroundStyle.class)
+	public static final String BACKGROUND_KEY = "background";
+
 	@Override
 	@Getter(value = GEOMETRIC_DIAGRAM)
 	public GeometricDiagram getGeometricDiagram();
@@ -91,6 +98,24 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 
 	@Setter(value = GRAPHICAL_REPRESENTATION)
 	public void setGraphicalRepresentation(GeometricObjectGraphicalRepresentation<A> graphicalRepresentation);
+
+	@Getter(value = FOREGROUND_KEY)
+	@CloningStrategy(StrategyType.CLONE)
+	@Embedded
+	@XMLElement
+	public ForegroundStyle getForeground();
+
+	@Setter(value = FOREGROUND_KEY)
+	public void setForeground(ForegroundStyle aForeground);
+
+	@Getter(value = BACKGROUND_KEY)
+	@CloningStrategy(StrategyType.CLONE)
+	@Embedded
+	@XMLElement
+	public BackgroundStyle getBackground();
+
+	@Setter(value = BACKGROUND_KEY)
+	public void setBackground(BackgroundStyle aBackground);
 
 	public void refresh();
 
@@ -225,6 +250,7 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 			refresh();
 			notifyGeometryChanged();
 		}
+
 	}
 
 }

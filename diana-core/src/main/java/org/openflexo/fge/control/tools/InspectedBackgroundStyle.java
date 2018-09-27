@@ -43,7 +43,9 @@ import java.util.List;
 import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.BackgroundStyle.BackgroundStyleType;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.control.DianaInteractiveViewer;
 import org.openflexo.model.undo.CompoundEdit;
@@ -62,14 +64,17 @@ public class InspectedBackgroundStyle extends InspectedStyleUsingFactory<Backgro
 	}
 
 	@Override
-	public List<ShapeNode<?>> getSelection() {
-		return getController().getSelectedShapes();
+	public List<DrawingTreeNode<?, ?>> getSelection() {
+		return getController().getSelectedShapesAndGeometricObjects();
 	}
 
 	@Override
 	public BackgroundStyle getStyle(DrawingTreeNode<?, ?> node) {
 		if (node instanceof ShapeNode) {
 			return ((ShapeNode<?>) node).getBackgroundStyle();
+		}
+		else if (node instanceof GeometricNode) {
+			return ((GeometricNode<?>) node).getBackgroundStyle();
 		}
 		return null;
 	}
@@ -84,14 +89,32 @@ public class InspectedBackgroundStyle extends InspectedStyleUsingFactory<Backgro
 
 	@Override
 	protected void applyNewStyle(BackgroundStyleType aStyleType, DrawingTreeNode<?, ?> node) {
-		ShapeNode<?> n = (ShapeNode<?>) node;
-		BackgroundStyle oldStyle = n.getBackgroundStyle();
-		CompoundEdit setValueEdit = startRecordEdit("Set BackgroundStyleType to " + aStyleType);
-		n.setBackgroundStyle(getStyleFactory().makeNewStyle(oldStyle));
-		if (oldStyle != null) {
-			n.getPropertyChangeSupport().firePropertyChange(ShapeGraphicalRepresentation.BACKGROUND_STYLE_TYPE_KEY,
-					oldStyle.getBackgroundStyleType(), aStyleType);
+
+		if (node instanceof ShapeNode) {
+			ShapeNode<?> n = (ShapeNode<?>) node;
+			BackgroundStyle oldStyle = n.getBackgroundStyle();
+			CompoundEdit setValueEdit = startRecordEdit("Set BackgroundStyleType to " + aStyleType);
+			n.setBackgroundStyle(getStyleFactory().makeNewStyle(oldStyle));
+			if (oldStyle != null) {
+				n.getPropertyChangeSupport().firePropertyChange(ShapeGraphicalRepresentation.BACKGROUND_STYLE_TYPE_KEY,
+						oldStyle.getBackgroundStyleType(), aStyleType);
+			}
+			stopRecordEdit(setValueEdit);
 		}
-		stopRecordEdit(setValueEdit);
+		else if (node instanceof GeometricNode) {
+			GeometricNode<?> n = (GeometricNode<?>) node;
+			BackgroundStyle oldStyle = n.getBackgroundStyle();
+			CompoundEdit setValueEdit = startRecordEdit("Set BackgroundStyleType to " + aStyleType);
+			BackgroundStyle newStyle = getStyleFactory().makeNewStyle(oldStyle);
+			n.setBackgroundStyle(newStyle);
+
+			if (oldStyle != null) {
+				n.getPropertyChangeSupport().firePropertyChange(GeometricGraphicalRepresentation.BACKGROUND_STYLE_TYPE_KEY,
+						oldStyle.getBackgroundStyleType(), aStyleType);
+			}
+			stopRecordEdit(setValueEdit);
+		}
 	}
+
+
 }

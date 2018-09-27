@@ -47,14 +47,14 @@
 				name="ForegroundLabel" localize="true" />
 			<Custom componentClassName="org.openflexo.fge.swing.widget.JFIBForegroundStyleSelector"
 				localize="true" manageDynamicModel="true" name="ForegroundSelector"
-				index="101" data="data.graphicalRepresentation.foreground"
+				index="101" data="data.foreground"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
 			<Label label="background" index="102"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
 				name="BackgroundLabel" localize="true" />
 			<Custom componentClassName="org.openflexo.fge.swing.widget.JFIBBackgroundStyleSelector"
 				localize="true" manageDynamicModel="true" name="BackgroundSelector"
-				index="103" data="data.graphicalRepresentation.background"
+				index="103" data="data.background"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
 		</Tab>
 		<Tab title="Advanced" layout="twocols" titleFont="SansSerif,0,11"

@@ -86,6 +86,8 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 
 	private boolean shouldBeUpdated = true;
 
+	protected Map<GRProperty<?>, Object> storedPropertyValues = new HashMap<>();
+
 	protected InspectedStyle(DianaInteractiveViewer<?, ?, ?> controller, S defaultValue) {
 		this.controller = controller;
 		this.defaultValue = defaultValue;
@@ -95,8 +97,6 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	public DianaInteractiveViewer<?, ?, ?> getController() {
 		return controller;
 	}
-
-	protected Map<GRProperty<?>, Object> storedPropertyValues = new HashMap<>();
 
 	/**
 	 * Return property value matching supplied parameter for current selection<br>

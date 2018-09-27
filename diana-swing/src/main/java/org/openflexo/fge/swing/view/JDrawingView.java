@@ -65,7 +65,9 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -714,7 +716,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			});
 			for (GeometricNode<?> gn : geomList) {
 				// TODO: use the same graphics, just change DrawingTreeNode
-				JFGEGeometricGraphics geometricGraphics = new JFGEGeometricGraphics(gn, this);
+				// JFGEGeometricGraphics geometricGraphics = new JFGEGeometricGraphics(gn, this);
+				JFGEGeometricGraphics geometricGraphics = getGeometricGraphics(gn);
 				geometricGraphics.createGraphics(g2/*, controller*/);
 				gn.paint(geometricGraphics);
 				geometricGraphics.releaseGraphics();
@@ -722,6 +725,18 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			}
 		}
 	}
+
+	private JFGEGeometricGraphics getGeometricGraphics(GeometricNode<?> gn) {
+		JFGEGeometricGraphics returned = geometricGraphics.get(gn);
+		if (returned == null) {
+			returned = new JFGEGeometricGraphics(gn, this);
+			geometricGraphics.put(gn, returned);
+		}
+		returned.setDrawingTreeNode(gn);
+		return returned;
+	}
+
+	private Map<GeometricNode<?>, JFGEGeometricGraphics> geometricGraphics = new HashMap<>();
 
 	private void paintFocusedFloatingLabel(DrawingTreeNode<?, ?> focusedFloatingLabel, Graphics g) {
 		Color color = Color.BLACK;
