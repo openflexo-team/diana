@@ -247,7 +247,6 @@ public class FGEQuadCurve extends Double implements FGEGeneralShape.GeneralShape
 	@Override
 	public FGEPoint getNearestPoint(FGEPoint aPoint) {
 		// TODO do something better later
-		// logger.warning("Please implement me better later");
 		return getApproximatedNearestPoint(aPoint);
 	}
 
