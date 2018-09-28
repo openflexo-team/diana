@@ -4,12 +4,12 @@
     <P1_ExplicitPointConstruction id="2" point="159.0,189.0" name="Point2" />
     <P2_ExplicitPointConstruction id="3" point="484.0,325.0" name="Point3" />
     <ColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
-    <ForegroundStyle id="5" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" lineWidth="1.9000000014901162" />
+    <ForegroundStyle id="5" joinStyle="JOIN_MITER" color="0,153,51" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" lineWidth="1.9000000014901162" />
     <LineGraphicalRepresentation id="6" identifier="11b614b2">
       <TextStyle id="7" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
     </LineGraphicalRepresentation>
   </LineWithTwoPointsConstruction>
-  <ExplicitPointConstruction id="8" point="134.0,324.0" name="Point1">
+  <ExplicitPointConstruction id="8" point="124.0,314.0" name="Point1">
     <ColorBackgroundStyle id="9" color="254,247,217" transparencyLevel="0.5" />
     <ForegroundStyle id="10" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
     <PointGraphicalRepresentation id="11" identifier="1e931b15">
@@ -85,7 +85,7 @@
     <End_ExplicitPointConstruction id="53" point="463.0,556.0" name="Point21" />
     <Start_ExplicitPointConstruction id="54" point="158.0,561.0" name="Point22" />
     <ColorBackgroundStyle id="55" color="254,247,217" transparencyLevel="0.5" />
-    <ForegroundStyle id="56" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <ForegroundStyle id="56" joinStyle="JOIN_MITER" color="255,51,51" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" lineWidth="2.0" />
     <QuadCurveGraphicalRepresentation id="57" identifier="5b2fe6bc">
       <TextStyle id="58" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
     </QuadCurveGraphicalRepresentation>
@@ -117,7 +117,45 @@
       <TextStyle id="73" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
     </SegmentGraphicalRepresentation>
   </SegmentWithTwoPointsConstruction>
-  <DrawingGraphicalRepresentation id="74" backgroundColor="255,255,255" drawWorkingArea="false" focusColor="255,0,0" selectionColor="0,0,255" rectangleSelectingSelectionColor="0,0,255" dimensionConstraints="FREELY_RESIZABLE" identifier="5cbbcddb">
-    <TextStyle id="75" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  <CubicCurveWithFourPointsConstruction id="74" name="Curve29">
+    <Ctrl2_ExplicitPointConstruction id="75" point="149.0,458.0" name="Point30" />
+    <Ctrl1_ExplicitPointConstruction id="76" point="712.0,482.0" name="Point31" />
+    <End_ExplicitPointConstruction id="77" point="305.0,664.0" name="Point32" />
+    <Start_ExplicitPointConstruction id="78" point="820.0,591.0" name="Point33" />
+    <ColorBackgroundStyle id="79" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="80" joinStyle="JOIN_MITER" color="0,0,255" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" lineWidth="2.000000001490116" />
+    <CubicCurveGraphicalRepresentation id="81" identifier="4e0a4745">
+      <TextStyle id="82" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+    </CubicCurveGraphicalRepresentation>
+  </CubicCurveWithFourPointsConstruction>
+  <NearestPointFromObjectConstruction id="83" name="Point34">
+    <Ref_ObjectReference id="84" name="Construction35">
+      <CubicCurveWithFourPointsConstruction idref="74" />
+    </Ref_ObjectReference>
+    <P_PointReference id="85" name="Point36">
+      <Ref_ExplicitPointConstruction idref="8" />
+    </P_PointReference>
+    <ColorBackgroundStyle id="86" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="87" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <PointGraphicalRepresentation id="88" identifier="713ee824">
+      <TexturedBackgroundStyle id="89" color1="255,0,0" color2="255,255,255" textureType="TEXTURE1" transparencyLevel="0.5" />
+      <TextStyle id="90" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+    </PointGraphicalRepresentation>
+  </NearestPointFromObjectConstruction>
+  <SegmentWithTwoPointsConstruction id="91" name="Segment37">
+    <P1_PointReference id="92" name="Point38">
+      <Ref_ExplicitPointConstruction idref="8" />
+    </P1_PointReference>
+    <P2_ControlPointReference id="93" controlPointName="point" name="Point39">
+      <NearestPointFromObjectConstruction idref="83" />
+    </P2_ControlPointReference>
+    <ColorBackgroundStyle id="94" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="95" joinStyle="JOIN_MITER" color="102,102,102" dashStyle="BIG_DASHES" capStyle="CAP_SQUARE" lineWidth="0.3999999985098839" />
+    <SegmentGraphicalRepresentation id="96" identifier="40df7b94">
+      <TextStyle id="97" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+    </SegmentGraphicalRepresentation>
+  </SegmentWithTwoPointsConstruction>
+  <DrawingGraphicalRepresentation id="98" backgroundColor="255,255,255" drawWorkingArea="false" focusColor="255,0,0" selectionColor="0,0,255" rectangleSelectingSelectionColor="0,0,255" dimensionConstraints="FREELY_RESIZABLE" identifier="5cbbcddb">
+    <TextStyle id="99" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
   </DrawingGraphicalRepresentation>
 </GeometricDiagram>

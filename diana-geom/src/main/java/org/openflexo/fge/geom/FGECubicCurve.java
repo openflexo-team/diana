@@ -41,6 +41,8 @@ package org.openflexo.fge.geom;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.CubicCurve2D.Double;
+import java.awt.geom.FlatteningPathIterator;
+import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Vector;
@@ -58,6 +60,11 @@ public class FGECubicCurve extends Double implements FGEGeneralShape.GeneralShap
 
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(FGECubicCurve.class.getPackage().getName());
+
+	/**
+	 * This value is internally used to compute approximated data (nearest point, distance, etc...)
+	 */
+	private static final double FLATTENING_PATH_LEVEL = 0.01;
 
 	public FGECubicCurve() {
 		super();
@@ -160,10 +167,42 @@ public class FGECubicCurve extends Double implements FGEGeneralShape.GeneralShap
 		return (FGECubicCurve) super.clone();
 	}
 
+	private FGEPolylin buildFlattenPath(double flatness) {
+		FGEPolylin returned = new FGEPolylin();
+		PathIterator p = getPathIterator(null);
+		FlatteningPathIterator f = new FlatteningPathIterator(p, flatness);
+		while (!f.isDone()) {
+			float[] pts = new float[6];
+			switch (f.currentSegment(pts)) {
+				case PathIterator.SEG_MOVETO:
+					// returned.addToPoints(new FGEPoint(pts[0],pts[1]));
+				case PathIterator.SEG_LINETO:
+					returned.addToPoints(new FGEPoint(pts[0], pts[1]));
+			}
+			f.next();
+		}
+		return returned;
+	}
+
 	@Override
 	public FGEPoint getNearestPoint(FGEPoint aPoint) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO do something better later
+		return getApproximatedNearestPoint(aPoint);
+	}
+
+	public FGEPoint getApproximatedNearestPoint(FGEPoint aPoint) {
+		double minimizedDistance = java.lang.Double.POSITIVE_INFINITY;
+		FGEPoint returned = null;
+		FGEPolylin flattenPath = buildFlattenPath(FLATTENING_PATH_LEVEL);
+		for (FGESegment s : flattenPath.getSegments()) {
+			FGEPoint nearestPoint = s.getNearestPointOnSegment(aPoint);
+			double currentDistance = FGEPoint.distance(nearestPoint, aPoint);
+			if (currentDistance < minimizedDistance) {
+				minimizedDistance = currentDistance;
+				returned = nearestPoint;
+			}
+		}
+		return returned;
 	}
 
 	@Override
