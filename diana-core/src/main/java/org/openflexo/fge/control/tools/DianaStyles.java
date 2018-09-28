@@ -149,7 +149,8 @@ public abstract class DianaStyles<C, F extends DianaViewFactory<F, ? super C>> e
 			backgroundSelector.setFactory(getInspectedBackgroundStyle().getStyleFactory());
 		}
 		if (shapeSelector != null) {
-			shapeSelector.setEditedObject(getInspectedShapeSpecification().getDefaultValue());
+			shapeSelector.setFactory(getInspectedShapeSpecification().getStyleFactory());
+			// shapeSelector.setEditedObject(getInspectedShapeSpecification().getDefaultValue());
 		}
 	}
 
