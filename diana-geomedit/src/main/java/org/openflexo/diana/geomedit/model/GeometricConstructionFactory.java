@@ -94,11 +94,11 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 
 	public <A extends FGEArea> GeometricObjectGraphicalRepresentation<A> makeNewConstructionGR(GeometricConstruction<A> construction) {
 		GeometricObjectGraphicalRepresentation<A> returned = construction.makeNewConstructionGR(this);
-		if (returned.getForeground() == null) {
-			returned.setForeground(makeDefaultForegroundStyle());
+		if (construction.getForeground() == null) {
+			construction.setForeground(makeDefaultForegroundStyle());
 		}
-		if (returned.getBackground() == null) {
-			returned.setBackground(makeDefaultBackgroundStyle());
+		if (construction.getBackground() == null) {
+			construction.setBackground(makeDefaultBackgroundStyle());
 		}
 		if (returned.getTextStyle() == null) {
 			returned.setTextStyle(makeDefaultTextStyle());

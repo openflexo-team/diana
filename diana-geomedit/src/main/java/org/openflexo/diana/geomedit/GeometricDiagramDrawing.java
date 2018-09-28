@@ -49,6 +49,7 @@ import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentat
 import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.FGEModelFactory;
+import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.GRBinding.DrawingGRBinding;
 import org.openflexo.fge.GRBinding.GeometricGRBinding;
 import org.openflexo.fge.GRProvider.DrawingGRProvider;
@@ -94,6 +95,12 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 						if (drawable.getGraphicalRepresentation() != null) {
 							drawable.getGraphicalRepresentation().setFactory(factory);
 							drawable.getGraphicalRepresentation().setGeometricObject(drawable.getData());
+							if (drawable.getForeground() == null) {
+								drawable.setForeground(factory.makeDefaultForegroundStyle());
+							}
+							if (drawable.getBackground() == null) {
+								drawable.setBackground(factory.makeDefaultBackgroundStyle());
+							}
 							return drawable.getGraphicalRepresentation();
 						}
 						else {
@@ -137,6 +144,8 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 		// binding
 		constructionBinding.setDynamicPropertyValue(GeometricGraphicalRepresentation.GEOMETRIC_OBJECT,
 				new DataBinding<FGEArea>("drawable.data"), false);
+		constructionBinding.setDynamicPropertyValue(GeometricGraphicalRepresentation.FOREGROUND,
+				new DataBinding<ForegroundStyle>("drawable.foreground"), true);
 		constructionBinding.setDynamicPropertyValue(GeometricGraphicalRepresentation.BACKGROUND,
 				new DataBinding<BackgroundStyle>("drawable.background"), true);
 

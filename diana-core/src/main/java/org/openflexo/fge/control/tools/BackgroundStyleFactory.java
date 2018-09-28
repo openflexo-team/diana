@@ -141,6 +141,10 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 		return getBackgroundStyle();
 	}
 
+	public BackgroundStyle getDefaultValue() {
+		return getBackgroundStyle().getDefaultValue();
+	}
+
 	public AbstractInspectedBackgroundStyle<?> getBackgroundStyle() {
 		if (backgroundStyleType != null) {
 			switch (backgroundStyleType) {

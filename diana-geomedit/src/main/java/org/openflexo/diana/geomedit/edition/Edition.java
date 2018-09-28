@@ -78,10 +78,15 @@ public abstract class Edition {
 		return controller;
 	}
 
-	public final void addConstruction(GeometricConstruction<?> object) {
-		//System.out.println("TODO: implement adding of " + object);
-		// getController().getDrawing().getModel().addToChilds(object);
-		controller.getDrawing().getModel().addToConstructions(object);
+	/**
+	 * Sets newly created construction with default graphical parameters and add it to the GeometricDiagram
+	 * 
+	 * @param newConstruction
+	 */
+	public final void addConstruction(GeometricConstruction<?> newConstruction) {
+		newConstruction.setForeground(getController().getInspectedForegroundStyle().getDefaultValue());
+		newConstruction.setBackground(getController().getInspectedBackgroundStyle().getStyleFactory().getDefaultValue());
+		controller.getDrawing().getModel().addToConstructions(newConstruction);
 	}
 
 	public boolean next() {

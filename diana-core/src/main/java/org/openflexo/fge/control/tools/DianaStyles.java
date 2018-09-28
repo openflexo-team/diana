@@ -146,7 +146,7 @@ public abstract class DianaStyles<C, F extends DianaViewFactory<F, ? super C>> e
 			shadowStyleSelector.setEditedObject(getInspectedShadowStyle());
 		}
 		if (backgroundSelector != null) {
-			backgroundSelector.setEditedObject(getInspectedBackgroundStyle().getDefaultValue());
+			backgroundSelector.setFactory(getInspectedBackgroundStyle().getStyleFactory());
 		}
 		if (shapeSelector != null) {
 			shapeSelector.setEditedObject(getInspectedShapeSpecification().getDefaultValue());
