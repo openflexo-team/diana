@@ -288,7 +288,10 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O
 
 	@Override
 	public boolean containsPoint(FGEPoint p) {
-		return contains(p.x, p.y);
+		if (p != null) {
+			return contains(p.x, p.y);
+		}
+		return false;
 	}
 
 	@Override
