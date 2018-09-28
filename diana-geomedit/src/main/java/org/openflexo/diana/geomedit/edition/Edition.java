@@ -84,8 +84,9 @@ public abstract class Edition {
 	 * @param newConstruction
 	 */
 	public final void addConstruction(GeometricConstruction<?> newConstruction) {
-		newConstruction.setForeground(getController().getInspectedForegroundStyle().getDefaultValue());
-		newConstruction.setBackground(getController().getInspectedBackgroundStyle().getStyleFactory().getDefaultValue());
+		newConstruction.setForeground((ForegroundStyle) getController().getInspectedForegroundStyle().getDefaultValue().cloneObject());
+		newConstruction.setBackground(
+				(BackgroundStyle) getController().getInspectedBackgroundStyle().getStyleFactory().getDefaultValue().cloneObject());
 		controller.getDrawing().getModel().addToConstructions(newConstruction);
 	}
 
