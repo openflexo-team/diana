@@ -57,7 +57,7 @@ import org.openflexo.model.annotations.Setter;
 @ImplementationClass(PointConstructionImpl.class)
 @Imports({ @Import(PointReference.class), @Import(ExplicitPointConstruction.class), @Import(ControlPointReference.class),
 		@Import(LineIntersectionPointConstruction.class), @Import(PointMiddleOfTwoPointsConstruction.class),
-		@Import(SymetricPointConstruction.class) })
+		@Import(SymetricPointConstruction.class), @Import(NearestPointFromObjectConstruction.class) })
 public interface PointConstruction extends GeometricConstruction<FGEPoint> {
 
 	@PropertyIdentifier(type = Double.class)

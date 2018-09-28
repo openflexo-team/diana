@@ -139,6 +139,14 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
+	public NearestPointFromObjectConstruction makePointNearestPointFromObject(PointConstruction pointConstruction,
+			ObjectReference<?> objectReference) {
+		NearestPointFromObjectConstruction returned = newInstance(NearestPointFromObjectConstruction.class);
+		returned.setPointConstruction(pointConstruction);
+		returned.setObjectReference(objectReference);
+		return returned;
+	}
+
 	public SymetricPointConstruction makeSymetricPointConstruction(PointConstruction pointConstruction,
 			PointConstruction pivotConstruction) {
 		SymetricPointConstruction returned = newInstance(SymetricPointConstruction.class);

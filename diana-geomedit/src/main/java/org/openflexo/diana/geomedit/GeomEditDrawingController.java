@@ -65,6 +65,7 @@ import org.openflexo.diana.geomedit.edition.CreateHalfPlaneWithLineAndPoint;
 import org.openflexo.diana.geomedit.edition.CreateHorizontalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateIntersection;
 import org.openflexo.diana.geomedit.edition.CreateLineFromPoints;
+import org.openflexo.diana.geomedit.edition.CreateNearestPointFromObject;
 import org.openflexo.diana.geomedit.edition.CreateOrthogonalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateParallelLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreatePoint;
@@ -261,6 +262,15 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 			}
 		});
 		createPointItem.add(createPointSymetricOfPointItem);
+
+		JMenuItem createNearestPointFromObjectItem = new JMenuItem("Nearest from object");
+		createNearestPointFromObjectItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCurrentEdition(new CreateNearestPointFromObject(GeomEditDrawingController.this));
+			}
+		});
+		createPointItem.add(createNearestPointFromObjectItem);
 
 		return createPointItem;
 	}
