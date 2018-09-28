@@ -296,6 +296,9 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 
 		@Override
 		public List<DrawingTreeNode<?, ?>> getSelection() {
+			if (getController() == null) {
+				return null;
+			}
 			return getController().getSelectedShapesAndGeometricObjects();
 		}
 
