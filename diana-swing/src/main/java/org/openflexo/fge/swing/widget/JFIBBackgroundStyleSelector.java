@@ -215,11 +215,7 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 
 		public void update() {
 			// logger.info("Update with " + getEditedObject());
-			logger.warning("Un truc a voir ici comment s'en sortir: ligne suivante commentee");
-			System.out.println("editedObject=" + getEditedObject());
-			System.out.println("getFactory()=" + getFactory());
 			// getFactory().setBackgroundStyle(getEditedObject());
-			// getFactory().
 			controller.setDataObject(getFactory(), true);
 		}
 
