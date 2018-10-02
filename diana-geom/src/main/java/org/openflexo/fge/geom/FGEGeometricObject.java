@@ -44,6 +44,14 @@ import java.util.Vector;
 
 import org.openflexo.fge.geom.area.FGEArea;
 
+/**
+ * API describing a {@link FGEArea} as the well-defined object (and not the result of an algebric computation)
+ * 
+ * @author sylvain
+ *
+ * @param <O>
+ *            type of represented {@link FGEGeometricObject}
+ */
 public interface FGEGeometricObject<O extends FGEGeometricObject<O>> extends FGEArea {
 
 	public static final double EPSILON = 1e-10;

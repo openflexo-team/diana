@@ -45,6 +45,7 @@ import java.util.logging.Logger;
 import org.openflexo.diana.geomedit.model.IntersectionConstruction.IntersectionConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.ComputedAreaGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.fge.geom.area.FGEIntersectionArea;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.model.annotations.Adder;
 import org.openflexo.model.annotations.Getter;
@@ -91,10 +92,12 @@ public interface IntersectionConstruction extends GeometricConstruction<FGEArea>
 
 		@Override
 		protected FGEArea computeData() {
-			FGEArea o1 = getObjectConstructions().get(0).getData();
-			FGEArea o2 = getObjectConstructions().get(1).getData();
-			FGEArea returned = o1.intersect(o2);
-			logger.info("Intersection between " + o1 + " and " + o2 + " gives " + returned);
+			FGEArea[] objects = new FGEArea[getObjectConstructions().size()];
+			for (int i = 0; i < getObjectConstructions().size(); i++) {
+				objects[i] = getObjectConstructions().get(i).getData();
+			}
+			FGEArea returned = FGEIntersectionArea.makeIntersection(objects);
+
 			if (returned == null) {
 				new Exception("Unexpected intersection").printStackTrace();
 			}

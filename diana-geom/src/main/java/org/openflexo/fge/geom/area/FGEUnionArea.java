@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import org.openflexo.fge.geom.AreaComputation;
 import org.openflexo.fge.geom.FGEAbstractLine;
 import org.openflexo.fge.geom.FGEArc;
 import org.openflexo.fge.geom.FGEGeometricObject;
@@ -379,7 +380,7 @@ public class FGEUnionArea extends FGEOperationArea {
 			return containsPolygon((FGEPolygon) a);
 		}
 		if (a instanceof FGEShape) {
-			return FGEShape.AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
 		}
 		return false;
 	}

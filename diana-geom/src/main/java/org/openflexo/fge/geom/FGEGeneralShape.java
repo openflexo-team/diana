@@ -90,10 +90,10 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O
 		_controlPoints = new Vector<>();
 	}
 
-	public FGEGeneralShape(Closure aClosure, GeneralPath generalPath) {
+	/*public FGEGeneralShape(Closure aClosure, GeneralPath generalPath) {
 		this(aClosure);
 		logger.warning("FGEGeneralShape from generalPath not implemented yet");
-	}
+	}*/
 
 	public Vector<GeneralShapePathElement<?>> getPathElements() {
 		return pathElements;
@@ -149,6 +149,7 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O
 			throw new IllegalArgumentException("No current point defined");
 		}
 		pathElements.add(new FGESegment(currentPoint, p));
+		currentPoint = p;
 		updateGeneralPath();
 	}
 
@@ -161,6 +162,7 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O
 			throw new IllegalArgumentException("No current point defined");
 		}
 		pathElements.add(new FGEQuadCurve(currentPoint, cp, p));
+		currentPoint = p;
 		updateGeneralPath();
 	}
 
@@ -327,13 +329,25 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O
 	}
 
 	@Override
-	public FGEGeneralShape transform(AffineTransform t) {
+	public FGEGeneralShape<O> transform(AffineTransform t) {
 		// TODO
 		return this;
 	}
 
 	@Override
 	public FGEArea intersect(FGEArea area) {
+
+		if (area.containsArea(this)) {
+			return this.clone();
+		}
+		if (containsArea(area)) {
+			return area.clone();
+		}
+
+		if (area instanceof FGEShape) {
+			return AreaComputation.computeShapeIntersection(this, (FGEShape<?>) area);
+		}
+
 		FGEIntersectionArea returned = new FGEIntersectionArea(this, area);
 		if (returned.isDevelopable()) {
 			return returned.makeDevelopped();
@@ -456,6 +470,7 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O
 	 * @see java.lang.Cloneable
 	 * @since 1.2
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public FGEGeneralShape<O> clone() {
 		try {

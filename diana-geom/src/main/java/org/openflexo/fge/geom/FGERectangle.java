@@ -748,7 +748,7 @@ public class FGERectangle extends Rectangle2D.Double implements FGEShape<FGERect
 			return computeHalfBandIntersection((FGEHalfBand) area);
 		}
 		if (area instanceof FGEPolygon) {
-			return FGEShape.AreaComputation.computeShapeIntersection(this, (FGEPolygon) area);
+			return AreaComputation.computeShapeIntersection(this, (FGEPolygon) area);
 		}
 
 		FGEIntersectionArea returned = new FGEIntersectionArea(this, area);
@@ -837,7 +837,7 @@ public class FGERectangle extends Rectangle2D.Double implements FGEShape<FGERect
 			return containsPoint(((FGESegment) a).getP1()) && containsPoint(((FGESegment) a).getP2());
 		}
 		if (a instanceof FGEShape) {
-			return FGEShape.AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
 		}
 		return false;
 	}

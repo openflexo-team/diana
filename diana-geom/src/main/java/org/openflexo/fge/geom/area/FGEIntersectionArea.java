@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import org.openflexo.fge.geom.AreaComputation;
 import org.openflexo.fge.geom.FGEAbstractLine;
 import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.fge.geom.FGELine;
@@ -65,6 +66,7 @@ public class FGEIntersectionArea extends FGEOperationArea {
 	}
 
 	public static FGEArea makeIntersection(List<? extends FGEArea> objects) {
+
 		// 1. Amongst the complete list, are there any objects which are completely contained by another? If yes, then the containing-object
 		// is no longer necessary since, the contained object is equal to the intersection of the containing object and the contained
 		// object.
@@ -121,7 +123,6 @@ public class FGEIntersectionArea extends FGEOperationArea {
 				}
 			}
 		}
-
 		if (nonEmbeddedObjects.size() == 0) {
 			return new FGEEmptyArea();
 		}
@@ -130,11 +131,9 @@ public class FGEIntersectionArea extends FGEOperationArea {
 		}
 		else {
 			FGEIntersectionArea returned = new FGEIntersectionArea(nonEmbeddedObjects);
-
 			if (returned.isDevelopable()) {
 				return returned.makeDevelopped();
 			}
-
 			return returned;
 		}
 	}
@@ -253,7 +252,7 @@ public class FGEIntersectionArea extends FGEOperationArea {
 			return containsLine((FGELine) a);
 		}
 		if (a instanceof FGEShape) {
-			return FGEShape.AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
 		}
 		return false;
 	}

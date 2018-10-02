@@ -506,7 +506,7 @@ public class FGEPolygon implements FGEShape<FGEPolygon> {
 			return ((FGEHalfPlane) area).intersect(this);
 		}
 		if (area instanceof FGEPolygon) {
-			return FGEShape.AreaComputation.computeShapeIntersection(this, (FGEPolygon) area);
+			return AreaComputation.computeShapeIntersection(this, (FGEPolygon) area);
 		}
 		if (area instanceof FGEBand) {
 			return computeAreaIntersection(area);
@@ -555,7 +555,7 @@ public class FGEPolygon implements FGEShape<FGEPolygon> {
 			return containsPoint(((FGESegment) a).getP1()) && containsPoint(((FGESegment) a).getP2());
 		}
 		if (a instanceof FGEShape) {
-			return FGEShape.AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
 		}
 		return false;
 	}

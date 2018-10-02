@@ -56,6 +56,8 @@ import org.openflexo.fge.graphics.AbstractFGEGraphics;
  * {@link FGELine} or {@link FGEHalfLine}), half-plane (see {@link FGEHalfPlane}), quarter-plane (see {@link FGEQuarterPlane}), bands (see
  * {@link FGEBand}) or half-bands (see {@link FGEHalfBand})
  * 
+ * This notion also concerns operation constructions, which represent an area as the result of an algebric computation on areas
+ * 
  * This geometry-library is built above java.awt.geom which codes only finite geometry, and extends this to formal notions.
  * 
  * @author sylvain
@@ -115,8 +117,8 @@ public interface FGEArea extends Cloneable {
 	 *            boolean indicating if a point located in the border of substracted area should be consider inside resulting area or not If
 	 * 
 	 *            <pre>
-	 * isStrict
-	 * </pre>
+	 *            isStrict
+	 *            </pre>
 	 * 
 	 *            is true, point should NOT be considered.
 	 * @return

@@ -42,6 +42,7 @@ package org.openflexo.fge.geom.area;
 import java.awt.geom.AffineTransform;
 import java.util.logging.Logger;
 
+import org.openflexo.fge.geom.AreaComputation;
 import org.openflexo.fge.geom.FGEAbstractLine;
 import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.fge.geom.FGELine;
@@ -88,7 +89,7 @@ public class FGEExclusiveOrArea extends FGEOperationArea {
 			return containsLine((FGELine) a);
 		}
 		if (a instanceof FGEShape) {
-			return FGEShape.AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
 		}
 		return false;
 	}

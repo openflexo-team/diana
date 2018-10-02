@@ -574,7 +574,7 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 			}
 		}
 		if (a instanceof FGEShape) {
-			return FGEShape.AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
 		}
 		return false;
 	}
