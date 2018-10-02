@@ -53,15 +53,27 @@ public interface ComputedAreaGraphicalRepresentation extends GeometricObjectGrap
 	public static abstract class ComputedAreaGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEArea>
 			implements ComputedAreaGraphicalRepresentation {
 
+		// This was a bad idea: what if the nature of computed area change ????
 		/*@Override
-		public List<ControlPoint> rebuildControlPoints() {
-			_controlPoints = new Vector<ControlPoint>();
-			_controlPoints.clear();
-			return _controlPoints;
-		}
+		public List<? extends ControlArea<?>> makeControlAreasFor(
+				DrawingTreeNode<GeometricConstruction<FGEArea>, GeometricGraphicalRepresentation> dtn) {
 		
-		public void recompute() {
-			getDrawable().resetResultingGeometricObject();
+			Vector<ControlPoint> returned = new Vector<ControlPoint>();
+		
+			FGEArea data = dtn.getDrawable().getData();
+		
+			if (data instanceof FGERectangle) {
+				returned.add(new ComputedControlPoint<FGERectangle>((GeometricNode<?>) dtn, "northWest",
+						((FGERectangle) data).getNorthWestPt()) {
+					@Override
+					public void update(FGERectangle geometricObject) {
+						setPoint(geometricObject.getNorthWestPt());
+					}
+				});
+		
+			}
+		
+			return returned;
 		}*/
 	}
 }
