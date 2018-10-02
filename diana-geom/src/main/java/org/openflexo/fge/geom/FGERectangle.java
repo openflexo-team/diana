@@ -747,8 +747,8 @@ public class FGERectangle extends Rectangle2D.Double implements FGEShape<FGERect
 		if (area instanceof FGEHalfBand) {
 			return computeHalfBandIntersection((FGEHalfBand) area);
 		}
-		if (area instanceof FGEPolygon) {
-			return AreaComputation.computeShapeIntersection(this, (FGEPolygon) area);
+		if (area instanceof FGEShape) {
+			return AreaComputation.computeShapeIntersection(this, (FGEShape) area);
 		}
 
 		FGEIntersectionArea returned = new FGEIntersectionArea(this, area);

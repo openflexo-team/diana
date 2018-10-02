@@ -76,6 +76,8 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O
 		public FGEPoint getP1();
 
 		public FGEPoint getP2();
+
+		public FGEPoint nearestOutlinePoint(FGEPoint aPoint);
 	}
 
 	public FGEGeneralShape() {
@@ -308,8 +310,25 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O
 
 	@Override
 	public FGEPoint getNearestPoint(FGEPoint aPoint) {
-		// TODO: still to compute
-		return null;
+		// return null;
+
+		return nearestOutlinePoint(aPoint);
+	}
+
+	@Override
+	public FGEPoint nearestOutlinePoint(FGEPoint aPoint) {
+		FGEPoint returnedPoint = null;
+		double smallestDistance = Double.POSITIVE_INFINITY;
+
+		for (GeneralShapePathElement<?> generalShapePathElement : getPathElements()) {
+			FGEPoint nearestPoint = generalShapePathElement.nearestOutlinePoint(aPoint);
+			double sqDistanceToSegment = FGESegment.getLength(aPoint, nearestPoint);
+			if (sqDistanceToSegment < smallestDistance) {
+				returnedPoint = nearestPoint;
+				smallestDistance = sqDistanceToSegment;
+			}
+		}
+		return returnedPoint;
 	}
 
 	@Override
@@ -383,12 +402,6 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O
 	@Override
 	public FGEPoint getCenter() {
 		return getBoundingBox().getCenter();
-	}
-
-	@Override
-	public FGEPoint nearestOutlinePoint(FGEPoint aPoint) {
-		// TODO
-		return aPoint;
 	}
 
 	/**

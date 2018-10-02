@@ -268,12 +268,18 @@ public class FGEIntersectionArea extends FGEOperationArea {
 
 	@Override
 	public void paint(AbstractFGEGraphics g) {
-		// TODO
-		// Use a finite method, using Java2D to perform shape computation
-		// in the area defined by supplied FGEGraphics
-
-		for (FGEArea a : getObjects()) {
-			a.paint(g);
+		FGERectangle bounds = g.getNodeNormalizedBounds();
+		FGEArea resultingArea = bounds;
+		for (FGEArea o : getObjects()) {
+			resultingArea = resultingArea.intersect(o);
+		}
+		g.useDefaultForegroundStyle();
+		g.useDefaultBackgroundStyle();
+		if (!(resultingArea instanceof FGEIntersectionArea)) {
+			resultingArea.paint(g);
+		}
+		else {
+			logger.warning("Cannot paint intersection area: " + this);
 		}
 	}
 

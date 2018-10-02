@@ -266,6 +266,11 @@ public class FGEQuadCurve extends Double implements FGEGeneralShape.GeneralShape
 	}
 
 	@Override
+	public FGEPoint nearestOutlinePoint(FGEPoint p) {
+		return getApproximatedNearestPoint(p);
+	}
+
+	@Override
 	public FGEArea getOrthogonalPerspectiveArea(org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection orientation) {
 		// TODO Auto-generated method stub
 		return null;
