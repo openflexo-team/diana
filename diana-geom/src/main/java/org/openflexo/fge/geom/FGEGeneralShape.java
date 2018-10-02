@@ -543,4 +543,9 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O
 		return getBoundingBox();
 	}
 
+	@Override
+	public String toString() {
+		return "FGEGeneralShape: " + getPathElements();
+	}
+
 }
