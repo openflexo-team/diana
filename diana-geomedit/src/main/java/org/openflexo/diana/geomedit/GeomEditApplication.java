@@ -46,6 +46,7 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -111,7 +112,10 @@ public class GeomEditApplication {
 	public static LocalizedDelegate GEOMEDIT_LOCALIZATION = new LocalizedDelegateImpl(
 			ResourceLocator.locateResource("FlexoLocalization/GeomEdit"), FGECoreUtils.DIANA_LOCALIZATION, true, true);
 
-	static final int META_MASK = ToolBox.isMacOS() ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
+	public static final int META_MASK = ToolBox.isMacOS() ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
+
+	public static final int DELETE_KEY_CODE = ToolBox.isMacOS() ? KeyEvent.VK_BACK_SPACE : KeyEvent.VK_DELETE;
+	public static final int BACKSPACE_DELETE_KEY_CODE = ToolBox.isMacOS() ? KeyEvent.VK_DELETE : KeyEvent.VK_BACK_SPACE;
 
 	private final JFrame frame;
 	private final FlexoFileChooser fileChooser;
@@ -247,6 +251,10 @@ public class GeomEditApplication {
 
 		frame.getContentPane().add(mainPanel);
 
+	}
+
+	public GeomEditInspectorController getConstructionInspector() {
+		return constructionInspector;
 	}
 
 	public DiagramEditingContext getEditingContext() {

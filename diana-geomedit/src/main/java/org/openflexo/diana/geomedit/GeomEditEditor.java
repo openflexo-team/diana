@@ -53,6 +53,7 @@ import org.openflexo.diana.geomedit.view.GeometricDiagramView;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.model.exceptions.InvalidDataException;
 import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.model.factory.Clipboard;
 import org.openflexo.model.undo.CompoundEdit;
 
 /**
@@ -77,6 +78,8 @@ public class GeomEditEditor {
 	private final GeometricConstructionFactory factory;
 	private final GeomEditApplication application;
 
+	private Clipboard clipboard;
+
 	public static GeomEditEditor newDiagramEditor(GeometricConstructionFactory factory, GeomEditApplication application) {
 
 		GeomEditEditor returned = new GeomEditEditor(factory, application);
@@ -95,7 +98,7 @@ public class GeomEditEditor {
 			returned.diagram = (GeometricDiagram) factory.deserialize(new FileInputStream(file));
 			returned.file = file;
 			returned.diagram.setName(returned.getTitle());
-			//System.out.println("Loaded " + factory.stringRepresentation(returned.diagram));
+			// System.out.println("Loaded " + factory.stringRepresentation(returned.diagram));
 			return returned;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -134,6 +137,10 @@ public class GeomEditEditor {
 		index++;
 	}
 
+	public GeomEditApplication getApplication() {
+		return application;
+	}
+
 	public GeometricDiagram getDiagram() {
 		return diagram;
 	}
@@ -148,7 +155,7 @@ public class GeomEditEditor {
 	public GeomEditDrawingController getController() {
 		if (controller == null) {
 			CompoundEdit edit = factory.getUndoManager().startRecording("Initialize diagram");
-			controller = new GeomEditDrawingController(getDrawing(), factory, application.getToolFactory());
+			controller = new GeomEditDrawingController(this, getDrawing(), factory, application.getToolFactory());
 			factory.getUndoManager().stopRecording(edit);
 		}
 		return controller;
@@ -224,6 +231,24 @@ public class GeomEditEditor {
 	@Override
 	public String toString() {
 		return "DiagramEditor:" + getTitle();
+	}
+
+	/**
+	 * Get clipboard shared by all components opened in this FIBEditor
+	 * 
+	 * @return
+	 */
+	public Clipboard getClipboard() {
+		return clipboard;
+	}
+
+	/**
+	 * Sets clipboard shared by all components opened in this FIBEditor
+	 * 
+	 * @param clipboard
+	 */
+	public void setClipboard(Clipboard clipboard) {
+		this.clipboard = clipboard;
 	}
 
 }

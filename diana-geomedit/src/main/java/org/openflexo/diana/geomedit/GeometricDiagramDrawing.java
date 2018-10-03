@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openflexo.connie.DataBinding;
+import org.openflexo.diana.geomedit.controller.ShowContextualMenuControl;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
@@ -101,11 +102,14 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 							if (drawable.getBackground() == null) {
 								drawable.setBackground(factory.makeDefaultBackgroundStyle());
 							}
+							drawable.getGraphicalRepresentation()
+									.addToMouseClickControls(new ShowContextualMenuControl(factory.getEditingContext()));
 							return drawable.getGraphicalRepresentation();
 						}
 						else {
 							GeometricObjectGraphicalRepresentation returned = ((GeometricConstructionFactory) factory)
 									.makeNewConstructionGR(drawable);
+							returned.addToMouseClickControls(new ShowContextualMenuControl(factory.getEditingContext()));
 							drawable.setGraphicalRepresentation(returned);
 							return returned;
 						}
@@ -158,4 +162,5 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 		GeometricDiagram myDrawing = factory.makeNewGeometricDiagram();
 		new GeometricDiagramDrawing(myDrawing, factory);
 	}
+
 }

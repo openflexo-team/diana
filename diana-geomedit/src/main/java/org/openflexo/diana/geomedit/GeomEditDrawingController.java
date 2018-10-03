@@ -55,6 +55,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import org.openflexo.diana.geomedit.controller.ContextualMenu;
 import org.openflexo.diana.geomedit.edition.CreateBandFromLines;
 import org.openflexo.diana.geomedit.edition.CreateCircleWithCenterAndPoint;
 import org.openflexo.diana.geomedit.edition.CreateCubicCurveFromFourPoints;
@@ -109,7 +110,8 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 
 	private static final Logger logger = Logger.getLogger(GeomEditDrawingController.class.getPackage().getName());
 
-	private JPopupMenu contextualMenu;
+	private JPopupMenu generalContextualMenu;
+	private ContextualMenu contextualMenu;
 
 	// TODO: move this to its own view: GeomEditDrawingPanel
 	private JPanel controlPanel;
@@ -118,15 +120,21 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 	private JButton cancelButton;
 	private JLabel positionLabel;
 
+	private final GeomEditEditor editor;
+
 	private String NO_EDITION_STRING = "No edition";
 
-	public GeomEditDrawingController(final GeometricDiagramDrawing aDrawing, GeometricConstructionFactory factory,
-			SwingToolFactory toolFactory) {
+	public GeomEditDrawingController(final GeomEditEditor editor, final GeometricDiagramDrawing aDrawing,
+			GeometricConstructionFactory factory, SwingToolFactory toolFactory) {
 		super(aDrawing, factory, toolFactory);
+		this.editor = editor;
 
 		// getPaintManager().disablePaintingCache();
 
-		contextualMenu = new JPopupMenu();
+		generalContextualMenu = new JPopupMenu();
+
+		contextualMenu = new ContextualMenu(this, editor.getApplication().getFrame());
+
 		/*for (final ShapeType st : ShapeType.values()) {
 			JMenuItem menuItem = new JMenuItem("Add " + st.name());
 			menuItem.addActionListener(new ActionListener() {
@@ -159,22 +167,22 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 
 		resetCurrentInput();
 
-		contextualMenu.add(makeCreatePointMenu());
-		contextualMenu.add(makeCreateLineMenu());
-		contextualMenu.add(makeCreateHalfLineMenu());
-		contextualMenu.add(makeCreateSegmentMenu());
-		contextualMenu.add(makePolylineMenu());
-		contextualMenu.add(makeCreateRectangleMenu());
-		contextualMenu.add(makeCreateRoundRectangleMenu());
-		contextualMenu.add(makeCreatePolygonMenu());
-		contextualMenu.add(makeCreateCircleMenu());
-		contextualMenu.add(makeCreateHalfPlaneMenu());
-		contextualMenu.add(makeCreateBandMenu());
-		contextualMenu.add(makeCreateHalfBandMenu());
-		contextualMenu.add(makeCreateCurveMenu());
-		contextualMenu.add(makeCreateOperationMenu());
+		generalContextualMenu.add(makeCreatePointMenu());
+		generalContextualMenu.add(makeCreateLineMenu());
+		generalContextualMenu.add(makeCreateHalfLineMenu());
+		generalContextualMenu.add(makeCreateSegmentMenu());
+		generalContextualMenu.add(makePolylineMenu());
+		generalContextualMenu.add(makeCreateRectangleMenu());
+		generalContextualMenu.add(makeCreateRoundRectangleMenu());
+		generalContextualMenu.add(makeCreatePolygonMenu());
+		generalContextualMenu.add(makeCreateCircleMenu());
+		generalContextualMenu.add(makeCreateHalfPlaneMenu());
+		generalContextualMenu.add(makeCreateBandMenu());
+		generalContextualMenu.add(makeCreateHalfBandMenu());
+		generalContextualMenu.add(makeCreateCurveMenu());
+		generalContextualMenu.add(makeCreateOperationMenu());
 
-		contextualMenu.addSeparator();
+		generalContextualMenu.addSeparator();
 		JMenuItem copyItem = new JMenuItem("Copy");
 		copyItem.addActionListener(new ActionListener() {
 			@Override
@@ -186,7 +194,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 				}
 			}
 		});
-		contextualMenu.add(copyItem);
+		generalContextualMenu.add(copyItem);
 		JMenuItem pasteItem = new JMenuItem("Paste");
 		pasteItem.addActionListener(new ActionListener() {
 			@Override
@@ -198,7 +206,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 				}
 			}
 		});
-		contextualMenu.add(pasteItem);
+		generalContextualMenu.add(pasteItem);
 		JMenuItem cutItem = new JMenuItem("Cut");
 		cutItem.addActionListener(new ActionListener() {
 			@Override
@@ -210,9 +218,9 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 				}
 			}
 		});
-		contextualMenu.add(cutItem);
+		generalContextualMenu.add(cutItem);
 
-		contextualMenu.addSeparator();
+		generalContextualMenu.addSeparator();
 
 		JMenuItem undoItem = new JMenuItem("Undo");
 		undoItem.addActionListener(new ActionListener() {
@@ -221,7 +229,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 				undo();
 			}
 		});
-		contextualMenu.add(undoItem);
+		generalContextualMenu.add(undoItem);
 		JMenuItem redoItem = new JMenuItem("Redo");
 		redoItem.addActionListener(new ActionListener() {
 			@Override
@@ -229,8 +237,16 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 				redo();
 			}
 		});
-		contextualMenu.add(redoItem);
+		generalContextualMenu.add(redoItem);
 		// initPalette();
+	}
+
+	public GeomEditEditor getEditor() {
+		return editor;
+	}
+
+	public ContextualMenu getContextualMenu() {
+		return contextualMenu;
 	}
 
 	private JMenu makeCreatePointMenu() {
@@ -579,10 +595,14 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		return paletteModel;
 	}*/
 
-	public void showContextualMenu(DrawingTreeNode<?, ?> dtn, FGEView view, Point p) {
+	public void showGeneralContextualMenu(FGEView<?, ?> view, Point p) {
 		// contextualMenuInvoker = dtn;
 		// contextualMenuClickedPoint = p;
-		contextualMenu.show((Component) view, p.x, p.y);
+		generalContextualMenu.show((Component) view, p.x, p.y);
+	}
+
+	public void showContextualMenu(DrawingTreeNode<?, ?> dtn, FGEView view, Point p) {
+		getContextualMenu().displayPopupMenu((GeometricConstruction<?>) dtn.getDrawable(), getDrawingView(), p);
 	}
 
 	/*@Override
@@ -659,8 +679,8 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 				+ (currentInput.endOnRightClick() ? " (right-click to finish)" : ""));
 		editionLabel.revalidate();
 		editionLabel.repaint();
-		if (contextualMenu.isShowing()) {
-			contextualMenu.setVisible(false);
+		if (generalContextualMenu.isShowing()) {
+			generalContextualMenu.setVisible(false);
 		}
 		getDrawingView().enableEditionInputMethod(currentInput.getDerivedActiveMethod());
 	}

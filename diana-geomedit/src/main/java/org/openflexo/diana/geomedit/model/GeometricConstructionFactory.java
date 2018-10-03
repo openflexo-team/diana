@@ -40,7 +40,7 @@ package org.openflexo.diana.geomedit.model;
 
 import java.util.List;
 
-import org.openflexo.diana.geomedit.ShowContextualMenuControl;
+import org.openflexo.diana.geomedit.controller.ShowGeneralContextualMenuControl;
 import org.openflexo.diana.geomedit.model.gr.GeometricDrawingGraphicalRepresentation;
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
@@ -110,13 +110,13 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 	@Override
 	public void applyBasicControls(DrawingGraphicalRepresentation drawingGraphicalRepresentation) {
 		super.applyBasicControls(drawingGraphicalRepresentation);
-		drawingGraphicalRepresentation.addToMouseClickControls(new ShowContextualMenuControl(getEditingContext()));
+		drawingGraphicalRepresentation.addToMouseClickControls(new ShowGeneralContextualMenuControl(getEditingContext()));
 	}
 
 	@Override
 	public void applyBasicControls(ShapeGraphicalRepresentation shapeGraphicalRepresentation) {
 		super.applyBasicControls(shapeGraphicalRepresentation);
-		shapeGraphicalRepresentation.addToMouseClickControls(new ShowContextualMenuControl(getEditingContext()));
+		shapeGraphicalRepresentation.addToMouseClickControls(new ShowGeneralContextualMenuControl(getEditingContext()));
 	}
 
 	public ExplicitPointConstruction makeExplicitPointConstruction(FGEPoint pointLocation) {

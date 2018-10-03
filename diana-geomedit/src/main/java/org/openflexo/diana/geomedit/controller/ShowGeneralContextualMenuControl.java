@@ -37,26 +37,24 @@
  * 
  */
 
-package org.openflexo.diana.geomedit;
+package org.openflexo.diana.geomedit.controller;
 
-import java.awt.Point;
-
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.control.MouseControlContext;
 import org.openflexo.fge.control.actions.MouseClickControlActionImpl;
 import org.openflexo.fge.control.actions.MouseClickControlImpl;
-import org.openflexo.fge.view.FGEView;
 import org.openflexo.model.factory.EditingContext;
 
-public class ShowContextualMenuControl extends MouseClickControlImpl<GeomEditDrawingController> {
+public class ShowGeneralContextualMenuControl extends MouseClickControlImpl<GeomEditDrawingController> {
 
-	public ShowContextualMenuControl(EditingContext editingContext) {
-		super("Show contextual menu", MouseButton.RIGHT, 1, new MouseClickControlActionImpl<GeomEditDrawingController>() {
+	public ShowGeneralContextualMenuControl(EditingContext editingContext) {
+		super("Show general contextual menu", MouseButton.RIGHT, 1, new MouseClickControlActionImpl<GeomEditDrawingController>() {
 			@Override
 			public boolean handleClick(DrawingTreeNode<?, ?> dtn, GeomEditDrawingController controller, MouseControlContext context) {
-				FGEView view = controller.getDrawingView().viewForNode(dtn);
-				Point newPoint = getPointInView(dtn, controller, context);
-				controller.showContextualMenu(dtn, view, newPoint);
+				// FGEView view = controller.getDrawingView().viewForNode(dtn);
+				// Point newPoint = getPointInView(dtn, controller, context);
+				controller.showGeneralContextualMenu(controller.getDrawingView(), context.getPoint());
 				return false;
 			}
 		}, false, false, false, false, editingContext);

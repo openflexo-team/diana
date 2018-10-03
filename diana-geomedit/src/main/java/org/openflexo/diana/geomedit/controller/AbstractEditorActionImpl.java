@@ -1,6 +1,7 @@
 /**
  * 
- * Copyright (c) 2014, Openflexo
+ * Copyright (c) 2013-2014, Openflexo
+ * Copyright (c) 2011-2012, AgileBirds
  * 
  * This file is part of Gina-swing-editor, a component of the software infrastructure 
  * developed at Openflexo.
@@ -36,54 +37,55 @@
  * 
  */
 
-package org.openflexo.diana.geomedit.view;
-
-import java.awt.Component;
-import java.util.logging.Logger;
+package org.openflexo.diana.geomedit.controller;
 
 import javax.swing.Icon;
+import javax.swing.JFrame;
+import javax.swing.KeyStroke;
 
+import org.openflexo.diana.geomedit.GeomEditApplication;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
-import org.openflexo.diana.geomedit.model.GeometricConstruction;
-import org.openflexo.diana.geomedit.model.GeometricElement;
-import org.openflexo.gina.controller.FIBController;
-import org.openflexo.gina.model.FIBComponent;
-import org.openflexo.gina.model.FIBMouseEvent;
-import org.openflexo.gina.view.GinaViewFactory;
 
-public class BrowserFIBController extends FIBController {
+public abstract class AbstractEditorActionImpl implements EditorAction {
 
-	private static final Logger logger = Logger.getLogger(BrowserFIBController.class.getPackage().getName());
-
+	private String actionName;
+	private Icon actionIcon;
 	private GeomEditDrawingController editorController;
+	private JFrame frame;
 
-	public BrowserFIBController(FIBComponent rootComponent, GinaViewFactory<?> viewFactory) {
-		super(rootComponent, viewFactory);
+	public AbstractEditorActionImpl(String actionName, Icon actionIcon, GeomEditDrawingController anEditorController) {
+		super();
+		this.actionName = GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey(actionName);
+		this.actionIcon = actionIcon;
+		this.editorController = anEditorController;
+	}
+
+	public AbstractEditorActionImpl(String actionName, Icon actionIcon, GeomEditDrawingController anEditorController, JFrame frame) {
+		this(actionName, actionIcon, anEditorController);
+		this.frame = frame;
+	}
+
+	@Override
+	public String getActionName() {
+		return actionName;
+	}
+
+	@Override
+	public Icon getActionIcon() {
+		return actionIcon;
 	}
 
 	public GeomEditDrawingController getEditorController() {
 		return editorController;
 	}
 
-	public void setEditorController(GeomEditDrawingController editorController) {
-		if ((editorController == null && this.editorController != null)
-				|| (editorController != null && !editorController.equals(this.editorController))) {
-			GeomEditDrawingController oldValue = this.editorController;
-			this.editorController = editorController;
-			getPropertyChangeSupport().firePropertyChange("editorController", oldValue, editorController);
-		}
+	public JFrame getFrame() {
+		return frame;
 	}
 
-	public Icon iconForObject(Object object) {
-		if (object instanceof GeometricElement) {
-			return GeomEditIconLibrary.iconForObject((GeometricElement) object);
-		}
+	@Override
+	public KeyStroke getShortcut() {
 		return null;
-	}
-
-	public void rightClick(GeometricConstruction<?> construction, FIBMouseEvent event) {
-		System.out.println("rightClick with " + construction + " event=" + event);
-		editorController.getContextualMenu().displayPopupMenu(construction, (Component) event.getSource(), event.getPoint());
 	}
 
 }
