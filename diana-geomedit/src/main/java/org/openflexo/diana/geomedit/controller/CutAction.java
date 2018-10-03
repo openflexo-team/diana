@@ -47,8 +47,7 @@ import org.openflexo.diana.geomedit.GeomEditApplication;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.view.GeomEditIconLibrary;
-import org.openflexo.model.exceptions.ModelDefinitionException;
-import org.openflexo.model.exceptions.ModelExecutionException;
+import org.openflexo.exceptions.CutException;
 
 public class CutAction extends AbstractEditorActionImpl {
 
@@ -77,6 +76,12 @@ public class CutAction extends AbstractEditorActionImpl {
 	public GeometricConstruction<?> performAction(GeometricConstruction<?> object) {
 		System.out.println("Cut");
 		try {
+			getEditorController().cut();
+		} catch (CutException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*try {
 			getEditorController().getEditor().setClipboard(getEditorController().getEditor().getApplication().getFactory().cut(object));
 		} catch (ModelExecutionException e) {
 			// TODO Auto-generated catch block
@@ -87,7 +92,7 @@ public class CutAction extends AbstractEditorActionImpl {
 		} catch (CloneNotSupportedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 
 		return object;
 	}

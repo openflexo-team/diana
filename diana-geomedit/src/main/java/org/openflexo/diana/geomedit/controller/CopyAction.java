@@ -47,8 +47,7 @@ import org.openflexo.diana.geomedit.GeomEditApplication;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.view.GeomEditIconLibrary;
-import org.openflexo.model.exceptions.ModelDefinitionException;
-import org.openflexo.model.exceptions.ModelExecutionException;
+import org.openflexo.exceptions.CopyException;
 
 public class CopyAction extends AbstractEditorActionImpl {
 
@@ -76,8 +75,14 @@ public class CopyAction extends AbstractEditorActionImpl {
 	@Override
 	public GeometricConstruction<?> performAction(GeometricConstruction<?> object) {
 		System.out.println("Copy");
-
 		try {
+			getEditorController().copy();
+		} catch (CopyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		/*try {
 			getEditorController().getEditor().setClipboard(getEditorController().getEditor().getApplication().getFactory().copy(object));
 		} catch (ModelExecutionException e) {
 			// TODO Auto-generated catch block
@@ -88,7 +93,7 @@ public class CopyAction extends AbstractEditorActionImpl {
 		} catch (CloneNotSupportedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 
 		return object;
 	}

@@ -47,9 +47,7 @@ import org.openflexo.diana.geomedit.GeomEditApplication;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.view.GeomEditIconLibrary;
-import org.openflexo.gina.model.FIBComponent;
-import org.openflexo.model.exceptions.ModelDefinitionException;
-import org.openflexo.model.exceptions.ModelExecutionException;
+import org.openflexo.exceptions.PasteException;
 
 public class PasteAction extends AbstractEditorActionImpl {
 
@@ -78,8 +76,15 @@ public class PasteAction extends AbstractEditorActionImpl {
 	public GeometricConstruction<?> performAction(GeometricConstruction<?> object) {
 		System.out.println("Paste");
 		try {
+			getEditorController().paste();
+		} catch (PasteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		/*try {
 			getEditorController().getEditor().getApplication().getFactory().paste(getEditorController().getEditor().getClipboard(), object);
-			/*if (getEditorController().getEditor().getClipboard().isSingleObject()) {
+			if (getEditorController().getEditor().getClipboard().isSingleObject()) {
 				Object c = getEditorController().getEditor().getClipboard().getSingleContents();
 				if (c instanceof FIBComponent) {
 					((FIBComponent) c).translateNameWhenRequired();
@@ -91,7 +96,7 @@ public class PasteAction extends AbstractEditorActionImpl {
 						((FIBComponent) c).translateNameWhenRequired();
 					}
 				}
-			}*/
+			}
 			for (Object c : getEditorController().getEditor().getClipboard().getLastReferenceContents()) {
 				// System.out.println("On paste " + c);
 				if (c instanceof FIBComponent) {
@@ -107,7 +112,7 @@ public class PasteAction extends AbstractEditorActionImpl {
 		} catch (CloneNotSupportedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		return object;
 	}
 
