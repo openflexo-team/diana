@@ -7,6 +7,7 @@ close=close
 close_drawing=Fermer le dessin
 copy=copy
 cut=cut
+delete=Supprimer
 edit=Edition
 end_orientation=end_orientation
 file=Fichier

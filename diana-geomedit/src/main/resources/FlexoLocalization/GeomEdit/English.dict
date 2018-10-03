@@ -10,6 +10,7 @@ connector=connector
 connector_inspector=connector_inspector
 copy=Copy
 cut=Cut
+delete=Delete
 edit=Edit
 end_orientation=End orientation
 file=File
