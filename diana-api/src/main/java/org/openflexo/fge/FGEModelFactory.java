@@ -159,6 +159,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 		returned.add(GeometricGraphicalRepresentation.class);
 		returned.add(FGELayoutManager.class);
 		returned.add(FGELayoutManagerSpecification.class);
+		returned.add(PaletteElementSpecification.class);
 		return returned.toArray(new Class<?>[returned.size()]);
 	}
 

@@ -40,31 +40,40 @@ package org.openflexo.fge.control;
 
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
+import org.openflexo.fge.PaletteElementSpecification;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.rm.Resource;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 
 /**
- * A {@link DrawingPalette} is the abstraction of a palette associated to a drawing<br>
- * A {@link DrawingPalette} is composed of {@link PaletteElement}
+ * A {@link PaletteModel} is the abstraction of a palette associated to a drawing<br>
+ * A {@link PaletteModel} is composed of {@link PaletteElement}
  * 
  * @author sylvain
  * 
  */
-public class DrawingPalette implements HasPropertyChangeSupport {
+public abstract class PaletteModel implements HasPropertyChangeSupport {
 
-	private static final Logger logger = Logger.getLogger(DrawingPalette.class.getPackage().getName());
+	private static final Logger logger = Logger.getLogger(PaletteModel.class.getPackage().getName());
 
 	protected List<PaletteElement> elements;
 
-	private final int width;
-	private final int height;
+	private final int paletteWidth;
+	private final int paletteHeight;
+	private final int elementWidth;
+	private final int elementHeight;
+	private final int marginWidth;
+	private final int marginHeight;
 	private final String title;
 
 	private boolean drawWorkingArea = false;
@@ -84,15 +93,20 @@ public class DrawingPalette implements HasPropertyChangeSupport {
 		}
 	}
 
-	public DrawingPalette(int width, int height, String title) {
+	public PaletteModel(String title, int paletteWidth, int paletteHeight, int elementWidth, int elementHeight, int marginWidth,
+			int marginHeight) {
 		try {
 			FACTORY = new FGEModelFactoryImpl();
 		} catch (ModelDefinitionException e) {
 			e.printStackTrace();
 		}
 		pcSupport = new PropertyChangeSupport(this);
-		this.width = width;
-		this.height = height;
+		this.paletteWidth = paletteWidth;
+		this.paletteHeight = paletteHeight;
+		this.elementWidth = elementWidth;
+		this.elementHeight = elementHeight;
+		this.marginWidth = marginWidth;
+		this.marginHeight = marginHeight;
 		this.title = title;
 		elements = new ArrayList<>();
 		if (logger.isLoggable(Level.FINE)) {
@@ -121,15 +135,31 @@ public class DrawingPalette implements HasPropertyChangeSupport {
 		return title;
 	}
 
-	public int getWidth() {
-		return width;
+	public int getPaletteWidth() {
+		return paletteWidth;
 	}
 
-	public int getHeight() {
-		return height;
+	public int getPaletteHeight() {
+		return paletteHeight;
 	}
 
-	public List<PaletteElement> getElements() {
+	public int getElementWidth() {
+		return elementWidth;
+	}
+
+	public int getElementHeight() {
+		return elementHeight;
+	}
+
+	public int getMarginWidth() {
+		return marginWidth;
+	}
+
+	public int getMarginHeight() {
+		return marginHeight;
+	}
+
+	public List<? extends PaletteElement> getElements() {
 		return elements;
 	}
 
@@ -169,5 +199,51 @@ public class DrawingPalette implements HasPropertyChangeSupport {
 	public void setDrawWorkingArea(boolean drawWorkingArea) {
 		this.drawWorkingArea = drawWorkingArea;
 	}
+
+	protected void readFromDirectory(Resource directory) {
+
+		Vector<PaletteElementSpecification> paletteElementSpecifications = new Vector<>();
+
+		for (Resource paletteElementResource : directory.getContents()) {
+			try {
+				PaletteElementSpecification paletteElementSpecification = (PaletteElementSpecification) FACTORY
+						.deserialize(paletteElementResource.openInputStream());
+				paletteElementSpecifications.add(paletteElementSpecification);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		Collections.sort(paletteElementSpecifications, new Comparator<PaletteElementSpecification>() {
+			@Override
+			public int compare(PaletteElementSpecification o1, PaletteElementSpecification o2) {
+				return o1.getIndex() - o2.getIndex();
+			}
+		});
+
+		for (PaletteElementSpecification paletteElementSpecification : paletteElementSpecifications) {
+			addElement(makePaletteElement(paletteElementSpecification));
+		}
+
+	}
+
+	protected PaletteElement makePaletteElement(PaletteElementSpecification paletteElement) {
+		int index = elements.size();
+
+		int colSize = (getPaletteWidth() - getMarginWidth()) / (getElementWidth() + getMarginWidth());
+
+		int rawIndex = index / colSize;
+		int colIndex = index % colSize;
+
+		ShapeGraphicalRepresentation gr = paletteElement.getGraphicalRepresentation();
+		gr.setWidth(getElementWidth());
+		gr.setHeight(getElementHeight());
+		gr.setX(colIndex * (getElementWidth() + getMarginWidth()) + getMarginWidth());
+		gr.setY(rawIndex * (getElementHeight() + getMarginHeight()) + getMarginHeight());
+
+		return buildPaletteElement(paletteElement);
+	}
+
+	protected abstract PaletteElement buildPaletteElement(PaletteElementSpecification paletteElement);
 
 }

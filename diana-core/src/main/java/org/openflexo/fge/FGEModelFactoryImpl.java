@@ -41,6 +41,7 @@ package org.openflexo.fge;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+
 import org.openflexo.fge.connectors.ConnectorSpecification;
 import org.openflexo.fge.connectors.CurveConnectorSpecification;
 import org.openflexo.fge.connectors.CurvedPolylinConnectorSpecification;
@@ -80,6 +81,7 @@ import org.openflexo.fge.impl.ForegroundStyleImpl;
 import org.openflexo.fge.impl.GeometricGraphicalRepresentationImpl;
 import org.openflexo.fge.impl.GraphicalRepresentationImpl;
 import org.openflexo.fge.impl.NoneBackgroundStyleImpl;
+import org.openflexo.fge.impl.PaletteElementSpecificationImpl;
 import org.openflexo.fge.impl.ShadowStyleImpl;
 import org.openflexo.fge.impl.ShapeGraphicalRepresentationImpl;
 import org.openflexo.fge.impl.TextStyleImpl;
@@ -253,6 +255,10 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		modelFactory.setImplementingClassForInterface(RadialTreeLayoutManagerImpl.class, RadialTreeLayoutManager.class);
 		modelFactory.setImplementingClassForInterface(RadialTreeLayoutManagerSpecificationImpl.class,
 				RadialTreeLayoutManagerSpecification.class);
+
+		// PaletteElementSpecification
+		modelFactory.setImplementingClassForInterface(PaletteElementSpecificationImpl.class, PaletteElementSpecification.class);
+
 	}
 
 	@Override

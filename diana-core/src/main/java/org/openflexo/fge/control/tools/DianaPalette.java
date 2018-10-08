@@ -47,7 +47,6 @@ import java.awt.dnd.DragSource;
 import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
-import org.openflexo.connie.DataBinding;
 import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.GRBinding.DrawingGRBinding;
@@ -55,13 +54,12 @@ import org.openflexo.fge.GRBinding.ShapeGRBinding;
 import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
-import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.animation.Animation;
 import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.DianaInteractiveEditor;
-import org.openflexo.fge.control.DrawingPalette;
 import org.openflexo.fge.control.PaletteElement;
+import org.openflexo.fge.control.PaletteModel;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.view.DianaViewFactory;
 import org.openflexo.fge.view.DrawingView;
@@ -69,7 +67,7 @@ import org.openflexo.gina.utils.FIBIconLibrary;
 import org.openflexo.toolbox.ToolBox;
 
 /**
- * A DianaPaletteC represents the graphical tool representing a {@link DrawingPalette} (the model)
+ * A DianaPaletteC represents the graphical tool representing a {@link PaletteModel} (the model)
  * 
  * @author sylvain
  * 
@@ -83,14 +81,12 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 	private static Image DROP_KO_IMAGE = FIBIconLibrary.DROP_KO_CURSOR.getImage();
 
 	public static final Cursor dropOK = ToolBox.isMacOS()
-			? Toolkit.getDefaultToolkit().createCustomCursor(DROP_OK_IMAGE, new Point(16, 16), "Drop OK")
-			: DragSource.DefaultMoveDrop;
+			? Toolkit.getDefaultToolkit().createCustomCursor(DROP_OK_IMAGE, new Point(16, 16), "Drop OK") : DragSource.DefaultMoveDrop;
 
 	public static final Cursor dropKO = ToolBox.isMacOS()
-			? Toolkit.getDefaultToolkit().createCustomCursor(DROP_KO_IMAGE, new Point(16, 16), "Drop KO")
-			: DragSource.DefaultMoveNoDrop;
+			? Toolkit.getDefaultToolkit().createCustomCursor(DROP_KO_IMAGE, new Point(16, 16), "Drop KO") : DragSource.DefaultMoveNoDrop;
 
-	private DrawingPalette palette = null;
+	private PaletteModel palette = null;
 
 	private PaletteDrawing paletteDrawing;
 	// This controller is the local controller for displaying the palette, NOT the controller
@@ -99,7 +95,7 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 
 	// private DragSourceContext dragSourceContext;
 
-	public DianaPalette(DrawingPalette palette) {
+	public DianaPalette(PaletteModel palette) {
 		super();
 		setPalette(palette);
 	}
@@ -119,17 +115,17 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 		}
 	}
 
-	public DrawingPalette getPalette() {
+	public PaletteModel getPalette() {
 		return palette;
 	}
 
-	public void setPalette(DrawingPalette palette) {
+	public void setPalette(PaletteModel palette) {
 		if (palette != this.palette) {
 			updatePalette(palette);
 		}
 	}
 
-	protected void updatePalette(DrawingPalette palette) {
+	protected void updatePalette(PaletteModel palette) {
 		if (paletteController != null) {
 			paletteController.delete();
 		}
@@ -150,7 +146,7 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 		}
 	}
 
-	public DrawingView<DrawingPalette, ?> getPaletteView() {
+	public DrawingView<PaletteModel, ?> getPaletteView() {
 		if (paletteController == null) {
 			return null;
 		}
@@ -161,15 +157,15 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 		return paletteDrawing;
 	}
 
-	public static class PaletteDrawing extends DrawingImpl<DrawingPalette> {
+	public static class PaletteDrawing extends DrawingImpl<PaletteModel> {
 
 		private final DrawingGraphicalRepresentation gr;
 
-		private PaletteDrawing(DrawingPalette palette) {
-			super(palette, DrawingPalette.FACTORY, PersistenceMode.UniqueGraphicalRepresentations);
-			gr = DrawingPalette.FACTORY.makeDrawingGraphicalRepresentation(false);
-			gr.setWidth(palette.getWidth());
-			gr.setHeight(palette.getHeight());
+		private PaletteDrawing(PaletteModel palette) {
+			super(palette, PaletteModel.FACTORY, PersistenceMode.UniqueGraphicalRepresentations);
+			gr = PaletteModel.FACTORY.makeDrawingGraphicalRepresentation(false);
+			gr.setWidth(palette.getPaletteWidth());
+			gr.setHeight(palette.getPaletteHeight());
 			gr.setBackgroundColor(Color.WHITE);
 			gr.setDrawWorkingArea(palette.getDrawWorkingArea());
 			setEditable(true);
@@ -178,10 +174,10 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 		@Override
 		public void init() {
 
-			final DrawingGRBinding<DrawingPalette> paletteBinding = bindDrawing(DrawingPalette.class, "palette",
-					new DrawingGRProvider<DrawingPalette>() {
+			final DrawingGRBinding<PaletteModel> paletteBinding = bindDrawing(PaletteModel.class, "palette",
+					new DrawingGRProvider<PaletteModel>() {
 						@Override
-						public DrawingGraphicalRepresentation provideGR(DrawingPalette drawable, FGEModelFactory factory) {
+						public DrawingGraphicalRepresentation provideGR(PaletteModel drawable, FGEModelFactory factory) {
 							return gr;
 						}
 					});
@@ -193,17 +189,17 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 						}
 					});
 
-			paletteBinding.addToWalkers(new GRStructureVisitor<DrawingPalette>() {
+			paletteBinding.addToWalkers(new GRStructureVisitor<PaletteModel>() {
 
 				@Override
-				public void visit(DrawingPalette palette) {
+				public void visit(PaletteModel palette) {
 					for (PaletteElement element : palette.getElements()) {
 						drawShape(paletteElementBinding, element, palette);
 					}
 				}
 			});
 
-			paletteElementBinding.setDynamicPropertyValue(GraphicalRepresentation.TEXT, new DataBinding<String>("drawable.name"), false);
+			// paletteElementBinding.setDynamicPropertyValue(GraphicalRepresentation.TEXT, new DataBinding<String>("drawable.name"), false);
 
 		}
 

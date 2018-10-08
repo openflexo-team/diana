@@ -80,7 +80,7 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 	private DragGestureRecognizer labelDgr;
 
 	/* Local controller ONLY */
-	// private AbstractDianaEditor<DrawingPalette> paletteController;
+	// private AbstractDianaEditor<PaletteModel> paletteController;
 
 	public JPaletteElementView(ShapeNode<PaletteElement> node, JPaletteController controller) {
 		super(node, controller);

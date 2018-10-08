@@ -224,7 +224,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		}
 		toolbox = null;*/
 		/*if (palettes != null) {
-			for (DrawingPalette palette : palettes) {
+			for (PaletteModel palette : palettes) {
 				palette.delete();
 			}
 		}

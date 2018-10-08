@@ -79,7 +79,6 @@ import org.openflexo.fge.FGECoreUtils;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.swing.control.tools.JDianaDialogInspectors;
 import org.openflexo.fge.swing.control.tools.JDianaLayoutWidget;
-import org.openflexo.fge.swing.control.tools.JDianaPalette;
 import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
 import org.openflexo.fge.swing.control.tools.JDianaStyles;
 import org.openflexo.fge.swing.control.tools.JDianaToolSelector;
@@ -135,8 +134,8 @@ public class GeomEditApplication {
 	private final JDianaScaleSelector scaleSelector;
 	private final JDianaLayoutWidget layoutWidget;
 	private final JDianaStyles stylesWidget;
-	private final JDianaPalette commonPalette;
-	private final DiagramEditorPalette commonPaletteModel;
+	// private final JDianaPalette commonPalette;
+	// private final DiagramEditorPalette commonPaletteModel;
 	final JDianaDialogInspectors inspectors;
 
 	protected PropertyChangeListenerRegistrationManager manager;
@@ -226,8 +225,8 @@ public class GeomEditApplication {
 
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 
-		commonPaletteModel = new DiagramEditorPalette();
-		commonPalette = toolFactory.makeDianaPalette(commonPaletteModel);
+		// commonPaletteModel = new DiagramEditorPalette();
+		// commonPalette = toolFactory.makeDianaPalette(commonPaletteModel);
 
 		/*paletteDialog = new JDialog(frame, "Palette", false);
 		paletteDialog.getContentPane().add(commonPalette.getComponent());
@@ -365,8 +364,8 @@ public class GeomEditApplication {
 		stylesWidget.attachToEditor(diagramEditor.getController());
 		scaleSelector.attachToEditor(diagramEditor.getController());
 		layoutWidget.attachToEditor(diagramEditor.getController());
-		commonPaletteModel.setEditor(diagramEditor.getController());
-		commonPalette.attachToEditor(diagramEditor.getController());
+		// commonPaletteModel.setEditor(diagramEditor.getController());
+		// commonPalette.attachToEditor(diagramEditor.getController());
 		inspectors.attachToEditor(diagramEditor.getController());
 
 		diagramEditor.getController().getPropertyChangeSupport().addPropertyChangeListener(constructionInspector);

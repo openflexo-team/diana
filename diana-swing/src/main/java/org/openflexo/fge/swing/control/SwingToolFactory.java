@@ -45,7 +45,7 @@ import javax.swing.JFrame;
 import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.DianaInteractiveEditor;
 import org.openflexo.fge.control.DianaToolFactory;
-import org.openflexo.fge.control.DrawingPalette;
+import org.openflexo.fge.control.PaletteModel;
 import org.openflexo.fge.control.actions.DrawConnectorAction;
 import org.openflexo.fge.control.actions.DrawShapeAction;
 import org.openflexo.fge.swing.JDianaInteractiveEditor;
@@ -110,7 +110,7 @@ public class SwingToolFactory implements DianaToolFactory<JComponent> {
 	}
 
 	@Override
-	public JDianaPalette makeDianaPalette(DrawingPalette palette) {
+	public JDianaPalette makeDianaPalette(PaletteModel palette) {
 		return new JDianaPalette(palette);
 	}
 

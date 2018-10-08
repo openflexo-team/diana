@@ -203,7 +203,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 		/*if (getController() instanceof DianaInteractiveEditor) {
 			if (((DianaInteractiveEditor<?, ?, ?>) controller).getPalettes() != null) {
-				for (DrawingPalette p : ((DianaInteractiveEditor<?, ?, ?>) controller).getPalettes()) {
+				for (PaletteModel p : ((DianaInteractiveEditor<?, ?, ?>) controller).getPalettes()) {
 					activatePalette(p);
 				}
 			}

@@ -89,7 +89,7 @@ public abstract class ShapeSpecificationImpl extends FGEObjectImpl implements Sh
 	private final List<ShapeImpl<?>> createdShapes = new ArrayList<>();
 
 	@Override
-	public ShapeImpl<?> makeShape(ShapeNode<?> node) {
+	public final ShapeImpl<?> makeShape(ShapeNode<?> node) {
 		ShapeImpl<?> returned = new ShapeImpl<>(node);
 		if (getPropertyChangeSupport() != null) {
 			// TODO

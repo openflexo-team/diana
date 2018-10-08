@@ -1,9 +1,8 @@
 /**
  * 
- * Copyright (c) 2013-2014, Openflexo
- * Copyright (c) 2011-2012, AgileBirds
+ * Copyright (c) 2014, Openflexo
  * 
- * This file is part of Diana-core, a component of the software infrastructure 
+ * This file is part of Diana-api, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -37,22 +36,23 @@
  * 
  */
 
-package org.openflexo.fge.control.tools;
+package org.openflexo.fge.impl;
 
-import org.openflexo.fge.control.DianaViewer;
-import org.openflexo.fge.control.PaletteModel;
-import org.openflexo.fge.view.DianaViewFactory;
+import org.openflexo.fge.PaletteElementSpecification;
 
-public abstract class PaletteController<F extends DianaViewFactory<F, C>, C> extends DianaViewer<PaletteModel, F, C> {
+/**
+ * Implementation of {@link PaletteElementSpecification}
+ * 
+ * @author sylvain
+ * 
+ */
+public abstract class PaletteElementSpecificationImpl extends FGEObjectImpl implements PaletteElementSpecification {
 
-	private DianaPalette<C, F> palette;
-
-	public PaletteController(DianaPalette<C, F> palette, F dianaFactory) {
-		super(palette.getPaletteDrawing(), PaletteModel.FACTORY, dianaFactory, null);
-		this.palette = palette;
-	}
-
-	public DianaPalette<C, F> getPalette() {
-		return palette;
+	@Override
+	public boolean delete(Object... context) {
+		if (getGraphicalRepresentation() != null) {
+			getGraphicalRepresentation().delete(context);
+		}
+		return super.delete(context);
 	}
 }
