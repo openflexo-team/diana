@@ -44,6 +44,14 @@ import java.util.Vector;
 
 import org.openflexo.diana.geom.area.DianaArea;
 
+/**
+ * API describing a {@link DianaArea} as the well-defined object (and not the result of an algebric computation)
+ * 
+ * @author sylvain
+ *
+ * @param <O>
+ *            type of represented {@link DianaGeometricObject}
+ */
 public interface DianaGeometricObject<O extends DianaGeometricObject<O>> extends DianaArea {
 
 	public static final double EPSILON = 1e-10;

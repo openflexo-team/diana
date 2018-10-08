@@ -138,7 +138,7 @@ public abstract class DrawComplexCurveToolController<ME> extends DrawCustomShape
 					// System.out.println("add point " + newPoint);
 					getShape().addToPoints(newPoint);
 				}
-				getCurrentEditedShape().rebuildControlPoints();
+				getCurrentEditedShape().clearControlAreas();
 				geometryChanged();
 			}
 			else {

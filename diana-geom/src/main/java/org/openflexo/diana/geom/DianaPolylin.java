@@ -196,6 +196,18 @@ public class DianaPolylin implements DianaGeometricObject<DianaPolylin> {
 		return -1;
 	}
 
+	public void updateSegmentsFromPoints() {
+		_segments.clear();
+		int index = 0;
+		for (index = 0; index < _points.size(); index++) {
+			if (index > 0) {
+				DianaSegment s2 = new DianaSegment(_points.elementAt(index - 1), _points.elementAt(index));
+				_segments.add(s2);
+			}
+		}
+		reCalculateBounds();
+	}
+
 	public Vector<DianaSegment> getSegments() {
 		return _segments;
 	}
@@ -562,7 +574,7 @@ public class DianaPolylin implements DianaGeometricObject<DianaPolylin> {
 			}
 		}
 		if (a instanceof DianaShape) {
-			return DianaShape.AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
 		}
 		return false;
 	}
@@ -580,10 +592,17 @@ public class DianaPolylin implements DianaGeometricObject<DianaPolylin> {
 	@Override
 	public void paint(AbstractDianaGraphics g) {
 		g.useDefaultForegroundStyle();
+		g.drawPolyline(getPoints().toArray(new DianaPoint[getPoints().size()]));
+	}
+
+	// Alternative implementation
+	/*@Override
+	public void paint(AbstractDianaGraphics g) {
+		g.useDefaultForegroundStyle();
 		for (DianaSegment s : _segments) {
 			s.paint(g);
 		}
-	}
+	}*/
 
 	@Override
 	public String toString() {

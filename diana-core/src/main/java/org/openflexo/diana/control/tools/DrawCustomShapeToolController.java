@@ -194,7 +194,7 @@ public abstract class DrawCustomShapeToolController<S extends DianaShape<S>, ME>
 	}
 
 	public List<? extends ControlArea<?>> getControlAreas() {
-		return currentEditedShapeGeometricNode.getControlPoints();
+		return currentEditedShapeGeometricNode.getControlAreas();
 	}
 
 	public abstract ShapeGraphicalRepresentation buildShapeGraphicalRepresentation();

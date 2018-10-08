@@ -83,7 +83,7 @@ public class DiagramEditor {
 		try (FileInputStream fos = new FileInputStream(file)) {
 			returned.diagram = (Diagram) factory.deserialize(fos);
 			returned.file = file;
-			System.out.println("Loaded " + factory.stringRepresentation(returned.diagram));
+			//System.out.println("Loaded " + factory.stringRepresentation(returned.diagram));
 			return returned;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

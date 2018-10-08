@@ -41,6 +41,8 @@ package org.openflexo.diana.swing.widget;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -86,6 +88,7 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implement
 		setFocusable(true);
 	}
 
+	@Override
 	public ShapeSpecificationFactory getFactory() {
 		if (factory == null) {
 			factory = new ShapeSpecificationFactory(null);
@@ -93,8 +96,17 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implement
 		return factory;
 	}
 
+	@Override
 	public void setFactory(ShapeSpecificationFactory factory) {
 		this.factory = factory;
+		setEditedObject(factory.getCurrentStyle());
+		factory.getPropertyChangeSupport().addPropertyChangeListener(new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				setEditedObject(factory.getCurrentStyle());
+			}
+		});
 	}
 
 	@Override
@@ -168,8 +180,6 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implement
 
 		public void update() {
 			// logger.info("Update with " + getEditedObject());
-			logger.warning("Un truc a voir ici comment s'en sortir: ligne suivante commentee");
-			// getFactory().setShape(getEditedObject());
 			controller.setDataObject(getFactory(), true);
 		}
 

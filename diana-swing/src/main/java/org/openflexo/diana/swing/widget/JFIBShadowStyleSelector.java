@@ -326,12 +326,13 @@ public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements
 			drawingGR.setHeight(19);
 			drawingGR.setDrawWorkingArea(false);
 			shapeGR = factory.makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
-			shapeGR.setWidth(130);
-			shapeGR.setHeight(130);
+			shapeGR.setWidth(23);
+			shapeGR.setHeight(12);
 			shapeGR.setAllowToLeaveBounds(true);
-			shapeGR.setX(-130);
-			shapeGR.setY(-143);
-			shapeGR.setForeground(factory.makeForegroundStyle(Color.BLACK));
+			shapeGR.setX(0);
+			shapeGR.setY(0);
+			// shapeGR.setForeground(factory.makeForegroundStyle(Color.BLACK));
+			shapeGR.setForeground(factory.makeNoneForegroundStyle());
 			shapeGR.setBackground(factory.makeColoredBackground(new Color(252, 242, 175)));
 
 			shapeGR.setIsSelectable(false);

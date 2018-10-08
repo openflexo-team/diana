@@ -46,9 +46,12 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import org.openflexo.diana.geom.AreaComputation;
 import org.openflexo.diana.geom.DianaAbstractLine;
 import org.openflexo.diana.geom.DianaArc;
 import org.openflexo.diana.geom.DianaGeometricObject;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.geom.DianaLine;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaPolygon;
@@ -56,8 +59,6 @@ import org.openflexo.diana.geom.DianaPolylin;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaSegment;
 import org.openflexo.diana.geom.DianaShape;
-import org.openflexo.diana.geom.DianaGeometricObject.Filling;
-import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.graphics.AbstractDianaGraphics;
 
 public class DianaUnionArea extends DianaOperationArea {
@@ -379,7 +380,7 @@ public class DianaUnionArea extends DianaOperationArea {
 			return containsPolygon((DianaPolygon) a);
 		}
 		if (a instanceof DianaShape) {
-			return DianaShape.AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
 		}
 		return false;
 	}

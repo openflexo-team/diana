@@ -42,6 +42,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
@@ -115,26 +116,28 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 	public ShapeSpecificationFactory(final DianaInteractiveViewer<?, ?, ?> controller) {
 		this.pcSupport = new PropertyChangeSupport(this);
 		this.controller = controller;
-		this.fgeFactory = controller.getFactory();
-		this.rectangle = new InspectedRectangle<>(controller, (Rectangle) controller.getFactory().makeShape(ShapeType.RECTANGLE));
-		this.square = new InspectedSquare(controller, (Square) controller.getFactory().makeShape(ShapeType.SQUARE));
-		this.polygon = new InspectedPolygon<>(controller, (Polygon) controller.getFactory().makeShape(ShapeType.CUSTOM_POLYGON));
-		this.regularPolygon = new InspectedRegularPolygon<>(controller,
-				(RegularPolygon) controller.getFactory().makeShape(ShapeType.POLYGON));
+		if (controller != null) {
+			fgeFactory = controller.getFactory();
+		}
+		else {
+			fgeFactory = DianaCoreUtils.TOOLS_FACTORY;
+		}
+		this.rectangle = new InspectedRectangle<>(controller, (Rectangle) fgeFactory.makeShape(ShapeType.RECTANGLE));
+		this.square = new InspectedSquare(controller, (Square) fgeFactory.makeShape(ShapeType.SQUARE));
+		this.polygon = new InspectedPolygon<>(controller, (Polygon) fgeFactory.makeShape(ShapeType.CUSTOM_POLYGON));
+		this.regularPolygon = new InspectedRegularPolygon<>(controller, (RegularPolygon) fgeFactory.makeShape(ShapeType.POLYGON));
 		this.rectangularOctogon = new InspectedRectangularOctogon(controller,
-				(RectangularOctogon) controller.getFactory().makeShape(ShapeType.RECTANGULAROCTOGON));
-		this.losange = new InspectedLosange(controller, (Losange) controller.getFactory().makeShape(ShapeType.LOSANGE));
-		this.triangle = new InspectedTriangle(controller, (Triangle) controller.getFactory().makeShape(ShapeType.TRIANGLE));
-		this.oval = new InspectedOval<>(controller, (Oval) controller.getFactory().makeShape(ShapeType.OVAL));
-		this.circle = new InspectedCircle(controller, (Circle) controller.getFactory().makeShape(ShapeType.CIRCLE));
-		this.arc = new InspectedArc(controller, (Arc) controller.getFactory().makeShape(ShapeType.ARC));
-		this.star = new InspectedStar(controller, (Star) controller.getFactory().makeShape(ShapeType.STAR));
-		this.complexCurve = new InspectedComplexCurve(controller,
-				(ComplexCurve) controller.getFactory().makeShape(ShapeType.COMPLEX_CURVE));
-		this.plus = new InspectedPlus(controller, (Plus) controller.getFactory().makeShape(ShapeType.PLUS));
-		this.chevron = new InspectedChevron(controller, (Chevron) controller.getFactory().makeShape(ShapeType.CHEVRON));
-		this.parallelogram = new InspectedParallelogram(controller,
-				(Parallelogram) controller.getFactory().makeShape(ShapeType.PARALLELOGRAM));
+				(RectangularOctogon) fgeFactory.makeShape(ShapeType.RECTANGULAROCTOGON));
+		this.losange = new InspectedLosange(controller, (Losange) fgeFactory.makeShape(ShapeType.LOSANGE));
+		this.triangle = new InspectedTriangle(controller, (Triangle) fgeFactory.makeShape(ShapeType.TRIANGLE));
+		this.oval = new InspectedOval<>(controller, (Oval) fgeFactory.makeShape(ShapeType.OVAL));
+		this.circle = new InspectedCircle(controller, (Circle) fgeFactory.makeShape(ShapeType.CIRCLE));
+		this.arc = new InspectedArc(controller, (Arc) fgeFactory.makeShape(ShapeType.ARC));
+		this.star = new InspectedStar(controller, (Star) fgeFactory.makeShape(ShapeType.STAR));
+		this.complexCurve = new InspectedComplexCurve(controller, (ComplexCurve) fgeFactory.makeShape(ShapeType.COMPLEX_CURVE));
+		this.plus = new InspectedPlus(controller, (Plus) fgeFactory.makeShape(ShapeType.PLUS));
+		this.chevron = new InspectedChevron(controller, (Chevron) fgeFactory.makeShape(ShapeType.CHEVRON));
+		this.parallelogram = new InspectedParallelogram(controller, (Parallelogram) fgeFactory.makeShape(ShapeType.PARALLELOGRAM));
 	}
 
 	public DianaInteractiveViewer<?, ?, ?> getController() {

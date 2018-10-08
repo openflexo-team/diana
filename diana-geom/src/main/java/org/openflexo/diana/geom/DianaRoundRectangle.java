@@ -812,7 +812,7 @@ public class DianaRoundRectangle extends RoundRectangle2D.Double implements Dian
 			return containsPoint(((DianaSegment) a).getP1()) && containsPoint(((DianaSegment) a).getP2());
 		}
 		if (a instanceof DianaShape) {
-			return DianaShape.AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
 		}
 		return false;
 	}

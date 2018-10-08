@@ -41,6 +41,8 @@ package org.openflexo.diana.geom;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.CubicCurve2D.Double;
+import java.awt.geom.FlatteningPathIterator;
+import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Vector;
@@ -59,6 +61,11 @@ public class DianaCubicCurve extends Double implements DianaGeneralShape.General
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(DianaCubicCurve.class.getPackage().getName());
 
+	/**
+	 * This value is internally used to compute approximated data (nearest point, distance, etc...)
+	 */
+	private static final double FLATTENING_PATH_LEVEL = 0.01;
+	
 	public DianaCubicCurve() {
 		super();
 	}
@@ -160,9 +167,47 @@ public class DianaCubicCurve extends Double implements DianaGeneralShape.General
 		return (DianaCubicCurve) super.clone();
 	}
 
+	private DianaPolylin buildFlattenPath(double flatness) {
+		DianaPolylin returned = new DianaPolylin();
+		PathIterator p = getPathIterator(null);
+		FlatteningPathIterator f = new FlatteningPathIterator(p, flatness);
+		while (!f.isDone()) {
+			float[] pts = new float[6];
+			switch (f.currentSegment(pts)) {
+				case PathIterator.SEG_MOVETO:
+					// returned.addToPoints(new DianaPoint(pts[0],pts[1]));
+				case PathIterator.SEG_LINETO:
+					returned.addToPoints(new DianaPoint(pts[0], pts[1]));
+			}
+			f.next();
+		}
+		return returned;
+	}
+
 	@Override
 	public DianaPoint getNearestPoint(DianaPoint aPoint) {
-		return null;
+		// TODO do something better later
+		return getApproximatedNearestPoint(aPoint);
+	}
+
+	public DianaPoint getApproximatedNearestPoint(DianaPoint aPoint) {
+		double minimizedDistance = java.lang.Double.POSITIVE_INFINITY;
+		DianaPoint returned = null;
+		DianaPolylin flattenPath = buildFlattenPath(FLATTENING_PATH_LEVEL);
+		for (DianaSegment s : flattenPath.getSegments()) {
+			DianaPoint nearestPoint = s.getNearestPointOnSegment(aPoint);
+			double currentDistance = DianaPoint.distance(nearestPoint, aPoint);
+			if (currentDistance < minimizedDistance) {
+				minimizedDistance = currentDistance;
+				returned = nearestPoint;
+			}
+		}
+		return returned;
+	}
+
+	@Override
+	public DianaPoint nearestOutlinePoint(DianaPoint p) {
+		return getApproximatedNearestPoint(p);
 	}
 
 	@Override

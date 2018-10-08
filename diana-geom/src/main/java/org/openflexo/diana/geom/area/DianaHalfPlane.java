@@ -42,14 +42,15 @@ package org.openflexo.diana.geom.area;
 import java.awt.geom.AffineTransform;
 import java.util.logging.Logger;
 
+import org.openflexo.diana.geom.AreaComputation;
 import org.openflexo.diana.geom.DianaAbstractLine;
+import org.openflexo.diana.geom.DianaGeometricObject.CardinalDirection;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.geom.DianaLine;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaSegment;
 import org.openflexo.diana.geom.DianaShape;
-import org.openflexo.diana.geom.DianaGeometricObject.CardinalDirection;
-import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.graphics.AbstractDianaGraphics;
 
 public class DianaHalfPlane implements DianaArea {
@@ -83,15 +84,18 @@ public class DianaHalfPlane implements DianaArea {
 			line = DianaLine.makeHorizontalLine(point);
 			testPoint = new DianaPoint(point);
 			testPoint.y -= 1;
-		} else if (orientation == CardinalDirection.EAST) {
+		}
+		else if (orientation == CardinalDirection.EAST) {
 			line = DianaLine.makeVerticalLine(point);
 			testPoint = new DianaPoint(point);
 			testPoint.x += 1;
-		} else if (orientation == CardinalDirection.SOUTH) {
+		}
+		else if (orientation == CardinalDirection.SOUTH) {
 			line = DianaLine.makeHorizontalLine(point);
 			testPoint = new DianaPoint(point);
 			testPoint.y += 1;
-		} else /* orientation == CardinalDirection.WEST */{
+		}
+		else /* orientation == CardinalDirection.WEST */ {
 			line = DianaLine.makeVerticalLine(point);
 			testPoint = new DianaPoint(point);
 			testPoint.x -= 1;
@@ -122,9 +126,11 @@ public class DianaHalfPlane implements DianaArea {
 				return true;
 			}
 			return !l.containsPoint(line.getLineIntersection(l)) || line.containsPoint(((DianaHalfLine) l).getLimit());
-		} else if (l instanceof DianaSegment) {
+		}
+		else if (l instanceof DianaSegment) {
 			return true;
-		} else if (l instanceof DianaLine) {
+		}
+		else if (l instanceof DianaLine) {
 			return l.isParallelTo(line);
 		}
 		logger.warning("Unexpected: " + l);
@@ -154,7 +160,7 @@ public class DianaHalfPlane implements DianaArea {
 			return containsBand((DianaBand) a);
 		}
 		if (a instanceof DianaShape) {
-			return DianaShape.AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
 		}
 		if (a instanceof DianaHalfPlane) {
 			return containsHalfPlane((DianaHalfPlane) a);
@@ -171,10 +177,12 @@ public class DianaHalfPlane implements DianaArea {
 		if (line.overlap(hp.line)) {
 			if (containsPoint(hp.testPoint)) {
 				return true;
-			} else {
+			}
+			else {
 				return false; // Only line is common
 			}
-		} else if (line.isParallelTo(hp.line)) {
+		}
+		else if (line.isParallelTo(hp.line)) {
 			if (containsLine(hp.line) && !hp.containsLine(line)) {
 				return true;
 			}
@@ -190,24 +198,30 @@ public class DianaHalfPlane implements DianaArea {
 			if (aLine.isParallelTo(line)) {
 				if (containsPoint(aLine.getP1())) {
 					return aLine.clone();
-				} else {
+				}
+				else {
 					return new DianaEmptyArea();
 				}
-			} else {
+			}
+			else {
 				DianaPoint limit = line.getLineIntersection(aLine);
 				if (limit.equals(aLine.getP1())) {
 					if (containsPoint(aLine.getP2())) {
 						return new DianaHalfLine(limit, aLine.getP2());
-					} else {
+					}
+					else {
 						return new DianaHalfLine(limit, DianaAbstractLine.getOppositePoint(aLine.getP2(), limit));
 					}
-				} else if (containsPoint(aLine.getP1())) {
+				}
+				else if (containsPoint(aLine.getP1())) {
 					return new DianaHalfLine(limit, aLine.getP1());
-				} else {
+				}
+				else {
 					return new DianaHalfLine(limit, DianaAbstractLine.getOppositePoint(aLine.getP1(), limit));
 				}
 			}
-		} else if (aLine instanceof DianaHalfLine) {
+		}
+		else if (aLine instanceof DianaHalfLine) {
 			DianaHalfLine hl = (DianaHalfLine) aLine;
 			if (hl.overlap(line)) {
 				return hl.clone();
@@ -215,10 +229,12 @@ public class DianaHalfPlane implements DianaArea {
 			if (hl.isParallelTo(line)) {
 				if (containsPoint(hl.getP1())) {
 					return hl.clone();
-				} else {
+				}
+				else {
 					return new DianaEmptyArea();
 				}
-			} else {
+			}
+			else {
 				DianaPoint intersect = hl.getLineIntersection(line);
 				DianaPoint limit = hl.getLimit();
 				if (intersect.equals(limit)) {
@@ -228,18 +244,22 @@ public class DianaHalfPlane implements DianaArea {
 				if (containsPoint(limit)) {
 					if (hl.contains(opposite)) {
 						return new DianaSegment(limit, intersect);
-					} else {
+					}
+					else {
 						return hl.clone();
 					}
-				} else {
+				}
+				else {
 					if (hl.contains(opposite)) {
 						return new DianaHalfLine(intersect, opposite);
-					} else {
+					}
+					else {
 						return new DianaEmptyArea();
 					}
 				}
 			}
-		} else if (aLine instanceof DianaSegment) {
+		}
+		else if (aLine instanceof DianaSegment) {
 			DianaSegment segment = (DianaSegment) aLine;
 			if (segment.overlap(line)) {
 				return segment.clone();
@@ -247,37 +267,45 @@ public class DianaHalfPlane implements DianaArea {
 			if (segment.isParallelTo(line)) {
 				if (containsPoint(segment.getP1())) {
 					return segment.clone();
-				} else {
+				}
+				else {
 					return new DianaEmptyArea();
 				}
-			} else {
+			}
+			else {
 				if (containsPoint(segment.getP1())) {
 					if (containsPoint(segment.getP2())) {
 						return segment.clone();
-					} else {
+					}
+					else {
 						DianaPoint p1 = segment.getP1();
 						DianaPoint p2 = segment.getLineIntersection(line);
 						if (p1.equals(p2)) {
 							return p1.clone();
-						} else {
+						}
+						else {
 							return new DianaSegment(p1, p2);
 						}
 					}
-				} else {
+				}
+				else {
 					if (containsPoint(segment.getP2())) {
 						DianaPoint p1 = segment.getP2();
 						DianaPoint p2 = segment.getLineIntersection(line);
 						if (p1.equals(p2)) {
 							return p1.clone();
-						} else {
+						}
+						else {
 							return new DianaSegment(p1, p2);
 						}
-					} else {
+					}
+					else {
 						return new DianaEmptyArea();
 					}
 				}
 			}
-		} else {
+		}
+		else {
 			logger.warning("Unexpected: " + line);
 			return null;
 		}
@@ -287,24 +315,30 @@ public class DianaHalfPlane implements DianaArea {
 		if (line.overlap(hp.line)) {
 			if (containsPoint(hp.testPoint)) {
 				return clone(); // Same half planes
-			} else {
+			}
+			else {
 				return line.clone(); // Only line is common
 			}
-		} else if (line.isParallelTo(hp.line)) {
+		}
+		else if (line.isParallelTo(hp.line)) {
 			if (hp.containsLine(line)) {
 				if (containsLine(hp.line)) {
 					return new DianaBand(line, hp.line);
-				} else {
+				}
+				else {
 					return clone();
 				}
-			} else {
+			}
+			else {
 				if (containsLine(hp.line)) {
 					return hp.clone();
-				} else {
+				}
+				else {
 					return new DianaEmptyArea();
 				}
 			}
-		} else {
+		}
+		else {
 			// Don't try to formalize it
 			return DianaIntersectionArea.makeIntersection(this, hp);
 		}
@@ -317,7 +351,8 @@ public class DianaHalfPlane implements DianaArea {
 		}
 		if (workingArea instanceof DianaShape || workingArea instanceof DianaAbstractLine || workingArea instanceof DianaPoint) {
 			return workingArea.intersect(shape);
-		} else {
+		}
+		else {
 			logger.warning("Unexpected: " + workingArea);
 			return new DianaEmptyArea();
 		}
@@ -358,7 +393,8 @@ public class DianaHalfPlane implements DianaArea {
 		DianaIntersectionArea returned = new DianaIntersectionArea(this, area);
 		if (returned.isDevelopable()) {
 			return returned.makeDevelopped();
-		} else {
+		}
+		else {
 			return returned;
 		}
 	}
@@ -424,16 +460,17 @@ public class DianaHalfPlane implements DianaArea {
 	public DianaPoint getNearestPoint(DianaPoint aPoint) {
 		if (containsPoint(aPoint)) {
 			return aPoint.clone();
-		} else {
+		}
+		else {
 			return line.getProjection(aPoint);
 		}
 	}
 
 	@Override
-	public int hashCode() {//TODO AB: to be checked
+	public int hashCode() {// TODO AB: to be checked
 		return (line.hashCode() + testPoint.hashCode());
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof DianaHalfPlane) {

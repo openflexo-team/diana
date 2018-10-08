@@ -920,9 +920,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public void paintGeometricObject(DianaGeometricGraphics graphics);
 
-		public List<ControlPoint> getControlPoints();
-
-		public List<ControlPoint> rebuildControlPoints();
+		public List<ControlPoint> makeDefaultControlPoints();
 
 		public void notifyGeometryChanged();
 
@@ -936,6 +934,10 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		public ForegroundStyle getForegroundStyle();
 
 		public void setForegroundStyle(ForegroundStyle aValue);
+
+		public BackgroundStyle getBackgroundStyle();
+
+		public void setBackgroundStyle(BackgroundStyle style);
 
 	}
 

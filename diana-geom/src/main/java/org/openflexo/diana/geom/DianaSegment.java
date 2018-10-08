@@ -203,6 +203,11 @@ public class DianaSegment extends DianaAbstractLine<DianaSegment> implements Dia
 		return getNearestPointOnSegment(p);
 	}
 
+	@Override
+	public DianaPoint nearestOutlinePoint(DianaPoint p) {
+		return getNearestPointOnSegment(p);
+	}
+
 	/**
 	 * Return nearest point on segment
 	 * 

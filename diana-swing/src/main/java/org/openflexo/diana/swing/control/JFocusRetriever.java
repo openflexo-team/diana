@@ -64,7 +64,6 @@ import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.control.DianaInteractiveEditor;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.cp.ControlArea;
-import org.openflexo.diana.cp.ControlPoint;
 import org.openflexo.diana.geom.DianaGeometricObject;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaSegment;
@@ -193,7 +192,7 @@ public class JFocusRetriever {
 
 			// Look if we are near a CP
 			double distanceToNearestGeometricObject = Double.POSITIVE_INFINITY;
-			for (ControlPoint cp : geometricNode.getControlPoints()) {
+			for (ControlArea<?> cp : geometricNode.getControlAreas()) {
 				double cpDistance = cp.getDistanceToArea(viewPoint, getScale());
 				if (cpDistance < selectionDistance && cpDistance < distanceToNearestGeometricObject
 						&& (returned == null || getController().preferredFocusedControlArea(returned, cp) == cp)) {
@@ -283,18 +282,18 @@ public class JFocusRetriever {
 						returned = drawingView.getDrawing().getRoot();
 					}
 					return returned;
-					/*if (editor.getDrawCustomShapeToolController() != null) {
-					if (editor.getDrawCustomShapeToolController().editionHasBeenStarted()
-							&& editor.getDrawCustomShapeToolController().getCurrentEditedShape() != null) {
-						return editor.getDrawCustomShapeToolController().getCurrentEditedShape();
-					} else {
-						DrawingTreeNode<?, ?> returned = getFocusedObject(drawingView.getDrawing().getRoot(), event);
-						if (returned == null) {
-							returned = drawingView.getDrawing().getRoot();
-						}
-						return returned;
+				/*if (editor.getDrawCustomShapeToolController() != null) {
+				if (editor.getDrawCustomShapeToolController().editionHasBeenStarted()
+						&& editor.getDrawCustomShapeToolController().getCurrentEditedShape() != null) {
+					return editor.getDrawCustomShapeToolController().getCurrentEditedShape();
+				} else {
+					DrawingTreeNode<?, ?> returned = getFocusedObject(drawingView.getDrawing().getRoot(), event);
+					if (returned == null) {
+						returned = drawingView.getDrawing().getRoot();
 					}
-					}*/
+					return returned;
+				}
+				}*/
 				default:
 					return getFocusedObject(drawingView.getDrawing().getRoot(), event);
 			}
@@ -343,7 +342,7 @@ public class JFocusRetriever {
 
 		// iterate on all contained objects
 
-		ControlPoint focusedCP = null;
+		ControlArea<?> focusedCP = null;
 
 		for (DrawingTreeNode<?, ?> childNode : node.getChildNodes()) {
 
@@ -380,7 +379,7 @@ public class JFocusRetriever {
 					}
 
 					// Look if we are near a CP
-					for (ControlPoint cp : geometricNode.getControlPoints()) {
+					for (ControlArea<?> cp : geometricNode.getControlAreas()) {
 						double cpDistance = cp.getDistanceToArea(viewPoint, getScale());
 						if (cpDistance <= selectionDistance
 								&& (focusedCP == null || getController().preferredFocusedControlArea(focusedCP, cp) == cp)) {

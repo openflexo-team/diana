@@ -42,8 +42,11 @@ package org.openflexo.diana.geom.area;
 import java.awt.geom.AffineTransform;
 import java.util.logging.Logger;
 
+import org.openflexo.diana.geom.AreaComputation;
 import org.openflexo.diana.geom.DianaAbstractLine;
 import org.openflexo.diana.geom.DianaArc;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.geom.DianaLine;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaPolygon;
@@ -51,8 +54,6 @@ import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaSegment;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geom.ParallelLinesException;
-import org.openflexo.diana.geom.DianaGeometricObject.Filling;
-import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.graphics.AbstractDianaGraphics;
 
 public class DianaHalfBand implements DianaArea {
@@ -158,7 +159,8 @@ public class DianaHalfBand implements DianaArea {
 		DianaHalfLine l2 = halfLine2.transform(t);
 		if (l1.overlap(l2)) {
 			return l1.intersect(l2);
-		} else {
+		}
+		else {
 			return new DianaHalfBand(l1, l2);
 		}
 	}
@@ -191,7 +193,8 @@ public class DianaHalfBand implements DianaArea {
 			g.useDefaultBackgroundStyle();
 			if (new DianaSegment(s1.getP1(), s2.getP1()).intersectsInsideSegment(new DianaSegment(s1.getP2(), s2.getP2()))) {
 				DianaPolygon.makeArea(Filling.FILLED, s1.getP1(), s1.getP2(), s2.getP1(), s2.getP2()).paint(g);
-			} else {
+			}
+			else {
 				DianaPolygon.makeArea(Filling.FILLED, s1.getP1(), s1.getP2(), s2.getP2(), s2.getP1()).paint(g);
 			}
 		}
@@ -231,7 +234,8 @@ public class DianaHalfBand implements DianaArea {
 			if (anHalfPlane.containsLine(halfLine1)) {
 				if (anHalfPlane.containsLine(halfLine2)) {
 					return clone();
-				} else {
+				}
+				else {
 					DianaPoint inters;
 					try {
 						inters = anHalfPlane.line.getLineIntersection(limit);
@@ -250,7 +254,8 @@ public class DianaHalfBand implements DianaArea {
 						return new DianaEmptyArea();
 					}
 				}
-			} else {
+			}
+			else {
 				if (anHalfPlane.containsLine(halfLine2)) {
 					try {
 						DianaPoint inters = anHalfPlane.line.getLineIntersection(limit);
@@ -270,7 +275,8 @@ public class DianaHalfBand implements DianaArea {
 						e.printStackTrace();
 						return null;
 					}
-				} else {
+				}
+				else {
 					return new DianaEmptyArea();
 				}
 			}
@@ -286,9 +292,11 @@ public class DianaHalfBand implements DianaArea {
 			if (hb.halfLine1.containsPoint(pp1) && hb.halfLine2.containsPoint(pp2)) {
 				DianaArea returnThis = DianaPolygon.makeArea(Filling.FILLED, hb.halfLine1.getLimit(), hb.halfLine2.getLimit(), pp2, pp1);
 				return returnThis;
-			} else if (hb.halfLine1.containsPoint(pp1) || hb.halfLine2.containsPoint(pp2)) {
+			}
+			else if (hb.halfLine1.containsPoint(pp1) || hb.halfLine2.containsPoint(pp2)) {
 				return new DianaIntersectionArea(returned, this);
-			} else {
+			}
+			else {
 				// No intersection, we have all or nothing
 				if (halfPlane.containsLine(hb.halfLine1) && halfPlane.containsLine(hb.halfLine2)) {
 					return hb;
@@ -304,13 +312,13 @@ public class DianaHalfBand implements DianaArea {
 	public int hashCode() {
 		return (halfLine1.hashCode() + halfLine2.hashCode());
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof DianaHalfBand) {
 			DianaHalfBand hb = (DianaHalfBand) obj;
-			return hb.halfLine1.equals(halfLine1) && hb.halfLine2.equals(halfLine2) || hb.halfLine2.equals(halfLine1)
-					&& hb.halfLine1.equals(halfLine2);
+			return hb.halfLine1.equals(halfLine1) && hb.halfLine2.equals(halfLine2)
+					|| hb.halfLine2.equals(halfLine1) && hb.halfLine1.equals(halfLine2);
 		}
 		return false;
 	}
@@ -324,7 +332,7 @@ public class DianaHalfBand implements DianaArea {
 			return containsLine((DianaLine) a);
 		}
 		if (a instanceof DianaShape) {
-			return DianaShape.AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
 		}
 		if (a instanceof DianaHalfBand) {
 			return containsLine(((DianaHalfBand) a).halfLine1) && containsLine(((DianaHalfBand) a).halfLine2);
@@ -370,7 +378,8 @@ public class DianaHalfBand implements DianaArea {
 		DianaIntersectionArea returned = new DianaIntersectionArea(this, area);
 		if (returned.isDevelopable()) {
 			return returned.makeDevelopped();
-		} else {
+		}
+		else {
 			return returned;
 		}
 	}
@@ -379,7 +388,8 @@ public class DianaHalfBand implements DianaArea {
 	public DianaPoint getNearestPoint(DianaPoint aPoint) {
 		if (containsPoint(aPoint)) {
 			return aPoint.clone();
-		} else {
+		}
+		else {
 			return DianaPoint.getNearestPoint(aPoint, halfLine1.getNearestPoint(aPoint), halfLine2.getNearestPoint(aPoint));
 		}
 	}
@@ -406,28 +416,35 @@ public class DianaHalfBand implements DianaArea {
 		if (orientation == SimplifiedCardinalDirection.NORTH) {
 			if (halfLine1.isVertical()) {
 				return clone();
-			} else {
+			}
+			else {
 				DianaPoint p = limit.getP1().y > limit.getP2().y ? limit.getP1() : limit.getP2();
 				return new DianaHalfPlane(DianaLine.makeVerticalLine(p), halfLine1.getOpposite());
 			}
-		} else if (orientation == SimplifiedCardinalDirection.SOUTH) {
+		}
+		else if (orientation == SimplifiedCardinalDirection.SOUTH) {
 			if (halfLine1.isVertical()) {
 				return clone();
-			} else {
+			}
+			else {
 				DianaPoint p = limit.getP1().y > limit.getP2().y ? limit.getP2() : limit.getP1();
 				return new DianaHalfPlane(DianaLine.makeVerticalLine(p), halfLine1.getOpposite());
 			}
-		} else if (orientation == SimplifiedCardinalDirection.EAST) {
+		}
+		else if (orientation == SimplifiedCardinalDirection.EAST) {
 			if (halfLine1.isHorizontal()) {
 				return clone();
-			} else {
+			}
+			else {
 				DianaPoint p = limit.getP1().x > limit.getP2().x ? limit.getP2() : limit.getP1();
 				return new DianaHalfPlane(DianaLine.makeHorizontalLine(p), halfLine1.getOpposite());
 			}
-		} else if (orientation == SimplifiedCardinalDirection.WEST) {
+		}
+		else if (orientation == SimplifiedCardinalDirection.WEST) {
 			if (halfLine1.isHorizontal()) {
 				return clone();
-			} else {
+			}
+			else {
 				DianaPoint p = limit.getP1().x > limit.getP2().x ? limit.getP1() : limit.getP2();
 				return new DianaHalfPlane(DianaLine.makeHorizontalLine(p), halfLine1.getOpposite());
 			}

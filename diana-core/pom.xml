@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.openflexo</groupId>
+		<artifactId>diana</artifactId>
+		<version>1.4.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>diana-core</artifactId>
+	<name>Diana-core</name>
+	<build>
+         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+              	<version>${maven.sourceplugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+          </plugins>
+	</build>
+	
+	<!-- Attempt to use Gephi -->
+	 <!-- <repositories>
+      <repository>
+         <id>gephi-snapshots</id>
+         <name>Gephi Snapshots</name>
+         <url>http://nexus.gephi.org/nexus/content/repositories/snapshots/</url>
+      </repository>
+      <repository>
+         <id>gephi-releases</id>
+         <name>Gephi Releases</name>
+         <url>http://nexus.gephi.org/nexus/content/repositories/releases/</url>
+      </repository>
+    </repositories> -->
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.openflexo</groupId>
+			<artifactId>diana-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.openflexo</groupId>
+			<artifactId>gina-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.openflexo</groupId>
+			<artifactId>testutils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jung</groupId>
+			<artifactId>jung-graph-impl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jung</groupId>
+			<artifactId>jung-algorithms</artifactId>
+		</dependency>
+	</dependencies>
+</project>
+

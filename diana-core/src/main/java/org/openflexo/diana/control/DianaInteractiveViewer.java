@@ -52,6 +52,7 @@ import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.DrawingTreeNodeIdentifier;
+import org.openflexo.diana.Drawing.GeometricNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.control.notifications.ObjectAddedToSelection;
 import org.openflexo.diana.control.notifications.ObjectRemovedFromSelection;
@@ -95,6 +96,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	private List<DrawingTreeNode<?, ?>> focusedObjects;
 	private List<DrawingTreeNode<?, ?>> selectedObjects;
 	private List<ShapeNode<?>> selectedShapes;
+	private List<DrawingTreeNode<?, ?>> selectedShapesAndGeometricNodes;
 	private List<ConnectorNode<?>> selectedConnectors;
 	private List<ContainerNode<?, ?>> selectedContainers;
 
@@ -251,6 +253,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 			selectedObjects.add(aNode);
 			notifyObservers(new ObjectAddedToSelection(aNode));
 			selectedShapes = null;
+			selectedShapesAndGeometricNodes = null;
 			selectedConnectors = null;
 			selectedContainers = null;
 		}
@@ -272,6 +275,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 			selectedObjects.remove(aNode);
 			notifyObservers(new ObjectRemovedFromSelection(aNode));
 			selectedShapes = null;
+			selectedShapesAndGeometricNodes = null;
 			selectedConnectors = null;
 			selectedContainers = null;
 		}
@@ -305,6 +309,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 		selectedObjects.clear();
 		notifyObservers(new SelectionCleared());
 		selectedShapes = null;
+		selectedShapesAndGeometricNodes = null;
 		selectedConnectors = null;
 		selectedContainers = null;
 
@@ -378,6 +383,21 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 			}
 		}
 		return selectedShapes;
+	}
+
+	public List<DrawingTreeNode<?, ?>> getSelectedShapesAndGeometricObjects() {
+		if (selectedShapesAndGeometricNodes == null) {
+			selectedShapesAndGeometricNodes = new ArrayList<>();
+			for (DrawingTreeNode<?, ?> node : selectedObjects) {
+				if (node instanceof ShapeNode) {
+					selectedShapesAndGeometricNodes.add(node);
+				}
+				if (node instanceof GeometricNode) {
+					selectedShapesAndGeometricNodes.add(node);
+				}
+			}
+		}
+		return selectedShapesAndGeometricNodes;
 	}
 
 	public List<ConnectorNode<?>> getSelectedConnectors() {

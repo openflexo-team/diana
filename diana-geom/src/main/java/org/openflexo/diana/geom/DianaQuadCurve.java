@@ -247,7 +247,6 @@ public class DianaQuadCurve extends Double implements DianaGeneralShape.GeneralS
 	@Override
 	public DianaPoint getNearestPoint(DianaPoint aPoint) {
 		// TODO do something better later
-		// logger.warning("Please implement me better later");
 		return getApproximatedNearestPoint(aPoint);
 	}
 
@@ -264,6 +263,11 @@ public class DianaQuadCurve extends Double implements DianaGeneralShape.GeneralS
 			}
 		}
 		return returned;
+	}
+
+	@Override
+	public DianaPoint nearestOutlinePoint(DianaPoint p) {
+		return getApproximatedNearestPoint(p);
 	}
 
 	@Override

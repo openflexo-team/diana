@@ -42,6 +42,12 @@ package org.openflexo.diana.geom.area;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 
+/**
+ * API describing a {@link DianaArea} as the result of an algebraic computation over {@link DianaArea} objects
+ * 
+ * @author sylvain
+ *
+ */
 public abstract class DianaOperationArea implements DianaArea {
 
 	@Override

@@ -60,6 +60,7 @@ import org.openflexo.diana.geom.DianaGeneralShape;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geom.DianaPolylin;
 import org.openflexo.diana.geom.DianaQuadCurve;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.view.DianaView;
@@ -102,6 +103,10 @@ public abstract class DianaGraphicsImpl implements DianaGraphics {
 	@Override
 	public DrawingTreeNode<?, ?> getDrawingTreeNode() {
 		return dtn;
+	}
+
+	public void setDrawingTreeNode(DrawingTreeNode<?, ?> dtn) {
+		this.dtn = dtn;
 	}
 
 	@Override
@@ -330,6 +335,11 @@ public abstract class DianaGraphicsImpl implements DianaGraphics {
 	@Override
 	public void drawPolygon(DianaPolygon polygon) {
 		drawPolygon(polygon.getPoints().toArray(new DianaPoint[polygon.getPointsNb()]));
+	}
+
+	@Override
+	public void drawPolyline(DianaPolylin polylin) {
+		drawPolyline(polylin.getPoints().toArray(new DianaPoint[polylin.getPointsNb()]));
 	}
 
 	@Override

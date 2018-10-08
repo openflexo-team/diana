@@ -44,13 +44,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.openflexo.diana.geom.AreaComputation;
 import org.openflexo.diana.geom.DianaAbstractLine;
 import org.openflexo.diana.geom.DianaGeometricObject;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.geom.DianaLine;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
-import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.graphics.AbstractDianaGraphics;
 
 public class DianaSubstractionArea extends DianaOperationArea {
@@ -65,8 +66,8 @@ public class DianaSubstractionArea extends DianaOperationArea {
 	private final boolean isStrict;
 
 	/**
-	 * Build a new DianaSubstractionArea given container area and substracted area. Really build this operation area without trying to compute
-	 * or simplify it.
+	 * Build a new DianaSubstractionArea given container area and substracted area. Really build this operation area without trying to
+	 * compute or simplify it.
 	 * 
 	 * @param containerArea
 	 *            container area
@@ -189,7 +190,7 @@ public class DianaSubstractionArea extends DianaOperationArea {
 			return containsLine((DianaLine) a);
 		}
 		if (a instanceof DianaShape) {
-			return DianaShape.AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
 		}
 		return false;
 	}

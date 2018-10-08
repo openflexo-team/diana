@@ -56,6 +56,8 @@ import org.openflexo.diana.graphics.AbstractDianaGraphics;
  * {@link DianaLine} or {@link DianaHalfLine}), half-plane (see {@link DianaHalfPlane}), quarter-plane (see {@link DianaQuarterPlane}), bands (see
  * {@link DianaBand}) or half-bands (see {@link DianaHalfBand})
  * 
+ * This notion also concerns operation constructions, which represent an area as the result of an algebric computation on areas
+ * 
  * This geometry-library is built above java.awt.geom which codes only finite geometry, and extends this to formal notions.
  * 
  * @author sylvain
@@ -115,8 +117,8 @@ public interface DianaArea extends Cloneable {
 	 *            boolean indicating if a point located in the border of substracted area should be consider inside resulting area or not If
 	 * 
 	 *            <pre>
-	 * isStrict
-	 * </pre>
+	 *            isStrict
+	 *            </pre>
 	 * 
 	 *            is true, point should NOT be considered.
 	 * @return

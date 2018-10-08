@@ -1,0 +1,8 @@
+dependencies {
+  compile project(':diana-api')
+  compile project(':diana-core')
+  compile project(':diana-swing')
+  compile project(':diana-geomedit')
+  compile flexoUtils()
+  testCompile testUtils()
+}

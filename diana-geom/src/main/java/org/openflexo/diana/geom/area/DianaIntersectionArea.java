@@ -46,12 +46,13 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import org.openflexo.diana.geom.AreaComputation;
 import org.openflexo.diana.geom.DianaAbstractLine;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.geom.DianaLine;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
-import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.graphics.AbstractDianaGraphics;
 
 public class DianaIntersectionArea extends DianaOperationArea {
@@ -253,7 +254,7 @@ public class DianaIntersectionArea extends DianaOperationArea {
 			return containsLine((DianaLine) a);
 		}
 		if (a instanceof DianaShape) {
-			return DianaShape.AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
 		}
 		return false;
 	}
@@ -269,12 +270,18 @@ public class DianaIntersectionArea extends DianaOperationArea {
 
 	@Override
 	public void paint(AbstractDianaGraphics g) {
-		// TODO
-		// Use a finite method, using Java2D to perform shape computation
-		// in the area defined by supplied DianaGraphics
-
-		for (DianaArea a : getObjects()) {
-			a.paint(g);
+		DianaRectangle bounds = g.getNodeNormalizedBounds();
+		DianaArea resultingArea = bounds;
+		for (DianaArea o : getObjects()) {
+			resultingArea = resultingArea.intersect(o);
+		}
+		g.useDefaultForegroundStyle();
+		g.useDefaultBackgroundStyle();
+		if (!(resultingArea instanceof DianaIntersectionArea)) {
+			resultingArea.paint(g);
+		}
+		else {
+			logger.warning("Cannot paint intersection area: " + this);
 		}
 	}
 

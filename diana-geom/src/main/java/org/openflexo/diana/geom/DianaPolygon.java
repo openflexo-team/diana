@@ -177,6 +177,20 @@ public class DianaPolygon implements DianaShape<DianaPolygon> {
 		reCalculateBounds();
 	}
 
+	public void updateSegmentsFromPoints() {
+		_segments.clear();
+		int index = 0;
+		for (index = 0; index < _points.size(); index++) {
+			if (index > 0) {
+				DianaSegment s2 = new DianaSegment(_points.elementAt(index - 1), _points.elementAt(index));
+				_segments.add(s2);
+			}
+		}
+		DianaSegment s3 = new DianaSegment(_points.elementAt(_points.size() - 1), _points.elementAt(0));
+		_segments.add(s3);
+		reCalculateBounds();
+	}
+
 	public Vector<DianaSegment> getSegments() {
 		return _segments;
 	}
@@ -492,7 +506,7 @@ public class DianaPolygon implements DianaShape<DianaPolygon> {
 			return ((DianaHalfPlane) area).intersect(this);
 		}
 		if (area instanceof DianaPolygon) {
-			return DianaShape.AreaComputation.computeShapeIntersection(this, (DianaPolygon) area);
+			return AreaComputation.computeShapeIntersection(this, (DianaPolygon) area);
 		}
 		if (area instanceof DianaBand) {
 			return computeAreaIntersection(area);
@@ -541,7 +555,7 @@ public class DianaPolygon implements DianaShape<DianaPolygon> {
 			return containsPoint(((DianaSegment) a).getP1()) && containsPoint(((DianaSegment) a).getP2());
 		}
 		if (a instanceof DianaShape) {
-			return DianaShape.AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
 		}
 		return false;
 	}
@@ -564,12 +578,16 @@ public class DianaPolygon implements DianaShape<DianaPolygon> {
 		}
 		g.useDefaultForegroundStyle();
 		g.drawPolygon(getPoints().toArray(new DianaPoint[getPoints().size()]));
-
-		/*
-		g.setDefaultBackground(BackgroundStyle.makeEmptyBackground());
-		g.setDefaultForeground(ForegroundStyle.makeStyle(Color.GRAY,1,DashStyle.MEDIUM_DASHES));
-		getBoundingBox().paint(g);*/
 	}
+
+	// Alternative implementation
+	/*@Override
+	public void paint(AbstractFGEGraphics g) {
+		g.useDefaultForegroundStyle();
+		for (FGESegment s : _segments) {
+			s.paint(g);
+		}
+	}*/
 
 	@Override
 	public String toString() {

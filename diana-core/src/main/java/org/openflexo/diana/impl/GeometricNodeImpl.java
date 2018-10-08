@@ -42,6 +42,8 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.beans.PropertyChangeEvent;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -50,7 +52,6 @@ import org.openflexo.diana.Drawing.GeometricNode;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.GRBinding;
 import org.openflexo.diana.GeometricGraphicalRepresentation;
-import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
@@ -78,11 +79,9 @@ import org.openflexo.diana.geom.area.DianaPlane;
 import org.openflexo.diana.geom.area.DianaQuarterPlane;
 import org.openflexo.diana.graphics.DianaGeometricGraphics;
 import org.openflexo.diana.notifications.GeometryModified;
-import org.openflexo.toolbox.ConcatenedList;
 
 public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphicalRepresentation> implements GeometricNode<O> {
-	protected List<ControlPoint> controlPoints;
-
+	
 	// TODO: change to protected
 	public GeometricNodeImpl(DrawingImpl<?> drawingImpl, O drawable, GRBinding<O, GeometricGraphicalRepresentation> grBinding,
 			ContainerNodeImpl<?, ?> parentNode) {
@@ -107,19 +106,12 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	@Override
 	public List<? extends ControlArea<?>> getControlAreas() {
 		if (controlAreas == null) {
-			List<? extends ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
-			if (customControlAreas == null) {
-				controlAreas = getControlPoints();
-			}
-			else {
-				ConcatenedList<ControlArea<?>> concatenedControlAreas = new ConcatenedList<>();
-				concatenedControlAreas.addElementList(getControlPoints());
-				concatenedControlAreas.addElementList(customControlAreas);
-				controlAreas = concatenedControlAreas;
+			controlAreas = getGRBinding().makeControlAreasFor(this);
+			if (controlAreas == null) {
+				controlAreas = makeDefaultControlPoints();
 			}
 		}
 		return controlAreas;
-		// return getConnector().getControlAreas();
 	}
 
 	@Override
@@ -127,18 +119,10 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 		controlAreas = null;
 	}
 
-	@Override
-	public List<ControlPoint> getControlPoints() {
-		if (controlPoints == null) {
-			rebuildControlPoints();
-		}
-		return controlPoints;
+	public void rebuildControlAreas() {
+		clearControlAreas();
+		getControlAreas();
 	}
-
-	/*@Override
-	public DianaGeometricGraphicsImpl getGraphics() {
-		return graphics;
-	}*/
 
 	@Override
 	public int getViewX(double scale) {
@@ -237,12 +221,12 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			logger.warning("Unsupported controller: " + controller);
 		}*/
 
-		g.setDefaultBackground(getGraphicalRepresentation().getBackground());
-		g.setDefaultForeground(getGraphicalRepresentation().getForeground());
-		g.setDefaultTextStyle(getGraphicalRepresentation().getTextStyle());
+		g.setDefaultBackground(getBackgroundStyle());
+		g.setDefaultForeground(getForegroundStyle());
+		g.setDefaultTextStyle(getTextStyle());
 
 		if (getIsSelected() || getIsFocused()) {
-			ForegroundStyle style = (ForegroundStyle) getGraphicalRepresentation().getForeground().clone();
+			ForegroundStyle style = (ForegroundStyle) getForegroundStyle().clone();
 			if (getIsSelected()) {
 				style.setColorNoNotification(getDrawing().getRoot().getGraphicalRepresentation().getSelectionColor());
 			}
@@ -252,7 +236,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			g.setDefaultForeground(style);
 		}
 
-		// System.out.println("Attempt to paint " + getGraphicalRepresentation().getGeometricObject() + " with " + g + " dtn=" +
+		// System.out.println("Attempt to paint " + getGeometricObject() + " with " + g + " dtn=" +
 		// g.getNode());
 
 		paintGeometricObject(g);
@@ -260,14 +244,21 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 		if (getIsSelected() || getIsFocused()) {
 			// Unused Color color = null;
 			// Unused if (getIsSelected()) {
-			// Unused color = getDrawing().getRoot().getGraphicalRepresentation().getSelectionColor();
+			// Unused color = getDrawing().getRoot().getSelectionColor();
 			// Unused }
 			// Unused else if (getIsFocused()) {
-			// Unused color = getDrawing().getRoot().getGraphicalRepresentation().getFocusColor();
+			// Unused color = getDrawing().getRoot().getFocusColor();
 			// Unused }
-			for (ControlPoint cp : getControlPoints()) {
-				cp.paint(g);
+
+			// getControlAreas();
+
+			for (ControlArea<?> ca : getControlAreas()) {
+				ca.paint(g);
 			}
+
+			/*for (ControlPoint cp : getControlPoints()) {
+				cp.paint(g);
+			}*/
 		}
 
 		if (hasFloatingLabel()) {
@@ -283,19 +274,21 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 
 	@Override
 	public void paintGeometricObject(DianaGeometricGraphics graphics) {
-		getGraphicalRepresentation().getGeometricObject().paint(graphics);
+		if (getGeometricObject() != null) {
+			getGeometricObject().paint(graphics);
+		}
 	}
 
 	protected DianaPoint getLabelRelativePosition() {
-		if (getGraphicalRepresentation().getGeometricObject() instanceof DianaPoint) {
-			return (DianaPoint) getGraphicalRepresentation().getGeometricObject();
+		if (getGeometricObject() instanceof DianaPoint) {
+			return (DianaPoint) getGeometricObject();
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaAbstractLine) {
-			DianaAbstractLine<?> line = (DianaAbstractLine<?>) getGraphicalRepresentation().getGeometricObject();
+		else if (getGeometricObject() instanceof DianaAbstractLine) {
+			DianaAbstractLine<?> line = (DianaAbstractLine<?>) getGeometricObject();
 			return new DianaSegment(line.getP1(), line.getP2()).getMiddle();
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaShape) {
-			return ((DianaShape<?>) getGraphicalRepresentation().getGeometricObject()).getCenter();
+		else if (getGeometricObject() instanceof DianaShape) {
+			return ((DianaShape<?>) getGeometricObject()).getCenter();
 		}
 		return new DianaPoint(0, 0);
 	}
@@ -311,8 +304,8 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			@Override
 			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
 					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-				((DianaPoint) getGraphicalRepresentation().getGeometricObject()).x = newAbsolutePoint.x;
-				((DianaPoint) getGraphicalRepresentation().getGeometricObject()).y = newAbsolutePoint.y;
+				((DianaPoint) getGeometricObject()).x = newAbsolutePoint.x;
+				((DianaPoint) getGeometricObject()).y = newAbsolutePoint.y;
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
@@ -337,7 +330,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			@Override
 			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
 					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-				((DianaLine) getGraphicalRepresentation().getGeometricObject()).setP1(newAbsolutePoint);
+				((DianaLine) getGeometricObject()).setP1(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
@@ -357,7 +350,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			@Override
 			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
 					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-				((DianaLine) getGraphicalRepresentation().getGeometricObject()).setP2(newAbsolutePoint);
+				((DianaLine) getGeometricObject()).setP2(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
@@ -382,7 +375,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			@Override
 			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
 					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-				((DianaQuadCurve) getGraphicalRepresentation().getGeometricObject()).setP1(newAbsolutePoint);
+				((DianaQuadCurve) getGeometricObject()).setP1(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
@@ -402,7 +395,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			@Override
 			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
 					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-				((DianaQuadCurve) getGraphicalRepresentation().getGeometricObject()).setCtrlPoint(newAbsolutePoint);
+				((DianaQuadCurve) getGeometricObject()).setCtrlPoint(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
@@ -422,7 +415,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			@Override
 			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
 					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-				((DianaQuadCurve) getGraphicalRepresentation().getGeometricObject()).setP3(newAbsolutePoint);
+				((DianaQuadCurve) getGeometricObject()).setP3(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
@@ -442,7 +435,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			@Override
 			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
 					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-				((DianaQuadCurve) getGraphicalRepresentation().getGeometricObject()).setP2(newAbsolutePoint);
+				((DianaQuadCurve) getGeometricObject()).setP2(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
@@ -467,7 +460,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			@Override
 			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
 					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-				((DianaCubicCurve) getGraphicalRepresentation().getGeometricObject()).setP1(newAbsolutePoint);
+				((DianaCubicCurve) getGeometricObject()).setP1(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
@@ -487,7 +480,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			@Override
 			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
 					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-				((DianaCubicCurve) getGraphicalRepresentation().getGeometricObject()).setCtrlP1(newAbsolutePoint);
+				((DianaCubicCurve) getGeometricObject()).setCtrlP1(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
@@ -507,7 +500,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			@Override
 			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
 					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-				((DianaCubicCurve) getGraphicalRepresentation().getGeometricObject()).setCtrlP2(newAbsolutePoint);
+				((DianaCubicCurve) getGeometricObject()).setCtrlP2(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
@@ -527,7 +520,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			@Override
 			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
 					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-				((DianaCubicCurve) getGraphicalRepresentation().getGeometricObject()).setP2(newAbsolutePoint);
+				((DianaCubicCurve) getGeometricObject()).setP2(newAbsolutePoint);
 				setPoint(newAbsolutePoint);
 				notifyGeometryChanged();
 				return true;
@@ -555,7 +548,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 				@Override
 				public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
 						DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-					DianaPoint p = ((DianaPolygon) getGraphicalRepresentation().getGeometricObject()).getPointAt(index);
+					DianaPoint p = ((DianaPolygon) getGeometricObject()).getPointAt(index);
 					p.x = newAbsolutePoint.x;
 					p.y = newAbsolutePoint.y;
 					setPoint(newAbsolutePoint);
@@ -589,7 +582,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 				@Override
 				public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
 						DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-					DianaPoint p = ((DianaPolylin) getGraphicalRepresentation().getGeometricObject()).getPointAt(index);
+					DianaPoint p = ((DianaPolylin) getGeometricObject()).getPointAt(index);
 					p.x = newAbsolutePoint.x;
 					p.y = newAbsolutePoint.y;
 					setPoint(newAbsolutePoint);
@@ -620,10 +613,10 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 
 			@Override
 			public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
-				initialWidth = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width;
-				initialHeight = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height;
+				initialWidth = ((DianaRectangle) getGeometricObject()).width;
+				initialHeight = ((DianaRectangle) getGeometricObject()).height;
 				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
-						((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).getSouthEastPt(),
+						((DianaRectangle) getGeometricObject()).getSouthEastPt(),
 						CardinalQuadrant.NORTH_WEST));
 			}
 
@@ -633,10 +626,10 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 				DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 				setPoint(pt);
 
-				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).x = pt.x;
-				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).y = pt.y;
-				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width = -pt.x + initialPoint.x + initialWidth;
-				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height = -pt.y + initialPoint.y + initialHeight;
+				((DianaRectangle) getGeometricObject()).x = pt.x;
+				((DianaRectangle) getGeometricObject()).y = pt.y;
+				((DianaRectangle) getGeometricObject()).width = -pt.x + initialPoint.x + initialWidth;
+				((DianaRectangle) getGeometricObject()).height = -pt.y + initialPoint.y + initialHeight;
 
 				notifyGeometryChanged();
 				return true;
@@ -653,10 +646,10 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 
 			@Override
 			public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
-				initialWidth = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width;
-				initialHeight = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height;
+				initialWidth = ((DianaRectangle) getGeometricObject()).width;
+				initialHeight = ((DianaRectangle) getGeometricObject()).height;
 				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
-						((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).getSouthWestPt(),
+						((DianaRectangle) getGeometricObject()).getSouthWestPt(),
 						CardinalQuadrant.NORTH_EAST));
 			}
 
@@ -666,9 +659,9 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 				DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 				setPoint(pt);
 
-				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).y = pt.y;
-				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width = pt.x - initialPoint.x + initialWidth;
-				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height = -pt.y + initialPoint.y + initialHeight;
+				((DianaRectangle) getGeometricObject()).y = pt.y;
+				((DianaRectangle) getGeometricObject()).width = pt.x - initialPoint.x + initialWidth;
+				((DianaRectangle) getGeometricObject()).height = -pt.y + initialPoint.y + initialHeight;
 
 				notifyGeometryChanged();
 				return true;
@@ -685,10 +678,10 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 
 			@Override
 			public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
-				initialWidth = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width;
-				initialHeight = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height;
+				initialWidth = ((DianaRectangle) getGeometricObject()).width;
+				initialHeight = ((DianaRectangle) getGeometricObject()).height;
 				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
-						((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).getNorthEastPt(),
+						((DianaRectangle) getGeometricObject()).getNorthEastPt(),
 						CardinalQuadrant.SOUTH_WEST));
 			}
 
@@ -698,9 +691,9 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 				DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 				setPoint(pt);
 
-				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).x = pt.x;
-				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width = -pt.x + initialPoint.x + initialWidth;
-				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height = pt.y - initialPoint.y + initialHeight;
+				((DianaRectangle) getGeometricObject()).x = pt.x;
+				((DianaRectangle) getGeometricObject()).width = -pt.x + initialPoint.x + initialWidth;
+				((DianaRectangle) getGeometricObject()).height = pt.y - initialPoint.y + initialHeight;
 
 				notifyGeometryChanged();
 				return true;
@@ -717,10 +710,10 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 
 			@Override
 			public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
-				initialWidth = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width;
-				initialHeight = ((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height;
+				initialWidth = ((DianaRectangle) getGeometricObject()).width;
+				initialHeight = ((DianaRectangle) getGeometricObject()).height;
 				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
-						((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).getNorthWestPt(),
+						((DianaRectangle) getGeometricObject()).getNorthWestPt(),
 						CardinalQuadrant.SOUTH_EAST));
 			}
 
@@ -730,8 +723,8 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 				DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 				setPoint(pt);
 
-				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).width = pt.x - initialPoint.x + initialWidth;
-				((DianaRectangle) getGraphicalRepresentation().getGeometricObject()).height = pt.y - initialPoint.y + initialHeight;
+				((DianaRectangle) getGeometricObject()).width = pt.x - initialPoint.x + initialWidth;
+				((DianaRectangle) getGeometricObject()).height = pt.y - initialPoint.y + initialHeight;
 
 				notifyGeometryChanged();
 				return true;
@@ -757,7 +750,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			@Override
 			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
 					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-				DianaPoint p = ((DianaGeneralShape<?>) getGraphicalRepresentation().getGeometricObject()).getPathElements().firstElement()
+				DianaPoint p = ((DianaGeneralShape<?>) getGeometricObject()).getPathElements().firstElement()
 						.getP1();
 				p.x = newAbsolutePoint.x;
 				p.y = newAbsolutePoint.y;
@@ -785,11 +778,11 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 				@Override
 				public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
 						DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-					DianaPoint p = ((DianaGeneralShape<?>) getGraphicalRepresentation().getGeometricObject()).getPathElements().get(index)
+					DianaPoint p = ((DianaGeneralShape<?>) getGeometricObject()).getPathElements().get(index)
 							.getP2();
 					p.x = newAbsolutePoint.x;
 					p.y = newAbsolutePoint.y;
-					((DianaGeneralShape<?>) getGraphicalRepresentation().getGeometricObject()).refresh();
+					((DianaGeneralShape<?>) getGeometricObject()).refresh();
 					setPoint(newAbsolutePoint);
 					notifyGeometryChanged();
 					return true;
@@ -808,99 +801,104 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 		return returned;
 	}
 
-	private void updateControlPoints() {
-		boolean cpNeedsToBeRebuilt = false;
-		for (ControlPoint cp : controlPoints) {
-			if (cp instanceof GeometryAdjustingControlPoint) {
-				((GeometryAdjustingControlPoint) cp).update(getGraphicalRepresentation().getGeometricObject());
+	private void updateControlAreas() {
+		boolean caNeedsToBeRebuilt = false;
+		for (ControlArea<?> ca : getControlAreas()) {
+			if (ca instanceof GeometryAdjustingControlPoint) {
+				((GeometryAdjustingControlPoint) ca).update(getGeometricObject());
 			}
 			else {
-				cpNeedsToBeRebuilt = true;
+				caNeedsToBeRebuilt = true;
 			}
 		}
-		if (cpNeedsToBeRebuilt) {
-			rebuildControlPoints();
+		if (caNeedsToBeRebuilt) {
+			rebuildControlAreas();
 		}
 	}
 
 	@Override
-	public List<ControlPoint> rebuildControlPoints() {
-		if (controlPoints == null) {
+	public List<ControlPoint> makeDefaultControlPoints() {
+
+		List<ControlPoint> returned = new ArrayList<>();
+
+		/*if (controlPoints == null) {
 			controlPoints = new Vector<>();
 		}
 		controlPoints.clear();
 
-		if (getGraphicalRepresentation().getGeometricObject() == null) {
+		if (getGeometricObject() == null) {
 			return controlPoints;
-		}
+		}*/
 
-		if (getGraphicalRepresentation().getGeometricObject() instanceof DianaPoint) {
-			controlPoints.addAll(buildControlPointsForPoint((DianaPoint) getGraphicalRepresentation().getGeometricObject()));
+		if (getGeometricObject() instanceof DianaPoint) {
+			returned.addAll(buildControlPointsForPoint((DianaPoint) getGeometricObject()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaAbstractLine) {
-			controlPoints.addAll(buildControlPointsForLine((DianaAbstractLine<?>) getGraphicalRepresentation().getGeometricObject()));
+		else if (getGeometricObject() instanceof DianaAbstractLine) {
+			returned.addAll(buildControlPointsForLine((DianaAbstractLine<?>) getGeometricObject()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaRectangle) {
-			controlPoints.addAll(buildControlPointsForRectangle((DianaRectangle) getGraphicalRepresentation().getGeometricObject()));
+		else if (getGeometricObject() instanceof DianaRectangle) {
+			returned.addAll(buildControlPointsForRectangle((DianaRectangle) getGeometricObject()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaRoundRectangle) {
-			controlPoints.addAll(buildControlPointsForRectangle(
-					((DianaRoundRectangle) getGraphicalRepresentation().getGeometricObject()).getBoundingBox()));
+		else if (getGeometricObject() instanceof DianaRoundRectangle) {
+			returned.addAll(buildControlPointsForRectangle(
+					((DianaRoundRectangle) getGeometricObject()).getBoundingBox()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaEllips) {
-			controlPoints.addAll(buildControlPointsForEllips((DianaEllips) getGraphicalRepresentation().getGeometricObject()));
+		else if (getGeometricObject() instanceof DianaEllips) {
+			returned.addAll(buildControlPointsForEllips((DianaEllips) getGeometricObject()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaPolygon) {
-			controlPoints.addAll(buildControlPointsForPolygon((DianaPolygon) getGraphicalRepresentation().getGeometricObject()));
+		else if (getGeometricObject() instanceof DianaPolygon) {
+			returned.addAll(buildControlPointsForPolygon((DianaPolygon) getGeometricObject()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaPolylin) {
-			controlPoints.addAll(buildControlPointsForPolylin((DianaPolylin) getGraphicalRepresentation().getGeometricObject()));
+		else if (getGeometricObject() instanceof DianaPolylin) {
+			returned.addAll(buildControlPointsForPolylin((DianaPolylin) getGeometricObject()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaQuadCurve) {
-			controlPoints.addAll(buildControlPointsForCurve((DianaQuadCurve) getGraphicalRepresentation().getGeometricObject()));
+		else if (getGeometricObject() instanceof DianaQuadCurve) {
+			returned.addAll(buildControlPointsForCurve((DianaQuadCurve) getGeometricObject()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaCubicCurve) {
-			controlPoints.addAll(buildControlPointsForCurve((DianaCubicCurve) getGraphicalRepresentation().getGeometricObject()));
+		else if (getGeometricObject() instanceof DianaCubicCurve) {
+			returned.addAll(buildControlPointsForCurve((DianaCubicCurve) getGeometricObject()));
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaGeneralShape) {
-			controlPoints
-					.addAll(buildControlPointsForGeneralShape((DianaGeneralShape<?>) getGraphicalRepresentation().getGeometricObject()));
+		else if (getGeometricObject() instanceof DianaGeneralShape) {
+			returned.addAll(buildControlPointsForGeneralShape((DianaGeneralShape<?>) getGeometricObject()));
 		}
 
 		// controlPoints.addAll(index, c)
 
-		controlAreas = null;
+		// controlAreas = null;
 
-		return controlPoints;
+		return returned;
 	}
 
 	@Override
 	public void notifyGeometryChanged() {
-		updateControlPoints();
+
+		// System.out.println("notifyGeometryChanged()");
+
+		updateControlAreas();
 		notifyObservers(new GeometryModified());
 		// Hack: for the inspector !!!
-		if (getGraphicalRepresentation().getGeometricObject() instanceof DianaPoint) {
+		if (getGeometricObject() instanceof DianaPoint) {
 			notifyChange("drawable.x");
 			notifyChange("drawable.y");
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaLine) {
+		else if (getGeometricObject() instanceof DianaLine) {
 			notifyChange("drawable.x1");
 			notifyChange("drawable.y1");
 			notifyChange("drawable.x2");
 			notifyChange("drawable.y2");
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaRectangle) {
+		else if (getGeometricObject() instanceof DianaRectangle) {
 			notifyChange("drawable.x");
 			notifyChange("drawable.y");
 			notifyChange("drawable.width");
 			notifyChange("drawable.height");
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaCircle) {
+		else if (getGeometricObject() instanceof DianaCircle) {
 			notifyChange("drawable.centerX");
 			notifyChange("drawable.centerY");
 			notifyChange("drawable.radius");
 		}
-		else if (getGraphicalRepresentation().getGeometricObject() instanceof DianaEllips) {
+		else if (getGeometricObject() instanceof DianaEllips) {
 			notifyChange("drawable.x");
 			notifyChange("drawable.y");
 			notifyChange("drawable.width");
@@ -930,6 +928,12 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			}
 		}
 
+		if (evt.getSource() == getDrawable()) {
+			if (evt.getPropertyName().equals(GeometryModified.EVENT_NAME)) {
+				notifyGeometryChanged();
+			}
+		}
+
 		if (evt.getSource() instanceof BackgroundStyle) {
 			notifyAttributeChanged(GeometricGraphicalRepresentation.BACKGROUND, null, getGraphicalRepresentation().getBackground());
 		}
@@ -954,14 +958,59 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 		return null;
 	}
 
-	@Override
-	public ForegroundStyle getForegroundStyle() {
-		return getPropertyValue(ShapeGraphicalRepresentation.FOREGROUND);
+	/**
+	 * Convenient method used to retrieve geometric object
+	 */
+	public DianaArea getGeometricObject() {
+		return getPropertyValue(GeometricGraphicalRepresentation.GEOMETRIC_OBJECT);
 	}
 
+	/**
+	 * Convenient method used to set geometric object
+	 */
+	public void setGeometricObject(DianaArea geometricObject) {
+		setPropertyValue(GeometricGraphicalRepresentation.GEOMETRIC_OBJECT, geometricObject);
+	}
+
+	/**
+	 * Convenient method used to retrieve background style property value
+	 */
+	@Override
+	public BackgroundStyle getBackgroundStyle() {
+		return getPropertyValue(GeometricGraphicalRepresentation.BACKGROUND);
+	}
+
+	/**
+	 * Convenient method used to set background style property value
+	 */
+	@Override
+	public void setBackgroundStyle(BackgroundStyle style) {
+		if (hasDynamicSettablePropertyValue(GeometricGraphicalRepresentation.BACKGROUND)) {
+			try {
+				setDynamicPropertyValue(GeometricGraphicalRepresentation.BACKGROUND, style);
+				return;
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+
+		setPropertyValue(GeometricGraphicalRepresentation.BACKGROUND, style);
+	}
+
+	/**
+	 * Convenient method used to retrieve foreground style property value
+	 */
+	@Override
+	public ForegroundStyle getForegroundStyle() {
+		return getPropertyValue(GeometricGraphicalRepresentation.FOREGROUND);
+	}
+
+	/**
+	 * Convenient method used to set foreground style property value
+	 */
 	@Override
 	public void setForegroundStyle(ForegroundStyle aValue) {
-		setPropertyValue(ShapeGraphicalRepresentation.FOREGROUND, aValue);
+		setPropertyValue(GeometricGraphicalRepresentation.FOREGROUND, aValue);
 	}
 
 }

@@ -748,7 +748,7 @@ public class DianaRectangle extends Rectangle2D.Double implements DianaShape<Dia
 			return computeHalfBandIntersection((DianaHalfBand) area);
 		}
 		if (area instanceof DianaPolygon) {
-			return DianaShape.AreaComputation.computeShapeIntersection(this, (DianaPolygon) area);
+			return AreaComputation.computeShapeIntersection(this, (DianaPolygon) area);
 		}
 
 		DianaIntersectionArea returned = new DianaIntersectionArea(this, area);
@@ -837,7 +837,7 @@ public class DianaRectangle extends Rectangle2D.Double implements DianaShape<Dia
 			return containsPoint(((DianaSegment) a).getP1()) && containsPoint(((DianaSegment) a).getP2());
 		}
 		if (a instanceof DianaShape) {
-			return DianaShape.AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
 		}
 		return false;
 	}

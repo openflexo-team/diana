@@ -76,6 +76,8 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 		public DianaPoint getP1();
 
 		public DianaPoint getP2();
+		
+		public DianaPoint nearestOutlinePoint(DianaPoint aPoint);
 	}
 
 	public DianaGeneralShape() {
@@ -90,10 +92,10 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 		_controlPoints = new Vector<>();
 	}
 
-	public DianaGeneralShape(Closure aClosure, GeneralPath generalPath) {
+	/*public DianaGeneralShape(Closure aClosure, GeneralPath generalPath) {
 		this(aClosure);
 		logger.warning("DianaGeneralShape from generalPath not implemented yet");
-	}
+	}*/
 
 	public Vector<GeneralShapePathElement<?>> getPathElements() {
 		return pathElements;
@@ -150,6 +152,7 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 			throw new IllegalArgumentException("No current point defined");
 		}
 		pathElements.add(new DianaSegment(currentPoint, p));
+		currentPoint = p;
 		updateGeneralPath();
 	}
 
@@ -162,6 +165,7 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 			throw new IllegalArgumentException("No current point defined");
 		}
 		pathElements.add(new DianaQuadCurve(currentPoint, cp, p));
+		currentPoint = p;
 		updateGeneralPath();
 	}
 
@@ -289,7 +293,10 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 
 	@Override
 	public boolean containsPoint(DianaPoint p) {
-		return contains(p.x, p.y);
+		if (p != null) {
+			return contains(p.x, p.y);
+		}
+		return false;
 	}
 
 	@Override
@@ -304,7 +311,23 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 
 	@Override
 	public DianaPoint getNearestPoint(DianaPoint aPoint) {
-		return aPoint;
+		return nearestOutlinePoint(aPoint);
+	}
+
+	@Override
+	public DianaPoint nearestOutlinePoint(DianaPoint aPoint) {
+		DianaPoint returnedPoint = null;
+		double smallestDistance = Double.POSITIVE_INFINITY;
+
+		for (GeneralShapePathElement<?> generalShapePathElement : getPathElements()) {
+			DianaPoint nearestPoint = generalShapePathElement.nearestOutlinePoint(aPoint);
+			double sqDistanceToSegment = DianaSegment.getLength(aPoint, nearestPoint);
+			if (sqDistanceToSegment < smallestDistance) {
+				returnedPoint = nearestPoint;
+				smallestDistance = sqDistanceToSegment;
+			}
+		}
+		return returnedPoint;
 	}
 
 	@Override
@@ -323,13 +346,25 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 	}
 
 	@Override
-	public DianaGeneralShape transform(AffineTransform t) {
+	public DianaGeneralShape<O> transform(AffineTransform t) {
 		// TODO
 		return this;
 	}
 
 	@Override
 	public DianaArea intersect(DianaArea area) {
+
+		if (area.containsArea(this)) {
+			return this.clone();
+		}
+		if (containsArea(area)) {
+			return area.clone();
+		}
+
+		if (area instanceof DianaShape) {
+			return AreaComputation.computeShapeIntersection(this, (DianaShape<?>) area);
+		}
+
 		DianaIntersectionArea returned = new DianaIntersectionArea(this, area);
 		if (returned.isDevelopable()) {
 			return returned.makeDevelopped();
@@ -365,12 +400,6 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 	@Override
 	public DianaPoint getCenter() {
 		return getBoundingBox().getCenter();
-	}
-
-	@Override
-	public DianaPoint nearestOutlinePoint(DianaPoint aPoint) {
-		// TODO
-		return aPoint;
 	}
 
 	/**
@@ -452,6 +481,7 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 	 * @see java.lang.Cloneable
 	 * @since 1.2
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public DianaGeneralShape<O> clone() {
 		try {
@@ -509,6 +539,11 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 	@Override
 	public final DianaRectangle getEmbeddingBounds() {
 		return getBoundingBox();
+	}
+
+	@Override
+	public String toString() {
+		return "FGEGeneralShape: " + getPathElements();
 	}
 
 }

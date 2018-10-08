@@ -39,6 +39,7 @@
 
 package org.openflexo.diana.view.widget;
 
+import org.openflexo.diana.control.tools.ShapeSpecificationFactory;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.gina.model.widget.FIBCustom.FIBCustomComponent;
 import org.openflexo.rm.Resource;
@@ -54,4 +55,7 @@ public interface FIBShapeSelector extends FIBCustomComponent<ShapeSpecification>
 
 	public static Resource FIB_FILE = ResourceLocator.locateResource("Fib/ShapeSelector.fib");
 
+	public ShapeSpecificationFactory getFactory();
+
+	public void setFactory(ShapeSpecificationFactory factory);
 }

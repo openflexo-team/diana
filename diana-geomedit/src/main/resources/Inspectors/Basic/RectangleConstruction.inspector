@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel className="org.openflexo.gina.utils.FIBInspector" layout="border"
+	titleFont="SansSerif,0,12" darkLevel="0"
+	dataClassName="org.openflexo.diana.geomedit.model.RectangleConstruction"
+	font="SansSerif,0,12" name="Inspector">
+	<TabPanel name="Tab" constraints="border(location=center)">
+		<Tab title="Basic" layout="twocols" titleFont="SansSerif,0,11"
+			darkLevel="0" index="0" font="SansSerif,0,11" useScrollBar="true"
+			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
+			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="BasicTab">
+			<Label label="x" index="10"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;location=left)"
+				localize="true" />
+			<Number minValue="-Infinity" maxValue="Infinity" increment="1.0"
+				numberType="DoubleType" index="11" data="data.x"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;location=right)"
+				localize="true" />
+			<Label label="y" index="12"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;location=left)"
+				localize="true" />
+			<Number minValue="-Infinity" maxValue="Infinity" increment="1.0"
+				numberType="DoubleType" index="13" data="data.y"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;location=right)"
+				localize="true" />
+			<Label label="width" index="14"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;location=left)"
+				localize="true" />
+			<Number minValue="-Infinity" maxValue="Infinity" increment="1.0"
+				numberType="DoubleType" index="15" data="data.width"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;location=right)"
+				localize="true" />
+			<Label label="height" index="16"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;location=left)"
+				localize="true" />
+			<Number minValue="-Infinity" maxValue="Infinity" increment="1.0"
+				numberType="DoubleType" index="17" data="data.height"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;location=right)"
+				localize="true" />
+			<Label label="filled" index="18"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;location=left)"
+				localize="true" />
+			<CheckBox selected="false" index="19" data="data.isFilled"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;location=right)"
+				localize="true" />
+		</Tab>
+		<Tab title="Advanced" layout="twocols" titleFont="SansSerif,0,11"
+			darkLevel="0" index="2" font="SansSerif,0,11" useScrollBar="true"
+			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
+			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="AdvancedTab" />
+	</TabPanel>
+	<LocalizedDictionary>
+	</LocalizedDictionary>
+	<Parameter name="title" value="RectangleConstruction" />
+</Panel>

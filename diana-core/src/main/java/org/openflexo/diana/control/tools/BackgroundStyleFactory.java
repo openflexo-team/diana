@@ -51,8 +51,10 @@ import org.openflexo.diana.ColorBackgroundStyle;
 import org.openflexo.diana.ColorGradientBackgroundStyle;
 import org.openflexo.diana.ColorGradientBackgroundStyle.ColorGradientDirection;
 import org.openflexo.diana.DianaConstants;
+import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.GeometricNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.NoneBackgroundStyle;
 import org.openflexo.diana.TextureBackgroundStyle;
@@ -81,23 +83,27 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 	private PropertyChangeSupport pcSupport;
 	private DianaModelFactory fgeFactory;
 
-	// Unused private final DianaInteractiveViewer<?, ?, ?> controller;
+	private final DianaInteractiveViewer<?, ?, ?> controller;
 
 	public BackgroundStyleFactory(DianaInteractiveViewer<?, ?, ?> controller) {
 		pcSupport = new PropertyChangeSupport(this);
-		// Unused this.controller = controller;
-		fgeFactory = controller.getFactory();
-		noneBackgroundStyle = new InspectedNoneBackgroundStyle(controller, controller.getFactory().makeEmptyBackground());
+		this.controller = controller;
+		if (controller != null) {
+			fgeFactory = controller.getFactory();
+		}
+		else {
+			fgeFactory = DianaCoreUtils.TOOLS_FACTORY;
+		}
+		noneBackgroundStyle = new InspectedNoneBackgroundStyle(controller, fgeFactory.makeEmptyBackground());
 		colorBackgroundStyle = new InspectedColorBackgroundStyle(controller,
-				controller.getFactory().makeColoredBackground(DianaConstants.DEFAULT_BACKGROUND_COLOR));
-		colorGradientBackgroundStyle = new InspectedColorGradientBackgroundStyle(controller,
-				controller.getFactory().makeColorGradientBackground(DianaConstants.DEFAULT_BACKGROUND_COLOR, Color.WHITE,
-						ColorGradientDirection.NORTH_WEST_SOUTH_EAST));
+				fgeFactory.makeColoredBackground(DianaConstants.DEFAULT_BACKGROUND_COLOR));
+		colorGradientBackgroundStyle = new InspectedColorGradientBackgroundStyle(controller, fgeFactory.makeColorGradientBackground(
+				DianaConstants.DEFAULT_BACKGROUND_COLOR, Color.WHITE, ColorGradientDirection.NORTH_WEST_SOUTH_EAST));
 		textureBackgroundStyle = new InspectedTextureBackgroundStyle(controller,
-				controller.getFactory().makeTexturedBackground(TextureType.TEXTURE1, DianaConstants.DEFAULT_BACKGROUND_COLOR, Color.WHITE));
-		noneBackgroundStyle = new InspectedNoneBackgroundStyle(controller, controller.getFactory().makeEmptyBackground());
+				fgeFactory.makeTexturedBackground(TextureType.TEXTURE1, DianaConstants.DEFAULT_BACKGROUND_COLOR, Color.WHITE));
+		noneBackgroundStyle = new InspectedNoneBackgroundStyle(controller, fgeFactory.makeEmptyBackground());
 		backgroundImageBackgroundStyle = new InspectedBackgroundImageBackgroundStyle(controller,
-				controller.getFactory().makeImageBackground(DianaConstants.DEFAULT_IMAGE));
+				fgeFactory.makeImageBackground(DianaConstants.DEFAULT_IMAGE));
 	}
 
 	@Override
@@ -128,6 +134,10 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 	@Override
 	public AbstractInspectedBackgroundStyle<?> getCurrentStyle() {
 		return getBackgroundStyle();
+	}
+
+	public BackgroundStyle getDefaultValue() {
+		return getBackgroundStyle().getDefaultValue();
 	}
 
 	public AbstractInspectedBackgroundStyle<?> getBackgroundStyle() {
@@ -190,7 +200,7 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 
 	@Override
 	public String toString() {
-		return "[BackgroundFactory " + Integer.toHexString(hashCode()) + " backgroundStyleType=" + backgroundStyleType + "]";
+		return "[BackgroundStyleFactory " + Integer.toHexString(hashCode()) + " backgroundStyleType=" + backgroundStyleType + "]";
 	}
 
 	@Override
@@ -276,8 +286,11 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 		}
 
 		@Override
-		public List<ShapeNode<?>> getSelection() {
-			return getController().getSelectedShapes();
+		public List<DrawingTreeNode<?, ?>> getSelection() {
+			if (getController() == null) {
+				return null;
+			}
+			return getController().getSelectedShapesAndGeometricObjects();
 		}
 
 	}
@@ -299,6 +312,11 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getBackgroundStyle() instanceof NoneBackgroundStyle) {
 					return (NoneBackgroundStyle) ((ShapeNode<?>) node).getBackgroundStyle();
+				}
+			}
+			if (node instanceof GeometricNode) {
+				if (((GeometricNode<?>) node).getBackgroundStyle() instanceof NoneBackgroundStyle) {
+					return (NoneBackgroundStyle) ((GeometricNode<?>) node).getBackgroundStyle();
 				}
 			}
 			return null;
@@ -334,8 +352,20 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 					return (ColorBackgroundStyle) ((ShapeNode<?>) node).getBackgroundStyle();
 				}
 			}
+			if (node instanceof GeometricNode) {
+				if (((GeometricNode<?>) node).getBackgroundStyle() instanceof ColorBackgroundStyle) {
+					return (ColorBackgroundStyle) ((GeometricNode<?>) node).getBackgroundStyle();
+				}
+			}
 			return null;
 		}
+
+		/*@Override
+		public String toString() {
+			return "InspectedColorBackgroundStyle.COLOR(" + getColor() + ") size=" + getSelection().size() + " default=" + getDefaultValue()
+					+ " color=" + getDefaultValue().getColor();
+		}*/
+
 	}
 
 	protected class InspectedColorGradientBackgroundStyle extends AbstractInspectedBackgroundStyle<ColorGradientBackgroundStyle>
@@ -356,6 +386,11 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getBackgroundStyle() instanceof ColorGradientBackgroundStyle) {
 					return (ColorGradientBackgroundStyle) ((ShapeNode<?>) node).getBackgroundStyle();
+				}
+			}
+			if (node instanceof GeometricNode) {
+				if (((GeometricNode<?>) node).getBackgroundStyle() instanceof ColorGradientBackgroundStyle) {
+					return (ColorGradientBackgroundStyle) ((GeometricNode<?>) node).getBackgroundStyle();
 				}
 			}
 			return null;
@@ -411,6 +446,11 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 					return (TextureBackgroundStyle) ((ShapeNode<?>) node).getBackgroundStyle();
 				}
 			}
+			if (node instanceof GeometricNode) {
+				if (((GeometricNode<?>) node).getBackgroundStyle() instanceof TextureBackgroundStyle) {
+					return (TextureBackgroundStyle) ((GeometricNode<?>) node).getBackgroundStyle();
+				}
+			}
 			return null;
 		}
 
@@ -463,6 +503,11 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getBackgroundStyle() instanceof BackgroundImageBackgroundStyle) {
 					return (BackgroundImageBackgroundStyle) ((ShapeNode<?>) node).getBackgroundStyle();
+				}
+			}
+			if (node instanceof GeometricNode) {
+				if (((GeometricNode<?>) node).getBackgroundStyle() instanceof BackgroundImageBackgroundStyle) {
+					return (BackgroundImageBackgroundStyle) ((GeometricNode<?>) node).getBackgroundStyle();
 				}
 			}
 			return null;

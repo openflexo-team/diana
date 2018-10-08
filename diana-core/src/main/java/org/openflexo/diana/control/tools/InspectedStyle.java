@@ -86,6 +86,8 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 
 	private boolean shouldBeUpdated = true;
 
+	protected Map<GRProperty<?>, Object> storedPropertyValues = new HashMap<>();
+
 	protected InspectedStyle(DianaInteractiveViewer<?, ?, ?> controller, S defaultValue) {
 		this.controller = controller;
 		this.defaultValue = defaultValue;
@@ -95,8 +97,6 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	public DianaInteractiveViewer<?, ?, ?> getController() {
 		return controller;
 	}
-
-	protected Map<GRProperty<?>, Object> storedPropertyValues = new HashMap<>();
 
 	/**
 	 * Return property value matching supplied parameter for current selection<br>
@@ -128,7 +128,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	 */
 	protected <T> T _getPropertyValue(GRProperty<T> parameter) {
 		T returned;
-		if (getSelection().size() == 0) {
+		if (getSelection() == null || getSelection().size() == 0) {
 			if (defaultValue != null && defaultValue.hasKey(parameter.getName())) {
 				returned = (T) defaultValue.objectForKey(parameter.getName());
 			}
@@ -174,7 +174,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		T oldValue = getPropertyValue(parameter);
 		// System.out.println("Sets from " + oldValue + " to " + value);
 		if (requireChange(oldValue, value)) {
-			if (getSelection().size() == 0) {
+			if (getSelection() == null || getSelection().size() == 0) {
 				if (defaultValue == null) {
 					logger.warning("Cannot set " + parameter + " to " + value + " : no default value defined for " + this);
 					return;

@@ -71,12 +71,14 @@ public interface GeometricGraphicalRepresentation extends GraphicalRepresentatio
 	@PropertyIdentifier(type = DianaArea.class)
 	public static final String GEOMETRIC_OBJECT_KEY = "geometricObject";
 
-	public static GRProperty<BackgroundStyle> BACKGROUND = GRProperty.getGRParameter(GeometricGraphicalRepresentation.class,
-			GeometricGraphicalRepresentation.BACKGROUND_KEY, BackgroundStyle.class);
-	public static GRProperty<ForegroundStyle> FOREGROUND = GRProperty.getGRParameter(GeometricGraphicalRepresentation.class,
-			GeometricGraphicalRepresentation.FOREGROUND_KEY, ForegroundStyle.class);
+	public static final String BACKGROUND_STYLE_TYPE_KEY = "BackgroundStyleType";
+
+	public static GRProperty<BackgroundStyle> BACKGROUND = GRProperty.getGRParameter(GeometricGraphicalRepresentation.class, BACKGROUND_KEY,
+			BackgroundStyle.class);
+	public static GRProperty<ForegroundStyle> FOREGROUND = GRProperty.getGRParameter(GeometricGraphicalRepresentation.class, FOREGROUND_KEY,
+			ForegroundStyle.class);
 	public static GRProperty<DianaArea> GEOMETRIC_OBJECT = GRProperty.getGRParameter(GeometricGraphicalRepresentation.class,
-			GeometricGraphicalRepresentation.GEOMETRIC_OBJECT_KEY, DianaArea.class);
+			GEOMETRIC_OBJECT_KEY, DianaArea.class);
 
 	/*public static enum GeometricParameters implements GRProperty {
 		foreground, background, geometricObject
@@ -105,7 +107,7 @@ public interface GeometricGraphicalRepresentation extends GraphicalRepresentatio
 	public void setBackground(BackgroundStyle aBackground);
 
 	@Getter(value = GEOMETRIC_OBJECT_KEY, isStringConvertable = true)
-	@XMLElement
+	// @XMLElement
 	public DianaArea getGeometricObject();
 
 	@Setter(value = GEOMETRIC_OBJECT_KEY)

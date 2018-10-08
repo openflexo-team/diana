@@ -42,15 +42,16 @@ package org.openflexo.diana.geom.area;
 import java.awt.geom.AffineTransform;
 import java.util.logging.Logger;
 
+import org.openflexo.diana.geom.AreaComputation;
 import org.openflexo.diana.geom.DianaAbstractLine;
+import org.openflexo.diana.geom.DianaGeometricObject.CardinalDirection;
+import org.openflexo.diana.geom.DianaGeometricObject.CardinalQuadrant;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.geom.DianaLine;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaSegment;
 import org.openflexo.diana.geom.DianaShape;
-import org.openflexo.diana.geom.DianaGeometricObject.CardinalDirection;
-import org.openflexo.diana.geom.DianaGeometricObject.CardinalQuadrant;
-import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.graphics.AbstractDianaGraphics;
 
 public class DianaQuarterPlane implements DianaArea {
@@ -62,17 +63,20 @@ public class DianaQuarterPlane implements DianaArea {
 
 	public static DianaQuarterPlane makeDianaQuarterPlane(DianaPoint point, CardinalQuadrant quadrant) {
 		if (quadrant == CardinalQuadrant.NORTH_EAST) {
-			return new DianaQuarterPlane(DianaHalfPlane.makeDianaHalfPlane(point, CardinalDirection.NORTH), DianaHalfPlane.makeDianaHalfPlane(point,
-					CardinalDirection.EAST));
-		} else if (quadrant == CardinalQuadrant.NORTH_WEST) {
-			return new DianaQuarterPlane(DianaHalfPlane.makeDianaHalfPlane(point, CardinalDirection.NORTH), DianaHalfPlane.makeDianaHalfPlane(point,
-					CardinalDirection.WEST));
-		} else if (quadrant == CardinalQuadrant.SOUTH_EAST) {
-			return new DianaQuarterPlane(DianaHalfPlane.makeDianaHalfPlane(point, CardinalDirection.SOUTH), DianaHalfPlane.makeDianaHalfPlane(point,
-					CardinalDirection.EAST));
-		} else /* quadrant == CardinalQuadrant.SOUTH_WEST */{
-			return new DianaQuarterPlane(DianaHalfPlane.makeDianaHalfPlane(point, CardinalDirection.SOUTH), DianaHalfPlane.makeDianaHalfPlane(point,
-					CardinalDirection.WEST));
+			return new DianaQuarterPlane(DianaHalfPlane.makeDianaHalfPlane(point, CardinalDirection.NORTH),
+					DianaHalfPlane.makeDianaHalfPlane(point, CardinalDirection.EAST));
+		}
+		else if (quadrant == CardinalQuadrant.NORTH_WEST) {
+			return new DianaQuarterPlane(DianaHalfPlane.makeDianaHalfPlane(point, CardinalDirection.NORTH),
+					DianaHalfPlane.makeDianaHalfPlane(point, CardinalDirection.WEST));
+		}
+		else if (quadrant == CardinalQuadrant.SOUTH_EAST) {
+			return new DianaQuarterPlane(DianaHalfPlane.makeDianaHalfPlane(point, CardinalDirection.SOUTH),
+					DianaHalfPlane.makeDianaHalfPlane(point, CardinalDirection.EAST));
+		}
+		else /* quadrant == CardinalQuadrant.SOUTH_WEST */ {
+			return new DianaQuarterPlane(DianaHalfPlane.makeDianaHalfPlane(point, CardinalDirection.SOUTH),
+					DianaHalfPlane.makeDianaHalfPlane(point, CardinalDirection.WEST));
 		}
 	}
 
@@ -153,7 +157,7 @@ public class DianaQuarterPlane implements DianaArea {
 			return containsLine((DianaLine) a);
 		}
 		if (a instanceof DianaShape) {
-			return DianaShape.AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
 		}
 		return false;
 	}
@@ -175,7 +179,8 @@ public class DianaQuarterPlane implements DianaArea {
 		DianaIntersectionArea returned = new DianaIntersectionArea(this, area);
 		if (returned.isDevelopable()) {
 			return returned.makeDevelopped();
-		} else {
+		}
+		else {
 			return returned;
 		}
 	}

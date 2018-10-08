@@ -395,6 +395,14 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 
 	private void fireGraphicalObjectHierarchyRebuildEnded() {
 		isUpdatingGraphicalObjectsHierarchy = false;
+
+		// Update control areas for all geometric nodes
+		for (DrawingTreeNode<?, ?> dtn : getRoot().getChildNodes()) {
+			if (dtn instanceof GeometricNode) {
+				((GeometricNode<?>) dtn).getControlAreas();
+			}
+		}
+
 		for (DianaLayoutManager<?, ?> layoutManager : layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating) {
 			layoutManager.invalidate();
 			layoutManager.doLayout(true);

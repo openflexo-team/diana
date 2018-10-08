@@ -65,7 +65,9 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -97,6 +99,7 @@ import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.impl.DianaCachedModelFactory;
 import org.openflexo.diana.notifications.DrawingNeedsToBeRedrawn;
+import org.openflexo.diana.notifications.GeometryModified;
 import org.openflexo.diana.notifications.NodeAdded;
 import org.openflexo.diana.notifications.NodeDeleted;
 import org.openflexo.diana.notifications.NodeRemoved;
@@ -430,6 +433,23 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					removeMouseListener(resizer);
 				}
 			}
+			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_FOCUSED.getName())) {
+				if (evt.getSource() instanceof GeometricNode) {
+					// Painting a geometric node being focused or unfocused
+					// TODO: optimize this later
+					getPaintManager().invalidate(getDrawing().getRoot());
+					getPaintManager().repaint(this);
+				}
+			}
+			else if (evt.getPropertyName().equals(GeometryModified.EVENT_NAME)) {
+
+				if (evt.getSource() instanceof GeometricNode) {
+					// Painting a geometric node being focused or unfocused
+					// TODO: optimize this later
+					getPaintManager().invalidate(getDrawing().getRoot());
+					getPaintManager().repaint(this);
+				}
+			}
 			else if (evt.getPropertyName().equals(DrawingNeedsToBeRedrawn.EVENT_NAME)) {
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
@@ -696,7 +716,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			});
 			for (GeometricNode<?> gn : geomList) {
 				// TODO: use the same graphics, just change DrawingTreeNode
-				JDianaGeometricGraphics geometricGraphics = new JDianaGeometricGraphics(gn, this);
+				// JFGEGeometricGraphics geometricGraphics = new JFGEGeometricGraphics(gn, this);
+				JDianaGeometricGraphics geometricGraphics = getGeometricGraphics(gn);
 				geometricGraphics.createGraphics(g2/*, controller*/);
 				gn.paint(geometricGraphics);
 				geometricGraphics.releaseGraphics();
@@ -704,6 +725,18 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			}
 		}
 	}
+
+	private JDianaGeometricGraphics getGeometricGraphics(GeometricNode<?> gn) {
+		JDianaGeometricGraphics returned = geometricGraphics.get(gn);
+		if (returned == null) {
+			returned = new JDianaGeometricGraphics(gn, this);
+			geometricGraphics.put(gn, returned);
+		}
+		returned.setDrawingTreeNode(gn);
+		return returned;
+	}
+
+	private Map<GeometricNode<?>, JDianaGeometricGraphics> geometricGraphics = new HashMap<>();
 
 	private void paintFocusedFloatingLabel(DrawingTreeNode<?, ?> focusedFloatingLabel, Graphics g) {
 		Color color = Color.BLACK;
@@ -717,12 +750,17 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			return;
 		}
 		JDianaView<?, ?> view = viewForNode(focusedFloatingLabel);
-		JLabelView<?> labelView = view.getLabelView();
-		if (labelView != null) {
-			Point p1 = SwingUtilities.convertPoint(labelView, new Point(0, labelView.getHeight() / 2), this);
-			Point p2 = SwingUtilities.convertPoint(labelView, new Point(labelView.getWidth(), labelView.getHeight() / 2), this);
-			paintControlPoint(p1, color, g);
-			paintControlPoint(p2, color, g);
+		if (view != null) {
+			JLabelView<?> labelView = view.getLabelView();
+			if (labelView != null) {
+				Point p1 = SwingUtilities.convertPoint(labelView, new Point(0, labelView.getHeight() / 2), this);
+				Point p2 = SwingUtilities.convertPoint(labelView, new Point(labelView.getWidth(), labelView.getHeight() / 2), this);
+				paintControlPoint(p1, color, g);
+				paintControlPoint(p2, color, g);
+			}
+		}
+		else {
+			// logger.warning("Could not find view for node " + focusedFloatingLabel);
 		}
 	}
 

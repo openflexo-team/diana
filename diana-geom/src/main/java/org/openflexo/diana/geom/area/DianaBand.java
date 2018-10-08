@@ -43,6 +43,7 @@ import java.awt.geom.AffineTransform;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import org.openflexo.diana.geom.AreaComputation;
 import org.openflexo.diana.geom.DianaAbstractLine;
 import org.openflexo.diana.geom.DianaArc;
 import org.openflexo.diana.geom.DianaLine;
@@ -141,7 +142,7 @@ public class DianaBand implements DianaArea {
 			return containsLine((DianaLine) a);
 		}
 		if (a instanceof DianaShape) {
-			return DianaShape.AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((DianaShape<?>) a, this);
 		}
 		if (a instanceof DianaHalfBand) {
 			return containsLine(((DianaHalfBand) a).halfLine1) && containsLine(((DianaHalfBand) a).halfLine2);

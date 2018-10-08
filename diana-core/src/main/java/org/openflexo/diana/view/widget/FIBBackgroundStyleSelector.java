@@ -40,6 +40,7 @@
 package org.openflexo.diana.view.widget;
 
 import org.openflexo.diana.BackgroundStyle;
+import org.openflexo.diana.control.tools.BackgroundStyleFactory;
 import org.openflexo.gina.model.widget.FIBCustom.FIBCustomComponent;
 import org.openflexo.rm.Resource;
 import org.openflexo.rm.ResourceLocator;
@@ -53,5 +54,9 @@ import org.openflexo.rm.ResourceLocator;
 public interface FIBBackgroundStyleSelector extends FIBCustomComponent<BackgroundStyle> {
 
 	public static Resource FIB_FILE = ResourceLocator.locateResource("Fib/BackgroundStyleSelector.fib");
+
+	public BackgroundStyleFactory getFactory();
+
+	public void setFactory(BackgroundStyleFactory factory);
 
 }

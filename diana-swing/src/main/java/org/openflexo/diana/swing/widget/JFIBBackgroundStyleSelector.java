@@ -42,6 +42,8 @@ package org.openflexo.diana.swing.widget;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -107,6 +109,7 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 		setFocusable(true);
 	}
 
+	@Override
 	public BackgroundStyleFactory getFactory() {
 		if (factory == null) {
 			factory = new BackgroundStyleFactory(null);
@@ -114,8 +117,17 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 		return factory;
 	}
 
+	@Override
 	public void setFactory(BackgroundStyleFactory factory) {
 		this.factory = factory;
+		setEditedObject(factory.getCurrentStyle());
+		factory.getPropertyChangeSupport().addPropertyChangeListener(new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				setEditedObject(factory.getCurrentStyle());
+			}
+		});
 	}
 
 	@Override
@@ -202,7 +214,6 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 
 		public void update() {
 			// logger.info("Update with " + getEditedObject());
-			logger.warning("Un truc a voir ici comment s'en sortir: ligne suivante commentee");
 			// getFactory().setBackgroundStyle(getEditedObject());
 			controller.setDataObject(getFactory(), true);
 		}
