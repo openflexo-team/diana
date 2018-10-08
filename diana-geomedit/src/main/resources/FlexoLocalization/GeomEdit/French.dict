@@ -10,6 +10,7 @@ cut=cut
 delete=Supprimer
 edit=Edition
 end_orientation=end_orientation
+export=export
 file=Fichier
 filled=filled
 height=height

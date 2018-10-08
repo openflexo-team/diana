@@ -13,6 +13,7 @@ cut=Cut
 delete=Delete
 edit=Edit
 end_orientation=End orientation
+export=Export
 file=File
 filled=Filled
 foreground_inspector=foreground_inspector
