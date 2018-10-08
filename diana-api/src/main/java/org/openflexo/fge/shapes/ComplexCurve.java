@@ -88,7 +88,7 @@ public interface ComplexCurve extends ShapeSpecification {
 	// *******************************************************************************
 
 	@Getter(value = POINTS_KEY, cardinality = Cardinality.LIST, isStringConvertable = true)
-	@XMLElement(primary = true)
+	@XMLElement(xmlTag = "Point", primary = true)
 	@CloningStrategy(StrategyType.CLONE)
 	@Embedded
 	public List<FGEPoint> getPoints();
