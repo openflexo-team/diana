@@ -450,7 +450,12 @@ public class FGEPaintManager {
 			if (paintRequestLogger.isLoggable(Level.FINEST)) {
 				paintRequestLogger.finest("painting DirtyRegions");
 			}
-			super.paintDirtyRegions();
+			try {
+				super.paintDirtyRegions();
+			} catch (NullPointerException e) {
+				logger.warning("Unexpected NullPointerException during repaint(). Please investigate. See logs for full stacktrace");
+				e.printStackTrace();
+			}
 		}
 
 	}
