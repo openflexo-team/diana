@@ -18,6 +18,7 @@ help=Aide
 inspect=Inspecter
 localized_editor=Edition des traductions
 logs=Logs
+merge_contents=merge_contents
 new_diagram=new_diagram
 new_drawing=Nouveau dessin...
 ok=ok

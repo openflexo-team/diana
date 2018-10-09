@@ -24,6 +24,7 @@ layout_manager_inspector=layout_manager_inspector
 localized_editor=Localization Editor
 location_size_inspector=location_size_inspector
 logs=Logs
+merge_contents=Merge contents
 new_diagram=New diagram
 new_drawing=New drawing...
 ok=Ok
