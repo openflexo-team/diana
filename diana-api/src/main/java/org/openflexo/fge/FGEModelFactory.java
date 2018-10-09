@@ -69,13 +69,22 @@ import org.openflexo.fge.control.MouseDragControlAction;
 import org.openflexo.fge.control.PredefinedMouseClickControlActionType;
 import org.openflexo.fge.control.PredefinedMouseDragControlActionType;
 import org.openflexo.fge.geom.FGEComplexCurve;
+import org.openflexo.fge.geom.FGECubicCurve;
+import org.openflexo.fge.geom.FGEGeneralShape;
+import org.openflexo.fge.geom.FGEGeneralShape.GeneralShapePathElement;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEPolygon;
+import org.openflexo.fge.geom.FGEQuadCurve;
+import org.openflexo.fge.geom.FGESegment;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.shapes.Arc;
 import org.openflexo.fge.shapes.Chevron;
 import org.openflexo.fge.shapes.Circle;
 import org.openflexo.fge.shapes.ComplexCurve;
+import org.openflexo.fge.shapes.GeneralShape;
+import org.openflexo.fge.shapes.GeneralShape.CubicCurvePathElement;
+import org.openflexo.fge.shapes.GeneralShape.QuadCurvePathElement;
+import org.openflexo.fge.shapes.GeneralShape.SegmentPathElement;
 import org.openflexo.fge.shapes.Losange;
 import org.openflexo.fge.shapes.Oval;
 import org.openflexo.fge.shapes.Parallelogram;
@@ -1035,6 +1044,41 @@ public abstract class FGEModelFactory extends ModelFactory {
 			curve.addToPoints(pt);
 		}
 		return curve;
+	}
+
+	/**
+	 * Make a new ComplexCurve with supplied curve
+	 * 
+	 * @param aCurve
+	 * 
+	 * @return a newly created ComplexCurve
+	 */
+	public GeneralShape makeGeneralShape(final FGEGeneralShape<?> aGeneralShape) {
+		final GeneralShape generalShape = this.newInstance(GeneralShape.class);
+		generalShape.setStartPoint(aGeneralShape.getStartPoint());
+
+		for (GeneralShapePathElement<?> pathElement : aGeneralShape.getPathElements()) {
+			if (pathElement instanceof FGESegment) {
+				SegmentPathElement segmentPathElement = newInstance(SegmentPathElement.class);
+				segmentPathElement.setPoint(((FGESegment) pathElement).getP2());
+				generalShape.addToPathElements(segmentPathElement);
+			}
+			else if (pathElement instanceof FGEQuadCurve) {
+				QuadCurvePathElement quadCurvePathElement = newInstance(QuadCurvePathElement.class);
+				quadCurvePathElement.setControlPoint(((FGEQuadCurve) pathElement).getCtrlPoint());
+				quadCurvePathElement.setPoint(((FGEQuadCurve) pathElement).getP2());
+				generalShape.addToPathElements(quadCurvePathElement);
+			}
+			else if (pathElement instanceof FGECubicCurve) {
+				CubicCurvePathElement cubicCurvePathElement = newInstance(CubicCurvePathElement.class);
+				cubicCurvePathElement.setControlPoint1(((FGECubicCurve) pathElement).getCtrlP1());
+				cubicCurvePathElement.setControlPoint2(((FGECubicCurve) pathElement).getCtrlP2());
+				cubicCurvePathElement.setPoint(((FGECubicCurve) pathElement).getP2());
+				generalShape.addToPathElements(cubicCurvePathElement);
+			}
+		}
+		generalShape.setClosure(aGeneralShape.getClosure());
+		return generalShape;
 	}
 
 	/**

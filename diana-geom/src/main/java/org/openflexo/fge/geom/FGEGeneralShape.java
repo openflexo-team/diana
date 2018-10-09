@@ -65,6 +65,7 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O
 	private Closure closure;
 	private GeneralPath _generalPath;
 	private FGEPoint currentPoint;
+	private FGEPoint startPoint;
 
 	private Vector<FGEPoint> _controlPoints;
 
@@ -139,7 +140,12 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O
 
 	public void beginAtPoint(FGEPoint p) {
 		pathElements.clear();
-		currentPoint = p;
+		startPoint = p;
+		currentPoint = startPoint;
+	}
+
+	public FGEPoint getStartPoint() {
+		return startPoint;
 	}
 
 	public void addSegment(Point2D p) {
@@ -349,8 +355,11 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O
 
 	@Override
 	public FGEGeneralShape<O> transform(AffineTransform t) {
-		// TODO
-		return this;
+		FGEGeneralShape<O> returned = new FGEGeneralShape<O>(getClosure());
+		for (GeneralShapePathElement<?> pathElement : getPathElements()) {
+			returned.addToPathElements((GeneralShapePathElement<?>) pathElement.transform(t));
+		}
+		return returned;
 	}
 
 	@Override
@@ -545,7 +554,7 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O
 
 	@Override
 	public String toString() {
-		return "FGEGeneralShape: " + getPathElements();
+		return "FGEGeneralShape: start=" + getStartPoint() + " elements=" + getPathElements();
 	}
 
 }

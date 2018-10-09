@@ -58,7 +58,7 @@ import org.openflexo.model.annotations.ModelEntity;
 @Imports({ @Import(Arc.class), @Import(Circle.class), @Import(Losange.class), @Import(Oval.class), @Import(Polygon.class),
 		@Import(Rectangle.class), @Import(RectangularOctogon.class), @Import(RegularPolygon.class), @Import(Square.class),
 		@Import(Star.class), @Import(Triangle.class), @Import(ComplexCurve.class), @Import(Plus.class), @Import(Parallelogram.class),
-		@Import(Chevron.class) })
+		@Import(Chevron.class), @Import(GeneralShape.class) })
 public interface ShapeSpecification extends FGEObject {
 
 	public static enum ShapeType {
@@ -76,7 +76,8 @@ public interface ShapeSpecification extends FGEObject {
 		COMPLEX_CURVE,
 		PLUS,
 		CHEVRON,
-		PARALLELOGRAM
+		PARALLELOGRAM,
+		GENERALSHAPE
 	}
 
 	public static final FGEPoint CENTER = new FGEPoint(0.5, 0.5);

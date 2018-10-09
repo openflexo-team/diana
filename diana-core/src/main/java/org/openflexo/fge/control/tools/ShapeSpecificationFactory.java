@@ -51,6 +51,7 @@ import org.openflexo.fge.geom.FGEArc;
 import org.openflexo.fge.geom.FGEArc.ArcType;
 import org.openflexo.fge.geom.FGEComplexCurve;
 import org.openflexo.fge.geom.FGEEllips;
+import org.openflexo.fge.geom.FGEGeneralShape;
 import org.openflexo.fge.geom.FGEGeneralShape.Closure;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEPoint;
@@ -63,6 +64,7 @@ import org.openflexo.fge.shapes.Arc;
 import org.openflexo.fge.shapes.Chevron;
 import org.openflexo.fge.shapes.Circle;
 import org.openflexo.fge.shapes.ComplexCurve;
+import org.openflexo.fge.shapes.GeneralShape;
 import org.openflexo.fge.shapes.Losange;
 import org.openflexo.fge.shapes.Oval;
 import org.openflexo.fge.shapes.Parallelogram;
@@ -105,6 +107,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 	private final InspectedArc arc;
 	private final InspectedStar star;
 	private final InspectedComplexCurve complexCurve;
+	private final InspectedGeneralShape<GeneralShape> generalShape;
 	private final InspectedPlus plus;
 	private final InspectedChevron chevron;
 	private final InspectedParallelogram parallelogram;
@@ -135,6 +138,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		this.arc = new InspectedArc(controller, (Arc) fgeFactory.makeShape(ShapeType.ARC));
 		this.star = new InspectedStar(controller, (Star) fgeFactory.makeShape(ShapeType.STAR));
 		this.complexCurve = new InspectedComplexCurve(controller, (ComplexCurve) fgeFactory.makeShape(ShapeType.COMPLEX_CURVE));
+		this.generalShape = new InspectedGeneralShape(controller, (GeneralShape) fgeFactory.makeShape(ShapeType.GENERALSHAPE));
 		this.plus = new InspectedPlus(controller, (Plus) fgeFactory.makeShape(ShapeType.PLUS));
 		this.chevron = new InspectedChevron(controller, (Chevron) fgeFactory.makeShape(ShapeType.CHEVRON));
 		this.parallelogram = new InspectedParallelogram(controller, (Parallelogram) fgeFactory.makeShape(ShapeType.PARALLELOGRAM));
@@ -209,6 +213,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				return this.plus;
 			case CHEVRON:
 				return this.chevron;
+			case GENERALSHAPE:
+				return this.generalShape;
 			default:
 				break;
 		}
@@ -583,6 +589,83 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return null;
 		}
 
+	}
+
+	protected class InspectedGeneralShape<SS extends GeneralShape> extends AbstractInspectedShapeSpecification<SS> implements GeneralShape {
+
+		protected InspectedGeneralShape(final DianaInteractiveViewer<?, ?, ?> controller, final SS defaultValue) {
+			super(controller, defaultValue);
+		}
+
+		@Override
+		public boolean areDimensionConstrained() {
+			return false;
+		}
+
+		@Override
+		public ShapeType getShapeType() {
+			return ShapeType.GENERALSHAPE;
+		}
+
+		@Override
+		public Closure getClosure() {
+			return this.getPropertyValue(GeneralShape.CLOSURE);
+		}
+
+		@Override
+		public void setClosure(final Closure aClosure) {
+			this.setPropertyValue(GeneralShape.CLOSURE, aClosure);
+		}
+
+		@Override
+		public FGEPoint getStartPoint() {
+			return this.getPropertyValue(GeneralShape.START_POINT);
+		}
+
+		@Override
+		public void setStartPoint(final FGEPoint aPoint) {
+			this.setPropertyValue(GeneralShape.START_POINT, aPoint);
+		}
+
+		@Override
+		public List<GeneralShapePathElement> getPathElements() {
+			return this.getPropertyValue(GeneralShape.PATH_ELEMENTS);
+		}
+
+		@Override
+		public void setPathElements(final List<GeneralShapePathElement> points) {
+			// Not applicable in this context (ambigous semantics, preferably disabled)
+			this.setPropertyValue(Polygon.POINTS, points);
+		}
+
+		@Override
+		public void addToPathElements(final GeneralShapePathElement aPoint) {
+			// Not applicable in this context (ambigous semantics, preferably disabled)
+		}
+
+		@Override
+		public void removeFromPathElements(final GeneralShapePathElement aPoint) {
+			// Not applicable in this context (ambigous semantics, preferably disabled)
+		}
+
+		@Override
+		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+			return new FGEGeneralShape(Closure.CLOSED_FILLED);
+		}
+
+		@Override
+		public SS getStyle(final DrawingTreeNode<?, ?> node) {
+			if (node instanceof ShapeNode) {
+				if (((ShapeNode<?>) node).getShapeSpecification() instanceof GeneralShape) {
+					return (SS) ((ShapeNode<?>) node).getShapeSpecification();
+				}
+			}
+			return null;
+		}
+
+		public void geometryChanged() {
+			notifyChange(PATH_ELEMENTS);
+		}
 	}
 
 	protected class InspectedRegularPolygon<SS extends RegularPolygon> extends InspectedPolygon<SS> implements RegularPolygon {
