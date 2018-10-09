@@ -42,10 +42,10 @@ package org.openflexo.diana.geomedit.model;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.geomedit.model.IntersectionConstruction.IntersectionConstructionImpl;
+import org.openflexo.diana.geomedit.model.UnionConstruction.UnionConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.ComputedAreaGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.geom.area.FGEIntersectionArea;
+import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.model.annotations.Adder;
 import org.openflexo.model.annotations.Getter;
@@ -57,9 +57,9 @@ import org.openflexo.model.annotations.Remover;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
-@ImplementationClass(IntersectionConstructionImpl.class)
+@ImplementationClass(UnionConstructionImpl.class)
 @XMLElement
-public interface IntersectionConstruction extends GeometricConstruction<FGEArea> {
+public interface UnionConstruction extends GeometricConstruction<FGEArea> {
 
 	@PropertyIdentifier(type = ObjectReference.class, cardinality = Cardinality.LIST)
 	public static final String OBJECT_CONSTRUCTIONS_KEY = "objectConstructions";
@@ -74,14 +74,13 @@ public interface IntersectionConstruction extends GeometricConstruction<FGEArea>
 	@Remover(OBJECT_CONSTRUCTIONS_KEY)
 	public void removeFromObjectConstructions(ObjectReference<? extends FGEArea> objectReference);
 
-	public static abstract class IntersectionConstructionImpl extends GeometricConstructionImpl<FGEArea>
-			implements IntersectionConstruction {
+	public static abstract class UnionConstructionImpl extends GeometricConstructionImpl<FGEArea> implements UnionConstruction {
 
-		private static final Logger logger = FlexoLogger.getLogger(IntersectionConstruction.class.getPackage().getName());
+		private static final Logger logger = FlexoLogger.getLogger(UnionConstruction.class.getPackage().getName());
 
 		@Override
 		public String getBaseName() {
-			return "Intersection";
+			return "Union";
 		}
 
 		@Override
@@ -96,10 +95,10 @@ public interface IntersectionConstruction extends GeometricConstruction<FGEArea>
 			for (int i = 0; i < getObjectConstructions().size(); i++) {
 				objects[i] = getObjectConstructions().get(i).getData();
 			}
-			FGEArea returned = FGEIntersectionArea.makeIntersection(objects);
+			FGEArea returned = FGEUnionArea.makeUnion(objects);
 
 			if (returned == null) {
-				new Exception("Unexpected intersection").printStackTrace();
+				new Exception("Unexpected union").printStackTrace();
 			}
 			return returned;
 		}
@@ -107,7 +106,7 @@ public interface IntersectionConstruction extends GeometricConstruction<FGEArea>
 		@Override
 		public String toString() {
 			StringBuffer sb = new StringBuffer();
-			sb.append("IntersectionConstruction[\n");
+			sb.append("UnionConstruction[\n");
 			for (GeometricConstruction<?> c : getObjectConstructions()) {
 				sb.append("> " + c.toString() + "\n");
 			}

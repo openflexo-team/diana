@@ -51,6 +51,7 @@ import java.util.Vector;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.fge.geom.area.FGEEmptyArea;
 import org.openflexo.fge.geom.area.FGEHalfLine;
 import org.openflexo.fge.geom.area.FGEIntersectionArea;
 import org.openflexo.fge.geom.area.FGESubstractionArea;
@@ -387,6 +388,17 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O
 
 	@Override
 	public FGEArea substract(FGEArea area, boolean isStrict) {
+		if (area.containsArea(this)) {
+			return new FGEEmptyArea();
+		}
+		if (!containsArea(area)) {
+			return this.clone();
+		}
+
+		if (area instanceof FGEShape) {
+			return AreaComputation.computeShapeSubstraction(this, (FGEShape<?>) area);
+		}
+
 		return new FGESubstractionArea(this, area, isStrict);
 	}
 
@@ -397,6 +409,10 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O
 		}
 		if (area.containsArea(this)) {
 			return area.clone();
+		}
+
+		if (area instanceof FGEShape) {
+			return AreaComputation.computeShapeUnion(this, (FGEShape<?>) area);
 		}
 
 		return new FGEUnionArea(this, area);

@@ -77,6 +77,46 @@ public class AreaComputation {
 		}
 	}
 
+	public static FGEArea computeShapeUnion(FGEShape<?> shape1, FGEShape<?> shape2) {
+		// System.out.println("computeShapeUnion() with "+shape1+" and "+shape2);
+		Area area1 = new Area(shape1);
+		// System.out.println(">>> First shape: ");
+		// debugPathIterator(area1.getPathIterator(new AffineTransform()));
+		Area area2 = new Area(shape2);
+		// System.out.println(">>> Second shape: ");
+		// debugPathIterator(area2.getPathIterator(new AffineTransform()));
+		area1.add(area2);
+		// System.out.println(">>> Third shape: ");
+		// debugPathIterator(area1.getPathIterator(new AffineTransform()));
+
+		if (isPolygonalArea(area1)) {
+			return makePolygonalShapeFromArea(area1);
+		}
+		else {
+			return makeGeneralShapeFromArea(area1);
+		}
+	}
+
+	public static FGEArea computeShapeSubstraction(FGEShape<?> shape1, FGEShape<?> shape2) {
+		System.out.println("computeShapeSubstraction() with " + shape1 + " and " + shape2);
+		Area area1 = new Area(shape1);
+		System.out.println(">>> First shape: ");
+		debugPathIterator(area1.getPathIterator(new AffineTransform()));
+		Area area2 = new Area(shape2);
+		System.out.println(">>> Second shape: ");
+		debugPathIterator(area2.getPathIterator(new AffineTransform()));
+		area1.subtract(area2);
+		System.out.println(">>> Third shape: ");
+		debugPathIterator(area1.getPathIterator(new AffineTransform()));
+
+		if (isPolygonalArea(area1)) {
+			return makePolygonalShapeFromArea(area1);
+		}
+		else {
+			return makeGeneralShapeFromArea(area1);
+		}
+	}
+
 	protected static FGEArea makePolygonalShapeFromArea(Area area) {
 
 		PathIterator pathIterator = area.getPathIterator(new AffineTransform());

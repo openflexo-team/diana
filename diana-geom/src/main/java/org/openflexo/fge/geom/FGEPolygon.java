@@ -526,6 +526,17 @@ public class FGEPolygon implements FGEShape<FGEPolygon> {
 
 	@Override
 	public FGEArea substract(FGEArea area, boolean isStrict) {
+		if (area.containsArea(this)) {
+			return new FGEEmptyArea();
+		}
+		if (!containsArea(area)) {
+			return this.clone();
+		}
+
+		if (area instanceof FGEShape) {
+			return AreaComputation.computeShapeSubstraction(this, (FGEShape<?>) area);
+		}
+
 		return new FGESubstractionArea(this, area, isStrict);
 	}
 
@@ -536,6 +547,10 @@ public class FGEPolygon implements FGEShape<FGEPolygon> {
 		}
 		if (area.containsArea(this)) {
 			return area.clone();
+		}
+
+		if (area instanceof FGEShape) {
+			return AreaComputation.computeShapeUnion(this, (FGEShape<?>) area);
 		}
 
 		return new FGEUnionArea(this, area);

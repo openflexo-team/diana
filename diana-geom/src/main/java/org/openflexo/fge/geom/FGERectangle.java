@@ -762,6 +762,17 @@ public class FGERectangle extends Rectangle2D.Double implements FGEShape<FGERect
 
 	@Override
 	public FGEArea substract(FGEArea area, boolean isStrict) {
+		if (area.containsArea(this)) {
+			return new FGEEmptyArea();
+		}
+		if (!containsArea(area)) {
+			return this.clone();
+		}
+
+		if (area instanceof FGEShape) {
+			return AreaComputation.computeShapeSubstraction(this, (FGEShape<?>) area);
+		}
+
 		return new FGESubstractionArea(this, area, isStrict);
 	}
 
@@ -782,6 +793,11 @@ public class FGERectangle extends Rectangle2D.Double implements FGEShape<FGERect
 				return rectangleUnion(r);
 			}
 		}
+
+		if (area instanceof FGEShape) {
+			return AreaComputation.computeShapeUnion(this, (FGEShape<?>) area);
+		}
+
 		return new FGEUnionArea(this, area);
 	}
 

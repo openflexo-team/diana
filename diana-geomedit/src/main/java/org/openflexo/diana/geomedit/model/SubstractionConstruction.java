@@ -39,49 +39,51 @@
 
 package org.openflexo.diana.geomedit.model;
 
-import java.util.List;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.geomedit.model.IntersectionConstruction.IntersectionConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.ComputedAreaGraphicalRepresentation;
 import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.geom.area.FGEIntersectionArea;
+import org.openflexo.fge.geom.area.FGESubstractionArea;
 import org.openflexo.logging.FlexoLogger;
-import org.openflexo.model.annotations.Adder;
 import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.Getter.Cardinality;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Remover;
+import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
-@ImplementationClass(IntersectionConstructionImpl.class)
+@ImplementationClass(SubstractionConstruction.SubstractionConstructionImpl.class)
 @XMLElement
-public interface IntersectionConstruction extends GeometricConstruction<FGEArea> {
+public interface SubstractionConstruction extends GeometricConstruction<FGEArea> {
 
-	@PropertyIdentifier(type = ObjectReference.class, cardinality = Cardinality.LIST)
-	public static final String OBJECT_CONSTRUCTIONS_KEY = "objectConstructions";
+	@PropertyIdentifier(type = ObjectReference.class)
+	public static final String CONTAINER_OBJECT_CONSTRUCTION_KEY = "containerObjectConstruction";
+	@PropertyIdentifier(type = ObjectReference.class)
+	public static final String SUBSTRACTED_OBJECT_CONSTRUCTION_KEY = "substractedObjectConstruction";
 
-	@Getter(value = OBJECT_CONSTRUCTIONS_KEY, cardinality = Cardinality.LIST)
-	@XMLElement
-	public List<ObjectReference<? extends FGEArea>> getObjectConstructions();
+	@Getter(value = CONTAINER_OBJECT_CONSTRUCTION_KEY)
+	@XMLElement(context = "Container_")
+	public ObjectReference<?> getContainerObjectConstruction();
 
-	@Adder(OBJECT_CONSTRUCTIONS_KEY)
-	public void addToObjectConstructions(ObjectReference<? extends FGEArea> objectReference);
+	@Setter(value = CONTAINER_OBJECT_CONSTRUCTION_KEY)
+	public void setContainerObjectConstruction(ObjectReference<?> pointConstruction1);
 
-	@Remover(OBJECT_CONSTRUCTIONS_KEY)
-	public void removeFromObjectConstructions(ObjectReference<? extends FGEArea> objectReference);
+	@Getter(value = SUBSTRACTED_OBJECT_CONSTRUCTION_KEY)
+	@XMLElement(context = "Substracted_")
+	public ObjectReference<?> getSubstractedObjectConstruction();
 
-	public static abstract class IntersectionConstructionImpl extends GeometricConstructionImpl<FGEArea>
-			implements IntersectionConstruction {
+	@Setter(value = SUBSTRACTED_OBJECT_CONSTRUCTION_KEY)
+	public void setSubstractedObjectConstruction(ObjectReference<?> pointConstruction2);
 
-		private static final Logger logger = FlexoLogger.getLogger(IntersectionConstruction.class.getPackage().getName());
+	public static abstract class SubstractionConstructionImpl extends GeometricConstructionImpl<FGEArea>
+			implements SubstractionConstruction {
+
+		private static final Logger logger = FlexoLogger.getLogger(SubstractionConstruction.class.getPackage().getName());
 
 		@Override
 		public String getBaseName() {
-			return "Intersection";
+			return "Substraction";
 		}
 
 		@Override
@@ -92,14 +94,11 @@ public interface IntersectionConstruction extends GeometricConstruction<FGEArea>
 
 		@Override
 		protected FGEArea computeData() {
-			FGEArea[] objects = new FGEArea[getObjectConstructions().size()];
-			for (int i = 0; i < getObjectConstructions().size(); i++) {
-				objects[i] = getObjectConstructions().get(i).getData();
-			}
-			FGEArea returned = FGEIntersectionArea.makeIntersection(objects);
+			FGEArea returned = FGESubstractionArea.makeSubstraction(getContainerObjectConstruction().getData(),
+					getSubstractedObjectConstruction().getData(), false);
 
 			if (returned == null) {
-				new Exception("Unexpected intersection").printStackTrace();
+				new Exception("Unexpected substraction").printStackTrace();
 			}
 			return returned;
 		}
@@ -107,10 +106,9 @@ public interface IntersectionConstruction extends GeometricConstruction<FGEArea>
 		@Override
 		public String toString() {
 			StringBuffer sb = new StringBuffer();
-			sb.append("IntersectionConstruction[\n");
-			for (GeometricConstruction<?> c : getObjectConstructions()) {
-				sb.append("> " + c.toString() + "\n");
-			}
+			sb.append("SubstractionConstruction[\n");
+			sb.append("> " + getContainerObjectConstruction().toString() + "\n");
+			sb.append("> " + getSubstractedObjectConstruction().toString() + "\n");
 			sb.append("-> " + getData() + "\n");
 			sb.append("]");
 			return sb.toString();
@@ -118,7 +116,8 @@ public interface IntersectionConstruction extends GeometricConstruction<FGEArea>
 
 		@Override
 		public GeometricConstruction<?>[] getDepends() {
-			return getObjectConstructions().toArray(new GeometricConstruction[getObjectConstructions().size()]);
+			GeometricConstruction[] returned = { getContainerObjectConstruction(), getSubstractedObjectConstruction() };
+			return returned;
 		}
 
 	}

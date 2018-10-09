@@ -69,8 +69,9 @@ import org.openflexo.model.annotations.XMLElement;
 		@Import(RectangleConstruction.class), @Import(RoundRectangleConstruction.class), @Import(SegmentConstruction.class),
 		@Import(HalfLineConstruction.class), @Import(CubicCurveConstruction.class), @Import(QuadCurveConstruction.class),
 		@Import(ComplexCurveConstruction.class), @Import(BandConstruction.class), @Import(HalfBandConstruction.class),
-		@Import(HalfPlaneConstruction.class), @Import(IntersectionConstruction.class), @Import(ObjectReference.class),
-		@Import(PolygonConstruction.class), @Import(QuarterPlaneConstruction.class), @Import(PolylinConstruction.class) })
+		@Import(HalfPlaneConstruction.class), @Import(ObjectReference.class), @Import(PolygonConstruction.class),
+		@Import(QuarterPlaneConstruction.class), @Import(PolylinConstruction.class), @Import(IntersectionConstruction.class),
+		@Import(UnionConstruction.class), @Import(SubstractionConstruction.class) })
 public interface GeometricConstruction<A extends FGEArea> extends GeometricElement {
 
 	@PropertyIdentifier(type = GeometricObjectGraphicalRepresentation.class)

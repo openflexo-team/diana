@@ -162,6 +162,9 @@ public class FGESubstractionArea extends FGEOperationArea {
 				return FGEUnionArea.makeUnion(objects);
 			}
 		}
+		if (containerArea instanceof FGEShape && substractedArea instanceof FGEShape) {
+			return AreaComputation.computeShapeSubstraction((FGEShape<?>) containerArea, (FGEShape<?>) substractedArea);
+		}
 		return new FGESubstractionArea(containerArea, substractedArea, isStrict);
 	}
 
