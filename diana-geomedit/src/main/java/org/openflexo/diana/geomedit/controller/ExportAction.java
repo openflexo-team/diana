@@ -56,6 +56,7 @@ import org.openflexo.diana.geomedit.view.GeomEditIconLibrary;
 import org.openflexo.fge.PaletteElementSpecification;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.geom.FGEComplexCurve;
+import org.openflexo.fge.geom.FGEGeneralShape;
 import org.openflexo.fge.geom.FGEPolygon;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
@@ -148,6 +149,9 @@ public class ExportAction extends AbstractEditorActionImpl {
 		else if (object.getData() instanceof FGEComplexCurve) {
 			gr.setShapeSpecification(factory.makeComplexCurve(makeNormalizedComplexCurve((FGEComplexCurve) object.getData())));
 		}
+		else if (object.getData() instanceof FGEGeneralShape) {
+			gr.setShapeSpecification(factory.makeGeneralShape(makeNormalizedGeneralShape((FGEGeneralShape<?>) object.getData())));
+		}
 		else {
 			gr.setShapeSpecification(factory.makeShape(ShapeType.RECTANGLE));
 		}
@@ -155,22 +159,26 @@ public class ExportAction extends AbstractEditorActionImpl {
 	}
 
 	private FGEPolygon makeNormalizedPolygon(FGEPolygon polygon) {
-		System.out.println("polygon=" + polygon);
 		FGERectangle boundingBox = polygon.getBoundingBox();
 		AffineTransform translateAT = AffineTransform.getTranslateInstance(-boundingBox.getX(), -boundingBox.getY());
 		AffineTransform scaleAT = AffineTransform.getScaleInstance(1 / boundingBox.getWidth(), 1 / boundingBox.getHeight());
 		FGEPolygon normalizedPolygon = polygon.transform(translateAT).transform(scaleAT);
-		System.out.println("normalizedPolygon=" + normalizedPolygon);
 		return normalizedPolygon;
 	}
 
 	private FGEComplexCurve makeNormalizedComplexCurve(FGEComplexCurve complexCurve) {
-		System.out.println("complexCurve=" + complexCurve);
 		FGERectangle boundingBox = complexCurve.getBoundingBox();
 		AffineTransform translateAT = AffineTransform.getTranslateInstance(-boundingBox.getX(), -boundingBox.getY());
 		AffineTransform scaleAT = AffineTransform.getScaleInstance(1 / boundingBox.getWidth(), 1 / boundingBox.getHeight());
 		FGEComplexCurve normalizedComplexCurve = complexCurve.transform(translateAT).transform(scaleAT);
-		System.out.println("normalizedCurve=" + normalizedComplexCurve);
 		return normalizedComplexCurve;
+	}
+
+	private FGEGeneralShape<?> makeNormalizedGeneralShape(FGEGeneralShape<?> generalShape) {
+		FGERectangle boundingBox = generalShape.getBoundingBox();
+		AffineTransform translateAT = AffineTransform.getTranslateInstance(-boundingBox.getX(), -boundingBox.getY());
+		AffineTransform scaleAT = AffineTransform.getScaleInstance(1 / boundingBox.getWidth(), 1 / boundingBox.getHeight());
+		FGEGeneralShape<?> normalizedGeneralShape = generalShape.transform(translateAT).transform(scaleAT);
+		return normalizedGeneralShape;
 	}
 }
