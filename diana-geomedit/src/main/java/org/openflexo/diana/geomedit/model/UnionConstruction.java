@@ -39,6 +39,7 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -54,6 +55,8 @@ import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Remover;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
@@ -63,6 +66,8 @@ public interface UnionConstruction extends GeometricConstruction<FGEArea> {
 
 	@PropertyIdentifier(type = ObjectReference.class, cardinality = Cardinality.LIST)
 	public static final String OBJECT_CONSTRUCTIONS_KEY = "objectConstructions";
+	@PropertyIdentifier(type = Boolean.class)
+	public static final String MERGE_CONTENTS_KEY = "mergeContents";
 
 	@Getter(value = OBJECT_CONSTRUCTIONS_KEY, cardinality = Cardinality.LIST)
 	@XMLElement
@@ -73,6 +78,13 @@ public interface UnionConstruction extends GeometricConstruction<FGEArea> {
 
 	@Remover(OBJECT_CONSTRUCTIONS_KEY)
 	public void removeFromObjectConstructions(ObjectReference<? extends FGEArea> objectReference);
+
+	@Getter(value = MERGE_CONTENTS_KEY, defaultValue = "true")
+	@XMLAttribute
+	public boolean getMergeContents();
+
+	@Setter(MERGE_CONTENTS_KEY)
+	public void setMergeContents(boolean mergeContents);
 
 	public static abstract class UnionConstructionImpl extends GeometricConstructionImpl<FGEArea> implements UnionConstruction {
 
@@ -95,8 +107,7 @@ public interface UnionConstruction extends GeometricConstruction<FGEArea> {
 			for (int i = 0; i < getObjectConstructions().size(); i++) {
 				objects[i] = getObjectConstructions().get(i).getData();
 			}
-			FGEArea returned = FGEUnionArea.makeUnion(objects);
-
+			FGEArea returned = FGEUnionArea.makeUnion(Arrays.asList(objects), getMergeContents());
 			if (returned == null) {
 				new Exception("Unexpected union").printStackTrace();
 			}

@@ -79,7 +79,7 @@ public class FGEUnionArea extends FGEOperationArea {
 		return makeUnion(objects, true);
 	}
 
-	private static FGEArea makeUnion(List<? extends FGEArea> objects, boolean tryToReduceUnionByConcatenation) {
+	public static FGEArea makeUnion(List<? extends FGEArea> objects, boolean tryToReduceUnionByConcatenation) {
 		List<? extends FGEArea> objectsToTakeUnderAccount = reduceUnionByEmbedding(objects);
 
 		if (tryToReduceUnionByConcatenation) {
