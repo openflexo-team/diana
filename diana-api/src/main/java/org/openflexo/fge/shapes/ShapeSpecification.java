@@ -38,10 +38,15 @@
 
 package org.openflexo.fge.shapes;
 
+import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGEObject;
+import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEShape;
+import org.openflexo.model.annotations.CloningStrategy;
+import org.openflexo.model.annotations.CloningStrategy.StrategyType;
+import org.openflexo.model.annotations.Embedded;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
@@ -49,13 +54,16 @@ import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLAttribute;
+import org.openflexo.model.annotations.XMLElement;
 
 /**
  * This is the specification of a Shape<br>
  * Contains all the properties required to manage a Shape as a geometrical shape in a {@link ShapeNode}<br>
  * 
  * A {@link ShapeSpecification} is usually defined in a normed rectangle (bounds 0.0,0.0,1.0,1.0), but might be redefined in another bounds
- * (for example when grouped in a ShapeUnion).
+ * (for example when grouped in a {@link ShapeUnion}).
+ * 
+ * A {@link ShapeSpecification} may also define a particular background and/or foreground (especially usefull in {@link ShapeUnion})
  * 
  * This implementation is powered by PAMELA framework.
  * 
@@ -107,6 +115,11 @@ public interface ShapeSpecification extends FGEObject {
 	@PropertyIdentifier(type = Double.class)
 	public static final String HEIGHT_KEY = "height";
 
+	@PropertyIdentifier(type = ForegroundStyle.class)
+	public static final String FOREGROUND_KEY = "foreground";
+	@PropertyIdentifier(type = BackgroundStyle.class)
+	public static final String BACKGROUND_KEY = "background";
+
 	@Getter(value = X_KEY, defaultValue = "0.0")
 	@XMLAttribute
 	public double getX();
@@ -134,6 +147,46 @@ public interface ShapeSpecification extends FGEObject {
 
 	@Setter(value = HEIGHT_KEY)
 	public void setHeight(double aValue);
+
+	/**
+	 * Return background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Getter(value = BACKGROUND_KEY)
+	@CloningStrategy(StrategyType.CLONE)
+	@Embedded
+	@XMLElement
+	public BackgroundStyle getBackground();
+
+	/**
+	 * Sets background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aBackground
+	 */
+	@Setter(value = BACKGROUND_KEY)
+	public void setBackground(BackgroundStyle aBackground);
+
+	/**
+	 * Return foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Getter(value = FOREGROUND_KEY)
+	@XMLElement
+	@CloningStrategy(StrategyType.CLONE)
+	@Embedded
+	public ForegroundStyle getForeground();
+
+	/**
+	 * Sets foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aForeground
+	 */
+	@Setter(value = FOREGROUND_KEY)
+	public void setForeground(ForegroundStyle aForeground);
 
 	/**
 	 * Must be overriden when shape requires it

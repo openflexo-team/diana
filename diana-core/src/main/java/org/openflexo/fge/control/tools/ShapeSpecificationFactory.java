@@ -42,10 +42,12 @@ import java.beans.PropertyChangeSupport;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGECoreUtils;
 import org.openflexo.fge.FGEModelFactory;
+import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.control.DianaInteractiveViewer;
 import org.openflexo.fge.geom.FGEArc;
 import org.openflexo.fge.geom.FGEArc.ArcType;
@@ -374,6 +376,29 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			// Not applicable
 		}
 
+		@Override
+		public BackgroundStyle getBackground() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void setBackground(BackgroundStyle aBackground) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public ForegroundStyle getForeground() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void setForeground(ForegroundStyle aForeground) {
+			// TODO Auto-generated method stub
+
+		}
 	}
 
 	protected class InspectedRectangle<SS extends Rectangle> extends AbstractInspectedShapeSpecification<SS> implements Rectangle {
