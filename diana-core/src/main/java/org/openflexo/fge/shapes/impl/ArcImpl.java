@@ -67,7 +67,7 @@ public abstract class ArcImpl extends ShapeSpecificationImpl implements Arc {
 	}
 
 	@Override
-	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
+	public FGEShape<?> makeNormalizedFGEShape(ShapeNode<?> node) {
 		return new FGEArc(0, 0, 1, 1, angleStart, angleExtent, arcType);
 	}
 

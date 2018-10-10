@@ -128,7 +128,7 @@ public abstract class ComplexCurveImpl extends ShapeSpecificationImpl implements
 	}
 
 	@Override
-	public FGEComplexCurve makeFGEShape(ShapeNode<?> node) {
+	public FGEComplexCurve makeNormalizedFGEShape(ShapeNode<?> node) {
 		return new FGEComplexCurve(getClosure(), points);
 	}
 

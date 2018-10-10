@@ -42,15 +42,22 @@ import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGEObject;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEShape;
+import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
 
 /**
  * This is the specification of a Shape<br>
  * Contains all the properties required to manage a Shape as a geometrical shape in a {@link ShapeNode}<br>
  * 
- * Note that this implementation is powered by PAMELA framework.
+ * A {@link ShapeSpecification} is usually defined in a normed rectangle (bounds 0.0,0.0,1.0,1.0), but might be redefined in another bounds
+ * (for example when grouped in a ShapeUnion).
+ * 
+ * This implementation is powered by PAMELA framework.
  * 
  * @author sylvain
  */
@@ -58,7 +65,7 @@ import org.openflexo.model.annotations.ModelEntity;
 @Imports({ @Import(Arc.class), @Import(Circle.class), @Import(Losange.class), @Import(Oval.class), @Import(Polygon.class),
 		@Import(Rectangle.class), @Import(RectangularOctogon.class), @Import(RegularPolygon.class), @Import(Square.class),
 		@Import(Star.class), @Import(Triangle.class), @Import(ComplexCurve.class), @Import(Plus.class), @Import(Parallelogram.class),
-		@Import(Chevron.class), @Import(GeneralShape.class) })
+		@Import(Chevron.class), @Import(GeneralShape.class), @Import(ShapeUnion.class) })
 public interface ShapeSpecification extends FGEObject {
 
 	public static enum ShapeType {
@@ -77,7 +84,8 @@ public interface ShapeSpecification extends FGEObject {
 		PLUS,
 		CHEVRON,
 		PARALLELOGRAM,
-		GENERALSHAPE
+		GENERALSHAPE,
+		UNION
 	}
 
 	public static final FGEPoint CENTER = new FGEPoint(0.5, 0.5);
@@ -90,6 +98,43 @@ public interface ShapeSpecification extends FGEObject {
 	public static final FGEPoint SOUTH = new FGEPoint(0.5, 1);
 	public static final FGEPoint WEST = new FGEPoint(0, 0.5);
 
+	@PropertyIdentifier(type = Double.class)
+	public static final String X_KEY = "x";
+	@PropertyIdentifier(type = Double.class)
+	public static final String Y_KEY = "y";
+	@PropertyIdentifier(type = Double.class)
+	public static final String WIDTH_KEY = "width";
+	@PropertyIdentifier(type = Double.class)
+	public static final String HEIGHT_KEY = "height";
+
+	@Getter(value = X_KEY, defaultValue = "0.0")
+	@XMLAttribute
+	public double getX();
+
+	@Setter(value = X_KEY)
+	public void setX(double aValue);
+
+	@Getter(value = Y_KEY, defaultValue = "0.0")
+	@XMLAttribute
+	public double getY();
+
+	@Setter(value = Y_KEY)
+	public void setY(double aValue);
+
+	@Getter(value = WIDTH_KEY, defaultValue = "1.0")
+	@XMLAttribute
+	public double getWidth();
+
+	@Setter(value = WIDTH_KEY)
+	public void setWidth(double aValue);
+
+	@Getter(value = HEIGHT_KEY, defaultValue = "1.0")
+	@XMLAttribute
+	public double getHeight();
+
+	@Setter(value = HEIGHT_KEY)
+	public void setHeight(double aValue);
+
 	/**
 	 * Must be overriden when shape requires it
 	 * 
@@ -97,12 +142,35 @@ public interface ShapeSpecification extends FGEObject {
 	 */
 	public boolean areDimensionConstrained();
 
+	/**
+	 * Return {@link ShapeType} for this {@link ShapeSpecification}
+	 * 
+	 * @return
+	 */
 	public ShapeType getShapeType();
 
-	// public ShapeSpecification clone();
-
+	/**
+	 * Build a new {@link Shape} for this {@link ShapeNode}
+	 * 
+	 * @param node
+	 * @return
+	 */
 	public abstract Shape<?> makeShape(ShapeNode<?> node);
 
+	/**
+	 * Build a new FGEShape for this {@link ShapeNode}, asserting the resulting shape will be defined in a normalized rectangle
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public FGEShape<?> makeNormalizedFGEShape(ShapeNode<?> node);
+
+	/**
+	 * Build a new FGEShape for this {@link ShapeNode}, when taking dimension/positionning properties into account
+	 * 
+	 * @param node
+	 * @return
+	 */
 	public FGEShape<?> makeFGEShape(ShapeNode<?> node);
 
 }

@@ -75,7 +75,7 @@ public abstract class RectangleImpl extends ShapeSpecificationImpl implements Re
 	}
 
 	@Override
-	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
+	public FGEShape<?> makeNormalizedFGEShape(ShapeNode<?> node) {
 		if (node != null && isRounded) {
 			double arcwidth = arcSize / node.getWidth();
 			double archeight = arcSize / node.getHeight();

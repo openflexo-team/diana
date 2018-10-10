@@ -107,7 +107,7 @@ public abstract class RegularPolygonImpl extends PolygonImpl implements RegularP
 	}*/
 
 	@Override
-	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
+	public FGEShape<?> makeNormalizedFGEShape(ShapeNode<?> node) {
 		if (getPoints() != null && getPoints().size() > 0) {
 			return new FGEPolygon(Filling.FILLED, getPoints());
 		}

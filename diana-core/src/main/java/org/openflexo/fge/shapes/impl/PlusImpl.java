@@ -97,7 +97,7 @@ public abstract class PlusImpl extends ShapeSpecificationImpl implements Plus {
 	 * @return {@link FGEPolygon}
 	 */
 	@Override
-	public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+	public FGEShape<?> makeNormalizedFGEShape(final ShapeNode<?> node) {
 		final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
 		returned.addToPoints(new FGEPoint(0, this.ratio));
 		returned.addToPoints(new FGEPoint(0, 1 - this.ratio));

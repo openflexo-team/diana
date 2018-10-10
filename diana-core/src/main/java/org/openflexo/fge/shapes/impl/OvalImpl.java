@@ -55,7 +55,7 @@ public abstract class OvalImpl extends ShapeSpecificationImpl implements Oval {
 	}
 
 	@Override
-	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
+	public FGEShape<?> makeNormalizedFGEShape(ShapeNode<?> node) {
 		return new FGEEllips(0, 0, 1, 1, Filling.FILLED);
 	}
 

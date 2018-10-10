@@ -88,7 +88,7 @@ public abstract class RectangularOctogonImpl extends ShapeSpecificationImpl impl
 	}
 
 	@Override
-	public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+	public FGEShape<?> makeNormalizedFGEShape(final ShapeNode<?> node) {
 		final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
 
 		returned.addToPoints(new FGEPoint(0, this.ratio));

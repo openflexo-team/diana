@@ -52,7 +52,7 @@ public abstract class GeneralShapeImpl extends ShapeSpecificationImpl implements
 	}
 
 	@Override
-	public FGEGeneralShape<?> makeFGEShape(ShapeNode<?> node) {
+	public FGEGeneralShape<?> makeNormalizedFGEShape(ShapeNode<?> node) {
 		FGEGeneralShape<?> returned = new FGEGeneralShape<>(getClosure());
 		returned.beginAtPoint(getStartPoint());
 		for (GeneralShapePathElement pathElement : getPathElements()) {

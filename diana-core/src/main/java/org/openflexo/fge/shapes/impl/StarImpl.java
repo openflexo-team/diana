@@ -129,7 +129,7 @@ public abstract class StarImpl extends ShapeSpecificationImpl implements Star {
 	}
 
 	@Override
-	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
+	public FGEShape<?> makeNormalizedFGEShape(ShapeNode<?> node) {
 		FGEPolygon returned = new FGEPolygon(Filling.FILLED);
 		double startA = getStartAngle() * Math.PI / 180;
 		double angleInterval = Math.PI * 2 / npoints;

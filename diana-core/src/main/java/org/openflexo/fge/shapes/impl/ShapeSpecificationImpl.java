@@ -38,11 +38,13 @@
 
 package org.openflexo.fge.shapes.impl;
 
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.geom.FGEShape;
 import org.openflexo.fge.impl.FGEObjectImpl;
 import org.openflexo.fge.shapes.ShapeSpecification;
 
@@ -97,6 +99,20 @@ public abstract class ShapeSpecificationImpl extends FGEObjectImpl implements Sh
 			getPropertyChangeSupport().addPropertyChangeListener(returned);
 		}
 		return returned;
+	}
+
+	/**
+	 * Build a new FGEShape for this {@link ShapeNode}, when taking dimension/positionning properties into account
+	 * 
+	 * @param node
+	 * @return
+	 */
+	@Override
+	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
+		FGEShape<?> shape = makeNormalizedFGEShape(node);
+		AffineTransform translateAT = AffineTransform.getTranslateInstance(getX(), getY());
+		AffineTransform scaleAT = AffineTransform.getScaleInstance(getWidth(), getHeight());
+		return (FGEShape<?>) shape.transform(scaleAT).transform(translateAT);
 	}
 
 	@Override

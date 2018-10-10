@@ -85,7 +85,7 @@ public abstract class ChevronImpl extends ShapeSpecificationImpl implements Chev
 	 * @return FGEPolygon
 	 */
 	@Override
-	public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+	public FGEShape<?> makeNormalizedFGEShape(final ShapeNode<?> node) {
 		final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
 		returned.addToPoints(new FGEPoint(0, 0));
 		returned.addToPoints(new FGEPoint(this.arrowLength, 0.5));

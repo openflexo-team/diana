@@ -84,7 +84,7 @@ public abstract class PolygonImpl extends ShapeSpecificationImpl implements Poly
 	}
 
 	@Override
-	public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
+	public FGEShape<?> makeNormalizedFGEShape(ShapeNode<?> node) {
 		return new FGEPolygon(Filling.FILLED, getPoints());
 	}
 
