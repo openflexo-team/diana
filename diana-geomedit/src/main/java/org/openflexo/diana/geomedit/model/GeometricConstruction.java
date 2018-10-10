@@ -61,6 +61,7 @@ import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity(isAbstract = true)
@@ -83,6 +84,8 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 	public static final String FOREGROUND_KEY = "foreground";
 	@PropertyIdentifier(type = BackgroundStyle.class)
 	public static final String BACKGROUND_KEY = "background";
+	@PropertyIdentifier(type = Boolean.class)
+	public static final String IS_VISIBLE_KEY = "isVisible";
 
 	@Override
 	@Getter(value = GEOMETRIC_DIAGRAM)
@@ -117,6 +120,13 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 
 	@Setter(value = BACKGROUND_KEY)
 	public void setBackground(BackgroundStyle aBackground);
+
+	@Getter(value = IS_VISIBLE_KEY, defaultValue = "true")
+	@XMLAttribute
+	public boolean getIsVisible();
+
+	@Setter(IS_VISIBLE_KEY)
+	public void setIsVisible(boolean isVisible);
 
 	public void refresh();
 
@@ -178,12 +188,14 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 		@Override
 		public final void refresh() {
 			// System.out.println("Refresh for "+this.getClass().getSimpleName());
+			A oldData = getData();
 			if (getDepends() != null) {
 				for (GeometricConstruction c : getDepends()) {
 					c.refresh();
 				}
 			}
 			computedData = computeData();
+			getPropertyChangeSupport().firePropertyChange("data", oldData, computedData);
 		}
 
 		@Override
@@ -252,6 +264,12 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 			notifyGeometryChanged();
 		}
 
+		@Override
+		public void setIsVisible(boolean isVisible) {
+			performSuperSetter(IS_VISIBLE_KEY, isVisible);
+			refresh();
+			notifyGeometryChanged();
+		}
 	}
 
 }

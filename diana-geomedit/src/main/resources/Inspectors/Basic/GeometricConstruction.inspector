@@ -8,6 +8,12 @@
 			darkLevel="0" index="0" font="SansSerif,0,11" useScrollBar="true"
 			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
 			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="BasicTab">
+			<Label name="visibleLabel" label="visible" index="4"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				localize="true" />
+			<CheckBox name="visibleCB" selected="false" index="5" data="data.isVisible"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
+				localize="true" />
 			<!--  <Label label="foreground" index="100"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=10;insetsRight=2;insetsTop=5;location=left)"
 				name="ForegroundLabel" localize="true" />

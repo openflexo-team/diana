@@ -984,7 +984,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		if (getGraphicalRepresentation() == null) {
 			return false;
 		}
-		return getGraphicalRepresentation().getIsVisible() && getParentNode() != null && getParentNode().shouldBeDisplayed();
+		return getIsVisible() && getParentNode() != null && getParentNode().shouldBeDisplayed();
 	}
 
 	@Override
@@ -1285,6 +1285,22 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		public String toString() {
 			return "DrawingTreeNodeEvaluationContext for " + DrawingTreeNodeImpl.this;
 		}
+	}
+
+	/**
+	 * Convenient method used to retrieve visible property value
+	 */
+	@Override
+	public Boolean getIsVisible() {
+		return getPropertyValue(GraphicalRepresentation.IS_VISIBLE);
+	}
+
+	/**
+	 * Convenient method used to set visible property value
+	 */
+	@Override
+	public void setIsVisible(Boolean visible) {
+		setPropertyValue(GraphicalRepresentation.IS_VISIBLE, visible);
 	}
 
 	/**

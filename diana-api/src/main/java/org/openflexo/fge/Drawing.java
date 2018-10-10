@@ -423,6 +423,10 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public void setIsFocused(boolean aFlag);
 
+		public Boolean getIsVisible();
+
+		public void setIsVisible(Boolean visible);
+
 		public boolean hasText();
 
 		public String getText();
