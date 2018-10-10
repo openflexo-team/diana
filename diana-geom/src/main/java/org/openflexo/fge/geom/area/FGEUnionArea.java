@@ -80,11 +80,11 @@ public class FGEUnionArea extends FGEOperationArea {
 		return makeUnion(objects, true);
 	}
 
-	public static FGEArea makeUnion(List<? extends FGEArea> objects, boolean tryToReduceUnionByConcatenation) {
-		List<? extends FGEArea> objectsToTakeUnderAccount = reduceUnionByEmbedding(objects);
+	public static FGEArea makeUnion(List<? extends FGEArea> objects, boolean tryToReduceUnion) {
 
-		if (tryToReduceUnionByConcatenation) {
+		if (tryToReduceUnion) {
 
+			List<? extends FGEArea> objectsToTakeUnderAccount = reduceUnionByEmbedding(objects);
 			List<? extends FGEArea> concatenedObjects = reduceUnionByConcatenation(objectsToTakeUnderAccount);
 
 			if (concatenedObjects.size() == 0) {
@@ -109,17 +109,18 @@ public class FGEUnionArea extends FGEOperationArea {
 		}
 
 		else {
-			if (objectsToTakeUnderAccount.size() == 1) {
-				return objectsToTakeUnderAccount.get(0);
+			if (objects.size() == 1) {
+				return objects.get(0);
 			}
-			if (areAllShapes(objectsToTakeUnderAccount)) {
+			if (areAllShapes(objects)) {
 				List<FGEShape<?>> shapes = new ArrayList<>();
-				for (FGEArea o : objectsToTakeUnderAccount) {
+				for (FGEArea o : objects) {
 					shapes.add((FGEShape<?>) o);
 				}
+
 				return new FGEShapeUnion(shapes);
 			}
-			return new FGEUnionArea(objectsToTakeUnderAccount);
+			return new FGEUnionArea(objects);
 		}
 	}
 
