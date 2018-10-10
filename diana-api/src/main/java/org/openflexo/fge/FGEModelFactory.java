@@ -960,26 +960,48 @@ public abstract class FGEModelFactory extends ModelFactory {
 	 * @return
 	 */
 	// TODO: complete this
-	public ShapeSpecification makeShapeSpecification(FGEShape<?> shape) {
+	public ShapeSpecification makeShapeSpecification(FGEShape<?> shape, boolean relativePositionning) {
+		ShapeSpecification returned = null;
 		if (shape instanceof FGERectangle) {
-			return makeRectangle((FGERectangle) shape);
+			returned = makeRectangle((FGERectangle) shape);
+			if (relativePositionning) {
+				relocateAndResizeAccordingToBoundingBox(returned, shape);
+			}
 		}
 		if (shape instanceof FGERoundRectangle) {
-			return makeRectangle((FGERoundRectangle) shape);
+			returned = makeRectangle((FGERoundRectangle) shape);
+			if (relativePositionning) {
+				relocateAndResizeAccordingToBoundingBox(returned, shape);
+			}
 		}
 		if (shape instanceof FGEEllips) {
-			return makeOval((FGEEllips) shape);
+			returned = makeOval((FGEEllips) shape);
+			if (relativePositionning) {
+				relocateAndResizeAccordingToBoundingBox(returned, shape);
+			}
 		}
 		if (shape instanceof FGEArc) {
-			return makeArc((FGEArc) shape);
+			returned = makeArc((FGEArc) shape);
+			if (relativePositionning) {
+				relocateAndResizeAccordingToBoundingBox(returned, shape);
+			}
 		}
+		// Following ShapeSpecification are already declared as absolute positionning
 		if (shape instanceof FGEPolygon) {
-			return makePolygon((FGEPolygon) shape);
+			returned = makePolygon((FGEPolygon) shape);
 		}
 		if (shape instanceof FGEComplexCurve) {
-			return makeComplexCurve((FGEComplexCurve) shape);
+			returned = makeComplexCurve((FGEComplexCurve) shape);
 		}
-		return null;
+		return returned;
+	}
+
+	private void relocateAndResizeAccordingToBoundingBox(ShapeSpecification shapeSpecification, FGEShape<?> shape) {
+		FGERectangle bounds = shape.getBoundingBox();
+		shapeSpecification.setX(bounds.getX());
+		shapeSpecification.setY(bounds.getY());
+		shapeSpecification.setWidth(bounds.getWidth());
+		shapeSpecification.setHeight(bounds.getHeight());
 	}
 
 	/**
@@ -1133,12 +1155,17 @@ public abstract class FGEModelFactory extends ModelFactory {
 	public ShapeUnion makeShapeUnion(final FGEShapeUnion union) {
 		final ShapeUnion returned = this.newInstance(ShapeUnion.class);
 		for (FGEShape<?> shape : union.getShapes()) {
-			ShapeSpecification ss = makeShapeSpecification(shape);
-			FGERectangle bounds = shape.getBoundingBox();
-			ss.setX(bounds.getX());
-			ss.setY(bounds.getY());
-			ss.setWidth(bounds.getWidth());
-			ss.setHeight(bounds.getHeight());
+			ShapeSpecification ss = makeShapeSpecification(shape, true);
+			/*if ((ss instanceof ComplexCurve) || (ss instanceof Polygon)) {
+			
+			}
+			else {
+				FGERectangle bounds = shape.getBoundingBox();
+				ss.setX(bounds.getX());
+				ss.setY(bounds.getY());
+				ss.setWidth(bounds.getWidth());
+				ss.setHeight(bounds.getHeight());
+			}*/
 			returned.addToShapes(ss);
 		}
 		return returned;
