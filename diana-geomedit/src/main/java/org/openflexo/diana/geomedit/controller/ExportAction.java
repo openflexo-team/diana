@@ -45,6 +45,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -59,6 +60,7 @@ import org.openflexo.fge.geom.FGEComplexCurve;
 import org.openflexo.fge.geom.FGEGeneralShape;
 import org.openflexo.fge.geom.FGEPolygon;
 import org.openflexo.fge.geom.FGERectangle;
+import org.openflexo.fge.geom.FGEShapeUnion;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.rm.FileResourceImpl;
@@ -67,6 +69,8 @@ import org.openflexo.rm.ResourceLocator;
 import org.openflexo.swing.FlexoFileChooser;
 
 public class ExportAction extends AbstractEditorActionImpl {
+
+	private static final Logger logger = Logger.getLogger(ExportAction.class.getPackage().getName());
 
 	public ExportAction(GeomEditDrawingController anEditorController, JFrame frame) {
 		super("export", GeomEditIconLibrary.EXPORT_ICON, anEditorController, frame);
@@ -97,14 +101,14 @@ public class ExportAction extends AbstractEditorActionImpl {
 				exportFile = new File(exportFile.getParentFile(), exportFile.getName() + ".pel");
 			}
 			String name = exportFile.getName().substring(0, exportFile.getName().length() - 4);
-			System.out.println("Exporting to " + exportFile + " element " + object.getData());
+			logger.info("Exporting to " + exportFile + " element " + object.getData());
 			PaletteElementSpecification elSpec = exportPaletteElement(object, name, exportFile.getParentFile().listFiles().length);
 			FileOutputStream output;
 			try {
 				output = new FileOutputStream(exportFile);
 				getEditorController().getFactory().serialize(elSpec, output);
 				output.close();
-				System.out.println("Done.");
+				logger.info("Done.");
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -152,6 +156,9 @@ public class ExportAction extends AbstractEditorActionImpl {
 		else if (object.getData() instanceof FGEGeneralShape) {
 			gr.setShapeSpecification(factory.makeGeneralShape(makeNormalizedGeneralShape((FGEGeneralShape<?>) object.getData())));
 		}
+		else if (object.getData() instanceof FGEShapeUnion) {
+			gr.setShapeSpecification(factory.makeShapeUnion(makeNormalizedShapeUnion((FGEShapeUnion) object.getData())));
+		}
 		else {
 			gr.setShapeSpecification(factory.makeShape(ShapeType.RECTANGLE));
 		}
@@ -180,5 +187,13 @@ public class ExportAction extends AbstractEditorActionImpl {
 		AffineTransform scaleAT = AffineTransform.getScaleInstance(1 / boundingBox.getWidth(), 1 / boundingBox.getHeight());
 		FGEGeneralShape<?> normalizedGeneralShape = generalShape.transform(translateAT).transform(scaleAT);
 		return normalizedGeneralShape;
+	}
+
+	private FGEShapeUnion makeNormalizedShapeUnion(FGEShapeUnion shapeUnion) {
+		FGERectangle boundingBox = shapeUnion.getBoundingBox();
+		AffineTransform translateAT = AffineTransform.getTranslateInstance(-boundingBox.getX(), -boundingBox.getY());
+		AffineTransform scaleAT = AffineTransform.getScaleInstance(1 / boundingBox.getWidth(), 1 / boundingBox.getHeight());
+		FGEShapeUnion normalizedShapeUnion = shapeUnion.transform(translateAT).transform(scaleAT);
+		return normalizedShapeUnion;
 	}
 }
