@@ -59,6 +59,7 @@ import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.geom.FGESegment;
 import org.openflexo.fge.geom.FGEShape;
+import org.openflexo.fge.geom.FGEShapeUnion;
 import org.openflexo.fge.graphics.AbstractFGEGraphics;
 
 public class FGEUnionArea extends FGEOperationArea {
@@ -96,6 +97,14 @@ public class FGEUnionArea extends FGEOperationArea {
 			// System.out.println("Concatened objects: ");
 			// for (FGEArea o : concatenedObjects) System.out.println(" > "+o);
 
+			if (areAllShapes(concatenedObjects)) {
+				List<FGEShape<?>> shapes = new ArrayList<>();
+				for (FGEArea o : concatenedObjects) {
+					shapes.add((FGEShape<?>) o);
+				}
+				return new FGEShapeUnion(shapes);
+			}
+
 			return new FGEUnionArea(concatenedObjects);
 		}
 
@@ -103,8 +112,24 @@ public class FGEUnionArea extends FGEOperationArea {
 			if (objectsToTakeUnderAccount.size() == 1) {
 				return objectsToTakeUnderAccount.get(0);
 			}
+			if (areAllShapes(objectsToTakeUnderAccount)) {
+				List<FGEShape<?>> shapes = new ArrayList<>();
+				for (FGEArea o : objectsToTakeUnderAccount) {
+					shapes.add((FGEShape<?>) o);
+				}
+				return new FGEShapeUnion(shapes);
+			}
 			return new FGEUnionArea(objectsToTakeUnderAccount);
 		}
+	}
+
+	private static boolean areAllShapes(List<? extends FGEArea> objects) {
+		for (FGEArea area : objects) {
+			if (!(area instanceof FGEShape)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private static List<? extends FGEArea> reduceUnionByEmbedding(List<? extends FGEArea> objects) {

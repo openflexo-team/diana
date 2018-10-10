@@ -68,14 +68,20 @@ import org.openflexo.fge.control.MouseDragControl;
 import org.openflexo.fge.control.MouseDragControlAction;
 import org.openflexo.fge.control.PredefinedMouseClickControlActionType;
 import org.openflexo.fge.control.PredefinedMouseDragControlActionType;
+import org.openflexo.fge.geom.FGEArc;
 import org.openflexo.fge.geom.FGEComplexCurve;
 import org.openflexo.fge.geom.FGECubicCurve;
+import org.openflexo.fge.geom.FGEEllips;
 import org.openflexo.fge.geom.FGEGeneralShape;
 import org.openflexo.fge.geom.FGEGeneralShape.GeneralShapePathElement;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEPolygon;
 import org.openflexo.fge.geom.FGEQuadCurve;
+import org.openflexo.fge.geom.FGERectangle;
+import org.openflexo.fge.geom.FGERoundRectangle;
 import org.openflexo.fge.geom.FGESegment;
+import org.openflexo.fge.geom.FGEShape;
+import org.openflexo.fge.geom.FGEShapeUnion;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.shapes.Arc;
 import org.openflexo.fge.shapes.Chevron;
@@ -95,6 +101,7 @@ import org.openflexo.fge.shapes.RectangularOctogon;
 import org.openflexo.fge.shapes.RegularPolygon;
 import org.openflexo.fge.shapes.ShapeSpecification;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
+import org.openflexo.fge.shapes.ShapeUnion;
 import org.openflexo.fge.shapes.Square;
 import org.openflexo.fge.shapes.Star;
 import org.openflexo.fge.shapes.Triangle;
@@ -875,52 +882,7 @@ public abstract class FGEModelFactory extends ModelFactory {
 	}
 
 	/**
-	 * Make a new border, initialized with default values as in FGEConstants
-	 * 
-	 * @return a newly created ShapeBorder
-	 */
-	/*public ShapeBorder makeShapeBorder() {
-		final ShapeBorder returned = this.newInstance(ShapeBorder.class);
-		returned.setFactory(this);
-		returned.setTop(FGEConstants.DEFAULT_BORDER_SIZE);
-		returned.setBottom(FGEConstants.DEFAULT_BORDER_SIZE);
-		returned.setLeft(FGEConstants.DEFAULT_BORDER_SIZE);
-		returned.setRight(FGEConstants.DEFAULT_BORDER_SIZE);
-		return returned;
-	}*/
-
-	/**
-	 * Make a new border, initialized with supplied values
-	 * 
-	 * @return a newly created ShapeBorder
-	 */
-	/*public ShapeBorder makeShapeBorder(final int top, final int bottom, final int left, final int right) {
-		final ShapeBorder returned = this.newInstance(ShapeBorder.class);
-		returned.setFactory(this);
-		returned.setTop(top);
-		returned.setBottom(bottom);
-		returned.setLeft(left);
-		returned.setRight(right);
-		return returned;
-	}*/
-
-	/**
-	 * Make a new border, initialized with an other border
-	 * 
-	 * @return a newly created ShapeBorder
-	 */
-	/*public ShapeBorder makeShapeBorder(final ShapeBorder border) {
-		final ShapeBorder returned = this.newInstance(ShapeBorder.class);
-		returned.setFactory(this);
-		returned.setTop(border.getTop());
-		returned.setBottom(border.getBottom());
-		returned.setLeft(border.getLeft());
-		returned.setRight(border.getRight());
-		return returned;
-	}*/
-
-	/**
-	 * Make a new ShapeSpecification from corresponding ShapeType
+	 * Make a new {@link ShapeSpecification} from corresponding {@link ShapeType}
 	 * 
 	 * @param type
 	 * @return a newly created ShapeSpecification
@@ -973,6 +935,12 @@ public abstract class FGEModelFactory extends ModelFactory {
 			case STAR:
 				returned = this.newInstance(Star.class);
 				break;
+			case GENERALSHAPE:
+				returned = this.newInstance(GeneralShape.class);
+				break;
+			case UNION:
+				returned = this.newInstance(ShapeUnion.class);
+				break;
 			default:
 				LOGGER.warning("Unexpected ShapeType: " + type);
 				break;
@@ -986,7 +954,81 @@ public abstract class FGEModelFactory extends ModelFactory {
 	}
 
 	/**
-	 * Make a new Polygon with supplied polygon
+	 * Build a {@link ShapeSpecification} from a supplied {@link FGEShape}
+	 * 
+	 * @param shape
+	 * @return
+	 */
+	// TODO: complete this
+	public ShapeSpecification makeShapeSpecification(FGEShape<?> shape) {
+		if (shape instanceof FGERectangle) {
+			return makeRectangle((FGERectangle) shape);
+		}
+		if (shape instanceof FGERoundRectangle) {
+			return makeRectangle((FGERoundRectangle) shape);
+		}
+		if (shape instanceof FGEEllips) {
+			return makeOval((FGEEllips) shape);
+		}
+		if (shape instanceof FGEArc) {
+			return makeArc((FGEArc) shape);
+		}
+		if (shape instanceof FGEPolygon) {
+			return makePolygon((FGEPolygon) shape);
+		}
+		if (shape instanceof FGEComplexCurve) {
+			return makeComplexCurve((FGEComplexCurve) shape);
+		}
+		return null;
+	}
+
+	/**
+	 * Make a new Rectangle (as ShapeSpecification) with supplied {@link FGERectangle}
+	 * 
+	 * @return a newly created Rectangle
+	 */
+	public Rectangle makeRectangle(final FGERectangle aRectangle) {
+		final Rectangle rectangle = this.newInstance(Rectangle.class);
+		rectangle.setIsRounded(false);
+		return rectangle;
+	}
+
+	/**
+	 * Make a new Rectangle (as ShapeSpecification) with supplied {@link FGERoundRectangle}
+	 * 
+	 * @return a newly created Rectangle
+	 */
+	public Rectangle makeRectangle(final FGERoundRectangle aRectangle) {
+		final Rectangle rectangle = this.newInstance(Rectangle.class);
+		rectangle.setIsRounded(true);
+		return rectangle;
+	}
+
+	/**
+	 * Make a new Oval (as ShapeSpecification) with supplied {@link FGEEllips}
+	 * 
+	 * @return a newly created Oval
+	 */
+	public Oval makeOval(final FGEEllips anEllips) {
+		final Oval oval = this.newInstance(Oval.class);
+		return oval;
+	}
+
+	/**
+	 * Make a new Arc (as ShapeSpecification) with supplied {@link FGEArc}
+	 * 
+	 * @return a newly created Arc
+	 */
+	public Arc makeArc(final FGEArc anArc) {
+		final Arc arc = this.newInstance(Arc.class);
+		arc.setArcType(anArc.getFGEArcType());
+		arc.setAngleStart((int) anArc.getAngleStart());
+		arc.setAngleExtent((int) anArc.getAngleExtent());
+		return arc;
+	}
+
+	/**
+	 * Make a new Polygon (as ShapeSpecification) with supplied polygon
 	 * 
 	 * @param aGraphicalRepresentation
 	 * @param aPolygon
@@ -1079,6 +1121,27 @@ public abstract class FGEModelFactory extends ModelFactory {
 		}
 		generalShape.setClosure(aGeneralShape.getClosure());
 		return generalShape;
+	}
+
+	/**
+	 * Make union as {@link ShapeSpecification} from supplied {@link FGEShapeUnion}
+	 * 
+	 * @param points
+	 * 
+	 * @return a newly created ShapeUnion
+	 */
+	public ShapeUnion makeShapeUnion(final FGEShapeUnion union) {
+		final ShapeUnion returned = this.newInstance(ShapeUnion.class);
+		for (FGEShape<?> shape : union.getShapes()) {
+			ShapeSpecification ss = makeShapeSpecification(shape);
+			FGERectangle bounds = shape.getBoundingBox();
+			ss.setX(bounds.getX());
+			ss.setY(bounds.getY());
+			ss.setWidth(bounds.getWidth());
+			ss.setHeight(bounds.getHeight());
+			returned.addToShapes(ss);
+		}
+		return returned;
 	}
 
 	/**

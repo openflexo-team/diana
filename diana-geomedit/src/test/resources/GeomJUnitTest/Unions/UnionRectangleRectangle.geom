@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GeometricDiagram id="0" name="untitled-1">
+<GeometricDiagram id="0" name="UnionRectangleRectangle.geom">
   <RectangleWithTwoPointsConstruction id="1" name="Rectangle0">
     <P1_ExplicitPointConstruction id="2" point="142.0,151.0" name="Point3" />
     <P2_ExplicitPointConstruction id="3" point="291.0,280.0" name="Point4" />
@@ -10,15 +10,15 @@
     </RectangleGraphicalRepresentation>
   </RectangleWithTwoPointsConstruction>
   <RectangleWithTwoPointsConstruction id="8" name="Rectangle1">
-    <P1_ExplicitPointConstruction id="9" point="233.0,207.0" name="Point5" />
-    <P2_ExplicitPointConstruction id="10" point="532.0,389.0" name="Point6" />
+    <P1_ExplicitPointConstruction id="9" point="233.0,199.0" name="Point5" />
+    <P2_ExplicitPointConstruction id="10" point="533.0,389.0" name="Point6" />
     <ColorBackgroundStyle id="11" color="254,247,217" transparencyLevel="0.5" />
     <ForegroundStyle id="12" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
     <RectangleGraphicalRepresentation id="13" identifier="7b080e1a">
       <TextStyle id="14" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
     </RectangleGraphicalRepresentation>
   </RectangleWithTwoPointsConstruction>
-  <UnionConstruction id="15" name="Union2">
+  <UnionConstruction id="15" mergeContents="false" name="Union2">
     <ObjectReference id="16" name="Construction7">
       <RectangleWithTwoPointsConstruction idref="1" />
     </ObjectReference>

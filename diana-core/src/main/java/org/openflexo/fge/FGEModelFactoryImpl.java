@@ -136,6 +136,7 @@ import org.openflexo.fge.shapes.Rectangle;
 import org.openflexo.fge.shapes.RectangularOctogon;
 import org.openflexo.fge.shapes.RegularPolygon;
 import org.openflexo.fge.shapes.ShapeSpecification;
+import org.openflexo.fge.shapes.ShapeUnion;
 import org.openflexo.fge.shapes.Square;
 import org.openflexo.fge.shapes.Star;
 import org.openflexo.fge.shapes.Triangle;
@@ -157,6 +158,7 @@ import org.openflexo.fge.shapes.impl.RectangleImpl;
 import org.openflexo.fge.shapes.impl.RectangularOctogonImpl;
 import org.openflexo.fge.shapes.impl.RegularPolygonImpl;
 import org.openflexo.fge.shapes.impl.ShapeSpecificationImpl;
+import org.openflexo.fge.shapes.impl.ShapeUnionImpl;
 import org.openflexo.fge.shapes.impl.SquareImpl;
 import org.openflexo.fge.shapes.impl.StarImpl;
 import org.openflexo.fge.shapes.impl.TriangleImpl;
@@ -242,6 +244,7 @@ public class FGEModelFactoryImpl extends FGEModelFactory {
 		modelFactory.setImplementingClassForInterface(PlusImpl.class, Plus.class);
 		modelFactory.setImplementingClassForInterface(ChevronImpl.class, Chevron.class);
 		modelFactory.setImplementingClassForInterface(ParallelogramImpl.class, Parallelogram.class);
+		modelFactory.setImplementingClassForInterface(ShapeUnionImpl.class, ShapeUnion.class);
 
 		modelFactory.setImplementingClassForInterface(ConnectorSpecificationImpl.class, ConnectorSpecification.class);
 		modelFactory.setImplementingClassForInterface(LineConnectorSpecificationImpl.class, LineConnectorSpecification.class);

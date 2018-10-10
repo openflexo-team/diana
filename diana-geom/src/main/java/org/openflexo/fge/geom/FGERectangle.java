@@ -960,9 +960,6 @@ public class FGERectangle extends Rectangle2D.Double implements FGEShape<FGERect
 		return true;
 	}
 
-	/**
-	 * This area is finite, so always return null
-	 */
 	@Override
 	public final FGERectangle getEmbeddingBounds() {
 		return new FGERectangle(x, y, width, height, Filling.FILLED);
