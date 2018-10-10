@@ -152,6 +152,8 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 				new DataBinding<ForegroundStyle>("drawable.foreground"), true);
 		constructionBinding.setDynamicPropertyValue(GeometricGraphicalRepresentation.BACKGROUND,
 				new DataBinding<BackgroundStyle>("drawable.background"), true);
+		constructionBinding.setDynamicPropertyValue(GraphicalRepresentation.IS_VISIBLE, new DataBinding<Boolean>("drawable.isVisible"),
+				true);
 
 	}
 
