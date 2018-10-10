@@ -69,14 +69,16 @@ public abstract class ComplexCurveImpl extends ShapeSpecificationImpl implements
 	public ComplexCurveImpl(List<FGEPoint> points) {
 		this();
 		for (FGEPoint pt : points) {
-			this.points.add(pt);
+			// this.points.add(pt);
+			addToPoints(pt);
 		}
 	}
 
 	public ComplexCurveImpl(FGEComplexCurve curve) {
 		this();
 		for (FGEPoint pt : curve.getPoints()) {
-			points.add(pt);
+			// points.add(pt);
+			addToPoints(pt);
 		}
 	}
 
