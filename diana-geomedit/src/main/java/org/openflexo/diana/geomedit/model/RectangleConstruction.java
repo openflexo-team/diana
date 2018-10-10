@@ -190,5 +190,12 @@ public interface RectangleConstruction extends GeometricConstruction<FGERectangl
 			getPropertyChangeSupport().firePropertyChange(HEIGHT_KEY, null, getHeight());
 		}
 
+		@Override
+		public void setIsFilled(boolean isFilled) {
+			performSuperSetter(IS_FILLED_KEY, isFilled);
+			refresh();
+			notifyGeometryChanged();
+		}
+
 	}
 }
