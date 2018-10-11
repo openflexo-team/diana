@@ -125,7 +125,10 @@ public class FGEEllips extends FGEArc {
 
 		if (t_bounds instanceof FGEShape) {
 			FGERectangle boundingBox = ((FGEShape<?>) t_bounds).getBoundingBox();
-			return new FGEEllips(newCenter, new FGEDimension(boundingBox.getWidth(), boundingBox.getHeight()), _filling);
+			FGEEllips returned = new FGEEllips(newCenter, new FGEDimension(boundingBox.getWidth(), boundingBox.getHeight()), _filling);
+			returned.setForeground(getForeground());
+			returned.setBackground(getBackground());
+			return returned;
 		}
 		logger.warning("Cannot compute transform for " + this + " with " + t);
 		return (FGEEllips) clone();

@@ -49,6 +49,7 @@ import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentat
 import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.cp.ControlPoint;
+import org.openflexo.fge.geom.FGEShape;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.fge.notifications.GeometryModified;
 import org.openflexo.model.annotations.CloningStrategy;
@@ -157,10 +158,36 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 			ensureUpToDate();
 
 			if (computedData == null) {
-				computedData = computeData();
+				computedData = performComputeData();
+
 			}
 
 			return computedData;
+		}
+
+		private A performComputeData() {
+			A returned = computeData();
+			if (returned instanceof FGEShape) {
+				((FGEShape<?>) returned).setForeground(getForeground());
+				((FGEShape<?>) returned).setBackground(getBackground());
+			}
+			return returned;
+		}
+
+		@Override
+		public void setForeground(ForegroundStyle aForeground) {
+			performSuperSetter(FOREGROUND_KEY, aForeground);
+			if (computedData instanceof FGEShape) {
+				((FGEShape<?>) computedData).setForeground(getForeground());
+			}
+		}
+
+		@Override
+		public void setBackground(BackgroundStyle aBackground) {
+			performSuperSetter(BACKGROUND_KEY, aBackground);
+			if (computedData instanceof FGEShape) {
+				((FGEShape<?>) computedData).setBackground(getBackground());
+			}
 		}
 
 		private void ensureUpToDate() {
@@ -194,7 +221,7 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 					c.refresh();
 				}
 			}
-			computedData = computeData();
+			computedData = performComputeData();
 			getPropertyChangeSupport().firePropertyChange("data", oldData, computedData);
 		}
 

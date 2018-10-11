@@ -1,9 +1,8 @@
 /**
  * 
- * Copyright (c) 2013-2014, Openflexo
- * Copyright (c) 2011-2012, AgileBirds
+ * Copyright (c) 2014-2018, Openflexo
  * 
- * This file is part of Diana-api, a component of the software infrastructure 
+ * This file is part of Diana-geom, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -39,11 +38,12 @@
 
 package org.openflexo.fge.graphics;
 
-import org.openflexo.fge.GeometricGraphicalRepresentation;
-
-public interface FGEGeometricGraphics extends FGEGraphics {
-
-	@Override
-	public abstract GeometricGraphicalRepresentation getGraphicalRepresentation();
+/**
+ * Default API for foreground style
+ * 
+ * @author sylvain
+ *
+ */
+public interface FGStyle {
 
 }

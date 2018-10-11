@@ -56,6 +56,8 @@ import org.openflexo.fge.geom.area.FGEIntersectionArea;
 import org.openflexo.fge.geom.area.FGESubstractionArea;
 import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.fge.graphics.AbstractFGEGraphics;
+import org.openflexo.fge.graphics.BGStyle;
+import org.openflexo.fge.graphics.FGStyle;
 
 @SuppressWarnings("serial")
 public class FGERoundRectangle extends RoundRectangle2D.Double implements FGEShape<FGERoundRectangle> {
@@ -63,6 +65,8 @@ public class FGERoundRectangle extends RoundRectangle2D.Double implements FGESha
 	private static final Logger logger = Logger.getLogger(FGERoundRectangle.class.getPackage().getName());
 
 	protected Filling _filling;
+	private FGStyle foreground;
+	private BGStyle background;
 
 	public FGERoundRectangle() {
 		this(0, 0, 0, 0, 0, 0, Filling.NOT_FILLED);
@@ -827,12 +831,18 @@ public class FGERoundRectangle extends RoundRectangle2D.Double implements FGESha
 		// TODO: if transformation contains a rotation, turn into a regular polygon
 		// arcwidth,archeight must also be computed according to this rotation
 
-		return new FGERoundRectangle(Math.min(p1.x, p2.x), Math.min(p1.y, p2.y), Math.abs(p1.x - p2.x), Math.abs(p1.y - p2.y),
-				arcwidth * t.getScaleX(), archeight * t.getScaleY(), _filling);
+		FGERoundRectangle returned = new FGERoundRectangle(Math.min(p1.x, p2.x), Math.min(p1.y, p2.y), Math.abs(p1.x - p2.x),
+				Math.abs(p1.y - p2.y), arcwidth * t.getScaleX(), archeight * t.getScaleY(), _filling);
+		returned.setForeground(getForeground());
+		returned.setBackground(getBackground());
+		return returned;
 	}
 
 	@Override
 	public void paint(AbstractFGEGraphics g) {
+		g.setDefaultBackgroundStyle(this);
+		g.setDefaultForegroundStyle(this);
+
 		if (getIsFilled()) {
 			g.useDefaultBackgroundStyle();
 			g.fillRoundRect(getX(), getY(), getWidth(), getHeight(), arcwidth, archeight);
@@ -951,6 +961,48 @@ public class FGERoundRectangle extends RoundRectangle2D.Double implements FGESha
 	@Override
 	public final FGERectangle getEmbeddingBounds() {
 		return new FGERectangle(x, y, width, height, Filling.FILLED);
+	}
+
+	/**
+	 * Return background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public BGStyle getBackground() {
+		return background;
+	}
+
+	/**
+	 * Sets background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aBackground
+	 */
+	@Override
+	public void setBackground(BGStyle aBackground) {
+		this.background = aBackground;
+	}
+
+	/**
+	 * Return foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public FGStyle getForeground() {
+		return foreground;
+	}
+
+	/**
+	 * Sets foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aForeground
+	 */
+	@Override
+	public void setForeground(FGStyle aForeground) {
+		this.foreground = aForeground;
 	}
 
 }

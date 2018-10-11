@@ -52,6 +52,8 @@ import org.openflexo.fge.geom.area.FGEExclusiveOrArea;
 import org.openflexo.fge.geom.area.FGESubstractionArea;
 import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.fge.graphics.AbstractFGEGraphics;
+import org.openflexo.fge.graphics.BGStyle;
+import org.openflexo.fge.graphics.FGStyle;
 
 /**
  * Implements a union (a finite collection) of {@link FGEShape}<br>
@@ -66,6 +68,8 @@ public class FGEShapeUnion extends Rectangle2D.Double implements FGEShape<FGESha
 	private static final Logger logger = Logger.getLogger(FGEShapeUnion.class.getPackage().getName());
 
 	private List<FGEShape<?>> shapes;
+	private FGStyle foreground;
+	private BGStyle background;
 
 	public FGEShapeUnion() {
 		super();
@@ -133,7 +137,9 @@ public class FGEShapeUnion extends Rectangle2D.Double implements FGEShape<FGESha
 		StringBuffer sb = new StringBuffer();
 		sb.append("FGEShapeUnion: nObjects=" + shapes.size() + "\n");
 		for (int i = 0; i < shapes.size(); i++) {
-			sb.append(" " + (i + 1) + " > " + shapes.get(i) + "\n");
+			sb.append(" " + (i + 1) + " > " + shapes.get(i)
+			/*+ " BG=" + shapes.get(i).getBackground() + " FG="
+			+ shapes.get(i).getForeground()*/ + "\n");
 		}
 		return sb.toString();
 	}
@@ -183,11 +189,17 @@ public class FGEShapeUnion extends Rectangle2D.Double implements FGEShape<FGESha
 		for (int i = 0; i < shapes.size(); i++) {
 			all[i] = (FGEShape<?>) shapes.get(i).transform(t);
 		}
-		return new FGEShapeUnion(all);
+		FGEShapeUnion returned = new FGEShapeUnion(all);
+		returned.setForeground(getForeground());
+		returned.setBackground(getBackground());
+		return returned;
 	}
 
 	@Override
 	public void paint(AbstractFGEGraphics g) {
+		g.setDefaultBackgroundStyle(this);
+		g.setDefaultForegroundStyle(this);
+
 		for (FGEShape<?> a : shapes) {
 			a.paint(g);
 		}
@@ -438,4 +450,47 @@ public class FGEShapeUnion extends Rectangle2D.Double implements FGEShape<FGESha
 	public FGEPoint getCenter() {
 		return new FGEPoint(getCenterX(), getCenterY());
 	}
+
+	/**
+	 * Return background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public BGStyle getBackground() {
+		return background;
+	}
+
+	/**
+	 * Sets background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aBackground
+	 */
+	@Override
+	public void setBackground(BGStyle aBackground) {
+		this.background = aBackground;
+	}
+
+	/**
+	 * Return foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public FGStyle getForeground() {
+		return foreground;
+	}
+
+	/**
+	 * Sets foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aForeground
+	 */
+	@Override
+	public void setForeground(FGStyle aForeground) {
+		this.foreground = aForeground;
+	}
+
 }

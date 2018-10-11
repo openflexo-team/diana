@@ -993,6 +993,13 @@ public abstract class FGEModelFactory extends ModelFactory {
 		if (shape instanceof FGEComplexCurve) {
 			returned = makeComplexCurve((FGEComplexCurve) shape);
 		}
+		if (shape instanceof FGEGeneralShape) {
+			returned = makeGeneralShape((FGEGeneralShape<?>) shape);
+		}
+
+		returned.setForeground((ForegroundStyle) shape.getForeground());
+		returned.setBackground((BackgroundStyle) shape.getBackground());
+
 		return returned;
 	}
 

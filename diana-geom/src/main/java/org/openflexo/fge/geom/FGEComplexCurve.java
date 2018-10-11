@@ -260,6 +260,8 @@ public class FGEComplexCurve extends FGEGeneralShape<FGEComplexCurve> {
 			points.add(p.transform(t));
 		}
 		FGEComplexCurve returned = new FGEComplexCurve(getClosure(), points);
+		returned.setForeground(getForeground());
+		returned.setBackground(getBackground());
 		return returned;
 	}
 

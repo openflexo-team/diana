@@ -40,6 +40,8 @@
 package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.model.ObjectReference.ObjectReferenceImpl;
+import org.openflexo.fge.BackgroundStyle;
+import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.geom.area.FGEArea;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
@@ -79,6 +81,16 @@ public interface ObjectReference<O extends FGEArea> extends GeometricConstructio
 				this.reference = reference;
 				getPropertyChangeSupport().firePropertyChange("reference", oldValue, reference);
 			}
+		}
+
+		@Override
+		public BackgroundStyle getBackground() {
+			return reference.getBackground();
+		}
+
+		@Override
+		public ForegroundStyle getForeground() {
+			return reference.getForeground();
 		}
 
 		@Override

@@ -228,6 +228,8 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 		g.setDefaultForeground(getForegroundStyle());
 		g.setDefaultTextStyle(getTextStyle());
 
+		paintGeometricObject(g);
+
 		if (getIsSelected() || getIsFocused()) {
 			ForegroundStyle style = (ForegroundStyle) getForegroundStyle().clone();
 			if (getIsSelected()) {
@@ -241,8 +243,6 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 
 		// System.out.println("Attempt to paint " + getGeometricObject() + " with " + g + " dtn=" +
 		// g.getNode());
-
-		paintGeometricObject(g);
 
 		if (getIsSelected() || getIsFocused()) {
 			// Unused Color color = null;

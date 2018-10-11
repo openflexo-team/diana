@@ -49,6 +49,7 @@ import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.geom.FGEShape;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 import org.openflexo.fge.impl.FGECachedModelFactory;
 import org.openflexo.fge.swing.view.JShapeView;
@@ -136,9 +137,12 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 		}
 	}
 
+	private boolean isPaintingShadow = false;
+
 	@Override
 	public void paintShadow() {
 
+		isPaintingShadow = true;
 		double deep = getGraphicalRepresentation().getShadowStyle().getShadowDepth();
 		int blur = getGraphicalRepresentation().getShadowStyle().getShadowBlur();
 		double viewWidth = getViewWidth(1.0);
@@ -175,7 +179,22 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 			getNode().getFGEShape().transform(at).paint(this);
 		}
 		releaseClonedGraphics(oldGraphics);
+		isPaintingShadow = false;
 
+	}
+
+	@Override
+	public void setDefaultBackgroundStyle(FGEShape<?> shape) {
+		if (!isPaintingShadow) {
+			super.setDefaultBackgroundStyle(shape);
+		}
+	}
+
+	@Override
+	public void setDefaultForegroundStyle(FGEShape<?> shape) {
+		if (!isPaintingShadow) {
+			super.setDefaultForegroundStyle(shape);
+		}
 	}
 
 }

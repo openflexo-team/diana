@@ -57,6 +57,8 @@ import org.openflexo.fge.geom.area.FGEIntersectionArea;
 import org.openflexo.fge.geom.area.FGESubstractionArea;
 import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.fge.graphics.AbstractFGEGraphics;
+import org.openflexo.fge.graphics.BGStyle;
+import org.openflexo.fge.graphics.FGStyle;
 
 @SuppressWarnings("serial")
 public class FGEArc extends Arc2D.Double implements FGEShape<FGEArc> {
@@ -79,6 +81,9 @@ public class FGEArc extends Arc2D.Double implements FGEShape<FGEArc> {
 		 */
 		PIE
 	}
+
+	private FGStyle foreground;
+	private BGStyle background;
 
 	public FGEArc() {
 		super(ArcType.OPEN.ordinal());
@@ -1012,8 +1017,11 @@ public class FGEArc extends Arc2D.Double implements FGEShape<FGEArc> {
 		FGEPoint p2 = new FGEPoint(getX() + getWidth(), getY() + getHeight()).transform(t);
 
 		// TODO: if transformation contains a rotation, change angle start, with and heigth are not correct either
-		return new FGEArc(Math.min(p1.x, p2.x), Math.min(p1.y, p2.y), Math.abs(p1.x - p2.x), Math.abs(p1.y - p2.y), getAngleStart(),
-				getAngleExtent(), getFGEArcType());
+		FGEArc returned = new FGEArc(Math.min(p1.x, p2.x), Math.min(p1.y, p2.y), Math.abs(p1.x - p2.x), Math.abs(p1.y - p2.y),
+				getAngleStart(), getAngleExtent(), getFGEArcType());
+		returned.setForeground(getForeground());
+		returned.setBackground(getBackground());
+		return returned;
 	}
 
 	@Override
@@ -1032,6 +1040,10 @@ public class FGEArc extends Arc2D.Double implements FGEShape<FGEArc> {
 
 	@Override
 	public void paint(AbstractFGEGraphics g) {
+
+		g.setDefaultBackgroundStyle(this);
+		g.setDefaultForegroundStyle(this);
+
 		if (getFGEArcType() == ArcType.CHORD || getFGEArcType() == ArcType.PIE) {
 			g.useDefaultBackgroundStyle();
 			g.fillArc(getX(), getY(), getWidth(), getHeight(), getAngleStart(), getAngleExtent(), getFGEArcType() == ArcType.CHORD);
@@ -1532,6 +1544,48 @@ public class FGEArc extends Arc2D.Double implements FGEShape<FGEArc> {
 			double angle = getAngleStart() + getAngleExtent() / 2;
 			return getPointAtAngle(angle);
 		}
+	}
+
+	/**
+	 * Return background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public BGStyle getBackground() {
+		return background;
+	}
+
+	/**
+	 * Sets background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aBackground
+	 */
+	@Override
+	public void setBackground(BGStyle aBackground) {
+		this.background = aBackground;
+	}
+
+	/**
+	 * Return foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public FGStyle getForeground() {
+		return foreground;
+	}
+
+	/**
+	 * Sets foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aForeground
+	 */
+	@Override
+	public void setForeground(FGStyle aForeground) {
+		this.foreground = aForeground;
 	}
 
 }

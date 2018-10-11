@@ -52,17 +52,56 @@ import org.openflexo.fge.geom.FGEPolygon;
 import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geom.FGEQuadCurve;
 import org.openflexo.fge.geom.FGERectangle;
+import org.openflexo.fge.geom.FGEShape;
 
+/**
+ * General API for a graphics component responsible for painting
+ * 
+ * @author sylvain
+ *
+ */
 public interface AbstractFGEGraphics {
 
+	/**
+	 * Return the normalized bounds of node beeing painted
+	 * 
+	 * @return
+	 */
 	public FGERectangle getNodeNormalizedBounds();
 
+	/**
+	 * Directive used to choose foreground style declared as default
+	 */
 	public abstract void useDefaultForegroundStyle();
 
+	/**
+	 * Directive used to choose background style declared as default
+	 */
 	public abstract void useDefaultBackgroundStyle();
 
+	/**
+	 * Directive used to choose text style declared as default
+	 */
 	public abstract void useDefaultTextStyle();
 
+	/**
+	 * Sets default foreground style with the one specified bu supplied shape, if any (does nothing when null)
+	 */
+	public abstract void setDefaultForegroundStyle(FGEShape<?> shape);
+
+	/**
+	 * Sets default background style with the one specified bu supplied shape, if any (does nothing when null)
+	 */
+	public abstract void setDefaultBackgroundStyle(FGEShape<?> shape);
+
+	/**
+	 * Draw control point at specified location, and with specified size
+	 * 
+	 * @param x
+	 * @param y
+	 * @param size
+	 * @return
+	 */
 	public abstract Rectangle drawControlPoint(double x, double y, int size);
 
 	public abstract void drawPoint(FGEPoint p);

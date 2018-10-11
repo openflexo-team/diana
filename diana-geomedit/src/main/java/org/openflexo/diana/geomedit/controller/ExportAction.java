@@ -60,6 +60,7 @@ import org.openflexo.fge.geom.FGEComplexCurve;
 import org.openflexo.fge.geom.FGEGeneralShape;
 import org.openflexo.fge.geom.FGEPolygon;
 import org.openflexo.fge.geom.FGERectangle;
+import org.openflexo.fge.geom.FGEShape;
 import org.openflexo.fge.geom.FGEShapeUnion;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.model.exceptions.ModelDefinitionException;
@@ -147,6 +148,7 @@ public class ExportAction extends AbstractEditorActionImpl {
 		gr.setRelativeTextY(0.5);
 		gr.setWidth(1);
 		gr.setHeight(1);
+		// TODO: factorize this code using FGEShape only
 		if (object.getData() instanceof FGEPolygon) {
 			gr.setShapeSpecification(factory.makePolygon(makeNormalizedPolygon((FGEPolygon) object.getData())));
 		}
@@ -159,10 +161,21 @@ public class ExportAction extends AbstractEditorActionImpl {
 		else if (object.getData() instanceof FGEShapeUnion) {
 			gr.setShapeSpecification(factory.makeShapeUnion(makeNormalizedShapeUnion((FGEShapeUnion) object.getData())));
 		}
+		else if (object.getData() instanceof FGEShape) {
+			gr.setShapeSpecification(factory.makeShapeSpecification(makeNormalizedShape((FGEShape) object.getData()), false));
+		}
 		else {
 			gr.setShapeSpecification(factory.makeShape(ShapeType.RECTANGLE));
 		}
 		return elSpec;
+	}
+
+	private FGEShape<?> makeNormalizedShape(FGEShape<?> shape) {
+		FGERectangle boundingBox = shape.getBoundingBox();
+		AffineTransform translateAT = AffineTransform.getTranslateInstance(-boundingBox.getX(), -boundingBox.getY());
+		AffineTransform scaleAT = AffineTransform.getScaleInstance(1 / boundingBox.getWidth(), 1 / boundingBox.getHeight());
+		FGEShape<?> normalizedShape = (FGEShape<?>) shape.transform(translateAT).transform(scaleAT);
+		return normalizedShape;
 	}
 
 	private FGEPolygon makeNormalizedPolygon(FGEPolygon polygon) {

@@ -40,6 +40,8 @@
 package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.model.PointReference.PointReferenceImpl;
+import org.openflexo.fge.BackgroundStyle;
+import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
@@ -68,6 +70,16 @@ public interface PointReference extends PointConstruction {
 		@Override
 		protected FGEPoint computeData() {
 			return getReference().getData();
+		}
+
+		@Override
+		public BackgroundStyle getBackground() {
+			return getReference().getBackground();
+		}
+
+		@Override
+		public ForegroundStyle getForeground() {
+			return getReference().getForeground();
 		}
 
 		@Override

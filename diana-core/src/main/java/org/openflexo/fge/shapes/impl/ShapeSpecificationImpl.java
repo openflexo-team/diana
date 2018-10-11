@@ -112,7 +112,14 @@ public abstract class ShapeSpecificationImpl extends FGEObjectImpl implements Sh
 		FGEShape<?> shape = makeNormalizedFGEShape(node);
 		AffineTransform translateAT = AffineTransform.getTranslateInstance(getX(), getY());
 		AffineTransform scaleAT = AffineTransform.getScaleInstance(getWidth(), getHeight());
-		return (FGEShape<?>) shape.transform(scaleAT).transform(translateAT);
+		FGEShape<?> returned = (FGEShape<?>) shape.transform(scaleAT).transform(translateAT);
+		if (getForeground() != null) {
+			returned.setForeground(getForeground());
+		}
+		if (getBackground() != null) {
+			returned.setBackground(getBackground());
+		}
+		return returned;
 	}
 
 	@Override

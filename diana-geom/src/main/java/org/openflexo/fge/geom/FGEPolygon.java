@@ -60,6 +60,8 @@ import org.openflexo.fge.geom.area.FGEIntersectionArea;
 import org.openflexo.fge.geom.area.FGESubstractionArea;
 import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.fge.graphics.AbstractFGEGraphics;
+import org.openflexo.fge.graphics.BGStyle;
+import org.openflexo.fge.graphics.FGStyle;
 
 /**
  * The <code>FGEPolygon</code> class encapsulates a description of a closed, two-dimensional region within a coordinate space. This region
@@ -78,6 +80,9 @@ public class FGEPolygon implements FGEShape<FGEPolygon> {
 
 	protected Vector<FGEPoint> _points;
 	protected Vector<FGESegment> _segments;
+
+	private FGStyle foreground;
+	private BGStyle background;
 
 	private FGERectangle bounds;
 
@@ -582,11 +587,16 @@ public class FGEPolygon implements FGEShape<FGEPolygon> {
 			points.add(p.transform(t));
 		}
 		FGEPolygon returned = new FGEPolygon(_filling, points);
+		returned.setForeground(getForeground());
+		returned.setBackground(getBackground());
 		return returned;
 	}
 
 	@Override
 	public void paint(AbstractFGEGraphics g) {
+		g.setDefaultBackgroundStyle(this);
+		g.setDefaultForegroundStyle(this);
+
 		if (getIsFilled()) {
 			g.useDefaultBackgroundStyle();
 			g.fillPolygon(getPoints().toArray(new FGEPoint[getPoints().size()]));
@@ -1140,6 +1150,48 @@ public class FGEPolygon implements FGEShape<FGEPolygon> {
 		pts.addAll(getPoints());
 		pts.add(getPoints().firstElement());
 		return new FGEPolylin(pts);
+	}
+
+	/**
+	 * Return background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public BGStyle getBackground() {
+		return background;
+	}
+
+	/**
+	 * Sets background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aBackground
+	 */
+	@Override
+	public void setBackground(BGStyle aBackground) {
+		this.background = aBackground;
+	}
+
+	/**
+	 * Return foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public FGStyle getForeground() {
+		return foreground;
+	}
+
+	/**
+	 * Sets foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aForeground
+	 */
+	@Override
+	public void setForeground(FGStyle aForeground) {
+		this.foreground = aForeground;
 	}
 
 }

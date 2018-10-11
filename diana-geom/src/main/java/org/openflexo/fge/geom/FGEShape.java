@@ -42,6 +42,9 @@ package org.openflexo.fge.geom;
 import java.awt.Shape;
 import java.util.logging.Logger;
 
+import org.openflexo.fge.graphics.BGStyle;
+import org.openflexo.fge.graphics.FGStyle;
+
 /**
  * Implementation of a finite area
  * 
@@ -63,5 +66,35 @@ public interface FGEShape<O extends FGEGeometricObject<O>> extends FGEGeometricO
 	public FGEPoint getCenter();
 
 	public FGERectangle getBoundingBox();
+
+	/**
+	 * Return background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	public BGStyle getBackground();
+
+	/**
+	 * Sets background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aBackground
+	 */
+	public void setBackground(BGStyle aBackground);
+
+	/**
+	 * Return foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	public FGStyle getForeground();
+
+	/**
+	 * Sets foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aForeground
+	 */
+	public void setForeground(FGStyle aForeground);
 
 }

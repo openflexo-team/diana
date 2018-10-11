@@ -64,6 +64,7 @@ import org.openflexo.fge.geom.FGEPolygon;
 import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geom.FGEQuadCurve;
 import org.openflexo.fge.geom.FGERectangle;
+import org.openflexo.fge.geom.FGEShape;
 import org.openflexo.fge.view.FGEView;
 
 /**
@@ -139,6 +140,20 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 	@Override
 	public void delete() {
 		dtn = null;
+	}
+
+	@Override
+	public void setDefaultForegroundStyle(FGEShape<?> shape) {
+		if (shape.getForeground() instanceof ForegroundStyle) {
+			setDefaultForeground((ForegroundStyle) shape.getForeground());
+		}
+	}
+
+	@Override
+	public void setDefaultBackgroundStyle(FGEShape<?> shape) {
+		if (shape.getBackground() instanceof BackgroundStyle) {
+			setDefaultBackground((BackgroundStyle) shape.getBackground());
+		}
 	}
 
 	@Override
