@@ -194,11 +194,11 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 			// Recursively called ensureUpToDate() on dependancies
 			if (getDepends() != null) {
 				for (GeometricConstruction<?> d : getDepends()) {
-					if (!listened.contains(d)) {
+					if (d != null && !listened.contains(d)) {
 						listened.add(d);
 						d.getPropertyChangeSupport().addPropertyChangeListener(this);
+						((GeometricConstructionImpl<?>) d).ensureUpToDate();
 					}
-					((GeometricConstructionImpl<?>) d).ensureUpToDate();
 				}
 			}
 		}
