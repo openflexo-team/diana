@@ -80,14 +80,17 @@ public interface HalfPlaneWithLineAndPointConstruction extends HalfPlaneConstruc
 
 		@Override
 		protected FGEHalfPlane computeData() {
-			FGEHalfPlane returned = new FGEHalfPlane(lineConstruction.getLine(), pointConstruction.getPoint());
-			return returned;
+			if (getLineConstruction() != null && getPointConstruction() != null) {
+				FGEHalfPlane returned = new FGEHalfPlane(getLineConstruction().getLine(), getPointConstruction().getPoint());
+				return returned;
+			}
+			return null;
 		}
 
 		@Override
 		public String toString() {
-			return "HalfPlaneWithLineAndPointConstruction[\n" + "> " + lineConstruction.toString() + "\n> " + pointConstruction.toString()
-					+ "\n]";
+			return "HalfPlaneWithLineAndPointConstruction[\n" + "> " + getLineConstruction().toString() + "\n> "
+					+ getPointConstruction().toString() + "\n]";
 		}
 
 		@Override

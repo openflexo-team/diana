@@ -110,7 +110,10 @@ public interface HalfLineWithTwoPointsConstruction extends HalfLineConstruction 
 
 		@Override
 		protected FGEHalfLine computeData() {
-			return new FGEHalfLine(limitPointConstruction.getPoint(), oppositePointConstruction.getPoint());
+			if (getLimitPointConstruction() != null && oppositePointConstruction != null) {
+				return new FGEHalfLine(getLimitPointConstruction().getPoint(), getOppositePointConstruction().getPoint());
+			}
+			return null;
 		}
 
 		@Override

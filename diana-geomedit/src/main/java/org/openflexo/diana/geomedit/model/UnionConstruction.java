@@ -103,15 +103,18 @@ public interface UnionConstruction extends GeometricConstruction<FGEArea> {
 
 		@Override
 		protected FGEArea computeData() {
-			FGEArea[] objects = new FGEArea[getObjectConstructions().size()];
-			for (int i = 0; i < getObjectConstructions().size(); i++) {
-				objects[i] = getObjectConstructions().get(i).getData();
+			if (getObjectConstructions() != null) {
+				FGEArea[] objects = new FGEArea[getObjectConstructions().size()];
+				for (int i = 0; i < getObjectConstructions().size(); i++) {
+					objects[i] = getObjectConstructions().get(i).getData();
+				}
+				FGEArea returned = FGEUnionArea.makeUnion(Arrays.asList(objects), getMergeContents());
+				if (returned == null) {
+					new Exception("Unexpected union").printStackTrace();
+				}
+				return returned;
 			}
-			FGEArea returned = FGEUnionArea.makeUnion(Arrays.asList(objects), getMergeContents());
-			if (returned == null) {
-				new Exception("Unexpected union").printStackTrace();
-			}
-			return returned;
+			return null;
 		}
 
 		@Override

@@ -78,11 +78,14 @@ public interface PolygonWithNPointsConstruction extends PolygonConstruction {
 
 		@Override
 		protected FGEPolygon computeData() {
-			Vector<FGEPoint> pts = new Vector<FGEPoint>();
-			for (PointConstruction pc : getPointConstructions()) {
-				pts.add(pc.getData());
+			if (getPointConstructions() != null) {
+				Vector<FGEPoint> pts = new Vector<FGEPoint>();
+				for (PointConstruction pc : getPointConstructions()) {
+					pts.add(pc.getData());
+				}
+				return new FGEPolygon(getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED, pts);
 			}
-			return new FGEPolygon(getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED, pts);
+			return null;
 		}
 
 		@Override

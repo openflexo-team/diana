@@ -101,9 +101,13 @@ public interface HalfBandWithLinesConstruction extends HalfBandConstruction {
 
 		@Override
 		protected FGEHalfBand computeData() {
-			FGEHalfBand returned = new FGEHalfBand(lineConstruction1.getLine(), lineConstruction2.getLine(),
-					new FGEHalfPlane(limitLineConstruction.getLine(), pointConstruction.getPoint()));
-			return returned;
+			if (getLineConstruction1() != null && getLineConstruction2() != null && getLimitLineConstruction() != null
+					&& getPointConstruction() != null) {
+				FGEHalfBand returned = new FGEHalfBand(getLineConstruction1().getLine(), getLineConstruction2().getLine(),
+						new FGEHalfPlane(getLimitLineConstruction().getLine(), getPointConstruction().getPoint()));
+				return returned;
+			}
+			return null;
 		}
 
 		@Override

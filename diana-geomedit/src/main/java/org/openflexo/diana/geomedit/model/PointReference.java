@@ -68,18 +68,27 @@ public interface PointReference extends PointConstruction {
 	public static abstract class PointReferenceImpl extends PointConstructionImpl implements PointReference {
 
 		@Override
-		protected FGEPoint computeData() {
-			return getReference().getData();
-		}
-
-		@Override
 		public BackgroundStyle getBackground() {
-			return getReference().getBackground();
+			if (getReference() != null) {
+				return getReference().getBackground();
+			}
+			return null;
 		}
 
 		@Override
 		public ForegroundStyle getForeground() {
-			return getReference().getForeground();
+			if (getReference() != null) {
+				return getReference().getForeground();
+			}
+			return null;
+		}
+
+		@Override
+		protected FGEPoint computeData() {
+			if (getReference() != null) {
+				return getReference().getData();
+			}
+			return null;
 		}
 
 		@Override

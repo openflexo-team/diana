@@ -109,8 +109,11 @@ public interface BandWithTwoLinesConstruction extends BandConstruction {
 
 		@Override
 		protected FGEBand computeData() {
-			FGEBand returned = new FGEBand(lineConstruction1.getLine(), lineConstruction2.getLine());
-			return returned;
+			if (getLineConstruction1() != null && getLineConstruction2() != null) {
+				FGEBand returned = new FGEBand(getLineConstruction1().getLine(), getLineConstruction2().getLine());
+				return returned;
+			}
+			return null;
 		}
 
 		@Override

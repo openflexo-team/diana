@@ -113,11 +113,14 @@ public interface CircleWithCenterAndPointConstruction extends CircleConstruction
 
 		@Override
 		protected FGECircle computeData() {
-			FGEPoint center = centerConstruction.getPoint();
-			FGEPoint p = pointConstruction.getPoint();
+			if (getCenterConstruction() != null && getPointConstruction() != null) {
+				FGEPoint center = getCenterConstruction().getPoint();
+				FGEPoint p = getPointConstruction().getPoint();
 
-			double radius = FGESegment.getLength(center, p);
-			return new FGECircle(center, radius, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
+				double radius = FGESegment.getLength(center, p);
+				return new FGECircle(center, radius, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
+			}
+			return null;
 		}
 
 		@Override

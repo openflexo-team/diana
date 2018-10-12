@@ -79,18 +79,22 @@ public interface RoundRectangleWithTwoPointsConstruction extends RoundRectangleC
 
 		@Override
 		protected FGERoundRectangle computeData() {
-			FGEPoint p1 = getPointConstruction1().getPoint();
-			FGEPoint p2 = getPointConstruction2().getPoint();
+			if (getPointConstruction1() != null && getPointConstruction2() != null) {
 
-			FGEPoint p = new FGEPoint();
-			p.x = Math.min(p1.x, p2.x);
-			p.y = Math.min(p1.y, p2.y);
+				FGEPoint p1 = getPointConstruction1().getPoint();
+				FGEPoint p2 = getPointConstruction2().getPoint();
 
-			double width = Math.abs(p1.x - p2.x);
-			double height = Math.abs(p1.y - p2.y);
+				FGEPoint p = new FGEPoint();
+				p.x = Math.min(p1.x, p2.x);
+				p.y = Math.min(p1.y, p2.y);
 
-			return new FGERoundRectangle(p.x, p.y, width, height, getArcWidth(), getArcHeight(),
-					getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
+				double width = Math.abs(p1.x - p2.x);
+				double height = Math.abs(p1.y - p2.y);
+
+				return new FGERoundRectangle(p.x, p.y, width, height, getArcWidth(), getArcHeight(),
+						getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
+			}
+			return null;
 		}
 
 		@Override

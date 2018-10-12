@@ -40,6 +40,8 @@
 package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.model.LineReference.LineReferenceImpl;
+import org.openflexo.fge.BackgroundStyle;
+import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.geom.FGELine;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
@@ -66,8 +68,27 @@ public interface LineReference extends LineConstruction {
 	public static abstract class LineReferenceImpl extends LineConstructionImpl implements LineReference {
 
 		@Override
+		public BackgroundStyle getBackground() {
+			if (getReference() != null) {
+				return getReference().getBackground();
+			}
+			return null;
+		}
+
+		@Override
+		public ForegroundStyle getForeground() {
+			if (getReference() != null) {
+				return getReference().getForeground();
+			}
+			return null;
+		}
+
+		@Override
 		protected FGELine computeData() {
-			return getReference().getData();
+			if (getReference() != null) {
+				return getReference().getData();
+			}
+			return null;
 		}
 
 		@Override

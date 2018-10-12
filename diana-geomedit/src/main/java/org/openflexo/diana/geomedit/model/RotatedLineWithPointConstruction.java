@@ -91,19 +91,22 @@ public interface RotatedLineWithPointConstruction extends LineConstruction {
 
 		@Override
 		protected FGELine computeData() {
-			FGELine computedLine = FGEAbstractLine.getRotatedLine(getLineConstruction().getLine(), getAngle(),
-					getPointConstruction().getPoint());
+			if (getLineConstruction() != null && getPointConstruction() != null) {
+				FGELine computedLine = FGEAbstractLine.getRotatedLine(getLineConstruction().getLine(), getAngle(),
+						getPointConstruction().getPoint());
 
-			FGEPoint p1, p2;
-			p1 = getPointConstruction().getPoint().clone();
-			if (getLineConstruction().getLine().contains(getPointConstruction().getPoint())) {
-				FGEEllips ellips = new FGEEllips(p1, new FGEDimension(200, 200), Filling.NOT_FILLED);
-				p2 = ellips.intersect(computedLine).getNearestPoint(p1);
+				FGEPoint p1, p2;
+				p1 = getPointConstruction().getPoint().clone();
+				if (getLineConstruction().getLine().contains(getPointConstruction().getPoint())) {
+					FGEEllips ellips = new FGEEllips(p1, new FGEDimension(200, 200), Filling.NOT_FILLED);
+					p2 = ellips.intersect(computedLine).getNearestPoint(p1);
+				}
+				else {
+					p2 = computedLine.getLineIntersection(getLineConstruction().getLine()).clone();
+				}
+				return new FGELine(p1, p2);
 			}
-			else {
-				p2 = computedLine.getLineIntersection(getLineConstruction().getLine()).clone();
-			}
-			return new FGELine(p1, p2);
+			return null;
 
 		}
 

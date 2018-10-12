@@ -84,17 +84,20 @@ public interface OrthogonalLineWithPointConstruction extends LineConstruction {
 
 		@Override
 		protected FGELine computeData() {
-			FGELine computedLine = lineConstruction.getLine().getOrthogonalLine(pointConstruction.getPoint());
-			FGEPoint p1, p2;
-			p1 = pointConstruction.getPoint().clone();
-			if (lineConstruction.getLine().contains(pointConstruction.getPoint())) {
-				FGEEllips ellips = new FGEEllips(p1, new FGEDimension(200, 200), Filling.NOT_FILLED);
-				p2 = ellips.intersect(computedLine).getNearestPoint(p1);
+			if (getLineConstruction() != null && getPointConstruction() != null) {
+				FGELine computedLine = lineConstruction.getLine().getOrthogonalLine(pointConstruction.getPoint());
+				FGEPoint p1, p2;
+				p1 = pointConstruction.getPoint().clone();
+				if (lineConstruction.getLine().contains(pointConstruction.getPoint())) {
+					FGEEllips ellips = new FGEEllips(p1, new FGEDimension(200, 200), Filling.NOT_FILLED);
+					p2 = ellips.intersect(computedLine).getNearestPoint(p1);
+				}
+				else {
+					p2 = computedLine.getLineIntersection(lineConstruction.getLine()).clone();
+				}
+				return new FGELine(p1, p2);
 			}
-			else {
-				p2 = computedLine.getLineIntersection(lineConstruction.getLine()).clone();
-			}
-			return new FGELine(p1, p2);
+			return null;
 		}
 
 		@Override

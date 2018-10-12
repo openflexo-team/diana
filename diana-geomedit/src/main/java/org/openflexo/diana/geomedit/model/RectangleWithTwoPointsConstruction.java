@@ -82,17 +82,20 @@ public interface RectangleWithTwoPointsConstruction extends RectangleConstructio
 
 		@Override
 		protected FGERectangle computeData() {
-			FGEPoint p1 = pointConstruction1.getPoint();
-			FGEPoint p2 = pointConstruction2.getPoint();
+			if (getPointConstruction1() != null && getPointConstruction2() != null) {
+				FGEPoint p1 = pointConstruction1.getPoint();
+				FGEPoint p2 = pointConstruction2.getPoint();
 
-			FGEPoint p = new FGEPoint();
-			p.x = Math.min(p1.x, p2.x);
-			p.y = Math.min(p1.y, p2.y);
+				FGEPoint p = new FGEPoint();
+				p.x = Math.min(p1.x, p2.x);
+				p.y = Math.min(p1.y, p2.y);
 
-			double width = Math.abs(p1.x - p2.x);
-			double height = Math.abs(p1.y - p2.y);
+				double width = Math.abs(p1.x - p2.x);
+				double height = Math.abs(p1.y - p2.y);
 
-			return new FGERectangle(p.x, p.y, width, height, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
+				return new FGERectangle(p.x, p.y, width, height, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
+			}
+			return null;
 		}
 
 		@Override

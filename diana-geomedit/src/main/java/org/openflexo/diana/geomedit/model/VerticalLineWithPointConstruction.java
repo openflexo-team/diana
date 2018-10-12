@@ -85,7 +85,10 @@ public interface VerticalLineWithPointConstruction extends LineConstruction {
 
 		@Override
 		protected FGELine computeData() {
-			return FGELine.makeVerticalLine(pointConstruction.getPoint(), 100);
+			if (getPointConstruction() != null) {
+				return FGELine.makeVerticalLine(getPointConstruction().getPoint(), 100);
+			}
+			return null;
 		}
 
 		@Override

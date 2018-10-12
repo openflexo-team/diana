@@ -222,7 +222,9 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 			A oldData = getData();
 			if (getDepends() != null) {
 				for (GeometricConstruction c : getDepends()) {
-					c.refresh();
+					if (c != null) {
+						c.refresh();
+					}
 				}
 			}
 			computedData = performComputeData();

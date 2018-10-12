@@ -81,10 +81,10 @@ public interface LineWithTwoPointsConstruction extends LineConstruction {
 
 		@Override
 		protected FGELine computeData() {
-			/*System.out.println("************* On recalcule la ligne ici");
-			System.out.println("PC1 = " + getPointConstruction1());
-			System.out.println("PC2 = " + getPointConstruction2());*/
-			return new FGELine(getPointConstruction1().getPoint(), getPointConstruction2().getPoint());
+			if (getPointConstruction1() != null && getPointConstruction2() != null) {
+				return new FGELine(getPointConstruction1().getPoint(), getPointConstruction2().getPoint());
+			}
+			return null;
 		}
 
 		@Override

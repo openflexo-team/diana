@@ -81,12 +81,15 @@ public interface ParallelLineWithPointConstruction extends LineConstruction {
 
 		@Override
 		protected FGELine computeData() {
-			FGELine computedLine = lineConstruction.getLine().getParallelLine(pointConstruction.getPoint());
-			FGEPoint pp1 = computedLine.getProjection(lineConstruction.getLine().getP1());
-			FGEPoint pp2 = computedLine.getProjection(lineConstruction.getLine().getP2());
-			computedLine.setP1(pp1);
-			computedLine.setP2(pp2);
-			return computedLine;
+			if (getLineConstruction() != null && getPointConstruction() != null) {
+				FGELine computedLine = lineConstruction.getLine().getParallelLine(pointConstruction.getPoint());
+				FGEPoint pp1 = computedLine.getProjection(lineConstruction.getLine().getP1());
+				FGEPoint pp2 = computedLine.getProjection(lineConstruction.getLine().getP2());
+				computedLine.setP1(pp1);
+				computedLine.setP2(pp2);
+				return computedLine;
+			}
+			return null;
 		}
 
 		@Override

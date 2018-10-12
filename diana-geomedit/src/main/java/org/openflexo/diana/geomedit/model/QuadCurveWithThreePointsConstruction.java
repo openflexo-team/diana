@@ -90,8 +90,11 @@ public interface QuadCurveWithThreePointsConstruction extends QuadCurveConstruct
 
 		@Override
 		protected FGEQuadCurve computeData() {
-			return new FGEQuadCurve(startPointConstruction.getPoint(), controlPointConstruction.getPoint(),
-					endPointConstruction.getPoint());
+			if (getStartPointConstruction() != null && getControlPointConstruction() != null && getEndPointConstruction() != null) {
+				return new FGEQuadCurve(startPointConstruction.getPoint(), controlPointConstruction.getPoint(),
+						endPointConstruction.getPoint());
+			}
+			return null;
 		}
 
 		@Override

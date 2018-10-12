@@ -77,7 +77,10 @@ public interface SegmentWithTwoPointsConstruction extends SegmentConstruction {
 
 		@Override
 		protected FGESegment computeData() {
-			return new FGESegment(getPointConstruction1().getPoint(), getPointConstruction2().getPoint());
+			if (getPointConstruction1() != null && getPointConstruction2() != null) {
+				return new FGESegment(getPointConstruction1().getPoint(), getPointConstruction2().getPoint());
+			}
+			return null;
 		}
 
 		@Override

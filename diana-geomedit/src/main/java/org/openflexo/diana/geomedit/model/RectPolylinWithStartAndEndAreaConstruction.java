@@ -99,15 +99,18 @@ public interface RectPolylinWithStartAndEndAreaConstruction extends PolylinConst
 
 		@Override
 		protected FGEPolylin computeData() {
-			FGEArea startArea = getStartAreaConstruction().getData();
-			FGEArea endArea = getEndAreaConstruction().getData();
-			if (getStartOrientation() == null) {
-				setStartOrientation(SimplifiedCardinalDirection.NORTH);
+			if (getStartAreaConstruction() != null && getEndAreaConstruction() != null) {
+				FGEArea startArea = getStartAreaConstruction().getData();
+				FGEArea endArea = getEndAreaConstruction().getData();
+				if (getStartOrientation() == null) {
+					setStartOrientation(SimplifiedCardinalDirection.NORTH);
+				}
+				if (getEndOrientation() == null) {
+					setEndOrientation(SimplifiedCardinalDirection.SOUTH);
+				}
+				return new FGERectPolylin(startArea, getStartOrientation(), endArea, getEndOrientation(), false, 10, 10);
 			}
-			if (getEndOrientation() == null) {
-				setEndOrientation(SimplifiedCardinalDirection.SOUTH);
-			}
-			return new FGERectPolylin(startArea, getStartOrientation(), endArea, getEndOrientation(), false, 10, 10);
+			return null;
 		}
 
 		@Override

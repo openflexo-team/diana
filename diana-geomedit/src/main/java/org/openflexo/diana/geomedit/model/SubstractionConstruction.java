@@ -94,13 +94,16 @@ public interface SubstractionConstruction extends GeometricConstruction<FGEArea>
 
 		@Override
 		protected FGEArea computeData() {
-			FGEArea returned = FGESubstractionArea.makeSubstraction(getContainerObjectConstruction().getData(),
-					getSubstractedObjectConstruction().getData(), false);
+			if (getContainerObjectConstruction() != null && getSubstractedObjectConstruction() != null) {
+				FGEArea returned = FGESubstractionArea.makeSubstraction(getContainerObjectConstruction().getData(),
+						getSubstractedObjectConstruction().getData(), false);
 
-			if (returned == null) {
-				new Exception("Unexpected substraction").printStackTrace();
+				if (returned == null) {
+					new Exception("Unexpected substraction").printStackTrace();
+				}
+				return returned;
 			}
-			return returned;
+			return null;
 		}
 
 		@Override

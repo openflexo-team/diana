@@ -80,7 +80,10 @@ public interface SymetricPointConstruction extends PointConstruction {
 
 		@Override
 		protected FGEPoint computeData() {
-			return new FGESegment(pointConstruction.getPoint(), pivotConstruction.getPoint()).getScaledPoint(2);
+			if (getPointConstruction() != null && getPivotConstruction() != null) {
+				return new FGESegment(pointConstruction.getPoint(), pivotConstruction.getPoint()).getScaledPoint(2);
+			}
+			return null;
 		}
 
 		@Override

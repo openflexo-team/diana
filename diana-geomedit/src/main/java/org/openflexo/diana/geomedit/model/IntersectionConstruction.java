@@ -92,16 +92,19 @@ public interface IntersectionConstruction extends GeometricConstruction<FGEArea>
 
 		@Override
 		protected FGEArea computeData() {
-			FGEArea[] objects = new FGEArea[getObjectConstructions().size()];
-			for (int i = 0; i < getObjectConstructions().size(); i++) {
-				objects[i] = getObjectConstructions().get(i).getData();
-			}
-			FGEArea returned = FGEIntersectionArea.makeIntersection(objects);
+			if (getObjectConstructions() != null) {
+				FGEArea[] objects = new FGEArea[getObjectConstructions().size()];
+				for (int i = 0; i < getObjectConstructions().size(); i++) {
+					objects[i] = getObjectConstructions().get(i).getData();
+				}
+				FGEArea returned = FGEIntersectionArea.makeIntersection(objects);
 
-			if (returned == null) {
-				new Exception("Unexpected intersection").printStackTrace();
+				if (returned == null) {
+					new Exception("Unexpected intersection").printStackTrace();
+				}
+				return returned;
 			}
-			return returned;
+			return null;
 		}
 
 		@Override

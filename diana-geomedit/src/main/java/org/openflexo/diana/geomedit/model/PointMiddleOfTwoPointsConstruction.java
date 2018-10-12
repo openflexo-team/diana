@@ -80,7 +80,10 @@ public interface PointMiddleOfTwoPointsConstruction extends PointConstruction {
 
 		@Override
 		protected FGEPoint computeData() {
-			return FGEPoint.middleOf(pointConstruction1.getPoint(), pointConstruction2.getPoint());
+			if (getPointConstruction1() != null && getPointConstruction2() != null) {
+				return FGEPoint.middleOf(pointConstruction1.getPoint(), pointConstruction2.getPoint());
+			}
+			return null;
 		}
 
 		@Override

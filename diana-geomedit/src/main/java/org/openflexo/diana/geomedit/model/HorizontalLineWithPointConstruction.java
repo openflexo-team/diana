@@ -85,7 +85,10 @@ public interface HorizontalLineWithPointConstruction extends LineConstruction {
 
 		@Override
 		protected FGELine computeData() {
-			return FGELine.makeHorizontalLine(pointConstruction.getPoint(), 100);
+			if (getPointConstruction() != null) {
+				return FGELine.makeHorizontalLine(pointConstruction.getPoint(), 100);
+			}
+			return null;
 		}
 
 		@Override

@@ -78,11 +78,14 @@ public interface PolylinWithNPointsConstruction extends PolylinConstruction {
 
 		@Override
 		protected FGEPolylin computeData() {
-			Vector<FGEPoint> pts = new Vector<FGEPoint>();
-			for (PointConstruction pc : getPointConstructions()) {
-				pts.add(pc.getData());
+			if (getPointConstructions() != null) {
+				Vector<FGEPoint> pts = new Vector<FGEPoint>();
+				for (PointConstruction pc : getPointConstructions()) {
+					pts.add(pc.getData());
+				}
+				return new FGERectPolylin(pts);
 			}
-			return new FGERectPolylin(pts);
+			return null;
 		}
 
 		@Override

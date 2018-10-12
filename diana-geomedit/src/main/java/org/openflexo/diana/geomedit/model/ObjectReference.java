@@ -85,17 +85,26 @@ public interface ObjectReference<O extends FGEArea> extends GeometricConstructio
 
 		@Override
 		public BackgroundStyle getBackground() {
-			return reference.getBackground();
+			if (getReference() != null) {
+				return getReference().getBackground();
+			}
+			return null;
 		}
 
 		@Override
 		public ForegroundStyle getForeground() {
-			return reference.getForeground();
+			if (getReference() != null) {
+				return getReference().getForeground();
+			}
+			return null;
 		}
 
 		@Override
 		protected O computeData() {
-			return reference.getData();
+			if (getReference() != null) {
+				return getReference().getData();
+			}
+			return null;
 		}
 
 		@Override

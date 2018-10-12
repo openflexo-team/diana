@@ -77,11 +77,14 @@ public interface ComplexCurveWithNPointsConstruction extends ComplexCurveConstru
 
 		@Override
 		protected FGEComplexCurve computeData() {
-			Vector<FGEPoint> pts = new Vector<FGEPoint>();
-			for (PointConstruction pc : getPointConstructions()) {
-				pts.add(pc.getPoint());
+			if (getPointConstructions() != null) {
+				Vector<FGEPoint> pts = new Vector<FGEPoint>();
+				for (PointConstruction pc : getPointConstructions()) {
+					pts.add(pc.getPoint());
+				}
+				return new FGEComplexCurve(getClosure(), pts);
 			}
-			return new FGEComplexCurve(getClosure(), pts);
+			return null;
 		}
 
 		@Override

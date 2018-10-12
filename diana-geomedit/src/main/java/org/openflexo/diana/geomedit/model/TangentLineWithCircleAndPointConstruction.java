@@ -98,17 +98,21 @@ public interface TangentLineWithCircleAndPointConstruction extends LineConstruct
 
 		@Override
 		protected FGELine computeData() {
-			try {
-				FGEUnionArea tangentPoints = FGECircle.getTangentsPointsToCircle(circleConstruction.getCircle(),
-						pointConstruction.getPoint());
-				if (tangentPoints.isUnionOfPoints()) {
-					return new FGELine(tangentPoints.getNearestPoint(choosingPointConstruction.getPoint()), pointConstruction.getPoint());
+			if (getCircleConstruction() != null && getPointConstruction() != null) {
+				try {
+					FGEUnionArea tangentPoints = FGECircle.getTangentsPointsToCircle(circleConstruction.getCircle(),
+							pointConstruction.getPoint());
+					if (tangentPoints.isUnionOfPoints()) {
+						return new FGELine(tangentPoints.getNearestPoint(choosingPointConstruction.getPoint()),
+								pointConstruction.getPoint());
+					}
+					logger.warning("Received strange result for FGEEllips.getTangentsPointsToCircle()");
+					return null;
+				} catch (PointInsideCircleException e) {
+					return null;
 				}
-				logger.warning("Received strange result for FGEEllips.getTangentsPointsToCircle()");
-				return null;
-			} catch (PointInsideCircleException e) {
-				return null;
 			}
+			return null;
 		}
 
 		@Override
