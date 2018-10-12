@@ -131,6 +131,12 @@ public interface UnionConstruction extends GeometricConstruction<FGEArea> {
 			return getObjectConstructions().toArray(new GeometricConstruction[getObjectConstructions().size()]);
 		}
 
+		@Override
+		public void setMergeContents(boolean mergeContents) {
+			performSuperSetter(MERGE_CONTENTS_KEY, mergeContents);
+			refresh();
+			notifyGeometryChanged();
+		}
 	}
 
 }

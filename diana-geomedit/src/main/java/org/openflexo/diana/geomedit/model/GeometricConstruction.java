@@ -180,6 +180,8 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 			if (computedData instanceof FGEShape) {
 				((FGEShape<?>) computedData).setForeground(getForeground());
 			}
+			refresh();
+			notifyGeometryChanged();
 		}
 
 		@Override
@@ -188,6 +190,8 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 			if (computedData instanceof FGEShape) {
 				((FGEShape<?>) computedData).setBackground(getBackground());
 			}
+			refresh();
+			notifyGeometryChanged();
 		}
 
 		private void ensureUpToDate() {
