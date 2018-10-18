@@ -203,7 +203,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 		/*if (getController() instanceof DianaInteractiveEditor) {
 			if (((DianaInteractiveEditor<?, ?, ?>) controller).getPalettes() != null) {
-				for (DrawingPalette p : ((DianaInteractiveEditor<?, ?, ?>) controller).getPalettes()) {
+				for (PaletteModel p : ((DianaInteractiveEditor<?, ?, ?>) controller).getPalettes()) {
 					activatePalette(p);
 				}
 			}
@@ -715,13 +715,15 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 				}
 			});
 			for (GeometricNode<?> gn : geomList) {
-				// TODO: use the same graphics, just change DrawingTreeNode
-				// JFGEGeometricGraphics geometricGraphics = new JFGEGeometricGraphics(gn, this);
-				JDianaGeometricGraphics geometricGraphics = getGeometricGraphics(gn);
-				geometricGraphics.createGraphics(g2/*, controller*/);
-				gn.paint(geometricGraphics);
-				geometricGraphics.releaseGraphics();
-				geometricGraphics.delete();
+				if (gn.shouldBeDisplayed()) {
+					// TODO: use the same graphics, just change DrawingTreeNode
+					// JDianaGeometricGraphics geometricGraphics = new JDianaGeometricGraphics(gn, this);
+					JDianaGeometricGraphics geometricGraphics = getGeometricGraphics(gn);
+					geometricGraphics.createGraphics(g2/*, controller*/);
+					gn.paint(geometricGraphics);
+					geometricGraphics.releaseGraphics();
+					geometricGraphics.delete();
+				}
 			}
 		}
 	}

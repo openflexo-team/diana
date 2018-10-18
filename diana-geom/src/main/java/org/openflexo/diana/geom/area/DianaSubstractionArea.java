@@ -162,6 +162,9 @@ public class DianaSubstractionArea extends DianaOperationArea {
 				return DianaUnionArea.makeUnion(objects);
 			}
 		}
+		if (containerArea instanceof DianaShape && substractedArea instanceof DianaShape) {
+			return AreaComputation.computeShapeSubstraction((DianaShape<?>) containerArea, (DianaShape<?>) substractedArea);
+		}
 		return new DianaSubstractionArea(containerArea, substractedArea, isStrict);
 	}
 

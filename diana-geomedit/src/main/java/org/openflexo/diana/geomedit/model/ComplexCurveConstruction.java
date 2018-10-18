@@ -95,14 +95,14 @@ public interface ComplexCurveConstruction extends GeometricConstruction<DianaCom
 		public Closure getClosure() {
 			Closure returned = (Closure) performSuperGetter(CLOSURE_KEY);
 			if (returned == null) {
-				return Closure.OPEN_NOT_FILLED;
+				return Closure.CLOSED_FILLED;
 			}
 			return returned;
 		}
 
 		@Override
 		public void setClosure(Closure aClosure) {
-			Closure oldClosure = (Closure) performSuperGetter(CLOSURE_KEY);
+			Closure oldClosure = getClosure();
 			performSuperSetter(CLOSURE_KEY, aClosure);
 			if (oldClosure != null && oldClosure != aClosure) {
 				refresh();

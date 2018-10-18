@@ -42,10 +42,10 @@ package org.openflexo.diana.geomedit.model;
 import java.util.List;
 import java.util.Vector;
 
-import org.openflexo.diana.geomedit.model.PolylinWithNPointsConstruction.PolylinWithNPointsConstructionImpl;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaPolylin;
 import org.openflexo.diana.geom.DianaRectPolylin;
+import org.openflexo.diana.geomedit.model.PolylinWithNPointsConstruction.PolylinWithNPointsConstructionImpl;
 import org.openflexo.model.annotations.Adder;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.Getter.Cardinality;
@@ -78,11 +78,15 @@ public interface PolylinWithNPointsConstruction extends PolylinConstruction {
 
 		@Override
 		protected DianaPolylin computeData() {
-			Vector<DianaPoint> pts = new Vector<DianaPoint>();
-			for (PointConstruction pc : getPointConstructions()) {
-				pts.add(pc.getData());
+			if (getPointConstructions() != null) {
+				Vector<DianaPoint> pts = new Vector<DianaPoint>();
+				for (PointConstruction pc : getPointConstructions()) {
+					pts.add(pc.getData());
+				}
+				return new DianaRectPolylin(pts);
+
 			}
-			return new DianaRectPolylin(pts);
+			return null;
 		}
 
 		@Override

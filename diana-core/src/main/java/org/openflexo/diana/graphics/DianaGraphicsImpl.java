@@ -63,6 +63,7 @@ import org.openflexo.diana.geom.DianaPolygon;
 import org.openflexo.diana.geom.DianaPolylin;
 import org.openflexo.diana.geom.DianaQuadCurve;
 import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.view.DianaView;
 
 /**
@@ -136,6 +137,20 @@ public abstract class DianaGraphicsImpl implements DianaGraphics {
 	@Override
 	public void delete() {
 		dtn = null;
+	}
+
+	@Override
+	public void setDefaultForegroundStyle(DianaShape<?> shape) {
+		if (shape.getForeground() instanceof ForegroundStyle) {
+			setDefaultForeground((ForegroundStyle) shape.getForeground());
+		}
+	}
+
+	@Override
+	public void setDefaultBackgroundStyle(DianaShape<?> shape) {
+		if (shape.getBackground() instanceof BackgroundStyle) {
+			setDefaultBackground((BackgroundStyle) shape.getBackground());
+		}
 	}
 
 	@Override

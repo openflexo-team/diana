@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Panel layout="gridbag" titleFont="SansSerif,0,11" darkLevel="0"
-	data="" dataClassName="org.openflexo.fge.control.tools.ShapeSpecificationFactory"
-	controllerClassName="org.openflexo.fge.swing.widget.JFIBShapeSelector$ShapeDetailsPanel$CustomFIBController"
+	data="" dataClassName="org.openflexo.diana.control.tools.ShapeSpecificationFactory"
+	controllerClassName="org.openflexo.diana.swing.widget.JFIBShapeSelector$ShapeDetailsPanel$CustomFIBController"
 	visible="" font="SansSerif,0,11" width="310" height="350"
 	name="BackgroundStyleSelector" opaque="false">
 	<FIBReferencedComponent componentFile="ShapeSelectorPanel.fib"

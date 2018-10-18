@@ -43,6 +43,7 @@ import org.openflexo.diana.GeometricGraphicalRepresentation;
 
 public interface DianaGeometricGraphics extends DianaGraphics {
 
+	@Override
 	public abstract GeometricGraphicalRepresentation getGraphicalRepresentation();
 
 }

@@ -42,10 +42,10 @@ package org.openflexo.diana.geomedit.model;
 import java.util.List;
 import java.util.Vector;
 
-import org.openflexo.diana.geomedit.model.PolygonWithNPointsConstruction.PolygonWithNPointsConstructionImpl;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geomedit.model.PolygonWithNPointsConstruction.PolygonWithNPointsConstructionImpl;
 import org.openflexo.model.annotations.Adder;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.Getter.Cardinality;
@@ -78,11 +78,14 @@ public interface PolygonWithNPointsConstruction extends PolygonConstruction {
 
 		@Override
 		protected DianaPolygon computeData() {
-			Vector<DianaPoint> pts = new Vector<DianaPoint>();
-			for (PointConstruction pc : getPointConstructions()) {
-				pts.add(pc.getData());
+			if (getPointConstructions() != null) {
+				Vector<DianaPoint> pts = new Vector<DianaPoint>();
+				for (PointConstruction pc : getPointConstructions()) {
+					pts.add(pc.getData());
+				}
+				return new DianaPolygon(getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED, pts);
 			}
-			return new DianaPolygon(getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED, pts);
+			return null;
 		}
 
 		@Override

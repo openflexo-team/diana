@@ -64,14 +64,14 @@ public abstract class LayoutManagerSpecificationFactory
 	private final InspectedBackgroundImageBackgroundStyle backgroundImageBackgroundStyle;
 	
 	private PropertyChangeSupport pcSupport;
-	private DianaModelFactory fgeFactory;
+	private DianaModelFactory dianaFactory;
 	
 	private final DianaInteractiveViewer<?, ?, ?> controller;
 	
 	public LayoutManagerSpecificationFactory(DianaInteractiveViewer<?, ?, ?> controller) {
 		pcSupport = new PropertyChangeSupport(this);
 		this.controller = controller;
-		fgeFactory = controller.getFactory();
+		dianaFactory = controller.getFactory();
 		noneBackgroundStyle = new InspectedNoneBackgroundStyle(controller, controller.getFactory().makeEmptyBackground());
 		colorBackgroundStyle = new InspectedColorBackgroundStyle(controller, controller.getFactory().makeColoredBackground(
 				DianaConstants.DEFAULT_BACKGROUND_COLOR));
@@ -87,12 +87,12 @@ public abstract class LayoutManagerSpecificationFactory
 	
 	@Override
 	public DianaModelFactory getDianaFactory() {
-		return fgeFactory;
+		return dianaFactory;
 	}
 	
 	@Override
-	public void setDianaFactory(DianaModelFactory fgeFactory) {
-		this.fgeFactory = fgeFactory;
+	public void setDianaFactory(DianaModelFactory dianaFactory) {
+		this.dianaFactory = dianaFactory;
 	}
 	
 	@Override

@@ -39,8 +39,10 @@
 
 package org.openflexo.diana.geomedit.model;
 
-import org.openflexo.diana.geomedit.model.PointReference.PointReferenceImpl;
+import org.openflexo.diana.BackgroundStyle;
+import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geomedit.model.PointReference.PointReferenceImpl;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
@@ -66,8 +68,27 @@ public interface PointReference extends PointConstruction {
 	public static abstract class PointReferenceImpl extends PointConstructionImpl implements PointReference {
 
 		@Override
+		public BackgroundStyle getBackground() {
+			if (getReference() != null) {
+				return getReference().getBackground();
+			}
+			return null;
+		}
+
+		@Override
+		public ForegroundStyle getForeground() {
+			if (getReference() != null) {
+				return getReference().getForeground();
+			}
+			return null;
+		}
+
+		@Override
 		protected DianaPoint computeData() {
-			return getReference().getData();
+			if (getReference() != null) {
+				return getReference().getData();
+			}
+			return null;
 		}
 
 		@Override

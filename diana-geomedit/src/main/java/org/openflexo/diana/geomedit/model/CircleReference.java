@@ -39,6 +39,8 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.BackgroundStyle;
+import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.geom.DianaCircle;
 import org.openflexo.diana.geomedit.model.CircleReference.CircleReferenceImpl;
 import org.openflexo.model.annotations.Getter;
@@ -82,8 +84,27 @@ public interface CircleReference extends CircleConstruction {
 		}
 
 		@Override
+		public BackgroundStyle getBackground() {
+			if (getReference() != null) {
+				return getReference().getBackground();
+			}
+			return null;
+		}
+
+		@Override
+		public ForegroundStyle getForeground() {
+			if (getReference() != null) {
+				return getReference().getForeground();
+			}
+			return null;
+		}
+
+		@Override
 		protected DianaCircle computeData() {
-			return reference.getData();
+			if (getReference() != null) {
+				return getReference().getData();
+			}
+			return null;
 		}
 
 		@Override

@@ -14,7 +14,7 @@
 			<DropDown index="11" data="data.startOrientation"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
 				width="150" name="StartOrientationDD" format="object.name" localize="true"
-				iteratorClassName="org.openflexo.fge.geom.FGEGeometricObject$SimplifiedCardinalDirection"
+				iteratorClassName="org.openflexo.diana.geom.DianaGeometricObject$SimplifiedCardinalDirection"
 				autoSelectFirstRow="false" />
 		    <Label label="end_orientation" index="12"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;location=left)"
@@ -22,7 +22,7 @@
 			<DropDown index="13" data="data.endOrientation"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
 				width="150" name="StartOrientationDD" format="object.name" localize="true"
-				iteratorClassName="org.openflexo.fge.geom.FGEGeometricObject$SimplifiedCardinalDirection"
+				iteratorClassName="org.openflexo.diana.geom.DianaGeometricObject$SimplifiedCardinalDirection"
 				autoSelectFirstRow="false" />
 		</Tab>
 		<Tab title="Advanced" layout="twocols" titleFont="SansSerif,0,11"

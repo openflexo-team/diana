@@ -81,7 +81,7 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 	private final InspectedBackgroundImageBackgroundStyle backgroundImageBackgroundStyle;
 
 	private PropertyChangeSupport pcSupport;
-	private DianaModelFactory fgeFactory;
+	private DianaModelFactory dianaFactory;
 
 	private final DianaInteractiveViewer<?, ?, ?> controller;
 
@@ -89,31 +89,31 @@ public class BackgroundStyleFactory implements StyleFactory<BackgroundStyle, Bac
 		pcSupport = new PropertyChangeSupport(this);
 		this.controller = controller;
 		if (controller != null) {
-			fgeFactory = controller.getFactory();
+			dianaFactory = controller.getFactory();
 		}
 		else {
-			fgeFactory = DianaCoreUtils.TOOLS_FACTORY;
+			dianaFactory = DianaCoreUtils.TOOLS_FACTORY;
 		}
-		noneBackgroundStyle = new InspectedNoneBackgroundStyle(controller, fgeFactory.makeEmptyBackground());
+		noneBackgroundStyle = new InspectedNoneBackgroundStyle(controller, dianaFactory.makeEmptyBackground());
 		colorBackgroundStyle = new InspectedColorBackgroundStyle(controller,
-				fgeFactory.makeColoredBackground(DianaConstants.DEFAULT_BACKGROUND_COLOR));
-		colorGradientBackgroundStyle = new InspectedColorGradientBackgroundStyle(controller, fgeFactory.makeColorGradientBackground(
+				dianaFactory.makeColoredBackground(DianaConstants.DEFAULT_BACKGROUND_COLOR));
+		colorGradientBackgroundStyle = new InspectedColorGradientBackgroundStyle(controller, dianaFactory.makeColorGradientBackground(
 				DianaConstants.DEFAULT_BACKGROUND_COLOR, Color.WHITE, ColorGradientDirection.NORTH_WEST_SOUTH_EAST));
 		textureBackgroundStyle = new InspectedTextureBackgroundStyle(controller,
-				fgeFactory.makeTexturedBackground(TextureType.TEXTURE1, DianaConstants.DEFAULT_BACKGROUND_COLOR, Color.WHITE));
-		noneBackgroundStyle = new InspectedNoneBackgroundStyle(controller, fgeFactory.makeEmptyBackground());
+				dianaFactory.makeTexturedBackground(TextureType.TEXTURE1, DianaConstants.DEFAULT_BACKGROUND_COLOR, Color.WHITE));
+		noneBackgroundStyle = new InspectedNoneBackgroundStyle(controller, dianaFactory.makeEmptyBackground());
 		backgroundImageBackgroundStyle = new InspectedBackgroundImageBackgroundStyle(controller,
-				fgeFactory.makeImageBackground(DianaConstants.DEFAULT_IMAGE));
+				dianaFactory.makeImageBackground(DianaConstants.DEFAULT_IMAGE));
 	}
 
 	@Override
 	public DianaModelFactory getDianaFactory() {
-		return fgeFactory;
+		return dianaFactory;
 	}
 
 	@Override
-	public void setDianaFactory(DianaModelFactory fgeFactory) {
-		this.fgeFactory = fgeFactory;
+	public void setDianaFactory(DianaModelFactory dianaFactory) {
+		this.dianaFactory = dianaFactory;
 	}
 
 	@Override

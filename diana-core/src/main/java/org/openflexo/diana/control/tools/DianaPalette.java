@@ -48,20 +48,20 @@ import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
-import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.DianaModelFactory;
-import org.openflexo.diana.GRStructureVisitor;
-import org.openflexo.diana.GraphicalRepresentation;
-import org.openflexo.diana.ShapeGraphicalRepresentation;
+import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.GRBinding.DrawingGRBinding;
 import org.openflexo.diana.GRBinding.ShapeGRBinding;
 import org.openflexo.diana.GRProvider.DrawingGRProvider;
 import org.openflexo.diana.GRProvider.ShapeGRProvider;
+import org.openflexo.diana.GRStructureVisitor;
+import org.openflexo.diana.GraphicalRepresentation;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.animation.Animation;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaInteractiveEditor;
-import org.openflexo.diana.control.DrawingPalette;
 import org.openflexo.diana.control.PaletteElement;
+import org.openflexo.diana.control.PaletteModel;
 import org.openflexo.diana.impl.DrawingImpl;
 import org.openflexo.diana.view.DianaViewFactory;
 import org.openflexo.diana.view.DrawingView;
@@ -69,7 +69,7 @@ import org.openflexo.gina.utils.FIBIconLibrary;
 import org.openflexo.toolbox.ToolBox;
 
 /**
- * A DianaPaletteC represents the graphical tool representing a {@link DrawingPalette} (the model)
+ * A DianaPaletteC represents the graphical tool representing a {@link PaletteModel} (the model)
  * 
  * @author sylvain
  * 
@@ -90,7 +90,7 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 			? Toolkit.getDefaultToolkit().createCustomCursor(DROP_KO_IMAGE, new Point(16, 16), "Drop KO")
 			: DragSource.DefaultMoveNoDrop;
 
-	private DrawingPalette palette = null;
+	private PaletteModel palette = null;
 
 	private PaletteDrawing paletteDrawing;
 	// This controller is the local controller for displaying the palette, NOT the controller
@@ -99,7 +99,7 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 
 	// private DragSourceContext dragSourceContext;
 
-	public DianaPalette(DrawingPalette palette) {
+	public DianaPalette(PaletteModel palette) {
 		super();
 		setPalette(palette);
 	}
@@ -119,17 +119,17 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 		}
 	}
 
-	public DrawingPalette getPalette() {
+	public PaletteModel getPalette() {
 		return palette;
 	}
 
-	public void setPalette(DrawingPalette palette) {
+	public void setPalette(PaletteModel palette) {
 		if (palette != this.palette) {
 			updatePalette(palette);
 		}
 	}
 
-	protected void updatePalette(DrawingPalette palette) {
+	protected void updatePalette(PaletteModel palette) {
 		if (paletteController != null) {
 			paletteController.delete();
 		}
@@ -150,7 +150,7 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 		}
 	}
 
-	public DrawingView<DrawingPalette, ?> getPaletteView() {
+	public DrawingView<PaletteModel, ?> getPaletteView() {
 		if (paletteController == null) {
 			return null;
 		}
@@ -161,15 +161,15 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 		return paletteDrawing;
 	}
 
-	public static class PaletteDrawing extends DrawingImpl<DrawingPalette> {
+	public static class PaletteDrawing extends DrawingImpl<PaletteModel> {
 
 		private final DrawingGraphicalRepresentation gr;
 
-		private PaletteDrawing(DrawingPalette palette) {
-			super(palette, DrawingPalette.FACTORY, PersistenceMode.UniqueGraphicalRepresentations);
-			gr = DrawingPalette.FACTORY.makeDrawingGraphicalRepresentation(false);
-			gr.setWidth(palette.getWidth());
-			gr.setHeight(palette.getHeight());
+		private PaletteDrawing(PaletteModel palette) {
+			super(palette, PaletteModel.FACTORY, PersistenceMode.UniqueGraphicalRepresentations);
+			gr = PaletteModel.FACTORY.makeDrawingGraphicalRepresentation(false);
+			gr.setWidth(palette.getPaletteWidth());
+			gr.setHeight(palette.getPaletteHeight());
 			gr.setBackgroundColor(Color.WHITE);
 			gr.setDrawWorkingArea(palette.getDrawWorkingArea());
 			setEditable(true);
@@ -178,10 +178,10 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 		@Override
 		public void init() {
 
-			final DrawingGRBinding<DrawingPalette> paletteBinding = bindDrawing(DrawingPalette.class, "palette",
-					new DrawingGRProvider<DrawingPalette>() {
+			final DrawingGRBinding<PaletteModel> paletteBinding = bindDrawing(PaletteModel.class, "palette",
+					new DrawingGRProvider<PaletteModel>() {
 						@Override
-						public DrawingGraphicalRepresentation provideGR(DrawingPalette drawable, DianaModelFactory factory) {
+						public DrawingGraphicalRepresentation provideGR(PaletteModel drawable, DianaModelFactory factory) {
 							return gr;
 						}
 					});
@@ -193,10 +193,10 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 						}
 					});
 
-			paletteBinding.addToWalkers(new GRStructureVisitor<DrawingPalette>() {
+			paletteBinding.addToWalkers(new GRStructureVisitor<PaletteModel>() {
 
 				@Override
-				public void visit(DrawingPalette palette) {
+				public void visit(PaletteModel palette) {
 					for (PaletteElement element : palette.getElements()) {
 						drawShape(paletteElementBinding, element, palette);
 					}

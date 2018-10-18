@@ -72,7 +72,9 @@ import org.openflexo.diana.geomedit.edition.CreateRectangleFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateRotatedLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateRoundRectangleFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateSegmentFromPoints;
+import org.openflexo.diana.geomedit.edition.CreateSubstraction;
 import org.openflexo.diana.geomedit.edition.CreateTangentLineWithCircleAndPoint;
+import org.openflexo.diana.geomedit.edition.CreateUnion;
 import org.openflexo.diana.geomedit.edition.CreateVerticalLineWithPoint;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
 import org.openflexo.diana.geomedit.view.GeomEditIconLibrary;
@@ -483,6 +485,24 @@ public class GeneralContextualMenu extends JPopupMenu {
 			}
 		});
 		createOperationItem.add(createIntersectionItem);
+
+		JMenuItem createUnionItem = new JMenuItem("Union");
+		createUnionItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.setCurrentEdition(new CreateUnion(controller));
+			}
+		});
+		createOperationItem.add(createUnionItem);
+
+		JMenuItem createSoustractionItem = new JMenuItem("Soustraction");
+		createSoustractionItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.setCurrentEdition(new CreateSubstraction(controller));
+			}
+		});
+		createOperationItem.add(createSoustractionItem);
 
 		return createOperationItem;
 	}

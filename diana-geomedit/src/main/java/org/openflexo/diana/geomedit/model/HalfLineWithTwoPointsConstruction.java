@@ -110,7 +110,10 @@ public interface HalfLineWithTwoPointsConstruction extends HalfLineConstruction 
 
 		@Override
 		protected DianaHalfLine computeData() {
-			return new DianaHalfLine(limitPointConstruction.getPoint(), oppositePointConstruction.getPoint());
+			if (getLimitPointConstruction() != null && oppositePointConstruction != null) {
+				return new DianaHalfLine(limitPointConstruction.getPoint(), oppositePointConstruction.getPoint());
+			}
+			return null;
 		}
 
 		@Override

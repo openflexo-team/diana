@@ -42,13 +42,16 @@ package org.openflexo.diana.geom;
 import java.awt.Shape;
 import java.util.logging.Logger;
 
+import org.openflexo.diana.graphics.BGStyle;
+import org.openflexo.diana.graphics.FGStyle;
+
 /**
  * Implementation of a finite area
  * 
  * @author sylvain
  *
  * @param <O>
- *            type of represented {@link FGEShape}
+ *            type of represented {@link DianaShape}
  */
 public interface DianaShape<O extends DianaGeometricObject<O>> extends DianaGeometricObject<O>, Shape {
 
@@ -63,5 +66,35 @@ public interface DianaShape<O extends DianaGeometricObject<O>> extends DianaGeom
 	public DianaPoint getCenter();
 
 	public DianaRectangle getBoundingBox();
+
+	/**
+	 * Return background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	public BGStyle getBackground();
+
+	/**
+	 * Sets background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aBackground
+	 */
+	public void setBackground(BGStyle aBackground);
+
+	/**
+	 * Return foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	public FGStyle getForeground();
+
+	/**
+	 * Sets foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aForeground
+	 */
+	public void setForeground(FGStyle aForeground);
 
 }

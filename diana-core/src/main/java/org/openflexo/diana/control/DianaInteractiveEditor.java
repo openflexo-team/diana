@@ -44,9 +44,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.Drawing;
 import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.DianaUtils;
+import org.openflexo.diana.Drawing;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.connectors.ConnectorSpecification.ConnectorType;
@@ -225,7 +225,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		}
 		toolbox = null;*/
 		/*if (palettes != null) {
-			for (DrawingPalette palette : palettes) {
+			for (PaletteModel palette : palettes) {
 				palette.delete();
 			}
 		}

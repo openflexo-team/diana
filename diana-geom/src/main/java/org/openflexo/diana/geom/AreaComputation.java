@@ -7,14 +7,8 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.openflexo.diana.geom.DianaGeneralShape;
 import org.openflexo.diana.geom.DianaGeneralShape.Closure;
-import org.openflexo.diana.geom.DianaGeometricObject;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
-import org.openflexo.diana.geom.DianaPoint;
-import org.openflexo.diana.geom.DianaPolygon;
-import org.openflexo.diana.geom.DianaRectangle;
-import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.geom.area.DianaEmptyArea;
 import org.openflexo.diana.geom.area.DianaUnionArea;
@@ -79,6 +73,46 @@ public class AreaComputation {
 		}
 		else {
 			// debugPathIterator(area1.getPathIterator(new AffineTransform()));
+			return makeGeneralShapeFromArea(area1);
+		}
+	}
+
+	public static DianaArea computeShapeUnion(DianaShape<?> shape1, DianaShape<?> shape2) {
+		// System.out.println("computeShapeUnion() with "+shape1+" and "+shape2);
+		Area area1 = new Area(shape1);
+		// System.out.println(">>> First shape: ");
+		// debugPathIterator(area1.getPathIterator(new AffineTransform()));
+		Area area2 = new Area(shape2);
+		// System.out.println(">>> Second shape: ");
+		// debugPathIterator(area2.getPathIterator(new AffineTransform()));
+		area1.add(area2);
+		// System.out.println(">>> Third shape: ");
+		// debugPathIterator(area1.getPathIterator(new AffineTransform()));
+
+		if (isPolygonalArea(area1)) {
+			return makePolygonalShapeFromArea(area1);
+		}
+		else {
+			return makeGeneralShapeFromArea(area1);
+		}
+	}
+
+	public static DianaArea computeShapeSubstraction(DianaShape<?> shape1, DianaShape<?> shape2) {
+		System.out.println("computeShapeSubstraction() with " + shape1 + " and " + shape2);
+		Area area1 = new Area(shape1);
+		System.out.println(">>> First shape: ");
+		debugPathIterator(area1.getPathIterator(new AffineTransform()));
+		Area area2 = new Area(shape2);
+		System.out.println(">>> Second shape: ");
+		debugPathIterator(area2.getPathIterator(new AffineTransform()));
+		area1.subtract(area2);
+		System.out.println(">>> Third shape: ");
+		debugPathIterator(area1.getPathIterator(new AffineTransform()));
+
+		if (isPolygonalArea(area1)) {
+			return makePolygonalShapeFromArea(area1);
+		}
+		else {
 			return makeGeneralShapeFromArea(area1);
 		}
 	}

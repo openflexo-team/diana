@@ -44,6 +44,7 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 
 import org.openflexo.diana.DianaUtils.HasIcon;
+import org.openflexo.diana.graphics.FGStyle;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
@@ -59,7 +60,7 @@ import org.openflexo.model.annotations.XMLElement;
  */
 @ModelEntity
 @XMLElement(xmlTag = "ForegroundStyle")
-public interface ForegroundStyle extends DianaStyle {
+public interface ForegroundStyle extends DianaStyle, FGStyle {
 
 	// Property keys
 

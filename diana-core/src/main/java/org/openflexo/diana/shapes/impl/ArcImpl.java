@@ -67,7 +67,7 @@ public abstract class ArcImpl extends ShapeSpecificationImpl implements Arc {
 	}
 
 	@Override
-	public DianaShape<?> makeDianaShape(ShapeNode<?> node) {
+	public DianaShape<?> makeNormalizedDianaShape(ShapeNode<?> node) {
 		return new DianaArc(0, 0, 1, 1, angleStart, angleExtent, arcType);
 	}
 

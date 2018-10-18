@@ -49,6 +49,7 @@ import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.graphics.DianaShapeGraphics;
 import org.openflexo.diana.impl.DianaCachedModelFactory;
 import org.openflexo.diana.swing.view.JShapeView;
@@ -136,9 +137,12 @@ public class JDianaShapeGraphics extends JDianaGraphics implements DianaShapeGra
 		}
 	}
 
+	private boolean isPaintingShadow = false;
+
 	@Override
 	public void paintShadow() {
 
+		isPaintingShadow = true;
 		double deep = getGraphicalRepresentation().getShadowStyle().getShadowDepth();
 		int blur = getGraphicalRepresentation().getShadowStyle().getShadowBlur();
 		double viewWidth = getViewWidth(1.0);
@@ -175,7 +179,22 @@ public class JDianaShapeGraphics extends JDianaGraphics implements DianaShapeGra
 			getNode().getDianaShape().transform(at).paint(this);
 		}
 		releaseClonedGraphics(oldGraphics);
+		isPaintingShadow = false;
 
+	}
+
+	@Override
+	public void setDefaultBackgroundStyle(DianaShape<?> shape) {
+		if (!isPaintingShadow) {
+			super.setDefaultBackgroundStyle(shape);
+		}
+	}
+
+	@Override
+	public void setDefaultForegroundStyle(DianaShape<?> shape) {
+		if (!isPaintingShadow) {
+			super.setDefaultForegroundStyle(shape);
+		}
 	}
 
 }

@@ -59,6 +59,7 @@ import org.openflexo.diana.geom.DianaPolylin;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaSegment;
 import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.geom.DianaShapeUnion;
 import org.openflexo.diana.graphics.AbstractDianaGraphics;
 
 public class DianaUnionArea extends DianaOperationArea {
@@ -79,11 +80,11 @@ public class DianaUnionArea extends DianaOperationArea {
 		return makeUnion(objects, true);
 	}
 
-	private static DianaArea makeUnion(List<? extends DianaArea> objects, boolean tryToReduceUnionByConcatenation) {
-		List<? extends DianaArea> objectsToTakeUnderAccount = reduceUnionByEmbedding(objects);
+	public static DianaArea makeUnion(List<? extends DianaArea> objects, boolean tryToReduceUnion) {
 
-		if (tryToReduceUnionByConcatenation) {
+		if (tryToReduceUnion) {
 
+			List<? extends DianaArea> objectsToTakeUnderAccount = reduceUnionByEmbedding(objects);
 			List<? extends DianaArea> concatenedObjects = reduceUnionByConcatenation(objectsToTakeUnderAccount);
 
 			if (concatenedObjects.size() == 0) {
@@ -96,15 +97,40 @@ public class DianaUnionArea extends DianaOperationArea {
 			// System.out.println("Concatened objects: ");
 			// for (DianaArea o : concatenedObjects) System.out.println(" > "+o);
 
+			if (areAllShapes(concatenedObjects)) {
+				List<DianaShape<?>> shapes = new ArrayList<>();
+				for (DianaArea o : concatenedObjects) {
+					shapes.add((DianaShape<?>) o);
+				}
+				return new DianaShapeUnion(shapes);
+			}
+
 			return new DianaUnionArea(concatenedObjects);
 		}
 
 		else {
-			if (objectsToTakeUnderAccount.size() == 1) {
-				return objectsToTakeUnderAccount.get(0);
+			if (objects.size() == 1) {
+				return objects.get(0);
 			}
-			return new DianaUnionArea(objectsToTakeUnderAccount);
+			if (areAllShapes(objects)) {
+				List<DianaShape<?>> shapes = new ArrayList<>();
+				for (DianaArea o : objects) {
+					shapes.add((DianaShape<?>) o);
+				}
+
+				return new DianaShapeUnion(shapes);
+			}
+			return new DianaUnionArea(objects);
 		}
+	}
+
+	private static boolean areAllShapes(List<? extends DianaArea> objects) {
+		for (DianaArea area : objects) {
+			if (!(area instanceof DianaShape)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private static List<? extends DianaArea> reduceUnionByEmbedding(List<? extends DianaArea> objects) {

@@ -69,14 +69,16 @@ public abstract class ComplexCurveImpl extends ShapeSpecificationImpl implements
 	public ComplexCurveImpl(List<DianaPoint> points) {
 		this();
 		for (DianaPoint pt : points) {
-			this.points.add(pt);
+			// this.points.add(pt);
+			addToPoints(pt);
 		}
 	}
 
 	public ComplexCurveImpl(DianaComplexCurve curve) {
 		this();
 		for (DianaPoint pt : curve.getPoints()) {
-			points.add(pt);
+			// points.add(pt);
+			addToPoints(pt);
 		}
 	}
 
@@ -128,7 +130,7 @@ public abstract class ComplexCurveImpl extends ShapeSpecificationImpl implements
 	}
 
 	@Override
-	public DianaComplexCurve makeDianaShape(ShapeNode<?> node) {
+	public DianaComplexCurve makeNormalizedDianaShape(ShapeNode<?> node) {
 		return new DianaComplexCurve(getClosure(), points);
 	}
 

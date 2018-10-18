@@ -39,9 +39,9 @@
 
 package org.openflexo.diana.geomedit.model;
 
-import org.openflexo.diana.geomedit.model.SymetricPointConstruction.SymetricPointConstructionImpl;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.geomedit.model.SymetricPointConstruction.SymetricPointConstructionImpl;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
@@ -80,7 +80,10 @@ public interface SymetricPointConstruction extends PointConstruction {
 
 		@Override
 		protected DianaPoint computeData() {
-			return new DianaSegment(pointConstruction.getPoint(), pivotConstruction.getPoint()).getScaledPoint(2);
+			if (getPointConstruction() != null && getPivotConstruction() != null) {
+				return new DianaSegment(pointConstruction.getPoint(), pivotConstruction.getPoint()).getScaledPoint(2);
+			}
+			return null;
 		}
 
 		@Override

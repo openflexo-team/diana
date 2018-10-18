@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" name="Pie"
+	index="12" applyCurrentForeground="true" applyCurrentBackground="true"
+	applyCurrentTextStyle="true" applyCurrentShadowStyle="true"
+	askForImage="false">
+	<ShapeGraphicalRepresentation id="1"
+		relativeTextY="0.5" locationConstraints="FREELY_MOVABLE"
+		isFloatingLabel="false" allowToLeaveBounds="false"
+		adaptBoundsToContents="false" x="90.0" y="130.0" relativeTextX="0.5"
+		dimensionConstraints="FREELY_RESIZABLE" width="60.0" height="50.0"
+		identifier="7d501f01" layer="1">
+		<SelectedColorBackgroundStyle id="2"
+			color="254,247,217" transparencyLevel="0.5" />
+		<ForegroundStyle id="3" joinStyle="JOIN_MITER" color="0,0,0"
+			dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+		<FocusedColorBackgroundStyle id="4"
+			color="254,247,217" transparencyLevel="0.5" />
+		<ShadowStyle id="5" />
+		<FocusedForegroundStyle id="6" joinStyle="JOIN_MITER"
+			color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+		<SelectedForegroundStyle id="7" joinStyle="JOIN_MITER"
+			color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+		<ColorBackgroundStyle id="8" color="254,247,217"
+			transparencyLevel="0.5" />
+		<ArcShape id="9" arcType="PIE" angleExtent="280" />
+		<TextStyle id="10" backgroundColor="255,255,255" color="64,64,64"
+			font="SansSerif,0,9" />
+	</ShapeGraphicalRepresentation>
+</PaletteElementSpecification>

@@ -453,7 +453,7 @@ public class DianaPaintManager {
 			try {
 				super.paintDirtyRegions();
 			} catch (NullPointerException e) {
-				logger.warning("Unexpected " + e);
+				logger.warning("Unexpected NullPointerException during repaint(). Please investigate. See logs for full stacktrace");
 				e.printStackTrace();
 			}
 		}

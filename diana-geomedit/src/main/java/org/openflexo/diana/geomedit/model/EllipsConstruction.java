@@ -92,7 +92,7 @@ public interface EllipsConstruction<E extends DianaEllips> extends GeometricCons
 	@Setter(HEIGHT_KEY)
 	public void setHeight(double value);
 
-	@Getter(value = IS_FILLED_KEY, defaultValue = "false")
+	@Getter(value = IS_FILLED_KEY, defaultValue = "true")
 	@XMLAttribute
 	public boolean getIsFilled();
 
@@ -181,6 +181,22 @@ public interface EllipsConstruction<E extends DianaEllips> extends GeometricCons
 				getPropertyChangeSupport().firePropertyChange(HEIGHT_KEY, oldHeight, height);
 				notifyGeometryChanged();
 			}
+		}
+
+		@Override
+		public void notifyGeometryChanged() {
+			super.notifyGeometryChanged();
+			getPropertyChangeSupport().firePropertyChange(X_KEY, null, getX());
+			getPropertyChangeSupport().firePropertyChange(Y_KEY, null, getY());
+			getPropertyChangeSupport().firePropertyChange(WIDTH_KEY, null, getWidth());
+			getPropertyChangeSupport().firePropertyChange(HEIGHT_KEY, null, getHeight());
+		}
+
+		@Override
+		public void setIsFilled(boolean isFilled) {
+			performSuperSetter(IS_FILLED_KEY, isFilled);
+			refresh();
+			notifyGeometryChanged();
 		}
 
 	}

@@ -55,27 +55,39 @@ import org.openflexo.diana.ForegroundStyle.DashStyle;
 import org.openflexo.diana.ForegroundStyle.JoinStyle;
 import org.openflexo.diana.TextureBackgroundStyle.TextureType;
 import org.openflexo.diana.connectors.ConnectorSpecification;
+import org.openflexo.diana.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.diana.connectors.CurveConnectorSpecification;
 import org.openflexo.diana.connectors.CurvedPolylinConnectorSpecification;
 import org.openflexo.diana.connectors.LineConnectorSpecification;
 import org.openflexo.diana.connectors.RectPolylinConnectorSpecification;
-import org.openflexo.diana.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.control.MouseClickControl;
 import org.openflexo.diana.control.MouseClickControlAction;
+import org.openflexo.diana.control.MouseControl.MouseButton;
 import org.openflexo.diana.control.MouseDragControl;
 import org.openflexo.diana.control.MouseDragControlAction;
 import org.openflexo.diana.control.PredefinedMouseClickControlActionType;
 import org.openflexo.diana.control.PredefinedMouseDragControlActionType;
-import org.openflexo.diana.control.MouseControl.MouseButton;
+import org.openflexo.diana.geom.DianaArc;
 import org.openflexo.diana.geom.DianaComplexCurve;
+import org.openflexo.diana.geom.DianaCubicCurve;
+import org.openflexo.diana.geom.DianaEllips;
+import org.openflexo.diana.geom.DianaGeneralShape;
+import org.openflexo.diana.geom.DianaGeneralShape.GeneralShapePathElement;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geom.DianaQuadCurve;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaRoundRectangle;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.geom.DianaShapeUnion;
 import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.shapes.Arc;
 import org.openflexo.diana.shapes.Chevron;
 import org.openflexo.diana.shapes.Circle;
 import org.openflexo.diana.shapes.ComplexCurve;
+import org.openflexo.diana.shapes.GeneralShape;
 import org.openflexo.diana.shapes.Losange;
 import org.openflexo.diana.shapes.Oval;
 import org.openflexo.diana.shapes.Parallelogram;
@@ -85,10 +97,14 @@ import org.openflexo.diana.shapes.Rectangle;
 import org.openflexo.diana.shapes.RectangularOctogon;
 import org.openflexo.diana.shapes.RegularPolygon;
 import org.openflexo.diana.shapes.ShapeSpecification;
+import org.openflexo.diana.shapes.ShapeUnion;
+import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.diana.shapes.Square;
 import org.openflexo.diana.shapes.Star;
 import org.openflexo.diana.shapes.Triangle;
-import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
+import org.openflexo.diana.shapes.GeneralShape.CubicCurvePathElement;
+import org.openflexo.diana.shapes.GeneralShape.QuadCurvePathElement;
+import org.openflexo.diana.shapes.GeneralShape.SegmentPathElement;
 import org.openflexo.model.ModelContextLibrary;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.model.factory.ModelFactory;
@@ -159,6 +175,7 @@ public abstract class DianaModelFactory extends ModelFactory {
 		returned.add(GeometricGraphicalRepresentation.class);
 		returned.add(DianaLayoutManager.class);
 		returned.add(DianaLayoutManagerSpecification.class);
+		returned.add(PaletteElementSpecification.class);
 		return returned.toArray(new Class<?>[returned.size()]);
 	}
 
@@ -630,8 +647,8 @@ public abstract class DianaModelFactory extends ModelFactory {
 	}
 
 	/**
-	 * Make a new foreground style (stroke style), initialized with default values as declared in DianaConstants, with a specific color and a
-	 * specific line width
+	 * Make a new foreground style (stroke style), initialized with default values as declared in DianaConstants, with a specific color and
+	 * a specific line width
 	 * 
 	 * @param aColor
 	 *            the color to assign to line
@@ -865,52 +882,7 @@ public abstract class DianaModelFactory extends ModelFactory {
 	}
 
 	/**
-	 * Make a new border, initialized with default values as in DianaConstants
-	 * 
-	 * @return a newly created ShapeBorder
-	 */
-	/*public ShapeBorder makeShapeBorder() {
-		final ShapeBorder returned = this.newInstance(ShapeBorder.class);
-		returned.setFactory(this);
-		returned.setTop(DianaConstants.DEFAULT_BORDER_SIZE);
-		returned.setBottom(DianaConstants.DEFAULT_BORDER_SIZE);
-		returned.setLeft(DianaConstants.DEFAULT_BORDER_SIZE);
-		returned.setRight(DianaConstants.DEFAULT_BORDER_SIZE);
-		return returned;
-	}*/
-
-	/**
-	 * Make a new border, initialized with supplied values
-	 * 
-	 * @return a newly created ShapeBorder
-	 */
-	/*public ShapeBorder makeShapeBorder(final int top, final int bottom, final int left, final int right) {
-		final ShapeBorder returned = this.newInstance(ShapeBorder.class);
-		returned.setFactory(this);
-		returned.setTop(top);
-		returned.setBottom(bottom);
-		returned.setLeft(left);
-		returned.setRight(right);
-		return returned;
-	}*/
-
-	/**
-	 * Make a new border, initialized with an other border
-	 * 
-	 * @return a newly created ShapeBorder
-	 */
-	/*public ShapeBorder makeShapeBorder(final ShapeBorder border) {
-		final ShapeBorder returned = this.newInstance(ShapeBorder.class);
-		returned.setFactory(this);
-		returned.setTop(border.getTop());
-		returned.setBottom(border.getBottom());
-		returned.setLeft(border.getLeft());
-		returned.setRight(border.getRight());
-		return returned;
-	}*/
-
-	/**
-	 * Make a new ShapeSpecification from corresponding ShapeType
+	 * Make a new {@link ShapeSpecification} from corresponding {@link ShapeType}
 	 * 
 	 * @param type
 	 * @return a newly created ShapeSpecification
@@ -963,6 +935,12 @@ public abstract class DianaModelFactory extends ModelFactory {
 			case STAR:
 				returned = this.newInstance(Star.class);
 				break;
+			case GENERALSHAPE:
+				returned = this.newInstance(GeneralShape.class);
+				break;
+			case UNION:
+				returned = this.newInstance(ShapeUnion.class);
+				break;
 			default:
 				LOGGER.warning("Unexpected ShapeType: " + type);
 				break;
@@ -973,6 +951,109 @@ public abstract class DianaModelFactory extends ModelFactory {
 		}
 
 		return returned;
+	}
+
+	/**
+	 * Build a {@link ShapeSpecification} from a supplied {@link DianaShape}
+	 * 
+	 * @param shape
+	 * @return
+	 */
+	// TODO: complete this
+	public ShapeSpecification makeShapeSpecification(DianaShape<?> shape, boolean relativePositionning) {
+		ShapeSpecification returned = null;
+		if (shape instanceof DianaRectangle) {
+			returned = makeRectangle((DianaRectangle) shape);
+			if (relativePositionning) {
+				relocateAndResizeAccordingToBoundingBox(returned, shape);
+			}
+		}
+		if (shape instanceof DianaRoundRectangle) {
+			returned = makeRectangle((DianaRoundRectangle) shape);
+			if (relativePositionning) {
+				relocateAndResizeAccordingToBoundingBox(returned, shape);
+			}
+		}
+		if (shape instanceof DianaEllips) {
+			returned = makeOval((DianaEllips) shape);
+			if (relativePositionning) {
+				relocateAndResizeAccordingToBoundingBox(returned, shape);
+			}
+		}
+		if (shape instanceof DianaArc) {
+			returned = makeArc((DianaArc) shape);
+			if (relativePositionning) {
+				relocateAndResizeAccordingToBoundingBox(returned, shape);
+			}
+		}
+		// Following ShapeSpecification are already declared as absolute positionning
+		if (shape instanceof DianaPolygon) {
+			returned = makePolygon((DianaPolygon) shape);
+		}
+		if (shape instanceof DianaComplexCurve) {
+			returned = makeComplexCurve((DianaComplexCurve) shape);
+		}
+		if (shape instanceof DianaGeneralShape) {
+			returned = makeGeneralShape((DianaGeneralShape<?>) shape);
+		}
+
+		returned.setForeground((ForegroundStyle) shape.getForeground());
+		returned.setBackground((BackgroundStyle) shape.getBackground());
+
+		return returned;
+	}
+
+	private void relocateAndResizeAccordingToBoundingBox(ShapeSpecification shapeSpecification, DianaShape<?> shape) {
+		DianaRectangle bounds = shape.getBoundingBox();
+		shapeSpecification.setX(bounds.getX());
+		shapeSpecification.setY(bounds.getY());
+		shapeSpecification.setWidth(bounds.getWidth());
+		shapeSpecification.setHeight(bounds.getHeight());
+	}
+
+	/**
+	 * Make a new Rectangle (as ShapeSpecification) with supplied {@link DianaRectangle}
+	 * 
+	 * @return a newly created Rectangle
+	 */
+	public Rectangle makeRectangle(final DianaRectangle aRectangle) {
+		final Rectangle rectangle = this.newInstance(Rectangle.class);
+		rectangle.setIsRounded(false);
+		return rectangle;
+	}
+
+	/**
+	 * Make a new Rectangle (as ShapeSpecification) with supplied {@link DianaRoundRectangle}
+	 * 
+	 * @return a newly created Rectangle
+	 */
+	public Rectangle makeRectangle(final DianaRoundRectangle aRectangle) {
+		final Rectangle rectangle = this.newInstance(Rectangle.class);
+		rectangle.setIsRounded(true);
+		return rectangle;
+	}
+
+	/**
+	 * Make a new Oval (as ShapeSpecification) with supplied {@link DianaEllips}
+	 * 
+	 * @return a newly created Oval
+	 */
+	public Oval makeOval(final DianaEllips anEllips) {
+		final Oval oval = this.newInstance(Oval.class);
+		return oval;
+	}
+
+	/**
+	 * Make a new Arc (as ShapeSpecification) with supplied {@link DianaArc}
+	 * 
+	 * @return a newly created Arc
+	 */
+	public Arc makeArc(final DianaArc anArc) {
+		final Arc arc = this.newInstance(Arc.class);
+		arc.setArcType(anArc.getDianaArcType());
+		arc.setAngleStart((int) anArc.getAngleStart());
+		arc.setAngleExtent((int) anArc.getAngleExtent());
+		return arc;
 	}
 
 	/**
@@ -1034,6 +1115,67 @@ public abstract class DianaModelFactory extends ModelFactory {
 			curve.addToPoints(pt);
 		}
 		return curve;
+	}
+
+	/**
+	 * Make a new ComplexCurve with supplied curve
+	 * 
+	 * @param aCurve
+	 * 
+	 * @return a newly created ComplexCurve
+	 */
+	public GeneralShape makeGeneralShape(final DianaGeneralShape<?> aGeneralShape) {
+		final GeneralShape generalShape = this.newInstance(GeneralShape.class);
+		generalShape.setStartPoint(aGeneralShape.getStartPoint());
+
+		for (GeneralShapePathElement<?> pathElement : aGeneralShape.getPathElements()) {
+			if (pathElement instanceof DianaSegment) {
+				SegmentPathElement segmentPathElement = newInstance(SegmentPathElement.class);
+				segmentPathElement.setPoint(((DianaSegment) pathElement).getP2());
+				generalShape.addToPathElements(segmentPathElement);
+			}
+			else if (pathElement instanceof DianaQuadCurve) {
+				QuadCurvePathElement quadCurvePathElement = newInstance(QuadCurvePathElement.class);
+				quadCurvePathElement.setControlPoint(((DianaQuadCurve) pathElement).getCtrlPoint());
+				quadCurvePathElement.setPoint(((DianaQuadCurve) pathElement).getP2());
+				generalShape.addToPathElements(quadCurvePathElement);
+			}
+			else if (pathElement instanceof DianaCubicCurve) {
+				CubicCurvePathElement cubicCurvePathElement = newInstance(CubicCurvePathElement.class);
+				cubicCurvePathElement.setControlPoint1(((DianaCubicCurve) pathElement).getCtrlP1());
+				cubicCurvePathElement.setControlPoint2(((DianaCubicCurve) pathElement).getCtrlP2());
+				cubicCurvePathElement.setPoint(((DianaCubicCurve) pathElement).getP2());
+				generalShape.addToPathElements(cubicCurvePathElement);
+			}
+		}
+		generalShape.setClosure(aGeneralShape.getClosure());
+		return generalShape;
+	}
+
+	/**
+	 * Make union as {@link ShapeSpecification} from supplied {@link DianaShapeUnion}
+	 * 
+	 * @param points
+	 * 
+	 * @return a newly created ShapeUnion
+	 */
+	public ShapeUnion makeShapeUnion(final DianaShapeUnion union) {
+		final ShapeUnion returned = this.newInstance(ShapeUnion.class);
+		for (DianaShape<?> shape : union.getShapes()) {
+			ShapeSpecification ss = makeShapeSpecification(shape, true);
+			/*if ((ss instanceof ComplexCurve) || (ss instanceof Polygon)) {
+			
+			}
+			else {
+				DianaRectangle bounds = shape.getBoundingBox();
+				ss.setX(bounds.getX());
+				ss.setY(bounds.getY());
+				ss.setWidth(bounds.getWidth());
+				ss.setHeight(bounds.getHeight());
+			}*/
+			returned.addToShapes(ss);
+		}
+		return returned;
 	}
 
 	/**

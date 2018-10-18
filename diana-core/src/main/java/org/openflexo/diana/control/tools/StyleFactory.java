@@ -60,7 +60,7 @@ public interface StyleFactory<S extends KeyValueCoding, ST> extends HasPropertyC
 
 	public DianaModelFactory getDianaFactory();
 
-	public void setDianaFactory(DianaModelFactory fgeFactory);
+	public void setDianaFactory(DianaModelFactory dianaFactory);
 
 	public static final String STYLE_CLASS_CHANGED = "StyleClassChanged";
 }

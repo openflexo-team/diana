@@ -100,8 +100,12 @@ public interface CubicCurveWithFourPointsConstruction extends CubicCurveConstruc
 
 		@Override
 		protected DianaCubicCurve computeData() {
-			return new DianaCubicCurve(startPointConstruction.getPoint(), controlPointConstruction1.getPoint(),
-					controlPointConstruction2.getPoint(), endPointConstruction.getPoint());
+			if (getStartPointConstruction() != null && getEndPointConstruction() != null && getControlPointConstruction1() != null
+					&& getControlPointConstruction2() != null) {
+				return new DianaCubicCurve(getStartPointConstruction().getPoint(), getControlPointConstruction1().getPoint(),
+						getControlPointConstruction2().getPoint(), getEndPointConstruction().getPoint());
+			}
+			return null;
 		}
 
 		@Override

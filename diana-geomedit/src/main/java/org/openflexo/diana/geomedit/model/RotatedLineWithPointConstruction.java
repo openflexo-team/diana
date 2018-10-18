@@ -39,13 +39,13 @@
 
 package org.openflexo.diana.geomedit.model;
 
-import org.openflexo.diana.geomedit.model.RotatedLineWithPointConstruction.RotatedLineWithPointConstructionImpl;
 import org.openflexo.diana.geom.DianaAbstractLine;
 import org.openflexo.diana.geom.DianaDimension;
 import org.openflexo.diana.geom.DianaEllips;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaLine;
 import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geomedit.model.RotatedLineWithPointConstruction.RotatedLineWithPointConstructionImpl;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
@@ -91,20 +91,22 @@ public interface RotatedLineWithPointConstruction extends LineConstruction {
 
 		@Override
 		protected DianaLine computeData() {
-			DianaLine computedLine = DianaAbstractLine.getRotatedLine(getLineConstruction().getLine(), getAngle(),
-					getPointConstruction().getPoint());
+			if (getLineConstruction() != null && getPointConstruction() != null) {
+				DianaLine computedLine = DianaAbstractLine.getRotatedLine(getLineConstruction().getLine(), getAngle(),
+						getPointConstruction().getPoint());
 
-			DianaPoint p1, p2;
-			p1 = getPointConstruction().getPoint().clone();
-			if (getLineConstruction().getLine().contains(getPointConstruction().getPoint())) {
-				DianaEllips ellips = new DianaEllips(p1, new DianaDimension(200, 200), Filling.NOT_FILLED);
-				p2 = ellips.intersect(computedLine).getNearestPoint(p1);
+				DianaPoint p1, p2;
+				p1 = getPointConstruction().getPoint().clone();
+				if (getLineConstruction().getLine().contains(getPointConstruction().getPoint())) {
+					DianaEllips ellips = new DianaEllips(p1, new DianaDimension(200, 200), Filling.NOT_FILLED);
+					p2 = ellips.intersect(computedLine).getNearestPoint(p1);
+				}
+				else {
+					p2 = computedLine.getLineIntersection(getLineConstruction().getLine()).clone();
+				}
+				return new DianaLine(p1, p2);
 			}
-			else {
-				p2 = computedLine.getLineIntersection(getLineConstruction().getLine()).clone();
-			}
-			return new DianaLine(p1, p2);
-
+			return null;
 		}
 
 		@Override

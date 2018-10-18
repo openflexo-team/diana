@@ -39,10 +39,10 @@
 
 package org.openflexo.diana.geomedit.model;
 
-import org.openflexo.diana.geomedit.model.RectangleWithTwoPointsConstruction.RectangleWithTwoPointsConstructionImpl;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geomedit.model.RectangleWithTwoPointsConstruction.RectangleWithTwoPointsConstructionImpl;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
@@ -82,17 +82,20 @@ public interface RectangleWithTwoPointsConstruction extends RectangleConstructio
 
 		@Override
 		protected DianaRectangle computeData() {
-			DianaPoint p1 = pointConstruction1.getPoint();
-			DianaPoint p2 = pointConstruction2.getPoint();
+			if (getPointConstruction1() != null && getPointConstruction2() != null) {
+				DianaPoint p1 = pointConstruction1.getPoint();
+				DianaPoint p2 = pointConstruction2.getPoint();
 
-			DianaPoint p = new DianaPoint();
-			p.x = Math.min(p1.x, p2.x);
-			p.y = Math.min(p1.y, p2.y);
+				DianaPoint p = new DianaPoint();
+				p.x = Math.min(p1.x, p2.x);
+				p.y = Math.min(p1.y, p2.y);
 
-			double width = Math.abs(p1.x - p2.x);
-			double height = Math.abs(p1.y - p2.y);
+				double width = Math.abs(p1.x - p2.x);
+				double height = Math.abs(p1.y - p2.y);
 
-			return new DianaRectangle(p.x, p.y, width, height, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
+				return new DianaRectangle(p.x, p.y, width, height, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
+			}
+			return null;
 		}
 
 		@Override

@@ -107,7 +107,7 @@ public abstract class RegularPolygonImpl extends PolygonImpl implements RegularP
 	}*/
 
 	@Override
-	public DianaShape<?> makeDianaShape(ShapeNode<?> node) {
+	public DianaShape<?> makeNormalizedDianaShape(ShapeNode<?> node) {
 		if (getPoints() != null && getPoints().size() > 0) {
 			return new DianaPolygon(Filling.FILLED, getPoints());
 		}

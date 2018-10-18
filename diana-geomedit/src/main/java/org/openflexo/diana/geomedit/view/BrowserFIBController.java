@@ -82,7 +82,7 @@ public class BrowserFIBController extends FIBController {
 	}
 
 	public void rightClick(GeometricConstruction<?> construction, FIBMouseEvent event) {
-		System.out.println("rightClick with " + construction + " event=" + event);
+		//System.out.println("rightClick with " + construction + " event=" + event);
 		editorController.getContextualMenu().displayPopupMenu(construction, (Component) event.getSource(), event.getPoint());
 	}
 

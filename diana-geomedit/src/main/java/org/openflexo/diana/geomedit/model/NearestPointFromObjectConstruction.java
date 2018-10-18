@@ -76,7 +76,10 @@ public interface NearestPointFromObjectConstruction extends PointConstruction {
 
 		@Override
 		protected DianaPoint computeData() {
-			return getObjectReference().getReference().getData().getNearestPoint(getPointConstruction().getPoint());
+			if (getObjectReference() != null && getPointConstruction() != null) {
+				return getObjectReference().getReference().getData().getNearestPoint(getPointConstruction().getPoint());
+			}
+			return null;
 		}
 
 		@Override

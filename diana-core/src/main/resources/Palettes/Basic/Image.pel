@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" name="Image"
+	index="13" applyCurrentForeground="false" applyCurrentBackground="false"
+	applyCurrentTextStyle="false" applyCurrentShadowStyle="false"
+	askForImage="true">
+	<ShapeGraphicalRepresentation id="1"
+		relativeTextY="0.5" locationConstraints="FREELY_MOVABLE"
+		isFloatingLabel="false" allowToLeaveBounds="false"
+		adaptBoundsToContents="false" relativeTextX="0.5"
+		dimensionConstraints="FREELY_RESIZABLE" identifier="780d5230" layer="1">
+		<SelectedImageBackgroundStyle id="2"
+			fitToShape="true" imageBackgroundColor="255,255,255"
+			imageBackgroundType="TRANSPARENT" transparencyLevel="0.5" />
+		<ForegroundStyle id="3" joinStyle="JOIN_MITER" color="0,0,0"
+			dashStyle="PLAIN_STROKE" noStroke="true" capStyle="CAP_SQUARE" />
+		<FocusedImageBackgroundStyle id="4"
+			fitToShape="true" imageBackgroundColor="255,255,255"
+			imageBackgroundType="TRANSPARENT" transparencyLevel="0.5" />
+		<ShadowStyle id="5" drawShadow="false" />
+		<FocusedForegroundStyle id="6" joinStyle="JOIN_MITER"
+			color="0,0,0" dashStyle="PLAIN_STROKE" noStroke="true" capStyle="CAP_SQUARE" />
+		<SelectedForegroundStyle id="7" joinStyle="JOIN_MITER"
+			color="0,0,0" dashStyle="PLAIN_STROKE" noStroke="true" capStyle="CAP_SQUARE" />
+		<ImageBackgroundStyle id="8" fitToShape="true"
+			imageFile="Icons/Image.png" imageBackgroundColor="255,255,255"
+			imageBackgroundType="TRANSPARENT" transparencyLevel="0.5" />
+		<RectangleShape id="9" />
+		<TextStyle id="10" backgroundColor="255,255,255" color="0,0,0"
+			font="Lucida Sans,0,11" />
+	</ShapeGraphicalRepresentation>
+</PaletteElementSpecification>

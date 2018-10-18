@@ -113,11 +113,14 @@ public interface CircleWithCenterAndPointConstruction extends CircleConstruction
 
 		@Override
 		protected DianaCircle computeData() {
-			DianaPoint center = centerConstruction.getPoint();
-			DianaPoint p = pointConstruction.getPoint();
+			if (getCenterConstruction() != null && getPointConstruction() != null) {
+				DianaPoint center = getCenterConstruction().getPoint();
+				DianaPoint p = getPointConstruction().getPoint();
 
-			double radius = DianaSegment.getLength(center, p);
-			return new DianaCircle(center, radius, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
+				double radius = DianaSegment.getLength(center, p);
+				return new DianaCircle(center, radius, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
+			}
+			return null;
 		}
 
 		@Override

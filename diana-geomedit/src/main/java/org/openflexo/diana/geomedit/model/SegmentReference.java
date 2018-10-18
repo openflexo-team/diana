@@ -39,8 +39,10 @@
 
 package org.openflexo.diana.geomedit.model;
 
-import org.openflexo.diana.geomedit.model.SegmentReference.SegmentReferenceImpl;
+import org.openflexo.diana.BackgroundStyle;
+import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.geomedit.model.SegmentReference.SegmentReferenceImpl;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.XMLElement;
@@ -73,8 +75,27 @@ public interface SegmentReference extends SegmentConstruction {
 		}
 
 		@Override
+		public BackgroundStyle getBackground() {
+			if (getReference() != null) {
+				return getReference().getBackground();
+			}
+			return null;
+		}
+
+		@Override
+		public ForegroundStyle getForeground() {
+			if (getReference() != null) {
+				return getReference().getForeground();
+			}
+			return null;
+		}
+
+		@Override
 		protected DianaSegment computeData() {
-			return reference.getData();
+			if (getReference() != null) {
+				return getReference().getData();
+			}
+			return null;
 		}
 
 		@Override

@@ -60,6 +60,8 @@ import org.openflexo.diana.geom.area.DianaIntersectionArea;
 import org.openflexo.diana.geom.area.DianaSubstractionArea;
 import org.openflexo.diana.geom.area.DianaUnionArea;
 import org.openflexo.diana.graphics.AbstractDianaGraphics;
+import org.openflexo.diana.graphics.BGStyle;
+import org.openflexo.diana.graphics.FGStyle;
 
 /**
  * The <code>DianaPolygon</code> class encapsulates a description of a closed, two-dimensional region within a coordinate space. This region
@@ -78,6 +80,9 @@ public class DianaPolygon implements DianaShape<DianaPolygon> {
 
 	protected Vector<DianaPoint> _points;
 	protected Vector<DianaSegment> _segments;
+
+	private FGStyle foreground;
+	private BGStyle background;
 
 	private DianaRectangle bounds;
 
@@ -526,6 +531,17 @@ public class DianaPolygon implements DianaShape<DianaPolygon> {
 
 	@Override
 	public DianaArea substract(DianaArea area, boolean isStrict) {
+		if (area.containsArea(this)) {
+			return new DianaEmptyArea();
+		}
+		if (!containsArea(area)) {
+			return this.clone();
+		}
+
+		if (area instanceof DianaShape) {
+			return AreaComputation.computeShapeSubstraction(this, (DianaShape<?>) area);
+		}
+
 		return new DianaSubstractionArea(this, area, isStrict);
 	}
 
@@ -536,6 +552,10 @@ public class DianaPolygon implements DianaShape<DianaPolygon> {
 		}
 		if (area.containsArea(this)) {
 			return area.clone();
+		}
+
+		if (area instanceof DianaShape) {
+			return AreaComputation.computeShapeUnion(this, (DianaShape<?>) area);
 		}
 
 		return new DianaUnionArea(this, area);
@@ -567,11 +587,16 @@ public class DianaPolygon implements DianaShape<DianaPolygon> {
 			points.add(p.transform(t));
 		}
 		DianaPolygon returned = new DianaPolygon(_filling, points);
+		returned.setForeground(getForeground());
+		returned.setBackground(getBackground());
 		return returned;
 	}
 
 	@Override
 	public void paint(AbstractDianaGraphics g) {
+		g.setDefaultBackgroundStyle(this);
+		g.setDefaultForegroundStyle(this);
+
 		if (getIsFilled()) {
 			g.useDefaultBackgroundStyle();
 			g.fillPolygon(getPoints().toArray(new DianaPoint[getPoints().size()]));
@@ -582,9 +607,9 @@ public class DianaPolygon implements DianaShape<DianaPolygon> {
 
 	// Alternative implementation
 	/*@Override
-	public void paint(AbstractFGEGraphics g) {
+	public void paint(AbstractDianaGraphics g) {
 		g.useDefaultForegroundStyle();
-		for (FGESegment s : _segments) {
+		for (DianaSegment s : _segments) {
 			s.paint(g);
 		}
 	}*/
@@ -1125,6 +1150,48 @@ public class DianaPolygon implements DianaShape<DianaPolygon> {
 		pts.addAll(getPoints());
 		pts.add(getPoints().firstElement());
 		return new DianaPolylin(pts);
+	}
+
+	/**
+	 * Return background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public BGStyle getBackground() {
+		return background;
+	}
+
+	/**
+	 * Sets background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aBackground
+	 */
+	@Override
+	public void setBackground(BGStyle aBackground) {
+		this.background = aBackground;
+	}
+
+	/**
+	 * Return foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public FGStyle getForeground() {
+		return foreground;
+	}
+
+	/**
+	 * Sets foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aForeground
+	 */
+	@Override
+	public void setForeground(FGStyle aForeground) {
+		this.foreground = aForeground;
 	}
 
 }

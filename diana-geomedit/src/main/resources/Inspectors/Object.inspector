@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Panel className="org.openflexo.fge.geomedit.FIBInspector" layout="border" titleFont="SansSerif,0,12" darkLevel="0" dataClassName="org.openflexo.fge.geomedit.gr.GeometricObjectGraphicalRepresentation" font="SansSerif,0,12" name="Inspector">
+<Panel className="org.openflexo.diana.geomedit.FIBInspector" layout="border" titleFont="SansSerif,0,12" darkLevel="0" dataClassName="org.openflexo.diana.geomedit.gr.GeometricObjectGraphicalRepresentation" font="SansSerif,0,12" name="Inspector">
   <TabPanel name="Tab" constraints="border(location=center)">
     <Tab title="Edition" layout="twocols" titleFont="SansSerif,0,11" darkLevel="0" index="4" font="SansSerif,0,11" useScrollBar="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="EditionTab" />
     <Tab title="Graphics" layout="twocols" titleFont="SansSerif,0,11" darkLevel="0" index="3" font="SansSerif,0,11" useScrollBar="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="GraphicsTab">
       <Label label="foreground" index="0" constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;location=left)" localize="true" />
-      <Custom componentClassName="org.openflexo.fge.view.widget.FIBForegroundStyleSelector" localize="true" manageDynamicModel="true" index="1" data="data.foreground" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;location=right)" />
+      <Custom componentClassName="org.openflexo.diana.view.widget.FIBForegroundStyleSelector" localize="true" manageDynamicModel="true" index="1" data="data.foreground" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;location=right)" />
       <Label label="background" index="2" constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;location=left)" localize="true" />
-      <Custom componentClassName="org.openflexo.fge.view.widget.FIBBackgroundStyleSelector" localize="true" manageDynamicModel="true" index="3" data="data.background" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;location=right)" />
+      <Custom componentClassName="org.openflexo.diana.view.widget.FIBBackgroundStyleSelector" localize="true" manageDynamicModel="true" index="3" data="data.background" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;location=right)" />
       <Label label="display_label" index="4" constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;location=left)" localize="true" />
       <CheckBox selected="false" index="5" data="data.displayLabel" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;location=right)" localize="true" />
       <Label label="absolute_text_x" index="6" constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;location=left)" localize="true" />

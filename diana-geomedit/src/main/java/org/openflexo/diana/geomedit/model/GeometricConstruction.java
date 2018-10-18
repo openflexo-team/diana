@@ -47,6 +47,7 @@ import java.util.List;
 import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.cp.ControlPoint;
+import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.geomedit.model.GeometricConstruction.GeometricConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
@@ -61,6 +62,7 @@ import org.openflexo.model.annotations.Imports;
 import org.openflexo.model.annotations.ModelEntity;
 import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Setter;
+import org.openflexo.model.annotations.XMLAttribute;
 import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity(isAbstract = true)
@@ -69,8 +71,9 @@ import org.openflexo.model.annotations.XMLElement;
 		@Import(RectangleConstruction.class), @Import(RoundRectangleConstruction.class), @Import(SegmentConstruction.class),
 		@Import(HalfLineConstruction.class), @Import(CubicCurveConstruction.class), @Import(QuadCurveConstruction.class),
 		@Import(ComplexCurveConstruction.class), @Import(BandConstruction.class), @Import(HalfBandConstruction.class),
-		@Import(HalfPlaneConstruction.class), @Import(IntersectionConstruction.class), @Import(ObjectReference.class),
-		@Import(PolygonConstruction.class), @Import(QuarterPlaneConstruction.class), @Import(PolylinConstruction.class) })
+		@Import(HalfPlaneConstruction.class), @Import(ObjectReference.class), @Import(PolygonConstruction.class),
+		@Import(QuarterPlaneConstruction.class), @Import(PolylinConstruction.class), @Import(IntersectionConstruction.class),
+		@Import(UnionConstruction.class), @Import(SubstractionConstruction.class) })
 public interface GeometricConstruction<A extends DianaArea> extends GeometricElement {
 
 	@PropertyIdentifier(type = GeometricObjectGraphicalRepresentation.class)
@@ -82,6 +85,8 @@ public interface GeometricConstruction<A extends DianaArea> extends GeometricEle
 	public static final String FOREGROUND_KEY = "foreground";
 	@PropertyIdentifier(type = BackgroundStyle.class)
 	public static final String BACKGROUND_KEY = "background";
+	@PropertyIdentifier(type = Boolean.class)
+	public static final String IS_VISIBLE_KEY = "isVisible";
 
 	@Override
 	@Getter(value = GEOMETRIC_DIAGRAM)
@@ -117,6 +122,13 @@ public interface GeometricConstruction<A extends DianaArea> extends GeometricEle
 	@Setter(value = BACKGROUND_KEY)
 	public void setBackground(BackgroundStyle aBackground);
 
+	@Getter(value = IS_VISIBLE_KEY, defaultValue = "true")
+	@XMLAttribute
+	public boolean getIsVisible();
+
+	@Setter(IS_VISIBLE_KEY)
+	public void setIsVisible(boolean isVisible);
+
 	public void refresh();
 
 	public GeometricConstruction<?>[] getDepends();
@@ -146,21 +158,50 @@ public interface GeometricConstruction<A extends DianaArea> extends GeometricEle
 			ensureUpToDate();
 
 			if (computedData == null) {
-				computedData = computeData();
+				computedData = performComputeData();
 			}
 
 			return computedData;
+		}
+
+		private A performComputeData() {
+			A returned = computeData();
+			if (returned instanceof DianaShape) {
+				((DianaShape<?>) returned).setForeground(getForeground());
+				((DianaShape<?>) returned).setBackground(getBackground());
+			}
+			return returned;
+		}
+
+		@Override
+		public void setForeground(ForegroundStyle aForeground) {
+			performSuperSetter(FOREGROUND_KEY, aForeground);
+			if (computedData instanceof DianaShape) {
+				((DianaShape<?>) computedData).setForeground(getForeground());
+			}
+			refresh();
+			notifyGeometryChanged();
+		}
+
+		@Override
+		public void setBackground(BackgroundStyle aBackground) {
+			performSuperSetter(BACKGROUND_KEY, aBackground);
+			if (computedData instanceof DianaShape) {
+				((DianaShape<?>) computedData).setBackground(getBackground());
+			}
+			refresh();
+			notifyGeometryChanged();
 		}
 
 		private void ensureUpToDate() {
 			// Recursively called ensureUpToDate() on dependancies
 			if (getDepends() != null) {
 				for (GeometricConstruction<?> d : getDepends()) {
-					if (!listened.contains(d)) {
+					if (d != null && !listened.contains(d)) {
 						listened.add(d);
 						d.getPropertyChangeSupport().addPropertyChangeListener(this);
+						((GeometricConstructionImpl<?>) d).ensureUpToDate();
 					}
-					((GeometricConstructionImpl<?>) d).ensureUpToDate();
 				}
 			}
 		}
@@ -177,12 +218,16 @@ public interface GeometricConstruction<A extends DianaArea> extends GeometricEle
 		@Override
 		public final void refresh() {
 			// System.out.println("Refresh for "+this.getClass().getSimpleName());
+			A oldData = getData();
 			if (getDepends() != null) {
 				for (GeometricConstruction c : getDepends()) {
-					c.refresh();
+					if (c != null) {
+						c.refresh();
+					}
 				}
 			}
-			computedData = computeData();
+			computedData = performComputeData();
+			getPropertyChangeSupport().firePropertyChange("data", oldData, computedData);
 		}
 
 		@Override
@@ -251,6 +296,12 @@ public interface GeometricConstruction<A extends DianaArea> extends GeometricEle
 			notifyGeometryChanged();
 		}
 
+		@Override
+		public void setIsVisible(boolean isVisible) {
+			performSuperSetter(IS_VISIBLE_KEY, isVisible);
+			refresh();
+			notifyGeometryChanged();
+		}
 	}
 
 }

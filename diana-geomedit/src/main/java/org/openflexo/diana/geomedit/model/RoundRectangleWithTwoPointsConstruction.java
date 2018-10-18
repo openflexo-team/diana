@@ -39,10 +39,10 @@
 
 package org.openflexo.diana.geomedit.model;
 
-import org.openflexo.diana.geomedit.model.RoundRectangleWithTwoPointsConstruction.RoundRectangleWithTwoPointsConstructionImpl;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRoundRectangle;
+import org.openflexo.diana.geomedit.model.RoundRectangleWithTwoPointsConstruction.RoundRectangleWithTwoPointsConstructionImpl;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
@@ -79,18 +79,21 @@ public interface RoundRectangleWithTwoPointsConstruction extends RoundRectangleC
 
 		@Override
 		protected DianaRoundRectangle computeData() {
-			DianaPoint p1 = getPointConstruction1().getPoint();
-			DianaPoint p2 = getPointConstruction2().getPoint();
+			if (getPointConstruction1() != null && getPointConstruction2() != null) {
+				DianaPoint p1 = getPointConstruction1().getPoint();
+				DianaPoint p2 = getPointConstruction2().getPoint();
 
-			DianaPoint p = new DianaPoint();
-			p.x = Math.min(p1.x, p2.x);
-			p.y = Math.min(p1.y, p2.y);
+				DianaPoint p = new DianaPoint();
+				p.x = Math.min(p1.x, p2.x);
+				p.y = Math.min(p1.y, p2.y);
 
-			double width = Math.abs(p1.x - p2.x);
-			double height = Math.abs(p1.y - p2.y);
+				double width = Math.abs(p1.x - p2.x);
+				double height = Math.abs(p1.y - p2.y);
 
-			return new DianaRoundRectangle(p.x, p.y, width, height, getArcWidth(), getArcHeight(),
-					getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
+				return new DianaRoundRectangle(p.x, p.y, width, height, getArcWidth(), getArcHeight(),
+						getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
+			}
+			return null;
 		}
 
 		@Override

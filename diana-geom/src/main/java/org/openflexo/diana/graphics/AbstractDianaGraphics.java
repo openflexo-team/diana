@@ -52,17 +52,56 @@ import org.openflexo.diana.geom.DianaPolygon;
 import org.openflexo.diana.geom.DianaPolylin;
 import org.openflexo.diana.geom.DianaQuadCurve;
 import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaShape;
 
+/**
+ * General API for a graphics component responsible for painting
+ * 
+ * @author sylvain
+ *
+ */
 public interface AbstractDianaGraphics {
 
+	/**
+	 * Return the normalized bounds of node beeing painted
+	 * 
+	 * @return
+	 */
 	public DianaRectangle getNodeNormalizedBounds();
 
+	/**
+	 * Directive used to choose foreground style declared as default
+	 */
 	public abstract void useDefaultForegroundStyle();
 
+	/**
+	 * Directive used to choose background style declared as default
+	 */
 	public abstract void useDefaultBackgroundStyle();
 
+	/**
+	 * Directive used to choose text style declared as default
+	 */
 	public abstract void useDefaultTextStyle();
 
+	/**
+	 * Sets default foreground style with the one specified bu supplied shape, if any (does nothing when null)
+	 */
+	public abstract void setDefaultForegroundStyle(DianaShape<?> shape);
+
+	/**
+	 * Sets default background style with the one specified bu supplied shape, if any (does nothing when null)
+	 */
+	public abstract void setDefaultBackgroundStyle(DianaShape<?> shape);
+
+	/**
+	 * Draw control point at specified location, and with specified size
+	 * 
+	 * @param x
+	 * @param y
+	 * @param size
+	 * @return
+	 */
 	public abstract Rectangle drawControlPoint(double x, double y, int size);
 
 	public abstract void drawPoint(DianaPoint p);

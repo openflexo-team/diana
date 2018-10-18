@@ -39,9 +39,9 @@
 
 package org.openflexo.diana.geomedit.model;
 
-import org.openflexo.diana.geomedit.model.ParallelLineWithPointConstruction.ParallelLineWithPointConstructionImpl;
 import org.openflexo.diana.geom.DianaLine;
 import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geomedit.model.ParallelLineWithPointConstruction.ParallelLineWithPointConstructionImpl;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
@@ -81,12 +81,15 @@ public interface ParallelLineWithPointConstruction extends LineConstruction {
 
 		@Override
 		protected DianaLine computeData() {
-			DianaLine computedLine = lineConstruction.getLine().getParallelLine(pointConstruction.getPoint());
-			DianaPoint pp1 = computedLine.getProjection(lineConstruction.getLine().getP1());
-			DianaPoint pp2 = computedLine.getProjection(lineConstruction.getLine().getP2());
-			computedLine.setP1(pp1);
-			computedLine.setP2(pp2);
-			return computedLine;
+			if (getLineConstruction() != null && getPointConstruction() != null) {
+				DianaLine computedLine = lineConstruction.getLine().getParallelLine(pointConstruction.getPoint());
+				DianaPoint pp1 = computedLine.getProjection(lineConstruction.getLine().getP1());
+				DianaPoint pp2 = computedLine.getProjection(lineConstruction.getLine().getP2());
+				computedLine.setP1(pp1);
+				computedLine.setP2(pp2);
+				return computedLine;
+			}
+			return null;
 		}
 
 		@Override

@@ -123,12 +123,15 @@ public interface RectangleConstruction extends GeometricConstruction<DianaRectan
 
 		@Override
 		public double getX() {
-			return getRectangle().getX();
+			if (getRectangle() != null) {
+				return getRectangle().getX();
+			}
+			return 0;
 		}
 
 		@Override
 		public void setX(double x) {
-			if (x != getX()) {
+			if (x != getX() && getRectangle() != null) {
 				double oldX = getX();
 				getRectangle().x = x;
 				getPropertyChangeSupport().firePropertyChange(X_KEY, oldX, x);
@@ -138,12 +141,15 @@ public interface RectangleConstruction extends GeometricConstruction<DianaRectan
 
 		@Override
 		public double getWidth() {
-			return getRectangle().getWidth();
+			if (getRectangle() != null) {
+				return getRectangle().getWidth();
+			}
+			return 0;
 		}
 
 		@Override
 		public void setWidth(double width) {
-			if (width != getWidth()) {
+			if (width != getWidth() && getRectangle() != null) {
 				double oldWidth = getWidth();
 				getRectangle().width = width;
 				getPropertyChangeSupport().firePropertyChange(WIDTH_KEY, oldWidth, width);
@@ -153,12 +159,15 @@ public interface RectangleConstruction extends GeometricConstruction<DianaRectan
 
 		@Override
 		public double getY() {
-			return getRectangle().getY();
+			if (getRectangle() != null) {
+				return getRectangle().getY();
+			}
+			return 0;
 		}
 
 		@Override
 		public void setY(double y) {
-			if (y != getY()) {
+			if (y != getY() && getRectangle() != null) {
 				double oldY = getY();
 				getRectangle().y = y;
 				getPropertyChangeSupport().firePropertyChange(Y_KEY, oldY, y);
@@ -168,12 +177,15 @@ public interface RectangleConstruction extends GeometricConstruction<DianaRectan
 
 		@Override
 		public double getHeight() {
-			return getRectangle().getHeight();
+			if (getRectangle() != null) {
+				return getRectangle().getHeight();
+			}
+			return 0;
 		}
 
 		@Override
 		public void setHeight(double height) {
-			if (height != getHeight()) {
+			if (height != getHeight() && getRectangle() != null) {
 				double oldHeight = getHeight();
 				getRectangle().height = height;
 				getPropertyChangeSupport().firePropertyChange(HEIGHT_KEY, oldHeight, height);
@@ -188,6 +200,13 @@ public interface RectangleConstruction extends GeometricConstruction<DianaRectan
 			getPropertyChangeSupport().firePropertyChange(Y_KEY, null, getY());
 			getPropertyChangeSupport().firePropertyChange(WIDTH_KEY, null, getWidth());
 			getPropertyChangeSupport().firePropertyChange(HEIGHT_KEY, null, getHeight());
+		}
+
+		@Override
+		public void setIsFilled(boolean isFilled) {
+			performSuperSetter(IS_FILLED_KEY, isFilled);
+			refresh();
+			notifyGeometryChanged();
 		}
 
 	}

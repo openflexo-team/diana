@@ -39,8 +39,11 @@
 
 package org.openflexo.diana.geomedit.model;
 
-import org.openflexo.diana.geomedit.model.ObjectReference.ObjectReferenceImpl;
+import org.openflexo.diana.BackgroundStyle;
+import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geomedit.model.GeometricConstruction.GeometricConstructionImpl;
+import org.openflexo.diana.geomedit.model.ObjectReference.ObjectReferenceImpl;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
@@ -63,7 +66,8 @@ public interface ObjectReference<O extends DianaArea> extends GeometricConstruct
 	@Setter(value = REFERENCE_KEY)
 	public void setReference(GeometricConstruction<O> reference);
 
-	public static abstract class ObjectReferenceImpl<O extends DianaArea> extends GeometricConstructionImpl<O> implements ObjectReference<O> {
+	public static abstract class ObjectReferenceImpl<O extends DianaArea> extends GeometricConstructionImpl<O>
+			implements ObjectReference<O> {
 
 		private GeometricConstruction<O> reference;
 
@@ -82,8 +86,27 @@ public interface ObjectReference<O extends DianaArea> extends GeometricConstruct
 		}
 
 		@Override
+		public BackgroundStyle getBackground() {
+			if (getReference() != null) {
+				return getReference().getBackground();
+			}
+			return null;
+		}
+
+		@Override
+		public ForegroundStyle getForeground() {
+			if (getReference() != null) {
+				return getReference().getForeground();
+			}
+			return null;
+		}
+
+		@Override
 		protected O computeData() {
-			return reference.getData();
+			if (getReference() != null) {
+				return getReference().getData();
+			}
+			return null;
 		}
 
 		@Override

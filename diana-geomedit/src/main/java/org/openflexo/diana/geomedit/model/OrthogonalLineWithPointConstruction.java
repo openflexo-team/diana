@@ -39,12 +39,12 @@
 
 package org.openflexo.diana.geomedit.model;
 
-import org.openflexo.diana.geomedit.model.OrthogonalLineWithPointConstruction.OrthogonalLineWithPointConstructionImpl;
 import org.openflexo.diana.geom.DianaDimension;
 import org.openflexo.diana.geom.DianaEllips;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaLine;
 import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geomedit.model.OrthogonalLineWithPointConstruction.OrthogonalLineWithPointConstructionImpl;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
@@ -84,17 +84,20 @@ public interface OrthogonalLineWithPointConstruction extends LineConstruction {
 
 		@Override
 		protected DianaLine computeData() {
-			DianaLine computedLine = lineConstruction.getLine().getOrthogonalLine(pointConstruction.getPoint());
-			DianaPoint p1, p2;
-			p1 = pointConstruction.getPoint().clone();
-			if (lineConstruction.getLine().contains(pointConstruction.getPoint())) {
-				DianaEllips ellips = new DianaEllips(p1, new DianaDimension(200, 200), Filling.NOT_FILLED);
-				p2 = ellips.intersect(computedLine).getNearestPoint(p1);
+			if (getLineConstruction() != null && getPointConstruction() != null) {
+				DianaLine computedLine = lineConstruction.getLine().getOrthogonalLine(pointConstruction.getPoint());
+				DianaPoint p1, p2;
+				p1 = pointConstruction.getPoint().clone();
+				if (lineConstruction.getLine().contains(pointConstruction.getPoint())) {
+					DianaEllips ellips = new DianaEllips(p1, new DianaDimension(200, 200), Filling.NOT_FILLED);
+					p2 = ellips.intersect(computedLine).getNearestPoint(p1);
+				}
+				else {
+					p2 = computedLine.getLineIntersection(lineConstruction.getLine()).clone();
+				}
+				return new DianaLine(p1, p2);
 			}
-			else {
-				p2 = computedLine.getLineIntersection(lineConstruction.getLine()).clone();
-			}
-			return new DianaLine(p1, p2);
+			return null;
 		}
 
 		@Override

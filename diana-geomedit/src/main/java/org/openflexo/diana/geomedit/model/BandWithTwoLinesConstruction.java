@@ -109,8 +109,11 @@ public interface BandWithTwoLinesConstruction extends BandConstruction {
 
 		@Override
 		protected DianaBand computeData() {
-			DianaBand returned = new DianaBand(lineConstruction1.getLine(), lineConstruction2.getLine());
-			return returned;
+			if (getLineConstruction1() != null && getLineConstruction2() != null) {
+				DianaBand returned = new DianaBand(getLineConstruction1().getLine(), getLineConstruction2().getLine());
+				return returned;
+			}
+			return null;
 		}
 
 		@Override

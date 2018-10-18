@@ -232,7 +232,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 
 		protected abstract G makeGraph(W fibGraph);
 
-		private <N extends Number> void updateMinAndMax(FIBNumericFunction fibNumericFunction, DianaNumericFunction<N> fgeFunction) {
+		private <N extends Number> void updateMinAndMax(FIBNumericFunction fibNumericFunction, DianaNumericFunction<N> dianaFunction) {
 			N minValue = (N) FIBNumericFunction.DEFAULT_MIN_VALUE;
 			N maxValue = (N) FIBNumericFunction.DEFAULT_MAX_VALUE;
 			if (fibNumericFunction.getMinValue() != null && fibNumericFunction.getMinValue().isSet()
@@ -252,10 +252,10 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 				}
 			}
 			// System.out.println("minValue=" + minValue + " maxValue=" + maxValue);
-			fgeFunction.setRange(minValue, maxValue);
+			dianaFunction.setRange(minValue, maxValue);
 		}
 
-		private <N extends Number> void updateStepsNumber(FIBNumericFunction fibNumericFunction, DianaNumericFunction<N> fgeFunction) {
+		private <N extends Number> void updateStepsNumber(FIBNumericFunction fibNumericFunction, DianaNumericFunction<N> dianaFunction) {
 			// Sets step number
 			int stepsNumber = FIBContinuousSimpleFunctionGraph.DEFAULT_STEPS_NUMBER;
 			if (fibNumericFunction.getStepsNumber() != null && fibNumericFunction.getStepsNumber().isSet()
@@ -267,11 +267,11 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 				}
 			}
 			// System.out.println("stepsNumber=" + stepsNumber);
-			fgeFunction.setStepsNb(stepsNumber);
+			dianaFunction.setStepsNb(stepsNumber);
 
 		}
 
-		private <N extends Number> void updateMajorTickSpacing(FIBNumericFunction fibNumericFunction, DianaNumericFunction<N> fgeFunction) {
+		private <N extends Number> void updateMajorTickSpacing(FIBNumericFunction fibNumericFunction, DianaNumericFunction<N> dianaFunction) {
 			// Sets major tick spacing
 			N majorTickSpacing = (N) FIBContinuousSimpleFunctionGraph.DEFAULT_MAJOR_TICK_SPACING;
 			if (fibNumericFunction.getMajorTickSpacing() != null && fibNumericFunction.getMajorTickSpacing().isSet()
@@ -283,11 +283,11 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 				}
 			}
 			// System.out.println("majorTickSpacing=" + majorTickSpacing);
-			fgeFunction.setMajorTickSpacing(majorTickSpacing);
+			dianaFunction.setMajorTickSpacing(majorTickSpacing);
 
 		}
 
-		private <N extends Number> void updateMinorTickSpacing(FIBNumericFunction fibNumericFunction, DianaNumericFunction<N> fgeFunction) {
+		private <N extends Number> void updateMinorTickSpacing(FIBNumericFunction fibNumericFunction, DianaNumericFunction<N> dianaFunction) {
 			// Sets minor tick spacing
 			N minorTickSpacing = (N) FIBContinuousSimpleFunctionGraph.DEFAULT_MINOR_TICK_SPACING;
 			if (fibNumericFunction.getMinorTickSpacing() != null && fibNumericFunction.getMinorTickSpacing().isSet()
@@ -299,7 +299,7 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 				}
 			}
 			// System.out.println("minorTickSpacing=" + minorTickSpacing);
-			fgeFunction.setMinorTickSpacing(minorTickSpacing);
+			dianaFunction.setMinorTickSpacing(minorTickSpacing);
 
 		}
 
@@ -371,12 +371,12 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 			}
 			if (evt.getSource() instanceof FIBGraphFunction) {
 				FIBGraphFunction fibFunction = (FIBGraphFunction) evt.getSource();
-				DianaFunction<?> fgeFunction = graph.getFunction(fibFunction.getName());
-				if (fgeFunction != null) {
+				DianaFunction<?> dianaFunction = graph.getFunction(fibFunction.getName());
+				if (dianaFunction != null) {
 					if (evt.getPropertyName().equals(FIBGraphFunction.EXPRESSION_KEY)) {
 						// System.out.println("On reconstruit la graphe a cause de la fonction qui change: " + evt.getPropertyName());
-						if (fgeFunction != null) {
-							fgeFunction.setFunctionExpression((DataBinding) fibFunction.getExpression());
+						if (dianaFunction != null) {
+							dianaFunction.setFunctionExpression((DataBinding) fibFunction.getExpression());
 						}
 						else {
 							logger.warning("Inconsistent data : could not find DianaFunction matching " + fibFunction);
@@ -384,46 +384,46 @@ public abstract class JFIBGraphWidget<W extends FIBGraph> extends FIBWidgetViewI
 						updateGraph();
 					}
 					else if (evt.getPropertyName().equals(FIBGraphFunction.GRAPH_TYPE_KEY)) {
-						fgeFunction.setGraphType(getGraphType(fibFunction.getGraphType()));
+						dianaFunction.setGraphType(getGraphType(fibFunction.getGraphType()));
 						if (fibFunction.getGraphType() == GraphType.COLORED_STEPS) {
-							fgeFunction.setAngleSpacing(fibFunction.getAngleSpacing());
-							fgeFunction.setStepsSpacing(fibFunction.getStepsSpacing());
+							dianaFunction.setAngleSpacing(fibFunction.getAngleSpacing());
+							dianaFunction.setStepsSpacing(fibFunction.getStepsSpacing());
 						}
 						updateGraph();
 					}
 					else if (evt.getPropertyName().equals(FIBGraphFunction.ANGLE_SPACING_KEY)) {
-						fgeFunction.setAngleSpacing(fibFunction.getAngleSpacing());
+						dianaFunction.setAngleSpacing(fibFunction.getAngleSpacing());
 						updateGraph();
 					}
 					else if (evt.getPropertyName().equals(FIBGraphFunction.STEPS_SPACING_KEY)) {
-						fgeFunction.setStepsSpacing(fibFunction.getStepsSpacing());
+						dianaFunction.setStepsSpacing(fibFunction.getStepsSpacing());
 						updateGraph();
 					}
 				}
 			}
 			if (evt.getSource() instanceof FIBNumericFunction) {
 				FIBNumericFunction fibNumericFunction = (FIBNumericFunction) evt.getSource();
-				DianaNumericFunction fgeFunction = (DianaNumericFunction<?>) graph.getFunction(fibNumericFunction.getName());
-				if (fgeFunction != null) {
+				DianaNumericFunction dianaFunction = (DianaNumericFunction<?>) graph.getFunction(fibNumericFunction.getName());
+				if (dianaFunction != null) {
 					if (evt.getPropertyName().equals(FIBNumericFunction.MAX_VALUE_KEY)
 							|| evt.getPropertyName().equals(FIBNumericFunction.MIN_VALUE_KEY)) {
-						updateMinAndMax(fibNumericFunction, fgeFunction);
+						updateMinAndMax(fibNumericFunction, dianaFunction);
 						updateGraph();
 					}
 					if (evt.getPropertyName().equals(FIBNumericFunction.MAJOR_TICK_SPACING_KEY)) {
-						updateMajorTickSpacing(fibNumericFunction, fgeFunction);
+						updateMajorTickSpacing(fibNumericFunction, dianaFunction);
 						updateGraph();
 					}
 					if (evt.getPropertyName().equals(FIBNumericFunction.MINOR_TICK_SPACING_KEY)) {
-						updateMinorTickSpacing(fibNumericFunction, fgeFunction);
+						updateMinorTickSpacing(fibNumericFunction, dianaFunction);
 						updateGraph();
 					}
 					if (evt.getPropertyName().equals(FIBNumericFunction.STEPS_NUMBER_KEY)) {
-						updateStepsNumber(fibNumericFunction, fgeFunction);
+						updateStepsNumber(fibNumericFunction, dianaFunction);
 						updateGraph();
 					}
 					if (evt.getPropertyName().equals(FIBNumericFunction.DISPLAY_LABELS_KEY)) {
-						fgeFunction.setDisplayLabels(fibNumericFunction.getDisplayLabels());
+						dianaFunction.setDisplayLabels(fibNumericFunction.getDisplayLabels());
 						updateGraph();
 					}
 				}

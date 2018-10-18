@@ -129,7 +129,7 @@ public abstract class StarImpl extends ShapeSpecificationImpl implements Star {
 	}
 
 	@Override
-	public DianaShape<?> makeDianaShape(ShapeNode<?> node) {
+	public DianaShape<?> makeNormalizedDianaShape(ShapeNode<?> node) {
 		DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 		double startA = getStartAngle() * Math.PI / 180;
 		double angleInterval = Math.PI * 2 / npoints;

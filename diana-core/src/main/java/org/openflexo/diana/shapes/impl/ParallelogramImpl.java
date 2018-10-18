@@ -92,7 +92,7 @@ public abstract class ParallelogramImpl extends ShapeSpecificationImpl implement
 	 * @return DianaPolygon
 	 */
 	@Override
-	public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+	public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
 		final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 		if (shift_ratio >= 0) {
 			returned.addToPoints(new DianaPoint(shift_ratio, 0));

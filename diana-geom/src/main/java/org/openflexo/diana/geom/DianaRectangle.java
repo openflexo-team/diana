@@ -58,6 +58,8 @@ import org.openflexo.diana.geom.area.DianaIntersectionArea;
 import org.openflexo.diana.geom.area.DianaSubstractionArea;
 import org.openflexo.diana.geom.area.DianaUnionArea;
 import org.openflexo.diana.graphics.AbstractDianaGraphics;
+import org.openflexo.diana.graphics.BGStyle;
+import org.openflexo.diana.graphics.FGStyle;
 
 @SuppressWarnings("serial")
 public class DianaRectangle extends Rectangle2D.Double implements DianaShape<DianaRectangle> {
@@ -65,6 +67,8 @@ public class DianaRectangle extends Rectangle2D.Double implements DianaShape<Dia
 	private static final Logger logger = Logger.getLogger(DianaRectangle.class.getPackage().getName());
 
 	protected Filling _filling;
+	private FGStyle foreground;
+	private BGStyle background;
 
 	public DianaRectangle() {
 		this(0, 0, 0, 0, Filling.NOT_FILLED);
@@ -473,7 +477,8 @@ public class DianaRectangle extends Rectangle2D.Double implements DianaShape<Dia
 
 				DianaArea a = computeLineIntersection(hp.line);
 				Vector<DianaPoint> pts = new Vector<>();
-				if (a instanceof DianaUnionArea && ((DianaUnionArea) a).isUnionOfPoints() && ((DianaUnionArea) a).getObjects().size() == 2) {
+				if (a instanceof DianaUnionArea && ((DianaUnionArea) a).isUnionOfPoints()
+						&& ((DianaUnionArea) a).getObjects().size() == 2) {
 					pts.add((DianaPoint) ((DianaUnionArea) a).getObjects().firstElement());
 					pts.add((DianaPoint) ((DianaUnionArea) a).getObjects().elementAt(1));
 				}
@@ -534,8 +539,7 @@ public class DianaRectangle extends Rectangle2D.Double implements DianaShape<Dia
 			else if (a1 instanceof DianaPoint) {
 				pts.add((DianaPoint) a1);
 			}
-			else if (a1 instanceof DianaEmptyArea) {
-			}
+			else if (a1 instanceof DianaEmptyArea) {}
 			else {
 				logger.warning("Unexpected intersection: " + a1);
 			}
@@ -549,8 +553,7 @@ public class DianaRectangle extends Rectangle2D.Double implements DianaShape<Dia
 			else if (a2 instanceof DianaPoint) {
 				pts.add((DianaPoint) a2);
 			}
-			else if (a2 instanceof DianaEmptyArea) {
-			}
+			else if (a2 instanceof DianaEmptyArea) {}
 			else {
 				logger.warning("Unexpected intersection: " + a2);
 			}
@@ -762,6 +765,17 @@ public class DianaRectangle extends Rectangle2D.Double implements DianaShape<Dia
 
 	@Override
 	public DianaArea substract(DianaArea area, boolean isStrict) {
+		if (area.containsArea(this)) {
+			return new DianaEmptyArea();
+		}
+		if (!containsArea(area)) {
+			return this.clone();
+		}
+
+		if (area instanceof DianaShape) {
+			return AreaComputation.computeShapeSubstraction(this, (DianaShape<?>) area);
+		}
+
 		return new DianaSubstractionArea(this, area, isStrict);
 	}
 
@@ -782,6 +796,10 @@ public class DianaRectangle extends Rectangle2D.Double implements DianaShape<Dia
 				return rectangleUnion(r);
 			}
 		}
+		if (area instanceof DianaShape) {
+			return AreaComputation.computeShapeUnion(this, (DianaShape<?>) area);
+		}
+
 		return new DianaUnionArea(this, area);
 	}
 
@@ -851,7 +869,10 @@ public class DianaRectangle extends Rectangle2D.Double implements DianaShape<Dia
 		DianaPoint p3 = new DianaPoint(getX(), getY() + getHeight()).transform(t);
 		DianaPoint p4 = new DianaPoint(getX() + getWidth(), getY() + getHeight()).transform(t);
 
-		return DianaPolygon.makeArea(_filling, p1, p2, p3, p4);
+		DianaShape<?> returned = (DianaShape<?>) DianaPolygon.makeArea(_filling, p1, p2, p3, p4);
+		returned.setForeground(getForeground());
+		returned.setBackground(getBackground());
+		return returned;
 
 		// Old implementation follows (commented)
 
@@ -869,6 +890,9 @@ public class DianaRectangle extends Rectangle2D.Double implements DianaShape<Dia
 
 	@Override
 	public void paint(AbstractDianaGraphics g) {
+		g.setDefaultBackgroundStyle(this);
+		g.setDefaultForegroundStyle(this);
+
 		if (getIsFilled()) {
 			g.useDefaultBackgroundStyle();
 			g.fillRect(getX(), getY(), getWidth(), getHeight());
@@ -944,9 +968,6 @@ public class DianaRectangle extends Rectangle2D.Double implements DianaShape<Dia
 		return true;
 	}
 
-	/**
-	 * This area is finite, so always return null
-	 */
 	@Override
 	public final DianaRectangle getEmbeddingBounds() {
 		return new DianaRectangle(x, y, width, height, Filling.FILLED);
@@ -959,6 +980,48 @@ public class DianaRectangle extends Rectangle2D.Double implements DianaShape<Dia
 	 */
 	public DianaPolylin getOutline() {
 		return new DianaPolylin(getNorthEastPt(), getSouthEastPt(), getSouthWestPt(), getNorthWestPt());
+	}
+
+	/**
+	 * Return background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public BGStyle getBackground() {
+		return background;
+	}
+
+	/**
+	 * Sets background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aBackground
+	 */
+	@Override
+	public void setBackground(BGStyle aBackground) {
+		this.background = aBackground;
+	}
+
+	/**
+	 * Return foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public FGStyle getForeground() {
+		return foreground;
+	}
+
+	/**
+	 * Sets foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aForeground
+	 */
+	@Override
+	public void setForeground(FGStyle aForeground) {
+		this.foreground = aForeground;
 	}
 
 }

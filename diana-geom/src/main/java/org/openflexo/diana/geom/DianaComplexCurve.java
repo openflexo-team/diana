@@ -260,6 +260,8 @@ public class DianaComplexCurve extends DianaGeneralShape<DianaComplexCurve> {
 			points.add(p.transform(t));
 		}
 		DianaComplexCurve returned = new DianaComplexCurve(getClosure(), points);
+		returned.setForeground(getForeground());
+		returned.setBackground(getBackground());
 		return returned;
 	}
 

@@ -72,7 +72,7 @@ public class LaunchGeomEdit {
 
 			if (ToolBox.isMacOS()) {
 				System.setProperty("apple.laf.useScreenMenuBar", "true");
-				System.setProperty("com.apple.mrj.application.apple.menu.about.name", "FIBEditor");
+				System.setProperty("com.apple.mrj.application.apple.menu.about.name", "GeomEdit");
 			}
 
 			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);

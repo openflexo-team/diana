@@ -80,7 +80,7 @@ public abstract class PolygonImpl extends ShapeSpecificationImpl implements Poly
 	}
 
 	@Override
-	public DianaShape<?> makeDianaShape(ShapeNode<?> node) {
+	public DianaShape<?> makeNormalizedDianaShape(ShapeNode<?> node) {
 		return new DianaPolygon(Filling.FILLED, getPoints());
 	}
 

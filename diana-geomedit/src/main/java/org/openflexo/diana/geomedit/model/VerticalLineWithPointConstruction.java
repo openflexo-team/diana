@@ -39,8 +39,8 @@
 
 package org.openflexo.diana.geomedit.model;
 
-import org.openflexo.diana.geomedit.model.VerticalLineWithPointConstruction.VerticalLineWithPointConstructionImpl;
 import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geomedit.model.VerticalLineWithPointConstruction.VerticalLineWithPointConstructionImpl;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
@@ -85,7 +85,10 @@ public interface VerticalLineWithPointConstruction extends LineConstruction {
 
 		@Override
 		protected DianaLine computeData() {
-			return DianaLine.makeVerticalLine(pointConstruction.getPoint(), 100);
+			if (getPointConstruction() != null) {
+				return DianaLine.makeVerticalLine(getPointConstruction().getPoint(), 100);
+			}
+			return null;
 		}
 
 		@Override

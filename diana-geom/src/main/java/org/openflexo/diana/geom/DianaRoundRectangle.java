@@ -56,6 +56,8 @@ import org.openflexo.diana.geom.area.DianaIntersectionArea;
 import org.openflexo.diana.geom.area.DianaSubstractionArea;
 import org.openflexo.diana.geom.area.DianaUnionArea;
 import org.openflexo.diana.graphics.AbstractDianaGraphics;
+import org.openflexo.diana.graphics.BGStyle;
+import org.openflexo.diana.graphics.FGStyle;
 
 @SuppressWarnings("serial")
 public class DianaRoundRectangle extends RoundRectangle2D.Double implements DianaShape<DianaRoundRectangle> {
@@ -63,6 +65,8 @@ public class DianaRoundRectangle extends RoundRectangle2D.Double implements Dian
 	private static final Logger logger = Logger.getLogger(DianaRoundRectangle.class.getPackage().getName());
 
 	protected Filling _filling;
+	private FGStyle foreground;
+	private BGStyle background;
 
 	public DianaRoundRectangle() {
 		this(0, 0, 0, 0, 0, 0, Filling.NOT_FILLED);
@@ -72,7 +76,8 @@ public class DianaRoundRectangle extends RoundRectangle2D.Double implements Dian
 		this(aX, aY, aWidth, aHeight, anArcWidth, anArcHeight, Filling.NOT_FILLED);
 	}
 
-	public DianaRoundRectangle(double aX, double aY, double aWidth, double aHeight, double anArcWidth, double anArcHeight, Filling filling) {
+	public DianaRoundRectangle(double aX, double aY, double aWidth, double aHeight, double anArcWidth, double anArcHeight,
+			Filling filling) {
 		super(aX, aY, aWidth, aHeight, anArcWidth, anArcHeight);
 		if (aWidth < 0) {
 			x = x + aWidth;
@@ -777,12 +782,12 @@ public class DianaRoundRectangle extends RoundRectangle2D.Double implements Dian
 						|| getNorthWestRound().contains(p) || getSouthEastRound().contains(p) || getSouthWestRound().contains(p);
 			}
 			else {
-				if (new DianaRectangle(new DianaPoint(getX(), getY() + archeight / 2), new DianaDimension(getWidth(), getHeight() - archeight),
-						Filling.FILLED).contains(p)) {
+				if (new DianaRectangle(new DianaPoint(getX(), getY() + archeight / 2),
+						new DianaDimension(getWidth(), getHeight() - archeight), Filling.FILLED).contains(p)) {
 					return true;
 				}
-				if (new DianaRectangle(new DianaPoint(getX() + arcwidth / 2, getY()), new DianaDimension(getWidth() - arcwidth, getHeight()),
-						Filling.FILLED).contains(p)) {
+				if (new DianaRectangle(new DianaPoint(getX() + arcwidth / 2, getY()),
+						new DianaDimension(getWidth() - arcwidth, getHeight()), Filling.FILLED).contains(p)) {
 					return true;
 				}
 				return getFilledNorthEastRound().containsPoint(p) || getFilledNorthWestRound().containsPoint(p)
@@ -827,12 +832,18 @@ public class DianaRoundRectangle extends RoundRectangle2D.Double implements Dian
 		// TODO: if transformation contains a rotation, turn into a regular polygon
 		// arcwidth,archeight must also be computed according to this rotation
 
-		return new DianaRoundRectangle(Math.min(p1.x, p2.x), Math.min(p1.y, p2.y), Math.abs(p1.x - p2.x), Math.abs(p1.y - p2.y),
-				arcwidth * t.getScaleX(), archeight * t.getScaleY(), _filling);
+		DianaRoundRectangle returned = new DianaRoundRectangle(Math.min(p1.x, p2.x), Math.min(p1.y, p2.y), Math.abs(p1.x - p2.x),
+				Math.abs(p1.y - p2.y), arcwidth * t.getScaleX(), archeight * t.getScaleY(), _filling);
+		returned.setForeground(getForeground());
+		returned.setBackground(getBackground());
+		return returned;
 	}
 
 	@Override
 	public void paint(AbstractDianaGraphics g) {
+		g.setDefaultBackgroundStyle(this);
+		g.setDefaultForegroundStyle(this);
+
 		if (getIsFilled()) {
 			g.useDefaultBackgroundStyle();
 			g.fillRoundRect(getX(), getY(), getWidth(), getHeight(), arcwidth, archeight);
@@ -951,6 +962,48 @@ public class DianaRoundRectangle extends RoundRectangle2D.Double implements Dian
 	@Override
 	public final DianaRectangle getEmbeddingBounds() {
 		return new DianaRectangle(x, y, width, height, Filling.FILLED);
+	}
+
+	/**
+	 * Return background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public BGStyle getBackground() {
+		return background;
+	}
+
+	/**
+	 * Sets background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aBackground
+	 */
+	@Override
+	public void setBackground(BGStyle aBackground) {
+		this.background = aBackground;
+	}
+
+	/**
+	 * Return foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public FGStyle getForeground() {
+		return foreground;
+	}
+
+	/**
+	 * Sets foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aForeground
+	 */
+	@Override
+	public void setForeground(FGStyle aForeground) {
+		this.foreground = aForeground;
 	}
 
 }

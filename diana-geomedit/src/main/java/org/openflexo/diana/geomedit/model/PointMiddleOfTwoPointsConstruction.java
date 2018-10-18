@@ -39,8 +39,8 @@
 
 package org.openflexo.diana.geomedit.model;
 
-import org.openflexo.diana.geomedit.model.PointMiddleOfTwoPointsConstruction.PointMiddleOfTwoPointsConstructionImpl;
 import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geomedit.model.PointMiddleOfTwoPointsConstruction.PointMiddleOfTwoPointsConstructionImpl;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
@@ -80,7 +80,10 @@ public interface PointMiddleOfTwoPointsConstruction extends PointConstruction {
 
 		@Override
 		protected DianaPoint computeData() {
-			return DianaPoint.middleOf(pointConstruction1.getPoint(), pointConstruction2.getPoint());
+			if (getPointConstruction1() != null && getPointConstruction2() != null) {
+				return DianaPoint.middleOf(pointConstruction1.getPoint(), pointConstruction2.getPoint());
+			}
+			return null;
 		}
 
 		@Override

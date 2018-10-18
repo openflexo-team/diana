@@ -373,4 +373,19 @@ public class GeometricConstructionFactory extends DianaModelFactoryImpl {
 		return returned;
 	}
 
+	public UnionConstruction makeUnionConstruction(List<ObjectReference<?>> objectReferences) {
+		UnionConstruction returned = newInstance(UnionConstruction.class);
+		for (ObjectReference<?> or : objectReferences) {
+			returned.addToObjectConstructions(or);
+		}
+		return returned;
+	}
+
+	public SubstractionConstruction makeSubstractionConstruction(ObjectReference<?> container, ObjectReference<?> substracted) {
+		SubstractionConstruction returned = newInstance(SubstractionConstruction.class);
+		returned.setContainerObjectConstruction(container);
+		returned.setSubstractedObjectConstruction(substracted);
+		return returned;
+	}
+
 }

@@ -39,6 +39,8 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.BackgroundStyle;
+import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.geom.DianaEllips;
 import org.openflexo.diana.geomedit.model.EllipsReference.EllipsReferenceImpl;
 import org.openflexo.model.annotations.ImplementationClass;
@@ -73,8 +75,27 @@ public interface EllipsReference extends EllipsConstruction<DianaEllips> {
 		}
 
 		@Override
+		public BackgroundStyle getBackground() {
+			if (getReference() != null) {
+				return getReference().getBackground();
+			}
+			return null;
+		}
+
+		@Override
+		public ForegroundStyle getForeground() {
+			if (getReference() != null) {
+				return getReference().getForeground();
+			}
+			return null;
+		}
+
+		@Override
 		protected DianaEllips computeData() {
-			return reference.getData();
+			if (getReference() != null) {
+				return getReference().getData();
+			}
+			return null;
 		}
 
 		@Override

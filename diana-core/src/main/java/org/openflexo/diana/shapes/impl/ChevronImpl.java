@@ -85,7 +85,7 @@ public abstract class ChevronImpl extends ShapeSpecificationImpl implements Chev
 	 * @return DianaPolygon
 	 */
 	@Override
-	public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+	public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
 		final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 		returned.addToPoints(new DianaPoint(0, 0));
 		returned.addToPoints(new DianaPoint(this.arrowLength, 0.5));

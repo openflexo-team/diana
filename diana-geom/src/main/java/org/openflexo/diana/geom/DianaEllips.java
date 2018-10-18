@@ -125,7 +125,10 @@ public class DianaEllips extends DianaArc {
 
 		if (t_bounds instanceof DianaShape) {
 			DianaRectangle boundingBox = ((DianaShape<?>) t_bounds).getBoundingBox();
-			return new DianaEllips(newCenter, new DianaDimension(boundingBox.getWidth(), boundingBox.getHeight()), _filling);
+			DianaEllips returned = new DianaEllips(newCenter, new DianaDimension(boundingBox.getWidth(), boundingBox.getHeight()), _filling);
+			returned.setForeground(getForeground());
+			returned.setBackground(getBackground());
+			return returned;
 		}
 		logger.warning("Cannot compute transform for " + this + " with " + t);
 		return (DianaEllips) clone();

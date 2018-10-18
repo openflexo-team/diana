@@ -74,7 +74,7 @@ public interface DianaToolFactory<C> {
 
 	public DianaLayoutWidget<? extends C, ?> makeDianaLayoutWidget();
 
-	public DianaPalette<? extends C, ?> makeDianaPalette(DrawingPalette palette);
+	public DianaPalette<? extends C, ?> makeDianaPalette(PaletteModel palette);
 
 	public DrawPolygonToolController<?> makeDrawPolygonToolController(DianaInteractiveEditor<?, ?, ?> controller, DrawShapeAction control);
 

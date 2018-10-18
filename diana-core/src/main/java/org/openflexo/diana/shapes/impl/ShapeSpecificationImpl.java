@@ -38,10 +38,12 @@
 
 package org.openflexo.diana.shapes.impl;
 
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.impl.DianaObjectImpl;
 import org.openflexo.diana.shapes.ShapeSpecification;
 
@@ -80,12 +82,33 @@ public abstract class ShapeSpecificationImpl extends DianaObjectImpl implements 
 	private final List<ShapeImpl<?>> createdShapes = new ArrayList<>();
 
 	@Override
-	public ShapeImpl<?> makeShape(ShapeNode<?> node) {
+	public final ShapeImpl<?> makeShape(ShapeNode<?> node) {
 		ShapeImpl<?> returned = new ShapeImpl<>(node);
 		if (getPropertyChangeSupport() != null) {
 			// TODO
 			createdShapes.add(returned);
 			getPropertyChangeSupport().addPropertyChangeListener(returned);
+		}
+		return returned;
+	}
+
+	/**
+	 * Build a new DianaShape for this {@link ShapeNode}, when taking dimension/positionning properties into account
+	 * 
+	 * @param node
+	 * @return
+	 */
+	@Override
+	public DianaShape<?> makeDianaShape(ShapeNode<?> node) {
+		DianaShape<?> shape = makeNormalizedDianaShape(node);
+		AffineTransform translateAT = AffineTransform.getTranslateInstance(getX(), getY());
+		AffineTransform scaleAT = AffineTransform.getScaleInstance(getWidth(), getHeight());
+		DianaShape<?> returned = (DianaShape<?>) shape.transform(scaleAT).transform(translateAT);
+		if (getForeground() != null) {
+			returned.setForeground(getForeground());
+		}
+		if (getBackground() != null) {
+			returned.setBackground(getBackground());
 		}
 		return returned;
 	}

@@ -75,7 +75,7 @@ public abstract class RectangleImpl extends ShapeSpecificationImpl implements Re
 	}
 
 	@Override
-	public DianaShape<?> makeDianaShape(ShapeNode<?> node) {
+	public DianaShape<?> makeNormalizedDianaShape(ShapeNode<?> node) {
 		if (node != null && isRounded) {
 			double arcwidth = arcSize / node.getWidth();
 			double archeight = arcSize / node.getHeight();

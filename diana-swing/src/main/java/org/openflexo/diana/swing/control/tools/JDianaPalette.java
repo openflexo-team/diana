@@ -61,7 +61,7 @@ import javax.swing.ScrollPaneConstants;
 import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.control.AbstractDianaEditor;
-import org.openflexo.diana.control.DrawingPalette;
+import org.openflexo.diana.control.PaletteModel;
 import org.openflexo.diana.control.PaletteElement;
 import org.openflexo.diana.control.tools.DianaPalette;
 import org.openflexo.diana.geom.DianaPoint;
@@ -72,7 +72,7 @@ import org.openflexo.diana.swing.view.JDrawingView;
 import org.openflexo.diana.view.DianaView;
 
 /**
- * A DianaPaletteC represents the graphical tool representing a {@link DrawingPalette} (the model)
+ * A DianaPaletteC represents the graphical tool representing a {@link PaletteModel} (the model)
  * 
  * @author sylvain
  * 
@@ -85,12 +85,12 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 
 	private DragSourceContext dragSourceContext;
 
-	public JDianaPalette(DrawingPalette palette) {
+	public JDianaPalette(PaletteModel palette) {
 		super(palette);
 	}
 
 	@Override
-	protected void updatePalette(DrawingPalette palette) {
+	protected void updatePalette(PaletteModel palette) {
 		super.updatePalette(palette);
 		if (component != null) {
 			component.setViewportView(getPaletteView());
@@ -108,8 +108,8 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public JDrawingView<DrawingPalette> getPaletteView() {
-		return (JDrawingView<DrawingPalette>) super.getPaletteView();
+	public JDrawingView<PaletteModel> getPaletteView() {
+		return (JDrawingView<PaletteModel>) super.getPaletteView();
 	}
 
 	private JScrollPane scrollPane;

@@ -47,6 +47,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.logging.FlexoLoggingManager;
+import org.openflexo.toolbox.ToolBox;
 
 public class LaunchDiagramEditor {
 	public static void main(String[] args) {
@@ -56,6 +57,12 @@ public class LaunchDiagramEditor {
 	private static void init() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+			if (ToolBox.isMacOS()) {
+				System.setProperty("apple.laf.useScreenMenuBar", "true");
+				System.setProperty("com.apple.mrj.application.apple.menu.about.name", "DiagramEditor");
+			}
+
 			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
 			FlexoLocalization.initWith(DiagramEditorApplication.DIAGRAM_EDITOR_LOCALIZATION);
 		} catch (SecurityException e) {

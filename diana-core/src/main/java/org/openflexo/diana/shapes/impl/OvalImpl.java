@@ -55,7 +55,7 @@ public abstract class OvalImpl extends ShapeSpecificationImpl implements Oval {
 	}
 
 	@Override
-	public DianaShape<?> makeDianaShape(ShapeNode<?> node) {
+	public DianaShape<?> makeNormalizedDianaShape(ShapeNode<?> node) {
 		return new DianaEllips(0, 0, 1, 1, Filling.FILLED);
 	}
 

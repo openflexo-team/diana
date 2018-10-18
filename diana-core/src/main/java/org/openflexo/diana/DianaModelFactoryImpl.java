@@ -42,23 +42,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.openflexo.diana.BackgroundImageBackgroundStyle;
-import org.openflexo.diana.BackgroundStyle;
-import org.openflexo.diana.ColorBackgroundStyle;
-import org.openflexo.diana.ColorGradientBackgroundStyle;
-import org.openflexo.diana.ConnectorGraphicalRepresentation;
-import org.openflexo.diana.ContainerGraphicalRepresentation;
-import org.openflexo.diana.DrawingGraphicalRepresentation;
-import org.openflexo.diana.DianaModelFactory;
-import org.openflexo.diana.DianaStyle;
-import org.openflexo.diana.ForegroundStyle;
-import org.openflexo.diana.GeometricGraphicalRepresentation;
-import org.openflexo.diana.GraphicalRepresentation;
-import org.openflexo.diana.NoneBackgroundStyle;
-import org.openflexo.diana.ShadowStyle;
-import org.openflexo.diana.ShapeGraphicalRepresentation;
-import org.openflexo.diana.TextStyle;
-import org.openflexo.diana.TextureBackgroundStyle;
 import org.openflexo.diana.connectors.ConnectorSpecification;
 import org.openflexo.diana.connectors.CurveConnectorSpecification;
 import org.openflexo.diana.connectors.CurvedPolylinConnectorSpecification;
@@ -73,11 +56,11 @@ import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.control.MouseClickControl;
 import org.openflexo.diana.control.MouseClickControlAction;
+import org.openflexo.diana.control.MouseControl.MouseButton;
 import org.openflexo.diana.control.MouseDragControl;
 import org.openflexo.diana.control.MouseDragControlAction;
 import org.openflexo.diana.control.PredefinedMouseClickControlActionType;
 import org.openflexo.diana.control.PredefinedMouseDragControlActionType;
-import org.openflexo.diana.control.MouseControl.MouseButton;
 import org.openflexo.diana.control.actions.ContinuousSelectionAction;
 import org.openflexo.diana.control.actions.MouseClickControlImpl;
 import org.openflexo.diana.control.actions.MouseDragControlImpl;
@@ -92,12 +75,13 @@ import org.openflexo.diana.impl.ColorBackgroundStyleImpl;
 import org.openflexo.diana.impl.ColorGradientBackgroundStyleImpl;
 import org.openflexo.diana.impl.ConnectorGraphicalRepresentationImpl;
 import org.openflexo.diana.impl.ContainerGraphicalRepresentationImpl;
-import org.openflexo.diana.impl.DrawingGraphicalRepresentationImpl;
 import org.openflexo.diana.impl.DianaStyleImpl;
+import org.openflexo.diana.impl.DrawingGraphicalRepresentationImpl;
 import org.openflexo.diana.impl.ForegroundStyleImpl;
 import org.openflexo.diana.impl.GeometricGraphicalRepresentationImpl;
 import org.openflexo.diana.impl.GraphicalRepresentationImpl;
 import org.openflexo.diana.impl.NoneBackgroundStyleImpl;
+import org.openflexo.diana.impl.PaletteElementSpecificationImpl;
 import org.openflexo.diana.impl.ShadowStyleImpl;
 import org.openflexo.diana.impl.ShapeGraphicalRepresentationImpl;
 import org.openflexo.diana.impl.TextStyleImpl;
@@ -138,6 +122,11 @@ import org.openflexo.diana.shapes.Arc;
 import org.openflexo.diana.shapes.Chevron;
 import org.openflexo.diana.shapes.Circle;
 import org.openflexo.diana.shapes.ComplexCurve;
+import org.openflexo.diana.shapes.GeneralShape;
+import org.openflexo.diana.shapes.GeneralShape.CubicCurvePathElement;
+import org.openflexo.diana.shapes.GeneralShape.GeneralShapePathElement;
+import org.openflexo.diana.shapes.GeneralShape.QuadCurvePathElement;
+import org.openflexo.diana.shapes.GeneralShape.SegmentPathElement;
 import org.openflexo.diana.shapes.Losange;
 import org.openflexo.diana.shapes.Oval;
 import org.openflexo.diana.shapes.Parallelogram;
@@ -147,6 +136,7 @@ import org.openflexo.diana.shapes.Rectangle;
 import org.openflexo.diana.shapes.RectangularOctogon;
 import org.openflexo.diana.shapes.RegularPolygon;
 import org.openflexo.diana.shapes.ShapeSpecification;
+import org.openflexo.diana.shapes.ShapeUnion;
 import org.openflexo.diana.shapes.Square;
 import org.openflexo.diana.shapes.Star;
 import org.openflexo.diana.shapes.Triangle;
@@ -154,6 +144,11 @@ import org.openflexo.diana.shapes.impl.ArcImpl;
 import org.openflexo.diana.shapes.impl.ChevronImpl;
 import org.openflexo.diana.shapes.impl.CircleImpl;
 import org.openflexo.diana.shapes.impl.ComplexCurveImpl;
+import org.openflexo.diana.shapes.impl.GeneralShapeImpl;
+import org.openflexo.diana.shapes.impl.GeneralShapeImpl.CubicCurvePathElementImpl;
+import org.openflexo.diana.shapes.impl.GeneralShapeImpl.GeneralShapePathElementImpl;
+import org.openflexo.diana.shapes.impl.GeneralShapeImpl.QuadCurvePathElementImpl;
+import org.openflexo.diana.shapes.impl.GeneralShapeImpl.SegmentPathElementImpl;
 import org.openflexo.diana.shapes.impl.LosangeImpl;
 import org.openflexo.diana.shapes.impl.OvalImpl;
 import org.openflexo.diana.shapes.impl.ParallelogramImpl;
@@ -163,6 +158,7 @@ import org.openflexo.diana.shapes.impl.RectangleImpl;
 import org.openflexo.diana.shapes.impl.RectangularOctogonImpl;
 import org.openflexo.diana.shapes.impl.RegularPolygonImpl;
 import org.openflexo.diana.shapes.impl.ShapeSpecificationImpl;
+import org.openflexo.diana.shapes.impl.ShapeUnionImpl;
 import org.openflexo.diana.shapes.impl.SquareImpl;
 import org.openflexo.diana.shapes.impl.StarImpl;
 import org.openflexo.diana.shapes.impl.TriangleImpl;
@@ -240,9 +236,15 @@ public class DianaModelFactoryImpl extends DianaModelFactory {
 		modelFactory.setImplementingClassForInterface(StarImpl.class, Star.class);
 		modelFactory.setImplementingClassForInterface(TriangleImpl.class, Triangle.class);
 		modelFactory.setImplementingClassForInterface(ComplexCurveImpl.class, ComplexCurve.class);
+		modelFactory.setImplementingClassForInterface(GeneralShapeImpl.class, GeneralShape.class);
+		modelFactory.setImplementingClassForInterface(GeneralShapePathElementImpl.class, GeneralShapePathElement.class);
+		modelFactory.setImplementingClassForInterface(SegmentPathElementImpl.class, SegmentPathElement.class);
+		modelFactory.setImplementingClassForInterface(QuadCurvePathElementImpl.class, QuadCurvePathElement.class);
+		modelFactory.setImplementingClassForInterface(CubicCurvePathElementImpl.class, CubicCurvePathElement.class);
 		modelFactory.setImplementingClassForInterface(PlusImpl.class, Plus.class);
 		modelFactory.setImplementingClassForInterface(ChevronImpl.class, Chevron.class);
 		modelFactory.setImplementingClassForInterface(ParallelogramImpl.class, Parallelogram.class);
+		modelFactory.setImplementingClassForInterface(ShapeUnionImpl.class, ShapeUnion.class);
 
 		modelFactory.setImplementingClassForInterface(ConnectorSpecificationImpl.class, ConnectorSpecification.class);
 		modelFactory.setImplementingClassForInterface(LineConnectorSpecificationImpl.class, LineConnectorSpecification.class);
@@ -271,6 +273,10 @@ public class DianaModelFactoryImpl extends DianaModelFactory {
 		modelFactory.setImplementingClassForInterface(RadialTreeLayoutManagerImpl.class, RadialTreeLayoutManager.class);
 		modelFactory.setImplementingClassForInterface(RadialTreeLayoutManagerSpecificationImpl.class,
 				RadialTreeLayoutManagerSpecification.class);
+
+		// PaletteElementSpecification
+		modelFactory.setImplementingClassForInterface(PaletteElementSpecificationImpl.class, PaletteElementSpecification.class);
+
 	}
 
 	@Override

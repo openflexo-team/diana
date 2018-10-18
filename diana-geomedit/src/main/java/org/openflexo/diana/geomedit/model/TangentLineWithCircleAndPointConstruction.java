@@ -41,11 +41,11 @@ package org.openflexo.diana.geomedit.model;
 
 import java.util.logging.Logger;
 
-import org.openflexo.diana.geomedit.model.TangentLineWithCircleAndPointConstruction.TangentLineWithCircleAndPointConstructionImpl;
 import org.openflexo.diana.geom.DianaCircle;
 import org.openflexo.diana.geom.DianaLine;
 import org.openflexo.diana.geom.PointInsideCircleException;
 import org.openflexo.diana.geom.area.DianaUnionArea;
+import org.openflexo.diana.geomedit.model.TangentLineWithCircleAndPointConstruction.TangentLineWithCircleAndPointConstructionImpl;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
@@ -98,17 +98,21 @@ public interface TangentLineWithCircleAndPointConstruction extends LineConstruct
 
 		@Override
 		protected DianaLine computeData() {
-			try {
-				DianaUnionArea tangentPoints = DianaCircle.getTangentsPointsToCircle(circleConstruction.getCircle(),
-						pointConstruction.getPoint());
-				if (tangentPoints.isUnionOfPoints()) {
-					return new DianaLine(tangentPoints.getNearestPoint(choosingPointConstruction.getPoint()), pointConstruction.getPoint());
+			if (getCircleConstruction() != null && getPointConstruction() != null) {
+				try {
+					DianaUnionArea tangentPoints = DianaCircle.getTangentsPointsToCircle(circleConstruction.getCircle(),
+							pointConstruction.getPoint());
+					if (tangentPoints.isUnionOfPoints()) {
+						return new DianaLine(tangentPoints.getNearestPoint(choosingPointConstruction.getPoint()),
+								pointConstruction.getPoint());
+					}
+					logger.warning("Received strange result for DianaEllips.getTangentsPointsToCircle()");
+					return null;
+				} catch (PointInsideCircleException e) {
+					return null;
 				}
-				logger.warning("Received strange result for DianaEllips.getTangentsPointsToCircle()");
-				return null;
-			} catch (PointInsideCircleException e) {
-				return null;
 			}
+			return null;
 		}
 
 		@Override

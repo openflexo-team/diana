@@ -42,15 +42,18 @@ import java.beans.PropertyChangeSupport;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.geom.DianaArc;
 import org.openflexo.diana.geom.DianaArc.ArcType;
 import org.openflexo.diana.geom.DianaComplexCurve;
 import org.openflexo.diana.geom.DianaEllips;
+import org.openflexo.diana.geom.DianaGeneralShape;
 import org.openflexo.diana.geom.DianaGeneralShape.Closure;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
@@ -59,10 +62,12 @@ import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaRegularPolygon;
 import org.openflexo.diana.geom.DianaRoundRectangle;
 import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.geom.DianaShapeUnion;
 import org.openflexo.diana.shapes.Arc;
 import org.openflexo.diana.shapes.Chevron;
 import org.openflexo.diana.shapes.Circle;
 import org.openflexo.diana.shapes.ComplexCurve;
+import org.openflexo.diana.shapes.GeneralShape;
 import org.openflexo.diana.shapes.Losange;
 import org.openflexo.diana.shapes.Oval;
 import org.openflexo.diana.shapes.Parallelogram;
@@ -73,6 +78,7 @@ import org.openflexo.diana.shapes.RectangularOctogon;
 import org.openflexo.diana.shapes.RegularPolygon;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
+import org.openflexo.diana.shapes.ShapeUnion;
 import org.openflexo.diana.shapes.Square;
 import org.openflexo.diana.shapes.Star;
 import org.openflexo.diana.shapes.Triangle;
@@ -105,39 +111,43 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 	private final InspectedArc arc;
 	private final InspectedStar star;
 	private final InspectedComplexCurve complexCurve;
+	private final InspectedGeneralShape<GeneralShape> generalShape;
+	private final InspectedUnion union;
 	private final InspectedPlus plus;
 	private final InspectedChevron chevron;
 	private final InspectedParallelogram parallelogram;
 
 	private PropertyChangeSupport pcSupport;
-	private DianaModelFactory fgeFactory;
+	private DianaModelFactory dianaFactory;
 	private final DianaInteractiveViewer<?, ?, ?> controller;
 
 	public ShapeSpecificationFactory(final DianaInteractiveViewer<?, ?, ?> controller) {
 		this.pcSupport = new PropertyChangeSupport(this);
 		this.controller = controller;
 		if (controller != null) {
-			fgeFactory = controller.getFactory();
+			dianaFactory = controller.getFactory();
 		}
 		else {
-			fgeFactory = DianaCoreUtils.TOOLS_FACTORY;
+			dianaFactory = DianaCoreUtils.TOOLS_FACTORY;
 		}
-		this.rectangle = new InspectedRectangle<>(controller, (Rectangle) fgeFactory.makeShape(ShapeType.RECTANGLE));
-		this.square = new InspectedSquare(controller, (Square) fgeFactory.makeShape(ShapeType.SQUARE));
-		this.polygon = new InspectedPolygon<>(controller, (Polygon) fgeFactory.makeShape(ShapeType.CUSTOM_POLYGON));
-		this.regularPolygon = new InspectedRegularPolygon<>(controller, (RegularPolygon) fgeFactory.makeShape(ShapeType.POLYGON));
+		this.rectangle = new InspectedRectangle<>(controller, (Rectangle) dianaFactory.makeShape(ShapeType.RECTANGLE));
+		this.square = new InspectedSquare(controller, (Square) dianaFactory.makeShape(ShapeType.SQUARE));
+		this.polygon = new InspectedPolygon<>(controller, (Polygon) dianaFactory.makeShape(ShapeType.CUSTOM_POLYGON));
+		this.regularPolygon = new InspectedRegularPolygon<>(controller, (RegularPolygon) dianaFactory.makeShape(ShapeType.POLYGON));
 		this.rectangularOctogon = new InspectedRectangularOctogon(controller,
-				(RectangularOctogon) fgeFactory.makeShape(ShapeType.RECTANGULAROCTOGON));
-		this.losange = new InspectedLosange(controller, (Losange) fgeFactory.makeShape(ShapeType.LOSANGE));
-		this.triangle = new InspectedTriangle(controller, (Triangle) fgeFactory.makeShape(ShapeType.TRIANGLE));
-		this.oval = new InspectedOval<>(controller, (Oval) fgeFactory.makeShape(ShapeType.OVAL));
-		this.circle = new InspectedCircle(controller, (Circle) fgeFactory.makeShape(ShapeType.CIRCLE));
-		this.arc = new InspectedArc(controller, (Arc) fgeFactory.makeShape(ShapeType.ARC));
-		this.star = new InspectedStar(controller, (Star) fgeFactory.makeShape(ShapeType.STAR));
-		this.complexCurve = new InspectedComplexCurve(controller, (ComplexCurve) fgeFactory.makeShape(ShapeType.COMPLEX_CURVE));
-		this.plus = new InspectedPlus(controller, (Plus) fgeFactory.makeShape(ShapeType.PLUS));
-		this.chevron = new InspectedChevron(controller, (Chevron) fgeFactory.makeShape(ShapeType.CHEVRON));
-		this.parallelogram = new InspectedParallelogram(controller, (Parallelogram) fgeFactory.makeShape(ShapeType.PARALLELOGRAM));
+				(RectangularOctogon) dianaFactory.makeShape(ShapeType.RECTANGULAROCTOGON));
+		this.losange = new InspectedLosange(controller, (Losange) dianaFactory.makeShape(ShapeType.LOSANGE));
+		this.triangle = new InspectedTriangle(controller, (Triangle) dianaFactory.makeShape(ShapeType.TRIANGLE));
+		this.oval = new InspectedOval<>(controller, (Oval) dianaFactory.makeShape(ShapeType.OVAL));
+		this.circle = new InspectedCircle(controller, (Circle) dianaFactory.makeShape(ShapeType.CIRCLE));
+		this.arc = new InspectedArc(controller, (Arc) dianaFactory.makeShape(ShapeType.ARC));
+		this.star = new InspectedStar(controller, (Star) dianaFactory.makeShape(ShapeType.STAR));
+		this.complexCurve = new InspectedComplexCurve(controller, (ComplexCurve) dianaFactory.makeShape(ShapeType.COMPLEX_CURVE));
+		this.generalShape = new InspectedGeneralShape(controller, (GeneralShape) dianaFactory.makeShape(ShapeType.GENERALSHAPE));
+		this.plus = new InspectedPlus(controller, (Plus) dianaFactory.makeShape(ShapeType.PLUS));
+		this.chevron = new InspectedChevron(controller, (Chevron) dianaFactory.makeShape(ShapeType.CHEVRON));
+		this.parallelogram = new InspectedParallelogram(controller, (Parallelogram) dianaFactory.makeShape(ShapeType.PARALLELOGRAM));
+		this.union = new InspectedUnion(controller, (ShapeUnion) dianaFactory.makeShape(ShapeType.UNION));
 	}
 
 	public DianaInteractiveViewer<?, ?, ?> getController() {
@@ -146,12 +156,12 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	@Override
 	public DianaModelFactory getDianaFactory() {
-		return this.fgeFactory;
+		return this.dianaFactory;
 	}
 
 	@Override
-	public void setDianaFactory(final DianaModelFactory fgeFactory) {
-		this.fgeFactory = fgeFactory;
+	public void setDianaFactory(final DianaModelFactory dianaFactory) {
+		this.dianaFactory = dianaFactory;
 	}
 
 	@Override
@@ -209,6 +219,10 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				return this.plus;
 			case CHEVRON:
 				return this.chevron;
+			case GENERALSHAPE:
+				return this.generalShape;
+			case UNION:
+				return this.union;
 			default:
 				break;
 		}
@@ -315,6 +329,74 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return returned;
 		}
 
+		@Override
+		public DianaShape<?> makeDianaShape(ShapeNode<?> node) {
+			return makeNormalizedDianaShape(node);
+		}
+
+		@Override
+		public double getX() {
+			return 0.0;
+		}
+
+		@Override
+		public void setX(double aValue) {
+			// Not applicable
+		}
+
+		@Override
+		public double getY() {
+			return 0.0;
+		}
+
+		@Override
+		public void setY(double aValue) {
+			// Not applicable
+		}
+
+		@Override
+		public double getWidth() {
+			return 1.0;
+		}
+
+		@Override
+		public void setWidth(double aValue) {
+			// Not applicable
+		}
+
+		@Override
+		public double getHeight() {
+			return 1.0;
+		}
+
+		@Override
+		public void setHeight(double aValue) {
+			// Not applicable
+		}
+
+		@Override
+		public BackgroundStyle getBackground() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void setBackground(BackgroundStyle aBackground) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public ForegroundStyle getForeground() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void setForeground(ForegroundStyle aForeground) {
+			// TODO Auto-generated method stub
+
+		}
 	}
 
 	protected class InspectedRectangle<SS extends Rectangle> extends AbstractInspectedShapeSpecification<SS> implements Rectangle {
@@ -334,7 +416,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
 			if (node != null && this.getIsRounded()) {
 				final double arcwidth = this.getArcSize() / node.getWidth();
 				final double archeight = this.getArcSize() / node.getHeight();
@@ -488,7 +570,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
 			return new DianaPolygon(Filling.FILLED, this.getPoints());
 		}
 
@@ -567,7 +649,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
 			return new DianaComplexCurve(this.getClosure(), this.getPoints());
 		}
 
@@ -581,6 +663,83 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return null;
 		}
 
+	}
+
+	protected class InspectedGeneralShape<SS extends GeneralShape> extends AbstractInspectedShapeSpecification<SS> implements GeneralShape {
+
+		protected InspectedGeneralShape(final DianaInteractiveViewer<?, ?, ?> controller, final SS defaultValue) {
+			super(controller, defaultValue);
+		}
+
+		@Override
+		public boolean areDimensionConstrained() {
+			return false;
+		}
+
+		@Override
+		public ShapeType getShapeType() {
+			return ShapeType.GENERALSHAPE;
+		}
+
+		@Override
+		public Closure getClosure() {
+			return this.getPropertyValue(GeneralShape.CLOSURE);
+		}
+
+		@Override
+		public void setClosure(final Closure aClosure) {
+			this.setPropertyValue(GeneralShape.CLOSURE, aClosure);
+		}
+
+		@Override
+		public DianaPoint getStartPoint() {
+			return this.getPropertyValue(GeneralShape.START_POINT);
+		}
+
+		@Override
+		public void setStartPoint(final DianaPoint aPoint) {
+			this.setPropertyValue(GeneralShape.START_POINT, aPoint);
+		}
+
+		@Override
+		public List<GeneralShapePathElement> getPathElements() {
+			return this.getPropertyValue(GeneralShape.PATH_ELEMENTS);
+		}
+
+		@Override
+		public void setPathElements(final List<GeneralShapePathElement> points) {
+			// Not applicable in this context (ambigous semantics, preferably disabled)
+			this.setPropertyValue(Polygon.POINTS, points);
+		}
+
+		@Override
+		public void addToPathElements(final GeneralShapePathElement aPoint) {
+			// Not applicable in this context (ambigous semantics, preferably disabled)
+		}
+
+		@Override
+		public void removeFromPathElements(final GeneralShapePathElement aPoint) {
+			// Not applicable in this context (ambigous semantics, preferably disabled)
+		}
+
+		@Override
+		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
+			return new DianaGeneralShape(Closure.CLOSED_FILLED);
+		}
+
+		@Override
+		public SS getStyle(final DrawingTreeNode<?, ?> node) {
+			if (node instanceof ShapeNode) {
+				if (((ShapeNode<?>) node).getShapeSpecification() instanceof GeneralShape) {
+					return (SS) ((ShapeNode<?>) node).getShapeSpecification();
+				}
+			}
+			return null;
+		}
+
+		public void geometryChanged() {
+			notifyChange(PATH_ELEMENTS);
+		}
 	}
 
 	protected class InspectedRegularPolygon<SS extends RegularPolygon> extends InspectedPolygon<SS> implements RegularPolygon {
@@ -625,7 +784,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
 			if (this.getNPoints() > 2) {
 				return new DianaRegularPolygon(0, 0, 1, 1, Filling.FILLED, this.getNPoints(), this.getStartAngle());
 			}
@@ -672,7 +831,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
 			final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 			returned.addToPoints(new DianaPoint(0, this.getRatio()));
 			returned.addToPoints(new DianaPoint(0, 1 - this.getRatio()));
@@ -751,7 +910,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
 			return new DianaEllips(0, 0, 1, 1, Filling.FILLED);
 		}
 
@@ -812,7 +971,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
 			return new DianaArc(0, 0, 1, 1, this.getAngleStart(), this.getAngleExtent(), this.getArcType());
 		}
 
@@ -875,7 +1034,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
 			final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 			final double startA = this.getStartAngle() * Math.PI / 180;
 			final double angleInterval = Math.PI * 2 / this.getNPoints();
@@ -967,7 +1126,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
 			final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 			returned.addToPoints(new DianaPoint(0, this.getRatio()));
 			returned.addToPoints(new DianaPoint(0, 1 - this.getRatio()));
@@ -1022,7 +1181,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
 			final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 			returned.addToPoints(new DianaPoint(0, 0));
 			returned.addToPoints(new DianaPoint(this.getArrowLength(), 0.5));
@@ -1071,7 +1230,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
 			final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 			double shift_ratio = getShiftRatio();
 			if (shift_ratio >= 0) {
@@ -1087,6 +1246,63 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				returned.addToPoints(new DianaPoint(-shift_ratio, 1));
 			}
 			return returned;
+		}
+	}
+
+	protected class InspectedUnion extends AbstractInspectedShapeSpecification<ShapeUnion> implements ShapeUnion {
+
+		protected InspectedUnion(final DianaInteractiveViewer<?, ?, ?> controller, final ShapeUnion defaultValue) {
+			super(controller, defaultValue);
+		}
+
+		@Override
+		public boolean areDimensionConstrained() {
+			return false;
+		}
+
+		@Override
+		public ShapeType getShapeType() {
+			return ShapeType.UNION;
+		}
+
+		@Override
+		public List<ShapeSpecification> getShapes() {
+			return this.getPropertyValue(ShapeUnion.SHAPES);
+		}
+
+		@Override
+		public void setShapes(final List<ShapeSpecification> shapes) {
+			// Not applicable in this context (ambigous semantics, preferably disabled)
+			this.setPropertyValue(ShapeUnion.SHAPES, shapes);
+		}
+
+		@Override
+		public void addToShapes(final ShapeSpecification aShape) {
+			// Not applicable in this context (ambigous semantics, preferably disabled)
+		}
+
+		@Override
+		public void removeFromShapes(final ShapeSpecification aShape) {
+			// Not applicable in this context (ambigous semantics, preferably disabled)
+		}
+
+		@Override
+		public DianaShapeUnion makeNormalizedDianaShape(final ShapeNode<?> node) {
+			return new DianaShapeUnion();
+		}
+
+		@Override
+		public ShapeUnion getStyle(final DrawingTreeNode<?, ?> node) {
+			if (node instanceof ShapeNode) {
+				if (((ShapeNode<?>) node).getShapeSpecification() instanceof ShapeUnion) {
+					return (ShapeUnion) ((ShapeNode<?>) node).getShapeSpecification();
+				}
+			}
+			return null;
+		}
+
+		public void geometryChanged() {
+			notifyChange(SHAPES);
 		}
 	}
 

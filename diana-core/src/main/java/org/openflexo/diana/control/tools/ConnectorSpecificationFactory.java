@@ -83,14 +83,14 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 	private final InspectedCurvedPolylinConnectorSpecification curvedPolylinConnectorSpecification;
 
 	private PropertyChangeSupport pcSupport;
-	private DianaModelFactory fgeFactory;
+	private DianaModelFactory dianaFactory;
 
 	// Unused private final DianaInteractiveViewer<?, ?, ?> controller;
 
 	public ConnectorSpecificationFactory(DianaInteractiveViewer<?, ?, ?> controller) {
 		pcSupport = new PropertyChangeSupport(this);
 		// Unused this.controller = controller;
-		fgeFactory = controller.getFactory();
+		dianaFactory = controller.getFactory();
 		lineConnectorSpecification = new InspectedLineConnectorSpecification(controller, controller.getFactory().makeLineConnector());
 		curveConnectorSpecification = new InspectedCurveConnectorSpecification(controller, controller.getFactory().makeCurveConnector());
 		rectPolylinConnectorSpecification = new InspectedRectPolylinConnectorSpecification(controller,
@@ -102,12 +102,12 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 
 	@Override
 	public DianaModelFactory getDianaFactory() {
-		return fgeFactory;
+		return dianaFactory;
 	}
 
 	@Override
-	public void setDianaFactory(DianaModelFactory fgeFactory) {
-		this.fgeFactory = fgeFactory;
+	public void setDianaFactory(DianaModelFactory dianaFactory) {
+		this.dianaFactory = dianaFactory;
 	}
 
 	@Override

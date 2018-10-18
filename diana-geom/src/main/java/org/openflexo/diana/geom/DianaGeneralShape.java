@@ -51,11 +51,14 @@ import java.util.Vector;
 import java.util.logging.Logger;
 
 import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaEmptyArea;
 import org.openflexo.diana.geom.area.DianaHalfLine;
 import org.openflexo.diana.geom.area.DianaIntersectionArea;
 import org.openflexo.diana.geom.area.DianaSubstractionArea;
 import org.openflexo.diana.geom.area.DianaUnionArea;
 import org.openflexo.diana.graphics.AbstractDianaGraphics;
+import org.openflexo.diana.graphics.BGStyle;
+import org.openflexo.diana.graphics.FGStyle;
 
 public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaShape<O> {
 
@@ -65,8 +68,12 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 	private Closure closure;
 	private GeneralPath _generalPath;
 	private DianaPoint currentPoint;
+	private DianaPoint startPoint;
 
 	private Vector<DianaPoint> _controlPoints;
+
+	private FGStyle foreground;
+	private BGStyle background;
 
 	public static enum Closure {
 		OPEN_NOT_FILLED, CLOSED_NOT_FILLED, OPEN_FILLED, CLOSED_FILLED;
@@ -76,7 +83,7 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 		public DianaPoint getP1();
 
 		public DianaPoint getP2();
-		
+
 		public DianaPoint nearestOutlinePoint(DianaPoint aPoint);
 	}
 
@@ -140,7 +147,12 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 
 	public void beginAtPoint(DianaPoint p) {
 		pathElements.clear();
-		currentPoint = p;
+		startPoint = p;
+		currentPoint = startPoint;
+	}
+
+	public DianaPoint getStartPoint() {
+		return startPoint;
 	}
 
 	public void addSegment(Point2D p) {
@@ -337,6 +349,9 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 
 	@Override
 	public void paint(AbstractDianaGraphics g) {
+		g.setDefaultBackgroundStyle(this);
+		g.setDefaultForegroundStyle(this);
+
 		if (closure == Closure.OPEN_FILLED || closure == Closure.CLOSED_FILLED) {
 			g.useDefaultBackgroundStyle();
 			g.fillGeneralShape(this);
@@ -347,8 +362,13 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 
 	@Override
 	public DianaGeneralShape<O> transform(AffineTransform t) {
-		// TODO
-		return this;
+		DianaGeneralShape<O> returned = new DianaGeneralShape<O>(getClosure());
+		for (GeneralShapePathElement<?> pathElement : getPathElements()) {
+			returned.addToPathElements((GeneralShapePathElement<?>) pathElement.transform(t));
+		}
+		returned.setForeground(getForeground());
+		returned.setBackground(getBackground());
+		return returned;
 	}
 
 	@Override
@@ -376,6 +396,17 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 
 	@Override
 	public DianaArea substract(DianaArea area, boolean isStrict) {
+		if (area.containsArea(this)) {
+			return new DianaEmptyArea();
+		}
+		if (!containsArea(area)) {
+			return this.clone();
+		}
+
+		if (area instanceof DianaShape) {
+			return AreaComputation.computeShapeSubstraction(this, (DianaShape<?>) area);
+		}
+
 		return new DianaSubstractionArea(this, area, isStrict);
 	}
 
@@ -386,6 +417,10 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 		}
 		if (area.containsArea(this)) {
 			return area.clone();
+		}
+
+		if (area instanceof DianaShape) {
+			return AreaComputation.computeShapeUnion(this, (DianaShape<?>) area);
 		}
 
 		return new DianaUnionArea(this, area);
@@ -543,7 +578,49 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 
 	@Override
 	public String toString() {
-		return "FGEGeneralShape: " + getPathElements();
+		return "DianaGeneralShape: start=" + getStartPoint() + " elements=" + getPathElements();
+	}
+
+	/**
+	 * Return background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public BGStyle getBackground() {
+		return background;
+	}
+
+	/**
+	 * Sets background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aBackground
+	 */
+	@Override
+	public void setBackground(BGStyle aBackground) {
+		this.background = aBackground;
+	}
+
+	/**
+	 * Return foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public FGStyle getForeground() {
+		return foreground;
+	}
+
+	/**
+	 * Sets foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aForeground
+	 */
+	@Override
+	public void setForeground(FGStyle aForeground) {
+		this.foreground = aForeground;
 	}
 
 }

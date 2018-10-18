@@ -85,7 +85,10 @@ public interface HorizontalLineWithPointConstruction extends LineConstruction {
 
 		@Override
 		protected DianaLine computeData() {
-			return DianaLine.makeHorizontalLine(pointConstruction.getPoint(), 100);
+			if (getPointConstruction() != null) {
+				return DianaLine.makeHorizontalLine(pointConstruction.getPoint(), 100);
+			}
+			return null;
 		}
 
 		@Override

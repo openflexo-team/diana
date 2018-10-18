@@ -77,11 +77,14 @@ public interface ComplexCurveWithNPointsConstruction extends ComplexCurveConstru
 
 		@Override
 		protected DianaComplexCurve computeData() {
-			Vector<DianaPoint> pts = new Vector<DianaPoint>();
-			for (PointConstruction pc : getPointConstructions()) {
-				pts.add(pc.getPoint());
+			if (getPointConstructions() != null) {
+				Vector<DianaPoint> pts = new Vector<>();
+				for (PointConstruction pc : getPointConstructions()) {
+					pts.add(pc.getPoint());
+				}
+				return new DianaComplexCurve(getClosure(), pts);
 			}
-			return new DianaComplexCurve(getClosure(), pts);
+			return null;
 		}
 
 		@Override

@@ -101,9 +101,13 @@ public interface HalfBandWithLinesConstruction extends HalfBandConstruction {
 
 		@Override
 		protected DianaHalfBand computeData() {
-			DianaHalfBand returned = new DianaHalfBand(lineConstruction1.getLine(), lineConstruction2.getLine(),
-					new DianaHalfPlane(limitLineConstruction.getLine(), pointConstruction.getPoint()));
-			return returned;
+			if (getLineConstruction1() != null && getLineConstruction2() != null && getLimitLineConstruction() != null
+					&& getPointConstruction() != null) {
+				DianaHalfBand returned = new DianaHalfBand(getLineConstruction1().getLine(), getLineConstruction2().getLine(),
+						new DianaHalfPlane(getLimitLineConstruction().getLine(), getPointConstruction().getPoint()));
+				return returned;
+			}
+			return null;
 		}
 
 		@Override

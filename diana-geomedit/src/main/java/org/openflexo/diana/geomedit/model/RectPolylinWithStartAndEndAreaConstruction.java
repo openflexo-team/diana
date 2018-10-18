@@ -39,11 +39,11 @@
 
 package org.openflexo.diana.geomedit.model;
 
-import org.openflexo.diana.geomedit.model.RectPolylinWithStartAndEndAreaConstruction.RectPolylinWithStartAndEndAreaConstructionImpl;
 import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.geom.DianaPolylin;
 import org.openflexo.diana.geom.DianaRectPolylin;
 import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geomedit.model.RectPolylinWithStartAndEndAreaConstruction.RectPolylinWithStartAndEndAreaConstructionImpl;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.ImplementationClass;
 import org.openflexo.model.annotations.ModelEntity;
@@ -99,15 +99,18 @@ public interface RectPolylinWithStartAndEndAreaConstruction extends PolylinConst
 
 		@Override
 		protected DianaPolylin computeData() {
-			DianaArea startArea = getStartAreaConstruction().getData();
-			DianaArea endArea = getEndAreaConstruction().getData();
-			if (getStartOrientation() == null) {
-				setStartOrientation(SimplifiedCardinalDirection.NORTH);
+			if (getStartAreaConstruction() != null && getEndAreaConstruction() != null) {
+				DianaArea startArea = getStartAreaConstruction().getData();
+				DianaArea endArea = getEndAreaConstruction().getData();
+				if (getStartOrientation() == null) {
+					setStartOrientation(SimplifiedCardinalDirection.NORTH);
+				}
+				if (getEndOrientation() == null) {
+					setEndOrientation(SimplifiedCardinalDirection.SOUTH);
+				}
+				return new DianaRectPolylin(startArea, getStartOrientation(), endArea, getEndOrientation(), false, 10, 10);
 			}
-			if (getEndOrientation() == null) {
-				setEndOrientation(SimplifiedCardinalDirection.SOUTH);
-			}
-			return new DianaRectPolylin(startArea, getStartOrientation(), endArea, getEndOrientation(), false, 10, 10);
+			return null;
 		}
 
 		@Override

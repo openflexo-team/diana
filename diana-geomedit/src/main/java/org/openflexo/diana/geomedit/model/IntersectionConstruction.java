@@ -44,6 +44,7 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.geom.area.DianaIntersectionArea;
+import org.openflexo.diana.geomedit.model.GeometricConstruction.GeometricConstructionImpl;
 import org.openflexo.diana.geomedit.model.IntersectionConstruction.IntersectionConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.ComputedAreaGraphicalRepresentation;
 import org.openflexo.logging.FlexoLogger;
@@ -62,7 +63,7 @@ import org.openflexo.model.annotations.XMLElement;
 public interface IntersectionConstruction extends GeometricConstruction<DianaArea> {
 
 	@PropertyIdentifier(type = ObjectReference.class, cardinality = Cardinality.LIST)
-	public static final String OBJECT_CONSTRUCTIONS_KEY = "pointConstructions";
+	public static final String OBJECT_CONSTRUCTIONS_KEY = "objectConstructions";
 
 	@Getter(value = OBJECT_CONSTRUCTIONS_KEY, cardinality = Cardinality.LIST)
 	@XMLElement
@@ -92,16 +93,18 @@ public interface IntersectionConstruction extends GeometricConstruction<DianaAre
 
 		@Override
 		protected DianaArea computeData() {
-			DianaArea[] objects = new DianaArea[getObjectConstructions().size()];
-			for (int i = 0; i < getObjectConstructions().size(); i++) {
-				objects[i] = getObjectConstructions().get(i).getData();
+			if (getObjectConstructions() != null) {
+				DianaArea[] objects = new DianaArea[getObjectConstructions().size()];
+				for (int i = 0; i < getObjectConstructions().size(); i++) {
+					objects[i] = getObjectConstructions().get(i).getData();
+				}
+				DianaArea returned = DianaIntersectionArea.makeIntersection(objects);
+				if (returned == null) {
+					new Exception("Unexpected intersection").printStackTrace();
+				}
+				return returned;
 			}
-			DianaArea returned = DianaIntersectionArea.makeIntersection(objects);
-
-			if (returned == null) {
-				new Exception("Unexpected intersection").printStackTrace();
-			}
-			return returned;
+			return null;
 		}
 
 		@Override

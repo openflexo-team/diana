@@ -77,7 +77,10 @@ public interface LineIntersectionPointConstruction extends PointConstruction {
 
 		@Override
 		protected DianaPoint computeData() {
-			return getLineConstruction1().getData().getLineIntersection(getLineConstruction2().getData());
+			if (getLineConstruction1() != null && getLineConstruction2() != null) {
+				return getLineConstruction1().getData().getLineIntersection(getLineConstruction2().getData());
+			}
+			return null;
 		}
 
 		@Override
