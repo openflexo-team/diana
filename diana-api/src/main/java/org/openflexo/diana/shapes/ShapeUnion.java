@@ -70,7 +70,7 @@ public interface ShapeUnion extends ShapeSpecification {
 
 	public static GRProperty<List> SHAPES = GRProperty.getGRParameter(ShapeUnion.class, SHAPES_KEY, List.class);
 
-	@Getter(value = SHAPES_KEY, cardinality = Cardinality.LIST)
+	@Getter(value = SHAPES_KEY, cardinality = Cardinality.LIST, allowsMultipleOccurences = true)
 	@XMLElement
 	@CloningStrategy(StrategyType.CLONE)
 	@Embedded
