@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" name="File" index="20">
+  <ShapeGraphicalRepresentation id="1" relativeTextY="0.5" locationConstraints="FREELY_MOVABLE" isFloatingLabel="false" adaptBoundsToContents="false" relativeTextX="0.5" dimensionConstraints="FREELY_RESIZABLE" width="1.0" height="1.0" identifier="1ee86813" layer="1">
+    <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="3" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
+    <ShadowStyle id="5" />
+    <FocusedForegroundStyle id="6" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <SelectedForegroundStyle id="7" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
+    <Union id="9">
+      <CustomPolygonShape id="10">
+        <Point>0.0,0.0</Point>
+        <Point>0.0,1.0</Point>
+        <Point>1.0,1.0</Point>
+        <Point>1.0,0.2725323241879533</Point>
+        <Point>0.6330672554347827,0.0</Point>
+        <ColorBackgroundStyle id="11" color="254,247,217" transparencyLevel="0.5" />
+        <ForegroundStyle id="12" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+      </CustomPolygonShape>
+      <CustomPolygonShape id="13">
+        <Point>0.640625,0.009933774834437087</Point>
+        <Point>0.97265625,0.25496688741721857</Point>
+        <Point>0.60546875,0.2781456953642384</Point>
+        <ColorBackgroundStyle id="14" color="254,247,217" transparencyLevel="0.5" />
+        <ForegroundStyle id="15" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+      </CustomPolygonShape>
+    </Union>
+    <TextStyle id="16" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </ShapeGraphicalRepresentation>
+</PaletteElementSpecification>
