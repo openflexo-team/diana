@@ -24,6 +24,11 @@
 		<url>https://github.com/openflexo-team/diana</url>
 		<tag>1.4.2</tag>
 	</scm>
+	<issueManagement>
+            <system>JIRA</system>
+            <url>https://bugs.openflexo.org/browse/DIANA/</url>
+    </issueManagement>
+	
 	<modules>
 		<module>diana-geom</module>
 		<module>diana-api</module>
