@@ -1,18 +1,12 @@
  -----
- The Site
+ Openflexo DIANA Core
  -----
- The Maven Team
+ The Openflexo team
  -----
 
-Maven Site for your project
+[/images/components/diana/DianaScreenshot] Diana
 
- Congratulations! If you are looking at this page then you have successfully generated a
- template site employing the site archetype and you have run:
+DIANA Core Implementation
 
-[https://media.openflexo.org/images/openflexo2.png]
-
-+-----+
-
-mvn site
-
-+-----+
+  TODO
+  
