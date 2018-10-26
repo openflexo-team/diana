@@ -4,27 +4,15 @@
  The Openflexo team
  -----
 
+DIANA framework API
+
+  This is the general Diana API.
+
 [/images/components/diana/DianaOverview] Diana
 
-Introduction to DIANA
-
-TODO: to be rewritten
-
-  Diana can be considered as a box and arrow drawing framework. 
+  Previous figure shows the general principles driving Diana framework.
   
-  It takes its originality by beeing able to associate a graph of interconnected objects with adapted graphical representations. 
+  To be continued...
   
-  Graphical representations are considered as graphical properties such as Color or Size, which are then associated to models depending on the context. 
   
-  Diana is based on Connie and Pamela frameworks. 
-  
-  A Java Swing implementation of Diana has been developped for Openflexo.
-  
-Key features of DIANA
-
-  * Model-driven technology
-  
-  * Non intrusive technology
-  
-  * TODO
   
