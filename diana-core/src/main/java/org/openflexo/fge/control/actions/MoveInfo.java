@@ -91,7 +91,7 @@ public class MoveInfo {
 			controller.setSelectedObject(movedObject);
 		}
 
-		movedObjects = new Hashtable<ShapeNode<?>, FGEPoint>();
+		movedObjects = new Hashtable<>();
 		movedObjects.put(movedObject, movedObject.getLocation());
 
 		// Now see objects coming with
@@ -170,9 +170,9 @@ public class MoveInfo {
 		for (ShapeNode<?> d : movedObjects.keySet()) {
 			FGEPoint startMovingPoint = movedObjects.get(d);
 
-			FGEPoint desiredLocation = new FGEPoint(startMovingPoint.x + (newLocationInDrawingView.x - startMovingLocationInDrawingView.x)
-					/ view.getScale(), startMovingPoint.y + (newLocationInDrawingView.y - startMovingLocationInDrawingView.y)
-					/ view.getScale());
+			FGEPoint desiredLocation = new FGEPoint(
+					startMovingPoint.x + (newLocationInDrawingView.x - startMovingLocationInDrawingView.x) / view.getScale(),
+					startMovingPoint.y + (newLocationInDrawingView.y - startMovingLocationInDrawingView.y) / view.getScale());
 
 			/*double authorizedRatio = d.getMoveAuthorizedRatio(desiredLocation,startMovingPoint);
 			FGEPoint newLocation = new FGEPoint(
@@ -227,13 +227,14 @@ public class MoveInfo {
 
 		FGEPoint startMovingPoint = movedObjects.get(movedObject);
 
-		FGEPoint desiredLocation = new FGEPoint(startMovingPoint.x + (newLocationInDrawingView.x - startMovingLocationInDrawingView.x)
-				/ view.getScale(), startMovingPoint.y + (newLocationInDrawingView.y - startMovingLocationInDrawingView.y) / view.getScale());
+		FGEPoint desiredLocation = new FGEPoint(
+				startMovingPoint.x + (newLocationInDrawingView.x - startMovingLocationInDrawingView.x) / view.getScale(),
+				startMovingPoint.y + (newLocationInDrawingView.y - startMovingLocationInDrawingView.y) / view.getScale());
 
 		if (movedObject.getParentNode() instanceof ShapeNode) {
 			ShapeNode<?> container = (ShapeNode<?>) movedObject.getParentNode();
-			FGERectangle bounds = new FGERectangle(0, 0, container.getWidth() - movedObject.getWidth(), container.getHeight()
-					- movedObject.getHeight(), Filling.FILLED);
+			FGERectangle bounds = new FGERectangle(0, 0, container.getWidth() - movedObject.getWidth(),
+					container.getHeight() - movedObject.getHeight(), Filling.FILLED);
 			FGEPoint nearestPoint = bounds.getNearestPoint(desiredLocation);
 			Point p1 = FGEUtils.convertPointFromDrawableToDrawing(movedObject.getParentNode(), desiredLocation.toPoint(), view.getScale());
 			Point p2 = FGEUtils.convertPointFromDrawableToDrawing(movedObject.getParentNode(), nearestPoint.toPoint(), view.getScale());

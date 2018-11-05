@@ -79,16 +79,12 @@ public interface ComplexCurve extends ShapeSpecification {
 	public static GRProperty<List> POINTS = GRProperty.getGRParameter(ComplexCurve.class, POINTS_KEY, List.class);
 	public static GRProperty<Closure> CLOSURE = GRProperty.getGRParameter(ComplexCurve.class, CLOSURE_KEY, Closure.class);
 
-	/*public static enum PolygonParameters implements GRProperty {
-		points;
-	}*/
-
 	// *******************************************************************************
 	// * Properties
 	// *******************************************************************************
 
 	@Getter(value = POINTS_KEY, cardinality = Cardinality.LIST, isStringConvertable = true)
-	@XMLElement(primary = true)
+	@XMLElement(xmlTag = "Point", primary = true)
 	@CloningStrategy(StrategyType.CLONE)
 	@Embedded
 	public List<FGEPoint> getPoints();

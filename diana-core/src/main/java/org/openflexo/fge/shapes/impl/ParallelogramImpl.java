@@ -36,7 +36,6 @@
  * 
  */
 
-
 package org.openflexo.fge.shapes.impl;
 
 import org.openflexo.fge.Drawing.ShapeNode;
@@ -72,7 +71,6 @@ public abstract class ParallelogramImpl extends ShapeSpecificationImpl implement
 		return this.shift_ratio;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void setShiftRatio(final double aShiftRatio) {
 		double normalized = Math.abs(aShiftRatio);
@@ -94,7 +92,7 @@ public abstract class ParallelogramImpl extends ShapeSpecificationImpl implement
 	 * @return FGEPolygon
 	 */
 	@Override
-	public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+	public FGEShape<?> makeNormalizedFGEShape(final ShapeNode<?> node) {
 		final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
 		if (shift_ratio >= 0) {
 			returned.addToPoints(new FGEPoint(shift_ratio, 0));

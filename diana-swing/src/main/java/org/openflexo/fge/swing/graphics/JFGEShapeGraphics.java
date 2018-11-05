@@ -49,6 +49,7 @@ import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.geom.FGEShape;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
 import org.openflexo.fge.impl.FGECachedModelFactory;
 import org.openflexo.fge.swing.view.JShapeView;
@@ -82,6 +83,9 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 	 */
 	@Override
 	public void createGraphics(Graphics2D graphics2D) {
+
+		// System.out.println("******** createGraphics() with " + graphics2D + " for " + getNode().getText());
+
 		super.createGraphics(graphics2D);
 		shapeDecorationGraphics.createGraphics(graphics2D);
 	}
@@ -96,20 +100,23 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 	protected void applyCurrentBackgroundStyle() {
 		super.applyCurrentBackgroundStyle();
 
-		if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle
-				&& ((BackgroundImageBackgroundStyle) getCurrentBackground()).getFitToShape()) {
-			BackgroundImageBackgroundStyle bgImage = (BackgroundImageBackgroundStyle) getCurrentBackground();
-			bgImage.setDeltaX(0);
-			bgImage.setDeltaY(0);
-			if (bgImage.getImage() != null) {
-				// SGU: Big performance issue here
-				// I add to declare new methods without notification because in case of
-				// the inspector is shown, an instability is raising: the shape is
-				// continuously switching between two values
-				// Please investigate
-				bgImage.setScaleXNoNotification(getNode().getWidth() / bgImage.getImage().getWidth(null));
-				bgImage.setScaleYNoNotification(getNode().getHeight() / bgImage.getImage().getHeight(null));
-			}
+		if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
+			/*if (((BackgroundImageBackgroundStyle) getCurrentBackground()).getFitToShape()) {
+				BackgroundImageBackgroundStyle bgImage = (BackgroundImageBackgroundStyle) getCurrentBackground();
+				bgImage.setDeltaX(0);
+				bgImage.setDeltaY(0);
+				if (bgImage.getImage() != null) {
+					// SGU: Big performance issue here
+					// I add to declare new methods without notification because in case of
+					// the inspector is shown, an instability is raising: the shape is
+					// continuously switching between two values
+					// Please investigate
+					// bgImage.setScaleXNoNotification(getNode().getWidth() / bgImage.getImage().getWidth(null));
+					// bgImage.setScaleYNoNotification(getNode().getHeight() / bgImage.getImage().getHeight(null));
+					bgImage.setScaleX(getNode().getWidth() / bgImage.getImage().getWidth(null));
+					bgImage.setScaleY(getNode().getHeight() / bgImage.getImage().getHeight(null));
+				}
+			}*/
 		}
 
 	}
@@ -130,9 +137,12 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 		}
 	}
 
+	private boolean isPaintingShadow = false;
+
 	@Override
 	public void paintShadow() {
 
+		isPaintingShadow = true;
 		double deep = getGraphicalRepresentation().getShadowStyle().getShadowDepth();
 		int blur = getGraphicalRepresentation().getShadowStyle().getShadowBlur();
 		double viewWidth = getViewWidth(1.0);
@@ -143,8 +153,8 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 
 		Graphics2D oldGraphics = cloneGraphics();
 
-		Area clipArea = new Area(new java.awt.Rectangle(0, 0, getViewWidth(getController().getScale()), getViewHeight(getController()
-				.getScale())));
+		Area clipArea = new Area(
+				new java.awt.Rectangle(0, 0, getViewWidth(getController().getScale()), getViewHeight(getController().getScale())));
 		Area a = new Area(getNode().getFGEShape());
 		a.transform(getNode().convertNormalizedPointToViewCoordinatesAT(getController().getScale()));
 		clipArea.subtract(a);
@@ -169,6 +179,22 @@ public class JFGEShapeGraphics extends JFGEGraphics implements FGEShapeGraphics 
 			getNode().getFGEShape().transform(at).paint(this);
 		}
 		releaseClonedGraphics(oldGraphics);
+		isPaintingShadow = false;
+
+	}
+
+	@Override
+	public void setDefaultBackgroundStyle(FGEShape<?> shape) {
+		if (!isPaintingShadow) {
+			super.setDefaultBackgroundStyle(shape);
+		}
+	}
+
+	@Override
+	public void setDefaultForegroundStyle(FGEShape<?> shape) {
+		if (!isPaintingShadow) {
+			super.setDefaultForegroundStyle(shape);
+		}
 	}
 
 }

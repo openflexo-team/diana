@@ -45,6 +45,8 @@ import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.fge.geom.FGEDimension;
 import org.openflexo.fge.geom.FGESteppedDimensionConstraint;
 import org.openflexo.model.annotations.Adder;
+import org.openflexo.model.annotations.Embedded;
+import org.openflexo.model.annotations.Finder;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.Getter.Cardinality;
 import org.openflexo.model.annotations.ModelEntity;
@@ -52,6 +54,7 @@ import org.openflexo.model.annotations.PropertyIdentifier;
 import org.openflexo.model.annotations.Remover;
 import org.openflexo.model.annotations.Setter;
 import org.openflexo.model.annotations.XMLAttribute;
+import org.openflexo.model.annotations.XMLElement;
 
 /**
  * Represents a container in a diagram <br>
@@ -65,6 +68,9 @@ import org.openflexo.model.annotations.XMLAttribute;
  */
 @ModelEntity(isAbstract = true)
 public interface ContainerGraphicalRepresentation extends GraphicalRepresentation {
+
+	public static final double DEFAULT_WIDTH = 100;
+	public static final double DEFAULT_HEIGHT = 100;
 
 	// Property keys
 
@@ -101,12 +107,12 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 
 	public static GRProperty<Boolean> ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT_KEY, Boolean.class);
-	public static GRProperty<Boolean> ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH = GRProperty.getGRParameter(
-			ContainerGraphicalRepresentation.class, ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH_KEY, Boolean.class);
+	public static GRProperty<Boolean> ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH = GRProperty
+			.getGRParameter(ContainerGraphicalRepresentation.class, ADJUST_MAXIMAL_WIDTH_TO_LABEL_WIDTH_KEY, Boolean.class);
 	public static GRProperty<Boolean> ADJUST_MINIMAL_HEIGHT_TO_LABEL_HEIGHT = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			ADJUST_MINIMAL_HEIGHT_TO_LABEL_HEIGHT_KEY, Boolean.class);
-	public static GRProperty<Boolean> ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH = GRProperty.getGRParameter(
-			ContainerGraphicalRepresentation.class, ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH_KEY, Boolean.class);
+	public static GRProperty<Boolean> ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH = GRProperty
+			.getGRParameter(ContainerGraphicalRepresentation.class, ADJUST_MINIMAL_WIDTH_TO_LABEL_WIDTH_KEY, Boolean.class);
 	public static GRProperty<Double> MINIMAL_WIDTH = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class, MINIMAL_WIDTH_KEY,
 			Double.class);
 	public static GRProperty<Double> MINIMAL_HEIGHT = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class, MINIMAL_HEIGHT_KEY,
@@ -115,10 +121,10 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 			Double.class);
 	public static GRProperty<Double> MAXIMAL_HEIGHT = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class, MAXIMAL_HEIGHT_KEY,
 			Double.class);
-	public static GRProperty<DimensionConstraints> DIMENSION_CONSTRAINTS = GRProperty.getGRParameter(
-			ContainerGraphicalRepresentation.class, DIMENSION_CONSTRAINTS_KEY, DimensionConstraints.class);
-	public static GRProperty<FGESteppedDimensionConstraint> DIMENSION_CONSTRAINT_STEP = GRProperty.getGRParameter(
-			ContainerGraphicalRepresentation.class, DIMENSION_CONSTRAINT_STEP_KEY, FGESteppedDimensionConstraint.class);
+	public static GRProperty<DimensionConstraints> DIMENSION_CONSTRAINTS = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class,
+			DIMENSION_CONSTRAINTS_KEY, DimensionConstraints.class);
+	public static GRProperty<FGESteppedDimensionConstraint> DIMENSION_CONSTRAINT_STEP = GRProperty
+			.getGRParameter(ContainerGraphicalRepresentation.class, DIMENSION_CONSTRAINT_STEP_KEY, FGESteppedDimensionConstraint.class);
 
 	public static GRProperty<List> LAYOUT_MANAGER_SPECIFICATIONS = GRProperty.getGRParameter(ContainerGraphicalRepresentation.class,
 			LAYOUT_MANAGER_SPECIFICATIONS_KEY, List.class);
@@ -131,14 +137,14 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 	// * Properties
 	// *******************************************************************************
 
-	@Getter(value = WIDTH_KEY, defaultValue = "100")
+	@Getter(value = WIDTH_KEY, defaultValue = "" + DEFAULT_WIDTH)
 	@XMLAttribute
 	public abstract double getWidth();
 
 	@Setter(value = WIDTH_KEY)
 	public abstract void setWidth(double aValue);
 
-	@Getter(value = HEIGHT_KEY, defaultValue = "100")
+	@Getter(value = HEIGHT_KEY, defaultValue = "" + DEFAULT_HEIGHT)
 	@XMLAttribute
 	public abstract double getHeight();
 
@@ -217,7 +223,9 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 	@Setter(value = ADJUST_MAXIMAL_HEIGHT_TO_LABEL_HEIGHT_KEY)
 	public void setAdjustMaximalHeightToLabelHeight(boolean adjustMaximalHeightToLabelHeight);
 
-	@Getter(value = LAYOUT_MANAGER_SPECIFICATIONS_KEY, cardinality = Cardinality.LIST, ignoreType = true)
+	@Getter(value = LAYOUT_MANAGER_SPECIFICATIONS_KEY, cardinality = Cardinality.LIST)
+	@Embedded
+	@XMLElement
 	public List<FGELayoutManagerSpecification<?>> getLayoutManagerSpecifications();
 
 	@Setter(value = LAYOUT_MANAGER_SPECIFICATIONS_KEY)
@@ -229,4 +237,6 @@ public interface ContainerGraphicalRepresentation extends GraphicalRepresentatio
 	@Remover(value = LAYOUT_MANAGER_SPECIFICATIONS_KEY)
 	public void removeFromLayoutManagerSpecifications(FGELayoutManagerSpecification<?> layoutManagerSpecification);
 
+	@Finder(collection = LAYOUT_MANAGER_SPECIFICATIONS_KEY, attribute = FGELayoutManagerSpecification.IDENTIFIER_KEY)
+	public FGELayoutManagerSpecification<?> getLayoutManagerSpecification(String identifier);
 }

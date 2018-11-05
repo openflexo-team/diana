@@ -51,13 +51,16 @@ import java.util.Vector;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.fge.geom.area.FGEEmptyArea;
 import org.openflexo.fge.geom.area.FGEHalfLine;
 import org.openflexo.fge.geom.area.FGEIntersectionArea;
 import org.openflexo.fge.geom.area.FGESubstractionArea;
 import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.fge.graphics.AbstractFGEGraphics;
+import org.openflexo.fge.graphics.BGStyle;
+import org.openflexo.fge.graphics.FGStyle;
 
-public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometricObject<O>, FGEShape<O> {
+public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEShape<O> {
 
 	private static final Logger logger = Logger.getLogger(FGEGeneralShape.class.getPackage().getName());
 
@@ -65,8 +68,12 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 	private Closure closure;
 	private GeneralPath _generalPath;
 	private FGEPoint currentPoint;
+	private FGEPoint startPoint;
 
 	private Vector<FGEPoint> _controlPoints;
+
+	private FGStyle foreground;
+	private BGStyle background;
 
 	public static enum Closure {
 		OPEN_NOT_FILLED, CLOSED_NOT_FILLED, OPEN_FILLED, CLOSED_FILLED;
@@ -76,6 +83,8 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 		public FGEPoint getP1();
 
 		public FGEPoint getP2();
+
+		public FGEPoint nearestOutlinePoint(FGEPoint aPoint);
 	}
 
 	public FGEGeneralShape() {
@@ -85,15 +94,15 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 	public FGEGeneralShape(Closure aClosure) {
 		super();
 		closure = aClosure;
-		pathElements = new Vector<GeneralShapePathElement<?>>();
+		pathElements = new Vector<>();
 		_generalPath = new GeneralPath();
-		_controlPoints = new Vector<FGEPoint>();
+		_controlPoints = new Vector<>();
 	}
 
-	public FGEGeneralShape(Closure aClosure, GeneralPath generalPath) {
+	/*public FGEGeneralShape(Closure aClosure, GeneralPath generalPath) {
 		this(aClosure);
 		logger.warning("FGEGeneralShape from generalPath not implemented yet");
-	}
+	}*/
 
 	public Vector<GeneralShapePathElement<?>> getPathElements() {
 		return pathElements;
@@ -112,12 +121,14 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 				beginAtPoint(((FGESegment) element).getP1());
 			}
 			addSegment(((FGESegment) element).getP2());
-		} else if (element instanceof FGEQuadCurve) {
+		}
+		else if (element instanceof FGEQuadCurve) {
 			if (currentPoint == null) {
 				beginAtPoint(((FGEQuadCurve) element).getP1());
 			}
 			addQuadCurve(((FGEQuadCurve) element).getCtrlPoint(), ((FGEQuadCurve) element).getP2());
-		} else if (element instanceof FGECubicCurve) {
+		}
+		else if (element instanceof FGECubicCurve) {
 			if (currentPoint == null) {
 				beginAtPoint(((FGECubicCurve) element).getP1());
 			}
@@ -135,7 +146,12 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 
 	public void beginAtPoint(FGEPoint p) {
 		pathElements.clear();
-		currentPoint = p;
+		startPoint = p;
+		currentPoint = startPoint;
+	}
+
+	public FGEPoint getStartPoint() {
+		return startPoint;
 	}
 
 	public void addSegment(Point2D p) {
@@ -147,6 +163,7 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 			throw new IllegalArgumentException("No current point defined");
 		}
 		pathElements.add(new FGESegment(currentPoint, p));
+		currentPoint = p;
 		updateGeneralPath();
 	}
 
@@ -159,6 +176,7 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 			throw new IllegalArgumentException("No current point defined");
 		}
 		pathElements.add(new FGEQuadCurve(currentPoint, cp, p));
+		currentPoint = p;
 		updateGeneralPath();
 	}
 
@@ -196,13 +214,16 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 		if (filled) {
 			if (getClosure() == Closure.OPEN_NOT_FILLED) {
 				setClosure(Closure.OPEN_FILLED);
-			} else if (getClosure() == Closure.CLOSED_NOT_FILLED) {
+			}
+			else if (getClosure() == Closure.CLOSED_NOT_FILLED) {
 				setClosure(Closure.CLOSED_FILLED);
 			}
-		} else {
+		}
+		else {
 			if (getClosure() == Closure.OPEN_FILLED) {
 				setClosure(Closure.OPEN_NOT_FILLED);
-			} else if (getClosure() == Closure.CLOSED_FILLED) {
+			}
+			else if (getClosure() == Closure.CLOSED_FILLED) {
 				setClosure(Closure.CLOSED_NOT_FILLED);
 			}
 		}
@@ -226,7 +247,8 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 				current = ((FGESegment) e).getP2();
 				_controlPoints.add(current);
 				_generalPath.lineTo((float) current.x, (float) current.y);
-			} else if (e instanceof FGEQuadCurve) {
+			}
+			else if (e instanceof FGEQuadCurve) {
 				if (current == null) {
 					current = ((FGEQuadCurve) e).getP1();
 					_generalPath.moveTo((float) current.x, (float) current.y);
@@ -236,7 +258,8 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 				current = ((FGEQuadCurve) e).getP2();
 				_controlPoints.add(current);
 				_generalPath.quadTo((float) cp.x, (float) cp.y, (float) current.x, (float) current.y);
-			} else if (e instanceof FGECubicCurve) {
+			}
+			else if (e instanceof FGECubicCurve) {
 				if (current == null) {
 					current = ((FGECubicCurve) e).getP1();
 					_generalPath.moveTo((float) current.x, (float) current.y);
@@ -267,7 +290,6 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 
 	@Override
 	public boolean containsArea(FGEArea a) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -282,25 +304,43 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 
 	@Override
 	public boolean containsPoint(FGEPoint p) {
-		return contains(p.x, p.y);
+		if (p != null) {
+			return contains(p.x, p.y);
+		}
+		return false;
 	}
 
 	@Override
 	public FGEArea exclusiveOr(FGEArea area) {
-		// TODO Auto-generated method stub
 		return this;
 	}
 
 	@Override
 	public FGEArea getAnchorAreaFrom(org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection direction) {
-		// TODO Auto-generated method stub
 		return this;
 	}
 
 	@Override
 	public FGEPoint getNearestPoint(FGEPoint aPoint) {
-		// TODO Auto-generated method stub
-		return aPoint;
+		// return null;
+
+		return nearestOutlinePoint(aPoint);
+	}
+
+	@Override
+	public FGEPoint nearestOutlinePoint(FGEPoint aPoint) {
+		FGEPoint returnedPoint = null;
+		double smallestDistance = Double.POSITIVE_INFINITY;
+
+		for (GeneralShapePathElement<?> generalShapePathElement : getPathElements()) {
+			FGEPoint nearestPoint = generalShapePathElement.nearestOutlinePoint(aPoint);
+			double sqDistanceToSegment = FGESegment.getLength(aPoint, nearestPoint);
+			if (sqDistanceToSegment < smallestDistance) {
+				returnedPoint = nearestPoint;
+				smallestDistance = sqDistanceToSegment;
+			}
+		}
+		return returnedPoint;
 	}
 
 	@Override
@@ -311,6 +351,9 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 
 	@Override
 	public void paint(AbstractFGEGraphics g) {
+		g.setDefaultBackgroundStyle(this);
+		g.setDefaultForegroundStyle(this);
+
 		if (closure == Closure.OPEN_FILLED || closure == Closure.CLOSED_FILLED) {
 			g.useDefaultBackgroundStyle();
 			g.fillGeneralShape(this);
@@ -320,23 +363,52 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 	}
 
 	@Override
-	public FGEGeneralShape transform(AffineTransform t) {
-		// TODO
-		return this;
+	public FGEGeneralShape<O> transform(AffineTransform t) {
+		FGEGeneralShape<O> returned = new FGEGeneralShape<O>(getClosure());
+		for (GeneralShapePathElement<?> pathElement : getPathElements()) {
+			returned.addToPathElements((GeneralShapePathElement<?>) pathElement.transform(t));
+		}
+		returned.setForeground(getForeground());
+		returned.setBackground(getBackground());
+		return returned;
 	}
 
 	@Override
 	public FGEArea intersect(FGEArea area) {
+
+		if (area.containsArea(this)) {
+			return this.clone();
+		}
+		if (containsArea(area)) {
+			return area.clone();
+		}
+
+		if (area instanceof FGEShape) {
+			return AreaComputation.computeShapeIntersection(this, (FGEShape<?>) area);
+		}
+
 		FGEIntersectionArea returned = new FGEIntersectionArea(this, area);
 		if (returned.isDevelopable()) {
 			return returned.makeDevelopped();
-		} else {
+		}
+		else {
 			return returned;
 		}
 	}
 
 	@Override
 	public FGEArea substract(FGEArea area, boolean isStrict) {
+		if (area.containsArea(this)) {
+			return new FGEEmptyArea();
+		}
+		if (!containsArea(area)) {
+			return this.clone();
+		}
+
+		if (area instanceof FGEShape) {
+			return AreaComputation.computeShapeSubstraction(this, (FGEShape<?>) area);
+		}
+
 		return new FGESubstractionArea(this, area, isStrict);
 	}
 
@@ -347,6 +419,10 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 		}
 		if (area.containsArea(this)) {
 			return area.clone();
+		}
+
+		if (area instanceof FGEShape) {
+			return AreaComputation.computeShapeUnion(this, (FGEShape<?>) area);
 		}
 
 		return new FGEUnionArea(this, area);
@@ -361,12 +437,6 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 	@Override
 	public FGEPoint getCenter() {
 		return getBoundingBox().getCenter();
-	}
-
-	@Override
-	public FGEPoint nearestOutlinePoint(FGEPoint aPoint) {
-		// TODO
-		return aPoint;
 	}
 
 	/**
@@ -396,7 +466,6 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 
 	@Override
 	public boolean contains(Rectangle2D r) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -449,6 +518,7 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 	 * @see java.lang.Cloneable
 	 * @since 1.2
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public FGEGeneralShape<O> clone() {
 		try {
@@ -471,11 +541,11 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 		}
 		return res;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEGeneralShape) {
-			FGEGeneralShape p = (FGEGeneralShape) obj;
+			FGEGeneralShape<?> p = (FGEGeneralShape<?>) obj;
 			if (getClosure() != p.getClosure()) {
 				return false;
 			}
@@ -506,6 +576,53 @@ public class FGEGeneralShape<O extends FGEGeneralShape<O>> implements FGEGeometr
 	@Override
 	public final FGERectangle getEmbeddingBounds() {
 		return getBoundingBox();
+	}
+
+	@Override
+	public String toString() {
+		return "FGEGeneralShape: start=" + getStartPoint() + " elements=" + getPathElements();
+	}
+
+	/**
+	 * Return background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public BGStyle getBackground() {
+		return background;
+	}
+
+	/**
+	 * Sets background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aBackground
+	 */
+	@Override
+	public void setBackground(BGStyle aBackground) {
+		this.background = aBackground;
+	}
+
+	/**
+	 * Return foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public FGStyle getForeground() {
+		return foreground;
+	}
+
+	/**
+	 * Sets foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aForeground
+	 */
+	@Override
+	public void setForeground(FGStyle aForeground) {
+		this.foreground = aForeground;
 	}
 
 }

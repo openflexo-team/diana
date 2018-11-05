@@ -40,6 +40,7 @@ package org.openflexo.fge.animation.impl;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -49,31 +50,44 @@ import org.openflexo.fge.animation.Animation;
 import org.openflexo.fge.animation.Transition;
 import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.model.undo.UndoManager;
 
 public class AnimationImpl implements Animation {
+
+	private static final Logger logger = Logger.getLogger(AnimationImpl.class.getPackage().getName());
+
 	private int currentStep = 0;
 	private final int steps;
 	private final List<? extends Transition> transitions;
 	private Timer timer;
 	private final CompoundEdit edit;
 	private final AbstractDianaEditor<?, ?, ?> editor;
+	private final UndoManager undoManager;
 
 	public static void performTransitions(final List<? extends Transition> transitions, int steps, Animable animable) {
-		new AnimationImpl(transitions, steps, null, null).performAnimation(animable);
+		new AnimationImpl(transitions, steps, null, null, animable.getUndoManager()).performAnimation(animable);
 	}
 
 	public static void performTransitions(final List<? extends Transition> transitions, int steps, CompoundEdit edit,
 			AbstractDianaEditor<?, ?, ?> editor, Animable animable) {
-		new AnimationImpl(transitions, steps, edit, editor).performAnimation(animable);
+		new AnimationImpl(transitions, steps, edit, editor, editor != null ? editor.getUndoManager() : animable.getUndoManager())
+				.performAnimation(animable);
 	}
 
-	private AnimationImpl(List<? extends Transition> transitions, int steps, CompoundEdit edit, AbstractDianaEditor<?, ?, ?> editor) {
+	private AnimationImpl(List<? extends Transition> transitions, int steps, CompoundEdit edit, AbstractDianaEditor<?, ?, ?> editor,
+			UndoManager undoManager) {
 		super();
 		this.currentStep = 0;
 		this.steps = steps;
 		this.transitions = transitions;
 		this.edit = edit;
 		this.editor = editor;
+		this.undoManager = undoManager;
+		logger.info("Performing animation with following transitions:");
+		for (Transition t : transitions) {
+			logger.info(" > " + t);
+		}
+		// Thread.dumpStack();
 	}
 
 	@Override
@@ -101,6 +115,8 @@ public class AnimationImpl implements Animation {
 		return editor;
 	}
 
+	private CompoundEdit animationCompoundEdit = null;
+
 	@Override
 	public void performAnimation(final Animable animable) {
 		animable.startAnimation(AnimationImpl.this);
@@ -108,6 +124,10 @@ public class AnimationImpl implements Animation {
 		timer = new Timer(0, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// System.out.println("Perform animation step, currentStep=" + currentStep);
+				if (animationCompoundEdit == null && undoManager != null && !undoManager.isBeeingRecording()) {
+					animationCompoundEdit = undoManager.startRecording("animation");
+				}
 				for (final Transition tt : transitions) {
 					tt.performStep(currentStep, steps);
 				}
@@ -116,17 +136,18 @@ public class AnimationImpl implements Animation {
 					timer.stop();
 					stopRecordEdit(edit);
 					animable.stopAnimation(AnimationImpl.this);
+					if (undoManager != null && animationCompoundEdit != null) {
+						undoManager.stopRecording(animationCompoundEdit);
+						animationCompoundEdit = null;
+					}
+					logger.info("Stopping animation");
 				}
 			}
 		});
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				timer.start();
-			}
+		SwingUtilities.invokeLater(() -> {
+			logger.info("Starting animation");
+			timer.start();
 		});
-
 		// timer.start();
 	}
 

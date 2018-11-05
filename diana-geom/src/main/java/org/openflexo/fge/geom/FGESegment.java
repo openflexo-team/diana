@@ -108,13 +108,16 @@ public class FGESegment extends FGEAbstractLine<FGESegment> implements FGEGenera
 			if (p.x >= pp1.x - EPSILON) {
 				if (p.x > pp2.x + EPSILON) {
 					return false;
-				} else {
+				}
+				else {
 					return true;
 				}
-			} else {
+			}
+			else {
 				return false;
 			}
-		} else {
+		}
+		else {
 			FGEPoint pp1 = getP1();
 			FGEPoint pp2 = getP2();
 			if (pp1.y > pp2.y) {
@@ -124,10 +127,12 @@ public class FGESegment extends FGEAbstractLine<FGESegment> implements FGEGenera
 			if (p.y >= pp1.y - EPSILON) {
 				if (p.y > pp2.y + EPSILON) {
 					return false;
-				} else {
+				}
+				else {
 					return true;
 				}
-			} else {
+			}
+			else {
 				return false;
 			}
 		}
@@ -172,8 +177,8 @@ public class FGESegment extends FGEAbstractLine<FGESegment> implements FGEGenera
 			return false;
 		}
 		if (insideOnly) {
-			if (intersection.equals(getP1()) || intersection.equals(getP2()) || line instanceof FGESegment
-					&& (intersection.equals(line.getP1()) || intersection.equals(line.getP2()))) {
+			if (intersection.equals(getP1()) || intersection.equals(getP2())
+					|| line instanceof FGESegment && (intersection.equals(line.getP1()) || intersection.equals(line.getP2()))) {
 				return false;
 			}
 		}
@@ -203,6 +208,11 @@ public class FGESegment extends FGEAbstractLine<FGESegment> implements FGEGenera
 		return getNearestPointOnSegment(p);
 	}
 
+	@Override
+	public FGEPoint nearestOutlinePoint(FGEPoint p) {
+		return getNearestPointOnSegment(p);
+	}
+
 	/**
 	 * Return nearest point on segment
 	 * 
@@ -224,13 +234,16 @@ public class FGESegment extends FGEAbstractLine<FGESegment> implements FGEGenera
 			if (projection.x >= pp1.x) {
 				if (projection.x >= pp2.x) {
 					return pp2;
-				} else {
+				}
+				else {
 					return projection;
 				}
-			} else {
+			}
+			else {
 				return pp1;
 			}
-		} else {
+		}
+		else {
 			FGEPoint pp1 = getP1();
 			FGEPoint pp2 = getP2();
 			if (pp1.y > pp2.y) {
@@ -240,10 +253,12 @@ public class FGESegment extends FGEAbstractLine<FGESegment> implements FGEGenera
 			if (projection.y >= pp1.y) {
 				if (projection.y >= pp2.y) {
 					return pp2;
-				} else {
+				}
+				else {
 					return projection;
 				}
-			} else {
+			}
+			else {
 				return pp1;
 			}
 		}
@@ -272,7 +287,7 @@ public class FGESegment extends FGEAbstractLine<FGESegment> implements FGEGenera
 	public int hashCode() {
 		return getP1().hashCode() + getP2().hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGESegment) {
@@ -314,14 +329,18 @@ public class FGESegment extends FGEAbstractLine<FGESegment> implements FGEGenera
 		if (overlap(line)) {
 			if (line instanceof FGEHalfLine) {
 				return _compute_hl_segment_Intersection((FGEHalfLine) line, this);
-			} else if (line instanceof FGESegment) {
+			}
+			else if (line instanceof FGESegment) {
 				return _compute_segment_segment_Intersection(this, (FGESegment) line);
-			} else {
+			}
+			else {
 				return clone();
 			}
-		} else if (isParallelTo(line)) {
+		}
+		else if (isParallelTo(line)) {
 			return new FGEEmptyArea();
-		} else {
+		}
+		else {
 			FGEPoint returned;
 			try {
 				returned = getLineIntersection(line);
@@ -339,36 +358,42 @@ public class FGESegment extends FGEAbstractLine<FGESegment> implements FGEGenera
 		if (s1.containsPoint(s2.getP1())) {
 			if (s1.containsPoint(s2.getP2())) {
 				return s2.clone();
-			} else {
+			}
+			else {
 				if (s2.containsPoint(s1.getP1())) {
 					if (s1.getP1().equals(s2.getP1())) {
 						return s1.getP1().clone();
 					}
 					return new FGESegment(s1.getP1(), s2.getP1());
-				} else {
+				}
+				else {
 					if (s2.getP1().equals(s1.getP2())) {
 						return s2.getP1().clone();
 					}
 					return new FGESegment(s2.getP1(), s1.getP2());
 				}
 			}
-		} else {
+		}
+		else {
 			if (s1.containsPoint(s2.getP2())) {
 				if (s2.containsPoint(s1.getP1())) {
 					if (s1.getP1().equals(s2.getP2())) {
 						return s1.getP1().clone();
 					}
 					return new FGESegment(s1.getP1(), s2.getP2());
-				} else {
+				}
+				else {
 					if (s2.getP2().equals(s1.getP2())) {
 						return s2.getP2().clone();
 					}
 					return new FGESegment(s2.getP2(), s1.getP2());
 				}
-			} else {
+			}
+			else {
 				if (s2.containsPoint(s1.getP1()) && s2.containsPoint(s1.getP2())) {
 					return s1.clone();
-				} else {
+				}
+				else {
 					return new FGEEmptyArea();
 				}
 			}
@@ -388,19 +413,22 @@ public class FGESegment extends FGEAbstractLine<FGESegment> implements FGEGenera
 			if (Math.abs(ps1.x - ps2.x) < EPSILON) {
 				return hl1;
 			}
-		} else if (orientation == SimplifiedCardinalDirection.SOUTH) {
+		}
+		else if (orientation == SimplifiedCardinalDirection.SOUTH) {
 			hl1 = new FGEHalfLine(ps1, new FGEPoint(ps1.x, ps1.y + 1));
 			hl2 = new FGEHalfLine(ps2, new FGEPoint(ps2.x, ps2.y + 1));
 			if (Math.abs(ps1.x - ps2.x) < EPSILON) {
 				return hl1;
 			}
-		} else if (orientation == SimplifiedCardinalDirection.EAST) {
+		}
+		else if (orientation == SimplifiedCardinalDirection.EAST) {
 			hl1 = new FGEHalfLine(ps1, new FGEPoint(ps1.x + 1, ps1.y));
 			hl2 = new FGEHalfLine(ps2, new FGEPoint(ps2.x + 1, ps2.y));
 			if (Math.abs(ps1.y - ps2.y) < EPSILON) {
 				return hl1;
 			}
-		} else if (orientation == SimplifiedCardinalDirection.WEST) {
+		}
+		else if (orientation == SimplifiedCardinalDirection.WEST) {
 			hl1 = new FGEHalfLine(ps1, new FGEPoint(ps1.x - 1, ps1.y));
 			hl2 = new FGEHalfLine(ps2, new FGEPoint(ps2.x - 1, ps2.y));
 			if (Math.abs(ps1.y - ps2.y) < EPSILON) {
@@ -433,7 +461,8 @@ public class FGESegment extends FGEAbstractLine<FGESegment> implements FGEGenera
 		FGEPoint proj = getNearestPointOnSegment(p);
 		if (Math.abs(getP2().x - getP1().x) < EPSILON) {
 			return (proj.y - getP1().y) / (getP2().y - getP1().y);
-		} else {
+		}
+		else {
 			return (proj.x - getP1().x) / (getP2().x - getP1().x);
 		}
 	}
@@ -456,13 +485,17 @@ public class FGESegment extends FGEAbstractLine<FGESegment> implements FGEGenera
 		 */
 		if (Math.abs(angle) < EPSILON) {
 			return SimplifiedCardinalDirection.WEST;
-		} else if (Math.abs(angle - Math.PI) < EPSILON || Math.abs(angle + Math.PI) < EPSILON) {
+		}
+		else if (Math.abs(angle - Math.PI) < EPSILON || Math.abs(angle + Math.PI) < EPSILON) {
 			return SimplifiedCardinalDirection.EAST;
-		} else if (Math.abs(angle - Math.PI / 2) < EPSILON) {
+		}
+		else if (Math.abs(angle - Math.PI / 2) < EPSILON) {
 			return SimplifiedCardinalDirection.SOUTH;
-		} else if (Math.abs(angle - 3 * Math.PI / 2) < EPSILON || Math.abs(angle + Math.PI / 2) < EPSILON) {
+		}
+		else if (Math.abs(angle - 3 * Math.PI / 2) < EPSILON || Math.abs(angle + Math.PI / 2) < EPSILON) {
 			return SimplifiedCardinalDirection.NORTH;
-		} else {
+		}
+		else {
 			return null;
 		}
 	}

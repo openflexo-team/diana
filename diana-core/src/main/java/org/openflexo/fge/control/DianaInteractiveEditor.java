@@ -43,7 +43,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import org.openflexo.exceptions.CopyException;
+import org.openflexo.exceptions.CutException;
+import org.openflexo.exceptions.PasteException;
 import org.openflexo.fge.Drawing;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
@@ -52,9 +54,6 @@ import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.fge.control.actions.DrawConnectorAction;
 import org.openflexo.fge.control.actions.DrawShapeAction;
-import org.openflexo.fge.control.exceptions.CopyException;
-import org.openflexo.fge.control.exceptions.CutException;
-import org.openflexo.fge.control.exceptions.PasteException;
 import org.openflexo.fge.control.notifications.SelectionCopied;
 import org.openflexo.fge.control.notifications.ToolChanged;
 import org.openflexo.fge.control.notifications.ToolOptionChanged;
@@ -70,6 +69,7 @@ import org.openflexo.fge.control.tools.InspectedLayoutManagerSpecifications;
 import org.openflexo.fge.control.tools.InspectedLocationSizeProperties;
 import org.openflexo.fge.control.tools.InspectedShadowStyle;
 import org.openflexo.fge.control.tools.InspectedShapeSpecification;
+import org.openflexo.fge.control.tools.InspectedTextProperties;
 import org.openflexo.fge.control.tools.InspectedTextStyle;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.view.DianaViewFactory;
@@ -140,16 +140,16 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		DrawLine, DrawCurve, DrawRectPolylin, DrawCurvedPolylin;
 		public ConnectorType getConnectorType() {
 			switch (this) {
-			case DrawLine:
-				return ConnectorType.LINE;
-			case DrawCurve:
-				return ConnectorType.CURVE;
-			case DrawRectPolylin:
-				return ConnectorType.RECT_POLYLIN;
-			case DrawCurvedPolylin:
-				return ConnectorType.CURVED_POLYLIN;
-			default:
-				return null;
+				case DrawLine:
+					return ConnectorType.LINE;
+				case DrawCurve:
+					return ConnectorType.CURVE;
+				case DrawRectPolylin:
+					return ConnectorType.RECT_POLYLIN;
+				case DrawCurvedPolylin:
+					return ConnectorType.CURVED_POLYLIN;
+				default:
+					return null;
 			}
 		}
 	}
@@ -174,6 +174,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 	private final InspectedForegroundStyle inspectedForegroundStyle;
 	private final InspectedBackgroundStyle inspectedBackgroundStyle;
 	private final InspectedTextStyle inspectedTextStyle;
+	private final InspectedTextProperties inspectedTextProperties;
 	private final InspectedShadowStyle inspectedShadowStyle;
 	private final InspectedShapeSpecification inspectedShapeSpecification;
 	private final InspectedConnectorSpecification inspectedConnectorSpecification;
@@ -202,6 +203,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		inspectedForegroundStyle = new InspectedForegroundStyle(this);
 		inspectedBackgroundStyle = new InspectedBackgroundStyle(this);
 		inspectedTextStyle = new InspectedTextStyle(this);
+		inspectedTextProperties = new InspectedTextProperties(this);
 		inspectedShadowStyle = new InspectedShadowStyle(this);
 		inspectedShapeSpecification = new InspectedShapeSpecification(this);
 		inspectedConnectorSpecification = new InspectedConnectorSpecification(this);
@@ -222,7 +224,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		}
 		toolbox = null;*/
 		/*if (palettes != null) {
-			for (DrawingPalette palette : palettes) {
+			for (PaletteModel palette : palettes) {
 				palette.delete();
 			}
 		}
@@ -233,6 +235,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 	protected void fireSelectionUpdated() {
 		inspectedForegroundStyle.fireSelectionUpdated();
 		inspectedTextStyle.fireSelectionUpdated();
+		inspectedTextProperties.fireSelectionUpdated();
 		inspectedShadowStyle.fireSelectionUpdated();
 		inspectedBackgroundStyle.fireSelectionUpdated();
 		inspectedShapeSpecification.fireSelectionUpdated();
@@ -278,21 +281,21 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 			EditorTool oldTool = currentTool;
 			logger.fine("Switch to tool " + aTool);
 			switch (aTool) {
-			case SelectionTool:
-				/*if (currentTool == EditorTool.DrawShapeTool && drawShapeToolController != null) {
-					drawShapeToolController.makeNewShape();
-				}*/
-				break;
-			case DrawShapeTool:
-				break;
-			case DrawCustomShapeTool:
-				break;
-			case DrawConnectorTool:
-				break;
-			case DrawTextTool:
-				break;
-			default:
-				break;
+				case SelectionTool:
+					/*if (currentTool == EditorTool.DrawShapeTool && drawShapeToolController != null) {
+						drawShapeToolController.makeNewShape();
+					}*/
+					break;
+				case DrawShapeTool:
+					break;
+				case DrawCustomShapeTool:
+					break;
+				case DrawConnectorTool:
+					break;
+				case DrawTextTool:
+					break;
+				default:
+					break;
 			}
 			currentTool = aTool;
 			notifyObservers(new ToolChanged(oldTool, currentTool));
@@ -331,17 +334,17 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		}
 		if (drawCustomShapeAction != null && getToolFactory() != null) {
 			switch (getDrawCustomShapeToolOption()) {
-			case DrawPolygon:
-				drawCustomShapeToolController = getToolFactory().makeDrawPolygonToolController(this, drawCustomShapeAction);
-				break;
-			case DrawClosedCurve:
-				drawCustomShapeToolController = getToolFactory().makeDrawClosedCurveToolController(this, drawCustomShapeAction, true);
-				break;
-			case DrawOpenedCurve:
-				drawCustomShapeToolController = getToolFactory().makeDrawClosedCurveToolController(this, drawCustomShapeAction, false);
-				break;
-			default:
-				logger.warning("Not implemented: " + getDrawCustomShapeToolOption());
+				case DrawPolygon:
+					drawCustomShapeToolController = getToolFactory().makeDrawPolygonToolController(this, drawCustomShapeAction);
+					break;
+				case DrawClosedCurve:
+					drawCustomShapeToolController = getToolFactory().makeDrawClosedCurveToolController(this, drawCustomShapeAction, true);
+					break;
+				case DrawOpenedCurve:
+					drawCustomShapeToolController = getToolFactory().makeDrawClosedCurveToolController(this, drawCustomShapeAction, false);
+					break;
+				default:
+					logger.warning("Not implemented: " + getDrawCustomShapeToolOption());
 			}
 		}
 
@@ -355,8 +358,8 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 			System.out.println("Preparing the prepareDrawShapeToolController");
 			drawShapeToolController = getToolFactory().makeDrawShapeToolController(this, drawShapeAction);
 			switch (getDrawShapeToolOption()) {
-			default:
-				logger.warning("Not implemented: " + getDrawShapeToolOption());
+				default:
+					logger.warning("Not implemented: " + getDrawShapeToolOption());
 			}
 		}
 
@@ -370,8 +373,8 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 			System.out.println("Preparing the DrawConnectorToolController");
 			drawConnectorToolController = getToolFactory().makeDrawConnectorToolController(this, drawConnectorAction);
 			switch (getDrawConnectorToolOption()) {
-			default:
-				logger.warning("Not implemented: " + getDrawConnectorToolOption());
+				default:
+					logger.warning("Not implemented: " + getDrawConnectorToolOption());
 			}
 		}
 
@@ -412,6 +415,10 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 
 	public InspectedTextStyle getInspectedTextStyle() {
 		return inspectedTextStyle;
+	}
+
+	public InspectedTextProperties getInspectedTextProperties() {
+		return inspectedTextProperties;
 	}
 
 	public InspectedShadowStyle getInspectedShadowStyle() {
@@ -511,7 +518,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		try {
 			clipboard = getFactory().copy(objectsToBeCopied);
 		} catch (Throwable e) {
-			throw new CopyException(e, getFactory());
+			throw new CopyException(e);
 		}
 
 		// System.out.println(clipboard.debug());
@@ -565,13 +572,14 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 				clearSelection();
 				if (clipboard.isSingleObject()) {
 					addToSelectedObjects(getDrawing().getDrawingTreeNode(pasted));
-				} else {
+				}
+				else {
 					for (Object o : (List<?>) pasted) {
 						addToSelectedObjects(getDrawing().getDrawingTreeNode(o));
 					}
 				}
 			} catch (Throwable e) {
-				throw new PasteException(e, getFactory());
+				throw new PasteException(e);
 			}
 
 			// OK, now we can track again new selection to set pastingContext
@@ -608,7 +616,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		try {
 			clipboard = getFactory().cut(objectsToBeCopied);
 		} catch (Throwable e) {
-			throw new CutException(e, getFactory());
+			throw new CutException(e);
 		}
 
 		// System.out.println(clipboard.debug());
@@ -637,7 +645,8 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		if (getUndoManager().canUndo()) {
 			logger.info("Undoing: " + getUndoManager().editToBeUndone().getPresentationName());
 			getUndoManager().undo();
-		} else {
+		}
+		else {
 			if (getUndoManager().canUndoIfStoppingCurrentEdition()) {
 				getUndoManager().stopRecording(getUndoManager().getCurrentEdition());
 				if (getUndoManager().canUndo()) {

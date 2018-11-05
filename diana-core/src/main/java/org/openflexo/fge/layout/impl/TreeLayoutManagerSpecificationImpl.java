@@ -50,7 +50,7 @@ import org.openflexo.fge.layout.TreeLayoutManagerSpecification;
  */
 public abstract class TreeLayoutManagerSpecificationImpl<O> extends TreeBasedLayoutManagerSpecificationImpl<TreeLayoutManager<O>, O>
 		implements TreeLayoutManagerSpecification<O> {
-
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Class<TreeLayoutManager<O>> getLayoutManagerClass() {
 		return (Class) TreeLayoutManager.class;

@@ -36,7 +36,6 @@
  * 
  */
 
-
 package org.openflexo.fge.view;
 
 import org.openflexo.fge.Drawing.ConnectorNode;
@@ -100,34 +99,34 @@ public interface DianaViewFactory<F extends DianaViewFactory<F, C>, C> {
 
 	/*
 	public FGEDrawingGraphics makeDrawingGraphics(RootNode<?> rootNode);
-
+	
 	public FGEShapeGraphics makeShapeGraphics(ShapeNode<?> shapeNode);
-
+	
 	public FGEConnectorGraphics makeConnectorGraphics(ConnectorNode<?> connectorNode);
-
+	
 	public FGEGeometricGraphics makeGeometricGraphics(GeometricNode<?> geometricNode);
-
+	
 	public FGEDrawingDecorationGraphics makeDrawingDecorationGraphics(RootNode<?> rootNode);
-
+	
 	public FGEShapeDecorationGraphics makeShapeDecorationGraphics(ShapeNode<?> shapeNode);
-
+	
 	public FGESymbolGraphics makeSymbolGraphics(ConnectorNode<?> connectorNode);
 	*/
 	public PaletteController<F, C> makePaletteController(DianaPalette<?, ?> palette);
 
-	public FIBBackgroundStyleSelector<? extends C> makeFIBBackgroundStyleSelector(BackgroundStyleFactory backgroundStyleFactory);
+	public FIBBackgroundStyleSelector makeFIBBackgroundStyleSelector(BackgroundStyleFactory backgroundStyleFactory);
 
-	public FIBForegroundStyleSelector<? extends C> makeFIBForegroundStyleSelector(ForegroundStyle foregroundStyle);
+	public FIBForegroundStyleSelector makeFIBForegroundStyleSelector(ForegroundStyle foregroundStyle);
 
-	public FIBTextStyleSelector<? extends C> makeFIBTextStyleSelector(TextStyle textStyle);
+	public FIBTextStyleSelector makeFIBTextStyleSelector(TextStyle textStyle);
 
-	public FIBShadowStyleSelector<? extends C> makeFIBShadowStyleSelector(ShadowStyle shadowStyle);
+	public FIBShadowStyleSelector makeFIBShadowStyleSelector(ShadowStyle shadowStyle);
 
-	public FIBShapeSelector<? extends C> makeFIBShapeSelector(ShapeSpecificationFactory shapeFactory);
+	public FIBShapeSelector makeFIBShapeSelector(ShapeSpecificationFactory shapeFactory);
 
-	public ShapePreviewPanel<? extends C> makeShapePreviewPanel(ShapeSpecification shapeSpecification);
+	public ShapePreviewPanel makeShapePreviewPanel(ShapeSpecification shapeSpecification);
 
-	public ConnectorPreviewPanel<? extends C> makeConnectorPreviewPanel(ConnectorSpecification shapeSpecification);
+	public ConnectorPreviewPanel makeConnectorPreviewPanel(ConnectorSpecification shapeSpecification);
 
 	public DNDInfo makeDNDInfo(MoveAction moveAction, ShapeNode<?> shapeNode, DianaInteractiveViewer<?, ?, ?> controller,
 			final MouseControlContext initialContext);

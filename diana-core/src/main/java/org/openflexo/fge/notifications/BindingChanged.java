@@ -41,6 +41,8 @@ package org.openflexo.fge.notifications;
 
 import org.openflexo.connie.DataBinding;
 
+// TODO: i think this is not used anymore, please check and remove when not necessary
+@Deprecated
 public class BindingChanged extends FGENotification {
 
 	private DataBinding<?> binding;

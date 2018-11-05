@@ -123,6 +123,9 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 
 	@Override
 	public synchronized void delete() {
+		if (isDeleted()) {
+			return;
+		}
 		if (logger.isLoggable(Level.FINE)) {
 			logger.fine("Delete JConnectorView for " + connectorNode);
 		}
@@ -271,7 +274,8 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 		if (!connectorNode.hasText() && labelView != null) {
 			labelView.delete();
 			labelView = null;
-		} else if (connectorNode.hasText() && labelView == null) {
+		}
+		else if (connectorNode.hasText() && labelView == null && connectorNode.getConnector() != null) {
 			labelView = new JLabelView<O>(getNode(), getController(), this);
 			if (getParentView() != null) {
 				getParentView().add(getLabelView());
@@ -280,7 +284,10 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 	}
 
 	public Integer getLayer() {
-		return FGEConstants.INITIAL_LAYER + connectorNode.getGraphicalRepresentation().getLayer();
+		if (connectorNode != null && connectorNode.getGraphicalRepresentation() != null) {
+			return FGEConstants.INITIAL_LAYER + connectorNode.getGraphicalRepresentation().getLayer();
+		}
+		return 0;
 	}
 
 	@Override
@@ -303,15 +310,17 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 					if (FGEPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE)) {
 						FGEPaintManager.paintPrimitiveLogger.fine("JConnectorView: buffering paint, ignore: " + connectorNode);
 					}
-				} else {
+				}
+				else {
 					if (FGEPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE)) {
-						FGEPaintManager.paintPrimitiveLogger.fine("JConnectorView: buffering paint, draw: " + connectorNode + " clip="
-								+ g.getClip());
+						FGEPaintManager.paintPrimitiveLogger
+								.fine("JConnectorView: buffering paint, draw: " + connectorNode + " clip=" + g.getClip());
 					}
 					getNode().paint(graphics);
 					super.paint(g);
 				}
-			} else {
+			}
+			else {
 				if (!getPaintManager().renderUsingBuffer((Graphics2D) g, g.getClipBounds(), connectorNode, getScale())) {
 					getNode().paint(graphics);
 					super.paint(g);
@@ -334,7 +343,8 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 						null);
 				 */
 			}
-		} else {
+		}
+		else {
 			// Normal painting
 			getNode().paint(graphics);
 			super.paint(g);
@@ -384,6 +394,12 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 			return;
 		}
 
+		if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME) && !isDeleted()) {
+			// System.out.println("Je recois bien l'ordre de deletion, je supprime maintenant !!!");
+			delete();
+			return;
+		}
+
 		if ((!evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) && getNode().isDeleted()) {
 			logger.warning("Received notifications for deleted ConnectorNode " + evt);
 			return;
@@ -391,26 +407,23 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 
 		// System.out.println("JConnectorView, received: "+aNotification);
 		if (!SwingUtilities.isEventDispatchThread()) {
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					propertyChange(evt);
-				}
-			});
-		} else {
+			SwingUtilities.invokeLater(() -> propertyChange(evt));
+		}
+		else {
 			if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) {
 				delete();
-			} else if (evt.getPropertyName().equals(ConnectorModified.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(ConnectorModified.EVENT_NAME)) {
 				if (!getPaintManager().isTemporaryObjectOrParentIsTemporaryObject(connectorNode)) {
 					getPaintManager().invalidate(connectorNode);
 				}
 				relocateAndResizeView();
 				revalidate();
 				getPaintManager().repaint(this);
-			} /*else if (notification instanceof NodeDeleted) {
-				handleNodeDeleted((NodeDeleted) notification);
-				}*/else if (evt.getPropertyName().equals(GraphicalRepresentation.LAYER.getName())) {
+			}
+			/*else if (notification instanceof NodeDeleted) {
+			handleNodeDeleted((NodeDeleted) notification);
+			}*/else if (evt.getPropertyName().equals(GraphicalRepresentation.LAYER.getName())) {
 				updateLayer();
 				if (!getPaintManager().isTemporaryObjectOrParentIsTemporaryObject(connectorNode)) {
 					getPaintManager().invalidate(connectorNode);
@@ -420,16 +433,20 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 					getParentView().revalidate();
 					getPaintManager().repaint(this);
 				}*/
-			} else if (evt.getPropertyName().equals(DrawingTreeNode.IS_FOCUSED.getName())) {
+			}
+			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_FOCUSED.getName())) {
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(DrawingTreeNode.IS_SELECTED.getName())) {
+			}
+			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_SELECTED.getName())) {
 				// TODO: ugly hack, please fix this, implement a ForceRepaint in FGEPaintManager
 				if (connectorNode.getIsSelected()) {
 					requestFocusInWindow();
 				}
-			} else if (evt.getPropertyName().equals(GraphicalRepresentation.TEXT.getName())) {
+			}
+			else if (evt.getPropertyName().equals(GraphicalRepresentation.TEXT.getName())) {
 				updateLabelView();
-			} else if (evt.getPropertyName().equals(GraphicalRepresentation.IS_VISIBLE.getName())) {
+			}
+			else if (evt.getPropertyName().equals(GraphicalRepresentation.IS_VISIBLE.getName())) {
 				updateVisibility();
 				if (getPaintManager().isPaintingCacheEnabled()) {
 					if (!getPaintManager().isTemporaryObjectOrParentIsTemporaryObject(connectorNode)) {
@@ -437,43 +454,51 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 					}
 				}
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(ConnectorGraphicalRepresentation.APPLY_FOREGROUND_TO_SYMBOLS.getName())) {
+			}
+			else if (evt.getPropertyName().equals(ConnectorGraphicalRepresentation.APPLY_FOREGROUND_TO_SYMBOLS.getName())) {
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(ObjectWillMove.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(ObjectWillMove.EVENT_NAME)) {
 				if (getPaintManager().isPaintingCacheEnabled()) {
 					getPaintManager().addToTemporaryObjects(connectorNode);
 					getPaintManager().invalidate(connectorNode);
 				}
-			} else if (evt.getPropertyName().equals(ObjectMove.PROPERTY_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(ObjectMove.PROPERTY_NAME)) {
 				relocateView();
 				if (getParentView() != null) {
 					// getParentView().revalidate();
 					getPaintManager().repaint(this);
 				}
-			} else if (evt.getPropertyName().equals(ObjectHasMoved.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(ObjectHasMoved.EVENT_NAME)) {
 				if (getPaintManager().isPaintingCacheEnabled()) {
 					getPaintManager().removeFromTemporaryObjects(connectorNode);
 					getPaintManager().invalidate(connectorNode);
 					getPaintManager().repaint(getParentView());
 				}
-			} else if (evt.getPropertyName().equals(ObjectWillResize.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(ObjectWillResize.EVENT_NAME)) {
 				if (getPaintManager().isPaintingCacheEnabled()) {
 					getPaintManager().addToTemporaryObjects(connectorNode);
 					getPaintManager().invalidate(connectorNode);
 				}
-			} else if (evt.getPropertyName().equals(ObjectResized.PROPERTY_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(ObjectResized.PROPERTY_NAME)) {
 				relocateView();
 				if (getParentView() != null) {
 					// getParentView().revalidate();
 					getPaintManager().repaint(this);
 				}
-			} else if (evt.getPropertyName().equals(ObjectHasResized.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(ObjectHasResized.EVENT_NAME)) {
 				if (getPaintManager().isPaintingCacheEnabled()) {
 					getPaintManager().removeFromTemporaryObjects(connectorNode);
 					getPaintManager().invalidate(connectorNode);
 					getPaintManager().repaint(getParentView());
 				}
-			} else {
+			}
+			else {
 				// revalidate();
 				if (!getPaintManager().isTemporaryObjectOrParentIsTemporaryObject(connectorNode)) {
 					getPaintManager().invalidate(connectorNode);
@@ -492,8 +517,8 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 	public void activatePalette(DianaPalette<?, ?> aPalette) {
 		if (aPalette instanceof JDianaPalette) {
 			// A palette is registered, listen to drag'n'drop events
-			setDropTarget(new DropTarget(this, DnDConstants.ACTION_COPY, ((JDianaPalette) aPalette).buildPaletteDropListener(this,
-					controller), true));
+			setDropTarget(new DropTarget(this, DnDConstants.ACTION_COPY,
+					((JDianaPalette) aPalette).buildPaletteDropListener(this, controller), true));
 		}
 
 	}

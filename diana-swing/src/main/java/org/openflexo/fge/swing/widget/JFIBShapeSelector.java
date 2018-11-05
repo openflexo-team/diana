@@ -41,21 +41,26 @@ package org.openflexo.fge.swing.widget;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 
+import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.tools.ShapeSpecificationFactory;
 import org.openflexo.fge.shapes.ShapeSpecification;
 import org.openflexo.fge.view.widget.FIBShapeSelector;
 import org.openflexo.fge.view.widget.ShapePreviewPanel;
-import org.openflexo.fib.FIBLibrary;
-import org.openflexo.fib.controller.FIBController;
-import org.openflexo.fib.model.FIBComponent;
-import org.openflexo.fib.model.FIBCustom;
-import org.openflexo.fib.view.FIBView;
-import org.openflexo.fib.view.widget.FIBCustomWidget;
+import org.openflexo.gina.controller.FIBController;
+import org.openflexo.gina.model.FIBComponent;
+import org.openflexo.gina.model.widget.FIBCustom;
+import org.openflexo.gina.swing.view.JFIBView;
+import org.openflexo.gina.swing.view.SwingViewFactory;
+import org.openflexo.gina.view.FIBView;
+import org.openflexo.gina.view.GinaViewFactory;
+import org.openflexo.gina.view.widget.FIBCustomWidget;
 import org.openflexo.swing.CustomPopup;
 
 /**
@@ -65,7 +70,7 @@ import org.openflexo.swing.CustomPopup;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implements FIBShapeSelector<JFIBShapeSelector> {
+public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implements FIBShapeSelector {
 
 	static final Logger logger = Logger.getLogger(JFIBShapeSelector.class.getPackage().getName());
 
@@ -83,6 +88,7 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implement
 		setFocusable(true);
 	}
 
+	@Override
 	public ShapeSpecificationFactory getFactory() {
 		if (factory == null) {
 			factory = new ShapeSpecificationFactory(null);
@@ -90,8 +96,17 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implement
 		return factory;
 	}
 
+	@Override
 	public void setFactory(ShapeSpecificationFactory factory) {
 		this.factory = factory;
+		setEditedObject(factory.getCurrentStyle());
+		factory.getPropertyChangeSupport().addPropertyChangeListener(new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				setEditedObject(factory.getCurrentStyle());
+			}
+		});
 	}
 
 	@Override
@@ -112,7 +127,8 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implement
 		// !!!
 		if (oldValue != null) {
 			_revertValue = (ShapeSpecification) oldValue.clone();
-		} else {
+		}
+		else {
 			_revertValue = null;
 		}
 		if (logger.isLoggable(Level.FINE)) {
@@ -146,16 +162,15 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implement
 
 	public class ShapeDetailsPanel extends ResizablePanel {
 		private FIBComponent fibComponent;
-		private FIBView<?, ?, ?> fibView;
+		private JFIBView<?, ?> fibView;
 		private CustomFIBController controller;
 
 		protected ShapeDetailsPanel(ShapeSpecification backgroundStyle) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE,true);
-			controller = new CustomFIBController(fibComponent);
-			fibView = controller.buildView(fibComponent);
-
+			fibComponent = AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(FIB_FILE, true);
+			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
+			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent, null, true);
 			controller.setDataObject(getFactory());
 
 			setLayout(new BorderLayout());
@@ -165,8 +180,6 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implement
 
 		public void update() {
 			// logger.info("Update with " + getEditedObject());
-			logger.warning("Un truc a voir ici comment s'en sortir: ligne suivante commentee");
-			// getFactory().setShape(getEditedObject());
 			controller.setDataObject(getFactory(), true);
 		}
 
@@ -186,8 +199,8 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implement
 		}
 
 		public class CustomFIBController extends FIBController {
-			public CustomFIBController(FIBComponent component) {
-				super(component);
+			public CustomFIBController(FIBComponent component, GinaViewFactory<?> viewFactory) {
+				super(component, viewFactory);
 			}
 
 			public void apply() {
@@ -204,9 +217,9 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implement
 				getFrontComponent().setShape(getFactory().getShapeSpecification());
 				// getFrontComponent().update();
 
-				FIBView<?, ?, ?> previewComponent = viewForComponent(fibComponent.getComponentNamed("PreviewPanel"));
+				FIBView<?, ?> previewComponent = viewForComponent(fibComponent.getComponentNamed("PreviewPanel"));
 				if (previewComponent instanceof FIBCustomWidget) {
-					JComponent customComponent = ((FIBCustomWidget<?, ?>) previewComponent).getJComponent();
+					JComponent customComponent = (JComponent) ((FIBCustomWidget<?, ?, ?>) previewComponent).getTechnologyComponent();
 					if (customComponent instanceof ShapePreviewPanel) {
 						((JShapePreviewPanel) customComponent).setShape(getFactory().getShapeSpecification());
 						// ((ShapePreviewPanel) customComponent).update();
@@ -284,11 +297,6 @@ public class JFIBShapeSelector extends CustomPopup<ShapeSpecification> implement
 	 * BorderFactory.createBevelBorder(BevelBorder.LOWERED); //return
 	 * BorderFactory.createBevelBorder(BevelBorder.LOWERED); }
 	 */
-
-	@Override
-	public JFIBShapeSelector getJComponent() {
-		return this;
-	}
 
 	@Override
 	public Class<ShapeSpecification> getRepresentedType() {

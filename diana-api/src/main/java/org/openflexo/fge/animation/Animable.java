@@ -37,6 +37,8 @@
  */
 package org.openflexo.fge.animation;
 
+import org.openflexo.model.undo.UndoManager;
+
 public interface Animable {
 
 	public void startAnimation(Animation animation);
@@ -44,4 +46,7 @@ public interface Animable {
 	public void stopAnimation(Animation animation);
 
 	public boolean isAnimationRunning();
+
+	public UndoManager getUndoManager();
+
 }

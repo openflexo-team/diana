@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel id="0" align="left" borderTop="0" borderLeft="0" trackViewPortHeight="true" trackViewPortWidth="true" borderBottom="0" border="empty" sizeAdjustment="OriginalSize" layout="border" borderRight="0">
+  <Table id="1" visibleRowCount="3" backgroundNonSelectionColor="255,255,255" iteratorClassName="org.openflexo.gina.controller.FIBController$SampleData$Person" backgroundSecondarySelectionColor="178,215,255" lookAndFeel="Classic" selectionMode="MultipleIntervalSelection" rowHeight="18" manageDynamicModel="true" data="controller.sampleData.persons" constraints="border(location=west)" name="Table">
+    <TextFieldColumn id="2" data="iterator.name" resizable="true" title="name" displayTitle="true" columnWidth="100" showIcon="false" name="name" />
+    <NumberColumn id="3" numberType="IntegerType" data="iterator.size" resizable="true" title="size" displayTitle="true" columnWidth="50" showIcon="false" name="size" />
+    <NumberColumn id="4" numberType="IntegerType" data="iterator.weight" resizable="true" title="weight" displayTitle="true" columnWidth="50" showIcon="false" name="weight" />
+    <AddAction id="5" method="controller.sampleData.addPerson" name="add_action" />
+    <RemoveAction id="6" method="controller.sampleData.deletePerson(selected)" name="delete_action" />
+  </Table>
+  <FIBDiscretePolarFunctionGraph id="7" values="controller.sampleData.persons" labels="person.name" parameterName="person" constraints="border(location=center)" height="100" width="100" name="Graph">
+    <FIBNumericFunction id="8" stepsNumber="100" minValue="0.0" maxValue="200.0" majorTickSpacing="20.0" minorTickSpacing="5.0" expression="person.size" graphType="SECTORS" foregroundColor="0,0,255" backgroundColor1="51,51,255" backgroundColor2="255,255,255" backgroundType="COLORED" name="function0" />
+  </FIBDiscretePolarFunctionGraph>
+  <LocalizedDictionary id="9" />
+</Panel>

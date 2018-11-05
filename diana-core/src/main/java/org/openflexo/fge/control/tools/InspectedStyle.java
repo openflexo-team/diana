@@ -86,6 +86,8 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 
 	private boolean shouldBeUpdated = true;
 
+	protected Map<GRProperty<?>, Object> storedPropertyValues = new HashMap<>();
+
 	protected InspectedStyle(DianaInteractiveViewer<?, ?, ?> controller, S defaultValue) {
 		this.controller = controller;
 		this.defaultValue = defaultValue;
@@ -95,8 +97,6 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	public DianaInteractiveViewer<?, ?, ?> getController() {
 		return controller;
 	}
-
-	protected Map<GRProperty<?>, Object> storedPropertyValues = new HashMap<GRProperty<?>, Object>();
 
 	/**
 	 * Return property value matching supplied parameter for current selection<br>
@@ -128,24 +128,28 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	 */
 	protected <T> T _getPropertyValue(GRProperty<T> parameter) {
 		T returned;
-		if (getSelection().size() == 0) {
+		if (getSelection() == null || getSelection().size() == 0) {
 			if (defaultValue != null && defaultValue.hasKey(parameter.getName())) {
 				returned = (T) defaultValue.objectForKey(parameter.getName());
-			} else {
+			}
+			else {
 				returned = null;
 			}
-		} else {
+		}
+		else {
 			S style = getStyle(getSelection().get(0));
 			if (style != null && style.hasKey(parameter.getName())) {
 				returned = (T) style.objectForKey(parameter.getName());
-			} else {
+			}
+			else {
 				/*if (style != null) {
 					System.out.println("OK, j'ai bien un " + style.getClass().getSimpleName() + " mais c'est dur de lui appliquer "
 							+ parameter);
 					System.out.println("parameter.getDeclaringClass()=" + parameter.getDeclaringClass());
 					System.out.println("style.getClass()=" + style.getClass());
 				}*/
-				returned = null;
+				returned = (T) storedPropertyValues.get(parameter); // XTOF: attempt to fix infinite loop when setting style on Object being
+																	// deleted
 			}
 		}
 		if (parameter.getType() != null && parameter.getType().isPrimitive() && returned == null) {
@@ -170,13 +174,14 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		T oldValue = getPropertyValue(parameter);
 		// System.out.println("Sets from " + oldValue + " to " + value);
 		if (requireChange(oldValue, value)) {
-			if (getSelection().size() == 0) {
+			if (getSelection() == null || getSelection().size() == 0) {
 				if (defaultValue == null) {
 					logger.warning("Cannot set " + parameter + " to " + value + " : no default value defined for " + this);
 					return;
 				}
 				defaultValue.setObjectForKey(value, parameter.getName());
-			} else {
+			}
+			else {
 				CompoundEdit setValueEdit = startRecordEdit("Set " + parameter.getName() + " to " + value);
 				for (DrawingTreeNode<?, ?> n : getSelection()) {
 					S style = getStyle(n);
@@ -217,7 +222,8 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		if (oldObject == null) {
 			if (newObject == null) {
 				return false;
-			} else {
+			}
+			else {
 				return true;
 			}
 		}
@@ -280,7 +286,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		return defaultValue;
 	}
 
-	private final List<S> inspectedStyles = new ArrayList<S>();
+	private final List<S> inspectedStyles = new ArrayList<>();
 
 	/**
 	 * Called to "tell" inspected style that the selection has changed and then resulting inspected style might be updated<br>
@@ -301,7 +307,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		for (S s : inspectedStyles) {
 			if (s instanceof HasPropertyChangeSupport && ((HasPropertyChangeSupport) s).getPropertyChangeSupport() != null) {
 				((HasPropertyChangeSupport) s).getPropertyChangeSupport().removePropertyChangeListener(this);
-			}/* else if (s instanceof Observable) {
+			} /* else if (s instanceof Observable) {
 				((Observable) s).deleteObserver(this);
 				}*/
 		}
@@ -316,7 +322,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 				if (((HasPropertyChangeSupport) s).getPropertyChangeSupport() != null) {
 					((HasPropertyChangeSupport) s).getPropertyChangeSupport().addPropertyChangeListener(this);
 				}
-			}/* else if (s instanceof Observable) {
+			} /* else if (s instanceof Observable) {
 				inspectedStyles.add(s);
 				((Observable) s).addObserver(this);
 				}*/
@@ -368,7 +374,8 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		T newValue = _getPropertyValue(p);
 		if (requireChange(storedValue, newValue)) {
 			_doFireChangedProperty(p, storedValue, newValue);
-		} else { // otherwise, we force it
+		}
+		else { // otherwise, we force it
 			pcSupport.firePropertyChange(p.getName(), null, newValue);
 			// setChanged();
 			// notifyObservers(new FGEAttributeNotification<T>(p, null, newValue));
@@ -446,7 +453,8 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 					((HasPropertyChangeSupport) defaultValue).getPropertyChangeSupport().firePropertyChange(parameter.getName(), oldValue,
 							newValue);
 				}
-			} else {
+			}
+			else {
 				for (DrawingTreeNode<?, ?> n : getSelection()) {
 					S style = getStyle(n);
 					if (style instanceof HasPropertyChangeSupport) {
@@ -482,6 +490,11 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	}
 
 	public void performSuperAdder(String propertyIdentifier, Object value) {
+		// Not relevant
+
+	}
+
+	public void performSuperAdder(String propertyIdentifier, Object value, int index) {
 		// Not relevant
 
 	}
@@ -581,6 +594,11 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		return false;
 	}
 
+	public void updateWith(Object obj) {
+		// Not relevant
+		return;
+	}
+
 	public Object cloneObject() {
 		// Not relevant
 		return null;
@@ -643,7 +661,8 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		if (requireChange(oldValue, value)) {
 			if (getSelection().size() == 0) {
 				defaultValue.setObjectForKey(value, key);
-			} else {
+			}
+			else {
 				CompoundEdit setValueEdit = startRecordEdit("Set " + key + " to " + value);
 				for (DrawingTreeNode<?, ?> n : getSelection()) {
 					S style = getStyle(n);

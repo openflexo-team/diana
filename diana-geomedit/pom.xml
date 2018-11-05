@@ -7,10 +7,10 @@
 	<parent>
 		<groupId>org.openflexo</groupId>
 		<artifactId>diana</artifactId>
-        <version>1.0-SNAPSHOT</version>
+       <version>1.4.1</version>
 	</parent>
 	<artifactId>diana-geomedit</artifactId>
-	<name>GUI :: Diana-GeomEdit</name>
+	<name>Diana-GeomEdit</name>
 	<build>
 		<plugins>
 			<plugin>
@@ -23,6 +23,10 @@
 		<dependency>
 			<groupId>org.openflexo</groupId>
 			<artifactId>diana-swing</artifactId>
+		</dependency>
+ 		<dependency>
+			<groupId>org.openflexo</groupId>
+			<artifactId>testutils</artifactId>
 		</dependency>
 	</dependencies>
 </project>

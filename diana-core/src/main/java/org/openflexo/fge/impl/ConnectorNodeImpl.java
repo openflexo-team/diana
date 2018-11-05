@@ -38,6 +38,7 @@
 
 package org.openflexo.fge.impl;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
@@ -55,6 +56,7 @@ import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.GRBinding;
+import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.connectors.Connector;
 import org.openflexo.fge.connectors.ConnectorSpecification;
 import org.openflexo.fge.connectors.impl.ConnectorImpl;
@@ -140,15 +142,14 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 			return;
 		}*/
 		checkViewBounds();
-		setChanged();
 		notifyObservers(new ConnectorModified());
 	}
 
 	private boolean enabledStartObjectObserving = false;
-	private final List<DrawingTreeNode<?, ?>> observedStartObjects = new ArrayList<DrawingTreeNode<?, ?>>();
+	private final List<DrawingTreeNode<?, ?>> observedStartObjects = new ArrayList<>();
 
 	private boolean enabledEndObjectObserving = false;
-	private final List<DrawingTreeNode<?, ?>> observedEndObjects = new ArrayList<DrawingTreeNode<?, ?>>();
+	private final List<DrawingTreeNode<?, ?>> observedEndObjects = new ArrayList<>();
 
 	protected void enableStartObjectObserving(ShapeNode<?> aStartNode) {
 
@@ -202,23 +203,23 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 			disableEndObjectObserving();
 		}
 
-		if (aEndNode != null /*&& !enabledEndObjectObserving*/) {
-			aEndNode.getPropertyChangeSupport().addPropertyChangeListener(this);
-			observedEndObjects.add(aEndNode);
-			// if (!isDeserializing()) {
-			for (DrawingTreeNode<?, ?> node : aEndNode.getAncestors()) {
-				/*if (getGraphicalRepresentation(o) != null) {
-					getGraphicalRepresentation(o).addObserver(this);
-					observedEndObjects.add((Observable) getGraphicalRepresentation(o));
-				}*/
-				if (node != null) {
-					node.getPropertyChangeSupport().addPropertyChangeListener(this);
-					observedEndObjects.add(node);
-				}
+		// Redondant check if (aEndNode != null /*&& !enabledEndObjectObserving*/) {
+		aEndNode.getPropertyChangeSupport().addPropertyChangeListener(this);
+		observedEndObjects.add(aEndNode);
+		// if (!isDeserializing()) {
+		for (DrawingTreeNode<?, ?> node : aEndNode.getAncestors()) {
+			/*if (getGraphicalRepresentation(o) != null) {
+				getGraphicalRepresentation(o).addObserver(this);
+				observedEndObjects.add((Observable) getGraphicalRepresentation(o));
+			}*/
+			if (node != null) {
+				node.getPropertyChangeSupport().addPropertyChangeListener(this);
+				observedEndObjects.add(node);
 			}
-			// }
-			enabledEndObjectObserving = true;
 		}
+		// }
+		enabledEndObjectObserving = true;
+		// }
 	}
 
 	protected void disableEndObjectObserving(/*ShapeGraphicalRepresentation anEndObject*/) {
@@ -368,8 +369,8 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 
 		// return AffineTransform.getScaleInstance(bounds.width, bounds.height);
 
-		AffineTransform returned = AffineTransform.getTranslateInstance(minX < 0 ? -minX * bounds.width : 0, minY < 0 ? -minY
-				* bounds.height : 0);
+		AffineTransform returned = AffineTransform.getTranslateInstance(minX < 0 ? -minX * bounds.width : 0,
+				minY < 0 ? -minY * bounds.height : 0);
 
 		returned.concatenate(AffineTransform.getScaleInstance(bounds.width, bounds.height));
 
@@ -383,8 +384,8 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 
 		// return AffineTransform.getScaleInstance(1.0/bounds.width, 1.0/bounds.height);
 
-		AffineTransform returned = AffineTransform.getTranslateInstance(minX < 0 ? minX * bounds.width : 0, minY < 0 ? minY * bounds.height
-				: 0);
+		AffineTransform returned = AffineTransform.getTranslateInstance(minX < 0 ? minX * bounds.width : 0,
+				minY < 0 ? minY * bounds.height : 0);
 
 		returned.preConcatenate(AffineTransform.getScaleInstance(1.0 / bounds.width, 1.0 / bounds.height));
 
@@ -394,16 +395,84 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 
 	@Override
 	public Point getLabelLocation(double scale) {
-		Point connectorCenter = convertNormalizedPointToViewCoordinates(getConnector().getMiddleSymbolLocation(), scale);
-		return new Point((int) (connectorCenter.x + getGraphicalRepresentation().getAbsoluteTextX() * scale + getViewX(scale)),
-				(int) (connectorCenter.y + getGraphicalRepresentation().getAbsoluteTextY() * scale + getViewY(scale)));
+		if (getConnector() != null) {
+			Point connectorCenter = convertNormalizedPointToViewCoordinates(getConnector().getMiddleSymbolLocation(), scale);
+			Point point = new Point((int) (connectorCenter.x + getGraphicalRepresentation().getAbsoluteTextX() * scale + getViewX(scale)),
+					(int) (connectorCenter.y + getGraphicalRepresentation().getAbsoluteTextY() * scale + getViewY(scale)));
+
+			Dimension d = getLabelDimension(scale);
+			if (getGraphicalRepresentation().getHorizontalTextAlignment() != null) {
+				switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
+					case CENTER:
+						point.x -= d.width / 2;
+						break;
+					case LEFT:
+						break;
+					case RIGHT:
+						point.x -= d.width;
+						break;
+
+				}
+			}
+			if (getGraphicalRepresentation().getVerticalTextAlignment() != null) {
+				switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
+					case TOP:
+						point.y -= d.height;
+						break;
+					case MIDDLE:
+						point.y -= d.height / 2;
+						break;
+					case BOTTOM:
+						break;
+				}
+			}
+
+			return point;
+
+		}
+		return null;
 	}
 
 	@Override
 	public void setLabelLocation(Point point, double scale) {
 		Point connectorCenter = convertNormalizedPointToViewCoordinates(getConnector().getMiddleSymbolLocation(), scale);
-		getGraphicalRepresentation().setAbsoluteTextX(((double) point.x - connectorCenter.x - getViewX(scale)) / scale);
-		getGraphicalRepresentation().setAbsoluteTextY(((double) point.y - connectorCenter.y - getViewY(scale)) / scale);
+
+		Double oldAbsoluteTextX = getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X);
+		Double oldAbsoluteTextY = getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y);
+		Dimension d = getLabelDimension(scale);
+		switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
+			case CENTER:
+				point.x += d.width / 2;
+				break;
+			case LEFT:
+				break;
+			case RIGHT:
+				point.x += d.width;
+				break;
+
+		}
+		switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
+			case BOTTOM:
+				point.y += d.height;
+				break;
+			case MIDDLE:
+				point.y += d.height / 2;
+				break;
+			case TOP:
+				break;
+		}
+
+		FGEPoint p = new FGEPoint((point.x - connectorCenter.x - getViewX(scale)) / scale,
+				(point.y - connectorCenter.y - getViewY(scale)) / scale);
+		setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X, p.x);
+		setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y, p.y);
+		notifyAttributeChanged(GraphicalRepresentation.ABSOLUTE_TEXT_X, oldAbsoluteTextX,
+				getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X));
+		notifyAttributeChanged(GraphicalRepresentation.ABSOLUTE_TEXT_Y, oldAbsoluteTextY,
+				getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y));
+
+		// getGraphicalRepresentation().setAbsoluteTextX(((double) point.x - connectorCenter.x - getViewX(scale)) / scale);
+		// getGraphicalRepresentation().setAbsoluteTextY(((double) point.y - connectorCenter.y - getViewY(scale)) / scale);
 	}
 
 	@Override
@@ -411,6 +480,10 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 
 		if (temporaryIgnoredObservables.contains(evt.getSource())) {
 			// System.out.println("IGORE NOTIFICATION " + notification);
+			return;
+		}
+
+		if (getConnector() == null) {
 			return;
 		}
 
@@ -438,6 +511,11 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 				|| evt.getPropertyName().equals(ConnectorGraphicalRepresentation.CONNECTOR_TYPE.getName())) {
 			// Connector Specification has changed
 			fireConnectorSpecificationChanged();
+		}
+
+		else if (evt.getPropertyName() == GraphicalRepresentation.HORIZONTAL_TEXT_ALIGNEMENT.getName()
+				|| evt.getPropertyName() == GraphicalRepresentation.VERTICAL_TEXT_ALIGNEMENT.getName()) {
+			// System.out.println("Hop, on change l'alignement du texte du connecteur");
 		}
 
 		/*if (notification instanceof ConnectorModified) {
@@ -474,6 +552,9 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 		if (!super.isValid()) {
 			return false;
 		}
+		// System.out.println("startNode=" + getStartNode() + " deleted=" + getStartNode().isDeleted());
+		// System.out.println("endNode=" + getEndNode() + " deleted=" + getEndNode().isDeleted());
+		// System.out.println("connected=" + FGEUtils.areElementsConnectedInGraphicalHierarchy(getStartNode(), getEndNode()));
 		return getStartNode() != null && getEndNode() != null && !getStartNode().isDeleted() && !getEndNode().isDeleted()
 				&& FGEUtils.areElementsConnectedInGraphicalHierarchy(getStartNode(), getEndNode());
 	}
@@ -505,12 +586,13 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 
 	@Override
 	public List<? extends ControlArea<?>> getControlAreas() {
-		if (controlAreas == null) {
+		if (controlAreas == null && getConnector() != null) {
 			List<? extends ControlArea<?>> customControlAreas = getGRBinding().makeControlAreasFor(this);
 			if (customControlAreas == null) {
 				controlAreas = getConnector().getControlAreas();
-			} else {
-				ConcatenedList<ControlArea<?>> concatenedControlAreas = new ConcatenedList<ControlArea<?>>();
+			}
+			else {
+				ConcatenedList<ControlArea<?>> concatenedControlAreas = new ConcatenedList<>();
 				concatenedControlAreas.addElementList(getConnector().getControlAreas());
 				concatenedControlAreas.addElementList(customControlAreas);
 				controlAreas = concatenedControlAreas;
@@ -518,6 +600,11 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 		}
 		return controlAreas;
 		// return getConnector().getControlAreas();
+	}
+
+	@Override
+	public void clearControlAreas() {
+		controlAreas = null;
 	}
 
 	@Override

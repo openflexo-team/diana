@@ -44,10 +44,13 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Transparency;
 import java.awt.dnd.Autoscroll;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;
@@ -62,7 +65,9 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -91,8 +96,10 @@ import org.openflexo.fge.control.DianaInteractiveViewer;
 import org.openflexo.fge.control.actions.RectangleSelectingAction;
 import org.openflexo.fge.control.tools.DianaPalette;
 import org.openflexo.fge.cp.ControlArea;
+import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.impl.FGECachedModelFactory;
 import org.openflexo.fge.notifications.DrawingNeedsToBeRedrawn;
+import org.openflexo.fge.notifications.GeometryModified;
 import org.openflexo.fge.notifications.NodeAdded;
 import org.openflexo.fge.notifications.NodeDeleted;
 import org.openflexo.fge.notifications.NodeRemoved;
@@ -196,7 +203,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 		/*if (getController() instanceof DianaInteractiveEditor) {
 			if (((DianaInteractiveEditor<?, ?, ?>) controller).getPalettes() != null) {
-				for (DrawingPalette p : ((DianaInteractiveEditor<?, ?, ?>) controller).getPalettes()) {
+				for (PaletteModel p : ((DianaInteractiveEditor<?, ?, ?>) controller).getPalettes()) {
 					activatePalette(p);
 				}
 			}
@@ -337,8 +344,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 	private void resizeView() {
 		int offset = getGraphicalRepresentation().isResizable() ? 20 : 0;
-		setPreferredSize(new Dimension(drawing.getRoot().getViewWidth(getController().getScale()) + offset, drawing.getRoot()
-				.getViewHeight(getController().getScale()) + offset));
+		setPreferredSize(new Dimension(drawing.getRoot().getViewWidth(getController().getScale()) + offset,
+				drawing.getRoot().getViewHeight(getController().getScale()) + offset));
 		if (getParent() != null) {
 			getParent().doLayout();
 		}
@@ -347,7 +354,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 	private void updateBackground() {
 		if (getGraphicalRepresentation().getDrawWorkingArea()) {
 			setBackground(Color.GRAY);
-		} else {
+		}
+		else {
 			setBackground(getGraphicalRepresentation().getBackgroundColor());
 		}
 	}
@@ -367,43 +375,46 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			return;
 		}
 		if (!SwingUtilities.isEventDispatchThread()) {
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					propertyChange(evt);
-				}
-			});
-		} else {
-			// logger.info("Received: "+notification);
+			SwingUtilities.invokeLater(() -> propertyChange(evt));
+		}
+		else {
+			// logger.info("Received: " + evt.getPropertyName() + " evt=" + evt);
 
 			if (evt.getPropertyName().equals(NodeAdded.EVENT_NAME)) {
 				handleNodeAdded((DrawingTreeNode<?, ?>) evt.getNewValue());
-			} else if (evt.getPropertyName().equals(NodeRemoved.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(NodeRemoved.EVENT_NAME)) {
 				handleNodeRemoved((DrawingTreeNode<?, ?>) evt.getOldValue(), (ContainerNode<?, ?>) evt.getNewValue());
-			} else if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) {
 				delete();
-			} else if (evt.getPropertyName().equals(ObjectResized.PROPERTY_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(ObjectResized.PROPERTY_NAME)) {
 				rescale();
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.BACKGROUND_COLOR.getName())) {
+			}
+			else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.BACKGROUND_COLOR.getName())) {
 				getPaintManager().invalidate(getDrawing().getRoot());
 				updateBackground();
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.DRAW_WORKING_AREA.getName())) {
+			}
+			else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.DRAW_WORKING_AREA.getName())) {
 				getPaintManager().invalidate(getDrawing().getRoot());
 				updateBackground();
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.WIDTH.getName())) {
+			}
+			else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.WIDTH.getName())) {
 				rescale();
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.HEIGHT.getName())) {
+			}
+			else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.HEIGHT.getName())) {
 				rescale();
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.IS_RESIZABLE.getName())) {
+			}
+			else if (evt.getPropertyName().equals(DrawingGraphicalRepresentation.IS_RESIZABLE.getName())) {
 				if (getDrawing().getRoot().getGraphicalRepresentation().isResizable()) {
 					removeMouseListener(mouseListener); // We remove the mouse
 					// listener, so that the
@@ -412,20 +423,42 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					// mouseListener
 					if (resizer == null) {
 						resizer = new DrawingViewResizer();
-					} else {
+					}
+					else {
 						addMouseListener(resizer);
 					}
 					addMouseListener(mouseListener);
-				} else {
+				}
+				else {
 					removeMouseListener(resizer);
 				}
-			} else if (evt.getPropertyName().equals(DrawingNeedsToBeRedrawn.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_FOCUSED.getName())) {
+				if (evt.getSource() instanceof GeometricNode) {
+					// Painting a geometric node being focused or unfocused
+					// TODO: optimize this later
+					getPaintManager().invalidate(getDrawing().getRoot());
+					getPaintManager().repaint(this);
+				}
+			}
+			else if (evt.getPropertyName().equals(GeometryModified.EVENT_NAME)) {
+
+				if (evt.getSource() instanceof GeometricNode) {
+					// Painting a geometric node being focused or unfocused
+					// TODO: optimize this later
+					getPaintManager().invalidate(getDrawing().getRoot());
+					getPaintManager().repaint(this);
+				}
+			}
+			else if (evt.getPropertyName().equals(DrawingNeedsToBeRedrawn.EVENT_NAME)) {
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
-			} else if (evt.getSource() instanceof GeometricGraphicalRepresentation) {
+			}
+			else if (evt.getSource() instanceof GeometricGraphicalRepresentation) {
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(ContainerNode.LAYOUT_DECORATION_KEY)) {
+			}
+			else if (evt.getPropertyName().equals(ContainerNode.LAYOUT_DECORATION_KEY)) {
 				getPaintManager().invalidate(getDrawing().getRoot());
 				getPaintManager().repaint(this);
 			}
@@ -460,11 +493,11 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 	 * @param g
 	 *            graphics on which buffering will be performed
 	 */
-	public synchronized void prepareForBuffering(Graphics2D g) {
+	public void prepareForBuffering(Graphics2D g) {
 		isBuffering = true;
 	}
 
-	public synchronized boolean isBuffering() {
+	public boolean isBuffering() {
 		return isBuffering;
 	}
 
@@ -490,9 +523,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		}
 		paintTemporary = true;
 		for (DrawingTreeNode<?, ?> node : new ArrayList<DrawingTreeNode<?, ?>>(containedGR)) {
-			if (node.shouldBeDisplayed()
-					&& (!temporaryObjectsOnly || getPaintManager().isTemporaryObject(node) || getPaintManager().containsTemporaryObject(
-							node))) {
+			if (node.shouldBeDisplayed() && (!temporaryObjectsOnly || getPaintManager().isTemporaryObject(node)
+					|| getPaintManager().containsTemporaryObject(node))) {
 				JFGEView<?, ?> view = viewForNode(node);
 				if (view == null) {
 					continue;
@@ -503,13 +535,14 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 						viewAsComponent.getHeight());
 				if (getPaintManager().isTemporaryObject(node) || !temporaryObjectsOnly) {
 					if (FGEPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE)) {
-						FGEPaintManager.paintPrimitiveLogger.fine("JDrawingView: continuous painting, paint " + node
-								+ " temporaryObjectsOnly=" + temporaryObjectsOnly);
+						FGEPaintManager.paintPrimitiveLogger
+								.fine("JDrawingView: continuous painting, paint " + node + " temporaryObjectsOnly=" + temporaryObjectsOnly);
 					}
 					childGraphics.createGraphics(g2d/*, controller*/);
 					if (node instanceof ShapeNode) {
 						((ShapeNode<?>) node).paint((JFGEShapeGraphics) childGraphics);
-					} else if (node instanceof ConnectorNode) {
+					}
+					else if (node instanceof ConnectorNode) {
 						((ConnectorNode<?>) node).paint((JFGEConnectorGraphics) childGraphics);
 					}
 					if (node instanceof GeometricNode) {
@@ -530,7 +563,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					if (node instanceof ContainerNode) {
 						forcePaintObjects((ContainerNode<?, ?>) node, g2d, false);
 					}
-				} else {
+				}
+				else {
 					// do the job for childs
 					if (node instanceof ContainerNode) {
 						forcePaintObjects((ContainerNode<?, ?>) node, g2d, true);
@@ -546,7 +580,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 	}
 
 	@Override
-	public synchronized void paint(Graphics g) {
+	public void paint(Graphics g) {
 		if (isDeleted()) {
 			return;
 		}
@@ -565,12 +599,14 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					super.paint(g);
 					bufferingHasBeenStartedAgain = false;
 				}
-			} else {
+			}
+			else {
 				if (getPaintManager().renderUsingBuffer((Graphics2D) g, g.getClipBounds(), drawing.getRoot(), getScale())) {
 					// Now, we still have to paint objects that are declared
 					// to be temporary and continuously to be redrawn
 					forcePaintTemporaryObjects(drawing.getRoot(), g);
-				} else {
+				}
+				else {
 					// This failed for some reasons (eg rendering request
 					// outside cached image)
 					// Skip buffering and perform normal rendering
@@ -578,7 +614,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 				}
 				paintCapturedNode(g);
 			}
-		} else {
+		}
+		else {
 			// Normal painting
 			super.paint(g);
 		}
@@ -628,7 +665,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 				if (((DianaInteractiveEditor<?, ?, ?>) getController()).getCurrentTool() == EditorTool.DrawCustomShapeTool) {
 					// logger.info("Painting current edited shape");
 					paintCurrentEditedShape(graphics);
-				} else if (((DianaInteractiveEditor<?, ?, ?>) getController()).getCurrentTool() == EditorTool.DrawConnectorTool) {
+				}
+				else if (((DianaInteractiveEditor<?, ?, ?>) getController()).getCurrentTool() == EditorTool.DrawConnectorTool) {
 					// logger.info("Painting current edited shape");
 					paintCurrentDrawnConnector(graphics);
 				}
@@ -677,32 +715,54 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 				}
 			});
 			for (GeometricNode<?> gn : geomList) {
-				// TODO: use the same graphics, just change DrawingTreeNode
-				JFGEGeometricGraphics geometricGraphics = new JFGEGeometricGraphics(gn, this);
-				geometricGraphics.createGraphics(g2/*, controller*/);
-				gn.paint(geometricGraphics);
-				geometricGraphics.releaseGraphics();
-				geometricGraphics.delete();
+				if (gn.shouldBeDisplayed()) {
+					// TODO: use the same graphics, just change DrawingTreeNode
+					// JFGEGeometricGraphics geometricGraphics = new JFGEGeometricGraphics(gn, this);
+					JFGEGeometricGraphics geometricGraphics = getGeometricGraphics(gn);
+					geometricGraphics.createGraphics(g2/*, controller*/);
+					gn.paint(geometricGraphics);
+					geometricGraphics.releaseGraphics();
+					geometricGraphics.delete();
+				}
 			}
 		}
 	}
+
+	private JFGEGeometricGraphics getGeometricGraphics(GeometricNode<?> gn) {
+		JFGEGeometricGraphics returned = geometricGraphics.get(gn);
+		if (returned == null) {
+			returned = new JFGEGeometricGraphics(gn, this);
+			geometricGraphics.put(gn, returned);
+		}
+		returned.setDrawingTreeNode(gn);
+		return returned;
+	}
+
+	private Map<GeometricNode<?>, JFGEGeometricGraphics> geometricGraphics = new HashMap<>();
 
 	private void paintFocusedFloatingLabel(DrawingTreeNode<?, ?> focusedFloatingLabel, Graphics g) {
 		Color color = Color.BLACK;
 		if (focusedFloatingLabel.getIsSelected()) {
 			color = getGraphicalRepresentation().getSelectionColor();
-		} else if (focusedFloatingLabel.getIsFocused()) {
+		}
+		else if (focusedFloatingLabel.getIsFocused()) {
 			color = getGraphicalRepresentation().getFocusColor();
-		} else {
+		}
+		else {
 			return;
 		}
 		JFGEView<?, ?> view = viewForNode(focusedFloatingLabel);
-		JLabelView<?> labelView = view.getLabelView();
-		if (labelView != null) {
-			Point p1 = SwingUtilities.convertPoint(labelView, new Point(0, labelView.getHeight() / 2), this);
-			Point p2 = SwingUtilities.convertPoint(labelView, new Point(labelView.getWidth(), labelView.getHeight() / 2), this);
-			paintControlPoint(p1, color, g);
-			paintControlPoint(p2, color, g);
+		if (view != null) {
+			JLabelView<?> labelView = view.getLabelView();
+			if (labelView != null) {
+				Point p1 = SwingUtilities.convertPoint(labelView, new Point(0, labelView.getHeight() / 2), this);
+				Point p2 = SwingUtilities.convertPoint(labelView, new Point(labelView.getWidth(), labelView.getHeight() / 2), this);
+				paintControlPoint(p1, color, g);
+				paintControlPoint(p2, color, g);
+			}
+		}
+		else {
+			// logger.warning("Could not find view for node " + focusedFloatingLabel);
 		}
 	}
 
@@ -783,7 +843,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 		// logger.info("Painting current edited shape");
 		/*GeometricGraphicalRepresentation currentEditedShape = getController().getDrawShapeToolController().getCurrentEditedShapeGR();
-
+		
 		if (currentEditedShape.isDeleted()) {
 			logger.warning("Cannot paint for a deleted GR");
 			return;
@@ -893,7 +953,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					}
 				}
 			}
-		} else if (focused instanceof ConnectorNode) {
+		}
+		else if (focused instanceof ConnectorNode) {
 			ConnectorNode<?> connectorNode = (ConnectorNode<?>) focused;
 
 			if (connectorNode.getStartNode() == null || connectorNode.getStartNode().isDeleted()) {
@@ -958,7 +1019,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					v.activatePalette(aPalette);
 				}
 			}
-		} else {
+		}
+		else {
 			logger.warning("Unexpected palette: " + aPalette);
 		}
 	}
@@ -1047,8 +1109,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		capturedNodeLocation.x -= dragOrigin.x * getScale();
 		capturedNodeLocation.y -= dragOrigin.y * getScale();
 		capturedDraggedNodeImage = source.capturedDraggedNodeImage;
-		if (capturedNodeLocation == null || capturedDraggedNodeImage == null || drawnRectangle != null
-				&& capturedNodeLocation.equals(drawnRectangle.getLocation())) {
+		if (capturedNodeLocation == null || capturedDraggedNodeImage == null
+				|| drawnRectangle != null && capturedNodeLocation.equals(drawnRectangle.getLocation())) {
 			return;
 		}
 		getPaintManager().repaint(this, drawnRectangle.getBounds());
@@ -1115,7 +1177,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					bar.setValue(bar.getValue() - bar.getUnitIncrement(-1));
 				}
 			}
-		} else if (p.x > inner.x + inner.width) { // Move right
+		}
+		else if (p.x > inner.x + inner.width) { // Move right
 			JScrollBar bar = scroll.getHorizontalScrollBar();
 			if (bar != null) {
 				if (bar.getValue() < bar.getMaximum()) {
@@ -1130,7 +1193,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					bar.setValue(bar.getValue() - bar.getUnitIncrement(-1));
 				}
 			}
-		} else if (p.y > inner.y + inner.height) { // Move down
+		}
+		else if (p.y > inner.y + inner.height) { // Move down
 			JScrollBar bar = scroll.getVerticalScrollBar();
 			if (bar != null) {
 				if (bar.getValue() < bar.getMaximum()) {
@@ -1190,6 +1254,91 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 	@Override
 	public void stopLabelEdition() {
 		getLabelView().stopEdition();
+	}
+
+	private BufferedImage screenshot;
+
+	public BufferedImage getScreenshot() {
+		if (screenshot == null) {
+			captureScreenshot();
+		}
+		return screenshot;
+	}
+
+	private void captureScreenshot() {
+
+		JComponent lbl = this;
+		getPaintManager().disablePaintingCache();
+		try {
+			/*FGERectangle requiredBounds = getDrawing().getRoot().getRequiredBoundsForContents();
+			System.out.println("required: " + requiredBounds);
+			Rectangle bounds = new Rectangle(0, 0, (int) (requiredBounds.x + requiredBounds.width),
+					(int) (requiredBounds.y + requiredBounds.height));
+			if (bounds.width < 100)
+				bounds.width = 100;
+			if (bounds.height < 100)
+				bounds.height = 100;
+			System.out.println("bounds: " + bounds);
+			
+			System.out.println("au lieu de " + (new Rectangle(getBounds())));*/
+			/*if (getLabelView() != null) {
+				bounds = bounds.union(getLabelView().getBounds());
+			}*/
+
+			Rectangle bounds = new Rectangle(getBounds());
+
+			GraphicsConfiguration gc = getGraphicsConfiguration();
+			if (gc == null) {
+				gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+			}
+			// screenshot = gc.createCompatibleImage(bounds.width, bounds.height, Transparency.TRANSLUCENT);// buffered image
+			screenshot = gc.createCompatibleImage(bounds.width, bounds.height, Transparency.OPAQUE);// buffered image
+			// reference passing
+			// the label's ht
+			// and width
+			Graphics2D graphics = screenshot.createGraphics();// creating the graphics for buffered image
+			// graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f)); // Sets the Composite for the Graphics2D
+			// context
+			lbl.print(graphics); // painting the graphics to label
+			/*if (this.getGraphicalRepresentation().getBackground() instanceof BackgroundImage) {
+				graphics.drawImage(((BackgroundImage)this.getGraphicalRepresentation().getBackground()).getImage(),0,0,null);
+			}*/
+			if (getLabelView() != null) {
+				Rectangle r = getLabelView().getBounds();
+				getLabelView().print(graphics.create(r.x - bounds.x, r.y - bounds.y, r.width, r.height));
+			}
+			graphics.dispose();
+
+			if (logger.isLoggable(Level.INFO)) {
+				logger.info("Captured image on " + this);
+			}
+
+			FGERectangle requiredBounds = getDrawing().getRoot().getRequiredBoundsForContents();
+			requiredBounds.x = requiredBounds.x - 20;
+			requiredBounds.y = requiredBounds.y - 20;
+			requiredBounds.width = requiredBounds.width + 40;
+			requiredBounds.height = requiredBounds.height + 40;
+			if (requiredBounds.x < 0)
+				requiredBounds.x = 0;
+			if (requiredBounds.y < 0)
+				requiredBounds.y = 0;
+			if (requiredBounds.width < 100)
+				requiredBounds.width = 100;
+			if (requiredBounds.height < 100)
+				requiredBounds.height = 100;
+			Rectangle croppedBounds = new Rectangle((int) requiredBounds.x, (int) requiredBounds.y, (int) (requiredBounds.width),
+					(int) (requiredBounds.height));
+
+			croppedBounds = croppedBounds.intersection(new Rectangle(0, 0, screenshot.getWidth(), screenshot.getHeight()));
+			screenshot = screenshot.getSubimage(croppedBounds.x, croppedBounds.y, croppedBounds.width, croppedBounds.height);
+
+			if (logger.isLoggable(Level.INFO)) {
+				logger.info("Cropped image to " + croppedBounds);
+			}
+
+		} finally {
+			getPaintManager().enablePaintingCache();
+		}
 	}
 
 }

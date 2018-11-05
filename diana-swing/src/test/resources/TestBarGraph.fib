@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel id="0" align="left" borderTop="0" borderLeft="0" trackViewPortHeight="true" trackViewPortWidth="true" borderBottom="0" border="empty" sizeAdjustment="OriginalSize" layout="border" borderRight="0">
+  <FIBDiscreteSimpleFunctionGraph id="1" values="controller.sampleData.persons" labels="person.name" parameterOrientation="HORIZONTAL" parameterName="person" borderBottom="30" constraints="border(location=center)" name="Graph">
+    <FIBNumericFunction id="2" stepsNumber="5" minValue="0" maxValue="200" majorTickSpacing="20" expression="person.size" graphType="BAR_GRAPH" foregroundColor="0,0,255" backgroundColor1="51,102,255" backgroundColor2="255,255,255" backgroundType="GRADIENT" name="Sizez" />
+    <FIBNumericFunction id="3" minValue="0" maxValue="120" expression="person.weight" graphType="BAR_GRAPH" foregroundColor="255,153,102" backgroundColor1="255,255,255" backgroundColor2="255,255,0" backgroundType="GRADIENT" name="Weight" />
+  </FIBDiscreteSimpleFunctionGraph>
+  <Table id="4" visibleRowCount="3" backgroundNonSelectionColor="255,255,255" iteratorClassName="org.openflexo.gina.controller.FIBController$SampleData$Person" backgroundSecondarySelectionColor="178,215,255" lookAndFeel="Classic" selectionMode="MultipleIntervalSelection" rowHeight="18" manageDynamicModel="true" data="controller.sampleData.persons" constraints="border(location=west)" name="Table">
+    <TextFieldColumn id="5" data="iterator.name" resizable="true" title="name" displayTitle="true" columnWidth="100" showIcon="false" name="name" />
+    <NumberColumn id="6" numberType="IntegerType" data="iterator.size" resizable="true" title="size" displayTitle="true" columnWidth="50" showIcon="false" name="size" />
+    <NumberColumn id="7" numberType="IntegerType" data="iterator.weight" resizable="true" title="weight" displayTitle="true" columnWidth="50" showIcon="false" name="weight" />
+    <AddAction id="8" method="controller.sampleData.addPerson" name="add_action" />
+    <RemoveAction id="9" method="controller.sampleData.deletePerson(selected)" name="delete_action" />
+  </Table>
+  <LocalizedDictionary id="10" />
+</Panel>

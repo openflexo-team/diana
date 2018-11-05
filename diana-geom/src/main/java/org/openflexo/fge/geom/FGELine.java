@@ -208,7 +208,7 @@ public class FGELine extends FGEAbstractLine<FGELine> {
 
 	@Override
 	public int hashCode() {//AB same slope 
-		return (getB()==0?31:((new java.lang.Double(getA()/getB()).hashCode())));
+		return (getB()==0?31:((java.lang.Double.valueOf(getA()/getB()).hashCode())));
 	}
 	
 	@Override

@@ -39,6 +39,7 @@
 
 package org.openflexo.fge;
 
+import org.openflexo.fge.graphics.BGStyle;
 import org.openflexo.model.annotations.Getter;
 import org.openflexo.model.annotations.Import;
 import org.openflexo.model.annotations.Imports;
@@ -56,7 +57,7 @@ import org.openflexo.model.annotations.XMLAttribute;
 @ModelEntity(isAbstract = true)
 @Imports({ @Import(NoneBackgroundStyle.class), @Import(ColorBackgroundStyle.class), @Import(ColorGradientBackgroundStyle.class),
 		@Import(TextureBackgroundStyle.class), @Import(BackgroundImageBackgroundStyle.class) })
-public interface BackgroundStyle extends FGEStyle {
+public interface BackgroundStyle extends FGEStyle, BGStyle {
 
 	@PropertyIdentifier(type = Float.class)
 	public static final String TRANSPARENCY_LEVEL_KEY = "transparencyLevel";

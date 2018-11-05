@@ -4,11 +4,27 @@
 	<parent>
 		<groupId>org.openflexo</groupId>
 		<artifactId>diana</artifactId>
-		<version>1.2-SNAPSHOT</version>
+		<version>1.4.1</version>
 	</parent>
 	<artifactId>diana-core</artifactId>
-	<name>GUI :: Diana-CORE</name>
+	<name>Diana-core</name>
 	<build>
+         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+              	<version>${maven.sourceplugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+          </plugins>
 	</build>
 	
 	<!-- Attempt to use Gephi -->
@@ -36,9 +52,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.openflexo</groupId>
-			<artifactId>flexoutils</artifactId>
-			<classifier>tests</classifier>
-			<scope>test</scope>
+			<artifactId>testutils</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.jung</groupId>

@@ -98,7 +98,7 @@ public class FGEEllips extends FGEArc {
 
 	@Override
 	public List<FGEPoint> getControlPoints() {
-		Vector<FGEPoint> returned = new Vector<FGEPoint>();
+		Vector<FGEPoint> returned = new Vector<>();
 		returned.add(new FGEPoint(x + width / 2.0, y));
 		returned.add(new FGEPoint(x, y + height / 2.0));
 		returned.add(new FGEPoint(x + width / 2.0, y + height));
@@ -125,7 +125,10 @@ public class FGEEllips extends FGEArc {
 
 		if (t_bounds instanceof FGEShape) {
 			FGERectangle boundingBox = ((FGEShape<?>) t_bounds).getBoundingBox();
-			return new FGEEllips(newCenter, new FGEDimension(boundingBox.getWidth(), boundingBox.getHeight()), _filling);
+			FGEEllips returned = new FGEEllips(newCenter, new FGEDimension(boundingBox.getWidth(), boundingBox.getHeight()), _filling);
+			returned.setForeground(getForeground());
+			returned.setBackground(getBackground());
+			return returned;
 		}
 		logger.warning("Cannot compute transform for " + this + " with " + t);
 		return (FGEEllips) clone();

@@ -65,7 +65,6 @@ import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.impl.GeometricNodeImpl;
 import org.openflexo.fge.notifications.GeometryModified;
 import org.openflexo.fge.view.DrawingView;
-import org.openflexo.toolbox.HasPropertyChangeSupport;
 
 /**
  * Abstract implementation for the controller of a DrawCustomShape tool
@@ -75,8 +74,7 @@ import org.openflexo.toolbox.HasPropertyChangeSupport;
  * @param <ME>
  *            technology-specific controlling events type
  */
-public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> extends ToolController<ME> implements
-		PropertyChangeListener, HasPropertyChangeSupport {
+public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> extends ToolController<ME> {
 
 	private static final Logger logger = Logger.getLogger(DrawCustomShapeToolController.class.getPackage().getName());
 
@@ -99,6 +97,7 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 
 	public abstract FGEGeometricGraphics makeGraphics(ForegroundStyle foregroundStyle);
 
+	@Override
 	public FGEGeometricGraphics getGraphics() {
 		return graphics;
 	}
@@ -108,6 +107,7 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 	 * 
 	 * @return
 	 */
+	@Override
 	public DrawingView<?, ?> getDrawingView() {
 		if (getController() != null) {
 			return getController().getDrawingView();
@@ -115,6 +115,7 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 		return null;
 	}
 
+	@Override
 	protected void startMouseEdition(ME e) {
 		super.startMouseEdition(e);
 
@@ -123,14 +124,14 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 		shape = makeDefaultShape(e);
 		Class<S> shapeClass = (Class<S>) TypeUtils.getTypeArgument(getClass(), DrawCustomShapeToolController.class, 0);
 		geomGR = getFactory().makeGeometricGraphicalRepresentation(shape);
-		GeometricGRBinding<S> editedGeometricObjectBinding = getController().getDrawing().bindGeometric(shapeClass,
-				"editedGeometricObject", new GeometricGRProvider<S>() {
+		GeometricGRBinding<S> editedGeometricObjectBinding = getController().getDrawing().bindGeometric(shapeClass, "editedGeometricObject",
+				new GeometricGRProvider<S>() {
 					@Override
 					public GeometricGraphicalRepresentation provideGR(S drawable, FGEModelFactory factory) {
 						return geomGR;
 					}
 				});
-		currentEditedShapeGeometricNode = new GeometricNodeImpl<S>((DrawingImpl<?>) getController().getDrawing(), shape,
+		currentEditedShapeGeometricNode = new GeometricNodeImpl<>((DrawingImpl<?>) getController().getDrawing(), shape,
 				editedGeometricObjectBinding, (ContainerNodeImpl<?, ?>) getController().getDrawing().getRoot());
 		currentEditedShapeGeometricNode.getPropertyChangeSupport().addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
@@ -151,10 +152,10 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 				geometryChanged();
 			}
 		};*/
-		currentEditedShapeGeometricNode.getGraphicalRepresentation().setBackground(
-				getController().getInspectedBackgroundStyle().cloneStyle());
-		currentEditedShapeGeometricNode.getGraphicalRepresentation().setForeground(
-				getController().getInspectedForegroundStyle().cloneStyle());
+		currentEditedShapeGeometricNode.getGraphicalRepresentation()
+				.setBackground(getController().getInspectedBackgroundStyle().cloneStyle());
+		currentEditedShapeGeometricNode.getGraphicalRepresentation()
+				.setForeground(getController().getInspectedForegroundStyle().cloneStyle());
 		geometryChanged();
 	}
 
@@ -188,6 +189,7 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 		getController().getDelegate().repaintAll();
 	}
 
+	@Override
 	public abstract DrawingTreeNode<?, ?> getFocusedObject(ME e);
 
 	public void paintCurrentEditedShape() {
@@ -200,7 +202,7 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 	}
 
 	public List<? extends ControlArea<?>> getControlAreas() {
-		return currentEditedShapeGeometricNode.getControlPoints();
+		return currentEditedShapeGeometricNode.getControlAreas();
 	}
 
 	public abstract ShapeGraphicalRepresentation buildShapeGraphicalRepresentation();
@@ -209,13 +211,15 @@ public abstract class DrawCustomShapeToolController<S extends FGEShape<S>, ME> e
 		if (getToolAction() != null && parentNode instanceof ContainerNode) {
 			ShapeGraphicalRepresentation newShapeGraphicalRepresentation = buildShapeGraphicalRepresentation();
 			getToolAction().performedDrawNewShape(newShapeGraphicalRepresentation, (ContainerNode<?, ?>) parentNode);
-		} else {
+		}
+		else {
 			System.out.println("toolAction=" + getToolAction());
 			System.out.println("parentNode=" + parentNode);
 			logger.warning("No DrawShapeAction defined !");
 		}
 	}
 
+	@Override
 	public void delete() {
 		logger.warning("Please implement deletion for DrawCustomShapeToolController");
 		super.delete();

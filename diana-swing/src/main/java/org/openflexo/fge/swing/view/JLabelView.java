@@ -82,6 +82,7 @@ import javax.swing.text.StyledDocument;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.FGEConstants;
 import org.openflexo.fge.FGECoreUtils;
+import org.openflexo.fge.FGEUtils;
 import org.openflexo.fge.GraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation.LabelMetricsProvider;
 import org.openflexo.fge.GraphicalRepresentation.ParagraphAlignment;
@@ -267,7 +268,9 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 			}
 		}
 		if (node != null) {
-			node.getPropertyChangeSupport().removePropertyChangeListener(this);
+			if (node.getPropertyChangeSupport() != null) {
+				node.getPropertyChangeSupport().removePropertyChangeListener(this);
+			}
 			node.setLabelMetricsProvider(null);
 		}
 		isDeleted = true;
@@ -316,16 +319,12 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		return delegateView;
 	}
 
-	/*@Override
-	public GraphicalRepresentation getGraphicalRepresentation() {
-		return graphicalRepresentation;
-	}*/
-
 	@Override
 	public double getScale() {
 		if (getController() != null) {
 			return getController().getScale();
-		} else {
+		}
+		else {
 			return 1.0;
 		}
 	}
@@ -361,50 +360,53 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 			return;
 		}
 		if (!SwingUtilities.isEventDispatchThread()) {
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					propertyChange(evt);
-				}
-			});
-		} else {
+			SwingUtilities.invokeLater(() -> propertyChange(evt));
+		}
+		else {
 			// logger.info("Received: "+notification);
 			if (evt.getPropertyName() == null) {
 				return;
-			} else if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) {
+			}
+			else if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) {
 				delete();
-			} else if (evt.getPropertyName().equals(GraphicalRepresentation.TEXT.getName())
-			// There are some GR in WKF that rely on ShapeNeedsToBeRedrawn notification to update text (this can be removed once we
-			// properly use appropriate bindings
+			}
+			else if (evt.getPropertyName().equals(GraphicalRepresentation.TEXT.getName())
+					// There are some GR in WKF that rely on ShapeNeedsToBeRedrawn notification to update text (this can be removed once we
+					// properly use appropriate bindings
 					|| evt.getPropertyName().equals(ShapeNeedsToBeRedrawn.EVENT_NAME)) {
 				updateText();
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(GraphicalRepresentation.TEXT_STYLE.getName())) {
+			}
+			else if (evt.getPropertyName().equals(GraphicalRepresentation.TEXT_STYLE.getName())) {
 				updateFont();
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(GraphicalRepresentation.PARAGRAPH_ALIGNEMENT.getName())) {
+			}
+			else if (evt.getPropertyName().equals(GraphicalRepresentation.PARAGRAPH_ALIGNEMENT.getName())) {
 				updateFont();
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(GraphicalRepresentation.HORIZONTAL_TEXT_ALIGNEMENT.getName())
+			}
+			else if (evt.getPropertyName().equals(GraphicalRepresentation.HORIZONTAL_TEXT_ALIGNEMENT.getName())
 					|| evt.getPropertyName().equals(GraphicalRepresentation.VERTICAL_TEXT_ALIGNEMENT.getName())) {
 				updateBounds();
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.RELATIVE_TEXT_X.getName())
+			}
+			else if (evt.getPropertyName().equals(ShapeGraphicalRepresentation.RELATIVE_TEXT_X.getName())
 					|| evt.getPropertyName().equals(ShapeGraphicalRepresentation.RELATIVE_TEXT_Y.getName())
 					|| evt.getPropertyName().equals(GraphicalRepresentation.ABSOLUTE_TEXT_X.getName())
 					|| evt.getPropertyName().equals(GraphicalRepresentation.ABSOLUTE_TEXT_Y.getName())
 					|| evt.getPropertyName().equals(ShapeGraphicalRepresentation.IS_FLOATING_LABEL.getName())) {
 				updateBounds();
 				getPaintManager().repaint(this);
-			} else if (evt.getPropertyName().equals(ObjectWillMove.EVENT_NAME) || evt.getPropertyName().equals(ObjectWillResize.EVENT_NAME)
+			}
+			else if (evt.getPropertyName().equals(ObjectWillMove.EVENT_NAME) || evt.getPropertyName().equals(ObjectWillResize.EVENT_NAME)
 					|| evt.getPropertyName().equals(LabelWillMove.EVENT_NAME)) {
 				setDoubleBuffered(false);
 				if (evt.getPropertyName().equals(LabelWillMove.EVENT_NAME)) {
 					getPaintManager().addToTemporaryObjects(node);
 					getPaintManager().invalidate(node);
 				}
-			} else if (evt.getPropertyName().equals(ObjectHasMoved.EVENT_NAME) || evt.getPropertyName().equals(ObjectHasResized.EVENT_NAME)
+			}
+			else if (evt.getPropertyName().equals(ObjectHasMoved.EVENT_NAME) || evt.getPropertyName().equals(ObjectHasResized.EVENT_NAME)
 					|| evt.getPropertyName().equals(LabelHasMoved.EVENT_NAME)) {
 				setDoubleBuffered(true);
 				if (evt.getPropertyName().equals(LabelHasMoved.EVENT_NAME)) {
@@ -423,16 +425,29 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		if (isDeleted()) {
 			return;
 		}
-		if (!SwingUtilities.isEventDispatchThread()) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					updateBounds(repeat);
-				}
-			});
+		if (node == null || node.isDeleted()) {
 			return;
 		}
 		// System.out.println("JLabelView " + Integer.toHexString(hashCode()) + " for " + node);
+
+		if (node.getDrawable() == null) {
+			return;
+		}
+		if (node.getGraphicalRepresentation() == null) {
+			return;
+		}
+
+		// Fixed TA-128
+		if (!FGEUtils.areElementsConnectedInGraphicalHierarchy(node, getDrawingView().getDrawing().getRoot())) {
+			logger.warning("Calling updateBounds() for element is not connected to the drawing. Abort.");
+			return;
+		}
+
+		if (!SwingUtilities.isEventDispatchThread()) {
+			SwingUtilities.invokeLater(() -> updateBounds(repeat));
+			return;
+		}
+
 		Rectangle bounds = node.getLabelBounds(getScale());
 		if (bounds.isEmpty() || bounds.width < 5) {
 			bounds.width = 20;
@@ -448,9 +463,21 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 	}
 
 	public void updateBoundsLater() {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
+
+		/*System.out.println("Thread: " + Thread.currentThread() + " called updateBoundsLater() for " + getDrawable());
+		System.out.println("drawable=" + getDrawable());
+		System.out.println("node=" + getNode());
+		System.out.println("drawable=" + getNode().getDrawable());
+		System.out.println("node=" + getNode().getGraphicalRepresentation());*/
+
+		SwingUtilities.invokeLater(() -> {
+			/*System.out.println("Thread: " + Thread.currentThread() + " on execute le updateBoundsLater() for " + getDrawable());
+			System.out.println("drawable=" + getDrawable());
+			System.out.println("node=" + getNode());
+			if (getNode() != null) {
+				System.out.println("node.gr=" + getNode().getGraphicalRepresentation());
+			}*/
+			if (getNode() != null && !isDeleted()) {
 				updateBounds(true);
 			}
 		});
@@ -461,7 +488,8 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		Dimension preferredSize = getCurrentPreferredSize(scale);
 		if (scale == getScale()) {
 			return preferredSize;
-		} else {
+		}
+		else {
 			Dimension d = preferredSize;
 			d.width *= scale;
 			d.height *= scale;
@@ -523,7 +551,8 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		if (ts == null) {
 			if (node.getFactory() != null) {
 				ts = node.getFactory().makeDefaultTextStyle();
-			} else {
+			}
+			else {
 				ts = FGECoreUtils.TOOLS_FACTORY.makeDefaultTextStyle();
 			}
 		}
@@ -539,11 +568,14 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 		SimpleAttributeSet set = new SimpleAttributeSet();
 		if (node.getGraphicalRepresentation().getParagraphAlignment() == ParagraphAlignment.CENTER) {
 			StyleConstants.setAlignment(set, StyleConstants.ALIGN_CENTER);
-		} else if (node.getGraphicalRepresentation().getParagraphAlignment() == ParagraphAlignment.LEFT) {
+		}
+		else if (node.getGraphicalRepresentation().getParagraphAlignment() == ParagraphAlignment.LEFT) {
 			StyleConstants.setAlignment(set, StyleConstants.ALIGN_LEFT);
-		} else if (node.getGraphicalRepresentation().getParagraphAlignment() == ParagraphAlignment.RIGHT) {
+		}
+		else if (node.getGraphicalRepresentation().getParagraphAlignment() == ParagraphAlignment.RIGHT) {
 			StyleConstants.setAlignment(set, StyleConstants.ALIGN_RIGHT);
-		} else if (node.getGraphicalRepresentation().getParagraphAlignment() == ParagraphAlignment.JUSTIFY) {
+		}
+		else if (node.getGraphicalRepresentation().getParagraphAlignment() == ParagraphAlignment.JUSTIFY) {
 			StyleConstants.setAlignment(set, StyleConstants.ALIGN_JUSTIFIED);
 		}
 		textComponent.setOpaque(ts.getIsBackgroundColored());
@@ -571,7 +603,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 
 	@Override
 	public void setDoubleBuffered(boolean aFlag) {
-		super.setDoubleBuffered(aFlag && ToolBox.getPLATFORM() == ToolBox.MACOS);
+		super.setDoubleBuffered(aFlag && ToolBox.isMacOS());
 		if (textComponent != null) {
 			textComponent.setDoubleBuffered(aFlag);
 		}
@@ -582,23 +614,30 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 			return;
 		}
 		if (!SwingUtilities.isEventDispatchThread()) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					updateText();
-				}
-			});
+			SwingUtilities.invokeLater(() -> updateText());
 			return;
 		}
-		if (node.hasText()) {
+		if (node.hasText() && node.getText() != null) {
 			if (!node.getText().equals(textComponent.getText())) {
 				textComponent.setText(node.getText());
 				updateBounds();
+				// Force repaint (see FME-19)
+				forceRepaint();
 			}
-		} else {
+		}
+		else {
 			textComponent.setText("");
 			updateBounds();
 		}
+	}
+
+	private void forceRepaint() {
+		setDoubleBuffered(false);
+		getPaintManager().addToTemporaryObjects(node);
+		getPaintManager().invalidate(node);
+		getPaintManager().repaint(this);
+		setDoubleBuffered(true);
+		getPaintManager().removeFromTemporaryObjects(node);
 	}
 
 	public void addFGEMouseListener() {
@@ -705,7 +744,8 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 				if (!wasEdited) {
 					stopEdition();
 				}
-			} else if (e.getKeyChar() != KeyEvent.CHAR_UNDEFINED && !e.isActionKey()) {
+			}
+			else if (e.getKeyChar() != KeyEvent.CHAR_UNDEFINED && !e.isActionKey()) {
 				wasEdited = true;
 			}
 		}
@@ -784,11 +824,12 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 			int start = textComponent.getSelectionStart();
 			int end = textComponent.getSelectionEnd();
 			if (start != end) {
-				if (end == 0 && start == textComponent.getDocument().getLength() || start == 0
-						&& end == textComponent.getDocument().getLength()) {
+				if (end == 0 && start == textComponent.getDocument().getLength()
+						|| start == 0 && end == textComponent.getDocument().getLength()) {
 					wasEdited = false;
 				}
-			} else {// Otherwise, it means that user has moved manually the cursor, and we consider he wants to edit the text
+			}
+			else {// Otherwise, it means that user has moved manually the cursor, and we consider he wants to edit the text
 				wasEdited = true;
 			}
 		}
@@ -883,7 +924,7 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 
 		@Override
 		public void setDoubleBuffered(boolean aFlag) {
-			super.setDoubleBuffered(aFlag && ToolBox.getPLATFORM() == ToolBox.MACOS);
+			super.setDoubleBuffered(aFlag && ToolBox.isMacOS());
 		}
 
 		@Override
@@ -898,7 +939,8 @@ public class JLabelView<O> extends JScrollPane implements JFGEView<O, JPanel>, L
 				removeFGEMouseListener();
 				requestFocusInWindow();
 				selectAll();
-			} else {
+			}
+			else {
 				addFGEMouseListener();
 			}
 		}

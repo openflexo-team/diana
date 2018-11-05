@@ -51,14 +51,10 @@ import org.openflexo.fge.DrawingGraphicalRepresentation;
 import org.openflexo.fge.GRProperty;
 import org.openflexo.fge.GeometricGraphicalRepresentation;
 import org.openflexo.fge.GraphicalRepresentation;
-import org.openflexo.fge.GraphicalRepresentation.HorizontalTextAlignment;
-import org.openflexo.fge.GraphicalRepresentation.ParagraphAlignment;
-import org.openflexo.fge.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.fge.ShadowStyle;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.fge.ShapeGraphicalRepresentation.LocationConstraints;
-import org.openflexo.fge.ShapeGraphicalRepresentation.ShapeBorder;
 import org.openflexo.fge.control.DianaInteractiveViewer;
 
 /**
@@ -88,16 +84,20 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		return getController().getSelectedShapes().size() > 0;
 	}
 
+	public boolean areDimensionPropertiesApplicable() {
+		return getController().getSelectedContainers().size() > 0;
+	}
+
 	@Override
 	protected void fireChangedProperties() {
 		// We replace here super code, because we have to fire changed properties for all properties
 		// as the union of properties of all possible types
-		List<GRProperty<?>> paramsList = new ArrayList<GRProperty<?>>();
+		List<GRProperty<?>> paramsList = new ArrayList<>();
 		paramsList.addAll(GRProperty.getGRParameters(DrawingGraphicalRepresentation.class));
 		paramsList.addAll(GRProperty.getGRParameters(GeometricGraphicalRepresentation.class));
 		paramsList.addAll(GRProperty.getGRParameters(ShapeGraphicalRepresentation.class));
 		paramsList.addAll(GRProperty.getGRParameters(ConnectorGraphicalRepresentation.class));
-		Set<GRProperty<?>> allParams = new HashSet<GRProperty<?>>(paramsList);
+		Set<GRProperty<?>> allParams = new HashSet<>(paramsList);
 		for (GRProperty<?> p : allParams) {
 			fireChangedProperty(p);
 		}
@@ -108,6 +108,8 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		super.fireSelectionUpdated();
 		getPropertyChangeSupport().firePropertyChange("areLocationPropertiesApplicable", !areLocationPropertiesApplicable(),
 				areLocationPropertiesApplicable());
+		getPropertyChangeSupport().firePropertyChange("areDimensionPropertiesApplicable", !areDimensionPropertiesApplicable(),
+				areDimensionPropertiesApplicable());
 	}
 
 	public Boolean getIsVisible() {
@@ -167,78 +169,6 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		setPropertyValue(ContainerGraphicalRepresentation.HEIGHT, value);
 	}
 
-	public HorizontalTextAlignment getHorizontalTextAlignment() {
-		return getPropertyValue(GraphicalRepresentation.HORIZONTAL_TEXT_ALIGNEMENT);
-	}
-
-	public void setHorizontalTextAlignment(HorizontalTextAlignment alignment) {
-		setPropertyValue(GraphicalRepresentation.HORIZONTAL_TEXT_ALIGNEMENT, alignment);
-	}
-
-	public VerticalTextAlignment getVerticalTextAlignment() {
-		return getPropertyValue(GraphicalRepresentation.VERTICAL_TEXT_ALIGNEMENT);
-	}
-
-	public void setVerticalTextAlignment(VerticalTextAlignment alignment) {
-		setPropertyValue(GraphicalRepresentation.VERTICAL_TEXT_ALIGNEMENT, alignment);
-	}
-
-	public ParagraphAlignment getParagraphAlignment() {
-		return getPropertyValue(GraphicalRepresentation.PARAGRAPH_ALIGNEMENT);
-	}
-
-	public void setParagraphAlignment(ParagraphAlignment alignment) {
-		setPropertyValue(GraphicalRepresentation.PARAGRAPH_ALIGNEMENT, alignment);
-	}
-
-	public Double getAbsoluteTextX() {
-		return getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X);
-	}
-
-	public void setAbsoluteTextX(Double x) {
-		setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X, x);
-	}
-
-	public Double getAbsoluteTextY() {
-		return getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y);
-	}
-
-	public void setAbsoluteTextY(Double y) {
-		setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y, y);
-	}
-
-	public Double getRelativeTextX() {
-		return getPropertyValue(ShapeGraphicalRepresentation.RELATIVE_TEXT_X);
-	}
-
-	public void setRelativeTextX(Double x) {
-		setPropertyValue(ShapeGraphicalRepresentation.RELATIVE_TEXT_X, x);
-	}
-
-	public Double getRelativeTextY() {
-		return getPropertyValue(ShapeGraphicalRepresentation.RELATIVE_TEXT_Y);
-	}
-
-	public void setRelativeTextY(Double y) {
-		setPropertyValue(ShapeGraphicalRepresentation.RELATIVE_TEXT_Y, y);
-	}
-
-	public Boolean getIsMultilineAllowed() {
-		return getPropertyValue(GraphicalRepresentation.IS_MULTILINE_ALLOWED);
-	}
-
-	public void setIsMultilineAllowed(Boolean flag) {
-		setPropertyValue(GraphicalRepresentation.IS_MULTILINE_ALLOWED, flag);
-	}
-
-	public Boolean getLineWrap() {
-		return getPropertyValue(GraphicalRepresentation.LINE_WRAP);
-	}
-
-	public void setLineWrap(Boolean flag) {
-		setPropertyValue(GraphicalRepresentation.LINE_WRAP, flag);
-	}
-
 	public LocationConstraints getLocationConstraints() {
 		return getPropertyValue(ShapeGraphicalRepresentation.LOCATION_CONSTRAINTS);
 	}
@@ -295,21 +225,20 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		setPropertyValue(ShapeGraphicalRepresentation.HEIGHT_CONSTRAINTS, heightConstraints);
 	}
 
-	/*@Override
-	protected <T> void fireChangedProperty(GRProperty<T> p) {
-		if (p.equals(ShapeGraphicalRepresentation.BORDER)) {
-			T newValue = _getPropertyValue(p);
-			System.out.println("Fire de border pour " + newValue);
-			_doFireChangedProperty(p, null, newValue);
-		}
-		super.fireChangedProperty(p);
-	}*/
-
-	public ShapeBorder getBorder() {
-		return getPropertyValue(ShapeGraphicalRepresentation.BORDER);
+	public Boolean getIsSelectable() {
+		return getPropertyValue(GraphicalRepresentation.IS_SELECTABLE);
 	}
 
-	public void setBorder(ShapeBorder aBorder) {
-		setPropertyValue(ShapeGraphicalRepresentation.BORDER, aBorder);
+	public void setIsSelectable(Boolean flag) {
+		setPropertyValue(GraphicalRepresentation.IS_SELECTABLE, flag);
 	}
+
+	public Boolean getIsFocusable() {
+		return getPropertyValue(GraphicalRepresentation.IS_FOCUSABLE);
+	}
+
+	public void setIsFocusable(Boolean flag) {
+		setPropertyValue(GraphicalRepresentation.IS_FOCUSABLE, flag);
+	}
+
 }

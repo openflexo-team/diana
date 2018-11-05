@@ -36,21 +36,24 @@
  * 
  */
 
-
 package org.openflexo.fge.control.tools;
 
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.ShapeNode;
+import org.openflexo.fge.FGECoreUtils;
 import org.openflexo.fge.FGEModelFactory;
+import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.control.DianaInteractiveViewer;
 import org.openflexo.fge.geom.FGEArc;
 import org.openflexo.fge.geom.FGEArc.ArcType;
 import org.openflexo.fge.geom.FGEComplexCurve;
 import org.openflexo.fge.geom.FGEEllips;
+import org.openflexo.fge.geom.FGEGeneralShape;
 import org.openflexo.fge.geom.FGEGeneralShape.Closure;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEPoint;
@@ -59,10 +62,12 @@ import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.geom.FGERegularPolygon;
 import org.openflexo.fge.geom.FGERoundRectangle;
 import org.openflexo.fge.geom.FGEShape;
+import org.openflexo.fge.geom.FGEShapeUnion;
 import org.openflexo.fge.shapes.Arc;
 import org.openflexo.fge.shapes.Chevron;
 import org.openflexo.fge.shapes.Circle;
 import org.openflexo.fge.shapes.ComplexCurve;
+import org.openflexo.fge.shapes.GeneralShape;
 import org.openflexo.fge.shapes.Losange;
 import org.openflexo.fge.shapes.Oval;
 import org.openflexo.fge.shapes.Parallelogram;
@@ -73,6 +78,7 @@ import org.openflexo.fge.shapes.RectangularOctogon;
 import org.openflexo.fge.shapes.RegularPolygon;
 import org.openflexo.fge.shapes.ShapeSpecification;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
+import org.openflexo.fge.shapes.ShapeUnion;
 import org.openflexo.fge.shapes.Square;
 import org.openflexo.fge.shapes.Star;
 import org.openflexo.fge.shapes.Triangle;
@@ -105,6 +111,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 	private final InspectedArc arc;
 	private final InspectedStar star;
 	private final InspectedComplexCurve complexCurve;
+	private final InspectedGeneralShape<GeneralShape> generalShape;
+	private final InspectedUnion union;
 	private final InspectedPlus plus;
 	private final InspectedChevron chevron;
 	private final InspectedParallelogram parallelogram;
@@ -116,25 +124,30 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 	public ShapeSpecificationFactory(final DianaInteractiveViewer<?, ?, ?> controller) {
 		this.pcSupport = new PropertyChangeSupport(this);
 		this.controller = controller;
-		this.fgeFactory = controller.getFactory();
-		this.rectangle = new InspectedRectangle<Rectangle>(controller, (Rectangle) controller.getFactory().makeShape(ShapeType.RECTANGLE));
-		this.square = new InspectedSquare(controller, (Square) controller.getFactory().makeShape(ShapeType.SQUARE));
-		this.polygon = new InspectedPolygon<Polygon>(controller, (Polygon) controller.getFactory().makeShape(ShapeType.CUSTOM_POLYGON));
-		this.regularPolygon = new InspectedRegularPolygon<RegularPolygon>(controller, (RegularPolygon) controller.getFactory().makeShape(
-				ShapeType.POLYGON));
-		this.rectangularOctogon = new InspectedRectangularOctogon(controller, (RectangularOctogon) controller.getFactory().makeShape(
-				ShapeType.RECTANGULAROCTOGON));
-		this.losange = new InspectedLosange(controller, (Losange) controller.getFactory().makeShape(ShapeType.LOSANGE));
-		this.triangle = new InspectedTriangle(controller, (Triangle) controller.getFactory().makeShape(ShapeType.TRIANGLE));
-		this.oval = new InspectedOval<Oval>(controller, (Oval) controller.getFactory().makeShape(ShapeType.OVAL));
-		this.circle = new InspectedCircle(controller, (Circle) controller.getFactory().makeShape(ShapeType.CIRCLE));
-		this.arc = new InspectedArc(controller, (Arc) controller.getFactory().makeShape(ShapeType.ARC));
-		this.star = new InspectedStar(controller, (Star) controller.getFactory().makeShape(ShapeType.STAR));
-		this.complexCurve = new InspectedComplexCurve(controller, (ComplexCurve) controller.getFactory().makeShape(ShapeType.COMPLEX_CURVE));
-		this.plus = new InspectedPlus(controller, (Plus) controller.getFactory().makeShape(ShapeType.PLUS));
-		this.chevron = new InspectedChevron(controller, (Chevron) controller.getFactory().makeShape(ShapeType.CHEVRON));
-		this.parallelogram = new InspectedParallelogram(controller, (Parallelogram) controller.getFactory().makeShape(
-				ShapeType.PARALLELOGRAM));
+		if (controller != null) {
+			fgeFactory = controller.getFactory();
+		}
+		else {
+			fgeFactory = FGECoreUtils.TOOLS_FACTORY;
+		}
+		this.rectangle = new InspectedRectangle<>(controller, (Rectangle) fgeFactory.makeShape(ShapeType.RECTANGLE));
+		this.square = new InspectedSquare(controller, (Square) fgeFactory.makeShape(ShapeType.SQUARE));
+		this.polygon = new InspectedPolygon<>(controller, (Polygon) fgeFactory.makeShape(ShapeType.CUSTOM_POLYGON));
+		this.regularPolygon = new InspectedRegularPolygon<>(controller, (RegularPolygon) fgeFactory.makeShape(ShapeType.POLYGON));
+		this.rectangularOctogon = new InspectedRectangularOctogon(controller,
+				(RectangularOctogon) fgeFactory.makeShape(ShapeType.RECTANGULAROCTOGON));
+		this.losange = new InspectedLosange(controller, (Losange) fgeFactory.makeShape(ShapeType.LOSANGE));
+		this.triangle = new InspectedTriangle(controller, (Triangle) fgeFactory.makeShape(ShapeType.TRIANGLE));
+		this.oval = new InspectedOval<>(controller, (Oval) fgeFactory.makeShape(ShapeType.OVAL));
+		this.circle = new InspectedCircle(controller, (Circle) fgeFactory.makeShape(ShapeType.CIRCLE));
+		this.arc = new InspectedArc(controller, (Arc) fgeFactory.makeShape(ShapeType.ARC));
+		this.star = new InspectedStar(controller, (Star) fgeFactory.makeShape(ShapeType.STAR));
+		this.complexCurve = new InspectedComplexCurve(controller, (ComplexCurve) fgeFactory.makeShape(ShapeType.COMPLEX_CURVE));
+		this.generalShape = new InspectedGeneralShape(controller, (GeneralShape) fgeFactory.makeShape(ShapeType.GENERALSHAPE));
+		this.plus = new InspectedPlus(controller, (Plus) fgeFactory.makeShape(ShapeType.PLUS));
+		this.chevron = new InspectedChevron(controller, (Chevron) fgeFactory.makeShape(ShapeType.CHEVRON));
+		this.parallelogram = new InspectedParallelogram(controller, (Parallelogram) fgeFactory.makeShape(ShapeType.PARALLELOGRAM));
+		this.union = new InspectedUnion(controller, (ShapeUnion) fgeFactory.makeShape(ShapeType.UNION));
 	}
 
 	public DianaInteractiveViewer<?, ?, ?> getController() {
@@ -206,6 +219,10 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				return this.plus;
 			case CHEVRON:
 				return this.chevron;
+			case GENERALSHAPE:
+				return this.generalShape;
+			case UNION:
+				return this.union;
 			default:
 				break;
 		}
@@ -249,8 +266,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 		this.shapeType = shapeType;
 		this.pcSupport.firePropertyChange(STYLE_CLASS_CHANGED, oldShapeType, this.getStyleType());
-		this.pcSupport.firePropertyChange("shapeSpecification", oldSS, this.getShapeSpecification());
 		this.pcSupport.firePropertyChange("styleType", oldShapeType, this.getStyleType());
+		this.pcSupport.firePropertyChange("shapeSpecification", oldSS, this.getShapeSpecification());
 	}
 
 	public boolean isSingleSelection() {
@@ -295,8 +312,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 	}
 
-	protected abstract class AbstractInspectedShapeSpecification<SS extends ShapeSpecification> extends InspectedStyle<SS> implements
-			ShapeSpecification {
+	protected abstract class AbstractInspectedShapeSpecification<SS extends ShapeSpecification> extends InspectedStyle<SS>
+			implements ShapeSpecification {
 
 		protected AbstractInspectedShapeSpecification(final DianaInteractiveViewer<?, ?, ?> controller, final SS defaultValue) {
 			super(controller, defaultValue);
@@ -309,11 +326,79 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 		@Override
 		public ShapeImpl<?> makeShape(final ShapeNode<?> node) {
-			final ShapeImpl returned = new ShapeImpl(node);
+			final ShapeImpl<?> returned = new ShapeImpl<>(node);
 			this.getPropertyChangeSupport().addPropertyChangeListener(returned);
 			return returned;
 		}
 
+		@Override
+		public FGEShape<?> makeFGEShape(ShapeNode<?> node) {
+			return makeNormalizedFGEShape(node);
+		}
+
+		@Override
+		public double getX() {
+			return 0.0;
+		}
+
+		@Override
+		public void setX(double aValue) {
+			// Not applicable
+		}
+
+		@Override
+		public double getY() {
+			return 0.0;
+		}
+
+		@Override
+		public void setY(double aValue) {
+			// Not applicable
+		}
+
+		@Override
+		public double getWidth() {
+			return 1.0;
+		}
+
+		@Override
+		public void setWidth(double aValue) {
+			// Not applicable
+		}
+
+		@Override
+		public double getHeight() {
+			return 1.0;
+		}
+
+		@Override
+		public void setHeight(double aValue) {
+			// Not applicable
+		}
+
+		@Override
+		public BackgroundStyle getBackground() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void setBackground(BackgroundStyle aBackground) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public ForegroundStyle getForeground() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void setForeground(ForegroundStyle aForeground) {
+			// TODO Auto-generated method stub
+
+		}
 	}
 
 	protected class InspectedRectangle<SS extends Rectangle> extends AbstractInspectedShapeSpecification<SS> implements Rectangle {
@@ -333,7 +418,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+		public FGEShape<?> makeNormalizedFGEShape(final ShapeNode<?> node) {
 			if (node != null && this.getIsRounded()) {
 				final double arcwidth = this.getArcSize() / node.getWidth();
 				final double archeight = this.getArcSize() / node.getHeight();
@@ -487,7 +572,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+		public FGEShape<?> makeNormalizedFGEShape(final ShapeNode<?> node) {
 			return new FGEPolygon(Filling.FILLED, this.getPoints());
 		}
 
@@ -566,7 +651,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+		public FGEShape<?> makeNormalizedFGEShape(final ShapeNode<?> node) {
 			return new FGEComplexCurve(this.getClosure(), this.getPoints());
 		}
 
@@ -580,6 +665,83 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return null;
 		}
 
+	}
+
+	protected class InspectedGeneralShape<SS extends GeneralShape> extends AbstractInspectedShapeSpecification<SS> implements GeneralShape {
+
+		protected InspectedGeneralShape(final DianaInteractiveViewer<?, ?, ?> controller, final SS defaultValue) {
+			super(controller, defaultValue);
+		}
+
+		@Override
+		public boolean areDimensionConstrained() {
+			return false;
+		}
+
+		@Override
+		public ShapeType getShapeType() {
+			return ShapeType.GENERALSHAPE;
+		}
+
+		@Override
+		public Closure getClosure() {
+			return this.getPropertyValue(GeneralShape.CLOSURE);
+		}
+
+		@Override
+		public void setClosure(final Closure aClosure) {
+			this.setPropertyValue(GeneralShape.CLOSURE, aClosure);
+		}
+
+		@Override
+		public FGEPoint getStartPoint() {
+			return this.getPropertyValue(GeneralShape.START_POINT);
+		}
+
+		@Override
+		public void setStartPoint(final FGEPoint aPoint) {
+			this.setPropertyValue(GeneralShape.START_POINT, aPoint);
+		}
+
+		@Override
+		public List<GeneralShapePathElement> getPathElements() {
+			return this.getPropertyValue(GeneralShape.PATH_ELEMENTS);
+		}
+
+		@Override
+		public void setPathElements(final List<GeneralShapePathElement> points) {
+			// Not applicable in this context (ambigous semantics, preferably disabled)
+			this.setPropertyValue(Polygon.POINTS, points);
+		}
+
+		@Override
+		public void addToPathElements(final GeneralShapePathElement aPoint) {
+			// Not applicable in this context (ambigous semantics, preferably disabled)
+		}
+
+		@Override
+		public void removeFromPathElements(final GeneralShapePathElement aPoint) {
+			// Not applicable in this context (ambigous semantics, preferably disabled)
+		}
+
+		@Override
+		public FGEShape<?> makeNormalizedFGEShape(final ShapeNode<?> node) {
+			return new FGEGeneralShape(Closure.CLOSED_FILLED);
+		}
+
+		@Override
+		public SS getStyle(final DrawingTreeNode<?, ?> node) {
+			if (node instanceof ShapeNode) {
+				if (((ShapeNode<?>) node).getShapeSpecification() instanceof GeneralShape) {
+					return (SS) ((ShapeNode<?>) node).getShapeSpecification();
+				}
+			}
+			return null;
+		}
+
+		public void geometryChanged() {
+			notifyChange(PATH_ELEMENTS);
+		}
 	}
 
 	protected class InspectedRegularPolygon<SS extends RegularPolygon> extends InspectedPolygon<SS> implements RegularPolygon {
@@ -624,7 +786,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+		public FGEShape<?> makeNormalizedFGEShape(final ShapeNode<?> node) {
 			if (this.getNPoints() > 2) {
 				return new FGERegularPolygon(0, 0, 1, 1, Filling.FILLED, this.getNPoints(), this.getStartAngle());
 			}
@@ -633,8 +795,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 
 	}
 
-	protected class InspectedRectangularOctogon extends AbstractInspectedShapeSpecification<RectangularOctogon> implements
-			RectangularOctogon {
+	protected class InspectedRectangularOctogon extends AbstractInspectedShapeSpecification<RectangularOctogon>
+			implements RectangularOctogon {
 
 		protected InspectedRectangularOctogon(final DianaInteractiveViewer<?, ?, ?> controller, final RectangularOctogon defaultValue) {
 			super(controller, defaultValue);
@@ -671,7 +833,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+		public FGEShape<?> makeNormalizedFGEShape(final ShapeNode<?> node) {
 			final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
 			returned.addToPoints(new FGEPoint(0, this.getRatio()));
 			returned.addToPoints(new FGEPoint(0, 1 - this.getRatio()));
@@ -750,7 +912,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+		public FGEShape<?> makeNormalizedFGEShape(final ShapeNode<?> node) {
 			return new FGEEllips(0, 0, 1, 1, Filling.FILLED);
 		}
 
@@ -811,7 +973,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+		public FGEShape<?> makeNormalizedFGEShape(final ShapeNode<?> node) {
 			return new FGEArc(0, 0, 1, 1, this.getAngleStart(), this.getAngleExtent(), this.getArcType());
 		}
 
@@ -874,15 +1036,15 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+		public FGEShape<?> makeNormalizedFGEShape(final ShapeNode<?> node) {
 			final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
 			final double startA = this.getStartAngle() * Math.PI / 180;
 			final double angleInterval = Math.PI * 2 / this.getNPoints();
 			for (int i = 0; i < this.getNPoints(); i++) {
 				final double angle = i * angleInterval + startA;
 				final double angle1 = (i - 0.5) * angleInterval + startA;
-				returned.addToPoints(new FGEPoint(Math.cos(angle1) * 0.5 * this.getRatio() + 0.5, Math.sin(angle1) * 0.5 * this.getRatio()
-						+ 0.5));
+				returned.addToPoints(
+						new FGEPoint(Math.cos(angle1) * 0.5 * this.getRatio() + 0.5, Math.sin(angle1) * 0.5 * this.getRatio() + 0.5));
 				returned.addToPoints(new FGEPoint(Math.cos(angle) * 0.5 + 0.5, Math.sin(angle) * 0.5 + 0.5));
 			}
 			return returned;
@@ -966,7 +1128,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+		public FGEShape<?> makeNormalizedFGEShape(final ShapeNode<?> node) {
 			final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
 			returned.addToPoints(new FGEPoint(0, this.getRatio()));
 			returned.addToPoints(new FGEPoint(0, 1 - this.getRatio()));
@@ -1021,7 +1183,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+		public FGEShape<?> makeNormalizedFGEShape(final ShapeNode<?> node) {
 			final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
 			returned.addToPoints(new FGEPoint(0, 0));
 			returned.addToPoints(new FGEPoint(this.getArrowLength(), 0.5));
@@ -1070,7 +1232,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public FGEShape<?> makeFGEShape(final ShapeNode<?> node) {
+		public FGEShape<?> makeNormalizedFGEShape(final ShapeNode<?> node) {
 			final FGEPolygon returned = new FGEPolygon(Filling.FILLED);
 			double shift_ratio = getShiftRatio();
 			if (shift_ratio >= 0) {
@@ -1086,6 +1248,63 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				returned.addToPoints(new FGEPoint(-shift_ratio, 1));
 			}
 			return returned;
+		}
+	}
+
+	protected class InspectedUnion extends AbstractInspectedShapeSpecification<ShapeUnion> implements ShapeUnion {
+
+		protected InspectedUnion(final DianaInteractiveViewer<?, ?, ?> controller, final ShapeUnion defaultValue) {
+			super(controller, defaultValue);
+		}
+
+		@Override
+		public boolean areDimensionConstrained() {
+			return false;
+		}
+
+		@Override
+		public ShapeType getShapeType() {
+			return ShapeType.UNION;
+		}
+
+		@Override
+		public List<ShapeSpecification> getShapes() {
+			return this.getPropertyValue(ShapeUnion.SHAPES);
+		}
+
+		@Override
+		public void setShapes(final List<ShapeSpecification> shapes) {
+			// Not applicable in this context (ambigous semantics, preferably disabled)
+			this.setPropertyValue(ShapeUnion.SHAPES, shapes);
+		}
+
+		@Override
+		public void addToShapes(final ShapeSpecification aShape) {
+			// Not applicable in this context (ambigous semantics, preferably disabled)
+		}
+
+		@Override
+		public void removeFromShapes(final ShapeSpecification aShape) {
+			// Not applicable in this context (ambigous semantics, preferably disabled)
+		}
+
+		@Override
+		public FGEShapeUnion makeNormalizedFGEShape(final ShapeNode<?> node) {
+			return new FGEShapeUnion();
+		}
+
+		@Override
+		public ShapeUnion getStyle(final DrawingTreeNode<?, ?> node) {
+			if (node instanceof ShapeNode) {
+				if (((ShapeNode<?>) node).getShapeSpecification() instanceof ShapeUnion) {
+					return (ShapeUnion) ((ShapeNode<?>) node).getShapeSpecification();
+				}
+			}
+			return null;
+		}
+
+		public void geometryChanged() {
+			notifyChange(SHAPES);
 		}
 	}
 

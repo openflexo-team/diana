@@ -49,92 +49,59 @@ import org.openflexo.fge.geom.FGEDimension;
 import org.openflexo.fge.geom.FGEGeneralShape;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEPolygon;
+import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geom.FGEQuadCurve;
 import org.openflexo.fge.geom.FGERectangle;
+import org.openflexo.fge.geom.FGEShape;
 
+/**
+ * General API for a graphics component responsible for painting
+ * 
+ * @author sylvain
+ *
+ */
 public interface AbstractFGEGraphics {
 
+	/**
+	 * Return the normalized bounds of node beeing painted
+	 * 
+	 * @return
+	 */
 	public FGERectangle getNodeNormalizedBounds();
 
-	/*
-	public abstract FGEModelFactory getFactory();
-
-	public abstract DrawingTreeNode<?, ?> getDrawingTreeNode();
-
-	public abstract DrawingTreeNode<?, ?> getNode();
-
-	public abstract GraphicalRepresentation getGraphicalRepresentation();
-
-	public abstract DrawingControllerImpl<?> getController();
-
-	public abstract double getScale();
-
-	public abstract void delete();
-
-	public abstract void createGraphics(Graphics2D graphics2D, DrawingControllerImpl controller);
-
-	public abstract void releaseGraphics();
-
-	public abstract Graphics2D cloneGraphics();
-
-	public abstract void releaseClonedGraphics(Graphics2D oldGraphics);
-
-	public abstract Graphics2D getGraphics();
-	public abstract ForegroundStyle getDefaultForeground();
-
-	public abstract ForegroundStyle getCurrentForeground();
-
-	public abstract void setDefaultForeground(ForegroundStyle aForegound);
-
-	public abstract void setStroke(Stroke aStroke);
-	*/
-
+	/**
+	 * Directive used to choose foreground style declared as default
+	 */
 	public abstract void useDefaultForegroundStyle();
 
-	/*	public abstract void useForegroundStyle(ForegroundStyle aStyle);
-
-		public abstract TextStyle getCurrentTextStyle();
-
-		public abstract BackgroundStyle getDefaultBackground();
-
-		public abstract void setDefaultBackground(BackgroundStyle aBackground);
-	*/
+	/**
+	 * Directive used to choose background style declared as default
+	 */
 	public abstract void useDefaultBackgroundStyle();
 
-	/*	public abstract void useBackgroundStyle(BackgroundStyle aStyle);
-
-		public abstract void setDefaultTextStyle(TextStyle aTextStyle);
-	*/
+	/**
+	 * Directive used to choose text style declared as default
+	 */
 	public abstract void useDefaultTextStyle();
 
-	/*	public abstract void useTextStyle(TextStyle aStyle);
+	/**
+	 * Sets default foreground style with the one specified bu supplied shape, if any (does nothing when null)
+	 */
+	public abstract void setDefaultForegroundStyle(FGEShape<?> shape);
 
-		public abstract FGERectangle getNormalizedBounds();
+	/**
+	 * Sets default background style with the one specified bu supplied shape, if any (does nothing when null)
+	 */
+	public abstract void setDefaultBackgroundStyle(FGEShape<?> shape);
 
-		public abstract int getViewWidth();
-
-		public abstract int getViewHeight();
-
-		public abstract int getViewWidth(double scale);
-
-		public abstract int getViewHeight(double scale);
-
-		public abstract Point convertNormalizedPointToViewCoordinates(double x, double y);
-
-		public abstract Point convertNormalizedPointToViewCoordinates(FGEPoint p);
-
-		public abstract Rectangle convertNormalizedRectangleToViewCoordinates(FGERectangle r);
-
-		public abstract Rectangle convertNormalizedRectangleToViewCoordinates(double x, double y, double width, double height);
-
-		public abstract FGEPoint convertViewCoordinatesToNormalizedPoint(int x, int y);
-
-		public abstract FGEPoint convertViewCoordinatesToNormalizedPoint(Point p);
-
-		public abstract FGERectangle convertViewCoordinatesToNormalizedRectangle(Rectangle r);
-
-		public abstract FGERectangle convertViewCoordinatesToNormalizedRectangle(int x, int y, int width, int height);
-	*/
+	/**
+	 * Draw control point at specified location, and with specified size
+	 * 
+	 * @param x
+	 * @param y
+	 * @param size
+	 * @return
+	 */
 	public abstract Rectangle drawControlPoint(double x, double y, int size);
 
 	public abstract void drawPoint(FGEPoint p);
@@ -175,6 +142,10 @@ public interface AbstractFGEGraphics {
 
 	public abstract void fillRoundRect(FGEPoint p, FGEDimension d, double arcwidth, double archeight);
 
+	public abstract void drawPolyline(FGEPolylin polylin);
+
+	public abstract void drawPolyline(FGEPoint[] points);
+
 	public abstract void drawPolygon(FGEPolygon polygon);
 
 	public abstract void drawPolygon(FGEPoint[] points);
@@ -209,14 +180,14 @@ public interface AbstractFGEGraphics {
 
 	public abstract void drawCurve(FGECubicCurve curve);
 
-	public abstract void drawGeneralShape(FGEGeneralShape shape);
+	public abstract void drawGeneralShape(FGEGeneralShape<?> shape);
 
-	public abstract void fillGeneralShape(FGEGeneralShape shape);
+	public abstract void fillGeneralShape(FGEGeneralShape<?> shape);
 
 	/*public abstract FGERectangle drawString(String text, double x, double y, int orientation, HorizontalTextAlignment alignment);
-
+	
 	public abstract FGERectangle drawString(String text, FGEPoint location, HorizontalTextAlignment alignment);
-
+	
 	public abstract FGERectangle drawString(String text, double x, double y, HorizontalTextAlignment alignment);*/
 
 	public Point convertNormalizedPointToViewCoordinates(double x, double y, double scale);

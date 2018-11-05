@@ -3,24 +3,26 @@
 	<parent>
 		<groupId>org.openflexo</groupId>
 		<artifactId>openflexo-component</artifactId>
-        <version>0.3</version>
+        <version>0.5-SNAPSHOT</version>
 	</parent>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.4.1</version>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>diana</artifactId>
 	<name>diana</name>
 	<packaging>pom</packaging>
 	<properties>
-		<connie.version>1.2</connie.version>
-		<pamela.version>1.2</pamela.version>
-		<gina.version>1.2</gina.version>
-		<graphicsutils.version>1.2</graphicsutils.version>
+		<connie.version>1.4.1</connie.version>
+		<pamela.version>1.4.1</pamela.version>
+		<gina.version>2.1.1</gina.version>
+		<graphicsutils.version>2.1.1</graphicsutils.version>
 		<diana.logo>https://media.openflexo.org/images/diana_logo64x64.png</diana.logo>
+		<maven.sourceplugin.version>2.4</maven.sourceplugin.version>
+	    <sitedeploy.dir>/home/www/sites/diana</sitedeploy.dir>
 	</properties>
 	<scm>
 		<connection>scm:git:ssh://git@github.com/openflexo-team/diana.git</connection>
 		<url>https://github.com/openflexo-team/diana</url>
-		<tag>1.2</tag>
+		<tag>1.4</tag>
 	</scm>
 	<modules>
 		<module>diana-geom</module>
@@ -28,7 +30,7 @@
 		<module>diana-core</module>
 		<module>diana-swing</module>
 		<module>diana-drawing-editor</module>
-		<!-- <module>diana-geomedit</module> --> <!-- Do not produce it yet -->
+		<module>diana-geomedit</module>
 		<module>diana-ppt-editor</module>
 	</modules>
 	<dependencyManagement>
@@ -37,12 +39,11 @@
 				<groupId>org.openflexo</groupId>
 				<artifactId>flexoutils</artifactId>
 				<version>${connie.version}</version>
-				<classifier>tests</classifier>
 			</dependency>
 			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.10</version>
+				<groupId>org.openflexo</groupId>
+				<artifactId>testutils</artifactId>
+				<version>${connie.version}</version>
 			</dependency>
 		    <dependency>
 			   <groupId>org.openflexo</groupId>
@@ -67,8 +68,25 @@
 			</dependency>
 			<dependency>
 				<groupId>org.openflexo</groupId>
+				<artifactId>gina-replay</artifactId>
+				<version>${gina.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.openflexo</groupId>
+				<artifactId>gina-replay</artifactId>
+				<version>${gina.version}</version>
+				<classifier>tests</classifier>
+			</dependency>
+			<dependency>
+				<groupId>org.openflexo</groupId>
 				<artifactId>gina-swing</artifactId>
 				<version>${gina.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.openflexo</groupId>
+				<artifactId>gina-swing</artifactId>
+				<version>${gina.version}</version>
+				<classifier>tests</classifier>
 			</dependency>
 			<dependency>
 				<groupId>org.openflexo</groupId>
@@ -134,6 +152,11 @@
 				<groupId>net.sf.jung</groupId>
 				<artifactId>jung-algorithms</artifactId>
 				<version>2.0.1</version>
+			</dependency>
+			<dependency>
+               			<groupId>org.apache.maven.plugins</groupId>
+              			<artifactId>maven-source-plugin</artifactId>
+              			<version>${maven.sourceplugin.version}</version>
 			</dependency>
 
 		</dependencies>
@@ -206,7 +229,7 @@
             <distributionManagement>
                 <site>
                     <id>diana.website</id>
-                    <url>scp://server-one.openflexo.org/home/www/sites/diana/SNAPSHOT/</url>
+                    <url>scp://openflexo.org${sitedeploy.dir}/SNAPSHOT/</url>
                 </site>
             </distributionManagement>
         </profile>
@@ -223,7 +246,7 @@
             <distributionManagement>
                 <site>
                     <id>diana.website</id>
-                    <url>scp://server-one.openflexo.org/home/www/sites/diana/SNAPSHOT/</url>
+                    <url>scp://openflexo.org${sitedeploy.dir}/SNAPSHOT/</url>
                 </site>
             </distributionManagement>
         </profile>
@@ -240,7 +263,7 @@
             <distributionManagement>
                 <site>
                     <id>diana.website</id>
-                    <url>scp://server-one.openflexo.org/home/www/sites/diana/${project.version}/</url>
+                    <url>scp://openflexo.org${sitedeploy.dir}/${project.version}/</url>
                 </site>
             </distributionManagement>
         </profile>

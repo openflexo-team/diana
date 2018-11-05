@@ -43,7 +43,6 @@ import java.util.logging.Logger;
 
 import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.ShadowStyle;
-import org.openflexo.fge.TextStyle;
 import org.openflexo.fge.control.DianaInteractiveEditor;
 import org.openflexo.fge.control.tools.DianaInspectors.Inspector;
 import org.openflexo.fge.view.DianaViewFactory;
@@ -77,9 +76,16 @@ public abstract class DianaInspectors<C extends Inspector<?>, F extends DianaVie
 		return null;
 	}
 
-	public InspectedTextStyle getInspectedTextStyle() {
+	/*public InspectedTextStyle getInspectedTextStyle() {
 		if (getEditor() != null) {
 			return getEditor().getInspectedTextStyle();
+		}
+		return null;
+	}*/
+
+	public InspectedTextProperties getInspectedTextProperties() {
+		if (getEditor() != null) {
+			return getEditor().getInspectedTextProperties();
 		}
 		return null;
 	}
@@ -130,7 +136,7 @@ public abstract class DianaInspectors<C extends Inspector<?>, F extends DianaVie
 
 	public abstract Inspector<BackgroundStyleFactory> getBackgroundStyleInspector();
 
-	public abstract Inspector<TextStyle> getTextStyleInspector();
+	public abstract Inspector<InspectedTextProperties> getTextPropertiesInspector();
 
 	public abstract Inspector<ShadowStyle> getShadowStyleInspector();
 

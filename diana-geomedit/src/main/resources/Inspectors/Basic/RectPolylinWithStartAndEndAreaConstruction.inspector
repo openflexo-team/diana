@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel className="org.openflexo.gina.utils.FIBInspector" layout="border"
+	titleFont="SansSerif,0,12" darkLevel="0"
+	dataClassName="org.openflexo.diana.geomedit.model.RectPolylinWithStartAndEndAreaConstruction"
+	font="SansSerif,0,12" name="Inspector">
+	<TabPanel name="Tab" constraints="border(location=center)">
+		<Tab title="Basic" layout="twocols" titleFont="SansSerif,0,11"
+			darkLevel="0" index="0" font="SansSerif,0,11" useScrollBar="true"
+			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
+			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="BasicTab">
+		    <Label label="start_orientation" index="10"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;location=left)"
+				localize="true" />
+			<DropDown index="11" data="data.startOrientation"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
+				width="150" name="StartOrientationDD" format="object.name" localize="true"
+				iteratorClassName="org.openflexo.fge.geom.FGEGeometricObject$SimplifiedCardinalDirection"
+				autoSelectFirstRow="false" />
+		    <Label label="end_orientation" index="12"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;location=left)"
+				localize="true" />
+			<DropDown index="13" data="data.endOrientation"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
+				width="150" name="StartOrientationDD" format="object.name" localize="true"
+				iteratorClassName="org.openflexo.fge.geom.FGEGeometricObject$SimplifiedCardinalDirection"
+				autoSelectFirstRow="false" />
+		</Tab>
+		<Tab title="Advanced" layout="twocols" titleFont="SansSerif,0,11"
+			darkLevel="0" index="2" font="SansSerif,0,11" useScrollBar="true"
+			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
+			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="AdvancedTab" />
+	</TabPanel>
+	<LocalizedDictionary>
+	</LocalizedDictionary>
+	<Parameter name="title" value="RectPolylinWithStartAndEndAreaConstruction" />
+</Panel>

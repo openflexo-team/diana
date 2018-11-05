@@ -37,7 +37,6 @@
  * 
  */
 
-
 package org.openflexo.fge.control;
 
 import java.beans.PropertyChangeEvent;
@@ -52,6 +51,7 @@ import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
 import org.openflexo.fge.Drawing.DrawingTreeNodeIdentifier;
+import org.openflexo.fge.Drawing.GeometricNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.control.notifications.ObjectAddedToSelection;
@@ -96,6 +96,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	private List<DrawingTreeNode<?, ?>> focusedObjects;
 	private List<DrawingTreeNode<?, ?>> selectedObjects;
 	private List<ShapeNode<?>> selectedShapes;
+	private List<DrawingTreeNode<?, ?>> selectedShapesAndGeometricNodes;
 	private List<ConnectorNode<?>> selectedConnectors;
 	private List<ContainerNode<?, ?>> selectedContainers;
 
@@ -128,10 +129,11 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 		this.objectsAreSelectable = objectsAreSelectable;
 		this.objectsAreInspectable = objectsAreInspectable;
 		// inspectors = new DianaInspectors(this);
-		focusedObjects = new ArrayList<DrawingTreeNode<?, ?>>();
-		selectedObjects = new ArrayList<DrawingTreeNode<?, ?>>();
+		focusedObjects = new ArrayList<>();
+		selectedObjects = new ArrayList<>();
 	}
 
+	@Override
 	public void delete() {
 		/*if (inspectors != null) {
 			inspectors.delete();
@@ -216,13 +218,13 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	}
 
 	public void setSelectedObjects(List<? extends DrawingTreeNode<?, ?>> someSelectedObjects) {
-		stopEditionOfEditedLabelIfAny();
 		if (someSelectedObjects == null) {
 			setSelectedObjects(new ArrayList<DrawingTreeNode<?, ?>>());
 			return;
 		}
 
 		if (!selectedObjects.equals(someSelectedObjects)) {
+			stopEditionOfEditedLabelIfAny();
 			clearSelection();
 			for (DrawingTreeNode<?, ?> d : someSelectedObjects) {
 				addToSelectedObjects(d);
@@ -231,7 +233,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	}
 
 	public void setSelectedObject(DrawingTreeNode<?, ?> aNode) {
-		stopEditionOfEditedLabelIfAny();
+		// stopEditionOfEditedLabelIfAny();
 		setSelectedObjects(Collections.singletonList(aNode));
 		/*if (getInspectors() != null) {
 			getInspectors().update();
@@ -251,6 +253,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 			selectedObjects.add(aNode);
 			notifyObservers(new ObjectAddedToSelection(aNode));
 			selectedShapes = null;
+			selectedShapesAndGeometricNodes = null;
 			selectedConnectors = null;
 			selectedContainers = null;
 		}
@@ -272,6 +275,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 			selectedObjects.remove(aNode);
 			notifyObservers(new ObjectRemovedFromSelection(aNode));
 			selectedShapes = null;
+			selectedShapesAndGeometricNodes = null;
 			selectedConnectors = null;
 			selectedContainers = null;
 		}
@@ -287,7 +291,8 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 		stopEditionOfEditedLabelIfAny();
 		if (aNode.getIsSelected()) {
 			removeFromSelectedObjects(aNode);
-		} else {
+		}
+		else {
 			addToSelectedObjects(aNode);
 		}
 		// logger.info("END toggle selection with "+aGraphicalRepresentation+" with selection="+selectedObjects);
@@ -304,6 +309,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 		selectedObjects.clear();
 		notifyObservers(new SelectionCleared());
 		selectedShapes = null;
+		selectedShapesAndGeometricNodes = null;
 		selectedConnectors = null;
 		selectedContainers = null;
 
@@ -327,7 +333,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	 * @return
 	 */
 	public List<DrawingTreeNode<?, ?>> getSelectedObjects(Class<?>... types) {
-		List<DrawingTreeNode<?, ?>> returned = new ArrayList<DrawingTreeNode<?, ?>>();
+		List<DrawingTreeNode<?, ?>> returned = new ArrayList<>();
 		for (DrawingTreeNode<?, ?> node : selectedObjects) {
 			boolean takeIt = false;
 			for (Class<?> t : types) {
@@ -350,7 +356,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	 * @return
 	 */
 	public <T> List<T> getSelectedDrawables(Class<? extends T>... types) {
-		List<T> returned = new ArrayList<T>();
+		List<T> returned = new ArrayList<>();
 		for (DrawingTreeNode<?, ?> node : selectedObjects) {
 			boolean takeIt = false;
 			for (Class<? extends T> t : types) {
@@ -368,7 +374,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 
 	public List<ShapeNode<?>> getSelectedShapes() {
 		if (selectedShapes == null) {
-			selectedShapes = new ArrayList<ShapeNode<?>>();
+			selectedShapes = new ArrayList<>();
 			for (DrawingTreeNode<?, ?> node : selectedObjects) {
 				if (node instanceof ShapeNode) {
 					selectedShapes.add((ShapeNode<?>) node);
@@ -378,9 +384,24 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 		return selectedShapes;
 	}
 
+	public List<DrawingTreeNode<?, ?>> getSelectedShapesAndGeometricObjects() {
+		if (selectedShapesAndGeometricNodes == null) {
+			selectedShapesAndGeometricNodes = new ArrayList<>();
+			for (DrawingTreeNode<?, ?> node : selectedObjects) {
+				if (node instanceof ShapeNode) {
+					selectedShapesAndGeometricNodes.add(node);
+				}
+				if (node instanceof GeometricNode) {
+					selectedShapesAndGeometricNodes.add(node);
+				}
+			}
+		}
+		return selectedShapesAndGeometricNodes;
+	}
+
 	public List<ConnectorNode<?>> getSelectedConnectors() {
 		if (selectedConnectors == null) {
-			selectedConnectors = new ArrayList<ConnectorNode<?>>();
+			selectedConnectors = new ArrayList<>();
 			for (DrawingTreeNode<?, ?> node : selectedObjects) {
 				if (node instanceof ConnectorNode) {
 					selectedConnectors.add((ConnectorNode<?>) node);
@@ -392,7 +413,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 
 	public List<ContainerNode<?, ?>> getSelectedContainers() {
 		if (selectedContainers == null) {
-			selectedContainers = new ArrayList<ContainerNode<?, ?>>();
+			selectedContainers = new ArrayList<>();
 			for (DrawingTreeNode<?, ?> node : selectedObjects) {
 				if (node instanceof ContainerNode) {
 					selectedContainers.add((ContainerNode<?, ?>) node);
@@ -457,7 +478,8 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	public void toggleFocusSelection(DrawingTreeNode<?, ?> aNode) {
 		if (aNode.getIsFocused()) {
 			removeFromFocusedObjects(aNode);
-		} else {
+		}
+		else {
 			addToFocusedObjects(aNode);
 		}
 	}
@@ -523,12 +545,14 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 			// ControlPoint have priority on other ControlArea
 			if (ca1 instanceof ConnectorAdjustingControlPoint) {
 				return ca1;
-			} else if (ca2 instanceof ConnectorAdjustingControlPoint) {
+			}
+			else if (ca2 instanceof ConnectorAdjustingControlPoint) {
 				return ca2;
 			}
 			if (ca1 instanceof ControlPoint) {
 				return ca1;
-			} else if (ca2 instanceof ControlPoint) {
+			}
+			else if (ca2 instanceof ControlPoint) {
 				return ca2;
 			}
 		}
@@ -624,7 +648,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 				}
 				return;
 			}
-			storedSelection = new ArrayList<DrawingTreeNodeIdentifier<?>>();
+			storedSelection = new ArrayList<>();
 			for (DrawingTreeNode<?, ?> node : getSelectedObjects()) {
 				storedSelection.add(new DrawingTreeNodeIdentifier(node.getDrawable(), node.getGRBinding()));
 			}
@@ -637,7 +661,8 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 		if (evt.getSource() == getDrawing()) {
 			if (evt.getPropertyName().equals(DrawingTreeNodeHierarchyRebuildStarted.EVENT_NAME)) {
 				storeCurrentSelection();
-			} else if (evt.getPropertyName().equals(DrawingTreeNodeHierarchyRebuildEnded.EVENT_NAME) && storedSelection != null) {
+			}
+			else if (evt.getPropertyName().equals(DrawingTreeNodeHierarchyRebuildEnded.EVENT_NAME) && storedSelection != null) {
 				restoreStoredSelection();
 			}
 		}

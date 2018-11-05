@@ -73,8 +73,8 @@ import edu.uci.ics.jung.graph.Forest;
  * @author sylvain
  * 
  */
-public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutManagerSpecification<?>, O> extends
-		FGELayoutManagerImpl<LMS, O> implements TreeBasedLayoutManager<LMS, O> {
+public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutManagerSpecification<?>, O> extends FGELayoutManagerImpl<LMS, O>
+		implements TreeBasedLayoutManager<LMS, O> {
 
 	private DirectedGraph<ShapeNode<?>, ConnectorNode<?>> graph;
 	private Forest<ShapeNode<?>, ConnectorNode<?>> forest;
@@ -112,8 +112,8 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 	 */
 	protected FGEPoint locationForNode(ShapeNode<?> node) {
 		Point2D newLocation = getLayout().transform(node);
-		return new FGEPoint(newLocation.getX() - node.getWidth() / 2 - node.getBorder().getLeft(), newLocation.getY() - node.getHeight()
-				/ 2 - node.getBorder().getTop());
+		return new FGEPoint(newLocation.getX() - node.getWidth() / 2 /*- node.getBorder().getLeft()*/,
+				newLocation.getY() - node.getHeight() / 2 /*- node.getBorder().getTop()*/);
 	}
 
 	/**
@@ -137,7 +137,7 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 	public void initLayout() {
 		super.initLayout();
 
-		graph = new DirectedOrderedSparseMultigraph<ShapeNode<?>, ConnectorNode<?>>();
+		graph = new DirectedOrderedSparseMultigraph<>();
 
 		for (DrawingTreeNode<?, ?> dtn : getContainerNode().getChildNodes()) {
 			if (dtn instanceof ShapeNode) {
@@ -151,14 +151,15 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 				if (graph.containsVertex((connectorNode.getStartNode())) && graph.containsVertex((connectorNode.getEndNode()))) {
 					if (getFirstCommonAncestor(connectorNode.getStartNode(), connectorNode.getEndNode()) == null) {
 						graph.addEdge(connectorNode, connectorNode.getStartNode(), connectorNode.getEndNode());
-					} else {
+					}
+					else {
 						// Will not connect those two nodes otherwise a cycle will be created
 					}
 				}
 			}
 		}
 
-		forest = new DelegateForest<ShapeNode<?>, ConnectorNode<?>>(graph);
+		forest = new DelegateForest<>(graph);
 
 		System.out.println("tree=" + graph.toString());
 
@@ -179,7 +180,7 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 	}
 
 	public List<ShapeNode<?>> getAncestors(ShapeNode<?> node) {
-		List<ShapeNode<?>> ancestors = new ArrayList<ShapeNode<?>>();
+		List<ShapeNode<?>> ancestors = new ArrayList<>();
 		ancestors.add(node);
 		if (graph.getPredecessorCount(node) > 0) {
 			for (ShapeNode<?> predecessor : graph.getPredecessors(node)) {
@@ -211,8 +212,8 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 
 		super.computeLayout();
 
-		Map<ShapeNode<?>, Double> xMap = new HashMap<ShapeNode<?>, Double>();
-		Map<ShapeNode<?>, Double> yMap = new HashMap<ShapeNode<?>, Double>();
+		Map<ShapeNode<?>, Double> xMap = new HashMap<>();
+		Map<ShapeNode<?>, Double> yMap = new HashMap<>();
 
 		maxDepth = 0;
 		for (ShapeNode<?> shapeNode : getLayoutedNodes()) {
@@ -224,13 +225,18 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 		// No global layout to launch
 
 		if (animateLayout() && !layoutInProgress) {
-			List<TranslationTransition> transitions = new ArrayList<TranslationTransition>();
+			List<TranslationTransition> transitions = new ArrayList<>();
 			for (ShapeNode<?> shapeNode : getLayoutedNodes()) {
 				FGEPoint newLocation = locationForNode(shapeNode);
-				transitions.add(new TranslationTransition(shapeNode, new FGEPoint(xMap.get(shapeNode), yMap.get(shapeNode)), newLocation));
+				FGEPoint oldLocation = new FGEPoint(xMap.get(shapeNode), yMap.get(shapeNode));
+				if (!newLocation.equals(oldLocation)) {
+					transitions.add(new TranslationTransition(shapeNode, oldLocation, newLocation));
+				}
 			}
 
-			AnimationImpl.performTransitions(transitions, getAnimationStepsNumber(), getContainerNode().getDrawing());
+			if (transitions.size() > 0) {
+				AnimationImpl.performTransitions(transitions, getAnimationStepsNumber(), getContainerNode().getDrawing());
+			}
 		}
 	}
 
@@ -240,7 +246,8 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 		if (evt.getPropertyName().equals(TreeBasedLayoutManagerSpecification.HORIZONTAL_ALIGNEMENT_KEY)) {
 			invalidate();
 			doLayout(true);
-		} else if (evt.getPropertyName().equals(TreeBasedLayoutManagerSpecification.VERTICAL_ALIGNEMENT_KEY)) {
+		}
+		else if (evt.getPropertyName().equals(TreeBasedLayoutManagerSpecification.VERTICAL_ALIGNEMENT_KEY)) {
 			invalidate();
 			doLayout(true);
 		}
@@ -249,7 +256,7 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 	protected int getDepth(ShapeNode<?> node) {
 		if (forest.getPredecessorCount(node) > 0) {
 			int returned = -1;
-			List<ShapeNode<?>> predecessors = new ArrayList<ShapeNode<?>>(forest.getPredecessors(node));
+			List<ShapeNode<?>> predecessors = new ArrayList<>(forest.getPredecessors(node));
 			for (int i = 0; i < predecessors.size(); i++) {
 				int parentDepth = getDepth(predecessors.get(i));
 				if (parentDepth + 1 > returned) {

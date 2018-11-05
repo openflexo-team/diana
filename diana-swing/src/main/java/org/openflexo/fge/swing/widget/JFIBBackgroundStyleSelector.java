@@ -42,6 +42,8 @@ package org.openflexo.fge.swing.widget;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -61,17 +63,19 @@ import org.openflexo.fge.GRProvider.DrawingGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.control.tools.BackgroundStyleFactory;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.fge.swing.JDianaViewer;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.view.widget.FIBBackgroundStyleSelector;
-import org.openflexo.fib.FIBLibrary;
-import org.openflexo.fib.controller.FIBController;
-import org.openflexo.fib.model.FIBComponent;
-import org.openflexo.fib.model.FIBCustom;
-import org.openflexo.fib.view.FIBView;
+import org.openflexo.gina.controller.FIBController;
+import org.openflexo.gina.model.FIBComponent;
+import org.openflexo.gina.model.widget.FIBCustom;
+import org.openflexo.gina.swing.view.JFIBView;
+import org.openflexo.gina.swing.view.SwingViewFactory;
+import org.openflexo.gina.view.GinaViewFactory;
 import org.openflexo.swing.CustomPopup;
 
 /**
@@ -81,8 +85,7 @@ import org.openflexo.swing.CustomPopup;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> implements
-		FIBBackgroundStyleSelector<JFIBBackgroundStyleSelector> {
+public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> implements FIBBackgroundStyleSelector {
 
 	static final Logger logger = Logger.getLogger(JFIBBackgroundStyleSelector.class.getPackage().getName());
 
@@ -104,8 +107,10 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 			setRevertValue(factory.getBackgroundStyle() != null ? (BackgroundStyle) factory.getBackgroundStyle().cloneObject() : null);
 		}*/
 		setFocusable(true);
+
 	}
 
+	@Override
 	public BackgroundStyleFactory getFactory() {
 		if (factory == null) {
 			factory = new BackgroundStyleFactory(null);
@@ -113,8 +118,17 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 		return factory;
 	}
 
+	@Override
 	public void setFactory(BackgroundStyleFactory factory) {
 		this.factory = factory;
+		setEditedObject(factory.getCurrentStyle());
+		factory.getPropertyChangeSupport().addPropertyChangeListener(new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				setEditedObject(factory.getCurrentStyle());
+			}
+		});
 	}
 
 	@Override
@@ -147,7 +161,8 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 		// WARNING: we need here to clone to keep track back of previous data !!!
 		if (oldValue != null) {
 			_revertValue = (BackgroundStyle) oldValue.clone();
-		} else {
+		}
+		else {
 			_revertValue = null;
 		}
 		if (logger.isLoggable(Level.FINE)) {
@@ -180,7 +195,7 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 
 	public class BackgroundStyleDetailsPanel extends ResizablePanel {
 		private FIBComponent fibComponent;
-		private FIBView<?, ?, ?> fibView;
+		private JFIBView<?, ?> fibView;
 		private CustomFIBController controller;
 
 		// private BackgroundStyleFactory bsFactory;
@@ -188,9 +203,9 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 		protected BackgroundStyleDetailsPanel(BackgroundStyle backgroundStyle) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
-			controller = new CustomFIBController(fibComponent);
-			fibView = controller.buildView(fibComponent);
+			fibComponent = AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(FIB_FILE, true);
+			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
+			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent, null, true);
 
 			controller.setDataObject(getFactory());
 
@@ -200,7 +215,6 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 
 		public void update() {
 			// logger.info("Update with " + getEditedObject());
-			logger.warning("Un truc a voir ici comment s'en sortir: ligne suivante commentee");
 			// getFactory().setBackgroundStyle(getEditedObject());
 			controller.setDataObject(getFactory(), true);
 		}
@@ -221,8 +235,8 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 		}
 
 		public class CustomFIBController extends FIBController {
-			public CustomFIBController(FIBComponent component) {
-				super(component);
+			public CustomFIBController(FIBComponent component, GinaViewFactory<?> viewFactory) {
+				super(component, viewFactory);
 			}
 
 			public void apply() {
@@ -337,8 +351,8 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 			drawing = new DrawingImpl<BackgroundStylePreviewPanel>(this, factory, PersistenceMode.UniqueGraphicalRepresentations) {
 				@Override
 				public void init() {
-					final DrawingGRBinding<BackgroundStylePreviewPanel> previewPanelBinding = bindDrawing(
-							BackgroundStylePreviewPanel.class, "previewPanel", new DrawingGRProvider<BackgroundStylePreviewPanel>() {
+					final DrawingGRBinding<BackgroundStylePreviewPanel> previewPanelBinding = bindDrawing(BackgroundStylePreviewPanel.class,
+							"previewPanel", new DrawingGRProvider<BackgroundStylePreviewPanel>() {
 								@Override
 								public DrawingGraphicalRepresentation provideGR(BackgroundStylePreviewPanel drawable,
 										FGEModelFactory factory) {
@@ -348,7 +362,8 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 					final ShapeGRBinding<BackgroundStylePreviewPanel> shapeBinding = bindShape(BackgroundStylePreviewPanel.class, "line",
 							new ShapeGRProvider<BackgroundStylePreviewPanel>() {
 								@Override
-								public ShapeGraphicalRepresentation provideGR(BackgroundStylePreviewPanel drawable, FGEModelFactory factory) {
+								public ShapeGraphicalRepresentation provideGR(BackgroundStylePreviewPanel drawable,
+										FGEModelFactory factory) {
 									return rectGR;
 								}
 							});
@@ -380,7 +395,7 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 			rectGR.setIsSelectable(false);
 			rectGR.setIsFocusable(false);
 			rectGR.setIsReadOnly(true);
-			rectGR.setBorder(factory.makeShapeBorder(0, 0, 0, 0));
+			// rectGR.setBorder(factory.makeShapeBorder(0, 0, 0, 0));
 
 			controller = new JDianaViewer<BackgroundStylePreviewPanel>(drawing, factory, SwingToolFactory.DEFAULT);
 			add(controller.getDrawingView());
@@ -399,23 +414,14 @@ public class JFIBBackgroundStyleSelector extends CustomPopup<BackgroundStyle> im
 		protected void update() {
 			rectGR.setBackground(getEditedObject() != null ? getEditedObject() : factory.makeColoredBackground(DEFAULT_COLOR1));
 			// We do it later because producer of texture may not has finished its job
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					if (getEditedObject() == null) {
-						return;
-					}
-					BackgroundStyle bg = getEditedObject();
-					rectGR.setBackground(bg);
+			SwingUtilities.invokeLater(() -> {
+				if (getEditedObject() == null) {
+					return;
 				}
+				BackgroundStyle bg = getEditedObject();
+				rectGR.setBackground(bg);
 			});
 		}
-
-	}
-
-	@Override
-	public JFIBBackgroundStyleSelector getJComponent() {
-		return this;
 	}
 
 	@Override

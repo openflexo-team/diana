@@ -54,7 +54,7 @@ import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.graphics.FGEGraphics;
 import org.openflexo.fge.layout.TreeLayoutManager;
 import org.openflexo.fge.layout.TreeLayoutManagerSpecification;
-import org.openflexo.fib.annotation.FIBPanel;
+import org.openflexo.gina.annotation.FIBPanel;
 
 import edu.uci.ics.jung.algorithms.layout.TreeLayout;
 import edu.uci.ics.jung.graph.util.TreeUtils;
@@ -66,8 +66,8 @@ import edu.uci.ics.jung.graph.util.TreeUtils;
  * 
  */
 @FIBPanel("Fib/Layout/TreeLayoutManagerPanel.fib")
-public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImpl<TreeLayoutManagerSpecification<O>, O> implements
-		TreeLayoutManager<O> {
+public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImpl<TreeLayoutManagerSpecification<O>, O>
+		implements TreeLayoutManager<O> {
 
 	private DianaTreeLayout<ShapeNode<?>, ConnectorNode<?>> layout;
 
@@ -77,17 +77,17 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 
 	public TreeLayoutManagerImpl() {
 		super();
-		controlAreas = new ArrayList<ControlArea<?>>();
-		fixedRowHeights = new HashMap<Integer, Double>();
+		controlAreas = new ArrayList<>();
+		fixedRowHeights = new HashMap<>();
 	}
 
 	@Override
 	protected TreeLayout<ShapeNode<?>, ConnectorNode<?>> buildLayout() {
-		layout = new DianaTreeLayout<ShapeNode<?>, ConnectorNode<?>>(getForest(), getSpacingX(), getSpacingY(), getBorderX(), getBorderY());
+		layout = new DianaTreeLayout<>(getForest(), getSpacingX(), getSpacingY(), getBorderX(), getBorderY());
 		// layout.setSize(new Dimension((int) getContainerNode().getWidth(), (int) getContainerNode().getHeight()));
 
-		layoutPositions = new HashMap<ShapeNode<?>, FGERectangle>();
-		rowHeights = new HashMap<Integer, Double>();
+		layoutPositions = new HashMap<>();
+		rowHeights = new HashMap<>();
 
 		for (Integer i : getLayout().getVerticesByRows().keySet()) {
 			double height = getLayout().getSpacingY();
@@ -121,15 +121,15 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 		double h = 0;
 		for (int i = 0; i < getLayout().getVerticesByRows().size(); i++) {
 			switch (getVerticalAlignment()) {
-			case TOP:
-				controlAreas.add(new TreeBaseLineAdjustingArea(this, i, h));
-				break;
-			case MIDDLE:
-				controlAreas.add(new TreeBaseLineAdjustingArea(this, i, h + getRowHeight(i) / 2));
-				break;
-			case BOTTOM:
-				controlAreas.add(new TreeBaseLineAdjustingArea(this, i, h + getRowHeight(i)));
-				break;
+				case TOP:
+					controlAreas.add(new TreeBaseLineAdjustingArea(this, i, h));
+					break;
+				case MIDDLE:
+					controlAreas.add(new TreeBaseLineAdjustingArea(this, i, h + getRowHeight(i) / 2));
+					break;
+				case BOTTOM:
+					controlAreas.add(new TreeBaseLineAdjustingArea(this, i, h + getRowHeight(i)));
+					break;
 			}
 			h += getRowHeight(i);
 		}
@@ -196,27 +196,27 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 		if (bounds != null) {
 
 			switch (getHorizontalAlignment()) {
-			case CENTER:
-				x = bounds.getCenter().getX() - node.getWidth() / 2 - node.getBorder().getLeft();
-				break;
-			case LEFT:
-				x = bounds.getX() - node.getBorder().getLeft();
-				break;
-			case RIGHT:
-				x = bounds.getX() + bounds.getWidth() - node.getWidth() - node.getBorder().getLeft();
-				break;
+				case CENTER:
+					x = bounds.getCenter().getX() - node.getWidth() / 2 /*- node.getBorder().getLeft()*/;
+					break;
+				case LEFT:
+					x = bounds.getX() /*- node.getBorder().getLeft()*/;
+					break;
+				case RIGHT:
+					x = bounds.getX() + bounds.getWidth() - node.getWidth() /*- node.getBorder().getLeft()*/;
+					break;
 			}
 
 			switch (getVerticalAlignment()) {
-			case MIDDLE:
-				y = bounds.getCenter().getY() - node.getHeight() / 2 - node.getBorder().getTop();
-				break;
-			case TOP:
-				y = bounds.getY() - node.getBorder().getTop();
-				break;
-			case BOTTOM:
-				y = bounds.getY() + bounds.getHeight() - node.getHeight() - node.getBorder().getTop();
-				break;
+				case MIDDLE:
+					y = bounds.getCenter().getY() - node.getHeight() / 2 /*- node.getBorder().getTop()*/;
+					break;
+				case TOP:
+					y = bounds.getY() /*- node.getBorder().getTop()*/;
+					break;
+				case BOTTOM:
+					y = bounds.getY() + bounds.getHeight() - node.getHeight() /*- node.getBorder().getTop()*/;
+					break;
 			}
 
 		}
@@ -240,13 +240,16 @@ public abstract class TreeLayoutManagerImpl<O> extends TreeBasedLayoutManagerImp
 		if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.SPACING_X_KEY)) {
 			invalidate();
 			doLayout(true);
-		} else if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.SPACING_Y_KEY)) {
+		}
+		else if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.SPACING_Y_KEY)) {
 			invalidate();
 			doLayout(true);
-		} else if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.BORDER_X_KEY)) {
+		}
+		else if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.BORDER_X_KEY)) {
 			invalidate();
 			doLayout(true);
-		} else if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.BORDER_Y_KEY)) {
+		}
+		else if (evt.getPropertyName().equals(TreeLayoutManagerSpecification.BORDER_Y_KEY)) {
 			invalidate();
 			doLayout(true);
 		}

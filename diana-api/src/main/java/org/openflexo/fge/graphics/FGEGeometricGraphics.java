@@ -43,6 +43,7 @@ import org.openflexo.fge.GeometricGraphicalRepresentation;
 
 public interface FGEGeometricGraphics extends FGEGraphics {
 
+	@Override
 	public abstract GeometricGraphicalRepresentation getGraphicalRepresentation();
 
 }

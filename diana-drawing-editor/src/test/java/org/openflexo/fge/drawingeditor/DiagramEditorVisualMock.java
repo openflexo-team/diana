@@ -49,16 +49,10 @@ import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
 
 public class DiagramEditorVisualMock {
-	private static final Logger	logger	= FlexoLogger.getLogger(LaunchDiagramEditor.class.getPackage().getName());
+	private static final Logger logger = FlexoLogger.getLogger(LaunchDiagramEditor.class.getPackage().getName());
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				init();
-			}
-		});
+		SwingUtilities.invokeLater(() -> init());
 	}
 
 	private static void init() {
@@ -70,7 +64,7 @@ public class DiagramEditorVisualMock {
 			final String msg = "Error during initialization";
 			logger.log(Level.SEVERE, msg, e);
 		}
-		FlexoLocalization.initWith(DiagramEditorApplication.LOCALIZATION);
+		FlexoLocalization.initWith(DiagramEditorApplication.DIAGRAM_EDITOR_LOCALIZATION);
 
 		// StringEncoder.getDefaultInstance()._addConverter(DataBinding.CONVERTER);
 

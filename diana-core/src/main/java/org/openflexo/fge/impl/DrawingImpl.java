@@ -47,6 +47,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.Drawing;
+import org.openflexo.fge.FGELayoutManager;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.GRBinding;
 import org.openflexo.fge.GRBinding.ConnectorGRBinding;
@@ -61,12 +62,15 @@ import org.openflexo.fge.GRProvider.GeometricGRProvider;
 import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.GraphicalRepresentation;
-import org.openflexo.fge.animation.Animable;
 import org.openflexo.fge.animation.Animation;
 import org.openflexo.fge.graph.FGEGraph;
 import org.openflexo.fge.notifications.DrawingTreeNodeHierarchyRebuildEnded;
 import org.openflexo.fge.notifications.DrawingTreeNodeHierarchyRebuildStarted;
 import org.openflexo.fge.notifications.FGENotification;
+import org.openflexo.model.factory.ProxyMethodHandler;
+import org.openflexo.model.undo.UndoManager;
+
+import javassist.util.proxy.ProxyObject;
 
 /**
  * This class is the default implementation for all objects representing a graphical drawing, that is a complex graphical representation
@@ -77,7 +81,7 @@ import org.openflexo.fge.notifications.FGENotification;
  * @param <M>
  *            Type of object which is handled as root object
  */
-public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
+public abstract class DrawingImpl<M> implements Drawing<M> {
 
 	static final Logger logger = Logger.getLogger(DrawingImpl.class.getPackage().getName());
 
@@ -90,7 +94,7 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 
 	private boolean editable = true;
 
-	private final FGEModelFactory factory;
+	protected final FGEModelFactory factory;
 	private final PersistenceMode persistenceMode;
 
 	private final PropertyChangeSupport pcSupport;
@@ -100,8 +104,8 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 		this.model = model;
 		this.factory = factory;
 		this.persistenceMode = persistenceMode;
-		nodes = new Hashtable<GRBinding<?, ?>, Hashtable<Object, DrawingTreeNode<?, ?>>>();
-		pendingConnectors = new ArrayList<PendingConnector<?>>();
+		nodes = new Hashtable<>();
+		pendingConnectors = new ArrayList<>();
 		init();
 	}
 
@@ -139,11 +143,12 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 
 	private RootNodeImpl<M> buildRoot() {
 		if (drawingBinding != null) {
-			RootNodeImpl<M> _root = new RootNodeImpl<M>(this, model, drawingBinding);
+			RootNodeImpl<M> _root = new RootNodeImpl<>(this, model, drawingBinding);
 			Hashtable<Object, DrawingTreeNode<?, ?>> hash = retrieveHash(drawingBinding);
 			hash.put(model, _root);
 			return _root;
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -151,7 +156,7 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 	protected Hashtable<Object, DrawingTreeNode<?, ?>> retrieveHash(GRBinding<?, ?> grBinding) {
 		Hashtable<Object, DrawingTreeNode<?, ?>> hash = nodes.get(grBinding);
 		if (hash == null) {
-			hash = new Hashtable<Object, DrawingTreeNode<?, ?>>();
+			hash = new Hashtable<>();
 			nodes.put(grBinding, hash);
 		}
 		return hash;
@@ -165,58 +170,58 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 
 	@Override
 	public DrawingGRBinding<M> bindDrawing(Class<M> drawingClass, String name, DrawingGRProvider<M> grProvider) {
-		return drawingBinding = new DrawingGRBinding<M>(name, drawingClass, grProvider);
+		return drawingBinding = new DrawingGRBinding<>(name, drawingClass, grProvider);
 	}
 
 	@Override
 	public <R> ShapeGRBinding<R> bindShape(Class<R> shapeObjectClass, String name, ShapeGRProvider<R> grProvider) {
-		ShapeGRBinding<R> returned = new ShapeGRBinding<R>(name, shapeObjectClass, grProvider);
+		ShapeGRBinding<R> returned = new ShapeGRBinding<>(name, shapeObjectClass, grProvider);
 		return returned;
 	}
 
 	@Override
 	public <R> ShapeGRBinding<R> bindShape(Class<R> shapeObjectClass, String name, ContainerGRBinding<?, ?> parentBinding,
 			ShapeGRProvider<R> grProvider) {
-		ShapeGRBinding<R> returned = new ShapeGRBinding<R>(name, shapeObjectClass, grProvider);
+		ShapeGRBinding<R> returned = new ShapeGRBinding<>(name, shapeObjectClass, grProvider);
 		return returned;
 	}
 
 	@Override
 	public <R> GeometricGRBinding<R> bindGeometric(Class<R> geometricObjectClass, String name, GeometricGRProvider<R> grProvider) {
-		GeometricGRBinding<R> returned = new GeometricGRBinding<R>(name, geometricObjectClass, grProvider);
+		GeometricGRBinding<R> returned = new GeometricGRBinding<>(name, geometricObjectClass, grProvider);
 		return returned;
 	}
 
 	@Override
 	public <R> GeometricGRBinding<R> bindGeometric(Class<R> geometricObjectClass, String name, ContainerGRBinding<?, ?> parentBinding,
 			GeometricGRProvider<R> grProvider) {
-		GeometricGRBinding<R> returned = new GeometricGRBinding<R>(name, geometricObjectClass, grProvider);
+		GeometricGRBinding<R> returned = new GeometricGRBinding<>(name, geometricObjectClass, grProvider);
 		return returned;
 	}
 
 	@Override
 	public <R> ConnectorGRBinding<R> bindConnector(Class<R> connectorObjectClass, String name, ConnectorGRProvider<R> grProvider) {
-		ConnectorGRBinding<R> returned = new ConnectorGRBinding<R>(name, connectorObjectClass, grProvider);
+		ConnectorGRBinding<R> returned = new ConnectorGRBinding<>(name, connectorObjectClass, grProvider);
 		return returned;
 	}
 
 	@Override
 	public <R> ConnectorGRBinding<R> bindConnector(Class<R> connectorObjectClass, String name, ShapeGRBinding<?> fromBinding,
 			ShapeGRBinding<?> toBinding, ConnectorGRProvider<R> grProvider) {
-		ConnectorGRBinding<R> returned = new ConnectorGRBinding<R>(name, connectorObjectClass, grProvider);
+		ConnectorGRBinding<R> returned = new ConnectorGRBinding<>(name, connectorObjectClass, grProvider);
 		return returned;
 	}
 
 	@Override
 	public <R> ConnectorGRBinding<R> bindConnector(Class<R> connectorObjectClass, String name, ShapeGRBinding<?> fromBinding,
 			ShapeGRBinding<?> toBinding, ContainerGRBinding<?, ?> parentBinding, ConnectorGRProvider<R> grProvider) {
-		ConnectorGRBinding<R> returned = new ConnectorGRBinding<R>(name, connectorObjectClass, grProvider);
+		ConnectorGRBinding<R> returned = new ConnectorGRBinding<>(name, connectorObjectClass, grProvider);
 		return returned;
 	}
 
 	@Override
 	public <G extends FGEGraph> GraphGRBinding<G> bindGraph(Class<G> graphClass, String name, ShapeGRProvider<G> grProvider) {
-		GraphGRBinding<G> returned = new GraphGRBinding<G>(name, graphClass, grProvider);
+		GraphGRBinding<G> returned = new GraphGRBinding<>(name, graphClass, grProvider);
 		return returned;
 	}
 
@@ -370,22 +375,47 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 		return null;
 	}
 
-	@Deprecated
-	public void setChanged() {
-	}
-
 	public void notifyObservers(FGENotification notification) {
 		getPropertyChangeSupport().firePropertyChange(notification.propertyName(), notification.oldValue, notification.newValue);
 	}
 
+	private boolean isUpdatingGraphicalObjectsHierarchy = false;
+	private final List<FGELayoutManager<?, ?>> layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating = new ArrayList<>();
+
+	@Override
+	public boolean isUpdatingGraphicalObjectsHierarchy() {
+		return isUpdatingGraphicalObjectsHierarchy;
+	}
+
 	private void fireGraphicalObjectHierarchyRebuildStarted() {
-		setChanged();
+		isUpdatingGraphicalObjectsHierarchy = true;
+		layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating.clear();
 		notifyObservers(new DrawingTreeNodeHierarchyRebuildStarted(this));
 	}
 
 	private void fireGraphicalObjectHierarchyRebuildEnded() {
-		setChanged();
+		isUpdatingGraphicalObjectsHierarchy = false;
+
+		// Update control areas for all geometric nodes
+		for (DrawingTreeNode<?, ?> dtn : getRoot().getChildNodes()) {
+			if (dtn instanceof GeometricNode) {
+				((GeometricNode<?>) dtn).getControlAreas();
+			}
+		}
+
+		for (FGELayoutManager<?, ?> layoutManager : layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating) {
+			layoutManager.invalidate();
+			layoutManager.doLayout(true);
+		}
+		layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating.clear();
 		notifyObservers(new DrawingTreeNodeHierarchyRebuildEnded(this));
+	}
+
+	@Override
+	public void invokeLayoutAfterGraphicalObjectsHierarchyUpdating(FGELayoutManager<?, ?> layoutManager) {
+		if (!layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating.contains(layoutManager)) {
+			layoutManagersToRunAfterGraphicalObjectsHierarchyUpdating.add(layoutManager);
+		}
 	}
 
 	/**
@@ -397,8 +427,13 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 	@Override
 	public final void updateGraphicalObjectsHierarchy() {
 
+		if (logger.isLoggable(Level.FINE)) {
+			System.out.println("UPDATE HIERARCHY for ROOT " + this);
+		}
+
 		fireGraphicalObjectHierarchyRebuildStarted();
 		updateGraphicalObjectsHierarchy(getRoot());
+
 		fireGraphicalObjectHierarchyRebuildEnded();
 
 	}
@@ -412,12 +447,21 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 	 */
 	@Override
 	public final <O> void updateGraphicalObjectsHierarchy(O drawable) {
-		fireGraphicalObjectHierarchyRebuildStarted();
+
+		if (logger.isLoggable(Level.FINE)) {
+			logger.fine("UPDATE HIERARCHY for DRAWABLE " + drawable);
+		}
+
+		// SGU: We commented this out because this must be done if and only if this is the root node
+		// fireGraphicalObjectHierarchyRebuildStarted();
+
 		for (DrawingTreeNode<O, ?> dtn : getDrawingTreeNodes(drawable)) {
 			// dtn.invalidate();
 			updateGraphicalObjectsHierarchy(dtn);
 		}
-		fireGraphicalObjectHierarchyRebuildEnded();
+
+		// SGU: We commented this out because this must be done if and only if this is the root node
+		// fireGraphicalObjectHierarchyRebuildEnded();
 	}
 
 	/**
@@ -446,7 +490,7 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 
 	@SuppressWarnings({ "unchecked" })
 	private <O> List<DrawingTreeNode<O, ?>> getDrawingTreeNodes(O drawable) {
-		List<DrawingTreeNode<O, ?>> returned = new ArrayList<DrawingTreeNode<O, ?>>();
+		List<DrawingTreeNode<O, ?>> returned = new ArrayList<>();
 		for (GRBinding<?, ?> grBinding : nodes.keySet()) {
 			if (getDrawingTreeNode(drawable, (GRBinding<O, ?>) grBinding) != null) {
 				returned.add(getDrawingTreeNode(drawable, (GRBinding<O, ?>) grBinding));
@@ -460,7 +504,8 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 		logger.info("Graphical object hierarchy");
 		if (getRoot() != null) {
 			_printGraphicalObjectHierarchy((RootNodeImpl<?>) getRoot(), 0);
-		} else {
+		}
+		else {
 			logger.info(" > Root node is null !");
 		}
 	}
@@ -527,9 +572,9 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 			// System.out.println("Updating " + dtn);
 			GRBinding<O, ? extends GraphicalRepresentation> grBinding = dtn.getGRBinding();
 
-			List<DrawingTreeNode<?, ?>> createdNodes = new ArrayList<DrawingTreeNode<?, ?>>();
-			List<DrawingTreeNode<?, ?>> deletedNodes = new ArrayList<DrawingTreeNode<?, ?>>();
-			List<DrawingTreeNode<?, ?>> updatedNodes = new ArrayList<DrawingTreeNode<?, ?>>();
+			List<DrawingTreeNode<?, ?>> createdNodes = new ArrayList<>();
+			List<DrawingTreeNode<?, ?>> deletedNodes = new ArrayList<>();
+			List<DrawingTreeNode<?, ?>> updatedNodes = new ArrayList<>();
 
 			if (dtn instanceof ContainerNode) {
 				List<? extends DrawingTreeNode<?, ?>> childNodes = ((ContainerNode<?, ?>) dtn).getChildNodes();
@@ -596,18 +641,20 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 			}
 
 			// Try now to handle pending connectors
-			for (PendingConnector<?> pendingConnector : new ArrayList<PendingConnector<?>>(pendingConnectors)) {
+			for (PendingConnector<?> pendingConnector : new ArrayList<>(pendingConnectors)) {
 				if (pendingConnector.tryToResolve(this)) {
 					// System.out.println("Resolved " + pendingConnector);
 					pendingConnectors.remove(pendingConnector);
-				} else {
+				}
+				else {
 					// System.out.println("I cannot resolve " + pendingConnector);
 				}
 			}
 
 			((DrawingTreeNodeImpl<?, ?>) dtn).validate();
 
-		} else {
+		}
+		else {
 			if (dtn instanceof ContainerNode) {
 				for (DrawingTreeNode<?, ?> child : ((ContainerNode<?, ?>) dtn).getChildNodes()) {
 					updateGraphicalObjectsHierarchy(child);
@@ -616,7 +663,7 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 		}
 	}
 
-	private <O> boolean deleteNode(DrawingTreeNode<?, ?> node) {
+	private static <O> boolean deleteNode(DrawingTreeNode<?, ?> node) {
 		// ContainerNode<?, ?> parentNode = node.getParentNode();
 		return node.delete();
 		/*if (parentNode != null) {
@@ -651,7 +698,7 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 			return null;
 		}
 
-		ShapeNodeImpl<O> returned = new ShapeNodeImpl<O>(this, drawable, binding, (ContainerNodeImpl<?, ?>) parentNode);
+		ShapeNodeImpl<O> returned = new ShapeNodeImpl<>(this, drawable, binding, (ContainerNodeImpl<?, ?>) parentNode);
 		parentNode.addChild(returned);
 
 		// Now start to observe drawable for drawing structural modifications
@@ -675,7 +722,7 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 			return null;
 		}
 
-		GraphNodeImpl<G> returned = new GraphNodeImpl<G>(this, drawable, binding, (ContainerNodeImpl<?, ?>) parentNode);
+		GraphNodeImpl<G> returned = new GraphNodeImpl<>(this, drawable, binding, (ContainerNodeImpl<?, ?>) parentNode);
 		parentNode.addChild(returned);
 
 		// Now start to observe drawable for drawing structural modifications
@@ -700,7 +747,7 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 			return null;
 		}
 
-		ConnectorNodeImpl<O> returned = new ConnectorNodeImpl<O>(this, drawable, binding, (ContainerNodeImpl<?, ?>) parentNode);
+		ConnectorNodeImpl<O> returned = new ConnectorNodeImpl<>(this, drawable, binding, (ContainerNodeImpl<?, ?>) parentNode);
 		returned.setStartNode((ShapeNodeImpl<?>) fromNode);
 		returned.setEndNode((ShapeNodeImpl<?>) toNode);
 
@@ -746,9 +793,9 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 		ContainerNode<?, ?> parentNode = (ContainerNode<?, ?>) getDrawingTreeNode(parentNodeIdentifier);
 		// ShapeNode<?> startNode = (ShapeNode<?>) getDrawingTreeNode(startNodeIdentifier);
 		// ShapeNode<?> endNode = (ShapeNode<?>) getDrawingTreeNode(endNodeIdentifier);
-		ConnectorNodeImpl<O> connectorNode = new ConnectorNodeImpl<O>(this, drawable, binding, (ContainerNodeImpl<?, ?>) parentNode);
+		ConnectorNodeImpl<O> connectorNode = new ConnectorNodeImpl<>(this, drawable, binding, (ContainerNodeImpl<?, ?>) parentNode);
 		// ConnectorNode<O> connectorNode = createNewConnector(parentNode, binding, drawable, startNode, endNode);
-		PendingConnector<O> returned = new PendingConnectorImpl<O>(connectorNode, parentNodeIdentifier, startNodeIdentifier,
+		PendingConnector<O> returned = new PendingConnectorImpl<>(connectorNode, parentNodeIdentifier, startNodeIdentifier,
 				endNodeIdentifier);
 		pendingConnectors.add(returned);
 		System.out.println("Nouveau pending connector, " + returned);
@@ -765,7 +812,7 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 			return null;
 		}
 
-		GeometricNodeImpl<O> returned = new GeometricNodeImpl<O>(this, drawable, binding, (ContainerNodeImpl<?, ?>) parentNode);
+		GeometricNodeImpl<O> returned = new GeometricNodeImpl<>(this, drawable, binding, (ContainerNodeImpl<?, ?>) parentNode);
 
 		parentNode.addChild(returned);
 
@@ -785,6 +832,8 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 		return "Drawing of " + model;
 	}
 
+	private boolean isDeleting = false;
+
 	/**
 	 * Delete this {@link Drawing} implementation, by deleting all {@link DrawingTreeNode}
 	 */
@@ -794,9 +843,12 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 		if (logger.isLoggable(Level.INFO)) {
 			logger.info("deleting " + this);
 		}
+
+		isDeleting = true;
+
 		if (nodes != null) {
-			List<GRBinding> grBindingsToDelete = new ArrayList<GRBinding>(nodes.keySet());
-			List<GRBinding> connectorGRBindingsToDelete = new ArrayList<GRBinding>();
+			List<GRBinding> grBindingsToDelete = new ArrayList<>(nodes.keySet());
+			List<GRBinding> connectorGRBindingsToDelete = new ArrayList<>();
 
 			// Retrieve connectors to be deleted
 			for (GRBinding grBinding : grBindingsToDelete) {
@@ -817,13 +869,21 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 
 			nodes.clear();
 		}
+
+		isDeleting = false;
+
 		model = null;
+	}
+
+	@Override
+	public boolean isDeleting() {
+		return isDeleting;
 	}
 
 	// Delete nodes
 	private void deleteNodes(List<GRBinding> grBindingsToDelete) {
-		for (GRBinding grBinding : grBindingsToDelete) {
-			for (DrawingTreeNode<?, ?> dtn : new ArrayList<DrawingTreeNode<?, ?>>(retrieveHash(grBinding).values())) {
+		for (GRBinding<?, ?> grBinding : grBindingsToDelete) {
+			for (DrawingTreeNode<?, ?> dtn : new ArrayList<>(retrieveHash(grBinding).values())) {
 				dtn.delete();
 			}
 		}
@@ -860,6 +920,17 @@ public abstract class DrawingImpl<M> implements Drawing<M>, Animable {
 	@Override
 	public boolean isAnimationRunning() {
 		return isAnimationRunning;
+	}
+
+	@Override
+	public UndoManager getUndoManager() {
+		if (getModel() instanceof ProxyObject) {
+			ProxyMethodHandler<?> proxyMethodHandler = (ProxyMethodHandler<?>) ((ProxyObject) getModel()).getHandler();
+			if (proxyMethodHandler != null) {
+				return proxyMethodHandler.getUndoManager();
+			}
+		}
+		return null;
 	}
 
 }

@@ -60,16 +60,18 @@ import org.openflexo.fge.GRProvider.ShapeGRProvider;
 import org.openflexo.fge.GRStructureVisitor;
 import org.openflexo.fge.ShadowStyle;
 import org.openflexo.fge.ShapeGraphicalRepresentation;
+import org.openflexo.fge.control.AbstractDianaEditor;
 import org.openflexo.fge.impl.DrawingImpl;
 import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.fge.swing.JDianaViewer;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.view.widget.FIBShadowStyleSelector;
-import org.openflexo.fib.FIBLibrary;
-import org.openflexo.fib.controller.FIBController;
-import org.openflexo.fib.model.FIBComponent;
-import org.openflexo.fib.model.FIBCustom;
-import org.openflexo.fib.view.FIBView;
+import org.openflexo.gina.controller.FIBController;
+import org.openflexo.gina.model.FIBComponent;
+import org.openflexo.gina.model.widget.FIBCustom;
+import org.openflexo.gina.swing.view.JFIBView;
+import org.openflexo.gina.swing.view.SwingViewFactory;
+import org.openflexo.gina.view.GinaViewFactory;
 import org.openflexo.swing.CustomPopup;
 
 /**
@@ -79,7 +81,7 @@ import org.openflexo.swing.CustomPopup;
  * 
  */
 @SuppressWarnings("serial")
-public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements FIBShadowStyleSelector<JFIBShadowStyleSelector> {
+public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements FIBShadowStyleSelector {
 
 	static final Logger logger = Logger.getLogger(JFIBShadowStyleSelector.class.getPackage().getName());
 
@@ -125,7 +127,8 @@ public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements
 		// WARNING: we need here to clone to keep track back of previous data !!!
 		if (oldValue != null) {
 			_revertValue = (ShadowStyle) oldValue.clone();
-		} else {
+		}
+		else {
 			_revertValue = null;
 		}
 		if (logger.isLoggable(Level.FINE)) {
@@ -158,15 +161,15 @@ public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements
 
 	public class ShadowStyleDetailsPanel extends ResizablePanel {
 		private FIBComponent fibComponent;
-		private FIBView<?, ?, ?> fibView;
+		private JFIBView<?, ?> fibView;
 		private CustomFIBController controller;
 
 		protected ShadowStyleDetailsPanel(ShadowStyle shadowStyle) {
 			super();
 
-			fibComponent = FIBLibrary.instance().retrieveFIBComponent(FIB_FILE, true);
-			controller = new CustomFIBController(fibComponent);
-			fibView = controller.buildView(fibComponent);
+			fibComponent = AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(FIB_FILE, true);
+			controller = new CustomFIBController(fibComponent, SwingViewFactory.INSTANCE);
+			fibView = (JFIBView<?, ?>) controller.buildView(fibComponent, null, true);
 
 			controller.setDataObject(shadowStyle);
 
@@ -193,8 +196,8 @@ public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements
 		}
 
 		public class CustomFIBController extends FIBController {
-			public CustomFIBController(FIBComponent component) {
-				super(component);
+			public CustomFIBController(FIBComponent component, GinaViewFactory<?> viewFactory) {
+				super(component, viewFactory);
 			}
 
 			public void apply() {
@@ -323,18 +326,19 @@ public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements
 			drawingGR.setHeight(19);
 			drawingGR.setDrawWorkingArea(false);
 			shapeGR = factory.makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
-			shapeGR.setWidth(130);
-			shapeGR.setHeight(130);
+			shapeGR.setWidth(23);
+			shapeGR.setHeight(12);
 			shapeGR.setAllowToLeaveBounds(true);
-			shapeGR.setX(-130);
-			shapeGR.setY(-143);
-			shapeGR.setForeground(factory.makeForegroundStyle(Color.BLACK));
+			shapeGR.setX(0);
+			shapeGR.setY(0);
+			// shapeGR.setForeground(factory.makeForegroundStyle(Color.BLACK));
+			shapeGR.setForeground(factory.makeNoneForegroundStyle());
 			shapeGR.setBackground(factory.makeColoredBackground(new Color(252, 242, 175)));
 
 			shapeGR.setIsSelectable(false);
 			shapeGR.setIsFocusable(false);
 			shapeGR.setIsReadOnly(true);
-			shapeGR.setBorder(factory.makeShapeBorder(20, 20, 20, 20));
+			// shapeGR.setBorder(factory.makeShapeBorder(20, 20, 20, 20));
 
 			update();
 
@@ -357,11 +361,6 @@ public class JFIBShadowStyleSelector extends CustomPopup<ShadowStyle> implements
 			shapeGR.setShadowStyle(getEditedObject());
 		}
 
-	}
-
-	@Override
-	public JFIBShadowStyleSelector getJComponent() {
-		return this;
 	}
 
 	@Override

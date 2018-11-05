@@ -99,8 +99,8 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	public static final String HAS_FOCUSED_FOREGROUND_KEY = "hasFocusedForeground";
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String HAS_FOCUSED_BACKGROUND_KEY = "hasFocusedBackground";
-	@PropertyIdentifier(type = ShapeBorder.class)
-	public static final String BORDER_KEY = "border";
+	// @PropertyIdentifier(type = ShapeBorder.class)
+	// public static final String BORDER_KEY = "border";
 	@PropertyIdentifier(type = ShapeType.class)
 	public static final String SHAPE_TYPE_KEY = "shapeType";
 	@PropertyIdentifier(type = ShapeSpecification.class)
@@ -120,16 +120,12 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	public static final String ALLOW_TO_LEAVE_BOUNDS_KEY = "allowToLeaveBounds";
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String ADAPT_BOUNDS_TO_CONTENTS_KEY = "adaptBoundsToContents";
-	@Deprecated
 	@PropertyIdentifier(type = DataBinding.class)
 	public static final String X_CONSTRAINTS_KEY = "xConstraints";
-	@Deprecated
 	@PropertyIdentifier(type = DataBinding.class)
 	public static final String Y_CONSTRAINTS_KEY = "yConstraints";
-	@Deprecated
 	@PropertyIdentifier(type = DataBinding.class)
 	public static final String WIDTH_CONSTRAINTS_KEY = "widthConstraints";
-	@Deprecated
 	@PropertyIdentifier(type = DataBinding.class)
 	public static final String HEIGHT_CONSTRAINTS_KEY = "heightConstraints";
 
@@ -206,46 +202,46 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 		UNMOVABLE, RELATIVE_TO_PARENT, X_FIXED, Y_FIXED, AREA_CONSTRAINED;
 	}
 
-	@ModelEntity
+	/*@ModelEntity
 	@XMLElement(xmlTag = "ShapeBorder")
 	public static interface ShapeBorder extends FGEObject {
-
+	
 		public static final String TOP = "top";
 		public static final String BOTTOM = "bottom";
 		public static final String LEFT = "left";
 		public static final String RIGHT = "right";
-
+	
 		@Getter(value = TOP, defaultValue = "20")
 		@XMLAttribute
 		public int getTop();
-
+	
 		@Setter(value = TOP)
 		public void setTop(int top);
-
+	
 		@Getter(value = BOTTOM, defaultValue = "20")
 		@XMLAttribute
 		public int getBottom();
-
+	
 		@Setter(value = BOTTOM)
 		public void setBottom(int bottom);
-
+	
 		@Getter(value = LEFT, defaultValue = "20")
 		@XMLAttribute
 		public int getLeft();
-
+	
 		@Setter(value = LEFT)
 		public void setLeft(int left);
-
+	
 		@Getter(value = RIGHT, defaultValue = "20")
 		@XMLAttribute
 		public int getRight();
-
+	
 		@Setter(value = RIGHT)
 		public void setRight(int right);
-
+	
 		// public ShapeBorder clone();
-
-	}
+	
+	}*/
 
 	public static GRProperty<Double> X = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, X_KEY, Double.TYPE);
 	public static GRProperty<Double> Y = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, Y_KEY, Double.TYPE);
@@ -277,8 +273,8 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 			Double.class);
 	public static GRProperty<Double> RELATIVE_TEXT_Y = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, RELATIVE_TEXT_Y_KEY,
 			Double.class);
-	public static GRProperty<ShapeBorder> BORDER = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, BORDER_KEY,
-			ShapeBorder.class);
+	// public static GRProperty<ShapeBorder> BORDER = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, BORDER_KEY,
+	// ShapeBorder.class);
 	public static GRProperty<ShapeSpecification> SHAPE = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			SHAPE_SPECIFICATION_KEY, ShapeSpecification.class);
 	public static GRProperty<ShapeType> SHAPE_TYPE = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, SHAPE_TYPE_KEY,
@@ -318,7 +314,7 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	@Getter(value = WIDTH_KEY, defaultValue = "60.0")
 	@XMLAttribute
 	public double getWidth();
-
+	
 	@Override
 	@Getter(value = HEIGHT_KEY, defaultValue = "20.0")
 	@XMLAttribute
@@ -419,15 +415,6 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	@Setter(value = HAS_FOCUSED_BACKGROUND_KEY)
 	public void setHasFocusedBackground(boolean aFlag);
 
-	@Getter(value = BORDER_KEY)
-	@Embedded
-	@CloningStrategy(StrategyType.CLONE)
-	@XMLElement
-	public ShapeBorder getBorder();
-
-	@Setter(value = BORDER_KEY)
-	public void setBorder(ShapeBorder border);
-
 	@Getter(value = SHAPE_SPECIFICATION_KEY)
 	@XMLElement
 	@Embedded
@@ -481,39 +468,31 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	@Setter(value = ADAPT_BOUNDS_TO_CONTENTS_KEY)
 	public void setAdaptBoundsToContents(boolean adaptBoundsToContents);
 
-	@Deprecated
 	@Getter(value = X_CONSTRAINTS_KEY, isStringConvertable = true)
 	@XMLAttribute
 	public DataBinding<Double> getXConstraints();
 
-	@Deprecated
 	@Setter(value = X_CONSTRAINTS_KEY)
 	public void setXConstraints(DataBinding<Double> xConstraints);
 
-	@Deprecated
 	@Getter(value = Y_CONSTRAINTS_KEY, isStringConvertable = true)
 	@XMLAttribute
 	public DataBinding<Double> getYConstraints();
 
-	@Deprecated
 	@Setter(value = Y_CONSTRAINTS_KEY)
 	public void setYConstraints(DataBinding<Double> yConstraints);
 
-	@Deprecated
 	@Getter(value = WIDTH_CONSTRAINTS_KEY, isStringConvertable = true)
 	@XMLAttribute
 	public DataBinding<Double> getWidthConstraints();
 
-	@Deprecated
 	@Setter(value = WIDTH_CONSTRAINTS_KEY)
 	public void setWidthConstraints(DataBinding<Double> widthConstraints);
 
-	@Deprecated
 	@Getter(value = HEIGHT_CONSTRAINTS_KEY, isStringConvertable = true)
 	@XMLAttribute
 	public DataBinding<Double> getHeightConstraints();
 
-	@Deprecated
 	@Setter(value = HEIGHT_CONSTRAINTS_KEY)
 	public void setHeightConstraints(DataBinding<Double> heightConstraints);
 
@@ -586,23 +565,23 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	// public void notifyShapeNeedsToBeRedrawn();
 
 	/*public void notifyObjectMoved();
-
+	
 	public void notifyObjectMoved(FGEPoint oldLocation);
-
+	
 	public void notifyObjectWillMove();
-
+	
 	public void notifyObjectHasMoved();
-
+	
 	public boolean isMoving();
-
+	
 	public void notifyObjectResized();
-
+	
 	public void notifyObjectResized(FGEDimension oldSize);
-
+	
 	public void notifyObjectWillResize();
-
+	
 	public void notifyObjectHasResized();
-
+	
 	public boolean isResizing();*/
 
 	// public double getUnscaledViewWidth();
@@ -643,11 +622,11 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	// public boolean isPointInsideShape(FGEPoint aPoint);
 
 	/*public ShapeDecorationPainter getDecorationPainter();
-
+	
 	public void setDecorationPainter(ShapeDecorationPainter aPainter);
-
+	
 	public ShapePainter getShapePainter();
-
+	
 	public void setShapePainter(ShapePainter aPainter);*/
 
 	// Override for a custom view management

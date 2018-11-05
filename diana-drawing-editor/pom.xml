@@ -4,10 +4,10 @@
 	<parent>
 		<groupId>org.openflexo</groupId>
 		<artifactId>diana</artifactId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.4.1</version>
 	</parent>
 	<artifactId>diana-drawing-editor</artifactId>
-	<name>GUI :: Diana-DrawingEditor</name>
+	<name>Diana-DrawingEditor</name>
 	<build>
 		<plugins>
 			<plugin>
@@ -29,9 +29,7 @@
         
 		<dependency>
 			<groupId>org.openflexo</groupId>
-			<artifactId>flexoutils</artifactId>
-			<classifier>tests</classifier>
-			<scope>test</scope>
+			<artifactId>testutils</artifactId>
 		</dependency>
          <!--  <dependency>
                 <groupId>org.dockingframes</groupId>

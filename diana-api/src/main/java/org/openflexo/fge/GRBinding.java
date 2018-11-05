@@ -94,10 +94,12 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 	protected GRBinding(String name, Class<?> drawableClass, GRProvider<O, GR> grProvider) {
 		this.name = name;
 		this.grProvider = grProvider;
-		walkers = new ArrayList<GRStructureVisitor<O>>();
-		dynamicPropertyValues = new Hashtable<GRProperty, DynamicPropertyValue<?>>();
+		walkers = new ArrayList<>();
+		dynamicPropertyValues = new Hashtable<>();
 		bindingModel = new BindingModel();
-		bindingModel.addToBindingVariables(new BindingVariable("drawable", drawableClass));
+		BindingVariable bv = new BindingVariable("drawable", drawableClass);
+		bv.setCacheable(false);
+		bindingModel.addToBindingVariables(bv);
 	}
 
 	public List<GRStructureVisitor<O>> getWalkers() {
@@ -125,7 +127,7 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 		bindingValue.setBindingName(parameter.getName());
 		bindingValue.setDeclaredType(parameter.getType());
 		bindingValue.setBindingDefinitionType(settable ? BindingDefinitionType.GET_SET : BindingDefinitionType.GET);
-		DynamicPropertyValue<T> returned = new DynamicPropertyValue<T>(parameter, bindingValue);
+		DynamicPropertyValue<T> returned = new DynamicPropertyValue<>(parameter, bindingValue);
 		dynamicPropertyValues.put(parameter, returned);
 
 		if (!bindingValue.isValid()) {
@@ -189,7 +191,7 @@ public abstract class GRBinding<O, GR extends GraphicalRepresentation> extends D
 			layoutManagerSpecifications.put(layoutManagerSpec.getIdentifier(), layoutManagerSpec);
 			return layoutManagerSpec;
 		}
-
+		
 		public Map<String, FGELayoutManagerSpecification<?>> getLayoutManagerSpecifications() {
 			return layoutManagerSpecifications;
 		}*/

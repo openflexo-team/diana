@@ -52,7 +52,6 @@ import org.openflexo.fge.graphics.FGEConnectorGraphics;
 
 public interface Connector<CS extends ConnectorSpecification> extends PropertyChangeListener {
 
-	@SuppressWarnings("unchecked")
 	public abstract CS getConnectorSpecification();
 
 	public abstract ConnectorNode<?> getConnectorNode();
@@ -108,20 +107,20 @@ public interface Connector<CS extends ConnectorSpecification> extends PropertyCh
 
 	public boolean isDeleted();
 
-/**
+	/**
 	 * Returns the property value for supplied parameter<br>
-	 * If many Connectors share same ConnectorSpecification (as indicated by {@link Drawing#getPersistenceMode()), do not store value in ConnectorSpecification, but store it in the Connector itself.<br>
-	 * This implies that this value is not persistent (not serializable)
+	 * If many Connectors share same ConnectorSpecification (as indicated by {@link Drawing#getPersistenceMode()), do not store value in
+	 * ConnectorSpecification, but store it in the Connector itself.<br> This implies that this value is not persistent (not serializable)
 	 * 
 	 * @param parameter
 	 * @return
 	 */
 	public <T> T getPropertyValue(GRProperty<T> parameter);
 
-/**
+	/**
 	 * Sets the property value for supplied parameter<br>
-	 * If many Connectors share same ConnectorSpecification (as indicated by {@link Drawing#getPersistenceMode()), do not store value in ConnectorSpecification, but store it in the Connector itself.<br>
-	 * This implies that this value is not persistent (not serializable)
+	 * If many Connectors share same ConnectorSpecification (as indicated by {@link Drawing#getPersistenceMode()), do not store value in
+	 * ConnectorSpecification, but store it in the Connector itself.<br> This implies that this value is not persistent (not serializable)
 	 * 
 	 * @param parameter
 	 * @return

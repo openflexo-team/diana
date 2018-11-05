@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram id="0">
+  <DrawingGraphicalRepresentation id="1" lineWrap="false" adjustMinimalHeightToLabelHeight="true" minimalHeight="0.0" backgroundColor="255,255,255" horizontalTextAlignment="CENTER" maximalHeight="Infinity" transparency="1.0" height="1000.0" isVisible="true" drawControlPointsWhenFocused="true" dimensionConstraints="FREELY_RESIZABLE" isReadOnly="false" adjustMaximalHeightToLabelHeight="false" paragraphAlignment="CENTER" verticalTextAlignment="MIDDLE" adjustMinimalWidthToLabelWidth="true" width="1000.0" layer="0" absoluteTextX="0.0" rectangleSelectingSelectionColor="0,0,255" absoluteTextY="0.0" isResizable="false" selectionColor="0,0,255" isFocusable="true" drawControlPointsWhenSelected="true" isSelectable="true" isLabelEditable="true" focusColor="255,0,0" adjustMaximalWidthToLabelWidth="false" continuousTextEditing="true" isMultilineAllowed="false" drawWorkingArea="false" minimalWidth="0.0" identifier="67825189" maximalWidth="Infinity">
+    <TextStyle id="2" orientation="0" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" isBackgroundColored="false" />
+  </DrawingGraphicalRepresentation>
+  <Shape id="3" name="Shape0">
+    <ShapeGraphicalRepresentation id="4" minimalHeight="0.0" relativeTextX="0.5" transparency="1.0" drawControlPointsWhenFocused="true" height="150.0" hasFocusedBackground="false" verticalTextAlignment="MIDDLE" text="RECTANGLE" adjustMinimalWidthToLabelWidth="true" width="200.0" hasFocusedForeground="false" hasSelectedBackground="false" allowToLeaveBounds="false" isFocusable="true" drawControlPointsWhenSelected="true" isSelectable="true" isLabelEditable="true" relativeTextY="0.5" continuousTextEditing="true" minimalWidth="0.0" identifier="409615d" lineWrap="false" locationConstraints="FREELY_MOVABLE" adjustMinimalHeightToLabelHeight="true" horizontalTextAlignment="CENTER" adaptBoundsToContents="false" maximalHeight="Infinity" isVisible="true" dimensionConstraints="FREELY_RESIZABLE" isReadOnly="false" adjustMaximalHeightToLabelHeight="false" isFloatingLabel="false" hasSelectedForeground="false" paragraphAlignment="CENTER" layer="1" absoluteTextX="0.0" absoluteTextY="0.0" adjustMaximalWidthToLabelWidth="false" isMultilineAllowed="false" y="100.0" maximalWidth="Infinity" x="100.0">
+      <FocusedForegroundStyle id="5" dashStyle="PLAIN_STROKE" color="0,0,0" noStroke="false" transparencyLevel="0.5" useTransparency="false" lineWidth="1.0" joinStyle="JOIN_MITER" capStyle="CAP_SQUARE" />
+      <SelectedColorBackgroundStyle id="6" color="254,247,217" transparencyLevel="0.5" useTransparency="false" />
+      <TextStyle id="7" orientation="0" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" isBackgroundColored="false" />
+      <ForegroundStyle id="8" dashStyle="PLAIN_STROKE" color="0,0,0" noStroke="false" transparencyLevel="0.5" useTransparency="false" lineWidth="1.0" joinStyle="JOIN_MITER" capStyle="CAP_SQUARE" />
+      <SelectedForegroundStyle id="9" dashStyle="PLAIN_STROKE" color="0,0,0" noStroke="false" transparencyLevel="0.5" useTransparency="false" lineWidth="1.0" joinStyle="JOIN_MITER" capStyle="CAP_SQUARE" />
+      <FocusedColorBackgroundStyle id="10" color="254,247,217" transparencyLevel="0.5" useTransparency="false" />
+      <RectangleShape id="11" arcSize="30.0" isRounded="false" />
+      <ShadowStyle id="12" shadowDepth="2" shadowBlur="4" drawShadow="true" shadowDarkness="150" />
+      <ColorBackgroundStyle id="13" color="254,247,217" transparencyLevel="0.5" useTransparency="false" />
+    </ShapeGraphicalRepresentation>
+  </Shape>
+</Diagram>

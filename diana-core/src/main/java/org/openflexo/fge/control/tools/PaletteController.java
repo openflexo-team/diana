@@ -40,15 +40,15 @@
 package org.openflexo.fge.control.tools;
 
 import org.openflexo.fge.control.DianaViewer;
-import org.openflexo.fge.control.DrawingPalette;
+import org.openflexo.fge.control.PaletteModel;
 import org.openflexo.fge.view.DianaViewFactory;
 
-public abstract class PaletteController<F extends DianaViewFactory<F, C>, C> extends DianaViewer<DrawingPalette, F, C> {
+public abstract class PaletteController<F extends DianaViewFactory<F, C>, C> extends DianaViewer<PaletteModel, F, C> {
 
 	private DianaPalette<C, F> palette;
 
 	public PaletteController(DianaPalette<C, F> palette, F dianaFactory) {
-		super(palette.getPaletteDrawing(), DrawingPalette.FACTORY, dianaFactory, null);
+		super(palette.getPaletteDrawing(), PaletteModel.FACTORY, dianaFactory, null);
 		this.palette = palette;
 	}
 

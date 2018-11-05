@@ -42,6 +42,12 @@ package org.openflexo.fge.geom.area;
 import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.fge.geom.FGEPoint;
 
+/**
+ * API describing a {@link FGEArea} as the result of an algebric computation over {@link FGEArea} objects
+ * 
+ * @author sylvain
+ *
+ */
 public abstract class FGEOperationArea implements FGEArea {
 
 	@Override
@@ -64,7 +70,8 @@ public abstract class FGEOperationArea implements FGEArea {
 		FGEIntersectionArea returned = new FGEIntersectionArea(this, area);
 		if (returned.isDevelopable()) {
 			return returned.makeDevelopped();
-		} else {
+		}
+		else {
 			return returned;
 		}
 	}

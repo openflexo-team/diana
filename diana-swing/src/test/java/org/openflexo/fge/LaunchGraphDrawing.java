@@ -45,7 +45,6 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -61,7 +60,11 @@ import org.openflexo.fge.swing.JDianaInteractiveViewer;
 import org.openflexo.fge.swing.SwingViewFactory;
 import org.openflexo.fge.swing.control.SwingToolFactory;
 import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
-import org.openflexo.fib.swing.logging.FlexoLoggingViewer;
+import org.openflexo.fge.test.GraphDrawing1;
+import org.openflexo.fge.test.TestGraph;
+import org.openflexo.fge.test.TestGraphNode;
+import org.openflexo.gina.ApplicationFIBLibrary.ApplicationFIBLibraryImpl;
+import org.openflexo.gina.swing.utils.logging.FlexoLoggingViewer;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.model.exceptions.ModelDefinitionException;
@@ -74,10 +77,6 @@ public class LaunchGraphDrawing {
 		try {
 			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -106,7 +105,7 @@ public class LaunchGraphDrawing {
 				notifyObservers(new MultipleSelection());
 			}
 		}
-
+		
 		@Override
 		public void removeFromSelectedObjects(DrawingTreeNode<?,?> anObject) {
 			super.removeFromSelectedObjects(anObject);
@@ -118,13 +117,13 @@ public class LaunchGraphDrawing {
 				notifyObservers(new MultipleSelection());
 			}
 		}
-
+		
 		@Override
 		public void clearSelection() {
 			super.clearSelection();
 			notifyObservers(new EmptySelection());
 		}
-
+		
 		@Override
 		public void selectDrawing() {
 			super.selectDrawing();
@@ -184,7 +183,7 @@ public class LaunchGraphDrawing {
 		logButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), dialog);
+				FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), ApplicationFIBLibraryImpl.instance(), dialog);
 			}
 		});
 

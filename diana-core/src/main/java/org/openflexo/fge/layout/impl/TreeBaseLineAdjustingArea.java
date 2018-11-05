@@ -45,6 +45,7 @@ import java.awt.event.MouseEvent;
 
 import org.openflexo.fge.Drawing.ContainerNode;
 import org.openflexo.fge.Drawing.DrawingTreeNode;
+import org.openflexo.fge.ForegroundStyle;
 import org.openflexo.fge.ForegroundStyle.DashStyle;
 import org.openflexo.fge.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.fge.control.DianaEditor;
@@ -60,9 +61,12 @@ public class TreeBaseLineAdjustingArea extends LayoutAdjustingArea<FGELine> {
 
 	private final int rowIndex;
 
+	private ForegroundStyle foregroundStyle = null;
+
 	public TreeBaseLineAdjustingArea(TreeLayoutManager<?> layoutManager, int rowIndex, double height) {
 		super(layoutManager, new FGELine(0, height, 1, height));
 		this.rowIndex = rowIndex;
+		foregroundStyle = getNode().getFactory().makeForegroundStyle(Color.GRAY, 0.5f, DashStyle.DOTS_DASHES);
 	}
 
 	@Override
@@ -88,24 +92,24 @@ public class TreeBaseLineAdjustingArea extends LayoutAdjustingArea<FGELine> {
 				+ pointRelativeToInitialConfiguration + " startY=" + startY + " pour " + rowIndex);
 
 		switch (getLayoutManager().getVerticalAlignment()) {
-		case TOP:
-			if (rowIndex > 0) {
-				getLayoutManager().setFixedRowHeight(rowIndex - 1, startHeight + newRelativePoint.y - startY);
-			}
-			break;
-		case MIDDLE:
-			getLayoutManager().setFixedRowHeight(rowIndex, (newRelativePoint.y - startY) * 2);
-			break;
-		case BOTTOM:
-			System.out.println("row=" + rowIndex);
-			System.out.println("startHeight=" + startHeight);
-			System.out.println("startY=" + startY);
-			System.out.println("newRelativePoint.y=" + newRelativePoint.y);
-			System.out.println("NEW row height =" + (newRelativePoint.y - startY));
-			getLayoutManager().setFixedRowHeight(rowIndex, newRelativePoint.y - startY);
-			break;
-		default:
-			break;
+			case TOP:
+				if (rowIndex > 0) {
+					getLayoutManager().setFixedRowHeight(rowIndex - 1, startHeight + newRelativePoint.y - startY);
+				}
+				break;
+			case MIDDLE:
+				getLayoutManager().setFixedRowHeight(rowIndex, (newRelativePoint.y - startY) * 2);
+				break;
+			case BOTTOM:
+				System.out.println("row=" + rowIndex);
+				System.out.println("startHeight=" + startHeight);
+				System.out.println("startY=" + startY);
+				System.out.println("newRelativePoint.y=" + newRelativePoint.y);
+				System.out.println("NEW row height =" + (newRelativePoint.y - startY));
+				getLayoutManager().setFixedRowHeight(rowIndex, newRelativePoint.y - startY);
+				break;
+			default:
+				break;
 		}
 
 		draggedArea.setY1(newRelativePoint.y);
@@ -128,7 +132,8 @@ public class TreeBaseLineAdjustingArea extends LayoutAdjustingArea<FGELine> {
 		}
 		if (getLayoutManager().getVerticalAlignment() == VerticalTextAlignment.TOP) {
 			startHeight = getLayoutManager().getRowHeight(rowIndex - 1);
-		} else {
+		}
+		else {
 			startHeight = getLayoutManager().getRowHeight(rowIndex);
 		}
 	}
@@ -154,13 +159,13 @@ public class TreeBaseLineAdjustingArea extends LayoutAdjustingArea<FGELine> {
 
 	@Override
 	public Rectangle paint(FGEGraphics graphics) {
-		graphics.setDefaultForeground(getNode().getFactory().makeForegroundStyle(Color.GRAY, 0.5f, DashStyle.DOTS_DASHES));
+		graphics.setDefaultForeground(foregroundStyle);
 		graphics.useDefaultForegroundStyle();
 
 		if (draggedArea != null) {
-			System.out.println("On peint " + draggedArea);
 			draggedArea.paint(graphics);
-		} else {
+		}
+		else {
 			getArea().paint(graphics);
 		}
 

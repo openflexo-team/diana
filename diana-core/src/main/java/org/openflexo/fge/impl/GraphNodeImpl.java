@@ -49,6 +49,8 @@ public class GraphNodeImpl<G extends FGEGraph> extends ShapeNodeImpl<G> implemen
 
 	private static final Logger logger = Logger.getLogger(GraphNodeImpl.class.getPackage().getName());
 
+	public static final String GRAPH_NEEDS_TO_BE_REDRAWN = "GraphNeedsToBeRedrawn";
+
 	// TODO: change to protected
 	public GraphNodeImpl(DrawingImpl<?> drawingImpl, G graph, GraphGRBinding<G> grBinding, ContainerNodeImpl<?, ?> parentNode) {
 		super(drawingImpl, graph, grBinding, parentNode);
@@ -67,5 +69,48 @@ public class GraphNodeImpl<G extends FGEGraph> extends ShapeNodeImpl<G> implemen
 		// Paint the graph
 		getDrawable().paint(g);
 
+	}
+
+	@Override
+	public void notifyGraphNeedsToBeRedrawn() {
+		//System.out.println("notifyGraphNeedsToBeRedrawn()");
+		getPropertyChangeSupport().firePropertyChange(GRAPH_NEEDS_TO_BE_REDRAWN, false, true);
+	}
+
+	@Override
+	public int getBorderTop() {
+		if (getDrawable() != null) {
+			return getDrawable().getBorderTop();
+		}
+		return 10;
+	}
+
+	@Override
+	public int getBorderBottom() {
+		if (getDrawable() != null) {
+			return getDrawable().getBorderBottom();
+		}
+		return 10;
+	}
+
+	@Override
+	public int getBorderLeft() {
+		if (getDrawable() != null) {
+			return getDrawable().getBorderLeft();
+		}
+		return 10;
+	}
+
+	@Override
+	public int getBorderRight() {
+		if (getDrawable() != null) {
+			return getDrawable().getBorderRight();
+		}
+		return 10;
+	}
+
+	@Override
+	public String toString() {
+		return "GraphNodeImpl[" + Integer.toHexString(hashCode()) + "]";
 	}
 }

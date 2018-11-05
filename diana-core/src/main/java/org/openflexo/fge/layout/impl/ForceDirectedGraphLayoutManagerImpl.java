@@ -45,7 +45,7 @@ import org.openflexo.fge.Drawing.ConnectorNode;
 import org.openflexo.fge.Drawing.ShapeNode;
 import org.openflexo.fge.layout.ForceDirectedGraphLayoutManager;
 import org.openflexo.fge.layout.ForceDirectedGraphLayoutManagerSpecification;
-import org.openflexo.fib.annotation.FIBPanel;
+import org.openflexo.gina.annotation.FIBPanel;
 
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.algorithms.layout.SpringLayout;
@@ -57,8 +57,8 @@ import edu.uci.ics.jung.algorithms.layout.SpringLayout;
  * 
  */
 @FIBPanel("Fib/Layout/ForceDirectedGraphLayoutManagerPanel.fib")
-public abstract class ForceDirectedGraphLayoutManagerImpl<O> extends
-		GraphBasedLayoutManagerImpl<ForceDirectedGraphLayoutManagerSpecification, O> implements ForceDirectedGraphLayoutManager<O> {
+public abstract class ForceDirectedGraphLayoutManagerImpl<O>
+		extends GraphBasedLayoutManagerImpl<ForceDirectedGraphLayoutManagerSpecification, O> implements ForceDirectedGraphLayoutManager<O> {
 
 	@Override
 	public double getStretch() {
@@ -79,7 +79,7 @@ public abstract class ForceDirectedGraphLayoutManagerImpl<O> extends
 
 	@Override
 	protected AbstractLayout<ShapeNode<?>, ConnectorNode<?>> buildLayout() {
-		layout = new SpringLayout<ShapeNode<?>, ConnectorNode<?>>(getGraph());
+		layout = new SpringLayout<>(getGraph());
 		layout.setSize(new Dimension((int) getContainerNode().getWidth(), (int) getContainerNode().getHeight()));
 		layout.setForceMultiplier(getForceMultiplier());
 		layout.setRepulsionRange(getRepulsionRangeSq());
@@ -98,10 +98,12 @@ public abstract class ForceDirectedGraphLayoutManagerImpl<O> extends
 		if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.STRETCH_KEY)) {
 			invalidate();
 			doLayout(true);
-		} else if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.REPULSION_RANGE_SQ_KEY)) {
+		}
+		else if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.REPULSION_RANGE_SQ_KEY)) {
 			invalidate();
 			doLayout(true);
-		} else if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.FORCE_MULTIPLIER_KEY)) {
+		}
+		else if (evt.getPropertyName().equals(ForceDirectedGraphLayoutManagerSpecification.FORCE_MULTIPLIER_KEY)) {
 			invalidate();
 			doLayout(true);
 		}

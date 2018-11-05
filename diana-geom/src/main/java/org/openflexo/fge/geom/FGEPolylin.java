@@ -70,8 +70,8 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 
 	public FGEPolylin() {
 		super();
-		_points = new Vector<FGEPoint>();
-		_segments = new Vector<FGESegment>();
+		_points = new Vector<>();
+		_segments = new Vector<>();
 	}
 
 	public FGEPolylin(List<FGEPoint> points) {
@@ -129,7 +129,8 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 		if (index == getSegmentNb()) {
 			// Last segment
 			_segments.remove(index - 1);
-		} else {
+		}
+		else {
 			if (index < _segments.size()) {
 				_segments.remove(index);
 			}
@@ -193,6 +194,18 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 			index++;
 		}
 		return -1;
+	}
+
+	public void updateSegmentsFromPoints() {
+		_segments.clear();
+		int index = 0;
+		for (index = 0; index < _points.size(); index++) {
+			if (index > 0) {
+				FGESegment s2 = new FGESegment(_points.elementAt(index - 1), _points.elementAt(index));
+				_segments.add(s2);
+			}
+		}
+		reCalculateBounds();
 	}
 
 	public Vector<FGESegment> getSegments() {
@@ -393,7 +406,7 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 	}
 
 	private FGEArea computeLineIntersection(FGEAbstractLine<?> line) {
-		Vector<FGEPoint> crossed = new Vector<FGEPoint>();
+		Vector<FGEPoint> crossed = new Vector<>();
 		for (FGESegment s : _segments) {
 			if (line.overlap(s)) {
 				return s.clone(); // TODO: perform union of potential multiple overlaping segments
@@ -417,7 +430,7 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 		/*logger.info("computePolylinIntersection()");
 		logger.info("polylin1="+this);
 		logger.info("polylin2="+polylin);*/
-		Vector<FGEArea> unionAreas = new Vector<FGEArea>();
+		Vector<FGEArea> unionAreas = new Vector<>();
 		for (FGESegment s1 : getSegments()) {
 			for (FGESegment s2 : polylin.getSegments()) {
 				FGEArea i = s1.intersect(s2);
@@ -454,7 +467,8 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 		FGEIntersectionArea returned = new FGEIntersectionArea(this, area);
 		if (returned.isDevelopable()) {
 			return returned.makeDevelopped();
-		} else {
+		}
+		else {
 			return returned;
 		}
 	}
@@ -498,21 +512,24 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 				}
 				clone.insertPointAtIndex(s.getP2(), 0);
 				return clone;
-			} else if (s.getP2().equals(getFirstPoint())) {
+			}
+			else if (s.getP2().equals(getFirstPoint())) {
 				if (s.getP1().equals(getLastPoint())) {
 					return FGEPolygon.makeArea(Filling.NOT_FILLED, getPoints());
 					// return new FGEPolygon(Filling.NOT_FILLED,getPoints());
 				}
 				clone.insertPointAtIndex(s.getP1(), 0);
 				return clone;
-			} else if (s.getP1().equals(getLastPoint())) {
+			}
+			else if (s.getP1().equals(getLastPoint())) {
 				if (s.getP2().equals(getFirstPoint())) {
 					return FGEPolygon.makeArea(Filling.NOT_FILLED, getPoints());
 					// return new FGEPolygon(Filling.NOT_FILLED,getPoints());
 				}
 				clone.addToPoints(s.getP2());
 				return clone;
-			} else if (s.getP2().equals(getLastPoint())) {
+			}
+			else if (s.getP2().equals(getLastPoint())) {
 				if (s.getP1().equals(getFirstPoint())) {
 					return FGEPolygon.makeArea(Filling.NOT_FILLED, getPoints());
 					// return new FGEPolygon(Filling.NOT_FILLED,getPoints());
@@ -557,14 +574,14 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 			}
 		}
 		if (a instanceof FGEShape) {
-			return FGEShape.AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
 		}
 		return false;
 	}
 
 	@Override
 	public FGEPolylin transform(AffineTransform t) {
-		Vector<FGEPoint> points = new Vector<FGEPoint>();
+		Vector<FGEPoint> points = new Vector<>();
 		for (FGEPoint p : _points) {
 			points.add(p.transform(t));
 		}
@@ -575,10 +592,17 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 	@Override
 	public void paint(AbstractFGEGraphics g) {
 		g.useDefaultForegroundStyle();
+		g.drawPolyline(getPoints().toArray(new FGEPoint[getPoints().size()]));
+	}
+
+	// Alternative implementation
+	/*@Override
+	public void paint(AbstractFGEGraphics g) {
+		g.useDefaultForegroundStyle();
 		for (FGESegment s : _segments) {
 			s.paint(g);
 		}
-	}
+	}*/
 
 	@Override
 	public String toString() {
@@ -594,11 +618,11 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 	public int hashCode() {
 		int res = 27;
 		for (int j = 0; j < getPointsNb(); j++) {
-			res += getPointAt(j).hashCode(); //commute, order does not matter
+			res += getPointAt(j).hashCode(); // commute, order does not matter
 		}
 		return res;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEPolylin) {
@@ -659,7 +683,7 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 
 	@Override
 	public FGEArea getOrthogonalPerspectiveArea(SimplifiedCardinalDirection orientation) {
-		Vector<FGEArea> allAreas = new Vector<FGEArea>();
+		Vector<FGEArea> allAreas = new Vector<>();
 		for (FGESegment s : getSegments()) {
 			allAreas.add(s.getOrthogonalPerspectiveArea(orientation));
 		}
@@ -673,7 +697,7 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 		// This algorithm is not quite correct, you can find *very* pathologic cases, but works in most cases
 
 		/*Vector<FGESegment> keptSegments = new Vector<FGESegment>();
-
+		
 		for (FGESegment s : getSegments()) {
 			FGEHalfLine hl = FGEHalfLine.makeHalfLine(s.getMiddle(), orientation);
 			// Test if this half-line "cuts" an other segment
@@ -693,15 +717,15 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 				keptSegments.add(s);
 			}
 		}
-
+		
 		if (keptSegments.size() == 0) {
 			return new FGEEmptyArea();
 		}
-
+		
 		else if (keptSegments.size() == 1) {
 			return keptSegments.firstElement();
 		}
-
+		
 		else {
 			// Chains segments
 			Vector<FGESegment> chain = new Vector<FGESegment>();
@@ -725,18 +749,18 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 					}
 				}
 			}
-
+		
 			Vector<FGEPoint> pts = new Vector<FGEPoint>();
 			pts.add(chain.firstElement().getP1());
 			for (FGESegment s : chain) {
 				pts.add(s.getP2());
 			}
-
+		
 			//logger.info("anchor area for "+orientation+" : "+new FGEPolylin(pts) );
-
+		
 			return new FGEPolylin(pts);
 		}
-		*/
+		 */
 	}
 
 	/**
@@ -758,7 +782,7 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 	public static FGEArea computeVisibleSegmentsFrom(SimplifiedCardinalDirection orientation, Vector<FGESegment> segments) {
 		// This algorithm is not quite correct, you can find *very* pathologic cases, but works in most cases
 
-		Vector<FGESegment> keptSegments = new Vector<FGESegment>();
+		Vector<FGESegment> keptSegments = new Vector<>();
 
 		for (FGESegment s : segments) {
 			FGEHalfLine hl = FGEHalfLine.makeHalfLine(s.getMiddle(), orientation);
@@ -769,9 +793,11 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 					FGEArea intersect = s2.intersect(hl);
 					if (intersect instanceof FGEPoint) {
 						cutsAnOtherSegment = true;
-					} else if (intersect instanceof FGEEmptyArea) {
+					}
+					else if (intersect instanceof FGEEmptyArea) {
 						;
-					} else {
+					}
+					else {
 						logger.warning("Unexpected intersection: " + intersect);
 						cutsAnOtherSegment = true;
 					}
@@ -815,15 +841,15 @@ public class FGEPolylin implements FGEGeometricObject<FGEPolylin> {
 					}
 				}
 			}
-
+			
 			Vector<FGEPoint> pts = new Vector<FGEPoint>();
 			pts.add(chain.firstElement().getP1());
 			for (FGESegment s : chain) {
 				pts.add(s.getP2());
 			}
-
+			
 			//logger.info("anchor area for "+orientation+" : "+new FGEPolylin(pts) );
-
+			
 			return new FGEPolylin(pts);*/
 		}
 

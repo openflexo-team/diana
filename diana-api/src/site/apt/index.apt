@@ -1,18 +1,30 @@
  -----
- The Site
+ Openflexo DIANA
  -----
- The Maven Team
+ The Openflexo team
  -----
 
-Maven Site for your project
+[/images/components/diana/DianaOverview] Diana
 
- Congratulations! If you are looking at this page then you have successfully generated a
- template site employing the site archetype and you have run:
+Introduction to DIANA
 
-[https://media.openflexo.org/images/openflexo2.png]
+TODO: to be rewritten
 
-+-----+
+  Diana can be considered as a box and arrow drawing framework. 
+  
+  It takes its originality by beeing able to associate a graph of interconnected objects with adapted graphical representations. 
+  
+  Graphical representations are considered as graphical properties such as Color or Size, which are then associated to models depending on the context. 
+  
+  Diana is based on Connie and Pamela frameworks. 
+  
+  A Java Swing implementation of Diana has been developped for Openflexo.
+  
+Key features of DIANA
 
-mvn site
-
-+-----+
+  * Model-driven technology
+  
+  * Non intrusive technology
+  
+  * TODO
+  

@@ -92,10 +92,11 @@ public class DrawEdgeControl extends MouseDragControlImpl<DianaDrawingEditor> {
 				boolean isSignificativeDrag) {
 			if (drawEdge) {
 				if (fromShape != null && toShape != null) {
-					// System.out.println("Add ConnectorSpecification contextualMenuInvoker="+contextualMenuInvoker+" point="+contextualMenuClickedPoint);
+					// System.out.println("Add ConnectorSpecification contextualMenuInvoker="+contextualMenuInvoker+"
+					// point="+contextualMenuClickedPoint);
 					CompoundEdit drawEdge = factory.getUndoManager().startRecording("Draw edge");
-					Connector newConnector = factory.makeNewConnector(fromShape.getDrawable(), toShape.getDrawable(), controller
-							.getDrawing().getModel());
+					Connector newConnector = factory.makeNewConnector(fromShape.getDrawable(), toShape.getDrawable(),
+							controller.getDrawing().getModel());
 					DrawingTreeNode<?, ?> fatherNode = FGEUtils.getFirstCommonAncestor(fromShape, toShape);
 					((DiagramElement<?, ?>) fatherNode.getDrawable()).addToConnectors(newConnector);
 					System.out.println("Add new connector !");
@@ -118,7 +119,8 @@ public class DrawEdgeControl extends MouseDragControlImpl<DianaDrawingEditor> {
 				DrawingTreeNode<?, ?> dtn = controller.getDrawingView().getFocusRetriever().getFocusedObject(event);
 				if (dtn instanceof ShapeNode && dtn != fromShape && !fromShape.getAncestors().contains(dtn)) {
 					toShape = (ShapeNode<Shape>) dtn;
-				} else {
+				}
+				else {
 					toShape = null;
 				}
 				currentDraggingLocationInDrawingView = getPointInDrawingView(controller, context);
@@ -128,22 +130,17 @@ public class DrawEdgeControl extends MouseDragControlImpl<DianaDrawingEditor> {
 			return false;
 		}
 
-		public void paint(Graphics g, AbstractDianaEditor controller) {
+		public void paint(Graphics g, AbstractDianaEditor<?, ?, ?> controller) {
 			if (drawEdge && currentDraggingLocationInDrawingView != null) {
-				Point from = controller
-						.getDrawing()
-						.getRoot()
-						.convertRemoteNormalizedPointToLocalViewCoordinates(fromShape.getShape().getShape().getCenter(), fromShape,
-								controller.getScale());
+				Point from = controller.getDrawing().getRoot().convertRemoteNormalizedPointToLocalViewCoordinates(
+						fromShape.getShape().getShape().getCenter(), fromShape, controller.getScale());
 				Point to = currentDraggingLocationInDrawingView;
 				if (toShape != null) {
-					to = controller
-							.getDrawing()
-							.getRoot()
-							.convertRemoteNormalizedPointToLocalViewCoordinates(toShape.getShape().getShape().getCenter(), toShape,
-									controller.getScale());
+					to = controller.getDrawing().getRoot().convertRemoteNormalizedPointToLocalViewCoordinates(
+							toShape.getShape().getShape().getCenter(), toShape, controller.getScale());
 					g.setColor(Color.BLUE);
-				} else {
+				}
+				else {
 					g.setColor(Color.RED);
 				}
 				g.drawLine(from.x, from.y, to.x, to.y);

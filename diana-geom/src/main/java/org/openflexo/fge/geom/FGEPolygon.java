@@ -60,6 +60,8 @@ import org.openflexo.fge.geom.area.FGEIntersectionArea;
 import org.openflexo.fge.geom.area.FGESubstractionArea;
 import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.fge.graphics.AbstractFGEGraphics;
+import org.openflexo.fge.graphics.BGStyle;
+import org.openflexo.fge.graphics.FGStyle;
 
 /**
  * The <code>FGEPolygon</code> class encapsulates a description of a closed, two-dimensional region within a coordinate space. This region
@@ -70,7 +72,7 @@ import org.openflexo.fge.graphics.AbstractFGEGraphics;
  * @author sylvain
  * 
  */
-public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEPolygon> {
+public class FGEPolygon implements FGEShape<FGEPolygon> {
 
 	private static final Logger logger = Logger.getLogger(FGEPolygon.class.getPackage().getName());
 
@@ -78,6 +80,9 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 
 	protected Vector<FGEPoint> _points;
 	protected Vector<FGESegment> _segments;
+
+	private FGStyle foreground;
+	private BGStyle background;
 
 	private FGERectangle bounds;
 
@@ -88,8 +93,8 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 	public FGEPolygon(Filling filling) {
 		super();
 		_filling = filling;
-		_points = new Vector<FGEPoint>();
-		_segments = new Vector<FGESegment>();
+		_points = new Vector<>();
+		_segments = new Vector<>();
 	}
 
 	public FGEPolygon(Filling filling, List<FGEPoint> points) {
@@ -162,7 +167,8 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 			FGESegment s2 = new FGESegment(_points.elementAt(_points.size() - 2), _points.elementAt(_points.size() - 1));
 			if (_segments.size() <= _points.size() - 2) {
 				_segments.add(s2);
-			} else {
+			}
+			else {
 				_segments.set(_points.size() - 2, s2);
 			}
 			FGESegment s3 = new FGESegment(_points.elementAt(_points.size() - 1), _points.elementAt(0));
@@ -173,6 +179,20 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 
 	public void removeFromPoints(FGEPoint aPoint) {
 		_points.remove(aPoint);
+		reCalculateBounds();
+	}
+
+	public void updateSegmentsFromPoints() {
+		_segments.clear();
+		int index = 0;
+		for (index = 0; index < _points.size(); index++) {
+			if (index > 0) {
+				FGESegment s2 = new FGESegment(_points.elementAt(index - 1), _points.elementAt(index));
+				_segments.add(s2);
+			}
+		}
+		FGESegment s3 = new FGESegment(_points.elementAt(_points.size() - 1), _points.elementAt(0));
+		_segments.add(s3);
 		reCalculateBounds();
 	}
 
@@ -272,7 +292,8 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 					continue;
 				}
 				leftx = curx;
-			} else {
+			}
+			else {
 				if (x >= curx) {
 					continue;
 				}
@@ -290,7 +311,8 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 				}
 				test1 = x - curx;
 				test2 = y - cury;
-			} else {
+			}
+			else {
 				if (y < lasty || y >= cury) {
 					continue;
 				}
@@ -416,14 +438,15 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 		filledBoundingBox.setIsFilled(true);
 		FGEArea boundingIntersect = area.intersect(filledBoundingBox);
 
-		// System.out.println("Y'a une intersection zarrebi: boundingIntersect="+boundingIntersect+" resultat: "+intersect(boundingIntersect));
+		// System.out.println("Y'a une intersection zarrebi: boundingIntersect="+boundingIntersect+" resultat:
+		// "+intersect(boundingIntersect));
 
 		return intersect(boundingIntersect);
 
 	}
 
 	private FGEArea computeLineIntersection(FGEAbstractLine<?> line) {
-		Vector<FGEPoint> crossed = new Vector<FGEPoint>();
+		Vector<FGEPoint> crossed = new Vector<>();
 		for (FGESegment s : _segments) {
 			if (line.overlap(s)) {
 				return s.clone(); // TODO: perform union of potential multiple overlaping segments
@@ -446,13 +469,16 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 
 		if (crossed.size() == 1) {
 			return crossed.firstElement();
-		} else if (crossed.size() == 2) {
+		}
+		else if (crossed.size() == 2) {
 			if (getIsFilled()) {
 				return new FGESegment(crossed.firstElement(), crossed.elementAt(1));
-			} else {
+			}
+			else {
 				return FGEUnionArea.makeUnion(crossed.firstElement(), crossed.elementAt(1));
 			}
-		} else {
+		}
+		else {
 			// TODO: not yet implemented for filled polygon
 			logger.warning("computeLineIntersection() not yet implemented for polygon");
 			return FGEUnionArea.makeUnion(crossed);
@@ -485,7 +511,7 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 			return ((FGEHalfPlane) area).intersect(this);
 		}
 		if (area instanceof FGEPolygon) {
-			return FGEShape.AreaComputation.computeShapeIntersection(this, (FGEPolygon) area);
+			return AreaComputation.computeShapeIntersection(this, (FGEPolygon) area);
 		}
 		if (area instanceof FGEBand) {
 			return computeAreaIntersection(area);
@@ -497,13 +523,25 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 		FGEIntersectionArea returned = new FGEIntersectionArea(this, area);
 		if (returned.isDevelopable()) {
 			return returned.makeDevelopped();
-		} else {
+		}
+		else {
 			return returned;
 		}
 	}
 
 	@Override
 	public FGEArea substract(FGEArea area, boolean isStrict) {
+		if (area.containsArea(this)) {
+			return new FGEEmptyArea();
+		}
+		if (!containsArea(area)) {
+			return this.clone();
+		}
+
+		if (area instanceof FGEShape) {
+			return AreaComputation.computeShapeSubstraction(this, (FGEShape<?>) area);
+		}
+
 		return new FGESubstractionArea(this, area, isStrict);
 	}
 
@@ -514,6 +552,10 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 		}
 		if (area.containsArea(this)) {
 			return area.clone();
+		}
+
+		if (area instanceof FGEShape) {
+			return AreaComputation.computeShapeUnion(this, (FGEShape<?>) area);
 		}
 
 		return new FGEUnionArea(this, area);
@@ -533,35 +575,44 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 			return containsPoint(((FGESegment) a).getP1()) && containsPoint(((FGESegment) a).getP2());
 		}
 		if (a instanceof FGEShape) {
-			return FGEShape.AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
 		}
 		return false;
 	}
 
 	@Override
 	public FGEPolygon transform(AffineTransform t) {
-		Vector<FGEPoint> points = new Vector<FGEPoint>();
+		Vector<FGEPoint> points = new Vector<>();
 		for (FGEPoint p : _points) {
 			points.add(p.transform(t));
 		}
 		FGEPolygon returned = new FGEPolygon(_filling, points);
+		returned.setForeground(getForeground());
+		returned.setBackground(getBackground());
 		return returned;
 	}
 
 	@Override
 	public void paint(AbstractFGEGraphics g) {
+		g.setDefaultBackgroundStyle(this);
+		g.setDefaultForegroundStyle(this);
+
 		if (getIsFilled()) {
 			g.useDefaultBackgroundStyle();
 			g.fillPolygon(getPoints().toArray(new FGEPoint[getPoints().size()]));
 		}
 		g.useDefaultForegroundStyle();
 		g.drawPolygon(getPoints().toArray(new FGEPoint[getPoints().size()]));
-
-		/*
-		g.setDefaultBackground(BackgroundStyle.makeEmptyBackground());
-		g.setDefaultForeground(ForegroundStyle.makeStyle(Color.GRAY,1,DashStyle.MEDIUM_DASHES));
-		getBoundingBox().paint(g);*/
 	}
+
+	// Alternative implementation
+	/*@Override
+	public void paint(AbstractFGEGraphics g) {
+		g.useDefaultForegroundStyle();
+		for (FGESegment s : _segments) {
+			s.paint(g);
+		}
+	}*/
 
 	@Override
 	public String toString() {
@@ -594,7 +645,7 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 		}
 
 		for (FGEPoint newP : remainingPoints) {
-			Vector<FGESegment> sl = new Vector<FGESegment>();
+			Vector<FGESegment> sl = new Vector<>();
 			FGEPoint previous = null;
 			for (FGEPoint p : aList) {
 				if (previous != null) {
@@ -625,10 +676,10 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 				}
 			}
 			if (thisPointMightBeGood) {
-				Vector<FGEPoint> newList = new Vector<FGEPoint>();
+				Vector<FGEPoint> newList = new Vector<>();
 				newList.addAll(aList);
 				newList.add(newP);
-				Vector<FGEPoint> newRemainingList = new Vector<FGEPoint>();
+				Vector<FGEPoint> newRemainingList = new Vector<>();
 				newRemainingList.addAll(remainingPoints);
 				newRemainingList.remove(newP);
 				List<FGEPoint> returned = sortToAvoidCuts(newList, newRemainingList);
@@ -646,7 +697,7 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 	public static void main(String[] args) {
 
 		for (int n = 1; n < 100; n++) {
-			Vector<FGEPoint> pts = new Vector<FGEPoint>();
+			Vector<FGEPoint> pts = new Vector<>();
 
 			logger.info("n=" + n);
 			Random rand = new Random();
@@ -669,11 +720,14 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 	public static FGEArea makeArea(Filling filling, List<FGEPoint> somePoints) {
 		if (somePoints.size() < 1) {
 			throw new IllegalArgumentException("makeArea() called with " + somePoints.size() + " points");
-		} else if (somePoints.size() == 1) {
+		}
+		else if (somePoints.size() == 1) {
 			return new FGEPoint(somePoints.get(0));
-		} else if (somePoints.size() == 2) {
+		}
+		else if (somePoints.size() == 2) {
 			return new FGESegment(somePoints.get(0), somePoints.get(1));
-		} else {
+		}
+		else {
 			List<FGEPoint> points = sortToAvoidCuts(somePoints);
 
 			if (points.size() == 4) {
@@ -706,13 +760,16 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 					if (maxx - minx == 0) { // width = 0
 						if (maxy - miny == 0) {
 							return new FGEPoint(minx, miny);
-						} else {
+						}
+						else {
 							return new FGESegment(minx, miny, minx, maxy);
 						}
-					} else {
+					}
+					else {
 						if (maxy - miny == 0) {
 							return new FGESegment(minx, miny, maxx, miny); // height = 0;
-						} else {
+						}
+						else {
 							return new FGERectangle(minx, miny, maxx - minx, maxy - miny, filling);
 						}
 					}
@@ -724,7 +781,7 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 	}
 
 	public static FGEArea makeArea(Filling filling, FGEPoint... points) {
-		Vector<FGEPoint> v = new Vector<FGEPoint>();
+		Vector<FGEPoint> v = new Vector<>();
 		for (FGEPoint p : points) {
 			v.add(p);
 		}
@@ -917,11 +974,11 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 	public int hashCode() {
 		int res = 27;
 		for (int j = 0; j < getPointsNb(); j++) {
-			res += getPointAt(j).hashCode(); //commute, order does not matter
+			res += getPointAt(j).hashCode(); // commute, order does not matter
 		}
 		return res;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEPolygon) {
@@ -978,7 +1035,7 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 	public FGEArea getAnchorAreaFrom(SimplifiedCardinalDirection orientation) {
 		// This algorithm is not quite correct, you can find *very* pathologic cases, but works in most cases
 
-		Vector<FGESegment> keptSegments = new Vector<FGESegment>();
+		Vector<FGESegment> keptSegments = new Vector<>();
 
 		for (FGESegment s : getSegments()) {
 			FGEHalfLine hl = FGEHalfLine.makeHalfLine(s.getMiddle(), orientation);
@@ -1005,9 +1062,11 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 					FGEArea intersect = s2.intersect(hl);
 					if (intersect instanceof FGEPoint) {
 						cutsAnOtherSegment = true;
-					} else if (intersect instanceof FGEEmptyArea) {
+					}
+					else if (intersect instanceof FGEEmptyArea) {
 						;
-					} else {
+					}
+					else {
 						logger.warning("Unexpected intersection: " + intersect);
 						cutsAnOtherSegment = true;
 					}
@@ -1028,26 +1087,31 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 
 		else {
 			// Chains segments
-			Vector<FGESegment> chain = new Vector<FGESegment>();
+			Vector<FGESegment> chain = new Vector<>();
 			for (FGESegment s : keptSegments) {
 				if (chain.size() == 0) {
 					chain.add(s);
-				} else {
+				}
+				else {
 					if (s.getP1().equals(chain.firstElement().getP1())) {
 						chain.add(0, new FGESegment(s.getP2(), s.getP1()));
-					} else if (s.getP2().equals(chain.firstElement().getP1())) {
+					}
+					else if (s.getP2().equals(chain.firstElement().getP1())) {
 						chain.add(0, s);
-					} else if (s.getP1().equals(chain.lastElement().getP2())) {
+					}
+					else if (s.getP1().equals(chain.lastElement().getP2())) {
 						chain.add(s);
-					} else if (s.getP2().equals(chain.lastElement().getP2())) {
+					}
+					else if (s.getP2().equals(chain.lastElement().getP2())) {
 						chain.add(new FGESegment(s.getP2(), s.getP1()));
-					} else {
+					}
+					else {
 						logger.warning("Multiple chains not implemented yet");
 					}
 				}
 			}
 
-			Vector<FGEPoint> pts = new Vector<FGEPoint>();
+			Vector<FGEPoint> pts = new Vector<>();
 			pts.add(chain.firstElement().getP1());
 			for (FGESegment s : chain) {
 				pts.add(s.getP2());
@@ -1082,10 +1146,52 @@ public class FGEPolygon implements FGEGeometricObject<FGEPolygon>, FGEShape<FGEP
 	 * @return
 	 */
 	public FGEPolylin getOutline() {
-		Vector<FGEPoint> pts = new Vector<FGEPoint>();
+		Vector<FGEPoint> pts = new Vector<>();
 		pts.addAll(getPoints());
 		pts.add(getPoints().firstElement());
 		return new FGEPolylin(pts);
+	}
+
+	/**
+	 * Return background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public BGStyle getBackground() {
+		return background;
+	}
+
+	/**
+	 * Sets background eventually overriding default background (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aBackground
+	 */
+	@Override
+	public void setBackground(BGStyle aBackground) {
+		this.background = aBackground;
+	}
+
+	/**
+	 * Return foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * Default value is null
+	 * 
+	 * @return
+	 */
+	@Override
+	public FGStyle getForeground() {
+		return foreground;
+	}
+
+	/**
+	 * Sets foreground eventually overriding default foreground (usefull in ShapeUnion)<br>
+	 * 
+	 * @param aForeground
+	 */
+	@Override
+	public void setForeground(FGStyle aForeground) {
+		this.foreground = aForeground;
 	}
 
 }

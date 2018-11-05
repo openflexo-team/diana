@@ -1,115 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Panel layout="gridbag" borderTop="0" titleFont="SansSerif,0,11" darkLevel="0" dataClassName="org.openflexo.fge.ForegroundStyle" font="SansSerif,0,11" opaque="false" name="ForegroundStylePanel">
-  <Panel layout="flow" hGap="5" vGap="0" flowAlignment="LEADING" borderTitle="Panel" borderTop="5" borderLeft="10" borderRight="10" titleFont="SansSerif,0,11" darkLevel="0" index="0" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=horizontal;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right;padX=0;padY=0;weightX=1.0;weightY=0.0)" opaque="false" name="EnableStrokePanel">
-    <CheckBox selected="false" index="1" data="data.noStroke" constraints="flow(anchor=center;expandHorizontally=true;expandVertically=false;fill=none;gridHeight=1;gridWidth=1;gridX=-1;gridY=-1;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=center;padX=0;padY=0;weightX=0.0;weightY=0.0)" name="checkbox" localize="true" />
-    <Label label="no_stroke" index="0" constraints="flow(index=0;location=west)" localize="true">
-      <LocalizedDictionary />
+<Panel id="0" borderLeft="0" sizeAdjustment="OriginalSize" opaque="false" controllerClassName="org.openflexo.gina.controller.FIBController" borderRight="0" border="empty" trackViewPortWidth="true" font="SansSerif,0,11" align="left" borderBottom="0" titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true" layout="gridbag" name="ForegroundStylePanel">
+  <Panel id="1" vGap="0" borderLeft="10" hGap="5" sizeAdjustment="OriginalSize" opaque="false" borderRight="10" border="empty" trackViewPortWidth="true" index="0" align="left" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=horizontal;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right;padX=0;padY=0;weightX=1.0;weightY=0.0)" borderBottom="0" borderTitle="Panel" titleFont="SansSerif,0,11" borderTop="5" trackViewPortHeight="true" layout="flow" name="EnableStrokePanel" flowAlignment="LEADING">
+    <CheckBox id="2" name="checkbox" data="data.noStroke" index="1" localize="true" constraints="flow(anchor=center;expandHorizontally=true;expandVertically=false;fill=none;gridHeight=1;gridWidth=1;gridX=-1;gridY=-1;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=center;padX=0;padY=0;weightX=0.0;weightY=0.0)" />
+    <Label id="3" name="NoStrokeLabel" index="0" localize="true" align="left" constraints="flow(index=0;location=west)" label="no_stroke">
+      <LocalizedDictionary id="4" />
     </Label>
   </Panel>
-  <Panel layout="twocols" border="rounded3d" borderTitle="" borderTop="2" borderBottom="2" borderLeft="10" borderRight="10" titleFont="SansSerif,0,11" darkLevel="0" index="1" constraints="gridbag(anchor=center;expandHorizontally=false;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right;padX=0;padY=0;weightX=1.0;weightY=1.0)" opaque="false" name="MainPanel">
-    <Label label="line_width" index="0" constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true" enable="(!(data.noStroke))">
-      <LocalizedDictionary />
+  <Panel id="5" borderLeft="10" sizeAdjustment="OriginalSize" opaque="false" borderRight="10" border="rounded3d" trackViewPortWidth="true" index="1" align="left" constraints="gridbag(anchor=center;expandHorizontally=false;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right;padX=0;padY=0;weightX=1.0;weightY=1.0)" borderBottom="2" borderTitle="" titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true" layout="twocols" name="MainPanel">
+    <Label id="6" enable="(!(data.noStroke))" name="LineWidthLabel" index="0" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="line_width">
+      <LocalizedDictionary id="7" />
     </Label>
-    <Number allowsNull="false" minValue="0.1" maxValue="50" increment="0.1" numberType="DoubleType" columns="3" index="1" data="data.lineWidth" constraints="twocols(anchor=center;expandHorizontally=false;expandVertically=false;fill=none;gridHeight=1;gridWidth=1;gridX=-1;gridY=-1;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right;padX=0;padY=0;weightX=0.0;weightY=0.0)" name="LineWidth" localize="true" enable="(!(data.noStroke))" />
-    <Label label="color" index="2" constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true" enable="(!(data.noStroke))">
-      <LocalizedDictionary />
+    <Number id="8" minValue="0.1" columns="3" enable="(!(data.noStroke))" name="LineWidth" data="data.lineWidth" maxValue="50" increment="0.1" index="1" localize="true" constraints="twocols(anchor=center;expandHorizontally=false;expandVertically=false;fill=none;gridHeight=1;gridWidth=1;gridX=-1;gridY=-1;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right;padX=0;padY=0;weightX=0.0;weightY=0.0)" numberType="DoubleType" />
+    <Label id="9" enable="(!(data.noStroke))" name="ColorLabel" index="2" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="color">
+      <LocalizedDictionary id="10" />
     </Label>
-    <Color allowsNull="false" index="3" data="data.color" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" localize="true" enable="(!(data.noStroke))" />
-    <Label label="dash_style" index="4" constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true" enable="(!(data.noStroke))">
-      <LocalizedDictionary />
+    <Color id="11" enable="(!(data.noStroke))" name="ColorSelector" data="data.color" index="3" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" allowsNullText="define_color" />
+    <Label id="12" enable="(!(data.noStroke))" name="DashStyleLabel" index="4" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="dash_style">
+      <LocalizedDictionary id="13" />
     </Label>
-    <DropDown index="5" data="data.dashStyle" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" name="dropdown" format="object.name.toLowerCase" icon="object.icon" localize="true" enable="(!(data.noStroke))" staticList="" showIcon="true" showText="false" iteratorClassName="org.openflexo.fge.ForegroundStyle$DashStyle" autoSelectFirstRow="true">
-      <LocalizedDictionary />
+    <DropDown id="14" enable="(!(data.noStroke))" data="data.dashStyle" index="5" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="false" iteratorClassName="org.openflexo.fge.ForegroundStyle$DashStyle" showIcon="true" staticList="" autoSelectFirstRow="true" name="dropdown" icon="object.icon">
+      <LocalizedDictionary id="15" />
     </DropDown>
-    <Label label="join_style" index="6" constraints="twocols(expandHorizontally=true;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true" enable="(!(data.noStroke))">
-      <LocalizedDictionary />
+    <Label id="16" enable="(!(data.noStroke))" name="JoinStyleLabel" index="6" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="join_style">
+      <LocalizedDictionary id="17" />
     </Label>
-    <DropDown index="7" data="data.joinStyle" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" name="dropdown" format="object.name.toLowerCase" icon="object.icon" localize="true" enable="(!(data.noStroke))" staticList="" showIcon="true" iteratorClassName="org.openflexo.fge.ForegroundStyle$JoinStyle" autoSelectFirstRow="true">
-      <LocalizedDictionary />
+    <DropDown id="18" enable="(!(data.noStroke))" data="data.joinStyle" index="7" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.ForegroundStyle$JoinStyle" showIcon="true" staticList="" autoSelectFirstRow="true" name="dropdown" icon="object.icon">
+      <LocalizedDictionary id="19" />
     </DropDown>
-    <Label label="cap_style" index="8" constraints="twocols(expandHorizontally=true;expandVertically=false;index=8;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true" enable="(!(data.noStroke))">
-      <LocalizedDictionary />
+    <Label id="20" enable="(!(data.noStroke))" name="CapStyleLabel" index="8" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=8;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="cap_style">
+      <LocalizedDictionary id="21" />
     </Label>
-    <DropDown index="9" data="data.capStyle" constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" name="dropdown" format="object.name.toLowerCase" icon="object.icon" localize="true" enable="(!(data.noStroke))" staticList="" showIcon="true" iteratorClassName="org.openflexo.fge.ForegroundStyle$CapStyle" autoSelectFirstRow="true">
-      <LocalizedDictionary />
+    <DropDown id="22" enable="(!(data.noStroke))" data="data.capStyle" index="9" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.ForegroundStyle$CapStyle" showIcon="true" staticList="" autoSelectFirstRow="true" name="dropdown" icon="object.icon">
+      <LocalizedDictionary id="23" />
     </DropDown>
   </Panel>
-  <Panel layout="twocols" border="rounded3d" borderTitle="transparency" localize="true" borderTop="2" borderBottom="2" borderLeft="10" borderRight="10" titleFont="SansSerif,0,11" darkLevel="0" index="2" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=horizontal;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=2;insetsBottom=5;insetsLeft=2;insetsRight=2;insetsTop=0;location=right;padX=0;padY=0;weightX=1.0;weightY=0.0)" opaque="false" name="TransparencyPanel">
-    <Label label="use_transparency" index="0" constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true" enable="(!(data.noStroke))">
-      <LocalizedDictionary />
+  <Panel id="24" borderLeft="10" sizeAdjustment="OriginalSize" opaque="false" borderRight="10" border="rounded3d" trackViewPortWidth="true" index="2" align="left" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=horizontal;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=2;insetsBottom=5;insetsLeft=2;insetsRight=2;insetsTop=0;location=right;padX=0;padY=0;weightX=1.0;weightY=0.0)" borderBottom="2" borderTitle="transparency" titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true" layout="twocols" name="TransparencyPanel">
+    <Label id="25" enable="(!(data.noStroke))" name="UseTransparencyLabel" index="0" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="use_transparency">
+      <LocalizedDictionary id="26" />
     </Label>
-    <CheckBox selected="true" index="1" data="data.useTransparency" constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" name="checkbox" localize="true" enable="(!(data.noStroke))" />
-    <Label label="transparency_level" index="2" constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" localize="true" enable="((!(data.noStroke)) &amp; data.useTransparency)" />
-    <Number allowsNull="false" minValue="0" maxValue="1" increment="0.05" numberType="FloatType" columns="3" index="3" data="data.transparencyLevel" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=7;insetsRight=2;insetsTop=0;location=center)" name="TransparencyLevel" localize="true" enable="((!(data.noStroke)) &amp; data.useTransparency)" />
+    <CheckBox id="27" enable="(!(data.noStroke))" selected="true" name="checkbox" data="data.useTransparency" index="1" localize="true" constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+    <Label id="28" enable="((!(data.noStroke)) &amp; data.useTransparency)" name="TransparencyLevelLabel" index="2" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="transparency_level" />
+    <Number id="29" minValue="0" columns="3" enable="((!(data.noStroke)) &amp; data.useTransparency)" name="TransparencyLevel" data="data.transparencyLevel" maxValue="1" increment="0.05" index="3" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=7;insetsRight=2;insetsTop=0;location=right)" numberType="FloatType" />
   </Panel>
-  <LocalizedDictionary>
-    <Localized key="transparency" lang="French" value="Transparence" />
-    <Localized key="transparency" lang="English" value="Transparency" />
-    <Localized key="no_stroke" lang="English" value="No stroke" />
-    <Localized key="line_width" lang="English" value="Line width" />
-    <Localized key="color" lang="English" value="Color" />
-    <Localized key="join_style" lang="English" value="Join style" />
-    <Localized key="cap_style" lang="English" value="Cap style" />
-    <Localized key="dash_style" lang="English" value="Dash style" />
-    <Localized key="use_transparency" lang="English" value="Use transparency" />
-    <Localized key="apply" lang="English" value="Apply" />
-    <Localized key="cancel" lang="English" value="Cancel" />
-    <Localized key="no_stroke" lang="French" value="Pas de trait" />
-    <Localized key="line_width" lang="French" value="Épaisseur de ligne" />
-    <Localized key="color" lang="French" value="Couleur" />
-    <Localized key="join_style" lang="French" value="Style de raccord" />
-    <Localized key="cap_style" lang="French" value="Style du bout" />
-    <Localized key="dash_style" lang="French" value="Style de pointillé" />
-    <Localized key="use_transparency" lang="French" value="Utiliser la transparence" />
-    <Localized key="apply" lang="French" value="Appliquer" />
-    <Localized key="cancel" lang="French" value="Annuler" />
-    <Localized key="no_stroke" lang="Dutch" value="No stroke" />
-    <Localized key="line_width" lang="Dutch" value="Line width" />
-    <Localized key="color" lang="Dutch" value="Color" />
-    <Localized key="join_style" lang="Dutch" value="Join style" />
-    <Localized key="cap_style" lang="Dutch" value="Cap style" />
-    <Localized key="dash_style" lang="Dutch" value="Dash style" />
-    <Localized key="use_transparency" lang="Dutch" value="Use transparency" />
-    <Localized key="apply" lang="Dutch" value="Apply" />
-    <Localized key="cancel" lang="Dutch" value="Cancel" />
-    <Localized key="join_miter" lang="English" value="Join miter" />
-    <Localized key="join_round" lang="English" value="Join round" />
-    <Localized key="join_bevel" lang="English" value="Join bevel" />
-    <Localized key="join_miter" lang="French" value="Raccord en onglet" />
-    <Localized key="join_round" lang="French" value="Raccord arrondi" />
-    <Localized key="join_bevel" lang="French" value="Raccord en biseau" />
-    <Localized key="join_miter" lang="Dutch" value="Join miter" />
-    <Localized key="join_round" lang="Dutch" value="Join round" />
-    <Localized key="join_bevel" lang="Dutch" value="Join bevel" />
-    <Localized key="cap_butt" lang="English" value="Cap butt" />
-    <Localized key="cap_round" lang="English" value="Cap round" />
-    <Localized key="cap_square" lang="English" value="Cap square" />
-    <Localized key="plain_stroke" lang="English" value="Plain stroke" />
-    <Localized key="small_dashes" lang="English" value="Small dashes" />
-    <Localized key="medium_dashes" lang="English" value="Medium dashes" />
-    <Localized key="medium_spaced_dashes" lang="English" value="Medium spaced dashes" />
-    <Localized key="big_dashes" lang="English" value="Big dashes" />
-    <Localized key="dots_dashes" lang="English" value="Dots dashes" />
-    <Localized key="dot_lines_dashes" lang="English" value="Dot lines dashes" />
-    <Localized key="cap_butt" lang="French" value="Bout en bouchon" />
-    <Localized key="cap_round" lang="French" value="Bout arrondi" />
-    <Localized key="cap_square" lang="French" value="Bout carré" />
-    <Localized key="plain_stroke" lang="French" value="Trait plein" />
-    <Localized key="small_dashes" lang="French" value="Ligne pointillée court" />
-    <Localized key="medium_dashes" lang="French" value="Ligne pointillées moyen" />
-    <Localized key="medium_spaced_dashes" lang="French" value="Tiret de tailles moyenne" />
-    <Localized key="big_dashes" lang="French" value="Gros pointillés" />
-    <Localized key="dots_dashes" lang="French" value="Ligne pointillée fine" />
-    <Localized key="dot_lines_dashes" lang="French" value="Ligne pointillée alternée" />
-    <Localized key="cap_butt" lang="Dutch" value="Cap butt" />
-    <Localized key="cap_round" lang="Dutch" value="Cap round" />
-    <Localized key="cap_square" lang="Dutch" value="Cap square" />
-    <Localized key="plain_stroke" lang="Dutch" value="Plain stroke" />
-    <Localized key="small_dashes" lang="Dutch" value="Small dashes" />
-    <Localized key="medium_dashes" lang="Dutch" value="Medium dashes" />
-    <Localized key="medium_spaced_dashes" lang="Dutch" value="Medium spaced dashes" />
-    <Localized key="big_dashes" lang="Dutch" value="Big dashes" />
-    <Localized key="dots_dashes" lang="Dutch" value="Dots dashes" />
-    <Localized key="dot_lines_dashes" lang="Dutch" value="Dot lines dashes" />
+  <FIBVariable id="30" name="data" type="org.openflexo.fge.ForegroundStyle" />
+  <LocalizedDictionary id="31">
+    <Localized id="32" value="Transparence" lang="French" key="transparency" />
+    <Localized id="33" value="Transparency" lang="English" key="transparency" />
+    <Localized id="34" value="No stroke" lang="English" key="no_stroke" />
+    <Localized id="35" value="Line width" lang="English" key="line_width" />
+    <Localized id="36" value="Color" lang="English" key="color" />
+    <Localized id="37" value="Join style" lang="English" key="join_style" />
+    <Localized id="38" value="Cap style" lang="English" key="cap_style" />
+    <Localized id="39" value="Dash style" lang="English" key="dash_style" />
+    <Localized id="40" value="Use transparency" lang="English" key="use_transparency" />
+    <Localized id="41" value="Apply" lang="English" key="apply" />
+    <Localized id="42" value="Cancel" lang="English" key="cancel" />
+    <Localized id="43" value="Pas de trait" lang="French" key="no_stroke" />
+    <Localized id="44" value="Épaisseur" lang="French" key="line_width" />
+    <Localized id="45" value="Couleur" lang="French" key="color" />
+    <Localized id="46" value="Raccord" lang="French" key="join_style" />
+    <Localized id="47" value="Bouts" lang="French" key="cap_style" />
+    <Localized id="48" value="Pointillés" lang="French" key="dash_style" />
+    <Localized id="49" value="Transparence" lang="French" key="use_transparency" />
+    <Localized id="50" value="Appliquer" lang="French" key="apply" />
+    <Localized id="51" value="Annuler" lang="French" key="cancel" />
+    <Localized id="52" value="No stroke" lang="Dutch" key="no_stroke" />
+    <Localized id="53" value="Line width" lang="Dutch" key="line_width" />
+    <Localized id="54" value="Color" lang="Dutch" key="color" />
+    <Localized id="55" value="Join style" lang="Dutch" key="join_style" />
+    <Localized id="56" value="Cap style" lang="Dutch" key="cap_style" />
+    <Localized id="57" value="Dash style" lang="Dutch" key="dash_style" />
+    <Localized id="58" value="Use transparency" lang="Dutch" key="use_transparency" />
+    <Localized id="59" value="Apply" lang="Dutch" key="apply" />
+    <Localized id="60" value="Cancel" lang="Dutch" key="cancel" />
+    <Localized id="61" value="Join miter" lang="English" key="join_miter" />
+    <Localized id="62" value="Join round" lang="English" key="join_round" />
+    <Localized id="63" value="Join bevel" lang="English" key="join_bevel" />
+    <Localized id="64" value="En onglet" lang="French" key="join_miter" />
+    <Localized id="65" value="Arrondi" lang="French" key="join_round" />
+    <Localized id="66" value="En biseau" lang="French" key="join_bevel" />
+    <Localized id="67" value="Join miter" lang="Dutch" key="join_miter" />
+    <Localized id="68" value="Join round" lang="Dutch" key="join_round" />
+    <Localized id="69" value="Join bevel" lang="Dutch" key="join_bevel" />
+    <Localized id="70" value="Cap butt" lang="English" key="cap_butt" />
+    <Localized id="71" value="Cap round" lang="English" key="cap_round" />
+    <Localized id="72" value="Cap square" lang="English" key="cap_square" />
+    <Localized id="73" value="Plain stroke" lang="English" key="plain_stroke" />
+    <Localized id="74" value="Small dashes" lang="English" key="small_dashes" />
+    <Localized id="75" value="Medium dashes" lang="English" key="medium_dashes" />
+    <Localized id="76" value="Medium spaced dashes" lang="English" key="medium_spaced_dashes" />
+    <Localized id="77" value="Big dashes" lang="English" key="big_dashes" />
+    <Localized id="78" value="Dots dashes" lang="English" key="dots_dashes" />
+    <Localized id="79" value="Dot lines dashes" lang="English" key="dot_lines_dashes" />
+    <Localized id="80" value="Bouchon" lang="French" key="cap_butt" />
+    <Localized id="81" value="Arrondi" lang="French" key="cap_round" />
+    <Localized id="82" value="Carré" lang="French" key="cap_square" />
+    <Localized id="83" value="Trait plein" lang="French" key="plain_stroke" />
+    <Localized id="84" value="Ligne pointillée court" lang="French" key="small_dashes" />
+    <Localized id="85" value="Ligne pointillées moyen" lang="French" key="medium_dashes" />
+    <Localized id="86" value="Tiret de tailles moyenne" lang="French" key="medium_spaced_dashes" />
+    <Localized id="87" value="Gros pointillés" lang="French" key="big_dashes" />
+    <Localized id="88" value="Ligne pointillée fine" lang="French" key="dots_dashes" />
+    <Localized id="89" value="Ligne pointillée alternée" lang="French" key="dot_lines_dashes" />
+    <Localized id="90" value="Cap butt" lang="Dutch" key="cap_butt" />
+    <Localized id="91" value="Cap round" lang="Dutch" key="cap_round" />
+    <Localized id="92" value="Cap square" lang="Dutch" key="cap_square" />
+    <Localized id="93" value="Plain stroke" lang="Dutch" key="plain_stroke" />
+    <Localized id="94" value="Small dashes" lang="Dutch" key="small_dashes" />
+    <Localized id="95" value="Medium dashes" lang="Dutch" key="medium_dashes" />
+    <Localized id="96" value="Medium spaced dashes" lang="Dutch" key="medium_spaced_dashes" />
+    <Localized id="97" value="Big dashes" lang="Dutch" key="big_dashes" />
+    <Localized id="98" value="Dots dashes" lang="Dutch" key="dots_dashes" />
+    <Localized id="99" value="Dot lines dashes" lang="Dutch" key="dot_lines_dashes" />
+    <Localized id="100" value="Transp. level" lang="English" key="transparency_level" />
+    <Localized id="101" value="Transparency level" lang="Dutch" key="transparency_level" />
+    <Localized id="102" value="Niveau" lang="French" key="transparency_level" />
   </LocalizedDictionary>
 </Panel>

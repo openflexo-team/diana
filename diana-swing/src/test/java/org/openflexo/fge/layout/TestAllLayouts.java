@@ -39,7 +39,6 @@
 package org.openflexo.fge.layout;
 
 import java.awt.Component;
-import java.io.IOException;
 import java.util.logging.Level;
 
 import org.junit.After;
@@ -50,9 +49,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openflexo.fge.FGEModelFactory;
 import org.openflexo.fge.FGEModelFactoryImpl;
-import org.openflexo.fge.TestGraph;
-import org.openflexo.fib.swing.toolbox.JFIBInspectorController;
-import org.openflexo.fib.testutils.GraphicalContextDelegate;
+import org.openflexo.fge.test.TestGraph;
+import org.openflexo.fge.test.layout.BalloonLayoutManagerDrawing;
+import org.openflexo.fge.test.layout.ForceDirectedGraphLayoutManagerDrawing;
+import org.openflexo.fge.test.layout.GridLayoutManagerDrawing;
+import org.openflexo.fge.test.layout.ISOMGraphLayoutManagerDrawing;
+import org.openflexo.fge.test.layout.RadialTreeLayoutManagerDrawing;
+import org.openflexo.fge.test.layout.TreeLayoutManagerDrawing;
+import org.openflexo.gina.ApplicationFIBLibrary.ApplicationFIBLibraryImpl;
+import org.openflexo.gina.swing.utils.JFIBDialogInspectorController;
+import org.openflexo.gina.test.SwingGraphicalContextDelegate;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.rm.ResourceLocator;
@@ -68,9 +74,9 @@ import org.openflexo.test.TestOrder;
 @RunWith(OrderedRunner.class)
 public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 
-	private static GraphicalContextDelegate gcDelegate;
+	private static SwingGraphicalContextDelegate gcDelegate;
 
-	private static JFIBInspectorController inspector;
+	private static JFIBDialogInspectorController inspector;
 
 	static FGEModelFactory factory = null;
 
@@ -80,10 +86,6 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 		try {
 			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -93,7 +95,8 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 			e.printStackTrace();
 		}
 
-		inspector = new JFIBInspectorController(null, ResourceLocator.locateResource("LayoutInspectors"), null);
+		inspector = new JFIBDialogInspectorController(null, ResourceLocator.locateResource("LayoutInspectors"),
+				ApplicationFIBLibraryImpl.instance(), null);
 
 		initGUI();
 	}
@@ -129,33 +132,33 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 		node7.connectTo(node13);
 		return graph;
 	}
-
+	
 	public static class TestDrawingController extends JDianaInteractiveEditor<TestGraph> {
 		// private final JPopupMenu contextualMenu;
 		private final JDianaScaleSelector scaleSelector;
-
+	
 		public TestDrawingController(Drawing aDrawing) {
 			super(aDrawing, aDrawing.getFactory(), SwingViewFactory.INSTANCE, SwingToolFactory.DEFAULT);
 			scaleSelector = (JDianaScaleSelector) getToolFactory().makeDianaScaleSelector(this);
 			// contextualMenu = new JPopupMenu();
 			// contextualMenu.add(new JMenuItem("Item"));
 		}
-
+	
 	}
-
+	
 	static class LayoutDemoPanel extends JPanel {
-
+	
 		final TestDrawingController drawingController;
-
+	
 		public LayoutDemoPanel(Drawing drawing) {
 			super(new BorderLayout());
-
+	
 			drawingController = new TestDrawingController(drawing);
-
+	
 			drawingController.getDrawingView().setName("[NO_CACHE]");
 			add(new JScrollPane(drawingController.getDrawingView()), BorderLayout.CENTER);
 			add(drawingController.scaleSelector.getComponent(), BorderLayout.NORTH);
-
+	
 			JButton inspectButton = new JButton("Inspect");
 			inspectButton.addActionListener(new ActionListener() {
 				@Override
@@ -163,7 +166,7 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 					inspector.setVisible(true);
 				}
 			});
-
+	
 			JButton logButton = new JButton("Logs");
 			logButton.addActionListener(new ActionListener() {
 				@Override
@@ -171,7 +174,7 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 					FlexoLoggingViewer.showLoggingViewer(FlexoLoggingManager.instance(), gcDelegate.getFrame());
 				}
 			});
-
+	
 			JButton layoutButton = new JButton("Layout");
 			layoutButton.addActionListener(new ActionListener() {
 				@Override
@@ -180,32 +183,32 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 					drawingController.getDrawing().getRoot().getDefaultLayoutManager().doLayout(true);
 				}
 			});
-
+	
 			JPanel controlPanel = new JPanel(new FlowLayout());
 			controlPanel.add(inspectButton);
 			controlPanel.add(logButton);
 			controlPanel.add(layoutButton);
-
+	
 			add(controlPanel, BorderLayout.SOUTH);
-
+	
 		}
-
+	
 		public TestDrawingController getDrawingController() {
 			return drawingController;
 		}
-
+	
 		public FGELayoutManagerSpecification<?> getLayoutManagerSpecification() {
 			return drawingController.getDrawing().getRoot().getDefaultLayoutManager().getLayoutManagerSpecification();
 		}
-
+	
 	}
-
+	
 	public static LayoutDemoPanel makePanel(final Drawing d) {
 		return new LayoutDemoPanel(d);
 	}*/
 
 	public static void initGUI() {
-		gcDelegate = new GraphicalContextDelegate(TestAllLayouts.class.getSimpleName()) {
+		gcDelegate = new SwingGraphicalContextDelegate(TestAllLayouts.class.getSimpleName()) {
 
 			@Override
 			public void selectedTab(int index, Component selectedComponent) {

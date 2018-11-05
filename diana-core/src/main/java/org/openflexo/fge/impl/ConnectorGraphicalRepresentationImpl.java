@@ -39,24 +39,17 @@
 
 package org.openflexo.fge.impl;
 
-import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.util.logging.Logger;
 
 import org.openflexo.fge.ConnectorGraphicalRepresentation;
-import org.openflexo.fge.Drawing;
-import org.openflexo.fge.FGEConstants;
 import org.openflexo.fge.ForegroundStyle;
-import org.openflexo.fge.ShapeGraphicalRepresentation;
 import org.openflexo.fge.connectors.ConnectorSpecification;
 import org.openflexo.fge.connectors.ConnectorSpecification.ConnectorType;
-import org.openflexo.fge.control.MouseControl.MouseButton;
-import org.openflexo.fge.control.PredefinedMouseClickControlActionType;
 import org.openflexo.fge.notifications.ConnectorModified;
 import org.openflexo.fge.notifications.ConnectorNeedsToBeRedrawn;
 import org.openflexo.fge.notifications.FGEAttributeNotification;
-import org.openflexo.toolbox.ToolBox;
 
 public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepresentationImpl implements ConnectorGraphicalRepresentation {
 
@@ -84,42 +77,42 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 		super();
 		// graphics = new FGEConnectorGraphicsImpl(this);
 	}
-
-	@Deprecated
-	private ConnectorGraphicalRepresentationImpl(Object aDrawable, Drawing<?> aDrawing) {
-		this();
-		// setDrawable(aDrawable);
-		// setDrawing(aDrawing);
-	}
-
-	@Deprecated
-	protected ConnectorGraphicalRepresentationImpl(ConnectorType aConnectorType, ShapeGraphicalRepresentation aStartObject,
-			ShapeGraphicalRepresentation anEndObject, Object aDrawable, Drawing<?> aDrawing) {
-		this(aDrawable, aDrawing);
-
-		layer = FGEConstants.DEFAULT_CONNECTOR_LAYER;
-
-		// setStartObject(aStartObject);
-		// setEndObject(anEndObject);
-		setConnectorType(aConnectorType);
-		// graphics = new FGEConnectorGraphicsImpl(this);
-
-		foreground = getFactory().makeForegroundStyle(Color.BLACK);
-		// foreground.setGraphicalRepresentation(this);
-		foreground.getPropertyChangeSupport().addPropertyChangeListener(this);
-
-		addToMouseClickControls(getFactory().makeMouseClickControl("Selection", MouseButton.LEFT, 1,
-				PredefinedMouseClickControlActionType.SELECTION));
-		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
-			addToMouseClickControls(getFactory().makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1,
-					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+	/*
+		@Deprecated
+		private ConnectorGraphicalRepresentationImpl(Object aDrawable, Drawing<?> aDrawing) {
+			this();
+			// setDrawable(aDrawable);
+			// setDrawing(aDrawing);
 		}
-		else {
-			addToMouseClickControls(getFactory().makeMouseControlClickControl("Multiple selection", MouseButton.LEFT, 1,
-					PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+	
+		@Deprecated
+		protected ConnectorGraphicalRepresentationImpl(ConnectorType aConnectorType, ShapeGraphicalRepresentation aStartObject,
+				ShapeGraphicalRepresentation anEndObject, Object aDrawable, Drawing<?> aDrawing) {
+			this(aDrawable, aDrawing);
+	
+			layer = FGEConstants.DEFAULT_CONNECTOR_LAYER;
+	
+			// setStartObject(aStartObject);
+			// setEndObject(anEndObject);
+			setConnectorType(aConnectorType);
+			// graphics = new FGEConnectorGraphicsImpl(this);
+	
+			foreground = getFactory().makeForegroundStyle(Color.BLACK);
+			// foreground.setGraphicalRepresentation(this);
+			foreground.getPropertyChangeSupport().addPropertyChangeListener(this);
+	
+			addToMouseClickControls(
+					getFactory().makeMouseClickControl("Selection", MouseButton.LEFT, 1, PredefinedMouseClickControlActionType.SELECTION));
+			if (ToolBox.isMacOS()) {
+				addToMouseClickControls(getFactory().makeMouseMetaClickControl("Multiple selection", MouseButton.LEFT, 1,
+						PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			}
+			else {
+				addToMouseClickControls(getFactory().makeMouseControlClickControl("Multiple selection", MouseButton.LEFT, 1,
+						PredefinedMouseClickControlActionType.MULTIPLE_SELECTION));
+			}
 		}
-	}
-
+	*/
 	// ***************************************************************************
 	// * Deletion *
 	// ***************************************************************************
@@ -148,7 +141,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 			setConnector(clone);
 		}
 	}
-
+	
 	@Override
 	public final void setsWith(GraphicalRepresentation gr, GRProperty... exceptedParameters) {
 		super.setsWith(gr, exceptedParameters);
@@ -189,13 +182,13 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 			if (aConnector != null && aConnector.getPropertyChangeSupport() != null) {
 				aConnector.getPropertyChangeSupport().addPropertyChangeListener(this);
 			}
-			FGEAttributeNotification notification = requireChange(CONNECTOR, aConnector);
+			FGEAttributeNotification<?> notification = requireChange(CONNECTOR, aConnector);
 			if (notification != null) {
 				ConnectorType oldType = connector != null ? connector.getConnectorType() : null;
 				this.connector = aConnector;
 				hasChanged(notification);
-				notifyObservers(new FGEAttributeNotification(CONNECTOR_TYPE, oldType, (aConnector != null ? aConnector.getConnectorType()
-						: null)));
+				notifyObservers(new FGEAttributeNotification<>(CONNECTOR_TYPE, oldType,
+						(aConnector != null ? aConnector.getConnectorType() : null)));
 			}
 		}
 	}
@@ -207,7 +200,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setForeground(ForegroundStyle aForeground) {
-		FGEAttributeNotification notification = requireChange(FOREGROUND, aForeground);
+		FGEAttributeNotification<?> notification = requireChange(FOREGROUND, aForeground);
 		PropertyChangeSupport pcs = null;
 		if (notification != null) {
 			if (foreground != null) {
@@ -235,7 +228,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setSelectedForeground(ForegroundStyle aForeground) {
-		FGEAttributeNotification notification = requireChange(SELECTED_FOREGROUND, aForeground, false);
+		FGEAttributeNotification<?> notification = requireChange(SELECTED_FOREGROUND, aForeground, false);
 		if (notification != null) {
 			if (selectedForeground != null && selectedForeground.getPropertyChangeSupport() != null) {
 				selectedForeground.getPropertyChangeSupport().removePropertyChangeListener(this);
@@ -268,7 +261,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setFocusedForeground(ForegroundStyle aForeground) {
-		FGEAttributeNotification notification = requireChange(FOCUSED_FOREGROUND, aForeground, false);
+		FGEAttributeNotification<?> notification = requireChange(FOCUSED_FOREGROUND, aForeground, false);
 		if (notification != null) {
 			if (focusedForeground != null && focusedForeground.getPropertyChangeSupport() != null) {
 				focusedForeground.getPropertyChangeSupport().removePropertyChangeListener(this);
@@ -336,7 +329,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 	public ShapeGraphicalRepresentation getStartObject() {
 		return startObject;
 	}
-
+	
 	@Override
 	public void setStartObject(ShapeGraphicalRepresentation aStartObject) {
 		startObject = aStartObject;
@@ -347,20 +340,20 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 
 	/*private boolean enabledStartObjectObserving = false;
 	private Vector<Observable> observedStartObjects = new Vector<Observable>();
-
+	
 	private boolean enabledEndObjectObserving = false;
 	private Vector<Observable> observedEndObjects = new Vector<Observable>();
-
+	
 	protected void enableStartObjectObserving(ShapeGraphicalRepresentation aStartObject) {
-
+	
 		if (aStartObject == null || !aStartObject.isValidated()) {
 			return;
 		}
-
+	
 		if (enabledStartObjectObserving) {
 			disableStartObjectObserving();
 		}
-
+	
 		if (aStartObject != null ) {
 			aStartObject.addObserver(this);
 			observedStartObjects.add((Observable) aStartObject);
@@ -375,13 +368,13 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 			enabledStartObjectObserving = true;
 		}
 	}
-
+	
 	protected void disableStartObjectObserving() {
 		if (enabledStartObjectObserving) {
 			for (Observable o : observedStartObjects) {
 				o.deleteObserver(this);
 			}
-
+	
 			enabledStartObjectObserving = false;
 		}
 	}*/
@@ -390,7 +383,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 	public ShapeGraphicalRepresentation getEndObject() {
 		return endObject;
 	}
-
+	
 	@Override
 	public void setEndObject(ShapeGraphicalRepresentation anEndObject) {
 		endObject = anEndObject;
@@ -400,15 +393,15 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 	}*/
 
 	/*protected void enableEndObjectObserving(ShapeGraphicalRepresentation anEndObject) {
-
+	
 		if (anEndObject == null || !anEndObject.isValidated()) {
 			return;
 		}
-
+	
 		if (enabledEndObjectObserving) {
 			disableEndObjectObserving();
 		}
-
+	
 		if (anEndObject != null) {
 			anEndObject.addObserver(this);
 			observedEndObjects.add((Observable) anEndObject);
@@ -423,7 +416,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 			enabledEndObjectObserving = true;
 		}
 	}
-
+	
 	protected void disableEndObjectObserving() {
 		if (enabledEndObjectObserving) {
 			for (Observable o : observedEndObjects) {
@@ -432,7 +425,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 			enabledEndObjectObserving = false;
 		}
 	}
-
+	
 	@Override
 	public void observeRelevantObjects() {
 		enableStartObjectObserving(getStartObject());
@@ -443,27 +436,27 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 	public int getViewX(double scale) {
 		return getViewBounds(scale).x;
 	}
-
+	
 	@Override
 	public int getViewY(double scale) {
 		return getViewBounds(scale).y;
 	}
-
+	
 	@Override
 	public int getViewWidth(double scale) {
 		return getViewBounds(scale).width;
 	}
-
+	
 	@Override
 	public int getViewHeight(double scale) {
 		return getViewBounds(scale).height;
 	}
-
+	
 	private double minX = 0.0;
 	private double minY = 0.0;
 	private double maxX = 1.0;
 	private double maxY = 1.0;
-
+	
 	private void checkViewBounds() {
 		FGERectangle r = getConnector().getConnectorUsedBounds();
 		if (FGEUtils.checkDoubleIsAValue(r.getMinX()) && FGEUtils.checkDoubleIsAValue(r.getMinY())
@@ -478,7 +471,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 	/*@Override
 	public Rectangle getViewBounds(double scale) {
 		// return getNormalizedBounds(scale);
-
+	
 		Rectangle bounds = getNormalizedBounds(scale);
 		Rectangle returned = new Rectangle();
 		returned.x = (int) (bounds.x + (minX < 0 ? minX * bounds.width : 0));
@@ -487,19 +480,19 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 		returned.height = (int) ((maxY - minY) * bounds.height);
 		return returned;
 	}
-
+	
 	@Override
 	public int getExtendedX(double scale) {
 		Rectangle bounds = getNormalizedBounds(scale);
 		return (int) (bounds.x + (minX < 0 ? minX * bounds.width : 0));
 	}
-
+	
 	@Override
 	public int getExtendedY(double scale) {
 		Rectangle bounds = getNormalizedBounds(scale);
 		return (int) (bounds.y + (minY < 0 ? minY * bounds.height : 0));
 	}
-
+	
 	@Override
 	public Rectangle getNormalizedBounds(double scale) {
 		if (getStartObject() == null || getStartObject().isDeleted() || getEndObject() == null || getEndObject().isDeleted()) {
@@ -508,20 +501,20 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 			// Here, we return a (1,1)-size to avoid obtaining Infinity AffinTransform !!!
 			return new Rectangle(0, 0, 1, 1);
 		}
-
+	
 		if (getContainerGraphicalRepresentation() == null) {
 			logger.warning("getNormalizedBounds() called for GR " + this + " with containerGR=null, validated=" + isValidated());
 		}
-
+	
 		Rectangle startBounds = getStartObject().getViewBounds(getContainerGraphicalRepresentation(), scale);
 		Rectangle endsBounds = getEndObject().getViewBounds(getContainerGraphicalRepresentation(), scale);
-
+	
 		Rectangle bounds = new Rectangle();
 		Rectangle2D.union(startBounds, endsBounds, bounds);
-
+	
 		return bounds;
 	}
-
+	
 	@Override
 	public boolean isContainedInSelection(Rectangle drawingViewSelection, double scale) {
 		FGERectangle drawingViewBounds = new FGERectangle(drawingViewSelection.getX(), drawingViewSelection.getY(),
@@ -545,31 +538,31 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 	/*@Override
 	public AffineTransform convertNormalizedPointToViewCoordinatesAT(double scale) {
 		Rectangle bounds = getNormalizedBounds(scale);
-
+	
 		// return AffineTransform.getScaleInstance(bounds.width, bounds.height);
-
+	
 		AffineTransform returned = AffineTransform.getTranslateInstance(minX < 0 ? -minX * bounds.width : 0, minY < 0 ? -minY
 				* bounds.height : 0);
-
+	
 		returned.concatenate(AffineTransform.getScaleInstance(bounds.width, bounds.height));
-
+	
 		return returned;
-
+	
 	}*/
 
 	/*@Override
 	public AffineTransform convertViewCoordinatesToNormalizedPointAT(double scale) {
 		Rectangle bounds = getNormalizedBounds(scale);
-
+	
 		// return AffineTransform.getScaleInstance(1.0/bounds.width, 1.0/bounds.height);
-
+	
 		AffineTransform returned = AffineTransform.getTranslateInstance(minX < 0 ? minX * bounds.width : 0, minY < 0 ? minY * bounds.height
 				: 0);
-
+	
 		returned.preConcatenate(AffineTransform.getScaleInstance(1.0 / bounds.width, 1.0 / bounds.height));
-
+	
 		return returned;
-
+	
 	}*/
 
 	/**
@@ -594,29 +587,29 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 		if (!isRegistered()) {
 			setRegistered(true);
 		}
-
+	
 		super.paint(g, controller);
-
+	
 		if (getStartObject() == null || getStartObject().isDeleted()) {
 			logger.warning("Could not paint connector: start object is null or deleted");
 			return;
 		}
-
+	
 		if (getEndObject() == null || getEndObject().isDeleted()) {
 			logger.warning("Could not paint connector: end object is null or deleted");
 			return;
 		}
-
+	
 		Graphics2D g2 = (Graphics2D) g;
 		graphics.createGraphics(g2, controller);
-
+	
 		if (FGEConstants.DEBUG) {
 			g2.setColor(Color.PINK);
 			g2.drawRect(0, 0, getViewWidth(controller.getScale()) - 1, getViewHeight(controller.getScale()) - 1);
 		}
-
+	
 		if (connector != null) {
-
+	
 			if (!isValidated()) {
 				logger.warning("paint connector requested for not validated connector graphical representation: " + this);
 				return;
@@ -633,17 +626,17 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 			}
 			connector.paintConnector(graphics);
 		}
-
+	
 		graphics.releaseGraphics();
 	}
-
+	
 	@Override
 	public Point getLabelLocation(double scale) {
 		Point connectorCenter = convertNormalizedPointToViewCoordinates(getConnector().getMiddleSymbolLocation(), scale);
 		return new Point((int) (connectorCenter.x + getAbsoluteTextX() * scale + getViewX(scale)), (int) (connectorCenter.y
 				+ getAbsoluteTextY() * scale + getViewY(scale)));
 	}
-
+	
 	@Override
 	public void setLabelLocation(Point point, double scale) {
 		Point connectorCenter = convertNormalizedPointToViewCoordinates(getConnector().getMiddleSymbolLocation(), scale);
@@ -706,12 +699,12 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 		return getStartObject() != null && getEndObject() != null && !getStartObject().isDeleted() && !getEndObject().isDeleted()
 				&& FGEUtils.areElementsConnectedInGraphicalHierarchy(getStartObject(), getEndObject());
 	}
-
+	
 	@Override
 	public void refreshConnector() {
 		refreshConnector(false);
 	}
-
+	
 	protected void refreshConnector(boolean forceRefresh) {
 		if (!isConnectorConsistent()) {
 			// Dont' go further for connector that are inconsistent (this may happen
@@ -754,7 +747,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setApplyForegroundToSymbols(boolean applyForegroundToSymbols) {
-		FGEAttributeNotification notification = requireChange(APPLY_FOREGROUND_TO_SYMBOLS, applyForegroundToSymbols);
+		FGEAttributeNotification<?> notification = requireChange(APPLY_FOREGROUND_TO_SYMBOLS, applyForegroundToSymbols);
 		if (notification != null) {
 			this.applyForegroundToSymbols = applyForegroundToSymbols;
 			hasChanged(notification);
@@ -768,7 +761,7 @@ public abstract class ConnectorGraphicalRepresentationImpl extends GraphicalRepr
 
 	@Override
 	public void setDebugCoveringArea(boolean debugCoveringArea) {
-		FGEAttributeNotification notification = requireChange(DEBUG_COVERING_AREA, debugCoveringArea);
+		FGEAttributeNotification<?> notification = requireChange(DEBUG_COVERING_AREA, debugCoveringArea);
 		if (notification != null) {
 			this.debugCoveringArea = debugCoveringArea;
 			hasChanged(notification);

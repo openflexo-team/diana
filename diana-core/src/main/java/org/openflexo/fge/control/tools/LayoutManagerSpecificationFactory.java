@@ -47,27 +47,27 @@ import org.openflexo.fge.FGELayoutManagerSpecification.LayoutManagerSpecificatio
  * @author sylvain
  * 
  */
-public abstract class LayoutManagerSpecificationFactory implements
-		StyleFactory<FGELayoutManagerSpecification<?>, LayoutManagerSpecificationType> {
+public abstract class LayoutManagerSpecificationFactory
+		implements StyleFactory<FGELayoutManagerSpecification<?>, LayoutManagerSpecificationType> {
 
 	/*private static final Logger logger = Logger.getLogger(LayoutManagerSpecificationFactory.class.getPackage().getName());
-
+	
 	private static final String DELETED = "deleted";
 	// private AbstractInspectedBackgroundStyle<?> backgroundStyle;
-
+	
 	private LayoutManagerSpecificationType backgroundStyleType = LayoutManagerSpecificationType.NONE;
-
+	
 	private InspectedNoneBackgroundStyle noneBackgroundStyle;
 	private final InspectedColorBackgroundStyle colorBackgroundStyle;
 	private final InspectedColorGradientBackgroundStyle colorGradientBackgroundStyle;
 	private final InspectedTextureBackgroundStyle textureBackgroundStyle;
 	private final InspectedBackgroundImageBackgroundStyle backgroundImageBackgroundStyle;
-
+	
 	private PropertyChangeSupport pcSupport;
 	private FGEModelFactory fgeFactory;
-
+	
 	private final DianaInteractiveViewer<?, ?, ?> controller;
-
+	
 	public LayoutManagerSpecificationFactory(DianaInteractiveViewer<?, ?, ?> controller) {
 		pcSupport = new PropertyChangeSupport(this);
 		this.controller = controller;
@@ -84,37 +84,37 @@ public abstract class LayoutManagerSpecificationFactory implements
 		backgroundImageBackgroundStyle = new InspectedBackgroundImageBackgroundStyle(controller, controller.getFactory()
 				.makeImageBackground(FGEConstants.DEFAULT_IMAGE));
 	}
-
+	
 	@Override
 	public FGEModelFactory getFGEFactory() {
 		return fgeFactory;
 	}
-
+	
 	@Override
 	public void setFGEFactory(FGEModelFactory fgeFactory) {
 		this.fgeFactory = fgeFactory;
 	}
-
+	
 	@Override
 	public PropertyChangeSupport getPropertyChangeSupport() {
 		return pcSupport;
 	}
-
+	
 	public void delete() {
 		getPropertyChangeSupport().firePropertyChange(DELETED, false, true);
 		pcSupport = null;
 	}
-
+	
 	@Override
 	public String getDeletedProperty() {
 		return DELETED;
 	}
-
+	
 	@Override
 	public AbstractInspectedBackgroundStyle<?> getCurrentStyle() {
 		return getBackgroundStyle();
 	}
-
+	
 	public AbstractInspectedBackgroundStyle<?> getBackgroundStyle() {
 		if (backgroundStyleType != null) {
 			switch (backgroundStyleType) {
@@ -135,7 +135,7 @@ public abstract class LayoutManagerSpecificationFactory implements
 			return null;
 		}
 	}
-
+	
 	protected boolean requireChange(Object oldObject, Object newObject) {
 		if (oldObject == null) {
 			if (newObject == null) {
@@ -146,28 +146,28 @@ public abstract class LayoutManagerSpecificationFactory implements
 		}
 		return !oldObject.equals(newObject);
 	}
-
+	
 	@Override
 	public BackgroundStyleType getStyleType() {
 		return backgroundStyleType;
 	}
-
+	
 	@Override
 	public void setStyleType(BackgroundStyleType backgroundStyleType) {
 		BackgroundStyleType oldBackgroundStyleType = getStyleType();
-
+	
 		if (oldBackgroundStyleType == backgroundStyleType) {
 			return;
 		}
-
+	
 		BackgroundStyle oldBS = getBackgroundStyle();
-
+	
 		this.backgroundStyleType = backgroundStyleType;
 		pcSupport.firePropertyChange(STYLE_CLASS_CHANGED, oldBackgroundStyleType, getStyleType());
 		pcSupport.firePropertyChange("backgroundStyle", oldBS, getBackgroundStyle());
 		pcSupport.firePropertyChange("styleType", oldBackgroundStyleType, getStyleType());
 	}
-
+	
 	@Override
 	public BackgroundStyle makeNewStyle(BackgroundStyle oldStyle) {
 		BackgroundStyle returned = null;
@@ -213,102 +213,98 @@ public abstract class LayoutManagerSpecificationFactory implements
 		default:
 			break;
 		}
-
+	
 		if (oldStyle != null) {
 			returned.setUseTransparency(oldStyle.getUseTransparency());
 			returned.setTransparencyLevel(oldStyle.getTransparencyLevel());
 		}
-
+	
 		return returned;
-
+	
 	}
-
+	
 	protected abstract class AbstractInspectedLayoutManagerSpecification<LMS extends FGELayoutManagerSpecification<?>> extends
 			InspectedStyle<LMS> implements FGELayoutManagerSpecification<FGELayoutManager<LMS, ?>> {
-
+	
 		protected AbstractInspectedLayoutManagerSpecification(DianaInteractiveViewer<?, ?, ?> controller, LMS defaultValue) {
 			super(controller, defaultValue);
 		}
-
+	
 		@Override
 		public String getIdentifier() {
 			return getPropertyValue(FGELayoutManagerSpecification.IDENTIFIER);
 		}
-
+	
 		@Override
 		public void setIdentifier(String identifier) {
 			setPropertyValue(FGELayoutManagerSpecification.IDENTIFIER, identifier);
 		}
-
+	
 		@Override
 		public List<ContainerNode<?, ?>> getSelection() {
 			return getController().getSelectedContainers();
 		}
-
+	
 		@Override
 		public BindingModel getBindingModel() {
-			// TODO Auto-generated method stub
 			return null;
 		}
-
+	
 		@Override
 		public BindingFactory getBindingFactory() {
-			// TODO Auto-generated method stub
 			return null;
 		}
-
+	
 		@Override
 		public void notifiedBindingChanged(DataBinding<?> dataBinding) {
-			// TODO Auto-generated method stub
-
+	
 		}
-
+	
 		@Override
 		public void notifiedBindingDecoded(DataBinding<?> dataBinding) {
-			// TODO Auto-generated method stub
-
+	
 		}
-
+	
 		@Override
 		public Boolean paintDecoration() {
 			return getPropertyValue(FGELayoutManagerSpecification.PAINT_DECORATION);
 		}
-
+	
 		@Override
 		public void setPaintDecoration(Boolean paintDecoration) {
 			setPropertyValue(FGELayoutManagerSpecification.PAINT_DECORATION, paintDecoration);
 		}
-
+	
 		@Override
 		public DraggingMode getDraggingMode() {
 			return getPropertyValue(FGELayoutManagerSpecification.DRAGGING_MODE);
 		}
-
+	
 		@Override
 		public void setDraggingMode(DraggingMode draggingMode) {
 			setPropertyValue(FGELayoutManagerSpecification.DRAGGING_MODE, draggingMode);
 		}
-
+	
 		@Override
 		public boolean animateLayout() {
 			return getPropertyValue(FGELayoutManagerSpecification.ANIMATE_LAYOUT);
 		}
-
+	
 		@Override
 		public void setAnimateLayout(boolean animateLayout) {
 			setPropertyValue(FGELayoutManagerSpecification.ANIMATE_LAYOUT, animateLayout);
 		}
-
+	
 		@Override
 		public int getAnimationStepsNumber() {
 			return getPropertyValue(FGELayoutManagerSpecification.ANIMATION_STEPS_NUMBER);
 		}
-
+	
 		@Override
 		public void setAnimationStepsNumber(int stepsNumber) {
 			setPropertyValue(FGELayoutManagerSpecification.ANIMATION_STEPS_NUMBER, stepsNumber);
 		}
-
+	
 		@Override
 		public FGELayoutManager<LMS, ?> makeLayoutManager(ContainerNode<?, ?> containerNode) {
 			FGELayoutManager<LMS, ?> layoutManager = getFactory().newInstance(getLayoutManagerClass());
@@ -318,7 +314,7 @@ public abstract class LayoutManagerSpecificationFactory implements
 			System.out.println("Created LayoutManager " + getIdentifier() + " : " + layoutManager);
 			return layoutManager;
 		}
-
+	
 		@Override
 		public LMS getStyle(DrawingTreeNode<?, ?> node) {
 			if (node instanceof ContainerNode && ((ContainerNode<?, ?>) node).getLayoutManagerSpecifications().size() > 0) {
@@ -327,61 +323,61 @@ public abstract class LayoutManagerSpecificationFactory implements
 			return null;
 		}
 	}
-
+	
 	protected class InspectedNoLayout extends AbstractInspectedLayoutManagerSpecification<FGELayoutManagerSpecification<?>> {
-
+	
 		protected InspectedNoLayout(DianaInteractiveViewer<?, ?, ?> controller, FGELayoutManagerSpecification<?> defaultValue) {
 			super(controller, defaultValue);
 		}
-
+	
 		@Override
 		public LayoutManagerSpecificationType getLayoutManagerSpecificationType() {
 			return LayoutManagerSpecificationType.NONE;
 		}
-
+	
 		@Override
 		public FGELayoutManagerSpecification<?> getStyle(DrawingTreeNode<?, ?> node) {
 			return null;
 		}
-
+	
 		@Override
 		public Class<? extends FGELayoutManager<FGELayoutManagerSpecification<?>, ?>> getLayoutManagerClass() {
 			return null;
 		}
-
+	
 		@Override
 		public boolean supportAutolayout() {
 			return false;
 		}
-
+	
 		@Override
 		public boolean supportDecoration() {
 			return false;
 		}
 	}
-
+	
 	protected class InspectedGridLayout extends AbstractInspectedLayoutManagerSpecification<GridLayoutManagerSpecification> implements
 			GridLayoutManagerSpecification {
-
+	
 		protected InspectedGridLayout(DianaInteractiveViewer<?, ?, ?> controller, GridLayoutManagerSpecification defaultValue) {
 			super(controller, defaultValue);
 		}
-
+	
 		@Override
 		public LayoutManagerSpecificationType getLayoutManagerSpecificationType() {
 			return LayoutManagerSpecificationType.GRID;
 		}
-
+	
 		@Override
 		public Color getColor() {
 			return getPropertyValue(ColorBackgroundStyle.COLOR);
 		}
-
+	
 		@Override
 		public void setColor(Color aColor) {
 			setPropertyValue(ColorBackgroundStyle.COLOR, aColor);
 		}
-
+	
 		@Override
 		public ColorBackgroundStyle getStyle(DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {

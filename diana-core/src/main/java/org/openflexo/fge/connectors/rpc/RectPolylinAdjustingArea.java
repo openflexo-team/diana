@@ -62,7 +62,7 @@ import org.openflexo.fge.graphics.FGEGraphics;
 
 public class RectPolylinAdjustingArea extends ControlArea<FGERectPolylin> {
 
-	private static final Hashtable<Integer, Image> PIN_CACHE = new Hashtable<Integer, Image>();
+	private static final Hashtable<Integer, Image> PIN_CACHE = new Hashtable<>();
 	protected FGERectPolylin initialPolylin;
 	private RectPolylinConnector connector;
 
@@ -92,7 +92,7 @@ public class RectPolylinAdjustingArea extends ControlArea<FGERectPolylin> {
 				getConnector().getEndObject(), getGraphicalRepresentation());
 		FGEArea startArea = getConnector().getStartObject().getShape().getShape().transform(at1);
 		FGEArea endArea = getConnector().getEndObject().getShape().getShape().transform(at2);
-
+		
 		newPolylin = FGERectPolylin.makeRectPolylinCrossingPoint(
 				startArea, endArea, newRelativePoint,
 				getConnector().getStartOrientation(),
@@ -147,7 +147,6 @@ public class RectPolylinAdjustingArea extends ControlArea<FGERectPolylin> {
 
 	@Override
 	public Rectangle paint(FGEGraphics graphics) {
-		/*System.out.println("prout");*/
 		FGEPoint crossedControlPoint = getConnector().getCrossedControlPointOnRoundedArc();
 		if (crossedControlPoint != null) {
 			int pinSize = graphics.getScale() <= 1 ? 16 : (int) (16.0 / 2 * (1.0 + graphics.getScale()));

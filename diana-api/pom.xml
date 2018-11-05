@@ -4,17 +4,27 @@
 	<parent>
 		<groupId>org.openflexo</groupId>
 		<artifactId>diana</artifactId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.4.1</version>
 	</parent>
 	<artifactId>diana-api</artifactId>
-	<name>GUI :: Diana-API</name>
+	<name>Diana-API</name>
 	<build>
-		<!--  <plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-			</plugin>
-		</plugins>-->
+         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+              	<version>${maven.sourceplugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+          </plugins>
 	</build>
 	<dependencies>
 		<dependency>

@@ -142,7 +142,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	/**
 	 * Store temporary properties that may not be serialized
 	 */
-	private Map<GRProperty, Object> propertyValues = new HashMap<GRProperty, Object>();
+	private Map<GRProperty, Object> propertyValues = new HashMap<>();
 
 	protected DrawingTreeNodeImpl(DrawingImpl<?> drawingImpl, O drawable, GRBinding<O, GR> grBinding, ContainerNodeImpl<?, ?> parentNode) {
 
@@ -159,12 +159,12 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 		hash.put(drawable, this);
 
-		propertyValues = new HashMap<GRProperty, Object>();
+		propertyValues = new HashMap<>();
 
 		retrieveGraphicalRepresentation();
 
-		dependancies = new ArrayList<ConstraintDependency>();
-		alterings = new ArrayList<ConstraintDependency>();
+		dependancies = new ArrayList<>();
+		alterings = new ArrayList<>();
 
 		// controlAreas = new ArrayList<ControlArea<?>>();
 
@@ -199,7 +199,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		private Map<DynamicPropertyValue<?>, BindingValueChangeListener<?>> listeners;
 
 		public BindingValueObserver() {
-			listeners = new HashMap<GRBinding.DynamicPropertyValue<?>, BindingValueChangeListener<?>>();
+			listeners = new HashMap<>();
 			for (final DynamicPropertyValue<?> dpv : getGRBinding().getDynamicPropertyValues()) {
 				registerBindingValueChangeListener(dpv);
 			}
@@ -234,8 +234,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	@Override
 	public String getDeletedProperty() {
-		// TODO check this
-		return null;
+		return NodeDeleted.EVENT_NAME;
 	}
 
 	@Override
@@ -281,8 +280,24 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 */
 	@Override
 	public boolean isValid() {
-		if (getDrawing().getDrawingTreeNode(getDrawable(), getGRBinding()) != this) {
+		if (getDrawable() == null) {
 			return false;
+		}
+		if (getDrawing().getDrawingTreeNode(getDrawable(), getGRBinding()) != this) {
+			logger.warning(
+					"Please investigate here: something strange at this point, see isValid() in DrawingTreeNode. More informations in the console");
+			System.out.println("drawable=" + getDrawable());
+			System.out.println("grBinding=" + getGRBinding());
+			DrawingTreeNode<?, ?> dtn = getDrawing().getDrawingTreeNode(getDrawable(), getGRBinding());
+			if (dtn != null) {
+				System.out.println("dtn.drawable=" + dtn.getDrawable());
+				System.out.println("dtn.grBinding=" + dtn.getGRBinding());
+			}
+			else {
+				System.out.println("dtn=null");
+			}
+			// Thread.dumpStack();
+			// return false;
 		}
 
 		DrawingTreeNode<?, ?> current = this;
@@ -322,7 +337,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	@Override
 	public List<DrawingTreeNode<?, ?>> getAncestors() {
-		List<DrawingTreeNode<?, ?>> ancestors = new ArrayList<DrawingTreeNode<?, ?>>();
+		List<DrawingTreeNode<?, ?>> ancestors = new ArrayList<>();
 		ancestors.add(this);
 		if (parentNode != null) {
 			ancestors.addAll(parentNode.getAncestors());
@@ -442,7 +457,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			for (PropertyChangeListener l : pcSupport.getPropertyChangeListeners()) {
 				logger.info("Remaining PropertyChangeListener:  " + l);
 			}
-			Thread.dumpStack();
+			// Thread.dumpStack();
 		}
 		pcSupport = null;
 	}
@@ -453,9 +468,9 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	}
 
 	/*Vector<DrawingTreeNode<?>> nodesToRemove = new Vector<DrawingTreeNode<?>>();
-
+	
 	protected void beginUpdateObjectHierarchy() {
-
+	
 		// Invalidated nodes are to be removed rigth now
 		// (we are sure that we don't want to keep it)
 		if (childNodes != null) {
@@ -465,7 +480,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 				}
 			}
 		}
-
+	
 		// Remaining nodes are marked to potential deletion
 		if (childNodes != null) {
 			for (DrawingTreeNode<?> n : childNodes) {
@@ -473,7 +488,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			}
 		}
 	}
-
+	
 	protected void endUpdateObjectHierarchy() {
 		// Nodes that keep marked for deletion are deleted now
 		for (DrawingTreeNode<?> n : nodesToRemove) {
@@ -507,9 +522,9 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 					try {
 						node.declareDependantOf(c, param, param);
 					} catch (DependencyLoopException e) {
-						logger.warning("DependancyLoopException raised while declaring dependancy (data lookup)"
-								+ "in the context of binding: " + binding.toString() + " node: " + node + " dependancy: " + c
-								+ " message: " + e.getMessage());
+						logger.warning(
+								"DependancyLoopException raised while declaring dependancy (data lookup)" + "in the context of binding: "
+										+ binding.toString() + " node: " + node + " dependancy: " + c + " message: " + e.getMessage());
 					}
 				}
 			}
@@ -537,7 +552,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		}
 		// Look if this dependancy may cause a loop in dependancies
 		try {
-			List<DrawingTreeNode<?, ?>> actualDependancies = new Vector<DrawingTreeNode<?, ?>>();
+			List<DrawingTreeNode<?, ?>> actualDependancies = new Vector<>();
 			actualDependancies.add(aNode);
 			searchLoopInDependenciesWith(aNode, actualDependancies);
 		} catch (DependencyLoopException e) {
@@ -564,7 +579,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			if (c == this) {
 				throw new DependencyLoopException(actualDependancies);
 			}
-			Vector<DrawingTreeNode<?, ?>> newVector = new Vector<DrawingTreeNode<?, ?>>();
+			Vector<DrawingTreeNode<?, ?>> newVector = new Vector<>();
 			newVector.addAll(actualDependancies);
 			newVector.add(c);
 			searchLoopInDependenciesWith(c, newVector);
@@ -575,7 +590,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	// * Observer implementation *
 	// *******************************************************************************
 
-	protected Set<HasPropertyChangeSupport> temporaryIgnoredObservables = new HashSet<HasPropertyChangeSupport>();
+	protected Set<HasPropertyChangeSupport> temporaryIgnoredObservables = new HashSet<>();
 
 	/**
 	 * 
@@ -605,7 +620,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		// Now start to observe drawable for drawing structural modifications
 		if (drawable instanceof Observable) {
 			((Observable) drawable).addObserver(this);
-		} else if (drawable instanceof HasPropertyChangeSupport) {
+		}
+		else if (drawable instanceof HasPropertyChangeSupport) {
 			((HasPropertyChangeSupport) drawable).getPropertyChangeSupport().addPropertyChangeListener(this);
 		}
 		isObservingDrawable = true;
@@ -619,7 +635,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		// Now start to observe drawable for drawing structural modifications
 		if (drawable instanceof Observable) {
 			((Observable) drawable).deleteObserver(this);
-		} else if (drawable instanceof HasPropertyChangeSupport) {
+		}
+		else if (drawable instanceof HasPropertyChangeSupport) {
 			((HasPropertyChangeSupport) drawable).getPropertyChangeSupport().removePropertyChangeListener(this);
 		}
 		isObservingDrawable = false;
@@ -652,10 +669,15 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 * @return
 	 */
 	private boolean eventMightRequireStructureModification(PropertyChangeEvent evt, O drawable) {
-		if (evt.getPropertyName().equals(ProxyMethodHandler.MODIFIED)) {
-			return false;
+		String propertyName = evt.getPropertyName();
+		switch (propertyName) {
+			case ProxyMethodHandler.MODIFIED:
+			case ProxyMethodHandler.SERIALIZING:
+			case ProxyMethodHandler.DESERIALIZING:
+				return false;
+			default:
+				return true;
 		}
-		return true;
 	}
 
 	@Override
@@ -717,14 +739,10 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	}
 
-	@Deprecated
-	public void setChanged() {
-	}
-
 	public void notifyObservers(FGENotification notification) {
 		if ((!(notification instanceof NodeDeleted)) && isDeleted()) {
 			logger.warning("notifyObservers() called by a deleted DrawingTreeNode");
-			Thread.dumpStack();
+			// Thread.dumpStack();
 			return;
 		}
 		getPropertyChangeSupport().firePropertyChange(notification.propertyName(), notification.oldValue, notification.newValue);
@@ -737,9 +755,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	// TODO: (sylvain) i think this is no more necessary, remove this ???
 	@Deprecated
 	public <T> void notifyAttributeChanged(GRProperty<T> parameter, T oldValue, T newValue) {
-		propagateConstraintsAfterModification(parameter);
-		setChanged();
-		notifyObservers(new FGEAttributeNotification<T>(parameter, oldValue, newValue));
+		notifyObservers(new FGEAttributeNotification<>(parameter, oldValue, newValue));
 	}
 
 	public void forward(PropertyChangeEvent evt) {
@@ -749,24 +765,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		// getPropertyChangeSupport().firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
 	}
 
-	// TODO: (sylvain) i think this is no more necessary, remove this ???
-	@Deprecated
-	protected <T> void propagateConstraintsAfterModification(GRProperty<T> parameter) {
-		for (ConstraintDependency dependency : alterings) {
-			if (dependency.requiredParameter == parameter) {
-				((DrawingTreeNodeImpl<?, ?>) dependency.requiringGR).computeNewConstraint(dependency);
-			}
-		}
-	}
-
-	// TODO: (sylvain) i think this is no more necessary, remove this ???
-	@Deprecated
-	protected void computeNewConstraint(ConstraintDependency dependency) {
-		// None known at this level
-	}
-
 	@Override
-	public final Point convertNormalizedPointToViewCoordinates(double x, double y, double scale) {
+	public Point convertNormalizedPointToViewCoordinates(double x, double y, double scale) {
 		AffineTransform at = convertNormalizedPointToViewCoordinatesAT(scale);
 		FGEPoint returned = new FGEPoint();
 		at.transform(new FGEPoint(x, y), returned);
@@ -786,7 +786,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	public abstract AffineTransform convertNormalizedPointToViewCoordinatesAT(double scale);
 
 	@Override
-	public final FGEPoint convertViewCoordinatesToNormalizedPoint(int x, int y, double scale) {
+	public FGEPoint convertViewCoordinatesToNormalizedPoint(int x, int y, double scale) {
 		AffineTransform at = convertViewCoordinatesToNormalizedPointAT(scale);
 		FGEPoint returned = new FGEPoint();
 		at.transform(new FGEPoint(x, y), returned);
@@ -846,7 +846,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	}
 
 	@Override
-	public Rectangle convertLocalNormalizedRectangleToRemoteViewCoordinates(FGERectangle r, DrawingTreeNode<?, ?> destination, double scale) {
+	public Rectangle convertLocalNormalizedRectangleToRemoteViewCoordinates(FGERectangle r, DrawingTreeNode<?, ?> destination,
+			double scale) {
 		FGEPoint p1 = new FGEPoint(r.x, r.y);
 		FGEPoint p2 = new FGEPoint(r.x + r.width, r.y + r.height);
 		Point pp1 = convertLocalNormalizedPointToRemoteViewCoordinates(p1, destination, scale);
@@ -925,7 +926,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		Dimension d;
 		if (labelMetricsProvider != null) {
 			d = labelMetricsProvider.getScaledPreferredDimension(scale);
-		} else {
+		}
+		else {
 			d = new Dimension(0, 0);
 		}
 		return d;
@@ -982,30 +984,26 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		if (getGraphicalRepresentation() == null) {
 			return false;
 		}
-		return getGraphicalRepresentation().getIsVisible() && getParentNode() != null && getParentNode().shouldBeDisplayed();
+		return getIsVisible() && getParentNode() != null && getParentNode().shouldBeDisplayed();
 	}
 
 	@Override
 	public void notifyLabelWillBeEdited() {
-		setChanged();
 		notifyObservers(new LabelWillEdit());
 	}
 
 	@Override
 	public void notifyLabelHasBeenEdited() {
-		setChanged();
 		notifyObservers(new LabelHasEdited());
 	}
 
 	@Override
 	public void notifyLabelWillMove() {
-		setChanged();
 		notifyObservers(new LabelWillMove());
 	}
 
 	@Override
 	public void notifyLabelHasMoved() {
-		setChanged();
 		notifyObservers(new LabelHasMoved());
 	}
 
@@ -1036,8 +1034,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	public void setIsFocused(boolean aFlag) {
 		if (aFlag != isFocused) {
 			isFocused = aFlag;
-			setChanged();
-			notifyObservers(new FGEAttributeNotification(IS_FOCUSED, !isFocused, isFocused));
+			notifyObservers(new FGEAttributeNotification<>(IS_FOCUSED, !isFocused, isFocused));
 		}
 	}
 
@@ -1050,8 +1047,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	public void setIsSelected(boolean aFlag) {
 		if (aFlag != isSelected) {
 			isSelected = aFlag;
-			setChanged();
-			notifyObservers(new FGEAttributeNotification(IS_SELECTED, !isSelected, isSelected));
+			notifyObservers(new FGEAttributeNotification<>(IS_SELECTED, !isSelected, isSelected));
 		}
 	}
 
@@ -1162,7 +1158,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			}
 			if (getGraphicalRepresentation().hasKey(parameter.getName())) {
 				return (T) getGraphicalRepresentation().objectForKey(parameter.getName());
-			} else {
+			}
+			else {
 				return null;
 			}
 		}
@@ -1180,8 +1177,6 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 				// Init default value with GR
 				if (getGraphicalRepresentation().hasKey(parameter.getName())) {
 					returned = (T) getGraphicalRepresentation().objectForKey(parameter.getName());
-				} else {
-					returned = null;
 				}
 				if (returned != null) {
 					propertyValues.put(parameter, returned);
@@ -1268,15 +1263,19 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	class DrawingTreeNodeEvaluationContext implements BindingEvaluationContext {
 		@Override
 		public Object getValue(BindingVariable variable) {
-			if (variable.getVariableName().equals("this")) {
+			if (variable.getVariableName().equals(THIS_KEY)) {
 				return getGraphicalRepresentation();
-			} else if (variable.getVariableName().equals("parent")) {
+			}
+			else if (variable.getVariableName().equals(PARENT_KEY) && getParentNode() != null) {
 				return getParentNode().getGraphicalRepresentation();
-			} else if (variable.getVariableName().equals("drawable")) {
+			}
+			else if (variable.getVariableName().equals(DRAWABLE_KEY)) {
 				return getDrawable();
-			} else if (variable.getVariableName().equals("gr")) {
+			}
+			else if (variable.getVariableName().equals(GR_KEY)) {
 				return getGraphicalRepresentation();
-			} else {
+			}
+			else {
 				DrawingImpl.logger.warning("Could not find variable named " + variable);
 				return null;
 			}
@@ -1286,6 +1285,22 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		public String toString() {
 			return "DrawingTreeNodeEvaluationContext for " + DrawingTreeNodeImpl.this;
 		}
+	}
+
+	/**
+	 * Convenient method used to retrieve visible property value
+	 */
+	@Override
+	public Boolean getIsVisible() {
+		return getPropertyValue(GraphicalRepresentation.IS_VISIBLE);
+	}
+
+	/**
+	 * Convenient method used to set visible property value
+	 */
+	@Override
+	public void setIsVisible(Boolean visible) {
+		setPropertyValue(GraphicalRepresentation.IS_VISIBLE, visible);
 	}
 
 	/**
@@ -1310,18 +1325,15 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 					value = getGRBinding().getDynamicPropertyValue(GraphicalRepresentation.TEXT).dataBinding
 							.getBindingValue(getBindingEvaluationContext());
 				} catch (TypeMismatchException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (NullReferenceException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				System.out.println("valeur=" + value);
 			}
-
+		
 		}*/
 
 		return getPropertyValue(GraphicalRepresentation.TEXT);
@@ -1338,6 +1350,31 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	@Override
 	public boolean hasText() {
+
+		// Tried to optimize this computation
+
+		if (hasDynamicPropertyValue(GraphicalRepresentation.TEXT)) {
+			return true;
+		}
+
+		if (getDrawing().getPersistenceMode() == PersistenceMode.UniqueGraphicalRepresentations) {
+			if (getGraphicalRepresentation() == null) {
+				return false;
+			}
+			if (getGraphicalRepresentation().hasKey(GraphicalRepresentation.TEXT.getName())) {
+				return true;
+			}
+		}
+
+		else if (getDrawing().getPersistenceMode() == PersistenceMode.SharedGraphicalRepresentations) {
+
+			if (getGraphicalRepresentation() == null) {
+				return false;
+			}
+
+			return propertyValues != null && propertyValues.get(GraphicalRepresentation.TEXT) != null;
+		}
+
 		return getText() != null && !getText().trim().equals("");
 	}
 
@@ -1376,19 +1413,19 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	public boolean hasKey(String key) {
 		return KeyValueDecoder.hasKey(this, key);
 	}
-
+	
 	@Override
 	public Object objectForKey(String key) {
 		return KeyValueDecoder.objectForKey(this, key);
 	}
-
+	
 	@Override
 	public void setObjectForKey(Object value, String key) {
 		KeyValueCoder.setObjectForKey(this, value, key);
 	}
-
+	
 	// Retrieving type
-
+	
 	@Override
 	public Class getTypeForKey(String key) {
 		return KeyValueDecoder.getTypeForKey(this, key);

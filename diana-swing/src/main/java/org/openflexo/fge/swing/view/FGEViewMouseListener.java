@@ -126,7 +126,7 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 			return;
 		}
 
-		if (ToolBox.getPLATFORM() == ToolBox.MACOS) {
+		if (ToolBox.isMacOS()) {
 			if (e.getClickCount() == 2 && previousEvent != null) {
 				if (previousEvent.getClickCount() == 1 && previousEvent.getComponent() == e.getComponent()
 						&& previousEvent.getButton() != e.getButton()) {
@@ -142,33 +142,33 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 
 		if (getController() instanceof DianaInteractiveEditor) {
 			switch (((DianaInteractiveEditor<?, ?, ?>) getController()).getCurrentTool()) {
-			case DrawCustomShapeTool:
-				performSelectionTool = false;
-				if (editable && getDrawCustomShapeToolController() != null) {
-					getDrawCustomShapeToolController().mouseClicked(e);
-				}
-				break;
-			case DrawShapeTool:
-				if (editable && getDrawShapeToolController() != null) {
-					getDrawShapeToolController().mouseClicked(e);
-				}
-				performSelectionTool = false;
-				break;
-			case DrawConnectorTool:
-				if (editable && getDrawConnectorToolController() != null) {
-					getDrawConnectorToolController().mouseClicked(e);
-				}
-				performSelectionTool = false;
-				break;
-			case DrawTextTool:
-				if (editable && getDrawTextToolController() != null) {
-					getDrawTextToolController().mouseClicked(e);
-				}
-				performSelectionTool = false;
-				break;
-			case SelectionTool:
-				performSelectionTool = true;
-				break;
+				case DrawCustomShapeTool:
+					performSelectionTool = false;
+					if (editable && getDrawCustomShapeToolController() != null) {
+						getDrawCustomShapeToolController().mouseClicked(e);
+					}
+					break;
+				case DrawShapeTool:
+					if (editable && getDrawShapeToolController() != null) {
+						getDrawShapeToolController().mouseClicked(e);
+					}
+					performSelectionTool = false;
+					break;
+				case DrawConnectorTool:
+					if (editable && getDrawConnectorToolController() != null) {
+						getDrawConnectorToolController().mouseClicked(e);
+					}
+					performSelectionTool = false;
+					break;
+				case DrawTextTool:
+					if (editable && getDrawTextToolController() != null) {
+						getDrawTextToolController().mouseClicked(e);
+					}
+					performSelectionTool = false;
+					break;
+				case SelectionTool:
+					performSelectionTool = true;
+					break;
 			}
 
 		}
@@ -202,7 +202,8 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 						view.getDrawingView().shapeViewForNode((ShapeNode<?>) focusedObject).getLabelView().startEdition();
 						e.consume();
 						return;
-					} else if (focusedObject instanceof ConnectorNode) {
+					}
+					else if (focusedObject instanceof ConnectorNode) {
 						view.getDrawingView().connectorViewForNode((ConnectorNode<?>) focusedObject).getLabelView().startEdition();
 						e.consume();
 						return;
@@ -236,14 +237,16 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 			MouseControlContext mcc = new JMouseControlContext(e);
 
 			// We have now performed all low-level possible actions, let's go for the registered mouse controls
-			for (MouseClickControl<?> mouseClickControl : focusedObject.getGraphicalRepresentation().getMouseClickControls()) {
+			for (MouseClickControl<?> mouseClickControl : new ArrayList<>(
+					focusedObject.getGraphicalRepresentation().getMouseClickControls())) {
 				if (((MouseClickControl<DianaInteractiveViewer<?, ?, ?>>) mouseClickControl).isApplicable(focusedObject, controller, mcc)) {
 					if (logger.isLoggable(Level.FINE)) {
 						logger.fine("Applying " + mouseClickControl);
 					}
 					((MouseClickControl<DianaInteractiveViewer<?, ?, ?>>) mouseClickControl).handleClick(focusedObject,
 							(DianaInteractiveViewer<?, ?, ?>) getController(), mcc);
-				} else {
+				}
+				else {
 					if (logger.isLoggable(Level.FINE)) {
 						logger.fine("Ignoring " + mouseClickControl);
 					}
@@ -263,29 +266,29 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 		// If a specific tool is active, delegate event to him, and return is the event was consumed by delegate tool controller
 		if (getController() instanceof DianaInteractiveEditor) {
 			switch (((DianaInteractiveEditor<?, ?, ?>) getController()).getCurrentTool()) {
-			case DrawCustomShapeTool:
-				if (getDrawCustomShapeToolController() != null && getDrawCustomShapeToolController().mouseEntered(e)) {
-					return;
-				}
-				break;
-			case DrawShapeTool:
-				if (getDrawShapeToolController() != null && getDrawShapeToolController().mouseEntered(e)) {
-					return;
-				}
-				break;
-			case DrawConnectorTool:
-				if (getDrawConnectorToolController() != null && getDrawConnectorToolController().mouseEntered(e)) {
-					return;
-				}
-				break;
-			case DrawTextTool:
-				if (getDrawTextToolController() != null && getDrawTextToolController().mouseEntered(e)) {
-					return;
-				}
-				break;
-			case SelectionTool:
-				// We continue
-				break;
+				case DrawCustomShapeTool:
+					if (getDrawCustomShapeToolController() != null && getDrawCustomShapeToolController().mouseEntered(e)) {
+						return;
+					}
+					break;
+				case DrawShapeTool:
+					if (getDrawShapeToolController() != null && getDrawShapeToolController().mouseEntered(e)) {
+						return;
+					}
+					break;
+				case DrawConnectorTool:
+					if (getDrawConnectorToolController() != null && getDrawConnectorToolController().mouseEntered(e)) {
+						return;
+					}
+					break;
+				case DrawTextTool:
+					if (getDrawTextToolController() != null && getDrawTextToolController().mouseEntered(e)) {
+						return;
+					}
+					break;
+				case SelectionTool:
+					// We continue
+					break;
 			}
 		}
 
@@ -312,29 +315,29 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 		// If a specific tool is active, delegate event to him, and return is the event was consumed by delegate tool controller
 		if (getController() instanceof DianaInteractiveEditor) {
 			switch (((DianaInteractiveEditor<?, ?, ?>) getController()).getCurrentTool()) {
-			case DrawCustomShapeTool:
-				if (getDrawCustomShapeToolController() != null && getDrawCustomShapeToolController().mouseExited(e)) {
-					return;
-				}
-				break;
-			case DrawShapeTool:
-				if (getDrawShapeToolController() != null && getDrawShapeToolController().mouseExited(e)) {
-					return;
-				}
-				break;
-			case DrawConnectorTool:
-				if (getDrawConnectorToolController() != null && getDrawConnectorToolController().mouseExited(e)) {
-					return;
-				}
-				break;
-			case DrawTextTool:
-				if (getDrawTextToolController() != null && getDrawTextToolController().mouseExited(e)) {
-					return;
-				}
-				break;
-			case SelectionTool:
-				// We continue
-				break;
+				case DrawCustomShapeTool:
+					if (getDrawCustomShapeToolController() != null && getDrawCustomShapeToolController().mouseExited(e)) {
+						return;
+					}
+					break;
+				case DrawShapeTool:
+					if (getDrawShapeToolController() != null && getDrawShapeToolController().mouseExited(e)) {
+						return;
+					}
+					break;
+				case DrawConnectorTool:
+					if (getDrawConnectorToolController() != null && getDrawConnectorToolController().mouseExited(e)) {
+						return;
+					}
+					break;
+				case DrawTextTool:
+					if (getDrawTextToolController() != null && getDrawTextToolController().mouseExited(e)) {
+						return;
+					}
+					break;
+				case SelectionTool:
+					// We continue
+					break;
 			}
 		}
 
@@ -370,14 +373,13 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 					startMovingLocationInDrawingView, getDrawingView().getDrawing().getRoot(), getDrawingView().getScale());
 			startMovingPoint = aControlArea.getArea().getNearestPoint(relativeStartMovingPoint);
 			Point clickedLocationInDrawingView = SwingUtilities.convertPoint((Component) e.getSource(), e.getPoint(), getDrawingView());
-			aControlArea.startDragging(
-					getController(),
-					aControlArea.getNode().convertRemoteViewCoordinatesToLocalNormalizedPoint(clickedLocationInDrawingView,
-							getDrawingView().getDrawing().getRoot(), getDrawingView().getScale()));
+			aControlArea.startDragging(getController(), aControlArea.getNode().convertRemoteViewCoordinatesToLocalNormalizedPoint(
+					clickedLocationInDrawingView, getDrawingView().getDrawing().getRoot(), getDrawingView().getScale()));
 			if (controlArea.getNode().isValid()) {
 				initialWidth = controlArea.getNode().getViewWidth(view.getScale());
 				initialHeight = controlArea.getNode().getViewHeight(view.getScale());
-			} else {
+			}
+			else {
 				// System.out.println("Not connected to drawing");
 				initialWidth = 0;
 				initialHeight = 0;
@@ -386,16 +388,18 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 
 		private boolean moveTo(Point newLocationInDrawingView, MouseEvent e) {
 
-			FGEPoint newAbsoluteLocation = new FGEPoint(startMovingPoint.x
-					+ (newLocationInDrawingView.x - startMovingLocationInDrawingView.x) / view.getScale(), startMovingPoint.y
-					+ (newLocationInDrawingView.y - startMovingLocationInDrawingView.y) / view.getScale());
+			FGEPoint newAbsoluteLocation = new FGEPoint(
+					startMovingPoint.x + (newLocationInDrawingView.x - startMovingLocationInDrawingView.x) / view.getScale(),
+					startMovingPoint.y + (newLocationInDrawingView.y - startMovingLocationInDrawingView.y) / view.getScale());
 
 			FGEPoint newRelativeLocation = getDrawingView().getDrawing().getRoot()
 					.convertLocalViewCoordinatesToRemoteNormalizedPoint(newLocationInDrawingView, controlArea.getNode(), view.getScale());
 
-			FGEPoint pointRelativeToInitialConfiguration = new FGEPoint(startMovingPoint.x
-					+ (newLocationInDrawingView.x - startMovingLocationInDrawingView.x) / initialWidth/* *view.getScale()*/,
-					startMovingPoint.y + (newLocationInDrawingView.y - startMovingLocationInDrawingView.y) / initialHeight/* *view.getScale()*/);
+			FGEPoint pointRelativeToInitialConfiguration = new FGEPoint(
+					startMovingPoint.x
+							+ (newLocationInDrawingView.x - startMovingLocationInDrawingView.x) / initialWidth/* *view.getScale()*/,
+					startMovingPoint.y
+							+ (newLocationInDrawingView.y - startMovingLocationInDrawingView.y) / initialHeight/* *view.getScale()*/);
 			return controlArea.dragToPoint(newRelativeLocation, pointRelativeToInitialConfiguration, newAbsoluteLocation, startMovingPoint,
 					e);
 		}
@@ -465,29 +469,29 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 		// If a specific tool is active, delegate event to him, and return is the event was consumed by delegate tool controller
 		if (getController() instanceof DianaInteractiveEditor) {
 			switch (((DianaInteractiveEditor<?, ?, ?>) getController()).getCurrentTool()) {
-			case DrawCustomShapeTool:
-				if (getDrawCustomShapeToolController() != null && getDrawCustomShapeToolController().mousePressed(e)) {
-					return;
-				}
-				break;
-			case DrawShapeTool:
-				if (getDrawShapeToolController() != null && getDrawShapeToolController().mousePressed(e)) {
-					return;
-				}
-				break;
-			case DrawConnectorTool:
-				if (getDrawConnectorToolController() != null && getDrawConnectorToolController().mousePressed(e)) {
-					return;
-				}
-				break;
-			case DrawTextTool:
-				if (getDrawTextToolController() != null && getDrawTextToolController().mousePressed(e)) {
-					return;
-				}
-				break;
-			case SelectionTool:
-				// We continue
-				break;
+				case DrawCustomShapeTool:
+					if (getDrawCustomShapeToolController() != null && getDrawCustomShapeToolController().mousePressed(e)) {
+						return;
+					}
+					break;
+				case DrawShapeTool:
+					if (getDrawShapeToolController() != null && getDrawShapeToolController().mousePressed(e)) {
+						return;
+					}
+					break;
+				case DrawConnectorTool:
+					if (getDrawConnectorToolController() != null && getDrawConnectorToolController().mousePressed(e)) {
+						return;
+					}
+					break;
+				case DrawTextTool:
+					if (getDrawTextToolController() != null && getDrawTextToolController().mousePressed(e)) {
+						return;
+					}
+					break;
+				case SelectionTool:
+					// We continue
+					break;
 			}
 		}
 
@@ -512,11 +516,12 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 			}
 			((DianaInteractiveViewer<?, ?, ?>) getController()).stopEditionOfEditedLabelIfAny();
 			if (focusedObject.hasFloatingLabel() && getFocusRetriever().focusOnFloatingLabel(focusedObject, e)) {
-				currentFloatingLabelDrag = new FloatingLabelDrag(focusedObject, SwingUtilities.convertPoint((Component) e.getSource(),
-						e.getPoint(), getDrawingView()));
+				currentFloatingLabelDrag = new FloatingLabelDrag(focusedObject,
+						SwingUtilities.convertPoint((Component) e.getSource(), e.getPoint(), getDrawingView()));
 				e.consume();
 				return;
-			} else {
+			}
+			else {
 				ControlArea<?> ca = getFocusRetriever().getFocusedControlAreaForDrawable(focusedObject, e);
 				if (ca != null && ca.isDraggable()) {
 					if (logger.isLoggable(Level.FINE)) {
@@ -543,7 +548,8 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 					if (logger.isLoggable(Level.FINE)) {
 						logger.fine("Found applicable " + mouseDragControl);
 					}
-				} else {
+				}
+				else {
 					if (logger.isLoggable(Level.FINE)) {
 						logger.fine("Ignoring " + mouseDragControl);
 					}
@@ -573,7 +579,8 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 				if (getController() != null) {
 					((DianaInteractiveViewer<?, ?, ?>) getController()).setCurrentMouseDrag(currentMouseDrag);
 				}
-			} else {
+			}
+			else {
 				// Something failed, abort this drag
 				if (getController() != null) {
 					((DianaInteractiveViewer<?, ?, ?>) getController()).setCurrentMouseDrag(null);
@@ -591,29 +598,29 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 		// If a specific tool is active, delegate event to him, and return is the event was consumed by delegate tool controller
 		if (getController() instanceof DianaInteractiveEditor) {
 			switch (((DianaInteractiveEditor<?, ?, ?>) getController()).getCurrentTool()) {
-			case DrawCustomShapeTool:
-				if (getDrawCustomShapeToolController() != null && getDrawCustomShapeToolController().mouseReleased(e)) {
-					return;
-				}
-				break;
-			case DrawShapeTool:
-				if (getDrawShapeToolController() != null && getDrawShapeToolController().mouseReleased(e)) {
-					return;
-				}
-				break;
-			case DrawConnectorTool:
-				if (getDrawConnectorToolController() != null && getDrawConnectorToolController().mouseReleased(e)) {
-					return;
-				}
-				break;
-			case DrawTextTool:
-				if (getDrawTextToolController() != null && getDrawTextToolController().mouseReleased(e)) {
-					return;
-				}
-				break;
-			case SelectionTool:
-				// We continue
-				break;
+				case DrawCustomShapeTool:
+					if (getDrawCustomShapeToolController() != null && getDrawCustomShapeToolController().mouseReleased(e)) {
+						return;
+					}
+					break;
+				case DrawShapeTool:
+					if (getDrawShapeToolController() != null && getDrawShapeToolController().mouseReleased(e)) {
+						return;
+					}
+					break;
+				case DrawConnectorTool:
+					if (getDrawConnectorToolController() != null && getDrawConnectorToolController().mouseReleased(e)) {
+						return;
+					}
+					break;
+				case DrawTextTool:
+					if (getDrawTextToolController() != null && getDrawTextToolController().mouseReleased(e)) {
+						return;
+					}
+					break;
+				case SelectionTool:
+					// We continue
+					break;
 			}
 		}
 
@@ -676,29 +683,29 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 		// If a specific tool is active, delegate event to him, and return is the event was consumed by delegate tool controller
 		if (getController() instanceof DianaInteractiveEditor) {
 			switch (((DianaInteractiveEditor<?, ?, ?>) getController()).getCurrentTool()) {
-			case DrawCustomShapeTool:
-				if (getDrawCustomShapeToolController() != null && getDrawCustomShapeToolController().mouseDragged(e)) {
-					return;
-				}
-				break;
-			case DrawShapeTool:
-				if (getDrawShapeToolController() != null && getDrawShapeToolController().mouseDragged(e)) {
-					return;
-				}
-				break;
-			case DrawConnectorTool:
-				if (getDrawConnectorToolController() != null && getDrawConnectorToolController().mouseDragged(e)) {
-					return;
-				}
-				break;
-			case DrawTextTool:
-				if (getDrawTextToolController() != null && getDrawTextToolController().mouseDragged(e)) {
-					return;
-				}
-				break;
-			case SelectionTool:
-				// We continue
-				break;
+				case DrawCustomShapeTool:
+					if (getDrawCustomShapeToolController() != null && getDrawCustomShapeToolController().mouseDragged(e)) {
+						return;
+					}
+					break;
+				case DrawShapeTool:
+					if (getDrawShapeToolController() != null && getDrawShapeToolController().mouseDragged(e)) {
+						return;
+					}
+					break;
+				case DrawConnectorTool:
+					if (getDrawConnectorToolController() != null && getDrawConnectorToolController().mouseDragged(e)) {
+						return;
+					}
+					break;
+				case DrawTextTool:
+					if (getDrawTextToolController() != null && getDrawTextToolController().mouseDragged(e)) {
+						return;
+					}
+					break;
+				case SelectionTool:
+					// We continue
+					break;
 			}
 		}
 
@@ -708,7 +715,8 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 		boolean editable = getController().getDrawing().isEditable();
 
 		if (editable && getFocusRetriever() != null) {
-			if ((getController() instanceof DianaInteractiveViewer) && ((DianaInteractiveViewer<?, ?, ?>) getController()).hasEditedLabel()) {
+			if ((getController() instanceof DianaInteractiveViewer)
+					&& ((DianaInteractiveViewer<?, ?, ?>) getController()).hasEditedLabel()) {
 				DrawingTreeNode<?, ?> focused = getFocusRetriever().getFocusedObject(e);
 				if (handleEventForEditedLabel(e, focused)) {
 					return;
@@ -768,29 +776,29 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 		// If a specific tool is active, delegate event to him, and return is the event was consumed by delegate tool controller
 		if (getController() instanceof DianaInteractiveEditor) {
 			switch (((DianaInteractiveEditor<?, ?, ?>) getController()).getCurrentTool()) {
-			case DrawCustomShapeTool:
-				if (getDrawCustomShapeToolController() != null && getDrawCustomShapeToolController().mouseMoved(e)) {
-					return;
-				}
-				break;
-			case DrawShapeTool:
-				if (getDrawShapeToolController() != null && getDrawShapeToolController().mouseMoved(e)) {
-					return;
-				}
-				break;
-			case DrawConnectorTool:
-				if (getDrawConnectorToolController() != null && getDrawConnectorToolController().mouseMoved(e)) {
-					return;
-				}
-				break;
-			case DrawTextTool:
-				if (getDrawTextToolController() != null && getDrawTextToolController().mouseMoved(e)) {
-					return;
-				}
-				break;
-			case SelectionTool:
-				// We continue
-				break;
+				case DrawCustomShapeTool:
+					if (getDrawCustomShapeToolController() != null && getDrawCustomShapeToolController().mouseMoved(e)) {
+						return;
+					}
+					break;
+				case DrawShapeTool:
+					if (getDrawShapeToolController() != null && getDrawShapeToolController().mouseMoved(e)) {
+						return;
+					}
+					break;
+				case DrawConnectorTool:
+					if (getDrawConnectorToolController() != null && getDrawConnectorToolController().mouseMoved(e)) {
+						return;
+					}
+					break;
+				case DrawTextTool:
+					if (getDrawTextToolController() != null && getDrawTextToolController().mouseMoved(e)) {
+						return;
+					}
+					break;
+				case SelectionTool:
+					// We continue
+					break;
 			}
 		}
 
@@ -891,11 +899,13 @@ public class FGEViewMouseListener implements MouseListener, MouseMotionListener 
 						return true;
 					}
 				}
-			} else {
+			}
+			else {
 				triggerMouseExitedIfNeeded(e, labelView, pointRelativeToTextComponent);
 			}
 			return false;
-		} else {
+		}
+		else {
 			triggerMouseExitedIfNeeded(e, labelView, pointRelativeToTextComponent);
 		}
 		return false;

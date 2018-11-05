@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import org.openflexo.fge.geom.AreaComputation;
 import org.openflexo.fge.geom.FGEAbstractLine;
 import org.openflexo.fge.geom.FGEArc;
 import org.openflexo.fge.geom.FGEGeometricObject;
@@ -58,6 +59,7 @@ import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geom.FGERectangle;
 import org.openflexo.fge.geom.FGESegment;
 import org.openflexo.fge.geom.FGEShape;
+import org.openflexo.fge.geom.FGEShapeUnion;
 import org.openflexo.fge.graphics.AbstractFGEGraphics;
 
 public class FGEUnionArea extends FGEOperationArea {
@@ -67,7 +69,7 @@ public class FGEUnionArea extends FGEOperationArea {
 	private Vector<FGEArea> _objects;
 
 	public static FGEArea makeUnion(FGEArea... objects) {
-		Vector<FGEArea> v = new Vector<FGEArea>();
+		Vector<FGEArea> v = new Vector<>();
 		for (FGEArea o : objects) {
 			v.add(o.clone());
 		}
@@ -78,41 +80,68 @@ public class FGEUnionArea extends FGEOperationArea {
 		return makeUnion(objects, true);
 	}
 
-	private static FGEArea makeUnion(List<? extends FGEArea> objects, boolean tryToReduceUnionByConcatenation) {
-		List<? extends FGEArea> objectsToTakeUnderAccount = reduceUnionByEmbedding(objects);
+	public static FGEArea makeUnion(List<? extends FGEArea> objects, boolean tryToReduceUnion) {
 
-		if (tryToReduceUnionByConcatenation) {
+		if (tryToReduceUnion) {
 
+			List<? extends FGEArea> objectsToTakeUnderAccount = reduceUnionByEmbedding(objects);
 			List<? extends FGEArea> concatenedObjects = reduceUnionByConcatenation(objectsToTakeUnderAccount);
 
 			if (concatenedObjects.size() == 0) {
 				return new FGEEmptyArea();
-			} else if (concatenedObjects.size() == 1) {
+			}
+			else if (concatenedObjects.size() == 1) {
 				return concatenedObjects.get(0).clone();
 			}
 
 			// System.out.println("Concatened objects: ");
 			// for (FGEArea o : concatenedObjects) System.out.println(" > "+o);
 
+			if (areAllShapes(concatenedObjects)) {
+				List<FGEShape<?>> shapes = new ArrayList<>();
+				for (FGEArea o : concatenedObjects) {
+					shapes.add((FGEShape<?>) o);
+				}
+				return new FGEShapeUnion(shapes);
+			}
+
 			return new FGEUnionArea(concatenedObjects);
 		}
 
 		else {
-			if (objectsToTakeUnderAccount.size() == 1) {
-				return objectsToTakeUnderAccount.get(0);
+			if (objects.size() == 1) {
+				return objects.get(0);
 			}
-			return new FGEUnionArea(objectsToTakeUnderAccount);
+			if (areAllShapes(objects)) {
+				List<FGEShape<?>> shapes = new ArrayList<>();
+				for (FGEArea o : objects) {
+					shapes.add((FGEShape<?>) o);
+				}
+
+				return new FGEShapeUnion(shapes);
+			}
+			return new FGEUnionArea(objects);
 		}
 	}
 
+	private static boolean areAllShapes(List<? extends FGEArea> objects) {
+		for (FGEArea area : objects) {
+			if (!(area instanceof FGEShape)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	private static List<? extends FGEArea> reduceUnionByEmbedding(List<? extends FGEArea> objects) {
-		Vector<FGEArea> objectsToTakeUnderAccount = new Vector<FGEArea>();
+		Vector<FGEArea> objectsToTakeUnderAccount = new Vector<>();
 
 		for (int i = 0; i < objects.size(); i++) {
 			FGEArea o = objects.get(i);
 			if (o instanceof FGEEmptyArea) {
 				// Ignore
-			} else {
+			}
+			else {
 				boolean isAlreadyContained = false;
 				for (FGEArea a : objectsToTakeUnderAccount) {
 					if (a.containsArea(o)) {
@@ -120,7 +149,7 @@ public class FGEUnionArea extends FGEOperationArea {
 					}
 				}
 				if (!isAlreadyContained) {
-					Vector<FGEArea> noMoreNecessaryObjects = new Vector<FGEArea>();
+					Vector<FGEArea> noMoreNecessaryObjects = new Vector<>();
 					for (FGEArea a2 : objectsToTakeUnderAccount) {
 						if (o.containsArea(a2)) {
 							noMoreNecessaryObjects.add(a2);
@@ -147,7 +176,7 @@ public class FGEUnionArea extends FGEOperationArea {
 
 			continueReducing = false;
 
-			Vector<FGEArea> concatenedObjects = new Vector<FGEArea>();
+			Vector<FGEArea> concatenedObjects = new Vector<>();
 			concatenedObjects.addAll(listOfObjects);
 
 			for (int i = 0; i < listOfObjects.size(); i++) {
@@ -192,19 +221,19 @@ public class FGEUnionArea extends FGEOperationArea {
 
 	public FGEUnionArea() {
 		super();
-		_objects = new Vector<FGEArea>();
+		_objects = new Vector<>();
 	}
 
 	public FGEUnionArea(FGEArea... objects) {
 		this();
 
-		//System.out.println("Making FGEUnionArea");
+		// System.out.println("Making FGEUnionArea");
 		/*for (FGEArea o : objects) {
 			System.out.println("Object: " + o);
 		}*/
-		for (FGEArea o : new ArrayList<FGEArea>(Arrays.asList(objects))) {
-			//System.out.println("o=" + o);
-			//System.out.println("o.clone()=" + o.clone());
+		for (FGEArea o : new ArrayList<>(Arrays.asList(objects))) {
+			// System.out.println("o=" + o);
+			// System.out.println("o.clone()=" + o.clone());
 			addArea(o.clone());
 		}
 		// logger.info(">>> Creating FGEUnionArea with "+objects);
@@ -236,8 +265,9 @@ public class FGEUnionArea extends FGEOperationArea {
 	public void setObjects(Vector<FGEArea> objects) {
 		if (_objects != null) {
 			_objects.clear();
-		} else {
-			_objects = new Vector<FGEArea>();
+		}
+		else {
+			_objects = new Vector<>();
 		}
 		for (FGEArea o : objects) {
 			addArea(o.clone());
@@ -333,7 +363,7 @@ public class FGEUnionArea extends FGEOperationArea {
 			return;
 		}
 
-		Vector<FGEArea> uselessObjects = new Vector<FGEArea>();
+		Vector<FGEArea> uselessObjects = new Vector<>();
 
 		for (FGEArea a : _objects) {
 			if (area.containsArea(a)) {
@@ -376,7 +406,7 @@ public class FGEUnionArea extends FGEOperationArea {
 			return containsPolygon((FGEPolygon) a);
 		}
 		if (a instanceof FGEShape) {
-			return FGEShape.AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
+			return AreaComputation.isShapeContainedInArea((FGEShape<?>) a, this);
 		}
 		return false;
 	}
@@ -415,7 +445,7 @@ public class FGEUnionArea extends FGEOperationArea {
 			return aPoint.clone();
 		}
 
-		Vector<FGEPoint> pts = new Vector<FGEPoint>();
+		Vector<FGEPoint> pts = new Vector<>();
 		for (FGEArea o : getObjects()) {
 			pts.add(o.getNearestPoint(aPoint));
 		}
@@ -427,11 +457,11 @@ public class FGEUnionArea extends FGEOperationArea {
 		int res = 27;
 		for (int i = 0; i < getObjects().size(); i++) {
 			FGEArea a = getObjects().get(i);
-			res += a.hashCode(); //commute, order does not matter
+			res += a.hashCode(); // commute, order does not matter
 		}
 		return res;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof FGEUnionArea) {
@@ -460,7 +490,7 @@ public class FGEUnionArea extends FGEOperationArea {
 			return area.clone();
 		}
 
-		Vector<FGEArea> intersections = new Vector<FGEArea>();
+		Vector<FGEArea> intersections = new Vector<>();
 
 		for (FGEArea o : _objects) {
 			intersections.add(o.intersect(area));
@@ -478,7 +508,7 @@ public class FGEUnionArea extends FGEOperationArea {
 			return area.clone();
 		}
 
-		Vector<FGEArea> objects = new Vector<FGEArea>();
+		Vector<FGEArea> objects = new Vector<>();
 		objects.addAll(getObjects());
 		objects.add(area);
 		return makeUnion(objects, false);
@@ -494,12 +524,13 @@ public class FGEUnionArea extends FGEOperationArea {
 		FGEArea anchorArea = getAnchorAreaFrom(orientation);
 		if (anchorArea instanceof FGEUnionArea) {
 			FGEUnionArea unionAnchorArea = (FGEUnionArea) anchorArea;
-			Vector<FGEArea> newObjects = new Vector<FGEArea>();
+			Vector<FGEArea> newObjects = new Vector<>();
 			for (FGEArea a : unionAnchorArea.getObjects()) {
 				newObjects.add(a.getOrthogonalPerspectiveArea(orientation));
 			}
 			return FGEUnionArea.makeUnion(newObjects);
-		} else {
+		}
+		else {
 			return anchorArea.getOrthogonalPerspectiveArea(orientation);
 		}
 	}
@@ -507,13 +538,13 @@ public class FGEUnionArea extends FGEOperationArea {
 	@Override
 	public FGEArea getAnchorAreaFrom(SimplifiedCardinalDirection direction) {
 		if (isUnionOfSegments()) {
-			Vector<FGESegment> segments = new Vector<FGESegment>();
+			Vector<FGESegment> segments = new Vector<>();
 			for (FGEArea s : getObjects()) {
 				segments.add((FGESegment) s);
 			}
 			return FGEPolylin.computeVisibleSegmentsFrom(direction, segments);
 		}
-		Vector<FGEArea> newObjects = new Vector<FGEArea>();
+		Vector<FGEArea> newObjects = new Vector<>();
 		for (FGEArea a : getObjects()) {
 			newObjects.add(a.getAnchorAreaFrom(direction));
 		}
@@ -552,7 +583,8 @@ public class FGEUnionArea extends FGEOperationArea {
 			if (r != null) {
 				if (returned == null) {
 					returned = r;
-				} else {
+				}
+				else {
 					returned = returned.rectangleUnion(r);
 				}
 			}
@@ -577,7 +609,7 @@ public class FGEUnionArea extends FGEOperationArea {
 			return from.clone();
 		}
 
-		Vector<FGEPoint> pts = new Vector<FGEPoint>();
+		Vector<FGEPoint> pts = new Vector<>();
 		for (FGEArea o : getObjects()) {
 			pts.add(o.nearestPointFrom(from, orientation));
 		}

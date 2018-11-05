@@ -61,11 +61,11 @@ public class GRProperty<T> {
 	private static final Logger LOGGER = Logger.getLogger(GRProperty.class.getPackage().getName());
 
 	private static Map<String, GRProperty<?>> retrieveParameters(Class<?> ownerClass) {
-		Map<String, GRProperty<?>> returned = new HashMap<String, GRProperty<?>>();
+		Map<String, GRProperty<?>> returned = new HashMap<>();
 		for (Field f : ownerClass.getFields()) {
 			PropertyIdentifier parameter = f.getAnnotation(PropertyIdentifier.class);
 			if (parameter != null) {
-				GRProperty p = new GRProperty(f, parameter);
+				GRProperty<?> p = new GRProperty<>(f, parameter);
 				// System.out.println("Found " + p);
 				returned.put(p.getName(), p);
 			}
@@ -73,7 +73,7 @@ public class GRProperty<T> {
 		return returned;
 	}
 
-	private static Map<Class<?>, Map<String, GRProperty<?>>> cachedParameters = new HashMap<Class<?>, Map<String, GRProperty<?>>>();
+	private static Map<Class<?>, Map<String, GRProperty<?>>> cachedParameters = new HashMap<>();
 
 	public static <T> GRProperty<T> getGRParameter(Class<?> declaringClass, String name, Class<T> type) {
 		GRProperty<T> returned = (GRProperty<T>) getGRParameter(declaringClass, name);
@@ -99,7 +99,7 @@ public class GRProperty<T> {
 		return returned;
 	}
 
-	private static Map<Class<?>, Collection<GRProperty<?>>> cache = new HashMap<Class<?>, Collection<GRProperty<?>>>();
+	private static Map<Class<?>, Collection<GRProperty<?>>> cache = new HashMap<>();
 
 	public static Collection<GRProperty<?>> getGRParameters(Class<?> declaringClass) {
 		Collection<GRProperty<?>> returned = cache.get(declaringClass);
@@ -109,7 +109,7 @@ public class GRProperty<T> {
 				cacheForClass = retrieveParameters(declaringClass);
 				cachedParameters.put(declaringClass, cacheForClass);
 			}
-			returned = new ArrayList<GRProperty<?>>();
+			returned = new ArrayList<>();
 			returned.addAll(cacheForClass.values());
 			if (declaringClass.getSuperclass() != null) {
 				returned.addAll(getGRParameters(declaringClass.getSuperclass()));
@@ -137,19 +137,26 @@ public class GRProperty<T> {
 		if (p.isPrimitive()) {
 			if (type.equals(Integer.class)) {
 				type = (Class<T>) Integer.TYPE;
-			} else if (type.equals(Short.class)) {
+			}
+			else if (type.equals(Short.class)) {
 				type = (Class<T>) Short.TYPE;
-			} else if (type.equals(Long.class)) {
+			}
+			else if (type.equals(Long.class)) {
 				type = (Class<T>) Long.TYPE;
-			} else if (type.equals(Byte.class)) {
+			}
+			else if (type.equals(Byte.class)) {
 				type = (Class<T>) Byte.TYPE;
-			} else if (type.equals(Double.class)) {
+			}
+			else if (type.equals(Double.class)) {
 				type = (Class<T>) Double.TYPE;
-			} else if (type.equals(Float.class)) {
+			}
+			else if (type.equals(Float.class)) {
 				type = (Class<T>) Float.TYPE;
-			} else if (type.equals(Character.class)) {
+			}
+			else if (type.equals(Character.class)) {
 				type = (Class<T>) Character.TYPE;
-			} else if (type.equals(Boolean.class)) {
+			}
+			else if (type.equals(Boolean.class)) {
 				type = (Class<T>) Boolean.TYPE;
 			}
 		}
@@ -178,28 +185,28 @@ public class GRProperty<T> {
 
 	public T getDefaultValue() {
 		if (type.equals(Integer.TYPE) || type.equals(Integer.class)) {
-			return (T) new Integer(0);
+			return (T) Integer.valueOf(0);
 		}
 		if (type.equals(Short.TYPE) || type.equals(Short.class)) {
-			return (T) new Short((short) 0);
+			return (T) Short.valueOf((short) 0);
 		}
 		if (type.equals(Long.TYPE) || type.equals(Long.class)) {
-			return (T) new Long(0);
+			return (T) Long.valueOf(0);
 		}
 		if (type.equals(Byte.TYPE) || type.equals(Byte.class)) {
-			return (T) new Byte((byte) 0);
+			return (T) Byte.valueOf((byte) 0);
 		}
 		if (type.equals(Double.TYPE) || type.equals(Double.class)) {
-			return (T) new Double(0);
+			return (T) Double.valueOf(0);
 		}
 		if (type.equals(Float.TYPE) || type.equals(Float.class)) {
-			return (T) new Float(0);
+			return (T) Float.valueOf(0);
 		}
 		if (type.equals(Character.TYPE) || type.equals(Character.class)) {
-			return (T) new Character('a');
+			return (T) Character.valueOf('a');
 		}
 		if (type.equals(Boolean.TYPE) || type.equals(Boolean.class)) {
-			return (T) new Boolean(false);
+			return (T) Boolean.FALSE;
 		}
 		return null;
 	}
@@ -222,21 +229,24 @@ public class GRProperty<T> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		GRProperty other = (GRProperty) obj;
+		GRProperty<?> other = (GRProperty<?>) obj;
 		if (field == null) {
 			if (other.field != null)
 				return false;
-		} else if (!field.equals(other.field))
+		}
+		else if (!field.equals(other.field))
 			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} else if (!name.equals(other.name))
+		}
+		else if (!name.equals(other.name))
 			return false;
 		if (type == null) {
 			if (other.type != null)
 				return false;
-		} else if (!type.equals(other.type))
+		}
+		else if (!type.equals(other.type))
 			return false;
 		return true;
 	}

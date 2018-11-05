@@ -87,7 +87,7 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 	// Used for deserialization
 	public LineConnector(ConnectorNode<?> connectorNode) {
 		super(connectorNode);
-		controlPoints = new ArrayList<ControlPoint>();
+		controlPoints = new ArrayList<>();
 		if (getLineConnectorType() == null) {
 			setLineConnectorType(getConnectorSpecification().getLineConnectorType());
 		}
@@ -233,13 +233,16 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 				if (orientation == SimplifiedCardinalDirection.NORTH) {
 					pointOnStartObject = r.getNorth().getMiddle();
 					pointOnEndObject = r.getSouth().getMiddle();
-				} else if (orientation == SimplifiedCardinalDirection.EAST) {
+				}
+				else if (orientation == SimplifiedCardinalDirection.EAST) {
 					pointOnStartObject = r.getEast().getMiddle();
 					pointOnEndObject = r.getWest().getMiddle();
-				} else if (orientation == SimplifiedCardinalDirection.SOUTH) {
+				}
+				else if (orientation == SimplifiedCardinalDirection.SOUTH) {
 					pointOnStartObject = r.getSouth().getMiddle();
 					pointOnEndObject = r.getNorth().getMiddle();
-				} else /* orientation == CardinalDirection.WEST */{
+				}
+				else /* orientation == CardinalDirection.WEST */ {
 					pointOnStartObject = r.getWest().getMiddle();
 					pointOnEndObject = r.getEast().getMiddle();
 				}
@@ -292,13 +295,16 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 				if (orientation == CardinalQuadrant.NORTH_WEST) {
 					pointOnStartObject = new FGEPoint(0, 0);
 					pointOnEndObject = new FGEPoint(1, 1);
-				} else if (orientation == CardinalQuadrant.SOUTH_WEST) {
+				}
+				else if (orientation == CardinalQuadrant.SOUTH_WEST) {
 					pointOnStartObject = new FGEPoint(0, 1);
 					pointOnEndObject = new FGEPoint(1, 0);
-				} else if (orientation == CardinalQuadrant.NORTH_EAST) {
+				}
+				else if (orientation == CardinalQuadrant.NORTH_EAST) {
 					pointOnStartObject = new FGEPoint(1, 0);
 					pointOnEndObject = new FGEPoint(0, 1);
-				} else /* orientation == BiasedCardinalDirection.SOUTH_EAST */{
+				}
+				else /* orientation == BiasedCardinalDirection.SOUTH_EAST */ {
 					pointOnStartObject = new FGEPoint(1, 1);
 					pointOnEndObject = new FGEPoint(0, 0);
 				}
@@ -473,7 +479,7 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 
 	@Override
 	public void drawConnector(FGEConnectorGraphics g) {
-		boolean wasFirstUpdated = firstUpdated;
+		// FD : seems unused => boolean wasFirstUpdated = firstUpdated;
 		if (!firstUpdated) {
 			refreshConnector();
 		}
@@ -584,7 +590,8 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 		if (getConnectorNode() == null) {
 			// logger.warning("Called getPropertyValue() for null ConnectorNode");
 			return;
-		} else if (getConnectorNode().isDeleted()) {
+		}
+		else if (getConnectorNode().isDeleted()) {
 			// logger.warning("Called getPropertyValue() for deleted ConnectorNode");
 			return;
 		}

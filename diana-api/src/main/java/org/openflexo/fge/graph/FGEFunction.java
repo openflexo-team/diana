@@ -40,9 +40,12 @@ package org.openflexo.fge.graph;
 
 import java.awt.geom.AffineTransform;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
@@ -51,18 +54,10 @@ import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.fge.BackgroundStyle;
 import org.openflexo.fge.ForegroundStyle;
-import org.openflexo.fge.geom.FGEComplexCurve;
-import org.openflexo.fge.geom.FGEDimension;
-import org.openflexo.fge.geom.FGEGeneralShape.Closure;
-import org.openflexo.fge.geom.FGEGeometricObject.Filling;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGEPolylin;
-import org.openflexo.fge.geom.FGERectangle;
-import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.geom.area.FGEUnionArea;
-import org.openflexo.fge.graph.FGEFunctionGraph.Orientation;
-import org.openflexo.fge.graph.FGEGraph.GraphType;
+import org.openflexo.fge.graph.FGEGraph.ElementRepresentation;
+import org.openflexo.fge.graph.FGEGraph.FunctionRepresentation;
 import org.openflexo.fge.graphics.FGEShapeGraphics;
+import org.openflexo.toolbox.PropertyChangedSupportDefaultImplementation;
 
 /**
  * Represents a function as a typed expression<br>
@@ -73,36 +68,49 @@ import org.openflexo.fge.graphics.FGEShapeGraphics;
  * @param <T>
  *            type of values given by the expression
  */
-public class FGEFunction<T> {
+public abstract class FGEFunction<T> extends PropertyChangedSupportDefaultImplementation {
 
 	private static final Logger logger = Logger.getLogger(FGEFunction.class.getPackage().getName());
 
+	public static enum FGEGraphType {
+		POINTS, POLYLIN, RECT_POLYLIN, CURVE, BAR_GRAPH, COLORED_STEPS, SECTORS
+	}
+
 	private final String functionName;
-	private final Class<T> functionType;
-	private final DataBinding<T> functionExpression;
-	private final FGEFunctionGraph.GraphType graphType;
+	private final Type functionType;
+	private DataBinding<T> functionExpression;
+	private FGEGraphType graphType;
 
 	private ForegroundStyle foregroundStyle;
 	private BackgroundStyle backgroundStyle;
 
 	private final FGEGraph graph;
 
-	private FGEArea representation = null;
+	double DEFAULT_ANGLE_SPACING = 2; // 2 degrees
+	double DEFAULT_STEPS_SPACING = 0.2; // 20% spacing
+
+	private double angleSpacing = DEFAULT_ANGLE_SPACING;
+	private double stepsSpacing = DEFAULT_STEPS_SPACING;
+
+	private FunctionRepresentation representation = null;
 
 	protected List<T> valueSamples;
+	protected Map<?, List<T>> twoLevelsValueSamples;
 
-	public FGEFunction(String functionName, Class<T> functionType, DataBinding<T> functionExpression, FGEFunctionGraph.GraphType graphType,
-			FGEGraph graph) {
+	public FGEFunction(String functionName, Type functionType, DataBinding<T> functionExpression, FGEGraphType graphType, FGEGraph graph) {
 		super();
 		this.functionName = functionName;
 		this.functionType = functionType;
-		this.functionExpression = new DataBinding<T>(functionExpression.toString());
-		this.functionExpression.setOwner(graph);
-		this.functionExpression.setDeclaredType(functionType);
-		this.functionExpression.setBindingDefinitionType(BindingDefinitionType.GET);
+		this.functionExpression = new DataBinding<>(functionExpression.toString(), graph, functionType, BindingDefinitionType.GET);
 		if (!this.functionExpression.isValid()) {
 			logger.warning("Invalid expression in FGEFunction:" + this.functionExpression + " reason="
 					+ this.functionExpression.invalidBindingReason());
+			logger.warning("BM=" + graph.getBindingModel());
+			logger.warning("BF=" + graph.getBindingFactory());
+			for (int i = 0; i < graph.getBindingModel().getBindingVariablesCount(); i++) {
+				System.out.println("> " + graph.getBindingModel().getBindingVariableAt(i));
+			}
+			Thread.dumpStack();
 		}
 		this.graph = graph;
 		this.graphType = graphType;
@@ -112,7 +120,7 @@ public class FGEFunction<T> {
 		return functionName;
 	}
 
-	public Class<T> getFunctionType() {
+	public Type getFunctionType() {
 		return functionType;
 	}
 
@@ -120,12 +128,24 @@ public class FGEFunction<T> {
 		return functionExpression;
 	}
 
+	public void setFunctionExpression(DataBinding<T> functionExpression) {
+		this.functionExpression = functionExpression;
+	}
+
 	public FGEGraph getGraph() {
 		return graph;
 	}
 
-	public FGEFunctionGraph.GraphType getGraphType() {
+	public FGEGraphType getGraphType() {
 		return graphType;
+	}
+
+	public void setGraphType(FGEGraphType graphType) {
+		if ((graphType == null && this.graphType != null) || (graphType != null && !graphType.equals(this.graphType))) {
+			FGEGraphType oldValue = this.graphType;
+			this.graphType = graphType;
+			getPropertyChangeSupport().firePropertyChange("graphType", oldValue, graphType);
+		}
 	}
 
 	public ForegroundStyle getForegroundStyle() {
@@ -144,145 +164,256 @@ public class FGEFunction<T> {
 		this.backgroundStyle = backgroundStyle;
 	}
 
+	// Angle in degree
+	public double getAngleSpacing() {
+		return angleSpacing;
+	}
+
+	public void setAngleSpacing(double angleSpacing) {
+		if (angleSpacing != this.angleSpacing) {
+			double oldValue = this.angleSpacing;
+			this.angleSpacing = angleSpacing;
+			getPropertyChangeSupport().firePropertyChange("angleSpacing", oldValue, angleSpacing);
+		}
+	}
+
+	// Between 0.0 and 1.0
+	public double getStepsSpacing() {
+		return stepsSpacing;
+	}
+
+	public void setStepsSpacing(double stepsSpacing) {
+		if (stepsSpacing != this.stepsSpacing) {
+			double oldValue = this.stepsSpacing;
+			this.stepsSpacing = stepsSpacing;
+			getPropertyChangeSupport().firePropertyChange("stepsSpacing", oldValue, stepsSpacing);
+		}
+	}
+
 	public T evaluate() throws TypeMismatchException, NullReferenceException, InvocationTargetException {
+		// System.out.println("on evalue " + functionExpression + " valid=" + functionExpression.isValid() + " reason: "
+		// + functionExpression.invalidBindingReason());
 		T returned = functionExpression.getBindingValue(getGraph().getEvaluator());
 		getGraph().getEvaluator().set(functionName, returned);
 		return returned;
 	}
 
-	public FGEArea getRepresentation() {
+	public FunctionRepresentation getRepresentation() {
 
 		if (representation == null) {
-			representation = buildRepresentation();
+			try {
+				representation = buildRepresentation();
+			} catch (Exception e) {
+				logger.warning("Unexpected exception " + e);
+			}
 		}
 
 		return representation;
 	}
 
-	protected FGEArea buildRepresentation() {
-
-		if (getGraph() instanceof FGEFunctionGraph) {
-			return buildRepresentationForFunctionGraph((FGEFunctionGraph) getGraph());
-		}
-		return null;
+	protected void updateRepresentation() {
+		representation = buildRepresentation();
 	}
 
-	class FunctionSample<P> {
-		P p;
+	protected FunctionRepresentation buildRepresentation() {
+
+		System.out.println(">>>>>>>>>>>> On reconstruit la representation de la fonction " + functionName + " " + getFunctionExpression());
+		return getGraph().buildRepresentationForFunction(this);
+
+		/*if (getGraph() instanceof FGEFunctionGraph) {
+			return buildRepresentationForFunctionGraph((FGEFunctionGraph<?>) getGraph());
+		}
+		return null;*/
+	}
+
+	static class FunctionSample<X, T> {
+		X x;
 		T value;
 
-		public FunctionSample(P p, T value) {
+		public FunctionSample(X x, T value) {
 			super();
-			this.p = p;
+			this.x = x;
 			this.value = value;
 		}
+
 	}
 
-	protected <X> List<FunctionSample<X>> retrieveSamples(FGEFunctionGraph<X> graph) {
+	static class TwoLevelsFunctionSample<T1, T2, V> {
+		T1 primaryValue;
+		List<T2> secondaryValues;
+		List<V> values;
+
+		public TwoLevelsFunctionSample(T1 primaryValue, List<T2> secondaryValues, List<V> values) {
+			super();
+			this.primaryValue = primaryValue;
+			this.secondaryValues = secondaryValues;
+			this.values = values;
+		}
+
+	}
+
+	protected <X> List<FunctionSample<X, T>> retrieveSamples(FGESingleParameteredGraph<X> graph) {
 
 		if (valueSamples != null) {
 			valueSamples.clear();
-		} else {
-			valueSamples = new ArrayList<T>();
+		}
+		else {
+			valueSamples = new ArrayList<>();
 		}
 
-		List<FunctionSample<X>> samples = new ArrayList<FunctionSample<X>>();
+		// System.out.println("On calcule les samples pour " + getFunctionExpression());
+
+		List<FunctionSample<X, T>> samples = new ArrayList<>();
 		Iterator<X> it = graph.iterateParameter();
 
-		while (it.hasNext()) {
+		if (it != null) {
+			while (it.hasNext()) {
 
-			X p = it.next();
-			T value = null;
-			try {
-				value = graph.evaluateFunction(this, p);
-			} catch (TypeMismatchException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NullReferenceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				X p = it.next();
+
+				// System.out.println("pour la valeur " + p);
+
+				T value = null;
+				try {
+					value = graph.evaluateFunction(this, p);
+				} catch (TypeMismatchException e) {
+					e.printStackTrace();
+				} catch (NullReferenceException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				}
+
+				// System.out.println("value=" + value);
+
+				samples.add(new FunctionSample<>(p, value));
+
+				// System.out.println("Sampling function " + getFunctionName() + "(" + p + ") = " + value);
+
+				if (!valueSamples.contains(value)) {
+					valueSamples.add(value);
+				}
 			}
-
-			samples.add(new FunctionSample<X>(p, value));
-
-			// System.out.println("Sampling function " + getFunctionName() + "(" + p + ") = " + value);
-
-			if (!valueSamples.contains(value)) {
-				valueSamples.add(value);
-			}
-
 		}
 
 		return samples;
 	}
 
-	protected <X> FGEArea buildRepresentationForFunctionGraph(FGEFunctionGraph<X> graph) {
+	protected <T1, T2> List<TwoLevelsFunctionSample<T1, T2, T>> retrieveTwoLevelsSamples(
+			FGEDiscreteTwoLevelsPolarFunctionGraph<T1, T2> graph) {
 
-		List<FunctionSample<X>> samples = retrieveSamples(graph);
+		if (twoLevelsValueSamples != null) {
+			twoLevelsValueSamples.clear();
+		}
+		else {
+			twoLevelsValueSamples = new HashMap<>();
+		}
 
+		// System.out.println("On calcule les two-levels samples pour " + getFunctionExpression());
+
+		List<TwoLevelsFunctionSample<T1, T2, T>> samples = new ArrayList<>();
+		Iterator<T1> it = graph.iteratePrimaryParameter();
+
+		if (it != null) {
+
+			while (it.hasNext()) {
+
+				T1 primaryValue = it.next();
+				List<T2> secondaryValues = graph.getSecondaryDiscreteValues().get(primaryValue);
+				List<T> values = new ArrayList<>();
+				TwoLevelsFunctionSample<T1, T2, T> newSample = new TwoLevelsFunctionSample<>(primaryValue, secondaryValues, values);
+
+				if (secondaryValues != null) {
+					for (T2 secondaryValue : secondaryValues) {
+						T value = null;
+						try {
+							value = graph.evaluateFunction(this, primaryValue, secondaryValue);
+						} catch (TypeMismatchException e) {
+							e.printStackTrace();
+						} catch (NullReferenceException e) {
+							e.printStackTrace();
+						} catch (InvocationTargetException e) {
+							e.printStackTrace();
+						}
+						values.add(value);
+					}
+				}
+
+				samples.add(newSample);
+
+			}
+		}
+
+		return samples;
+	}
+
+	/*protected <X> FGEArea buildRepresentationForFunctionGraph(FGEFunctionGraph<X> graph) {
+	
+		List<FunctionSample<X, T>> samples = retrieveSamples(graph);
+	
 		List<FGEPoint> points = new ArrayList<FGEPoint>();
-
-		for (FunctionSample<X> s : samples) {
+	
+		for (FunctionSample<X, T> s : samples) {
 			FGEPoint pt;
 			if (graph.getParameterOrientation() == Orientation.HORIZONTAL) {
-				pt = new FGEPoint(graph.getNormalizedPosition(s.p), getNormalizedPosition(s.value));
-			} else {
-				pt = new FGEPoint(getNormalizedPosition(s.value), graph.getNormalizedPosition(s.p));
+				pt = new FGEPoint(graph.getNormalizedPosition(s.x), getNormalizedPosition(s.value));
 			}
-
+			else {
+				pt = new FGEPoint(getNormalizedPosition(s.value), graph.getNormalizedPosition(s.x));
+			}
+	
 			// System.out.println("Sampling function " + getFunctionName() + "(" + s.p + ") = " + s.value + " normalizedValue="
 			// + getNormalizedPosition(s.value));
-
+	
 			points.add(pt);
 		}
-
+	
 		switch (graphType) {
-		case POINTS:
-			return FGEUnionArea.makeUnion(points);
-		case POLYLIN:
-			return new FGEPolylin(points);
-		case RECT_POLYLIN:
-			List<FGEPoint> rectPoints = new ArrayList<FGEPoint>();
-			double delta = (double) 1 / points.size() / 2;
-			for (FGEPoint pt : points) {
-				if (graph.getParameterOrientation() == Orientation.HORIZONTAL) {
-					rectPoints.add(new FGEPoint(pt.x - delta, pt.y));
-					rectPoints.add(new FGEPoint(pt.x + delta, pt.y));
-				} else { // Vertical
-					rectPoints.add(new FGEPoint(pt.x, pt.y - delta));
-					rectPoints.add(new FGEPoint(pt.x, pt.y + delta));
+			case POINTS:
+				return FGEUnionArea.makeUnion(points);
+			case POLYLIN:
+				return new FGEPolylin(points);
+			case RECT_POLYLIN:
+				List<FGEPoint> rectPoints = new ArrayList<FGEPoint>();
+				double delta = (double) 1 / points.size() / 2;
+				for (FGEPoint pt : points) {
+					if (graph.getParameterOrientation() == Orientation.HORIZONTAL) {
+						rectPoints.add(new FGEPoint(pt.x - delta, pt.y));
+						rectPoints.add(new FGEPoint(pt.x + delta, pt.y));
+					}
+					else { // Vertical
+						rectPoints.add(new FGEPoint(pt.x, pt.y - delta));
+						rectPoints.add(new FGEPoint(pt.x, pt.y + delta));
+					}
 				}
-			}
-			return new FGEPolylin(rectPoints);
-		case CURVE:
-			return new FGEComplexCurve(Closure.OPEN_NOT_FILLED, points);
-		case BAR_GRAPH:
-			List<FGERectangle> rectangles = new ArrayList<FGERectangle>();
-			double sampleSize = (double) 1 / points.size();
-			double barWidth = 0.8 * sampleSize / graph.getNumberOfFunctionsOfType(GraphType.BAR_GRAPH);
-			double barSpacing = sampleSize / 10;
-			int index = graph.getIndexOfFunctionsOfType(this);
-			for (FGEPoint pt : points) {
-				if (graph.getParameterOrientation() == Orientation.HORIZONTAL) {
-					FGERectangle r = new FGERectangle(new FGEPoint(pt.x - sampleSize / 2 + barSpacing + (index * barWidth), 0),
-							new FGEDimension(barWidth, pt.y), Filling.FILLED);
-					rectangles.add(r);
-				} else {
-					FGERectangle r = new FGERectangle(new FGEPoint(0, pt.y - sampleSize / 2 + barSpacing + (index * barWidth)),
-							new FGEDimension(pt.x, barWidth), Filling.FILLED);
-					rectangles.add(r);
+				return new FGEPolylin(rectPoints);
+			case CURVE:
+				return new FGEComplexCurve(Closure.OPEN_NOT_FILLED, points);
+			case BAR_GRAPH:
+				List<FGERectangle> rectangles = new ArrayList<FGERectangle>();
+				double sampleSize = (double) 1 / points.size();
+				double barWidth = 0.8 * sampleSize / graph.getNumberOfFunctionsOfType(GraphType.BAR_GRAPH);
+				double barSpacing = sampleSize / 10;
+				int index = graph.getIndexOfFunctionsOfType(this);
+				for (FGEPoint pt : points) {
+					if (graph.getParameterOrientation() == Orientation.HORIZONTAL) {
+						FGERectangle r = new FGERectangle(new FGEPoint(pt.x - sampleSize / 2 + barSpacing + (index * barWidth), 0),
+								new FGEDimension(barWidth, pt.y), Filling.FILLED);
+						rectangles.add(r);
+					}
+					else {
+						FGERectangle r = new FGERectangle(new FGEPoint(0, pt.y - sampleSize / 2 + barSpacing + (index * barWidth)),
+								new FGEDimension(pt.x, barWidth), Filling.FILLED);
+						rectangles.add(r);
+					}
 				}
-			}
-			return FGEUnionArea.makeUnion(rectangles);
-
-		default:
-			break;
+				return FGEUnionArea.makeUnion(rectangles);
+	
+			default:
+				break;
 		}
 		return null;
-	}
+	}*/
 
 	protected Double getNormalizedPosition(T value) {
 
@@ -303,13 +434,16 @@ public class FGEFunction<T> {
 		// y-axis order is reversed
 		AffineTransform at = new AffineTransform(new double[] { 1.0, 0.0, 0.0, -1.0, 0.0, 1.0 });
 
-		g.setDefaultForeground(getForegroundStyle());
-		g.setDefaultBackground(getBackgroundStyle());
-
-		FGEArea functionRepresentation = getRepresentation();
+		FunctionRepresentation functionRepresentation = getRepresentation();
 
 		if (functionRepresentation != null) {
-			functionRepresentation.transform(at).paint(g);
+			for (ElementRepresentation e : functionRepresentation.elements) {
+				if (e.area != null) {
+					g.setDefaultForeground(e.foregroundStyle);
+					g.setDefaultBackground(e.backgroundStyle);
+					e.area.transform(at).paint(g);
+				}
+			}
 		}
 
 	}

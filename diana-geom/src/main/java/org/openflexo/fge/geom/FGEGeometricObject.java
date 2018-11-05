@@ -44,7 +44,15 @@ import java.util.Vector;
 
 import org.openflexo.fge.geom.area.FGEArea;
 
-public interface FGEGeometricObject<O extends FGEGeometricObject<O>> extends Cloneable, FGEArea {
+/**
+ * API describing a {@link FGEArea} as the well-defined object (and not the result of an algebric computation)
+ * 
+ * @author sylvain
+ *
+ * @param <O>
+ *            type of represented {@link FGEGeometricObject}
+ */
+public interface FGEGeometricObject<O extends FGEGeometricObject<O>> extends FGEArea {
 
 	public static final double EPSILON = 1e-10;
 
@@ -70,31 +78,31 @@ public interface FGEGeometricObject<O extends FGEGeometricObject<O>> extends Clo
 
 		public double getRadians() {
 			switch (this) {
-			case NORTH:
-				return Math.PI / 2;
-			case SOUTH:
-				return -Math.PI / 2;
-			case EAST:
-				return 0;
-			case WEST:
-				return Math.PI;
-			default:
-				return 0;
+				case NORTH:
+					return Math.PI / 2;
+				case SOUTH:
+					return -Math.PI / 2;
+				case EAST:
+					return 0;
+				case WEST:
+					return Math.PI;
+				default:
+					return 0;
 			}
 		}
 
 		public FGEPoint getNormalizedRepresentativePoint() {
 			switch (this) {
-			case NORTH:
-				return new FGEPoint(0.5, 0.0);
-			case SOUTH:
-				return new FGEPoint(0.5, 1.0);
-			case EAST:
-				return new FGEPoint(1.0, 0.5);
-			case WEST:
-				return new FGEPoint(0.0, 0.5);
-			default:
-				return new FGEPoint();
+				case NORTH:
+					return new FGEPoint(0.5, 0.0);
+				case SOUTH:
+					return new FGEPoint(0.5, 1.0);
+				case EAST:
+					return new FGEPoint(1.0, 0.5);
+				case WEST:
+					return new FGEPoint(0.0, 0.5);
+				default:
+					return new FGEPoint();
 			}
 		}
 
@@ -116,20 +124,20 @@ public interface FGEGeometricObject<O extends FGEGeometricObject<O>> extends Clo
 
 		public CardinalDirection getCardinalDirectionEquivalent() {
 			switch (this) {
-			case EAST:
-				return CardinalDirection.EAST;
-			case NORTH:
-				return CardinalDirection.NORTH;
-			case SOUTH:
-				return CardinalDirection.SOUTH;
-			case WEST:
-				return CardinalDirection.WEST;
+				case EAST:
+					return CardinalDirection.EAST;
+				case NORTH:
+					return CardinalDirection.NORTH;
+				case SOUTH:
+					return CardinalDirection.SOUTH;
+				case WEST:
+					return CardinalDirection.WEST;
 			}
 			return null;
 		}
 
 		public static Vector<SimplifiedCardinalDirection> allDirections() {
-			Vector<SimplifiedCardinalDirection> returned = new Vector<SimplifiedCardinalDirection>();
+			Vector<SimplifiedCardinalDirection> returned = new Vector<>();
 			for (SimplifiedCardinalDirection o : values()) {
 				returned.add(o);
 			}
@@ -137,13 +145,13 @@ public interface FGEGeometricObject<O extends FGEGeometricObject<O>> extends Clo
 		}
 
 		public static Vector<SimplifiedCardinalDirection> uniqueDirection(SimplifiedCardinalDirection aDirection) {
-			Vector<SimplifiedCardinalDirection> returned = new Vector<SimplifiedCardinalDirection>();
+			Vector<SimplifiedCardinalDirection> returned = new Vector<>();
 			returned.add(aDirection);
 			return returned;
 		}
 
 		public static Vector<SimplifiedCardinalDirection> someDirections(SimplifiedCardinalDirection... someDirections) {
-			Vector<SimplifiedCardinalDirection> returned = new Vector<SimplifiedCardinalDirection>();
+			Vector<SimplifiedCardinalDirection> returned = new Vector<>();
 			for (SimplifiedCardinalDirection o : someDirections) {
 				returned.add(o);
 			}
@@ -151,7 +159,7 @@ public interface FGEGeometricObject<O extends FGEGeometricObject<O>> extends Clo
 		}
 
 		public static Vector<SimplifiedCardinalDirection> allDirectionsExcept(SimplifiedCardinalDirection aDirection) {
-			Vector<SimplifiedCardinalDirection> returned = new Vector<SimplifiedCardinalDirection>();
+			Vector<SimplifiedCardinalDirection> returned = new Vector<>();
 			for (SimplifiedCardinalDirection o : values()) {
 				if (o != aDirection) {
 					returned.add(o);
@@ -161,7 +169,7 @@ public interface FGEGeometricObject<O extends FGEGeometricObject<O>> extends Clo
 		}
 
 		public static Vector<SimplifiedCardinalDirection> allDirectionsExcept(SimplifiedCardinalDirection... someDirections) {
-			Vector<SimplifiedCardinalDirection> returned = new Vector<SimplifiedCardinalDirection>();
+			Vector<SimplifiedCardinalDirection> returned = new Vector<>();
 			for (SimplifiedCardinalDirection o : values()) {
 				boolean isToBeExcepted = false;
 				for (int i = 0; i < someDirections.length; i++) {
@@ -177,7 +185,7 @@ public interface FGEGeometricObject<O extends FGEGeometricObject<O>> extends Clo
 		}
 
 		public static Vector<SimplifiedCardinalDirection> allDirectionsExcept(Vector<SimplifiedCardinalDirection> someDirections) {
-			Vector<SimplifiedCardinalDirection> returned = new Vector<SimplifiedCardinalDirection>();
+			Vector<SimplifiedCardinalDirection> returned = new Vector<>();
 			for (SimplifiedCardinalDirection o : values()) {
 				boolean isToBeExcepted = false;
 				for (SimplifiedCardinalDirection o2 : someDirections) {
@@ -194,7 +202,7 @@ public interface FGEGeometricObject<O extends FGEGeometricObject<O>> extends Clo
 
 		public static Vector<SimplifiedCardinalDirection> intersection(Vector<SimplifiedCardinalDirection> someDirections,
 				Vector<SimplifiedCardinalDirection> someOtherDirections) {
-			Vector<SimplifiedCardinalDirection> returned = new Vector<SimplifiedCardinalDirection>();
+			Vector<SimplifiedCardinalDirection> returned = new Vector<>();
 			for (SimplifiedCardinalDirection o : someDirections) {
 				if (someOtherDirections.contains(o)) {
 					returned.add(o);

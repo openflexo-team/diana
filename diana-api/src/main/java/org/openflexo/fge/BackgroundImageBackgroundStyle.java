@@ -79,8 +79,8 @@ public interface BackgroundImageBackgroundStyle extends BackgroundStyle {
 	/*@PropertyIdentifier(type = File.class)
 	public static final String IMAGE_FILE_KEY = "imageFile";*/
 
-	public static GRProperty<Resource> IMAGE_RESOURCE = GRProperty.getGRParameter(BackgroundImageBackgroundStyle.class,
-			IMAGE_RESOURCE_KEY, Resource.class);
+	public static GRProperty<Resource> IMAGE_RESOURCE = GRProperty.getGRParameter(BackgroundImageBackgroundStyle.class, IMAGE_RESOURCE_KEY,
+			Resource.class);
 	public static GRProperty<Double> SCALE_X = GRProperty.getGRParameter(BackgroundImageBackgroundStyle.class, SCALE_X_KEY, Double.class);
 	public static GRProperty<Double> SCALE_Y = GRProperty.getGRParameter(BackgroundImageBackgroundStyle.class, SCALE_Y_KEY, Double.class);
 	public static GRProperty<Double> DELTA_X = GRProperty.getGRParameter(BackgroundImageBackgroundStyle.class, DELTA_X_KEY, Double.class);
@@ -99,7 +99,7 @@ public interface BackgroundImageBackgroundStyle extends BackgroundStyle {
 	@Override
 	public BackgroundStyleType getBackgroundStyleType();
 
-	@Getter(value = IMAGE_RESOURCE_KEY)
+	@Getter(value = IMAGE_RESOURCE_KEY, isStringConvertable = true)
 	@XMLAttribute
 	public Resource getImageResource();
 
@@ -163,11 +163,11 @@ public interface BackgroundImageBackgroundStyle extends BackgroundStyle {
 
 	public void setScaleYNoNotification(double aScaleY);
 
-	//@Getter(value = IMAGE_FILE_KEY)
-	//@XMLAttribute
+	// @Getter(value = IMAGE_FILE_KEY)
+	// @XMLAttribute
 	public File getImageFile();
 
-	//@Setter(value = IMAGE_FILE_KEY)
+	// @Setter(value = IMAGE_FILE_KEY)
 	public void setImageFile(File file);
 
 }

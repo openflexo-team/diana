@@ -48,9 +48,10 @@ import org.openflexo.fge.layout.ISOMGraphLayoutManagerSpecification;
  * @author sylvain
  * 
  */
-public abstract class ISOMGraphLayoutManagerSpecificationImpl extends
-		GraphBasedLayoutManagerSpecificationImpl<ISOMGraphLayoutManager<?>, Object> implements ISOMGraphLayoutManagerSpecification {
+public abstract class ISOMGraphLayoutManagerSpecificationImpl
+		extends GraphBasedLayoutManagerSpecificationImpl<ISOMGraphLayoutManager<?>, Object> implements ISOMGraphLayoutManagerSpecification {
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Class<ISOMGraphLayoutManager<?>> getLayoutManagerClass() {
 		return (Class) ISOMGraphLayoutManager.class;

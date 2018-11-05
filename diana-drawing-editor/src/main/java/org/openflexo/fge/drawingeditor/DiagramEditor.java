@@ -48,161 +48,165 @@ import java.util.logging.Logger;
 import org.jdom2.JDOMException;
 import org.openflexo.fge.drawingeditor.model.Diagram;
 import org.openflexo.fge.drawingeditor.model.DiagramFactory;
-import org.openflexo.localization.FlexoLocalization;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.model.exceptions.InvalidDataException;
 import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.rm.FileSystemResourceLocatorImpl;
 
 public class DiagramEditor {
 
-    private static final Logger            logger = FlexoLogger.getLogger(DiagramEditor.class.getPackage().getName());
+	private static final Logger logger = FlexoLogger.getLogger(DiagramEditor.class.getPackage().getName());
 
-    private Diagram                        diagram;
-    private DiagramDrawing                 drawing;
-    private DianaDrawingEditor             controller;
-    private int                            index;
-    private File                           file   = null;
-    private final DiagramFactory           factory;
-    private final DiagramEditorApplication application;
+	private Diagram diagram;
+	private DiagramDrawing drawing;
+	private DianaDrawingEditor controller;
+	private int index;
+	private File file = null;
+	private final DiagramFactory factory;
+	private final DiagramEditorApplication application;
 
-    public static DiagramEditor newDiagramEditor(DiagramFactory factory, DiagramEditorApplication application) {
+	public static DiagramEditor newDiagramEditor(DiagramFactory factory, DiagramEditorApplication application) {
 
-        DiagramEditor returned = new DiagramEditor(factory, application);
-        returned.diagram = factory.makeNewDiagram();
-        return returned;
+		DiagramEditor returned = new DiagramEditor(factory, application);
+		returned.diagram = factory.makeNewDiagram();
+		return returned;
 
-    }
+	}
 
-    public static DiagramEditor loadDiagramEditor(File file, DiagramFactory factory, DiagramEditorApplication application) {
-        logger.info("Loading " + file);
+	public static DiagramEditor loadDiagramEditor(File file, DiagramFactory factory, DiagramEditorApplication application) {
+		logger.info("Loading " + file);
 
-        DiagramEditor returned = new DiagramEditor(factory, application);
+		DiagramEditor returned = new DiagramEditor(factory, application);
 
-        try {
-            returned.diagram = (Diagram) factory.deserialize(new FileInputStream(file));
-            returned.file = file;
-            System.out.println("Loaded " + factory.stringRepresentation(returned.diagram));
-            return returned;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JDOMException e) {
-            e.printStackTrace();
-        } catch (ModelDefinitionException e) {
-            e.printStackTrace();
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.warning("Unhandled Exception");
-        }
-        return null;
+		factory.getResourceConverter().setContainerResource(FS_RESOURCE_LOCATOR.retrieveResource(file.getParentFile()));
+		try (FileInputStream fos = new FileInputStream(file)) {
+			returned.diagram = (Diagram) factory.deserialize(fos);
+			returned.file = file;
+			//System.out.println("Loaded " + factory.stringRepresentation(returned.diagram));
+			return returned;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (JDOMException e) {
+			e.printStackTrace();
+		} catch (ModelDefinitionException e) {
+			e.printStackTrace();
+		} catch (InvalidDataException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.warning("Unhandled Exception");
+		}
+		return null;
 
-        /*XMLDecoder decoder = new XMLDecoder(mapping, new DrawingBuilder());
+		/*XMLDecoder decoder = new XMLDecoder(mapping, new DrawingBuilder());
+		
+		try {
+			DiagramImpl drawing = (DiagramImpl) decoder.decodeObject(new FileInputStream(file));
+			drawing.file = file;
+			drawing.editedDrawing.init(factory);
+			logger.info("Succeeded to load: " + file);
+			return drawing;
+		} catch (Exception e) {
+			logger.warning("Failed to load: " + file + " unexpected exception: " + e.getMessage());
+			e.printStackTrace();
+			return null;
+		}*/
+	}
 
-        try {
-        	DiagramImpl drawing = (DiagramImpl) decoder.decodeObject(new FileInputStream(file));
-        	drawing.file = file;
-        	drawing.editedDrawing.init(factory);
-        	logger.info("Succeeded to load: " + file);
-        	return drawing;
-        } catch (Exception e) {
-        	logger.warning("Failed to load: " + file + " unexpected exception: " + e.getMessage());
-        	e.printStackTrace();
-        	return null;
-        }*/
-    }
+	private DiagramEditor(DiagramFactory factory, DiagramEditorApplication application) {
+		this.factory = factory;
+		this.application = application;
+	}
 
-    private DiagramEditor(DiagramFactory factory, DiagramEditorApplication application) {
-        this.factory = factory;
-        this.application = application;
-    }
+	public Diagram getDiagram() {
+		return diagram;
+	}
 
-    public Diagram getDiagram() {
-        return diagram;
-    }
+	public DiagramDrawing getDrawing() {
+		if (drawing == null) {
+			drawing = new DiagramDrawing(getDiagram(), factory);
+		}
+		return drawing;
+	}
 
-    public DiagramDrawing getDrawing() {
-        if (drawing == null) {
-            drawing = new DiagramDrawing(getDiagram(), factory);
-        }
-        return drawing;
-    }
+	public DianaDrawingEditor getController() {
+		if (controller == null) {
+			CompoundEdit edit = factory.getUndoManager().startRecording("Initialize diagram");
+			controller = new DianaDrawingEditor(getDrawing(), factory, application.getToolFactory());
+			factory.getUndoManager().stopRecording(edit);
+		}
+		return controller;
+	}
 
-    public DianaDrawingEditor getController() {
-        if (controller == null) {
-            CompoundEdit edit = factory.getUndoManager().startRecording("Initialize diagram");
-            controller = new DianaDrawingEditor(getDrawing(), factory, application.getToolFactory());
-            factory.getUndoManager().stopRecording(edit);
-        }
-        return controller;
-    }
+	public String getTitle() {
+		if (file != null) {
+			return file.getName();
+		}
+		else {
+			return DiagramEditorApplication.DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("untitled") + "-" + index;
+		}
+	}
 
-    public String getTitle() {
-        if (file != null) {
-            return file.getName();
-        }
-        else {
-            return FlexoLocalization.localizedForKey(DiagramEditorApplication.LOCALIZATION, "untitled") + "-" + index;
-        }
-    }
+	private static final FileSystemResourceLocatorImpl FS_RESOURCE_LOCATOR = new FileSystemResourceLocatorImpl();
 
-    public boolean save() {
-        System.out.println("Saving " + file);
+	public boolean save() {
+		System.out.println("Saving " + file);
 
-        try {
-            factory.serialize(diagram, new FileOutputStream(file));
-            System.out.println("Saved " + file.getAbsolutePath());
-            System.out.println(factory.stringRepresentation(diagram));
-            return true;
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+		factory.getResourceConverter().setContainerResource(FS_RESOURCE_LOCATOR.retrieveResource(file.getParentFile()));
+		try (FileOutputStream fos = new FileOutputStream(file)) {
+			factory.serialize(diagram, fos);
+			System.out.println("Saved " + file.getAbsolutePath());
+			System.out.println(factory.stringRepresentation(diagram));
+			return true;
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 
-        /*XMLCoder coder = new XMLCoder(mapping);
+		/*XMLCoder coder = new XMLCoder(mapping);
+		
+		try {
+			coder.encodeObject(this, new FileOutputStream(file));
+			clearChanged();
+			logger.info("Succeeded to save: " + file);
+			System.out.println("> " + new XMLCoder(mapping).encodeObject(this));
+			System.out.println("Et j'ai ca aussi: " + getFactory().getSerializer().serializeAsString(this));
+			return true;
+		} catch (Exception e) {
+			logger.warning("Failed to save: " + file + " unexpected exception: " + e.getMessage());
+			e.printStackTrace();
+		}
+				return false;
+		 */
 
-        try {
-        	coder.encodeObject(this, new FileOutputStream(file));
-        	clearChanged();
-        	logger.info("Succeeded to save: " + file);
-        	System.out.println("> " + new XMLCoder(mapping).encodeObject(this));
-        	System.out.println("Et j'ai ca aussi: " + getFactory().getSerializer().serializeAsString(this));
-        	return true;
-        } catch (Exception e) {
-        	logger.warning("Failed to save: " + file + " unexpected exception: " + e.getMessage());
-        	e.printStackTrace();
-        }
-        		return false;
-         */
+	}
 
-    }
+	public File getFile() {
+		return file;
+	}
 
-    public File getFile() {
-        return file;
-    }
+	public void setFile(File file) {
+		this.file = file;
+	}
 
-    public void setFile(File file) {
-        this.file = file;
-    }
+	public int getIndex() {
+		return index;
+	}
 
-    public int getIndex() {
-        return index;
-    }
+	public void setIndex(int index) {
+		this.index = index;
+	}
 
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
-    @Override
-    public String toString() {
-        return "DiagramEditor:" + getTitle();
-    }
+	@Override
+	public String toString() {
+		return "DiagramEditor:" + getTitle();
+	}
 
 }

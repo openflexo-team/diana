@@ -39,7 +39,7 @@
 
 package org.openflexo.fge.ppteditor;
 
-import java.io.IOException;
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,37 +56,23 @@ public class LaunchPPTEditor {
 	private static final Logger logger = FlexoLogger.getLogger(LaunchPPTEditor.class.getPackage().getName());
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				init();
-			}
-		});
+		SwingUtilities.invokeLater(() -> init());
 	}
 
 	private static void init() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			FlexoLoggingManager.initialize(-1, true, null, Level.INFO, null);
-			FlexoLocalization.initWith(PPTEditorApplication.LOCALIZATION);
+			FlexoLocalization.initWith(PPTEditorApplication.PPT_EDITOR_LOCALIZATION);
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -95,6 +81,9 @@ public class LaunchPPTEditor {
 		PPTEditorApplication application = new PPTEditorApplication();
 		application.showMainPanel();
 		// application.newDiagramEditor();
+
+		application.loadDiagramEditor(new File("/Users/sylvain/GIT-1.9.0/diana/diana-ppt-editor/src/test/resources/ppt/TestPPT1.ppt"));
+
 	}
 
 }

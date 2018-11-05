@@ -61,8 +61,10 @@ import org.openflexo.fge.geom.FGEGeneralShape;
 import org.openflexo.fge.geom.FGEGeometricObject.Filling;
 import org.openflexo.fge.geom.FGEPoint;
 import org.openflexo.fge.geom.FGEPolygon;
+import org.openflexo.fge.geom.FGEPolylin;
 import org.openflexo.fge.geom.FGEQuadCurve;
 import org.openflexo.fge.geom.FGERectangle;
+import org.openflexo.fge.geom.FGEShape;
 import org.openflexo.fge.view.FGEView;
 
 /**
@@ -76,7 +78,7 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 	private static final Logger logger = Logger.getLogger(FGEGraphicsImpl.class.getPackage().getName());
 
 	private DrawingTreeNode<?, ?> dtn;
-	private FGEView<?, ?> view;
+	private final FGEView<?, ?> view;
 
 	private static final FGEModelFactory GRAPHICS_FACTORY = FGECoreUtils.TOOLS_FACTORY;
 	private static final ForegroundStyle DEFAULT_FG = GRAPHICS_FACTORY.makeDefaultForegroundStyle();
@@ -97,14 +99,21 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 		this.view = view;
 	}
 
+	@Override
 	public FGEModelFactory getFactory() {
 		return GRAPHICS_FACTORY;
 	}
 
+	@Override
 	public DrawingTreeNode<?, ?> getDrawingTreeNode() {
 		return dtn;
 	}
 
+	public void setDrawingTreeNode(DrawingTreeNode<?, ?> dtn) {
+		this.dtn = dtn;
+	}
+
+	@Override
 	public DrawingTreeNode<?, ?> getNode() {
 		return getDrawingTreeNode();
 	}
@@ -113,30 +122,51 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 		return view;
 	}
 
+	@Override
 	public GraphicalRepresentation getGraphicalRepresentation() {
 		return dtn.getGraphicalRepresentation();
 	}
 
+	@Override
 	public AbstractDianaEditor<?, ?, ?> getController() {
 		return view.getController();
 	}
 
+	@Override
 	public double getScale() {
 		return getController().getScale();
 	}
 
+	@Override
 	public void delete() {
 		dtn = null;
 	}
 
+	@Override
+	public void setDefaultForegroundStyle(FGEShape<?> shape) {
+		if (shape.getForeground() instanceof ForegroundStyle) {
+			setDefaultForeground((ForegroundStyle) shape.getForeground());
+		}
+	}
+
+	@Override
+	public void setDefaultBackgroundStyle(FGEShape<?> shape) {
+		if (shape.getBackground() instanceof BackgroundStyle) {
+			setDefaultBackground((BackgroundStyle) shape.getBackground());
+		}
+	}
+
+	@Override
 	public ForegroundStyle getDefaultForeground() {
 		return defaultForeground;
 	}
 
+	@Override
 	public ForegroundStyle getCurrentForeground() {
 		return currentForeground;
 	}
 
+	@Override
 	public void setDefaultForeground(ForegroundStyle aForegound) {
 		defaultForeground = aForegound;
 	}
@@ -146,6 +176,7 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 		useForegroundStyle(defaultForeground);
 	}
 
+	@Override
 	public void useForegroundStyle(ForegroundStyle aStyle) {
 		currentForeground = aStyle;
 		applyCurrentForegroundStyle();
@@ -153,14 +184,17 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 
 	protected abstract void applyCurrentForegroundStyle();
 
+	@Override
 	public TextStyle getCurrentTextStyle() {
 		return currentTextStyle;
 	}
 
+	@Override
 	public BackgroundStyle getDefaultBackground() {
 		return defaultBackground;
 	}
 
+	@Override
 	public void setDefaultBackground(BackgroundStyle aBackground) {
 		defaultBackground = aBackground;
 	}
@@ -174,6 +208,7 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 		useBackgroundStyle(defaultBackground);
 	}
 
+	@Override
 	public void useBackgroundStyle(BackgroundStyle aStyle) {
 		currentBackground = aStyle;
 		applyCurrentBackgroundStyle();
@@ -181,6 +216,7 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 
 	protected abstract void applyCurrentBackgroundStyle();
 
+	@Override
 	public void setDefaultTextStyle(TextStyle aTextStyle) {
 		defaultTextStyle = aTextStyle;
 	}
@@ -190,6 +226,7 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 		useTextStyle(defaultTextStyle);
 	}
 
+	@Override
 	public void useTextStyle(TextStyle aStyle) {
 		currentTextStyle = aStyle;
 		applyCurrentTextStyle();
@@ -202,38 +239,47 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 		return getNode().getNormalizedBounds();
 	}
 
+	@Override
 	public FGERectangle getNormalizedBounds() {
 		return new FGERectangle(0.0, 0.0, 1.0, 1.0);
 	}
 
+	@Override
 	public int getViewWidth() {
 		return getViewWidth(getScale());
 	}
 
+	@Override
 	public int getViewHeight() {
 		return getViewHeight(getScale());
 	}
 
+	@Override
 	public int getViewWidth(double scale) {
 		return dtn.getViewWidth(scale);
 	}
 
+	@Override
 	public int getViewHeight(double scale) {
 		return dtn.getViewHeight(scale);
 	}
 
+	@Override
 	public Point convertNormalizedPointToViewCoordinates(double x, double y) {
 		return dtn.convertNormalizedPointToViewCoordinates(x, y, getScale());
 	}
 
+	@Override
 	public final Point convertNormalizedPointToViewCoordinates(FGEPoint p) {
 		return convertNormalizedPointToViewCoordinates(p.x, p.y);
 	}
 
+	@Override
 	public final Rectangle convertNormalizedRectangleToViewCoordinates(FGERectangle r) {
 		return convertNormalizedRectangleToViewCoordinates(r.x, r.y, r.width, r.height);
 	}
 
+	@Override
 	public final Rectangle convertNormalizedRectangleToViewCoordinates(double x, double y, double width, double height) {
 		Point p1 = convertNormalizedPointToViewCoordinates(x, y);
 		Point p2 = convertNormalizedPointToViewCoordinates(x + width, y + height);
@@ -241,18 +287,22 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 		return new Rectangle(p1, d);
 	}
 
+	@Override
 	public FGEPoint convertViewCoordinatesToNormalizedPoint(int x, int y) {
 		return dtn.convertViewCoordinatesToNormalizedPoint(x, y, getScale());
 	}
 
+	@Override
 	public final FGEPoint convertViewCoordinatesToNormalizedPoint(Point p) {
 		return convertViewCoordinatesToNormalizedPoint(p.x, p.y);
 	}
 
+	@Override
 	public final FGERectangle convertViewCoordinatesToNormalizedRectangle(Rectangle r) {
 		return convertViewCoordinatesToNormalizedRectangle(r.x, r.y, r.width, r.height);
 	}
 
+	@Override
 	public final FGERectangle convertViewCoordinatesToNormalizedRectangle(int x, int y, int width, int height) {
 		FGEPoint p1 = convertViewCoordinatesToNormalizedPoint(x, y);
 		FGEPoint p2 = convertViewCoordinatesToNormalizedPoint(x + width, y + height);
@@ -306,6 +356,11 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 	}
 
 	@Override
+	public void drawPolyline(FGEPolylin polylin) {
+		drawPolyline(polylin.getPoints().toArray(new FGEPoint[polylin.getPointsNb()]));
+	}
+
+	@Override
 	public void fillPolygon(FGEPolygon polygon) {
 		fillPolygon(polygon.getPoints().toArray(new FGEPoint[polygon.getPointsNb()]));
 	}
@@ -335,6 +390,7 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 		fillArc(p.x, p.y, d.width, d.height, angleStart, arcAngle);
 	}
 
+	@Override
 	public FGERectangle drawString(String text, FGEPoint location, int orientation, HorizontalTextAlignment alignment) {
 		return drawString(text, location.x, location.y, orientation, alignment);
 	}
@@ -352,45 +408,47 @@ public abstract class FGEGraphicsImpl implements FGEGraphics {
 			double[] pts = new double[6];
 			FGEPoint p2, cp, cp1, cp2;
 			switch (pi.currentSegment(pts)) {
-			case PathIterator.SEG_MOVETO:
-				current.x = pts[0];
-				current.y = pts[1];
-				first = current.clone();
-				break;
-			case PathIterator.SEG_LINETO:
-				p2 = new FGEPoint(pts[0], pts[1]);
-				drawLine(current, p2);
-				current = p2;
-				break;
-			case PathIterator.SEG_QUADTO:
-				cp = new FGEPoint(pts[0], pts[1]);
-				p2 = new FGEPoint(pts[2], pts[3]);
-				drawCurve(new FGEQuadCurve(current, cp, p2));
-				current = p2;
-				break;
-			case PathIterator.SEG_CUBICTO:
-				cp1 = new FGEPoint(pts[0], pts[1]);
-				cp2 = new FGEPoint(pts[2], pts[3]);
-				p2 = new FGEPoint(pts[4], pts[5]);
-				drawCurve(new FGECubicCurve(current, cp1, cp2, p2));
-				current = p2;
-				break;
-			case PathIterator.SEG_CLOSE:
-				drawLine(current, first);
-				current = first;
-				break;
-			default:
-				break;
+				case PathIterator.SEG_MOVETO:
+					current.x = pts[0];
+					current.y = pts[1];
+					first = current.clone();
+					break;
+				case PathIterator.SEG_LINETO:
+					p2 = new FGEPoint(pts[0], pts[1]);
+					drawLine(current, p2);
+					current = p2;
+					break;
+				case PathIterator.SEG_QUADTO:
+					cp = new FGEPoint(pts[0], pts[1]);
+					p2 = new FGEPoint(pts[2], pts[3]);
+					drawCurve(new FGEQuadCurve(current, cp, p2));
+					current = p2;
+					break;
+				case PathIterator.SEG_CUBICTO:
+					cp1 = new FGEPoint(pts[0], pts[1]);
+					cp2 = new FGEPoint(pts[2], pts[3]);
+					p2 = new FGEPoint(pts[4], pts[5]);
+					drawCurve(new FGECubicCurve(current, cp1, cp2, p2));
+					current = p2;
+					break;
+				case PathIterator.SEG_CLOSE:
+					drawLine(current, first);
+					current = first;
+					break;
+				default:
+					break;
 			}
 			pi.next();
 		}
 
 	}
 
+	@Override
 	public FGERectangle drawString(String text, FGEPoint location, HorizontalTextAlignment alignment) {
 		return drawString(text, location.x, location.y, 0, alignment);
 	}
 
+	@Override
 	public FGERectangle drawString(String text, double x, double y, HorizontalTextAlignment alignment) {
 		return drawString(text, x, y, 0, alignment);
 	}
