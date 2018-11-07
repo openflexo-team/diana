@@ -4,13 +4,11 @@
  The Openflexo team
  -----
 
+DIANA framework
+
 [/images/components/diana/DianaScreenshot] Diana
 
-Introduction to DIANA
-
-TODO: to be rewritten
-
-  Diana can be considered as a box and arrow drawing framework. 
+  Diana is a pure-java drawing framework providing graphical editors above a Java model (a Java program).
   
   It takes its originality by beeing able to associate a graph of interconnected objects with adapted graphical representations. 
   
@@ -22,11 +20,16 @@ TODO: to be rewritten
   
 Key features of DIANA
 
-  * Model-driven technology
+  * Model-driven technology: fully respect the MVC pattern
   
-  * Non intrusive technology
+  * Non intrusive technology: there is no need to modify your initial code used as a model to be graphical represented and/or edited
   
-  * TODO
+  * Provide Box/Arrow-like diagrams as well as complex geometrical constructions
+  
+  * Rely on a vectorial graphics library
+  
+  * Agnostic technology with multiple renderers (only Swing renderer is provided yet)
+
   
 Contents of this package
 

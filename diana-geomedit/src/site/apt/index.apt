@@ -1,18 +1,20 @@
  -----
- The Site
+ Openflexo DIANA GeomEdit
  -----
- The Maven Team
+ The Openflexo team
  -----
 
-Maven Site for your project
+DIANA GeomEdit
 
- Congratulations! If you are looking at this page then you have successfully generated a
- template site employing the site archetype and you have run:
+  This is is a stand-alone implementation of a Swing geometry constructions editor.
+  
+  This is a tool which can be used out of the box to buid geometrical constructions.
+  Geometric constructions beeing build using this tool are built above a construction model provided by this component.
 
-[https://media.openflexo.org/images/openflexo2.png]
+  Complex shapes might be exported using this tool to be used in DIANA diagram editors.
 
-+-----+
+[/images/components/diana/GeomEditScreenshot] GeomEditScreenshot
 
-mvn site
-
-+-----+
+  To be continued...
+  
+    

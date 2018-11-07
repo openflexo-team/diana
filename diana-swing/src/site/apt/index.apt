@@ -1,18 +1,14 @@
  -----
- The Site
+ Openflexo DIANA Swing
  -----
- The Maven Team
+ The Openflexo team
  -----
 
-Maven Site for your project
+DIANA-Swing implementation
 
- Congratulations! If you are looking at this page then you have successfully generated a
- template site employing the site archetype and you have run:
+  This is the Swing rendering engine (Swing implementation for Diana-core)
 
-[https://media.openflexo.org/images/openflexo2.png]
-
-+-----+
-
-mvn site
-
-+-----+
+  To be continued...
+  
+  
+  
