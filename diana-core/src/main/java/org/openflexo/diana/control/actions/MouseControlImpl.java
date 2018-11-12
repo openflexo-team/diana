@@ -46,7 +46,7 @@ import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.MouseControl;
 import org.openflexo.diana.control.MouseControlContext;
-import org.openflexo.model.factory.EditingContext;
+import org.openflexo.pamela.factory.EditingContext;
 
 public abstract class MouseControlImpl<E extends AbstractDianaEditor<?, ?, ?>> implements MouseControl<E> {
 	static final Logger logger = Logger.getLogger(MouseControlImpl.class.getPackage().getName());

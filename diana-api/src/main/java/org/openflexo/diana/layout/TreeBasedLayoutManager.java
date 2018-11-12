@@ -41,7 +41,7 @@ package org.openflexo.diana.layout;
 import org.openflexo.diana.DianaLayoutManager;
 import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.diana.GraphicalRepresentation.VerticalTextAlignment;
-import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.ModelEntity;
 
 /**
  * Abstract api of a {@link DianaLayoutManager} generally handling trees<br>

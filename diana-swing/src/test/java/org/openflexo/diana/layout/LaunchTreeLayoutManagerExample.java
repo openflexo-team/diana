@@ -47,7 +47,7 @@ import org.openflexo.diana.test.TestGraph;
 import org.openflexo.diana.test.layout.TreeLayoutManagerDrawing;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
-import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
 
 /**
  * Demonstrates how to use GridLayoutManagerImpl

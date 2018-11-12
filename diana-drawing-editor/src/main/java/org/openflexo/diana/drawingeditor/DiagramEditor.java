@@ -49,9 +49,9 @@ import org.jdom2.JDOMException;
 import org.openflexo.diana.drawingeditor.model.Diagram;
 import org.openflexo.diana.drawingeditor.model.DiagramFactory;
 import org.openflexo.logging.FlexoLogger;
-import org.openflexo.model.exceptions.InvalidDataException;
-import org.openflexo.model.exceptions.ModelDefinitionException;
-import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.pamela.exceptions.InvalidDataException;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.undo.CompoundEdit;
 import org.openflexo.rm.FileSystemResourceLocatorImpl;
 
 public class DiagramEditor {

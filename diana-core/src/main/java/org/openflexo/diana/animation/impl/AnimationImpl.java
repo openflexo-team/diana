@@ -49,8 +49,8 @@ import org.openflexo.diana.animation.Animable;
 import org.openflexo.diana.animation.Animation;
 import org.openflexo.diana.animation.Transition;
 import org.openflexo.diana.control.AbstractDianaEditor;
-import org.openflexo.model.undo.CompoundEdit;
-import org.openflexo.model.undo.UndoManager;
+import org.openflexo.pamela.undo.CompoundEdit;
+import org.openflexo.pamela.undo.UndoManager;
 
 public class AnimationImpl implements Animation {
 

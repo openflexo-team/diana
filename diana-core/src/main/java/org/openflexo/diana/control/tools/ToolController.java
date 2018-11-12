@@ -50,7 +50,7 @@ import org.openflexo.diana.control.actions.ToolAction;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.graphics.DianaGraphics;
 import org.openflexo.diana.view.DrawingView;
-import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.pamela.undo.CompoundEdit;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 
 /**

@@ -39,7 +39,7 @@
 
 package org.openflexo.diana.control.notifications;
 
-import org.openflexo.model.factory.Clipboard;
+import org.openflexo.pamela.factory.Clipboard;
 
 /**
  * This notification is thrown when the selection has been copied

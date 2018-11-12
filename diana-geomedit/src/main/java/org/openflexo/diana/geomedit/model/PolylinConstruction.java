@@ -41,11 +41,11 @@ package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.model.PolylinConstruction.PolylinConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.PolylinGraphicalRepresentation;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.Import;
+import org.openflexo.pamela.annotations.Imports;
+import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.diana.geom.DianaPolylin;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(PolylinConstructionImpl.class)

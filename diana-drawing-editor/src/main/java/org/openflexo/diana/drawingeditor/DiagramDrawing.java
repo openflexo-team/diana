@@ -56,8 +56,8 @@ import org.openflexo.diana.drawingeditor.model.Diagram;
 import org.openflexo.diana.drawingeditor.model.DiagramFactory;
 import org.openflexo.diana.drawingeditor.model.Shape;
 import org.openflexo.diana.impl.DrawingImpl;
-import org.openflexo.model.exceptions.ModelDefinitionException;
-import org.openflexo.model.factory.EditingContextImpl;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.factory.EditingContextImpl;
 
 public class DiagramDrawing extends DrawingImpl<Diagram> {
 

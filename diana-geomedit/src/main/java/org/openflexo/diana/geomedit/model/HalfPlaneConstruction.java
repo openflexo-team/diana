@@ -42,10 +42,10 @@ package org.openflexo.diana.geomedit.model;
 import org.openflexo.diana.geom.area.DianaHalfPlane;
 import org.openflexo.diana.geomedit.model.HalfPlaneConstruction.HalfPlaneConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.HalfPlaneGraphicalRepresentation;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.Import;
+import org.openflexo.pamela.annotations.Imports;
+import org.openflexo.pamela.annotations.ModelEntity;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(HalfPlaneConstructionImpl.class)

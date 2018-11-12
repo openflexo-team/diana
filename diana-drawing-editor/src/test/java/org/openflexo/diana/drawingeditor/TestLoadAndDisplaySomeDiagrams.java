@@ -57,9 +57,9 @@ import org.junit.Test;
 import org.openflexo.diana.drawingeditor.DiagramEditor;
 import org.openflexo.diana.drawingeditor.DiagramEditorApplication;
 import org.openflexo.diana.drawingeditor.model.DiagramFactory;
-import org.openflexo.model.exceptions.ModelDefinitionException;
-import org.openflexo.model.factory.EditingContext;
-import org.openflexo.model.factory.EditingContextImpl;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.factory.EditingContext;
+import org.openflexo.pamela.factory.EditingContextImpl;
 import org.openflexo.rm.ResourceLocator;
 
 public class TestLoadAndDisplaySomeDiagrams {

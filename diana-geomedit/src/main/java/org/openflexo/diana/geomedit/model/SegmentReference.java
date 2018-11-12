@@ -43,9 +43,9 @@ import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.geom.DianaSegment;
 import org.openflexo.diana.geomedit.model.SegmentReference.SegmentReferenceImpl;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(SegmentReferenceImpl.class)

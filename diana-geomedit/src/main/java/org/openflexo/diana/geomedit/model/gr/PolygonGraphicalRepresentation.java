@@ -51,6 +51,9 @@ import org.openflexo.diana.geomedit.model.PointConstruction;
 import org.openflexo.diana.geomedit.model.PolygonConstruction;
 import org.openflexo.diana.geomedit.model.PolygonWithNPointsConstruction;
 import org.openflexo.diana.geomedit.model.gr.PolygonGraphicalRepresentation.PolygonGraphicalRepresentationImpl;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.GeometricNode;
 import org.openflexo.diana.GeometricGraphicalRepresentation;
@@ -58,9 +61,6 @@ import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaPolygon;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(PolygonGraphicalRepresentationImpl.class)

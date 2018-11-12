@@ -40,7 +40,7 @@ package org.openflexo.diana.animation;
 import java.util.List;
 
 import org.openflexo.diana.control.DianaEditor;
-import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.pamela.undo.CompoundEdit;
 
 public interface Animation {
 

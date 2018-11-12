@@ -38,7 +38,7 @@
 
 package org.openflexo.diana.drawingeditor;
 
-import org.openflexo.model.factory.EditingContextImpl;
+import org.openflexo.pamela.factory.EditingContextImpl;
 
 public class DiagramEditingContext extends EditingContextImpl {
 

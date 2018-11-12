@@ -39,7 +39,7 @@
 package org.openflexo.diana.layout;
 
 import org.openflexo.diana.DianaLayoutManager;
-import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.ModelEntity;
 
 /**
  * Abstract api of a {@link DianaLayoutManager} generally handling graphs with an iterative process<br>

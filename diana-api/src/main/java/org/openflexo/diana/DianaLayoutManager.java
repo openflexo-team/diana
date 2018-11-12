@@ -48,10 +48,10 @@ import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.DianaLayoutManagerSpecification.DraggingMode;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.geom.DianaPoint;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
 
 /**
  * Represents a LayoutManager in DIANA<br>

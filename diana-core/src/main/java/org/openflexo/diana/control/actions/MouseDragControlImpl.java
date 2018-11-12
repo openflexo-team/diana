@@ -44,7 +44,7 @@ import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.MouseControlContext;
 import org.openflexo.diana.control.MouseDragControl;
 import org.openflexo.diana.control.MouseDragControlAction;
-import org.openflexo.model.factory.EditingContext;
+import org.openflexo.pamela.factory.EditingContext;
 
 public class MouseDragControlImpl<E extends AbstractDianaEditor<?, ?, ?>> extends MouseControlImpl<E> implements MouseDragControl<E> {
 

@@ -45,7 +45,7 @@ import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.connectors.ConnectorSpecification;
 import org.openflexo.diana.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.diana.control.DianaInteractiveViewer;
-import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.pamela.undo.CompoundEdit;
 
 /**
  * Implementation of {@link ConnectorSpecification}, as a mutable container over {@link ConnectorSpecification} class hierarchy.<br>

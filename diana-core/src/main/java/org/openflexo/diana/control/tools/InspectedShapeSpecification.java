@@ -45,7 +45,7 @@ import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
-import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.pamela.undo.CompoundEdit;
 
 /**
  * Implementation of {@link ShapeSpecification}, as a mutable container over {@link ShapeSpecification} class hierarchy.<br>

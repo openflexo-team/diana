@@ -99,15 +99,15 @@ import org.openflexo.diana.shapes.RegularPolygon;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.shapes.ShapeUnion;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
+import org.openflexo.pamela.ModelContextLibrary;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.factory.ModelFactory;
 import org.openflexo.diana.shapes.Square;
 import org.openflexo.diana.shapes.Star;
 import org.openflexo.diana.shapes.Triangle;
 import org.openflexo.diana.shapes.GeneralShape.CubicCurvePathElement;
 import org.openflexo.diana.shapes.GeneralShape.QuadCurvePathElement;
 import org.openflexo.diana.shapes.GeneralShape.SegmentPathElement;
-import org.openflexo.model.ModelContextLibrary;
-import org.openflexo.model.exceptions.ModelDefinitionException;
-import org.openflexo.model.factory.ModelFactory;
 import org.openflexo.rm.Resource;
 import org.openflexo.toolbox.ToolBox;
 

@@ -38,8 +38,8 @@
 
 package org.openflexo.diana.layout;
 
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
 
 /**
  * A {@code Layout} implementation that assigns positions to {@code Tree} or {@code Forest} vertices using associations with nested circles

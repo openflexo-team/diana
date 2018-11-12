@@ -57,7 +57,7 @@ import org.openflexo.diana.test.GraphDrawing3;
 import org.openflexo.diana.test.TestEdge;
 import org.openflexo.diana.test.TestGraph;
 import org.openflexo.diana.test.TestGraphNode;
-import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
 

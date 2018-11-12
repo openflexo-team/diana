@@ -56,9 +56,9 @@ import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.logging.FlexoLogger;
-import org.openflexo.model.factory.CloneableProxyObject;
-import org.openflexo.model.factory.KeyValueCoding;
-import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.pamela.factory.CloneableProxyObject;
+import org.openflexo.pamela.factory.KeyValueCoding;
+import org.openflexo.pamela.undo.CompoundEdit;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 
 /**

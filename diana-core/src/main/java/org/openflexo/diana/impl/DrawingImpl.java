@@ -69,8 +69,8 @@ import org.openflexo.diana.graph.DianaGraph;
 import org.openflexo.diana.notifications.DianaNotification;
 import org.openflexo.diana.notifications.DrawingTreeNodeHierarchyRebuildEnded;
 import org.openflexo.diana.notifications.DrawingTreeNodeHierarchyRebuildStarted;
-import org.openflexo.model.factory.ProxyMethodHandler;
-import org.openflexo.model.undo.UndoManager;
+import org.openflexo.pamela.factory.ProxyMethodHandler;
+import org.openflexo.pamela.undo.UndoManager;
 
 import javassist.util.proxy.ProxyObject;
 

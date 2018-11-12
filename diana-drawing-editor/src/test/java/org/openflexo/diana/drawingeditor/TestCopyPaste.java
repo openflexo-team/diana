@@ -52,8 +52,8 @@ import org.openflexo.diana.drawingeditor.model.DiagramFactory;
 import org.openflexo.diana.drawingeditor.model.Shape;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
-import org.openflexo.model.factory.Clipboard;
-import org.openflexo.model.factory.EditingContextImpl;
+import org.openflexo.pamela.factory.Clipboard;
+import org.openflexo.pamela.factory.EditingContextImpl;
 
 import junit.framework.TestCase;
 

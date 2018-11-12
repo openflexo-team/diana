@@ -82,9 +82,9 @@ import org.openflexo.diana.graphics.ShapeDecorationPainter;
 import org.openflexo.diana.graphics.ShapePainter;
 import org.openflexo.diana.shapes.Shape;
 import org.openflexo.diana.shapes.ShapeSpecification;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.factory.EditingContext;
-import org.openflexo.model.undo.UndoManager;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.factory.EditingContext;
+import org.openflexo.pamela.undo.UndoManager;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 
 /**

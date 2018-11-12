@@ -44,7 +44,7 @@ import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.MouseClickControl;
 import org.openflexo.diana.control.MouseClickControlAction;
 import org.openflexo.diana.control.MouseControlContext;
-import org.openflexo.model.factory.EditingContext;
+import org.openflexo.pamela.factory.EditingContext;
 
 public class MouseClickControlImpl<E extends AbstractDianaEditor<?, ?, ?>> extends MouseControlImpl<E> implements MouseClickControl<E> {
 

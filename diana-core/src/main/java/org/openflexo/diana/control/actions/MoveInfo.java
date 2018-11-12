@@ -57,7 +57,7 @@ import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.view.DianaView;
 import org.openflexo.diana.view.DrawingView;
-import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.pamela.undo.CompoundEdit;
 
 /**
  * Utility class used to store a move

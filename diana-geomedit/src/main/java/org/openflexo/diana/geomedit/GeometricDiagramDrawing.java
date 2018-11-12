@@ -62,8 +62,8 @@ import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.diana.impl.DrawingImpl;
-import org.openflexo.model.exceptions.ModelDefinitionException;
-import org.openflexo.model.factory.EditingContextImpl;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.factory.EditingContextImpl;
 
 public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 

@@ -39,8 +39,8 @@
 package org.openflexo.diana.layout;
 
 import org.openflexo.diana.DianaLayoutManager;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
 
 /**
  * Represents a layout manager automatically placing the layouted nodes on a grid

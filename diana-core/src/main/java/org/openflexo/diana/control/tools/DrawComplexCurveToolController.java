@@ -55,7 +55,7 @@ import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.diana.view.DrawingView;
-import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.pamela.undo.CompoundEdit;
 
 /**
  * Abstract implementation for the controller of the Complex Curve drawing tool

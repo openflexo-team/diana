@@ -117,9 +117,9 @@ import org.openflexo.diana.swing.graphics.JDianaGraphics;
 import org.openflexo.diana.swing.graphics.JDianaShapeGraphics;
 import org.openflexo.diana.swing.paint.DianaPaintManager;
 import org.openflexo.diana.view.DrawingView;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.diana.view.DianaContainerView;
 import org.openflexo.diana.view.DianaView;
-import org.openflexo.model.exceptions.ModelDefinitionException;
 import org.openflexo.swing.MouseResizer;
 
 /**

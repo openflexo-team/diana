@@ -61,7 +61,7 @@ import org.openflexo.diana.impl.ContainerNodeImpl;
 import org.openflexo.diana.impl.DrawingImpl;
 import org.openflexo.diana.impl.ShapeNodeImpl;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
-import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.pamela.undo.CompoundEdit;
 
 /**
  * Abstract implementation for the controller of the DrawConnector tool

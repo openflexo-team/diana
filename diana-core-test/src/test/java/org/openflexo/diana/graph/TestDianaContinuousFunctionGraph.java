@@ -60,7 +60,7 @@ import org.openflexo.diana.ColorGradientBackgroundStyle.ColorGradientDirection;
 import org.openflexo.diana.graph.DianaContinuousSimpleFunctionGraph;
 import org.openflexo.diana.graph.DianaNumericFunction;
 import org.openflexo.diana.graph.DianaFunction.DianaGraphType;
-import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
 

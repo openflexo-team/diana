@@ -48,11 +48,11 @@ import org.openflexo.diana.drawingeditor.DrawEdgeControl;
 import org.openflexo.diana.drawingeditor.ShowContextualMenuControl;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
-import org.openflexo.model.converter.RelativePathResourceConverter;
-import org.openflexo.model.exceptions.ModelDefinitionException;
-import org.openflexo.model.factory.EditingContext;
-import org.openflexo.model.undo.CompoundEdit;
-import org.openflexo.model.undo.UndoManager;
+import org.openflexo.pamela.converter.RelativePathResourceConverter;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.factory.EditingContext;
+import org.openflexo.pamela.undo.CompoundEdit;
+import org.openflexo.pamela.undo.UndoManager;
 
 public class DiagramFactory extends DianaModelFactoryImpl {
 

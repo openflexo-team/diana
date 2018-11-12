@@ -69,7 +69,7 @@ import org.openflexo.diana.view.DianaView;
 import org.openflexo.exceptions.CopyException;
 import org.openflexo.exceptions.CutException;
 import org.openflexo.exceptions.PasteException;
-import org.openflexo.model.factory.Clipboard;
+import org.openflexo.pamela.factory.Clipboard;
 
 /**
  * A controller managing the drawing edition.

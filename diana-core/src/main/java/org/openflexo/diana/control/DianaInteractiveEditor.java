@@ -74,7 +74,7 @@ import org.openflexo.diana.view.DianaViewFactory;
 import org.openflexo.exceptions.CopyException;
 import org.openflexo.exceptions.CutException;
 import org.openflexo.exceptions.PasteException;
-import org.openflexo.model.factory.Clipboard;
+import org.openflexo.pamela.factory.Clipboard;
 
 /**
  * Represents an editor of a {@link Drawing}<br>

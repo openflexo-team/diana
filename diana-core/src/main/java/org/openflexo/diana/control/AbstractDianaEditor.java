@@ -62,8 +62,8 @@ import org.openflexo.diana.view.ShapeView;
 import org.openflexo.gina.ApplicationFIBLibrary.ApplicationFIBLibraryImpl;
 import org.openflexo.gina.FIBLibrary;
 import org.openflexo.gina.view.GinaViewFactory;
-import org.openflexo.model.factory.EditingContext;
-import org.openflexo.model.undo.UndoManager;
+import org.openflexo.pamela.factory.EditingContext;
+import org.openflexo.pamela.undo.UndoManager;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 
 /**

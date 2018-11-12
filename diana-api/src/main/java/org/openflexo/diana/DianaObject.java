@@ -39,9 +39,9 @@
 package org.openflexo.diana;
 
 import org.openflexo.diana.notifications.DianaAttributeNotification;
-import org.openflexo.model.factory.AccessibleProxyObject;
-import org.openflexo.model.factory.CloneableProxyObject;
-import org.openflexo.model.factory.DeletableProxyObject;
+import org.openflexo.pamela.factory.AccessibleProxyObject;
+import org.openflexo.pamela.factory.CloneableProxyObject;
+import org.openflexo.pamela.factory.DeletableProxyObject;
 
 /**
  * Root interface for all model objects involved in Diana modelling layer

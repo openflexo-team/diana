@@ -27,7 +27,7 @@ import org.openflexo.gina.swing.utils.localization.LocalizedEditor;
 import org.openflexo.gina.swing.utils.logging.FlexoLoggingViewer;
 import org.openflexo.icon.ImageIconResource;
 import org.openflexo.logging.FlexoLoggingManager;
-import org.openflexo.model.undo.UndoManager;
+import org.openflexo.pamela.undo.UndoManager;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 

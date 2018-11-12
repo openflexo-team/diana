@@ -50,6 +50,9 @@ import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.SegmentConstruction;
 import org.openflexo.diana.geomedit.model.SegmentWithTwoPointsConstruction;
 import org.openflexo.diana.geomedit.model.gr.SegmentGraphicalRepresentation.SegmentGraphicalRepresentationImpl;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.GeometricNode;
 import org.openflexo.diana.GeometricGraphicalRepresentation;
@@ -57,9 +60,6 @@ import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaSegment;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(SegmentGraphicalRepresentationImpl.class)

@@ -47,7 +47,7 @@ import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.geom.DianaPoint;
-import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.pamela.undo.CompoundEdit;
 
 public class ConnectorAdjustingControlPoint extends ConnectorControlPoint {
 

@@ -45,7 +45,7 @@ import java.util.Map;
 import org.openflexo.diana.ColorBackgroundStyle;
 import org.openflexo.diana.DianaModelFactoryImpl;
 import org.openflexo.diana.ForegroundStyle;
-import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
 
 /**
  * A factory that implements cache to get objects used for rendering

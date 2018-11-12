@@ -55,7 +55,7 @@ import org.openflexo.diana.geom.DianaDimension;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.graphics.DianaDrawingGraphics;
-import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
 
 public class RootNodeImpl<M> extends ContainerNodeImpl<M, DrawingGraphicalRepresentation> implements RootNode<M> {
 

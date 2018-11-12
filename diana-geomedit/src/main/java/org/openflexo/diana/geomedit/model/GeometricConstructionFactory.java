@@ -49,10 +49,10 @@ import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.geomedit.controller.ShowGeneralContextualMenuControl;
 import org.openflexo.diana.geomedit.model.gr.GeometricDrawingGraphicalRepresentation;
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
-import org.openflexo.model.exceptions.ModelDefinitionException;
-import org.openflexo.model.factory.EditingContext;
-import org.openflexo.model.undo.CompoundEdit;
-import org.openflexo.model.undo.UndoManager;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.factory.EditingContext;
+import org.openflexo.pamela.undo.CompoundEdit;
+import org.openflexo.pamela.undo.UndoManager;
 
 public class GeometricConstructionFactory extends DianaModelFactoryImpl {
 

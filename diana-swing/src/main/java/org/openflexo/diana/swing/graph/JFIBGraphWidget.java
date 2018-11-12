@@ -81,7 +81,7 @@ import org.openflexo.gina.model.graph.FIBNumericFunction;
 import org.openflexo.gina.swing.view.JFIBView;
 import org.openflexo.gina.swing.view.SwingRenderingAdapter;
 import org.openflexo.gina.view.impl.FIBWidgetViewImpl;
-import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
 
 /**
  * Default base implementation for a {@link FIBGraph} view<br>

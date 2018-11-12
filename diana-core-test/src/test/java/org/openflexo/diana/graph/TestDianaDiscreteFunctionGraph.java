@@ -63,7 +63,7 @@ import org.openflexo.diana.graph.DianaNumericFunction;
 import org.openflexo.diana.graph.DianaFunction.DianaGraphType;
 import org.openflexo.diana.graph.DianaSimpleFunctionGraph.Orientation;
 import org.openflexo.diana.test.data.SimplePerson;
-import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
 

@@ -50,6 +50,9 @@ import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.RoundRectangleConstruction;
 import org.openflexo.diana.geomedit.model.RoundRectangleWithTwoPointsConstruction;
 import org.openflexo.diana.geomedit.model.gr.RoundRectangleGraphicalRepresentation.RoundRectangleGraphicalRepresentationImpl;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.GeometricNode;
 import org.openflexo.diana.GeometricGraphicalRepresentation;
@@ -60,9 +63,6 @@ import org.openflexo.diana.geom.DianaGeometricObject.CardinalQuadrant;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRoundRectangle;
 import org.openflexo.diana.geom.area.DianaQuarterPlane;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(RoundRectangleGraphicalRepresentationImpl.class)

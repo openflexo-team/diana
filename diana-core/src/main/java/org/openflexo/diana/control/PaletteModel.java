@@ -51,7 +51,7 @@ import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.DianaModelFactoryImpl;
 import org.openflexo.diana.PaletteElementSpecification;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
-import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.rm.Resource;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 

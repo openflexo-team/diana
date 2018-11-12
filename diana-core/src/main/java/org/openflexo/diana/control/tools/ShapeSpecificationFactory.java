@@ -83,7 +83,7 @@ import org.openflexo.diana.shapes.Square;
 import org.openflexo.diana.shapes.Star;
 import org.openflexo.diana.shapes.Triangle;
 import org.openflexo.diana.shapes.impl.ShapeImpl;
-import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.pamela.undo.CompoundEdit;
 
 /**
  * Convenient class used to manipulate ShapeSpecification instances over ShapeSpecification class hierarchy

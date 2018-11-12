@@ -38,7 +38,7 @@
 
 package org.openflexo.diana;
 
-import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.ModelEntity;
 
 @ModelEntity(isAbstract = true)
 public interface DianaStyle extends DianaObject {

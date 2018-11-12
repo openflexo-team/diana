@@ -56,7 +56,7 @@ import org.openflexo.diana.swing.control.tools.JDianaScaleSelector;
 import org.openflexo.gina.test.SwingGraphicalContextDelegate;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
-import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
 
 public abstract class AbstractTestDianaGraph {
 

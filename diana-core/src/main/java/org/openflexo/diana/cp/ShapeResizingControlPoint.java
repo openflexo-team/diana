@@ -57,7 +57,7 @@ import org.openflexo.diana.geom.area.DianaEmptyArea;
 import org.openflexo.diana.geom.area.DianaHalfLine;
 import org.openflexo.diana.geom.area.DianaQuarterPlane;
 import org.openflexo.diana.shapes.ShapeSpecification;
-import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.pamela.undo.CompoundEdit;
 
 /**
  * A {@link LabelControlPoint} encodes an interactive control point which purpose is to resize a shape<br>

@@ -44,7 +44,7 @@ import org.openflexo.diana.control.MouseControlContext;
 import org.openflexo.diana.control.actions.MouseClickControlActionImpl;
 import org.openflexo.diana.control.actions.MouseClickControlImpl;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
-import org.openflexo.model.factory.EditingContext;
+import org.openflexo.pamela.factory.EditingContext;
 
 public class ShowGeneralContextualMenuControl extends MouseClickControlImpl<GeomEditDrawingController> {
 

@@ -56,9 +56,9 @@ import org.openflexo.diana.converter.SteppedDimensionConverter;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectPolylin;
 import org.openflexo.diana.geom.DianaSteppedDimensionConstraint;
-import org.openflexo.model.StringConverterLibrary.Converter;
-import org.openflexo.model.annotations.StringConverter;
-import org.openflexo.model.converter.DataBindingConverter;
+import org.openflexo.pamela.StringConverterLibrary.Converter;
+import org.openflexo.pamela.annotations.StringConverter;
+import org.openflexo.pamela.converter.DataBindingConverter;
 import org.openflexo.uicst.ColorUtils;
 
 public class DianaUtils {

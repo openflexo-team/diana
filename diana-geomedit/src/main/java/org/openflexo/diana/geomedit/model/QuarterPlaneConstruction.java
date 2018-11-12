@@ -41,9 +41,9 @@ package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.model.QuarterPlaneConstruction.QuarterPlaneConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.QuarterPlaneGraphicalRepresentation;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.diana.geom.area.DianaQuarterPlane;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(QuarterPlaneConstructionImpl.class)

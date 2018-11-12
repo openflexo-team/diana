@@ -56,7 +56,7 @@ import org.openflexo.diana.notifications.ShapeChanged;
 import org.openflexo.diana.notifications.ShapeNeedsToBeRedrawn;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
-import org.openflexo.model.factory.ProxyMethodHandler;
+import org.openflexo.pamela.factory.ProxyMethodHandler;
 
 public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphicalRepresentationImpl
 		implements ShapeGraphicalRepresentation {

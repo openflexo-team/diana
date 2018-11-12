@@ -52,8 +52,8 @@ import org.openflexo.diana.drawingeditor.model.DiagramElement;
 import org.openflexo.diana.drawingeditor.model.Shape;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.logging.FlexoLogger;
-import org.openflexo.model.converter.RelativePathResourceConverter;
-import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.pamela.converter.RelativePathResourceConverter;
+import org.openflexo.pamela.undo.CompoundEdit;
 import org.openflexo.rm.ResourceLocator;
 
 public class DiagramEditorPalette extends PaletteModel {

@@ -44,7 +44,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.openflexo.model.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
 
 /**
  * A {@link GRProperty} encodes a typed property access associated to any class of Diana model<br>

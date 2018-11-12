@@ -48,15 +48,15 @@ import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
 import org.openflexo.diana.geomedit.model.ExplicitPointConstruction;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.PointConstruction;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.GeometricNode;
 import org.openflexo.diana.GeometricGraphicalRepresentation;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
 import org.openflexo.diana.geom.DianaPoint;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(PointGraphicalRepresentation.PointGraphicalRepresentationImpl.class)

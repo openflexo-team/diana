@@ -46,7 +46,7 @@ import org.openflexo.diana.control.MouseControlContext;
 import org.openflexo.diana.control.actions.MouseClickControlActionImpl;
 import org.openflexo.diana.control.actions.MouseClickControlImpl;
 import org.openflexo.diana.view.DianaView;
-import org.openflexo.model.factory.EditingContext;
+import org.openflexo.pamela.factory.EditingContext;
 
 public class ShowContextualMenuControl extends MouseClickControlImpl<DianaDrawingEditor> {
 

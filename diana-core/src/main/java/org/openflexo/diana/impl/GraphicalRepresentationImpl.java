@@ -66,8 +66,8 @@ import org.openflexo.diana.control.MouseDragControl;
 import org.openflexo.diana.notifications.BindingChanged;
 import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.diana.notifications.GRDeleted;
-import org.openflexo.model.factory.CloneableProxyObject;
-import org.openflexo.model.factory.ProxyMethodHandler;
+import org.openflexo.pamela.factory.CloneableProxyObject;
+import org.openflexo.pamela.factory.ProxyMethodHandler;
 
 public abstract class GraphicalRepresentationImpl extends DianaObjectImpl implements GraphicalRepresentation {
 

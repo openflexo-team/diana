@@ -87,7 +87,7 @@ import org.openflexo.gina.swing.utils.localization.LocalizedEditor;
 import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.localization.LocalizedDelegateImpl;
 import org.openflexo.logging.FlexoLogger;
-import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.rm.FileSystemResourceLocatorImpl;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.swing.ComponentBoundSaver;

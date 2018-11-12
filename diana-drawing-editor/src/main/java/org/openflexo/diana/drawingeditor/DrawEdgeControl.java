@@ -56,7 +56,7 @@ import org.openflexo.diana.drawingeditor.model.DiagramElement;
 import org.openflexo.diana.drawingeditor.model.DiagramFactory;
 import org.openflexo.diana.drawingeditor.model.Shape;
 import org.openflexo.diana.swing.control.JMouseControlContext;
-import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.pamela.undo.CompoundEdit;
 
 public class DrawEdgeControl extends MouseDragControlImpl<DianaDrawingEditor> {
 

@@ -48,7 +48,7 @@ import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.view.DianaViewFactory;
-import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.pamela.undo.CompoundEdit;
 
 public abstract class DianaToolImpl<C, F extends DianaViewFactory<F, ?>> implements DianaTool<C, F>, PropertyChangeListener {
 

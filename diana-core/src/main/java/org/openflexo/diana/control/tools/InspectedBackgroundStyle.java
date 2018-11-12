@@ -48,7 +48,7 @@ import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.GeometricGraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.control.DianaInteractiveViewer;
-import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.pamela.undo.CompoundEdit;
 
 /**
  * Implementation of {@link BackgroundStyle}, as a container of graphical properties synchronized with and reflecting a selection<br>

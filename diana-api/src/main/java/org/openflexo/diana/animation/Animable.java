@@ -37,7 +37,7 @@
  */
 package org.openflexo.diana.animation;
 
-import org.openflexo.model.undo.UndoManager;
+import org.openflexo.pamela.undo.UndoManager;
 
 public interface Animable {
 

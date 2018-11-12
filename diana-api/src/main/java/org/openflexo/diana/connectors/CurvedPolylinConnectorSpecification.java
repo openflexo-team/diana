@@ -39,8 +39,8 @@
 
 package org.openflexo.diana.connectors;
 
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @XMLElement(xmlTag = "CurvedPolylinConnectorSpecification")

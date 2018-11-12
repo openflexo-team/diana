@@ -53,7 +53,7 @@ import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.graphics.DianaShapeGraphics;
 import org.openflexo.diana.impl.DianaCachedModelFactory;
 import org.openflexo.diana.swing.view.JShapeView;
-import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
 
 public class JDianaShapeGraphics extends JDianaGraphics implements DianaShapeGraphics {
 

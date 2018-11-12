@@ -62,9 +62,9 @@ import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaQuadCurve;
 import org.openflexo.diana.geom.DianaSegment;
 import org.openflexo.diana.graphics.DianaGraphics;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(QuadCurveGraphicalRepresentationImpl.class)

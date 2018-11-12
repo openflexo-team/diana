@@ -149,6 +149,8 @@ import org.openflexo.diana.shapes.impl.GeneralShapeImpl.CubicCurvePathElementImp
 import org.openflexo.diana.shapes.impl.GeneralShapeImpl.GeneralShapePathElementImpl;
 import org.openflexo.diana.shapes.impl.GeneralShapeImpl.QuadCurvePathElementImpl;
 import org.openflexo.diana.shapes.impl.GeneralShapeImpl.SegmentPathElementImpl;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.factory.ModelFactory;
 import org.openflexo.diana.shapes.impl.LosangeImpl;
 import org.openflexo.diana.shapes.impl.OvalImpl;
 import org.openflexo.diana.shapes.impl.ParallelogramImpl;
@@ -162,8 +164,6 @@ import org.openflexo.diana.shapes.impl.ShapeUnionImpl;
 import org.openflexo.diana.shapes.impl.SquareImpl;
 import org.openflexo.diana.shapes.impl.StarImpl;
 import org.openflexo.diana.shapes.impl.TriangleImpl;
-import org.openflexo.model.exceptions.ModelDefinitionException;
-import org.openflexo.model.factory.ModelFactory;
 
 public class DianaModelFactoryImpl extends DianaModelFactory {
 
