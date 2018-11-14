@@ -44,6 +44,8 @@ import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaSegment;
 import org.openflexo.diana.geomedit.model.CircleWithCenterAndPointConstruction.CircleWithCenterAndPointConstructionImpl;
+import org.openflexo.diana.geomedit.model.gr.CircleWithCenterAndPointGraphicalRepresentation;
+import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
@@ -133,6 +135,11 @@ public interface CircleWithCenterAndPointConstruction extends CircleConstruction
 		public GeometricConstruction[] getDepends() {
 			GeometricConstruction[] returned = { centerConstruction, pointConstruction };
 			return returned;
+		}
+
+		@Override
+		public GeometricObjectGraphicalRepresentation<DianaCircle> makeNewConstructionGR(GeometricConstructionFactory factory) {
+			return (GeometricObjectGraphicalRepresentation) factory.newInstance(CircleWithCenterAndPointGraphicalRepresentation.class);
 		}
 
 	}

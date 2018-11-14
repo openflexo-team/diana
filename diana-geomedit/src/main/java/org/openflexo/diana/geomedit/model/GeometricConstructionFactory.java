@@ -305,6 +305,15 @@ public class GeometricConstructionFactory extends DianaModelFactoryImpl {
 		return returned;
 	}
 
+	public CircleWithThreePointsConstruction makeCircleWithThreePointsConstruction(PointConstruction pointConstruction1,
+			PointConstruction pointConstruction2, PointConstruction pointConstruction3) {
+		CircleWithThreePointsConstruction returned = newInstance(CircleWithThreePointsConstruction.class);
+		returned.setPointConstruction1(pointConstruction1);
+		returned.setPointConstruction2(pointConstruction2);
+		returned.setPointConstruction3(pointConstruction3);
+		return returned;
+	}
+
 	public HalfPlaneWithLineAndPointConstruction makeHalfPlaneWithLineAndPointConstruction(LineConstruction lineConstruction,
 			PointConstruction pointConstruction) {
 		HalfPlaneWithLineAndPointConstruction returned = newInstance(HalfPlaneWithLineAndPointConstruction.class);

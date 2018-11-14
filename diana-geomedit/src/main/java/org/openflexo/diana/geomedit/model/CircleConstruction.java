@@ -51,7 +51,8 @@ import org.openflexo.pamela.annotations.Setter;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(CircleConstructionImpl.class)
-@Imports({ @Import(CircleReference.class), @Import(CircleWithCenterAndPointConstruction.class) })
+@Imports({ @Import(CircleReference.class), @Import(CircleWithCenterAndPointConstruction.class),
+		@Import(CircleWithThreePointsConstruction.class) })
 public interface CircleConstruction extends EllipsConstruction<DianaCircle> {
 
 	@PropertyIdentifier(type = Double.class)

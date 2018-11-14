@@ -94,6 +94,15 @@ public class DianaCircle extends DianaEllips {
 		return new DianaUnionArea(p1, p2);
 	}
 
+	public static DianaCircle getCircle(DianaPoint p1, DianaPoint p2, DianaPoint p3, Filling filling) {
+		DianaLine l1 = new DianaLine(p1, p2);
+		DianaLine ol1 = l1.getOrthogonalLine(DianaPoint.getMiddlePoint(p1, p2));
+		DianaLine l2 = new DianaLine(p2, p3);
+		DianaLine ol2 = l2.getOrthogonalLine(DianaPoint.getMiddlePoint(p2, p3));
+		DianaPoint center = DianaLine.getLineIntersection(ol1, ol2);
+		return new DianaCircle(center, DianaPoint.distance(center, p1), filling);
+	}
+
 	public double getRadius() {
 		return getWidth() / 2;
 	}

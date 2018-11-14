@@ -92,7 +92,7 @@ public interface EllipsConstruction<E extends DianaEllips> extends GeometricCons
 	@Setter(HEIGHT_KEY)
 	public void setHeight(double value);
 
-	@Getter(value = IS_FILLED_KEY, defaultValue = "true")
+	@Getter(value = IS_FILLED_KEY, defaultValue = "false")
 	@XMLAttribute
 	public boolean getIsFilled();
 

@@ -50,6 +50,7 @@ import javax.swing.JPopupMenu;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.edition.CreateBandFromLines;
 import org.openflexo.diana.geomedit.edition.CreateCircleWithCenterAndPoint;
+import org.openflexo.diana.geomedit.edition.CreateCircleWithThreePoints;
 import org.openflexo.diana.geomedit.edition.CreateCubicCurveFromFourPoints;
 import org.openflexo.diana.geomedit.edition.CreateCurveWithNPoints;
 import org.openflexo.diana.geomedit.edition.CreateHalfBandWithLines;
@@ -392,6 +393,15 @@ public class GeneralContextualMenu extends JPopupMenu {
 			}
 		});
 		createCircleItem.add(createCircleWithCenterAndPointItem);
+
+		JMenuItem createCircleWithThreePointsItem = new JMenuItem("With three points");
+		createCircleWithThreePointsItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.setCurrentEdition(new CreateCircleWithThreePoints(controller));
+			}
+		});
+		createCircleItem.add(createCircleWithThreePointsItem);
 
 		return createCircleItem;
 	}
