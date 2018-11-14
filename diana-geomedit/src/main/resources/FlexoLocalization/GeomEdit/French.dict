@@ -34,6 +34,7 @@ save_diagram_as=save_diagram_as
 save_drawing=Sauver le dessin
 save_drawing_as=Sauver le dessin sous...
 search=search
+shape_type=shape_type
 show_palette=show_palette
 start_orientation=start_orientation
 tools=Outils

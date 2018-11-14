@@ -42,6 +42,7 @@ save_drawing_as=Save drawing as...
 search=Search
 shadow_inspector=shadow_inspector
 shape_inspector=shape_inspector
+shape_type=Shape type
 show_palette=Show palette
 start_orientation=Start orientation
 text_inspector=text_inspector
