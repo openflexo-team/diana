@@ -185,7 +185,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createPointItem.add(createExplicitPoint);
 
-		JMenuItem createPointAsMiddleFromPointsItem = new JMenuItem("As middle of two other points");
+		JMenuItem createPointAsMiddleFromPointsItem = new JMenuItem("Middle of two other points");
 		createPointAsMiddleFromPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
