@@ -320,6 +320,10 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 		return drawingView;
 	}
 
+	public void installDrawingView(DrawingView<M, ? extends C> drawingView) {
+		this.drawingView = drawingView;
+	}
+
 	public void delete() {
 		if (drawing instanceof DrawingImpl<?>) {
 			((DrawingImpl<?>) drawing).getPropertyChangeSupport().removePropertyChangeListener(this);

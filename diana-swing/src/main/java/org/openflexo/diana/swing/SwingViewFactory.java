@@ -40,12 +40,12 @@ package org.openflexo.diana.swing;
 
 import javax.swing.JComponent;
 
-import org.openflexo.diana.ForegroundStyle;
-import org.openflexo.diana.ShadowStyle;
-import org.openflexo.diana.TextStyle;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.ForegroundStyle;
+import org.openflexo.diana.ShadowStyle;
+import org.openflexo.diana.TextStyle;
 import org.openflexo.diana.connectors.ConnectorSpecification;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaInteractiveViewer;
@@ -62,8 +62,8 @@ import org.openflexo.diana.swing.control.JMouseControlContext;
 import org.openflexo.diana.swing.control.tools.JDianaPalette;
 import org.openflexo.diana.swing.view.DianaViewMouseListener;
 import org.openflexo.diana.swing.view.JConnectorView;
-import org.openflexo.diana.swing.view.JDrawingView;
 import org.openflexo.diana.swing.view.JDianaView;
+import org.openflexo.diana.swing.view.JDrawingView;
 import org.openflexo.diana.swing.view.JShapeView;
 import org.openflexo.diana.swing.widget.JConnectorPreviewPanel;
 import org.openflexo.diana.swing.widget.JFIBBackgroundStyleSelector;
@@ -72,8 +72,8 @@ import org.openflexo.diana.swing.widget.JFIBShadowStyleSelector;
 import org.openflexo.diana.swing.widget.JFIBShapeSelector;
 import org.openflexo.diana.swing.widget.JFIBTextStyleSelector;
 import org.openflexo.diana.swing.widget.JShapePreviewPanel;
-import org.openflexo.diana.view.DianaViewFactory;
 import org.openflexo.diana.view.DianaView;
+import org.openflexo.diana.view.DianaViewFactory;
 
 /**
  * Represent the view factory for Swing technology

@@ -79,20 +79,20 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-import org.openflexo.diana.Drawing;
-import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.DianaUtils;
-import org.openflexo.diana.GeometricGraphicalRepresentation;
+import org.openflexo.diana.Drawing;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.GeometricNode;
 import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.DrawingGraphicalRepresentation;
+import org.openflexo.diana.GeometricGraphicalRepresentation;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaInteractiveEditor;
-import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.control.DianaInteractiveEditor.EditorTool;
+import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.control.actions.RectangleSelectingAction;
 import org.openflexo.diana.control.tools.DianaPalette;
 import org.openflexo.diana.cp.ControlArea;
@@ -116,10 +116,10 @@ import org.openflexo.diana.swing.graphics.JDianaGeometricGraphics;
 import org.openflexo.diana.swing.graphics.JDianaGraphics;
 import org.openflexo.diana.swing.graphics.JDianaShapeGraphics;
 import org.openflexo.diana.swing.paint.DianaPaintManager;
-import org.openflexo.diana.view.DrawingView;
-import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.diana.view.DianaContainerView;
 import org.openflexo.diana.view.DianaView;
+import org.openflexo.diana.view.DrawingView;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.swing.MouseResizer;
 
 /**
@@ -176,8 +176,11 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 	private boolean isDeleted = false;
 
+	private Map<GeometricNode<?>, JLabelView<?>> labels = new HashMap<>();
+
 	public JDrawingView(AbstractDianaEditor<M, SwingViewFactory, JComponent> controller) {
 		this.controller = controller;
+		controller.installDrawingView(this);
 		drawing = controller.getDrawing();
 		drawing.getRoot().getGraphicalRepresentation().updateBindingModel();
 		// contents = new Hashtable<DrawingTreeNode<?, ?>, DianaView<?,?>>();
@@ -200,6 +203,8 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 				((GeometricNode<?>) dtn).getPropertyChangeSupport().addPropertyChangeListener(this);
 			}
 		}
+
+		updateLabelsForGeometricNodes();
 
 		/*if (getController() instanceof DianaInteractiveEditor) {
 			if (((DianaInteractiveEditor<?, ?, ?>) controller).getPalettes() != null) {
@@ -336,6 +341,9 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 				}
 			}
 		}
+		for (JLabelView<?> labelView : labels.values()) {
+			labelView.rescale();
+		}
 		resizeView();
 		// revalidate();
 		getPaintManager().invalidate(drawing.getRoot());
@@ -368,6 +376,50 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		return controller;
 	}
 
+	private void updateLabelsForGeometricNodes() {
+		for (DrawingTreeNode<?, ?> dtn : drawing.getRoot().getChildNodes()) {
+			if (dtn instanceof GeometricNode<?>) {
+				updateLabelView((GeometricNode<?>) dtn);
+			}
+		}
+	}
+
+	private void updateLabelView(GeometricNode<?> dtn) {
+		JLabelView<?> labelView = labels.get(dtn);
+		if (!dtn.hasText() && labelView != null) {
+			labels.remove(dtn);
+			remove(labelView);
+			labelView.delete();
+			labelView = null;
+		}
+		else if (dtn.hasText() && labelView == null) {
+			labelView = new JLabelView(dtn, getController(), this);
+			labels.put(dtn, labelView);
+			add(labelView, getLayer(), -1);
+		}
+	}
+
+	public JLabelView<?> getLabelView(GeometricNode<?> dtn) {
+		return labels.get(dtn);
+	}
+
+	@Override
+	protected void handleNodeRemoved(DrawingTreeNode<?, ?> removedNode, ContainerNode<?, ?> parentNode) {
+		if (removedNode instanceof GeometricNode && removedNode.hasText()) {
+			JLabelView<?> labelView = labels.get(removedNode);
+			if (labelView != null) {
+				labels.remove(removedNode);
+				remove(labelView);
+				labelView.delete();
+			}
+		}
+		super.handleNodeRemoved(removedNode, parentNode);
+		if (removedNode instanceof GeometricNode) {
+			getPaintManager().invalidate(removedNode.getParentNode());
+			getPaintManager().repaint(this);
+		}
+	}
+
 	@Override
 	public void propertyChange(final PropertyChangeEvent evt) {
 		if (isDeleted) {
@@ -382,9 +434,11 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 			if (evt.getPropertyName().equals(NodeAdded.EVENT_NAME)) {
 				handleNodeAdded((DrawingTreeNode<?, ?>) evt.getNewValue());
+				updateLabelsForGeometricNodes();
 			}
 			else if (evt.getPropertyName().equals(NodeRemoved.EVENT_NAME)) {
 				handleNodeRemoved((DrawingTreeNode<?, ?>) evt.getOldValue(), (ContainerNode<?, ?>) evt.getNewValue());
+				updateLabelsForGeometricNodes();
 			}
 			else if (evt.getPropertyName().equals(NodeDeleted.EVENT_NAME)) {
 				delete();
@@ -478,6 +532,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 	@Override
 	protected void paintComponent(Graphics g) {
+
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		DrawUtils.turnOnAntiAlising(g2);
@@ -527,6 +582,15 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					|| getPaintManager().containsTemporaryObject(node))) {
 				JDianaView<?, ?> view = viewForNode(node);
 				if (view == null) {
+					if (node instanceof GeometricNode && node.hasText()) {
+						JLabelView<?> labelView = getLabelView(((GeometricNode<?>) node));
+						if (labelView != null) {
+							Graphics labelGraphics = g.create(labelView.getX(), labelView.getY(), labelView.getWidth(),
+									labelView.getHeight());
+							labelView.paint(labelGraphics);
+							labelGraphics.dispose();
+						}
+					}
 					continue;
 				}
 				Component viewAsComponent = (Component) view;

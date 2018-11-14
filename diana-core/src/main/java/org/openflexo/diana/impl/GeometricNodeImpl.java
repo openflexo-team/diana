@@ -38,6 +38,7 @@
 
 package org.openflexo.diana.impl;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -52,6 +53,7 @@ import org.openflexo.diana.Drawing.GeometricNode;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.GRBinding;
 import org.openflexo.diana.GeometricGraphicalRepresentation;
+import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
@@ -81,7 +83,7 @@ import org.openflexo.diana.graphics.DianaGeometricGraphics;
 import org.openflexo.diana.notifications.GeometryModified;
 
 public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphicalRepresentation> implements GeometricNode<O> {
-	
+
 	// TODO: change to protected
 	public GeometricNodeImpl(DrawingImpl<?> drawingImpl, O drawable, GRBinding<O, GeometricGraphicalRepresentation> grBinding,
 			ContainerNodeImpl<?, ?> parentNode) {
@@ -261,13 +263,17 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			}*/
 		}
 
+		/*System.out.println("On peint " + this.getDrawable());
+		
 		if (hasFloatingLabel()) {
 			g.useTextStyle(getGraphicalRepresentation().getTextStyle());
-			g.drawString(getGraphicalRepresentation().getText(),
-					new DianaPoint(getLabelRelativePosition().x + getGraphicalRepresentation().getAbsoluteTextX(),
-							getLabelRelativePosition().y + getGraphicalRepresentation().getAbsoluteTextY()),
-					getGraphicalRepresentation().getHorizontalTextAlignment());
-		}
+			DianaPoint pt = new DianaPoint(getLabelRelativePosition().x + getGraphicalRepresentation().getAbsoluteTextX(),
+					getLabelRelativePosition().y + getGraphicalRepresentation().getAbsoluteTextY());
+			System.out.println("Label: " + getText() + " en " + pt);
+			System.out.println("x=" + getGraphicalRepresentation().getAbsoluteTextX());
+			System.out.println("y=" + getGraphicalRepresentation().getAbsoluteTextY());
+			g.drawString(getText(), pt, getGraphicalRepresentation().getHorizontalTextAlignment());
+		}*/
 
 		// g.releaseGraphics();
 	}
@@ -615,8 +621,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 				initialWidth = ((DianaRectangle) getGeometricObject()).width;
 				initialHeight = ((DianaRectangle) getGeometricObject()).height;
-				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
-						((DianaRectangle) getGeometricObject()).getSouthEastPt(),
+				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(((DianaRectangle) getGeometricObject()).getSouthEastPt(),
 						CardinalQuadrant.NORTH_WEST));
 			}
 
@@ -648,8 +653,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 				initialWidth = ((DianaRectangle) getGeometricObject()).width;
 				initialHeight = ((DianaRectangle) getGeometricObject()).height;
-				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
-						((DianaRectangle) getGeometricObject()).getSouthWestPt(),
+				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(((DianaRectangle) getGeometricObject()).getSouthWestPt(),
 						CardinalQuadrant.NORTH_EAST));
 			}
 
@@ -680,8 +684,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 				initialWidth = ((DianaRectangle) getGeometricObject()).width;
 				initialHeight = ((DianaRectangle) getGeometricObject()).height;
-				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
-						((DianaRectangle) getGeometricObject()).getNorthEastPt(),
+				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(((DianaRectangle) getGeometricObject()).getNorthEastPt(),
 						CardinalQuadrant.SOUTH_WEST));
 			}
 
@@ -712,8 +715,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 				initialWidth = ((DianaRectangle) getGeometricObject()).width;
 				initialHeight = ((DianaRectangle) getGeometricObject()).height;
-				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
-						((DianaRectangle) getGeometricObject()).getNorthWestPt(),
+				setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(((DianaRectangle) getGeometricObject()).getNorthWestPt(),
 						CardinalQuadrant.SOUTH_EAST));
 			}
 
@@ -750,8 +752,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			@Override
 			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
 					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-				DianaPoint p = ((DianaGeneralShape<?>) getGeometricObject()).getPathElements().firstElement()
-						.getP1();
+				DianaPoint p = ((DianaGeneralShape<?>) getGeometricObject()).getPathElements().firstElement().getP1();
 				p.x = newAbsolutePoint.x;
 				p.y = newAbsolutePoint.y;
 				setPoint(newAbsolutePoint);
@@ -778,8 +779,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 				@Override
 				public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
 						DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-					DianaPoint p = ((DianaGeneralShape<?>) getGeometricObject()).getPathElements().get(index)
-							.getP2();
+					DianaPoint p = ((DianaGeneralShape<?>) getGeometricObject()).getPathElements().get(index).getP2();
 					p.x = newAbsolutePoint.x;
 					p.y = newAbsolutePoint.y;
 					((DianaGeneralShape<?>) getGeometricObject()).refresh();
@@ -825,7 +825,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			controlPoints = new Vector<>();
 		}
 		controlPoints.clear();
-
+		
 		if (getGeometricObject() == null) {
 			return controlPoints;
 		}*/
@@ -840,8 +840,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			returned.addAll(buildControlPointsForRectangle((DianaRectangle) getGeometricObject()));
 		}
 		else if (getGeometricObject() instanceof DianaRoundRectangle) {
-			returned.addAll(buildControlPointsForRectangle(
-					((DianaRoundRectangle) getGeometricObject()).getBoundingBox()));
+			returned.addAll(buildControlPointsForRectangle(((DianaRoundRectangle) getGeometricObject()).getBoundingBox()));
 		}
 		else if (getGeometricObject() instanceof DianaEllips) {
 			returned.addAll(buildControlPointsForEllips((DianaEllips) getGeometricObject()));
@@ -904,6 +903,12 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			notifyChange("drawable.width");
 			notifyChange("drawable.height");
 		}
+
+		getPropertyChangeSupport().firePropertyChange(GraphicalRepresentation.ABSOLUTE_TEXT_X_KEY, (Double) null,
+				getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X));
+		getPropertyChangeSupport().firePropertyChange(GraphicalRepresentation.ABSOLUTE_TEXT_Y_KEY, (Double) null,
+				getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y));
+
 	}
 
 	// Hack: for the inspector !!!
@@ -1011,6 +1016,23 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 	@Override
 	public void setForegroundStyle(ForegroundStyle aValue) {
 		setPropertyValue(GeometricGraphicalRepresentation.FOREGROUND, aValue);
+	}
+
+	@Override
+	public Point getLabelLocation(double scale) {
+		return new Point(
+				(int) ((getLabelRelativePosition().x + getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X)) * scale
+						+ getViewX(scale)),
+				(int) ((getLabelRelativePosition().y + getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y)) * scale
+						+ getViewY(scale)));
+	}
+
+	@Override
+	public void setLabelLocation(Point point, double scale) {
+		setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X, (point.x - getViewX(scale)) / scale - getLabelRelativePosition().x);
+		setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y, (point.y - getViewY(scale)) / scale - getLabelRelativePosition().y);
+		//System.out.println("Moved, x=" + getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X) + " y="
+		//		+ getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y));
 	}
 
 }

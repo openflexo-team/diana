@@ -428,12 +428,17 @@ public class JLabelView<O> extends JScrollPane implements JDianaView<O, JPanel>,
 		if (node == null || node.isDeleted()) {
 			return;
 		}
+
 		// System.out.println("JLabelView " + Integer.toHexString(hashCode()) + " for " + node);
 
 		if (node.getDrawable() == null) {
 			return;
 		}
 		if (node.getGraphicalRepresentation() == null) {
+			return;
+		}
+
+		if (getDrawingView() == null) {
 			return;
 		}
 
@@ -632,12 +637,14 @@ public class JLabelView<O> extends JScrollPane implements JDianaView<O, JPanel>,
 	}
 
 	private void forceRepaint() {
-		setDoubleBuffered(false);
-		getPaintManager().addToTemporaryObjects(node);
-		getPaintManager().invalidate(node);
-		getPaintManager().repaint(this);
-		setDoubleBuffered(true);
-		getPaintManager().removeFromTemporaryObjects(node);
+		if (getPaintManager() != null) {
+			setDoubleBuffered(false);
+			getPaintManager().addToTemporaryObjects(node);
+			getPaintManager().invalidate(node);
+			getPaintManager().repaint(this);
+			setDoubleBuffered(true);
+			getPaintManager().removeFromTemporaryObjects(node);
+		}
 	}
 
 	public void addDianaMouseListener() {

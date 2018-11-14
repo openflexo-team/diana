@@ -67,8 +67,8 @@ import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.geom.DianaGeometricObject;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaSegment;
-import org.openflexo.diana.swing.view.JDrawingView;
 import org.openflexo.diana.swing.view.JDianaView;
+import org.openflexo.diana.swing.view.JDrawingView;
 import org.openflexo.diana.swing.view.JLabelView;
 import org.openflexo.diana.view.DianaView;
 
@@ -152,7 +152,18 @@ public class JFocusRetriever {
 	private boolean focusOnFloatingLabel(DrawingTreeNode<?, ?> node, Component eventSource, Point eventLocation) {
 		// if (!graphicalRepresentation.hasText()) return false;
 
-		if (node instanceof GeometricNode || node.isDeleted()) {
+		if (node.isDeleted()) {
+			return false;
+		}
+
+		if (node instanceof GeometricNode) {
+			if (node.hasText()) {
+				JLabelView<?> labelView = drawingView.getLabelView((GeometricNode<?>) node);
+				if (labelView != null) {
+					Point p = SwingUtilities.convertPoint(eventSource, eventLocation, drawingView);
+					return labelView.getBounds().contains(p);
+				}
+			}
 			return false;
 		}
 
@@ -387,6 +398,10 @@ public class JFocusRetriever {
 							nearestGeometricObject = geometricNode;
 							focusedCP = cp;
 						}
+					}
+
+					if (focusOnFloatingLabel(geometricNode, eventSource, eventLocation)) {
+						nearestGeometricObject = geometricNode;
 					}
 
 				}

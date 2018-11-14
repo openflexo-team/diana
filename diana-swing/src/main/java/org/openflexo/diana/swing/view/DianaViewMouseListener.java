@@ -57,11 +57,11 @@ import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaInteractiveEditor;
+import org.openflexo.diana.control.DianaInteractiveEditor.EditorTool;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.control.MouseClickControl;
 import org.openflexo.diana.control.MouseControlContext;
 import org.openflexo.diana.control.MouseDragControl;
-import org.openflexo.diana.control.DianaInteractiveEditor.EditorTool;
 import org.openflexo.diana.control.tools.DrawConnectorToolController;
 import org.openflexo.diana.control.tools.DrawCustomShapeToolController;
 import org.openflexo.diana.control.tools.DrawShapeToolController;
@@ -456,6 +456,7 @@ public class DianaViewMouseListener implements MouseListener, MouseMotionListene
 				getPaintManager().invalidate(node);
 				getPaintManager().repaint(getDrawingView());
 			}
+			node.notifyLabelHasMoved();
 		}
 	}
 

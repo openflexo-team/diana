@@ -63,7 +63,8 @@ import org.openflexo.diana.view.DianaContainerView;
 import org.openflexo.diana.view.DianaView;
 
 @SuppressWarnings("serial")
-public abstract class JDianaLayeredView<O> extends JLayeredPane implements DianaContainerView<O, JLayeredPane>, JDianaView<O, JLayeredPane> {
+public abstract class JDianaLayeredView<O> extends JLayeredPane
+		implements DianaContainerView<O, JLayeredPane>, JDianaView<O, JLayeredPane> {
 
 	private static final Logger logger = Logger.getLogger(JDianaLayeredView.class.getPackage().getName());
 
@@ -145,7 +146,8 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements Diana
 			// logger.info("add the view");
 			add(((JShapeView<?>) view), ((JShapeView<?>) view).getLayer(), -1);
 			childViews.add((JShapeView<?>) view);
-		} else if (view instanceof JConnectorView) {
+		}
+		else if (view instanceof JConnectorView) {
 			((JConnectorView<?>) view).setBackground(getBackground());
 			if (((JConnectorView<?>) view).getLabelView() != null) {
 				add(((JConnectorView<?>) view).getLabelView(), ((JConnectorView<?>) view).getLayer(), -1);
@@ -164,7 +166,8 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements Diana
 			}
 			remove(((JShapeView<?>) view));
 			childViews.remove(view);
-		} else if (view instanceof JConnectorView) {
+		}
+		else if (view instanceof JConnectorView) {
 			if (((JConnectorView<?>) view).getLabelView() != null) {
 				remove(((JConnectorView<?>) view).getLabelView());
 			}
@@ -184,14 +187,16 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements Diana
 			getPaintManager().invalidate(parentNode);
 			getPaintManager().repaint(this);
 			// shapeNode.notifyShapeNeedsToBeRedrawn(); // TODO: is this necessary ?
-		} else if (newNode instanceof ConnectorNode) {
+		}
+		else if (newNode instanceof ConnectorNode) {
 			ConnectorNode<?> connectorNode = (ConnectorNode<?>) newNode;
 			JConnectorView<?> connectorView = (JConnectorView<?>) getController().makeConnectorView(connectorNode);
 			addView(connectorView);
 			revalidate();
 			getPaintManager().invalidate(parentNode);
 			getPaintManager().repaint(this);
-		} else if (newNode instanceof GeometricNode) {
+		}
+		else if (newNode instanceof GeometricNode) {
 			newNode.getPropertyChangeSupport().addPropertyChangeListener(this);
 			revalidate();
 			getPaintManager().invalidate(parentNode);
@@ -209,10 +214,12 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements Diana
 				getPaintManager().invalidate(parentNode);
 				getPaintManager().invalidate(removedShapeNode);
 				getPaintManager().repaint(this);
-			} else {
+			}
+			else {
 				logger.warning("Cannot find view for " + removedShapeNode);
 			}
-		} else if (removedNode instanceof ConnectorNode) {
+		}
+		else if (removedNode instanceof ConnectorNode) {
 			ConnectorNode<?> removedConnectorNode = (ConnectorNode<?>) removedNode;
 			JConnectorView<?> view = getDrawingView().connectorViewForNode(removedConnectorNode);
 			if (view != null) {
@@ -221,10 +228,12 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane implements Diana
 				getPaintManager().invalidate(parentNode);
 				getPaintManager().invalidate(removedConnectorNode);
 				getPaintManager().repaint(this);
-			} else {
+			}
+			else {
 				logger.warning("Cannot find view for " + removedConnectorNode);
 			}
-		} else if (removedNode instanceof GeometricNode) {
+		}
+		else if (removedNode instanceof GeometricNode) {
 			removedNode.getPropertyChangeSupport().removePropertyChangeListener(this);
 			revalidate();
 			getPaintManager().repaint(this);

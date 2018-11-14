@@ -41,6 +41,8 @@ package org.openflexo.diana.geomedit.model;
 
 import java.awt.Color;
 
+import org.openflexo.diana.TextureBackgroundStyle.TextureType;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geomedit.model.PointConstruction.PointConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.PointGraphicalRepresentation;
 import org.openflexo.pamela.annotations.Getter;
@@ -50,8 +52,6 @@ import org.openflexo.pamela.annotations.Imports;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
-import org.openflexo.diana.TextureBackgroundStyle.TextureType;
-import org.openflexo.diana.geom.DianaPoint;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(PointConstructionImpl.class)
@@ -97,6 +97,8 @@ public interface PointConstruction extends GeometricConstruction<DianaPoint> {
 		@Override
 		public PointGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
 			PointGraphicalRepresentation returned = factory.newInstance(PointGraphicalRepresentation.class);
+			returned.setAbsoluteTextX(3);
+			returned.setAbsoluteTextY(3);
 			returned.setBackground(factory.makeTexturedBackground(TextureType.TEXTURE1, Color.RED, Color.WHITE));
 			return returned;
 		}
