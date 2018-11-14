@@ -42,7 +42,7 @@ package org.openflexo.diana.geomedit.model;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
-import org.openflexo.diana.geomedit.model.RectangleWithTwoPointsConstruction.RectangleWithTwoPointsConstructionImpl;
+import org.openflexo.diana.geomedit.model.NodeWithTwoPointsConstruction.NodeWithTwoPointsConstructionImpl;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
@@ -51,9 +51,9 @@ import org.openflexo.pamela.annotations.Setter;
 import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
-@ImplementationClass(RectangleWithTwoPointsConstructionImpl.class)
+@ImplementationClass(NodeWithTwoPointsConstructionImpl.class)
 @XMLElement
-public interface RectangleWithTwoPointsConstruction extends RectangleConstruction {
+public interface NodeWithTwoPointsConstruction extends NodeConstruction {
 
 	@PropertyIdentifier(type = PointConstruction.class)
 	public static final String POINT_CONSTRUCTION_1_KEY = "pointConstruction1";
@@ -74,8 +74,7 @@ public interface RectangleWithTwoPointsConstruction extends RectangleConstructio
 	@Setter(value = POINT_CONSTRUCTION_2_KEY)
 	public void setPointConstruction2(PointConstruction pointConstruction2);
 
-	public static abstract class RectangleWithTwoPointsConstructionImpl extends RectangleConstructionImpl
-			implements RectangleWithTwoPointsConstruction {
+	public static abstract class NodeWithTwoPointsConstructionImpl extends NodeConstructionImpl implements NodeWithTwoPointsConstruction {
 
 		@Override
 		protected DianaRectangle computeData() {
@@ -90,6 +89,8 @@ public interface RectangleWithTwoPointsConstruction extends RectangleConstructio
 				double width = Math.abs(p1.x - p2.x);
 				double height = Math.abs(p1.y - p2.y);
 
+				// getShapeSpecification().makeDianaShape(node)
+
 				return new DianaRectangle(p.x, p.y, width, height, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
 			}
 			return null;
@@ -97,7 +98,7 @@ public interface RectangleWithTwoPointsConstruction extends RectangleConstructio
 
 		@Override
 		public String toString() {
-			return "RectangleWithTwoPointsConstruction[\n" + "> " + getPointConstruction1().toString() + "\n> "
+			return "NodeWithTwoPointsConstruction[\n" + "> " + getPointConstruction1().toString() + "\n> "
 					+ getPointConstruction2().toString() + "\n]";
 		}
 

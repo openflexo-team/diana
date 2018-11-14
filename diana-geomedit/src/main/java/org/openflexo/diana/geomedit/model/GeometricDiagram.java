@@ -45,8 +45,10 @@ import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.geomedit.model.GeometricDiagram.GeometricDiagramImpl;
 import org.openflexo.pamela.annotations.Adder;
 import org.openflexo.pamela.annotations.CloningStrategy;
+import org.openflexo.pamela.annotations.CloningStrategy.StrategyType;
 import org.openflexo.pamela.annotations.Embedded;
 import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.Getter.Cardinality;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PastingPoint;
@@ -54,8 +56,6 @@ import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Remover;
 import org.openflexo.pamela.annotations.Setter;
 import org.openflexo.pamela.annotations.XMLElement;
-import org.openflexo.pamela.annotations.CloningStrategy.StrategyType;
-import org.openflexo.pamela.annotations.Getter.Cardinality;
 
 @ModelEntity
 @ImplementationClass(GeometricDiagramImpl.class)
@@ -92,11 +92,27 @@ public interface GeometricDiagram extends GeometricElement {
 	@Setter(value = GRAPHICAL_REPRESENTATION)
 	public void setGraphicalRepresentation(DrawingGraphicalRepresentation graphicalRepresentation);
 
+	public GeometricConstructionFactory getFactory();
+
+	public void setFactory(GeometricConstructionFactory factory);
+
 	public static abstract class GeometricDiagramImpl extends GeometricElementImpl implements GeometricDiagram {
+
+		private GeometricConstructionFactory factory;
 
 		@Override
 		public GeometricDiagram getGeometricDiagram() {
 			return this;
+		}
+
+		@Override
+		public GeometricConstructionFactory getFactory() {
+			return factory;
+		}
+
+		@Override
+		public void setFactory(GeometricConstructionFactory factory) {
+			this.factory = factory;
 		}
 	}
 

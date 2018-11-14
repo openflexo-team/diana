@@ -47,14 +47,14 @@ import java.io.FileNotFoundException;
 import java.util.logging.Logger;
 
 import org.junit.Test;
+import org.openflexo.diana.geom.DianaGeometricObject.CardinalDirection;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaGrid;
 import org.openflexo.diana.geomedit.DiagramEditingContext;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
 import org.openflexo.diana.geomedit.model.IntersectionConstruction;
-import org.openflexo.diana.geom.DianaGeometricObject.CardinalDirection;
-import org.openflexo.diana.geom.area.DianaArea;
-import org.openflexo.diana.geom.area.DianaGrid;
 import org.openflexo.rm.Resource;
 import org.openflexo.rm.ResourceLocator;
 
@@ -251,6 +251,7 @@ public class TestGeom {
 		GeometricConstructionFactory factory = new GeometricConstructionFactory(editingContext);
 
 		GeometricDiagram diagram = (GeometricDiagram) factory.deserialize(testResource.openInputStream());
+		diagram.setFactory(factory);
 
 		for (GeometricConstruction<?> geometricConstruction : diagram.getConstructions()) {
 			if (geometricConstruction instanceof IntersectionConstruction) {

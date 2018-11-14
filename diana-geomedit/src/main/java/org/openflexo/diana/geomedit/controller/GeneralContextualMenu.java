@@ -60,6 +60,7 @@ import org.openflexo.diana.geomedit.edition.CreateHorizontalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateIntersection;
 import org.openflexo.diana.geomedit.edition.CreateLineFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateNearestPointFromObject;
+import org.openflexo.diana.geomedit.edition.CreateNodeFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateOrthogonalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateParallelLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreatePoint;
@@ -99,6 +100,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 	public GeneralContextualMenu(GeomEditDrawingController controller) {
 		super();
 		this.controller = controller;
+		add(makeCreateNodeMenu());
 		add(makeCreatePointMenu());
 		add(makeCreateLineMenu());
 		add(makeCreateHalfLineMenu());
@@ -171,6 +173,21 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		add(redoItem);
 		// initPalette();
+	}
+
+	private JMenu makeCreateNodeMenu() {
+		JMenu createNodeItem = new JMenu("Create node");
+
+		JMenuItem createNodeFromPointsItem = new JMenuItem("From points");
+		createNodeFromPointsItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.setCurrentEdition(new CreateNodeFromPoints(controller));
+			}
+		});
+		createNodeItem.add(createNodeFromPointsItem);
+
+		return createNodeItem;
 	}
 
 	private JMenu makeCreatePointMenu() {

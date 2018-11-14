@@ -42,11 +42,11 @@ package org.openflexo.diana.geomedit.model.gr;
 import java.util.Collections;
 import java.util.List;
 
-import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.GeometricGraphicalRepresentation;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.impl.GeometricGraphicalRepresentationImpl;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.Import;
@@ -64,7 +64,7 @@ import org.openflexo.pamela.annotations.XMLElement;
 		@Import(PolygonGraphicalRepresentation.class), @Import(PolylinGraphicalRepresentation.class),
 		@Import(QuadCurveGraphicalRepresentation.class), @Import(QuarterPlaneGraphicalRepresentation.class),
 		@Import(RectangleGraphicalRepresentation.class), @Import(RoundRectangleGraphicalRepresentation.class),
-		@Import(SegmentGraphicalRepresentation.class) })
+		@Import(SegmentGraphicalRepresentation.class), @Import(NodeGraphicalRepresentation.class) })
 @XMLElement
 public interface GeometricObjectGraphicalRepresentation<A extends DianaArea> extends GeometricGraphicalRepresentation {
 
@@ -75,8 +75,8 @@ public interface GeometricObjectGraphicalRepresentation<A extends DianaArea> ext
 	public List<? extends ControlArea<?>> makeControlAreasFor(
 			org.openflexo.diana.Drawing.DrawingTreeNode<GeometricConstruction<A>, GeometricGraphicalRepresentation> dtn);
 
-	public static abstract class GeometricObjectGraphicalRepresentationImpl<A extends DianaArea> extends GeometricGraphicalRepresentationImpl
-			implements GeometricObjectGraphicalRepresentation<A> {
+	public static abstract class GeometricObjectGraphicalRepresentationImpl<A extends DianaArea>
+			extends GeometricGraphicalRepresentationImpl implements GeometricObjectGraphicalRepresentation<A> {
 
 		@Override
 		public String getText() {

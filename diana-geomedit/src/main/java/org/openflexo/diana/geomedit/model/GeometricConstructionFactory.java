@@ -73,6 +73,7 @@ public class GeometricConstructionFactory extends DianaModelFactoryImpl {
 	public GeometricDiagram makeNewGeometricDiagram() {
 		CompoundEdit edit = getUndoManager().startRecording("Create new geometric diagram");
 		GeometricDiagram returned = newInstance(GeometricDiagram.class);
+		returned.setFactory(this);
 		getUndoManager().stopRecording(edit);
 		return returned;
 	}
@@ -270,6 +271,14 @@ public class GeometricConstructionFactory extends DianaModelFactoryImpl {
 		returned.setStartOrientation(startOrientation);
 		returned.setEndAreaConstruction(endAreaConstruction);
 		returned.setEndOrientation(endOrientation);
+		return returned;
+	}
+
+	public NodeWithTwoPointsConstruction makeNodeWithTwoPointsConstruction(PointConstruction pointConstruction1,
+			PointConstruction pointConstruction2) {
+		NodeWithTwoPointsConstruction returned = newInstance(NodeWithTwoPointsConstruction.class);
+		returned.setPointConstruction1(pointConstruction1);
+		returned.setPointConstruction2(pointConstruction2);
 		return returned;
 	}
 
