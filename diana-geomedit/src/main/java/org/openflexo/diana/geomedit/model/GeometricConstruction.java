@@ -53,6 +53,7 @@ import org.openflexo.diana.geomedit.model.GeometricConstruction.GeometricConstru
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.diana.notifications.GeometryModified;
 import org.openflexo.pamela.annotations.CloningStrategy;
+import org.openflexo.pamela.annotations.CloningStrategy.StrategyType;
 import org.openflexo.pamela.annotations.Embedded;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ImplementationClass;
@@ -63,7 +64,6 @@ import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
 import org.openflexo.pamela.annotations.XMLAttribute;
 import org.openflexo.pamela.annotations.XMLElement;
-import org.openflexo.pamela.annotations.CloningStrategy.StrategyType;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(GeometricConstructionImpl.class)
@@ -87,6 +87,8 @@ public interface GeometricConstruction<A extends DianaArea> extends GeometricEle
 	public static final String BACKGROUND_KEY = "background";
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String IS_VISIBLE_KEY = "isVisible";
+	@PropertyIdentifier(type = Boolean.class)
+	public static final String IS_LABEL_VISIBLE_KEY = "isLabelVisible";
 
 	@Override
 	@Getter(value = GEOMETRIC_DIAGRAM)
@@ -128,6 +130,17 @@ public interface GeometricConstruction<A extends DianaArea> extends GeometricEle
 
 	@Setter(IS_VISIBLE_KEY)
 	public void setIsVisible(boolean isVisible);
+
+	@Getter(value = IS_LABEL_VISIBLE_KEY, defaultValue = "true")
+	@XMLAttribute
+	public boolean getIsLabelVisible();
+
+	@Setter(IS_LABEL_VISIBLE_KEY)
+	public void setIsLabelVisible(boolean isLabelVisible);
+
+	public String getLabel();
+
+	public void setLabel(String aName);
 
 	public void refresh();
 
@@ -171,6 +184,27 @@ public interface GeometricConstruction<A extends DianaArea> extends GeometricEle
 				((DianaShape<?>) returned).setBackground(getBackground());
 			}
 			return returned;
+		}
+
+		@Override
+		public String getLabel() {
+			if (getIsLabelVisible()) {
+				return getName();
+			}
+			return "";
+		}
+
+		@Override
+		public void setLabel(String aLabel) {
+			if (getIsLabelVisible()) {
+				setName(aLabel);
+			}
+		}
+
+		@Override
+		public void setIsLabelVisible(boolean isLabelVisible) {
+			performSuperSetter(GeometricConstruction.IS_LABEL_VISIBLE_KEY, isLabelVisible);
+			getPropertyChangeSupport().firePropertyChange("label", null, getLabel());
 		}
 
 		@Override

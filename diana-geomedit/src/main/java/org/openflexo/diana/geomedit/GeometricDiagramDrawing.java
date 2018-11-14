@@ -142,7 +142,7 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 		});
 
 		// We bind the text of the graphical representation to the name of GeometricConstruction as read/write binding
-		constructionBinding.setDynamicPropertyValue(GraphicalRepresentation.TEXT, new DataBinding<String>("drawable.name"), true);
+		constructionBinding.setDynamicPropertyValue(GraphicalRepresentation.TEXT, new DataBinding<String>("drawable.label"), true);
 
 		// We bind the geometric object to be displayed (in graphical representation) to the data given by GeometricConstruction as a read
 		// binding
