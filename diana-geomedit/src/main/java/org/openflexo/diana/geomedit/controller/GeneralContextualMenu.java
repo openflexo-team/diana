@@ -64,6 +64,7 @@ import org.openflexo.diana.geomedit.edition.CreateOrthogonalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateParallelLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreatePoint;
 import org.openflexo.diana.geomedit.edition.CreatePointMiddleOfPoints;
+import org.openflexo.diana.geomedit.edition.CreatePointSymetricOfLine;
 import org.openflexo.diana.geomedit.edition.CreatePointSymetricOfPoint;
 import org.openflexo.diana.geomedit.edition.CreatePolygonWithNPoints;
 import org.openflexo.diana.geomedit.edition.CreatePolylinWithNPoints;
@@ -193,7 +194,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createPointItem.add(createPointAsMiddleFromPointsItem);
 
-		JMenuItem createPointSymetricOfPointItem = new JMenuItem("Symetric to an other point");
+		JMenuItem createPointSymetricOfPointItem = new JMenuItem("Symetric relatively to an other point");
 		createPointSymetricOfPointItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -201,6 +202,15 @@ public class GeneralContextualMenu extends JPopupMenu {
 			}
 		});
 		createPointItem.add(createPointSymetricOfPointItem);
+
+		JMenuItem createPointSymetricOfLineItem = new JMenuItem("Symetric relatively to a line");
+		createPointSymetricOfLineItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.setCurrentEdition(new CreatePointSymetricOfLine(controller));
+			}
+		});
+		createPointItem.add(createPointSymetricOfLineItem);
 
 		JMenuItem createNearestPointFromObjectItem = new JMenuItem("Nearest from object");
 		createNearestPointFromObjectItem.addActionListener(new ActionListener() {

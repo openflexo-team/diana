@@ -155,6 +155,14 @@ public class GeometricConstructionFactory extends DianaModelFactoryImpl {
 		return returned;
 	}
 
+	public SymetricPointFromLineConstruction makeSymetricPointFromLineConstruction(PointConstruction pointConstruction,
+			LineConstruction lineConstruction) {
+		SymetricPointFromLineConstruction returned = newInstance(SymetricPointFromLineConstruction.class);
+		returned.setPointConstruction(pointConstruction);
+		returned.setLineConstruction(lineConstruction);
+		return returned;
+	}
+
 	public LineReference makeLineReference(LineConstruction construction) {
 		LineReference returned = newInstance(LineReference.class);
 		returned.setReference(construction);

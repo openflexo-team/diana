@@ -57,7 +57,8 @@ import org.openflexo.pamela.annotations.Setter;
 @ImplementationClass(PointConstructionImpl.class)
 @Imports({ @Import(PointReference.class), @Import(ExplicitPointConstruction.class), @Import(ControlPointReference.class),
 		@Import(LineIntersectionPointConstruction.class), @Import(PointMiddleOfTwoPointsConstruction.class),
-		@Import(SymetricPointConstruction.class), @Import(NearestPointFromObjectConstruction.class) })
+		@Import(SymetricPointConstruction.class), @Import(SymetricPointFromLineConstruction.class),
+		@Import(NearestPointFromObjectConstruction.class) })
 public interface PointConstruction extends GeometricConstruction<DianaPoint> {
 
 	@PropertyIdentifier(type = Double.class)

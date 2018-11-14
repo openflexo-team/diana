@@ -43,20 +43,20 @@ import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
-public class CreatePointSymetricOfPoint extends Edition {
+public class CreatePointSymetricOfLine extends Edition {
 
-	public CreatePointSymetricOfPoint(GeomEditDrawingController controller) {
-		super("Create point as symetric of an other point relatively to a point", controller);
+	public CreatePointSymetricOfLine(GeomEditDrawingController controller) {
+		super("Create point as symetric of an other point relatively to a line", controller);
 		inputs.add(new ObtainPoint("Select origin point", controller));
-		inputs.add(new ObtainPoint("Select pivot point", controller));
+		inputs.add(new ObtainLine("Select line", controller));
 	}
 
 	@Override
 	public void performEdition() {
-		ObtainPoint p1 = (ObtainPoint) inputs.get(0);
-		ObtainPoint p2 = (ObtainPoint) inputs.get(1);
+		ObtainPoint p = (ObtainPoint) inputs.get(0);
+		ObtainLine l = (ObtainLine) inputs.get(1);
 
-		addConstruction(getController().getFactory().makeSymetricPointConstruction(p1.getConstruction(), p2.getConstruction()));
+		addConstruction(getController().getFactory().makeSymetricPointFromLineConstruction(p.getConstruction(), l.getConstruction()));
 	}
 
 	@Override

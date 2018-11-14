@@ -202,6 +202,12 @@ public interface GeometricConstruction<A extends DianaArea> extends GeometricEle
 		}
 
 		@Override
+		public void setName(String aName) {
+			performSuperSetter(GeometricConstruction.NAME_KEY, aName);
+			getPropertyChangeSupport().firePropertyChange("label", null, getLabel());
+		}
+
+		@Override
 		public void setIsLabelVisible(boolean isLabelVisible) {
 			performSuperSetter(GeometricConstruction.IS_LABEL_VISIBLE_KEY, isLabelVisible);
 			getPropertyChangeSupport().firePropertyChange("label", null, getLabel());
