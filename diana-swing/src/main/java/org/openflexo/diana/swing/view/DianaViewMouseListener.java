@@ -54,6 +54,7 @@ import javax.swing.SwingUtilities;
 
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.GeometricNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaInteractiveEditor;
@@ -205,6 +206,11 @@ public class DianaViewMouseListener implements MouseListener, MouseMotionListene
 					}
 					else if (focusedObject instanceof ConnectorNode) {
 						view.getDrawingView().connectorViewForNode((ConnectorNode<?>) focusedObject).getLabelView().startEdition();
+						e.consume();
+						return;
+					}
+					else if (focusedObject instanceof GeometricNode) {
+						view.getDrawingView().getLabelView(((GeometricNode<?>) focusedObject)).startEdition();
 						e.consume();
 						return;
 					}
