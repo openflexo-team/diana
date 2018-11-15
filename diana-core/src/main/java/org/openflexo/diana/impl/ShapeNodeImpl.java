@@ -1459,19 +1459,19 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		}
 		else {
 			double baseX = 0.5;
-			if (getGraphicalRepresentation().getHorizontalTextAlignment() == HorizontalTextAlignment.RELATIVE) {
+			if (getHorizontalTextAlignment() == HorizontalTextAlignment.RELATIVE) {
 				baseX = getGraphicalRepresentation().getRelativeTextX();
 			}
 			double baseY = 0.5;
-			if (getGraphicalRepresentation().getVerticalTextAlignment() == VerticalTextAlignment.RELATIVE) {
+			if (getVerticalTextAlignment() == VerticalTextAlignment.RELATIVE) {
 				baseY = getGraphicalRepresentation().getRelativeTextY();
 			}
 			DianaPoint relativePosition = new DianaPoint(baseX, baseY);
 			point = convertLocalNormalizedPointToRemoteViewCoordinates(relativePosition, getParentNode(), scale);
 		}
 		Dimension d = getLabelDimension(scale);
-		if (getGraphicalRepresentation().getHorizontalTextAlignment() != null) {
-			switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
+		if (getHorizontalTextAlignment() != null) {
+			switch (getHorizontalTextAlignment()) {
 				case CENTER:
 				case RELATIVE:
 					point.x -= d.width / 2;
@@ -1485,8 +1485,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 			}
 		}
-		if (getGraphicalRepresentation().getVerticalTextAlignment() != null) {
-			switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
+		if (getVerticalTextAlignment() != null) {
+			switch (getVerticalTextAlignment()) {
 				case BOTTOM:
 					point.y = (int) (point.y + getHeight() / 2) - d.height;
 					// point.y -= d.height;
@@ -1524,7 +1524,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			Double oldAbsoluteTextX = getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X);
 			Double oldAbsoluteTextY = getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y);
 			Dimension d = getLabelDimension(scale);
-			switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
+			switch (getHorizontalTextAlignment()) {
 				case CENTER:
 					point.x += d.width / 2;
 					break;
@@ -1535,7 +1535,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					break;
 
 			}
-			switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
+			switch (getVerticalTextAlignment()) {
 				case BOTTOM:
 					point.y += d.height;
 					break;

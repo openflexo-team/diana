@@ -206,7 +206,11 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 
 		@Override
 		public void setX(double value) {
-			getShapeSpecification().setX(value);
+			if (value != getX()) {
+				getShapeSpecification().setX(value);
+				refresh();
+				notifyGeometryChanged();
+			}
 		}
 
 		@Override
@@ -216,7 +220,11 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 
 		@Override
 		public void setY(double value) {
-			getShapeSpecification().setY(value);
+			if (value != getY()) {
+				getShapeSpecification().setY(value);
+				refresh();
+				notifyGeometryChanged();
+			}
 		}
 
 		@Override
@@ -226,7 +234,11 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 
 		@Override
 		public void setWidth(double value) {
-			getShapeSpecification().setWidth(value);
+			if (value != getWidth()) {
+				getShapeSpecification().setWidth(value);
+				refresh();
+				notifyGeometryChanged();
+			}
 		}
 
 		@Override
@@ -236,8 +248,18 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 
 		@Override
 		public void setHeight(double value) {
-			getShapeSpecification().setHeight(value);
+			if (value != getHeight()) {
+				getShapeSpecification().setHeight(value);
+				refresh();
+				notifyGeometryChanged();
+			}
 		}
 
+		@Override
+		public void setShapeSpecification(ShapeSpecification aShape) {
+			performSuperSetter(SHAPE_SPECIFICATION_KEY, aShape);
+			refresh();
+			notifyGeometryChanged();
+		}
 	}
 }

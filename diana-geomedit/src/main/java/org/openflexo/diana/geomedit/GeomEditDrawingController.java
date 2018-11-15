@@ -45,6 +45,7 @@ import java.awt.FlowLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -53,15 +54,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.GeometricNode;
 import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geomedit.controller.ContextualMenu;
 import org.openflexo.diana.geomedit.controller.GeneralContextualMenu;
+import org.openflexo.diana.geomedit.controller.InspectedNodeShapeSpecification;
 import org.openflexo.diana.geomedit.edition.Edition;
 import org.openflexo.diana.geomedit.edition.EditionInput;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
+import org.openflexo.diana.geomedit.model.NodeConstruction;
 import org.openflexo.diana.geomedit.view.GeomEditDrawingView;
 import org.openflexo.diana.swing.JDianaInteractiveEditor;
 import org.openflexo.diana.swing.control.SwingToolFactory;
@@ -97,6 +101,8 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 
 	private String NO_EDITION_STRING = "No edition";
 
+	private InspectedNodeShapeSpecification inspectedNodeShapeSpecification;
+
 	public GeomEditDrawingController(final GeomEditEditor editor, final GeometricDiagramDrawing aDrawing,
 			GeometricConstructionFactory factory, SwingToolFactory toolFactory) {
 		super(aDrawing, factory, toolFactory);
@@ -126,6 +132,12 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 
 		resetCurrentInput();
 
+		inspectedNodeShapeSpecification = new InspectedNodeShapeSpecification(this);
+	}
+
+	@Override
+	public InspectedNodeShapeSpecification getInspectedShapeSpecification() {
+		return inspectedNodeShapeSpecification;
 	}
 
 	public GeomEditEditor getEditor() {
@@ -350,6 +362,27 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 	public void paste() throws PasteException {
 		// TODO Auto-generated method stub
 		super.paste();
+	}
+
+	@Override
+	protected void clearSelectedNodesComputation() {
+		super.clearSelectedNodesComputation();
+		selectedNodes = null;
+	}
+
+	private List<GeometricNode<?>> selectedNodes;
+
+	public List<GeometricNode<?>> getSelectedNodes() {
+		if (selectedNodes == null) {
+			selectedNodes = new ArrayList<>();
+			for (DrawingTreeNode<?, ?> node : getSelectedObjects()) {
+				if (node instanceof GeometricNode && node.getDrawable() instanceof NodeConstruction) {
+					System.out.println("Tiens, j'ai trouve " + node + " drawable=" + node.getDrawable());
+					selectedNodes.add((GeometricNode<?>) node);
+				}
+			}
+		}
+		return selectedNodes;
 	}
 
 }

@@ -38,6 +38,7 @@
 
 package org.openflexo.diana.impl;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -294,7 +295,8 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 			return new DianaSegment(line.getP1(), line.getP2()).getMiddle();
 		}
 		else if (getGeometricObject() instanceof DianaShape) {
-			return ((DianaShape<?>) getGeometricObject()).getCenter();
+			DianaRectangle boundingBox = ((DianaShape<?>) getGeometricObject()).getBoundingBox();
+			return new DianaPoint(boundingBox.getSouth().getMiddle().transform(AffineTransform.getTranslateInstance(0, 10)));
 		}
 		return new DianaPoint(0, 0);
 	}
@@ -1020,19 +1022,88 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 
 	@Override
 	public Point getLabelLocation(double scale) {
-		return new Point(
-				(int) ((getLabelRelativePosition().x + getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X)) * scale
-						+ getViewX(scale)),
-				(int) ((getLabelRelativePosition().y + getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y)) * scale
-						+ getViewY(scale)));
+		Point point;
+		point = new Point(
+				(int) (getLabelRelativePosition().x + getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X) * scale + getViewX(scale)),
+				(int) (getLabelRelativePosition().y + getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y) * scale + getViewY(scale)));
+		Dimension d = getLabelDimension(scale);
+		if (getHorizontalTextAlignment() != null) {
+			switch (getHorizontalTextAlignment()) {
+				case CENTER:
+				case RELATIVE:
+					point.x -= d.width / 2;
+					break;
+				case LEFT:
+					point.x = (point.x);
+					break;
+				case RIGHT:
+					point.x = (point.x) - d.width;
+					break;
+
+			}
+		}
+		if (getVerticalTextAlignment() != null) {
+			switch (getVerticalTextAlignment()) {
+				case BOTTOM:
+					point.y = (point.y) - d.height;
+					// point.y -= d.height;
+					break;
+				case MIDDLE:
+				case RELATIVE:
+					point.y -= d.height / 2;
+					break;
+				case TOP:
+					point.y = (point.y);
+					break;
+			}
+		}
+
+		return point;
 	}
 
-	@Override
+	/*@Override
 	public void setLabelLocation(Point point, double scale) {
 		setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X, (point.x - getViewX(scale)) / scale - getLabelRelativePosition().x);
 		setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y, (point.y - getViewY(scale)) / scale - getLabelRelativePosition().y);
-		//System.out.println("Moved, x=" + getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X) + " y="
-		//		+ getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y));
+		// System.out.println("Moved, x=" + getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X) + " y="
+		// + getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y));
+	}*/
+
+	@Override
+	public void setLabelLocation(Point point, double scale) {
+
+		Double oldAbsoluteTextX = getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X);
+		Double oldAbsoluteTextY = getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y);
+		Dimension d = getLabelDimension(scale);
+		switch (getHorizontalTextAlignment()) {
+			case CENTER:
+				point.x += d.width / 2;
+				break;
+			case LEFT:
+				break;
+			case RIGHT:
+				point.x += d.width;
+				break;
+
+		}
+		switch (getVerticalTextAlignment()) {
+			case BOTTOM:
+				point.y += d.height;
+				break;
+			case MIDDLE:
+				point.y += d.height / 2;
+				break;
+			case TOP:
+				break;
+		}
+		DianaPoint p = new DianaPoint((point.x - getViewX(scale)) / scale - getLabelRelativePosition().x,
+				(point.y - getViewY(scale)) / scale - getLabelRelativePosition().y);
+		setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X, p.x);
+		setPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y, p.y);
+		notifyAttributeChanged(GraphicalRepresentation.ABSOLUTE_TEXT_X, oldAbsoluteTextX,
+				getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X));
+		notifyAttributeChanged(GraphicalRepresentation.ABSOLUTE_TEXT_Y, oldAbsoluteTextY,
+				getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y));
 	}
 
 }

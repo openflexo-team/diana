@@ -109,14 +109,11 @@ public interface NodeWithTwoPointsConstruction extends NodeConstruction {
 
 				System.out.println("On retourne " + returned);
 
-				if (getGraphicalRepresentation() != null) {
+				/*if (getGraphicalRepresentation() != null) {
 					getGraphicalRepresentation().setGeometricObject(returned);
-				}
+				}*/
 				return returned;
 			}
-
-			System.out.println("Zut alors on peut pas encore construire");
-			Thread.dumpStack();
 
 			return null;
 		}

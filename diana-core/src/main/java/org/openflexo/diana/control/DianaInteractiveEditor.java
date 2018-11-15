@@ -234,15 +234,15 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 
 	@Override
 	protected void fireSelectionUpdated() {
-		inspectedForegroundStyle.fireSelectionUpdated();
-		inspectedTextStyle.fireSelectionUpdated();
-		inspectedTextProperties.fireSelectionUpdated();
-		inspectedShadowStyle.fireSelectionUpdated();
-		inspectedBackgroundStyle.fireSelectionUpdated();
-		inspectedShapeSpecification.fireSelectionUpdated();
-		inspectedConnectorSpecification.fireSelectionUpdated();
-		inspectedLocationSizeProperties.fireSelectionUpdated();
-		inspectedLayoutManagerSpecifications.fireSelectionUpdated();
+		getInspectedForegroundStyle().fireSelectionUpdated();
+		getInspectedTextStyle().fireSelectionUpdated();
+		getInspectedTextProperties().fireSelectionUpdated();
+		getInspectedShadowStyle().fireSelectionUpdated();
+		getInspectedBackgroundStyle().fireSelectionUpdated();
+		getInspectedShapeSpecification().fireSelectionUpdated();
+		getInspectedConnectorSpecification().fireSelectionUpdated();
+		getInspectedLocationSizeProperties().fireSelectionUpdated();
+		getInspectedLayoutManagerSpecifications().fireSelectionUpdated();
 	}
 
 	public DrawShapeToolController<?> getDrawShapeToolController() {

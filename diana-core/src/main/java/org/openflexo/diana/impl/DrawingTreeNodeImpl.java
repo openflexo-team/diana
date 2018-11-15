@@ -75,7 +75,9 @@ import org.openflexo.diana.GRBinding;
 import org.openflexo.diana.GRBinding.DynamicPropertyValue;
 import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.GraphicalRepresentation;
+import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.diana.GraphicalRepresentation.LabelMetricsProvider;
+import org.openflexo.diana.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.diana.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.diana.TextStyle;
 import org.openflexo.diana.cp.ControlArea;
@@ -1245,6 +1247,34 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	public void setText(String text) {
 		// System.out.println("set text with " + text);
 		setPropertyValue(GraphicalRepresentation.TEXT, text);
+	}
+
+	/**
+	 * Convenient method used to retrieve horizontal text alignment property value
+	 */
+	public HorizontalTextAlignment getHorizontalTextAlignment() {
+		return getPropertyValue(GraphicalRepresentation.HORIZONTAL_TEXT_ALIGNEMENT);
+	}
+
+	/**
+	 * Convenient method used to set horizontal text alignment property value
+	 */
+	public void setHorizontalTextAlignment(HorizontalTextAlignment align) {
+		setPropertyValue(GraphicalRepresentation.HORIZONTAL_TEXT_ALIGNEMENT, align);
+	}
+
+	/**
+	 * Convenient method used to retrieve vertical text alignment property value
+	 */
+	public VerticalTextAlignment getVerticalTextAlignment() {
+		return getPropertyValue(GraphicalRepresentation.VERTICAL_TEXT_ALIGNEMENT);
+	}
+
+	/**
+	 * Convenient method used to set vertical text alignment property value
+	 */
+	public void setVerticalTextAlignment(VerticalTextAlignment align) {
+		setPropertyValue(GraphicalRepresentation.VERTICAL_TEXT_ALIGNEMENT, align);
 	}
 
 	@Override

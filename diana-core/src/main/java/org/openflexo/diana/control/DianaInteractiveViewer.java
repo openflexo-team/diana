@@ -240,6 +240,13 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 		}*/
 	}
 
+	protected void clearSelectedNodesComputation() {
+		selectedShapes = null;
+		selectedShapesAndGeometricNodes = null;
+		selectedConnectors = null;
+		selectedContainers = null;
+	}
+
 	public void addToSelectedObjects(DrawingTreeNode<?, ?> aNode) {
 		if (!isRestoringSelection) {
 			stopEditionOfEditedLabelIfAny();
@@ -252,10 +259,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 		if (!selectedObjects.contains(aNode)) {
 			selectedObjects.add(aNode);
 			notifyObservers(new ObjectAddedToSelection(aNode));
-			selectedShapes = null;
-			selectedShapesAndGeometricNodes = null;
-			selectedConnectors = null;
-			selectedContainers = null;
+			clearSelectedNodesComputation();
 		}
 		/*if (getInspectors() != null) {
 			getInspectors().update();
@@ -274,10 +278,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 		if (selectedObjects.contains(aNode)) {
 			selectedObjects.remove(aNode);
 			notifyObservers(new ObjectRemovedFromSelection(aNode));
-			selectedShapes = null;
-			selectedShapesAndGeometricNodes = null;
-			selectedConnectors = null;
-			selectedContainers = null;
+			clearSelectedNodesComputation();
 		}
 		/*if (getInspectors() != null) {
 			getInspectors().update();
@@ -308,10 +309,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 		}
 		selectedObjects.clear();
 		notifyObservers(new SelectionCleared());
-		selectedShapes = null;
-		selectedShapesAndGeometricNodes = null;
-		selectedConnectors = null;
-		selectedContainers = null;
+		clearSelectedNodesComputation();
 
 		/*if (getInspectors() != null) {
 			getInspectors().update();

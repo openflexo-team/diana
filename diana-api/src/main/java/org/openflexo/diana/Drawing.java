@@ -60,7 +60,9 @@ import org.openflexo.diana.GRProvider.ConnectorGRProvider;
 import org.openflexo.diana.GRProvider.DrawingGRProvider;
 import org.openflexo.diana.GRProvider.GeometricGRProvider;
 import org.openflexo.diana.GRProvider.ShapeGRProvider;
+import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.diana.GraphicalRepresentation.LabelMetricsProvider;
+import org.openflexo.diana.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.diana.animation.Animable;
 import org.openflexo.diana.connectors.Connector;
 import org.openflexo.diana.connectors.ConnectorSpecification;
@@ -421,6 +423,14 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		public String getText();
 
 		public void setText(String text);
+
+		public HorizontalTextAlignment getHorizontalTextAlignment();
+
+		public void setHorizontalTextAlignment(HorizontalTextAlignment align);
+
+		public VerticalTextAlignment getVerticalTextAlignment();
+
+		public void setVerticalTextAlignment(VerticalTextAlignment align);
 
 		/**
 		 * Return flag indicating is this node has a floating label

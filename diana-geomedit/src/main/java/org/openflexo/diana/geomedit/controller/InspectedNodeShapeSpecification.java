@@ -36,59 +36,65 @@
  * 
  */
 
-package org.openflexo.diana.control.tools;
+package org.openflexo.diana.geomedit.controller;
 
 import java.util.List;
 
 import org.openflexo.diana.Drawing.DrawingTreeNode;
-import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.control.DianaInteractiveViewer;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.control.tools.InspectedShapeSpecification;
+import org.openflexo.diana.geomedit.GeomEditDrawingController;
+import org.openflexo.diana.geomedit.model.NodeConstruction;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.pamela.undo.CompoundEdit;
 
 /**
- * Implementation of {@link ShapeSpecification}, as a mutable container over {@link ShapeSpecification} class hierarchy.<br>
- * It presents graphical properties synchronized with and reflecting a selection<br>
- * This is the object beeing represented in tool inspectors
+ * Specialize InspectedShapeSpecification by managing ShapeSpecification of {@link NodeConstruction} in GeomEdit
  * 
  * @author sylvain
  * 
  */
-public class InspectedShapeSpecification extends InspectedStyleUsingFactory<ShapeSpecificationFactory, ShapeSpecification, ShapeType> {
+public class InspectedNodeShapeSpecification extends InspectedShapeSpecification {
 
-	public InspectedShapeSpecification(DianaInteractiveViewer<?, ?, ?> controller) {
-		super(controller, new ShapeSpecificationFactory(controller));
+	public InspectedNodeShapeSpecification(GeomEditDrawingController controller) {
+		super(controller);
 	}
 
 	@Override
-	public List<? extends DrawingTreeNode<?, ?>> getSelection() {
-		return getController().getSelectedShapes();
+	public GeomEditDrawingController getController() {
+		return (GeomEditDrawingController) super.getController();
+	}
+
+	@Override
+	public List<GeometricNode<?>> getSelection() {
+		return getController().getSelectedNodes();
 	}
 
 	@Override
 	public ShapeSpecification getStyle(DrawingTreeNode<?, ?> node) {
-		if (node instanceof ShapeNode) {
-			return ((ShapeNode<?>) node).getShapeSpecification();
+		if (node instanceof GeometricNode && node.getDrawable() instanceof NodeConstruction) {
+			return ((NodeConstruction) node.getDrawable()).getShapeSpecification();
 		}
 		return null;
 	}
 
-	@Override
+	/*@Override
 	protected ShapeType getStyleType(ShapeSpecification style) {
 		if (style != null) {
 			return style.getShapeType();
 		}
 		return null;
-	}
+	}*/
 
 	@Override
 	protected void applyNewStyle(ShapeType newShapeType, DrawingTreeNode<?, ?> node) {
-		ShapeNode<?> n = (ShapeNode<?>) node;
-		ShapeSpecification oldShapeSpecification = n.getShapeSpecification();
+		GeometricNode<?> n = (GeometricNode<?>) node;
+		NodeConstruction construction = (NodeConstruction) node.getDrawable();
+		ShapeSpecification oldShapeSpecification = construction.getShapeSpecification();
 		CompoundEdit setValueEdit = startRecordEdit("Set ShapeType to " + newShapeType);
 		ShapeSpecification newShapeSpecification = getStyleFactory().makeNewStyle(oldShapeSpecification);
-		n.setShapeSpecification(newShapeSpecification);
+		construction.setShapeSpecification(newShapeSpecification);
 		// n.getPropertyChangeSupport().firePropertyChange(ShapeGraphicalRepresentation.BACKGROUND_STYLE_TYPE_KEY,
 		// oldShapeSpecification.getShapeType(), newShapeType);
 		stopRecordEdit(setValueEdit);
