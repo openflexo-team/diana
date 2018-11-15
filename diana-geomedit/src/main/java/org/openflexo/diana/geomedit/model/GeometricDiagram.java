@@ -92,28 +92,13 @@ public interface GeometricDiagram extends GeometricElement {
 	@Setter(value = GRAPHICAL_REPRESENTATION)
 	public void setGraphicalRepresentation(DrawingGraphicalRepresentation graphicalRepresentation);
 
-	public GeometricConstructionFactory getFactory();
-
-	public void setFactory(GeometricConstructionFactory factory);
-
 	public static abstract class GeometricDiagramImpl extends GeometricElementImpl implements GeometricDiagram {
-
-		private GeometricConstructionFactory factory;
 
 		@Override
 		public GeometricDiagram getGeometricDiagram() {
 			return this;
 		}
 
-		@Override
-		public GeometricConstructionFactory getFactory() {
-			return factory;
-		}
-
-		@Override
-		public void setFactory(GeometricConstructionFactory factory) {
-			this.factory = factory;
-		}
 	}
 
 }

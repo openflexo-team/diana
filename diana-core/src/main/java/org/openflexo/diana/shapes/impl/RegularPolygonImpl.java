@@ -42,11 +42,11 @@ package org.openflexo.diana.shapes.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaRegularPolygon;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.notifications.DianaAttributeNotification;
@@ -107,7 +107,7 @@ public abstract class RegularPolygonImpl extends PolygonImpl implements RegularP
 	}*/
 
 	@Override
-	public DianaShape<?> makeNormalizedDianaShape(ShapeNode<?> node) {
+	public DianaShape<?> makeNormalizedDianaShape(DianaRectangle bounds) {
 		if (getPoints() != null && getPoints().size() > 0) {
 			return new DianaPolygon(Filling.FILLED, getPoints());
 		}

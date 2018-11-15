@@ -39,9 +39,9 @@
 
 package org.openflexo.diana.shapes.impl;
 
-import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.notifications.DianaAttributeNotification;
@@ -129,7 +129,7 @@ public abstract class StarImpl extends ShapeSpecificationImpl implements Star {
 	}
 
 	@Override
-	public DianaShape<?> makeNormalizedDianaShape(ShapeNode<?> node) {
+	public DianaShape<?> makeNormalizedDianaShape(DianaRectangle bounds) {
 		DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 		double startA = getStartAngle() * Math.PI / 180;
 		double angleInterval = Math.PI * 2 / npoints;

@@ -42,7 +42,6 @@ package org.openflexo.diana.shapes.impl;
 import java.util.logging.Logger;
 
 import org.openflexo.diana.DianaConstants;
-import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaRoundRectangle;
@@ -75,10 +74,10 @@ public abstract class RectangleImpl extends ShapeSpecificationImpl implements Re
 	}
 
 	@Override
-	public DianaShape<?> makeNormalizedDianaShape(ShapeNode<?> node) {
-		if (node != null && isRounded) {
-			double arcwidth = arcSize / node.getWidth();
-			double archeight = arcSize / node.getHeight();
+	public DianaShape<?> makeNormalizedDianaShape(DianaRectangle bounds) {
+		if (bounds != null && isRounded) {
+			double arcwidth = arcSize / bounds.getWidth();
+			double archeight = arcSize / bounds.getHeight();
 			return new DianaRoundRectangle(0, 0, 1, 1, arcwidth, archeight, Filling.FILLED);
 		}
 		return new DianaRectangle(0, 0, 1, 1, Filling.FILLED);

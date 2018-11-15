@@ -42,7 +42,7 @@ package org.openflexo.diana.shapes.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geom.DianaShapeUnion;
 import org.openflexo.diana.shapes.ShapeSpecification;
@@ -56,10 +56,10 @@ public abstract class ShapeUnionImpl extends ShapeSpecificationImpl implements S
 	}
 
 	@Override
-	public DianaShapeUnion makeNormalizedDianaShape(ShapeNode<?> node) {
+	public DianaShapeUnion makeNormalizedDianaShape(DianaRectangle bounds) {
 		List<DianaShape<?>> shapes = new ArrayList<>();
 		for (ShapeSpecification shapeSpecification : getShapes()) {
-			shapes.add(shapeSpecification.makeDianaShape(node));
+			shapes.add(shapeSpecification.makeDianaShape(bounds));
 		}
 		return new DianaShapeUnion(shapes);
 	}

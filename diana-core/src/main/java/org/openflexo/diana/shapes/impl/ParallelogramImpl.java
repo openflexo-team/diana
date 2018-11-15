@@ -38,10 +38,10 @@
 
 package org.openflexo.diana.shapes.impl;
 
-import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.diana.shapes.Parallelogram;
@@ -92,7 +92,7 @@ public abstract class ParallelogramImpl extends ShapeSpecificationImpl implement
 	 * @return DianaPolygon
 	 */
 	@Override
-	public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
+	public DianaShape<?> makeNormalizedDianaShape(final DianaRectangle bounds) {
 		final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 		if (shift_ratio >= 0) {
 			returned.addToPoints(new DianaPoint(shift_ratio, 0));

@@ -39,9 +39,11 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaDimension;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geomedit.model.NodeWithTwoPointsConstruction.NodeWithTwoPointsConstructionImpl;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ImplementationClass;
@@ -77,8 +79,8 @@ public interface NodeWithTwoPointsConstruction extends NodeConstruction {
 	public static abstract class NodeWithTwoPointsConstructionImpl extends NodeConstructionImpl implements NodeWithTwoPointsConstruction {
 
 		@Override
-		protected DianaRectangle computeData() {
-			if (getPointConstruction1() != null && getPointConstruction2() != null) {
+		protected DianaShape<?> computeData() {
+			if (getPointConstruction1() != null && getPointConstruction2() != null && getFactory() != null) {
 				DianaPoint p1 = getPointConstruction1().getPoint();
 				DianaPoint p2 = getPointConstruction2().getPoint();
 
@@ -88,11 +90,34 @@ public interface NodeWithTwoPointsConstruction extends NodeConstruction {
 
 				double width = Math.abs(p1.x - p2.x);
 				double height = Math.abs(p1.y - p2.y);
+				DianaDimension dim = new DianaDimension(width, height);
 
-				// getShapeSpecification().makeDianaShape(node)
+				if (getShapeSpecification() == null) {
+					setShapeSpecification(getFactory().makeShape(getShapeType()));
+				}
 
-				return new DianaRectangle(p.x, p.y, width, height, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
+				System.out.println("On se construit une nouvelle shape pour " + getShapeSpecification());
+				System.out.println("avec " + p + " et " + dim);
+				System.out.println("gr=" + getGraphicalRepresentation());
+
+				DianaShape<?> returned = getShapeSpecification()
+						.makeDianaShape(new DianaRectangle(p, dim, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED));
+				getShapeSpecification().setX(p.x);
+				getShapeSpecification().setY(p.y);
+				getShapeSpecification().setWidth(width);
+				getShapeSpecification().setHeight(height);
+
+				System.out.println("On retourne " + returned);
+
+				if (getGraphicalRepresentation() != null) {
+					getGraphicalRepresentation().setGeometricObject(returned);
+				}
+				return returned;
 			}
+
+			System.out.println("Zut alors on peut pas encore construire");
+			Thread.dumpStack();
+
 			return null;
 		}
 

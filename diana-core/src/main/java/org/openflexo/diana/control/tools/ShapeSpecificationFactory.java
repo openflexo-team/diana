@@ -330,8 +330,8 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeDianaShape(ShapeNode<?> node) {
-			return makeNormalizedDianaShape(node);
+		public DianaShape<?> makeDianaShape(DianaRectangle bounds) {
+			return makeNormalizedDianaShape(bounds);
 		}
 
 		@Override
@@ -416,10 +416,10 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
-			if (node != null && this.getIsRounded()) {
-				final double arcwidth = this.getArcSize() / node.getWidth();
-				final double archeight = this.getArcSize() / node.getHeight();
+		public DianaShape<?> makeNormalizedDianaShape(final DianaRectangle bounds) {
+			if (bounds != null && this.getIsRounded()) {
+				final double arcwidth = this.getArcSize() / bounds.getWidth();
+				final double archeight = this.getArcSize() / bounds.getHeight();
 				return new DianaRoundRectangle(0, 0, 1, 1, arcwidth, archeight, Filling.FILLED);
 			}
 			return new DianaRectangle(0, 0, 1, 1, Filling.FILLED);
@@ -570,7 +570,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final DianaRectangle bounds) {
 			return new DianaPolygon(Filling.FILLED, this.getPoints());
 		}
 
@@ -649,7 +649,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final DianaRectangle bounds) {
 			return new DianaComplexCurve(this.getClosure(), this.getPoints());
 		}
 
@@ -723,7 +723,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final DianaRectangle bounds) {
 			return new DianaGeneralShape(Closure.CLOSED_FILLED);
 		}
 
@@ -784,7 +784,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final DianaRectangle bounds) {
 			if (this.getNPoints() > 2) {
 				return new DianaRegularPolygon(0, 0, 1, 1, Filling.FILLED, this.getNPoints(), this.getStartAngle());
 			}
@@ -831,7 +831,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final DianaRectangle bounds) {
 			final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 			returned.addToPoints(new DianaPoint(0, this.getRatio()));
 			returned.addToPoints(new DianaPoint(0, 1 - this.getRatio()));
@@ -910,7 +910,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final DianaRectangle bounds) {
 			return new DianaEllips(0, 0, 1, 1, Filling.FILLED);
 		}
 
@@ -971,7 +971,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final DianaRectangle bounds) {
 			return new DianaArc(0, 0, 1, 1, this.getAngleStart(), this.getAngleExtent(), this.getArcType());
 		}
 
@@ -1034,7 +1034,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final DianaRectangle bounds) {
 			final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 			final double startA = this.getStartAngle() * Math.PI / 180;
 			final double angleInterval = Math.PI * 2 / this.getNPoints();
@@ -1126,7 +1126,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final DianaRectangle bounds) {
 			final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 			returned.addToPoints(new DianaPoint(0, this.getRatio()));
 			returned.addToPoints(new DianaPoint(0, 1 - this.getRatio()));
@@ -1181,7 +1181,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final DianaRectangle bounds) {
 			final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 			returned.addToPoints(new DianaPoint(0, 0));
 			returned.addToPoints(new DianaPoint(this.getArrowLength(), 0.5));
@@ -1230,7 +1230,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
+		public DianaShape<?> makeNormalizedDianaShape(final DianaRectangle bounds) {
 			final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 			double shift_ratio = getShiftRatio();
 			if (shift_ratio >= 0) {
@@ -1287,7 +1287,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public DianaShapeUnion makeNormalizedDianaShape(final ShapeNode<?> node) {
+		public DianaShapeUnion makeNormalizedDianaShape(final DianaRectangle bounds) {
 			return new DianaShapeUnion();
 		}
 

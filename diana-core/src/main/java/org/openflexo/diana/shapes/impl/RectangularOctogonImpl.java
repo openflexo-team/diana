@@ -39,10 +39,10 @@
 
 package org.openflexo.diana.shapes.impl;
 
-import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.diana.shapes.RectangularOctogon;
@@ -88,7 +88,7 @@ public abstract class RectangularOctogonImpl extends ShapeSpecificationImpl impl
 	}
 
 	@Override
-	public DianaShape<?> makeNormalizedDianaShape(final ShapeNode<?> node) {
+	public DianaShape<?> makeNormalizedDianaShape(final DianaRectangle bounds) {
 		final DianaPolygon returned = new DianaPolygon(Filling.FILLED);
 
 		returned.addToPoints(new DianaPoint(0, this.ratio));

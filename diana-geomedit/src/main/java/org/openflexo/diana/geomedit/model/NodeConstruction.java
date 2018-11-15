@@ -40,6 +40,7 @@
 package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.ShadowStyle;
+import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geomedit.model.NodeConstruction.NodeConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
@@ -64,14 +65,6 @@ import org.openflexo.pamela.annotations.XMLElement;
 @Imports({ @Import(NodeWithTwoPointsConstruction.class) })
 public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 
-	@PropertyIdentifier(type = Double.class)
-	public static final String X_KEY = "x";
-	@PropertyIdentifier(type = Double.class)
-	public static final String Y_KEY = "y";
-	@PropertyIdentifier(type = Double.class)
-	public static final String WIDTH_KEY = "width";
-	@PropertyIdentifier(type = Double.class)
-	public static final String HEIGHT_KEY = "height";
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String IS_FILLED_KEY = "isFilled";
 	@PropertyIdentifier(type = ShapeSpecification.class)
@@ -79,28 +72,20 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 	@PropertyIdentifier(type = ShadowStyle.class)
 	public static final String SHADOW_STYLE_KEY = "shadowStyle";
 
-	@Getter(value = X_KEY, defaultValue = "0.0")
 	public double getX();
 
-	@Setter(X_KEY)
 	public void setX(double value);
 
-	@Getter(value = Y_KEY, defaultValue = "0.0")
 	public double getY();
 
-	@Setter(Y_KEY)
 	public void setY(double value);
 
-	@Getter(value = WIDTH_KEY, defaultValue = "0.0")
 	public double getWidth();
 
-	@Setter(WIDTH_KEY)
 	public void setWidth(double value);
 
-	@Getter(value = HEIGHT_KEY, defaultValue = "0.0")
 	public double getHeight();
 
-	@Setter(HEIGHT_KEY)
 	public void setHeight(double value);
 
 	public DianaShape<?> getShape();
@@ -134,7 +119,15 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 
 	public void setShapeType(ShapeType shapeType);
 
+	public GeometricConstructionFactory getFactory();
+
+	public void setFactory(GeometricConstructionFactory factory);
+
+	public DianaRectangle getBoundingBox();
+
 	public abstract class NodeConstructionImpl extends GeometricConstructionImpl<DianaShape<?>> implements NodeConstruction {
+
+		private GeometricConstructionFactory factory;
 
 		@Override
 		public String getBaseName() {
@@ -164,18 +157,86 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 
 		@Override
 		public ShapeType getShapeType() {
-			if (getShapeSpecification() == null) {
-				setShapeSpecification(getGeometricDiagram().getFactory().makeShape(ShapeType.RECTANGLE));
+			if (getShapeSpecification() != null) {
+				return getShapeSpecification().getShapeType();
 			}
-			return getShapeSpecification().getShapeType();
+			else {
+				return ShapeType.RECTANGLE;
+			}
 		}
 
 		@Override
 		public void setShapeType(ShapeType shapeType) {
 			if (getShapeType() != shapeType) {
-				setShapeSpecification(getGeometricDiagram().getFactory().makeShape(shapeType));
-				System.out.println("SS: " + getShapeSpecification());
+				double oldX = getShapeSpecification().getX();
+				double oldY = getShapeSpecification().getY();
+				double oldWidth = getShapeSpecification().getWidth();
+				double oldHeight = getShapeSpecification().getHeight();
+				ShapeSpecification shapeSpecification = getFactory().makeShape(shapeType);
+				shapeSpecification.setX(oldX);
+				shapeSpecification.setY(oldY);
+				shapeSpecification.setWidth(oldWidth);
+				shapeSpecification.setHeight(oldHeight);
+				setShapeSpecification(shapeSpecification);
+				getPropertyChangeSupport().firePropertyChange("shapeType", null, shapeType);
+				refresh();
+				notifyGeometryChanged();
 			}
+		}
+
+		@Override
+		public DianaRectangle getBoundingBox() {
+			return new DianaRectangle(getX(), getY(), getWidth(), getHeight());
+		}
+
+		@Override
+		public GeometricConstructionFactory getFactory() {
+			return factory;
+		}
+
+		@Override
+		public void setFactory(GeometricConstructionFactory factory) {
+			this.factory = factory;
+		}
+
+		@Override
+		public double getX() {
+			return getShapeSpecification().getX();
+		}
+
+		@Override
+		public void setX(double value) {
+			getShapeSpecification().setX(value);
+		}
+
+		@Override
+		public double getY() {
+			return getShapeSpecification().getY();
+		}
+
+		@Override
+		public void setY(double value) {
+			getShapeSpecification().setY(value);
+		}
+
+		@Override
+		public double getWidth() {
+			return getShapeSpecification().getWidth();
+		}
+
+		@Override
+		public void setWidth(double value) {
+			getShapeSpecification().setWidth(value);
+		}
+
+		@Override
+		public double getHeight() {
+			return getShapeSpecification().getHeight();
+		}
+
+		@Override
+		public void setHeight(double value) {
+			getShapeSpecification().setHeight(value);
 		}
 
 	}

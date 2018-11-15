@@ -191,7 +191,7 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 
 	protected DianaShape<?> makeShape() {
 		if (getShapeSpecification() != null) {
-			return getShapeSpecification().makeDianaShape(shapeNode);
+			return getShapeSpecification().makeDianaShape(shapeNode.getBounds());
 		}
 		return null;
 	}

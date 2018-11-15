@@ -41,10 +41,10 @@ package org.openflexo.diana.shapes.impl;
 
 import java.util.List;
 
-import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.shapes.Polygon;
 
@@ -80,7 +80,7 @@ public abstract class PolygonImpl extends ShapeSpecificationImpl implements Poly
 	}
 
 	@Override
-	public DianaShape<?> makeNormalizedDianaShape(ShapeNode<?> node) {
+	public DianaShape<?> makeNormalizedDianaShape(DianaRectangle bounds) {
 		return new DianaPolygon(Filling.FILLED, getPoints());
 	}
 

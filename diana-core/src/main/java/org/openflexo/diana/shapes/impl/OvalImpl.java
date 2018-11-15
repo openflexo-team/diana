@@ -39,9 +39,9 @@
 
 package org.openflexo.diana.shapes.impl;
 
-import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.geom.DianaEllips;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.shapes.Oval;
 
@@ -55,7 +55,7 @@ public abstract class OvalImpl extends ShapeSpecificationImpl implements Oval {
 	}
 
 	@Override
-	public DianaShape<?> makeNormalizedDianaShape(ShapeNode<?> node) {
+	public DianaShape<?> makeNormalizedDianaShape(DianaRectangle bounds) {
 		return new DianaEllips(0, 0, 1, 1, Filling.FILLED);
 	}
 

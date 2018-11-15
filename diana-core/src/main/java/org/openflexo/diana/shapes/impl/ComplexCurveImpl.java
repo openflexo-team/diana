@@ -42,10 +42,10 @@ package org.openflexo.diana.shapes.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.geom.DianaComplexCurve;
 import org.openflexo.diana.geom.DianaGeneralShape.Closure;
 import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.diana.shapes.ComplexCurve;
 
@@ -130,7 +130,7 @@ public abstract class ComplexCurveImpl extends ShapeSpecificationImpl implements
 	}
 
 	@Override
-	public DianaComplexCurve makeNormalizedDianaShape(ShapeNode<?> node) {
+	public DianaComplexCurve makeNormalizedDianaShape(DianaRectangle bounds) {
 		return new DianaComplexCurve(getClosure(), points);
 	}
 

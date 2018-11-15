@@ -43,6 +43,7 @@ import org.openflexo.diana.DianaObject;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.pamela.annotations.CloningStrategy;
 import org.openflexo.pamela.annotations.Embedded;
@@ -213,17 +214,17 @@ public interface ShapeSpecification extends DianaObject {
 	/**
 	 * Build a new DianaShape for this {@link ShapeNode}, asserting the resulting shape will be defined in a normalized rectangle
 	 * 
-	 * @param node
+	 * @param bounds
 	 * @return
 	 */
-	public DianaShape<?> makeNormalizedDianaShape(ShapeNode<?> node);
+	public DianaShape<?> makeNormalizedDianaShape(DianaRectangle bounds);
 
 	/**
 	 * Build a new DianaShape for this {@link ShapeNode}, when taking dimension/positionning properties into account
 	 * 
-	 * @param node
+	 * @param bounds
 	 * @return
 	 */
-	public DianaShape<?> makeDianaShape(ShapeNode<?> node);
+	public DianaShape<?> makeDianaShape(DianaRectangle bounds);
 
 }

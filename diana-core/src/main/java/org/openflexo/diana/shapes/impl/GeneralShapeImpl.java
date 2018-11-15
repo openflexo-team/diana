@@ -39,8 +39,8 @@
 
 package org.openflexo.diana.shapes.impl;
 
-import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.geom.DianaGeneralShape;
+import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.impl.DianaObjectImpl;
 import org.openflexo.diana.shapes.GeneralShape;
 
@@ -52,7 +52,7 @@ public abstract class GeneralShapeImpl extends ShapeSpecificationImpl implements
 	}
 
 	@Override
-	public DianaGeneralShape<?> makeNormalizedDianaShape(ShapeNode<?> node) {
+	public DianaGeneralShape<?> makeNormalizedDianaShape(DianaRectangle bounds) {
 		DianaGeneralShape<?> returned = new DianaGeneralShape<>(getClosure());
 		returned.beginAtPoint(getStartPoint());
 		for (GeneralShapePathElement pathElement : getPathElements()) {

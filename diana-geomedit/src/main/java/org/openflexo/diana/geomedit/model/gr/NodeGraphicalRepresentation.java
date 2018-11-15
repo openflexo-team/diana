@@ -49,11 +49,9 @@ import org.openflexo.diana.GeometricGraphicalRepresentation;
 import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
-import org.openflexo.diana.geom.DianaGeometricObject.CardinalQuadrant;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
-import org.openflexo.diana.geom.area.DianaQuarterPlane;
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
 import org.openflexo.diana.geomedit.model.ExplicitPointConstruction;
@@ -97,7 +95,7 @@ public interface NodeGraphicalRepresentation extends GeometricObjectGraphicalRep
 			}
 
 			if (pc1 != null) {
-				returned.add(nwCP1 = new DraggableControlPoint<DianaRectangle>((GeometricNode<?>) dtn, "northWest",
+				returned.add(nwCP1 = new DraggableControlPoint<DianaShape<?>>((GeometricNode<?>) dtn, "northWest",
 						rectangle.getNorthWestPt(), pc1) {
 					private double initialWidth;
 					private double initialHeight;
@@ -105,10 +103,10 @@ public interface NodeGraphicalRepresentation extends GeometricObjectGraphicalRep
 					@Override
 					public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 						super.startDragging(controller, startPoint);
-						initialWidth = getGeometricObject().getBoundingBox().width;
-						initialHeight = getGeometricObject().getBoundingBox().height;
-						setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
-								getGeometricObject().getBoundingBox().getSouthEastPt(), CardinalQuadrant.NORTH_WEST));
+						initialWidth = nodeConstruction.getWidth();
+						initialHeight = nodeConstruction.getHeight();
+						// setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
+						// getGeometricObject().getBoundingBox().getSouthEastPt(), CardinalQuadrant.NORTH_WEST));
 					}
 
 					@Override
@@ -130,22 +128,22 @@ public interface NodeGraphicalRepresentation extends GeometricObjectGraphicalRep
 					}
 
 					@Override
-					public void update(DianaRectangle geometricObject) {
-						setPoint(geometricObject.getNorthWestPt());
+					public void update(DianaShape<?> geometricObject) {
+						setPoint(nodeConstruction.getBoundingBox().getNorthWestPt());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<DianaRectangle>((GeometricNode<?>) dtn, "northWest", rectangle.getNorthWestPt()) {
+				returned.add(new ComputedControlPoint<DianaShape<?>>((GeometricNode<?>) dtn, "northWest", rectangle.getNorthWestPt()) {
 					@Override
-					public void update(DianaRectangle geometricObject) {
-						setPoint(geometricObject.getNorthWestPt());
+					public void update(DianaShape<?> geometricObject) {
+						setPoint(nodeConstruction.getBoundingBox().getNorthWestPt());
 					}
 				});
 			}
 
 			if (pc2 != null) {
-				returned.add(seCP2 = new DraggableControlPoint<DianaRectangle>((GeometricNode<?>) dtn, "southEast",
+				returned.add(seCP2 = new DraggableControlPoint<DianaShape<?>>((GeometricNode<?>) dtn, "southEast",
 						rectangle.getSouthEastPt(), pc2) {
 					private double initialWidth;
 					private double initialHeight;
@@ -153,10 +151,10 @@ public interface NodeGraphicalRepresentation extends GeometricObjectGraphicalRep
 					@Override
 					public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 						super.startDragging(controller, startPoint);
-						initialWidth = getGeometricObject().getBoundingBox().width;
-						initialHeight = getGeometricObject().getBoundingBox().height;
-						setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
-								getGeometricObject().getBoundingBox().getNorthWestPt(), CardinalQuadrant.SOUTH_EAST));
+						initialWidth = nodeConstruction.getWidth();
+						initialHeight = nodeConstruction.getHeight();
+						// setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
+						// getGeometricObject().getBoundingBox().getNorthWestPt(), CardinalQuadrant.SOUTH_EAST));
 					}
 
 					@Override
@@ -175,22 +173,22 @@ public interface NodeGraphicalRepresentation extends GeometricObjectGraphicalRep
 					}
 
 					@Override
-					public void update(DianaRectangle geometricObject) {
-						setPoint(geometricObject.getSouthEastPt());
+					public void update(DianaShape<?> geometricObject) {
+						setPoint(nodeConstruction.getBoundingBox().getSouthEastPt());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<DianaRectangle>((GeometricNode<?>) dtn, "southEast", rectangle.getSouthEastPt()) {
+				returned.add(new ComputedControlPoint<DianaShape<?>>((GeometricNode<?>) dtn, "southEast", rectangle.getSouthEastPt()) {
 					@Override
-					public void update(DianaRectangle geometricObject) {
-						setPoint(geometricObject.getSouthEastPt());
+					public void update(DianaShape<?> geometricObject) {
+						setPoint(nodeConstruction.getBoundingBox().getSouthEastPt());
 					}
 				});
 			}
 
 			if (pc1 != null && pc2 != null) {
-				returned.add(new ComputedControlPoint<DianaRectangle>((GeometricNode<?>) dtn, "northEast", rectangle.getNorthEastPt()) {
+				returned.add(new ComputedControlPoint<DianaShape<?>>((GeometricNode<?>) dtn, "northEast", rectangle.getNorthEastPt()) {
 					private double initialWidth;
 					private double initialHeight;
 
@@ -202,10 +200,10 @@ public interface NodeGraphicalRepresentation extends GeometricObjectGraphicalRep
 					@Override
 					public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 						super.startDragging(controller, startPoint);
-						initialWidth = getGeometricObject().getBoundingBox().width;
-						initialHeight = getGeometricObject().getBoundingBox().height;
-						setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
-								getGeometricObject().getBoundingBox().getSouthWestPt(), CardinalQuadrant.NORTH_EAST));
+						initialWidth = nodeConstruction.getWidth();
+						initialHeight = nodeConstruction.getHeight();
+						// setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
+						// getGeometricObject().getBoundingBox().getSouthWestPt(), CardinalQuadrant.NORTH_EAST));
 					}
 
 					@Override
@@ -221,31 +219,31 @@ public interface NodeGraphicalRepresentation extends GeometricObjectGraphicalRep
 						nodeConstruction.refresh();
 						nodeConstruction.notifyGeometryChanged();
 
-						nwCP1.setPoint(new DianaPoint(getGeometricObject().getBoundingBox().x, pt.y));
-						seCP2.setPoint(new DianaPoint(pt.x,
-								getGeometricObject().getBoundingBox().y + getGeometricObject().getBoundingBox().height));
+						nwCP1.setPoint(new DianaPoint(nodeConstruction.getBoundingBox().x, pt.y));
+						seCP2.setPoint(
+								new DianaPoint(pt.x, nodeConstruction.getBoundingBox().y + nodeConstruction.getBoundingBox().height));
 
 						((GeometricNode<?>) dtn).notifyGeometryChanged();
 						return true;
 					}
 
 					@Override
-					public void update(DianaRectangle geometricObject) {
-						setPoint(geometricObject.getNorthEastPt());
+					public void update(DianaShape<?> geometricObject) {
+						setPoint(nodeConstruction.getBoundingBox().getNorthEastPt());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<DianaRectangle>((GeometricNode<?>) dtn, "northEast", rectangle.getSouthEastPt()) {
+				returned.add(new ComputedControlPoint<DianaShape<?>>((GeometricNode<?>) dtn, "northEast", rectangle.getSouthEastPt()) {
 					@Override
-					public void update(DianaRectangle geometricObject) {
-						setPoint(geometricObject.getNorthEastPt());
+					public void update(DianaShape<?> geometricObject) {
+						setPoint(nodeConstruction.getBoundingBox().getNorthEastPt());
 					}
 				});
 			}
 
 			if (pc1 != null && pc2 != null) {
-				returned.add(new ComputedControlPoint<DianaRectangle>((GeometricNode<?>) dtn, "southWest", rectangle.getSouthWestPt()) {
+				returned.add(new ComputedControlPoint<DianaShape<?>>((GeometricNode<?>) dtn, "southWest", rectangle.getSouthWestPt()) {
 					private double initialWidth;
 					private double initialHeight;
 
@@ -257,10 +255,10 @@ public interface NodeGraphicalRepresentation extends GeometricObjectGraphicalRep
 					@Override
 					public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 						super.startDragging(controller, startPoint);
-						initialWidth = getGeometricObject().getBoundingBox().width;
-						initialHeight = getGeometricObject().getBoundingBox().height;
-						setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
-								getGeometricObject().getBoundingBox().getNorthEastPt(), CardinalQuadrant.SOUTH_WEST));
+						initialWidth = nodeConstruction.getWidth();
+						initialHeight = nodeConstruction.getHeight();
+						// setDraggingAuthorizedArea(DianaQuarterPlane.makeDianaQuarterPlane(
+						// getGeometricObject().getBoundingBox().getNorthEastPt(), CardinalQuadrant.SOUTH_WEST));
 					}
 
 					@Override
@@ -275,25 +273,24 @@ public interface NodeGraphicalRepresentation extends GeometricObjectGraphicalRep
 						nodeConstruction.refresh();
 						nodeConstruction.notifyGeometryChanged();
 
-						nwCP1.setPoint(new DianaPoint(pt.x, getGeometricObject().getBoundingBox().y));
-						seCP2.setPoint(new DianaPoint(getGeometricObject().getBoundingBox().x + getGeometricObject().getBoundingBox().width,
-								pt.y));
+						nwCP1.setPoint(new DianaPoint(pt.x, nodeConstruction.getBoundingBox().y));
+						seCP2.setPoint(new DianaPoint(nodeConstruction.getBoundingBox().x + nodeConstruction.getBoundingBox().width, pt.y));
 
 						((GeometricNode<?>) dtn).notifyGeometryChanged();
 						return true;
 					}
 
 					@Override
-					public void update(DianaRectangle geometricObject) {
-						setPoint(geometricObject.getSouthWestPt());
+					public void update(DianaShape<?> geometricObject) {
+						setPoint(nodeConstruction.getBoundingBox().getSouthWestPt());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<DianaRectangle>((GeometricNode<?>) dtn, "southWest", rectangle.getSouthEastPt()) {
+				returned.add(new ComputedControlPoint<DianaShape<?>>((GeometricNode<?>) dtn, "southWest", rectangle.getSouthEastPt()) {
 					@Override
-					public void update(DianaRectangle geometricObject) {
-						setPoint(geometricObject.getSouthWestPt());
+					public void update(DianaShape<?> geometricObject) {
+						setPoint(nodeConstruction.getBoundingBox().getSouthWestPt());
 					}
 				});
 			}

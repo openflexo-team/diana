@@ -251,7 +251,6 @@ public class TestGeom {
 		GeometricConstructionFactory factory = new GeometricConstructionFactory(editingContext);
 
 		GeometricDiagram diagram = (GeometricDiagram) factory.deserialize(testResource.openInputStream());
-		diagram.setFactory(factory);
 
 		for (GeometricConstruction<?> geometricConstruction : diagram.getConstructions()) {
 			if (geometricConstruction instanceof IntersectionConstruction) {

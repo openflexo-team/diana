@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.impl.DianaObjectImpl;
 import org.openflexo.diana.shapes.ShapeSpecification;
@@ -99,8 +100,8 @@ public abstract class ShapeSpecificationImpl extends DianaObjectImpl implements 
 	 * @return
 	 */
 	@Override
-	public DianaShape<?> makeDianaShape(ShapeNode<?> node) {
-		DianaShape<?> shape = makeNormalizedDianaShape(node);
+	public DianaShape<?> makeDianaShape(DianaRectangle bounds) {
+		DianaShape<?> shape = makeNormalizedDianaShape(bounds);
 		AffineTransform translateAT = AffineTransform.getTranslateInstance(getX(), getY());
 		AffineTransform scaleAT = AffineTransform.getScaleInstance(getWidth(), getHeight());
 		DianaShape<?> returned = (DianaShape<?>) shape.transform(scaleAT).transform(translateAT);
