@@ -295,14 +295,14 @@ public class JFocusRetriever {
 					return returned;
 				/*if (editor.getDrawCustomShapeToolController() != null) {
 				if (editor.getDrawCustomShapeToolController().editionHasBeenStarted()
-						&& editor.getDrawCustomShapeToolController().getCurrentEditedShape() != null) {
-					return editor.getDrawCustomShapeToolController().getCurrentEditedShape();
+					&& editor.getDrawCustomShapeToolController().getCurrentEditedShape() != null) {
+				return editor.getDrawCustomShapeToolController().getCurrentEditedShape();
 				} else {
-					DrawingTreeNode<?, ?> returned = getFocusedObject(drawingView.getDrawing().getRoot(), event);
-					if (returned == null) {
-						returned = drawingView.getDrawing().getRoot();
-					}
-					return returned;
+				DrawingTreeNode<?, ?> returned = getFocusedObject(drawingView.getDrawing().getRoot(), event);
+				if (returned == null) {
+					returned = drawingView.getDrawing().getRoot();
+				}
+				return returned;
 				}
 				}*/
 				default:
@@ -371,20 +371,23 @@ public class JFocusRetriever {
 					Point viewPoint = SwingUtilities.convertPoint(eventSource, eventLocation, (Component) drawingView.viewForNode(node));
 					DianaPoint point = childNode.convertViewCoordinatesToNormalizedPoint(viewPoint, getScale());
 
-					if (geometricNode.getGraphicalRepresentation().getGeometricObject().containsPoint(point)) {
-						enclosingGeometricObjects.add(geometricNode);
-					}
-					else {
-						DianaPoint nearestPoint = geometricNode.getGraphicalRepresentation().getGeometricObject().getNearestPoint(point);
-						if (nearestPoint != null) {
-							double distance = DianaSegment.getLength(point, nearestPoint) * getScale();
-							if (distance < selectionDistance && (distance < distanceToNearestGeometricObject
-									&& Math.abs(distance - distanceToNearestGeometricObject) > DianaGeometricObject.EPSILON
-									&& focusedCP == null
-									|| geometricNode.getGraphicalRepresentation().getLayer() > layerOfNearestGeometricObject)) {
-								distanceToNearestGeometricObject = distance;
-								layerOfNearestGeometricObject = geometricNode.getGraphicalRepresentation().getLayer();
-								nearestGeometricObject = geometricNode;
+					if (geometricNode.getGraphicalRepresentation().getGeometricObject() != null) {
+						if (geometricNode.getGraphicalRepresentation().getGeometricObject().containsPoint(point)) {
+							enclosingGeometricObjects.add(geometricNode);
+						}
+						else {
+							DianaPoint nearestPoint = geometricNode.getGraphicalRepresentation().getGeometricObject()
+									.getNearestPoint(point);
+							if (nearestPoint != null) {
+								double distance = DianaSegment.getLength(point, nearestPoint) * getScale();
+								if (distance < selectionDistance && (distance < distanceToNearestGeometricObject
+										&& Math.abs(distance - distanceToNearestGeometricObject) > DianaGeometricObject.EPSILON
+										&& focusedCP == null
+										|| geometricNode.getGraphicalRepresentation().getLayer() > layerOfNearestGeometricObject)) {
+									distanceToNearestGeometricObject = distance;
+									layerOfNearestGeometricObject = geometricNode.getGraphicalRepresentation().getLayer();
+									nearestGeometricObject = geometricNode;
+								}
 							}
 						}
 					}

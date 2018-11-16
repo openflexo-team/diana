@@ -40,34 +40,29 @@
 package org.openflexo.diana.geomedit.edition;
 
 import org.openflexo.diana.geom.DianaPoint;
-import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
-public class CreateNodeFromCenterAndSize extends Edition {
+public class CreateNodeAtRelativeLocation extends Edition {
 
-	public CreateNodeFromCenterAndSize(GeomEditDrawingController controller) {
-		super("Create node from center and size", controller);
-		inputs.add(new ObtainPoint("Select center", controller));
+	public CreateNodeAtRelativeLocation(GeomEditDrawingController controller) {
+		super("Create node at relative location", controller);
+		inputs.add(new ObtainNode("Select reference node", controller));
+		inputs.add(new ObtainDouble("Select horizontal translation", 100, controller));
+		inputs.add(new ObtainDouble("Select vertical translation", 100, controller));
 	}
 
 	@Override
 	public void performEdition() {
-		ObtainPoint center = (ObtainPoint) inputs.get(0);
+		ObtainNode reference = (ObtainNode) inputs.get(0);
+		double tx = ((ObtainDouble) inputs.get(1)).getInputData();
+		double ty = ((ObtainDouble) inputs.get(2)).getInputData();
 
-		addConstruction(getController().getFactory().makeNodeWithCenterAndDimensionConstruction(center.getConstruction()));
+		addConstruction(getController().getFactory().makeNodeWithRelativePositionConstruction(reference.getConstruction(), tx, ty));
 
 	}
 
 	@Override
 	public void paintEdition(JDianaDrawingGraphics graphics, DianaPoint lastMouseLocation) {
-		if (currentStep == 0) {
-			DianaPoint center = lastMouseLocation;
-			double width = 40;
-			double height = 40;
-			DianaPoint p = new DianaPoint(center.x - width / 2, center.y - height / 2);
-			graphics.setDefaultForeground(focusedForegroundStyle);
-			new DianaRectangle(p.x, p.y, width, height).paint(graphics);
-		}
 	}
 }

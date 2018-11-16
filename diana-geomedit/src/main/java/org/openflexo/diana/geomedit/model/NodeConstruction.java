@@ -50,6 +50,7 @@ import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.pamela.annotations.CloningStrategy;
 import org.openflexo.pamela.annotations.CloningStrategy.StrategyType;
+import org.openflexo.pamela.annotations.DeserializationInitializer;
 import org.openflexo.pamela.annotations.Embedded;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ImplementationClass;
@@ -63,7 +64,8 @@ import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(NodeConstructionImpl.class)
-@Imports({ @Import(NodeWithTwoPointsConstruction.class), @Import(NodeWithCenterAndDimensionConstruction.class) })
+@Imports({ @Import(NodeWithTwoPointsConstruction.class), @Import(NodeWithCenterAndDimensionConstruction.class),
+		@Import(NodeWithRelativePositionConstruction.class), @Import(NodeReference.class) })
 public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 
 	@PropertyIdentifier(type = Double.class)
@@ -134,9 +136,17 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 
 	public DianaRectangle getBoundingBox();
 
+	@DeserializationInitializer
+	public void initializeDeserialization(GeometricConstructionFactory factory);
+
 	public abstract class NodeConstructionImpl extends GeometricConstructionImpl<DianaShape<?>> implements NodeConstruction {
 
 		private GeometricConstructionFactory factory;
+
+		@Override
+		public void initializeDeserialization(GeometricConstructionFactory factory) {
+			setFactory(factory);
+		}
 
 		@Override
 		public String getBaseName() {

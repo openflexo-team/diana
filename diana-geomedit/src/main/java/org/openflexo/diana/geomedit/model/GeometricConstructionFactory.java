@@ -291,13 +291,25 @@ public class GeometricConstructionFactory extends DianaModelFactoryImpl {
 		return returned;
 	}
 
-	public NodeWithCenterAndDimensionConstruction makeNodeWithCenterAndDimensionConstruction(PointConstruction centerConstruction,
-			double width, double height) {
+	public NodeWithCenterAndDimensionConstruction makeNodeWithCenterAndDimensionConstruction(PointConstruction centerConstruction) {
 		NodeWithCenterAndDimensionConstruction returned = newInstance(NodeWithCenterAndDimensionConstruction.class);
 		returned.setFactory(this);
 		returned.setCenterConstruction(centerConstruction);
-		returned.setWidth(width);
-		returned.setHeight(height);
+		return returned;
+	}
+
+	public NodeWithRelativePositionConstruction makeNodeWithRelativePositionConstruction(NodeConstruction reference, double tx, double ty) {
+		NodeWithRelativePositionConstruction returned = newInstance(NodeWithRelativePositionConstruction.class);
+		returned.setFactory(this);
+		returned.setReference(reference);
+		returned.setTX(tx);
+		returned.setTY(ty);
+		return returned;
+	}
+
+	public NodeReference makeNodeReference(NodeConstruction construction) {
+		NodeReference returned = newInstance(NodeReference.class);
+		returned.setReference(construction);
 		return returned;
 	}
 

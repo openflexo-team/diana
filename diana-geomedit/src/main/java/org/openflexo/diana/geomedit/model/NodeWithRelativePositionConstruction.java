@@ -39,12 +39,13 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import java.awt.geom.AffineTransform;
+
 import org.openflexo.diana.geom.DianaDimension;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
-import org.openflexo.diana.geomedit.model.NodeWithCenterAndDimensionConstruction.NodeWithCenterAndDimensionImpl;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ImplementationClass;
@@ -55,19 +56,35 @@ import org.openflexo.pamela.annotations.XMLAttribute;
 import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
-@ImplementationClass(NodeWithCenterAndDimensionImpl.class)
+@ImplementationClass(NodeWithRelativePositionConstruction.NodeWithRelativePositionConstructionImpl.class)
 @XMLElement
-public interface NodeWithCenterAndDimensionConstruction extends NodeConstruction {
+public interface NodeWithRelativePositionConstruction extends NodeConstruction {
 
-	@PropertyIdentifier(type = PointConstruction.class)
-	public static final String CENTER_CONSTRUCTION_KEY = "centerConstruction";
+	@PropertyIdentifier(type = NodeReference.class)
+	public static final String NODE_REFERENCE_KEY = "nodeReference";
+	@PropertyIdentifier(type = Double.class)
+	public static final String TX_KEY = "tx";
+	@PropertyIdentifier(type = Double.class)
+	public static final String TY_KEY = "ty";
 
-	@Getter(value = CENTER_CONSTRUCTION_KEY)
+	@Getter(value = NODE_REFERENCE_KEY)
 	@XMLElement
-	public PointConstruction getCenterConstruction();
+	public NodeConstruction getReference();
 
-	@Setter(value = CENTER_CONSTRUCTION_KEY)
-	public void setCenterConstruction(PointConstruction pointConstruction);
+	@Setter(value = NODE_REFERENCE_KEY)
+	public void setReference(NodeConstruction nodeReference);
+
+	@Getter(value = TX_KEY, defaultValue = "100.0")
+	public double getTX();
+
+	@Setter(TX_KEY)
+	public void setTX(double value);
+
+	@Getter(value = TY_KEY, defaultValue = "100.0")
+	public double getTY();
+
+	@Setter(TY_KEY)
+	public void setTY(double value);
 
 	@Override
 	@Getter(value = WIDTH_KEY, defaultValue = "40.0")
@@ -85,13 +102,14 @@ public interface NodeWithCenterAndDimensionConstruction extends NodeConstruction
 	@Setter(HEIGHT_KEY)
 	public void setHeight(double value);
 
-	public static abstract class NodeWithCenterAndDimensionImpl extends NodeConstructionImpl
-			implements NodeWithCenterAndDimensionConstruction {
+	public static abstract class NodeWithRelativePositionConstructionImpl extends NodeConstructionImpl
+			implements NodeWithRelativePositionConstruction {
 
 		@Override
 		protected DianaShape<?> computeData() {
-			if (getCenterConstruction() != null && getFactory() != null) {
-				DianaPoint center = getCenterConstruction().getPoint();
+			if (getReference() != null && getFactory() != null) {
+				DianaPoint referenceCenter = getReference().getData().getCenter();
+				DianaPoint center = referenceCenter.transform(AffineTransform.getTranslateInstance(getTX(), getTY()));
 
 				double width = getWidth();
 				double height = getHeight();
@@ -122,12 +140,12 @@ public interface NodeWithCenterAndDimensionConstruction extends NodeConstruction
 
 		@Override
 		public String toString() {
-			return "NodeWithCenterAndDimension[" + getCenterConstruction().toString() + "] width=" + getWidth() + " height=" + getHeight();
+			return "NodeWithCenterAndDimension[" + getReference().toString() + "] tx=" + getTX() + " ty=" + getTY();
 		}
 
 		@Override
 		public GeometricConstruction[] getDepends() {
-			GeometricConstruction[] returned = { getCenterConstruction() };
+			GeometricConstruction[] returned = { getReference() };
 			return returned;
 		}
 

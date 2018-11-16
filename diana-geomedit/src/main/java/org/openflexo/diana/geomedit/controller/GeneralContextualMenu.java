@@ -60,6 +60,7 @@ import org.openflexo.diana.geomedit.edition.CreateHorizontalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateIntersection;
 import org.openflexo.diana.geomedit.edition.CreateLineFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateNearestPointFromObject;
+import org.openflexo.diana.geomedit.edition.CreateNodeAtRelativeLocation;
 import org.openflexo.diana.geomedit.edition.CreateNodeFromCenterAndSize;
 import org.openflexo.diana.geomedit.edition.CreateNodeFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateOrthogonalLineWithPoint;
@@ -196,6 +197,15 @@ public class GeneralContextualMenu extends JPopupMenu {
 			}
 		});
 		createNodeItem.add(createNodeFromCenterAndSizeItem);
+
+		JMenuItem createNodeAtRelativeLocationItem = new JMenuItem("At relative location");
+		createNodeAtRelativeLocationItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.setCurrentEdition(new CreateNodeAtRelativeLocation(controller));
+			}
+		});
+		createNodeItem.add(createNodeAtRelativeLocationItem);
 
 		return createNodeItem;
 	}

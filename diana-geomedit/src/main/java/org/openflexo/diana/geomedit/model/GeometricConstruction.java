@@ -255,9 +255,15 @@ public interface GeometricConstruction<A extends DianaArea> extends GeometricEle
 			return true;
 		}
 
+		private boolean isRefreshing = false;
+
 		@Override
 		public final void refresh() {
 			// System.out.println("Refresh for "+this.getClass().getSimpleName());
+			if (isRefreshing) {
+				return;
+			}
+			isRefreshing = true;
 			A oldData = getData();
 			if (getDepends() != null) {
 				for (GeometricConstruction c : getDepends()) {
@@ -268,6 +274,7 @@ public interface GeometricConstruction<A extends DianaArea> extends GeometricEle
 			}
 			computedData = performComputeData();
 			getPropertyChangeSupport().firePropertyChange("data", oldData, computedData);
+			isRefreshing = false;
 		}
 
 		@Override
