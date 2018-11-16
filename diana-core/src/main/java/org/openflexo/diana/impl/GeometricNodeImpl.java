@@ -82,6 +82,7 @@ import org.openflexo.diana.geom.area.DianaPlane;
 import org.openflexo.diana.geom.area.DianaQuarterPlane;
 import org.openflexo.diana.graphics.DianaGeometricGraphics;
 import org.openflexo.diana.notifications.GeometryModified;
+import org.openflexo.diana.notifications.RebuildControlPoints;
 
 public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphicalRepresentation> implements GeometricNode<O> {
 
@@ -932,13 +933,19 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 		if (evt.getSource() == getGraphicalRepresentation()) {
 			if (evt.getPropertyName().equals(GeometricGraphicalRepresentation.GEOMETRIC_OBJECT.getName())) {
 				notifyGeometryChanged();
-				rebuildControlAreas();
+				// rebuildControlAreas();
 			}
 		}
 
 		if (evt.getSource() == getDrawable()) {
 			if (evt.getPropertyName().equals(GeometryModified.EVENT_NAME)) {
 				notifyGeometryChanged();
+				// rebuildControlAreas();
+			}
+		}
+
+		if (evt.getSource() == getDrawable()) {
+			if (evt.getPropertyName().equals(RebuildControlPoints.EVENT_NAME)) {
 				rebuildControlAreas();
 			}
 		}

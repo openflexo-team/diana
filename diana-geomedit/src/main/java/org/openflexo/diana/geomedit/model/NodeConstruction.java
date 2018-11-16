@@ -46,6 +46,7 @@ import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geomedit.model.NodeConstruction.NodeConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.NodeGraphicalRepresentation;
+import org.openflexo.diana.notifications.RebuildControlPoints;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.pamela.annotations.CloningStrategy;
@@ -261,6 +262,7 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 			getPropertyChangeSupport().firePropertyChange(Y_KEY, null, getY());
 			getPropertyChangeSupport().firePropertyChange(WIDTH_KEY, null, getWidth());
 			getPropertyChangeSupport().firePropertyChange(HEIGHT_KEY, null, getHeight());
+			getPropertyChangeSupport().firePropertyChange(RebuildControlPoints.EVENT_NAME, false, true);
 		}
 	}
 }
