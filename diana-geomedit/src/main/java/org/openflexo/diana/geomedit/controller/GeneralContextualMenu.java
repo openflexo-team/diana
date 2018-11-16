@@ -51,6 +51,7 @@ import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.edition.CreateBandFromLines;
 import org.openflexo.diana.geomedit.edition.CreateCircleWithCenterAndPoint;
 import org.openflexo.diana.geomedit.edition.CreateCircleWithThreePoints;
+import org.openflexo.diana.geomedit.edition.CreateConnectorNode;
 import org.openflexo.diana.geomedit.edition.CreateCubicCurveFromFourPoints;
 import org.openflexo.diana.geomedit.edition.CreateCurveWithNPoints;
 import org.openflexo.diana.geomedit.edition.CreateHalfBandWithLines;
@@ -206,6 +207,17 @@ public class GeneralContextualMenu extends JPopupMenu {
 			}
 		});
 		createNodeItem.add(createNodeAtRelativeLocationItem);
+
+		createNodeItem.addSeparator();
+
+		JMenuItem createNodeConnectorItem = new JMenuItem("Connector between nodes");
+		createNodeConnectorItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.setCurrentEdition(new CreateConnectorNode(controller));
+			}
+		});
+		createNodeItem.add(createNodeConnectorItem);
 
 		return createNodeItem;
 	}

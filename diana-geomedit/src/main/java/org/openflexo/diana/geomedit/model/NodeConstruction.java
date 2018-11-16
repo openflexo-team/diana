@@ -241,6 +241,7 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 					aShapeSpecification.getPropertyChangeSupport().addPropertyChangeListener(this);
 					getPropertyChangeSupport().firePropertyChange("shapeType", null, getShapeType());
 				}
+				// getPropertyChangeSupport().firePropertyChange(RebuildControlPoints.EVENT_NAME, false, true);
 			}
 		}
 
@@ -249,6 +250,7 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 			if (evt.getSource() == getShapeSpecification()) {
 				refresh();
 				notifyGeometryChanged();
+				// getPropertyChangeSupport().firePropertyChange(RebuildControlPoints.EVENT_NAME, false, true);
 			}
 			else {
 				super.propertyChange(evt);

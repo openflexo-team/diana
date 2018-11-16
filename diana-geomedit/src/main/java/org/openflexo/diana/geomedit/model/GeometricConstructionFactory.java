@@ -309,7 +309,16 @@ public class GeometricConstructionFactory extends DianaModelFactoryImpl {
 
 	public NodeReference makeNodeReference(NodeConstruction construction) {
 		NodeReference returned = newInstance(NodeReference.class);
+		returned.setFactory(this);
 		returned.setReference(construction);
+		return returned;
+	}
+
+	public ConnectorConstruction makeConnector(NodeConstruction startNode, NodeConstruction endNode) {
+		ConnectorConstruction returned = newInstance(ConnectorConstruction.class);
+		returned.setFactory(this);
+		returned.setStartNode(startNode);
+		returned.setEndNode(endNode);
 		return returned;
 	}
 

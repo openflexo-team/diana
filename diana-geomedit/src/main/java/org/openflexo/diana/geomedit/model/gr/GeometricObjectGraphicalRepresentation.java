@@ -64,7 +64,8 @@ import org.openflexo.pamela.annotations.XMLElement;
 		@Import(PolygonGraphicalRepresentation.class), @Import(PolylinGraphicalRepresentation.class),
 		@Import(QuadCurveGraphicalRepresentation.class), @Import(QuarterPlaneGraphicalRepresentation.class),
 		@Import(RectangleGraphicalRepresentation.class), @Import(RoundRectangleGraphicalRepresentation.class),
-		@Import(SegmentGraphicalRepresentation.class), @Import(NodeGraphicalRepresentation.class) })
+		@Import(SegmentGraphicalRepresentation.class), @Import(NodeGraphicalRepresentation.class),
+		@Import(NodeConnectorGraphicalRepresentation.class) })
 @XMLElement
 public interface GeometricObjectGraphicalRepresentation<A extends DianaArea> extends GeometricGraphicalRepresentation {
 

@@ -60,7 +60,7 @@ import org.openflexo.pamela.annotations.XMLElement;
 @XMLElement
 public interface NodeWithRelativePositionConstruction extends NodeConstruction {
 
-	@PropertyIdentifier(type = NodeReference.class)
+	@PropertyIdentifier(type = NodeConstruction.class)
 	public static final String NODE_REFERENCE_KEY = "nodeReference";
 	@PropertyIdentifier(type = Double.class)
 	public static final String TX_KEY = "tx";
