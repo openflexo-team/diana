@@ -45,6 +45,7 @@ import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geomedit.model.NodeWithTwoPointsConstruction.NodeWithTwoPointsConstructionImpl;
+import org.openflexo.diana.geomedit.model.gr.NodeWithTwoPointsGraphicalRepresentation;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ImplementationClass;
@@ -127,6 +128,12 @@ public interface NodeWithTwoPointsConstruction extends NodeConstruction {
 		@Override
 		public GeometricConstruction[] getDepends() {
 			GeometricConstruction[] returned = { getPointConstruction1(), getPointConstruction2() };
+			return returned;
+		}
+
+		@Override
+		public NodeWithTwoPointsGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
+			NodeWithTwoPointsGraphicalRepresentation returned = factory.newInstance(NodeWithTwoPointsGraphicalRepresentation.class);
 			return returned;
 		}
 

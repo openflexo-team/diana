@@ -45,7 +45,6 @@ import org.openflexo.diana.ShadowStyle;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geomedit.model.NodeConstruction.NodeConstructionImpl;
-import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
 import org.openflexo.diana.geomedit.model.gr.NodeGraphicalRepresentation;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
@@ -150,7 +149,7 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 		}
 
 		@Override
-		public GeometricObjectGraphicalRepresentation<DianaShape<?>> makeNewConstructionGR(GeometricConstructionFactory factory) {
+		public NodeGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
 			NodeGraphicalRepresentation returned = factory.newInstance(NodeGraphicalRepresentation.class);
 			return returned;
 		}

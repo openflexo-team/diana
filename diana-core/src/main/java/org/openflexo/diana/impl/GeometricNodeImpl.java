@@ -288,7 +288,7 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 
 	protected DianaPoint getLabelRelativePosition() {
 		if (getGeometricObject() instanceof DianaPoint) {
-			return (DianaPoint) getGeometricObject();
+			return ((DianaPoint) getGeometricObject()).transform(AffineTransform.getTranslateInstance(0, -13));
 		}
 		else if (getGeometricObject() instanceof DianaAbstractLine) {
 			DianaAbstractLine<?> line = (DianaAbstractLine<?>) getGeometricObject();
@@ -932,12 +932,14 @@ public class GeometricNodeImpl<O> extends DrawingTreeNodeImpl<O, GeometricGraphi
 		if (evt.getSource() == getGraphicalRepresentation()) {
 			if (evt.getPropertyName().equals(GeometricGraphicalRepresentation.GEOMETRIC_OBJECT.getName())) {
 				notifyGeometryChanged();
+				rebuildControlAreas();
 			}
 		}
 
 		if (evt.getSource() == getDrawable()) {
 			if (evt.getPropertyName().equals(GeometryModified.EVENT_NAME)) {
 				notifyGeometryChanged();
+				rebuildControlAreas();
 			}
 		}
 

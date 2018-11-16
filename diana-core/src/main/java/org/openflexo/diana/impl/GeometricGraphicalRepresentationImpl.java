@@ -44,12 +44,12 @@ import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
 import org.openflexo.diana.BackgroundStyle;
+import org.openflexo.diana.BackgroundStyle.BackgroundStyleType;
 import org.openflexo.diana.Drawing;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.GeometricGraphicalRepresentation;
-import org.openflexo.diana.BackgroundStyle.BackgroundStyleType;
-import org.openflexo.diana.control.PredefinedMouseClickControlActionType;
 import org.openflexo.diana.control.MouseControl.MouseButton;
+import org.openflexo.diana.control.PredefinedMouseClickControlActionType;
 import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.toolbox.ToolBox;

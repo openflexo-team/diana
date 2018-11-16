@@ -122,12 +122,14 @@ public class GeometricConstructionFactory extends DianaModelFactoryImpl {
 	public ExplicitPointConstruction makeExplicitPointConstruction(DianaPoint pointLocation) {
 		ExplicitPointConstruction returned = newInstance(ExplicitPointConstruction.class);
 		returned.setPoint(pointLocation);
+		returned.setIsLabelVisible(false);
 		return returned;
 	}
 
 	public PointReference makePointReference(PointConstruction pointConstruction) {
 		PointReference returned = newInstance(PointReference.class);
 		returned.setReference(pointConstruction);
+		returned.setIsLabelVisible(false);
 		return returned;
 	}
 
@@ -136,6 +138,7 @@ public class GeometricConstructionFactory extends DianaModelFactoryImpl {
 		PointMiddleOfTwoPointsConstruction returned = newInstance(PointMiddleOfTwoPointsConstruction.class);
 		returned.setPointConstruction1(pointConstruction1);
 		returned.setPointConstruction2(pointConstruction2);
+		returned.setIsLabelVisible(false);
 		return returned;
 	}
 
@@ -144,6 +147,7 @@ public class GeometricConstructionFactory extends DianaModelFactoryImpl {
 		NearestPointFromObjectConstruction returned = newInstance(NearestPointFromObjectConstruction.class);
 		returned.setPointConstruction(pointConstruction);
 		returned.setObjectReference(objectReference);
+		returned.setIsLabelVisible(false);
 		return returned;
 	}
 
@@ -152,6 +156,7 @@ public class GeometricConstructionFactory extends DianaModelFactoryImpl {
 		SymetricPointConstruction returned = newInstance(SymetricPointConstruction.class);
 		returned.setPointConstruction(pointConstruction);
 		returned.setPivotConstruction(pivotConstruction);
+		returned.setIsLabelVisible(false);
 		return returned;
 	}
 
@@ -160,12 +165,14 @@ public class GeometricConstructionFactory extends DianaModelFactoryImpl {
 		SymetricPointFromLineConstruction returned = newInstance(SymetricPointFromLineConstruction.class);
 		returned.setPointConstruction(pointConstruction);
 		returned.setLineConstruction(lineConstruction);
+		returned.setIsLabelVisible(false);
 		return returned;
 	}
 
 	public LineReference makeLineReference(LineConstruction construction) {
 		LineReference returned = newInstance(LineReference.class);
 		returned.setReference(construction);
+		returned.setIsLabelVisible(false);
 		return returned;
 	}
 
@@ -173,6 +180,7 @@ public class GeometricConstructionFactory extends DianaModelFactoryImpl {
 		ControlPointReference returned = newInstance(ControlPointReference.class);
 		returned.setReference(construction);
 		returned.setControlPointName(name);
+		returned.setIsLabelVisible(false);
 		return returned;
 	}
 
@@ -181,6 +189,7 @@ public class GeometricConstructionFactory extends DianaModelFactoryImpl {
 		LineIntersectionPointConstruction returned = newInstance(LineIntersectionPointConstruction.class);
 		returned.setLineConstruction1(lineConstruction1);
 		returned.setLineConstruction2(lineConstruction2);
+		returned.setIsLabelVisible(false);
 		return returned;
 	}
 

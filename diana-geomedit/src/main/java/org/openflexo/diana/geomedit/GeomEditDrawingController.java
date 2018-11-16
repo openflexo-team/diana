@@ -377,7 +377,6 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 			selectedNodes = new ArrayList<>();
 			for (DrawingTreeNode<?, ?> node : getSelectedObjects()) {
 				if (node instanceof GeometricNode && node.getDrawable() instanceof NodeConstruction) {
-					System.out.println("Tiens, j'ai trouve " + node + " drawable=" + node.getDrawable());
 					selectedNodes.add((GeometricNode<?>) node);
 				}
 			}
