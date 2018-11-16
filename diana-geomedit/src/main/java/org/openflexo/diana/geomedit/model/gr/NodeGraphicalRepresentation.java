@@ -115,10 +115,10 @@ public interface NodeGraphicalRepresentation extends GeometricObjectGraphicalRep
 						DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 						setPoint(pt);
 
-						nodeConstruction.setX(pt.x);
-						nodeConstruction.setY(pt.y);
-						nodeConstruction.setWidth(-pt.x + initialPoint.x + initialWidth);
-						nodeConstruction.setHeight(-pt.y + initialPoint.y + initialHeight);
+						nodeConstruction.getShapeSpecification().setX(pt.x);
+						nodeConstruction.getShapeSpecification().setY(pt.y);
+						nodeConstruction.getShapeSpecification().setWidth(-pt.x + initialPoint.x + initialWidth);
+						nodeConstruction.getShapeSpecification().setHeight(-pt.y + initialPoint.y + initialHeight);
 						nodeConstruction.refresh();
 						nodeConstruction.notifyGeometryChanged();
 
@@ -163,8 +163,8 @@ public interface NodeGraphicalRepresentation extends GeometricObjectGraphicalRep
 						DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 						setPoint(pt);
 
-						nodeConstruction.setWidth(pt.x - initialPoint.x + initialWidth);
-						nodeConstruction.setHeight(pt.y - initialPoint.y + initialHeight);
+						nodeConstruction.getShapeSpecification().setWidth(pt.x - initialPoint.x + initialWidth);
+						nodeConstruction.getShapeSpecification().setHeight(pt.y - initialPoint.y + initialHeight);
 						nodeConstruction.refresh();
 						nodeConstruction.notifyGeometryChanged();
 
@@ -212,9 +212,9 @@ public interface NodeGraphicalRepresentation extends GeometricObjectGraphicalRep
 						DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 						setPoint(pt);
 
-						nodeConstruction.setY(pt.y);
-						nodeConstruction.setWidth(pt.x - initialPoint.x + initialWidth);
-						nodeConstruction.setHeight(-pt.y + initialPoint.y + initialHeight);
+						nodeConstruction.getShapeSpecification().setY(pt.y);
+						nodeConstruction.getShapeSpecification().setWidth(pt.x - initialPoint.x + initialWidth);
+						nodeConstruction.getShapeSpecification().setHeight(-pt.y + initialPoint.y + initialHeight);
 
 						nodeConstruction.refresh();
 						nodeConstruction.notifyGeometryChanged();
@@ -267,9 +267,9 @@ public interface NodeGraphicalRepresentation extends GeometricObjectGraphicalRep
 						DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 						setPoint(pt);
 
-						nodeConstruction.setX(pt.x);
-						nodeConstruction.setWidth(-pt.x + initialPoint.x + initialWidth);
-						nodeConstruction.setHeight(pt.y - initialPoint.y + initialHeight);
+						nodeConstruction.getShapeSpecification().setX(pt.x);
+						nodeConstruction.getShapeSpecification().setWidth(-pt.x + initialPoint.x + initialWidth);
+						nodeConstruction.getShapeSpecification().setHeight(pt.y - initialPoint.y + initialHeight);
 						nodeConstruction.refresh();
 						nodeConstruction.notifyGeometryChanged();
 

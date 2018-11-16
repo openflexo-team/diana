@@ -67,6 +67,14 @@ import org.openflexo.pamela.annotations.XMLElement;
 @Imports({ @Import(NodeWithTwoPointsConstruction.class) })
 public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 
+	@PropertyIdentifier(type = Double.class)
+	public static final String X_KEY = "x";
+	@PropertyIdentifier(type = Double.class)
+	public static final String Y_KEY = "y";
+	@PropertyIdentifier(type = Double.class)
+	public static final String WIDTH_KEY = "width";
+	@PropertyIdentifier(type = Double.class)
+	public static final String HEIGHT_KEY = "height";
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String IS_FILLED_KEY = "isFilled";
 	@PropertyIdentifier(type = ShapeSpecification.class)
@@ -76,19 +84,19 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 
 	public double getX();
 
-	public void setX(double value);
+	// public void setX(double value);
 
 	public double getY();
 
-	public void setY(double value);
+	// public void setY(double value);
 
 	public double getWidth();
 
-	public void setWidth(double value);
+	// public void setWidth(double value);
 
 	public double getHeight();
 
-	public void setHeight(double value);
+	// public void setHeight(double value);
 
 	public DianaShape<?> getShape();
 
@@ -207,56 +215,56 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 			return getShapeSpecification().getX();
 		}
 
-		@Override
+		/*@Override
 		public void setX(double value) {
 			if (value != getX()) {
 				getShapeSpecification().setX(value);
 				refresh();
 				notifyGeometryChanged();
 			}
-		}
+		}*/
 
 		@Override
 		public double getY() {
 			return getShapeSpecification().getY();
 		}
 
-		@Override
+		/*@Override
 		public void setY(double value) {
 			if (value != getY()) {
 				getShapeSpecification().setY(value);
 				refresh();
 				notifyGeometryChanged();
 			}
-		}
+		}*/
 
 		@Override
 		public double getWidth() {
 			return getShapeSpecification().getWidth();
 		}
 
-		@Override
+		/*@Override
 		public void setWidth(double value) {
 			if (value != getWidth()) {
 				getShapeSpecification().setWidth(value);
 				refresh();
 				notifyGeometryChanged();
 			}
-		}
+		}*/
 
 		@Override
 		public double getHeight() {
 			return getShapeSpecification().getHeight();
 		}
 
-		@Override
+		/*@Override
 		public void setHeight(double value) {
 			if (value != getHeight()) {
 				getShapeSpecification().setHeight(value);
 				refresh();
 				notifyGeometryChanged();
 			}
-		}
+		}*/
 
 		@Override
 		public void setShapeSpecification(ShapeSpecification aShapeSpecification) {
@@ -291,6 +299,15 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 			else {
 				super.propertyChange(evt);
 			}
+		}
+
+		@Override
+		public void notifyGeometryChanged() {
+			super.notifyGeometryChanged();
+			getPropertyChangeSupport().firePropertyChange(X_KEY, null, getX());
+			getPropertyChangeSupport().firePropertyChange(Y_KEY, null, getY());
+			getPropertyChangeSupport().firePropertyChange(WIDTH_KEY, null, getWidth());
+			getPropertyChangeSupport().firePropertyChange(HEIGHT_KEY, null, getHeight());
 		}
 	}
 }
