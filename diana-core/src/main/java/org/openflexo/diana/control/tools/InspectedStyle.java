@@ -172,7 +172,6 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	 */
 	public <T> void setPropertyValue(GRProperty<T> parameter, T value) {
 		T oldValue = getPropertyValue(parameter);
-		// System.out.println("Sets from " + oldValue + " to " + value);
 		if (requireChange(oldValue, value)) {
 			if (getSelection() == null || getSelection().size() == 0) {
 				if (defaultValue == null) {
@@ -185,7 +184,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 				CompoundEdit setValueEdit = startRecordEdit("Set " + parameter.getName() + " to " + value);
 				for (DrawingTreeNode<?, ?> n : getSelection()) {
 					S style = getStyle(n);
-					// System.out.println("For " + n + " use " + style + " and sets value of " + parameter.getName() + " with " + value);
+					//System.out.println("For " + n + " use " + style + " and sets value of " + parameter.getName() + " with " + value);
 					if (style != null) {
 						style.setObjectForKey(value, parameter.getName());
 					}

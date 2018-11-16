@@ -39,6 +39,8 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import java.beans.PropertyChangeEvent;
+
 import org.openflexo.diana.ShadowStyle;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
@@ -167,6 +169,7 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 
 		@Override
 		public void setShapeType(ShapeType shapeType) {
+			System.out.println("******** setShapeType with " + shapeType);
 			if (getShapeType() != shapeType) {
 				double oldX = getShapeSpecification().getX();
 				double oldY = getShapeSpecification().getY();
@@ -256,10 +259,38 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 		}
 
 		@Override
-		public void setShapeSpecification(ShapeSpecification aShape) {
-			performSuperSetter(SHAPE_SPECIFICATION_KEY, aShape);
-			refresh();
-			notifyGeometryChanged();
+		public void setShapeSpecification(ShapeSpecification aShapeSpecification) {
+			ShapeSpecification oldShapeSpecification = getShapeSpecification();
+			if (oldShapeSpecification != aShapeSpecification) {
+				_setShapeSpecificationNoNotification(aShapeSpecification);
+				refresh();
+				notifyGeometryChanged();
+			}
+		}
+
+		protected void _setShapeSpecificationNoNotification(ShapeSpecification aShapeSpecification) {
+			ShapeSpecification oldShapeSpecification = getShapeSpecification();
+			if (oldShapeSpecification != aShapeSpecification) {
+				if (oldShapeSpecification != null) {
+					oldShapeSpecification.getPropertyChangeSupport().removePropertyChangeListener(this);
+				}
+				performSuperSetter(SHAPE_SPECIFICATION_KEY, aShapeSpecification);
+				if (aShapeSpecification != null) {
+					aShapeSpecification.getPropertyChangeSupport().addPropertyChangeListener(this);
+					getPropertyChangeSupport().firePropertyChange("shapeType", null, getShapeType());
+				}
+			}
+		}
+
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			if (evt.getSource() == getShapeSpecification()) {
+				refresh();
+				notifyGeometryChanged();
+			}
+			else {
+				super.propertyChange(evt);
+			}
 		}
 	}
 }

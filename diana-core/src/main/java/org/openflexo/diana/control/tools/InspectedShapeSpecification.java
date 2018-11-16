@@ -61,6 +61,10 @@ public class InspectedShapeSpecification extends InspectedStyleUsingFactory<Shap
 		super(controller, new ShapeSpecificationFactory(controller));
 	}
 
+	public InspectedShapeSpecification(DianaInteractiveViewer<?, ?, ?> controller, ShapeSpecificationFactory factory) {
+		super(controller, factory);
+	}
+
 	@Override
 	public List<? extends DrawingTreeNode<?, ?>> getSelection() {
 		return getController().getSelectedShapes();

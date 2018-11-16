@@ -305,7 +305,8 @@ public abstract class DianaObjectImpl implements DianaObject {
 				try {
 					return entity.getImplementedInterface().getSimpleName() + index
 							+ (entity.getImplementingClass() != null ? "[" + entity.getImplementingClass().getSimpleName() + "]" : "");
-				} catch (ModelDefinitionException e) {}
+				} catch (ModelDefinitionException e) {
+				}
 			}
 		}
 		return super.toString();

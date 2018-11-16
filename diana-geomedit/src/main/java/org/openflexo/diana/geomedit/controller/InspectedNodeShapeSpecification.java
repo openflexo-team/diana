@@ -58,7 +58,7 @@ import org.openflexo.pamela.undo.CompoundEdit;
 public class InspectedNodeShapeSpecification extends InspectedShapeSpecification {
 
 	public InspectedNodeShapeSpecification(GeomEditDrawingController controller) {
-		super(controller);
+		super(controller, new NodeShapeSpecificationFactory(controller));
 	}
 
 	@Override
@@ -89,24 +89,39 @@ public class InspectedNodeShapeSpecification extends InspectedShapeSpecification
 
 	@Override
 	protected void applyNewStyle(ShapeType newShapeType, DrawingTreeNode<?, ?> node) {
-		GeometricNode<?> n = (GeometricNode<?>) node;
+		// GeometricNode<?> n = (GeometricNode<?>) node;
 		NodeConstruction construction = (NodeConstruction) node.getDrawable();
 		ShapeSpecification oldShapeSpecification = construction.getShapeSpecification();
 		CompoundEdit setValueEdit = startRecordEdit("Set ShapeType to " + newShapeType);
 		ShapeSpecification newShapeSpecification = getStyleFactory().makeNewStyle(oldShapeSpecification);
+		newShapeSpecification.setX(oldShapeSpecification.getX());
+		newShapeSpecification.setY(oldShapeSpecification.getY());
+		newShapeSpecification.setWidth(oldShapeSpecification.getWidth());
+		newShapeSpecification.setHeight(oldShapeSpecification.getHeight());
 		construction.setShapeSpecification(newShapeSpecification);
 		// n.getPropertyChangeSupport().firePropertyChange(ShapeGraphicalRepresentation.BACKGROUND_STYLE_TYPE_KEY,
 		// oldShapeSpecification.getShapeType(), newShapeType);
 		stopRecordEdit(setValueEdit);
 	}
 
-	@Override
+	/*@Override
 	public void fireSelectionUpdated() {
 		super.fireSelectionUpdated();
-
+	
 		// Tricky code here: we detect the selection change to notify the factory of the potential change of "isSingleSelection" property
 		getStyleFactory().getPropertyChangeSupport().firePropertyChange("isSingleSelection", !getStyleFactory().isSingleSelection(),
 				getStyleFactory().isSingleSelection());
-	}
+	}*/
 
+	/*@Override
+	protected <T> void fireChangedProperty(GRProperty<T> parameter) {
+		super.fireChangedProperty(parameter);
+		System.out.println("Ca change: " + parameter);
+	}
+	
+	@Override
+	public <T> void setPropertyValue(GRProperty<T> parameter, T value) {
+		System.out.println("setPropertyValue: " + parameter + " value " + value);
+		super.setPropertyValue(parameter, value);
+	}*/
 }

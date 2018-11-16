@@ -269,7 +269,18 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 	}
 
 	public boolean isSingleSelection() {
-		return getController().getSelectedShapes().size() == 1;
+		return getSelection().size() == 1;
+	}
+
+	public List<? extends DrawingTreeNode<?, ?>> getSelection() {
+		return getController().getSelectedShapes();
+	}
+
+	public ShapeSpecification getStyle(final DrawingTreeNode<?, ?> node) {
+		if (node instanceof ShapeNode) {
+			return ((ShapeNode<?>) node).getShapeSpecification();
+		}
+		return null;
 	}
 
 	@Override
@@ -318,8 +329,13 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 		}
 
 		@Override
-		public List<ShapeNode<?>> getSelection() {
-			return this.getController().getSelectedShapes();
+		public final List<? extends DrawingTreeNode<?, ?>> getSelection() {
+			return ShapeSpecificationFactory.this.getSelection();
+		}
+
+		@Override
+		public final SS getStyle(final DrawingTreeNode<?, ?> node) {
+			return (SS) ShapeSpecificationFactory.this.getStyle(node);
 		}
 
 		@Override
@@ -445,7 +461,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			this.setPropertyValue(Rectangle.IS_ROUNDED, aFlag);
 		}
 
-		@Override
+		/*@Override
 		public SS getStyle(final DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Rectangle) {
@@ -453,7 +469,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
-		}
+		}*/
 
 	}
 
@@ -473,7 +489,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return ShapeType.SQUARE;
 		}
 
-		@Override
+		/*@Override
 		public Square getStyle(final DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Square) {
@@ -481,7 +497,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
-		}
+		}*/
 
 	}
 
@@ -574,7 +590,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return new DianaPolygon(Filling.FILLED, this.getPoints());
 		}
 
-		@Override
+		/*@Override
 		public SS getStyle(final DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Polygon) {
@@ -582,7 +598,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
-		}
+		}*/
 
 		public void geometryChanged() {
 			notifyChange(POINTS);
@@ -653,7 +669,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return new DianaComplexCurve(this.getClosure(), this.getPoints());
 		}
 
-		@Override
+		/*@Override
 		public ComplexCurve getStyle(final DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof ComplexCurve) {
@@ -661,7 +677,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
-		}
+		}*/
 
 	}
 
@@ -727,7 +743,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return new DianaGeneralShape(Closure.CLOSED_FILLED);
 		}
 
-		@Override
+		/*@Override
 		public SS getStyle(final DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof GeneralShape) {
@@ -735,7 +751,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
-		}
+		}*/
 
 		public void geometryChanged() {
 			notifyChange(PATH_ELEMENTS);
@@ -773,7 +789,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return ShapeType.POLYGON;
 		}
 
-		@Override
+		/*@Override
 		public SS getStyle(final DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof RegularPolygon) {
@@ -781,7 +797,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
-		}
+		}*/
 
 		@Override
 		public DianaShape<?> makeNormalizedDianaShape(final DianaRectangle bounds) {
@@ -805,7 +821,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return ShapeType.RECTANGULAROCTOGON;
 		}
 
-		@Override
+		/*@Override
 		public RectangularOctogon getStyle(final DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof RectangularOctogon) {
@@ -813,7 +829,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
-		}
+		}*/
 
 		@Override
 		public double getRatio() {
@@ -858,7 +874,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return ShapeType.LOSANGE;
 		}
 
-		@Override
+		/*@Override
 		public Losange getStyle(final DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Losange) {
@@ -866,7 +882,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
-		}
+		}*/
 
 	}
 
@@ -881,7 +897,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return ShapeType.TRIANGLE;
 		}
 
-		@Override
+		/*@Override
 		public Triangle getStyle(final DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Triangle) {
@@ -889,7 +905,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
-		}
+		}*/
 
 	}
 
@@ -914,7 +930,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return new DianaEllips(0, 0, 1, 1, Filling.FILLED);
 		}
 
-		@Override
+		/*@Override
 		public SS getStyle(final DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Oval) {
@@ -922,7 +938,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
-		}
+		}*/
 
 	}
 
@@ -942,7 +958,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return ShapeType.CIRCLE;
 		}
 
-		@Override
+		/*@Override
 		public Circle getStyle(final DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Circle) {
@@ -950,7 +966,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
-		}
+		}*/
 
 	}
 
@@ -1005,7 +1021,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			this.setPropertyValue(Arc.ARC_TYPE, anArcType);
 		}
 
-		@Override
+		/*@Override
 		public Arc getStyle(final DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Arc) {
@@ -1013,7 +1029,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
-		}
+		}*/
 
 	}
 
@@ -1078,7 +1094,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			this.setPropertyValue(Star.RATIO, aRatio);
 		}
 
-		@Override
+		/*@Override
 		public Star getStyle(final DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Star) {
@@ -1086,7 +1102,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
-		}
+		}*/
 	}
 
 	protected class InspectedPlus extends AbstractInspectedShapeSpecification<Plus> implements Plus {
@@ -1100,7 +1116,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return ShapeType.PLUS;
 		}
 
-		@Override
+		/*@Override
 		public Plus getStyle(final DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Plus) {
@@ -1108,7 +1124,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
-		}
+		}*/
 
 		@Override
 		public double getRatio() {
@@ -1155,7 +1171,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return ShapeType.CHEVRON;
 		}
 
-		@Override
+		/*@Override
 		public Chevron getStyle(final DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Chevron) {
@@ -1163,7 +1179,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
-		}
+		}*/
 
 		@Override
 		public double getArrowLength() {
@@ -1204,7 +1220,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return ShapeType.PARALLELOGRAM;
 		}
 
-		@Override
+		/*@Override
 		public Parallelogram getStyle(final DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof Parallelogram) {
@@ -1212,7 +1228,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
-		}
+		}*/
 
 		@Override
 		public double getShiftRatio() {
@@ -1291,7 +1307,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 			return new DianaShapeUnion();
 		}
 
-		@Override
+		/*@Override
 		public ShapeUnion getStyle(final DrawingTreeNode<?, ?> node) {
 			if (node instanceof ShapeNode) {
 				if (((ShapeNode<?>) node).getShapeSpecification() instanceof ShapeUnion) {
@@ -1299,7 +1315,7 @@ public class ShapeSpecificationFactory implements StyleFactory<ShapeSpecificatio
 				}
 			}
 			return null;
-		}
+		}*/
 
 		public void geometryChanged() {
 			notifyChange(SHAPES);

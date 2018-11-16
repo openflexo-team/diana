@@ -45,6 +45,7 @@ import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geomedit.model.NodeWithTwoPointsConstruction.NodeWithTwoPointsConstructionImpl;
+import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
@@ -93,21 +94,20 @@ public interface NodeWithTwoPointsConstruction extends NodeConstruction {
 				DianaDimension dim = new DianaDimension(width, height);
 
 				if (getShapeSpecification() == null) {
-					setShapeSpecification(getFactory().makeShape(getShapeType()));
+					ShapeSpecification shapeSpecification = getFactory().makeShape(getShapeType());
+					shapeSpecification.setX(p.x);
+					shapeSpecification.setY(p.y);
+					shapeSpecification.setWidth(width);
+					shapeSpecification.setHeight(height);
+					_setShapeSpecificationNoNotification(shapeSpecification);
 				}
 
-				System.out.println("On se construit une nouvelle shape pour " + getShapeSpecification());
-				System.out.println("avec " + p + " et " + dim);
-				System.out.println("gr=" + getGraphicalRepresentation());
-
-				DianaShape<?> returned = getShapeSpecification()
-						.makeDianaShape(new DianaRectangle(p, dim, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED));
 				getShapeSpecification().setX(p.x);
 				getShapeSpecification().setY(p.y);
 				getShapeSpecification().setWidth(width);
 				getShapeSpecification().setHeight(height);
-
-				System.out.println("On retourne " + returned);
+				DianaShape<?> returned = getShapeSpecification()
+						.makeDianaShape(new DianaRectangle(p, dim, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED));
 
 				/*if (getGraphicalRepresentation() != null) {
 					getGraphicalRepresentation().setGeometricObject(returned);
