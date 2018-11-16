@@ -44,74 +44,58 @@ import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
-import org.openflexo.diana.geomedit.model.NodeWithTwoPointsConstruction.NodeWithTwoPointsConstructionImpl;
-import org.openflexo.diana.geomedit.model.gr.NodeWithTwoPointsGraphicalRepresentation;
+import org.openflexo.diana.geomedit.model.NodeWithCenterAndDimensionConstruction.NodeWithCenterAndDimensionImpl;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLAttribute;
 import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
-@ImplementationClass(NodeWithTwoPointsConstructionImpl.class)
+@ImplementationClass(NodeWithCenterAndDimensionImpl.class)
 @XMLElement
-public interface NodeWithTwoPointsConstruction extends NodeConstruction {
+public interface NodeWithCenterAndDimensionConstruction extends NodeConstruction {
 
 	@PropertyIdentifier(type = PointConstruction.class)
-	public static final String POINT_CONSTRUCTION_1_KEY = "pointConstruction1";
-	@PropertyIdentifier(type = PointConstruction.class)
-	public static final String POINT_CONSTRUCTION_2_KEY = "pointConstruction2";
+	public static final String CENTER_CONSTRUCTION_KEY = "centerConstruction";
 
-	@Getter(value = POINT_CONSTRUCTION_1_KEY)
-	@XMLElement(context = "P1_")
-	public PointConstruction getPointConstruction1();
+	@Getter(value = CENTER_CONSTRUCTION_KEY)
+	@XMLElement
+	public PointConstruction getCenterConstruction();
 
-	@Setter(value = POINT_CONSTRUCTION_1_KEY)
-	public void setPointConstruction1(PointConstruction pointConstruction1);
+	@Setter(value = CENTER_CONSTRUCTION_KEY)
+	public void setCenterConstruction(PointConstruction pointConstruction);
 
-	@Getter(value = POINT_CONSTRUCTION_2_KEY)
-	@XMLElement(context = "P2_")
-	public PointConstruction getPointConstruction2();
+	@Override
+	@Getter(value = WIDTH_KEY, defaultValue = "20.0")
+	@XMLAttribute
+	public double getWidth();
 
-	@Setter(value = POINT_CONSTRUCTION_2_KEY)
-	public void setPointConstruction2(PointConstruction pointConstruction2);
+	@Setter(WIDTH_KEY)
+	public void setWidth(double value);
 
-	public static abstract class NodeWithTwoPointsConstructionImpl extends NodeConstructionImpl implements NodeWithTwoPointsConstruction {
+	@Override
+	@Getter(value = HEIGHT_KEY, defaultValue = "20.0")
+	@XMLAttribute
+	public double getHeight();
 
-		@Override
-		public double getX() {
-			return getShapeSpecification().getX();
-		}
+	@Setter(HEIGHT_KEY)
+	public void setHeight(double value);
 
-		@Override
-		public double getY() {
-			return getShapeSpecification().getY();
-		}
-
-		@Override
-		public double getWidth() {
-			return getShapeSpecification().getWidth();
-		}
-
-		@Override
-		public double getHeight() {
-			return getShapeSpecification().getHeight();
-		}
+	public static abstract class NodeWithCenterAndDimensionImpl extends NodeConstructionImpl
+			implements NodeWithCenterAndDimensionConstruction {
 
 		@Override
 		protected DianaShape<?> computeData() {
-			if (getPointConstruction1() != null && getPointConstruction2() != null && getFactory() != null) {
-				DianaPoint p1 = getPointConstruction1().getPoint();
-				DianaPoint p2 = getPointConstruction2().getPoint();
+			if (getCenterConstruction() != null && getFactory() != null) {
+				DianaPoint center = getCenterConstruction().getPoint();
 
-				DianaPoint p = new DianaPoint();
-				p.x = Math.min(p1.x, p2.x);
-				p.y = Math.min(p1.y, p2.y);
-
-				double width = Math.abs(p1.x - p2.x);
-				double height = Math.abs(p1.y - p2.y);
+				double width = getWidth();
+				double height = getHeight();
+				DianaPoint p = new DianaPoint(center.x - width / 2, center.y - width / 2);
 				DianaDimension dim = new DianaDimension(width, height);
 
 				if (getShapeSpecification() == null) {
@@ -130,9 +114,6 @@ public interface NodeWithTwoPointsConstruction extends NodeConstruction {
 				DianaShape<?> returned = getShapeSpecification()
 						.makeDianaShape(new DianaRectangle(p, dim, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED));
 
-				/*if (getGraphicalRepresentation() != null) {
-					getGraphicalRepresentation().setGeometricObject(returned);
-				}*/
 				return returned;
 			}
 
@@ -141,20 +122,41 @@ public interface NodeWithTwoPointsConstruction extends NodeConstruction {
 
 		@Override
 		public String toString() {
-			return "NodeWithTwoPointsConstruction[\n" + "> " + getPointConstruction1().toString() + "\n> "
-					+ getPointConstruction2().toString() + "\n]";
+			return "NodeWithCenterAndDimension[" + getCenterConstruction().toString() + "] width=" + getWidth() + " height=" + getHeight();
 		}
 
 		@Override
 		public GeometricConstruction[] getDepends() {
-			GeometricConstruction[] returned = { getPointConstruction1(), getPointConstruction2() };
+			GeometricConstruction[] returned = { getCenterConstruction() };
 			return returned;
 		}
 
 		@Override
-		public NodeWithTwoPointsGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
-			NodeWithTwoPointsGraphicalRepresentation returned = factory.newInstance(NodeWithTwoPointsGraphicalRepresentation.class);
-			return returned;
+		public double getX() {
+			return getShapeSpecification().getX();
+		}
+
+		@Override
+		public double getY() {
+			return getShapeSpecification().getY();
+		}
+
+		@Override
+		public void setWidth(double width) {
+			if (width != getWidth()) {
+				performSuperSetter(WIDTH_KEY, width);
+				refresh();
+				notifyGeometryChanged();
+			}
+		}
+
+		@Override
+		public void setHeight(double height) {
+			if (height != getHeight()) {
+				performSuperSetter(HEIGHT_KEY, height);
+				refresh();
+				notifyGeometryChanged();
+			}
 		}
 
 	}

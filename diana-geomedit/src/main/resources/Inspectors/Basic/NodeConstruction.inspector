@@ -8,42 +8,14 @@
 			darkLevel="0" index="0" font="SansSerif,0,11" useScrollBar="true"
 			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
 			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="BasicTab">
-		    <Label label="shape_type" index="4"
+		    <Label label="shape_type" index="8"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;location=left)"
 				localize="true" />
-			<DropDown index="5" data="data.shapeType"
+			<DropDown index="9" data="data.shapeType"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
 				width="150" name="ShapeTypeDD" format="object.name" localize="true"
 				iteratorClassName="org.openflexo.diana.shapes.ShapeSpecification$ShapeType"
 				autoSelectFirstRow="false" />
-			<Label label="x" index="10"
-				constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;location=left)"
-				localize="true" />
-			<Number minValue="-Infinity" maxValue="Infinity" increment="1.0"
-				numberType="DoubleType" index="11" data="data.x" readOnly="true"
-				constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;location=right)"
-				localize="true" />
-			<Label label="y" index="12"
-				constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;location=left)"
-				localize="true" />
-			<Number minValue="-Infinity" maxValue="Infinity" increment="1.0"
-				numberType="DoubleType" index="13" data="data.y" readOnly="true"
-				constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;location=right)"
-				localize="true" />
-			<Label label="width" index="14"
-				constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;location=left)"
-				localize="true" />
-			<Number minValue="-Infinity" maxValue="Infinity" increment="1.0"
-				numberType="DoubleType" index="15" data="data.width" readOnly="true"
-				constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;location=right)"
-				localize="true" />
-			<Label label="height" index="16"
-				constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;location=left)"
-				localize="true" />
-			<Number minValue="-Infinity" maxValue="Infinity" increment="1.0"
-				numberType="DoubleType" index="17" data="data.height" readOnly="true"
-				constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;location=right)"
-				localize="true" />cx
 			<Label label="filled" index="18"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;location=left)"
 				localize="true" />
@@ -58,5 +30,5 @@
 	</TabPanel>
 	<LocalizedDictionary>
 	</LocalizedDictionary>
-	<Parameter name="title" value="RectangleConstruction" />
+	<Parameter name="title" value="NodeConstruction" />
 </Panel>

@@ -291,6 +291,16 @@ public class GeometricConstructionFactory extends DianaModelFactoryImpl {
 		return returned;
 	}
 
+	public NodeWithCenterAndDimensionConstruction makeNodeWithCenterAndDimensionConstruction(PointConstruction centerConstruction,
+			double width, double height) {
+		NodeWithCenterAndDimensionConstruction returned = newInstance(NodeWithCenterAndDimensionConstruction.class);
+		returned.setFactory(this);
+		returned.setCenterConstruction(centerConstruction);
+		returned.setWidth(width);
+		returned.setHeight(height);
+		return returned;
+	}
+
 	public RectangleWithTwoPointsConstruction makeRectangleWithTwoPointsConstruction(PointConstruction pointConstruction1,
 			PointConstruction pointConstruction2) {
 		RectangleWithTwoPointsConstruction returned = newInstance(RectangleWithTwoPointsConstruction.class);

@@ -63,7 +63,7 @@ import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(NodeConstructionImpl.class)
-@Imports({ @Import(NodeWithTwoPointsConstruction.class) })
+@Imports({ @Import(NodeWithTwoPointsConstruction.class), @Import(NodeWithCenterAndDimensionConstruction.class) })
 public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 
 	@PropertyIdentifier(type = Double.class)
@@ -208,62 +208,6 @@ public interface NodeConstruction extends GeometricConstruction<DianaShape<?>> {
 		public void setFactory(GeometricConstructionFactory factory) {
 			this.factory = factory;
 		}
-
-		@Override
-		public double getX() {
-			return getShapeSpecification().getX();
-		}
-
-		/*@Override
-		public void setX(double value) {
-			if (value != getX()) {
-				getShapeSpecification().setX(value);
-				refresh();
-				notifyGeometryChanged();
-			}
-		}*/
-
-		@Override
-		public double getY() {
-			return getShapeSpecification().getY();
-		}
-
-		/*@Override
-		public void setY(double value) {
-			if (value != getY()) {
-				getShapeSpecification().setY(value);
-				refresh();
-				notifyGeometryChanged();
-			}
-		}*/
-
-		@Override
-		public double getWidth() {
-			return getShapeSpecification().getWidth();
-		}
-
-		/*@Override
-		public void setWidth(double value) {
-			if (value != getWidth()) {
-				getShapeSpecification().setWidth(value);
-				refresh();
-				notifyGeometryChanged();
-			}
-		}*/
-
-		@Override
-		public double getHeight() {
-			return getShapeSpecification().getHeight();
-		}
-
-		/*@Override
-		public void setHeight(double value) {
-			if (value != getHeight()) {
-				getShapeSpecification().setHeight(value);
-				refresh();
-				notifyGeometryChanged();
-			}
-		}*/
 
 		@Override
 		public void setShapeSpecification(ShapeSpecification aShapeSpecification) {
