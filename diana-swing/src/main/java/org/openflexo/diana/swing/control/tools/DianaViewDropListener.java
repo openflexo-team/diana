@@ -200,7 +200,9 @@ public class DianaViewDropListener implements DropTargetListener {
 
 	@Override
 	public void dragExit(DropTargetEvent e) {
-		currentFlavor.fireDragExit(e);
+		if (currentFlavor != null) {
+			currentFlavor.fireDragExit(e);
+		}
 	}
 
 	/**
