@@ -215,6 +215,9 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		setDrawShapeToolOption(DrawShapeToolOption.DrawRectangle);
 		setDrawCustomShapeToolOption(DrawCustomShapeToolOption.DrawPolygon);
 		setDrawConnectorToolOption(DrawConnectorToolOption.DrawLine);
+
+		// IMPORTANT: activate Drag&Drop for DianaInteractiveEditor !!!
+		getDrawingView().activateDragAndDrop();
 	}
 
 	@Override

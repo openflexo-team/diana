@@ -52,7 +52,6 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.dnd.Autoscroll;
-import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
@@ -1076,13 +1075,14 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 		// A palette is registered, listen to drag'n'drop events
 		if (aPalette instanceof JDianaPalette) {
 			activePalette = (JDianaPalette) aPalette;
-			logger.fine("Registering drop target");
-			setDropTarget(new DropTarget(this, DnDConstants.ACTION_COPY, activePalette.buildPaletteDropListener(this, controller), true));
+			// logger.fine("Registering drop target");
+			/*setDropTarget(new DropTarget(this, DnDConstants.ACTION_COPY, activePalette.buildPaletteDropListener(this, controller), true));
 			for (DianaView<?, ?> v : controller.getContents().values()) {
 				if (v != this) {
 					v.activatePalette(aPalette);
+					// ici on active pour toutes les vues
 				}
-			}
+			}*/
 		}
 		else {
 			logger.warning("Unexpected palette: " + aPalette);

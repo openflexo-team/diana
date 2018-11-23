@@ -45,6 +45,7 @@ import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.actions.RectangleSelectingAction;
+import org.openflexo.diana.control.tools.DianaPalette;
 import org.openflexo.diana.graphics.DianaDrawingGraphics;
 
 public interface DrawingView<M, C> extends DianaContainerView<M, C> {
@@ -75,4 +76,5 @@ public interface DrawingView<M, C> extends DianaContainerView<M, C> {
 	@Override
 	public DianaDrawingGraphics getDianaGraphics();
 
+	public void activatePalette(DianaPalette<?, ?> aPalette);
 }

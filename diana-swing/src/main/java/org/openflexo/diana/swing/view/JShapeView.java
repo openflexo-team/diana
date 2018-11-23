@@ -47,8 +47,6 @@ import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Transparency;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
@@ -68,7 +66,6 @@ import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaInteractiveViewer;
-import org.openflexo.diana.control.tools.DianaPalette;
 import org.openflexo.diana.impl.GraphNodeImpl;
 import org.openflexo.diana.notifications.ControlAreasChange;
 import org.openflexo.diana.notifications.NodeAdded;
@@ -83,7 +80,6 @@ import org.openflexo.diana.notifications.ObjectWillResize;
 import org.openflexo.diana.notifications.ShapeChanged;
 import org.openflexo.diana.notifications.ShapeNeedsToBeRedrawn;
 import org.openflexo.diana.swing.SwingViewFactory;
-import org.openflexo.diana.swing.control.tools.JDianaPalette;
 import org.openflexo.diana.swing.graphics.DrawUtils;
 import org.openflexo.diana.swing.graphics.JDianaShapeGraphics;
 import org.openflexo.diana.swing.paint.DianaPaintManager;
@@ -605,16 +601,6 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 	@Override
 	public JLabelView<O> getLabelView() {
 		return labelView;
-	}
-
-	@Override
-	public void activatePalette(DianaPalette<?, ?> aPalette) {
-		if (aPalette instanceof JDianaPalette) {
-			// A palette is registered, listen to drag'n'drop events
-			setDropTarget(new DropTarget(this, DnDConstants.ACTION_COPY,
-					((JDianaPalette) aPalette).buildPaletteDropListener(this, controller), true));
-		}
-
 	}
 
 	@Override

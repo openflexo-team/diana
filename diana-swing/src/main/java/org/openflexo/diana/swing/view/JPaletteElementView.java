@@ -280,7 +280,8 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 		@Override
 		public void dragOver(DragSourceDragEvent e) {
 			// interface
-			getController().getPalette().setDragSourceContext(e.getDragSourceContext());
+			getController().setDragSourceContext(e.getDragSourceContext());
+			// getController().getPalette().setDragSourceContext(e.getDragSourceContext());
 		}
 
 		/**

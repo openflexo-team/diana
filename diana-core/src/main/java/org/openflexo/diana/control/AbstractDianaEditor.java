@@ -38,6 +38,7 @@
 
 package org.openflexo.diana.control;
 
+import java.awt.dnd.DragSourceContext;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -109,6 +110,9 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 	protected Map<DrawingTreeNode<?, ?>, DianaView<?, ? extends C>> contents;
 
 	private final PropertyChangeSupport pcSupport;
+
+	// Stores dragSourceContext for drag and drop operation currently performed in this DianaEditor
+	private DragSourceContext dragSourceContext;
 
 	public AbstractDianaEditor(Drawing<M> aDrawing, DianaModelFactory factory, F dianaFactory, DianaToolFactory<C> toolFactory) {
 		super();
@@ -340,6 +344,24 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 
 	public void notifyObservers(ControlNotification notification) {
 		getPropertyChangeSupport().firePropertyChange(notification.eventName(), notification.oldValue, notification.newValue);
+	}
+
+	/**
+	 * Returns dragSourceContext for drag and drop operation currently performed in this DianaEditor
+	 * 
+	 * @return
+	 */
+	public DragSourceContext getDragSourceContext() {
+		return dragSourceContext;
+	}
+
+	/**
+	 * Sets dragSourceContext for drag and drop operation currently performed in this DianaEditor
+	 * 
+	 * @param dragSourceContext
+	 */
+	public void setDragSourceContext(DragSourceContext dragSourceContext) {
+		this.dragSourceContext = dragSourceContext;
 	}
 
 }

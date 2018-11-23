@@ -39,12 +39,13 @@
 
 package org.openflexo.diana.view;
 
+import java.awt.dnd.DropTarget;
 import java.beans.PropertyChangeListener;
 
 import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.control.AbstractDianaEditor;
-import org.openflexo.diana.control.tools.DianaPalette;
+import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.graphics.DianaGraphics;
 
 /**
@@ -63,14 +64,39 @@ import org.openflexo.diana.graphics.DianaGraphics;
  */
 public interface DianaView<O, C> extends PropertyChangeListener, DianaConstants {
 
+	/**
+	 * Return the {@link DianaEditor} in the context where this {@link DianaView} is defined
+	 * 
+	 * @return
+	 */
 	public AbstractDianaEditor<?, ?, ? super C> getController();
 
+	/**
+	 * Return the {@link DrawingTreeNode} this view represents
+	 * 
+	 * @return
+	 */
 	public DrawingTreeNode<O, ?> getNode();
 
+	/**
+	 * Return the root view of the context where this view is defined
+	 * 
+	 * @return
+	 */
 	public DrawingView<?, ?> getDrawingView();
 
+	/**
+	 * Return parent view for this view (containment semantics)
+	 * 
+	 * @return
+	 */
 	public DianaContainerView<?, ?> getParentView();
 
+	/**
+	 * Return object actually represented by this view
+	 * 
+	 * @return
+	 */
 	public O getDrawable();
 
 	/**
@@ -80,16 +106,54 @@ public interface DianaView<O, C> extends PropertyChangeListener, DianaConstants 
 	 */
 	public DianaGraphics getDianaGraphics();
 
+	/**
+	 * Return scale this view is beeing represented
+	 * 
+	 * @return
+	 */
 	public double getScale();
 
+	/**
+	 * Called to rescale the view
+	 */
 	public void rescale();
 
-	public void activatePalette(DianaPalette<?, ?> aPalette);
+	/**
+	 * Activate Drag&Drop for this {@link DianaView} if not already activated
+	 * 
+	 * @return
+	 */
+	public DropTarget activateDragAndDrop();
 
+	/**
+	 * Desactivate Drag&Drop for this {@link DianaView} when activated
+	 * 
+	 * @return
+	 */
+	public DropTarget disactivateDragAndDrop();
+
+	/**
+	 * Return boolean indicating if drag&drop has been activated for this view
+	 * 
+	 * @return
+	 */
+	public boolean isDragAndDropActivated();
+
+	/**
+	 * Delete this view
+	 */
 	public void delete();
 
+	/**
+	 * Indicates if the view is deleted
+	 * 
+	 * @return
+	 */
 	public boolean isDeleted();
 
+	/**
+	 * Called to stop label edition
+	 */
 	public void stopLabelEdition();
 
 }

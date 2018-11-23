@@ -36,13 +36,12 @@
  * 
  */
 
-
 package org.openflexo.diana.swing;
 
 import javax.swing.JComponent;
 
-import org.openflexo.diana.Drawing;
 import org.openflexo.diana.DianaModelFactory;
+import org.openflexo.diana.Drawing;
 import org.openflexo.diana.control.DianaInteractiveEditor;
 import org.openflexo.diana.swing.control.SwingToolFactory;
 import org.openflexo.diana.swing.view.JDrawingView;
@@ -63,7 +62,8 @@ public class JDianaInteractiveEditor<M> extends DianaInteractiveEditor<M, SwingV
 		setDelegate(new SwingEditorDelegate(this));
 	}
 
-	public JDianaInteractiveEditor(Drawing<M> aDrawing, DianaModelFactory factory, SwingViewFactory viewFactory, SwingToolFactory toolFactory) {
+	public JDianaInteractiveEditor(Drawing<M> aDrawing, DianaModelFactory factory, SwingViewFactory viewFactory,
+			SwingToolFactory toolFactory) {
 		super(aDrawing, factory, viewFactory, toolFactory);
 		setDelegate(new SwingEditorDelegate(this));
 	}

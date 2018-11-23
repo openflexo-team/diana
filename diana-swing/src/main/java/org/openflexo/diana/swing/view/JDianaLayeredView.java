@@ -41,6 +41,8 @@ package org.openflexo.diana.swing.view;
 
 import java.awt.Component;
 import java.awt.Graphics2D;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -56,6 +58,7 @@ import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.graphics.DianaGraphics;
+import org.openflexo.diana.swing.control.tools.DianaViewDropListener;
 import org.openflexo.diana.swing.graphics.DrawUtils;
 import org.openflexo.diana.swing.graphics.JDianaGraphics;
 import org.openflexo.diana.swing.paint.DianaPaintManager;
@@ -146,6 +149,9 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane
 			// logger.info("add the view");
 			add(((JShapeView<?>) view), ((JShapeView<?>) view).getLayer(), -1);
 			childViews.add((JShapeView<?>) view);
+			if (isDragAndDropActivated()) {
+				view.activateDragAndDrop();
+			}
 		}
 		else if (view instanceof JConnectorView) {
 			((JConnectorView<?>) view).setBackground(getBackground());
@@ -154,6 +160,9 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane
 			}
 			add(((JConnectorView<?>) view), ((JConnectorView<?>) view).getLayer(), -1);
 			childViews.add((JConnectorView<?>) view);
+			if (isDragAndDropActivated()) {
+				view.activateDragAndDrop();
+			}
 		}
 	}
 
@@ -164,6 +173,7 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane
 			if (((JShapeView<?>) view).getLabelView() != null) {
 				remove(((JShapeView<?>) view).getLabelView());
 			}
+			view.disactivateDragAndDrop();
 			remove(((JShapeView<?>) view));
 			childViews.remove(view);
 		}
@@ -171,6 +181,7 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane
 			if (((JConnectorView<?>) view).getLabelView() != null) {
 				remove(((JConnectorView<?>) view).getLabelView());
 			}
+			view.disactivateDragAndDrop();
 			remove(((JConnectorView<?>) view));
 			childViews.remove(view);
 		}
@@ -282,6 +293,62 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane
 		DrawUtils.turnOnAntiAlising(g2);
 		DrawUtils.setRenderQuality(g2);
 		DrawUtils.setColorRenderQuality(g2);
+	}
+
+	// The registered dropListener for this view, working with the DropTarget
+	private DianaViewDropListener dropListener;
+
+	/**
+	 * Activate Drag&Drop for this {@link DianaView} if not already activated
+	 * 
+	 * @return
+	 */
+	@Override
+	public DropTarget activateDragAndDrop() {
+		if (!isDragAndDropActivated()) {
+			dropListener = new DianaViewDropListener(this, getController());
+			setDropTarget(new DropTarget(this, DnDConstants.ACTION_COPY | DnDConstants.ACTION_MOVE, dropListener, true));
+		}
+		if (!getDropTarget().isActive()) {
+			getDropTarget().setActive(true);
+		}
+
+		for (DianaView<?, ? extends JComponent> childView : getChildViews()) {
+			childView.activateDragAndDrop();
+		}
+
+		return getDropTarget();
+	}
+
+	/**
+	 * Desactivate Drag&Drop for this {@link DianaView} when activated
+	 * 
+	 * @return
+	 */
+	@Override
+	public DropTarget disactivateDragAndDrop() {
+		if (isDragAndDropActivated()) {
+			DropTarget returned = getDropTarget();
+			returned.setActive(false);
+			setDropTarget(null);
+			dropListener.delete();
+			dropListener = null;
+			for (DianaView<?, ? extends JComponent> childView : getChildViews()) {
+				childView.disactivateDragAndDrop();
+			}
+			return returned;
+		}
+		return null;
+	}
+
+	/**
+	 * Return boolean indicating if drag&drop has been activated for this view
+	 * 
+	 * @return
+	 */
+	@Override
+	public boolean isDragAndDropActivated() {
+		return getDropTarget() != null;
 	}
 
 }

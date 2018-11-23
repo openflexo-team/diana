@@ -46,6 +46,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.dnd.DropTarget;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -90,7 +91,6 @@ import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.TextStyle;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaInteractiveViewer;
-import org.openflexo.diana.control.tools.DianaPalette;
 import org.openflexo.diana.notifications.LabelHasMoved;
 import org.openflexo.diana.notifications.LabelWillMove;
 import org.openflexo.diana.notifications.NodeDeleted;
@@ -843,11 +843,6 @@ public class JLabelView<O> extends JScrollPane implements JDianaView<O, JPanel>,
 	}
 
 	@Override
-	public void activatePalette(DianaPalette<?, ?> aPalette) {
-		// Not applicable
-	}
-
-	@Override
 	public DianaPaintManager getPaintManager() {
 		return getDrawingView().getPaintManager();
 	}
@@ -952,6 +947,23 @@ public class JLabelView<O> extends JScrollPane implements JDianaView<O, JPanel>,
 			}
 		}
 
+	}
+
+	@Override
+	public DropTarget activateDragAndDrop() {
+		// Not applicable
+		return null;
+	}
+
+	@Override
+	public DropTarget disactivateDragAndDrop() {
+		// Not applicable
+		return null;
+	}
+
+	@Override
+	public boolean isDragAndDropActivated() {
+		return false;
 	}
 
 }

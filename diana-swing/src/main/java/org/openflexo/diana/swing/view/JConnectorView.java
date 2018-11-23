@@ -55,12 +55,11 @@ import javax.swing.SwingUtilities;
 
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
 import org.openflexo.diana.DianaConstants;
-import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaInteractiveViewer;
-import org.openflexo.diana.control.tools.DianaPalette;
 import org.openflexo.diana.notifications.ConnectorModified;
 import org.openflexo.diana.notifications.NodeDeleted;
 import org.openflexo.diana.notifications.ObjectHasMoved;
@@ -70,11 +69,12 @@ import org.openflexo.diana.notifications.ObjectResized;
 import org.openflexo.diana.notifications.ObjectWillMove;
 import org.openflexo.diana.notifications.ObjectWillResize;
 import org.openflexo.diana.swing.SwingViewFactory;
-import org.openflexo.diana.swing.control.tools.JDianaPalette;
+import org.openflexo.diana.swing.control.tools.DianaViewDropListener;
 import org.openflexo.diana.swing.graphics.DrawUtils;
 import org.openflexo.diana.swing.graphics.JDianaConnectorGraphics;
 import org.openflexo.diana.swing.paint.DianaPaintManager;
 import org.openflexo.diana.view.ConnectorView;
+import org.openflexo.diana.view.DianaView;
 
 /**
  * The JConnectorView is the SWING implementation of a panel showing a {@link ConnectorNode}
@@ -95,6 +95,9 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 	private JLabelView<O> labelView;
 
 	protected JDianaConnectorGraphics graphics;
+
+	// The registered dropListener for this view, working with the DropTarget
+	private DianaViewDropListener dropListener;
 
 	public JConnectorView(ConnectorNode<O> node, AbstractDianaEditor<?, SwingViewFactory, JComponent> controller) {
 		super();
@@ -513,15 +516,15 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 		return labelView;
 	}
 
-	@Override
+	/*@Override
 	public void activatePalette(DianaPalette<?, ?> aPalette) {
 		if (aPalette instanceof JDianaPalette) {
 			// A palette is registered, listen to drag'n'drop events
-			setDropTarget(new DropTarget(this, DnDConstants.ACTION_COPY,
-					((JDianaPalette) aPalette).buildPaletteDropListener(this, controller), true));
+			setDropTarget(
+					new DropTarget(this, DnDConstants.ACTION_COPY, ((JDianaPalette) aPalette).buildDropListener(this, controller), true));
 		}
-
-	}
+	
+	}*/
 
 	@Override
 	public DianaPaintManager getPaintManager() {
@@ -539,6 +542,56 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 	@Override
 	public void stopLabelEdition() {
 		getLabelView().stopEdition();
+	}
+
+	/**
+	 * Activate Drag&Drop for this {@link DianaView} if not already activated
+	 * 
+	 * @return
+	 */
+	@Override
+	public DropTarget activateDragAndDrop() {
+		if (!isDragAndDropActivated()) {
+			dropListener = new DianaViewDropListener(this, getController());
+			setDropTarget(new DropTarget(this, DnDConstants.ACTION_COPY | DnDConstants.ACTION_MOVE, dropListener, true));
+		}
+		if (!getDropTarget().isActive()) {
+			getDropTarget().setActive(true);
+		}
+		/*for (DianaView<?, ?> v : controller.getContents().values()) {
+			if (v != this) {
+				v.activateDragAndDrop();
+			}
+		}*/
+		return getDropTarget();
+	}
+
+	/**
+	 * Desactivate Drag&Drop for this {@link DianaView} when activated
+	 * 
+	 * @return
+	 */
+	@Override
+	public DropTarget disactivateDragAndDrop() {
+		if (isDragAndDropActivated()) {
+			DropTarget returned = getDropTarget();
+			returned.setActive(false);
+			setDropTarget(null);
+			dropListener.delete();
+			dropListener = null;
+			return returned;
+		}
+		return null;
+	}
+
+	/**
+	 * Return boolean indicating if drag&drop has been activated for this view
+	 * 
+	 * @return
+	 */
+	@Override
+	public boolean isDragAndDropActivated() {
+		return getDropTarget() != null;
 	}
 
 }
