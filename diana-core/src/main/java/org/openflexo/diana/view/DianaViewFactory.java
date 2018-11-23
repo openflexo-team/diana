@@ -38,11 +38,11 @@
 
 package org.openflexo.diana.view;
 
+import org.openflexo.diana.Drawing.ConnectorNode;
+import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.ShadowStyle;
 import org.openflexo.diana.TextStyle;
-import org.openflexo.diana.Drawing.ConnectorNode;
-import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.connectors.ConnectorSpecification;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaInteractiveViewer;
@@ -130,4 +130,5 @@ public interface DianaViewFactory<F extends DianaViewFactory<F, C>, C> {
 
 	public DNDInfo makeDNDInfo(MoveAction moveAction, ShapeNode<?> shapeNode, DianaInteractiveViewer<?, ?, ?> controller,
 			final MouseControlContext initialContext);
+
 }

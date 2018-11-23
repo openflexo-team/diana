@@ -68,6 +68,7 @@ import org.openflexo.diana.notifications.ObjectMove;
 import org.openflexo.diana.notifications.ObjectResized;
 import org.openflexo.diana.notifications.ObjectWillMove;
 import org.openflexo.diana.notifications.ObjectWillResize;
+import org.openflexo.diana.swing.JDianaInteractiveEditor;
 import org.openflexo.diana.swing.SwingViewFactory;
 import org.openflexo.diana.swing.control.tools.DianaViewDropListener;
 import org.openflexo.diana.swing.graphics.DrawUtils;
@@ -551,8 +552,9 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 	 */
 	@Override
 	public DropTarget activateDragAndDrop() {
-		if (!isDragAndDropActivated()) {
-			dropListener = new DianaViewDropListener(this, getController());
+		if (!isDragAndDropActivated() && getController() instanceof JDianaInteractiveEditor) {
+
+			dropListener = ((JDianaInteractiveEditor<?>) getController()).makeDropListener(this);
 			setDropTarget(new DropTarget(this, DnDConstants.ACTION_COPY | DnDConstants.ACTION_MOVE, dropListener, true));
 		}
 		if (!getDropTarget().isActive()) {

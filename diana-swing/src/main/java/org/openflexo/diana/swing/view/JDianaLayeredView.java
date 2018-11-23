@@ -58,6 +58,7 @@ import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.DianaEditor;
 import org.openflexo.diana.graphics.DianaGraphics;
+import org.openflexo.diana.swing.JDianaInteractiveEditor;
 import org.openflexo.diana.swing.control.tools.DianaViewDropListener;
 import org.openflexo.diana.swing.graphics.DrawUtils;
 import org.openflexo.diana.swing.graphics.JDianaGraphics;
@@ -306,7 +307,7 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane
 	@Override
 	public DropTarget activateDragAndDrop() {
 		if (!isDragAndDropActivated()) {
-			dropListener = new DianaViewDropListener(this, getController());
+			dropListener = ((JDianaInteractiveEditor<?>) getController()).makeDropListener(this);
 			setDropTarget(new DropTarget(this, DnDConstants.ACTION_COPY | DnDConstants.ACTION_MOVE, dropListener, true));
 		}
 		if (!getDropTarget().isActive()) {

@@ -44,12 +44,12 @@ import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.Drawing;
 import org.openflexo.diana.control.DianaInteractiveEditor;
 import org.openflexo.diana.swing.control.SwingToolFactory;
+import org.openflexo.diana.swing.control.tools.DianaViewDropListener;
+import org.openflexo.diana.swing.view.JDianaView;
 import org.openflexo.diana.swing.view.JDrawingView;
 
 /**
- * This is the SWING implementation of a basic read-only viewer of a {@link Drawing}<br>
- * 
- * The {@link Drawing} can only be viewed, without any editing possibility (shapes are all non-movable)
+ * This is the SWING implementation of {@link DianaInteractiveEditor}
  * 
  * @author sylvain
  * 
@@ -86,4 +86,9 @@ public class JDianaInteractiveEditor<M> extends DianaInteractiveEditor<M, SwingV
 			getDrawingView().getPaintManager().repaint(getDrawingView());
 		}
 	}
+
+	public DianaViewDropListener makeDropListener(JDianaView<?, ?> view) {
+		return new DianaViewDropListener(view, this);
+	}
+
 }

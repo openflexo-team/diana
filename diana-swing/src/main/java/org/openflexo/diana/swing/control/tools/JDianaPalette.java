@@ -57,7 +57,7 @@ import org.openflexo.diana.swing.SwingViewFactory;
 import org.openflexo.diana.swing.view.JDrawingView;
 
 /**
- * A DianaPaletteC represents the graphical tool representing a {@link PaletteModel} (the model)
+ * A {@link JDianaPalette} is the swing implementation of the graphical tool representing a {@link PaletteModel} (the model)
  * 
  * @author sylvain
  * 
@@ -65,6 +65,8 @@ import org.openflexo.diana.swing.view.JDrawingView;
 public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 
 	static final Logger logger = Logger.getLogger(JDianaPalette.class.getPackage().getName());
+
+	final public static DataFlavor PALETTE_ELEMENT_FLAVOR = new DataFlavor(PaletteElementTransferable.class, "PaletteElement");
 
 	private JScrollPane component;
 
@@ -129,8 +131,6 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 
 	public static class PaletteElementTransferable implements Transferable {
 
-		private static DataFlavor _defaultFlavor;
-
 		private final TransferedPaletteElement _transferedData;
 
 		public PaletteElementTransferable(PaletteElement element, Point dragOrigin) {
@@ -139,7 +139,7 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 
 		@Override
 		public DataFlavor[] getTransferDataFlavors() {
-			return new DataFlavor[] { defaultFlavor() };
+			return new DataFlavor[] { PALETTE_ELEMENT_FLAVOR };
 		}
 
 		@Override
@@ -151,14 +151,6 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
 			return _transferedData;
 		}
-
-		public static DataFlavor defaultFlavor() {
-			if (_defaultFlavor == null) {
-				_defaultFlavor = new DataFlavor(PaletteElementTransferable.class, "PaletteElement");
-			}
-			return _defaultFlavor;
-		}
-
 	}
 
 	public static class TransferedPaletteElement {
