@@ -129,7 +129,6 @@ public class DianaViewDropListener implements DropTargetListener {
 		}
 
 		DataFlavorDelegate flavor = getDragFlavor(e);
-		System.out.println("DragFlavor=" + flavor);
 
 		int da = e.getDropAction();
 		// we're saying that these actions are necessary
