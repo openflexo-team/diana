@@ -406,6 +406,10 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public void notifyObjectHierarchyHasBeenUpdated();
 
+		public Boolean getIsFocusable();
+
+		public void setIsFocusable(Boolean focusable);
+
 		public boolean getIsSelected();
 
 		public void setIsSelected(boolean aFlag);

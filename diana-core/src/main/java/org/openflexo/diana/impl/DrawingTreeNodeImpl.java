@@ -1205,38 +1205,26 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	}
 
 	/**
+	 * Convenient method used to retrieve focusable property value
+	 */
+	@Override
+	public Boolean getIsFocusable() {
+		return getPropertyValue(GraphicalRepresentation.IS_FOCUSABLE);
+	}
+
+	/**
+	 * Convenient method used to set focusable property value
+	 */
+	@Override
+	public void setIsFocusable(Boolean focusable) {
+		setPropertyValue(GraphicalRepresentation.IS_FOCUSABLE, focusable);
+	}
+
+	/**
 	 * Convenient method used to retrieve text property value
 	 */
 	@Override
 	public String getText() {
-		/*if (hasDynamicPropertyValue(GraphicalRepresentation.TEXT)) {
-			DataBinding<String> db = getGRBinding().getDynamicPropertyValue(GraphicalRepresentation.TEXT).dataBinding;
-			if (db.toString().equals("drawable.name")) {
-				System.out.println("Content de l'avoir celui la !!!!!!!!!!");
-				System.out.println("valid=" + db.isValid());
-				System.out.println("reason:" + db.invalidBindingReason());
-				System.out.println("bindable:" + db.getOwner());
-				System.out.println("bindingModel:" + db.getOwner().getBindingModel());
-				System.out.println("bindingFactory:" + db.getOwner().getBindingFactory());
-				System.out.println("expression " + db.getExpression() + " of " + db.getExpression().getClass());
-				Expression expression = db.getExpression();
-				System.out.println("BP");
-				String value = null;
-				try {
-					value = getGRBinding().getDynamicPropertyValue(GraphicalRepresentation.TEXT).dataBinding
-							.getBindingValue(getBindingEvaluationContext());
-				} catch (TypeMismatchException e) {
-					e.printStackTrace();
-				} catch (NullReferenceException e) {
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					e.printStackTrace();
-				}
-				System.out.println("valeur=" + value);
-			}
-		
-		}*/
-
 		return getPropertyValue(GraphicalRepresentation.TEXT);
 	}
 
@@ -1245,13 +1233,13 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 */
 	@Override
 	public void setText(String text) {
-		// System.out.println("set text with " + text);
 		setPropertyValue(GraphicalRepresentation.TEXT, text);
 	}
 
 	/**
 	 * Convenient method used to retrieve horizontal text alignment property value
 	 */
+	@Override
 	public HorizontalTextAlignment getHorizontalTextAlignment() {
 		return getPropertyValue(GraphicalRepresentation.HORIZONTAL_TEXT_ALIGNEMENT);
 	}
@@ -1259,6 +1247,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	/**
 	 * Convenient method used to set horizontal text alignment property value
 	 */
+	@Override
 	public void setHorizontalTextAlignment(HorizontalTextAlignment align) {
 		setPropertyValue(GraphicalRepresentation.HORIZONTAL_TEXT_ALIGNEMENT, align);
 	}
@@ -1266,6 +1255,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	/**
 	 * Convenient method used to retrieve vertical text alignment property value
 	 */
+	@Override
 	public VerticalTextAlignment getVerticalTextAlignment() {
 		return getPropertyValue(GraphicalRepresentation.VERTICAL_TEXT_ALIGNEMENT);
 	}
@@ -1273,6 +1263,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	/**
 	 * Convenient method used to set vertical text alignment property value
 	 */
+	@Override
 	public void setVerticalTextAlignment(VerticalTextAlignment align) {
 		setPropertyValue(GraphicalRepresentation.VERTICAL_TEXT_ALIGNEMENT, align);
 	}
