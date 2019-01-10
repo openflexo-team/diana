@@ -471,6 +471,9 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 		if (curve == null) {
 			refreshCurve();
 		}
+		if (curve == null) {
+			return new DianaRectangle(0, 0, 1.0, 1.0);
+		}
 		DianaRectangle returned = new DianaRectangle(Filling.FILLED);
 		Rectangle2D rect = curve.getBounds2D();
 		returned.x = rect.getX();
