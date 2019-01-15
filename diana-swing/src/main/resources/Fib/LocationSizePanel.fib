@@ -87,6 +87,13 @@
 		constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center)"
 		borderBottom="2" borderTitle="constraints" titleFont="SansSerif,0,11"
 		borderTop="10" trackViewPortHeight="true" layout="twocols" name="ConstraintsPanel">
+		<Label enable="data.areLocationPropertiesApplicable"
+			name="LayoutManagerIdentifierLabel" index="4" localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
+			label="layout_manager" />
+		<TextField data="data.layoutManagerIdentifier" enable="data.areLocationPropertiesApplicable"
+			name="LayoutManagerIdentifierTF"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"/>
 		<Label id="20" enable="data.areLocationPropertiesApplicable"
 			name="LocationConstraintsLabel" index="4" localize="true" align="left"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"

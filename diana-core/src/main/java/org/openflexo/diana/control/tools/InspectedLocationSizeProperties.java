@@ -139,6 +139,14 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		// TODO
 	}
 
+	public String getLayoutManagerIdentifier() {
+		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_MANAGER_IDENTIFIER);
+	}
+
+	public void setLayoutManagerIdentifier(String value) {
+		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_MANAGER_IDENTIFIER, value);
+	}
+
 	public Double getX() {
 		return getPropertyValue(ShapeGraphicalRepresentation.X);
 	}

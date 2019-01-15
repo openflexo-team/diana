@@ -293,6 +293,8 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 			WIDTH_CONSTRAINTS_KEY, DataBinding.class);
 	public static GRProperty<DataBinding> HEIGHT_CONSTRAINTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			HEIGHT_CONSTRAINTS_KEY, DataBinding.class);
+	public static GRProperty<String> LAYOUT_MANAGER_IDENTIFIER = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
+			LAYOUT_MANAGER_IDENTIFIER_KEY, String.class);
 
 	// *******************************************************************************
 	// * Model
