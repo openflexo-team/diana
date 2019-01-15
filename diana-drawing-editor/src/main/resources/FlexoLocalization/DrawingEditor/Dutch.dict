@@ -44,6 +44,7 @@ shadow_inspector=shadow_inspector
 shape=Vorm
 shape_inspector=shape_inspector
 show_palette=Show palette
+span=span
 text=Tekst
 text_inspector=text_inspector
 tools=Tools
