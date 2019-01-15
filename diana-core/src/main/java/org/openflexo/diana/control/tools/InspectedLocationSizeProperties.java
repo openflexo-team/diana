@@ -44,15 +44,17 @@ import java.util.List;
 import java.util.Set;
 
 import org.openflexo.connie.DataBinding;
+import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
 import org.openflexo.diana.ContainerGraphicalRepresentation;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
+import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.GeometricGraphicalRepresentation;
 import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.ShadowStyle;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
-import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.diana.ShapeGraphicalRepresentation.LocationConstraints;
 import org.openflexo.diana.control.DianaInteractiveViewer;
@@ -231,6 +233,38 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 
 	public void setIsSelectable(Boolean flag) {
 		setPropertyValue(GraphicalRepresentation.IS_SELECTABLE, flag);
+	}
+
+	public Boolean getHasSelectedForeground() {
+		return getPropertyValue(ShapeGraphicalRepresentation.HAS_SELECTED_FOREGROUND);
+	}
+
+	public void setHasSelectedForeground(Boolean flag) {
+		setPropertyValue(ShapeGraphicalRepresentation.HAS_SELECTED_FOREGROUND, flag);
+	}
+
+	public ForegroundStyle getSelectedForeground() {
+		return getPropertyValue(ShapeGraphicalRepresentation.SELECTED_FOREGROUND);
+	}
+
+	public void setSelectedForeground(ForegroundStyle foreground) {
+		setPropertyValue(ShapeGraphicalRepresentation.SELECTED_FOREGROUND, foreground);
+	}
+
+	public Boolean getHasSelectedBackground() {
+		return getPropertyValue(ShapeGraphicalRepresentation.HAS_SELECTED_BACKGROUND);
+	}
+
+	public void setHasSelectedBackground(Boolean flag) {
+		setPropertyValue(ShapeGraphicalRepresentation.HAS_SELECTED_BACKGROUND, flag);
+	}
+
+	public BackgroundStyle getSelectedBackground() {
+		return getPropertyValue(ShapeGraphicalRepresentation.SELECTED_BACKGROUND);
+	}
+
+	public void setSelectedBackground(BackgroundStyle background) {
+		setPropertyValue(ShapeGraphicalRepresentation.SELECTED_BACKGROUND, background);
 	}
 
 	public Boolean getIsFocusable() {

@@ -49,6 +49,7 @@ import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.pamela.annotations.CloningStrategy;
+import org.openflexo.pamela.annotations.CloningStrategy.StrategyType;
 import org.openflexo.pamela.annotations.Embedded;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ModelEntity;
@@ -56,7 +57,6 @@ import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
 import org.openflexo.pamela.annotations.XMLAttribute;
 import org.openflexo.pamela.annotations.XMLElement;
-import org.openflexo.pamela.annotations.CloningStrategy.StrategyType;
 
 /**
  * Represents a shape in a diagram<br>
@@ -249,6 +249,12 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 			BackgroundStyle.class);
 	public static GRProperty<ForegroundStyle> FOREGROUND = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, FOREGROUND_KEY,
 			ForegroundStyle.class);
+
+	public static GRProperty<Boolean> HAS_SELECTED_FOREGROUND = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
+			HAS_SELECTED_FOREGROUND_KEY, Boolean.class);
+	public static GRProperty<Boolean> HAS_SELECTED_BACKGROUND = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
+			HAS_SELECTED_BACKGROUND_KEY, Boolean.class);
+
 	public static GRProperty<ForegroundStyle> FOCUSED_FOREGROUND = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			FOCUSED_FOREGROUND_KEY, ForegroundStyle.class);
 	public static GRProperty<BackgroundStyle> FOCUSED_BACKGROUND = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
