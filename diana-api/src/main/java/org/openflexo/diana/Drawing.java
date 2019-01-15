@@ -838,14 +838,14 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		 * 
 		 * @return
 		 */
-		public DianaLayoutManager<?, ?> getLayoutManager();
+		public DianaLayoutManager<?, ?> getActiveLayoutManager();
 
 		/**
 		 * Sets the layout manager responsible for the layout of this node (relating to its container)
 		 * 
 		 * @param layoutManager
 		 */
-		// public void setLayoutManager(DianaLayoutManager<?, ?> layoutManager);
+		// public void setActiveLayoutManager(DianaLayoutManager<?, ?> layoutManager);
 
 		/**
 		 * Invalidate this graphical node regarding to its layout manager<br>

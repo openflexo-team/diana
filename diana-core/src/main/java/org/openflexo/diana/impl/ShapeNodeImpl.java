@@ -118,7 +118,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 	private ShapeImpl<?> shape;
 
-	private DianaLayoutManager<?, ?> layoutManager;
+	private DianaLayoutManager<?, ?> activeLayoutManager;
 	private boolean layoutValidated = false;
 
 	private BindingValueChangeListener<Double> xConstraintsListener;
@@ -986,18 +986,18 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					setYNoNotification(newLocation.y);
 				}
 
-				if (!isRelayouting && getLayoutManager() != null && getLayoutManager().supportAutolayout()
-						&& !getLayoutManager().isLayoutInProgress()) {
+				if (!isRelayouting && getActiveLayoutManager() != null && getActiveLayoutManager().supportAutolayout()
+						&& !getActiveLayoutManager().isLayoutInProgress()) {
 					boolean performLayout;
 					if (isMoving() || isResizing()) {
 						// We are inside a drag operation
-						performLayout = getLayoutManager().getDraggingMode().relayoutOnDrag();
+						performLayout = getActiveLayoutManager().getDraggingMode().relayoutOnDrag();
 					}
 					else {
-						performLayout = getLayoutManager().getDraggingMode().relayoutAfterDrag();
+						performLayout = getActiveLayoutManager().getDraggingMode().relayoutAfterDrag();
 					}
 					if (performLayout) {
-						performLayout();
+						performLayoutCurrentNode();
 					}
 				}
 
@@ -1020,14 +1020,16 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		}
 	}
 
-	private void performLayout() {
+	private void performLayoutCurrentNode() {
 		setRelayouting(true);
 
-		getLayoutManager().attemptToPlaceNodeManually(this);
-		if (getLayoutManager().isFullyLayouted()) {
-			getLayoutManager().computeLayout();
+		getActiveLayoutManager().attemptToPlaceNodeManually(this);
+		if (getActiveLayoutManager().isFullyLayouted()) {
+			getActiveLayoutManager().doLayout(true);
 		}
-		getLayoutManager().doLayout(this, true);
+		else {
+			getActiveLayoutManager().doLayout(this, true);
+		}
 		setRelayouting(false);
 	}
 
@@ -1134,7 +1136,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		setXNoNotification(newLocation.x);
 		setYNoNotification(newLocation.y);
 	}
-	*/
+	 */
 
 	private void setLocationForContainerLayout(DianaPoint newLocation) {
 		if (getParentNode() instanceof ShapeNodeImpl) {
@@ -1632,8 +1634,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public void notifyObjectMoved(DianaPoint oldLocation) {
 
-		if (getLayoutManager() != null) {
-			getLayoutManager().shapeMoved(oldLocation, getLocation());
+		if (getActiveLayoutManager() != null) {
+			getActiveLayoutManager().shapeMoved(oldLocation, getLocation());
 		}
 
 		notifyObservers(new ObjectMove(oldLocation, getLocation()));
@@ -1649,9 +1651,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public void notifyObjectHasMoved() {
 		isMoving = false;
 
-		if (getLayoutManager() != null) {
-			if (getLayoutManager().getDraggingMode().relayoutAfterDrag()) {
-				performLayout();
+		if (getActiveLayoutManager() != null) {
+			if (getActiveLayoutManager().getDraggingMode().relayoutAfterDrag()) {
+				performLayoutCurrentNode();
 			}
 		}
 
@@ -1676,9 +1678,18 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public void notifyObjectHasResized() {
 		super.notifyObjectHasResized();
 
-		if (getLayoutManager() != null) {
-			if (getLayoutManager().getDraggingMode().relayoutAfterDrag()) {
-				performLayout();
+		//
+		if (getActiveLayoutManager() != null) {
+			if (getActiveLayoutManager().getDraggingMode().relayoutAfterDrag()) {
+				performLayoutCurrentNode();
+			}
+		}
+
+		for (DianaLayoutManager<?, O> layoutManager : getLayoutManagers()) {
+			System.out.println("Je declare le LM " + layoutManager);
+			System.out.println("Je suis " + this + " et le container du LM=" + layoutManager.getContainerNode());
+			if (layoutManager.getDraggingMode().relayoutAfterDrag()) {
+				layoutManager.doLayout(true);
 			}
 		}
 
@@ -2229,9 +2240,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * 
 	 * @param layoutManagerIdentifier
 	 */
-	public void layoutedWith(String layoutManagerIdentifier) {
+	/*public void layoutedWith(String layoutManagerIdentifier) {
 		setLayoutManager(getParentNode().getLayoutManager(layoutManagerIdentifier));
-	}
+	}*/
 
 	/**
 	 * Return the layout manager responsible for the layout of this node (relating to its container)
@@ -2239,14 +2250,14 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 * @return
 	 */
 	@Override
-	public DianaLayoutManager<?, ?> getLayoutManager() {
-		return layoutManager;
+	public DianaLayoutManager<?, ?> getActiveLayoutManager() {
+		return activeLayoutManager;
 	}
 
-	private void setLayoutManager(DianaLayoutManager<?, ?> layoutManager) {
-		if ((layoutManager != this.layoutManager)) {
-			DianaLayoutManager<?, ?> oldValue = this.layoutManager;
-			this.layoutManager = layoutManager;
+	private void setActiveLayoutManager(DianaLayoutManager<?, ?> layoutManager) {
+		if ((layoutManager != this.activeLayoutManager)) {
+			DianaLayoutManager<?, ?> oldValue = this.activeLayoutManager;
+			this.activeLayoutManager = layoutManager;
 			getPropertyChangeSupport().firePropertyChange("layoutManager", oldValue, layoutManager);
 		}
 	}
@@ -2264,7 +2275,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		if (StringUtils.isNotEmpty(getGraphicalRepresentation().getLayoutManagerIdentifier())) {
 			layoutManager = getParentNode().getLayoutManager(getGraphicalRepresentation().getLayoutManagerIdentifier());
 		}
-		setLayoutManager(layoutManager);
+		setActiveLayoutManager(layoutManager);
 		if (layoutManager != null) {
 			layoutManager.invalidate(this);
 			layoutManager.doLayout(this, true);

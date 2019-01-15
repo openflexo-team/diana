@@ -392,8 +392,6 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 			// Only one layout manager defined in container
 			// This new ShapeNode has no layout manager, we force the default one
 
-			System.out.println("OK, pour le nouveau noeud, je le mets a " + getLayoutManagers().get(0));
-
 			((ShapeNode<?>) addedNode).getGraphicalRepresentation().setLayoutManagerIdentifier(getLayoutManagers().get(0).getIdentifier());
 
 			getLayoutManagers().get(0).invalidate();

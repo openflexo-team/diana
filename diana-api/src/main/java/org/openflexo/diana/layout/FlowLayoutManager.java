@@ -55,4 +55,6 @@ public interface FlowLayoutManager<O> extends DianaLayoutManager<FlowLayoutManag
 
 	public FlowOrientationType getFlowOrientationType();
 
+	public double getSpan();
+
 }

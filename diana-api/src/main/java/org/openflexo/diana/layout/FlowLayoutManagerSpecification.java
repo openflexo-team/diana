@@ -62,6 +62,8 @@ public interface FlowLayoutManagerSpecification extends DianaLayoutManagerSpecif
 
 	@PropertyIdentifier(type = FlowOrientationType.class)
 	public static final String FLOW_ORIENTATION_TYPE_KEY = "flowOrientationType";
+	@PropertyIdentifier(type = double.class)
+	public static final String SPAN_KEY = "span";
 
 	@Getter(value = FLOW_ORIENTATION_TYPE_KEY, defaultValue = "VERTICAL")
 	@XMLAttribute
@@ -79,5 +81,12 @@ public interface FlowLayoutManagerSpecification extends DianaLayoutManagerSpecif
 	public static enum FlowOrientationType {
 		VERTICAL, HORIZONTAL
 	}
+
+	@Getter(value = SPAN_KEY, defaultValue = "10.0")
+	@XMLAttribute
+	public double getSpan();
+
+	@Setter(SPAN_KEY)
+	public void setSpan(double value);
 
 }

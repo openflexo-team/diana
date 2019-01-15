@@ -63,6 +63,11 @@ public abstract class FlowLayoutManagerImpl<O> extends DianaLayoutManagerImpl<Fl
 		return getLayoutManagerSpecification().getFlowOrientationType();
 	}
 
+	@Override
+	public double getSpan() {
+		return getLayoutManagerSpecification().getSpan();
+	}
+
 	/**
 	 * Return flag indicating if the move or resize of one node might invalidate the whole container
 	 * 
@@ -77,20 +82,38 @@ public abstract class FlowLayoutManagerImpl<O> extends DianaLayoutManagerImpl<Fl
 
 	@Override
 	public void computeLayout() {
-		super.computeLayout();
-		/* TODO : should become a property of the LayoutManager */
-		double separation = 10;
 
-		/* TODO : should support horizontal placement of the LayoutManager */
-		double xAxis = getContainerNode().getWidth() / 2;
-		double yLocation = 0;
-		for (ShapeNode<?> shapeNode : getLayoutedNodes()) {
-			DianaPoint location = new DianaPoint();
-			location.x = xAxis - shapeNode.getWidth() / 2;
-			location.y = yLocation + separation;
-			yLocation += shapeNode.getHeight() + separation;
-			locationMap.put(shapeNode, location);
+		super.computeLayout();
+		double span = getSpan();
+
+		switch (getFlowOrientationType()) {
+			case VERTICAL:
+				double xAxis = getContainerNode().getWidth() / 2;
+				double yLocation = 0;
+				for (ShapeNode<?> shapeNode : getLayoutedNodes()) {
+					DianaPoint location = new DianaPoint();
+					location.x = xAxis - shapeNode.getWidth() / 2;
+					location.y = yLocation + span;
+					yLocation += shapeNode.getHeight() + span;
+					locationMap.put(shapeNode, location);
+				}
+				break;
+			case HORIZONTAL:
+				double yAxis = getContainerNode().getHeight() / 2;
+				double xLocation = 0;
+				for (ShapeNode<?> shapeNode : getLayoutedNodes()) {
+					DianaPoint location = new DianaPoint();
+					location.x = xLocation + span;
+					location.y = yAxis - shapeNode.getHeight() / 2;
+					xLocation += shapeNode.getWidth() + span;
+					locationMap.put(shapeNode, location);
+				}
+				break;
+
+			default:
+				break;
 		}
+
 	}
 
 	/**
@@ -108,6 +131,11 @@ public abstract class FlowLayoutManagerImpl<O> extends DianaLayoutManagerImpl<Fl
 	public void propertyChange(PropertyChangeEvent evt) {
 		super.propertyChange(evt);
 		if (evt.getPropertyName().equals(FlowLayoutManagerSpecification.FLOW_ORIENTATION_TYPE_KEY)) {
+			invalidate();
+			doLayout(true);
+			// getContainerNode().notifyNodeLayoutDecorationChanged(this);
+		}
+		if (evt.getPropertyName().equals(FlowLayoutManagerSpecification.SPAN_KEY)) {
 			invalidate();
 			doLayout(true);
 			// getContainerNode().notifyNodeLayoutDecorationChanged(this);

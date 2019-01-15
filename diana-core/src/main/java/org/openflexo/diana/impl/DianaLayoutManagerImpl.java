@@ -121,7 +121,7 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 		if (ctn != null) {
 			for (DrawingTreeNode<?, ?> dtn : ctn.getChildNodes()) {
 				if (dtn instanceof ShapeNode) {
-					if (((ShapeNode<O>) dtn).getLayoutManager() == this) {
+					if (((ShapeNode<O>) dtn).getActiveLayoutManager() == this) {
 						invalidate((ShapeNode<O>) dtn);
 					}
 				}
@@ -246,13 +246,11 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 		layoutedNodes.clear();
 		for (DrawingTreeNode<?, ?> dtn : getContainerNode().getChildNodes()) {
 			if (dtn instanceof ShapeNode) {
-				if (((ShapeNode<O>) dtn).getLayoutManager() == this) {
+				if (((ShapeNode<O>) dtn).getActiveLayoutManager() == this) {
 					layoutedNodes.add((ShapeNode<O>) dtn);
 				}
 			}
 		}
-
-		System.out.println("layoutedNodes=" + layoutedNodes);
 
 		getPropertyChangeSupport().firePropertyChange("layoutedNodes", null, layoutedNodes);
 

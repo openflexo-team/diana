@@ -18,6 +18,13 @@
 				localize="true"
 				iteratorClassName="org.openflexo.diana.layout.FlowLayoutManagerSpecification$FlowOrientationType"
 				autoSelectFirstRow="true" />
+			<Label label="span" index="18"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;location=left)"
+				name="SpanLabel" localize="true" />
+			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
+				numberType="DoubleType" columns="5" index="19" data="data.layoutManagerSpecification.span"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;location=right)"
+				name="Span" localize="true" />
 		</Tab>
 
 	</TabPanel>

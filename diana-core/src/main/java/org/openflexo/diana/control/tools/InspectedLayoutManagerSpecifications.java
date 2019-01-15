@@ -138,6 +138,8 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 	@Override
 	public void fireSelectionUpdated() {
 		super.fireSelectionUpdated();
+		getPropertyChangeSupport().firePropertyChange("defaultLayoutType", null, getDefaultLayoutType());
+		getPropertyChangeSupport().firePropertyChange("defaultLayoutManager", null, getDefaultLayoutManager());
 		getPropertyChangeSupport().firePropertyChange("hasValidSelection", !hasValidSelection(), hasValidSelection());
 	}
 
@@ -170,7 +172,6 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 
 			DianaLayoutManager<?, ?> oldLayoutManager = getDefaultLayoutManager();
 
-			System.out.println("setDefaultLayoutType with " + defaultLayoutType);
 			LayoutManagerSpecificationType oldValue = getDefaultLayoutType();
 			ContainerGraphicalRepresentation gr = getContainerNode().getGraphicalRepresentation();
 
@@ -185,7 +186,7 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 			if (defaultLayoutType != LayoutManagerSpecificationType.NONE) {
 				DianaLayoutManagerSpecification<?> newLayoutManagerSpecification = getFactory().makeLayoutManagerSpecification(
 						defaultLayoutType.getDefaultLayoutManagerName(), defaultLayoutType.getLayoutManagerSpecificationClass());
-				System.out.println("new layout manager: " + newLayoutManagerSpecification);
+				// System.out.println("new layout manager: " + newLayoutManagerSpecification);
 				gr.addToLayoutManagerSpecifications(newLayoutManagerSpecification);
 				for (ShapeNode<?> n : getContainerNode().getShapeNodes()) {
 					// For all ShapeNode contained in ContainerNode with no layout manager, assign this newly created layout manager
@@ -216,18 +217,22 @@ public class InspectedLayoutManagerSpecifications extends InspectedStyle<Contain
 	 */
 	public DianaLayoutManager<?, ?> getDefaultLayoutManager() {
 		if (layoutedAsMode()) {
-			return ((ShapeNode<?>) getContainerNode()).getLayoutManager();
+			// System.out.println("c'est le layout avec lequel je suis layoute");
+			return ((ShapeNode<?>) getContainerNode()).getActiveLayoutManager();
 		}
 		else if (getLayoutManagers() != null && getLayoutManagers().size() > 0) {
+			// System.out.println("c'est le layout que je definis");
 			return getLayoutManagers().get(0);
 		}
 		return null;
 	}
 
+	// TODO: desactivated, because very complex to manage
+	// See if this should totally disappear
 	public boolean layoutedAsMode() {
-		if (getContainerNode() != null && getContainerNode().getChildNodes() != null) {
+		/*if (getContainerNode() != null && getContainerNode().getChildNodes() != null) {
 			return hasValidSelection() && getContainerNode() instanceof ShapeNode && getContainerNode().getChildNodes().isEmpty();
-		}
+		}*/
 		return false;
 	}
 
