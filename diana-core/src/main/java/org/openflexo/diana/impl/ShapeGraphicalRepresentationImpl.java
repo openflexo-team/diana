@@ -425,8 +425,6 @@ public abstract class ShapeGraphicalRepresentationImpl extends ContainerGraphica
 	@Override
 	public void setSelectedForeground(ForegroundStyle aForeground) {
 
-		System.out.println("Hop le selected foreground: " + aForeground);
-
 		DianaAttributeNotification<ForegroundStyle> notification = requireChange(SELECTED_FOREGROUND, aForeground, false);
 		if (notification != null) {
 			if (selectedForeground != null && selectedForeground.getPropertyChangeSupport() != null) {
