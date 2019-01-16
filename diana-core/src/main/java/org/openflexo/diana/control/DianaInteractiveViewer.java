@@ -248,6 +248,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	}
 
 	public void addToSelectedObjects(DrawingTreeNode<?, ?> aNode) {
+
 		if (!isRestoringSelection) {
 			stopEditionOfEditedLabelIfAny();
 		}

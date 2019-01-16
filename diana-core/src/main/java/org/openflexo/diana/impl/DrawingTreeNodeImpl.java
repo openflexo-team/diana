@@ -935,6 +935,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	@Override
 	public void setIsFocused(boolean aFlag) {
+		//System.out.println("***** setIsFocused with " + aFlag + " was " + isFocused);
 		if (aFlag != isFocused) {
 			isFocused = aFlag;
 			notifyObservers(new DianaAttributeNotification<>(IS_FOCUSED, !isFocused, isFocused));
@@ -948,6 +949,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	@Override
 	public void setIsSelected(boolean aFlag) {
+		//System.out.println("***** setIsSelected with " + aFlag + " was " + isSelected);
 		if (aFlag != isSelected) {
 			isSelected = aFlag;
 			notifyObservers(new DianaAttributeNotification<>(IS_SELECTED, !isSelected, isSelected));

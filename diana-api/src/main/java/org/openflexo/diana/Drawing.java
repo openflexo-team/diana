@@ -155,7 +155,7 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 
 		public static GRProperty<Boolean> IS_FOCUSED = GRProperty.getGRParameter(DrawingTreeNode.class, DrawingTreeNode.IS_FOCUSED_KEY,
 				Boolean.class);
-		public static GRProperty<Boolean> IS_SELECTED = GRProperty.getGRParameter(DrawingTreeNode.class, DrawingTreeNode.IS_FOCUSED_KEY,
+		public static GRProperty<Boolean> IS_SELECTED = GRProperty.getGRParameter(DrawingTreeNode.class, DrawingTreeNode.IS_SELECTED_KEY,
 				Boolean.class);
 
 		@PropertyIdentifier(type = Boolean.class)

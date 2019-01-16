@@ -93,7 +93,7 @@
 			label="layout_manager" />
 		<TextField data="data.layoutManagerIdentifier" enable="data.areLocationPropertiesApplicable"
 			name="LayoutManagerIdentifierTF"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"/>
+			constraints="twocols(expandHorizontally=true;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"/>
 		<Label id="20" enable="data.areLocationPropertiesApplicable"
 			name="LocationConstraintsLabel" index="4" localize="true" align="left"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
@@ -169,7 +169,7 @@
 			align="left"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
 			borderBottom="0" titleFont="SansSerif,0,11" borderTop="0"
-			trackViewPortHeight="true" layout="flow" name="FIBPanel"
+			trackViewPortHeight="true" layout="flow" name="IsSelectablePanel"
 			flowAlignment="LEADING">
 			<CheckBox selected="true" name="isSelectableCB" data="data.isSelectable"
 				constraints="flow(index=0)" />
@@ -177,14 +177,14 @@
 				enable="data.isSelectable" />
 			<CheckBox name="hasSelectedForegroundCB" data="data.hasSelectedForeground"
 				constraints="flow(index=2)" enable="data.isSelectable" />
-			<Custom
+			<Custom name="selectedForegroundSelector"
 				componentClassName="org.openflexo.diana.swing.widget.JFIBForegroundStyleSelector"
 				localize="true" manageDynamicModel="true" index="6"
 				data="data.selectedForeground" enable="data.isSelectable &amp; data.hasSelectedForeground"
 				constraints="flow(index=3)" />
-			<CheckBox name="hasSelectedBackgroundCB" data="data.hasSelectedBackground"
+		    <CheckBox name="hasSelectedBackgroundCB" data="data.hasSelectedBackground"
 				constraints="flow(index=4)" enable="data.isSelectable" />
-			<Custom
+			<Custom name="selectedBackgroundSelector"
 				componentClassName="org.openflexo.diana.swing.widget.JFIBBackgroundStyleSelector"
 				localize="true" manageDynamicModel="true" index="6"
 				data="data.selectedBackground" enable="data.isSelectable &amp; data.hasSelectedBackground"
@@ -207,14 +207,14 @@
 				enable="data.isFocusable" />
 			<CheckBox name="hasFocusedForegroundCB" data="data.hasFocusedForeground"
 				constraints="flow(index=2)" enable="data.isFocusable" />
-			<Custom
+			<Custom name="focusedForegroundSelector"
 				componentClassName="org.openflexo.diana.swing.widget.JFIBForegroundStyleSelector"
 				localize="true" manageDynamicModel="true" index="6"
 				data="data.focusedForeground" enable="data.isFocusable &amp; data.hasFocusedForeground"
 				constraints="flow(index=3)" />
-			<CheckBox name="hasFocusedBackgroundCB" data="data.hasSelectedBackground"
+			<CheckBox name="hasFocusedBackgroundCB" data="data.hasFocusedBackground"
 				constraints="flow(index=4)" enable="data.isFocusable" />
-			<Custom
+			<Custom name="focusedBackgroundSelector"
 				componentClassName="org.openflexo.diana.swing.widget.JFIBBackgroundStyleSelector"
 				localize="true" manageDynamicModel="true" index="6"
 				data="data.focusedBackground" enable="data.isFocusable &amp; data.hasFocusedBackground"

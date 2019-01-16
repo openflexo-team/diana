@@ -254,6 +254,10 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 			HAS_SELECTED_FOREGROUND_KEY, Boolean.class);
 	public static GRProperty<Boolean> HAS_SELECTED_BACKGROUND = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			HAS_SELECTED_BACKGROUND_KEY, Boolean.class);
+	public static GRProperty<Boolean> HAS_FOCUSED_FOREGROUND = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
+			HAS_FOCUSED_FOREGROUND_KEY, Boolean.class);
+	public static GRProperty<Boolean> HAS_FOCUSED_BACKGROUND = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
+			HAS_FOCUSED_BACKGROUND_KEY, Boolean.class);
 
 	public static GRProperty<ForegroundStyle> FOCUSED_FOREGROUND = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			FOCUSED_FOREGROUND_KEY, ForegroundStyle.class);

@@ -553,6 +553,9 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 
 			}
 			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_FOCUSED.getName())) {
+				if (shapeNode.getHasFocusedForegroundStyle() || shapeNode.getHasFocusedBackgroundStyle()) {
+					getPaintManager().invalidate(shapeNode);
+				}
 				getPaintManager().repaint(this);
 			}
 			else if (evt.getPropertyName().equals(GraphicalRepresentation.TEXT.getName())) {
@@ -562,11 +565,15 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 				getPaintManager().repaint(this);
 			}
 			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_SELECTED.getName())) {
+
 				if (getParent() != null) {
 					getParent().moveToFront(this);
 				}
 				if (getParent() != null && getLabelView() != null) {
 					getParent().moveToFront(getLabelView());
+				}
+				if (shapeNode.getHasSelectedForegroundStyle() || shapeNode.getHasSelectedBackgroundStyle()) {
+					getPaintManager().invalidate(shapeNode);
 				}
 				getPaintManager().repaint(this);
 				if (shapeNode.getIsSelected()) {

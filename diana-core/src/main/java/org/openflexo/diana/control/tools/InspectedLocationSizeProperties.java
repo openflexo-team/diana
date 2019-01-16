@@ -112,6 +112,28 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 				areLocationPropertiesApplicable());
 		getPropertyChangeSupport().firePropertyChange("areDimensionPropertiesApplicable", !areDimensionPropertiesApplicable(),
 				areDimensionPropertiesApplicable());
+		if (getIsSelectable() != null) {
+			getPropertyChangeSupport().firePropertyChange("isSelectable", !getIsSelectable(), (boolean) getIsSelectable());
+		}
+		if (getIsFocusable() != null) {
+			getPropertyChangeSupport().firePropertyChange("isFocusable", !getIsFocusable(), (boolean) getIsFocusable());
+		}
+		if (getHasFocusedBackground() != null) {
+			getPropertyChangeSupport().firePropertyChange("hasFocusedBackground", !getHasFocusedBackground(),
+					(boolean) getHasFocusedBackground());
+		}
+		if (getHasSelectedBackground() != null) {
+			getPropertyChangeSupport().firePropertyChange("hasSelectedBackground", !getHasSelectedBackground(),
+					(boolean) getHasSelectedBackground());
+		}
+		if (getHasFocusedForeground() != null) {
+			getPropertyChangeSupport().firePropertyChange("hasFocusedForeground", !getHasFocusedForeground(),
+					(boolean) getHasFocusedForeground());
+		}
+		if (getHasSelectedForeground() != null) {
+			getPropertyChangeSupport().firePropertyChange("hasSelectedForeground", !getHasSelectedForeground(),
+					(boolean) getHasSelectedForeground());
+		}
 	}
 
 	public Boolean getIsVisible() {
@@ -281,6 +303,38 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 
 	public void setIsFocusable(Boolean flag) {
 		setPropertyValue(GraphicalRepresentation.IS_FOCUSABLE, flag);
+	}
+
+	public Boolean getHasFocusedForeground() {
+		return getPropertyValue(ShapeGraphicalRepresentation.HAS_FOCUSED_FOREGROUND);
+	}
+
+	public void setHasFocusedForeground(Boolean flag) {
+		setPropertyValue(ShapeGraphicalRepresentation.HAS_FOCUSED_FOREGROUND, flag);
+	}
+
+	public ForegroundStyle getFocusedForeground() {
+		return getPropertyValue(ShapeGraphicalRepresentation.FOCUSED_FOREGROUND);
+	}
+
+	public void setFocusedForeground(ForegroundStyle foreground) {
+		setPropertyValue(ShapeGraphicalRepresentation.FOCUSED_FOREGROUND, foreground);
+	}
+
+	public Boolean getHasFocusedBackground() {
+		return getPropertyValue(ShapeGraphicalRepresentation.HAS_FOCUSED_BACKGROUND);
+	}
+
+	public void setHasFocusedBackground(Boolean flag) {
+		setPropertyValue(ShapeGraphicalRepresentation.HAS_FOCUSED_BACKGROUND, flag);
+	}
+
+	public BackgroundStyle getFocusedBackground() {
+		return getPropertyValue(ShapeGraphicalRepresentation.FOCUSED_BACKGROUND);
+	}
+
+	public void setFocusedBackground(BackgroundStyle background) {
+		setPropertyValue(ShapeGraphicalRepresentation.FOCUSED_BACKGROUND, background);
 	}
 
 }
