@@ -36,6 +36,7 @@ greater_than_or_equals_operator=Op\u00E9rateur 'plus grand ou \u00E9gal'
 help=Aide
 inspect=Inspecter
 italic=italique
+layout_manager=layout_manager
 less_than_operator=Operator 'plus petit que'
 less_than_or_equals_operator=Operator 'plus petit ou \u00E9gal'
 localized_editor=Edition des traductions

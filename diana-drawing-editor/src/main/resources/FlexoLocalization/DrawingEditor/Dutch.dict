@@ -21,6 +21,7 @@ foreground=Voorgrond
 foreground_inspector=foreground_inspector
 help=Help
 inspect=Inspect
+layout_manager=layout_manager
 localized_editor=Localization Editor
 location_size_inspector=location_size_inspector
 logs=Logs
