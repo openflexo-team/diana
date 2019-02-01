@@ -1,0 +1,68 @@
+Package org.openflexo.tikz.parser;
+
+// Very simple tikz grammar suppose the presence of the \begin{tikzpicture} and \end{tikzpicture}
+// The usage is to have a file only containing the tikz picture and includes this file in a main latex file
+// For example:
+// \documentclass{standalone}
+// \usepackage{tikz}
+// \begin{document}
+// \input{tmp-tikz.tikz}
+// \end{document}
+
+
+Helpers
+ upper_case = ['A' .. 'Z'];
+ lower_case = ['a' .. 'z'];
+ digit = ['0'..'9'];
+ letter = upper_case | lower_case | '_' ;
+
+Tokens
+ begin = '\begin{tikzpicture}';
+ end = '\end{tikzpicture}';
+ l_par = '(';
+ r_par = ')';
+ l_brak = '[';
+ r_brak = ']';
+ l_brac = '{';
+ r_brac = '}';
+ is = '=';
+ dot = '.';
+ comma = ',';
+ semi = ';';
+ to = '--';
+ decimal_number = digit+;
+ precise_number = digit+ '.' digit+;
+ at = 'at';
+ identifier = letter (letter | digit)*;
+ macro_node = '\node';
+ macro_draw = '\draw';
+ blank = (' ' | 13 | 10)+;
+
+Ignored Tokens
+ blank;
+
+Productions
+ tikz = begin [tikz_commands]:tikz_command* end;
+
+ tikz_command =
+  {node} macro_node [params]:arg_list l_par [name]:identifier r_par at [useless1]:l_par [pos]:position [useless2]:r_par l_brac r_brac semi |
+  {draw} macro_draw l_par [first]:position r_par to [useless1]:l_par [second]:position [useless2]:r_par semi;
+
+ arg_list =
+  {empty_list} l_brak r_brak |
+  {non_empty_list} l_brak [param_name]:identifier is [param_value]:value [additional_args]:additional_arg* r_brak;
+
+ additional_arg =
+  comma [param_name]:identifier is [param_value]:value;
+
+ position =
+  {node} identifier |
+  {absolute} [x]:number comma [y]:number;
+
+ number =
+  {decimal_number} decimal_number |
+  {precise_number} precise_number;
+
+ value =
+  {id} identifier |
+  {num} number [unit]:identifier;
