@@ -1,7 +1,10 @@
 apply plugin: 'sablecc'
 
 dependencies {
+  compile project(':diana-api')
   compile group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
+  compile flexoUtils()
+  testCompile testUtils()
 }
 
 sablecc {
@@ -22,5 +25,5 @@ sourceSets {
  }
 }
 
-//println "Writing to $project.sourceSets.main.output.resourcesDir"
+println "Writing to $project.sourceSets.main.output.resourcesDir"
 //sourceSets.main.resources.

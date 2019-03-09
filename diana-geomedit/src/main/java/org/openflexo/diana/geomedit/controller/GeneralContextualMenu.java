@@ -175,6 +175,18 @@ public class GeneralContextualMenu extends JPopupMenu {
 			}
 		});
 		add(redoItem);
+
+		addSeparator();
+
+		JMenuItem tikzEditorItem = new JMenuItem("Open Tikz Editor");
+		tikzEditorItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.getEditor().getTikzConnector().getTikzEditorFrame().setVisible(true);
+			}
+		});
+		add(tikzEditorItem);
+		
 		// initPalette();
 	}
 

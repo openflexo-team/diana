@@ -17,4 +17,5 @@
 target/
 /.gradle/
 build/
+bin/
 **/out/

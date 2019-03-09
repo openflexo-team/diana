@@ -9,6 +9,9 @@ Package org.openflexo.tikz.parser;
 // \input{tmp-tikz.tikz}
 // \end{document}
 
+// run "git\diana\gradlew.bat :diana-tikz:sableccParser"
+// to generate the java classes
+
 
 Helpers
  upper_case = ['A' .. 'Z'];
@@ -42,27 +45,60 @@ Ignored Tokens
  blank;
 
 Productions
- tikz = begin [tikz_commands]:tikz_command* end;
+ tikz {-> tikz}
+  = begin [tikz_commands]:tikz_command* end {-> New tikz.tikz([tikz_commands.command])}
+  ;
 
- tikz_command =
-  {node} macro_node [params]:arg_list l_par [name]:identifier r_par at [useless1]:l_par [pos]:position [useless2]:r_par l_brac r_brac semi |
-  {draw} macro_draw l_par [first]:position r_par to [useless1]:l_par [second]:position [useless2]:r_par semi;
+ tikz_command {-> command}
+  = {node} macro_node [params]:arg_list l_par [name]:identifier r_par at [useless1]:l_par [pos]:position [useless2]:r_par l_brac r_brac semi 	{-> New command.node(name, pos.position, [params.param])}
+  | {draw} macro_draw l_par [first]:position r_par to [useless1]:l_par [second]:position [useless2]:r_par semi 									{-> New command.draw(first.position, second.position)}
+  ;
 
- arg_list =
-  {empty_list} l_brak r_brak |
-  {non_empty_list} l_brak [param_name]:identifier is [param_value]:value [additional_args]:additional_arg* r_brak;
+ arg_list {-> param*}
+  = {empty_list} l_brak r_brak																							{-> []}
+  | {non_empty_list} l_brak [param_name]:identifier is [param_value]:value [additional_args]:additional_arg* r_brak		{-> [New param.param(param_name, param_value.value), additional_args.param]}
+  ;
 
- additional_arg =
-  comma [param_name]:identifier is [param_value]:value;
+ additional_arg {-> param}
+  = comma [param_name]:identifier is [param_value]:value {-> New param.param(param_name, param_value.value)}
+  ;
 
- position =
-  {node} identifier |
-  {absolute} [x]:number comma [y]:number;
+ position {-> position}
+  = {node} identifier						{-> New position.node(identifier)}
+  | {absolute} [x]:number comma [y]:number	{-> New position.absolute(x.number, y.number)}
+  ;
 
- number =
-  {decimal_number} decimal_number |
-  {precise_number} precise_number;
+ number {-> number} 
+  = {decimal_number} decimal_number {-> New number.decimal(decimal_number)}
+  | {precise_number} precise_number {-> New number.precise(precise_number)}
+  ;
 
- value =
-  {id} identifier |
-  {num} number [unit]:identifier;
+ value {-> value}
+  = {id} identifier 				{-> New value.id(identifier)}
+  | {num} number [unit]:identifier 	{-> New value.num(number, unit)}
+  ;
+
+Abstract Syntax Tree
+  tikz 
+    = {tikz} [commands]:command*
+    ;
+  command 
+    = {node} [name]:identifier [pos]:position [params]:param*
+    | {draw} [first]:position [second]:position
+    ;
+  position
+    = {node} [name]:identifier
+    | {absolute} [x]:number [y]:number
+    ;
+  param
+  	= {param} [name]:identifier [value]:value
+  	;
+  number
+    = {decimal} decimal_number
+    | {precise} precise_number
+    ;
+  value
+    = {id} [content]:identifier
+    | {num} [content]:number [unit]:identifier
+    ;
+    

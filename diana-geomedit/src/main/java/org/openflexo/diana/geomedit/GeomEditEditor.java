@@ -48,6 +48,7 @@ import java.util.logging.Logger;
 import org.jdom2.JDOMException;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
+import org.openflexo.diana.geomedit.tikz.TikzConnectorExtended;
 import org.openflexo.diana.geomedit.view.GeomEditDrawingView;
 import org.openflexo.diana.geomedit.view.GeometricDiagramView;
 import org.openflexo.logging.FlexoLogger;
@@ -79,6 +80,8 @@ public class GeomEditEditor {
 	private final GeomEditApplication application;
 
 	private Clipboard clipboard;
+	
+	private TikzConnectorExtended tikzConnector;
 
 	public static GeomEditEditor newDiagramEditor(GeometricConstructionFactory factory, GeomEditApplication application) {
 
@@ -249,6 +252,13 @@ public class GeomEditEditor {
 	 */
 	public void setClipboard(Clipboard clipboard) {
 		this.clipboard = clipboard;
+	}
+	
+	public TikzConnectorExtended getTikzConnector() {
+		if(tikzConnector == null) {
+			tikzConnector = new TikzConnectorExtended(getController());
+		}
+		return tikzConnector;
 	}
 
 }
