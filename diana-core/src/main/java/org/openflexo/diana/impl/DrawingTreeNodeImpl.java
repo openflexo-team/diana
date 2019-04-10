@@ -935,7 +935,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	@Override
 	public void setIsFocused(boolean aFlag) {
-		//System.out.println("***** setIsFocused with " + aFlag + " was " + isFocused);
+		// System.out.println("***** setIsFocused with " + aFlag + " was " + isFocused);
 		if (aFlag != isFocused) {
 			isFocused = aFlag;
 			notifyObservers(new DianaAttributeNotification<>(IS_FOCUSED, !isFocused, isFocused));
@@ -949,7 +949,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 
 	@Override
 	public void setIsSelected(boolean aFlag) {
-		//System.out.println("***** setIsSelected with " + aFlag + " was " + isSelected);
+		// System.out.println("***** setIsSelected with " + aFlag + " was " + isSelected);
 		if (aFlag != isSelected) {
 			isSelected = aFlag;
 			notifyObservers(new DianaAttributeNotification<>(IS_SELECTED, !isSelected, isSelected));
@@ -1111,6 +1111,26 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 */
 	@Override
 	public <T> void setPropertyValue(GRProperty<T> parameter, T value) {
+
+		T oldValue = null;
+
+		if (getDrawing().getPersistenceMode() == PersistenceMode.UniqueGraphicalRepresentations) {
+			boolean wasObserving = ignoreNotificationsFrom(getGraphicalRepresentation());
+			if (getGraphicalRepresentation() != null) {
+				if (getGraphicalRepresentation().hasKey(parameter.getName())) {
+					oldValue = (T) getGraphicalRepresentation().objectForKey(parameter.getName());
+					getGraphicalRepresentation().setObjectForKey(value, parameter.getName());
+				}
+				if (wasObserving) {
+					observeAgain(getGraphicalRepresentation());
+				}
+			}
+			// Since GR is prevented to fire notifications, do it myself
+			if (getPropertyChangeSupport() != null) {
+				getPropertyChangeSupport().firePropertyChange(parameter.getName(), oldValue, value);
+			}
+		}
+
 		if (hasDynamicSettablePropertyValue(parameter)) {
 			try {
 				setDynamicPropertyValue(parameter, value);
@@ -1125,17 +1145,6 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		// If UniqueGraphicalRepresentations is active, use GR to store graphical properties
 
 		if (getDrawing().getPersistenceMode() == PersistenceMode.UniqueGraphicalRepresentations) {
-			boolean wasObserving = ignoreNotificationsFrom(getGraphicalRepresentation());
-			T oldValue = null;
-			if (getGraphicalRepresentation() != null) {
-				if (getGraphicalRepresentation().hasKey(parameter.getName())) {
-					oldValue = (T) getGraphicalRepresentation().objectForKey(parameter.getName());
-					getGraphicalRepresentation().setObjectForKey(value, parameter.getName());
-				}
-				if (wasObserving) {
-					observeAgain(getGraphicalRepresentation());
-				}
-			}
 			// Since GR is prevented to fire notifications, do it myself
 			if (getPropertyChangeSupport() != null) {
 				getPropertyChangeSupport().firePropertyChange(parameter.getName(), oldValue, value);
