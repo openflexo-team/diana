@@ -110,6 +110,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 			disableStartObjectObserving();
 			this.startNode = startNode;
 			enableStartObjectObserving(startNode);
+			refreshConnector();
 		}
 	}
 
@@ -123,6 +124,7 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 			disableEndObjectObserving();
 			this.endNode = endNode;
 			enableEndObjectObserving(endNode);
+			refreshConnector();
 		}
 	}
 
