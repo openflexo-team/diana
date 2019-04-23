@@ -1533,8 +1533,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 		// We have here to translate result to take borders into account
 		if (getParentNode() instanceof ShapeNode) {
-			point.x += ((ShapeNode<?>) getParentNode()).getBorderLeft() * scale /*- (int) (getBorderLeft() * scale)*/;
-			point.y += ((ShapeNode<?>) getParentNode()).getBorderTop() * scale /*- (int) (getBorderTop() * scale)*/;
+			point.x += ((ShapeNode<?>) getParentNode()).getBorderLeft() * scale;
+			point.y += ((ShapeNode<?>) getParentNode()).getBorderTop() * scale;
 		}
 		return point;
 	}
@@ -1544,11 +1544,9 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 		// First take the borders under account
 		if (getParentNode() instanceof ShapeNode) {
-			point.x -= ((ShapeNode<?>) getParentNode()).getBorderLeft() * scale /*- (int) (getBorderLeft() * scale)*/;
-			point.y -= ((ShapeNode<?>) getParentNode()).getBorderTop() * scale /*- (int) (getBorderTop() * scale)*/;
+			point.x -= ((ShapeNode<?>) getParentNode()).getBorderLeft() * scale;
+			point.y -= ((ShapeNode<?>) getParentNode()).getBorderTop() * scale;
 		}
-		// point.x -= (DianaUtils.getCumulativeLeftBorders(getParentNode()) * scale /*- (int) (getBorderLeft() * scale)*/);
-		// point.y -= (DianaUtils.getCumulativeTopBorders(getParentNode()) * scale /*- (int) (getBorderTop() * scale)*/);
 
 		if (getGraphicalRepresentation().getIsFloatingLabel()) {
 			Double oldAbsoluteTextX = getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X);
@@ -1563,7 +1561,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				case RIGHT:
 					point.x += d.width;
 					break;
-
+				default:
+					break;
 			}
 			switch (getVerticalTextAlignment()) {
 				case BOTTOM:
@@ -1573,6 +1572,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					point.y += d.height / 2;
 					break;
 				case TOP:
+					break;
+				default:
 					break;
 			}
 			DianaPoint p = new DianaPoint((point.x - getViewX(scale)) / scale, (point.y - getViewY(scale)) / scale);
@@ -1588,53 +1589,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public int getAvailableLabelWidth(double scale) {
 		if (getGraphicalRepresentation().getLineWrap()) {
-			// if (!getGraphicalRepresentation().getIsFloatingLabel()) {
 			return (int) (getWidth() * scale);
-			/*}
-			else {
-				double rpx = getGraphicalRepresentation().getRelativeTextX();
-				switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
-					case RIGHT:
-						if (GeomUtils.doubleEquals(rpx, 0.0)) {
-							if (logger.isLoggable(Level.WARNING)) {
-								logger.warning("Impossible to handle RIGHT alignement with relative x position set to 0!");
-							}
-						}
-						else {
-							return (int) (getWidth() * rpx * scale);
-						}
-					case CENTER:
-						if (GeomUtils.doubleEquals(rpx, 0.0)) {
-							if (logger.isLoggable(Level.WARNING)) {
-								logger.warning("Impossible to handle CENTER alignement with relative x position set to 0");
-							}
-						}
-						else if (GeomUtils.doubleEquals(rpx, 1.0)) {
-							if (logger.isLoggable(Level.WARNING)) {
-								logger.warning("Impossible to handle CENTER alignement with relative x position set to 1");
-							}
-						}
-						else {
-							if (rpx > 0.5) {
-								return (int) (getWidth() * 2 * (1 - rpx) * scale);
-							}
-							else {
-								return (int) (getWidth() * 2 * rpx * scale);
-							}
-						}
-						break;
-					case LEFT:
-						if (GeomUtils.doubleEquals(rpx, 1.0)) {
-							if (logger.isLoggable(Level.WARNING)) {
-								logger.warning("Impossible to handle LEFT alignement with relative x position set to 1");
-							}
-						}
-						else {
-							return (int) (getWidth() * (1 - rpx) * scale);
-						}
-						break;
-				}
-			}*/
 		}
 		return super.getAvailableLabelWidth(scale);
 	}
@@ -1714,8 +1669,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		}
 
 		for (DianaLayoutManager<?, O> layoutManager : getLayoutManagers()) {
-			System.out.println("Je declare le LM " + layoutManager);
-			System.out.println("Je suis " + this + " et le container du LM=" + layoutManager.getContainerNode());
+			// System.out.println("Je declare le LM " + layoutManager);
+			// System.out.println("Je suis " + this + " et le container du LM=" + layoutManager.getContainerNode());
 			if (layoutManager.getDraggingMode().relayoutAfterDrag()) {
 				layoutManager.doLayout(true);
 			}
@@ -1844,103 +1799,6 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		int labelHeight = normalizedLabelSize.height;
 
 		return new DianaDimension(labelWidth, labelHeight);
-
-		// If label is not floating, just return this required label size
-		/*if (!getGraphicalRepresentation().getIsFloatingLabel()) {
-			return new DianaDimension(labelWidth, labelHeight);
-		}
-		else {
-			// Otherwise, take relative position under consideration
-			double rh = 0, rw = 0;
-			DianaPoint rp = new DianaPoint(getGraphicalRepresentation().getRelativeTextX(), getGraphicalRepresentation().getRelativeTextY());
-			switch (getGraphicalRepresentation().getVerticalTextAlignment()) {
-				case BOTTOM:
-					if (GeomUtils.doubleEquals(rp.y, 0.0)) {
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning("Impossible to handle BOTTOM alignement with relative y position set to 0!");
-						}
-					}
-					else {
-						rh = labelHeight / rp.y;
-					}
-					break;
-				case MIDDLE:
-					if (GeomUtils.doubleEquals(rp.y, 0.0)) {
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning("Impossible to handle MIDDLE alignement with relative y position set to 0");
-						}
-					}
-					else if (GeomUtils.doubleEquals(rp.y, 1.0)) {
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning("Impossible to handle MIDDLE alignement with relative y position set to 1");
-						}
-					}
-					else {
-						if (rp.y > 0.5) {
-							rh = labelHeight / (2 * (1 - rp.y));
-						}
-						else {
-							rh = labelHeight / (2 * rp.y);
-						}
-					}
-					break;
-				case TOP:
-					if (GeomUtils.doubleEquals(rp.x, 1.0)) {
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning("Impossible to handle TOP alignement with relative y position set to 1!");
-						}
-					}
-					else {
-						rh = labelHeight / (1 - rp.y);
-					}
-					break;
-		
-			}
-		
-			switch (getGraphicalRepresentation().getHorizontalTextAlignment()) {
-				case RIGHT:
-					if (GeomUtils.doubleEquals(rp.x, 0.0)) {
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning("Impossible to handle RIGHT alignement with relative x position set to 0!");
-						}
-					}
-					else {
-						rw = labelWidth / rp.x;
-					}
-				case CENTER:
-					if (GeomUtils.doubleEquals(rp.x, 0.0)) {
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning("Impossible to handle CENTER alignement with relative x position set to 0");
-						}
-					}
-					else if (GeomUtils.doubleEquals(rp.x, 1.0)) {
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning("Impossible to handle CENTER alignement with relative x position set to 1");
-						}
-					}
-					else {
-						if (rp.x > 0.5) {
-							rw = labelWidth / (2 * (1 - rp.x));
-						}
-						else {
-							rw = labelWidth / (2 * rp.x);
-						}
-					}
-					break;
-				case LEFT:
-					if (GeomUtils.doubleEquals(rp.x, 1.0)) {
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning("Impossible to handle LEFT alignement with relative x position set to 1!");
-						}
-					}
-					else {
-						rw = labelWidth / (1 - rp.x);
-					}
-					break;
-			}
-			return new DianaDimension(rw, rh);
-		}*/
-
 	}
 
 	protected void updateRequiredBoundsForChildGRLocation(ShapeNode<?> child, DianaPoint newChildLocation) {
@@ -2017,10 +1875,6 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public DianaRectangle getRequiredBoundsForContents() {
 		DianaRectangle requiredBounds = super.getRequiredBoundsForContents();
-
-		// requiredBounds.x = requiredBounds.x - getGraphicalRepresentation().getBorder().getLeft();
-		// requiredBounds.y = requiredBounds.y - getGraphicalRepresentation().getBorder().getTop();
-
 		return requiredBounds;
 	}
 
@@ -2228,22 +2082,6 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	}
 
 	/**
-	 * Convenient method used to retrieve border property value
-	 */
-	/*@Override
-	public ShapeBorder getBorder() {
-		return getPropertyValue(ShapeGraphicalRepresentation.BORDER);
-	}*/
-
-	/**
-	 * Convenient method used to set border property value
-	 */
-	/*@Override
-	public void setBorder(ShapeBorder border) {
-		setPropertyValue(ShapeGraphicalRepresentation.BORDER, border);
-	}*/
-
-	/**
 	 * Convenient method used to retrieve shape specification property value
 	 */
 	@Override
@@ -2261,16 +2099,6 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			fireShapeSpecificationChanged();
 		}
 	}
-
-	/**
-	 * Called to define DianaLayoutManager for this node<br>
-	 * The layout manager should be already declared in the parent. It is identified by supplied layoutManagerIdentifier.
-	 * 
-	 * @param layoutManagerIdentifier
-	 */
-	/*public void layoutedWith(String layoutManagerIdentifier) {
-		setLayoutManager(getParentNode().getLayoutManager(layoutManagerIdentifier));
-	}*/
 
 	/**
 	 * Return the layout manager responsible for the layout of this node (relating to its container)
