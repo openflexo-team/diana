@@ -1455,11 +1455,41 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	@Override
 	public Point getLabelLocation(double scale) {
 		Point point;
+		Dimension d = getLabelDimension(scale);
 		if (getGraphicalRepresentation().getIsFloatingLabel()) {
+			// Layout for floating label
+			// We positionnat the label using absolute positionning
 			point = new Point((int) (getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_X) * scale + getViewX(scale)),
 					(int) (getPropertyValue(GraphicalRepresentation.ABSOLUTE_TEXT_Y) * scale + getViewY(scale)));
+			if (getHorizontalTextAlignment() != null) {
+				switch (getHorizontalTextAlignment()) {
+					case CENTER:
+					case RELATIVE:
+						point.x -= d.width / 2;
+						break;
+					case LEFT:
+						break;
+					case RIGHT:
+						point.x -= d.width;
+						break;
+				}
+			}
+			if (getVerticalTextAlignment() != null) {
+				switch (getVerticalTextAlignment()) {
+					case BOTTOM:
+						point.y -= d.height;
+						break;
+					case MIDDLE:
+					case RELATIVE:
+						point.y -= d.height / 2;
+						break;
+					case TOP:
+						break;
+				}
+			}
 		}
 		else {
+			// Otherwise, this is relative positionning, using bounds of the shape
 			double baseX = 0.5;
 			if (getHorizontalTextAlignment() == HorizontalTextAlignment.RELATIVE) {
 				baseX = getGraphicalRepresentation().getRelativeTextX();
@@ -1470,36 +1500,34 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			}
 			DianaPoint relativePosition = new DianaPoint(baseX, baseY);
 			point = convertLocalNormalizedPointToRemoteViewCoordinates(relativePosition, getParentNode(), scale);
-		}
-		Dimension d = getLabelDimension(scale);
-		if (getHorizontalTextAlignment() != null) {
-			switch (getHorizontalTextAlignment()) {
-				case CENTER:
-				case RELATIVE:
-					point.x -= d.width / 2;
-					break;
-				case LEFT:
-					point.x = (int) (point.x - getWidth() / 2);
-					break;
-				case RIGHT:
-					point.x = (int) (point.x + getWidth() / 2) - d.width;
-					break;
+			if (getHorizontalTextAlignment() != null) {
+				switch (getHorizontalTextAlignment()) {
+					case CENTER:
+					case RELATIVE:
+						point.x -= d.width / 2;
+						break;
+					case LEFT:
+						point.x = (int) (point.x - getWidth() / 2);
+						break;
+					case RIGHT:
+						point.x = (int) (point.x + getWidth() / 2) - d.width;
+						break;
 
+				}
 			}
-		}
-		if (getVerticalTextAlignment() != null) {
-			switch (getVerticalTextAlignment()) {
-				case BOTTOM:
-					point.y = (int) (point.y + getHeight() / 2) - d.height;
-					// point.y -= d.height;
-					break;
-				case MIDDLE:
-				case RELATIVE:
-					point.y -= d.height / 2;
-					break;
-				case TOP:
-					point.y = (int) (point.y - getHeight() / 2);
-					break;
+			if (getVerticalTextAlignment() != null) {
+				switch (getVerticalTextAlignment()) {
+					case BOTTOM:
+						point.y = (int) (point.y + getHeight() / 2) - d.height;
+						break;
+					case MIDDLE:
+					case RELATIVE:
+						point.y -= d.height / 2;
+						break;
+					case TOP:
+						point.y = (int) (point.y - getHeight() / 2);
+						break;
+				}
 			}
 		}
 
