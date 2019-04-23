@@ -43,8 +43,8 @@ import javax.swing.ImageIcon;
 
 import org.openflexo.diana.DianaIconLibrary;
 import org.openflexo.diana.DianaObject;
-import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.Drawing.ConnectorNode;
+import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.connectors.ConnectorSymbol.EndSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.MiddleSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.StartSymbolType;
@@ -82,6 +82,8 @@ public interface ConnectorSpecification extends DianaObject {
 	public static final String MIDDLE_SYMBOL_SIZE_KEY = "middleSymbolSize";
 	@PropertyIdentifier(type = Double.class)
 	public static final String RELATIVE_MIDDLE_SYMBOL_LOCATION_KEY = "relativeMiddleSymbolLocation";
+	@PropertyIdentifier(type = Double.class)
+	public static final String RELATIVE_LABEL_LOCATION_KEY = "relativeLabelLocation";
 
 	public static GRProperty<StartSymbolType> START_SYMBOL = GRProperty.getGRParameter(ConnectorSpecification.class, START_SYMBOL_KEY,
 			StartSymbolType.class);
@@ -99,15 +101,20 @@ public interface ConnectorSpecification extends DianaObject {
 	public static GRProperty<Double> RELATIVE_MIDDLE_SYMBOL_LOCATION = GRProperty.getGRParameter(ConnectorSpecification.class,
 			RELATIVE_MIDDLE_SYMBOL_LOCATION_KEY, Double.class);
 
+	public static GRProperty<Double> RELATIVE_LABEL_LOCATION = GRProperty.getGRParameter(ConnectorSpecification.class,
+			RELATIVE_LABEL_LOCATION_KEY, Double.class);
+
 	public static enum ConnectorType {
 		LINE, RECT_POLYLIN, CURVE, CURVED_POLYLIN;
 
 		public ImageIcon getIcon() {
 			if (this == RECT_POLYLIN) {
 				return DianaIconLibrary.RECT_POLYLIN_CONNECTOR_ICON;
-			} else if (this == CURVE) {
+			}
+			else if (this == CURVE) {
 				return DianaIconLibrary.CURVE_CONNECTOR_ICON;
-			} else if (this == LINE) {
+			}
+			else if (this == LINE) {
 				return DianaIconLibrary.LINE_CONNECTOR_ICON;
 			}
 			return null;
@@ -165,6 +172,13 @@ public interface ConnectorSpecification extends DianaObject {
 
 	@Setter(value = RELATIVE_MIDDLE_SYMBOL_LOCATION_KEY)
 	public void setRelativeMiddleSymbolLocation(double relativeMiddleSymbolLocation);
+
+	@Getter(value = RELATIVE_LABEL_LOCATION_KEY, defaultValue = "0.5")
+	@XMLAttribute
+	public double getRelativeLabelLocation();
+
+	@Setter(value = RELATIVE_LABEL_LOCATION_KEY)
+	public void setRelativeLabelLocation(double relativeLabelLocation);
 
 	public Connector<?> makeConnector(ConnectorNode<?> connectorNode);
 }

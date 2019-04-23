@@ -398,9 +398,9 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 	@Override
 	public Point getLabelLocation(double scale) {
 		if (getConnector() != null) {
-			Point connectorCenter = convertNormalizedPointToViewCoordinates(getConnector().getMiddleSymbolLocation(), scale);
-			Point point = new Point((int) (connectorCenter.x + getGraphicalRepresentation().getAbsoluteTextX() * scale + getViewX(scale)),
-					(int) (connectorCenter.y + getGraphicalRepresentation().getAbsoluteTextY() * scale + getViewY(scale)));
+			Point labelLocation = convertNormalizedPointToViewCoordinates(getConnector().getLabelLocation(), scale);
+			Point point = new Point((int) (labelLocation.x + getGraphicalRepresentation().getAbsoluteTextX() * scale + getViewX(scale)),
+					(int) (labelLocation.y + getGraphicalRepresentation().getAbsoluteTextY() * scale + getViewY(scale)));
 
 			Dimension d = getLabelDimension(scale);
 			if (getGraphicalRepresentation().getHorizontalTextAlignment() != null) {

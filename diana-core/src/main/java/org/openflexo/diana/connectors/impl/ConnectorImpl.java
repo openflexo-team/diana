@@ -199,9 +199,6 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	@Override
 	public abstract List<? extends ControlArea<?>> getControlAreas();
 
-	@Override
-	public abstract DianaPoint getMiddleSymbolLocation();
-
 	/**
 	 * Return bounds of actually required area to fully display current connector (which might require to be paint outside normalized
 	 * bounds)
@@ -593,6 +590,14 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 
 	public void setRelativeMiddleSymbolLocation(double relativeMiddleSymbolLocation) {
 		setPropertyValue(ConnectorSpecification.RELATIVE_MIDDLE_SYMBOL_LOCATION, relativeMiddleSymbolLocation);
+	}
+
+	public double getRelativeLabelLocation() {
+		return getPropertyValue(ConnectorSpecification.RELATIVE_LABEL_LOCATION);
+	}
+
+	public void setRelativeLabelLocation(double relativeMiddleSymbolLocation) {
+		setPropertyValue(ConnectorSpecification.RELATIVE_LABEL_LOCATION, relativeMiddleSymbolLocation);
 	}
 
 }

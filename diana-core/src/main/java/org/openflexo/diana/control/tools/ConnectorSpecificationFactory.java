@@ -386,6 +386,16 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 			setPropertyValue(ConnectorSpecification.RELATIVE_MIDDLE_SYMBOL_LOCATION, relativeMiddleSymbolLocation);
 		}
 
+		@Override
+		public double getRelativeLabelLocation() {
+			return getPropertyValue(ConnectorSpecification.RELATIVE_LABEL_LOCATION);
+		}
+
+		@Override
+		public void setRelativeLabelLocation(double relativeLabelLocation) {
+			setPropertyValue(ConnectorSpecification.RELATIVE_LABEL_LOCATION, relativeLabelLocation);
+		}
+
 	}
 
 	protected class InspectedLineConnectorSpecification extends AbstractInspectedConnectorSpecification<LineConnectorSpecification>

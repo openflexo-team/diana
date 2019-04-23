@@ -256,6 +256,31 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		return returned;
 	}
 
+	@Override
+	public DianaPoint getLabelLocation() {
+		if (polylin == null) {
+			return new DianaPoint(0, 0);
+		}
+		AffineTransform at = connectorNode.convertNormalizedPointToViewCoordinatesAT(1.0);
+
+		DianaRectPolylin transformedPolylin = polylin.transform(at);
+		DianaPoint point = transformedPolylin.getPointAtRelativePosition(getRelativeLabelLocation());
+		try {
+			point = point.transform(at.createInverse());
+		} catch (NoninvertibleTransformException e) {
+			e.printStackTrace();
+		}
+		if (!getIsRounded()) {
+			return point;
+		}
+		UnnormalizedArcSize arcSize = computeUnnormalizedArcSize();
+		DianaPoint returned = polylin.getNearestPointLocatedOnRoundedRepresentation(point, arcSize.arcWidth, arcSize.arcHeight);
+		if (returned == null) {
+			return new DianaPoint(0, 0);
+		}
+		return returned;
+	}
+
 	/**
 	 * 
 	 * @return angle expressed in radians

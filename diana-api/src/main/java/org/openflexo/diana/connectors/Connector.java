@@ -41,9 +41,9 @@ package org.openflexo.diana.connectors;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.connectors.ConnectorSpecification.ConnectorType;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.geom.DianaPoint;
@@ -78,6 +78,8 @@ public interface Connector<CS extends ConnectorSpecification> extends PropertyCh
 	public abstract List<? extends ControlArea<?>> getControlAreas();
 
 	public abstract DianaPoint getMiddleSymbolLocation();
+
+	public abstract DianaPoint getLabelLocation();
 
 	/**
 	 * Return bounds of actually required area to fully display current connector (which might require to be paint outside normalized

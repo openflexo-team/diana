@@ -546,6 +546,14 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 	}
 
 	@Override
+	public DianaPoint getLabelLocation() {
+		if (cp1 == null || cp2 == null) {
+			return new DianaPoint(0, 0);
+		}
+		return new DianaSegment(cp1.getPoint(), cp2.getPoint()).getScaledPoint(getRelativeLabelLocation());
+	}
+
+	@Override
 	public double distanceToConnector(DianaPoint aPoint, double scale) {
 		if (cp1 == null || cp2 == null) {
 			LOGGER.warning("Invalid date in LineConnectorSpecification: control points are null");

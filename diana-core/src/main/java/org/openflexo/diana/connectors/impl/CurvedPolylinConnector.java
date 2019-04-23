@@ -50,10 +50,10 @@ import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.connectors.CurvedPolylinConnectorSpecification;
 import org.openflexo.diana.cp.ConnectorAdjustingControlPoint;
 import org.openflexo.diana.cp.ControlPoint;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.GeomUtils;
-import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.graphics.DianaConnectorGraphics;
 
 public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnectorSpecification> {
@@ -149,6 +149,11 @@ public class CurvedPolylinConnector extends ConnectorImpl<CurvedPolylinConnector
 	@Override
 	public DianaPoint getMiddleSymbolLocation() {
 		return new DianaPoint(0.5, 0.5);
+	}
+
+	@Override
+	public DianaPoint getLabelLocation() {
+		return getMiddleSymbolLocation();
 	}
 
 	private final DianaRectangle NORMALIZED_BOUNDS = new DianaRectangle(0, 0, 1, 1, Filling.FILLED);

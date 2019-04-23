@@ -467,6 +467,11 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 	}
 
 	@Override
+	public DianaPoint getLabelLocation() {
+		return getMiddleSymbolLocation();
+	}
+
+	@Override
 	public DianaRectangle getConnectorUsedBounds() {
 		if (curve == null) {
 			refreshCurve();
