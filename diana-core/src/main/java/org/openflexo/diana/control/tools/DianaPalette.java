@@ -47,7 +47,6 @@ import java.awt.dnd.DragSource;
 import java.beans.PropertyChangeEvent;
 import java.util.logging.Logger;
 
-import org.openflexo.connie.DataBinding;
 import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.GRBinding.DrawingGRBinding;
@@ -55,7 +54,6 @@ import org.openflexo.diana.GRBinding.ShapeGRBinding;
 import org.openflexo.diana.GRProvider.DrawingGRProvider;
 import org.openflexo.diana.GRProvider.ShapeGRProvider;
 import org.openflexo.diana.GRStructureVisitor;
-import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.animation.Animation;
 import org.openflexo.diana.control.AbstractDianaEditor;
@@ -203,7 +201,8 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 				}
 			});
 
-			paletteElementBinding.setDynamicPropertyValue(GraphicalRepresentation.TEXT, new DataBinding<String>("drawable.name"), false);
+			// Do not display palette element label
+			// paletteElementBinding.setDynamicPropertyValue(GraphicalRepresentation.TEXT, new DataBinding<String>("drawable.name"), false);
 
 		}
 
