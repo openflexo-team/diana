@@ -184,8 +184,12 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 				CompoundEdit setValueEdit = startRecordEdit("Set " + parameter.getName() + " to " + value);
 				for (DrawingTreeNode<?, ?> n : getSelection()) {
 					S style = getStyle(n);
-					//System.out.println("For " + n + " use " + style + " and sets value of " + parameter.getName() + " with " + value);
+					// System.out.println("For " + n + " use " + style + " and sets value of " + parameter.getName() + " with " + value);
 					if (style != null) {
+						if (value instanceof InspectedStyle) {
+							// If the value is InspectedStyle cloneStyle() to get a unmutable value
+							value = (T) ((InspectedStyle) value).cloneStyle();
+						}
 						style.setObjectForKey(value, parameter.getName());
 					}
 				}
