@@ -68,6 +68,7 @@ constrained_dimensions=Dimensions contraintes
 constraints=constraints
 contained_in_shape=Contenu dans la forme
 container=Conteneur
+control=Controle
 custom_polygon=custom_polygon
 define_layout=define_layout
 dimensions_constraints=Contraintes de dimensionnement

@@ -15,6 +15,7 @@ close=Sluiten
 close_drawing=Close drawing
 connector=connectie
 connector_inspector=connector_inspector
+control_inspector=control_inspector
 edit=Edit
 file=File
 foreground=Voorgrond

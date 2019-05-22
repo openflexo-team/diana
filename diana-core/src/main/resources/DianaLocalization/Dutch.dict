@@ -67,6 +67,7 @@ constrained_dimensions=Opgedragen afmetingen
 constraints=Constraints
 contained_in_shape=Gelegen in een shape
 container=container
+control=Control
 custom_polygon=Custom polygon
 define_layout=Define layout
 dimensions_constraints=Regelgeving voor de afmetingen

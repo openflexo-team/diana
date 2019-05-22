@@ -20,6 +20,7 @@ close_drawing=Close drawing
 conditional=conditional
 connector=connector
 connector_inspector=Connector inspector
+control_inspector=Control inspector
 copy=Copy
 cut=Cut
 delete=Delete
