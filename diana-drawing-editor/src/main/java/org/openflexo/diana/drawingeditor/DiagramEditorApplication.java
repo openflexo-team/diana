@@ -408,6 +408,8 @@ public class DiagramEditorApplication {
 					inspectors.getShadowStyleInspector());
 			WindowMenuItem locationSizeInspectorItem = new WindowMenuItem(
 					DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("location_size_inspector"), inspectors.getLocationSizeInspector());
+			WindowMenuItem controlInspectorItem = new WindowMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("control_inspector"),
+					inspectors.getControlInspector());
 			WindowMenuItem layoutManagerInspectorItem = new WindowMenuItem(
 					DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("layout_manager_inspector"), inspectors.getLayoutManagersInspector());
 
@@ -420,6 +422,7 @@ public class DiagramEditorApplication {
 			viewMenu.add(connectorInspectorItem);
 			viewMenu.add(shadowInspectorItem);
 			viewMenu.add(locationSizeInspectorItem);
+			viewMenu.add(controlInspectorItem);
 			viewMenu.add(layoutManagerInspectorItem);
 			viewMenu.addSeparator();
 			viewMenu.add(paletteItem);
@@ -543,6 +546,7 @@ public class DiagramEditorApplication {
 		inspectors.getShapeInspector().setLocation(1000, 600);
 		inspectors.getConnectorInspector().setLocation(1000, 700);
 		inspectors.getLocationSizeInspector().setLocation(1000, 50);
+		inspectors.getControlInspector().setLocation(1000, 150);
 		inspectors.getLayoutManagersInspector().setLocation(1000, 300);
 
 		JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));

@@ -48,6 +48,7 @@ import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.tools.BackgroundStyleFactory;
 import org.openflexo.diana.control.tools.ConnectorSpecificationFactory;
 import org.openflexo.diana.control.tools.DianaInspectors;
+import org.openflexo.diana.control.tools.InspectedControlProperties;
 import org.openflexo.diana.control.tools.InspectedLayoutManagerSpecifications;
 import org.openflexo.diana.control.tools.InspectedLocationSizeProperties;
 import org.openflexo.diana.control.tools.InspectedTextProperties;
@@ -76,6 +77,7 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 	private JDialogInspector<ShapeSpecificationFactory> shapeInspector;
 	private JDialogInspector<ConnectorSpecificationFactory> connectorInspector;
 	private JDialogInspector<InspectedLocationSizeProperties> locationSizeInspector;
+	private JDialogInspector<InspectedControlProperties> controlInspector;
 	private JDialogInspector<InspectedLayoutManagerSpecifications> layoutManagersInspector;
 
 	private final JFrame frame;
@@ -107,6 +109,9 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 		}
 		if (locationSizeInspector != null) {
 			locationSizeInspector.setData(getInspectedLocationSizeProperties(), true);
+		}
+		if (controlInspector != null) {
+			controlInspector.setData(getInspectedControlProperties());
 		}
 		if (layoutManagersInspector != null) {
 			layoutManagersInspector.setData(getInspectedLayoutManagerSpecifications(), true);
@@ -162,6 +167,16 @@ public class JDianaDialogInspectors extends DianaInspectors<JDialogInspector<?>,
 					getInspectedLocationSizeProperties(), frame, JDianaInspectorsResources.LOCATION_NAME);
 		}
 		return locationSizeInspector;
+	}
+
+	@Override
+	public JDialogInspector<InspectedControlProperties> getControlInspector() {
+		if (controlInspector == null) {
+			controlInspector = new JDialogInspector<InspectedControlProperties>(
+					AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(JDianaInspectorsResources.CONTROL_FIB_FILE, true),
+					getInspectedControlProperties(), frame, JDianaInspectorsResources.CONTROL_NAME);
+		}
+		return controlInspector;
 	}
 
 	@Override

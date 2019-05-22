@@ -26,6 +26,9 @@ public class JDianaInspectorsResources {
 	public static Resource LOCATION_SIZE_FIB_FILE = ResourceLocator.locateResource("Fib/LocationSizePanel.fib");
 	public static String LOCATION_NAME = DianaCoreUtils.DIANA_LOCALIZATION.localizedForKey("location_size");
 
+	public static Resource CONTROL_FIB_FILE = ResourceLocator.locateResource("Fib/ControlPanel.fib");
+	public static String CONTROL_NAME = DianaCoreUtils.DIANA_LOCALIZATION.localizedForKey("control");
+
 	public static Resource LAYOUT_MANAGERS_FIB_FILE = ResourceLocator.locateResource("Fib/LayoutManagersPanel.fib");
 	public static String LAYOUT_NAME = DianaCoreUtils.DIANA_LOCALIZATION.localizedForKey("layout_managers");
 }

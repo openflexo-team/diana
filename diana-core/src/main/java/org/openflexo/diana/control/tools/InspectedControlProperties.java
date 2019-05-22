@@ -43,10 +43,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.openflexo.connie.DataBinding;
 import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
-import org.openflexo.diana.ContainerGraphicalRepresentation;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.ForegroundStyle;
@@ -54,8 +52,6 @@ import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.GeometricGraphicalRepresentation;
 import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
-import org.openflexo.diana.ShapeGraphicalRepresentation.DimensionConstraints;
-import org.openflexo.diana.ShapeGraphicalRepresentation.LocationConstraints;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 
 /**
@@ -65,9 +61,9 @@ import org.openflexo.diana.control.DianaInteractiveViewer;
  * @author sylvain
  * 
  */
-public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRepresentation> {
+public class InspectedControlProperties extends InspectedStyle<GraphicalRepresentation> {
 
-	public InspectedLocationSizeProperties(DianaInteractiveViewer<?, ?, ?> controller) {
+	public InspectedControlProperties(DianaInteractiveViewer<?, ?, ?> controller) {
 		super(controller, null);
 	}
 
@@ -79,14 +75,6 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 	@Override
 	public GraphicalRepresentation getStyle(DrawingTreeNode<?, ?> node) {
 		return node.getGraphicalRepresentation();
-	}
-
-	public boolean areLocationPropertiesApplicable() {
-		return getController().getSelectedShapes().size() > 0;
-	}
-
-	public boolean areDimensionPropertiesApplicable() {
-		return getController().getSelectedContainers().size() > 0;
 	}
 
 	@Override
@@ -107,10 +95,6 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 	@Override
 	public void fireSelectionUpdated() {
 		super.fireSelectionUpdated();
-		getPropertyChangeSupport().firePropertyChange("areLocationPropertiesApplicable", !areLocationPropertiesApplicable(),
-				areLocationPropertiesApplicable());
-		getPropertyChangeSupport().firePropertyChange("areDimensionPropertiesApplicable", !areDimensionPropertiesApplicable(),
-				areDimensionPropertiesApplicable());
 		if (getIsSelectable() != null) {
 			getPropertyChangeSupport().firePropertyChange("isSelectable", !getIsSelectable(), (boolean) getIsSelectable());
 		}
@@ -133,127 +117,6 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 			getPropertyChangeSupport().firePropertyChange("hasSelectedForeground", !getHasSelectedForeground(),
 					(boolean) getHasSelectedForeground());
 		}
-	}
-
-	public Boolean getIsVisible() {
-		return getPropertyValue(GraphicalRepresentation.IS_VISIBLE);
-	}
-
-	public void setIsVisible(Boolean value) {
-		setPropertyValue(GraphicalRepresentation.IS_VISIBLE, value);
-	}
-
-	public Integer getLayer() {
-		return getPropertyValue(GraphicalRepresentation.LAYER);
-	}
-
-	public void setLayer(Integer value) {
-		setPropertyValue(GraphicalRepresentation.LAYER, value);
-	}
-
-	public Integer getIndexInLayer() {
-		// TODO
-		return 0;
-	}
-
-	public void setIndexInLayer(Integer value) {
-		// TODO
-	}
-
-	public String getLayoutManagerIdentifier() {
-		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_MANAGER_IDENTIFIER);
-	}
-
-	public void setLayoutManagerIdentifier(String value) {
-		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_MANAGER_IDENTIFIER, value);
-	}
-
-	public Double getX() {
-		return getPropertyValue(ShapeGraphicalRepresentation.X);
-	}
-
-	public void setX(Double value) {
-		setPropertyValue(ShapeGraphicalRepresentation.X, value);
-	}
-
-	public Double getY() {
-		return getPropertyValue(ShapeGraphicalRepresentation.Y);
-	}
-
-	public void setY(Double value) {
-		setPropertyValue(ShapeGraphicalRepresentation.Y, value);
-	}
-
-	public Double getWidth() {
-		return getPropertyValue(ContainerGraphicalRepresentation.WIDTH);
-	}
-
-	public void setWidth(Double value) {
-		setPropertyValue(ContainerGraphicalRepresentation.WIDTH, value);
-	}
-
-	public Double getHeight() {
-		return getPropertyValue(ContainerGraphicalRepresentation.HEIGHT);
-	}
-
-	public void setHeight(Double value) {
-		setPropertyValue(ContainerGraphicalRepresentation.HEIGHT, value);
-	}
-
-	public LocationConstraints getLocationConstraints() {
-		return getPropertyValue(ShapeGraphicalRepresentation.LOCATION_CONSTRAINTS);
-	}
-
-	public void setLocationConstraints(LocationConstraints locationConstraints) {
-		setPropertyValue(ShapeGraphicalRepresentation.LOCATION_CONSTRAINTS, locationConstraints);
-	}
-
-	public DimensionConstraints getDimensionConstraints() {
-		return getPropertyValue(ShapeGraphicalRepresentation.DIMENSION_CONSTRAINTS);
-	}
-
-	public void setDimensionConstraints(DimensionConstraints dimensionConstraints) {
-		setPropertyValue(ShapeGraphicalRepresentation.DIMENSION_CONSTRAINTS, dimensionConstraints);
-	}
-
-	public Boolean getIsAllowToLeaveBounds() {
-		return getPropertyValue(ShapeGraphicalRepresentation.ALLOW_TO_LEAVE_BOUNDS);
-	}
-
-	public void setIsAllowToLeaveBounds(Boolean flag) {
-		setPropertyValue(ShapeGraphicalRepresentation.ALLOW_TO_LEAVE_BOUNDS, flag);
-	}
-
-	public DataBinding<Double> getXConstraints() {
-		return getPropertyValue(ShapeGraphicalRepresentation.X_CONSTRAINTS);
-	}
-
-	public void setXConstraints(DataBinding<Double> xConstraints) {
-		setPropertyValue(ShapeGraphicalRepresentation.X_CONSTRAINTS, xConstraints);
-	}
-
-	public DataBinding<Double> getYConstraints() {
-		return getPropertyValue(ShapeGraphicalRepresentation.Y_CONSTRAINTS);
-	}
-
-	public void setYConstraints(DataBinding<Double> yConstraints) {
-		setPropertyValue(ShapeGraphicalRepresentation.Y_CONSTRAINTS, yConstraints);
-	}
-
-	public DataBinding<Double> getWidthConstraints() {
-		return getPropertyValue(ShapeGraphicalRepresentation.WIDTH_CONSTRAINTS);
-	}
-
-	public void setWidthConstraints(DataBinding<Double> widthConstraints) {
-		setPropertyValue(ShapeGraphicalRepresentation.WIDTH_CONSTRAINTS, widthConstraints);
-	}
-
-	public DataBinding<Double> getHeightConstraints() {
-		return getPropertyValue(ShapeGraphicalRepresentation.HEIGHT_CONSTRAINTS);
-	}
-
-	public void setHeightConstraints(DataBinding<Double> heightConstraints) {
-		setPropertyValue(ShapeGraphicalRepresentation.HEIGHT_CONSTRAINTS, heightConstraints);
 	}
 
 	public Boolean getIsSelectable() {

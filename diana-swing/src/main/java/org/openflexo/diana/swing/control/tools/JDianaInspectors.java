@@ -47,6 +47,7 @@ import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.control.tools.BackgroundStyleFactory;
 import org.openflexo.diana.control.tools.ConnectorSpecificationFactory;
 import org.openflexo.diana.control.tools.DianaInspectors;
+import org.openflexo.diana.control.tools.InspectedControlProperties;
 import org.openflexo.diana.control.tools.InspectedLayoutManagerSpecifications;
 import org.openflexo.diana.control.tools.InspectedLocationSizeProperties;
 import org.openflexo.diana.control.tools.InspectedTextProperties;
@@ -75,6 +76,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 	private JInspector<ShapeSpecificationFactory> shapeInspector;
 	private JInspector<ConnectorSpecificationFactory> connectorInspector;
 	private JInspector<InspectedLocationSizeProperties> locationSizeInspector;
+	private JInspector<InspectedControlProperties> controlInspector;
 	private JInspector<InspectedLayoutManagerSpecifications> layoutManagersInspector;
 
 	private final FlexoCollabsiblePanelGroup panelGroup;
@@ -86,6 +88,7 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 		panelGroup.addContents(getTextPropertiesInspector().getTitle(), getTextPropertiesInspector());
 		panelGroup.addContents(getShadowStyleInspector().getTitle(), getShadowStyleInspector());
 		panelGroup.addContents(getLocationSizeInspector().getTitle(), getLocationSizeInspector());
+		panelGroup.addContents(getControlInspector().getTitle(), getControlInspector());
 		panelGroup.addContents(getLayoutManagersInspector().getTitle(), getLayoutManagersInspector());
 		panelGroup.addContents(getShapeInspector().getTitle(), getShapeInspector());
 		panelGroup.addContents(getConnectorInspector().getTitle(), getConnectorInspector());
@@ -119,6 +122,9 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 		}
 		if (locationSizeInspector != null) {
 			locationSizeInspector.setData(getInspectedLocationSizeProperties());
+		}
+		if (controlInspector != null) {
+			controlInspector.setData(getInspectedControlProperties());
 		}
 		if (layoutManagersInspector != null) {
 			layoutManagersInspector.setData(getInspectedLayoutManagerSpecifications());
@@ -175,6 +181,16 @@ public class JDianaInspectors extends DianaInspectors<JInspector<?>, SwingViewFa
 					getInspectedLocationSizeProperties(), JDianaInspectorsResources.LOCATION_NAME, InspectedLocationSizeProperties.class);
 		}
 		return locationSizeInspector;
+	}
+
+	@Override
+	public JInspector<InspectedControlProperties> getControlInspector() {
+		if (controlInspector == null) {
+			controlInspector = new JInspector<InspectedControlProperties>(
+					AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(JDianaInspectorsResources.CONTROL_FIB_FILE, true),
+					getInspectedControlProperties(), JDianaInspectorsResources.CONTROL_NAME, InspectedControlProperties.class);
+		}
+		return controlInspector;
 	}
 
 	@Override

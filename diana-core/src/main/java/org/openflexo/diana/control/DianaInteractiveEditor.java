@@ -62,6 +62,7 @@ import org.openflexo.diana.control.tools.DrawShapeToolController;
 import org.openflexo.diana.control.tools.DrawTextToolController;
 import org.openflexo.diana.control.tools.InspectedBackgroundStyle;
 import org.openflexo.diana.control.tools.InspectedConnectorSpecification;
+import org.openflexo.diana.control.tools.InspectedControlProperties;
 import org.openflexo.diana.control.tools.InspectedForegroundStyle;
 import org.openflexo.diana.control.tools.InspectedLayoutManagerSpecifications;
 import org.openflexo.diana.control.tools.InspectedLocationSizeProperties;
@@ -180,6 +181,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 	private final InspectedShapeSpecification inspectedShapeSpecification;
 	private final InspectedConnectorSpecification inspectedConnectorSpecification;
 	private final InspectedLocationSizeProperties inspectedLocationSizeProperties;
+	private final InspectedControlProperties inspectedControlProperties;
 	private final InspectedLayoutManagerSpecifications inspectedLayoutManagerSpecifications;
 
 	/**
@@ -209,6 +211,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		inspectedShapeSpecification = new InspectedShapeSpecification(this);
 		inspectedConnectorSpecification = new InspectedConnectorSpecification(this);
 		inspectedLocationSizeProperties = new InspectedLocationSizeProperties(this);
+		inspectedControlProperties = new InspectedControlProperties(this);
 		inspectedLayoutManagerSpecifications = new InspectedLayoutManagerSpecifications(this);
 
 		setCurrentTool(EditorTool.SelectionTool);
@@ -245,6 +248,7 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 		getInspectedShapeSpecification().fireSelectionUpdated();
 		getInspectedConnectorSpecification().fireSelectionUpdated();
 		getInspectedLocationSizeProperties().fireSelectionUpdated();
+		getInspectedControlProperties().fireSelectionUpdated();
 		getInspectedLayoutManagerSpecifications().fireSelectionUpdated();
 	}
 
@@ -439,6 +443,10 @@ public abstract class DianaInteractiveEditor<M, F extends DianaViewFactory<F, C>
 
 	public InspectedLocationSizeProperties getInspectedLocationSizeProperties() {
 		return inspectedLocationSizeProperties;
+	}
+
+	public InspectedControlProperties getInspectedControlProperties() {
+		return inspectedControlProperties;
 	}
 
 	public InspectedLayoutManagerSpecifications getInspectedLayoutManagerSpecifications() {
