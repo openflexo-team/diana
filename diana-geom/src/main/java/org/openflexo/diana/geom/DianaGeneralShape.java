@@ -420,7 +420,12 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 		}
 
 		if (area instanceof DianaShape) {
-			return AreaComputation.computeShapeUnion(this, (DianaShape<?>) area);
+			try {
+				return AreaComputation.computeShapeUnion(this, (DianaShape<?>) area);
+			} catch (StackOverflowError e) {
+				logger.warning("Unexpected StackOverflowError while computing AreaComputation.computeShapeUnion() with " + this + " and "
+						+ area + ". Please investigate.");
+			}
 		}
 
 		return new DianaUnionArea(this, area);
