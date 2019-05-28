@@ -63,7 +63,7 @@ public abstract class RectPolylinConnectorSpecificationImpl extends ConnectorSpe
 	private int pixelOverlap = DianaConstants.DEFAULT_RECT_POLYLIN_PIXEL_OVERLAP; // overlap expressed in pixels relative to 1.0 scale
 
 	private int arcSize = DianaConstants.DEFAULT_ROUNDED_RECT_POLYLIN_ARC_SIZE;
-	private boolean isRounded = false;
+	private boolean isRounded = true;
 
 	private boolean isStartingLocationFixed = false;
 	private boolean isEndingLocationFixed = false;
