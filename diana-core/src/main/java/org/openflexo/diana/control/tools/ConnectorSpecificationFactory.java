@@ -181,7 +181,7 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 
 		ConnectorSpecification oldCS = getConnectorSpecification();
 
-		System.out.println("oldCS=" + oldCS);
+		//System.out.println("oldCS=" + oldCS);
 
 		// Retaining some values to be applied to new inspected connector specification
 		/*	StartSymbolType startSymbol = oldCS.getStartSymbol();
