@@ -38,6 +38,7 @@
 
 package org.openflexo.diana.control;
 
+import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DragSourceContext;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -113,6 +114,9 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 
 	// Stores dragSourceContext for drag and drop operation currently performed in this DianaEditor
 	private DragSourceContext dragSourceContext;
+
+	// Stored object beeing transfered
+	private Transferable objectBeingTransfered;
 
 	public AbstractDianaEditor(Drawing<M> aDrawing, DianaModelFactory factory, F dianaFactory, DianaToolFactory<C> toolFactory) {
 		super();
@@ -362,6 +366,14 @@ public abstract class AbstractDianaEditor<M, F extends DianaViewFactory<F, C>, C
 	 */
 	public void setDragSourceContext(DragSourceContext dragSourceContext) {
 		this.dragSourceContext = dragSourceContext;
+	}
+
+	public Transferable getObjectBeingTransfered() {
+		return objectBeingTransfered;
+	}
+
+	public void setObjectBeingTransfered(Transferable objectBeingTransfered) {
+		this.objectBeingTransfered = objectBeingTransfered;
 	}
 
 }
