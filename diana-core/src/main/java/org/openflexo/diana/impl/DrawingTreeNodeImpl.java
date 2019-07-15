@@ -66,6 +66,7 @@ import org.openflexo.connie.exception.NotSettableContextException;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.diana.DianaModelFactory;
+import org.openflexo.diana.DianaPrefs;
 import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing;
 import org.openflexo.diana.Drawing.ContainerNode;
@@ -890,13 +891,18 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		return getIsVisible() && getParentNode() != null && getParentNode().shouldBeDisplayed();
 	}
 
+	private boolean labelIsBeeingEdited = false;
+
 	@Override
 	public void notifyLabelWillBeEdited() {
+		labelIsBeeingEdited = true;
+		setIsLongTimeFocused(false);
 		notifyObservers(new LabelWillEdit());
 	}
 
 	@Override
 	public void notifyLabelHasBeenEdited() {
+		labelIsBeeingEdited = false;
 		notifyObservers(new LabelHasEdited());
 	}
 
@@ -939,6 +945,60 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		if (aFlag != isFocused) {
 			isFocused = aFlag;
 			notifyObservers(new DianaAttributeNotification<>(IS_FOCUSED, !isFocused, isFocused));
+			if (DianaPrefs.HANDLE_LONG_FOCUSING) {
+				if (aFlag && !isAboutToBeLongTimeFocused) {
+					handleLongTimeFocused(aFlag);
+				}
+				else {
+					isAboutToBeLongTimeFocused = false;
+				}
+				if (!aFlag) {
+					setIsLongTimeFocused(false);
+				}
+			}
+			else {
+				setIsLongTimeFocused(aFlag);
+			}
+		}
+	}
+
+	private void handleLongTimeFocused(boolean isFocused) {
+		isAboutToBeLongTimeFocused = true;
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// Waiting
+				try {
+					Thread.sleep(DianaPrefs.LONG_FOCUSING_DELAY);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if (getIsFocused() && !labelIsBeeingEdited) {
+					// Still have the focus
+					setIsLongTimeFocused(true);
+				}
+				else {
+					// Lost the focus
+					setIsLongTimeFocused(false);
+				}
+				isAboutToBeLongTimeFocused = false;
+			}
+		}).start();
+	}
+
+	private boolean isLongTimeFocused = false;
+	private boolean isAboutToBeLongTimeFocused = false;
+
+	@Override
+	public boolean getIsLongTimeFocused() {
+		return isLongTimeFocused;
+	}
+
+	private void setIsLongTimeFocused(boolean aFlag) {
+		// System.out.println("***** setIsFocused with " + aFlag + " was " + isFocused);
+		if (aFlag != isLongTimeFocused) {
+			isLongTimeFocused = aFlag;
+			notifyObservers(new DianaAttributeNotification<>(IS_LONG_TIME_FOCUSED, !isLongTimeFocused, isLongTimeFocused));
 		}
 	}
 

@@ -157,11 +157,15 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 				Boolean.class);
 		public static GRProperty<Boolean> IS_SELECTED = GRProperty.getGRParameter(DrawingTreeNode.class, DrawingTreeNode.IS_SELECTED_KEY,
 				Boolean.class);
+		public static GRProperty<Boolean> IS_LONG_TIME_FOCUSED = GRProperty.getGRParameter(DrawingTreeNode.class,
+				DrawingTreeNode.IS_LONG_TIME_FOCUSED_KEY, Boolean.class);
 
 		@PropertyIdentifier(type = Boolean.class)
 		public static final String IS_SELECTED_KEY = "isSelected";
 		@PropertyIdentifier(type = Boolean.class)
 		public static final String IS_FOCUSED_KEY = "isFocused";
+		@PropertyIdentifier(type = Boolean.class)
+		public static final String IS_LONG_TIME_FOCUSED_KEY = "isLongTimeFocused";
 
 		public static final String GRAPHICAL_REPRESENTATION_KEY = "graphicalRepresentation";
 
@@ -417,6 +421,8 @@ public interface Drawing<M> extends HasPropertyChangeSupport, Animable {
 		public boolean getIsFocused();
 
 		public void setIsFocused(boolean aFlag);
+
+		public boolean getIsLongTimeFocused();
 
 		public Boolean getIsVisible();
 

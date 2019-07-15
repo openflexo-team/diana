@@ -553,9 +553,15 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 
 			}
 			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_FOCUSED.getName())) {
-				if (shapeNode.getHasFocusedForegroundStyle() || shapeNode.getHasFocusedBackgroundStyle()) {
-					getPaintManager().invalidate(shapeNode);
-				}
+				// if (shapeNode.getHasFocusedForegroundStyle() || shapeNode.getHasFocusedBackgroundStyle()) {
+				getPaintManager().invalidate(shapeNode);
+				// }
+				getPaintManager().repaint(this);
+			}
+			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_LONG_TIME_FOCUSED.getName())) {
+				// if (shapeNode.getHasFocusedForegroundStyle() || shapeNode.getHasFocusedBackgroundStyle()) {
+				getPaintManager().invalidate(shapeNode);
+				// }
 				getPaintManager().repaint(this);
 			}
 			else if (evt.getPropertyName().equals(GraphicalRepresentation.TEXT.getName())) {

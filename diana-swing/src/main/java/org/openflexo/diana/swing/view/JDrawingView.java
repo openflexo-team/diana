@@ -494,6 +494,14 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 					getPaintManager().repaint(this);
 				}
 			}
+			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_LONG_TIME_FOCUSED.getName())) {
+				if (evt.getSource() instanceof GeometricNode) {
+					// Painting a geometric node being focused or unfocused
+					// TODO: optimize this later
+					getPaintManager().invalidate(getDrawing().getRoot());
+					getPaintManager().repaint(this);
+				}
+			}
 			else if (evt.getPropertyName().equals(GeometryModified.EVENT_NAME)) {
 
 				if (evt.getSource() instanceof GeometricNode) {
@@ -1038,6 +1046,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 				}
 			}
 		}
+
 		if (focused.hasFloatingLabel()) {
 			paintFocusedFloatingLabel(focused, graphics.getGraphics());
 		}

@@ -441,6 +441,9 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_FOCUSED.getName())) {
 				getPaintManager().repaint(this);
 			}
+			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_LONG_TIME_FOCUSED.getName())) {
+				getPaintManager().repaint(this);
+			}
 			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_SELECTED.getName())) {
 				// TODO: ugly hack, please fix this, implement a ForceRepaint in DianaPaintManager
 				if (connectorNode.getIsSelected()) {
