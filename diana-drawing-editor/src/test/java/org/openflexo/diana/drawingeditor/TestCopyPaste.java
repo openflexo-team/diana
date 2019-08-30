@@ -38,14 +38,20 @@
 
 package org.openflexo.diana.drawingeditor;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
+
 import java.awt.Color;
 import java.io.File;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.openflexo.diana.drawingeditor.model.Connector;
 import org.openflexo.diana.drawingeditor.model.Diagram;
 import org.openflexo.diana.drawingeditor.model.DiagramFactory;
@@ -54,8 +60,7 @@ import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.pamela.factory.Clipboard;
 import org.openflexo.pamela.factory.EditingContextImpl;
-
-import junit.framework.TestCase;
+import org.openflexo.test.UITest;
 
 /**
  * This test is actually testing PAMELA copy/paste features applied to Diana model
@@ -63,7 +68,7 @@ import junit.framework.TestCase;
  * @author sylvain
  * 
  */
-public class TestCopyPaste extends TestCase {
+public class TestCopyPaste {
 
 	private DiagramFactory factory;
 
@@ -78,7 +83,6 @@ public class TestCopyPaste extends TestCase {
 	public static void tearDownAfterClass() throws Exception {
 	}
 
-	@Override
 	@Before
 	public void setUp() throws Exception {
 		new File("/tmp").mkdirs();
@@ -88,11 +92,8 @@ public class TestCopyPaste extends TestCase {
 		factory = new DiagramFactory(editingContext);
 	}
 
-	@Override
-	@After
-	public void tearDown() throws Exception {
-	}
-
+	@Test
+	@Category(UITest.class)
 	public void testCopyPaste() throws Exception {
 
 		Diagram diagram = factory.newInstance(Diagram.class);

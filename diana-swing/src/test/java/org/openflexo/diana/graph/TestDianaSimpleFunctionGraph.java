@@ -45,23 +45,22 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.experimental.categories.Category;
 import org.openflexo.logging.FlexoLogger;
-import org.openflexo.test.OrderedRunner;
-import org.openflexo.test.TestOrder;
+import org.openflexo.test.UITest;
 
-@RunWith(OrderedRunner.class)
 public class TestDianaSimpleFunctionGraph extends AbstractTestDianaGraph {
 
 	private static final Logger logger = FlexoLogger.getLogger(TestDianaSimpleFunctionGraph.class.getPackage().getName());
 
 	@Test
-	@TestOrder(1)
+	@Category(UITest.class)
 	public void testContinuousFunctionGraphDrawing() {
 
 		JPanel example1Panel = new JPanel(new BorderLayout());
 
-		final ExampleDianaContinuousSimpleFunctionGraphDrawing d = new ExampleDianaContinuousSimpleFunctionGraphDrawing(new Object(), factory);
+		final ExampleDianaContinuousSimpleFunctionGraphDrawing d = new ExampleDianaContinuousSimpleFunctionGraphDrawing(new Object(),
+				factory);
 		final TestDrawingController dc = new TestDrawingController(d);
 		example1Panel.add(new JScrollPane(dc.getDrawingView()), BorderLayout.CENTER);
 		example1Panel.add(dc.scaleSelector.getComponent(), BorderLayout.NORTH);
@@ -70,7 +69,7 @@ public class TestDianaSimpleFunctionGraph extends AbstractTestDianaGraph {
 	}
 
 	@Test
-	@TestOrder(2)
+	@Category(UITest.class)
 	public void testDiscreteFunctionGraphDrawing() {
 
 		JPanel example2Panel = new JPanel(new BorderLayout());

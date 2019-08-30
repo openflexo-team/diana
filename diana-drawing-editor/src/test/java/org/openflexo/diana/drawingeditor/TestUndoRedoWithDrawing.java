@@ -38,13 +38,18 @@
 
 package org.openflexo.diana.drawingeditor;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.RootNode;
@@ -59,8 +64,7 @@ import org.openflexo.pamela.factory.EditingContextImpl;
 import org.openflexo.pamela.undo.CompoundEdit;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
-
-import junit.framework.TestCase;
+import org.openflexo.test.UITest;
 
 /**
  * This test is actually testing PAMELA undo/redo features applied to Diana model<br>
@@ -71,7 +75,7 @@ import junit.framework.TestCase;
  */
 
 @RunWith(OrderedRunner.class)
-public class TestUndoRedoWithDrawing extends TestCase {
+public class TestUndoRedoWithDrawing {
 
 	private static DiagramFactory factory;
 
@@ -93,23 +97,6 @@ public class TestUndoRedoWithDrawing extends TestCase {
 		factory = new DiagramFactory(editingContext);
 	}
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	@Override
-	@Before
-	public void setUp() throws Exception {
-		/*if (factory == null) {
-			factory = new DiagramFactory();
-		}*/
-	}
-
-	@Override
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	private static RootNode<Diagram> root;
 	private static ShapeNode<Shape> node1_1;
 	private static ShapeNode<Shape> node2_1;
@@ -117,6 +104,7 @@ public class TestUndoRedoWithDrawing extends TestCase {
 
 	@Test
 	@TestOrder(1)
+	@Category(UITest.class)
 	public void test1Do() throws Exception {
 
 		initDiagram = factory.getUndoManager().startRecording("Initialize new Diagram");
@@ -183,6 +171,7 @@ public class TestUndoRedoWithDrawing extends TestCase {
 	// UNDO create connector
 	@Test
 	@TestOrder(2)
+	@Category(UITest.class)
 	public void test2Undo1() throws Exception {
 
 		assertEquals(2, diagram.getShapes().size());
@@ -222,6 +211,7 @@ public class TestUndoRedoWithDrawing extends TestCase {
 	// UNDO create shape2
 	@Test
 	@TestOrder(3)
+	@Category(UITest.class)
 	public void test3Undo2() throws Exception {
 
 		assertEquals(2, diagram.getShapes().size());
@@ -256,6 +246,7 @@ public class TestUndoRedoWithDrawing extends TestCase {
 	// UNDO create shape1
 	@Test
 	@TestOrder(4)
+	@Category(UITest.class)
 	public void test4Undo3() throws Exception {
 
 		assertEquals(1, diagram.getShapes().size());
@@ -285,6 +276,7 @@ public class TestUndoRedoWithDrawing extends TestCase {
 	// REDO create shape1
 	@Test
 	@TestOrder(5)
+	@Category(UITest.class)
 	public void test5Redo1() throws Exception {
 
 		assertEquals(0, diagram.getShapes().size());
@@ -318,6 +310,7 @@ public class TestUndoRedoWithDrawing extends TestCase {
 	// REDO create shape2
 	@Test
 	@TestOrder(6)
+	@Category(UITest.class)
 	public void test6Redo2() throws Exception {
 
 		assertEquals(1, diagram.getShapes().size());
@@ -357,6 +350,7 @@ public class TestUndoRedoWithDrawing extends TestCase {
 	// REDO create connector
 	@Test
 	@TestOrder(7)
+	@Category(UITest.class)
 	public void test7Redo3() throws Exception {
 
 		assertEquals(2, diagram.getShapes().size());

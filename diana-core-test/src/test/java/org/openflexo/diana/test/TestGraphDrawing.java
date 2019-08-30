@@ -46,20 +46,16 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.DianaModelFactoryImpl;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.ShapeNode;
-import org.openflexo.diana.test.GraphDrawing1;
-import org.openflexo.diana.test.GraphDrawing2;
-import org.openflexo.diana.test.GraphDrawing3;
-import org.openflexo.diana.test.TestEdge;
-import org.openflexo.diana.test.TestGraph;
-import org.openflexo.diana.test.TestGraphNode;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
+import org.openflexo.test.UITest;
 
 @RunWith(OrderedRunner.class)
 public class TestGraphDrawing {
@@ -91,6 +87,7 @@ public class TestGraphDrawing {
 
 	@Test
 	@TestOrder(1)
+	@Category(UITest.class)
 	public void test1InitGraph() {
 		graph = new TestGraph();
 		node1 = new TestGraphNode("node1", graph);
@@ -109,6 +106,7 @@ public class TestGraphDrawing {
 
 	@Test
 	@TestOrder(2)
+	@Category(UITest.class)
 	public void test2InitGraphDrawing1() {
 		System.out.println("INIT graph drawing 1 ********************** ");
 		graphDrawing1 = new GraphDrawing1(graph, FACTORY);
@@ -119,6 +117,7 @@ public class TestGraphDrawing {
 
 	@Test
 	@TestOrder(3)
+	@Category(UITest.class)
 	public void test3InitGraphicalObjectHierarchyForGraphDrawing1() {
 		ShapeNode<TestGraphNode> graphNode1 = (ShapeNode<TestGraphNode>) graphDrawing1.getRoot().getChildNodes().get(0);
 		assertNotNull(graphNode1);
@@ -146,6 +145,7 @@ public class TestGraphDrawing {
 
 	@Test
 	@TestOrder(4)
+	@Category(UITest.class)
 	public void test4UpdateGraphicalObjectHierarchyForGraphDrawing1() {
 		ShapeNode<TestGraphNode> graphNode1 = (ShapeNode<TestGraphNode>) graphDrawing1.getRoot().getChildNodes().get(0);
 		ShapeNode<TestGraphNode> graphNode2 = (ShapeNode<TestGraphNode>) graphDrawing1.getRoot().getChildNodes().get(1);
@@ -170,6 +170,7 @@ public class TestGraphDrawing {
 
 	@Test
 	@TestOrder(5)
+	@Category(UITest.class)
 	public void test5InitGraphDrawing2() {
 		System.out.println("INIT graph drawing 2 ********************** ");
 		graphDrawing2 = new GraphDrawing2(graph, FACTORY);
@@ -180,6 +181,7 @@ public class TestGraphDrawing {
 
 	@Test
 	@TestOrder(6)
+	@Category(UITest.class)
 	public void test6InitGraphicalObjectHierarchyForGraphDrawing2() {
 		ShapeNode<TestGraphNode> graphNode1 = (ShapeNode<TestGraphNode>) graphDrawing2.getRoot().getChildNodes().get(0);
 		assertNotNull(graphNode1);
@@ -207,6 +209,7 @@ public class TestGraphDrawing {
 
 	@Test
 	@TestOrder(7)
+	@Category(UITest.class)
 	public void test7UpdateGraphicalObjectHierarchyForGraphDrawing2() {
 		ShapeNode<TestGraphNode> graphNode1 = (ShapeNode<TestGraphNode>) graphDrawing2.getRoot().getChildNodes().get(0);
 		ShapeNode<TestGraphNode> graphNode2 = (ShapeNode<TestGraphNode>) graphDrawing2.getRoot().getChildNodes().get(1);
@@ -231,6 +234,7 @@ public class TestGraphDrawing {
 
 	@Test
 	@TestOrder(8)
+	@Category(UITest.class)
 	public void test8InitGraphDrawing3() {
 		System.out.println("INIT graph drawing 3 ********************** ");
 		graphDrawing3 = new GraphDrawing3(graph, FACTORY);
@@ -241,6 +245,7 @@ public class TestGraphDrawing {
 
 	@Test
 	@TestOrder(9)
+	@Category(UITest.class)
 	public void test9InitGraphicalObjectHierarchyForGraphDrawing3() {
 		System.out.println("all nodes = " + graphDrawing3.getRoot().getChildNodes());
 		ShapeNode<TestGraphNode> graphNode1 = (ShapeNode<TestGraphNode>) graphDrawing3.getRoot().getChildNodes().get(0);
@@ -268,6 +273,7 @@ public class TestGraphDrawing {
 
 	@Test
 	@TestOrder(10)
+	@Category(UITest.class)
 	public void test10TUpdateGraphicalObjectHierarchyForGraphDrawing3() {
 		ShapeNode<TestGraphNode> graphNode1 = (ShapeNode<TestGraphNode>) graphDrawing3.getRoot().getChildNodes().get(0);
 		ShapeNode<TestGraphNode> graphNode2 = (ShapeNode<TestGraphNode>) graphDrawing3.getRoot().getChildNodes().get(1);

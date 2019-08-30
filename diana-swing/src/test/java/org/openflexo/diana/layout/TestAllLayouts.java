@@ -46,6 +46,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.DianaModelFactoryImpl;
@@ -64,6 +65,7 @@ import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
+import org.openflexo.test.UITest;
 
 /**
  * Test FlexoConceptPanel fib
@@ -237,6 +239,7 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 
 	@Test
 	@TestOrder(1)
+	@Category(UITest.class)
 	public void testGridLayoutManager() {
 
 		TestGraph graph = makeTestGraph();
@@ -247,6 +250,7 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 
 	@Test
 	@TestOrder(2)
+	@Category(UITest.class)
 	public void testForceDirectedGraphLayoutManager() {
 
 		TestGraph graph = makeTestGraph();
@@ -257,6 +261,7 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 
 	@Test
 	@TestOrder(3)
+	@Category(UITest.class)
 	public void testISOMGraphLayoutManager() {
 
 		TestGraph graph = makeTestGraph();
@@ -267,6 +272,7 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 
 	@Test
 	@TestOrder(4)
+	@Category(UITest.class)
 	public void testTreeLayoutManager() {
 
 		TestGraph graph = makeTestGraph();
@@ -277,6 +283,7 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 
 	@Test
 	@TestOrder(5)
+	@Category(UITest.class)
 	public void testBalloonLayoutManager() {
 
 		TestGraph graph = makeTestGraph();
@@ -287,6 +294,7 @@ public class TestAllLayouts extends AbstractLaunchLayoutManagerExample {
 
 	@Test
 	@TestOrder(6)
+	@Category(UITest.class)
 	public void testRadialTreeLayoutManager() {
 
 		TestGraph graph = makeTestGraph();

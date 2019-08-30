@@ -54,13 +54,13 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openflexo.diana.drawingeditor.DiagramEditor;
-import org.openflexo.diana.drawingeditor.DiagramEditorApplication;
+import org.junit.experimental.categories.Category;
 import org.openflexo.diana.drawingeditor.model.DiagramFactory;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.pamela.factory.EditingContext;
 import org.openflexo.pamela.factory.EditingContextImpl;
 import org.openflexo.rm.ResourceLocator;
+import org.openflexo.test.UITest;
 
 public class TestLoadAndDisplaySomeDiagrams {
 
@@ -130,7 +130,8 @@ public class TestLoadAndDisplaySomeDiagrams {
 			e.printStackTrace();
 		}
 		try {
-			SwingUtilities.invokeAndWait(() -> {});
+			SwingUtilities.invokeAndWait(() -> {
+			});
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
@@ -140,6 +141,7 @@ public class TestLoadAndDisplaySomeDiagrams {
 	}
 
 	@Test
+	@Category(UITest.class)
 	public void testBasicExample() {
 
 		deserializeAndDisplay(ResourceLocator.retrieveResourceAsFile(ResourceLocator.locateResource(("DrawingExamples/BasicExample.drw"))));

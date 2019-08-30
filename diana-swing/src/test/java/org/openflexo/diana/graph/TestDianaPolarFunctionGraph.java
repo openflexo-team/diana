@@ -45,18 +45,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.experimental.categories.Category;
 import org.openflexo.logging.FlexoLogger;
-import org.openflexo.test.OrderedRunner;
-import org.openflexo.test.TestOrder;
+import org.openflexo.test.UITest;
 
-@RunWith(OrderedRunner.class)
 public class TestDianaPolarFunctionGraph extends AbstractTestDianaGraph {
 
 	private static final Logger logger = FlexoLogger.getLogger(TestDianaPolarFunctionGraph.class.getPackage().getName());
 
 	@Test
-	@TestOrder(1)
+	@Category(UITest.class)
 	public void testContinuousPolarFunctionGraphDrawing() {
 
 		JPanel panel = new JPanel(new BorderLayout());
@@ -71,12 +69,13 @@ public class TestDianaPolarFunctionGraph extends AbstractTestDianaGraph {
 	}
 
 	@Test
-	@TestOrder(2)
+	@Category(UITest.class)
 	public void testDiscretePolarFunctionGraphDrawing() {
 
 		JPanel panel = new JPanel(new BorderLayout());
 
-		final ExampleDianaDiscretePolarFunctionGraphDrawing drawing = new ExampleDianaDiscretePolarFunctionGraphDrawing(new Object(), factory);
+		final ExampleDianaDiscretePolarFunctionGraphDrawing drawing = new ExampleDianaDiscretePolarFunctionGraphDrawing(new Object(),
+				factory);
 		final TestDrawingController controller = new TestDrawingController(drawing);
 		panel.add(new JScrollPane(controller.getDrawingView()), BorderLayout.CENTER);
 		panel.add(controller.scaleSelector.getComponent(), BorderLayout.NORTH);
