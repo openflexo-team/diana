@@ -57,6 +57,7 @@ import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
 import javax.swing.SwingUtilities;
 
+import org.apache.batik.svggen.SVGGraphics2D;
 import org.openflexo.diana.ContainerGraphicalRepresentation;
 import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.Drawing.ContainerNode;
@@ -333,9 +334,17 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 
 	@Override
 	public void paint(Graphics g) {
+
 		if (isDeleted()) {
 			return;
 		}
+
+		// When exporting to SVG, ignore caching and just paint
+		if (g instanceof SVGGraphics2D) {
+			doPaint(g);
+			return;
+		}
+
 		if (getPaintManager().isPaintingCacheEnabled()) {
 			if (getDrawingView().isBuffering()) {
 				// Buffering painting

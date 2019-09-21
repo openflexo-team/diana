@@ -78,6 +78,7 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
+import org.apache.batik.svggen.SVGGraphics2D;
 import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing;
@@ -652,7 +653,13 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 	@Override
 	public void paint(Graphics g) {
+
 		if (isDeleted()) {
+			return;
+		}
+
+		if (g instanceof SVGGraphics2D) {
+			super.paint(g);
 			return;
 		}
 

@@ -71,18 +71,19 @@ import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 
+import org.apache.batik.svggen.SVGGraphics2D;
 import org.openflexo.diana.BackgroundImageBackgroundStyle;
 import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.ColorBackgroundStyle;
 import org.openflexo.diana.ColorGradientBackgroundStyle;
 import org.openflexo.diana.DianaConstants;
-import org.openflexo.diana.ForegroundStyle;
-import org.openflexo.diana.NoneBackgroundStyle;
-import org.openflexo.diana.TextureBackgroundStyle;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.ForegroundStyle.DashStyle;
 import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
+import org.openflexo.diana.NoneBackgroundStyle;
+import org.openflexo.diana.TextureBackgroundStyle;
 import org.openflexo.diana.TextureBackgroundStyle.TextureType;
 import org.openflexo.diana.geom.DianaCubicCurve;
 import org.openflexo.diana.geom.DianaGeneralShape;
@@ -185,12 +186,16 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 				g2d.setStroke(stroke);
 			}
 
-			if (getCurrentForeground().getUseTransparency()) {
-				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getCurrentForeground().getTransparencyLevel()));
+			// When exporting to SVG, do not set the Composite
+			if (!(g2d instanceof SVGGraphics2D)) {
+				if (getCurrentForeground().getUseTransparency()) {
+					g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getCurrentForeground().getTransparencyLevel()));
+				}
+				else {
+					g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
+				}
 			}
-			else {
-				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
-			}
+
 		}
 
 	}
@@ -211,17 +216,24 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 			Paint paint = getPaint(getCurrentBackground(), getScale());
 			if (paint != null) {
 				g2d.setPaint(paint);
-				if (getCurrentBackground().getUseTransparency()) {
-					g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getCurrentBackground().getTransparencyLevel()));
-				}
-				else {
-					g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
+				// When exporting to SVG, do not set the Composite
+				if (!(g2d instanceof SVGGraphics2D)) {
+					if (getCurrentBackground().getUseTransparency()) {
+						g2d.setComposite(
+								AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getCurrentBackground().getTransparencyLevel()));
+					}
+					else {
+						g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
+					}
 				}
 			}
 			else {
 				// paint was null, meaning that Paint could not been obtained yet (texture not ready yet)
 				// the best is to paint it totally transparent
-				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0));
+				// When exporting to SVG, do not set the Composite
+				if (!(g2d instanceof SVGGraphics2D)) {
+					g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0));
+				}
 			}
 		}
 	}
@@ -356,11 +368,15 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 					at.concatenate(AffineTransform.getScaleInstance(imageBGStyle.getScaleX(), imageBGStyle.getScaleY()));
 				}
 
-				if (getCurrentBackground().getUseTransparency()) {
-					g2d.setComposite(AlphaComposite.getInstance(TRANSPARENT_COMPOSITE_RULE, getCurrentBackground().getTransparencyLevel()));
-				}
-				else {
-					g2d.setComposite(AlphaComposite.getInstance(TRANSPARENT_COMPOSITE_RULE));
+				// When exporting to SVG, do not set the Composite
+				if (!(g2d instanceof SVGGraphics2D)) {
+					if (getCurrentBackground().getUseTransparency()) {
+						g2d.setComposite(
+								AlphaComposite.getInstance(TRANSPARENT_COMPOSITE_RULE, getCurrentBackground().getTransparencyLevel()));
+					}
+					else {
+						g2d.setComposite(AlphaComposite.getInstance(TRANSPARENT_COMPOSITE_RULE));
+					}
 				}
 				g2d.drawImage(((BackgroundImageBackgroundStyle) getCurrentBackground()).getImage(), at, null);
 			}
@@ -378,7 +394,10 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 
 	@Override
 	public void drawImage(Image image, DianaPoint p) {
-		g2d.setComposite(AlphaComposite.getInstance(TRANSPARENT_COMPOSITE_RULE));
+		// When exporting to SVG, do not set the Composite
+		if (!(g2d instanceof SVGGraphics2D)) {
+			g2d.setComposite(AlphaComposite.getInstance(TRANSPARENT_COMPOSITE_RULE));
+		}
 		Point location = convertNormalizedPointToViewCoordinates(p.x, p.y);
 		// System.err.println(location);
 		AffineTransform at = AffineTransform.getScaleInstance(getScale(), getScale());

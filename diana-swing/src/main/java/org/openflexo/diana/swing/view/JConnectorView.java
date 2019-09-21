@@ -53,6 +53,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import org.apache.batik.svggen.SVGGraphics2D;
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
 import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.Drawing.ConnectorNode;
@@ -294,16 +295,34 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 		return 0;
 	}
 
-	@Override
-	public void paint(Graphics g) {
-		if (isDeleted()) {
-			return;
-		}
+	private void doPaint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		DrawUtils.turnOnAntiAlising(g2);
 		DrawUtils.setRenderQuality(g2);
 		DrawUtils.setColorRenderQuality(g2);
 		graphics.createGraphics(g2/*, controller*/);
+		getNode().paint(graphics);
+		graphics.releaseGraphics();
+		super.paint(g);
+	}
+
+	@Override
+	public void paint(Graphics g) {
+
+		if (isDeleted()) {
+			return;
+		}
+
+		if (g instanceof SVGGraphics2D) {
+			doPaint(g);
+			return;
+		}
+
+		/*Graphics2D g2 = (Graphics2D) g;
+		DrawUtils.turnOnAntiAlising(g2);
+		DrawUtils.setRenderQuality(g2);
+		DrawUtils.setColorRenderQuality(g2);
+		graphics.createGraphics(g2);*/
 
 		if (getPaintManager().isPaintingCacheEnabled()) {
 			if (getDrawingView().isBuffering()) {
@@ -320,44 +339,31 @@ public class JConnectorView<O> extends JPanel implements ConnectorView<O, JPanel
 						DianaPaintManager.paintPrimitiveLogger
 								.fine("JConnectorView: buffering paint, draw: " + connectorNode + " clip=" + g.getClip());
 					}
-					getNode().paint(graphics);
-					super.paint(g);
+					doPaint(g);
+					/*getNode().paint(graphics);
+					super.paint(g);*/
 				}
 			}
 			else {
 				if (!getPaintManager().renderUsingBuffer((Graphics2D) g, g.getClipBounds(), connectorNode, getScale())) {
-					getNode().paint(graphics);
-					super.paint(g);
+					doPaint(g);
+					// getNode().paint(graphics);
+					// super.paint(g);
 				}
 
-				/*
-				// Use buffer
-				Image buffer = getPaintManager().getPaintBuffer();
-				Rectangle localViewBounds = g.getClipBounds();
-				Rectangle viewBoundsInDrawingView = GraphicalRepresentation.convertRectangle(getGraphicalRepresentation(), localViewBounds, getDrawingGraphicalRepresentation(), getScale());
-				Point dp1 = localViewBounds.getLocation();
-				Point dp2 = new Point(localViewBounds.x+localViewBounds.width-1,localViewBounds.y+localViewBounds.height-1);
-				Point sp1 = viewBoundsInDrawingView.getLocation();
-				Point sp2 = new Point(viewBoundsInDrawingView.x+viewBoundsInDrawingView.width-1,viewBoundsInDrawingView.y+viewBoundsInDrawingView.height-1);
-				if (DianaPaintManager.paintPrimitiveLogger.isLoggable(Level.FINE))
-					DianaPaintManager.paintPrimitiveLogger.fine("JConnectorView: use image buffer, copy area from "+sp1+"x"+sp2+" to "+dp1+"x"+dp2);
-				g.drawImage(buffer,
-						dp1.x,dp1.y,dp2.x,dp2.y,
-						sp1.x,sp1.y,sp2.x,sp2.y,
-						null);
-				 */
 			}
 		}
 		else {
 			// Normal painting
-			getNode().paint(graphics);
-			super.paint(g);
+			doPaint(g);
+			// getNode().paint(graphics);
+			// super.paint(g);
 		}
 
 		// super.paint(g);
 		// getGraphicalRepresentation().paint(g,getController());
 
-		graphics.releaseGraphics();
+		// graphics.releaseGraphics();
 	}
 
 	@Override
