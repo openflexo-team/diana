@@ -56,8 +56,11 @@ import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.logging.FlexoLogger;
+import org.openflexo.pamela.factory.AccessibleProxyObject;
 import org.openflexo.pamela.factory.CloneableProxyObject;
 import org.openflexo.pamela.factory.KeyValueCoding;
+import org.openflexo.pamela.factory.PAMELAVisitor;
+import org.openflexo.pamela.factory.PAMELAVisitor.VisitingStrategy;
 import org.openflexo.pamela.undo.CompoundEdit;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 
@@ -690,6 +693,24 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 				return GRProperty.getGRParameter(getInspectedStyleClass(), key).getType();
 			}
 		}
+		return null;
+	}
+
+	public void accept(PAMELAVisitor visitor) {
+		// TODO: interface
+	}
+
+	public void accept(PAMELAVisitor visitor, VisitingStrategy strategy) {
+		// TODO: interface
+	}
+
+	public List<? extends AccessibleProxyObject> getEmbeddedObjects() {
+		// TODO: interface
+		return null;
+	}
+
+	public List<? extends AccessibleProxyObject> getReferencedObjects() {
+		// TODO: interface
 		return null;
 	}
 
