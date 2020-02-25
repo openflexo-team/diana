@@ -2324,6 +2324,9 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				if (getAdjustability() != RectPolylinAdjustability.FULLY_ADJUSTABLE) {
 					setWasManuallyAdjusted(false);
 				}
+
+				connectorNode.clearControlAreas();
+				connectorNode.getControlAreas();
 			}
 		}
 	}
