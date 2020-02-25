@@ -11,7 +11,7 @@
 		componentClassName="org.openflexo.diana.swing.widget.JConnectorPreviewPanel"
 		name="PreviewPanel" data="data.connectorSpecification" index="0"
 		localize="true"
-		constraints="gridbag(anchor=center;fill=none;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=0;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=5;padX=0;padY=0;weightX=0.0;weightY=0.0)">
+		constraints="gridbag(anchor=center;fill=vertical;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=0;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=5;padX=0;padY=0;weightX=0.0;weightY=0.0)">
 		<Dependancy id="2" componentName="ConnectorType" />
 		<Dependancy id="3" componentName="EndSymbol" />
 	</Custom>
@@ -36,7 +36,7 @@
 	<Panel id="7" visible="(data.styleType = &quot;LINE&quot;)"
 		borderLeft="10" sizeAdjustment="OriginalSize" borderRight="10"
 		border="rounded3d" trackViewPortWidth="true" index="4" align="left"
-		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=2;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
+		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)"
 		borderBottom="2" borderTitle="Line connector"
 		titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true"
 		layout="twocols" name="LineConnectorPanel">
@@ -60,24 +60,24 @@
 		visible="(data.styleType = &quot;RECT_POLYLIN&quot;)"
 		borderLeft="10" sizeAdjustment="OriginalSize" borderRight="10"
 		border="rounded3d" trackViewPortWidth="true" index="4" align="left"
-		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=2;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
+		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)"
 		borderBottom="2" borderTitle="Rect polylin connector"
 		titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true"
 		layout="twocols"
-		name="RectPolylinConnectorPanel">
-		<Dependancy id="13" componentName="ConnectorType" />
-		<TabPanel id="14" name="FIBTabPanel"
-			constraints="border(expandHorizontally=false;expandVertically=false;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center)">
-			<Dependancy id="15" componentName="ConnectorType" />
-			<Tab id="16"
-				verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED"
-				borderLeft="0" sizeAdjustment="OriginalSize" border="empty"
-				borderRight="0" trackViewPortWidth="true" align="left"
-				borderBottom="0" titleFont="SansSerif,0,11" borderTop="0"
-				trackViewPortHeight="true"
-				horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
-				useScrollBar="true" title="Layout" layout="twocols" name="FIBTab"
-				flowAlignment="CENTER">
+		name="RectPolylinConnectorPanel" useScrollBar="false"
+		verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED"
+		horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_NEVER">
+				<Label id="26" name="AdjustabilityLabel" index="0"
+					localize="true" align="left"
+					constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)"
+					label="adjustability" />
+				<DropDown id="27"
+					data="rectPolylinConnectorSpecification.adjustability" index="1"
+					localize="true"
+					constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)"
+					format="object.name.toLowerCase" showText="true"
+					iteratorClassName="org.openflexo.diana.connectors.RectPolylinConnectorSpecification$RectPolylinAdjustability"
+					showIcon="false" name="Adjustability" />
 				<Label id="17" height="16" name="ConstraintsLabel" index="0"
 					localize="true" width="130" align="right"
 					constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)"
@@ -123,92 +123,6 @@
 					data="rectPolylinConnectorSpecification.straightLineWhenPossible"
 					index="7" localize="true"
 					constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)" />
-			</Tab>
-			<Tab id="25"
-				verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED"
-				borderLeft="0" sizeAdjustment="OriginalSize" border="empty"
-				borderRight="0" trackViewPortWidth="true" align="left"
-				borderBottom="0" titleFont="SansSerif,0,11" borderTop="0"
-				trackViewPortHeight="true"
-				horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
-				useScrollBar="true" title="Adjustability" layout="twocols"
-				name="FIBTab2">
-				<Label id="26" name="AdjustabilityLabel" index="8"
-					localize="true" align="left"
-					constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)"
-					label="adjustability" />
-				<DropDown id="27"
-					data="rectPolylinConnectorSpecification.adjustability" index="9"
-					localize="true"
-					constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)"
-					format="object.name.toLowerCase" showText="true"
-					iteratorClassName="org.openflexo.diana.connectors.RectPolylinConnectorSpecification$RectPolylinAdjustability"
-					showIcon="false" name="Adjustability" />
-				<Label id="28" name="IsStartingLocationFixedLabel" index="10"
-					localize="true" align="left"
-					constraints="twocols(expandHorizontally=false;expandVertically=false;index=10;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)"
-					label="start_location" />
-				<Panel id="29" vGap="0" borderLeft="0" hGap="0"
-					sizeAdjustment="OriginalSize" borderRight="0" border="empty"
-					trackViewPortWidth="true" index="11" align="left"
-					constraints="twocols(expandHorizontally=true;expandVertically=false;index=11;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)"
-					borderBottom="0" titleFont="SansSerif,0,11" borderTop="0"
-					trackViewPortHeight="true" layout="flow" name="FIBPanel"
-					flowAlignment="LEADING">
-					<CheckBox id="30" name="IsStartingLocationFixed"
-						data="rectPolylinConnectorSpecification.isStartingLocationFixed"
-						index="0" localize="true"
-						constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=right)" />
-					<Label id="31" name="FixedLabel" index="1" localize="true"
-						align="left"
-						constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=right)"
-						label="fixed" />
-					<CheckBox id="32" name="IsStartingLocationDraggable"
-						data="rectPolylinConnectorSpecification.isStartingLocationDraggable"
-						index="2" localize="true"
-						constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right)" />
-					<Label id="33" name="IsStartingLocationDraggableLabel"
-						index="3" localize="true" align="left"
-						constraints="flow(expandHorizontally=false;expandVertically=false;index=3;location=left)"
-						label="draggable" />
-				</Panel>
-				<Label id="34" name="IsEndingLocationFixedLabel" index="12"
-					localize="true" align="left"
-					constraints="twocols(expandHorizontally=false;expandVertically=false;index=12;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)"
-					label="end_location_fixed" />
-				<Panel id="35" vGap="0" borderLeft="0" hGap="0"
-					sizeAdjustment="OriginalSize" borderRight="0" border="empty"
-					trackViewPortWidth="true" index="13" align="left"
-					constraints="twocols(expandHorizontally=true;expandVertically=false;index=13;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)"
-					borderBottom="0" titleFont="SansSerif,0,11" borderTop="0"
-					trackViewPortHeight="true" layout="flow" name="FIBPanel2"
-					flowAlignment="LEADING">
-					<CheckBox id="36" name="IsEndingLocationFixed"
-						data="rectPolylinConnectorSpecification.isEndingLocationFixed"
-						index="0" localize="true"
-						constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=right)" />
-					<Label id="37" name="IsEndingLocationDraggableLabel"
-						index="1" localize="true" align="left"
-						constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=left)"
-						label="fixed" />
-					<CheckBox id="38" name="IsEndingLocationDraggable"
-						data="rectPolylinConnectorSpecification.isEndingLocationDraggable"
-						index="2" localize="true"
-						constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right)" />
-					<Label id="39" name="IsEndingLocationDraggableLabel"
-						index="3" localize="true" align="left"
-						constraints="flow(expandHorizontally=false;expandVertically=false;index=3;location=left)"
-						label="draggable" />
-				</Panel>
-			</Tab>
-			<Tab id="40"
-				verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED"
-				borderLeft="0" sizeAdjustment="OriginalSize" border="empty"
-				borderRight="0" trackViewPortWidth="true" align="left"
-				borderBottom="0" titleFont="SansSerif,0,11" borderTop="0"
-				trackViewPortHeight="true"
-				horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
-				useScrollBar="true" title="Advanced" layout="twocols" name="FIBTab3">
 				<Label id="41" name="PixelOverlapLabel" index="14"
 					localize="true" align="left"
 					constraints="twocols(expandHorizontally=false;expandVertically=false;index=14;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)"
@@ -237,8 +151,6 @@
 					increment="1" index="2" localize="true"
 					constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right)"
 					numberType="IntegerType" />
-			</Tab>
-		</TabPanel>
 		<FIBVariable id="47"
 			name="rectPolylinConnectorSpecification"
 			value="($org.openflexo.diana.connectors.RectPolylinConnectorSpecification)data.connectorSpecification"
@@ -247,7 +159,7 @@
 	<Panel id="48" visible="(data.styleType = &quot;CURVE&quot;)"
 		borderLeft="10" sizeAdjustment="OriginalSize" borderRight="10"
 		border="rounded3d" trackViewPortWidth="true" index="6" align="left"
-		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=2;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
+		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)"
 		borderBottom="2" borderTitle="Curve connector"
 		titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true"
 		layout="twocols" name="CurveConnectorPanel">
@@ -268,7 +180,7 @@
 		visible="(data.styleType = &quot;CURVED_POLYLIN&quot;)"
 		borderLeft="10" sizeAdjustment="OriginalSize" borderRight="10"
 		border="rounded3d" trackViewPortWidth="true" index="7" align="left"
-		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=2;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
+		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)"
 		borderBottom="2" borderTitle="Curved polyline"
 		titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true"
 		layout="twocols" name="CurvedPolylinConnectorPanel">
@@ -281,7 +193,7 @@
 	<Panel id="156" borderLeft="10" sizeAdjustment="OriginalSize"
 		opaque="false" borderRight="10" border="rounded3d"
 		trackViewPortWidth="true" index="6" align="left"
-		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)"
+		constraints="gridbag(anchor=center;fill=horizontal;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)"
 		borderBottom="2" borderTitle="Bounds adjustability" titleFont="SansSerif,0,11"
 		borderTop="2" trackViewPortHeight="true" layout="twocols"
 		name="BoundsPanel">
@@ -345,7 +257,7 @@
 	<Panel id="56" borderLeft="10" sizeAdjustment="OriginalSize"
 		opaque="false" borderRight="10" border="rounded3d"
 		trackViewPortWidth="true" index="6" align="left"
-		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)"
+		constraints="gridbag(anchor=center;fill=horizontal;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)"
 		borderBottom="2" borderTitle="Symbols" titleFont="SansSerif,0,11"
 		borderTop="2" trackViewPortHeight="true" layout="twocols"
 		name="SymbolsPanel">
