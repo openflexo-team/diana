@@ -36,7 +36,7 @@
 	<Panel id="7" visible="(data.styleType = &quot;LINE&quot;)"
 		borderLeft="10" sizeAdjustment="OriginalSize" borderRight="10"
 		border="rounded3d" trackViewPortWidth="true" index="4" align="left"
-		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)"
+		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=5;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		borderBottom="2" borderTitle="Line connector"
 		titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true"
 		layout="twocols" name="LineConnectorPanel">
@@ -60,13 +60,24 @@
 		visible="(data.styleType = &quot;RECT_POLYLIN&quot;)"
 		borderLeft="10" sizeAdjustment="OriginalSize" borderRight="10"
 		border="rounded3d" trackViewPortWidth="true" index="4" align="left"
-		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)"
+		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		borderBottom="2" borderTitle="Rect polylin connector"
 		titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true"
 		layout="twocols"
 		name="RectPolylinConnectorPanel" useScrollBar="false"
 		verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED"
 		horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_NEVER">
+
+		<Panel
+			borderLeft="0" sizeAdjustment="OriginalSize" borderRight="0"
+			border="none" trackViewPortWidth="true" index="4" align="left"
+			constraints="twocols(expandHorizontally=true;expandVertically=true;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;x=0;y=0)"
+			borderBottom="0" borderTop="0" trackViewPortHeight="true"
+			layout="twocols"
+			name="ScrollbarManager" useScrollBar="true"
+			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED"
+			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_NEVER">
+
 				<Label id="26" name="AdjustabilityLabel" index="0"
 					localize="true" align="left"
 					constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)"
@@ -74,7 +85,7 @@
 				<DropDown id="27"
 					data="rectPolylinConnectorSpecification.adjustability" index="1"
 					localize="true"
-					constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)"
+					constraints="twocols(expandHorizontally=true;expandVertically=false;index=9;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)"
 					format="object.name.toLowerCase" showText="true"
 					iteratorClassName="org.openflexo.diana.connectors.RectPolylinConnectorSpecification$RectPolylinAdjustability"
 					showIcon="false" name="Adjustability" />
@@ -84,8 +95,8 @@
 					label="layout_constraints" />
 				<DropDown id="18"
 					data="rectPolylinConnectorSpecification.rectPolylinConstraints"
-					index="1" localize="true" width="150"
-					constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)"
+					index="1" localize="true"
+					constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)"
 					format="object.name.toLowerCase" showText="true"
 					iteratorClassName="org.openflexo.diana.connectors.RectPolylinConnectorSpecification$RectPolylinConstraints"
 					showIcon="false" name="Constraints" />
@@ -151,6 +162,7 @@
 					increment="1" index="2" localize="true"
 					constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right)"
 					numberType="IntegerType" />
+			</Panel>
 		<FIBVariable id="47"
 			name="rectPolylinConnectorSpecification"
 			value="($org.openflexo.diana.connectors.RectPolylinConnectorSpecification)data.connectorSpecification"
@@ -159,7 +171,7 @@
 	<Panel id="48" visible="(data.styleType = &quot;CURVE&quot;)"
 		borderLeft="10" sizeAdjustment="OriginalSize" borderRight="10"
 		border="rounded3d" trackViewPortWidth="true" index="6" align="left"
-		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)"
+		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=1.0)"
 		borderBottom="2" borderTitle="Curve connector"
 		titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true"
 		layout="twocols" name="CurveConnectorPanel">
