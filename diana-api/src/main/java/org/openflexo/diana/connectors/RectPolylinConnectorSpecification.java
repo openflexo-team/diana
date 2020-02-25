@@ -40,9 +40,9 @@ package org.openflexo.diana.connectors;
 
 import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.GRProperty;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectPolylin;
-import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PropertyIdentifier;
@@ -101,57 +101,33 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	public static final String IS_ROUNDED_KEY = "isRounded";
 	@PropertyIdentifier(type = Integer.class)
 	public static final String ARC_SIZE_KEY = "arcSize";
-	@PropertyIdentifier(type = Boolean.class)
-	public static final String IS_STARTING_LOCATION_FIXED_KEY = "isStartingLocationFixed";
-	@PropertyIdentifier(type = Boolean.class)
-	public static final String IS_ENDING_LOCATION_FIXED_KEY = "isEndingLocationFixed";
-	@PropertyIdentifier(type = Boolean.class)
-	public static final String IS_STARTING_LOCATION_DRAGGABLE_KEY = "isStartingLocationDraggable";
-	@PropertyIdentifier(type = Boolean.class)
-	public static final String IS_ENDING_LOCATION_DRAGGABLE_KEY = "isEndingLocationDraggable";
 	@PropertyIdentifier(type = DianaPoint.class)
 	public static final String CROSSED_CONTROL_POINT_KEY = "crossedControlPoint";
-	@PropertyIdentifier(type = DianaPoint.class)
-	public static final String FIXED_START_LOCATION_KEY = "fixedStartLocation";
-	@PropertyIdentifier(type = DianaPoint.class)
-	public static final String FIXED_END_LOCATION_KEY = "fixedEndLocation";
 	@PropertyIdentifier(type = DianaRectPolylin.class)
 	public static final String POLYLIN_KEY = "polylin";
 	@PropertyIdentifier(type = Integer.class)
 	public static final String PIXEL_OVERLAP_KEY = "pixelOverlap";
 
-	public static GRProperty<RectPolylinConstraints> RECT_POLYLIN_CONSTRAINTS = GRProperty.getGRParameter(
-			RectPolylinConnectorSpecification.class, RECT_POLYLIN_CONSTRAINTS_KEY, RectPolylinConstraints.class);
+	public static GRProperty<RectPolylinConstraints> RECT_POLYLIN_CONSTRAINTS = GRProperty
+			.getGRParameter(RectPolylinConnectorSpecification.class, RECT_POLYLIN_CONSTRAINTS_KEY, RectPolylinConstraints.class);
 	public static GRProperty<Boolean> STRAIGHT_LINE_WHEN_POSSIBLE = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
 			STRAIGHT_LINE_WHEN_POSSIBLE_KEY, Boolean.class);
 	public static GRProperty<RectPolylinAdjustability> ADJUSTABILITY = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
 			ADJUSTABILITY_KEY, RectPolylinAdjustability.class);
-	public static GRProperty<SimplifiedCardinalDirection> START_ORIENTATION = GRProperty.getGRParameter(
-			RectPolylinConnectorSpecification.class, START_ORIENTATION_KEY, SimplifiedCardinalDirection.class);
-	public static GRProperty<SimplifiedCardinalDirection> END_ORIENTATION = GRProperty.getGRParameter(
-			RectPolylinConnectorSpecification.class, END_ORIENTATION_KEY, SimplifiedCardinalDirection.class);
+	public static GRProperty<SimplifiedCardinalDirection> START_ORIENTATION = GRProperty
+			.getGRParameter(RectPolylinConnectorSpecification.class, START_ORIENTATION_KEY, SimplifiedCardinalDirection.class);
+	public static GRProperty<SimplifiedCardinalDirection> END_ORIENTATION = GRProperty
+			.getGRParameter(RectPolylinConnectorSpecification.class, END_ORIENTATION_KEY, SimplifiedCardinalDirection.class);
 	public static GRProperty<Boolean> IS_ROUNDED = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class, IS_ROUNDED_KEY,
 			Boolean.class);
 	public static GRProperty<Integer> ARC_SIZE = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class, ARC_SIZE_KEY,
 			Integer.class);
-	public static GRProperty<Boolean> IS_STARTING_LOCATION_FIXED = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
-			IS_STARTING_LOCATION_FIXED_KEY, Boolean.class);
-	public static GRProperty<Boolean> IS_ENDING_LOCATION_FIXED = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
-			IS_ENDING_LOCATION_FIXED_KEY, Boolean.class);
-	public static GRProperty<Boolean> IS_STARTING_LOCATION_DRAGGABLE = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
-			IS_STARTING_LOCATION_DRAGGABLE_KEY, Boolean.class);
-	public static GRProperty<Boolean> IS_ENDING_LOCATION_DRAGGABLE = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
-			IS_ENDING_LOCATION_DRAGGABLE_KEY, Boolean.class);
 	public static GRProperty<DianaPoint> CROSSED_CONTROL_POINT = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
 			CROSSED_CONTROL_POINT_KEY, DianaPoint.class);
-	public static GRProperty<DianaPoint> FIXED_START_LOCATION = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
-			FIXED_START_LOCATION_KEY, DianaPoint.class);
-	public static GRProperty<DianaPoint> FIXED_END_LOCATION = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
-			FIXED_END_LOCATION_KEY, DianaPoint.class);
 	public static GRProperty<DianaRectPolylin> POLYLIN = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class, POLYLIN_KEY,
 			DianaRectPolylin.class);
-	public static GRProperty<Integer> PIXEL_OVERLAP = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
-			PIXEL_OVERLAP_KEY, Integer.class);
+	public static GRProperty<Integer> PIXEL_OVERLAP = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class, PIXEL_OVERLAP_KEY,
+			Integer.class);
 
 	/*public static enum RectPolylinConnectorParameters implements GRProperty {
 		rectPolylinConstraints,
@@ -245,78 +221,12 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	@Setter(value = ARC_SIZE_KEY)
 	public void setArcSize(int anArcSize);
 
-	@Getter(value = IS_STARTING_LOCATION_FIXED_KEY, defaultValue = "false")
-	@XMLAttribute
-	public boolean getIsStartingLocationFixed();
-
-	@Setter(value = IS_STARTING_LOCATION_FIXED_KEY)
-	public void setIsStartingLocationFixed(boolean aFlag);
-
-	@Getter(value = IS_STARTING_LOCATION_DRAGGABLE_KEY, defaultValue = "false")
-	@XMLAttribute
-	public boolean getIsStartingLocationDraggable();
-
-	@Setter(value = IS_STARTING_LOCATION_DRAGGABLE_KEY)
-	public void setIsStartingLocationDraggable(boolean aFlag);
-
-	@Getter(value = IS_ENDING_LOCATION_FIXED_KEY, defaultValue = "false")
-	@XMLAttribute
-	public boolean getIsEndingLocationFixed();
-
-	@Setter(value = IS_ENDING_LOCATION_FIXED_KEY)
-	public void setIsEndingLocationFixed(boolean aFlag);
-
-	@Getter(value = IS_ENDING_LOCATION_DRAGGABLE_KEY, defaultValue = "false")
-	@XMLAttribute
-	public boolean getIsEndingLocationDraggable();
-
-	@Setter(value = IS_ENDING_LOCATION_DRAGGABLE_KEY)
-	public void setIsEndingLocationDraggable(boolean aFlag);
-
 	@Getter(value = CROSSED_CONTROL_POINT_KEY, isStringConvertable = true)
 	@XMLAttribute
 	public DianaPoint getCrossedControlPoint();
 
 	@Setter(value = CROSSED_CONTROL_POINT_KEY)
 	public void setCrossedControlPoint(DianaPoint aPoint);
-
-	/**
-	 * Return start location asserting start location is fixed. Return position relative to start object (in the start-object coordinates
-	 * system)
-	 * 
-	 * @return
-	 */
-	@Getter(value = FIXED_START_LOCATION_KEY, isStringConvertable = true)
-	@XMLAttribute
-	public DianaPoint getFixedStartLocation();
-
-	/**
-	 * Sets start location asserting start location is fixed. Sets position relative to start object (in the start-object coordinates
-	 * system)
-	 * 
-	 * @param aPoint
-	 *            : relative to start object
-	 */
-	@Setter(value = FIXED_START_LOCATION_KEY)
-	public void setFixedStartLocation(DianaPoint aPoint);
-
-	/**
-	 * Return end location asserting end location is fixed. Return position relative to end object (in the end-object coordinates system)
-	 * 
-	 * @return
-	 */
-	@Getter(value = FIXED_END_LOCATION_KEY, isStringConvertable = true)
-	@XMLAttribute
-	public DianaPoint getFixedEndLocation();
-
-	/**
-	 * Sets end location asserting end location is fixed. Sets position relative to end object (in the end-object coordinates system)
-	 * 
-	 * @param aPoint
-	 *            , relative to end object
-	 */
-	@Setter(value = FIXED_END_LOCATION_KEY)
-	public void setFixedEndLocation(DianaPoint aPoint);
 
 	@Getter(value = PIXEL_OVERLAP_KEY, defaultValue = "" + DianaConstants.DEFAULT_RECT_POLYLIN_PIXEL_OVERLAP)
 	@XMLAttribute
@@ -340,7 +250,7 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	public void setIsAdjustable(boolean aFlag);
 
 	/*public boolean getWasManuallyAdjusted();
-
+	
 	public void setWasManuallyAdjusted(boolean aFlag);*/
 
 	/**
@@ -350,15 +260,15 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	// public double getMiddleSymbolAngle(ConnectorNode<?> node);
 
 	/*public DianaRectPolylin getCurrentPolylin();
-
+	
 	public void manuallySetPolylin(DianaRectPolylin aPolylin);
-
+	
 	public ControlPoint getEndControlPoint();
-
+	
 	public ControlPoint getStartControlPoint();
-
+	
 	public DianaPoint getCrossedControlPointOnRoundedArc();
-
+	
 	public Vector<SimplifiedCardinalDirection> getAllowedStartOrientations();*/
 
 	/**
@@ -370,25 +280,25 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	// public Vector<SimplifiedCardinalDirection> getPrimitiveAllowedStartOrientations();
 
 	/*public Vector<SimplifiedCardinalDirection> getExcludedStartOrientations();
-
+	
 	public Vector<SimplifiedCardinalDirection> getAllowedEndOrientations();
-
+	
 	public Vector<SimplifiedCardinalDirection> getPrimitiveAllowedEndOrientations();
-
+	
 	public Vector<SimplifiedCardinalDirection> getExcludedEndOrientations();
-
+	
 	public Vector<ControlPoint> _getControlPoints();
-
+	
 	public void updateLayout();
-
+	
 	public void updateWithNewPolylin(DianaRectPolylin aPolylin);
-
+	
 	public void updateWithNewPolylin(DianaRectPolylin aPolylin, boolean temporary);
-
+	
 	public void updateWithNewPolylin(DianaRectPolylin aPolylin, boolean assertLayoutIsValid, boolean temporary);
-
+	
 	public boolean _updateAsFullyAdjustableForUniqueSegment(DianaPoint pt);
-
+	
 	public void _connectorChanged(boolean temporary);*/
 
 	/**

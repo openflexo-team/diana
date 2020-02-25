@@ -181,7 +181,7 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 
 		ConnectorSpecification oldCS = getConnectorSpecification();
 
-		//System.out.println("oldCS=" + oldCS);
+		// System.out.println("oldCS=" + oldCS);
 
 		// Retaining some values to be applied to new inspected connector specification
 		/*	StartSymbolType startSymbol = oldCS.getStartSymbol();
@@ -259,6 +259,66 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		@Override
 		public final void setReflexiveControlPointLocation(DianaPoint aPoint) {
 			setPropertyValue(ConnectorSpecification.REFLEXIVE_CONTROL_POINT_LOCATION, aPoint);
+		}
+
+		@Override
+		public boolean getIsStartingLocationFixed() {
+			return getPropertyValue(RectPolylinConnectorSpecification.IS_STARTING_LOCATION_FIXED);
+		}
+
+		@Override
+		public void setIsStartingLocationFixed(boolean aFlag) {
+			setPropertyValue(RectPolylinConnectorSpecification.IS_STARTING_LOCATION_FIXED, aFlag);
+		}
+
+		@Override
+		public boolean getIsStartingLocationDraggable() {
+			return getPropertyValue(RectPolylinConnectorSpecification.IS_STARTING_LOCATION_DRAGGABLE);
+		}
+
+		@Override
+		public void setIsStartingLocationDraggable(boolean aFlag) {
+			setPropertyValue(RectPolylinConnectorSpecification.IS_STARTING_LOCATION_DRAGGABLE, aFlag);
+		}
+
+		@Override
+		public boolean getIsEndingLocationFixed() {
+			return getPropertyValue(RectPolylinConnectorSpecification.IS_ENDING_LOCATION_FIXED);
+		}
+
+		@Override
+		public void setIsEndingLocationFixed(boolean aFlag) {
+			setPropertyValue(RectPolylinConnectorSpecification.IS_ENDING_LOCATION_FIXED, aFlag);
+		}
+
+		@Override
+		public boolean getIsEndingLocationDraggable() {
+			return getPropertyValue(RectPolylinConnectorSpecification.IS_ENDING_LOCATION_DRAGGABLE);
+		}
+
+		@Override
+		public void setIsEndingLocationDraggable(boolean aFlag) {
+			setPropertyValue(RectPolylinConnectorSpecification.IS_ENDING_LOCATION_DRAGGABLE, aFlag);
+		}
+
+		@Override
+		public DianaPoint getFixedStartLocation() {
+			return getPropertyValue(RectPolylinConnectorSpecification.FIXED_START_LOCATION);
+		}
+
+		@Override
+		public void setFixedStartLocation(DianaPoint aPoint) {
+			setPropertyValue(RectPolylinConnectorSpecification.FIXED_START_LOCATION, aPoint);
+		}
+
+		@Override
+		public DianaPoint getFixedEndLocation() {
+			return getPropertyValue(RectPolylinConnectorSpecification.FIXED_END_LOCATION);
+		}
+
+		@Override
+		public void setFixedEndLocation(DianaPoint aPoint) {
+			setPropertyValue(RectPolylinConnectorSpecification.FIXED_END_LOCATION, aPoint);
 		}
 
 		@Override
@@ -642,46 +702,6 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		}
 
 		@Override
-		public boolean getIsStartingLocationFixed() {
-			return getPropertyValue(RectPolylinConnectorSpecification.IS_STARTING_LOCATION_FIXED);
-		}
-
-		@Override
-		public void setIsStartingLocationFixed(boolean aFlag) {
-			setPropertyValue(RectPolylinConnectorSpecification.IS_STARTING_LOCATION_FIXED, aFlag);
-		}
-
-		@Override
-		public boolean getIsStartingLocationDraggable() {
-			return getPropertyValue(RectPolylinConnectorSpecification.IS_STARTING_LOCATION_DRAGGABLE);
-		}
-
-		@Override
-		public void setIsStartingLocationDraggable(boolean aFlag) {
-			setPropertyValue(RectPolylinConnectorSpecification.IS_STARTING_LOCATION_DRAGGABLE, aFlag);
-		}
-
-		@Override
-		public boolean getIsEndingLocationFixed() {
-			return getPropertyValue(RectPolylinConnectorSpecification.IS_ENDING_LOCATION_FIXED);
-		}
-
-		@Override
-		public void setIsEndingLocationFixed(boolean aFlag) {
-			setPropertyValue(RectPolylinConnectorSpecification.IS_ENDING_LOCATION_FIXED, aFlag);
-		}
-
-		@Override
-		public boolean getIsEndingLocationDraggable() {
-			return getPropertyValue(RectPolylinConnectorSpecification.IS_ENDING_LOCATION_DRAGGABLE);
-		}
-
-		@Override
-		public void setIsEndingLocationDraggable(boolean aFlag) {
-			setPropertyValue(RectPolylinConnectorSpecification.IS_ENDING_LOCATION_DRAGGABLE, aFlag);
-		}
-
-		@Override
 		public DianaPoint getCrossedControlPoint() {
 			return getPropertyValue(RectPolylinConnectorSpecification.CROSSED_CONTROL_POINT);
 		}
@@ -689,26 +709,6 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		@Override
 		public void setCrossedControlPoint(DianaPoint aPoint) {
 			setPropertyValue(RectPolylinConnectorSpecification.CROSSED_CONTROL_POINT, aPoint);
-		}
-
-		@Override
-		public DianaPoint getFixedStartLocation() {
-			return getPropertyValue(RectPolylinConnectorSpecification.FIXED_START_LOCATION);
-		}
-
-		@Override
-		public void setFixedStartLocation(DianaPoint aPoint) {
-			setPropertyValue(RectPolylinConnectorSpecification.FIXED_START_LOCATION, aPoint);
-		}
-
-		@Override
-		public DianaPoint getFixedEndLocation() {
-			return getPropertyValue(RectPolylinConnectorSpecification.FIXED_END_LOCATION);
-		}
-
-		@Override
-		public void setFixedEndLocation(DianaPoint aPoint) {
-			setPropertyValue(RectPolylinConnectorSpecification.FIXED_END_LOCATION, aPoint);
 		}
 
 		@Override

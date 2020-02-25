@@ -88,6 +88,20 @@ public interface ConnectorSpecification extends DianaObject {
 	@PropertyIdentifier(type = DianaPoint.class)
 	public static final String REFLEXIVE_CONTROL_POINT_LOCATION_KEY = "reflexiveControlPoint";
 
+	@PropertyIdentifier(type = Boolean.class)
+	public static final String IS_STARTING_LOCATION_FIXED_KEY = "isStartingLocationFixed";
+	@PropertyIdentifier(type = Boolean.class)
+	public static final String IS_ENDING_LOCATION_FIXED_KEY = "isEndingLocationFixed";
+	@PropertyIdentifier(type = Boolean.class)
+	public static final String IS_STARTING_LOCATION_DRAGGABLE_KEY = "isStartingLocationDraggable";
+	@PropertyIdentifier(type = Boolean.class)
+	public static final String IS_ENDING_LOCATION_DRAGGABLE_KEY = "isEndingLocationDraggable";
+
+	@PropertyIdentifier(type = DianaPoint.class)
+	public static final String FIXED_START_LOCATION_KEY = "fixedStartLocation";
+	@PropertyIdentifier(type = DianaPoint.class)
+	public static final String FIXED_END_LOCATION_KEY = "fixedEndLocation";
+
 	public static GRProperty<StartSymbolType> START_SYMBOL = GRProperty.getGRParameter(ConnectorSpecification.class, START_SYMBOL_KEY,
 			StartSymbolType.class);
 	public static GRProperty<Double> START_SYMBOL_SIZE = GRProperty.getGRParameter(ConnectorSpecification.class, START_SYMBOL_SIZE_KEY,
@@ -109,6 +123,20 @@ public interface ConnectorSpecification extends DianaObject {
 
 	public static GRProperty<Double> RELATIVE_LABEL_LOCATION = GRProperty.getGRParameter(ConnectorSpecification.class,
 			RELATIVE_LABEL_LOCATION_KEY, Double.class);
+
+	public static GRProperty<Boolean> IS_STARTING_LOCATION_FIXED = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
+			IS_STARTING_LOCATION_FIXED_KEY, Boolean.class);
+	public static GRProperty<Boolean> IS_ENDING_LOCATION_FIXED = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
+			IS_ENDING_LOCATION_FIXED_KEY, Boolean.class);
+	public static GRProperty<Boolean> IS_STARTING_LOCATION_DRAGGABLE = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
+			IS_STARTING_LOCATION_DRAGGABLE_KEY, Boolean.class);
+	public static GRProperty<Boolean> IS_ENDING_LOCATION_DRAGGABLE = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
+			IS_ENDING_LOCATION_DRAGGABLE_KEY, Boolean.class);
+
+	public static GRProperty<DianaPoint> FIXED_START_LOCATION = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
+			FIXED_START_LOCATION_KEY, DianaPoint.class);
+	public static GRProperty<DianaPoint> FIXED_END_LOCATION = GRProperty.getGRParameter(RectPolylinConnectorSpecification.class,
+			FIXED_END_LOCATION_KEY, DianaPoint.class);
 
 	public static enum ConnectorType {
 		LINE, RECT_POLYLIN, CURVE, CURVED_POLYLIN;
@@ -201,6 +229,72 @@ public interface ConnectorSpecification extends DianaObject {
 	 */
 	@Setter(value = REFLEXIVE_CONTROL_POINT_LOCATION_KEY)
 	public void setReflexiveControlPointLocation(DianaPoint aPoint);
+
+	@Getter(value = IS_STARTING_LOCATION_FIXED_KEY, defaultValue = "false")
+	@XMLAttribute
+	public boolean getIsStartingLocationFixed();
+
+	@Setter(value = IS_STARTING_LOCATION_FIXED_KEY)
+	public void setIsStartingLocationFixed(boolean aFlag);
+
+	@Getter(value = IS_STARTING_LOCATION_DRAGGABLE_KEY, defaultValue = "false")
+	@XMLAttribute
+	public boolean getIsStartingLocationDraggable();
+
+	@Setter(value = IS_STARTING_LOCATION_DRAGGABLE_KEY)
+	public void setIsStartingLocationDraggable(boolean aFlag);
+
+	@Getter(value = IS_ENDING_LOCATION_FIXED_KEY, defaultValue = "false")
+	@XMLAttribute
+	public boolean getIsEndingLocationFixed();
+
+	@Setter(value = IS_ENDING_LOCATION_FIXED_KEY)
+	public void setIsEndingLocationFixed(boolean aFlag);
+
+	@Getter(value = IS_ENDING_LOCATION_DRAGGABLE_KEY, defaultValue = "false")
+	@XMLAttribute
+	public boolean getIsEndingLocationDraggable();
+
+	@Setter(value = IS_ENDING_LOCATION_DRAGGABLE_KEY)
+	public void setIsEndingLocationDraggable(boolean aFlag);
+
+	/**
+	 * Return start location asserting start location is fixed. Return position relative to start object (in the start-object coordinates
+	 * system)
+	 * 
+	 * @return
+	 */
+	@Getter(value = FIXED_START_LOCATION_KEY, isStringConvertable = true)
+	@XMLAttribute
+	public DianaPoint getFixedStartLocation();
+
+	/**
+	 * Sets start location asserting start location is fixed. Sets position relative to start object (in the start-object coordinates
+	 * system)
+	 * 
+	 * @param aPoint
+	 *            : relative to start object
+	 */
+	@Setter(value = FIXED_START_LOCATION_KEY)
+	public void setFixedStartLocation(DianaPoint aPoint);
+
+	/**
+	 * Return end location asserting end location is fixed. Return position relative to end object (in the end-object coordinates system)
+	 * 
+	 * @return
+	 */
+	@Getter(value = FIXED_END_LOCATION_KEY, isStringConvertable = true)
+	@XMLAttribute
+	public DianaPoint getFixedEndLocation();
+
+	/**
+	 * Sets end location asserting end location is fixed. Sets position relative to end object (in the end-object coordinates system)
+	 * 
+	 * @param aPoint
+	 *            , relative to end object
+	 */
+	@Setter(value = FIXED_END_LOCATION_KEY)
+	public void setFixedEndLocation(DianaPoint aPoint);
 
 	public Connector<?> makeConnector(ConnectorNode<?> connectorNode);
 }
