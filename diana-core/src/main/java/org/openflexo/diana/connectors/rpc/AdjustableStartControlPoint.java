@@ -80,26 +80,14 @@ public class AdjustableStartControlPoint extends RectPolylinAdjustableControlPoi
 		setPoint(pt);
 		DianaPoint ptRelativeToStartObject = DianaUtils.convertNormalizedPoint(getNode(), pt, getNode().getStartNode());
 		getConnector().setFixedStartLocation(ptRelativeToStartObject);
-		switch (getConnectorSpecification().getAdjustability()) {
-			case AUTO_LAYOUT:
-				// Nothing special to do
-				break;
-			case BASICALLY_ADJUSTABLE:
-				// Nothing special to do
-				break;
-			case FULLY_ADJUSTABLE:
-				if (initialPolylin.getSegmentNb() == 1 && getConnector()._updateAsFullyAdjustableForUniqueSegment(pt)
-						&& !getConnectorSpecification().getIsEndingLocationFixed()) {
-					// OK this is still a unique segment, nice !
-				}
-				else {
-					DianaRectPolylin newPolylin = initialPolylin.clone();
-					newPolylin.updatePointAt(0, pt);
-					getConnector().updateWithNewPolylin(newPolylin, true);
-				}
-				break;
-			default:
-				break;
+		if (initialPolylin.getSegmentNb() == 1 && getConnector()._updateAsFullyAdjustableForUniqueSegment(pt)
+				&& !getConnectorSpecification().getIsEndingLocationFixed()) {
+			// OK this is still a unique segment, nice !
+		}
+		else {
+			DianaRectPolylin newPolylin = initialPolylin.clone();
+			newPolylin.updatePointAt(0, pt);
+			getConnector().updateWithNewPolylin(newPolylin, true);
 		}
 		getConnector()._connectorChanged(true);
 		getNode().notifyConnectorModified();

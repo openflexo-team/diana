@@ -221,7 +221,7 @@
 					trackViewPortHeight="true" layout="flow" name="FIBPanel"
 					flowAlignment="LEADING">
 					<CheckBox id="130" name="IsStartingLocationFixed"
-						data="rectPolylinConnectorSpecification.isStartingLocationFixed"
+						data="data.connectorSpecification.isStartingLocationFixed"
 						index="0" localize="true"
 						constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=right)" />
 					<Label id="131" name="FixedLabel" index="1" localize="true"
@@ -229,7 +229,7 @@
 						constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=right)"
 						label="fixed" />
 					<CheckBox id="132" name="IsStartingLocationDraggable"
-						data="rectPolylinConnectorSpecification.isStartingLocationDraggable"
+						data="data.connectorSpecification.isStartingLocationDraggable"
 						index="2" localize="true"
 						constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right)" />
 					<Label id="133" name="IsStartingLocationDraggableLabel"
@@ -249,7 +249,7 @@
 					trackViewPortHeight="true" layout="flow" name="FIBPanel2"
 					flowAlignment="LEADING">
 					<CheckBox id="136" name="IsEndingLocationFixed"
-						data="rectPolylinConnectorSpecification.isEndingLocationFixed"
+						data="data.connectorSpecification.isEndingLocationFixed"
 						index="0" localize="true"
 						constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=right)" />
 					<Label id="137" name="IsEndingLocationDraggableLabel"
@@ -257,7 +257,7 @@
 						constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=left)"
 						label="fixed" />
 					<CheckBox id="138" name="IsEndingLocationDraggable"
-						data="rectPolylinConnectorSpecification.isEndingLocationDraggable"
+						data="data.connectorSpecification.isEndingLocationDraggable"
 						index="2" localize="true"
 						constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right)" />
 					<Label id="139" name="IsEndingLocationDraggableLabel"

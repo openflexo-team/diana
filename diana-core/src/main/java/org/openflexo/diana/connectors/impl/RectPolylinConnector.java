@@ -53,6 +53,7 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.ConnectorNode;
+import org.openflexo.diana.connectors.ConnectorSpecification;
 import org.openflexo.diana.connectors.ConnectorSymbol.EndSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.MiddleSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.StartSymbolType;
@@ -2285,12 +2286,18 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			}
 			else if (evt.getPropertyName() == RectPolylinConnectorSpecification.IS_STARTING_LOCATION_DRAGGABLE.getName()
 					|| evt.getPropertyName() == RectPolylinConnectorSpecification.IS_ENDING_LOCATION_DRAGGABLE.getName()
-					|| evt.getPropertyName() == RectPolylinConnectorSpecification.FIXED_START_LOCATION.getName()
-					|| evt.getPropertyName() == RectPolylinConnectorSpecification.FIXED_END_LOCATION.getName()) {
+			/*|| evt.getPropertyName() == RectPolylinConnectorSpecification.FIXED_START_LOCATION.getName()
+			|| evt.getPropertyName() == RectPolylinConnectorSpecification.FIXED_END_LOCATION.getName()*/) {
 				updateLayout();
 				// Force control points to be rebuild in order to get draggable feature
 				_rebuildControlPoints();
 				connectorNode.notifyConnectorModified();
+			}
+			else if (evt.getPropertyName() == ConnectorSpecification.FIXED_START_LOCATION.getName()
+					|| evt.getPropertyName() == ConnectorSpecification.FIXED_END_LOCATION.getName()) {
+				// updateLayout();
+				// connectorNode.notifyConnectorModified();
+				refreshConnector();
 			}
 			else if (evt.getPropertyName() == RectPolylinConnectorSpecification.IS_STARTING_LOCATION_FIXED.getName()) {
 				if (getIsStartingLocationFixed() && fixedStartLocationRelativeToStartObject == null && p_start != null) {
