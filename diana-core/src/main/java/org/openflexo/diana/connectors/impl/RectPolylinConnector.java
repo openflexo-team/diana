@@ -650,7 +650,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		switch (getRectPolylinConstraints()) {
 			case NONE:
 				return SimplifiedCardinalDirection.allDirections();
-			case START_ORIENTATION_FIXED:
+			case START_ORIENT_FIXED:
 				if (getStartOrientation() == null) {
 					return SimplifiedCardinalDirection.uniqueDirection(SimplifiedCardinalDirection.NORTH);
 				}
@@ -662,11 +662,11 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				return SimplifiedCardinalDirection.uniqueDirection(getStartOrientation());
 			case HORIZONTAL_LAYOUT:
 				return SimplifiedCardinalDirection.someDirections(SimplifiedCardinalDirection.EAST, SimplifiedCardinalDirection.WEST);
-			case ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST:
+			case HORIZONTAL_FIRST:
 				return SimplifiedCardinalDirection.someDirections(SimplifiedCardinalDirection.EAST, SimplifiedCardinalDirection.WEST);
 			case VERTICAL_LAYOUT:
 				return SimplifiedCardinalDirection.someDirections(SimplifiedCardinalDirection.NORTH, SimplifiedCardinalDirection.SOUTH);
-			case ORTHOGONAL_LAYOUT_VERTICAL_FIRST:
+			case VERTICAL_FIRST:
 				return SimplifiedCardinalDirection.someDirections(SimplifiedCardinalDirection.NORTH, SimplifiedCardinalDirection.SOUTH);
 
 			default:
@@ -716,7 +716,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		switch (getRectPolylinConstraints()) {
 			case NONE:
 				return SimplifiedCardinalDirection.allDirections();
-			case END_ORIENTATION_FIXED:
+			case END_ORIENT_FIXED:
 				if (getEndOrientation() == null) {
 					return SimplifiedCardinalDirection.uniqueDirection(SimplifiedCardinalDirection.NORTH);
 				}
@@ -728,11 +728,11 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				return SimplifiedCardinalDirection.uniqueDirection(getEndOrientation());
 			case HORIZONTAL_LAYOUT:
 				return SimplifiedCardinalDirection.someDirections(SimplifiedCardinalDirection.EAST, SimplifiedCardinalDirection.WEST);
-			case ORTHOGONAL_LAYOUT_VERTICAL_FIRST:
+			case VERTICAL_FIRST:
 				return SimplifiedCardinalDirection.someDirections(SimplifiedCardinalDirection.EAST, SimplifiedCardinalDirection.WEST);
 			case VERTICAL_LAYOUT:
 				return SimplifiedCardinalDirection.someDirections(SimplifiedCardinalDirection.NORTH, SimplifiedCardinalDirection.SOUTH);
-			case ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST:
+			case HORIZONTAL_FIRST:
 				return SimplifiedCardinalDirection.someDirections(SimplifiedCardinalDirection.NORTH, SimplifiedCardinalDirection.SOUTH);
 
 			default:
@@ -1088,33 +1088,31 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			CardinalQuadrant quadrant = DianaPoint.getCardinalQuadrant(startMiddle, endMiddle);
 
 			RectPolylinConstraints constraints = getRectPolylinConstraints();
-			if (constraints == RectPolylinConstraints.START_ORIENTATION_FIXED
-					|| constraints == RectPolylinConstraints.END_ORIENTATION_FIXED) {
+			if (constraints == RectPolylinConstraints.START_ORIENT_FIXED || constraints == RectPolylinConstraints.END_ORIENT_FIXED) {
 				constraints = RectPolylinConstraints.NONE;
 			}
 
 			if (constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT) {
 				testAllCombinations = false;
 			}
-			if (constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+			if (constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 				testAllCombinations = false;
 			}
 
 			if (quadrant == CardinalQuadrant.NORTH_EAST) {
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT
-						|| constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST
-						|| constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT_VERTICAL_FIRST) {
-					if (constraints != RectPolylinConstraints.ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_FIRST || constraints == RectPolylinConstraints.VERTICAL_FIRST) {
+					if (constraints != RectPolylinConstraints.HORIZONTAL_FIRST) {
 						potentialStartOrientations.add(SimplifiedCardinalDirection.NORTH);
 						potentialEndOrientations.add(SimplifiedCardinalDirection.WEST);
 					}
-					if (constraints != RectPolylinConstraints.ORTHOGONAL_LAYOUT_VERTICAL_FIRST) {
+					if (constraints != RectPolylinConstraints.VERTICAL_FIRST) {
 						potentialStartOrientations.add(SimplifiedCardinalDirection.EAST);
 						potentialEndOrientations.add(SimplifiedCardinalDirection.SOUTH);
 					}
 				}
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.HORIZONTAL_LAYOUT
-						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 					potentialStartOrientations.add(SimplifiedCardinalDirection.EAST);
 					potentialEndOrientations.add(SimplifiedCardinalDirection.WEST);
 					potentialStartOrientations.add(SimplifiedCardinalDirection.EAST);
@@ -1123,7 +1121,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 					potentialEndOrientations.add(SimplifiedCardinalDirection.WEST);
 				}
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.VERTICAL_LAYOUT
-						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 					potentialStartOrientations.add(SimplifiedCardinalDirection.NORTH);
 					potentialEndOrientations.add(SimplifiedCardinalDirection.SOUTH);
 					potentialStartOrientations.add(SimplifiedCardinalDirection.NORTH);
@@ -1134,19 +1132,18 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			}
 			else if (quadrant == CardinalQuadrant.SOUTH_EAST) {
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT
-						|| constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST
-						|| constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT_VERTICAL_FIRST) {
-					if (constraints != RectPolylinConstraints.ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_FIRST || constraints == RectPolylinConstraints.VERTICAL_FIRST) {
+					if (constraints != RectPolylinConstraints.HORIZONTAL_FIRST) {
 						potentialStartOrientations.add(SimplifiedCardinalDirection.SOUTH);
 						potentialEndOrientations.add(SimplifiedCardinalDirection.WEST);
 					}
-					if (constraints != RectPolylinConstraints.ORTHOGONAL_LAYOUT_VERTICAL_FIRST) {
+					if (constraints != RectPolylinConstraints.VERTICAL_FIRST) {
 						potentialStartOrientations.add(SimplifiedCardinalDirection.EAST);
 						potentialEndOrientations.add(SimplifiedCardinalDirection.NORTH);
 					}
 				}
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.HORIZONTAL_LAYOUT
-						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 					potentialStartOrientations.add(SimplifiedCardinalDirection.EAST);
 					potentialEndOrientations.add(SimplifiedCardinalDirection.WEST);
 					potentialStartOrientations.add(SimplifiedCardinalDirection.EAST);
@@ -1155,7 +1152,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 					potentialEndOrientations.add(SimplifiedCardinalDirection.WEST);
 				}
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.VERTICAL_LAYOUT
-						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 					potentialStartOrientations.add(SimplifiedCardinalDirection.SOUTH);
 					potentialEndOrientations.add(SimplifiedCardinalDirection.NORTH);
 					potentialStartOrientations.add(SimplifiedCardinalDirection.SOUTH);
@@ -1166,19 +1163,18 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			}
 			else if (quadrant == CardinalQuadrant.SOUTH_WEST) {
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT
-						|| constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST
-						|| constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT_VERTICAL_FIRST) {
-					if (constraints != RectPolylinConstraints.ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_FIRST || constraints == RectPolylinConstraints.VERTICAL_FIRST) {
+					if (constraints != RectPolylinConstraints.HORIZONTAL_FIRST) {
 						potentialStartOrientations.add(SimplifiedCardinalDirection.SOUTH);
 						potentialEndOrientations.add(SimplifiedCardinalDirection.EAST);
 					}
-					if (constraints != RectPolylinConstraints.ORTHOGONAL_LAYOUT_VERTICAL_FIRST) {
+					if (constraints != RectPolylinConstraints.VERTICAL_FIRST) {
 						potentialStartOrientations.add(SimplifiedCardinalDirection.WEST);
 						potentialEndOrientations.add(SimplifiedCardinalDirection.NORTH);
 					}
 				}
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.HORIZONTAL_LAYOUT
-						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 					potentialStartOrientations.add(SimplifiedCardinalDirection.WEST);
 					potentialEndOrientations.add(SimplifiedCardinalDirection.EAST);
 					potentialStartOrientations.add(SimplifiedCardinalDirection.WEST);
@@ -1187,7 +1183,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 					potentialEndOrientations.add(SimplifiedCardinalDirection.EAST);
 				}
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.VERTICAL_LAYOUT
-						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 					potentialStartOrientations.add(SimplifiedCardinalDirection.SOUTH);
 					potentialEndOrientations.add(SimplifiedCardinalDirection.NORTH);
 					potentialStartOrientations.add(SimplifiedCardinalDirection.SOUTH);
@@ -1198,19 +1194,18 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			}
 			else /* if (quadrant == CardinalQuadrant.NORTH_WEST) */ {
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT
-						|| constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST
-						|| constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT_VERTICAL_FIRST) {
-					if (constraints != RectPolylinConstraints.ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_FIRST || constraints == RectPolylinConstraints.VERTICAL_FIRST) {
+					if (constraints != RectPolylinConstraints.HORIZONTAL_FIRST) {
 						potentialStartOrientations.add(SimplifiedCardinalDirection.NORTH);
 						potentialEndOrientations.add(SimplifiedCardinalDirection.EAST);
 					}
-					if (constraints != RectPolylinConstraints.ORTHOGONAL_LAYOUT_VERTICAL_FIRST) {
+					if (constraints != RectPolylinConstraints.VERTICAL_FIRST) {
 						potentialStartOrientations.add(SimplifiedCardinalDirection.WEST);
 						potentialEndOrientations.add(SimplifiedCardinalDirection.SOUTH);
 					}
 				}
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.HORIZONTAL_LAYOUT
-						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 					potentialStartOrientations.add(SimplifiedCardinalDirection.WEST);
 					potentialEndOrientations.add(SimplifiedCardinalDirection.EAST);
 					potentialStartOrientations.add(SimplifiedCardinalDirection.WEST);
@@ -1219,7 +1214,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 					potentialEndOrientations.add(SimplifiedCardinalDirection.EAST);
 				}
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.VERTICAL_LAYOUT
-						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 					potentialStartOrientations.add(SimplifiedCardinalDirection.NORTH);
 					potentialEndOrientations.add(SimplifiedCardinalDirection.SOUTH);
 					potentialStartOrientations.add(SimplifiedCardinalDirection.NORTH);
@@ -1229,13 +1224,13 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				}
 			}
 
-			if (getRectPolylinConstraints() == RectPolylinConstraints.START_ORIENTATION_FIXED) {
+			if (getRectPolylinConstraints() == RectPolylinConstraints.START_ORIENT_FIXED) {
 				potentialStartOrientations.clear();
 				potentialStartOrientations.add(getStartOrientation());
 
 			}
 
-			if (getRectPolylinConstraints() == RectPolylinConstraints.END_ORIENTATION_FIXED) {
+			if (getRectPolylinConstraints() == RectPolylinConstraints.END_ORIENT_FIXED) {
 				potentialEndOrientations.clear();
 				potentialEndOrientations.add(getEndOrientation());
 			}

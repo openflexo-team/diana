@@ -155,14 +155,14 @@ public interface RectPolylinConnectorSpecification extends ConnectorSpecificatio
 	public static enum RectPolylinConstraints {
 		NONE,
 		ORTHOGONAL_LAYOUT,
-		ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST,
-		ORTHOGONAL_LAYOUT_VERTICAL_FIRST,
-		HORIZONTAL_OR_VERTICAL_LAYOUT,
+		HORIZONTAL_FIRST,
+		VERTICAL_FIRST,
+		HORIZONTAL_OR_VERTICAL,
 		HORIZONTAL_LAYOUT,
 		VERTICAL_LAYOUT,
 		ORIENTATIONS_FIXED,
-		START_ORIENTATION_FIXED,
-		END_ORIENTATION_FIXED
+		START_ORIENT_FIXED,
+		END_ORIENT_FIXED
 	}
 
 	// *******************************************************************************
