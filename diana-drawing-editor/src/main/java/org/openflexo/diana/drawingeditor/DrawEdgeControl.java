@@ -44,6 +44,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 
+import org.openflexo.diana.DianaConstants;
 import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
@@ -55,6 +56,7 @@ import org.openflexo.diana.drawingeditor.model.Connector;
 import org.openflexo.diana.drawingeditor.model.DiagramElement;
 import org.openflexo.diana.drawingeditor.model.DiagramFactory;
 import org.openflexo.diana.drawingeditor.model.Shape;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.swing.control.JMouseControlContext;
 import org.openflexo.pamela.undo.CompoundEdit;
 
@@ -98,8 +100,11 @@ public class DrawEdgeControl extends MouseDragControlImpl<DianaDrawingEditor> {
 					Connector newConnector = factory.makeNewConnector(fromShape.getDrawable(), toShape.getDrawable(),
 							controller.getDrawing().getModel());
 					DrawingTreeNode<?, ?> fatherNode = DianaUtils.getFirstCommonAncestor(fromShape, toShape);
+					if (fromShape == toShape) {
+						fatherNode = fromShape.getParentNode();
+					}
 					((DiagramElement<?, ?>) fatherNode.getDrawable()).addToConnectors(newConnector);
-					System.out.println("Add new connector !");
+					//System.out.println("Add new connector !");
 					factory.getUndoManager().stopRecording(drawEdge);
 					controller.setSelectedObject(controller.getDrawing().getDrawingTreeNode(newConnector));
 				}
@@ -117,7 +122,7 @@ public class DrawEdgeControl extends MouseDragControlImpl<DianaDrawingEditor> {
 			if (drawEdge) {
 				MouseEvent event = ((JMouseControlContext) context).getMouseEvent();
 				DrawingTreeNode<?, ?> dtn = controller.getDrawingView().getFocusRetriever().getFocusedObject(event);
-				if (dtn instanceof ShapeNode && dtn != fromShape && !fromShape.getAncestors().contains(dtn)) {
+				if (dtn instanceof ShapeNode /*&& dtn != fromShape*/ && ((fromShape == dtn) || (!fromShape.getAncestors().contains(dtn)))) {
 					toShape = (ShapeNode<Shape>) dtn;
 				}
 				else {
@@ -132,18 +137,43 @@ public class DrawEdgeControl extends MouseDragControlImpl<DianaDrawingEditor> {
 
 		public void paint(Graphics g, AbstractDianaEditor<?, ?, ?> controller) {
 			if (drawEdge && currentDraggingLocationInDrawingView != null) {
-				Point from = controller.getDrawing().getRoot().convertRemoteNormalizedPointToLocalViewCoordinates(
-						fromShape.getShape().getShape().getCenter(), fromShape, controller.getScale());
-				Point to = currentDraggingLocationInDrawingView;
-				if (toShape != null) {
-					to = controller.getDrawing().getRoot().convertRemoteNormalizedPointToLocalViewCoordinates(
-							toShape.getShape().getShape().getCenter(), toShape, controller.getScale());
+				if (fromShape == toShape) {
+					// Special case for reflexive connector
+					DianaPoint north = new DianaPoint(fromShape.getShape().getShape().getCenter().x,
+							fromShape.getShape().getShape().getCenter().y - fromShape.getHeight());
+					DianaPoint east = new DianaPoint(fromShape.getShape().getShape().getCenter().x + fromShape.getWidth(),
+							fromShape.getShape().getShape().getCenter().y);
+					DianaPoint northP = fromShape.getShape().outlineIntersect(north);
+					DianaPoint eastP = fromShape.getShape().outlineIntersect(east);
+					Point from = controller.getDrawing().getRoot().convertRemoteNormalizedPointToLocalViewCoordinates(eastP, fromShape,
+							controller.getScale());
+					Point to = controller.getDrawing().getRoot().convertRemoteNormalizedPointToLocalViewCoordinates(northP, fromShape,
+							controller.getScale());
+					Point i1 = new Point(from.x + DianaConstants.DEFAULT_RECT_POLYLIN_PIXEL_OVERLAP, from.y);
+					Point i2 = new Point(from.x + DianaConstants.DEFAULT_RECT_POLYLIN_PIXEL_OVERLAP,
+							to.y - DianaConstants.DEFAULT_RECT_POLYLIN_PIXEL_OVERLAP);
+					Point i3 = new Point(to.x, to.y - DianaConstants.DEFAULT_RECT_POLYLIN_PIXEL_OVERLAP);
 					g.setColor(Color.BLUE);
+					g.drawLine(from.x, from.y, i1.x, i1.y);
+					g.drawLine(i1.x, i1.y, i2.x, i2.y);
+					g.drawLine(i2.x, i2.y, i3.x, i3.y);
+					g.drawLine(i3.x, i3.y, to.x, to.y);
 				}
 				else {
-					g.setColor(Color.RED);
+
+					Point from = controller.getDrawing().getRoot().convertRemoteNormalizedPointToLocalViewCoordinates(
+							fromShape.getShape().getShape().getCenter(), fromShape, controller.getScale());
+					Point to = currentDraggingLocationInDrawingView;
+					if (toShape != null) {
+						to = controller.getDrawing().getRoot().convertRemoteNormalizedPointToLocalViewCoordinates(
+								toShape.getShape().getShape().getCenter(), toShape, controller.getScale());
+						g.setColor(Color.BLUE);
+					}
+					else {
+						g.setColor(Color.RED);
+					}
+					g.drawLine(from.x, from.y, to.x, to.y);
 				}
-				g.drawLine(from.x, from.y, to.x, to.y);
 			}
 		}
 	}

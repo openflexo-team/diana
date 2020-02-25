@@ -252,6 +252,16 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		}
 
 		@Override
+		public final DianaPoint getReflexiveControlPointLocation() {
+			return getPropertyValue(ConnectorSpecification.REFLEXIVE_CONTROL_POINT_LOCATION);
+		}
+
+		@Override
+		public final void setReflexiveControlPointLocation(DianaPoint aPoint) {
+			setPropertyValue(ConnectorSpecification.REFLEXIVE_CONTROL_POINT_LOCATION, aPoint);
+		}
+
+		@Override
 		public StartSymbolType getStartSymbol() {
 			return getPropertyValue(ConnectorSpecification.START_SYMBOL);
 		}

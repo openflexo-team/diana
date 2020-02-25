@@ -48,6 +48,7 @@ import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.connectors.ConnectorSymbol.EndSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.MiddleSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.StartSymbolType;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.Import;
 import org.openflexo.pamela.annotations.Imports;
@@ -84,6 +85,8 @@ public interface ConnectorSpecification extends DianaObject {
 	public static final String RELATIVE_MIDDLE_SYMBOL_LOCATION_KEY = "relativeMiddleSymbolLocation";
 	@PropertyIdentifier(type = Double.class)
 	public static final String RELATIVE_LABEL_LOCATION_KEY = "relativeLabelLocation";
+	@PropertyIdentifier(type = DianaPoint.class)
+	public static final String REFLEXIVE_CONTROL_POINT_LOCATION_KEY = "reflexiveControlPoint";
 
 	public static GRProperty<StartSymbolType> START_SYMBOL = GRProperty.getGRParameter(ConnectorSpecification.class, START_SYMBOL_KEY,
 			StartSymbolType.class);
@@ -97,6 +100,9 @@ public interface ConnectorSpecification extends DianaObject {
 			EndSymbolType.class);
 	public static GRProperty<Double> END_SYMBOL_SIZE = GRProperty.getGRParameter(ConnectorSpecification.class, END_SYMBOL_SIZE_KEY,
 			Double.class);
+
+	public static GRProperty<DianaPoint> REFLEXIVE_CONTROL_POINT_LOCATION = GRProperty.getGRParameter(LineConnectorSpecification.class,
+			REFLEXIVE_CONTROL_POINT_LOCATION_KEY, DianaPoint.class);
 
 	public static GRProperty<Double> RELATIVE_MIDDLE_SYMBOL_LOCATION = GRProperty.getGRParameter(ConnectorSpecification.class,
 			RELATIVE_MIDDLE_SYMBOL_LOCATION_KEY, Double.class);
@@ -179,6 +185,22 @@ public interface ConnectorSpecification extends DianaObject {
 
 	@Setter(value = RELATIVE_LABEL_LOCATION_KEY)
 	public void setRelativeLabelLocation(double relativeLabelLocation);
+
+	/**
+	 * Returns location of control point in the case of a reflexive connector (source and destination shapes are the same)
+	 * 
+	 * @return
+	 */
+	@Getter(value = REFLEXIVE_CONTROL_POINT_LOCATION_KEY, isStringConvertable = true)
+	@XMLAttribute
+	public DianaPoint getReflexiveControlPointLocation();
+
+	/**
+	 * Sets location of control point in the case of a reflexive connector (source and destination shapes are the same)
+	 * 
+	 */
+	@Setter(value = REFLEXIVE_CONTROL_POINT_LOCATION_KEY)
+	public void setReflexiveControlPointLocation(DianaPoint aPoint);
 
 	public Connector<?> makeConnector(ConnectorNode<?> connectorNode);
 }

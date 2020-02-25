@@ -80,6 +80,8 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 
 	private boolean firstUpdated = false;
 
+	private ReflexiveConnectorDelegate reflexiveConnectorDelegate;
+
 	// *******************************************************************************
 	// * Constructor *
 	// *******************************************************************************
@@ -101,6 +103,16 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 		middleSymbolLocationControlPoint = null;
 		controlPoints.clear();
 		controlPoints = null;
+	}
+
+	protected ReflexiveConnectorDelegate getReflexiveConnectorDelegate() {
+		if (getStartNode() == getEndNode()) {
+			if (reflexiveConnectorDelegate == null) {
+				reflexiveConnectorDelegate = new ReflexiveConnectorDelegate(getConnectorNode());
+			}
+			return reflexiveConnectorDelegate;
+		}
+		return null;
 	}
 
 	@Override
@@ -163,7 +175,16 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 	}
 
 	private void updateControlPoints() {
-		if (getLineConnectorType() == LineConnectorType.CENTER_TO_CENTER) {
+
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			List<ControlPoint> newControlPoints = getReflexiveConnectorDelegate().updateControlPoints();
+			cp1 = newControlPoints.get(0);
+			cp2 = newControlPoints.get(newControlPoints.size() - 1);
+			controlPoints.clear();
+			controlPoints.addAll(newControlPoints);
+		}
+
+		else if (getLineConnectorType() == LineConnectorType.CENTER_TO_CENTER) {
 
 			// With this connection type, we try to draw a line joining both center
 			// We have to compute the intersection between this line and the outline
@@ -467,6 +488,10 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 
 		connectorNode.notifyConnectorModified();
 
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			getReflexiveConnectorDelegate().refreshConnectorUsedBounds();
+		}
+
 	}
 
 	@Override
@@ -503,27 +528,34 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 
 		g.useDefaultForegroundStyle();
 		// logger.info("paintConnector() "+cp1.getPoint()+"-"+cp2.getPoint()+" with "+g.getCurrentForeground());
-		g.drawLine(cp1.getPoint(), cp2.getPoint());
 
-		Point cp1InView = connectorNode.convertNormalizedPointToViewCoordinates(cp1.getPoint(), 1);
-		Point cp2InView = connectorNode.convertNormalizedPointToViewCoordinates(cp2.getPoint(), 1);
-
-		// double angle = Math.atan2(cp2.getPoint().x-cp1.getPoint().x, cp2.getPoint().y-cp1.getPoint().y)+Math.PI/2;
-		double angle = Math.atan2(cp2InView.x - cp1InView.x, cp2InView.y - cp1InView.y) + Math.PI / 2;
-
-		// System.out.println("Angle1="+Math.toDegrees(angle));
-		// System.out.println("Angle2="+Math.toDegrees(angle+Math.PI));
-
-		if (getStartSymbol() != StartSymbolType.NONE) {
-			g.drawSymbol(cp1.getPoint(), getStartSymbol(), getStartSymbolSize(), angle);
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			getReflexiveConnectorDelegate().drawConnector(g);
 		}
 
-		if (getEndSymbol() != EndSymbolType.NONE) {
-			g.drawSymbol(cp2.getPoint(), getEndSymbol(), getEndSymbolSize(), angle + Math.PI);
-		}
+		else {
+			g.drawLine(cp1.getPoint(), cp2.getPoint());
 
-		if (getMiddleSymbol() != MiddleSymbolType.NONE) {
-			g.drawSymbol(getMiddleSymbolLocation(), getMiddleSymbol(), getMiddleSymbolSize(), angle + Math.PI);
+			Point cp1InView = connectorNode.convertNormalizedPointToViewCoordinates(cp1.getPoint(), 1);
+			Point cp2InView = connectorNode.convertNormalizedPointToViewCoordinates(cp2.getPoint(), 1);
+
+			// double angle = Math.atan2(cp2.getPoint().x-cp1.getPoint().x, cp2.getPoint().y-cp1.getPoint().y)+Math.PI/2;
+			double angle = Math.atan2(cp2InView.x - cp1InView.x, cp2InView.y - cp1InView.y) + Math.PI / 2;
+
+			// System.out.println("Angle1="+Math.toDegrees(angle));
+			// System.out.println("Angle2="+Math.toDegrees(angle+Math.PI));
+
+			if (getStartSymbol() != StartSymbolType.NONE) {
+				g.drawSymbol(cp1.getPoint(), getStartSymbol(), getStartSymbolSize(), angle);
+			}
+
+			if (getEndSymbol() != EndSymbolType.NONE) {
+				g.drawSymbol(cp2.getPoint(), getEndSymbol(), getEndSymbolSize(), angle + Math.PI);
+			}
+
+			if (getMiddleSymbol() != MiddleSymbolType.NONE) {
+				g.drawSymbol(getMiddleSymbolLocation(), getMiddleSymbol(), getMiddleSymbolSize(), angle + Math.PI);
+			}
 		}
 	}
 
@@ -542,6 +574,9 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 		if (cp1 == null || cp2 == null) {
 			return new DianaPoint(0, 0);
 		}
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			return getReflexiveConnectorDelegate().getReflexiveConnectorControlPoint().getPoint();
+		}
 		return new DianaSegment(cp1.getPoint(), cp2.getPoint()).getScaledPoint(getRelativeMiddleSymbolLocation());
 	}
 
@@ -549,6 +584,9 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 	public DianaPoint getLabelLocation() {
 		if (cp1 == null || cp2 == null) {
 			return new DianaPoint(0, 0);
+		}
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			return getReflexiveConnectorDelegate().getReflexiveConnectorControlPoint().getPoint();
 		}
 		return new DianaSegment(cp1.getPoint(), cp2.getPoint()).getScaledPoint(getRelativeLabelLocation());
 	}
@@ -559,15 +597,28 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 			LOGGER.warning("Invalid date in LineConnectorSpecification: control points are null");
 			return Double.POSITIVE_INFINITY;
 		}
+
 		Point testPoint = connectorNode.convertNormalizedPointToViewCoordinates(aPoint, scale);
-		Point point1 = connectorNode.convertNormalizedPointToViewCoordinates(cp1.getPoint(), scale);
-		Point point2 = connectorNode.convertNormalizedPointToViewCoordinates(cp2.getPoint(), scale);
-		return Line2D.ptSegDist(point1.x, point1.y, point2.x, point2.y, testPoint.x, testPoint.y);
+
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			return getReflexiveConnectorDelegate().distanceToConnector(aPoint, scale);
+		}
+		else {
+			Point point1 = connectorNode.convertNormalizedPointToViewCoordinates(cp1.getPoint(), scale);
+			Point point2 = connectorNode.convertNormalizedPointToViewCoordinates(cp2.getPoint(), scale);
+			return Line2D.ptSegDist(point1.x, point1.y, point2.x, point2.y, testPoint.x, testPoint.y);
+		}
 	}
 
 	@Override
 	public DianaRectangle getConnectorUsedBounds() {
+
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			return getReflexiveConnectorDelegate().getConnectorUsedBounds();
+		}
 		return NORMALIZED_BOUNDS;
+
+		// return connectorUsedBounds;
 	}
 
 	/**

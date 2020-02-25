@@ -122,6 +122,8 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 	private DianaRectPolylin _deserializedPolylin;
 
+	private ReflexiveConnectorDelegate reflexiveConnectorDelegate;
+
 	// private static final DianaModelFactory DEBUG_FACTORY = DianaCoreUtils.TOOLS_FACTORY;
 	// private static final ForegroundStyle DEBUG_GRAY_STROKE = DEBUG_FACTORY.makeForegroundStyle(Color.GRAY, 1.0f, DashStyle.SMALL_DASHES);
 	// private static final ForegroundStyle DEBUG_BLACK_STROKE = DEBUG_FACTORY.makeForegroundStyle(Color.BLACK, 3.0f,
@@ -143,6 +145,16 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		super.delete();
 		controlPoints.clear();
 		controlPoints = null;
+	}
+
+	protected ReflexiveConnectorDelegate getReflexiveConnectorDelegate() {
+		if (getStartNode() == getEndNode()) {
+			if (reflexiveConnectorDelegate == null) {
+				reflexiveConnectorDelegate = new ReflexiveConnectorDelegate(getConnectorNode());
+			}
+			return reflexiveConnectorDelegate;
+		}
+		return null;
 	}
 
 	public List<ControlPoint> getControlPoints() {
@@ -193,49 +205,61 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			}
 		} else {*/
 		g.setDefaultForeground(connectorNode.getGraphicalRepresentation().getForeground());
-		if (polylin != null) {
-			if (getIsRounded()) {
-				polylin.paintWithRounds(g, getArcSize());
-			}
-			else {
-				polylin.paint(g);
-			}
-		}
-		// }
 
-		/*
-		 * if (debugPolylin != null) { g.setDefaultForeground(ForegroundStyle.makeStyle(Color.RED, 1.0f, DashStyle.PLAIN_STROKE));
-		 * debugPolylin.paint(g); }
-		 */
-
-		// Draw eventual symbols
-		if (polylin != null && polylin.getSegments() != null && polylin.getSegments().size() > 0) {
-			// Segments are here all orthogonal, we can can then rely on getAngle() computation performed on geom layer
-			// (we dont need to convert to view first)
-			if (getStartSymbol() != StartSymbolType.NONE) {
-				DianaSegment firstSegment = polylin.getSegments().firstElement();
-				if (firstSegment != null) {
-					g.drawSymbol(firstSegment.getP1(), getStartSymbol(), getStartSymbolSize(), firstSegment.getAngle());
-				}
-			}
-			if (getEndSymbol() != EndSymbolType.NONE) {
-				DianaSegment lastSegment = polylin.getSegments().lastElement();
-				if (lastSegment != null) {
-					g.drawSymbol(lastSegment.getP2(), getEndSymbol(), getEndSymbolSize(), lastSegment.getAngle() + Math.PI);
-				}
-			}
-			if (getMiddleSymbol() != MiddleSymbolType.NONE) {
-				g.drawSymbol(getMiddleSymbolLocation(), getMiddleSymbol(), getMiddleSymbolSize(), getMiddleSymbolAngle());
-			}
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			getReflexiveConnectorDelegate().drawConnector(g);
 		}
 
+		else {
+			if (polylin != null) {
+
+				if (getIsRounded()) {
+					polylin.paintWithRounds(g, getArcSize());
+				}
+				else {
+					polylin.paint(g);
+				}
+			}
+			// }
+
+			/*
+			 * if (debugPolylin != null) { g.setDefaultForeground(ForegroundStyle.makeStyle(Color.RED, 1.0f, DashStyle.PLAIN_STROKE));
+			 * debugPolylin.paint(g); }
+			 */
+
+			// Draw eventual symbols
+			if (polylin != null && polylin.getSegments() != null && polylin.getSegments().size() > 0) {
+				// Segments are here all orthogonal, we can can then rely on getAngle() computation performed on geom layer
+				// (we dont need to convert to view first)
+				if (getStartSymbol() != StartSymbolType.NONE) {
+					DianaSegment firstSegment = polylin.getSegments().firstElement();
+					if (firstSegment != null) {
+						g.drawSymbol(firstSegment.getP1(), getStartSymbol(), getStartSymbolSize(), firstSegment.getAngle());
+					}
+				}
+				if (getEndSymbol() != EndSymbolType.NONE) {
+					DianaSegment lastSegment = polylin.getSegments().lastElement();
+					if (lastSegment != null) {
+						g.drawSymbol(lastSegment.getP2(), getEndSymbol(), getEndSymbolSize(), lastSegment.getAngle() + Math.PI);
+					}
+				}
+				if (getMiddleSymbol() != MiddleSymbolType.NONE) {
+					g.drawSymbol(getMiddleSymbolLocation(), getMiddleSymbol(), getMiddleSymbolSize(), getMiddleSymbolAngle());
+				}
+			}
+		}
 	}
 
 	@Override
 	public DianaPoint getMiddleSymbolLocation() {
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			return getReflexiveConnectorDelegate().getReflexiveConnectorControlPoint().getPoint();
+		}
+
 		if (polylin == null) {
 			return new DianaPoint(0, 0);
 		}
+
 		AffineTransform at = connectorNode.convertNormalizedPointToViewCoordinatesAT(1.0);
 
 		DianaRectPolylin transformedPolylin = polylin.transform(at);
@@ -258,9 +282,14 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 	@Override
 	public DianaPoint getLabelLocation() {
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			return getReflexiveConnectorDelegate().getReflexiveConnectorControlPoint().getPoint();
+		}
+
 		if (polylin == null) {
 			return new DianaPoint(0, 0);
 		}
+
 		AffineTransform at = connectorNode.convertNormalizedPointToViewCoordinatesAT(1.0);
 
 		DianaRectPolylin transformedPolylin = polylin.transform(at);
@@ -330,6 +359,10 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 		super.refreshConnector(force);
 
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			getReflexiveConnectorDelegate().refreshConnectorUsedBounds();
+		}
+
 		firstUpdated = true;
 
 	}
@@ -347,6 +380,11 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 	@Override
 	public double distanceToConnector(DianaPoint aPoint, double scale) {
+
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			return getReflexiveConnectorDelegate().distanceToConnector(aPoint, scale);
+		}
+
 		double returned = Double.POSITIVE_INFINITY;
 
 		if (polylin == null) {
@@ -387,6 +425,11 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 	@Override
 	public DianaRectangle getConnectorUsedBounds() {
+
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			return getReflexiveConnectorDelegate().getConnectorUsedBounds();
+		}
+
 		// logger.info("Called getConnectorUsedBounds()");
 		if (polylin != null) {
 			DianaRectangle minimalBounds = polylin.getBoundingBox();
@@ -710,6 +753,13 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 */
 	public void updateLayout() {
 		if (connectorNode.getGraphicalRepresentation() == null) {
+			return;
+		}
+
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			List<ControlPoint> newControlPoints = getReflexiveConnectorDelegate().updateControlPoints();
+			controlPoints.clear();
+			controlPoints.addAll(newControlPoints);
 			return;
 		}
 
