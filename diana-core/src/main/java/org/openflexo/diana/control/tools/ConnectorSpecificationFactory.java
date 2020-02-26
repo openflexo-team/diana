@@ -506,25 +506,6 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 			setPropertyValue(LineConnectorSpecification.LINE_CONNECTOR_TYPE, aLineConnectorType);
 		}
 
-		@Override
-		public DianaPoint getCp1RelativeToStartObject() {
-			return getPropertyValue(LineConnectorSpecification.CP1_RELATIVE_TO_START_OBJECT);
-		}
-
-		@Override
-		public void setCp1RelativeToStartObject(DianaPoint aPoint) {
-			setPropertyValue(LineConnectorSpecification.CP1_RELATIVE_TO_START_OBJECT, aPoint);
-		}
-
-		@Override
-		public DianaPoint getCp2RelativeToEndObject() {
-			return getPropertyValue(LineConnectorSpecification.CP2_RELATIVE_TO_END_OBJECT);
-		}
-
-		@Override
-		public void setCp2RelativeToEndObject(DianaPoint aPoint) {
-			setPropertyValue(LineConnectorSpecification.CP2_RELATIVE_TO_END_OBJECT, aPoint);
-		}
 	}
 
 	protected class InspectedCurveConnectorSpecification extends AbstractInspectedConnectorSpecification<CurveConnectorSpecification>

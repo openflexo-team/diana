@@ -84,7 +84,6 @@ import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectPolylin;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaSegment;
-import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geom.area.DefaultAreaProvider;
 import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.geom.area.DianaAreaProvider;
@@ -2394,88 +2393,12 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		setPropertyValue(RectPolylinConnectorSpecification.ARC_SIZE, anArcSize);
 	}
 
-	public boolean getIsStartingLocationFixed() {
-		return getPropertyValue(RectPolylinConnectorSpecification.IS_STARTING_LOCATION_FIXED);
-	}
-
-	public void setIsStartingLocationFixed(boolean aFlag) {
-		setPropertyValue(RectPolylinConnectorSpecification.IS_STARTING_LOCATION_FIXED, aFlag);
-	}
-
-	public boolean getIsStartingLocationDraggable() {
-		return getPropertyValue(RectPolylinConnectorSpecification.IS_STARTING_LOCATION_DRAGGABLE);
-	}
-
-	public void setIsStartingLocationDraggable(boolean aFlag) {
-		setPropertyValue(RectPolylinConnectorSpecification.IS_STARTING_LOCATION_DRAGGABLE, aFlag);
-	}
-
-	public boolean getIsEndingLocationFixed() {
-		return getPropertyValue(RectPolylinConnectorSpecification.IS_ENDING_LOCATION_FIXED);
-	}
-
-	public void setIsEndingLocationFixed(boolean aFlag) {
-		setPropertyValue(RectPolylinConnectorSpecification.IS_ENDING_LOCATION_FIXED, aFlag);
-	}
-
-	public boolean getIsEndingLocationDraggable() {
-		return getPropertyValue(RectPolylinConnectorSpecification.IS_ENDING_LOCATION_DRAGGABLE);
-	}
-
-	public void setIsEndingLocationDraggable(boolean aFlag) {
-		setPropertyValue(RectPolylinConnectorSpecification.IS_ENDING_LOCATION_DRAGGABLE, aFlag);
-	}
-
 	public DianaPoint getCrossedControlPoint() {
 		return getPropertyValue(RectPolylinConnectorSpecification.CROSSED_CONTROL_POINT);
 	}
 
 	public void setCrossedControlPoint(DianaPoint aPoint) {
 		setPropertyValue(RectPolylinConnectorSpecification.CROSSED_CONTROL_POINT, aPoint);
-	}
-
-	/**
-	 * Return start location asserting start location is fixed. Return position relative to start object (in the start-object coordinates
-	 * system)
-	 * 
-	 * @return
-	 */
-	public DianaPoint getFixedStartLocation() {
-		return getPropertyValue(RectPolylinConnectorSpecification.FIXED_START_LOCATION);
-	}
-
-	/**
-	 * Sets start location asserting start location is fixed. Sets position relative to start object (in the start-object coordinates
-	 * system)
-	 * 
-	 * @param aPoint
-	 *            : relative to start object
-	 */
-	public void setFixedStartLocation(DianaPoint aPoint) {
-		DianaShape<?> startArea = getStartNode().getShape().getOutline();
-		aPoint = startArea.getNearestPoint(aPoint);
-		setPropertyValue(RectPolylinConnectorSpecification.FIXED_START_LOCATION, aPoint);
-	}
-
-	/**
-	 * Return end location asserting end location is fixed. Return position relative to end object (in the end-object coordinates system)
-	 * 
-	 * @return
-	 */
-	public DianaPoint getFixedEndLocation() {
-		return getPropertyValue(RectPolylinConnectorSpecification.FIXED_END_LOCATION);
-	}
-
-	/**
-	 * Sets end location asserting end location is fixed. Sets position relative to end object (in the end-object coordinates system)
-	 * 
-	 * @param aPoint
-	 *            , relative to end object
-	 */
-	public void setFixedEndLocation(DianaPoint aPoint) {
-		DianaShape<?> endArea = getEndNode().getShape().getOutline();
-		aPoint = endArea.getNearestPoint(aPoint);
-		setPropertyValue(RectPolylinConnectorSpecification.FIXED_END_LOCATION, aPoint);
 	}
 
 	public int getPixelOverlap() {

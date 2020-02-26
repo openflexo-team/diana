@@ -65,6 +65,7 @@ import org.openflexo.diana.geom.DianaDimension;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.geom.area.DianaEmptyArea;
 import org.openflexo.diana.geom.area.DianaUnionArea;
@@ -598,6 +599,82 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 
 	public void setRelativeLabelLocation(double relativeMiddleSymbolLocation) {
 		setPropertyValue(ConnectorSpecification.RELATIVE_LABEL_LOCATION, relativeMiddleSymbolLocation);
+	}
+
+	public boolean getIsStartingLocationFixed() {
+		return getPropertyValue(ConnectorSpecification.IS_STARTING_LOCATION_FIXED);
+	}
+
+	public void setIsStartingLocationFixed(boolean aFlag) {
+		setPropertyValue(ConnectorSpecification.IS_STARTING_LOCATION_FIXED, aFlag);
+	}
+
+	public boolean getIsStartingLocationDraggable() {
+		return getPropertyValue(ConnectorSpecification.IS_STARTING_LOCATION_DRAGGABLE);
+	}
+
+	public void setIsStartingLocationDraggable(boolean aFlag) {
+		setPropertyValue(ConnectorSpecification.IS_STARTING_LOCATION_DRAGGABLE, aFlag);
+	}
+
+	public boolean getIsEndingLocationFixed() {
+		return getPropertyValue(ConnectorSpecification.IS_ENDING_LOCATION_FIXED);
+	}
+
+	public void setIsEndingLocationFixed(boolean aFlag) {
+		setPropertyValue(ConnectorSpecification.IS_ENDING_LOCATION_FIXED, aFlag);
+	}
+
+	public boolean getIsEndingLocationDraggable() {
+		return getPropertyValue(ConnectorSpecification.IS_ENDING_LOCATION_DRAGGABLE);
+	}
+
+	public void setIsEndingLocationDraggable(boolean aFlag) {
+		setPropertyValue(ConnectorSpecification.IS_ENDING_LOCATION_DRAGGABLE, aFlag);
+	}
+
+	/**
+	 * Return start location asserting start location is fixed. Return position relative to start object (in the start-object coordinates
+	 * system)
+	 * 
+	 * @return
+	 */
+	public DianaPoint getFixedStartLocation() {
+		return getPropertyValue(ConnectorSpecification.FIXED_START_LOCATION);
+	}
+
+	/**
+	 * Sets start location asserting start location is fixed. Sets position relative to start object (in the start-object coordinates
+	 * system)
+	 * 
+	 * @param aPoint
+	 *            : relative to start object
+	 */
+	public void setFixedStartLocation(DianaPoint aPoint) {
+		DianaShape<?> startArea = getStartNode().getShape().getOutline();
+		aPoint = startArea.getNearestPoint(aPoint);
+		setPropertyValue(ConnectorSpecification.FIXED_START_LOCATION, aPoint);
+	}
+
+	/**
+	 * Return end location asserting end location is fixed. Return position relative to end object (in the end-object coordinates system)
+	 * 
+	 * @return
+	 */
+	public DianaPoint getFixedEndLocation() {
+		return getPropertyValue(ConnectorSpecification.FIXED_END_LOCATION);
+	}
+
+	/**
+	 * Sets end location asserting end location is fixed. Sets position relative to end object (in the end-object coordinates system)
+	 * 
+	 * @param aPoint
+	 *            , relative to end object
+	 */
+	public void setFixedEndLocation(DianaPoint aPoint) {
+		DianaShape<?> endArea = getEndNode().getShape().getOutline();
+		aPoint = endArea.getNearestPoint(aPoint);
+		setPropertyValue(ConnectorSpecification.FIXED_END_LOCATION, aPoint);
 	}
 
 }
