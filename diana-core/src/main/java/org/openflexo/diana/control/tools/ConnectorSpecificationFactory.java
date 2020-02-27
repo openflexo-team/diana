@@ -537,26 +537,6 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		}
 
 		@Override
-		public DianaPoint getCp1RelativeToStartObject() {
-			return getPropertyValue(CurveConnectorSpecification.CP1_RELATIVE_TO_START_OBJECT);
-		}
-
-		@Override
-		public void setCp1RelativeToStartObject(DianaPoint aPoint) {
-			setPropertyValue(CurveConnectorSpecification.CP1_RELATIVE_TO_START_OBJECT, aPoint);
-		}
-
-		@Override
-		public DianaPoint getCp2RelativeToEndObject() {
-			return getPropertyValue(CurveConnectorSpecification.CP2_RELATIVE_TO_END_OBJECT);
-		}
-
-		@Override
-		public void setCp2RelativeToEndObject(DianaPoint aPoint) {
-			setPropertyValue(CurveConnectorSpecification.CP2_RELATIVE_TO_END_OBJECT, aPoint);
-		}
-
-		@Override
 		public DianaPoint getCpPosition() {
 			return getPropertyValue(CurveConnectorSpecification.CP_POSITION);
 		}
@@ -564,16 +544,6 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		@Override
 		public void setCpPosition(DianaPoint cpPosition) {
 			setPropertyValue(CurveConnectorSpecification.CP_POSITION, cpPosition);
-		}
-
-		@Override
-		public boolean getAreBoundsAdjustable() {
-			return getPropertyValue(CurveConnectorSpecification.ARE_BOUNDS_ADJUSTABLE);
-		}
-
-		@Override
-		public void setAreBoundsAdjustable(boolean aFlag) {
-			setPropertyValue(CurveConnectorSpecification.ARE_BOUNDS_ADJUSTABLE, aFlag);
 		}
 
 	}

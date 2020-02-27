@@ -51,48 +51,7 @@ public abstract class CurveConnectorSpecificationImpl extends ConnectorSpecifica
 	@SuppressWarnings("unused")
 	private static final Logger LOGGER = Logger.getLogger(CurveConnectorSpecification.class.getPackage().getName());
 
-	private DianaPoint cp1RelativeToStartObject;
-	private DianaPoint cp2RelativeToEndObject;
 	private DianaPoint cpPosition;
-
-	private boolean areBoundsAdjustable;
-
-	// *******************************************************************************
-	// * Constructor *
-	// *******************************************************************************
-
-	// Used for deserialization
-	public CurveConnectorSpecificationImpl() {
-		super();
-	}
-
-	@Override
-	public DianaPoint getCp1RelativeToStartObject() {
-		return cp1RelativeToStartObject;
-	}
-
-	@Override
-	public void setCp1RelativeToStartObject(DianaPoint aPoint) {
-		DianaAttributeNotification<?> notification = requireChange(CP1_RELATIVE_TO_START_OBJECT, aPoint);
-		if (notification != null) {
-			this.cp1RelativeToStartObject = aPoint;
-			hasChanged(notification);
-		}
-	}
-
-	@Override
-	public DianaPoint getCp2RelativeToEndObject() {
-		return cp2RelativeToEndObject;
-	}
-
-	@Override
-	public void setCp2RelativeToEndObject(DianaPoint aPoint) {
-		DianaAttributeNotification<?> notification = requireChange(CP2_RELATIVE_TO_END_OBJECT, aPoint);
-		if (notification != null) {
-			this.cp2RelativeToEndObject = aPoint;
-			hasChanged(notification);
-		}
-	}
 
 	@Override
 	public DianaPoint getCpPosition() {
@@ -109,33 +68,9 @@ public abstract class CurveConnectorSpecificationImpl extends ConnectorSpecifica
 	}
 
 	@Override
-	public boolean getAreBoundsAdjustable() {
-		return areBoundsAdjustable;
-	}
-
-	@Override
-	public void setAreBoundsAdjustable(boolean aFlag) {
-		DianaAttributeNotification<?> notification = requireChange(ARE_BOUNDS_ADJUSTABLE, aFlag);
-		if (notification != null) {
-			areBoundsAdjustable = aFlag;
-			hasChanged(notification);
-		}
-	}
-
-	@Override
 	public ConnectorType getConnectorType() {
 		return ConnectorType.CURVE;
 	}
-
-	/*@Override
-	public CurveConnectorSpecification clone() {
-		CurveConnectorSpecification returned = (CurveConnectorSpecification) cloneObject();
-		returned.setCpPosition(getCpPosition());
-		returned.setCp1RelativeToStartObject(getCp1RelativeToStartObject());
-		returned.setCp2RelativeToEndObject(getCp2RelativeToEndObject());
-		returned.setAreBoundsAdjustable(getAreBoundsAdjustable());
-		return returned;
-	}*/
 
 	@Override
 	public CurveConnector makeConnector(ConnectorNode<?> connectorNode) {

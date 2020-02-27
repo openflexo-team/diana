@@ -176,14 +176,14 @@
 		titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true"
 		layout="twocols" name="CurveConnectorPanel">
 		<Dependancy id="49" componentName="ConnectorType" />
-		<Label id="50" height="16" name="AreBoundsAdjustableLabel"
+		<!--  <Label id="50" height="16" name="AreBoundsAdjustableLabel"
 			index="0" localize="true" width="130" align="right"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)"
 			label="adjustable_bounds" />
 		<CheckBox id="51" name="AreBoundsAdjustable"
 			data="curveConnectorSpecification.areBoundsAdjustable" index="1"
 			localize="true"
-			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" />
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" /> -->
 		<FIBVariable id="52" name="curveConnectorSpecification"
 			value="($org.openflexo.diana.connectors.CurveConnectorSpecification)data.connectorSpecification"
 			type="org.openflexo.diana.connectors.CurveConnectorSpecification" />

@@ -128,15 +128,15 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 	}
 
 	public void setCp1RelativeToStartObject(DianaPoint aPoint) {
-		setPropertyValue(LineConnectorSpecification.FIXED_START_LOCATION, aPoint);
+		setPropertyValue(ConnectorSpecification.FIXED_START_LOCATION, aPoint);
 	}
 
 	public DianaPoint getCp2RelativeToEndObject() {
-		return getPropertyValue(LineConnectorSpecification.FIXED_END_LOCATION);
+		return getPropertyValue(ConnectorSpecification.FIXED_END_LOCATION);
 	}
 
 	public void setCp2RelativeToEndObject(DianaPoint aPoint) {
-		setPropertyValue(LineConnectorSpecification.FIXED_END_LOCATION, aPoint);
+		setPropertyValue(ConnectorSpecification.FIXED_END_LOCATION, aPoint);
 	}
 
 	public LineConnectorType getLineConnectorType() {
