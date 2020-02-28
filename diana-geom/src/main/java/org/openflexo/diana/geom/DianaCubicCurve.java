@@ -65,7 +65,7 @@ public class DianaCubicCurve extends Double implements DianaGeneralShape.General
 	 * This value is internally used to compute approximated data (nearest point, distance, etc...)
 	 */
 	private static final double FLATTENING_PATH_LEVEL = 0.01;
-	
+
 	public DianaCubicCurve() {
 		super();
 	}
@@ -303,7 +303,40 @@ public class DianaCubicCurve extends Double implements DianaGeneralShape.General
 	public DianaPoint nearestPointFrom(DianaPoint from, SimplifiedCardinalDirection orientation) {
 		// TODO: not implemented
 		return null;
+	}
 
+	public DianaSegment getApproximatedStartTangent() {
+		return buildFlattenPath(FLATTENING_PATH_LEVEL).getSegments().firstElement();
+	}
+
+	public DianaSegment getApproximatedEndTangent() {
+		return buildFlattenPath(FLATTENING_PATH_LEVEL).getSegments().lastElement();
+	}
+
+	public DianaSegment getApproximatedTangent(DianaPoint point) {
+		DianaPoint pt = getNearestPoint(point);
+		double minimizedDistance = java.lang.Double.POSITIVE_INFINITY;
+		DianaSegment returned = null;
+		DianaPolylin flattenPath = buildFlattenPath(FLATTENING_PATH_LEVEL);
+		for (DianaSegment s : flattenPath.getSegments()) {
+			DianaPoint nearestPoint = s.getNearestPointOnSegment(pt);
+			double currentDistance = DianaPoint.distance(nearestPoint, pt);
+			if (currentDistance < minimizedDistance) {
+				minimizedDistance = currentDistance;
+				returned = s;
+			}
+		}
+		return returned;
+	}
+
+	public DianaPoint getMiddle() {
+		return getPointAtRelativePosition(0.5);
+	}
+
+	public DianaPoint getPointAtRelativePosition(double position) {
+		DianaPolylin flattenPath = buildFlattenPath(FLATTENING_PATH_LEVEL);
+		DianaPoint pointAtRelativePosition = flattenPath.getPointAtRelativePosition(position);
+		return getNearestPoint(pointAtRelativePosition);
 	}
 
 }

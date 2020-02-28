@@ -44,6 +44,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
@@ -233,17 +234,15 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 		switch (getConnectorSpecification().getCurveConnectorType()) {
 			case QUAD_CURVE:
 				if (getCpPosition() == null) {
-					setCpPosition(new DianaPoint(0.5, 0.4));
+					setCpPosition(new DianaPoint(0.5, -0.5));
 				}
 				updateCPPositionIfNeeded();
 				break;
 			case CUBIC_CURVE:
 				if (getCp1Position() == null) {
-					System.out.println("CP1 par defaut");
 					setCp1Position(new DianaPoint(0.3, -0.5));
 				}
 				if (getCp2Position() == null) {
-					System.out.println("CP2 par defaut");
 					setCp2Position(new DianaPoint(0.7, -0.5));
 				}
 				break;
@@ -412,9 +411,6 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 				controlLine1 = new DianaSegment(p1.getPoint(), getCp1Position())
 						.transform(DianaUtils.convertNormalizedCoordinatesAT(connectorNode, connectorNode.getParentNode()));
 
-				// final DianaSegment line1 = new DianaSegment(new DianaPoint(0.0, 0.0), new DianaPoint(12.0, 12.0));
-				// System.out.println("La belle ligne");
-
 				controlAreas.add(new ControlArea<DianaSegment>(connectorNode, controlLine1) {
 					@Override
 					public boolean isDraggable() {
@@ -579,16 +575,35 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 						g.drawSymbol(lastSegment.getP2(), getEndSymbol(), getEndSymbolSize(), viewSegment.getAngle() + Math.PI);
 					}
 					if (getMiddleSymbol() != MiddleSymbolType.NONE) {
-						DianaSegment cpSegment = qCurve.getApproximatedControlPointTangent();
+						DianaPoint pt = getMiddleSymbolLocation();
+						DianaSegment cpSegment = qCurve.getApproximatedTangent(pt);
 						DianaSegment viewSegment = cpSegment
 								.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
-						g.drawSymbol(qCurve.getP3(), getMiddleSymbol(), getMiddleSymbolSize(), viewSegment.getAngle() + Math.PI);
+						g.drawSymbol(pt, getMiddleSymbol(), getMiddleSymbolSize(), viewSegment.getAngle() + Math.PI);
 					}
 				}
 				break;
 			case CUBIC_CURVE:
 				if (cCurve != null) {
 					cCurve.paint(g);
+				}
+				// Draw eventual symbols
+				if (getStartSymbol() != StartSymbolType.NONE) {
+					DianaSegment firstSegment = cCurve.getApproximatedStartTangent();
+					DianaSegment viewSegment = firstSegment
+							.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
+					g.drawSymbol(firstSegment.getP1(), getStartSymbol(), getStartSymbolSize(), viewSegment.getAngle());
+				}
+				if (getEndSymbol() != EndSymbolType.NONE) {
+					DianaSegment lastSegment = cCurve.getApproximatedEndTangent();
+					DianaSegment viewSegment = lastSegment.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
+					g.drawSymbol(lastSegment.getP2(), getEndSymbol(), getEndSymbolSize(), viewSegment.getAngle() + Math.PI);
+				}
+				if (getMiddleSymbol() != MiddleSymbolType.NONE) {
+					DianaPoint pt = getMiddleSymbolLocation();
+					DianaSegment cpSegment = cCurve.getApproximatedTangent(pt);
+					DianaSegment viewSegment = cpSegment.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
+					g.drawSymbol(pt, getMiddleSymbol(), getMiddleSymbolSize(), viewSegment.getAngle() + Math.PI);
 				}
 				break;
 		}
@@ -643,10 +658,39 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 
 	@Override
 	public DianaPoint getMiddleSymbolLocation() {
-		if (getCpPosition() == null) {
-			return new DianaPoint(0, 0);
+		/*if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			return getReflexiveConnectorDelegate().getReflexiveConnectorControlPoint().getPoint();
+		}*/
+
+		AffineTransform at = connectorNode.convertNormalizedPointToViewCoordinatesAT(1.0);
+
+		switch (getConnectorSpecification().getCurveConnectorType()) {
+			case QUAD_CURVE:
+				if (qCurve != null) {
+					DianaQuadCurve transformedCurve = qCurve.transform(at);
+					DianaPoint point = transformedCurve.getPointAtRelativePosition(getRelativeMiddleSymbolLocation());
+					try {
+						return point.transform(at.createInverse());
+					} catch (NoninvertibleTransformException e) {
+						e.printStackTrace();
+					}
+				}
+				break;
+			case CUBIC_CURVE:
+				if (cCurve != null) {
+					DianaCubicCurve transformedCurve = cCurve.transform(at);
+					DianaPoint point = transformedCurve.getPointAtRelativePosition(getRelativeMiddleSymbolLocation());
+					try {
+						return point.transform(at.createInverse());
+					} catch (NoninvertibleTransformException e) {
+						e.printStackTrace();
+					}
+				}
+				break;
 		}
-		return getCpPosition();
+
+		return new DianaPoint(0, 0);
+
 	}
 
 	@Override
