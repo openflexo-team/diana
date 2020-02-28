@@ -85,6 +85,8 @@ public class DianaGeneralShape<O extends DianaGeneralShape<O>> implements DianaS
 		public DianaPoint getP2();
 
 		public DianaPoint nearestOutlinePoint(DianaPoint aPoint);
+
+		public Rectangle2D getBounds2D();
 	}
 
 	public DianaGeneralShape() {
