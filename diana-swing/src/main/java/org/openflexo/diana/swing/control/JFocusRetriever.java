@@ -534,10 +534,23 @@ public class JFocusRetriever {
 									}
 								}
 							}
+							else {
+								// Look if we are near a CP
+								for (ControlArea<?> cp : connectorNode.getControlAreas()) {
+									double cpDistance = cp.getDistanceToArea(p3, getScale());
+									if (cpDistance <= selectionDistance
+											&& (focusedCP == null || getController().preferredFocusedControlArea(focusedCP, cp) == cp)) {
+										distanceToNearestGeometricObject = cpDistance;
+										nearestConnector = connectorNode;
+										focusedCP = cp;
+									}
+								}
+							}
 							if (focusOnFloatingLabel(connectorNode, eventSource, eventLocation)) {
 								// System.out.println("Detected floating label");
 								nearestConnector = connectorNode;
 							}
+
 						}
 					}
 					else {
