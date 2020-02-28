@@ -537,6 +537,16 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		}
 
 		@Override
+		public CurveConnectorType getCurveConnectorType() {
+			return getPropertyValue(CurveConnectorSpecification.CURVE_CONNECTOR_TYPE);
+		}
+
+		@Override
+		public void setCurveConnectorType(CurveConnectorType aCurveConnectorType) {
+			setPropertyValue(CurveConnectorSpecification.CURVE_CONNECTOR_TYPE, aCurveConnectorType);
+		}
+
+		@Override
 		public DianaPoint getCpPosition() {
 			return getPropertyValue(CurveConnectorSpecification.CP_POSITION);
 		}
@@ -544,6 +554,26 @@ public class ConnectorSpecificationFactory implements StyleFactory<ConnectorSpec
 		@Override
 		public void setCpPosition(DianaPoint cpPosition) {
 			setPropertyValue(CurveConnectorSpecification.CP_POSITION, cpPosition);
+		}
+
+		@Override
+		public DianaPoint getCp1Position() {
+			return getPropertyValue(CurveConnectorSpecification.CP1_POSITION);
+		}
+
+		@Override
+		public void setCp1Position(DianaPoint cpPosition) {
+			setPropertyValue(CurveConnectorSpecification.CP1_POSITION, cpPosition);
+		}
+
+		@Override
+		public DianaPoint getCp2Position() {
+			return getPropertyValue(CurveConnectorSpecification.CP2_POSITION);
+		}
+
+		@Override
+		public void setCp2Position(DianaPoint cpPosition) {
+			setPropertyValue(CurveConnectorSpecification.CP2_POSITION, cpPosition);
 		}
 
 	}

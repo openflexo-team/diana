@@ -53,6 +53,22 @@ public abstract class CurveConnectorSpecificationImpl extends ConnectorSpecifica
 
 	private DianaPoint cpPosition;
 
+	private CurveConnectorType curveConnectorType = CurveConnectorType.QUAD_CURVE;
+
+	@Override
+	public CurveConnectorType getCurveConnectorType() {
+		return curveConnectorType;
+	}
+
+	@Override
+	public void setCurveConnectorType(CurveConnectorType aCurveConnectorType) {
+		DianaAttributeNotification<?> notification = requireChange(CURVE_CONNECTOR_TYPE, aCurveConnectorType);
+		if (notification != null) {
+			curveConnectorType = aCurveConnectorType;
+			hasChanged(notification);
+		}
+	}
+
 	@Override
 	public DianaPoint getCpPosition() {
 		return cpPosition;
