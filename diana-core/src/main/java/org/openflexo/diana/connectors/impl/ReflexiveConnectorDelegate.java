@@ -60,6 +60,7 @@ import org.openflexo.diana.cp.ConnectorControlPoint;
 import org.openflexo.diana.cp.ControlPoint;
 import org.openflexo.diana.geom.DianaGeometricObject.CardinalQuadrant;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaLine;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaPolylin;
 import org.openflexo.diana.geom.DianaRectangle;
@@ -189,18 +190,20 @@ public class ReflexiveConnectorDelegate {
 
 	public DianaPolylin updateControlPoints() {
 
+		DianaPoint cp = DianaUtils.convertNormalizedPoint(connectorNode, getReflexiveConnectorControlPoint().getPoint(), getShapeNode());
+		DianaPoint north = new DianaPoint(getShapeNode().getShape().getShape().getCenter().x,
+				getShapeNode().getShape().getShape().getCenter().y - getShapeNode().getHeight());
+		DianaPoint south = new DianaPoint(getShapeNode().getShape().getShape().getCenter().x,
+				getShapeNode().getShape().getShape().getCenter().y + getShapeNode().getHeight());
+		DianaPoint east = new DianaPoint(getShapeNode().getShape().getShape().getCenter().x + getShapeNode().getWidth(),
+				getShapeNode().getShape().getShape().getCenter().y);
+		DianaPoint p1 = null, p2 = null;
+		DianaPolylin localPolylin = null;
+
 		switch (orientation) {
 			case NORTH_EAST:
-				DianaPoint cp = DianaUtils.convertNormalizedPoint(connectorNode, getReflexiveConnectorControlPoint().getPoint(),
-						getShapeNode());
-				DianaPoint north = new DianaPoint(getShapeNode().getShape().getShape().getCenter().x,
-						getShapeNode().getShape().getShape().getCenter().y - getShapeNode().getHeight());
-				DianaPoint east = new DianaPoint(getShapeNode().getShape().getShape().getCenter().x + getShapeNode().getWidth(),
-						getShapeNode().getShape().getShape().getCenter().y);
-				DianaPoint p1, p2;
-				DianaPolylin localPolylin;
 				if (getShapeNode().getShape().getAllowedHorizontalConnectorLocationFromEast().containsPoint(cp)) {
-					p1 = getShapeNode().getShape().nearestOutlinePoint(cp);
+					p1 = getShapeNode().getShape().getOutline().intersect(DianaLine.makeHorizontalLine(cp)).getNearestPoint(cp);
 					p2 = getShapeNode().getShape().outlineIntersect(east);
 					DianaPoint pp2 = new DianaPoint(cp.x, p2.y);
 					localPolylin = new DianaPolylin(p1, cp, pp2, p2);
@@ -209,7 +212,7 @@ public class ReflexiveConnectorDelegate {
 					p1 = getShapeNode().getShape().outlineIntersect(north);
 					if (getShapeNode().getShape().getAllowedVerticalConnectorLocationFromNorth().containsPoint(cp)) {
 						DianaPoint pp1 = new DianaPoint(p1.x, cp.y);
-						p2 = getShapeNode().getShape().nearestOutlinePoint(cp);
+						p2 = getShapeNode().getShape().getOutline().intersect(DianaLine.makeVerticalLine(cp)).getNearestPoint(cp);
 						localPolylin = new DianaPolylin(p1, pp1, cp, p2);
 					}
 					else {
@@ -219,50 +222,73 @@ public class ReflexiveConnectorDelegate {
 						localPolylin = new DianaPolylin(p1, pp1, cp, pp2, p2);
 					}
 				}
-
-				cp1 = new ConnectorControlPoint(connectorNode, DianaUtils.convertNormalizedPoint(getShapeNode(), p2, connectorNode));
-				cp2 = new ConnectorControlPoint(connectorNode, DianaUtils.convertNormalizedPoint(getShapeNode(), p1, connectorNode));
-
-				AffineTransform at = DianaUtils.convertNormalizedCoordinatesAT(getShapeNode(), connectorNode);
-				polylin = localPolylin.transform(at);
+				break;
+			case SOUTH_EAST:
+				if (getShapeNode().getShape().getAllowedHorizontalConnectorLocationFromEast().containsPoint(cp)) {
+					p1 = getShapeNode().getShape().getOutline().intersect(DianaLine.makeHorizontalLine(cp)).getNearestPoint(cp);
+					p2 = getShapeNode().getShape().outlineIntersect(east);
+					DianaPoint pp2 = new DianaPoint(cp.x, p2.y);
+					localPolylin = new DianaPolylin(p1, cp, pp2, p2);
+				}
+				else {
+					p1 = getShapeNode().getShape().outlineIntersect(south);
+					if (getShapeNode().getShape().getAllowedVerticalConnectorLocationFromSouth().containsPoint(cp)) {
+						DianaPoint pp1 = new DianaPoint(p1.x, cp.y);
+						p2 = getShapeNode().getShape().getOutline().intersect(DianaLine.makeVerticalLine(cp)).getNearestPoint(cp);
+						localPolylin = new DianaPolylin(p1, pp1, cp, p2);
+					}
+					else {
+						p2 = getShapeNode().getShape().outlineIntersect(east);
+						DianaPoint pp1 = new DianaPoint(p1.x, cp.y);
+						DianaPoint pp2 = new DianaPoint(cp.x, p2.y);
+						localPolylin = new DianaPolylin(p1, pp1, cp, pp2, p2);
+					}
+				}
+				break;
 
 			default:
 				break;
 		}
 
-		/*List<ControlPoint> controlPoints = new ArrayList<>();
-		controlPoints.add(cp1);
-		controlPoints.add(getReflexiveConnectorControlPoint());
-		controlPoints.add(cp2);
-		return controlPoints;*/
+		cp1 = new ConnectorControlPoint(connectorNode, DianaUtils.convertNormalizedPoint(getShapeNode(), p2, connectorNode));
+		cp2 = new ConnectorControlPoint(connectorNode, DianaUtils.convertNormalizedPoint(getShapeNode(), p1, connectorNode));
+
+		AffineTransform at = DianaUtils.convertNormalizedCoordinatesAT(getShapeNode(), connectorNode);
+		polylin = localPolylin.transform(at);
+
 		return polylin;
 
 	}
 
 	protected void refreshConnectorUsedBounds() {
+
 		DianaPoint north = new DianaPoint(getShapeNode().getShape().getShape().getCenter().x,
 				getShapeNode().getShape().getShape().getCenter().y - getShapeNode().getHeight());
+		DianaPoint south = new DianaPoint(getShapeNode().getShape().getShape().getCenter().x,
+				getShapeNode().getShape().getShape().getCenter().y + getShapeNode().getHeight());
 		DianaPoint east = new DianaPoint(getShapeNode().getShape().getShape().getCenter().x + getShapeNode().getWidth(),
 				getShapeNode().getShape().getShape().getCenter().y);
 		DianaPoint northP = getShapeNode().getShape().outlineIntersect(north);
+		DianaPoint southP = getShapeNode().getShape().outlineIntersect(south);
 		DianaPoint eastP = getShapeNode().getShape().outlineIntersect(east);
 
-		double horizontalOverlap = (reflexiveConnectorControlPoint.getPoint().getX() - eastP.getX()) * 1.2;
-		double verticalOverlap = (-reflexiveConnectorControlPoint.getPoint().getY() + northP.getY()) * 1.2;
+		double horizontalOverlap = 0;
+		double verticalOverlap = 0;
 
-		/*double horizontalOverlap = (double) DianaConstants.DEFAULT_RECT_POLYLIN_PIXEL_OVERLAP
-				/ (double) getConnectorNode().getStartNode().getViewWidth(1.0);
-		double verticalOverlap = (double) DianaConstants.DEFAULT_RECT_POLYLIN_PIXEL_OVERLAP
-				/ (double) getConnectorNode().getStartNode().getViewHeight(1.0);
-		
-		DianaPoint cp = new DianaPoint(eastP.x + horizontalOverlap, northP.y - verticalOverlap);
-		
-		double horizontalOverlap = (double) DianaConstants.DEFAULT_RECT_POLYLIN_PIXEL_OVERLAP
-				/ (double) getConnectorNode().getStartNode().getViewWidth(1.0);
-		double verticalOverlap = (double) DianaConstants.DEFAULT_RECT_POLYLIN_PIXEL_OVERLAP
-				/ (double) getConnectorNode().getStartNode().getViewHeight(1.0);*/
-		connectorUsedBounds = new DianaRectangle(0, -verticalOverlap, 1 + horizontalOverlap, 1 + verticalOverlap, Filling.FILLED);
-
+		switch (orientation) {
+			case NORTH_EAST:
+				horizontalOverlap = (reflexiveConnectorControlPoint.getPoint().getX() - eastP.getX()) * 1.2;
+				verticalOverlap = (-reflexiveConnectorControlPoint.getPoint().getY() + northP.getY()) * 1.2;
+				connectorUsedBounds = new DianaRectangle(0, -verticalOverlap, 1 + horizontalOverlap, 1 + verticalOverlap, Filling.FILLED);
+				break;
+			case SOUTH_EAST:
+				horizontalOverlap = (reflexiveConnectorControlPoint.getPoint().getX() - eastP.getX()) * 1.2;
+				verticalOverlap = (reflexiveConnectorControlPoint.getPoint().getY() - southP.getY()) * 1.2;
+				connectorUsedBounds = new DianaRectangle(0, 0, 1 + horizontalOverlap, 1 + verticalOverlap, Filling.FILLED);
+				break;
+			default:
+				break;
+		}
 	}
 
 	public void drawConnector(DianaConnectorGraphics g) {
