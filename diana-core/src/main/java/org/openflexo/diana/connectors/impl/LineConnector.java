@@ -62,6 +62,7 @@ import org.openflexo.diana.cp.ControlPoint;
 import org.openflexo.diana.geom.DianaGeometricObject.CardinalQuadrant;
 import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaPolylin;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaSegment;
 import org.openflexo.diana.geom.DianaShape;
@@ -224,7 +225,9 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 							middleSymbolLocationControlPoint.setPoint(getMiddleSymbolLocation());
 						}
 					}
+
 					connectorNode.notifyConnectorModified();
+
 					return true;
 				}
 			};
@@ -262,14 +265,18 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 		// Thread.dumpStack();
 
 		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
-			List<ControlPoint> newControlPoints = getReflexiveConnectorDelegate().updateControlPoints();
-			cp1 = makeStartControlPoint(getConnectorNode(), newControlPoints.get(0).getPoint());
-			cp2 = makeEndControlPoint(getConnectorNode(), newControlPoints.get(newControlPoints.size() - 1).getPoint());
+			// List<ControlPoint> newControlPoints = getReflexiveConnectorDelegate().updateControlPoints();
+			DianaPolylin polylin = getReflexiveConnectorDelegate().updateControlPoints();
+			// System.out.println("Hop: " + newControlPoints);
+			cp1 = makeStartControlPoint(getConnectorNode(), polylin.getFirstPoint());
+			cp2 = makeEndControlPoint(getConnectorNode(), polylin.getLastPoint());
 			controlPoints.clear();
 			controlPoints.add(cp1);
-			for (int i = 1; i < newControlPoints.size() - 1; i++) {
+			/*for (int i = 1; i < newControlPoints.size() - 1; i++) {
 				controlPoints.add(newControlPoints.get(i));
-			}
+				System.out.println("On vient d'ajouter " + newControlPoints.get(i));
+			}*/
+			controlPoints.add(getReflexiveConnectorDelegate().getReflexiveConnectorControlPoint());
 			controlPoints.add(cp2);
 		}
 
@@ -581,7 +588,7 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 			return new DianaPoint(0, 0);
 		}
 		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
-			return getReflexiveConnectorDelegate().getReflexiveConnectorControlPoint().getPoint();
+			return getReflexiveConnectorDelegate().getMiddleSymbolLocation();
 		}
 		return new DianaSegment(cp1.getPoint(), cp2.getPoint()).getScaledPoint(getRelativeMiddleSymbolLocation());
 	}

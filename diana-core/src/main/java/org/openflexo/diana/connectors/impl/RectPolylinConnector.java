@@ -81,6 +81,7 @@ import org.openflexo.diana.geom.DianaGeometricObject.CardinalQuadrant;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaPolylin;
 import org.openflexo.diana.geom.DianaRectPolylin;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaSegment;
@@ -253,7 +254,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	@Override
 	public DianaPoint getMiddleSymbolLocation() {
 		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
-			return getReflexiveConnectorDelegate().getReflexiveConnectorControlPoint().getPoint();
+			return getReflexiveConnectorDelegate().getMiddleSymbolLocation();
 		}
 
 		if (polylin == null) {
@@ -757,9 +758,15 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		}
 
 		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
-			List<ControlPoint> newControlPoints = getReflexiveConnectorDelegate().updateControlPoints();
+			// List<ControlPoint> newControlPoints = getReflexiveConnectorDelegate().updateControlPoints();
 			controlPoints.clear();
-			controlPoints.addAll(newControlPoints);
+			// controlPoints.addAll(newControlPoints);
+
+			DianaPolylin polylin = getReflexiveConnectorDelegate().updateControlPoints();
+			controlPoints.clear();
+			controlPoints.add(getReflexiveConnectorDelegate().getCp1());
+			controlPoints.add(getReflexiveConnectorDelegate().getReflexiveConnectorControlPoint());
+			controlPoints.add(getReflexiveConnectorDelegate().getCp2());
 			return;
 		}
 
