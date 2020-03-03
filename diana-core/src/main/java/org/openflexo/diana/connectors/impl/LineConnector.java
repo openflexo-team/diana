@@ -599,7 +599,7 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 			return new DianaPoint(0, 0);
 		}
 		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
-			return getReflexiveConnectorDelegate().getReflexiveConnectorControlPoint().getPoint();
+			return getReflexiveConnectorDelegate().getMiddleSymbolLocation();
 		}
 		return new DianaSegment(cp1.getPoint(), cp2.getPoint()).getScaledPoint(getRelativeLabelLocation());
 	}
@@ -611,12 +611,11 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 			return Double.POSITIVE_INFINITY;
 		}
 
-		Point testPoint = connectorNode.convertNormalizedPointToViewCoordinates(aPoint, scale);
-
 		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
 			return getReflexiveConnectorDelegate().distanceToConnector(aPoint, scale);
 		}
 		else {
+			Point testPoint = connectorNode.convertNormalizedPointToViewCoordinates(aPoint, scale);
 			Point point1 = connectorNode.convertNormalizedPointToViewCoordinates(cp1.getPoint(), scale);
 			Point point2 = connectorNode.convertNormalizedPointToViewCoordinates(cp2.getPoint(), scale);
 			return Line2D.ptSegDist(point1.x, point1.y, point2.x, point2.y, testPoint.x, testPoint.y);
