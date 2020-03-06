@@ -134,6 +134,14 @@ public interface Connector<CS extends ConnectorSpecification> extends PropertyCh
 
 	public boolean getIsEndingLocationDraggable();
 
+	public DianaPoint getCp1RelativeToStartObject();
+
+	public void setCp1RelativeToStartObject(DianaPoint aPoint);
+
+	public DianaPoint getCp2RelativeToEndObject();
+
+	public void setCp2RelativeToEndObject(DianaPoint aPoint);
+
 	/**
 	 * Returns the property value for supplied parameter<br>
 	 * If many Connectors share same ConnectorSpecification (as indicated by {@link Drawing#getPersistenceMode()), do not store value in

@@ -130,22 +130,6 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 		return null;
 	}
 
-	public DianaPoint getCp1RelativeToStartObject() {
-		return getPropertyValue(ConnectorSpecification.FIXED_START_LOCATION);
-	}
-
-	public void setCp1RelativeToStartObject(DianaPoint aPoint) {
-		setPropertyValue(ConnectorSpecification.FIXED_START_LOCATION, aPoint);
-	}
-
-	public DianaPoint getCp2RelativeToEndObject() {
-		return getPropertyValue(ConnectorSpecification.FIXED_END_LOCATION);
-	}
-
-	public void setCp2RelativeToEndObject(DianaPoint aPoint) {
-		setPropertyValue(ConnectorSpecification.FIXED_END_LOCATION, aPoint);
-	}
-
 	public DianaPoint getCpPosition() {
 		return getPropertyValue(CurveConnectorSpecification.CP_POSITION);
 	}

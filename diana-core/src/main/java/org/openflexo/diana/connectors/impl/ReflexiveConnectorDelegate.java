@@ -65,6 +65,7 @@ import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaPolylin;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.geom.area.DianaPlane;
 import org.openflexo.diana.geom.area.DianaSubstractionArea;
@@ -184,6 +185,62 @@ public class ReflexiveConnectorDelegate {
 	public void delete() {
 	}
 
+	private ControlPoint makeStartControlPoint(DianaPoint pt) {
+		if (getConnector().getIsStartingLocationDraggable()) {
+			cp1 = new ConnectorAdjustingControlPoint(connectorNode, pt) {
+				@Override
+				public DianaArea getDraggingAuthorizedArea() {
+					DianaShape<?> shape = getShapeNode().getShape().getOutline();
+					return shape.transform(DianaUtils.convertNormalizedCoordinatesAT(getShapeNode(), connectorNode));
+				}
+
+				@Override
+				public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+						DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
+					DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+					setPoint(pt);
+					getConnector().setCp1RelativeToStartObject(DianaUtils.convertNormalizedPoint(connectorNode, pt, getShapeNode()));
+					connectorNode.notifyConnectorModified();
+					return true;
+				}
+
+			};
+
+		}
+		else {
+			cp1 = new ConnectorControlPoint(connectorNode, pt);
+		}
+		return cp1;
+	}
+
+	private ControlPoint makeEndControlPoint(DianaPoint pt) {
+		if (getConnector().getIsEndingLocationDraggable()) {
+			cp2 = new ConnectorAdjustingControlPoint(connectorNode, pt) {
+				@Override
+				public DianaArea getDraggingAuthorizedArea() {
+					DianaShape<?> shape = getShapeNode().getShape().getOutline();
+					return shape.transform(DianaUtils.convertNormalizedCoordinatesAT(getShapeNode(), connectorNode));
+				}
+
+				@Override
+				public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+						DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
+					// logger.info("OK, moving to "+point);
+					DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+					setPoint(pt);
+					getConnector().setCp2RelativeToEndObject(DianaUtils.convertNormalizedPoint(connectorNode, pt, getShapeNode()));
+					connectorNode.notifyConnectorModified();
+
+					return true;
+				}
+			};
+		}
+		else {
+			cp2 = new ConnectorControlPoint(connectorNode, pt);
+		}
+		return cp2;
+	}
+
 	public DianaPolylin updateControlPoints() {
 
 		DianaPoint cp = DianaUtils.convertNormalizedPoint(connectorNode, getReflexiveConnectorControlPoint().getPoint(), getShapeNode());
@@ -292,8 +349,8 @@ public class ReflexiveConnectorDelegate {
 				break;
 		}
 
-		cp1 = new ConnectorControlPoint(connectorNode, DianaUtils.convertNormalizedPoint(getShapeNode(), p2, connectorNode));
-		cp2 = new ConnectorControlPoint(connectorNode, DianaUtils.convertNormalizedPoint(getShapeNode(), p1, connectorNode));
+		cp1 = makeStartControlPoint(DianaUtils.convertNormalizedPoint(getShapeNode(), p1, connectorNode));
+		cp2 = makeEndControlPoint(DianaUtils.convertNormalizedPoint(getShapeNode(), p2, connectorNode));
 
 		AffineTransform at = DianaUtils.convertNormalizedCoordinatesAT(getShapeNode(), connectorNode);
 		polylin = localPolylin.transform(at);

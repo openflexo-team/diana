@@ -537,6 +537,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		temporaryIgnoredObservables.remove(observable);
 	}
 
+	@Override
 	public StartSymbolType getStartSymbol() {
 		return getPropertyValue(ConnectorSpecification.START_SYMBOL);
 	}
@@ -545,6 +546,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		setPropertyValue(ConnectorSpecification.START_SYMBOL, startSymbol);
 	}
 
+	@Override
 	public EndSymbolType getEndSymbol() {
 		return getPropertyValue(ConnectorSpecification.END_SYMBOL);
 	}
@@ -553,6 +555,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		setPropertyValue(ConnectorSpecification.END_SYMBOL, endSymbol);
 	}
 
+	@Override
 	public MiddleSymbolType getMiddleSymbol() {
 		return getPropertyValue(ConnectorSpecification.MIDDLE_SYMBOL);
 	}
@@ -561,6 +564,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		setPropertyValue(ConnectorSpecification.MIDDLE_SYMBOL, middleSymbol);
 	}
 
+	@Override
 	public double getStartSymbolSize() {
 		return getPropertyValue(ConnectorSpecification.START_SYMBOL_SIZE);
 	}
@@ -569,6 +573,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		setPropertyValue(ConnectorSpecification.START_SYMBOL_SIZE, startSymbolSize);
 	}
 
+	@Override
 	public double getEndSymbolSize() {
 		return getPropertyValue(ConnectorSpecification.END_SYMBOL_SIZE);
 	}
@@ -577,6 +582,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		setPropertyValue(ConnectorSpecification.END_SYMBOL_SIZE, endSymbolSize);
 	}
 
+	@Override
 	public double getMiddleSymbolSize() {
 		return getPropertyValue(ConnectorSpecification.MIDDLE_SYMBOL_SIZE);
 	}
@@ -585,6 +591,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		setPropertyValue(ConnectorSpecification.MIDDLE_SYMBOL_SIZE, middleSymbolSize);
 	}
 
+	@Override
 	public double getRelativeMiddleSymbolLocation() {
 		return getPropertyValue(ConnectorSpecification.RELATIVE_MIDDLE_SYMBOL_LOCATION);
 	}
@@ -601,6 +608,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		setPropertyValue(ConnectorSpecification.RELATIVE_LABEL_LOCATION, relativeMiddleSymbolLocation);
 	}
 
+	@Override
 	public boolean getIsStartingLocationFixed() {
 		return getPropertyValue(ConnectorSpecification.IS_STARTING_LOCATION_FIXED);
 	}
@@ -609,6 +617,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		setPropertyValue(ConnectorSpecification.IS_STARTING_LOCATION_FIXED, aFlag);
 	}
 
+	@Override
 	public boolean getIsStartingLocationDraggable() {
 		return getPropertyValue(ConnectorSpecification.IS_STARTING_LOCATION_DRAGGABLE);
 	}
@@ -617,6 +626,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		setPropertyValue(ConnectorSpecification.IS_STARTING_LOCATION_DRAGGABLE, aFlag);
 	}
 
+	@Override
 	public boolean getIsEndingLocationFixed() {
 		return getPropertyValue(ConnectorSpecification.IS_ENDING_LOCATION_FIXED);
 	}
@@ -625,6 +635,7 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 		setPropertyValue(ConnectorSpecification.IS_ENDING_LOCATION_FIXED, aFlag);
 	}
 
+	@Override
 	public boolean getIsEndingLocationDraggable() {
 		return getPropertyValue(ConnectorSpecification.IS_ENDING_LOCATION_DRAGGABLE);
 	}
@@ -674,6 +685,22 @@ public abstract class ConnectorImpl<CS extends ConnectorSpecification> implement
 	public void setFixedEndLocation(DianaPoint aPoint) {
 		DianaShape<?> endArea = getEndNode().getShape().getOutline();
 		aPoint = endArea.getNearestPoint(aPoint);
+		setPropertyValue(ConnectorSpecification.FIXED_END_LOCATION, aPoint);
+	}
+
+	public DianaPoint getCp1RelativeToStartObject() {
+		return getPropertyValue(ConnectorSpecification.FIXED_START_LOCATION);
+	}
+
+	public void setCp1RelativeToStartObject(DianaPoint aPoint) {
+		setPropertyValue(ConnectorSpecification.FIXED_START_LOCATION, aPoint);
+	}
+
+	public DianaPoint getCp2RelativeToEndObject() {
+		return getPropertyValue(ConnectorSpecification.FIXED_END_LOCATION);
+	}
+
+	public void setCp2RelativeToEndObject(DianaPoint aPoint) {
 		setPropertyValue(ConnectorSpecification.FIXED_END_LOCATION, aPoint);
 	}
 

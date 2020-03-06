@@ -124,18 +124,22 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 		return controlPoints;
 	}
 
+	@Override
 	public DianaPoint getCp1RelativeToStartObject() {
 		return getPropertyValue(ConnectorSpecification.FIXED_START_LOCATION);
 	}
 
+	@Override
 	public void setCp1RelativeToStartObject(DianaPoint aPoint) {
 		setPropertyValue(ConnectorSpecification.FIXED_START_LOCATION, aPoint);
 	}
 
+	@Override
 	public DianaPoint getCp2RelativeToEndObject() {
 		return getPropertyValue(ConnectorSpecification.FIXED_END_LOCATION);
 	}
 
+	@Override
 	public void setCp2RelativeToEndObject(DianaPoint aPoint) {
 		setPropertyValue(ConnectorSpecification.FIXED_END_LOCATION, aPoint);
 	}
@@ -268,16 +272,18 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 			// List<ControlPoint> newControlPoints = getReflexiveConnectorDelegate().updateControlPoints();
 			DianaPolylin polylin = getReflexiveConnectorDelegate().updateControlPoints();
 			// System.out.println("Hop: " + newControlPoints);
-			cp1 = makeStartControlPoint(getConnectorNode(), polylin.getFirstPoint());
-			cp2 = makeEndControlPoint(getConnectorNode(), polylin.getLastPoint());
+			// cp1 = makeStartControlPoint(getConnectorNode(), polylin.getFirstPoint());
+			// cp2 = makeEndControlPoint(getConnectorNode(), polylin.getLastPoint());
 			controlPoints.clear();
-			controlPoints.add(cp1);
+			// controlPoints.add(cp1);
 			/*for (int i = 1; i < newControlPoints.size() - 1; i++) {
 				controlPoints.add(newControlPoints.get(i));
 				System.out.println("On vient d'ajouter " + newControlPoints.get(i));
 			}*/
+			controlPoints.add(getReflexiveConnectorDelegate().getCp1());
 			controlPoints.add(getReflexiveConnectorDelegate().getReflexiveConnectorControlPoint());
-			controlPoints.add(cp2);
+			controlPoints.add(getReflexiveConnectorDelegate().getCp2());
+			// controlPoints.add(cp2);
 		}
 
 		else if (getLineConnectorType() == LineConnectorType.CENTER_TO_CENTER) {
@@ -535,10 +541,6 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 			refreshConnector();
 		}
 
-		if (cp1 == null || cp2 == null) {
-			return;
-		}
-
 		g.useDefaultForegroundStyle();
 		// logger.info("paintConnector() "+cp1.getPoint()+"-"+cp2.getPoint()+" with "+g.getCurrentForeground());
 
@@ -547,6 +549,11 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 		}
 
 		else {
+
+			if (cp1 == null || cp2 == null) {
+				return;
+			}
+
 			g.drawLine(cp1.getPoint(), cp2.getPoint());
 
 			Point cp1InView = connectorNode.convertNormalizedPointToViewCoordinates(cp1.getPoint(), 1);
@@ -584,37 +591,37 @@ public class LineConnector extends ConnectorImpl<LineConnectorSpecification> {
 
 	@Override
 	public DianaPoint getMiddleSymbolLocation() {
-		if (cp1 == null || cp2 == null) {
-			return new DianaPoint(0, 0);
-		}
 		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
 			return getReflexiveConnectorDelegate().getMiddleSymbolLocation();
+		}
+		if (cp1 == null || cp2 == null) {
+			return new DianaPoint(0, 0);
 		}
 		return new DianaSegment(cp1.getPoint(), cp2.getPoint()).getScaledPoint(getRelativeMiddleSymbolLocation());
 	}
 
 	@Override
 	public DianaPoint getLabelLocation() {
-		if (cp1 == null || cp2 == null) {
-			return new DianaPoint(0, 0);
-		}
 		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
 			return getReflexiveConnectorDelegate().getMiddleSymbolLocation();
+		}
+		if (cp1 == null || cp2 == null) {
+			return new DianaPoint(0, 0);
 		}
 		return new DianaSegment(cp1.getPoint(), cp2.getPoint()).getScaledPoint(getRelativeLabelLocation());
 	}
 
 	@Override
 	public double distanceToConnector(DianaPoint aPoint, double scale) {
-		if (cp1 == null || cp2 == null) {
-			LOGGER.warning("Invalid date in LineConnectorSpecification: control points are null");
-			return Double.POSITIVE_INFINITY;
-		}
-
 		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
 			return getReflexiveConnectorDelegate().distanceToConnector(aPoint, scale);
 		}
 		else {
+			if (cp1 == null || cp2 == null) {
+				LOGGER.warning("Invalid date in LineConnectorSpecification: control points are null");
+				return Double.POSITIVE_INFINITY;
+			}
+
 			Point testPoint = connectorNode.convertNormalizedPointToViewCoordinates(aPoint, scale);
 			Point point1 = connectorNode.convertNormalizedPointToViewCoordinates(cp1.getPoint(), scale);
 			Point point2 = connectorNode.convertNormalizedPointToViewCoordinates(cp2.getPoint(), scale);
