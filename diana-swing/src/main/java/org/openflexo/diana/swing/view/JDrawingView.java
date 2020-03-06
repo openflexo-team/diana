@@ -663,6 +663,11 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			return;
 		}
 
+		Graphics2D g2 = (Graphics2D) g;
+		DrawUtils.turnOnAntiAlising(g2);
+		DrawUtils.setRenderQuality(g2);
+		DrawUtils.setColorRenderQuality(g2);
+
 		long startTime = System.currentTimeMillis();
 		if (getPaintManager().isPaintingCacheEnabled()) {
 			if (isBuffering) {
@@ -702,10 +707,6 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 
 		if (!isBuffering) {
 
-			Graphics2D g2 = (Graphics2D) g;
-			DrawUtils.turnOnAntiAlising(g2);
-			DrawUtils.setRenderQuality(g2);
-			DrawUtils.setColorRenderQuality(g2);
 			graphics.createGraphics(g2/*, controller*/);
 
 			if (getController() instanceof DianaInteractiveViewer) {
