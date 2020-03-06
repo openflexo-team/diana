@@ -282,8 +282,8 @@ public class DianaSubstractionArea extends DianaOperationArea {
 
 		// TODO: we can implement a recursive method, trying to invoke getNearest() alternatively
 		// on each objects, to obtain a possible result (not sure, but works on most cases)
-		logger.warning("Not implemented yet !!!!");
-		return null;
+		logger.warning("getNearestPoint(Point) not implemented yet for DianaSubstractionArea");
+		return aPoint;
 	}
 
 	/**
