@@ -98,13 +98,13 @@ public class DrawEdgeControl extends MouseDragControlImpl<DianaDrawingEditor> {
 					// point="+contextualMenuClickedPoint);
 					CompoundEdit drawEdge = factory.getUndoManager().startRecording("Draw edge");
 					Connector newConnector = factory.makeNewConnector(fromShape.getDrawable(), toShape.getDrawable(),
-							controller.getDrawing().getModel());
+							controller.getDrawing().getModel(), controller.getDrawConnectorToolOption().getConnectorType());
 					DrawingTreeNode<?, ?> fatherNode = DianaUtils.getFirstCommonAncestor(fromShape, toShape);
 					if (fromShape == toShape) {
 						fatherNode = fromShape.getParentNode();
 					}
 					((DiagramElement<?, ?>) fatherNode.getDrawable()).addToConnectors(newConnector);
-					//System.out.println("Add new connector !");
+					// System.out.println("Add new connector !");
 					factory.getUndoManager().stopRecording(drawEdge);
 					controller.setSelectedObject(controller.getDrawing().getDrawingTreeNode(newConnector));
 				}

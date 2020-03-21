@@ -66,9 +66,12 @@ import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
 import org.openflexo.diana.geom.DianaAbstractLine;
 import org.openflexo.diana.geom.DianaCubicCurve;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaEllips;
 import org.openflexo.diana.geom.DianaGeneralShape.GeneralShapePathElement;
 import org.openflexo.diana.geom.DianaGeometricObject;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaLine;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaQuadCurve;
 import org.openflexo.diana.geom.DianaRectangle;
@@ -225,6 +228,28 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 	private DianaSegment controlLine1;
 	private DianaSegment controlLine2;
 
+	private void computeInitialControlPointsForCubicCurve() {
+		DianaPoint startP = DianaUtils.convertNormalizedPoint(getStartNode(), getStartNode().getDianaShape().getCenter(), connectorNode);
+		DianaPoint endP = DianaUtils.convertNormalizedPoint(getEndNode(), getEndNode().getDianaShape().getCenter(), connectorNode);
+		DianaPoint middle = DianaPoint.getMiddlePoint(startP, endP);
+		DianaLine line = new DianaLine(startP, endP);
+		DianaLine orthogonalLine = DianaAbstractLine.getOrthogonalLine(line, middle);
+		int viewWidth = connectorNode.getViewWidth(1.0);
+		int viewHeight = connectorNode.getViewHeight(1.0);
+		DianaEllips ellips;
+		if (viewWidth > viewHeight) {
+			ellips = new DianaEllips(middle, new DianaDimension(0.4, 0.4 * viewWidth / viewHeight), Filling.NOT_FILLED);
+		}
+		else {
+			ellips = new DianaEllips(middle, new DianaDimension(0.4 * viewHeight / viewWidth, 0.4), Filling.NOT_FILLED);
+		}
+		DianaPoint p = ellips.intersect(orthogonalLine).getNearestPoint(middle);
+		DianaPoint cp1 = DianaPoint.getMiddlePoint(startP, p);
+		DianaPoint cp2 = DianaPoint.getMiddlePoint(p, endP);
+		setCp1Position(cp1);
+		setCp2Position(cp2);
+	}
+
 	private void updateControlPoints() {
 
 		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
@@ -254,11 +279,8 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 					updateCPPositionIfNeeded();
 					break;
 				case CUBIC_CURVE:
-					if (getCp1Position() == null) {
-						setCp1Position(new DianaPoint(0.3, -0.5));
-					}
-					if (getCp2Position() == null) {
-						setCp2Position(new DianaPoint(0.7, -0.5));
+					if (getCp1Position() == null || getCp2Position() == null) {
+						computeInitialControlPointsForCubicCurve();
 					}
 					break;
 			}

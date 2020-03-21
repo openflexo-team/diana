@@ -52,8 +52,10 @@ public abstract class CurveConnectorSpecificationImpl extends ConnectorSpecifica
 	private static final Logger LOGGER = Logger.getLogger(CurveConnectorSpecification.class.getPackage().getName());
 
 	private DianaPoint cpPosition;
+	private DianaPoint cp1Position;
+	private DianaPoint cp2Position;
 
-	private CurveConnectorType curveConnectorType = CurveConnectorType.QUAD_CURVE;
+	private CurveConnectorType curveConnectorType = CurveConnectorType.CUBIC_CURVE;
 
 	@Override
 	public CurveConnectorType getCurveConnectorType() {
@@ -79,6 +81,34 @@ public abstract class CurveConnectorSpecificationImpl extends ConnectorSpecifica
 		DianaAttributeNotification<?> notification = requireChange(CP_POSITION, aPoint);
 		if (notification != null) {
 			this.cpPosition = aPoint;
+			hasChanged(notification);
+		}
+	}
+
+	@Override
+	public DianaPoint getCp1Position() {
+		return cp1Position;
+	}
+
+	@Override
+	public void setCp1Position(DianaPoint aPoint) {
+		DianaAttributeNotification<?> notification = requireChange(CP1_POSITION, aPoint);
+		if (notification != null) {
+			this.cp1Position = aPoint;
+			hasChanged(notification);
+		}
+	}
+
+	@Override
+	public DianaPoint getCp2Position() {
+		return cp2Position;
+	}
+
+	@Override
+	public void setCp2Position(DianaPoint aPoint) {
+		DianaAttributeNotification<?> notification = requireChange(CP2_POSITION, aPoint);
+		if (notification != null) {
+			this.cp2Position = aPoint;
 			hasChanged(notification);
 		}
 	}
