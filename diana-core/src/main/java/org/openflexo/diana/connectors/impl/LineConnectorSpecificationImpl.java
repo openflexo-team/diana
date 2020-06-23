@@ -43,7 +43,6 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.connectors.LineConnectorSpecification;
-import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.notifications.DianaAttributeNotification;
 
 public abstract class LineConnectorSpecificationImpl extends ConnectorSpecificationImpl implements LineConnectorSpecification {
@@ -51,8 +50,6 @@ public abstract class LineConnectorSpecificationImpl extends ConnectorSpecificat
 	@SuppressWarnings("unused")
 	private static final Logger LOGGER = Logger.getLogger(LineConnectorSpecification.class.getPackage().getName());
 
-	private DianaPoint cp1RelativeToStartObject;
-	private DianaPoint cp2RelativeToEndObject;
 	private LineConnectorType lineConnectorType = LineConnectorType.MINIMAL_LENGTH;
 
 	// Used for deserialization
@@ -75,46 +72,9 @@ public abstract class LineConnectorSpecificationImpl extends ConnectorSpecificat
 	}
 
 	@Override
-	public DianaPoint getCp1RelativeToStartObject() {
-		return cp1RelativeToStartObject;
-	}
-
-	@Override
-	public void setCp1RelativeToStartObject(DianaPoint aPoint) {
-		DianaAttributeNotification<?> notification = requireChange(CP1_RELATIVE_TO_START_OBJECT, aPoint);
-		if (notification != null) {
-			this.cp1RelativeToStartObject = aPoint;
-			hasChanged(notification);
-		}
-	}
-
-	@Override
-	public DianaPoint getCp2RelativeToEndObject() {
-		return cp2RelativeToEndObject;
-	}
-
-	@Override
-	public void setCp2RelativeToEndObject(DianaPoint aPoint) {
-		DianaAttributeNotification<?> notification = requireChange(CP2_RELATIVE_TO_END_OBJECT, aPoint);
-		if (notification != null) {
-			this.cp2RelativeToEndObject = aPoint;
-			hasChanged(notification);
-		}
-	}
-
-	@Override
 	public ConnectorType getConnectorType() {
 		return ConnectorType.LINE;
 	}
-
-	/*@Override
-	public LineConnectorSpecification clone() {
-		LineConnectorSpecification returned = (LineConnectorSpecification) cloneObject();
-		returned.setLineConnectorType(getLineConnectorType());
-		returned.setCp1RelativeToStartObject(getCp1RelativeToStartObject());
-		returned.setCp2RelativeToEndObject(getCp2RelativeToEndObject());
-		return returned;
-	}*/
 
 	@Override
 	public LineConnector makeConnector(ConnectorNode<?> connectorNode) {

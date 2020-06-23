@@ -1268,10 +1268,11 @@ public class DianaRectPolylin extends DianaPolylin {
 				addToPoints(p_end);
 				return;
 			}
-			addToPoints(p_start);
+			// Fixed DIANA-42
+			/*addToPoints(p_start);
 			addToPoints(p);
 			addToPoints(p_end);
-			return;
+			return;*/
 		}
 		else if (intersect instanceof DianaShape || intersect.isFinite() && intersect.getEmbeddingBounds() != null) {
 
@@ -1329,10 +1330,11 @@ public class DianaRectPolylin extends DianaPolylin {
 					addToPoints(p_end);
 					return;
 				}
-				addToPoints(p_start);
+				// Fixed DIANA-42
+				/*addToPoints(p_start);
 				addToPoints(center);
 				addToPoints(p_end);
-				return;
+				return;*/
 			}
 		}
 

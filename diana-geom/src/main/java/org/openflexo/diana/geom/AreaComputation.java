@@ -98,16 +98,16 @@ public class AreaComputation {
 	}
 
 	public static DianaArea computeShapeSubstraction(DianaShape<?> shape1, DianaShape<?> shape2) {
-		System.out.println("computeShapeSubstraction() with " + shape1 + " and " + shape2);
+		//System.out.println("computeShapeSubstraction() with " + shape1 + " and " + shape2);
 		Area area1 = new Area(shape1);
-		System.out.println(">>> First shape: ");
-		debugPathIterator(area1.getPathIterator(new AffineTransform()));
+		//System.out.println(">>> First shape: ");
+		//debugPathIterator(area1.getPathIterator(new AffineTransform()));
 		Area area2 = new Area(shape2);
-		System.out.println(">>> Second shape: ");
-		debugPathIterator(area2.getPathIterator(new AffineTransform()));
+		//System.out.println(">>> Second shape: ");
+		//debugPathIterator(area2.getPathIterator(new AffineTransform()));
 		area1.subtract(area2);
-		System.out.println(">>> Third shape: ");
-		debugPathIterator(area1.getPathIterator(new AffineTransform()));
+		//System.out.println(">>> Third shape: ");
+		//debugPathIterator(area1.getPathIterator(new AffineTransform()));
 
 		if (isPolygonalArea(area1)) {
 			return makePolygonalShapeFromArea(area1);

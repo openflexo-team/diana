@@ -39,9 +39,12 @@
 
 package org.openflexo.diana.connectors.impl;
 
+import java.awt.Color;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
@@ -50,15 +53,25 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.ConnectorNode;
+import org.openflexo.diana.ForegroundStyle.DashStyle;
+import org.openflexo.diana.connectors.ConnectorSpecification;
 import org.openflexo.diana.connectors.ConnectorSymbol.EndSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.MiddleSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.StartSymbolType;
 import org.openflexo.diana.connectors.CurveConnectorSpecification;
+import org.openflexo.diana.connectors.CurveConnectorSpecification.CurveConnectorType;
 import org.openflexo.diana.cp.ConnectorAdjustingControlPoint;
+import org.openflexo.diana.cp.ConnectorControlPoint;
+import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.cp.ControlPoint;
 import org.openflexo.diana.geom.DianaAbstractLine;
+import org.openflexo.diana.geom.DianaCubicCurve;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaEllips;
+import org.openflexo.diana.geom.DianaGeneralShape.GeneralShapePathElement;
 import org.openflexo.diana.geom.DianaGeometricObject;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaLine;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaQuadCurve;
 import org.openflexo.diana.geom.DianaRectangle;
@@ -67,25 +80,30 @@ import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geom.GeomUtils;
 import org.openflexo.diana.geom.ParallelLinesException;
 import org.openflexo.diana.geom.area.DianaArea;
-import org.openflexo.diana.geom.area.DianaEmptyArea;
 import org.openflexo.diana.geom.area.DianaPlane;
 import org.openflexo.diana.graphics.DianaConnectorGraphics;
+import org.openflexo.diana.graphics.DianaGraphics;
 
 public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 
 	private static final Logger LOGGER = Logger.getLogger(CurveConnectorSpecification.class.getPackage().getName());
 
+	private ControlPoint p1;
+	private ControlPoint p2;
+	private ControlPoint cp;
 	private ControlPoint cp1;
 	private ControlPoint cp2;
-	private ControlPoint cp;
-	private List<ControlPoint> controlPoints;
+	private List<ControlArea<?>> controlAreas;
 
 	private boolean firstUpdated = false;
 
 	private DianaSegment previous;
 	private boolean willBeModified = false;
 
-	private DianaQuadCurve curve;
+	private DianaCubicCurve cCurve;
+	private DianaQuadCurve qCurve;
+
+	private ReflexiveCurveConnectorDelegate reflexiveConnectorDelegate;
 
 	// *******************************************************************************
 	// * Constructor *
@@ -93,32 +111,26 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 
 	public CurveConnector(ConnectorNode<?> connectorNode) {
 		super(connectorNode);
-		controlPoints = new ArrayList<>();
+		controlAreas = new ArrayList<>();
 	}
 
 	@Override
 	public void delete() {
 		super.delete();
-		cp1 = null;
-		cp2 = null;
-		controlPoints.clear();
-		controlPoints = null;
+		p1 = null;
+		p2 = null;
+		controlAreas.clear();
+		controlAreas = null;
 	}
 
-	public DianaPoint getCp1RelativeToStartObject() {
-		return getPropertyValue(CurveConnectorSpecification.CP1_RELATIVE_TO_START_OBJECT);
-	}
-
-	public void setCp1RelativeToStartObject(DianaPoint aPoint) {
-		setPropertyValue(CurveConnectorSpecification.CP1_RELATIVE_TO_START_OBJECT, aPoint);
-	}
-
-	public DianaPoint getCp2RelativeToEndObject() {
-		return getPropertyValue(CurveConnectorSpecification.CP2_RELATIVE_TO_END_OBJECT);
-	}
-
-	public void setCp2RelativeToEndObject(DianaPoint aPoint) {
-		setPropertyValue(CurveConnectorSpecification.CP2_RELATIVE_TO_END_OBJECT, aPoint);
+	protected ReflexiveCurveConnectorDelegate getReflexiveConnectorDelegate() {
+		if (getStartNode() == getEndNode()) {
+			if (reflexiveConnectorDelegate == null) {
+				reflexiveConnectorDelegate = new ReflexiveCurveConnectorDelegate(getConnectorNode());
+			}
+			return reflexiveConnectorDelegate;
+		}
+		return null;
 	}
 
 	public DianaPoint getCpPosition() {
@@ -129,192 +141,352 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 		setPropertyValue(CurveConnectorSpecification.CP_POSITION, cpPosition);
 	}
 
-	public boolean getAreBoundsAdjustable() {
-		return getPropertyValue(CurveConnectorSpecification.ARE_BOUNDS_ADJUSTABLE);
+	public DianaPoint getCp1Position() {
+		return getPropertyValue(CurveConnectorSpecification.CP1_POSITION);
 	}
 
-	public void setAreBoundsAdjustable(boolean aFlag) {
-		setPropertyValue(CurveConnectorSpecification.ARE_BOUNDS_ADJUSTABLE, aFlag);
+	public void setCp1Position(DianaPoint cp1Position) {
+		setPropertyValue(CurveConnectorSpecification.CP1_POSITION, cp1Position);
+	}
+
+	public DianaPoint getCp2Position() {
+		return getPropertyValue(CurveConnectorSpecification.CP2_POSITION);
+	}
+
+	public void setCp2Position(DianaPoint cp2Position) {
+		setPropertyValue(CurveConnectorSpecification.CP2_POSITION, cp2Position);
 	}
 
 	@Override
-	public List<ControlPoint> getControlAreas() {
-		return controlPoints;
+	public List<ControlArea<?>> getControlAreas() {
+		return controlAreas;
+	}
+
+	private ControlPoint makeStartControlPoint(ConnectorNode<?> connectorNode, DianaPoint pt) {
+
+		if (getIsStartingLocationDraggable()) {
+			p1 = new ConnectorAdjustingControlPoint(connectorNode, pt) {
+				@Override
+				public DianaArea getDraggingAuthorizedArea() {
+					DianaShape<?> shape = getStartNode().getShape().getOutline();
+					return shape.transform(DianaUtils.convertNormalizedCoordinatesAT(getStartNode(), connectorNode));
+				}
+
+				@Override
+				public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+						DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
+					DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+					setPoint(pt);
+					setCp1RelativeToStartObject(DianaUtils.convertNormalizedPoint(connectorNode, pt, getStartNode()));
+					if (getConnectorSpecification().getCurveConnectorType() == CurveConnectorType.CUBIC_CURVE) {
+						controlLine1.setP1(
+								pt.transform(DianaUtils.convertNormalizedCoordinatesAT(connectorNode, connectorNode.getParentNode())));
+					}
+					refreshCurve();
+					connectorNode.notifyConnectorModified();
+					return true;
+				}
+			};
+		}
+		else {
+			p1 = new ConnectorControlPoint(connectorNode, pt);
+		}
+		return p1;
+	}
+
+	private ControlPoint makeEndControlPoint(ConnectorNode<?> connectorNode, DianaPoint pt) {
+		if (getIsEndingLocationDraggable()) {
+			p2 = new ConnectorAdjustingControlPoint(connectorNode, pt) {
+				@Override
+				public DianaArea getDraggingAuthorizedArea() {
+					DianaShape<?> shape = getEndNode().getShape().getOutline();
+					return shape.transform(DianaUtils.convertNormalizedCoordinatesAT(getEndNode(), connectorNode));
+				}
+
+				@Override
+				public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+						DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
+					DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+					setPoint(pt);
+					setCp2RelativeToEndObject(DianaUtils.convertNormalizedPoint(connectorNode, pt, getEndNode()));
+					if (getConnectorSpecification().getCurveConnectorType() == CurveConnectorType.CUBIC_CURVE) {
+						controlLine2.setP1(
+								pt.transform(DianaUtils.convertNormalizedCoordinatesAT(connectorNode, connectorNode.getParentNode())));
+					}
+					refreshCurve();
+					connectorNode.notifyConnectorModified();
+					return true;
+				}
+			};
+		}
+		else {
+			p2 = new ConnectorControlPoint(connectorNode, pt);
+		}
+		return p2;
+	}
+
+	private DianaSegment controlLine1;
+	private DianaSegment controlLine2;
+
+	private void computeInitialControlPointsForCubicCurve() {
+		DianaPoint startP = DianaUtils.convertNormalizedPoint(getStartNode(), getStartNode().getDianaShape().getCenter(), connectorNode);
+		DianaPoint endP = DianaUtils.convertNormalizedPoint(getEndNode(), getEndNode().getDianaShape().getCenter(), connectorNode);
+		DianaPoint middle = DianaPoint.getMiddlePoint(startP, endP);
+		DianaLine line = new DianaLine(startP, endP);
+		DianaLine orthogonalLine = DianaAbstractLine.getOrthogonalLine(line, middle);
+		int viewWidth = connectorNode.getViewWidth(1.0);
+		int viewHeight = connectorNode.getViewHeight(1.0);
+		DianaEllips ellips;
+		if (viewWidth > viewHeight) {
+			ellips = new DianaEllips(middle, new DianaDimension(0.4, 0.4 * viewWidth / viewHeight), Filling.NOT_FILLED);
+		}
+		else {
+			ellips = new DianaEllips(middle, new DianaDimension(0.4 * viewHeight / viewWidth, 0.4), Filling.NOT_FILLED);
+		}
+		DianaPoint p = ellips.intersect(orthogonalLine).getNearestPoint(middle);
+		DianaPoint cp1 = DianaPoint.getMiddlePoint(startP, p);
+		DianaPoint cp2 = DianaPoint.getMiddlePoint(p, endP);
+		setCp1Position(cp1);
+		setCp2Position(cp2);
 	}
 
 	private void updateControlPoints() {
-		DianaPoint newP1 = null;
-		DianaPoint newP2 = null;
 
-		if (getAreBoundsAdjustable()) {
-
-			if (getCp1RelativeToStartObject() == null || getCp2RelativeToEndObject() == null) {
-
-				// To compute initial locations, we try to draw a line joining both center
-				// We have to compute the intersection between this line and the outline
-				// of joined shapes
-
-				DianaPoint centerOfEndObjectSeenFromStartObject = DianaUtils.convertNormalizedPoint(getEndNode(), new DianaPoint(0.5, 0.5),
-						getStartNode());
-				setCp1RelativeToStartObject(getStartNode().getShape().outlineIntersect(centerOfEndObjectSeenFromStartObject));
-				if (getCp1RelativeToStartObject() == null) {
-					LOGGER.warning("outlineIntersect() returned null");
-					setCp1RelativeToStartObject(new DianaPoint(0.5, 0.5));
-				}
-
-				DianaPoint centerOfStartObjectSeenFromEndObject = DianaUtils.convertNormalizedPoint(getStartNode(),
-						new DianaPoint(0.5, 0.5), getEndNode());
-				setCp2RelativeToEndObject(getEndNode().getShape().outlineIntersect(centerOfStartObjectSeenFromEndObject));
-				if (getCp2RelativeToEndObject() == null) {
-					LOGGER.warning("outlineIntersect() returned null");
-					setCp2RelativeToEndObject(new DianaPoint(0.5, 0.5));
-				}
-			}
-
-			// We have either the old position, or the default one
-			// We need now to find updated position according to eventual shape move, resize, reshaped, etc...
-			// To do that, use outlineIntersect();
-
-			if (cp1 != null) {
-				newP1 = cp1.getPoint();
-			}
-			setCp1RelativeToStartObject(getStartNode().getShape().outlineIntersect(getCp1RelativeToStartObject()));
-			if (getCp1RelativeToStartObject() != null) {
-				newP1 = DianaUtils.convertNormalizedPoint(getStartNode(), getCp1RelativeToStartObject(), connectorNode);
-			}
-
-			if (cp2 != null) {
-				newP2 = cp2.getPoint();
-			}
-			setCp2RelativeToEndObject(getEndNode().getShape().outlineIntersect(getCp2RelativeToEndObject()));
-			if (getCp2RelativeToEndObject() != null) {
-				newP2 = DianaUtils.convertNormalizedPoint(getEndNode(), getCp2RelativeToEndObject(), connectorNode);
-			}
-
-			if (getCpPosition() == null) {
-				// The 0.3 is there so that we can see the curve of the edge.
-				setCpPosition(new DianaPoint(0.5, 0.3));
-			}
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			// List<ControlPoint> newControlPoints = getReflexiveConnectorDelegate().updateControlPoints();
+			List<ControlArea<?>> controlPoints = getReflexiveConnectorDelegate().updateControlPoints();
+			// System.out.println("Hop: " + newControlPoints);
+			// p1 = makeStartControlPoint(getConnectorNode(), ((ControlPoint) controlPoints.get(0)).getPoint());
+			// p2 = makeEndControlPoint(getConnectorNode(), ((ControlPoint) controlPoints.get(controlPoints.size() - 1)).getPoint());
+			controlAreas.clear();
+			/*controlAreas.add(p1);
+			for (int i = 1; i < controlPoints.size() - 1; i++) {
+				controlAreas.add(controlPoints.get(i));
+				System.out.println("On vient d'ajouter " + controlPoints.get(i));
+			}*/
+			controlAreas.addAll(controlPoints);
+			// controlAreas.add(getReflexiveConnectorDelegate().getReflexiveConnectorControlPoint());
+			// controlAreas.add(p2);
 		}
 
 		else {
 
-			// Not adjustable bounds
-
-			if (getCpPosition() == null) {
-				setCpPosition(new DianaPoint(0.5, 0.4));
+			switch (getConnectorSpecification().getCurveConnectorType()) {
+				case QUAD_CURVE:
+					if (getCpPosition() == null) {
+						setCpPosition(new DianaPoint(0.5, -0.5));
+					}
+					updateCPPositionIfNeeded();
+					break;
+				case CUBIC_CURVE:
+					if (getCp1Position() == null || getCp2Position() == null) {
+						computeInitialControlPointsForCubicCurve();
+					}
+					break;
 			}
 
-			updateCPPositionIfNeeded();
+			DianaPoint pointOnStartObject = null;
+			if ((getIsStartingLocationFixed() || getIsStartingLocationDraggable()) && (getStartLocation() != null)) {
+				pointOnStartObject = getStartLocation();
+			}
+			else {
+				switch (getConnectorSpecification().getCurveConnectorType()) {
+					case QUAD_CURVE:
+						DianaPoint cpPositionSeenFromStartObject = DianaUtils.convertNormalizedPoint(connectorNode, getCpPosition(),
+								getStartNode());
+						pointOnStartObject = getStartNode().getShape().outlineIntersect(cpPositionSeenFromStartObject);
+						break;
+					case CUBIC_CURVE:
+						DianaPoint cp1PositionSeenFromStartObject = DianaUtils.convertNormalizedPoint(connectorNode, getCp1Position(),
+								getStartNode());
+						pointOnStartObject = getStartNode().getShape().outlineIntersect(cp1PositionSeenFromStartObject);
+						break;
+				}
 
-			DianaPoint cpPositionSeenFromStartObject = DianaUtils.convertNormalizedPoint(connectorNode, getCpPosition(), getStartNode());
+				if (pointOnStartObject == null) {
+					LOGGER.warning("outlineIntersect() returned null");
+					pointOnStartObject = new DianaPoint(0.5, 0.5);
+				}
+			}
+			DianaPoint newP1 = DianaUtils.convertNormalizedPoint(getStartNode(), pointOnStartObject, connectorNode);
 
-			setCp1RelativeToStartObject(getStartNode().getShape().outlineIntersect(cpPositionSeenFromStartObject));
-			if (getCp1RelativeToStartObject() == null) {
-				LOGGER.warning("outlineIntersect() returned null");
-				setCp1RelativeToStartObject(new DianaPoint(0.5, 0.5));
+			DianaPoint pointOnEndObject = null;
+			if ((getIsEndingLocationFixed() || getIsEndingLocationDraggable()) && (getEndLocation() != null)) {
+				pointOnEndObject = getEndLocation();
+			}
+			else {
+				switch (getConnectorSpecification().getCurveConnectorType()) {
+					case QUAD_CURVE:
+						DianaPoint cpPositionSeenFromEndObject = DianaUtils.convertNormalizedPoint(connectorNode, getCpPosition(),
+								getEndNode());
+						pointOnEndObject = getEndNode().getShape().outlineIntersect(cpPositionSeenFromEndObject);
+						break;
+					case CUBIC_CURVE:
+						DianaPoint cp2PositionSeenFromEndObject = DianaUtils.convertNormalizedPoint(connectorNode, getCp2Position(),
+								getEndNode());
+						pointOnEndObject = getEndNode().getShape().outlineIntersect(cp2PositionSeenFromEndObject);
+						break;
+				}
+
+				if (pointOnEndObject == null) {
+					LOGGER.warning("outlineIntersect() returned null");
+					pointOnEndObject = new DianaPoint(0.5, 0.5);
+				}
+			}
+			DianaPoint newP2 = DianaUtils.convertNormalizedPoint(getEndNode(), pointOnEndObject, connectorNode);
+
+			p1 = makeStartControlPoint(connectorNode, newP1);
+			p2 = makeEndControlPoint(connectorNode, newP2);
+
+			controlAreas.clear();
+			controlAreas.add(p1);
+			controlAreas.add(p2);
+
+			switch (getConnectorSpecification().getCurveConnectorType()) {
+				case QUAD_CURVE:
+					if (getCpPosition() == null) {
+						setCpPosition(new DianaPoint(0.5, 0.2));
+					}
+					updateCPPositionIfNeeded();
+					cp = new ConnectorAdjustingControlPoint(connectorNode, getCpPosition()) {
+						@Override
+						public DianaArea getDraggingAuthorizedArea() {
+							return new DianaPlane();
+						}
+
+						@Override
+						public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+								DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
+							DianaPoint pt = getNearestPointOnAuthorizedArea(/* pointRelativeToInitialConfiguration */newRelativePoint);
+							setPoint(pt);
+							setCpPosition(pt);
+							updateFromNewCPPosition();
+							refreshCurve();
+							connectorNode.notifyConnectorModified();
+							return true;
+						}
+					};
+					controlAreas.add(cp);
+					break;
+				case CUBIC_CURVE:
+					if (getCp1Position() == null) {
+						setCp1Position(new DianaPoint(1.0, 1.0));
+					}
+					cp1 = new ConnectorAdjustingControlPoint(connectorNode, getCp1Position()) {
+						@Override
+						public DianaArea getDraggingAuthorizedArea() {
+							return new DianaPlane();
+						}
+
+						@Override
+						public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+								DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
+							DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+							setPoint(pt);
+							setCp1Position(pt);
+							// updateFromNewCPPosition();
+
+							if ((getIsStartingLocationFixed() || getIsStartingLocationDraggable()) && (getStartLocation() != null)) {
+							}
+							else {
+								DianaPoint cp1PositionSeenFromStartObject = DianaUtils.convertNormalizedPoint(connectorNode,
+										getCp1Position(), getStartNode());
+								DianaPoint pointOnStartObject = getStartNode().getShape().outlineIntersect(cp1PositionSeenFromStartObject);
+								DianaPoint newP1 = DianaUtils.convertNormalizedPoint(getStartNode(), pointOnStartObject, connectorNode);
+								p1.setPoint(newP1);
+								controlLine1.setP1(newP1.transform(
+										DianaUtils.convertNormalizedCoordinatesAT(connectorNode, connectorNode.getParentNode())));
+							}
+
+							controlLine1.setP2(
+									pt.transform(DianaUtils.convertNormalizedCoordinatesAT(connectorNode, connectorNode.getParentNode())));
+							refreshCurve();
+							connectorNode.notifyConnectorModified();
+							return true;
+						}
+					};
+					controlAreas.add(cp1);
+					if (getCp2Position() == null) {
+						setCp2Position(new DianaPoint(0.9, 0.1));
+					}
+					cp2 = new ConnectorAdjustingControlPoint(connectorNode, getCp2Position()) {
+						@Override
+						public DianaArea getDraggingAuthorizedArea() {
+							return new DianaPlane();
+						}
+
+						@Override
+						public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+								DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
+							DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
+							setPoint(pt);
+							setCp2Position(pt);
+							// updateFromNewCPPosition();
+
+							if ((getIsEndingLocationFixed() || getIsEndingLocationDraggable()) && (getEndLocation() != null)) {
+							}
+							else {
+								DianaPoint cp2PositionSeenFromEndObject = DianaUtils.convertNormalizedPoint(connectorNode, getCp2Position(),
+										getEndNode());
+								DianaPoint pointOnEndObject = getEndNode().getShape().outlineIntersect(cp2PositionSeenFromEndObject);
+								DianaPoint newP2 = DianaUtils.convertNormalizedPoint(getEndNode(), pointOnEndObject, connectorNode);
+								p2.setPoint(newP2);
+
+								controlLine2.setP1(newP2.transform(
+										DianaUtils.convertNormalizedCoordinatesAT(connectorNode, connectorNode.getParentNode())));
+							}
+
+							controlLine2.setP2(
+									pt.transform(DianaUtils.convertNormalizedCoordinatesAT(connectorNode, connectorNode.getParentNode())));
+							refreshCurve();
+							connectorNode.notifyConnectorModified();
+							return true;
+						}
+					};
+					controlAreas.add(cp2);
+
+					controlLine1 = new DianaSegment(p1.getPoint(), getCp1Position())
+							.transform(DianaUtils.convertNormalizedCoordinatesAT(connectorNode, connectorNode.getParentNode()));
+
+					controlAreas.add(new ControlArea<DianaSegment>(connectorNode, controlLine1) {
+						@Override
+						public boolean isDraggable() {
+							return false;
+						}
+
+						@Override
+						public Rectangle paint(DianaGraphics graphics) {
+							graphics.setDefaultForeground(
+									graphics.getFactory().makeForegroundStyle(Color.LIGHT_GRAY, 0.5f, DashStyle.BIG_DASHES));
+							graphics.useDefaultForegroundStyle();
+							controlLine1.paint(graphics);
+							return null;
+						}
+					});
+
+					controlLine2 = new DianaSegment(p2.getPoint(), getCp2Position())
+							.transform(DianaUtils.convertNormalizedCoordinatesAT(connectorNode, connectorNode.getParentNode()));
+
+					controlAreas.add(new ControlArea<DianaSegment>(connectorNode, controlLine2) {
+						@Override
+						public boolean isDraggable() {
+							return false;
+						}
+
+						@Override
+						public Rectangle paint(DianaGraphics graphics) {
+							graphics.setDefaultForeground(
+									graphics.getFactory().makeForegroundStyle(Color.LIGHT_GRAY, 0.5f, DashStyle.BIG_DASHES));
+							graphics.useDefaultForegroundStyle();
+							controlLine2.paint(graphics);
+							return null;
+						}
+					});
+
 			}
 
-			DianaPoint cpPositionSeenFromEndObject = DianaUtils.convertNormalizedPoint(connectorNode, getCpPosition(), getEndNode());
-			setCp2RelativeToEndObject(getEndNode().getShape().outlineIntersect(cpPositionSeenFromEndObject));
-			if (getCp2RelativeToEndObject() == null) {
-				LOGGER.warning("outlineIntersect() returned null");
-				setCp2RelativeToEndObject(new DianaPoint(0.5, 0.5));
-			}
-
-			newP1 = DianaUtils.convertNormalizedPoint(getStartNode(), getCp1RelativeToStartObject(), connectorNode);
-			newP2 = DianaUtils.convertNormalizedPoint(getEndNode(), getCp2RelativeToEndObject(), connectorNode);
-
+			refreshCurve();
 		}
-
-		cp1 = new ConnectorAdjustingControlPoint(connectorNode, newP1) {
-			@Override
-			public DianaArea getDraggingAuthorizedArea() {
-				if (getAreBoundsAdjustable()) {
-					DianaShape<?> shape = getStartNode().getDianaShape();
-					DianaShape<?> returned = (DianaShape<?>) shape
-							.transform(DianaUtils.convertNormalizedCoordinatesAT(getStartNode(), connectorNode));
-					returned.setIsFilled(false);
-					return returned;
-				}
-				return new DianaEmptyArea();
-			}
-
-			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
-					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-				if (getAreBoundsAdjustable()) {
-					DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
-					setPoint(pt);
-					setCp1RelativeToStartObject(DianaUtils.convertNormalizedPoint(connectorNode, pt, getStartNode()));
-					refreshCurve();
-					connectorNode.notifyConnectorModified();
-				}
-				return true;
-			}
-
-		};
-
-		cp2 = new ConnectorAdjustingControlPoint(connectorNode, newP2) {
-			@Override
-			public DianaArea getDraggingAuthorizedArea() {
-				if (getAreBoundsAdjustable()) {
-					DianaShape<?> shape = getEndNode().getDianaShape();
-					DianaShape<?> returned = (DianaShape<?>) shape
-							.transform(DianaUtils.convertNormalizedCoordinatesAT(getEndNode(), connectorNode));
-					returned.setIsFilled(false);
-					return returned;
-				}
-				return new DianaEmptyArea();
-			}
-
-			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
-					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-				if (getAreBoundsAdjustable()) {
-					DianaPoint pt = getNearestPointOnAuthorizedArea(newRelativePoint);
-					setPoint(pt);
-					setCp2RelativeToEndObject(DianaUtils.convertNormalizedPoint(connectorNode, pt, getEndNode()));
-					refreshCurve();
-					connectorNode.notifyConnectorModified();
-				}
-				return true;
-			}
-		};
-
-		cp = new ConnectorAdjustingControlPoint(connectorNode, getCpPosition()) {
-			@Override
-			public DianaArea getDraggingAuthorizedArea() {
-				return new DianaPlane();
-			}
-
-			@Override
-			public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
-					DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
-				/*
-				 * logger.info("dragToPoint() with newRelativePoint="+newRelativePoint+" "
-				 * +" pointRelativeToInitialConfiguration="+pointRelativeToInitialConfiguration +" newAbsolutePoint="+newAbsolutePoint
-				 * +" initialPoint="+initialPoint);
-				 */
-
-				DianaPoint pt = getNearestPointOnAuthorizedArea(/* pointRelativeToInitialConfiguration */newRelativePoint);
-				setPoint(pt);
-				setCpPosition(pt);
-				if (!getAreBoundsAdjustable()) {
-					updateFromNewCPPosition();
-				}
-				refreshCurve();
-				connectorNode.notifyConnectorModified();
-				return true;
-			}
-		};
-
-		controlPoints.clear();
-		controlPoints.add(cp);
-		controlPoints.add(cp2);
-		controlPoints.add(cp1);
-
-		refreshCurve();
 	}
 
 	/**
@@ -365,30 +537,53 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 	};
 
 	private void updateFromNewCPPosition() {
-		DianaPoint cpPositionSeenFromStartObject = DianaUtils.convertNormalizedPoint(connectorNode, getCpPosition(), getStartNode());
-		setCp1RelativeToStartObject(getStartNode().getShape().outlineIntersect(cpPositionSeenFromStartObject));
-		if (getCp1RelativeToStartObject() == null) {
-			LOGGER.warning("outlineIntersect() returned null");
-			setCp1RelativeToStartObject(new DianaPoint(0.5, 0.5));
+
+		DianaPoint pointOnStartObject;
+		if ((getIsStartingLocationFixed() || getIsStartingLocationDraggable()) && (getStartLocation() != null)) {
+			pointOnStartObject = getStartLocation();
 		}
-
-		DianaPoint cpPositionSeenFromEndObject = DianaUtils.convertNormalizedPoint(connectorNode, getCpPosition(), getEndNode());
-		setCp2RelativeToEndObject(getEndNode().getShape().outlineIntersect(cpPositionSeenFromEndObject));
-		if (getCp2RelativeToEndObject() == null) {
-			LOGGER.warning("outlineIntersect() returned null");
-			setCp2RelativeToEndObject(new DianaPoint(0.5, 0.5));
+		else {
+			DianaPoint cpPositionSeenFromStartObject = DianaUtils.convertNormalizedPoint(connectorNode, getCpPosition(), getStartNode());
+			pointOnStartObject = getStartNode().getShape().outlineIntersect(cpPositionSeenFromStartObject);
+			if (pointOnStartObject == null) {
+				LOGGER.warning("outlineIntersect() returned null");
+				pointOnStartObject = new DianaPoint(0.5, 0.5);
+			}
 		}
+		DianaPoint newP1 = DianaUtils.convertNormalizedPoint(getStartNode(), pointOnStartObject, connectorNode);
 
-		DianaPoint newP1 = DianaUtils.convertNormalizedPoint(getStartNode(), getCp1RelativeToStartObject(), connectorNode);
-		DianaPoint newP2 = DianaUtils.convertNormalizedPoint(getEndNode(), getCp2RelativeToEndObject(), connectorNode);
+		DianaPoint pointOnEndObject;
+		if ((getIsEndingLocationFixed() || getIsEndingLocationDraggable()) && (getEndLocation() != null)) {
+			pointOnEndObject = getEndLocation();
+		}
+		else {
+			DianaPoint cpPositionSeenFromEndObject = DianaUtils.convertNormalizedPoint(connectorNode, getCpPosition(), getEndNode());
+			pointOnEndObject = getEndNode().getShape().outlineIntersect(cpPositionSeenFromEndObject);
+			if (pointOnEndObject == null) {
+				LOGGER.warning("outlineIntersect() returned null");
+				pointOnEndObject = new DianaPoint(0.5, 0.5);
+			}
+		}
+		DianaPoint newP2 = DianaUtils.convertNormalizedPoint(getEndNode(), pointOnEndObject, connectorNode);
 
-		cp1.setPoint(newP1);
-		cp2.setPoint(newP2);
+		p1.setPoint(newP1);
+		p2.setPoint(newP2);
 	}
 
 	private void refreshCurve() {
-		if (cp1 != null && cp != null && cp2 != null) {
-			curve = DianaQuadCurve.makeCurveFromPoints(cp1.getPoint(), cp.getPoint(), cp2.getPoint());
+		if (p1 != null && p2 != null) {
+			switch (getConnectorSpecification().getCurveConnectorType()) {
+				case QUAD_CURVE:
+					if (cp != null) {
+						qCurve = DianaQuadCurve.makeCurveFromPoints(p1.getPoint(), cp.getPoint(), p2.getPoint());
+					}
+					break;
+				case CUBIC_CURVE:
+					if (cp1 != null && cp2 != null) {
+						cCurve = new DianaCubicCurve(p1.getPoint(), cp1.getPoint(), cp2.getPoint(), p2.getPoint());
+					}
+					break;
+			}
 		}
 	}
 
@@ -400,40 +595,97 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 
 		g.useDefaultForegroundStyle();
 
-		if (curve != null) {
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			getReflexiveConnectorDelegate().drawConnector(g);
+		}
 
-			curve.paint(g);
+		else {
 
-			// Draw eventual symbols
-			if (getStartSymbol() != StartSymbolType.NONE) {
-				DianaSegment firstSegment = curve.getApproximatedStartTangent();
-				DianaSegment viewSegment = firstSegment.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
-				g.drawSymbol(firstSegment.getP1(), getStartSymbol(), getStartSymbolSize(), viewSegment.getAngle());
-			}
-			if (getEndSymbol() != EndSymbolType.NONE) {
-				DianaSegment lastSegment = curve.getApproximatedEndTangent();
-				DianaSegment viewSegment = lastSegment.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
-				g.drawSymbol(lastSegment.getP2(), getEndSymbol(), getEndSymbolSize(), viewSegment.getAngle() + Math.PI);
-			}
-			if (getMiddleSymbol() != MiddleSymbolType.NONE) {
-				DianaSegment cpSegment = curve.getApproximatedControlPointTangent();
-				DianaSegment viewSegment = cpSegment.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
-				g.drawSymbol(curve.getP3(), getMiddleSymbol(), getMiddleSymbolSize(), viewSegment.getAngle() + Math.PI);
+			switch (getConnectorSpecification().getCurveConnectorType()) {
+				case QUAD_CURVE:
+					if (qCurve != null) {
+						qCurve.paint(g);
+						// Draw eventual symbols
+						if (getStartSymbol() != StartSymbolType.NONE) {
+							DianaSegment firstSegment = qCurve.getApproximatedStartTangent();
+							DianaSegment viewSegment = firstSegment
+									.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
+							g.drawSymbol(firstSegment.getP1(), getStartSymbol(), getStartSymbolSize(), viewSegment.getAngle());
+						}
+						if (getEndSymbol() != EndSymbolType.NONE) {
+							DianaSegment lastSegment = qCurve.getApproximatedEndTangent();
+							DianaSegment viewSegment = lastSegment
+									.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
+							g.drawSymbol(lastSegment.getP2(), getEndSymbol(), getEndSymbolSize(), viewSegment.getAngle() + Math.PI);
+						}
+						if (getMiddleSymbol() != MiddleSymbolType.NONE) {
+							DianaPoint pt = getMiddleSymbolLocation();
+							DianaSegment cpSegment = qCurve.getApproximatedTangent(pt);
+							DianaSegment viewSegment = cpSegment
+									.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
+							g.drawSymbol(pt, getMiddleSymbol(), getMiddleSymbolSize(), viewSegment.getAngle() + Math.PI);
+						}
+					}
+					break;
+				case CUBIC_CURVE:
+					if (cCurve != null) {
+						cCurve.paint(g);
+					}
+					// Draw eventual symbols
+					if (getStartSymbol() != StartSymbolType.NONE) {
+						DianaSegment firstSegment = cCurve.getApproximatedStartTangent();
+						DianaSegment viewSegment = firstSegment
+								.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
+						g.drawSymbol(firstSegment.getP1(), getStartSymbol(), getStartSymbolSize(), viewSegment.getAngle());
+					}
+					if (getEndSymbol() != EndSymbolType.NONE) {
+						DianaSegment lastSegment = cCurve.getApproximatedEndTangent();
+						DianaSegment viewSegment = lastSegment
+								.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
+						g.drawSymbol(lastSegment.getP2(), getEndSymbol(), getEndSymbolSize(), viewSegment.getAngle() + Math.PI);
+					}
+					if (getMiddleSymbol() != MiddleSymbolType.NONE) {
+						DianaPoint pt = getMiddleSymbolLocation();
+						DianaSegment cpSegment = cCurve.getApproximatedTangent(pt);
+						DianaSegment viewSegment = cpSegment
+								.transform(connectorNode.convertNormalizedPointToViewCoordinatesAT(g.getScale()));
+						g.drawSymbol(pt, getMiddleSymbol(), getMiddleSymbolSize(), viewSegment.getAngle() + Math.PI);
+					}
+					break;
 			}
 		}
 
 	}
 
+	private GeneralShapePathElement<?> getCurve() {
+		switch (getConnectorSpecification().getCurveConnectorType()) {
+			case QUAD_CURVE:
+				return qCurve;
+			case CUBIC_CURVE:
+				return cCurve;
+		}
+		return null;
+	}
+
 	@Override
 	public double distanceToConnector(DianaPoint aPoint, double scale) {
-		if (curve == null) {
-			LOGGER.warning("Curve is null");
-			return Double.POSITIVE_INFINITY;
+
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			return getReflexiveConnectorDelegate().distanceToConnector(aPoint, scale);
 		}
-		Point testPoint = connectorNode.convertNormalizedPointToViewCoordinates(aPoint, scale);
-		DianaPoint nearestPointOnCurve = curve.getNearestPoint(aPoint);
-		Point nearestPoint = connectorNode.convertNormalizedPointToViewCoordinates(nearestPointOnCurve, scale);
-		return testPoint.distance(nearestPoint);
+		else {
+
+			GeneralShapePathElement<?> curve = getCurve();
+			if (curve == null) {
+				LOGGER.warning("Curve is null");
+				return Double.POSITIVE_INFINITY;
+			}
+
+			Point testPoint = connectorNode.convertNormalizedPointToViewCoordinates(aPoint, scale);
+			DianaPoint nearestPointOnCurve = curve.getNearestPoint(aPoint);
+			Point nearestPoint = connectorNode.convertNormalizedPointToViewCoordinates(nearestPointOnCurve, scale);
+			return testPoint.distance(nearestPoint);
+		}
 	}
 
 	@Override
@@ -448,6 +700,10 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 
 		firstUpdated = true;
 
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			getReflexiveConnectorDelegate().refreshConnectorUsedBounds();
+		}
+
 	}
 
 	@Override
@@ -460,10 +716,39 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 
 	@Override
 	public DianaPoint getMiddleSymbolLocation() {
-		if (getCpPosition() == null) {
-			return new DianaPoint(0, 0);
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			return getReflexiveConnectorDelegate().getMiddleSymbolLocation();
 		}
-		return getCpPosition();
+
+		AffineTransform at = connectorNode.convertNormalizedPointToViewCoordinatesAT(1.0);
+
+		switch (getConnectorSpecification().getCurveConnectorType()) {
+			case QUAD_CURVE:
+				if (qCurve != null) {
+					DianaQuadCurve transformedCurve = qCurve.transform(at);
+					DianaPoint point = transformedCurve.getPointAtRelativePosition(getRelativeMiddleSymbolLocation());
+					try {
+						return point.transform(at.createInverse());
+					} catch (NoninvertibleTransformException e) {
+						e.printStackTrace();
+					}
+				}
+				break;
+			case CUBIC_CURVE:
+				if (cCurve != null) {
+					DianaCubicCurve transformedCurve = cCurve.transform(at);
+					DianaPoint point = transformedCurve.getPointAtRelativePosition(getRelativeMiddleSymbolLocation());
+					try {
+						return point.transform(at.createInverse());
+					} catch (NoninvertibleTransformException e) {
+						e.printStackTrace();
+					}
+				}
+				break;
+		}
+
+		return new DianaPoint(0, 0);
+
 	}
 
 	@Override
@@ -473,6 +758,12 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 
 	@Override
 	public DianaRectangle getConnectorUsedBounds() {
+
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			return getReflexiveConnectorDelegate().getConnectorUsedBounds();
+		}
+
+		GeneralShapePathElement<?> curve = getCurve();
 		if (curve == null) {
 			refreshCurve();
 		}
@@ -510,16 +801,16 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 
 	@Override
 	public double getStartAngle() {
-		if (cp1 != null) {
-			return GeomUtils.getSlope(DianaPoint.ORIGIN_POINT, cp1.getPoint());
+		if (p1 != null) {
+			return GeomUtils.getSlope(DianaPoint.ORIGIN_POINT, p1.getPoint());
 		}
 		return 0;
 	}
 
 	@Override
 	public double getEndAngle() {
-		if (cp2 != null) {
-			return GeomUtils.getSlope(DianaPoint.ORIGIN_POINT, cp2.getPoint());
+		if (p2 != null) {
+			return GeomUtils.getSlope(DianaPoint.ORIGIN_POINT, p2.getPoint());
 		}
 		return 0;
 	}
@@ -546,15 +837,33 @@ public class CurveConnector extends ConnectorImpl<CurveConnectorSpecification> {
 		}
 
 		if (evt.getSource() == getConnectorSpecification()) {
-			// TODO: perfs issue : do not update all the time !!!
-			updateControlPoints();
+			if (evt.getPropertyName().equals(CurveConnectorSpecification.CURVE_CONNECTOR_TYPE.getName())) {
+				refreshConnector(true);
+			}
+			else if (evt.getPropertyName().equals(ConnectorSpecification.IS_STARTING_LOCATION_DRAGGABLE.getName())
+					|| evt.getPropertyName().equals(ConnectorSpecification.IS_ENDING_LOCATION_DRAGGABLE.getName())
+					|| evt.getPropertyName().equals(ConnectorSpecification.FIXED_START_LOCATION.getName())
+					|| evt.getPropertyName().equals(ConnectorSpecification.FIXED_END_LOCATION.getName())) {
+				refreshConnector(true);
+			}
+			else if (evt.getPropertyName().equals(ConnectorSpecification.IS_STARTING_LOCATION_FIXED.getName())) {
+				if (getIsStartingLocationFixed() && getStartLocation() == null) {
+					// In this case, we can initialize fixed start location to its current value
+					setCp1RelativeToStartObject(DianaUtils.convertNormalizedPoint(connectorNode, p1.getPoint(), getStartNode()));
+				}
+			}
+			else if (evt.getPropertyName().equals(ConnectorSpecification.IS_ENDING_LOCATION_FIXED.getName())) {
+				if (getIsEndingLocationFixed() && getEndLocation() == null) {
+					// In this case, we can initialize fixed start location to its current value
+					setCp2RelativeToEndObject(DianaUtils.convertNormalizedPoint(connectorNode, p2.getPoint(), getEndNode()));
+				}
+			}
+			else {
+				refreshConnector(true);
+				// updateControlPoints();
+			}
+
 		}
-
-		// if (notification instanceof DianaNotification && observable == getConnectorSpecification()) {
-		// Those notifications are forwarded by the connector specification
-		// DianaNotification notif = (DianaNotification) notification;
-
-		// }
 
 	}
 }

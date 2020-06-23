@@ -555,7 +555,9 @@ public class DianaPolygon implements DianaShape<DianaPolygon> {
 		}
 
 		if (area instanceof DianaShape) {
-			return AreaComputation.computeShapeUnion(this, (DianaShape<?>) area);
+			if (!(intersect(area) instanceof DianaEmptyArea)) {
+				return AreaComputation.computeShapeUnion(this, (DianaShape<?>) area);
+			}
 		}
 
 		return new DianaUnionArea(this, area);

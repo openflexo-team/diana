@@ -39,8 +39,8 @@
 package org.openflexo.diana.drawingeditor.model;
 
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
-import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.DianaModelFactoryImpl;
+import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation.LocationConstraints;
 import org.openflexo.diana.connectors.ConnectorSpecification.ConnectorType;
@@ -102,11 +102,15 @@ public class DiagramFactory extends DianaModelFactoryImpl {
 	}
 
 	public Connector makeNewConnector(Shape from, Shape to, Diagram diagram) {
+		return makeNewConnector(from, to, diagram, ConnectorType.LINE);
+	}
+
+	public Connector makeNewConnector(Shape from, Shape to, Diagram diagram, ConnectorType connectorType) {
 		Connector returned = newInstance(Connector.class);
 		returned.setName("Connector" + connectorIndex);
 		connectorIndex++;
 		returned.setDiagram(diagram);
-		returned.setGraphicalRepresentation(makeNewConnectorGR(ConnectorType.LINE));
+		returned.setGraphicalRepresentation(makeNewConnectorGR(connectorType));
 		returned.setStartShape(from);
 		returned.setEndShape(to);
 		return returned;

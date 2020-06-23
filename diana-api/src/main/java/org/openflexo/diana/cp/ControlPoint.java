@@ -77,6 +77,10 @@ public abstract class ControlPoint extends ControlArea<DianaPoint> {
 			logger.warning("Unexpected null node");
 			return null;
 		}
+		if (getPoint() == null) {
+			logger.warning("Unexpected null point");
+			return null;
+		}
 		// logger.info("paintControlPoint " + getPoint() + "style=" + graphics.getDefaultForeground() + " for " +
 		// getGraphicalRepresentation());
 		graphics.useDefaultForegroundStyle();

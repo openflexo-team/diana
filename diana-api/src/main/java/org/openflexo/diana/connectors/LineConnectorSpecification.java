@@ -40,7 +40,6 @@
 package org.openflexo.diana.connectors;
 
 import org.openflexo.diana.GRProperty;
-import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PropertyIdentifier;
@@ -56,24 +55,12 @@ public interface LineConnectorSpecification extends ConnectorSpecification {
 
 	@PropertyIdentifier(type = LineConnectorType.class)
 	public static final String LINE_CONNECTOR_TYPE_KEY = "lineConnectorType";
-	@PropertyIdentifier(type = DianaPoint.class)
-	public static final String CP1_RELATIVE_TO_START_OBJECT_KEY = "cp1RelativeToStartObject";
-	@PropertyIdentifier(type = DianaPoint.class)
-	public static final String CP2_RELATIVE_TO_END_OBJECT_KEY = "cp2RelativeToEndObject";
 
 	public static GRProperty<LineConnectorType> LINE_CONNECTOR_TYPE = GRProperty.getGRParameter(LineConnectorSpecification.class,
 			LINE_CONNECTOR_TYPE_KEY, LineConnectorType.class);
-	public static GRProperty<DianaPoint> CP1_RELATIVE_TO_START_OBJECT = GRProperty.getGRParameter(LineConnectorSpecification.class,
-			CP1_RELATIVE_TO_START_OBJECT_KEY, DianaPoint.class);
-	public static GRProperty<DianaPoint> CP2_RELATIVE_TO_END_OBJECT = GRProperty.getGRParameter(LineConnectorSpecification.class,
-			CP2_RELATIVE_TO_END_OBJECT_KEY, DianaPoint.class);
-
-	/*public static enum LineConnectorParameters implements GRProperty {
-		lineConnectorType, cp1RelativeToStartObject, cp2RelativeToEndObject;
-	}*/
 
 	public static enum LineConnectorType {
-		CENTER_TO_CENTER, MINIMAL_LENGTH, FUNNY, ADJUSTABLE
+		CENTER_TO_CENTER, MINIMAL_LENGTH
 	}
 
 	// *******************************************************************************
@@ -86,19 +73,5 @@ public interface LineConnectorSpecification extends ConnectorSpecification {
 
 	@Setter(value = LINE_CONNECTOR_TYPE_KEY)
 	public void setLineConnectorType(LineConnectorType aLineConnectorType);
-
-	@Getter(value = CP1_RELATIVE_TO_START_OBJECT_KEY, isStringConvertable = true)
-	@XMLAttribute
-	public DianaPoint getCp1RelativeToStartObject();
-
-	@Setter(value = CP1_RELATIVE_TO_START_OBJECT_KEY)
-	public void setCp1RelativeToStartObject(DianaPoint aPoint);
-
-	@Getter(value = CP2_RELATIVE_TO_END_OBJECT_KEY, isStringConvertable = true)
-	@XMLAttribute
-	public DianaPoint getCp2RelativeToEndObject();
-
-	@Setter(value = CP2_RELATIVE_TO_END_OBJECT_KEY)
-	public void setCp2RelativeToEndObject(DianaPoint aPoint);
 
 }

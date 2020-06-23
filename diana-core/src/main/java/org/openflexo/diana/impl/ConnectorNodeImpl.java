@@ -532,6 +532,9 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 			connector.delete();
 			connector = null;
 		}
+		// We clear and re-compute control areas
+		clearControlAreas();
+		getControlAreas();
 		refreshConnector(true);
 	}
 

@@ -162,6 +162,9 @@ public abstract class ControlArea<A extends DianaArea> implements DianaConstants
 	 * @return
 	 */
 	public double getDistanceToArea(DianaPoint aPoint, double scale) {
+		if (getArea() == null) {
+			return Double.POSITIVE_INFINITY;
+		}
 		DianaPoint nearestPoint = getArea().getNearestPoint(aPoint);
 		if (nearestPoint == null) {
 			logger.warning("Could not find nearest point for " + aPoint + " on " + getArea());

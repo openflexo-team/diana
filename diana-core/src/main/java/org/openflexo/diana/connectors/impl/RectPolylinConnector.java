@@ -53,6 +53,7 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.ConnectorNode;
+import org.openflexo.diana.connectors.ConnectorSpecification;
 import org.openflexo.diana.connectors.ConnectorSymbol.EndSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.MiddleSymbolType;
 import org.openflexo.diana.connectors.ConnectorSymbol.StartSymbolType;
@@ -80,10 +81,10 @@ import org.openflexo.diana.geom.DianaGeometricObject.CardinalQuadrant;
 import org.openflexo.diana.geom.DianaGeometricObject.Filling;
 import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaPolylin;
 import org.openflexo.diana.geom.DianaRectPolylin;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaSegment;
-import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geom.area.DefaultAreaProvider;
 import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.geom.area.DianaAreaProvider;
@@ -122,6 +123,8 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 	private DianaRectPolylin _deserializedPolylin;
 
+	private ReflexiveConnectorDelegate reflexiveConnectorDelegate;
+
 	// private static final DianaModelFactory DEBUG_FACTORY = DianaCoreUtils.TOOLS_FACTORY;
 	// private static final ForegroundStyle DEBUG_GRAY_STROKE = DEBUG_FACTORY.makeForegroundStyle(Color.GRAY, 1.0f, DashStyle.SMALL_DASHES);
 	// private static final ForegroundStyle DEBUG_BLACK_STROKE = DEBUG_FACTORY.makeForegroundStyle(Color.BLACK, 3.0f,
@@ -143,6 +146,16 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		super.delete();
 		controlPoints.clear();
 		controlPoints = null;
+	}
+
+	protected ReflexiveConnectorDelegate getReflexiveConnectorDelegate() {
+		if (getStartNode() == getEndNode()) {
+			if (reflexiveConnectorDelegate == null) {
+				reflexiveConnectorDelegate = new ReflexiveConnectorDelegate(getConnectorNode());
+			}
+			return reflexiveConnectorDelegate;
+		}
+		return null;
 	}
 
 	public List<ControlPoint> getControlPoints() {
@@ -193,49 +206,61 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			}
 		} else {*/
 		g.setDefaultForeground(connectorNode.getGraphicalRepresentation().getForeground());
-		if (polylin != null) {
-			if (getIsRounded()) {
-				polylin.paintWithRounds(g, getArcSize());
-			}
-			else {
-				polylin.paint(g);
-			}
-		}
-		// }
 
-		/*
-		 * if (debugPolylin != null) { g.setDefaultForeground(ForegroundStyle.makeStyle(Color.RED, 1.0f, DashStyle.PLAIN_STROKE));
-		 * debugPolylin.paint(g); }
-		 */
-
-		// Draw eventual symbols
-		if (polylin != null && polylin.getSegments() != null && polylin.getSegments().size() > 0) {
-			// Segments are here all orthogonal, we can can then rely on getAngle() computation performed on geom layer
-			// (we dont need to convert to view first)
-			if (getStartSymbol() != StartSymbolType.NONE) {
-				DianaSegment firstSegment = polylin.getSegments().firstElement();
-				if (firstSegment != null) {
-					g.drawSymbol(firstSegment.getP1(), getStartSymbol(), getStartSymbolSize(), firstSegment.getAngle());
-				}
-			}
-			if (getEndSymbol() != EndSymbolType.NONE) {
-				DianaSegment lastSegment = polylin.getSegments().lastElement();
-				if (lastSegment != null) {
-					g.drawSymbol(lastSegment.getP2(), getEndSymbol(), getEndSymbolSize(), lastSegment.getAngle() + Math.PI);
-				}
-			}
-			if (getMiddleSymbol() != MiddleSymbolType.NONE) {
-				g.drawSymbol(getMiddleSymbolLocation(), getMiddleSymbol(), getMiddleSymbolSize(), getMiddleSymbolAngle());
-			}
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			getReflexiveConnectorDelegate().drawConnector(g);
 		}
 
+		else {
+			if (polylin != null) {
+
+				if (getIsRounded()) {
+					polylin.paintWithRounds(g, getArcSize());
+				}
+				else {
+					polylin.paint(g);
+				}
+			}
+			// }
+
+			/*
+			 * if (debugPolylin != null) { g.setDefaultForeground(ForegroundStyle.makeStyle(Color.RED, 1.0f, DashStyle.PLAIN_STROKE));
+			 * debugPolylin.paint(g); }
+			 */
+
+			// Draw eventual symbols
+			if (polylin != null && polylin.getSegments() != null && polylin.getSegments().size() > 0) {
+				// Segments are here all orthogonal, we can can then rely on getAngle() computation performed on geom layer
+				// (we dont need to convert to view first)
+				if (getStartSymbol() != StartSymbolType.NONE) {
+					DianaSegment firstSegment = polylin.getSegments().firstElement();
+					if (firstSegment != null) {
+						g.drawSymbol(firstSegment.getP1(), getStartSymbol(), getStartSymbolSize(), firstSegment.getAngle());
+					}
+				}
+				if (getEndSymbol() != EndSymbolType.NONE) {
+					DianaSegment lastSegment = polylin.getSegments().lastElement();
+					if (lastSegment != null) {
+						g.drawSymbol(lastSegment.getP2(), getEndSymbol(), getEndSymbolSize(), lastSegment.getAngle() + Math.PI);
+					}
+				}
+				if (getMiddleSymbol() != MiddleSymbolType.NONE) {
+					g.drawSymbol(getMiddleSymbolLocation(), getMiddleSymbol(), getMiddleSymbolSize(), getMiddleSymbolAngle());
+				}
+			}
+		}
 	}
 
 	@Override
 	public DianaPoint getMiddleSymbolLocation() {
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			return getReflexiveConnectorDelegate().getMiddleSymbolLocation();
+		}
+
 		if (polylin == null) {
 			return new DianaPoint(0, 0);
 		}
+
 		AffineTransform at = connectorNode.convertNormalizedPointToViewCoordinatesAT(1.0);
 
 		DianaRectPolylin transformedPolylin = polylin.transform(at);
@@ -258,9 +283,14 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 	@Override
 	public DianaPoint getLabelLocation() {
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			return getReflexiveConnectorDelegate().getReflexiveConnectorControlPoint().getPoint();
+		}
+
 		if (polylin == null) {
 			return new DianaPoint(0, 0);
 		}
+
 		AffineTransform at = connectorNode.convertNormalizedPointToViewCoordinatesAT(1.0);
 
 		DianaRectPolylin transformedPolylin = polylin.transform(at);
@@ -330,6 +360,10 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 		super.refreshConnector(force);
 
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			getReflexiveConnectorDelegate().refreshConnectorUsedBounds();
+		}
+
 		firstUpdated = true;
 
 	}
@@ -347,6 +381,11 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 	@Override
 	public double distanceToConnector(DianaPoint aPoint, double scale) {
+
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			return getReflexiveConnectorDelegate().distanceToConnector(aPoint, scale);
+		}
+
 		double returned = Double.POSITIVE_INFINITY;
 
 		if (polylin == null) {
@@ -387,6 +426,11 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 
 	@Override
 	public DianaRectangle getConnectorUsedBounds() {
+
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			return getReflexiveConnectorDelegate().getConnectorUsedBounds();
+		}
+
 		// logger.info("Called getConnectorUsedBounds()");
 		if (polylin != null) {
 			DianaRectangle minimalBounds = polylin.getBoundingBox();
@@ -607,7 +651,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		switch (getRectPolylinConstraints()) {
 			case NONE:
 				return SimplifiedCardinalDirection.allDirections();
-			case START_ORIENTATION_FIXED:
+			case START_ORIENT_FIXED:
 				if (getStartOrientation() == null) {
 					return SimplifiedCardinalDirection.uniqueDirection(SimplifiedCardinalDirection.NORTH);
 				}
@@ -619,11 +663,11 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				return SimplifiedCardinalDirection.uniqueDirection(getStartOrientation());
 			case HORIZONTAL_LAYOUT:
 				return SimplifiedCardinalDirection.someDirections(SimplifiedCardinalDirection.EAST, SimplifiedCardinalDirection.WEST);
-			case ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST:
+			case HORIZONTAL_FIRST:
 				return SimplifiedCardinalDirection.someDirections(SimplifiedCardinalDirection.EAST, SimplifiedCardinalDirection.WEST);
 			case VERTICAL_LAYOUT:
 				return SimplifiedCardinalDirection.someDirections(SimplifiedCardinalDirection.NORTH, SimplifiedCardinalDirection.SOUTH);
-			case ORTHOGONAL_LAYOUT_VERTICAL_FIRST:
+			case VERTICAL_FIRST:
 				return SimplifiedCardinalDirection.someDirections(SimplifiedCardinalDirection.NORTH, SimplifiedCardinalDirection.SOUTH);
 
 			default:
@@ -673,7 +717,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		switch (getRectPolylinConstraints()) {
 			case NONE:
 				return SimplifiedCardinalDirection.allDirections();
-			case END_ORIENTATION_FIXED:
+			case END_ORIENT_FIXED:
 				if (getEndOrientation() == null) {
 					return SimplifiedCardinalDirection.uniqueDirection(SimplifiedCardinalDirection.NORTH);
 				}
@@ -685,11 +729,11 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				return SimplifiedCardinalDirection.uniqueDirection(getEndOrientation());
 			case HORIZONTAL_LAYOUT:
 				return SimplifiedCardinalDirection.someDirections(SimplifiedCardinalDirection.EAST, SimplifiedCardinalDirection.WEST);
-			case ORTHOGONAL_LAYOUT_VERTICAL_FIRST:
+			case VERTICAL_FIRST:
 				return SimplifiedCardinalDirection.someDirections(SimplifiedCardinalDirection.EAST, SimplifiedCardinalDirection.WEST);
 			case VERTICAL_LAYOUT:
 				return SimplifiedCardinalDirection.someDirections(SimplifiedCardinalDirection.NORTH, SimplifiedCardinalDirection.SOUTH);
-			case ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST:
+			case HORIZONTAL_FIRST:
 				return SimplifiedCardinalDirection.someDirections(SimplifiedCardinalDirection.NORTH, SimplifiedCardinalDirection.SOUTH);
 
 			default:
@@ -710,6 +754,19 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 	 */
 	public void updateLayout() {
 		if (connectorNode.getGraphicalRepresentation() == null) {
+			return;
+		}
+
+		if (connectorNode.getStartNode() == connectorNode.getEndNode()) {
+			// List<ControlPoint> newControlPoints = getReflexiveConnectorDelegate().updateControlPoints();
+			controlPoints.clear();
+			// controlPoints.addAll(newControlPoints);
+
+			DianaPolylin polylin = getReflexiveConnectorDelegate().updateControlPoints();
+			controlPoints.clear();
+			controlPoints.add(getReflexiveConnectorDelegate().getCp1());
+			controlPoints.add(getReflexiveConnectorDelegate().getReflexiveConnectorControlPoint());
+			controlPoints.add(getReflexiveConnectorDelegate().getCp2());
 			return;
 		}
 
@@ -1038,33 +1095,31 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			CardinalQuadrant quadrant = DianaPoint.getCardinalQuadrant(startMiddle, endMiddle);
 
 			RectPolylinConstraints constraints = getRectPolylinConstraints();
-			if (constraints == RectPolylinConstraints.START_ORIENTATION_FIXED
-					|| constraints == RectPolylinConstraints.END_ORIENTATION_FIXED) {
+			if (constraints == RectPolylinConstraints.START_ORIENT_FIXED || constraints == RectPolylinConstraints.END_ORIENT_FIXED) {
 				constraints = RectPolylinConstraints.NONE;
 			}
 
 			if (constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT) {
 				testAllCombinations = false;
 			}
-			if (constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+			if (constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 				testAllCombinations = false;
 			}
 
 			if (quadrant == CardinalQuadrant.NORTH_EAST) {
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT
-						|| constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST
-						|| constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT_VERTICAL_FIRST) {
-					if (constraints != RectPolylinConstraints.ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_FIRST || constraints == RectPolylinConstraints.VERTICAL_FIRST) {
+					if (constraints != RectPolylinConstraints.HORIZONTAL_FIRST) {
 						potentialStartOrientations.add(SimplifiedCardinalDirection.NORTH);
 						potentialEndOrientations.add(SimplifiedCardinalDirection.WEST);
 					}
-					if (constraints != RectPolylinConstraints.ORTHOGONAL_LAYOUT_VERTICAL_FIRST) {
+					if (constraints != RectPolylinConstraints.VERTICAL_FIRST) {
 						potentialStartOrientations.add(SimplifiedCardinalDirection.EAST);
 						potentialEndOrientations.add(SimplifiedCardinalDirection.SOUTH);
 					}
 				}
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.HORIZONTAL_LAYOUT
-						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 					potentialStartOrientations.add(SimplifiedCardinalDirection.EAST);
 					potentialEndOrientations.add(SimplifiedCardinalDirection.WEST);
 					potentialStartOrientations.add(SimplifiedCardinalDirection.EAST);
@@ -1073,7 +1128,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 					potentialEndOrientations.add(SimplifiedCardinalDirection.WEST);
 				}
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.VERTICAL_LAYOUT
-						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 					potentialStartOrientations.add(SimplifiedCardinalDirection.NORTH);
 					potentialEndOrientations.add(SimplifiedCardinalDirection.SOUTH);
 					potentialStartOrientations.add(SimplifiedCardinalDirection.NORTH);
@@ -1084,19 +1139,18 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			}
 			else if (quadrant == CardinalQuadrant.SOUTH_EAST) {
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT
-						|| constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST
-						|| constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT_VERTICAL_FIRST) {
-					if (constraints != RectPolylinConstraints.ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_FIRST || constraints == RectPolylinConstraints.VERTICAL_FIRST) {
+					if (constraints != RectPolylinConstraints.HORIZONTAL_FIRST) {
 						potentialStartOrientations.add(SimplifiedCardinalDirection.SOUTH);
 						potentialEndOrientations.add(SimplifiedCardinalDirection.WEST);
 					}
-					if (constraints != RectPolylinConstraints.ORTHOGONAL_LAYOUT_VERTICAL_FIRST) {
+					if (constraints != RectPolylinConstraints.VERTICAL_FIRST) {
 						potentialStartOrientations.add(SimplifiedCardinalDirection.EAST);
 						potentialEndOrientations.add(SimplifiedCardinalDirection.NORTH);
 					}
 				}
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.HORIZONTAL_LAYOUT
-						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 					potentialStartOrientations.add(SimplifiedCardinalDirection.EAST);
 					potentialEndOrientations.add(SimplifiedCardinalDirection.WEST);
 					potentialStartOrientations.add(SimplifiedCardinalDirection.EAST);
@@ -1105,7 +1159,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 					potentialEndOrientations.add(SimplifiedCardinalDirection.WEST);
 				}
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.VERTICAL_LAYOUT
-						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 					potentialStartOrientations.add(SimplifiedCardinalDirection.SOUTH);
 					potentialEndOrientations.add(SimplifiedCardinalDirection.NORTH);
 					potentialStartOrientations.add(SimplifiedCardinalDirection.SOUTH);
@@ -1116,19 +1170,18 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			}
 			else if (quadrant == CardinalQuadrant.SOUTH_WEST) {
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT
-						|| constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST
-						|| constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT_VERTICAL_FIRST) {
-					if (constraints != RectPolylinConstraints.ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_FIRST || constraints == RectPolylinConstraints.VERTICAL_FIRST) {
+					if (constraints != RectPolylinConstraints.HORIZONTAL_FIRST) {
 						potentialStartOrientations.add(SimplifiedCardinalDirection.SOUTH);
 						potentialEndOrientations.add(SimplifiedCardinalDirection.EAST);
 					}
-					if (constraints != RectPolylinConstraints.ORTHOGONAL_LAYOUT_VERTICAL_FIRST) {
+					if (constraints != RectPolylinConstraints.VERTICAL_FIRST) {
 						potentialStartOrientations.add(SimplifiedCardinalDirection.WEST);
 						potentialEndOrientations.add(SimplifiedCardinalDirection.NORTH);
 					}
 				}
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.HORIZONTAL_LAYOUT
-						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 					potentialStartOrientations.add(SimplifiedCardinalDirection.WEST);
 					potentialEndOrientations.add(SimplifiedCardinalDirection.EAST);
 					potentialStartOrientations.add(SimplifiedCardinalDirection.WEST);
@@ -1137,7 +1190,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 					potentialEndOrientations.add(SimplifiedCardinalDirection.EAST);
 				}
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.VERTICAL_LAYOUT
-						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 					potentialStartOrientations.add(SimplifiedCardinalDirection.SOUTH);
 					potentialEndOrientations.add(SimplifiedCardinalDirection.NORTH);
 					potentialStartOrientations.add(SimplifiedCardinalDirection.SOUTH);
@@ -1148,19 +1201,18 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			}
 			else /* if (quadrant == CardinalQuadrant.NORTH_WEST) */ {
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT
-						|| constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST
-						|| constraints == RectPolylinConstraints.ORTHOGONAL_LAYOUT_VERTICAL_FIRST) {
-					if (constraints != RectPolylinConstraints.ORTHOGONAL_LAYOUT_HORIZONTAL_FIRST) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_FIRST || constraints == RectPolylinConstraints.VERTICAL_FIRST) {
+					if (constraints != RectPolylinConstraints.HORIZONTAL_FIRST) {
 						potentialStartOrientations.add(SimplifiedCardinalDirection.NORTH);
 						potentialEndOrientations.add(SimplifiedCardinalDirection.EAST);
 					}
-					if (constraints != RectPolylinConstraints.ORTHOGONAL_LAYOUT_VERTICAL_FIRST) {
+					if (constraints != RectPolylinConstraints.VERTICAL_FIRST) {
 						potentialStartOrientations.add(SimplifiedCardinalDirection.WEST);
 						potentialEndOrientations.add(SimplifiedCardinalDirection.SOUTH);
 					}
 				}
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.HORIZONTAL_LAYOUT
-						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 					potentialStartOrientations.add(SimplifiedCardinalDirection.WEST);
 					potentialEndOrientations.add(SimplifiedCardinalDirection.EAST);
 					potentialStartOrientations.add(SimplifiedCardinalDirection.WEST);
@@ -1169,7 +1221,7 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 					potentialEndOrientations.add(SimplifiedCardinalDirection.EAST);
 				}
 				if (constraints == RectPolylinConstraints.NONE || constraints == RectPolylinConstraints.VERTICAL_LAYOUT
-						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL_LAYOUT) {
+						|| constraints == RectPolylinConstraints.HORIZONTAL_OR_VERTICAL) {
 					potentialStartOrientations.add(SimplifiedCardinalDirection.NORTH);
 					potentialEndOrientations.add(SimplifiedCardinalDirection.SOUTH);
 					potentialStartOrientations.add(SimplifiedCardinalDirection.NORTH);
@@ -1179,13 +1231,13 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				}
 			}
 
-			if (getRectPolylinConstraints() == RectPolylinConstraints.START_ORIENTATION_FIXED) {
+			if (getRectPolylinConstraints() == RectPolylinConstraints.START_ORIENT_FIXED) {
 				potentialStartOrientations.clear();
 				potentialStartOrientations.add(getStartOrientation());
 
 			}
 
-			if (getRectPolylinConstraints() == RectPolylinConstraints.END_ORIENTATION_FIXED) {
+			if (getRectPolylinConstraints() == RectPolylinConstraints.END_ORIENT_FIXED) {
 				potentialEndOrientations.clear();
 				potentialEndOrientations.add(getEndOrientation());
 			}
@@ -2240,12 +2292,18 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 			}
 			else if (evt.getPropertyName() == RectPolylinConnectorSpecification.IS_STARTING_LOCATION_DRAGGABLE.getName()
 					|| evt.getPropertyName() == RectPolylinConnectorSpecification.IS_ENDING_LOCATION_DRAGGABLE.getName()
-					|| evt.getPropertyName() == RectPolylinConnectorSpecification.FIXED_START_LOCATION.getName()
-					|| evt.getPropertyName() == RectPolylinConnectorSpecification.FIXED_END_LOCATION.getName()) {
+			/*|| evt.getPropertyName() == RectPolylinConnectorSpecification.FIXED_START_LOCATION.getName()
+			|| evt.getPropertyName() == RectPolylinConnectorSpecification.FIXED_END_LOCATION.getName()*/) {
 				updateLayout();
 				// Force control points to be rebuild in order to get draggable feature
 				_rebuildControlPoints();
 				connectorNode.notifyConnectorModified();
+			}
+			else if (evt.getPropertyName() == ConnectorSpecification.FIXED_START_LOCATION.getName()
+					|| evt.getPropertyName() == ConnectorSpecification.FIXED_END_LOCATION.getName()) {
+				// updateLayout();
+				// connectorNode.notifyConnectorModified();
+				refreshConnector();
 			}
 			else if (evt.getPropertyName() == RectPolylinConnectorSpecification.IS_STARTING_LOCATION_FIXED.getName()) {
 				if (getIsStartingLocationFixed() && fixedStartLocationRelativeToStartObject == null && p_start != null) {
@@ -2279,6 +2337,9 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 				if (getAdjustability() != RectPolylinAdjustability.FULLY_ADJUSTABLE) {
 					setWasManuallyAdjusted(false);
 				}
+
+				connectorNode.clearControlAreas();
+				connectorNode.getControlAreas();
 			}
 		}
 	}
@@ -2339,88 +2400,12 @@ public class RectPolylinConnector extends ConnectorImpl<RectPolylinConnectorSpec
 		setPropertyValue(RectPolylinConnectorSpecification.ARC_SIZE, anArcSize);
 	}
 
-	public boolean getIsStartingLocationFixed() {
-		return getPropertyValue(RectPolylinConnectorSpecification.IS_STARTING_LOCATION_FIXED);
-	}
-
-	public void setIsStartingLocationFixed(boolean aFlag) {
-		setPropertyValue(RectPolylinConnectorSpecification.IS_STARTING_LOCATION_FIXED, aFlag);
-	}
-
-	public boolean getIsStartingLocationDraggable() {
-		return getPropertyValue(RectPolylinConnectorSpecification.IS_STARTING_LOCATION_DRAGGABLE);
-	}
-
-	public void setIsStartingLocationDraggable(boolean aFlag) {
-		setPropertyValue(RectPolylinConnectorSpecification.IS_STARTING_LOCATION_DRAGGABLE, aFlag);
-	}
-
-	public boolean getIsEndingLocationFixed() {
-		return getPropertyValue(RectPolylinConnectorSpecification.IS_ENDING_LOCATION_FIXED);
-	}
-
-	public void setIsEndingLocationFixed(boolean aFlag) {
-		setPropertyValue(RectPolylinConnectorSpecification.IS_ENDING_LOCATION_FIXED, aFlag);
-	}
-
-	public boolean getIsEndingLocationDraggable() {
-		return getPropertyValue(RectPolylinConnectorSpecification.IS_ENDING_LOCATION_DRAGGABLE);
-	}
-
-	public void setIsEndingLocationDraggable(boolean aFlag) {
-		setPropertyValue(RectPolylinConnectorSpecification.IS_ENDING_LOCATION_DRAGGABLE, aFlag);
-	}
-
 	public DianaPoint getCrossedControlPoint() {
 		return getPropertyValue(RectPolylinConnectorSpecification.CROSSED_CONTROL_POINT);
 	}
 
 	public void setCrossedControlPoint(DianaPoint aPoint) {
 		setPropertyValue(RectPolylinConnectorSpecification.CROSSED_CONTROL_POINT, aPoint);
-	}
-
-	/**
-	 * Return start location asserting start location is fixed. Return position relative to start object (in the start-object coordinates
-	 * system)
-	 * 
-	 * @return
-	 */
-	public DianaPoint getFixedStartLocation() {
-		return getPropertyValue(RectPolylinConnectorSpecification.FIXED_START_LOCATION);
-	}
-
-	/**
-	 * Sets start location asserting start location is fixed. Sets position relative to start object (in the start-object coordinates
-	 * system)
-	 * 
-	 * @param aPoint
-	 *            : relative to start object
-	 */
-	public void setFixedStartLocation(DianaPoint aPoint) {
-		DianaShape<?> startArea = getStartNode().getShape().getOutline();
-		aPoint = startArea.getNearestPoint(aPoint);
-		setPropertyValue(RectPolylinConnectorSpecification.FIXED_START_LOCATION, aPoint);
-	}
-
-	/**
-	 * Return end location asserting end location is fixed. Return position relative to end object (in the end-object coordinates system)
-	 * 
-	 * @return
-	 */
-	public DianaPoint getFixedEndLocation() {
-		return getPropertyValue(RectPolylinConnectorSpecification.FIXED_END_LOCATION);
-	}
-
-	/**
-	 * Sets end location asserting end location is fixed. Sets position relative to end object (in the end-object coordinates system)
-	 * 
-	 * @param aPoint
-	 *            , relative to end object
-	 */
-	public void setFixedEndLocation(DianaPoint aPoint) {
-		DianaShape<?> endArea = getEndNode().getShape().getOutline();
-		aPoint = endArea.getNearestPoint(aPoint);
-		setPropertyValue(RectPolylinConnectorSpecification.FIXED_END_LOCATION, aPoint);
 	}
 
 	public int getPixelOverlap() {

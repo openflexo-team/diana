@@ -45,6 +45,9 @@ import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.connectors.ConnectorSpecification.ConnectorType;
+import org.openflexo.diana.connectors.ConnectorSymbol.EndSymbolType;
+import org.openflexo.diana.connectors.ConnectorSymbol.MiddleSymbolType;
+import org.openflexo.diana.connectors.ConnectorSymbol.StartSymbolType;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
@@ -108,6 +111,36 @@ public interface Connector<CS extends ConnectorSpecification> extends PropertyCh
 	public abstract void delete();
 
 	public boolean isDeleted();
+
+	public StartSymbolType getStartSymbol();
+
+	public EndSymbolType getEndSymbol();
+
+	public MiddleSymbolType getMiddleSymbol();
+
+	public double getStartSymbolSize();
+
+	public double getEndSymbolSize();
+
+	public double getMiddleSymbolSize();
+
+	public double getRelativeMiddleSymbolLocation();
+
+	public boolean getIsStartingLocationFixed();
+
+	public boolean getIsStartingLocationDraggable();
+
+	public boolean getIsEndingLocationFixed();
+
+	public boolean getIsEndingLocationDraggable();
+
+	public DianaPoint getCp1RelativeToStartObject();
+
+	public void setCp1RelativeToStartObject(DianaPoint aPoint);
+
+	public DianaPoint getCp2RelativeToEndObject();
+
+	public void setCp2RelativeToEndObject(DianaPoint aPoint);
 
 	/**
 	 * Returns the property value for supplied parameter<br>

@@ -298,6 +298,22 @@ public class DianaQuadCurve extends Double implements DianaGeneralShape.GeneralS
 		return returned;
 	}
 
+	public DianaSegment getApproximatedTangent(DianaPoint point) {
+		DianaPoint pt = getNearestPoint(point);
+		double minimizedDistance = java.lang.Double.POSITIVE_INFINITY;
+		DianaSegment returned = null;
+		DianaPolylin flattenPath = buildFlattenPath(FLATTENING_PATH_LEVEL);
+		for (DianaSegment s : flattenPath.getSegments()) {
+			DianaPoint nearestPoint = s.getNearestPointOnSegment(pt);
+			double currentDistance = DianaPoint.distance(nearestPoint, pt);
+			if (currentDistance < minimizedDistance) {
+				minimizedDistance = currentDistance;
+				returned = s;
+			}
+		}
+		return returned;
+	}
+
 	@Override
 	public DianaArea exclusiveOr(DianaArea area) {
 		return new DianaExclusiveOrArea(this, area);
@@ -525,6 +541,16 @@ public class DianaQuadCurve extends Double implements DianaGeneralShape.GeneralS
 		// TODO: not implemented
 		return null;
 
+	}
+
+	public DianaPoint getMiddle() {
+		return getPointAtRelativePosition(0.5);
+	}
+
+	public DianaPoint getPointAtRelativePosition(double position) {
+		DianaPolylin flattenPath = buildFlattenPath(FLATTENING_PATH_LEVEL);
+		DianaPoint pointAtRelativePosition = flattenPath.getPointAtRelativePosition(position);
+		return getNearestPoint(pointAtRelativePosition);
 	}
 
 }
