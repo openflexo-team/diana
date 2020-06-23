@@ -51,28 +51,28 @@ import org.openflexo.diana.geomedit.model.ExplicitPointConstruction;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.PointConstruction;
 import org.openflexo.diana.geomedit.model.gr.ComplexCurveGraphicalRepresentation.ComplexCurveGraphicalRepresentationImpl;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.GeometricGraphicalRepresentation;
-import org.openflexo.fge.cp.ControlArea;
-import org.openflexo.fge.cp.ControlPoint;
-import org.openflexo.fge.geom.FGEComplexCurve;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.GeometricGraphicalRepresentation;
+import org.openflexo.diana.cp.ControlArea;
+import org.openflexo.diana.cp.ControlPoint;
+import org.openflexo.diana.geom.DianaComplexCurve;
+import org.openflexo.diana.geom.DianaPoint;
 
 @ModelEntity
 @ImplementationClass(ComplexCurveGraphicalRepresentationImpl.class)
 @XMLElement
-public interface ComplexCurveGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEComplexCurve> {
+public interface ComplexCurveGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<DianaComplexCurve> {
 
-	public static abstract class ComplexCurveGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEComplexCurve>
+	public static abstract class ComplexCurveGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<DianaComplexCurve>
 			implements ComplexCurveGraphicalRepresentation {
 
 		@Override
 		public List<? extends ControlArea<?>> makeControlAreasFor(
-				DrawingTreeNode<GeometricConstruction<FGEComplexCurve>, GeometricGraphicalRepresentation> dtn) {
+				DrawingTreeNode<GeometricConstruction<DianaComplexCurve>, GeometricGraphicalRepresentation> dtn) {
 			Vector<ControlPoint> returned = new Vector<ControlPoint>();
 
 			ComplexCurveConstruction curveContruction = (ComplexCurveConstruction) dtn.getDrawable();
@@ -85,11 +85,11 @@ public interface ComplexCurveGraphicalRepresentation extends GeometricObjectGrap
 					PointConstruction pc = ((ComplexCurveWithNPointsConstruction) curveContruction).getPointConstructions().get(i);
 
 					if (pc instanceof ExplicitPointConstruction) {
-						returned.add(new DraggableControlPoint<FGEComplexCurve>((GeometricNode<?>) dtn, "pt" + i, pc.getPoint(),
+						returned.add(new DraggableControlPoint<DianaComplexCurve>((GeometricNode<?>) dtn, "pt" + i, pc.getPoint(),
 								(ExplicitPointConstruction) pc) {
 							@Override
-							public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-									FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+							public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+									DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 								if (pointIndex == 0) {
 									getGeometricObject().getElementAt(0).getP1().x = newAbsolutePoint.x;
 									getGeometricObject().getElementAt(0).getP1().y = newAbsolutePoint.y;
@@ -106,7 +106,7 @@ public interface ComplexCurveGraphicalRepresentation extends GeometricObjectGrap
 							}
 
 							@Override
-							public void update(FGEComplexCurve geometricObject) {
+							public void update(DianaComplexCurve geometricObject) {
 								if (pointIndex == 0) {
 									setPoint(geometricObject.getElementAt(0).getP1());
 								}
@@ -117,9 +117,9 @@ public interface ComplexCurveGraphicalRepresentation extends GeometricObjectGrap
 						});
 					}
 					else {
-						returned.add(new ComputedControlPoint<FGEComplexCurve>((GeometricNode<?>) dtn, "pt" + i, pc.getPoint()) {
+						returned.add(new ComputedControlPoint<DianaComplexCurve>((GeometricNode<?>) dtn, "pt" + i, pc.getPoint()) {
 							@Override
-							public void update(FGEComplexCurve geometricObject) {
+							public void update(DianaComplexCurve geometricObject) {
 								if (pointIndex == 0) {
 									setPoint(geometricObject.getElementAt(0).getP1());
 								}

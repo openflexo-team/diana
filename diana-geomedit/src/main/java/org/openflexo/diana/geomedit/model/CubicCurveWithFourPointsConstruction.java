@@ -39,14 +39,14 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaCubicCurve;
 import org.openflexo.diana.geomedit.model.CubicCurveWithFourPointsConstruction.CubicCurveWithFourPointsConstructionImpl;
-import org.openflexo.fge.geom.FGECubicCurve;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(CubicCurveWithFourPointsConstructionImpl.class)
@@ -99,10 +99,10 @@ public interface CubicCurveWithFourPointsConstruction extends CubicCurveConstruc
 		private PointConstruction endPointConstruction;
 
 		@Override
-		protected FGECubicCurve computeData() {
+		protected DianaCubicCurve computeData() {
 			if (getStartPointConstruction() != null && getEndPointConstruction() != null && getControlPointConstruction1() != null
 					&& getControlPointConstruction2() != null) {
-				return new FGECubicCurve(getStartPointConstruction().getPoint(), getControlPointConstruction1().getPoint(),
+				return new DianaCubicCurve(getStartPointConstruction().getPoint(), getControlPointConstruction1().getPoint(),
 						getControlPointConstruction2().getPoint(), getEndPointConstruction().getPoint());
 			}
 			return null;

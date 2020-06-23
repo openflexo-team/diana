@@ -18,19 +18,19 @@
     <Label id="12" enable="(!(data.noStroke))" name="DashStyleLabel" index="4" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="dash_style">
       <LocalizedDictionary id="13" />
     </Label>
-    <DropDown id="14" enable="(!(data.noStroke))" data="data.dashStyle" index="5" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="false" iteratorClassName="org.openflexo.fge.ForegroundStyle$DashStyle" showIcon="true" staticList="" autoSelectFirstRow="true" name="dropdown" icon="object.icon">
+    <DropDown id="14" enable="(!(data.noStroke))" data="data.dashStyle" index="5" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="false" iteratorClassName="org.openflexo.diana.ForegroundStyle$DashStyle" showIcon="true" staticList="" autoSelectFirstRow="true" name="dropdown" icon="object.icon">
       <LocalizedDictionary id="15" />
     </DropDown>
     <Label id="16" enable="(!(data.noStroke))" name="JoinStyleLabel" index="6" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="join_style">
       <LocalizedDictionary id="17" />
     </Label>
-    <DropDown id="18" enable="(!(data.noStroke))" data="data.joinStyle" index="7" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.ForegroundStyle$JoinStyle" showIcon="true" staticList="" autoSelectFirstRow="true" name="dropdown" icon="object.icon">
+    <DropDown id="18" enable="(!(data.noStroke))" data="data.joinStyle" index="7" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.diana.ForegroundStyle$JoinStyle" showIcon="true" staticList="" autoSelectFirstRow="true" name="dropdown" icon="object.icon">
       <LocalizedDictionary id="19" />
     </DropDown>
     <Label id="20" enable="(!(data.noStroke))" name="CapStyleLabel" index="8" localize="true" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=8;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="cap_style">
       <LocalizedDictionary id="21" />
     </Label>
-    <DropDown id="22" enable="(!(data.noStroke))" data="data.capStyle" index="9" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.ForegroundStyle$CapStyle" showIcon="true" staticList="" autoSelectFirstRow="true" name="dropdown" icon="object.icon">
+    <DropDown id="22" enable="(!(data.noStroke))" data="data.capStyle" index="9" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.diana.ForegroundStyle$CapStyle" showIcon="true" staticList="" autoSelectFirstRow="true" name="dropdown" icon="object.icon">
       <LocalizedDictionary id="23" />
     </DropDown>
   </Panel>
@@ -42,7 +42,7 @@
     <Label id="28" enable="((!(data.noStroke)) &amp; data.useTransparency)" name="TransparencyLevelLabel" index="2" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" label="transparency_level" />
     <Number id="29" minValue="0" columns="3" enable="((!(data.noStroke)) &amp; data.useTransparency)" name="TransparencyLevel" data="data.transparencyLevel" maxValue="1" increment="0.05" index="3" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=7;insetsRight=2;insetsTop=0;location=right)" numberType="FloatType" />
   </Panel>
-  <FIBVariable id="30" name="data" type="org.openflexo.fge.ForegroundStyle" />
+  <FIBVariable id="30" name="data" type="org.openflexo.diana.ForegroundStyle" />
   <LocalizedDictionary id="31">
     <Localized id="32" value="Transparence" lang="French" key="transparency" />
     <Localized id="33" value="Transparency" lang="English" key="transparency" />

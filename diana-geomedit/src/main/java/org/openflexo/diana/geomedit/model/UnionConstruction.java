@@ -43,26 +43,26 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaUnionArea;
 import org.openflexo.diana.geomedit.model.UnionConstruction.UnionConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.ComputedAreaGraphicalRepresentation;
-import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.logging.FlexoLogger;
-import org.openflexo.model.annotations.Adder;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.Getter.Cardinality;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Remover;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Adder;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Remover;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLAttribute;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter.Cardinality;
 
 @ModelEntity
 @ImplementationClass(UnionConstructionImpl.class)
 @XMLElement
-public interface UnionConstruction extends GeometricConstruction<FGEArea> {
+public interface UnionConstruction extends GeometricConstruction<DianaArea> {
 
 	@PropertyIdentifier(type = ObjectReference.class, cardinality = Cardinality.LIST)
 	public static final String OBJECT_CONSTRUCTIONS_KEY = "objectConstructions";
@@ -71,13 +71,13 @@ public interface UnionConstruction extends GeometricConstruction<FGEArea> {
 
 	@Getter(value = OBJECT_CONSTRUCTIONS_KEY, cardinality = Cardinality.LIST)
 	@XMLElement
-	public List<ObjectReference<? extends FGEArea>> getObjectConstructions();
+	public List<ObjectReference<? extends DianaArea>> getObjectConstructions();
 
 	@Adder(OBJECT_CONSTRUCTIONS_KEY)
-	public void addToObjectConstructions(ObjectReference<? extends FGEArea> objectReference);
+	public void addToObjectConstructions(ObjectReference<? extends DianaArea> objectReference);
 
 	@Remover(OBJECT_CONSTRUCTIONS_KEY)
-	public void removeFromObjectConstructions(ObjectReference<? extends FGEArea> objectReference);
+	public void removeFromObjectConstructions(ObjectReference<? extends DianaArea> objectReference);
 
 	@Getter(value = MERGE_CONTENTS_KEY, defaultValue = "true")
 	@XMLAttribute
@@ -86,7 +86,7 @@ public interface UnionConstruction extends GeometricConstruction<FGEArea> {
 	@Setter(MERGE_CONTENTS_KEY)
 	public void setMergeContents(boolean mergeContents);
 
-	public static abstract class UnionConstructionImpl extends GeometricConstructionImpl<FGEArea> implements UnionConstruction {
+	public static abstract class UnionConstructionImpl extends GeometricConstructionImpl<DianaArea> implements UnionConstruction {
 
 		private static final Logger logger = FlexoLogger.getLogger(UnionConstruction.class.getPackage().getName());
 
@@ -102,13 +102,13 @@ public interface UnionConstruction extends GeometricConstruction<FGEArea> {
 		}
 
 		@Override
-		protected FGEArea computeData() {
+		protected DianaArea computeData() {
 			if (getObjectConstructions() != null) {
-				FGEArea[] objects = new FGEArea[getObjectConstructions().size()];
+				DianaArea[] objects = new DianaArea[getObjectConstructions().size()];
 				for (int i = 0; i < getObjectConstructions().size(); i++) {
 					objects[i] = getObjectConstructions().get(i).getData();
 				}
-				FGEArea returned = FGEUnionArea.makeUnion(Arrays.asList(objects), getMergeContents());
+				DianaArea returned = DianaUnionArea.makeUnion(Arrays.asList(objects), getMergeContents());
 				if (returned == null) {
 					new Exception("Unexpected union").printStackTrace();
 				}

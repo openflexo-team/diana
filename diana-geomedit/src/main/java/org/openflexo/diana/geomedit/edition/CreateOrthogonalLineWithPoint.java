@@ -40,9 +40,9 @@
 package org.openflexo.diana.geomedit.edition;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
-import org.openflexo.fge.geom.FGELine;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
 public class CreateOrthogonalLineWithPoint extends Edition {
 
@@ -62,14 +62,14 @@ public class CreateOrthogonalLineWithPoint extends Edition {
 	}
 
 	@Override
-	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
+	public void paintEdition(JDianaDrawingGraphics graphics, DianaPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
 		}
 		else if (currentStep == 1) {
-			FGELine line = ((ObtainLine) inputs.get(0)).getInputData();
+			DianaLine line = ((ObtainLine) inputs.get(0)).getInputData();
 			graphics.setDefaultForeground(focusedForegroundStyle);
-			FGELine l = line.getOrthogonalLine(lastMouseLocation);
+			DianaLine l = line.getOrthogonalLine(lastMouseLocation);
 			l.paint(graphics);
 		}
 	}

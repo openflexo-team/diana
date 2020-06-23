@@ -40,17 +40,17 @@
 package org.openflexo.diana.geomedit.model.gr;
 
 import org.openflexo.diana.geomedit.model.gr.HalfPlaneGraphicalRepresentation.HalfPlaneGraphicalRepresentationImpl;
-import org.openflexo.fge.geom.area.FGEHalfPlane;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.diana.geom.area.DianaHalfPlane;
 
 @ModelEntity
 @ImplementationClass(HalfPlaneGraphicalRepresentationImpl.class)
 @XMLElement
-public interface HalfPlaneGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEHalfPlane> {
+public interface HalfPlaneGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<DianaHalfPlane> {
 
-	public static abstract class HalfPlaneGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEHalfPlane>
+	public static abstract class HalfPlaneGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<DianaHalfPlane>
 			implements HalfPlaneGraphicalRepresentation {
 
 	}

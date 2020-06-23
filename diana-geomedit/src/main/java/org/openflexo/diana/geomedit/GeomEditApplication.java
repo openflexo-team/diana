@@ -72,22 +72,22 @@ import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
 import org.openflexo.diana.geomedit.view.GeometricDiagramView;
-import org.openflexo.fge.FGECoreUtils;
-import org.openflexo.fge.swing.control.SwingToolFactory;
-import org.openflexo.fge.swing.control.tools.JDianaDialogInspectors;
-import org.openflexo.fge.swing.control.tools.JDianaLayoutWidget;
-import org.openflexo.fge.swing.control.tools.JDianaScaleSelector;
-import org.openflexo.fge.swing.control.tools.JDianaStyles;
-import org.openflexo.fge.swing.control.tools.JDianaToolSelector;
+import org.openflexo.diana.swing.control.SwingToolFactory;
+import org.openflexo.diana.swing.control.tools.JDianaDialogInspectors;
+import org.openflexo.diana.swing.control.tools.JDianaLayoutWidget;
+import org.openflexo.diana.swing.control.tools.JDianaScaleSelector;
+import org.openflexo.diana.swing.control.tools.JDianaStyles;
+import org.openflexo.diana.swing.control.tools.JDianaToolSelector;
 import org.openflexo.gina.ApplicationFIBLibrary.ApplicationFIBLibraryImpl;
 import org.openflexo.gina.swing.utils.localization.LocalizedEditor;
 import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.localization.LocalizedDelegateImpl;
 import org.openflexo.logging.FlexoLogger;
-import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.rm.FileSystemResourceLocatorImpl;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.swing.ComponentBoundSaver;
@@ -109,7 +109,7 @@ public class GeomEditApplication {
 	private static final Logger logger = FlexoLogger.getLogger(GeomEditApplication.class.getPackage().getName());
 
 	public static LocalizedDelegate GEOMEDIT_LOCALIZATION = new LocalizedDelegateImpl(
-			ResourceLocator.locateResource("FlexoLocalization/GeomEdit"), FGECoreUtils.DIANA_LOCALIZATION, true, true);
+			ResourceLocator.locateResource("FlexoLocalization/GeomEdit"), DianaCoreUtils.DIANA_LOCALIZATION, true, true);
 
 	public static final int META_MASK = ToolBox.isMacOS() ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
 
@@ -156,7 +156,7 @@ public class GeomEditApplication {
 		try {
 			factory = new GeometricConstructionFactory(editingContext);
 			// System.out.println("factory: " + factory.debug());
-			// FGEPamelaInjectionModule injectionModule = new FGEPamelaInjectionModule(factory);
+			// DianaPamelaInjectionModule injectionModule = new DianaPamelaInjectionModule(factory);
 			// injector = Guice.createInjector(injectionModule);
 
 			// factory = new DiagramFactory();

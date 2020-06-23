@@ -50,20 +50,20 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
+import org.openflexo.diana.PaletteElementSpecification;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
+import org.openflexo.diana.geom.DianaComplexCurve;
+import org.openflexo.diana.geom.DianaGeneralShape;
+import org.openflexo.diana.geom.DianaPolygon;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.geom.DianaShapeUnion;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.view.GeomEditIconLibrary;
-import org.openflexo.fge.PaletteElementSpecification;
-import org.openflexo.fge.ShapeGraphicalRepresentation;
-import org.openflexo.fge.geom.FGEComplexCurve;
-import org.openflexo.fge.geom.FGEGeneralShape;
-import org.openflexo.fge.geom.FGEPolygon;
-import org.openflexo.fge.geom.FGERectangle;
-import org.openflexo.fge.geom.FGEShape;
-import org.openflexo.fge.geom.FGEShapeUnion;
-import org.openflexo.fge.shapes.ShapeSpecification.ShapeType;
-import org.openflexo.model.exceptions.ModelDefinitionException;
+import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.rm.FileResourceImpl;
 import org.openflexo.rm.Resource;
 import org.openflexo.rm.ResourceLocator;
@@ -148,21 +148,21 @@ public class ExportAction extends AbstractEditorActionImpl {
 		gr.setRelativeTextY(0.5);
 		gr.setWidth(1);
 		gr.setHeight(1);
-		// TODO: factorize this code using FGEShape only
-		if (object.getData() instanceof FGEPolygon) {
-			gr.setShapeSpecification(factory.makePolygon(makeNormalizedPolygon((FGEPolygon) object.getData())));
+		// TODO: factorize this code using DianaShape only
+		if (object.getData() instanceof DianaPolygon) {
+			gr.setShapeSpecification(factory.makePolygon(makeNormalizedPolygon((DianaPolygon) object.getData())));
 		}
-		else if (object.getData() instanceof FGEComplexCurve) {
-			gr.setShapeSpecification(factory.makeComplexCurve(makeNormalizedComplexCurve((FGEComplexCurve) object.getData())));
+		else if (object.getData() instanceof DianaComplexCurve) {
+			gr.setShapeSpecification(factory.makeComplexCurve(makeNormalizedComplexCurve((DianaComplexCurve) object.getData())));
 		}
-		else if (object.getData() instanceof FGEGeneralShape) {
-			gr.setShapeSpecification(factory.makeGeneralShape(makeNormalizedGeneralShape((FGEGeneralShape<?>) object.getData())));
+		else if (object.getData() instanceof DianaGeneralShape) {
+			gr.setShapeSpecification(factory.makeGeneralShape(makeNormalizedGeneralShape((DianaGeneralShape<?>) object.getData())));
 		}
-		else if (object.getData() instanceof FGEShapeUnion) {
-			gr.setShapeSpecification(factory.makeShapeUnion(makeNormalizedShapeUnion((FGEShapeUnion) object.getData())));
+		else if (object.getData() instanceof DianaShapeUnion) {
+			gr.setShapeSpecification(factory.makeShapeUnion(makeNormalizedShapeUnion((DianaShapeUnion) object.getData())));
 		}
-		else if (object.getData() instanceof FGEShape) {
-			gr.setShapeSpecification(factory.makeShapeSpecification(makeNormalizedShape((FGEShape) object.getData()), false));
+		else if (object.getData() instanceof DianaShape) {
+			gr.setShapeSpecification(factory.makeShapeSpecification(makeNormalizedShape((DianaShape) object.getData()), false));
 		}
 		else {
 			gr.setShapeSpecification(factory.makeShape(ShapeType.RECTANGLE));
@@ -170,43 +170,43 @@ public class ExportAction extends AbstractEditorActionImpl {
 		return elSpec;
 	}
 
-	private FGEShape<?> makeNormalizedShape(FGEShape<?> shape) {
-		FGERectangle boundingBox = shape.getBoundingBox();
+	private DianaShape<?> makeNormalizedShape(DianaShape<?> shape) {
+		DianaRectangle boundingBox = shape.getBoundingBox();
 		AffineTransform translateAT = AffineTransform.getTranslateInstance(-boundingBox.getX(), -boundingBox.getY());
 		AffineTransform scaleAT = AffineTransform.getScaleInstance(1 / boundingBox.getWidth(), 1 / boundingBox.getHeight());
-		FGEShape<?> normalizedShape = (FGEShape<?>) shape.transform(translateAT).transform(scaleAT);
+		DianaShape<?> normalizedShape = (DianaShape<?>) shape.transform(translateAT).transform(scaleAT);
 		return normalizedShape;
 	}
 
-	private FGEPolygon makeNormalizedPolygon(FGEPolygon polygon) {
-		FGERectangle boundingBox = polygon.getBoundingBox();
+	private DianaPolygon makeNormalizedPolygon(DianaPolygon polygon) {
+		DianaRectangle boundingBox = polygon.getBoundingBox();
 		AffineTransform translateAT = AffineTransform.getTranslateInstance(-boundingBox.getX(), -boundingBox.getY());
 		AffineTransform scaleAT = AffineTransform.getScaleInstance(1 / boundingBox.getWidth(), 1 / boundingBox.getHeight());
-		FGEPolygon normalizedPolygon = polygon.transform(translateAT).transform(scaleAT);
+		DianaPolygon normalizedPolygon = polygon.transform(translateAT).transform(scaleAT);
 		return normalizedPolygon;
 	}
 
-	private FGEComplexCurve makeNormalizedComplexCurve(FGEComplexCurve complexCurve) {
-		FGERectangle boundingBox = complexCurve.getBoundingBox();
+	private DianaComplexCurve makeNormalizedComplexCurve(DianaComplexCurve complexCurve) {
+		DianaRectangle boundingBox = complexCurve.getBoundingBox();
 		AffineTransform translateAT = AffineTransform.getTranslateInstance(-boundingBox.getX(), -boundingBox.getY());
 		AffineTransform scaleAT = AffineTransform.getScaleInstance(1 / boundingBox.getWidth(), 1 / boundingBox.getHeight());
-		FGEComplexCurve normalizedComplexCurve = complexCurve.transform(translateAT).transform(scaleAT);
+		DianaComplexCurve normalizedComplexCurve = complexCurve.transform(translateAT).transform(scaleAT);
 		return normalizedComplexCurve;
 	}
 
-	private FGEGeneralShape<?> makeNormalizedGeneralShape(FGEGeneralShape<?> generalShape) {
-		FGERectangle boundingBox = generalShape.getBoundingBox();
+	private DianaGeneralShape<?> makeNormalizedGeneralShape(DianaGeneralShape<?> generalShape) {
+		DianaRectangle boundingBox = generalShape.getBoundingBox();
 		AffineTransform translateAT = AffineTransform.getTranslateInstance(-boundingBox.getX(), -boundingBox.getY());
 		AffineTransform scaleAT = AffineTransform.getScaleInstance(1 / boundingBox.getWidth(), 1 / boundingBox.getHeight());
-		FGEGeneralShape<?> normalizedGeneralShape = generalShape.transform(translateAT).transform(scaleAT);
+		DianaGeneralShape<?> normalizedGeneralShape = generalShape.transform(translateAT).transform(scaleAT);
 		return normalizedGeneralShape;
 	}
 
-	private FGEShapeUnion makeNormalizedShapeUnion(FGEShapeUnion shapeUnion) {
-		FGERectangle boundingBox = shapeUnion.getBoundingBox();
+	private DianaShapeUnion makeNormalizedShapeUnion(DianaShapeUnion shapeUnion) {
+		DianaRectangle boundingBox = shapeUnion.getBoundingBox();
 		AffineTransform translateAT = AffineTransform.getTranslateInstance(-boundingBox.getX(), -boundingBox.getY());
 		AffineTransform scaleAT = AffineTransform.getScaleInstance(1 / boundingBox.getWidth(), 1 / boundingBox.getHeight());
-		FGEShapeUnion normalizedShapeUnion = shapeUnion.transform(translateAT).transform(scaleAT);
+		DianaShapeUnion normalizedShapeUnion = shapeUnion.transform(translateAT).transform(scaleAT);
 		return normalizedShapeUnion;
 	}
 }

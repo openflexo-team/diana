@@ -44,13 +44,13 @@ import java.awt.Color;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.CircleConstruction;
 import org.openflexo.diana.geomedit.model.PointConstruction;
-import org.openflexo.fge.ForegroundStyle.DashStyle;
-import org.openflexo.fge.geom.FGECircle;
-import org.openflexo.fge.geom.FGELine;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.PointInsideCircleException;
-import org.openflexo.fge.geom.area.FGEUnionArea;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.diana.ForegroundStyle.DashStyle;
+import org.openflexo.diana.geom.DianaCircle;
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.PointInsideCircleException;
+import org.openflexo.diana.geom.area.DianaUnionArea;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
 public class CreateTangentLineWithCircleAndPoint extends Edition {
 
@@ -72,18 +72,18 @@ public class CreateTangentLineWithCircleAndPoint extends Edition {
 	}
 
 	@Override
-	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
+	public void paintEdition(JDianaDrawingGraphics graphics, DianaPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
 		}
 		else if (currentStep == 1) {
-			FGECircle circle = ((ObtainCircle) inputs.get(0)).getInputData();
+			DianaCircle circle = ((ObtainCircle) inputs.get(0)).getInputData();
 			try {
-				FGEUnionArea tangentPoints = FGECircle.getTangentsPointsToCircle(circle, lastMouseLocation);
+				DianaUnionArea tangentPoints = DianaCircle.getTangentsPointsToCircle(circle, lastMouseLocation);
 				if (tangentPoints.isUnionOfPoints()) {
 					graphics.setDefaultForeground(graphics.getFactory().makeForegroundStyle(Color.LIGHT_GRAY, 1, DashStyle.MEDIUM_DASHES));
-					FGELine line1 = new FGELine(lastMouseLocation, (FGEPoint) tangentPoints.getObjects().firstElement());
-					FGELine line2 = new FGELine(lastMouseLocation, (FGEPoint) tangentPoints.getObjects().elementAt(1));
+					DianaLine line1 = new DianaLine(lastMouseLocation, (DianaPoint) tangentPoints.getObjects().firstElement());
+					DianaLine line2 = new DianaLine(lastMouseLocation, (DianaPoint) tangentPoints.getObjects().elementAt(1));
 					line1.paint(graphics);
 					line2.paint(graphics);
 					graphics.setDefaultForeground(graphics.getFactory().makeForegroundStyle(Color.RED, 1));
@@ -95,19 +95,19 @@ public class CreateTangentLineWithCircleAndPoint extends Edition {
 			}
 		}
 		else if (currentStep == 2) {
-			FGECircle circle = ((ObtainCircle) inputs.get(0)).getInputData();
-			FGEPoint point = ((ObtainPoint) inputs.get(1)).getInputData();
-			FGEUnionArea tangentPoints = FGECircle.getTangentsPointsToCircle(circle, point);
+			DianaCircle circle = ((ObtainCircle) inputs.get(0)).getInputData();
+			DianaPoint point = ((ObtainPoint) inputs.get(1)).getInputData();
+			DianaUnionArea tangentPoints = DianaCircle.getTangentsPointsToCircle(circle, point);
 			if (tangentPoints.isUnionOfPoints()) {
 				graphics.setDefaultForeground(graphics.getFactory().makeForegroundStyle(Color.LIGHT_GRAY, 1, DashStyle.MEDIUM_DASHES));
-				FGELine line1 = new FGELine(point, (FGEPoint) tangentPoints.getObjects().firstElement());
-				FGELine line2 = new FGELine(point, (FGEPoint) tangentPoints.getObjects().elementAt(1));
+				DianaLine line1 = new DianaLine(point, (DianaPoint) tangentPoints.getObjects().firstElement());
+				DianaLine line2 = new DianaLine(point, (DianaPoint) tangentPoints.getObjects().elementAt(1));
 				line1.paint(graphics);
 				line2.paint(graphics);
 				graphics.setDefaultForeground(graphics.getFactory().makeForegroundStyle(Color.RED, 1));
 				tangentPoints.getObjects().firstElement().paint(graphics);
 				tangentPoints.getObjects().elementAt(1).paint(graphics);
-				(new FGELine(point, tangentPoints.getNearestPoint(lastMouseLocation))).paint(graphics);
+				(new DianaLine(point, tangentPoints.getNearestPoint(lastMouseLocation))).paint(graphics);
 			}
 		}
 	}

@@ -41,18 +41,18 @@ package org.openflexo.diana.geomedit.model;
 
 import java.util.logging.Logger;
 
+import org.openflexo.diana.geom.DianaCircle;
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.PointInsideCircleException;
+import org.openflexo.diana.geom.area.DianaUnionArea;
 import org.openflexo.diana.geomedit.model.TangentLineWithCircleAndPointConstruction.TangentLineWithCircleAndPointConstructionImpl;
-import org.openflexo.fge.geom.FGECircle;
-import org.openflexo.fge.geom.FGELine;
-import org.openflexo.fge.geom.PointInsideCircleException;
-import org.openflexo.fge.geom.area.FGEUnionArea;
 import org.openflexo.logging.FlexoLogger;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(TangentLineWithCircleAndPointConstructionImpl.class)
@@ -97,16 +97,16 @@ public interface TangentLineWithCircleAndPointConstruction extends LineConstruct
 		private PointConstruction choosingPointConstruction;
 
 		@Override
-		protected FGELine computeData() {
+		protected DianaLine computeData() {
 			if (getCircleConstruction() != null && getPointConstruction() != null) {
 				try {
-					FGEUnionArea tangentPoints = FGECircle.getTangentsPointsToCircle(circleConstruction.getCircle(),
+					DianaUnionArea tangentPoints = DianaCircle.getTangentsPointsToCircle(circleConstruction.getCircle(),
 							pointConstruction.getPoint());
 					if (tangentPoints.isUnionOfPoints()) {
-						return new FGELine(tangentPoints.getNearestPoint(choosingPointConstruction.getPoint()),
+						return new DianaLine(tangentPoints.getNearestPoint(choosingPointConstruction.getPoint()),
 								pointConstruction.getPoint());
 					}
-					logger.warning("Received strange result for FGEEllips.getTangentsPointsToCircle()");
+					logger.warning("Received strange result for DianaEllips.getTangentsPointsToCircle()");
 					return null;
 				} catch (PointInsideCircleException e) {
 					return null;

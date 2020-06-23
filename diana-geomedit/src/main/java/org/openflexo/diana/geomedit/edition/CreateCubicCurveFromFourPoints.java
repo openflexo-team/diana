@@ -42,12 +42,12 @@ package org.openflexo.diana.geomedit.edition;
 import java.awt.Color;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
-import org.openflexo.fge.ForegroundStyle.DashStyle;
-import org.openflexo.fge.geom.FGECubicCurve;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGEQuadCurve;
-import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.diana.ForegroundStyle.DashStyle;
+import org.openflexo.diana.geom.DianaCubicCurve;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaQuadCurve;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
 public class CreateCubicCurveFromFourPoints extends Edition {
 
@@ -72,24 +72,24 @@ public class CreateCubicCurveFromFourPoints extends Edition {
 	}
 
 	@Override
-	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
+	public void paintEdition(JDianaDrawingGraphics graphics, DianaPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
 		}
 		else if (currentStep == 1) {
 			// Nothing to draw
-			FGEPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
+			DianaPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			p1.paint(graphics);
-			(new FGESegment(p1, lastMouseLocation)).paint(graphics);
+			(new DianaSegment(p1, lastMouseLocation)).paint(graphics);
 		}
 		else if (currentStep == 2) {
 			// Draw construction
-			FGEPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
-			FGEPoint p2 = ((ObtainPoint) inputs.get(1)).getInputData();
+			DianaPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
+			DianaPoint p2 = ((ObtainPoint) inputs.get(1)).getInputData();
 
 			graphics.setDefaultForeground(graphics.getFactory().makeForegroundStyle(Color.LIGHT_GRAY, 1, DashStyle.MEDIUM_DASHES));
-			FGESegment line1 = new FGESegment(lastMouseLocation, p1);
+			DianaSegment line1 = new DianaSegment(lastMouseLocation, p1);
 			line1.paint(graphics);
 
 			graphics.setDefaultForeground(graphics.getFactory().makeForegroundStyle(Color.RED, 1));
@@ -97,17 +97,17 @@ public class CreateCubicCurveFromFourPoints extends Edition {
 			p2.paint(graphics);
 			lastMouseLocation.paint(graphics);
 
-			(new FGEQuadCurve(p1, lastMouseLocation, p2)).paint(graphics);
+			(new DianaQuadCurve(p1, lastMouseLocation, p2)).paint(graphics);
 		}
 		else if (currentStep == 3) {
 			// Draw construction
-			FGEPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
-			FGEPoint p2 = ((ObtainPoint) inputs.get(1)).getInputData();
-			FGEPoint cp1 = ((ObtainPoint) inputs.get(2)).getInputData();
+			DianaPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
+			DianaPoint p2 = ((ObtainPoint) inputs.get(1)).getInputData();
+			DianaPoint cp1 = ((ObtainPoint) inputs.get(2)).getInputData();
 
 			graphics.setDefaultForeground(graphics.getFactory().makeForegroundStyle(Color.LIGHT_GRAY, 1, DashStyle.MEDIUM_DASHES));
-			FGESegment line1 = new FGESegment(p1, cp1);
-			FGESegment line2 = new FGESegment(p2, lastMouseLocation);
+			DianaSegment line1 = new DianaSegment(p1, cp1);
+			DianaSegment line2 = new DianaSegment(p2, lastMouseLocation);
 			line1.paint(graphics);
 			line2.paint(graphics);
 
@@ -117,7 +117,7 @@ public class CreateCubicCurveFromFourPoints extends Edition {
 			cp1.paint(graphics);
 			lastMouseLocation.paint(graphics);
 
-			(new FGECubicCurve(p1, cp1, lastMouseLocation, p2)).paint(graphics);
+			(new DianaCubicCurve(p1, cp1, lastMouseLocation, p2)).paint(graphics);
 		}
 	}
 }

@@ -42,17 +42,17 @@ package org.openflexo.diana.geomedit.model;
 import java.util.List;
 import java.util.Vector;
 
+import org.openflexo.diana.geom.DianaComplexCurve;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geomedit.model.ComplexCurveWithNPointsConstruction.ComplexCurveWithNPointsConstructionImpl;
-import org.openflexo.fge.geom.FGEComplexCurve;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.model.annotations.Adder;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.Getter.Cardinality;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Remover;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Adder;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Remover;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter.Cardinality;
 
 @ModelEntity
 @ImplementationClass(ComplexCurveWithNPointsConstructionImpl.class)
@@ -76,13 +76,13 @@ public interface ComplexCurveWithNPointsConstruction extends ComplexCurveConstru
 			implements ComplexCurveWithNPointsConstruction {
 
 		@Override
-		protected FGEComplexCurve computeData() {
+		protected DianaComplexCurve computeData() {
 			if (getPointConstructions() != null) {
-				Vector<FGEPoint> pts = new Vector<FGEPoint>();
+				Vector<DianaPoint> pts = new Vector<>();
 				for (PointConstruction pc : getPointConstructions()) {
 					pts.add(pc.getPoint());
 				}
-				return new FGEComplexCurve(getClosure(), pts);
+				return new DianaComplexCurve(getClosure(), pts);
 			}
 			return null;
 		}

@@ -39,15 +39,15 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geomedit.model.ParallelLineWithPointConstruction.ParallelLineWithPointConstructionImpl;
-import org.openflexo.fge.geom.FGELine;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(ParallelLineWithPointConstructionImpl.class)
@@ -80,11 +80,11 @@ public interface ParallelLineWithPointConstruction extends LineConstruction {
 		private PointConstruction pointConstruction;
 
 		@Override
-		protected FGELine computeData() {
+		protected DianaLine computeData() {
 			if (getLineConstruction() != null && getPointConstruction() != null) {
-				FGELine computedLine = lineConstruction.getLine().getParallelLine(pointConstruction.getPoint());
-				FGEPoint pp1 = computedLine.getProjection(lineConstruction.getLine().getP1());
-				FGEPoint pp2 = computedLine.getProjection(lineConstruction.getLine().getP2());
+				DianaLine computedLine = lineConstruction.getLine().getParallelLine(pointConstruction.getPoint());
+				DianaPoint pp1 = computedLine.getProjection(lineConstruction.getLine().getP1());
+				DianaPoint pp2 = computedLine.getProjection(lineConstruction.getLine().getP2());
 				computedLine.setP1(pp1);
 				computedLine.setP2(pp2);
 				return computedLine;

@@ -39,22 +39,22 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.area.DianaHalfBand;
 import org.openflexo.diana.geomedit.model.HalfBandConstruction.HalfBandConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.HalfBandGraphicalRepresentation;
-import org.openflexo.fge.geom.area.FGEHalfBand;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.Import;
+import org.openflexo.pamela.annotations.Imports;
+import org.openflexo.pamela.annotations.ModelEntity;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(HalfBandConstructionImpl.class)
 @Imports({ @Import(HalfBandWithLinesConstruction.class) })
-public interface HalfBandConstruction extends GeometricConstruction<FGEHalfBand> {
+public interface HalfBandConstruction extends GeometricConstruction<DianaHalfBand> {
 
-	public FGEHalfBand getHalfBand();
+	public DianaHalfBand getHalfBand();
 
-	public static abstract class HalfBandConstructionImpl extends GeometricConstructionImpl<FGEHalfBand> implements HalfBandConstruction {
+	public static abstract class HalfBandConstructionImpl extends GeometricConstructionImpl<DianaHalfBand> implements HalfBandConstruction {
 
 		@Override
 		public String getBaseName() {
@@ -62,7 +62,7 @@ public interface HalfBandConstruction extends GeometricConstruction<FGEHalfBand>
 		}
 
 		@Override
-		public final FGEHalfBand getHalfBand() {
+		public final DianaHalfBand getHalfBand() {
 			return getData();
 		}
 
@@ -73,7 +73,7 @@ public interface HalfBandConstruction extends GeometricConstruction<FGEHalfBand>
 		}
 
 		@Override
-		protected abstract FGEHalfBand computeData();
+		protected abstract DianaHalfBand computeData();
 
 	}
 

@@ -39,16 +39,16 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaLine;
 import org.openflexo.diana.geomedit.model.LineConstruction.LineConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.LineGraphicalRepresentation;
-import org.openflexo.fge.geom.FGELine;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.Import;
+import org.openflexo.pamela.annotations.Imports;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(LineConstructionImpl.class)
@@ -56,7 +56,7 @@ import org.openflexo.model.annotations.Setter;
 		@Import(OrthogonalLineWithPointConstruction.class), @Import(ParallelLineWithPointConstruction.class),
 		@Import(RotatedLineWithPointConstruction.class), @Import(TangentLineWithCircleAndPointConstruction.class),
 		@Import(VerticalLineWithPointConstruction.class) })
-public interface LineConstruction extends GeometricConstruction<FGELine> {
+public interface LineConstruction extends GeometricConstruction<DianaLine> {
 
 	@PropertyIdentifier(type = Double.class)
 	public static final String X1_KEY = "x1";
@@ -91,9 +91,9 @@ public interface LineConstruction extends GeometricConstruction<FGELine> {
 	@Setter(value = Y2_KEY)
 	public void setY2(double value);
 
-	public FGELine getLine();
+	public DianaLine getLine();
 
-	public static abstract class LineConstructionImpl extends GeometricConstructionImpl<FGELine> implements LineConstruction {
+	public static abstract class LineConstructionImpl extends GeometricConstructionImpl<DianaLine> implements LineConstruction {
 
 		@Override
 		public String getBaseName() {
@@ -101,7 +101,7 @@ public interface LineConstruction extends GeometricConstruction<FGELine> {
 		}
 
 		@Override
-		public final FGELine getLine() {
+		public final DianaLine getLine() {
 			return getData();
 		}
 
@@ -112,7 +112,7 @@ public interface LineConstruction extends GeometricConstruction<FGELine> {
 		}
 
 		@Override
-		protected abstract FGELine computeData();
+		protected abstract DianaLine computeData();
 
 		@Override
 		public double getX1() {

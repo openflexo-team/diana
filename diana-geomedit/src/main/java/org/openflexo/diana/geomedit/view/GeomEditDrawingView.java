@@ -52,21 +52,21 @@ import javax.swing.SwingUtilities;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.edition.EditionInputMethod;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.swing.view.JDrawingView;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.swing.view.JDrawingView;
 
 public class GeomEditDrawingView extends JDrawingView<GeometricDiagram> {
 
 	private static final Logger logger = Logger.getLogger(GeomEditDrawingView.class.getPackage().getName());
 
-	private FGEPoint lastMouseLocation;
+	private DianaPoint lastMouseLocation;
 
 	public GeomEditDrawingView(GeomEditDrawingController controller) {
 		super(controller);
 
 		// getPaintManager().disablePaintingCache();
 
-		lastMouseLocation = new FGEPoint();
+		lastMouseLocation = new DianaPoint();
 		addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {

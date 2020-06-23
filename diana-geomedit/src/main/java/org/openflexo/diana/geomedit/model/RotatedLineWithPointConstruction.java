@@ -39,19 +39,19 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaAbstractLine;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaEllips;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geomedit.model.RotatedLineWithPointConstruction.RotatedLineWithPointConstructionImpl;
-import org.openflexo.fge.geom.FGEAbstractLine;
-import org.openflexo.fge.geom.FGEDimension;
-import org.openflexo.fge.geom.FGEEllips;
-import org.openflexo.fge.geom.FGEGeometricObject.Filling;
-import org.openflexo.fge.geom.FGELine;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(RotatedLineWithPointConstructionImpl.class)
@@ -90,24 +90,23 @@ public interface RotatedLineWithPointConstruction extends LineConstruction {
 			implements RotatedLineWithPointConstruction {
 
 		@Override
-		protected FGELine computeData() {
+		protected DianaLine computeData() {
 			if (getLineConstruction() != null && getPointConstruction() != null) {
-				FGELine computedLine = FGEAbstractLine.getRotatedLine(getLineConstruction().getLine(), getAngle(),
+				DianaLine computedLine = DianaAbstractLine.getRotatedLine(getLineConstruction().getLine(), getAngle(),
 						getPointConstruction().getPoint());
 
-				FGEPoint p1, p2;
+				DianaPoint p1, p2;
 				p1 = getPointConstruction().getPoint().clone();
 				if (getLineConstruction().getLine().contains(getPointConstruction().getPoint())) {
-					FGEEllips ellips = new FGEEllips(p1, new FGEDimension(200, 200), Filling.NOT_FILLED);
+					DianaEllips ellips = new DianaEllips(p1, new DianaDimension(200, 200), Filling.NOT_FILLED);
 					p2 = ellips.intersect(computedLine).getNearestPoint(p1);
 				}
 				else {
 					p2 = computedLine.getLineIntersection(getLineConstruction().getLine()).clone();
 				}
-				return new FGELine(p1, p2);
+				return new DianaLine(p1, p2);
 			}
 			return null;
-
 		}
 
 		@Override

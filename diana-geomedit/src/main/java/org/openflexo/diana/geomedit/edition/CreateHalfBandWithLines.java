@@ -41,14 +41,14 @@ package org.openflexo.diana.geomedit.edition;
 
 import java.util.logging.Logger;
 
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaBand;
+import org.openflexo.diana.geom.area.DianaHalfBand;
+import org.openflexo.diana.geom.area.DianaHalfPlane;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
-import org.openflexo.fge.geom.FGELine;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.geom.area.FGEBand;
-import org.openflexo.fge.geom.area.FGEHalfBand;
-import org.openflexo.fge.geom.area.FGEHalfPlane;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
 public class CreateHalfBandWithLines extends Edition {
 
@@ -73,29 +73,29 @@ public class CreateHalfBandWithLines extends Edition {
 				l3.getConstruction(), p.getConstruction()));
 	}
 
-	private FGEArea whatToPaint = null;
+	private DianaArea whatToPaint = null;
 	private boolean requireRepaint = true;
 
 	@Override
-	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
+	public void paintEdition(JDianaDrawingGraphics graphics, DianaPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
 			return;
 		}
 		else if (currentStep == 1) {
-			FGELine line1 = ((ObtainLine) inputs.get(0)).getInputData();
-			whatToPaint = new FGEHalfPlane(line1, lastMouseLocation);
+			DianaLine line1 = ((ObtainLine) inputs.get(0)).getInputData();
+			whatToPaint = new DianaHalfPlane(line1, lastMouseLocation);
 		}
 		else if (currentStep == 2) {
-			FGELine line1 = ((ObtainLine) inputs.get(0)).getInputData();
-			FGELine line2 = ((ObtainLine) inputs.get(1)).getInputData();
-			whatToPaint = new FGEBand(line1, line2);
+			DianaLine line1 = ((ObtainLine) inputs.get(0)).getInputData();
+			DianaLine line2 = ((ObtainLine) inputs.get(1)).getInputData();
+			whatToPaint = new DianaBand(line1, line2);
 		}
 		else if (currentStep == 3) {
-			FGELine line1 = ((ObtainLine) inputs.get(0)).getInputData();
-			FGELine line2 = ((ObtainLine) inputs.get(1)).getInputData();
-			FGELine limitLine = ((ObtainLine) inputs.get(2)).getInputData();
-			whatToPaint = new FGEHalfBand(line1, line2, new FGEHalfPlane(limitLine, lastMouseLocation.clone()));
+			DianaLine line1 = ((ObtainLine) inputs.get(0)).getInputData();
+			DianaLine line2 = ((ObtainLine) inputs.get(1)).getInputData();
+			DianaLine limitLine = ((ObtainLine) inputs.get(2)).getInputData();
+			whatToPaint = new DianaHalfBand(line1, line2, new DianaHalfPlane(limitLine, lastMouseLocation.clone()));
 		}
 		graphics.setDefaultForeground(focusedForegroundStyle);
 		graphics.setDefaultBackground(focusedBackgroundStyle);
@@ -103,26 +103,26 @@ public class CreateHalfBandWithLines extends Edition {
 	}
 
 	@Override
-	public boolean requireRepaint(FGEPoint lastMouseLocation) {
-		FGEArea thingToPaint = null;
+	public boolean requireRepaint(DianaPoint lastMouseLocation) {
+		DianaArea thingToPaint = null;
 		if (currentStep == 0) {
 			// Nothing to draw
 			return false;
 		}
 		else if (currentStep == 1) {
-			FGELine line1 = ((ObtainLine) inputs.get(0)).getInputData();
-			thingToPaint = new FGEHalfPlane(line1, lastMouseLocation);
+			DianaLine line1 = ((ObtainLine) inputs.get(0)).getInputData();
+			thingToPaint = new DianaHalfPlane(line1, lastMouseLocation);
 		}
 		else if (currentStep == 2) {
-			FGELine line1 = ((ObtainLine) inputs.get(0)).getInputData();
-			FGELine line2 = ((ObtainLine) inputs.get(1)).getInputData();
-			thingToPaint = new FGEBand(line1, line2);
+			DianaLine line1 = ((ObtainLine) inputs.get(0)).getInputData();
+			DianaLine line2 = ((ObtainLine) inputs.get(1)).getInputData();
+			thingToPaint = new DianaBand(line1, line2);
 		}
 		else if (currentStep == 3) {
-			FGELine line1 = ((ObtainLine) inputs.get(0)).getInputData();
-			FGELine line2 = ((ObtainLine) inputs.get(1)).getInputData();
-			FGELine limitLine = ((ObtainLine) inputs.get(2)).getInputData();
-			thingToPaint = new FGEHalfBand(line1, line2, new FGEHalfPlane(limitLine, lastMouseLocation.clone()));
+			DianaLine line1 = ((ObtainLine) inputs.get(0)).getInputData();
+			DianaLine line2 = ((ObtainLine) inputs.get(1)).getInputData();
+			DianaLine limitLine = ((ObtainLine) inputs.get(2)).getInputData();
+			thingToPaint = new DianaHalfBand(line1, line2, new DianaHalfPlane(limitLine, lastMouseLocation.clone()));
 		}
 		if (whatToPaint == null || !whatToPaint.equals(thingToPaint)) {
 			whatToPaint = thingToPaint;

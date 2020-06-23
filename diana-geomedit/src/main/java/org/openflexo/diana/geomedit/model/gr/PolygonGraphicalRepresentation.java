@@ -51,28 +51,28 @@ import org.openflexo.diana.geomedit.model.PointConstruction;
 import org.openflexo.diana.geomedit.model.PolygonConstruction;
 import org.openflexo.diana.geomedit.model.PolygonWithNPointsConstruction;
 import org.openflexo.diana.geomedit.model.gr.PolygonGraphicalRepresentation.PolygonGraphicalRepresentationImpl;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.GeometricGraphicalRepresentation;
-import org.openflexo.fge.cp.ControlArea;
-import org.openflexo.fge.cp.ControlPoint;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGEPolygon;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.GeometricGraphicalRepresentation;
+import org.openflexo.diana.cp.ControlArea;
+import org.openflexo.diana.cp.ControlPoint;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaPolygon;
 
 @ModelEntity
 @ImplementationClass(PolygonGraphicalRepresentationImpl.class)
 @XMLElement
-public interface PolygonGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEPolygon> {
+public interface PolygonGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<DianaPolygon> {
 
-	public static abstract class PolygonGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEPolygon>
+	public static abstract class PolygonGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<DianaPolygon>
 			implements PolygonGraphicalRepresentation {
 
 		@Override
 		public List<? extends ControlArea<?>> makeControlAreasFor(
-				DrawingTreeNode<GeometricConstruction<FGEPolygon>, GeometricGraphicalRepresentation> dtn) {
+				DrawingTreeNode<GeometricConstruction<DianaPolygon>, GeometricGraphicalRepresentation> dtn) {
 			Vector<ControlPoint> returned = new Vector<ControlPoint>();
 
 			PolygonConstruction polygonContruction = (PolygonConstruction) dtn.getDrawable();
@@ -85,11 +85,11 @@ public interface PolygonGraphicalRepresentation extends GeometricObjectGraphical
 					PointConstruction pc = ((PolygonWithNPointsConstruction) polygonContruction).getPointConstructions().get(i);
 
 					if (pc instanceof ExplicitPointConstruction) {
-						returned.add(new DraggableControlPoint<FGEPolygon>((GeometricNode<?>) dtn, "pt" + i, pc.getPoint(),
+						returned.add(new DraggableControlPoint<DianaPolygon>((GeometricNode<?>) dtn, "pt" + i, pc.getPoint(),
 								(ExplicitPointConstruction) pc) {
 							@Override
-							public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-									FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+							public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+									DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 								getGeometricObject().getPointAt(pointIndex).x = newAbsolutePoint.x;
 								getGeometricObject().getPointAt(pointIndex).y = newAbsolutePoint.y;
 								setPoint(newAbsolutePoint);
@@ -99,16 +99,16 @@ public interface PolygonGraphicalRepresentation extends GeometricObjectGraphical
 							}
 
 							@Override
-							public void update(FGEPolygon geometricObject) {
+							public void update(DianaPolygon geometricObject) {
 								geometricObject.updateSegmentsFromPoints();
 								setPoint(geometricObject.getPointAt(pointIndex));
 							}
 						});
 					}
 					else {
-						returned.add(new ComputedControlPoint<FGEPolygon>((GeometricNode<?>) dtn, "pt" + i, pc.getPoint()) {
+						returned.add(new ComputedControlPoint<DianaPolygon>((GeometricNode<?>) dtn, "pt" + i, pc.getPoint()) {
 							@Override
-							public void update(FGEPolygon geometricObject) {
+							public void update(DianaPolygon geometricObject) {
 								geometricObject.updateSegmentsFromPoints();
 								setPoint(geometricObject.getPointAt(pointIndex));
 							}

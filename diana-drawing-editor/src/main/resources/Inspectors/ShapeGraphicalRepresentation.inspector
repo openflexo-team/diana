@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Inspector layout="border" titleFont="SansSerif,0,12" darkLevel="0" dataClassName="org.openflexo.fge.ShapeGraphicalRepresentation" font="SansSerif,0,12" name="Inspector">
+<Inspector layout="border" titleFont="SansSerif,0,12" darkLevel="0" dataClassName="org.openflexo.diana.ShapeGraphicalRepresentation" font="SansSerif,0,12" name="Inspector">
   <TabPanel name="Tab" index="0" constraints="border(index=0;location=center)">
     <Tab title="Edition" layout="twocols" titleFont="SansSerif,0,11" darkLevel="0" index="3" font="SansSerif,0,11" useScrollBar="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="EditionTab">
       <Label label="is_selectable" index="2" constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;location=left)" name="IsSelectableLabel" localize="true" />
@@ -7,10 +7,10 @@
         <CheckBox selected="false" data="data.isSelectable" constraints="flow()" name="IsSelectable" localize="true" />
         <CheckBox selected="true" index="1" data="data.hasSelectedForeground" constraints="flow(index=1)" localize="true" enable="data.isSelectable" />
         <Label label="use" index="2" constraints="flow(index=2;location=east)" localize="true" enable="data.isSelectable" />
-        <Custom componentClassName="org.openflexo.fge.view.widget.FIBForegroundStyleSelector" localize="true" enable="(data.isSelectable &amp; data.hasSelectedForeground)" manageDynamicModel="true" index="3" data="data.selectedForeground" constraints="flow(index=3)" />
+        <Custom componentClassName="org.openflexo.diana.view.widget.FIBForegroundStyleSelector" localize="true" enable="(data.isSelectable &amp; data.hasSelectedForeground)" manageDynamicModel="true" index="3" data="data.selectedForeground" constraints="flow(index=3)" />
         <CheckBox selected="true" index="4" data="data.hasSelectedBackground" constraints="flow(index=4)" localize="true" enable="data.isSelectable" />
         <Label label="use" index="5" constraints="flow(index=5)" localize="true" enable="data.isSelectable" />
-        <Custom componentClassName="org.openflexo.fge.view.widget.FIBBackgroundStyleSelector" localize="true" enable="(data.isSelectable &amp; data.hasSelectedBackground)" manageDynamicModel="true" index="6" data="data.selectedBackground" constraints="flow(index=6)" />
+        <Custom componentClassName="org.openflexo.diana.view.widget.FIBBackgroundStyleSelector" localize="true" enable="(data.isSelectable &amp; data.hasSelectedBackground)" manageDynamicModel="true" index="6" data="data.selectedBackground" constraints="flow(index=6)" />
         <Label label="cp" index="10" constraints="flow(expandHorizontally=false;expandVertically=false;index=10;location=left)" localize="true" enable="data.isSelectable" />
         <CheckBox selected="false" index="11" data="data.drawControlPointsWhenSelected" constraints="flow(expandHorizontally=false;expandVertically=false;index=11;location=right)" localize="true" enable="data.isSelectable" />
       </Panel>
@@ -19,10 +19,10 @@
         <CheckBox selected="false" index="0" data="data.isFocusable" constraints="flow(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=center)" name="IsFocusable" localize="true" />
         <CheckBox selected="true" index="1" data="data.hasFocusedForeground" constraints="flow(index=1)" localize="true" enable="data.isFocusable" />
         <Label label="use" index="2" constraints="flow(index=2;location=east)" localize="true" enable="data.isFocusable" />
-        <Custom componentClassName="org.openflexo.fge.view.widget.FIBForegroundStyleSelector" localize="true" enable="(data.isFocusable &amp; data.hasFocusedForeground)" manageDynamicModel="true" index="3" data="data.focusedForeground" constraints="flow(index=3)" />
+        <Custom componentClassName="org.openflexo.diana.view.widget.FIBForegroundStyleSelector" localize="true" enable="(data.isFocusable &amp; data.hasFocusedForeground)" manageDynamicModel="true" index="3" data="data.focusedForeground" constraints="flow(index=3)" />
         <CheckBox selected="true" index="4" data="data.hasFocusedBackground" constraints="flow(index=4)" localize="true" enable="data.isFocusable" />
         <Label label="use" index="5" constraints="flow(index=5)" localize="true" enable="data.isFocusable" />
-        <Custom componentClassName="org.openflexo.fge.view.widget.FIBBackgroundStyleSelector" localize="true" enable="(data.isFocusable &amp; data.hasFocusedBackground)" manageDynamicModel="true" index="6" data="data.focusedBackground" constraints="flow(index=6)" />
+        <Custom componentClassName="org.openflexo.diana.view.widget.FIBBackgroundStyleSelector" localize="true" enable="(data.isFocusable &amp; data.hasFocusedBackground)" manageDynamicModel="true" index="6" data="data.focusedBackground" constraints="flow(index=6)" />
         <Label label="cp" index="10" constraints="flow(expandHorizontally=false;expandVertically=false;index=10;location=left)" localize="true" enable="data.isFocusable" />
         <CheckBox selected="false" index="11" data="data.drawControlPointsWhenFocused" constraints="flow(expandHorizontally=false;expandVertically=false;index=11;location=right)" localize="true" enable="data.isFocusable" />
       </Panel>
@@ -37,7 +37,7 @@
         <Number minValue="0.0" maxValue="10000.0" increment="1.0" numberType="DoubleType" columns="5" index="2" data="data.y" constraints="flow(index=2)" name="Y" localize="true" />
       </Panel>
       <Label label="location_constraints" index="4" constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;location=left)" name="LocationConstraintsLabel" localize="true" />
-      <DropDown index="5" data="data.locationConstraints" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;location=right)" width="150" name="LocationConstraints" format="object.name.toLowerCase" localize="true" iteratorClassName="org.openflexo.fge.ShapeGraphicalRepresentation$LocationConstraints" autoSelectFirstRow="false" />
+      <DropDown index="5" data="data.locationConstraints" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;location=right)" width="150" name="LocationConstraints" format="object.name.toLowerCase" localize="true" iteratorClassName="org.openflexo.diana.ShapeGraphicalRepresentation$LocationConstraints" autoSelectFirstRow="false" />
       <Label label="dimensions" index="6" constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;location=left)" name="DimensionLabel" localize="true" />
       <Panel layout="flow" hGap="5" vGap="0" flowAlignment="LEADING" titleFont="SansSerif,0,11" darkLevel="0" index="7" constraints="twocols(expandHorizontally=true;expandVertically=false;index=7;location=right)">
         <Number minValue="0.0" maxValue="10000.0" increment="1.0" numberType="DoubleType" columns="5" index="0" data="data.width" constraints="flow(index=0)" name="Width" localize="true" />
@@ -45,7 +45,7 @@
         <Number minValue="0.0" maxValue="10000.0" increment="1.0" numberType="DoubleType" columns="5" index="2" data="data.height" constraints="flow(index=2)" name="Height" localize="true" />
       </Panel>
       <Label label="dimensions_constraints" index="8" constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;location=left)" name="DimensionConstraintsLabel" localize="true" />
-      <DropDown index="9" data="data.dimensionConstraints" constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;location=right)" width="150" name="DimensionConstraints" format="object.name.toLowerCase" localize="true" iteratorClassName="org.openflexo.fge.ShapeGraphicalRepresentation$DimensionConstraints" autoSelectFirstRow="false" />
+      <DropDown index="9" data="data.dimensionConstraints" constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;location=right)" width="150" name="DimensionConstraints" format="object.name.toLowerCase" localize="true" iteratorClassName="org.openflexo.diana.ShapeGraphicalRepresentation$DimensionConstraints" autoSelectFirstRow="false" />
       <Label label="x_constraints" index="10" constraints="twocols(expandVertically=false;index=10;location=left)" localize="true" />
       <Custom componentClassName="org.openflexo.gina.swing.utils.BindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.xConstraints)" index="11" data="data.xConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=11;location=right)">
         <Assignment variable="component.bindable" value="data" />
@@ -101,7 +101,7 @@
       <Label label="adjust_minimal_height_to_label_height" index="29" constraints="twocols(expandHorizontally=false;expandVertically=false;index=29;location=right)" name="AdjustMinimalHeightToLabelHeightLabel" localize="true" />
     </Tab>
     <Tab title="Shape" layout="gridbag" titleFont="SansSerif,0,11" darkLevel="0" index="0" font="SansSerif,0,11" useScrollBar="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="ShapeTab">
-      <Custom componentClassName="org.openflexo.fge.view.widget.ShapePreviewPanel" localize="true" manageDynamicModel="true" index="0" data="data.shape" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=none;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=center;padX=0;padY=0;weightX=0.0;weightY=0.0)">
+      <Custom componentClassName="org.openflexo.diana.view.widget.ShapePreviewPanel" localize="true" manageDynamicModel="true" index="0" data="data.shape" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=none;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=center;padX=0;padY=0;weightX=0.0;weightY=0.0)">
         <Assignment variable="component.panelWidth" value="120" />
         <Assignment variable="component.panelHeight" value="80" />
         <Assignment variable="component.foregroundStyle" value="data.foreground" />
@@ -114,13 +114,13 @@
       </Custom>
       <Panel layout="twocols" border="rounded3d" borderTop="2" borderBottom="2" borderRight="2" titleFont="SansSerif,0,11" darkLevel="1" index="1" constraints="gridbag(anchor=center;expandHorizontally=false;fill=none;gridHeight=1;gridWidth=1;gridX=-1;gridY=-1;index=1;insetsBottom=10;insetsLeft=10;insetsRight=10;insetsTop=10;location=center;padX=10;padY=10;weightX=0.0;weightY=0.0)">
         <Label label="foreground" index="0" constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=10;insetsRight=2;insetsTop=5;location=left)" name="ForegroundLabel" localize="true" />
-        <Custom componentClassName="org.openflexo.fge.view.widget.FIBForegroundStyleSelector" localize="true" manageDynamicModel="true" name="ForegroundSelector" index="1" data="data.foreground" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+        <Custom componentClassName="org.openflexo.diana.view.widget.FIBForegroundStyleSelector" localize="true" manageDynamicModel="true" name="ForegroundSelector" index="1" data="data.foreground" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
         <Label label="background" index="2" constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" name="BackgroundLabel" localize="true" />
-        <Custom componentClassName="org.openflexo.fge.view.widget.FIBBackgroundStyleSelector" localize="true" manageDynamicModel="true" name="BackgroundSelector" index="3" data="data.background" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+        <Custom componentClassName="org.openflexo.diana.view.widget.FIBBackgroundStyleSelector" localize="true" manageDynamicModel="true" name="BackgroundSelector" index="3" data="data.background" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
         <Label label="shadow" index="4" constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" name="ShadowStyleLabel" localize="true" />
-        <Custom componentClassName="org.openflexo.fge.view.widget.FIBShadowStyleSelector" localize="true" manageDynamicModel="true" name="ShadowStyleSelector" index="5" data="data.shadowStyle" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+        <Custom componentClassName="org.openflexo.diana.view.widget.FIBShadowStyleSelector" localize="true" manageDynamicModel="true" name="ShadowStyleSelector" index="5" data="data.shadowStyle" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
         <Label label="shape" index="6" constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" name="ShapeTypeLabel" localize="true" />
-        <Custom componentClassName="org.openflexo.fge.view.widget.FIBShapeSelector" localize="true" manageDynamicModel="true" name="ShapeSelector" index="7" data="data.shape" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+        <Custom componentClassName="org.openflexo.diana.view.widget.FIBShapeSelector" localize="true" manageDynamicModel="true" name="ShapeSelector" index="7" data="data.shape" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
       </Panel>
     </Tab>
   </TabPanel>

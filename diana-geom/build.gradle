@@ -1,6 +1,3 @@
 dependencies {
-    // no dependencies
-}
-tasks.withType(Test) {
-	jvmArgs += ["-Djava.awt.headless=true"]
+   testCompile testUtils()
 }

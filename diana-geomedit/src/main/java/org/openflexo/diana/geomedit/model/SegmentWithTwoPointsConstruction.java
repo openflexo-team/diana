@@ -39,14 +39,14 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaSegment;
 import org.openflexo.diana.geomedit.model.SegmentWithTwoPointsConstruction.SegmentWithTwoPointsConstructionImpl;
-import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(SegmentWithTwoPointsConstructionImpl.class)
@@ -76,9 +76,9 @@ public interface SegmentWithTwoPointsConstruction extends SegmentConstruction {
 			implements SegmentWithTwoPointsConstruction {
 
 		@Override
-		protected FGESegment computeData() {
+		protected DianaSegment computeData() {
 			if (getPointConstruction1() != null && getPointConstruction2() != null) {
-				return new FGESegment(getPointConstruction1().getPoint(), getPointConstruction2().getPoint());
+				return new DianaSegment(getPointConstruction1().getPoint(), getPointConstruction2().getPoint());
 			}
 			return null;
 		}

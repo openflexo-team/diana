@@ -39,15 +39,15 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaSegment;
 import org.openflexo.diana.geomedit.model.SymetricPointConstruction.SymetricPointConstructionImpl;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(SymetricPointConstructionImpl.class)
@@ -79,9 +79,9 @@ public interface SymetricPointConstruction extends PointConstruction {
 		private PointConstruction pivotConstruction;
 
 		@Override
-		protected FGEPoint computeData() {
+		protected DianaPoint computeData() {
 			if (getPointConstruction() != null && getPivotConstruction() != null) {
-				return new FGESegment(pointConstruction.getPoint(), pivotConstruction.getPoint()).getScaledPoint(2);
+				return new DianaSegment(pointConstruction.getPoint(), pivotConstruction.getPoint()).getScaledPoint(2);
 			}
 			return null;
 		}

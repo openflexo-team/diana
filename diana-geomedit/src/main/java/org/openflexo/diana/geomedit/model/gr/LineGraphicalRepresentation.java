@@ -56,38 +56,38 @@ import org.openflexo.diana.geomedit.model.RotatedLineWithPointConstruction;
 import org.openflexo.diana.geomedit.model.TangentLineWithCircleAndPointConstruction;
 import org.openflexo.diana.geomedit.model.VerticalLineWithPointConstruction;
 import org.openflexo.diana.geomedit.model.gr.LineGraphicalRepresentation.LineGraphicalRepresentationImpl;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.GeometricGraphicalRepresentation;
-import org.openflexo.fge.cp.ControlArea;
-import org.openflexo.fge.cp.ControlPoint;
-import org.openflexo.fge.geom.FGELine;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.GeometricGraphicalRepresentation;
+import org.openflexo.diana.cp.ControlArea;
+import org.openflexo.diana.cp.ControlPoint;
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.DianaPoint;
 
 @ModelEntity
 @ImplementationClass(LineGraphicalRepresentationImpl.class)
 @XMLElement
-public interface LineGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGELine> {
+public interface LineGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<DianaLine> {
 
-	public static abstract class LineGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGELine>
+	public static abstract class LineGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<DianaLine>
 			implements LineGraphicalRepresentation {
 
 		/*@Override
-		public FGELine getGeometricObject() {
+		public DianaLine getGeometricObject() {
 			System.out.println("LineGraphicalRepresentation geometricObject=" + super.getGeometricObject());
 			return super.getGeometricObject();
 		}*/
 
 		@Override
 		public List<? extends ControlArea<?>> makeControlAreasFor(
-				DrawingTreeNode<GeometricConstruction<FGELine>, GeometricGraphicalRepresentation> dtn) {
+				DrawingTreeNode<GeometricConstruction<DianaLine>, GeometricGraphicalRepresentation> dtn) {
 			Vector<ControlPoint> returned = new Vector<ControlPoint>();
 
 			LineConstruction lineConstruction = (LineConstruction) dtn.getDrawable();
-			FGELine line = lineConstruction.getData();
+			DianaLine line = lineConstruction.getData();
 
 			ExplicitPointConstruction pc1 = null;
 			ExplicitPointConstruction pc2 = null;
@@ -139,10 +139,10 @@ public interface LineGraphicalRepresentation extends GeometricObjectGraphicalRep
 			}
 
 			if (pc1 != null) {
-				returned.add(new DraggableControlPoint<FGELine>((GeometricNode<?>) dtn, "p1", line.getP1(), pc1) {
+				returned.add(new DraggableControlPoint<DianaLine>((GeometricNode<?>) dtn, "p1", line.getP1(), pc1) {
 					@Override
-					public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-							FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+					public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+							DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 						getGeometricObject().setP1(newAbsolutePoint);
 						setPoint(newAbsolutePoint);
 						((GeometricNode<?>) dtn).notifyGeometryChanged();
@@ -150,25 +150,25 @@ public interface LineGraphicalRepresentation extends GeometricObjectGraphicalRep
 					}
 
 					@Override
-					public void update(FGELine geometricObject) {
+					public void update(DianaLine geometricObject) {
 						setPoint(geometricObject.getP1());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<FGELine>((GeometricNode<?>) dtn, "p1", line.getP1()) {
+				returned.add(new ComputedControlPoint<DianaLine>((GeometricNode<?>) dtn, "p1", line.getP1()) {
 					@Override
-					public void update(FGELine geometricObject) {
+					public void update(DianaLine geometricObject) {
 						setPoint(geometricObject.getP1());
 					}
 				});
 			}
 
 			if (pc2 != null) {
-				returned.add(new DraggableControlPoint<FGELine>((GeometricNode<?>) dtn, "p2", line.getP2(), pc2) {
+				returned.add(new DraggableControlPoint<DianaLine>((GeometricNode<?>) dtn, "p2", line.getP2(), pc2) {
 					@Override
-					public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-							FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+					public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+							DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 						getGeometricObject().setP2(newAbsolutePoint);
 						setPoint(newAbsolutePoint);
 						((GeometricNode<?>) dtn).notifyGeometryChanged();
@@ -176,15 +176,15 @@ public interface LineGraphicalRepresentation extends GeometricObjectGraphicalRep
 					}
 
 					@Override
-					public void update(FGELine geometricObject) {
+					public void update(DianaLine geometricObject) {
 						setPoint(geometricObject.getP2());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<FGELine>((GeometricNode<?>) dtn, "p2", line.getP1()) {
+				returned.add(new ComputedControlPoint<DianaLine>((GeometricNode<?>) dtn, "p2", line.getP1()) {
 					@Override
-					public void update(FGELine geometricObject) {
+					public void update(DianaLine geometricObject) {
 						setPoint(geometricObject.getP2());
 					}
 				});

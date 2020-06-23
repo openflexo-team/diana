@@ -41,17 +41,17 @@ package org.openflexo.diana.geomedit.model;
 
 import java.beans.PropertyChangeEvent;
 
+import org.openflexo.diana.cp.ControlPoint;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.model.ControlPointReference.ControlPointReferenceImpl;
-import org.openflexo.fge.cp.ControlPoint;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLAttribute;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(ControlPointReferenceImpl.class)
@@ -97,14 +97,14 @@ public interface ControlPointReference extends PointConstruction {
 		}
 
 		@Override
-		protected FGEPoint computeData() {
+		protected DianaPoint computeData() {
 			if (getControlPoint() != null) {
 				return getControlPoint().getPoint();
 			}
-			//System.out
-			//		.println("computeData() for ControlPointReference: cannot find cp " + getControlPointName() + " for " + getReference());
+			// System.out
+			// .println("computeData() for ControlPointReference: cannot find cp " + getControlPointName() + " for " + getReference());
 			setModified(true);
-			return new FGEPoint(0, 0);
+			return new DianaPoint(0, 0);
 		}
 
 		@Override

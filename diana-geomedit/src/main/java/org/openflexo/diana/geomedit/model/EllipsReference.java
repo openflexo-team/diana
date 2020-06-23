@@ -39,36 +39,36 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.BackgroundStyle;
+import org.openflexo.diana.ForegroundStyle;
+import org.openflexo.diana.geom.DianaEllips;
 import org.openflexo.diana.geomedit.model.EllipsReference.EllipsReferenceImpl;
-import org.openflexo.fge.BackgroundStyle;
-import org.openflexo.fge.ForegroundStyle;
-import org.openflexo.fge.geom.FGEEllips;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(EllipsReferenceImpl.class)
 @XMLElement
-public interface EllipsReference extends EllipsConstruction<FGEEllips> {
+public interface EllipsReference extends EllipsConstruction<DianaEllips> {
 
-	public EllipsConstruction<FGEEllips> getReference();
+	public EllipsConstruction<DianaEllips> getReference();
 
-	public void setReference(EllipsConstruction<FGEEllips> reference);
+	public void setReference(EllipsConstruction<DianaEllips> reference);
 
-	public static abstract class EllipsReferenceImpl extends EllipsConstructionImpl<FGEEllips> implements EllipsReference {
+	public static abstract class EllipsReferenceImpl extends EllipsConstructionImpl<DianaEllips> implements EllipsReference {
 
-		private EllipsConstruction<FGEEllips> reference;
+		private EllipsConstruction<DianaEllips> reference;
 
 		@Override
-		public EllipsConstruction<FGEEllips> getReference() {
+		public EllipsConstruction<DianaEllips> getReference() {
 			return reference;
 		}
 
 		@Override
-		public void setReference(EllipsConstruction<FGEEllips> reference) {
+		public void setReference(EllipsConstruction<DianaEllips> reference) {
 			if ((reference == null && this.reference != null) || (reference != null && !reference.equals(this.reference))) {
-				EllipsConstruction<FGEEllips> oldValue = this.reference;
+				EllipsConstruction<DianaEllips> oldValue = this.reference;
 				this.reference = reference;
 				getPropertyChangeSupport().firePropertyChange("reference", oldValue, reference);
 			}
@@ -91,7 +91,7 @@ public interface EllipsReference extends EllipsConstruction<FGEEllips> {
 		}
 
 		@Override
-		protected FGEEllips computeData() {
+		protected DianaEllips computeData() {
 			if (getReference() != null) {
 				return getReference().getData();
 			}

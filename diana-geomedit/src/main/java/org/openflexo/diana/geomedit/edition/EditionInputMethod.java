@@ -54,12 +54,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
-import org.openflexo.fge.swing.view.FGEViewMouseListener;
-import org.openflexo.fge.swing.view.JDrawingView;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
+import org.openflexo.diana.swing.view.DianaViewMouseListener;
+import org.openflexo.diana.swing.view.JDrawingView;
 
-public abstract class EditionInputMethod<O extends Object, I extends EditionInput<O>> extends FGEViewMouseListener {
+public abstract class EditionInputMethod<O extends Object, I extends EditionInput<O>> extends DianaViewMouseListener {
 	private String methodLabel;
 	private I editionInput;
 
@@ -105,16 +105,16 @@ public abstract class EditionInputMethod<O extends Object, I extends EditionInpu
 	public void mouseExited(MouseEvent e) {
 	}
 
-	public FGEPoint getPointLocation(MouseEvent e) {
+	public DianaPoint getPointLocation(MouseEvent e) {
 		Point ptInView = SwingUtilities.convertPoint((Component) e.getSource(), e.getPoint(),
 				(JDrawingView<?>) getController().getDrawingView());
-		FGEPoint returned = new FGEPoint();
+		DianaPoint returned = new DianaPoint();
 		returned.x = ptInView.x / getController().getScale();
 		returned.y = ptInView.y / getController().getScale();
 		return returned;
 	}
 
-	public void paint(JFGEDrawingGraphics graphics) {
+	public void paint(JDianaDrawingGraphics graphics) {
 	}
 
 	public abstract InputComponent getInputComponent();

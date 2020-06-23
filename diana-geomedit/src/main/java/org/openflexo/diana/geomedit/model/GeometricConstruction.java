@@ -44,37 +44,38 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openflexo.diana.BackgroundStyle;
+import org.openflexo.diana.ForegroundStyle;
+import org.openflexo.diana.cp.ControlPoint;
+import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.geomedit.model.GeometricConstruction.GeometricConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
-import org.openflexo.fge.BackgroundStyle;
-import org.openflexo.fge.ForegroundStyle;
-import org.openflexo.fge.cp.ControlPoint;
-import org.openflexo.fge.geom.FGEShape;
-import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.notifications.GeometryModified;
-import org.openflexo.model.annotations.CloningStrategy;
-import org.openflexo.model.annotations.CloningStrategy.StrategyType;
-import org.openflexo.model.annotations.Embedded;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.diana.notifications.GeometryModified;
+import org.openflexo.pamela.annotations.CloningStrategy;
+import org.openflexo.pamela.annotations.CloningStrategy.StrategyType;
+import org.openflexo.pamela.annotations.Embedded;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.Import;
+import org.openflexo.pamela.annotations.Imports;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLAttribute;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(GeometricConstructionImpl.class)
-@Imports({ @Import(LineConstruction.class), @Import(PointConstruction.class), @Import(EllipsConstruction.class),
-		@Import(RectangleConstruction.class), @Import(RoundRectangleConstruction.class), @Import(SegmentConstruction.class),
-		@Import(HalfLineConstruction.class), @Import(CubicCurveConstruction.class), @Import(QuadCurveConstruction.class),
-		@Import(ComplexCurveConstruction.class), @Import(BandConstruction.class), @Import(HalfBandConstruction.class),
-		@Import(HalfPlaneConstruction.class), @Import(ObjectReference.class), @Import(PolygonConstruction.class),
-		@Import(QuarterPlaneConstruction.class), @Import(PolylinConstruction.class), @Import(IntersectionConstruction.class),
-		@Import(UnionConstruction.class), @Import(SubstractionConstruction.class) })
-public interface GeometricConstruction<A extends FGEArea> extends GeometricElement {
+@Imports({ @Import(LineConstruction.class), @Import(PointConstruction.class), @Import(NodeConstruction.class),
+		@Import(ConnectorConstruction.class), @Import(EllipsConstruction.class), @Import(RectangleConstruction.class),
+		@Import(RoundRectangleConstruction.class), @Import(SegmentConstruction.class), @Import(HalfLineConstruction.class),
+		@Import(CubicCurveConstruction.class), @Import(QuadCurveConstruction.class), @Import(ComplexCurveConstruction.class),
+		@Import(BandConstruction.class), @Import(HalfBandConstruction.class), @Import(HalfPlaneConstruction.class),
+		@Import(ObjectReference.class), @Import(PolygonConstruction.class), @Import(QuarterPlaneConstruction.class),
+		@Import(PolylinConstruction.class), @Import(IntersectionConstruction.class), @Import(UnionConstruction.class),
+		@Import(SubstractionConstruction.class) })
+public interface GeometricConstruction<A extends DianaArea> extends GeometricElement {
 
 	@PropertyIdentifier(type = GeometricObjectGraphicalRepresentation.class)
 	public static final String GRAPHICAL_REPRESENTATION = "graphicalRepresentation";
@@ -87,6 +88,8 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 	public static final String BACKGROUND_KEY = "background";
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String IS_VISIBLE_KEY = "isVisible";
+	@PropertyIdentifier(type = Boolean.class)
+	public static final String IS_LABEL_VISIBLE_KEY = "isLabelVisible";
 
 	@Override
 	@Getter(value = GEOMETRIC_DIAGRAM)
@@ -129,6 +132,17 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 	@Setter(IS_VISIBLE_KEY)
 	public void setIsVisible(boolean isVisible);
 
+	@Getter(value = IS_LABEL_VISIBLE_KEY, defaultValue = "true")
+	@XMLAttribute
+	public boolean getIsLabelVisible();
+
+	@Setter(IS_LABEL_VISIBLE_KEY)
+	public void setIsLabelVisible(boolean isLabelVisible);
+
+	public String getLabel();
+
+	public void setLabel(String aName);
+
 	public void refresh();
 
 	public GeometricConstruction<?>[] getDepends();
@@ -143,7 +157,7 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 
 	public void notifyGeometryChanged();
 
-	public static abstract class GeometricConstructionImpl<A extends FGEArea> extends GeometricElementImpl
+	public static abstract class GeometricConstructionImpl<A extends DianaArea> extends GeometricElementImpl
 			implements GeometricConstruction<A>, PropertyChangeListener {
 
 		private A computedData;
@@ -159,7 +173,6 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 
 			if (computedData == null) {
 				computedData = performComputeData();
-
 			}
 
 			return computedData;
@@ -167,18 +180,45 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 
 		private A performComputeData() {
 			A returned = computeData();
-			if (returned instanceof FGEShape) {
-				((FGEShape<?>) returned).setForeground(getForeground());
-				((FGEShape<?>) returned).setBackground(getBackground());
+			if (returned instanceof DianaShape) {
+				((DianaShape<?>) returned).setForeground(getForeground());
+				((DianaShape<?>) returned).setBackground(getBackground());
 			}
 			return returned;
 		}
 
 		@Override
+		public String getLabel() {
+			if (getIsLabelVisible()) {
+				return getName();
+			}
+			return "";
+		}
+
+		@Override
+		public void setLabel(String aLabel) {
+			if (getIsLabelVisible()) {
+				setName(aLabel);
+			}
+		}
+
+		@Override
+		public void setName(String aName) {
+			performSuperSetter(GeometricConstruction.NAME_KEY, aName);
+			getPropertyChangeSupport().firePropertyChange("label", null, getLabel());
+		}
+
+		@Override
+		public void setIsLabelVisible(boolean isLabelVisible) {
+			performSuperSetter(GeometricConstruction.IS_LABEL_VISIBLE_KEY, isLabelVisible);
+			getPropertyChangeSupport().firePropertyChange("label", null, getLabel());
+		}
+
+		@Override
 		public void setForeground(ForegroundStyle aForeground) {
 			performSuperSetter(FOREGROUND_KEY, aForeground);
-			if (computedData instanceof FGEShape) {
-				((FGEShape<?>) computedData).setForeground(getForeground());
+			if (computedData instanceof DianaShape) {
+				((DianaShape<?>) computedData).setForeground(getForeground());
 			}
 			refresh();
 			notifyGeometryChanged();
@@ -187,8 +227,8 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 		@Override
 		public void setBackground(BackgroundStyle aBackground) {
 			performSuperSetter(BACKGROUND_KEY, aBackground);
-			if (computedData instanceof FGEShape) {
-				((FGEShape<?>) computedData).setBackground(getBackground());
+			if (computedData instanceof DianaShape) {
+				((DianaShape<?>) computedData).setBackground(getBackground());
 			}
 			refresh();
 			notifyGeometryChanged();
@@ -216,9 +256,15 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 			return true;
 		}
 
+		private boolean isRefreshing = false;
+
 		@Override
 		public final void refresh() {
 			// System.out.println("Refresh for "+this.getClass().getSimpleName());
+			if (isRefreshing) {
+				return;
+			}
+			isRefreshing = true;
 			A oldData = getData();
 			if (getDepends() != null) {
 				for (GeometricConstruction c : getDepends()) {
@@ -229,6 +275,7 @@ public interface GeometricConstruction<A extends FGEArea> extends GeometricEleme
 			}
 			computedData = performComputeData();
 			getPropertyChangeSupport().firePropertyChange("data", oldData, computedData);
+			isRefreshing = false;
 		}
 
 		@Override

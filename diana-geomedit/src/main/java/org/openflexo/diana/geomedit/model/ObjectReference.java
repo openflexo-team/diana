@@ -39,21 +39,22 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.BackgroundStyle;
+import org.openflexo.diana.ForegroundStyle;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geomedit.model.GeometricConstruction.GeometricConstructionImpl;
 import org.openflexo.diana.geomedit.model.ObjectReference.ObjectReferenceImpl;
-import org.openflexo.fge.BackgroundStyle;
-import org.openflexo.fge.ForegroundStyle;
-import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(ObjectReferenceImpl.class)
 @XMLElement
-public interface ObjectReference<O extends FGEArea> extends GeometricConstruction<O> {
+public interface ObjectReference<O extends DianaArea> extends GeometricConstruction<O> {
 
 	@PropertyIdentifier(type = GeometricConstruction.class)
 	public static final String REFERENCE_KEY = "reference";
@@ -65,7 +66,8 @@ public interface ObjectReference<O extends FGEArea> extends GeometricConstructio
 	@Setter(value = REFERENCE_KEY)
 	public void setReference(GeometricConstruction<O> reference);
 
-	public static abstract class ObjectReferenceImpl<O extends FGEArea> extends GeometricConstructionImpl<O> implements ObjectReference<O> {
+	public static abstract class ObjectReferenceImpl<O extends DianaArea> extends GeometricConstructionImpl<O>
+			implements ObjectReference<O> {
 
 		private GeometricConstruction<O> reference;
 

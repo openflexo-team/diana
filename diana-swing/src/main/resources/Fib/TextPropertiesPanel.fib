@@ -63,7 +63,7 @@
 			localize="true" width="150"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			format="object.name.toLowerCase" showText="true"
-			iteratorClassName="org.openflexo.fge.GraphicalRepresentation$HorizontalTextAlignment"
+			iteratorClassName="org.openflexo.diana.GraphicalRepresentation$HorizontalTextAlignment"
 			showIcon="true" name="HorizontalAlignment" icon="object.icon" />
 		<Label id="15" name="LocationConstraintsLabel" index="6"
 			localize="true" align="left"
@@ -73,7 +73,7 @@
 			localize="true" width="150"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			format="object.name.toLowerCase" showText="true"
-			iteratorClassName="org.openflexo.fge.GraphicalRepresentation$VerticalTextAlignment"
+			iteratorClassName="org.openflexo.diana.GraphicalRepresentation$VerticalTextAlignment"
 			showIcon="true" name="VerticalAlignment" icon="object.icon" />
 		<Label id="17" name="LocationConstraintsLabel" index="8"
 			localize="true" align="left"
@@ -83,7 +83,7 @@
 			localize="true" width="150"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			format="object.name.toLowerCase" showText="true"
-			iteratorClassName="org.openflexo.fge.GraphicalRepresentation$ParagraphAlignment"
+			iteratorClassName="org.openflexo.diana.GraphicalRepresentation$ParagraphAlignment"
 			showIcon="true" name="ParagraphAlignment" icon="object.icon" />
 
 		<Label id="26" visible="data.isRelativeHorizontalTextAlignment"
@@ -162,7 +162,7 @@
 			label="adapt_bounds_to_contents" />
 	</Panel>
 	<FIBVariable id="36" name="data"
-		type="org.openflexo.fge.control.tools.InspectedTextProperties" />
+		type="org.openflexo.diana.control.tools.InspectedTextProperties" />
 	<LocalizedDictionary id="37">
 		<Localized id="38" value="Font" lang="English" key="font" />
 		<Localized id="39" value="Color" lang="English" key="color" />

@@ -39,12 +39,12 @@
 
 package org.openflexo.diana.geomedit.controller;
 
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.control.MouseControlContext;
+import org.openflexo.diana.control.actions.MouseClickControlActionImpl;
+import org.openflexo.diana.control.actions.MouseClickControlImpl;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.control.MouseControlContext;
-import org.openflexo.fge.control.actions.MouseClickControlActionImpl;
-import org.openflexo.fge.control.actions.MouseClickControlImpl;
-import org.openflexo.model.factory.EditingContext;
+import org.openflexo.pamela.factory.EditingContext;
 
 public class ShowGeneralContextualMenuControl extends MouseClickControlImpl<GeomEditDrawingController> {
 
@@ -52,7 +52,7 @@ public class ShowGeneralContextualMenuControl extends MouseClickControlImpl<Geom
 		super("Show general contextual menu", MouseButton.RIGHT, 1, new MouseClickControlActionImpl<GeomEditDrawingController>() {
 			@Override
 			public boolean handleClick(DrawingTreeNode<?, ?> dtn, GeomEditDrawingController controller, MouseControlContext context) {
-				// FGEView view = controller.getDrawingView().viewForNode(dtn);
+				// DianaView view = controller.getDrawingView().viewForNode(dtn);
 				// Point newPoint = getPointInView(dtn, controller, context);
 				controller.showGeneralContextualMenu(controller.getDrawingView(), context.getPoint());
 				return false;

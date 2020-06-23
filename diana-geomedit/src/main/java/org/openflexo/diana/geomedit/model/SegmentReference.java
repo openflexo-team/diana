@@ -39,13 +39,13 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.BackgroundStyle;
+import org.openflexo.diana.ForegroundStyle;
+import org.openflexo.diana.geom.DianaSegment;
 import org.openflexo.diana.geomedit.model.SegmentReference.SegmentReferenceImpl;
-import org.openflexo.fge.BackgroundStyle;
-import org.openflexo.fge.ForegroundStyle;
-import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(SegmentReferenceImpl.class)
@@ -91,7 +91,7 @@ public interface SegmentReference extends SegmentConstruction {
 		}
 
 		@Override
-		protected FGESegment computeData() {
+		protected DianaSegment computeData() {
 			if (getReference() != null) {
 				return getReference().getData();
 			}

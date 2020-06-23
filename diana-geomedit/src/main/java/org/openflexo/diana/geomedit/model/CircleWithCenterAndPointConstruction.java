@@ -39,17 +39,19 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaCircle;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaSegment;
 import org.openflexo.diana.geomedit.model.CircleWithCenterAndPointConstruction.CircleWithCenterAndPointConstructionImpl;
-import org.openflexo.fge.geom.FGECircle;
-import org.openflexo.fge.geom.FGEGeometricObject.Filling;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.diana.geomedit.model.gr.CircleWithCenterAndPointGraphicalRepresentation;
+import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(CircleWithCenterAndPointConstructionImpl.class)
@@ -112,13 +114,13 @@ public interface CircleWithCenterAndPointConstruction extends CircleConstruction
 		}
 
 		@Override
-		protected FGECircle computeData() {
+		protected DianaCircle computeData() {
 			if (getCenterConstruction() != null && getPointConstruction() != null) {
-				FGEPoint center = getCenterConstruction().getPoint();
-				FGEPoint p = getPointConstruction().getPoint();
+				DianaPoint center = getCenterConstruction().getPoint();
+				DianaPoint p = getPointConstruction().getPoint();
 
-				double radius = FGESegment.getLength(center, p);
-				return new FGECircle(center, radius, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
+				double radius = DianaSegment.getLength(center, p);
+				return new DianaCircle(center, radius, getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
 			}
 			return null;
 		}
@@ -133,6 +135,11 @@ public interface CircleWithCenterAndPointConstruction extends CircleConstruction
 		public GeometricConstruction[] getDepends() {
 			GeometricConstruction[] returned = { centerConstruction, pointConstruction };
 			return returned;
+		}
+
+		@Override
+		public GeometricObjectGraphicalRepresentation<DianaCircle> makeNewConstructionGR(GeometricConstructionFactory factory) {
+			return (GeometricObjectGraphicalRepresentation) factory.newInstance(CircleWithCenterAndPointGraphicalRepresentation.class);
 		}
 
 	}

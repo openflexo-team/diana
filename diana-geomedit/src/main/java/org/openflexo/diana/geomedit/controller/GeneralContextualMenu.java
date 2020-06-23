@@ -50,6 +50,8 @@ import javax.swing.JPopupMenu;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.edition.CreateBandFromLines;
 import org.openflexo.diana.geomedit.edition.CreateCircleWithCenterAndPoint;
+import org.openflexo.diana.geomedit.edition.CreateCircleWithThreePoints;
+import org.openflexo.diana.geomedit.edition.CreateConnectorNode;
 import org.openflexo.diana.geomedit.edition.CreateCubicCurveFromFourPoints;
 import org.openflexo.diana.geomedit.edition.CreateCurveWithNPoints;
 import org.openflexo.diana.geomedit.edition.CreateHalfBandWithLines;
@@ -59,10 +61,14 @@ import org.openflexo.diana.geomedit.edition.CreateHorizontalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateIntersection;
 import org.openflexo.diana.geomedit.edition.CreateLineFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateNearestPointFromObject;
+import org.openflexo.diana.geomedit.edition.CreateNodeAtRelativeLocation;
+import org.openflexo.diana.geomedit.edition.CreateNodeFromCenterAndSize;
+import org.openflexo.diana.geomedit.edition.CreateNodeFromPoints;
 import org.openflexo.diana.geomedit.edition.CreateOrthogonalLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreateParallelLineWithPoint;
 import org.openflexo.diana.geomedit.edition.CreatePoint;
 import org.openflexo.diana.geomedit.edition.CreatePointMiddleOfPoints;
+import org.openflexo.diana.geomedit.edition.CreatePointSymetricOfLine;
 import org.openflexo.diana.geomedit.edition.CreatePointSymetricOfPoint;
 import org.openflexo.diana.geomedit.edition.CreatePolygonWithNPoints;
 import org.openflexo.diana.geomedit.edition.CreatePolylinWithNPoints;
@@ -97,6 +103,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 	public GeneralContextualMenu(GeomEditDrawingController controller) {
 		super();
 		this.controller = controller;
+		add(makeCreateNodeMenu());
 		add(makeCreatePointMenu());
 		add(makeCreateLineMenu());
 		add(makeCreateHalfLineMenu());
@@ -171,6 +178,50 @@ public class GeneralContextualMenu extends JPopupMenu {
 		// initPalette();
 	}
 
+	private JMenu makeCreateNodeMenu() {
+		JMenu createNodeItem = new JMenu("Create node");
+
+		JMenuItem createNodeFromPointsItem = new JMenuItem("From points");
+		createNodeFromPointsItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.setCurrentEdition(new CreateNodeFromPoints(controller));
+			}
+		});
+		createNodeItem.add(createNodeFromPointsItem);
+
+		JMenuItem createNodeFromCenterAndSizeItem = new JMenuItem("From center and size");
+		createNodeFromCenterAndSizeItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.setCurrentEdition(new CreateNodeFromCenterAndSize(controller));
+			}
+		});
+		createNodeItem.add(createNodeFromCenterAndSizeItem);
+
+		JMenuItem createNodeAtRelativeLocationItem = new JMenuItem("At relative location");
+		createNodeAtRelativeLocationItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.setCurrentEdition(new CreateNodeAtRelativeLocation(controller));
+			}
+		});
+		createNodeItem.add(createNodeAtRelativeLocationItem);
+
+		createNodeItem.addSeparator();
+
+		JMenuItem createNodeConnectorItem = new JMenuItem("Connector between nodes");
+		createNodeConnectorItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.setCurrentEdition(new CreateConnectorNode(controller));
+			}
+		});
+		createNodeItem.add(createNodeConnectorItem);
+
+		return createNodeItem;
+	}
+
 	private JMenu makeCreatePointMenu() {
 		JMenu createPointItem = new JMenu("Create point");
 
@@ -183,7 +234,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createPointItem.add(createExplicitPoint);
 
-		JMenuItem createPointAsMiddleFromPointsItem = new JMenuItem("As middle of two other points");
+		JMenuItem createPointAsMiddleFromPointsItem = new JMenuItem("Middle of two other points");
 		createPointAsMiddleFromPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -192,7 +243,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createPointItem.add(createPointAsMiddleFromPointsItem);
 
-		JMenuItem createPointSymetricOfPointItem = new JMenuItem("Symetric to an other point");
+		JMenuItem createPointSymetricOfPointItem = new JMenuItem("Symetric relatively to an other point");
 		createPointSymetricOfPointItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -200,6 +251,15 @@ public class GeneralContextualMenu extends JPopupMenu {
 			}
 		});
 		createPointItem.add(createPointSymetricOfPointItem);
+
+		JMenuItem createPointSymetricOfLineItem = new JMenuItem("Symetric relatively to a line");
+		createPointSymetricOfLineItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.setCurrentEdition(new CreatePointSymetricOfLine(controller));
+			}
+		});
+		createPointItem.add(createPointSymetricOfLineItem);
 
 		JMenuItem createNearestPointFromObjectItem = new JMenuItem("Nearest from object");
 		createNearestPointFromObjectItem.addActionListener(new ActionListener() {
@@ -392,6 +452,15 @@ public class GeneralContextualMenu extends JPopupMenu {
 			}
 		});
 		createCircleItem.add(createCircleWithCenterAndPointItem);
+
+		JMenuItem createCircleWithThreePointsItem = new JMenuItem("With three points");
+		createCircleWithThreePointsItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.setCurrentEdition(new CreateCircleWithThreePoints(controller));
+			}
+		});
+		createCircleItem.add(createCircleWithThreePointsItem);
 
 		return createCircleItem;
 	}

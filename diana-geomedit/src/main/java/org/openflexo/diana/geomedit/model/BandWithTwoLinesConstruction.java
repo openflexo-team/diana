@@ -39,14 +39,14 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.area.DianaBand;
 import org.openflexo.diana.geomedit.model.BandWithTwoLinesConstruction.BandWithTwoLinesConstructionImpl;
-import org.openflexo.fge.geom.area.FGEBand;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(BandWithTwoLinesConstructionImpl.class)
@@ -108,9 +108,9 @@ public interface BandWithTwoLinesConstruction extends BandConstruction {
 		}
 
 		@Override
-		protected FGEBand computeData() {
+		protected DianaBand computeData() {
 			if (getLineConstruction1() != null && getLineConstruction2() != null) {
-				FGEBand returned = new FGEBand(getLineConstruction1().getLine(), getLineConstruction2().getLine());
+				DianaBand returned = new DianaBand(getLineConstruction1().getLine(), getLineConstruction2().getLine());
 				return returned;
 			}
 			return null;

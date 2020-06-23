@@ -57,11 +57,11 @@ import javax.swing.JPanel;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.ObjectReference;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.geom.area.DianaArea;
 
-public class ObtainObject extends EditionInput<FGEArea> {
+public class ObtainObject extends EditionInput<DianaArea> {
 	public static int preferredMethodIndex = 0;
 
 	private boolean endOnRightClick = false;
@@ -92,7 +92,7 @@ public class ObtainObject extends EditionInput<FGEArea> {
 		preferredMethodIndex = availableMethods.indexOf(aMethod);
 	}
 
-	public class MouseSelection extends EditionInputMethod<FGEArea, ObtainObject> {
+	public class MouseSelection extends EditionInputMethod<DianaArea, ObtainObject> {
 
 		private GeometricNode<?> focusedObject;
 
@@ -136,7 +136,7 @@ public class ObtainObject extends EditionInput<FGEArea> {
 
 	}
 
-	public class ListSelection extends EditionInputMethod<FGEArea, ObtainObject> {
+	public class ListSelection extends EditionInputMethod<DianaArea, ObtainObject> {
 
 		private DropDownSelection dropDown;
 
@@ -221,8 +221,8 @@ public class ObtainObject extends EditionInput<FGEArea> {
 	}
 
 	@Override
-	public ObjectReference<? extends FGEArea> getConstruction() {
-		return (ObjectReference<? extends FGEArea>) super.getConstruction();
+	public ObjectReference<? extends DianaArea> getConstruction() {
+		return (ObjectReference<? extends DianaArea>) super.getConstruction();
 	}
 
 	@Override

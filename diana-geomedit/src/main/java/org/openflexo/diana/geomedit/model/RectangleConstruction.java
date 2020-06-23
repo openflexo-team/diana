@@ -41,20 +41,20 @@ package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.model.RectangleConstruction.RectangleConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.RectangleGraphicalRepresentation;
-import org.openflexo.fge.geom.FGERectangle;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.Import;
+import org.openflexo.pamela.annotations.Imports;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLAttribute;
+import org.openflexo.diana.geom.DianaRectangle;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(RectangleConstructionImpl.class)
 @Imports({ @Import(RectangleWithTwoPointsConstruction.class) })
-public interface RectangleConstruction extends GeometricConstruction<FGERectangle> {
+public interface RectangleConstruction extends GeometricConstruction<DianaRectangle> {
 
 	@PropertyIdentifier(type = Double.class)
 	public static final String X_KEY = "x";
@@ -91,7 +91,7 @@ public interface RectangleConstruction extends GeometricConstruction<FGERectangl
 	@Setter(HEIGHT_KEY)
 	public void setHeight(double value);
 
-	public FGERectangle getRectangle();
+	public DianaRectangle getRectangle();
 
 	@Getter(value = IS_FILLED_KEY, defaultValue = "true")
 	@XMLAttribute
@@ -100,7 +100,7 @@ public interface RectangleConstruction extends GeometricConstruction<FGERectangl
 	@Setter(IS_FILLED_KEY)
 	public void setIsFilled(boolean isFilled);
 
-	public abstract class RectangleConstructionImpl extends GeometricConstructionImpl<FGERectangle> implements RectangleConstruction {
+	public abstract class RectangleConstructionImpl extends GeometricConstructionImpl<DianaRectangle> implements RectangleConstruction {
 
 		@Override
 		public String getBaseName() {
@@ -108,7 +108,7 @@ public interface RectangleConstruction extends GeometricConstruction<FGERectangl
 		}
 
 		@Override
-		public final FGERectangle getRectangle() {
+		public final DianaRectangle getRectangle() {
 			return getData();
 		}
 
@@ -119,7 +119,7 @@ public interface RectangleConstruction extends GeometricConstruction<FGERectangl
 		}
 
 		@Override
-		protected abstract FGERectangle computeData();
+		protected abstract DianaRectangle computeData();
 
 		@Override
 		public double getX() {

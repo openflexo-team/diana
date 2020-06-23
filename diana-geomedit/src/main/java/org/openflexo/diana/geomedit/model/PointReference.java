@@ -39,16 +39,16 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.BackgroundStyle;
+import org.openflexo.diana.ForegroundStyle;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geomedit.model.PointReference.PointReferenceImpl;
-import org.openflexo.fge.BackgroundStyle;
-import org.openflexo.fge.ForegroundStyle;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(PointReferenceImpl.class)
@@ -84,7 +84,7 @@ public interface PointReference extends PointConstruction {
 		}
 
 		@Override
-		protected FGEPoint computeData() {
+		protected DianaPoint computeData() {
 			if (getReference() != null) {
 				return getReference().getData();
 			}

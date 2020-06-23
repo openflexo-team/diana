@@ -40,9 +40,9 @@
 package org.openflexo.diana.geomedit.edition;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
-import org.openflexo.fge.geom.FGELine;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
 public class CreateHorizontalLineWithPoint extends Edition {
 
@@ -58,10 +58,10 @@ public class CreateHorizontalLineWithPoint extends Edition {
 	}
 
 	@Override
-	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
+	public void paintEdition(JDianaDrawingGraphics graphics, DianaPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			graphics.setDefaultForeground(focusedForegroundStyle);
-			FGELine.makeHorizontalLine(lastMouseLocation).paint(graphics);
+			DianaLine.makeHorizontalLine(lastMouseLocation).paint(graphics);
 		}
 	}
 }

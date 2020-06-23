@@ -45,6 +45,7 @@ import java.awt.FlowLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -52,24 +53,27 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.GraphicalRepresentation;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geomedit.controller.ContextualMenu;
 import org.openflexo.diana.geomedit.controller.GeneralContextualMenu;
+import org.openflexo.diana.geomedit.controller.InspectedNodeShapeSpecification;
 import org.openflexo.diana.geomedit.edition.Edition;
 import org.openflexo.diana.geomedit.edition.EditionInput;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
+import org.openflexo.diana.geomedit.model.NodeConstruction;
 import org.openflexo.diana.geomedit.view.GeomEditDrawingView;
+import org.openflexo.diana.swing.JDianaInteractiveEditor;
+import org.openflexo.diana.swing.control.SwingToolFactory;
+import org.openflexo.diana.view.DianaView;
 import org.openflexo.exceptions.CopyException;
 import org.openflexo.exceptions.CutException;
 import org.openflexo.exceptions.PasteException;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.GraphicalRepresentation;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.swing.JDianaInteractiveEditor;
-import org.openflexo.fge.swing.control.SwingToolFactory;
-import org.openflexo.fge.view.FGEView;
-import org.openflexo.model.factory.Clipboard;
+import org.openflexo.pamela.factory.Clipboard;
 
 /**
  * A controller managing the drawing edition.
@@ -96,6 +100,8 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 	private final GeomEditEditor editor;
 
 	private String NO_EDITION_STRING = "No edition";
+
+	private InspectedNodeShapeSpecification inspectedNodeShapeSpecification;
 
 	public GeomEditDrawingController(final GeomEditEditor editor, final GeometricDiagramDrawing aDrawing,
 			GeometricConstructionFactory factory, SwingToolFactory toolFactory) {
@@ -126,6 +132,12 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 
 		resetCurrentInput();
 
+		inspectedNodeShapeSpecification = new InspectedNodeShapeSpecification(this);
+	}
+
+	@Override
+	public InspectedNodeShapeSpecification getInspectedShapeSpecification() {
+		return inspectedNodeShapeSpecification;
 	}
 
 	public GeomEditEditor getEditor() {
@@ -150,13 +162,13 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 		return (GeometricConstructionFactory) super.getFactory();
 	}
 
-	public void showGeneralContextualMenu(FGEView<?, ?> view, Point p) {
+	public void showGeneralContextualMenu(DianaView<?, ?> view, Point p) {
 		// contextualMenuInvoker = dtn;
 		// contextualMenuClickedPoint = p;
 		generalContextualMenu.show((Component) view, p.x, p.y);
 	}
 
-	public void showContextualMenu(DrawingTreeNode<?, ?> dtn, FGEView view, Point p) {
+	public void showContextualMenu(DrawingTreeNode<?, ?> dtn, DianaView view, Point p) {
 		getContextualMenu().displayPopupMenu((GeometricConstruction<?>) dtn.getDrawable(), getDrawingView(), p);
 	}
 
@@ -306,7 +318,7 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 	}
 
 	@Override
-	protected void prepareClipboardForPasting(FGEPoint proposedPastingLocation) {
+	protected void prepareClipboardForPasting(DianaPoint proposedPastingLocation) {
 		logger.info("Pasting in " + getPastingContext().getDrawable() + " at " + proposedPastingLocation);
 		/*if (getClipboard().isSingleObject()) {
 			if (getClipboard().getSingleContents() instanceof Shape) {
@@ -350,6 +362,26 @@ public class GeomEditDrawingController extends JDianaInteractiveEditor<Geometric
 	public void paste() throws PasteException {
 		// TODO Auto-generated method stub
 		super.paste();
+	}
+
+	@Override
+	protected void clearSelectedNodesComputation() {
+		super.clearSelectedNodesComputation();
+		selectedNodes = null;
+	}
+
+	private List<GeometricNode<?>> selectedNodes;
+
+	public List<GeometricNode<?>> getSelectedNodes() {
+		if (selectedNodes == null) {
+			selectedNodes = new ArrayList<>();
+			for (DrawingTreeNode<?, ?> node : getSelectedObjects()) {
+				if (node instanceof GeometricNode && node.getDrawable() instanceof NodeConstruction) {
+					selectedNodes.add((GeometricNode<?>) node);
+				}
+			}
+		}
+		return selectedNodes;
 	}
 
 }

@@ -42,32 +42,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openflexo.connie.DataBinding;
+import org.openflexo.diana.BackgroundStyle;
+import org.openflexo.diana.DianaModelFactory;
+import org.openflexo.diana.DrawingGraphicalRepresentation;
+import org.openflexo.diana.ForegroundStyle;
+import org.openflexo.diana.GRBinding.DrawingGRBinding;
+import org.openflexo.diana.GRBinding.GeometricGRBinding;
+import org.openflexo.diana.GRProvider.DrawingGRProvider;
+import org.openflexo.diana.GRProvider.GeometricGRProvider;
+import org.openflexo.diana.GRStructureVisitor;
+import org.openflexo.diana.GeometricGraphicalRepresentation;
+import org.openflexo.diana.GraphicalRepresentation;
+import org.openflexo.diana.cp.ControlArea;
+import org.openflexo.diana.cp.ControlPoint;
+import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.geomedit.controller.ShowContextualMenuControl;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
 import org.openflexo.diana.geomedit.model.GeometricDiagram;
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
-import org.openflexo.fge.BackgroundStyle;
-import org.openflexo.fge.DrawingGraphicalRepresentation;
-import org.openflexo.fge.FGEModelFactory;
-import org.openflexo.fge.ForegroundStyle;
-import org.openflexo.fge.GRBinding.DrawingGRBinding;
-import org.openflexo.fge.GRBinding.GeometricGRBinding;
-import org.openflexo.fge.GRProvider.DrawingGRProvider;
-import org.openflexo.fge.GRProvider.GeometricGRProvider;
-import org.openflexo.fge.GRStructureVisitor;
-import org.openflexo.fge.GeometricGraphicalRepresentation;
-import org.openflexo.fge.GraphicalRepresentation;
-import org.openflexo.fge.cp.ControlArea;
-import org.openflexo.fge.cp.ControlPoint;
-import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.impl.DrawingImpl;
-import org.openflexo.model.exceptions.ModelDefinitionException;
-import org.openflexo.model.factory.EditingContextImpl;
+import org.openflexo.diana.impl.DrawingImpl;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.factory.EditingContextImpl;
 
 public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 
-	public GeometricDiagramDrawing(GeometricDiagram model, FGEModelFactory factory) {
+	public GeometricDiagramDrawing(GeometricDiagram model, DianaModelFactory factory) {
 		super(model, factory, PersistenceMode.UniqueGraphicalRepresentations);
 	}
 
@@ -77,7 +77,7 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 		final DrawingGRBinding<GeometricDiagram> drawingBinding = bindDrawing(GeometricDiagram.class, "drawing",
 				new DrawingGRProvider<GeometricDiagram>() {
 					@Override
-					public DrawingGraphicalRepresentation provideGR(GeometricDiagram drawable, FGEModelFactory factory) {
+					public DrawingGraphicalRepresentation provideGR(GeometricDiagram drawable, DianaModelFactory factory) {
 						if (drawable.getGraphicalRepresentation() != null) {
 							drawable.getGraphicalRepresentation().setFactory(factory);
 							return drawable.getGraphicalRepresentation();
@@ -92,7 +92,7 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 		final GeometricGRBinding<GeometricConstruction> constructionBinding = bindGeometric(GeometricConstruction.class, "construction",
 				new GeometricGRProvider<GeometricConstruction>() {
 					@Override
-					public GeometricGraphicalRepresentation provideGR(GeometricConstruction drawable, FGEModelFactory factory) {
+					public GeometricGraphicalRepresentation provideGR(GeometricConstruction drawable, DianaModelFactory factory) {
 						if (drawable.getGraphicalRepresentation() != null) {
 							drawable.getGraphicalRepresentation().setFactory(factory);
 							drawable.getGraphicalRepresentation().setGeometricObject(drawable.getData());
@@ -142,12 +142,12 @@ public class GeometricDiagramDrawing extends DrawingImpl<GeometricDiagram> {
 		});
 
 		// We bind the text of the graphical representation to the name of GeometricConstruction as read/write binding
-		constructionBinding.setDynamicPropertyValue(GraphicalRepresentation.TEXT, new DataBinding<String>("drawable.name"), true);
+		constructionBinding.setDynamicPropertyValue(GraphicalRepresentation.TEXT, new DataBinding<String>("drawable.label"), true);
 
 		// We bind the geometric object to be displayed (in graphical representation) to the data given by GeometricConstruction as a read
 		// binding
 		constructionBinding.setDynamicPropertyValue(GeometricGraphicalRepresentation.GEOMETRIC_OBJECT,
-				new DataBinding<FGEArea>("drawable.data"), false);
+				new DataBinding<DianaArea>("drawable.data"), false);
 		constructionBinding.setDynamicPropertyValue(GeometricGraphicalRepresentation.FOREGROUND,
 				new DataBinding<ForegroundStyle>("drawable.foreground"), true);
 		constructionBinding.setDynamicPropertyValue(GeometricGraphicalRepresentation.BACKGROUND,

@@ -51,10 +51,10 @@ import org.openflexo.diana.geomedit.model.GeometricDiagram;
 import org.openflexo.diana.geomedit.view.GeomEditDrawingView;
 import org.openflexo.diana.geomedit.view.GeometricDiagramView;
 import org.openflexo.logging.FlexoLogger;
-import org.openflexo.model.exceptions.InvalidDataException;
-import org.openflexo.model.exceptions.ModelDefinitionException;
-import org.openflexo.model.factory.Clipboard;
-import org.openflexo.model.undo.CompoundEdit;
+import org.openflexo.pamela.exceptions.InvalidDataException;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.factory.Clipboard;
+import org.openflexo.pamela.undo.CompoundEdit;
 
 /**
  * A complete editor allowing to view and edit a {@link GeometricDiagram}.<br>

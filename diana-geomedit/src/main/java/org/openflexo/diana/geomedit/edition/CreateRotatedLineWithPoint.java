@@ -42,9 +42,9 @@ package org.openflexo.diana.geomedit.edition;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.LineConstruction;
 import org.openflexo.diana.geomedit.model.PointConstruction;
-import org.openflexo.fge.geom.FGELine;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
 public class CreateRotatedLineWithPoint extends Edition {
 
@@ -66,7 +66,7 @@ public class CreateRotatedLineWithPoint extends Edition {
 	}
 
 	@Override
-	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
+	public void paintEdition(JDianaDrawingGraphics graphics, DianaPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
 		}
@@ -77,9 +77,9 @@ public class CreateRotatedLineWithPoint extends Edition {
 		}
 		else if (currentStep == 2) {
 			graphics.setDefaultForeground(focusedForegroundStyle);
-			FGELine line = ((ObtainLine) inputs.get(0)).getConstruction().getData();
+			DianaLine line = ((ObtainLine) inputs.get(0)).getConstruction().getData();
 			double angle = ((ObtainDouble) inputs.get(1)).getInputData();
-			FGELine.getRotatedLine(line, angle, lastMouseLocation).paint(graphics);
+			DianaLine.getRotatedLine(line, angle, lastMouseLocation).paint(graphics);
 		}
 	}
 }

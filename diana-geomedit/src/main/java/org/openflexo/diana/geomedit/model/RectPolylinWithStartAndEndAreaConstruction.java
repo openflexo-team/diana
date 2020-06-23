@@ -39,18 +39,18 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.DianaPolylin;
+import org.openflexo.diana.geom.DianaRectPolylin;
+import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.geomedit.model.RectPolylinWithStartAndEndAreaConstruction.RectPolylinWithStartAndEndAreaConstructionImpl;
-import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
-import org.openflexo.fge.geom.FGEPolylin;
-import org.openflexo.fge.geom.FGERectPolylin;
-import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLAttribute;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(RectPolylinWithStartAndEndAreaConstructionImpl.class)
@@ -68,17 +68,17 @@ public interface RectPolylinWithStartAndEndAreaConstruction extends PolylinConst
 
 	@Getter(START_AREA_CONSTRUCTION_KEY)
 	@XMLElement(context = "Start_")
-	public ObjectReference<? extends FGEArea> getStartAreaConstruction();
+	public ObjectReference<? extends DianaArea> getStartAreaConstruction();
 
 	@Setter(START_AREA_CONSTRUCTION_KEY)
-	public void setStartAreaConstruction(ObjectReference<? extends FGEArea> startAreaConstruction);
+	public void setStartAreaConstruction(ObjectReference<? extends DianaArea> startAreaConstruction);
 
 	@Getter(END_AREA_CONSTRUCTION_KEY)
 	@XMLElement(context = "End_")
-	public ObjectReference<? extends FGEArea> getEndAreaConstruction();
+	public ObjectReference<? extends DianaArea> getEndAreaConstruction();
 
 	@Setter(END_AREA_CONSTRUCTION_KEY)
-	public void setEndAreaConstruction(ObjectReference<? extends FGEArea> endAreaConstruction);
+	public void setEndAreaConstruction(ObjectReference<? extends DianaArea> endAreaConstruction);
 
 	@Getter(START_ORIENTATION_KEY)
 	@XMLAttribute
@@ -98,17 +98,17 @@ public interface RectPolylinWithStartAndEndAreaConstruction extends PolylinConst
 			implements RectPolylinWithStartAndEndAreaConstruction {
 
 		@Override
-		protected FGEPolylin computeData() {
+		protected DianaPolylin computeData() {
 			if (getStartAreaConstruction() != null && getEndAreaConstruction() != null) {
-				FGEArea startArea = getStartAreaConstruction().getData();
-				FGEArea endArea = getEndAreaConstruction().getData();
+				DianaArea startArea = getStartAreaConstruction().getData();
+				DianaArea endArea = getEndAreaConstruction().getData();
 				if (getStartOrientation() == null) {
 					setStartOrientation(SimplifiedCardinalDirection.NORTH);
 				}
 				if (getEndOrientation() == null) {
 					setEndOrientation(SimplifiedCardinalDirection.SOUTH);
 				}
-				return new FGERectPolylin(startArea, getStartOrientation(), endArea, getEndOrientation(), false, 10, 10);
+				return new DianaRectPolylin(startArea, getStartOrientation(), endArea, getEndOrientation(), false, 10, 10);
 			}
 			return null;
 		}

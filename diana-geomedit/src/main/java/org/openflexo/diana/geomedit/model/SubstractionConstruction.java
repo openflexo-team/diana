@@ -41,21 +41,21 @@ package org.openflexo.diana.geomedit.model;
 
 import java.util.logging.Logger;
 
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaSubstractionArea;
 import org.openflexo.diana.geomedit.model.gr.ComputedAreaGraphicalRepresentation;
-import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.geom.area.FGESubstractionArea;
 import org.openflexo.logging.FlexoLogger;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(SubstractionConstruction.SubstractionConstructionImpl.class)
 @XMLElement
-public interface SubstractionConstruction extends GeometricConstruction<FGEArea> {
+public interface SubstractionConstruction extends GeometricConstruction<DianaArea> {
 
 	@PropertyIdentifier(type = ObjectReference.class)
 	public static final String CONTAINER_OBJECT_CONSTRUCTION_KEY = "containerObjectConstruction";
@@ -76,7 +76,7 @@ public interface SubstractionConstruction extends GeometricConstruction<FGEArea>
 	@Setter(value = SUBSTRACTED_OBJECT_CONSTRUCTION_KEY)
 	public void setSubstractedObjectConstruction(ObjectReference<?> pointConstruction2);
 
-	public static abstract class SubstractionConstructionImpl extends GeometricConstructionImpl<FGEArea>
+	public static abstract class SubstractionConstructionImpl extends GeometricConstructionImpl<DianaArea>
 			implements SubstractionConstruction {
 
 		private static final Logger logger = FlexoLogger.getLogger(SubstractionConstruction.class.getPackage().getName());
@@ -93,9 +93,9 @@ public interface SubstractionConstruction extends GeometricConstruction<FGEArea>
 		}
 
 		@Override
-		protected FGEArea computeData() {
+		protected DianaArea computeData() {
 			if (getContainerObjectConstruction() != null && getSubstractedObjectConstruction() != null) {
-				FGEArea returned = FGESubstractionArea.makeSubstraction(getContainerObjectConstruction().getData(),
+				DianaArea returned = DianaSubstractionArea.makeSubstraction(getContainerObjectConstruction().getData(),
 						getSubstractedObjectConstruction().getData(), false);
 
 				if (returned == null) {

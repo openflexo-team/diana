@@ -42,18 +42,18 @@ package org.openflexo.diana.geomedit.model;
 import java.util.List;
 import java.util.Vector;
 
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaPolylin;
+import org.openflexo.diana.geom.DianaRectPolylin;
 import org.openflexo.diana.geomedit.model.PolylinWithNPointsConstruction.PolylinWithNPointsConstructionImpl;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGEPolylin;
-import org.openflexo.fge.geom.FGERectPolylin;
-import org.openflexo.model.annotations.Adder;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.Getter.Cardinality;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Remover;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Adder;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Remover;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter.Cardinality;
 
 @ModelEntity
 @ImplementationClass(PolylinWithNPointsConstructionImpl.class)
@@ -77,13 +77,14 @@ public interface PolylinWithNPointsConstruction extends PolylinConstruction {
 			implements PolylinWithNPointsConstruction {
 
 		@Override
-		protected FGEPolylin computeData() {
+		protected DianaPolylin computeData() {
 			if (getPointConstructions() != null) {
-				Vector<FGEPoint> pts = new Vector<FGEPoint>();
+				Vector<DianaPoint> pts = new Vector<DianaPoint>();
 				for (PointConstruction pc : getPointConstructions()) {
 					pts.add(pc.getData());
 				}
-				return new FGERectPolylin(pts);
+				return new DianaRectPolylin(pts);
+
 			}
 			return null;
 		}

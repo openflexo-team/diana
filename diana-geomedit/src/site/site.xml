@@ -35,8 +35,26 @@
 			img="https://support.openflexo.org/images/components/diana/diana_logo2.png">
 		</menu>
 
+		<menu name="GeomEdit">
+			<item name="Diana Home" href="../index.html" />
+			<item name="Diana Geom" href="../diana-geom/index.html" />
+			<item name="Diana API" href="../diana-api/index.html" />
+			<item name="Diana Core" href="../diana-core/index.html" />
+			<item name="Diana Swing" href="../diana-swing/index.html" />
+			<item name="Drawing Editor" href="../diana-drawing-editor/index.html" />
+			<item name="GeomEdit" href="../diana-geomedit/index.html" />
+			<item name="FAQ" href="../faq.html" />
+			<item name="Javadoc" href="./apidocs/index.html" />
+		</menu>
+
+		<menu name="HowTos">
+			<item name="Getting started with Diana" href="GettingStartedWithDiana.html" />
+			<item name="Define a new layout manager" href="HowToDefineALayoutManagerInDianaEngine.html" />
+		</menu>
+
 		<menu ref="parent" />
 		<menu ref="modules" />
 		<menu ref="reports" />
 	</body>
+
 </project>

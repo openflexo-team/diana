@@ -1,0 +1,266 @@
+/**
+ * 
+ * Copyright (c) 2014, Openflexo
+ * 
+ * This file is part of Diana-core, a component of the software infrastructure 
+ * developed at Openflexo.
+ * 
+ * 
+ * Openflexo is dual-licensed under the European Union Public License (EUPL, either 
+ * version 1.1 of the License, or any later version ), which is available at 
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ * and the GNU General Public License (GPL, either version 3 of the License, or any 
+ * later version), which is available at http://www.gnu.org/licenses/gpl.html .
+ * 
+ * You can redistribute it and/or modify under the terms of either of these licenses
+ * 
+ * If you choose to redistribute it and/or modify under the terms of the GNU GPL, you
+ * must include the following additional permission.
+ *
+ *          Additional permission under GNU GPL version 3 section 7
+ *
+ *          If you modify this Program, or any covered work, by linking or 
+ *          combining it with software containing parts covered by the terms 
+ *          of EPL 1.0, the licensors of this Program grant you additional permission
+ *          to convey the resulting work. * 
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY 
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. 
+ *
+ * See http://www.openflexo.org/license.html for details.
+ * 
+ * 
+ * Please contact Openflexo (openflexo-contacts@openflexo.org)
+ * or visit www.openflexo.org if you need additional information.
+ * 
+ */
+
+package org.openflexo.diana.control.tools;
+
+import java.util.logging.Logger;
+
+import org.openflexo.diana.ConnectorGraphicalRepresentation;
+import org.openflexo.diana.DianaModelFactory;
+import org.openflexo.diana.Drawing.ConnectorNode;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.ForegroundStyle;
+import org.openflexo.diana.GRBinding.ConnectorGRBinding;
+import org.openflexo.diana.GRBinding.ShapeGRBinding;
+import org.openflexo.diana.GRProvider.ConnectorGRProvider;
+import org.openflexo.diana.GRProvider.ShapeGRProvider;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
+import org.openflexo.diana.control.DianaInteractiveEditor;
+import org.openflexo.diana.control.DianaInteractiveEditor.EditorTool;
+import org.openflexo.diana.control.actions.DrawConnectorAction;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.graphics.DianaConnectorGraphics;
+import org.openflexo.diana.impl.ConnectorNodeImpl;
+import org.openflexo.diana.impl.ContainerNodeImpl;
+import org.openflexo.diana.impl.DrawingImpl;
+import org.openflexo.diana.impl.ShapeNodeImpl;
+import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
+import org.openflexo.pamela.undo.CompoundEdit;
+
+/**
+ * Abstract implementation for the controller of the DrawConnector tool
+ * 
+ * @author sylvain
+ * 
+ * @param <ME>
+ */
+public abstract class DrawConnectorToolController<ME> extends ToolController<ME> {
+
+	private static final Logger logger = Logger.getLogger(DrawConnectorToolController.class.getPackage().getName());
+
+	boolean drawEdge = false;
+	protected ShapeNode<?> startNode = null;
+	protected ShapeNode<?> endNode = null;
+	// protected Point currentDraggingLocationInDrawingView;
+	private CompoundEdit drawConnectorEdit;
+
+	private ConnectorGraphicalRepresentation connectorGR;
+	private ShapeGraphicalRepresentation cursorGR;
+
+	private DianaConnectorGraphics graphics;
+
+	public DrawConnectorToolController(DianaInteractiveEditor<?, ?, ?> controller, DrawConnectorAction toolAction) {
+		super(controller, toolAction);
+	}
+
+	public abstract DianaConnectorGraphics makeGraphics(ForegroundStyle foregroundStyle);
+
+	@Override
+	public DianaConnectorGraphics getGraphics() {
+		return graphics;
+	}
+
+	@Override
+	public DrawConnectorAction getToolAction() {
+		return (DrawConnectorAction) super.getToolAction();
+	}
+
+	private ShapeNode<DrawConnectorToolController> cursorNode;
+	protected ConnectorNode<DrawConnectorToolController> connectorNode;
+
+	@Override
+	protected void startMouseEdition(ME e) {
+		drawConnectorEdit = startRecordEdit("Draw connector");
+		super.startMouseEdition(e);
+		drawEdge = true;
+		// currentDraggingLocationInDrawingView = new Point();
+
+		cursorGR = getFactory().makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
+		// cursorGR.setBorder(getFactory().makeShapeBorder(0, 0, 0, 0));
+		cursorGR.setWidth(1);
+		cursorGR.setHeight(1);
+		ShapeGRBinding<DrawConnectorToolController> cursorGRBinding = getController().getDrawing()
+				.bindShape(DrawConnectorToolController.class, "cursor", new ShapeGRProvider<DrawConnectorToolController>() {
+					@Override
+					public ShapeGraphicalRepresentation provideGR(DrawConnectorToolController drawable, DianaModelFactory factory) {
+						return cursorGR;
+					}
+				});
+
+		connectorGR = getFactory().makeConnectorGraphicalRepresentation();
+		connectorGR.setForeground(getController().getInspectedForegroundStyle().getDefaultValue());
+		connectorGR.setConnectorSpecification(getController().getInspectedConnectorSpecification().getDefaultValue());
+
+		// System.out.println("foreground=" + connectorGR.getForeground().toNiceString());
+
+		ConnectorGRBinding<DrawConnectorToolController> connectorGRBinding = getController().getDrawing()
+				.bindConnector(DrawConnectorToolController.class, "connector", new ConnectorGRProvider<DrawConnectorToolController>() {
+					@Override
+					public ConnectorGraphicalRepresentation provideGR(DrawConnectorToolController drawable, DianaModelFactory factory) {
+						return connectorGR;
+					}
+				});
+
+		cursorNode = new ShapeNodeImpl<>((DrawingImpl<?>) getController().getDrawing(), this, cursorGRBinding,
+				(ContainerNodeImpl<?, ?>) getController().getDrawing().getRoot());
+		connectorNode = new ConnectorNodeImpl<>((DrawingImpl<?>) getController().getDrawing(), this, connectorGRBinding,
+				(ContainerNodeImpl<?, ?>) getController().getDrawing().getRoot(), (ShapeNodeImpl<?>) startNode,
+				(ShapeNodeImpl<?>) cursorNode);
+
+		graphics = makeGraphics(getFactory().makeDefaultForegroundStyle());
+
+	}
+
+	@Override
+	protected void stopMouseEdition() {
+		System.out.println(">>>>> Hop, stop mouse edition");
+
+		drawEdge = false;
+		makeNewConnector();
+		super.stopMouseEdition();
+		connectorNode.delete();
+		// connectorGR.delete();
+		cursorNode.delete();
+		// cursorGR.delete();
+		connectorNode = null;
+		connectorGR = null;
+		cursorNode = null;
+		cursorGR = null;
+		stopRecordEdit(drawConnectorEdit);
+		getController().setCurrentTool(EditorTool.SelectionTool);
+	}
+
+	public ConnectorNode<DrawConnectorToolController> getConnectorNode() {
+		return connectorNode;
+	}
+
+	public void makeNewConnector() {
+		if (getToolAction() != null && startNode != null && endNode != null) {
+			getToolAction().performedDrawNewConnector(connectorGR, startNode, endNode);
+		}
+		else {
+			System.out.println("toolAction=" + getToolAction());
+			logger.warning("No DrawConnectorAction defined !");
+		}
+	}
+
+	@Override
+	public void delete() {
+		logger.warning("Please implement deletion for DrawConnectorToolController");
+		super.delete();
+	}
+
+	@Override
+	public boolean mousePressed(ME e) {
+		System.out.println("mousePressed() on " + getPoint(e));
+		DrawingTreeNode<?, ?> focused = getFocusedObject(e);
+		if (focused instanceof ShapeNode) {
+			// System.out.println("OK, je detecte une shape de depart");
+			startNode = (ShapeNode<?>) focused;
+			getController().clearSelection();
+			startNode.setIsFocused(true);
+			startMouseEdition(e);
+		}
+		return true;
+	}
+
+	public abstract void paintConnector();
+
+	@Override
+	public boolean mouseDragged(ME e) {
+		// System.out.println("mouseDragged() on " + getPoint(e));
+		if (drawEdge && startNode != null) {
+			DianaPoint p = getPoint(e);
+			cursorGR.setX(p.x / getController().getScale());
+			cursorGR.setY(p.y / getController().getScale());
+
+			// currentDraggingLocationInDrawingView.x = (int) p.x;
+			// currentDraggingLocationInDrawingView.y = (int) p.y;
+
+			DrawingTreeNode<?, ?> focused = getFocusedObject(e);
+			if (focused instanceof ShapeNode && focused != startNode && !startNode.getAncestors().contains(focused)) {
+				endNode = (ShapeNode<?>) focused;
+				endNode.setIsFocused(true);
+				((ConnectorNodeImpl<?>) connectorNode).setEndNode((ShapeNodeImpl<?>) endNode);
+			}
+			else {
+				endNode = null;
+				((ConnectorNodeImpl<?>) connectorNode).setEndNode((ShapeNodeImpl<?>) cursorNode);
+			}
+
+			connectorNode.refreshConnector();
+			paintConnector();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean mouseReleased(ME e) {
+		System.out.println("mouseReleased() on " + getPoint(e));
+		if (drawEdge) {
+			if (startNode != null && endNode != null) {
+				// System.out.println("Add ConnectorSpecification contextualMenuInvoker="+contextualMenuInvoker+"
+				// point="+contextualMenuClickedPoint);
+				stopMouseEdition();
+			}
+			if (startNode != null) {
+				startNode.setIsFocused(false);
+			}
+			if (endNode != null) {
+				endNode.setIsFocused(false);
+			}
+			drawEdge = false;
+			startNode = null;
+			endNode = null;
+			paintConnector();
+			getController().setCurrentTool(EditorTool.SelectionTool);
+			return true;
+		}
+		return false;
+	}
+
+	public ShapeNode<?> getStartNode() {
+		return startNode;
+	}
+
+	public ShapeNode<?> getEndNode() {
+		return endNode;
+	}
+
+}

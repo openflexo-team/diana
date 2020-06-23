@@ -40,33 +40,33 @@
 package org.openflexo.diana.geomedit.model.gr;
 
 import org.openflexo.diana.geomedit.model.gr.ComputedAreaGraphicalRepresentation.ComputedAreaGraphicalRepresentationImpl;
-import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.diana.geom.area.DianaArea;
 
 @ModelEntity
 @ImplementationClass(ComputedAreaGraphicalRepresentationImpl.class)
 @XMLElement
-public interface ComputedAreaGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEArea> {
+public interface ComputedAreaGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<DianaArea> {
 
-	public static abstract class ComputedAreaGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEArea>
+	public static abstract class ComputedAreaGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<DianaArea>
 			implements ComputedAreaGraphicalRepresentation {
 
 		// This was a bad idea: what if the nature of computed area change ????
 		/*@Override
 		public List<? extends ControlArea<?>> makeControlAreasFor(
-				DrawingTreeNode<GeometricConstruction<FGEArea>, GeometricGraphicalRepresentation> dtn) {
+				DrawingTreeNode<GeometricConstruction<DianaArea>, GeometricGraphicalRepresentation> dtn) {
 		
 			Vector<ControlPoint> returned = new Vector<ControlPoint>();
 		
-			FGEArea data = dtn.getDrawable().getData();
+			DianaArea data = dtn.getDrawable().getData();
 		
-			if (data instanceof FGERectangle) {
-				returned.add(new ComputedControlPoint<FGERectangle>((GeometricNode<?>) dtn, "northWest",
-						((FGERectangle) data).getNorthWestPt()) {
+			if (data instanceof DianaRectangle) {
+				returned.add(new ComputedControlPoint<DianaRectangle>((GeometricNode<?>) dtn, "northWest",
+						((DianaRectangle) data).getNorthWestPt()) {
 					@Override
-					public void update(FGERectangle geometricObject) {
+					public void update(DianaRectangle geometricObject) {
 						setPoint(geometricObject.getNorthWestPt());
 					}
 				});

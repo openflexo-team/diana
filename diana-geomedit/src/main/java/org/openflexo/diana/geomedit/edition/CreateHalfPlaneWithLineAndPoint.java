@@ -42,10 +42,10 @@ package org.openflexo.diana.geomedit.edition;
 import java.util.logging.Logger;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
-import org.openflexo.fge.geom.FGELine;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.area.FGEHalfPlane;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.area.DianaHalfPlane;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
 public class CreateHalfPlaneWithLineAndPoint extends Edition {
 
@@ -66,28 +66,28 @@ public class CreateHalfPlaneWithLineAndPoint extends Edition {
 
 	}
 
-	private FGEHalfPlane hpToPaint = null;
+	private DianaHalfPlane hpToPaint = null;
 	private boolean requireRepaint = true;
 
 	@Override
-	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
+	public void paintEdition(JDianaDrawingGraphics graphics, DianaPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
 		}
 		else if (currentStep == 1) {
-			FGELine line = ((ObtainLine) inputs.get(0)).getInputData();
+			DianaLine line = ((ObtainLine) inputs.get(0)).getInputData();
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			graphics.setDefaultBackground(focusedBackgroundStyle);
-			FGEHalfPlane hp = new FGEHalfPlane(line, lastMouseLocation);
+			DianaHalfPlane hp = new DianaHalfPlane(line, lastMouseLocation);
 			hp.paint(graphics);
 		}
 	}
 
 	@Override
-	public boolean requireRepaint(FGEPoint lastMouseLocation) {
+	public boolean requireRepaint(DianaPoint lastMouseLocation) {
 		if (currentStep == 1) {
-			FGELine line = ((ObtainLine) inputs.get(0)).getInputData();
-			FGEHalfPlane hp = new FGEHalfPlane(line, lastMouseLocation.clone());
+			DianaLine line = ((ObtainLine) inputs.get(0)).getInputData();
+			DianaHalfPlane hp = new DianaHalfPlane(line, lastMouseLocation.clone());
 			if (hpToPaint == null || !hpToPaint.equals(hp)) {
 				hpToPaint = hp;
 				requireRepaint = true;

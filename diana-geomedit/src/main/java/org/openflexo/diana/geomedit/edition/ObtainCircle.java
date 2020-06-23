@@ -43,11 +43,11 @@ import java.awt.event.MouseEvent;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.CircleConstruction;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.geom.FGECircle;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.geom.DianaCircle;
 
-public class ObtainCircle extends EditionInput<FGECircle> {
+public class ObtainCircle extends EditionInput<DianaCircle> {
 	public static int preferredMethodIndex = 0;
 
 	public ObtainCircle(String anInputLabel, GeomEditDrawingController controller) {
@@ -67,7 +67,7 @@ public class ObtainCircle extends EditionInput<FGECircle> {
 		preferredMethodIndex = availableMethods.indexOf(aMethod);
 	}
 
-	public class CircleSelection extends EditionInputMethod<FGECircle, ObtainCircle> {
+	public class CircleSelection extends EditionInputMethod<DianaCircle, ObtainCircle> {
 
 		private GeometricNode<?> focusedObject;
 

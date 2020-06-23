@@ -40,7 +40,7 @@
 package org.openflexo.diana.geomedit.edition;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
-import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
 
 public class ObtainSimplifiedCardinalDirection extends EditionInput<SimplifiedCardinalDirection> {
 	public static int preferredMethodIndex = 0;

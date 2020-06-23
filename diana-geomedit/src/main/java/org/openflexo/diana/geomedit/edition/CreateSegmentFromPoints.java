@@ -40,9 +40,9 @@
 package org.openflexo.diana.geomedit.edition;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
 public class CreateSegmentFromPoints extends Edition {
 
@@ -62,16 +62,16 @@ public class CreateSegmentFromPoints extends Edition {
 	}
 
 	@Override
-	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
+	public void paintEdition(JDianaDrawingGraphics graphics, DianaPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
 		}
 		else if (currentStep == 1) {
 			// Nothing to draw
-			FGEPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
+			DianaPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			p1.paint(graphics);
-			new FGESegment(p1, lastMouseLocation).paint(graphics);
+			new DianaSegment(p1, lastMouseLocation).paint(graphics);
 		}
 	}
 }

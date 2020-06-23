@@ -16,18 +16,18 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
+import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.geomedit.GeomEditApplication.SynchronizedMenuItem;
 import org.openflexo.diana.geomedit.GeomEditApplication.WindowMenuItem;
 import org.openflexo.exceptions.CopyException;
 import org.openflexo.exceptions.CutException;
 import org.openflexo.exceptions.PasteException;
-import org.openflexo.fge.control.DianaInteractiveViewer;
 import org.openflexo.gina.ApplicationFIBLibrary.ApplicationFIBLibraryImpl;
 import org.openflexo.gina.swing.utils.localization.LocalizedEditor;
 import org.openflexo.gina.swing.utils.logging.FlexoLoggingViewer;
 import org.openflexo.icon.ImageIconResource;
 import org.openflexo.logging.FlexoLoggingManager;
-import org.openflexo.model.undo.UndoManager;
+import org.openflexo.pamela.undo.UndoManager;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 

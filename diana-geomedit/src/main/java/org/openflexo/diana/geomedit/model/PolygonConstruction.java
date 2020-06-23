@@ -41,20 +41,20 @@ package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.model.PolygonConstruction.PolygonConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.PolygonGraphicalRepresentation;
-import org.openflexo.fge.geom.FGEPolygon;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.Import;
+import org.openflexo.pamela.annotations.Imports;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLAttribute;
+import org.openflexo.diana.geom.DianaPolygon;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(PolygonConstructionImpl.class)
 @Imports({ @Import(PolygonWithNPointsConstruction.class) })
-public interface PolygonConstruction extends GeometricConstruction<FGEPolygon> {
+public interface PolygonConstruction extends GeometricConstruction<DianaPolygon> {
 
 	@PropertyIdentifier(type = Boolean.class)
 	public static final String IS_FILLED_KEY = "isFilled";
@@ -66,9 +66,9 @@ public interface PolygonConstruction extends GeometricConstruction<FGEPolygon> {
 	@Setter(IS_FILLED_KEY)
 	public void setIsFilled(boolean isFilled);
 
-	public FGEPolygon getPolygon();
+	public DianaPolygon getPolygon();
 
-	public static abstract class PolygonConstructionImpl extends GeometricConstructionImpl<FGEPolygon> implements PolygonConstruction {
+	public static abstract class PolygonConstructionImpl extends GeometricConstructionImpl<DianaPolygon> implements PolygonConstruction {
 
 		@Override
 		public String getBaseName() {
@@ -76,7 +76,7 @@ public interface PolygonConstruction extends GeometricConstruction<FGEPolygon> {
 		}
 
 		@Override
-		public final FGEPolygon getPolygon() {
+		public final DianaPolygon getPolygon() {
 			return getData();
 		}
 
@@ -87,7 +87,7 @@ public interface PolygonConstruction extends GeometricConstruction<FGEPolygon> {
 		}
 
 		@Override
-		protected abstract FGEPolygon computeData();
+		protected abstract DianaPolygon computeData();
 
 	}
 }

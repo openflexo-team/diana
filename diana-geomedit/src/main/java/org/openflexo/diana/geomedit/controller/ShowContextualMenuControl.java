@@ -1,12 +1,12 @@
 package org.openflexo.diana.geomedit.controller;
 
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.control.MouseClickControlAction;
+import org.openflexo.diana.control.MouseControlContext;
+import org.openflexo.diana.control.actions.MouseClickControlActionImpl;
+import org.openflexo.diana.control.actions.MouseClickControlImpl;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.control.MouseClickControlAction;
-import org.openflexo.fge.control.MouseControlContext;
-import org.openflexo.fge.control.actions.MouseClickControlActionImpl;
-import org.openflexo.fge.control.actions.MouseClickControlImpl;
-import org.openflexo.model.factory.EditingContext;
+import org.openflexo.pamela.factory.EditingContext;
 
 public class ShowContextualMenuControl extends MouseClickControlImpl<GeomEditDrawingController> {
 

@@ -39,22 +39,22 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.area.DianaBand;
 import org.openflexo.diana.geomedit.model.BandConstruction.BandConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.BandGraphicalRepresentation;
-import org.openflexo.fge.geom.area.FGEBand;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.Import;
+import org.openflexo.pamela.annotations.Imports;
+import org.openflexo.pamela.annotations.ModelEntity;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(BandConstructionImpl.class)
 @Imports({ @Import(BandWithTwoLinesConstruction.class) })
-public interface BandConstruction extends GeometricConstruction<FGEBand> {
+public interface BandConstruction extends GeometricConstruction<DianaBand> {
 
-	public FGEBand getBand();
+	public DianaBand getBand();
 
-	public static abstract class BandConstructionImpl extends GeometricConstructionImpl<FGEBand> implements BandConstruction {
+	public static abstract class BandConstructionImpl extends GeometricConstructionImpl<DianaBand> implements BandConstruction {
 
 		@Override
 		public String getBaseName() {
@@ -62,7 +62,7 @@ public interface BandConstruction extends GeometricConstruction<FGEBand> {
 		}
 
 		@Override
-		public final FGEBand getBand() {
+		public final DianaBand getBand() {
 			return getData();
 		}
 
@@ -73,7 +73,7 @@ public interface BandConstruction extends GeometricConstruction<FGEBand> {
 		}
 
 		@Override
-		protected abstract FGEBand computeData();
+		protected abstract DianaBand computeData();
 
 	}
 

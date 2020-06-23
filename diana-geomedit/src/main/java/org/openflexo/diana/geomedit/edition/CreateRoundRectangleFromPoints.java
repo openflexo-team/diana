@@ -40,9 +40,9 @@
 package org.openflexo.diana.geomedit.edition;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGERoundRectangle;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRoundRectangle;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
 public class CreateRoundRectangleFromPoints extends Edition {
 
@@ -66,17 +66,17 @@ public class CreateRoundRectangleFromPoints extends Edition {
 	}
 
 	@Override
-	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
+	public void paintEdition(JDianaDrawingGraphics graphics, DianaPoint lastMouseLocation) {
 		if (currentStep < 3) {
 			// Nothing to draw
 		}
 		else if (currentStep == 3) {
 			double arcWidth = ((ObtainDouble) inputs.get(0)).getInputData();
 			double arcHeight = ((ObtainDouble) inputs.get(1)).getInputData();
-			FGEPoint p1 = ((ObtainPoint) inputs.get(2)).getInputData();
-			FGEPoint p2 = lastMouseLocation;
+			DianaPoint p1 = ((ObtainPoint) inputs.get(2)).getInputData();
+			DianaPoint p2 = lastMouseLocation;
 
-			FGEPoint p = new FGEPoint();
+			DianaPoint p = new DianaPoint();
 			p.x = Math.min(p1.x, p2.x);
 			p.y = Math.min(p1.y, p2.y);
 
@@ -85,7 +85,7 @@ public class CreateRoundRectangleFromPoints extends Edition {
 
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			p1.paint(graphics);
-			new FGERoundRectangle(p.x, p.y, width, height, arcWidth, arcHeight).paint(graphics);
+			new DianaRoundRectangle(p.x, p.y, width, height, arcWidth, arcHeight).paint(graphics);
 		}
 	}
 }

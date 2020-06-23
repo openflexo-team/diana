@@ -25,7 +25,7 @@
     <Number id="17" minValue="-180" columns="3" name="LineWidth" data="data.orientation" maxValue="180" increment="5" index="7" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right;x=0;y=0)" numberType="IntegerType" />
     <LocalizedDictionary id="18" />
   </Panel>
-  <FIBVariable id="19" name="data" type="org.openflexo.fge.TextStyle" />
+  <FIBVariable id="19" name="data" type="org.openflexo.diana.TextStyle" />
   <LocalizedDictionary id="20">
     <Localized id="21" value="Font" lang="English" key="font" />
     <Localized id="22" value="Color" lang="English" key="color" />

@@ -40,17 +40,17 @@
 package org.openflexo.diana.geomedit.model.gr;
 
 import org.openflexo.diana.geomedit.model.gr.HalfBandGraphicalRepresentation.HalfBandGraphicalRepresentationImpl;
-import org.openflexo.fge.geom.area.FGEHalfBand;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.diana.geom.area.DianaHalfBand;
 
 @ModelEntity
 @ImplementationClass(HalfBandGraphicalRepresentationImpl.class)
 @XMLElement
-public interface HalfBandGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEHalfBand> {
+public interface HalfBandGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<DianaHalfBand> {
 
-	public static abstract class HalfBandGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEHalfBand>
+	public static abstract class HalfBandGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<DianaHalfBand>
 			implements HalfBandGraphicalRepresentation {
 
 	}

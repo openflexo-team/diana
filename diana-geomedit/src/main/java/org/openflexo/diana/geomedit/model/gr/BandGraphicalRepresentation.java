@@ -40,17 +40,17 @@
 package org.openflexo.diana.geomedit.model.gr;
 
 import org.openflexo.diana.geomedit.model.gr.BandGraphicalRepresentation.BandGraphicalRepresentationImpl;
-import org.openflexo.fge.geom.area.FGEBand;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.diana.geom.area.DianaBand;
 
 @ModelEntity
 @ImplementationClass(BandGraphicalRepresentationImpl.class)
 @XMLElement
-public interface BandGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEBand> {
+public interface BandGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<DianaBand> {
 
-	public static abstract class BandGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEBand>
+	public static abstract class BandGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<DianaBand>
 			implements BandGraphicalRepresentation {
 	}
 

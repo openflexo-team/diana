@@ -51,29 +51,29 @@ import org.openflexo.diana.geomedit.model.PointConstruction;
 import org.openflexo.diana.geomedit.model.PolylinConstruction;
 import org.openflexo.diana.geomedit.model.PolylinWithNPointsConstruction;
 import org.openflexo.diana.geomedit.model.gr.PolylinGraphicalRepresentation.PolylinGraphicalRepresentationImpl;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.GeometricGraphicalRepresentation;
-import org.openflexo.fge.cp.ControlArea;
-import org.openflexo.fge.cp.ControlPoint;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGEPolylin;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.GeometricGraphicalRepresentation;
+import org.openflexo.diana.cp.ControlArea;
+import org.openflexo.diana.cp.ControlPoint;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaPolylin;
 
 @ModelEntity
 @ImplementationClass(PolylinGraphicalRepresentationImpl.class)
 @XMLElement
-public interface PolylinGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEPolylin> {
+public interface PolylinGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<DianaPolylin> {
 
-	public static abstract class PolylinGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEPolylin>
+	public static abstract class PolylinGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<DianaPolylin>
 			implements PolylinGraphicalRepresentation {
 
 		/*@Override
 		public void paint(Graphics g, AbstractDianaEditor controller) {
 			// TODO: un petit @brutal pour avancer, il faudrait faire les choses plus proprement
-			if (getGeometricObject() instanceof FGEPolylin) {
+			if (getGeometricObject() instanceof DianaPolylin) {
 				rebuildControlPoints();
 			}
 			super.paint(g, controller);
@@ -81,19 +81,19 @@ public interface PolylinGraphicalRepresentation extends GeometricObjectGraphical
 		
 		// DEBUG
 		@Override
-		public void paintGeometricObject(JFGEGeometricGraphics graphics) {
+		public void paintGeometricObject(JDianaGeometricGraphics graphics) {
 			super.paintGeometricObject(graphics);
 			// System.out.println("getGeometricObject()"+getGeometricObject());
-			if (getGeometricObject() instanceof FGERectPolylin) {
-				FGERectPolylin rectPoly = (FGERectPolylin) getGeometricObject();
+			if (getGeometricObject() instanceof DianaRectPolylin) {
+				DianaRectPolylin rectPoly = (DianaRectPolylin) getGeometricObject();
 				if (rectPoly.missingPath != null) {
 					graphics.setDefaultForeground(graphics.getFactory().makeForegroundStyle(Color.YELLOW, 1.0f, DashStyle.SMALL_DASHES));
 					rectPoly.missingPath.paint(graphics);
 				}
 				graphics.setDefaultForeground(graphics.getFactory().makeForegroundStyle(Color.GREEN));
-				FGERectPolylin debugPolylin = rectPoly.makeNormalizedRectPolylin();
+				DianaRectPolylin debugPolylin = rectPoly.makeNormalizedRectPolylin();
 				debugPolylin.paint(graphics);
-				for (FGEPoint p : debugPolylin.getPoints()) {
+				for (DianaPoint p : debugPolylin.getPoints()) {
 					p.paint(graphics);
 				}
 				if (rectPoly.currentPointStartingSide != null) {
@@ -102,15 +102,15 @@ public interface PolylinGraphicalRepresentation extends GeometricObjectGraphical
 					rectPoly.currentPointEndingSide.paint(graphics);
 				}
 				if (rectPoly.getPointsNb() == 5) {
-					//FGERectPolylin tempPoly
-					//= FGERectPolylin.makeShortestRectPolylin(
+					//DianaRectPolylin tempPoly
+					//= DianaRectPolylin.makeShortestRectPolylin(
 					//		rectPoly.getPointAt(1), 
 					//		rectPoly.getPointAt(3), 
 					//		true, 
 					//		rectPoly.getOverlap());
 					//graphics.setDefaultForeground(ForegroundStyleImpl.makeStyle(Color.GRAY));
 					//tempPoly.paint(graphics);
-					FGERectPolylin polylinCrossingPoint = FGERectPolylin.makeRectPolylinCrossingPoint(rectPoly.getPointAt(1),
+					DianaRectPolylin polylinCrossingPoint = DianaRectPolylin.makeRectPolylinCrossingPoint(rectPoly.getPointAt(1),
 							rectPoly.getPointAt(3), rectPoly.getPointAt(2), true, rectPoly.getOverlapX(), rectPoly.getOverlapY()
 							//,null, 
 						null);
@@ -125,7 +125,7 @@ public interface PolylinGraphicalRepresentation extends GeometricObjectGraphical
 
 		@Override
 		public List<? extends ControlArea<?>> makeControlAreasFor(
-				DrawingTreeNode<GeometricConstruction<FGEPolylin>, GeometricGraphicalRepresentation> dtn) {
+				DrawingTreeNode<GeometricConstruction<DianaPolylin>, GeometricGraphicalRepresentation> dtn) {
 			Vector<ControlPoint> returned = new Vector<ControlPoint>();
 
 			PolylinConstruction polylinContruction = (PolylinConstruction) dtn.getDrawable();
@@ -138,11 +138,11 @@ public interface PolylinGraphicalRepresentation extends GeometricObjectGraphical
 					PointConstruction pc = ((PolylinWithNPointsConstruction) polylinContruction).getPointConstructions().get(i);
 
 					if (pc instanceof ExplicitPointConstruction) {
-						returned.add(new DraggableControlPoint<FGEPolylin>((GeometricNode<?>) dtn, "pt" + i, pc.getPoint(),
+						returned.add(new DraggableControlPoint<DianaPolylin>((GeometricNode<?>) dtn, "pt" + i, pc.getPoint(),
 								(ExplicitPointConstruction) pc) {
 							@Override
-							public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-									FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+							public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+									DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 								getGeometricObject().getPointAt(pointIndex).x = newAbsolutePoint.x;
 								getGeometricObject().getPointAt(pointIndex).y = newAbsolutePoint.y;
 								setPoint(newAbsolutePoint);
@@ -152,16 +152,16 @@ public interface PolylinGraphicalRepresentation extends GeometricObjectGraphical
 							}
 
 							@Override
-							public void update(FGEPolylin geometricObject) {
+							public void update(DianaPolylin geometricObject) {
 								setPoint(geometricObject.getPointAt(pointIndex));
 								geometricObject.updateSegmentsFromPoints();
 							}
 						});
 					}
 					else {
-						returned.add(new ComputedControlPoint<FGEPolylin>((GeometricNode<?>) dtn, "pt" + i, pc.getPoint()) {
+						returned.add(new ComputedControlPoint<DianaPolylin>((GeometricNode<?>) dtn, "pt" + i, pc.getPoint()) {
 							@Override
-							public void update(FGEPolylin geometricObject) {
+							public void update(DianaPolylin geometricObject) {
 								setPoint(geometricObject.getPointAt(pointIndex));
 								geometricObject.updateSegmentsFromPoints();
 							}

@@ -16,14 +16,14 @@ import javax.swing.SwingUtilities;
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.GeometricDiagramDrawing;
 import org.openflexo.diana.geomedit.edition.EditionInputMethod;
-import org.openflexo.fge.geom.FGEPoint;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.logging.FlexoLogger;
 
 public class GeometricDiagramView extends JPanel {
 
 	private static final Logger logger = FlexoLogger.getLogger(GeometricDiagramView.class.getPackage().getName());
 
-	private FGEPoint lastMouseLocation;
+	private DianaPoint lastMouseLocation;
 	private GeomEditDrawingController controller;
 
 	private JScrollPane scrollPane;
@@ -34,7 +34,7 @@ public class GeometricDiagramView extends JPanel {
 
 		this.controller = controller;
 
-		lastMouseLocation = new FGEPoint();
+		lastMouseLocation = new DianaPoint();
 		addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {

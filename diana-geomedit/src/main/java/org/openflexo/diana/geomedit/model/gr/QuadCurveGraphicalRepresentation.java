@@ -53,45 +53,45 @@ import org.openflexo.diana.geomedit.model.PointConstruction;
 import org.openflexo.diana.geomedit.model.QuadCurveConstruction;
 import org.openflexo.diana.geomedit.model.QuadCurveWithThreePointsConstruction;
 import org.openflexo.diana.geomedit.model.gr.QuadCurveGraphicalRepresentation.QuadCurveGraphicalRepresentationImpl;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.ForegroundStyle.DashStyle;
-import org.openflexo.fge.GeometricGraphicalRepresentation;
-import org.openflexo.fge.cp.ControlArea;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGEQuadCurve;
-import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.fge.graphics.FGEGraphics;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.ForegroundStyle.DashStyle;
+import org.openflexo.diana.GeometricGraphicalRepresentation;
+import org.openflexo.diana.cp.ControlArea;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaQuadCurve;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.graphics.DianaGraphics;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(QuadCurveGraphicalRepresentationImpl.class)
 @XMLElement
-public interface QuadCurveGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEQuadCurve> {
+public interface QuadCurveGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<DianaQuadCurve> {
 
-	public static abstract class QuadCurveGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEQuadCurve>
+	public static abstract class QuadCurveGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<DianaQuadCurve>
 			implements QuadCurveGraphicalRepresentation {
 
 		@Override
 		public List<? extends ControlArea<?>> makeControlAreasFor(
-				DrawingTreeNode<GeometricConstruction<FGEQuadCurve>, GeometricGraphicalRepresentation> dtn) {
+				DrawingTreeNode<GeometricConstruction<DianaQuadCurve>, GeometricGraphicalRepresentation> dtn) {
 			Vector<ControlArea<?>> returned = new Vector<ControlArea<?>>();
 
 			QuadCurveConstruction curveConstruction = (QuadCurveConstruction) dtn.getDrawable();
-			FGEQuadCurve curve = curveConstruction.getCurve();
+			DianaQuadCurve curve = curveConstruction.getCurve();
 
 			if (curveConstruction instanceof QuadCurveWithThreePointsConstruction) {
 				PointConstruction startPointConstruction = ((QuadCurveWithThreePointsConstruction) curveConstruction)
 						.getStartPointConstruction();
 
 				if (startPointConstruction instanceof ExplicitPointConstruction) {
-					returned.add(new DraggableControlPoint<FGEQuadCurve>((GeometricNode<?>) dtn, "p1", curve.getP1(),
+					returned.add(new DraggableControlPoint<DianaQuadCurve>((GeometricNode<?>) dtn, "p1", curve.getP1(),
 							(ExplicitPointConstruction) startPointConstruction) {
 						@Override
-						public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-								FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+						public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+								DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 							getGeometricObject().setP1(newAbsolutePoint);
 							setPoint(newAbsolutePoint);
 							((GeometricNode<?>) dtn).notifyGeometryChanged();
@@ -99,15 +99,15 @@ public interface QuadCurveGraphicalRepresentation extends GeometricObjectGraphic
 						}
 
 						@Override
-						public void update(FGEQuadCurve geometricObject) {
+						public void update(DianaQuadCurve geometricObject) {
 							setPoint(geometricObject.getP1());
 						}
 					});
 				}
 				else {
-					returned.add(new ComputedControlPoint<FGEQuadCurve>((GeometricNode<?>) dtn, "p1", curve.getP1()) {
+					returned.add(new ComputedControlPoint<DianaQuadCurve>((GeometricNode<?>) dtn, "p1", curve.getP1()) {
 						@Override
-						public void update(FGEQuadCurve geometricObject) {
+						public void update(DianaQuadCurve geometricObject) {
 							setPoint(geometricObject.getP1());
 						}
 					});
@@ -115,11 +115,11 @@ public interface QuadCurveGraphicalRepresentation extends GeometricObjectGraphic
 				PointConstruction controlPointConstruction = ((QuadCurveWithThreePointsConstruction) curveConstruction)
 						.getControlPointConstruction();
 				if (controlPointConstruction instanceof ExplicitPointConstruction) {
-					returned.add(new DraggableControlPoint<FGEQuadCurve>((GeometricNode<?>) dtn, "cp", curve.getCtrlPoint(),
+					returned.add(new DraggableControlPoint<DianaQuadCurve>((GeometricNode<?>) dtn, "cp", curve.getCtrlPoint(),
 							(ExplicitPointConstruction) controlPointConstruction) {
 						@Override
-						public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-								FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+						public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+								DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 							getGeometricObject().setCtrlPoint(newAbsolutePoint);
 							setPoint(newAbsolutePoint);
 							((GeometricNode<?>) dtn).notifyGeometryChanged();
@@ -127,15 +127,15 @@ public interface QuadCurveGraphicalRepresentation extends GeometricObjectGraphic
 						}
 
 						@Override
-						public void update(FGEQuadCurve geometricObject) {
+						public void update(DianaQuadCurve geometricObject) {
 							setPoint(geometricObject.getCtrlPoint());
 						}
 					});
 				}
 				else {
-					returned.add(new ComputedControlPoint<FGEQuadCurve>((GeometricNode<?>) dtn, "cp", curve.getCtrlPoint()) {
+					returned.add(new ComputedControlPoint<DianaQuadCurve>((GeometricNode<?>) dtn, "cp", curve.getCtrlPoint()) {
 						@Override
-						public void update(FGEQuadCurve geometricObject) {
+						public void update(DianaQuadCurve geometricObject) {
 							setPoint(geometricObject.getCtrlPoint());
 						}
 					});
@@ -143,11 +143,11 @@ public interface QuadCurveGraphicalRepresentation extends GeometricObjectGraphic
 				PointConstruction endPointConstruction = ((QuadCurveWithThreePointsConstruction) curveConstruction)
 						.getEndPointConstruction();
 				if (endPointConstruction instanceof ExplicitPointConstruction) {
-					returned.add(new DraggableControlPoint<FGEQuadCurve>((GeometricNode<?>) dtn, "p2", curve.getP2(),
+					returned.add(new DraggableControlPoint<DianaQuadCurve>((GeometricNode<?>) dtn, "p2", curve.getP2(),
 							(ExplicitPointConstruction) endPointConstruction) {
 						@Override
-						public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-								FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+						public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+								DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 							getGeometricObject().setP2(newAbsolutePoint);
 							setPoint(newAbsolutePoint);
 							((GeometricNode<?>) dtn).notifyGeometryChanged();
@@ -155,35 +155,35 @@ public interface QuadCurveGraphicalRepresentation extends GeometricObjectGraphic
 						}
 
 						@Override
-						public void update(FGEQuadCurve geometricObject) {
+						public void update(DianaQuadCurve geometricObject) {
 							setPoint(geometricObject.getP2());
 						}
 					});
 				}
 				else {
-					returned.add(new ComputedControlPoint<FGEQuadCurve>((GeometricNode<?>) dtn, "p2", curve.getP2()) {
+					returned.add(new ComputedControlPoint<DianaQuadCurve>((GeometricNode<?>) dtn, "p2", curve.getP2()) {
 						@Override
-						public void update(FGEQuadCurve geometricObject) {
+						public void update(DianaQuadCurve geometricObject) {
 							setPoint(geometricObject.getP2());
 						}
 					});
 				}
-				returned.add(new ComputedControlPoint<FGEQuadCurve>((GeometricNode<?>) dtn, "p3", curve.getP3()) {
+				returned.add(new ComputedControlPoint<DianaQuadCurve>((GeometricNode<?>) dtn, "p3", curve.getP3()) {
 					@Override
-					public void update(FGEQuadCurve geometricObject) {
+					public void update(DianaQuadCurve geometricObject) {
 						setPoint(geometricObject.getP3());
 					}
 				});
 
-				final FGESegment line1 = new FGESegment(getGeometricObject().getP1(), getGeometricObject().getCtrlPoint());
-				returned.add(new ControlArea<FGESegment>(dtn, line1) {
+				final DianaSegment line1 = new DianaSegment(getGeometricObject().getP1(), getGeometricObject().getCtrlPoint());
+				returned.add(new ControlArea<DianaSegment>(dtn, line1) {
 					@Override
 					public boolean isDraggable() {
 						return false;
 					}
 
 					@Override
-					public Rectangle paint(FGEGraphics graphics) {
+					public Rectangle paint(DianaGraphics graphics) {
 						graphics.setDefaultForeground(
 								graphics.getFactory().makeForegroundStyle(Color.LIGHT_GRAY, 0.5f, DashStyle.BIG_DASHES));
 						graphics.useDefaultForegroundStyle();
@@ -191,15 +191,15 @@ public interface QuadCurveGraphicalRepresentation extends GeometricObjectGraphic
 						return null;
 					}
 				});
-				final FGESegment line2 = new FGESegment(getGeometricObject().getP2(), getGeometricObject().getCtrlPoint());
-				returned.add(new ControlArea<FGESegment>(dtn, line2) {
+				final DianaSegment line2 = new DianaSegment(getGeometricObject().getP2(), getGeometricObject().getCtrlPoint());
+				returned.add(new ControlArea<DianaSegment>(dtn, line2) {
 					@Override
 					public boolean isDraggable() {
 						return false;
 					}
 
 					@Override
-					public Rectangle paint(FGEGraphics graphics) {
+					public Rectangle paint(DianaGraphics graphics) {
 						graphics.setDefaultForeground(
 								graphics.getFactory().makeForegroundStyle(Color.LIGHT_GRAY, 0.5f, DashStyle.BIG_DASHES));
 						graphics.useDefaultForegroundStyle();

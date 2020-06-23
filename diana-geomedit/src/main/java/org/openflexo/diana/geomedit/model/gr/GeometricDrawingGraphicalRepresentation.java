@@ -39,10 +39,10 @@
 
 package org.openflexo.diana.geomedit.model.gr;
 
-import org.openflexo.fge.DrawingGraphicalRepresentation;
-import org.openflexo.fge.impl.DrawingGraphicalRepresentationImpl;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.diana.DrawingGraphicalRepresentation;
+import org.openflexo.diana.impl.DrawingGraphicalRepresentationImpl;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @XMLElement

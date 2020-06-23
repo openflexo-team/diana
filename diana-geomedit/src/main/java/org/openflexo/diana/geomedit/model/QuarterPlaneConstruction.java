@@ -41,17 +41,17 @@ package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.model.QuarterPlaneConstruction.QuarterPlaneConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.QuarterPlaneGraphicalRepresentation;
-import org.openflexo.fge.geom.area.FGEQuarterPlane;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.diana.geom.area.DianaQuarterPlane;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(QuarterPlaneConstructionImpl.class)
-public interface QuarterPlaneConstruction extends GeometricConstruction<FGEQuarterPlane> {
+public interface QuarterPlaneConstruction extends GeometricConstruction<DianaQuarterPlane> {
 
-	public FGEQuarterPlane getQuarterPlane();
+	public DianaQuarterPlane getQuarterPlane();
 
-	public static abstract class QuarterPlaneConstructionImpl extends GeometricConstructionImpl<FGEQuarterPlane>
+	public static abstract class QuarterPlaneConstructionImpl extends GeometricConstructionImpl<DianaQuarterPlane>
 			implements QuarterPlaneConstruction {
 
 		@Override
@@ -60,7 +60,7 @@ public interface QuarterPlaneConstruction extends GeometricConstruction<FGEQuart
 		}
 
 		@Override
-		public final FGEQuarterPlane getQuarterPlane() {
+		public final DianaQuarterPlane getQuarterPlane() {
 			return getData();
 		}
 
@@ -71,7 +71,7 @@ public interface QuarterPlaneConstruction extends GeometricConstruction<FGEQuart
 		}
 
 		@Override
-		protected abstract FGEQuarterPlane computeData();
+		protected abstract DianaQuarterPlane computeData();
 
 	}
 

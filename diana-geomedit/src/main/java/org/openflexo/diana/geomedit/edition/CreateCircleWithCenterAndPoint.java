@@ -40,12 +40,12 @@
 package org.openflexo.diana.geomedit.edition;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
-import org.openflexo.fge.geom.FGEDimension;
-import org.openflexo.fge.geom.FGEEllips;
-import org.openflexo.fge.geom.FGEGeometricObject.Filling;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaEllips;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
 public class CreateCircleWithCenterAndPoint extends Edition {
 
@@ -71,21 +71,21 @@ public class CreateCircleWithCenterAndPoint extends Edition {
 	}*/
 
 	@Override
-	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
+	public void paintEdition(JDianaDrawingGraphics graphics, DianaPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
 		}
 		else if (currentStep == 1) {
 			// Nothing to draw
 
-			FGEPoint center = ((ObtainPoint) inputs.get(0)).getInputData();
-			FGEPoint p = lastMouseLocation;
+			DianaPoint center = ((ObtainPoint) inputs.get(0)).getInputData();
+			DianaPoint p = lastMouseLocation;
 
-			double diameter = FGESegment.getLength(center, p) * 2;
+			double diameter = DianaSegment.getLength(center, p) * 2;
 
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			center.paint(graphics);
-			new FGEEllips(center, new FGEDimension(diameter, diameter), Filling.NOT_FILLED).paint(graphics);
+			new DianaEllips(center, new DianaDimension(diameter, diameter), Filling.NOT_FILLED).paint(graphics);
 		}
 	}
 }

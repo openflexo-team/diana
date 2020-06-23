@@ -40,9 +40,9 @@
 package org.openflexo.diana.geomedit.edition;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
-import org.openflexo.fge.geom.FGELine;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
 public class CreateLineFromPoints extends Edition {
 
@@ -62,17 +62,17 @@ public class CreateLineFromPoints extends Edition {
 	}
 
 	@Override
-	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
+	public void paintEdition(JDianaDrawingGraphics graphics, DianaPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
 		}
 		else if (currentStep == 1) {
 			// We draw the line
 			ObtainPoint firstPoint = (ObtainPoint) inputs.get(0);
-			FGEPoint p1 = firstPoint.getInputData();
+			DianaPoint p1 = firstPoint.getInputData();
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			p1.paint(graphics);
-			FGELine lineToPaint = new FGELine(p1, lastMouseLocation);
+			DianaLine lineToPaint = new DianaLine(p1, lastMouseLocation);
 			lineToPaint.paint(graphics);
 		}
 	}

@@ -50,33 +50,33 @@ import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.HalfLineConstruction;
 import org.openflexo.diana.geomedit.model.HalfLineWithTwoPointsConstruction;
 import org.openflexo.diana.geomedit.model.gr.HalfLineGraphicalRepresentation.HalfLineGraphicalRepresentationImpl;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.GeometricGraphicalRepresentation;
-import org.openflexo.fge.cp.ControlArea;
-import org.openflexo.fge.cp.ControlPoint;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.area.FGEHalfLine;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.GeometricGraphicalRepresentation;
+import org.openflexo.diana.cp.ControlArea;
+import org.openflexo.diana.cp.ControlPoint;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.area.DianaHalfLine;
 
 @ModelEntity
 @ImplementationClass(HalfLineGraphicalRepresentationImpl.class)
 @XMLElement
-public interface HalfLineGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEHalfLine> {
+public interface HalfLineGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<DianaHalfLine> {
 
-	public static abstract class HalfLineGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEHalfLine>
+	public static abstract class HalfLineGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<DianaHalfLine>
 			implements HalfLineGraphicalRepresentation {
 
 		@Override
 		public List<? extends ControlArea<?>> makeControlAreasFor(
-				DrawingTreeNode<GeometricConstruction<FGEHalfLine>, GeometricGraphicalRepresentation> dtn) {
+				DrawingTreeNode<GeometricConstruction<DianaHalfLine>, GeometricGraphicalRepresentation> dtn) {
 
 			Vector<ControlPoint> returned = new Vector<ControlPoint>();
 
 			HalfLineConstruction lineConstruction = (HalfLineConstruction) dtn.getDrawable();
-			FGEHalfLine line = lineConstruction.getHalfLine();
+			DianaHalfLine line = lineConstruction.getHalfLine();
 
 			ExplicitPointConstruction pc1 = null;
 			ExplicitPointConstruction pc2 = null;
@@ -93,10 +93,10 @@ public interface HalfLineGraphicalRepresentation extends GeometricObjectGraphica
 			}
 
 			if (pc1 != null) {
-				returned.add(new DraggableControlPoint<FGEHalfLine>((GeometricNode<?>) dtn, "limit", line.getP1(), pc1) {
+				returned.add(new DraggableControlPoint<DianaHalfLine>((GeometricNode<?>) dtn, "limit", line.getP1(), pc1) {
 					@Override
-					public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-							FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+					public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+							DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 						getGeometricObject().setLimit(newAbsolutePoint);
 						setPoint(newAbsolutePoint);
 						((GeometricNode<?>) dtn).notifyGeometryChanged();
@@ -104,25 +104,25 @@ public interface HalfLineGraphicalRepresentation extends GeometricObjectGraphica
 					}
 
 					@Override
-					public void update(FGEHalfLine geometricObject) {
+					public void update(DianaHalfLine geometricObject) {
 						setPoint(geometricObject.getLimit());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<FGEHalfLine>((GeometricNode<?>) dtn, "limit", line.getP1()) {
+				returned.add(new ComputedControlPoint<DianaHalfLine>((GeometricNode<?>) dtn, "limit", line.getP1()) {
 					@Override
-					public void update(FGEHalfLine geometricObject) {
+					public void update(DianaHalfLine geometricObject) {
 						setPoint(geometricObject.getLimit());
 					}
 				});
 			}
 
 			if (pc2 != null) {
-				returned.add(new DraggableControlPoint<FGEHalfLine>((GeometricNode<?>) dtn, "opposite", line.getP2(), pc2) {
+				returned.add(new DraggableControlPoint<DianaHalfLine>((GeometricNode<?>) dtn, "opposite", line.getP2(), pc2) {
 					@Override
-					public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-							FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+					public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+							DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 						getGeometricObject().setOpposite(newAbsolutePoint);
 						setPoint(newAbsolutePoint);
 						((GeometricNode<?>) dtn).notifyGeometryChanged();
@@ -130,15 +130,15 @@ public interface HalfLineGraphicalRepresentation extends GeometricObjectGraphica
 					}
 
 					@Override
-					public void update(FGEHalfLine geometricObject) {
+					public void update(DianaHalfLine geometricObject) {
 						setPoint(geometricObject.getOpposite());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<FGEHalfLine>((GeometricNode<?>) dtn, "opposite", line.getP1()) {
+				returned.add(new ComputedControlPoint<DianaHalfLine>((GeometricNode<?>) dtn, "opposite", line.getP1()) {
 					@Override
-					public void update(FGEHalfLine geometricObject) {
+					public void update(DianaHalfLine geometricObject) {
 						setPoint(geometricObject.getOpposite());
 					}
 				});

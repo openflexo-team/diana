@@ -39,28 +39,28 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaComplexCurve;
+import org.openflexo.diana.geom.DianaGeneralShape.Closure;
 import org.openflexo.diana.geomedit.model.ComplexCurveConstruction.ComplexCurveConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.ComplexCurveGraphicalRepresentation;
-import org.openflexo.fge.geom.FGEComplexCurve;
-import org.openflexo.fge.geom.FGEGeneralShape.Closure;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.Import;
+import org.openflexo.pamela.annotations.Imports;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLAttribute;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(ComplexCurveConstructionImpl.class)
 @Imports({ @Import(ComplexCurveWithNPointsConstruction.class) })
-public interface ComplexCurveConstruction extends GeometricConstruction<FGEComplexCurve> {
+public interface ComplexCurveConstruction extends GeometricConstruction<DianaComplexCurve> {
 
 	@PropertyIdentifier(type = Closure.class)
 	public static final String CLOSURE_KEY = "closure";
 
-	public FGEComplexCurve getCurve();
+	public DianaComplexCurve getCurve();
 
 	@Getter(CLOSURE_KEY)
 	@XMLAttribute
@@ -69,7 +69,7 @@ public interface ComplexCurveConstruction extends GeometricConstruction<FGECompl
 	@Setter(CLOSURE_KEY)
 	public void setClosure(Closure aClosure);
 
-	public static abstract class ComplexCurveConstructionImpl extends GeometricConstructionImpl<FGEComplexCurve>
+	public static abstract class ComplexCurveConstructionImpl extends GeometricConstructionImpl<DianaComplexCurve>
 			implements ComplexCurveConstruction {
 
 		@Override
@@ -84,12 +84,12 @@ public interface ComplexCurveConstruction extends GeometricConstruction<FGECompl
 		}
 
 		@Override
-		public final FGEComplexCurve getCurve() {
+		public final DianaComplexCurve getCurve() {
 			return getData();
 		}
 
 		@Override
-		protected abstract FGEComplexCurve computeData();
+		protected abstract DianaComplexCurve computeData();
 
 		@Override
 		public Closure getClosure() {

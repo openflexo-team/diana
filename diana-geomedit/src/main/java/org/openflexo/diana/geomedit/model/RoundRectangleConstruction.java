@@ -41,20 +41,20 @@ package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.model.RoundRectangleConstruction.RoundRectangleConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.RoundRectangleGraphicalRepresentation;
-import org.openflexo.fge.geom.FGERoundRectangle;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.Import;
+import org.openflexo.pamela.annotations.Imports;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLAttribute;
+import org.openflexo.diana.geom.DianaRoundRectangle;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(RoundRectangleConstructionImpl.class)
 @Imports({ @Import(RoundRectangleWithTwoPointsConstruction.class) })
-public interface RoundRectangleConstruction extends GeometricConstruction<FGERoundRectangle> {
+public interface RoundRectangleConstruction extends GeometricConstruction<DianaRoundRectangle> {
 
 	@PropertyIdentifier(type = Double.class)
 	public static final String X_KEY = "x";
@@ -116,9 +116,9 @@ public interface RoundRectangleConstruction extends GeometricConstruction<FGERou
 	@Setter(ARC_HEIGHT_KEY)
 	public void setArcHeight(double arcHeight);
 
-	public FGERoundRectangle getRectangle();
+	public DianaRoundRectangle getRectangle();
 
-	public static abstract class RoundRectangleConstructionImpl extends GeometricConstructionImpl<FGERoundRectangle>
+	public static abstract class RoundRectangleConstructionImpl extends GeometricConstructionImpl<DianaRoundRectangle>
 			implements RoundRectangleConstruction {
 
 		@Override
@@ -127,7 +127,7 @@ public interface RoundRectangleConstruction extends GeometricConstruction<FGERou
 		}
 
 		@Override
-		public final FGERoundRectangle getRectangle() {
+		public final DianaRoundRectangle getRectangle() {
 			return getData();
 		}
 
@@ -138,7 +138,7 @@ public interface RoundRectangleConstruction extends GeometricConstruction<FGERou
 		}
 
 		@Override
-		protected abstract FGERoundRectangle computeData();
+		protected abstract DianaRoundRectangle computeData();
 
 		@Override
 		public double getX() {

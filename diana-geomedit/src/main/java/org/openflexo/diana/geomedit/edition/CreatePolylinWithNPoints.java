@@ -43,10 +43,10 @@ import java.util.Vector;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.PointConstruction;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGEPolylin;
-import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaPolylin;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
 public class CreatePolylinWithNPoints extends Edition {
 
@@ -85,26 +85,26 @@ public class CreatePolylinWithNPoints extends Edition {
 	}
 
 	@Override
-	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
+	public void paintEdition(JDianaDrawingGraphics graphics, DianaPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
 		}
 		if (currentStep == 1) {
-			FGEPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
+			DianaPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			p1.paint(graphics);
-			new FGESegment(p1, lastMouseLocation).paint(graphics);
+			new DianaSegment(p1, lastMouseLocation).paint(graphics);
 		}
 		else {
-			Vector<FGEPoint> pts = new Vector<FGEPoint>();
+			Vector<DianaPoint> pts = new Vector<DianaPoint>();
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			for (int i = 0; i < currentStep; i++) {
-				FGEPoint p = ((ObtainPoint) inputs.get(i)).getInputData();
+				DianaPoint p = ((ObtainPoint) inputs.get(i)).getInputData();
 				p.paint(graphics);
 				pts.add(p);
 			}
 			pts.add(lastMouseLocation);
-			new FGEPolylin(pts).paint(graphics);
+			new DianaPolylin(pts).paint(graphics);
 
 		}
 	}

@@ -39,20 +39,21 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaCircle;
 import org.openflexo.diana.geomedit.model.CircleConstruction.CircleConstructionImpl;
-import org.openflexo.fge.geom.FGECircle;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.Import;
+import org.openflexo.pamela.annotations.Imports;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(CircleConstructionImpl.class)
-@Imports({ @Import(CircleReference.class), @Import(CircleWithCenterAndPointConstruction.class) })
-public interface CircleConstruction extends EllipsConstruction<FGECircle> {
+@Imports({ @Import(CircleReference.class), @Import(CircleWithCenterAndPointConstruction.class),
+		@Import(CircleWithThreePointsConstruction.class) })
+public interface CircleConstruction extends EllipsConstruction<DianaCircle> {
 
 	@PropertyIdentifier(type = Double.class)
 	public static final String CENTER_X_KEY = "centerX";
@@ -79,9 +80,9 @@ public interface CircleConstruction extends EllipsConstruction<FGECircle> {
 	@Setter(RADIUS_KEY)
 	public void setRadius(double value);
 
-	public FGECircle getCircle();
+	public DianaCircle getCircle();
 
-	public static abstract class CircleConstructionImpl extends EllipsConstructionImpl<FGECircle> implements CircleConstruction {
+	public static abstract class CircleConstructionImpl extends EllipsConstructionImpl<DianaCircle> implements CircleConstruction {
 
 		@Override
 		public String getBaseName() {
@@ -89,12 +90,12 @@ public interface CircleConstruction extends EllipsConstruction<FGECircle> {
 		}
 
 		@Override
-		public final FGECircle getCircle() {
+		public final DianaCircle getCircle() {
 			return getData();
 		}
 
 		@Override
-		protected abstract FGECircle computeData();
+		protected abstract DianaCircle computeData();
 
 		@Override
 		public double getCenterX() {

@@ -11,7 +11,7 @@
 			<Label label="foreground" index="100"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=10;insetsRight=2;insetsTop=5;location=left)"
 				name="ForegroundLabel" localize="true" />
-			<Custom componentClassName="org.openflexo.fge.swing.widget.JFIBForegroundStyleSelector"
+			<Custom componentClassName="org.openflexo.diana.swing.widget.JFIBForegroundStyleSelector"
 				localize="true" manageDynamicModel="true" name="ForegroundSelector"
 				index="101" data="data.graphicalRepresentation.foreground"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />

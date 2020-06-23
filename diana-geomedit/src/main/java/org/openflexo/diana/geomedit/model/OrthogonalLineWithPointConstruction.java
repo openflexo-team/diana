@@ -39,18 +39,18 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaDimension;
+import org.openflexo.diana.geom.DianaEllips;
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaLine;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geomedit.model.OrthogonalLineWithPointConstruction.OrthogonalLineWithPointConstructionImpl;
-import org.openflexo.fge.geom.FGEDimension;
-import org.openflexo.fge.geom.FGEEllips;
-import org.openflexo.fge.geom.FGEGeometricObject.Filling;
-import org.openflexo.fge.geom.FGELine;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(OrthogonalLineWithPointConstructionImpl.class)
@@ -83,19 +83,19 @@ public interface OrthogonalLineWithPointConstruction extends LineConstruction {
 		private PointConstruction pointConstruction;
 
 		@Override
-		protected FGELine computeData() {
+		protected DianaLine computeData() {
 			if (getLineConstruction() != null && getPointConstruction() != null) {
-				FGELine computedLine = lineConstruction.getLine().getOrthogonalLine(pointConstruction.getPoint());
-				FGEPoint p1, p2;
+				DianaLine computedLine = lineConstruction.getLine().getOrthogonalLine(pointConstruction.getPoint());
+				DianaPoint p1, p2;
 				p1 = pointConstruction.getPoint().clone();
 				if (lineConstruction.getLine().contains(pointConstruction.getPoint())) {
-					FGEEllips ellips = new FGEEllips(p1, new FGEDimension(200, 200), Filling.NOT_FILLED);
+					DianaEllips ellips = new DianaEllips(p1, new DianaDimension(200, 200), Filling.NOT_FILLED);
 					p2 = ellips.intersect(computedLine).getNearestPoint(p1);
 				}
 				else {
 					p2 = computedLine.getLineIntersection(lineConstruction.getLine()).clone();
 				}
-				return new FGELine(p1, p2);
+				return new DianaLine(p1, p2);
 			}
 			return null;
 		}

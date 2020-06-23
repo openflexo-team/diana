@@ -39,15 +39,15 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.area.DianaHalfBand;
+import org.openflexo.diana.geom.area.DianaHalfPlane;
 import org.openflexo.diana.geomedit.model.HalfBandWithLinesConstruction.HalfBandWithLinesConstructionImpl;
-import org.openflexo.fge.geom.area.FGEHalfBand;
-import org.openflexo.fge.geom.area.FGEHalfPlane;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(HalfBandWithLinesConstructionImpl.class)
@@ -100,11 +100,11 @@ public interface HalfBandWithLinesConstruction extends HalfBandConstruction {
 		private PointConstruction pointConstruction;
 
 		@Override
-		protected FGEHalfBand computeData() {
+		protected DianaHalfBand computeData() {
 			if (getLineConstruction1() != null && getLineConstruction2() != null && getLimitLineConstruction() != null
 					&& getPointConstruction() != null) {
-				FGEHalfBand returned = new FGEHalfBand(getLineConstruction1().getLine(), getLineConstruction2().getLine(),
-						new FGEHalfPlane(getLimitLineConstruction().getLine(), getPointConstruction().getPoint()));
+				DianaHalfBand returned = new DianaHalfBand(getLineConstruction1().getLine(), getLineConstruction2().getLine(),
+						new DianaHalfPlane(getLimitLineConstruction().getLine(), getPointConstruction().getPoint()));
 				return returned;
 			}
 			return null;

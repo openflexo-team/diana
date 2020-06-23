@@ -14,7 +14,7 @@
 			<DropDown index="19" data="data.closure"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
 				width="150" name="ClosureDD" format="object.name" localize="true"
-				iteratorClassName="org.openflexo.fge.geom.FGEGeneralShape$Closure"
+				iteratorClassName="org.openflexo.diana.geom.DianaGeneralShape$Closure"
 				autoSelectFirstRow="false" />
 		</Tab>
 		<Tab title="Advanced" layout="twocols" titleFont="SansSerif,0,11"

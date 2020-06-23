@@ -1,18 +1,19 @@
  -----
- The Site
+ Openflexo DIANA Drawing Editor
  -----
- The Maven Team
+ The Openflexo team
  -----
 
-Maven Site for your project
+DIANA Drawing Editor
 
- Congratulations! If you are looking at this page then you have successfully generated a
- template site employing the site archetype and you have run:
+  This is is a stand-alone implementation of a Swing basic diagram editor.
+  
+  This is a tool which can be used out of the box to draw diagrams.
+  Diagrams beeing build using this tool are built above a very basic diagram model provided by this component.
 
-[https://media.openflexo.org/images/openflexo2.png]
+[/images/components/diana/DrawingEditorScreenshot] DrawingEditorScreenshot
 
-+-----+
-
-mvn site
-
-+-----+
+  To be continued...
+  
+  
+  

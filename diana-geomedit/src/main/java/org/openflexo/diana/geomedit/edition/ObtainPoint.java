@@ -47,16 +47,16 @@ import org.openflexo.diana.geomedit.controller.ComputedControlPoint;
 import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.PointConstruction;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.FGEConstants;
-import org.openflexo.fge.converter.PointConverter;
-import org.openflexo.fge.cp.ControlArea;
-import org.openflexo.fge.cp.ControlPoint;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.DianaConstants;
+import org.openflexo.diana.converter.PointConverter;
+import org.openflexo.diana.cp.ControlArea;
+import org.openflexo.diana.cp.ControlPoint;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
-public class ObtainPoint extends EditionInput<FGEPoint> {
+public class ObtainPoint extends EditionInput<DianaPoint> {
 	public static int preferredMethodIndex = 0;
 
 	private boolean endOnRightClick = false;
@@ -89,7 +89,7 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 		preferredMethodIndex = availableMethods.indexOf(aMethod);
 	}
 
-	public class CursorSelection extends EditionInputMethod<FGEPoint, ObtainPoint> {
+	public class CursorSelection extends EditionInputMethod<DianaPoint, ObtainPoint> {
 
 		public CursorSelection() {
 			super("From cursor", ObtainPoint.this);
@@ -111,7 +111,7 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 
 	}
 
-	public class ControlPointSelection extends EditionInputMethod<FGEPoint, ObtainPoint> {
+	public class ControlPointSelection extends EditionInputMethod<DianaPoint, ObtainPoint> {
 
 		private ControlPoint focusedControlPoint;
 		private GeometricNode<?> focusedObject;
@@ -175,10 +175,10 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 		}
 
 		@Override
-		public void paint(JFGEDrawingGraphics graphics) {
+		public void paint(JDianaDrawingGraphics graphics) {
 			if (focusedControlPoint != null) {
 				graphics.useForegroundStyle(graphics.getFactory().makeForegroundStyle(Color.RED));
-				graphics.drawControlPoint(focusedControlPoint.getPoint(), FGEConstants.CONTROL_POINT_SIZE);
+				graphics.drawControlPoint(focusedControlPoint.getPoint(), DianaConstants.CONTROL_POINT_SIZE);
 				graphics.drawRoundArroundPoint(focusedControlPoint.getPoint(), 8);
 			}
 		}
@@ -190,7 +190,7 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 
 	}
 
-	public class IntersectionSelection extends EditionInputMethod<FGEPoint, ObtainPoint> {
+	public class IntersectionSelection extends EditionInputMethod<DianaPoint, ObtainPoint> {
 
 		public IntersectionSelection() {
 			super("As intersection", ObtainPoint.this);
@@ -218,7 +218,7 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 		}
 
 		@Override
-		public void paint(JFGEDrawingGraphics graphics) {
+		public void paint(JDianaDrawingGraphics graphics) {
 			if (currentChildInputStep == 0) {
 				// Nothing to draw
 			}
@@ -231,9 +231,9 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 
 	}
 
-	public class KeyboardSelection extends EditionInputMethod<FGEPoint, ObtainPoint> {
+	public class KeyboardSelection extends EditionInputMethod<DianaPoint, ObtainPoint> {
 
-		private InputComponentTextField<FGEPoint> inputComponent;
+		private InputComponentTextField<DianaPoint> inputComponent;
 
 		public KeyboardSelection() {
 			super("As", ObtainPoint.this);
@@ -247,7 +247,7 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 		@Override
 		public InputComponent getInputComponent() {
 			if (inputComponent == null) {
-				inputComponent = new InputComponentTextField<FGEPoint>(KeyboardSelection.this, new FGEPoint(0, 0)) {
+				inputComponent = new InputComponentTextField<DianaPoint>(KeyboardSelection.this, new DianaPoint(0, 0)) {
 
 					@Override
 					public int getColumnSize() {
@@ -255,23 +255,23 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 					}
 
 					@Override
-					public String convertDataToString(FGEPoint data) {
+					public String convertDataToString(DianaPoint data) {
 						if (data == null) {
 							return "";
 						}
-						return (new PointConverter(FGEPoint.class)).convertToString(data);
+						return (new PointConverter(DianaPoint.class)).convertToString(data);
 					}
 
 					@Override
-					public FGEPoint convertStringToData(String string) {
+					public DianaPoint convertStringToData(String string) {
 						if (string == null || string.trim().equals("")) {
 							return null;
 						}
-						return (new PointConverter(FGEPoint.class)).convertFromString(string, null);
+						return (new PointConverter(DianaPoint.class)).convertFromString(string, null);
 					}
 
 					@Override
-					public void dataEntered(FGEPoint data) {
+					public void dataEntered(DianaPoint data) {
 						setConstruction(getFactory().makeExplicitPointConstruction(data));
 						done();
 					}
@@ -284,7 +284,7 @@ public class ObtainPoint extends EditionInput<FGEPoint> {
 	}
 
 	@Override
-	public void paint(JFGEDrawingGraphics graphics) {
+	public void paint(JDianaDrawingGraphics graphics) {
 		super.paint(graphics);
 		if ((getActiveMethod() instanceof ControlPointSelection) || (getActiveMethod() instanceof IntersectionSelection)) {
 			getActiveMethod().paint(graphics);

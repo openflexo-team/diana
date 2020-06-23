@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Inspector
 	layout="border" titleFont="SansSerif,0,12" darkLevel="0"
-	dataClassName="org.openflexo.fge.layout.GraphBasedLayoutManager" font="SansSerif,0,12"
+	dataClassName="org.openflexo.diana.layout.GraphBasedLayoutManager" font="SansSerif,0,12"
 	name="Inspector">
 	<TabPanel name="Tab" index="0" constraints="border(index=0;location=center)">
 		<Tab title="Basic" layout="twocols" titleFont="SansSerif,0,11"

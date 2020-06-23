@@ -48,37 +48,37 @@ import org.openflexo.diana.geomedit.controller.DraggableControlPoint;
 import org.openflexo.diana.geomedit.model.ExplicitPointConstruction;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.PointConstruction;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.GeometricGraphicalRepresentation;
-import org.openflexo.fge.cp.ControlArea;
-import org.openflexo.fge.cp.ControlPoint;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.GeometricGraphicalRepresentation;
+import org.openflexo.diana.cp.ControlArea;
+import org.openflexo.diana.cp.ControlPoint;
+import org.openflexo.diana.geom.DianaPoint;
 
 @ModelEntity
 @ImplementationClass(PointGraphicalRepresentation.PointGraphicalRepresentationImpl.class)
 @XMLElement
-public interface PointGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEPoint> {
+public interface PointGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<DianaPoint> {
 
-	public static abstract class PointGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGEPoint>
+	public static abstract class PointGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<DianaPoint>
 			implements PointGraphicalRepresentation {
 
 		@Override
 		public List<? extends ControlArea<?>> makeControlAreasFor(
-				final DrawingTreeNode<GeometricConstruction<FGEPoint>, GeometricGraphicalRepresentation> dtn) {
+				final DrawingTreeNode<GeometricConstruction<DianaPoint>, GeometricGraphicalRepresentation> dtn) {
 			List<ControlPoint> returned = new ArrayList<ControlPoint>();
 
 			PointConstruction pc = (PointConstruction) dtn.getDrawable();
 
 			if (pc instanceof ExplicitPointConstruction) {
-				returned.add(new DraggableControlPoint<FGEPoint>((GeometricNode<?>) dtn, "point", pc.getPoint(),
+				returned.add(new DraggableControlPoint<DianaPoint>((GeometricNode<?>) dtn, "point", pc.getPoint(),
 						(ExplicitPointConstruction) pc) {
 					@Override
-					public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-							FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+					public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+							DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 						getGeometricObject().x = newAbsolutePoint.x;
 						getGeometricObject().y = newAbsolutePoint.y;
 						((ExplicitPointConstruction) pc).setPoint(newAbsolutePoint);
@@ -89,16 +89,16 @@ public interface PointGraphicalRepresentation extends GeometricObjectGraphicalRe
 					}
 
 					@Override
-					public void update(FGEPoint geometricObject) {
+					public void update(DianaPoint geometricObject) {
 						setPoint(geometricObject);
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<FGEPoint>((GeometricNode<?>) dtn, "point", pc.getPoint()) {
+				returned.add(new ComputedControlPoint<DianaPoint>((GeometricNode<?>) dtn, "point", pc.getPoint()) {
 
 					@Override
-					public void update(FGEPoint geometricObject) {
+					public void update(DianaPoint geometricObject) {
 						setPoint(geometricObject);
 					}
 				});

@@ -41,20 +41,20 @@ package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.model.PolylinConstruction.PolylinConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.PolylinGraphicalRepresentation;
-import org.openflexo.fge.geom.FGEPolylin;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.Import;
+import org.openflexo.pamela.annotations.Imports;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.diana.geom.DianaPolylin;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(PolylinConstructionImpl.class)
 @Imports({ @Import(PolylinWithNPointsConstruction.class), @Import(RectPolylinWithStartAndEndAreaConstruction.class) })
-public interface PolylinConstruction extends GeometricConstruction<FGEPolylin> {
+public interface PolylinConstruction extends GeometricConstruction<DianaPolylin> {
 
-	public FGEPolylin getPolylin();
+	public DianaPolylin getPolylin();
 
-	public static abstract class PolylinConstructionImpl extends GeometricConstructionImpl<FGEPolylin> implements PolylinConstruction {
+	public static abstract class PolylinConstructionImpl extends GeometricConstructionImpl<DianaPolylin> implements PolylinConstruction {
 
 		@Override
 		public String getBaseName() {
@@ -62,7 +62,7 @@ public interface PolylinConstruction extends GeometricConstruction<FGEPolylin> {
 		}
 
 		@Override
-		public final FGEPolylin getPolylin() {
+		public final DianaPolylin getPolylin() {
 			return getData();
 		}
 
@@ -73,7 +73,7 @@ public interface PolylinConstruction extends GeometricConstruction<FGEPolylin> {
 		}
 
 		@Override
-		protected abstract FGEPolylin computeData();
+		protected abstract DianaPolylin computeData();
 
 	}
 

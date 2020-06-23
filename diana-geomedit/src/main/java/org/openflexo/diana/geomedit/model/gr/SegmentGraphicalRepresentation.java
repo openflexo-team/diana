@@ -50,33 +50,33 @@ import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.SegmentConstruction;
 import org.openflexo.diana.geomedit.model.SegmentWithTwoPointsConstruction;
 import org.openflexo.diana.geomedit.model.gr.SegmentGraphicalRepresentation.SegmentGraphicalRepresentationImpl;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.GeometricGraphicalRepresentation;
-import org.openflexo.fge.cp.ControlArea;
-import org.openflexo.fge.cp.ControlPoint;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.GeometricGraphicalRepresentation;
+import org.openflexo.diana.cp.ControlArea;
+import org.openflexo.diana.cp.ControlPoint;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaSegment;
 
 @ModelEntity
 @ImplementationClass(SegmentGraphicalRepresentationImpl.class)
 @XMLElement
-public interface SegmentGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGESegment> {
+public interface SegmentGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<DianaSegment> {
 
-	public static abstract class SegmentGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGESegment>
+	public static abstract class SegmentGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<DianaSegment>
 			implements SegmentGraphicalRepresentation {
 
 		@Override
 		public List<? extends ControlArea<?>> makeControlAreasFor(
-				DrawingTreeNode<GeometricConstruction<FGESegment>, GeometricGraphicalRepresentation> dtn) {
+				DrawingTreeNode<GeometricConstruction<DianaSegment>, GeometricGraphicalRepresentation> dtn) {
 
 			Vector<ControlPoint> returned = new Vector<ControlPoint>();
 
 			SegmentConstruction segmentConstruction = (SegmentConstruction) dtn.getDrawable();
-			FGESegment segment = segmentConstruction.getSegment();
+			DianaSegment segment = segmentConstruction.getSegment();
 
 			ExplicitPointConstruction pc1 = null;
 			ExplicitPointConstruction pc2 = null;
@@ -91,10 +91,10 @@ public interface SegmentGraphicalRepresentation extends GeometricObjectGraphical
 			}
 
 			if (pc1 != null) {
-				returned.add(new DraggableControlPoint<FGESegment>((GeometricNode<?>) dtn, "p1", segment.getP1(), pc1) {
+				returned.add(new DraggableControlPoint<DianaSegment>((GeometricNode<?>) dtn, "p1", segment.getP1(), pc1) {
 					@Override
-					public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-							FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+					public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+							DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 						getGeometricObject().setP1(newAbsolutePoint);
 						setPoint(newAbsolutePoint);
 						((GeometricNode<?>) dtn).notifyGeometryChanged();
@@ -102,25 +102,25 @@ public interface SegmentGraphicalRepresentation extends GeometricObjectGraphical
 					}
 
 					@Override
-					public void update(FGESegment geometricObject) {
+					public void update(DianaSegment geometricObject) {
 						setPoint(geometricObject.getP1());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<FGESegment>((GeometricNode<?>) dtn, "p1", segment.getP1()) {
+				returned.add(new ComputedControlPoint<DianaSegment>((GeometricNode<?>) dtn, "p1", segment.getP1()) {
 					@Override
-					public void update(FGESegment geometricObject) {
+					public void update(DianaSegment geometricObject) {
 						setPoint(geometricObject.getP1());
 					}
 				});
 			}
 
 			if (pc2 != null) {
-				returned.add(new DraggableControlPoint<FGESegment>((GeometricNode<?>) dtn, "p2", segment.getP2(), pc2) {
+				returned.add(new DraggableControlPoint<DianaSegment>((GeometricNode<?>) dtn, "p2", segment.getP2(), pc2) {
 					@Override
-					public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-							FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+					public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+							DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 						getGeometricObject().setP2(newAbsolutePoint);
 						setPoint(newAbsolutePoint);
 						((GeometricNode<?>) dtn).notifyGeometryChanged();
@@ -128,15 +128,15 @@ public interface SegmentGraphicalRepresentation extends GeometricObjectGraphical
 					}
 
 					@Override
-					public void update(FGESegment geometricObject) {
+					public void update(DianaSegment geometricObject) {
 						setPoint(geometricObject.getP2());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<FGESegment>((GeometricNode<?>) dtn, "p2", segment.getP1()) {
+				returned.add(new ComputedControlPoint<DianaSegment>((GeometricNode<?>) dtn, "p2", segment.getP1()) {
 					@Override
-					public void update(FGESegment geometricObject) {
+					public void update(DianaSegment geometricObject) {
 						setPoint(geometricObject.getP2());
 					}
 				});

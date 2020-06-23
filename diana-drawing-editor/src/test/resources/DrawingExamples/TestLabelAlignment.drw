@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram id="0">
+  <Shape id="1" name="Shape0">
+    <ShapeGraphicalRepresentation id="2" relativeTextY="0.5" locationConstraints="FREELY_MOVABLE" allowToLeaveBounds="false" adaptBoundsToContents="false" x="354.0" y="185.0" relativeTextX="0.5" dimensionConstraints="FREELY_RESIZABLE" width="170.45454545454547" height="77.85714285714286" identifier="2a2a5971" absoluteTextY="20.0" absoluteTextX="20.0" layer="1">
+      <SelectedColorBackgroundStyle id="3" color="254,247,217" transparencyLevel="0.5" />
+      <ForegroundStyle id="4" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+      <FocusedColorBackgroundStyle id="5" color="254,247,217" transparencyLevel="0.5" />
+      <ShadowStyle id="6" />
+      <FocusedForegroundStyle id="7" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+      <SelectedForegroundStyle id="8" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+      <ColorBackgroundStyle id="9" color="254,247,217" transparencyLevel="0.5" />
+      <RectangleShape id="10" />
+      <TextStyle id="11" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+    </ShapeGraphicalRepresentation>
+    <Shape id="12" name="">
+      <ShapeGraphicalRepresentation id="13" relativeTextY="0.5" locationConstraints="FREELY_MOVABLE" isFloatingLabel="false" allowToLeaveBounds="false" adaptBoundsToContents="false" x="20.0" y="20.0" relativeTextX="0.5" dimensionConstraints="FREELY_RESIZABLE" width="5.0" height="5.0" identifier="620da92" layer="1" text="">
+        <SelectedColorBackgroundStyle id="14" color="254,247,217" transparencyLevel="0.5" />
+        <ForegroundStyle id="15" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+        <FocusedColorBackgroundStyle id="16" color="254,247,217" transparencyLevel="0.5" />
+        <ShadowStyle id="17" />
+        <FocusedForegroundStyle id="18" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+        <SelectedForegroundStyle id="19" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+        <ColorBackgroundStyle id="20" color="255,0,51" transparencyLevel="0.5" />
+        <RectangleShape id="21" />
+        <TextStyle id="22" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+      </ShapeGraphicalRepresentation>
+    </Shape>
+  </Shape>
+  <DrawingGraphicalRepresentation id="23" backgroundColor="255,255,255" drawWorkingArea="false" focusColor="255,0,0" selectionColor="0,0,255" rectangleSelectingSelectionColor="0,0,255" dimensionConstraints="FREELY_RESIZABLE" identifier="3ce6eb2b">
+    <TextStyle id="24" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </DrawingGraphicalRepresentation>
+</Diagram>

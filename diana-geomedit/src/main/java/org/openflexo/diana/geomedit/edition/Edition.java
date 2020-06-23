@@ -44,11 +44,11 @@ import java.util.Vector;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
-import org.openflexo.fge.BackgroundStyle;
-import org.openflexo.fge.ForegroundStyle;
-import org.openflexo.fge.TextureBackgroundStyle.TextureType;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.diana.BackgroundStyle;
+import org.openflexo.diana.ForegroundStyle;
+import org.openflexo.diana.TextureBackgroundStyle.TextureType;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
 public abstract class Edition {
 	public int currentStep;
@@ -101,14 +101,14 @@ public abstract class Edition {
 
 	public abstract void performEdition();
 
-	public final void paint(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
+	public final void paint(JDianaDrawingGraphics graphics, DianaPoint lastMouseLocation) {
 		paintEdition(graphics, lastMouseLocation);
 		inputs.get(currentStep).paint(graphics);
 	}
 
-	public abstract void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation);
+	public abstract void paintEdition(JDianaDrawingGraphics graphics, DianaPoint lastMouseLocation);
 
-	public boolean requireRepaint(FGEPoint lastMouseLocation) {
+	public boolean requireRepaint(DianaPoint lastMouseLocation) {
 		return true;
 	}
 

@@ -39,23 +39,23 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaEllips;
 import org.openflexo.diana.geomedit.model.EllipsConstruction.EllipsConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.EllipsGraphicalRepresentation;
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
-import org.openflexo.fge.geom.FGEEllips;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.Import;
+import org.openflexo.pamela.annotations.Imports;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLAttribute;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(EllipsConstructionImpl.class)
 @Imports({ @Import(CircleConstruction.class), @Import(EllipsReference.class) })
-public interface EllipsConstruction<E extends FGEEllips> extends GeometricConstruction<E> {
+public interface EllipsConstruction<E extends DianaEllips> extends GeometricConstruction<E> {
 
 	@PropertyIdentifier(type = Double.class)
 	public static final String X_KEY = "x";
@@ -92,16 +92,16 @@ public interface EllipsConstruction<E extends FGEEllips> extends GeometricConstr
 	@Setter(HEIGHT_KEY)
 	public void setHeight(double value);
 
-	@Getter(value = IS_FILLED_KEY, defaultValue = "true")
+	@Getter(value = IS_FILLED_KEY, defaultValue = "false")
 	@XMLAttribute
 	public boolean getIsFilled();
 
 	@Setter(IS_FILLED_KEY)
 	public void setIsFilled(boolean isFilled);
 
-	public FGEEllips getEllips();
+	public DianaEllips getEllips();
 
-	public abstract class EllipsConstructionImpl<E extends FGEEllips> extends GeometricConstructionImpl<E>
+	public abstract class EllipsConstructionImpl<E extends DianaEllips> extends GeometricConstructionImpl<E>
 			implements EllipsConstruction<E> {
 
 		@Override
@@ -110,7 +110,7 @@ public interface EllipsConstruction<E extends FGEEllips> extends GeometricConstr
 		}
 
 		@Override
-		public final FGEEllips getEllips() {
+		public final DianaEllips getEllips() {
 			return getData();
 		}
 

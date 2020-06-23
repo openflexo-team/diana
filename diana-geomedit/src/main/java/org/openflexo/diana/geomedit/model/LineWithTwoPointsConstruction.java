@@ -39,14 +39,14 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaLine;
 import org.openflexo.diana.geomedit.model.LineWithTwoPointsConstruction.LineWithTwoPointsConstructionImpl;
-import org.openflexo.fge.geom.FGELine;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(LineWithTwoPointsConstructionImpl.class)
@@ -75,14 +75,14 @@ public interface LineWithTwoPointsConstruction extends LineConstruction {
 	public static abstract class LineWithTwoPointsConstructionImpl extends LineConstructionImpl implements LineWithTwoPointsConstruction {
 
 		/*@Override
-		public final FGELine getData() {
+		public final DianaLine getData() {
 			return super.getData();
 		}*/
 
 		@Override
-		protected FGELine computeData() {
+		protected DianaLine computeData() {
 			if (getPointConstruction1() != null && getPointConstruction2() != null) {
-				return new FGELine(getPointConstruction1().getPoint(), getPointConstruction2().getPoint());
+				return new DianaLine(getPointConstruction1().getPoint(), getPointConstruction2().getPoint());
 			}
 			return null;
 		}

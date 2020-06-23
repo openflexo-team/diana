@@ -41,24 +41,25 @@ package org.openflexo.diana.geomedit.model;
 
 import java.awt.Color;
 
+import org.openflexo.diana.TextureBackgroundStyle.TextureType;
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geomedit.model.PointConstruction.PointConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.PointGraphicalRepresentation;
-import org.openflexo.fge.TextureBackgroundStyle.TextureType;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.Import;
+import org.openflexo.pamela.annotations.Imports;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(PointConstructionImpl.class)
 @Imports({ @Import(PointReference.class), @Import(ExplicitPointConstruction.class), @Import(ControlPointReference.class),
 		@Import(LineIntersectionPointConstruction.class), @Import(PointMiddleOfTwoPointsConstruction.class),
-		@Import(SymetricPointConstruction.class), @Import(NearestPointFromObjectConstruction.class) })
-public interface PointConstruction extends GeometricConstruction<FGEPoint> {
+		@Import(SymetricPointConstruction.class), @Import(SymetricPointFromLineConstruction.class),
+		@Import(NearestPointFromObjectConstruction.class) })
+public interface PointConstruction extends GeometricConstruction<DianaPoint> {
 
 	@PropertyIdentifier(type = Double.class)
 	public static final String X_KEY = "x";
@@ -77,9 +78,9 @@ public interface PointConstruction extends GeometricConstruction<FGEPoint> {
 	@Setter(value = Y_KEY)
 	public void setY(double value);
 
-	public FGEPoint getPoint();
+	public DianaPoint getPoint();
 
-	public static abstract class PointConstructionImpl extends GeometricConstructionImpl<FGEPoint> implements PointConstruction {
+	public static abstract class PointConstructionImpl extends GeometricConstructionImpl<DianaPoint> implements PointConstruction {
 
 		@Override
 		public String getBaseName() {
@@ -87,16 +88,18 @@ public interface PointConstruction extends GeometricConstruction<FGEPoint> {
 		}
 
 		@Override
-		public FGEPoint getPoint() {
+		public DianaPoint getPoint() {
 			return getData();
 		}
 
 		@Override
-		protected abstract FGEPoint computeData();
+		protected abstract DianaPoint computeData();
 
 		@Override
 		public PointGraphicalRepresentation makeNewConstructionGR(GeometricConstructionFactory factory) {
 			PointGraphicalRepresentation returned = factory.newInstance(PointGraphicalRepresentation.class);
+			returned.setAbsoluteTextX(3);
+			returned.setAbsoluteTextY(3);
 			returned.setBackground(factory.makeTexturedBackground(TextureType.TEXTURE1, Color.RED, Color.WHITE));
 			return returned;
 		}
@@ -112,7 +115,7 @@ public interface PointConstruction extends GeometricConstruction<FGEPoint> {
 				double oldX = getX();
 				getPoint().x = x;
 				getPropertyChangeSupport().firePropertyChange(X_KEY, oldX, x);
-				// getGraphicalRepresentation().notify(new FGEAttributeNotification("x", oldX, x));
+				// getGraphicalRepresentation().notify(new DianaAttributeNotification("x", oldX, x));
 				notifyGeometryChanged();
 			}
 		}
@@ -128,7 +131,7 @@ public interface PointConstruction extends GeometricConstruction<FGEPoint> {
 				double oldY = getY();
 				getPoint().y = y;
 				getPropertyChangeSupport().firePropertyChange(Y_KEY, oldY, y);
-				// getGraphicalRepresentation().notify(new FGEAttributeNotification("y", oldY, y));
+				// getGraphicalRepresentation().notify(new DianaAttributeNotification("y", oldY, y));
 				notifyGeometryChanged();
 			}
 		}

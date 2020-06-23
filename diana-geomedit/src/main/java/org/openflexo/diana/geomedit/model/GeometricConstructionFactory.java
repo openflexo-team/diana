@@ -40,21 +40,21 @@ package org.openflexo.diana.geomedit.model;
 
 import java.util.List;
 
+import org.openflexo.diana.DianaModelFactoryImpl;
+import org.openflexo.diana.DrawingGraphicalRepresentation;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
+import org.openflexo.diana.geom.DianaGeometricObject.SimplifiedCardinalDirection;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.geomedit.controller.ShowGeneralContextualMenuControl;
 import org.openflexo.diana.geomedit.model.gr.GeometricDrawingGraphicalRepresentation;
 import org.openflexo.diana.geomedit.model.gr.GeometricObjectGraphicalRepresentation;
-import org.openflexo.fge.DrawingGraphicalRepresentation;
-import org.openflexo.fge.FGEModelFactoryImpl;
-import org.openflexo.fge.ShapeGraphicalRepresentation;
-import org.openflexo.fge.geom.FGEGeometricObject.SimplifiedCardinalDirection;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.model.exceptions.ModelDefinitionException;
-import org.openflexo.model.factory.EditingContext;
-import org.openflexo.model.undo.CompoundEdit;
-import org.openflexo.model.undo.UndoManager;
+import org.openflexo.pamela.exceptions.ModelDefinitionException;
+import org.openflexo.pamela.factory.EditingContext;
+import org.openflexo.pamela.undo.CompoundEdit;
+import org.openflexo.pamela.undo.UndoManager;
 
-public class GeometricConstructionFactory extends FGEModelFactoryImpl {
+public class GeometricConstructionFactory extends DianaModelFactoryImpl {
 
 	private int objectIndex = 0;
 
@@ -77,7 +77,7 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
-	public <C extends GeometricConstruction<A>, A extends FGEArea> C makeNewConstruction(Class<C> type,
+	public <C extends GeometricConstruction<A>, A extends DianaArea> C makeNewConstruction(Class<C> type,
 			GeometricObjectGraphicalRepresentation<A> gr, GeometricDiagram drawing) {
 		C returned = newInstance(type);
 		returned.setGraphicalRepresentation(gr);
@@ -92,7 +92,7 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
-	public <A extends FGEArea> GeometricObjectGraphicalRepresentation<A> makeNewConstructionGR(GeometricConstruction<A> construction) {
+	public <A extends DianaArea> GeometricObjectGraphicalRepresentation<A> makeNewConstructionGR(GeometricConstruction<A> construction) {
 		GeometricObjectGraphicalRepresentation<A> returned = construction.makeNewConstructionGR(this);
 		if (construction.getForeground() == null) {
 			construction.setForeground(makeDefaultForegroundStyle());
@@ -119,15 +119,17 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		shapeGraphicalRepresentation.addToMouseClickControls(new ShowGeneralContextualMenuControl(getEditingContext()));
 	}
 
-	public ExplicitPointConstruction makeExplicitPointConstruction(FGEPoint pointLocation) {
+	public ExplicitPointConstruction makeExplicitPointConstruction(DianaPoint pointLocation) {
 		ExplicitPointConstruction returned = newInstance(ExplicitPointConstruction.class);
 		returned.setPoint(pointLocation);
+		returned.setIsLabelVisible(false);
 		return returned;
 	}
 
 	public PointReference makePointReference(PointConstruction pointConstruction) {
 		PointReference returned = newInstance(PointReference.class);
 		returned.setReference(pointConstruction);
+		returned.setIsLabelVisible(false);
 		return returned;
 	}
 
@@ -136,6 +138,7 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		PointMiddleOfTwoPointsConstruction returned = newInstance(PointMiddleOfTwoPointsConstruction.class);
 		returned.setPointConstruction1(pointConstruction1);
 		returned.setPointConstruction2(pointConstruction2);
+		returned.setIsLabelVisible(false);
 		return returned;
 	}
 
@@ -144,6 +147,7 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		NearestPointFromObjectConstruction returned = newInstance(NearestPointFromObjectConstruction.class);
 		returned.setPointConstruction(pointConstruction);
 		returned.setObjectReference(objectReference);
+		returned.setIsLabelVisible(false);
 		return returned;
 	}
 
@@ -152,12 +156,23 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		SymetricPointConstruction returned = newInstance(SymetricPointConstruction.class);
 		returned.setPointConstruction(pointConstruction);
 		returned.setPivotConstruction(pivotConstruction);
+		returned.setIsLabelVisible(false);
+		return returned;
+	}
+
+	public SymetricPointFromLineConstruction makeSymetricPointFromLineConstruction(PointConstruction pointConstruction,
+			LineConstruction lineConstruction) {
+		SymetricPointFromLineConstruction returned = newInstance(SymetricPointFromLineConstruction.class);
+		returned.setPointConstruction(pointConstruction);
+		returned.setLineConstruction(lineConstruction);
+		returned.setIsLabelVisible(false);
 		return returned;
 	}
 
 	public LineReference makeLineReference(LineConstruction construction) {
 		LineReference returned = newInstance(LineReference.class);
 		returned.setReference(construction);
+		returned.setIsLabelVisible(false);
 		return returned;
 	}
 
@@ -165,6 +180,7 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		ControlPointReference returned = newInstance(ControlPointReference.class);
 		returned.setReference(construction);
 		returned.setControlPointName(name);
+		returned.setIsLabelVisible(false);
 		return returned;
 	}
 
@@ -173,6 +189,7 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		LineIntersectionPointConstruction returned = newInstance(LineIntersectionPointConstruction.class);
 		returned.setLineConstruction1(lineConstruction1);
 		returned.setLineConstruction2(lineConstruction2);
+		returned.setIsLabelVisible(false);
 		return returned;
 	}
 
@@ -265,6 +282,46 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		return returned;
 	}
 
+	public NodeWithTwoPointsConstruction makeNodeWithTwoPointsConstruction(PointConstruction pointConstruction1,
+			PointConstruction pointConstruction2) {
+		NodeWithTwoPointsConstruction returned = newInstance(NodeWithTwoPointsConstruction.class);
+		returned.setFactory(this);
+		returned.setPointConstruction1(pointConstruction1);
+		returned.setPointConstruction2(pointConstruction2);
+		return returned;
+	}
+
+	public NodeWithCenterAndDimensionConstruction makeNodeWithCenterAndDimensionConstruction(PointConstruction centerConstruction) {
+		NodeWithCenterAndDimensionConstruction returned = newInstance(NodeWithCenterAndDimensionConstruction.class);
+		returned.setFactory(this);
+		returned.setCenterConstruction(centerConstruction);
+		return returned;
+	}
+
+	public NodeWithRelativePositionConstruction makeNodeWithRelativePositionConstruction(NodeConstruction reference, double tx, double ty) {
+		NodeWithRelativePositionConstruction returned = newInstance(NodeWithRelativePositionConstruction.class);
+		returned.setFactory(this);
+		returned.setReference(reference);
+		returned.setTX(tx);
+		returned.setTY(ty);
+		return returned;
+	}
+
+	public NodeReference makeNodeReference(NodeConstruction construction) {
+		NodeReference returned = newInstance(NodeReference.class);
+		returned.setFactory(this);
+		returned.setReference(construction);
+		return returned;
+	}
+
+	public ConnectorConstruction makeConnector(NodeConstruction startNode, NodeConstruction endNode) {
+		ConnectorConstruction returned = newInstance(ConnectorConstruction.class);
+		returned.setFactory(this);
+		returned.setStartNode(startNode);
+		returned.setEndNode(endNode);
+		return returned;
+	}
+
 	public RectangleWithTwoPointsConstruction makeRectangleWithTwoPointsConstruction(PointConstruction pointConstruction1,
 			PointConstruction pointConstruction2) {
 		RectangleWithTwoPointsConstruction returned = newInstance(RectangleWithTwoPointsConstruction.class);
@@ -302,6 +359,15 @@ public class GeometricConstructionFactory extends FGEModelFactoryImpl {
 		CircleWithCenterAndPointConstruction returned = newInstance(CircleWithCenterAndPointConstruction.class);
 		returned.setCenterConstruction(centerConstruction);
 		returned.setPointConstruction(pointConstruction);
+		return returned;
+	}
+
+	public CircleWithThreePointsConstruction makeCircleWithThreePointsConstruction(PointConstruction pointConstruction1,
+			PointConstruction pointConstruction2, PointConstruction pointConstruction3) {
+		CircleWithThreePointsConstruction returned = newInstance(CircleWithThreePointsConstruction.class);
+		returned.setPointConstruction1(pointConstruction1);
+		returned.setPointConstruction2(pointConstruction2);
+		returned.setPointConstruction3(pointConstruction3);
 		return returned;
 	}
 

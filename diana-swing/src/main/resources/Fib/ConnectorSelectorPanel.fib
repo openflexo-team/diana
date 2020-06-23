@@ -1,724 +1,1542 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Panel id="0" borderLeft="0" sizeAdjustment="OriginalSize" opaque="false" controllerClassName="org.openflexo.fge.swing.widget.JFIBShapeSelector$ShapeDetailsPanel$CustomFIBController" borderRight="0" border="empty" trackViewPortWidth="true" font="SansSerif,0,11" align="left" borderBottom="5" titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true" layout="gridbag" name="ConnectorPanel">
-  <Custom id="1" manageDynamicModel="true" dataClassForComponent="org.openflexo.fge.connectors.ConnectorSpecification" componentClassName="org.openflexo.fge.swing.widget.JConnectorPreviewPanel" name="PreviewPanel" data="data.connectorSpecification" index="0" localize="true" constraints="gridbag(anchor=center;fill=none;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=0;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=5;padX=0;padY=0;weightX=0.0;weightY=0.0)">
-    <Dependancy id="2" componentName="ConnectorType" />
-    <Dependancy id="3" componentName="EndSymbol" />
-  </Custom>
-  <Panel id="4" borderLeft="10" sizeAdjustment="OriginalSize" opaque="false" borderRight="10" border="empty" trackViewPortWidth="true" index="1" align="left" constraints="gridbag(anchor=center;fill=horizontal;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=10;padX=0;padY=0;weightX=0.0;weightY=0.0)" borderBottom="2" borderTitle="" titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true" layout="twocols" name="ShapeTypePanel" flowAlignment="CENTER">
-    <Label id="5" name="ConnectorTypeLabel" index="2" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)" label="connector_type" />
-    <DropDown id="6" data="data.styleType" index="3" localize="true" constraints="twocols(expandHorizontally=true;expandVertically=false;index=3;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.connectors.ConnectorSpecification$ConnectorType" showIcon="true" name="ConnectorType" icon="object.icon" />
-  </Panel>
-  <Panel id="7" visible="(data.styleType = &quot;LINE&quot;)" borderLeft="10" sizeAdjustment="OriginalSize" borderRight="10" border="rounded3d" trackViewPortWidth="true" index="4" align="left" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=2;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)" borderBottom="2" borderTitle="Line connector" titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true" layout="twocols" name="LineConnectorPanel">
-    <Dependancy id="8" componentName="ConnectorType" />
-    <Label id="9" height="16" name="ConnectorTypeLabel" index="0" localize="true" width="130" align="right" constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)" label="line_type" />
-    <DropDown id="10" data="lineConnectorSpecification.lineConnectorType" index="1" localize="true" width="150" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.connectors.LineConnectorSpecification$LineConnectorType" showIcon="false" name="ConnectorType" />
-    <FIBVariable id="11" name="lineConnectorSpecification" value="($org.openflexo.fge.connectors.LineConnectorSpecification)data.connectorSpecification" type="org.openflexo.fge.connectors.LineConnectorSpecification" />
-  </Panel>
-  <Panel id="12" visible="(data.styleType = &quot;RECT_POLYLIN&quot;)" borderLeft="0" sizeAdjustment="OriginalSize" borderRight="0" border="empty" trackViewPortWidth="true" index="5" align="left" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=2;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)" borderBottom="0" borderTitle="Rect polylin" titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true" layout="border" name="RectPolylinConnectorPanel">
-    <Dependancy id="13" componentName="ConnectorType" />
-    <TabPanel id="14" name="FIBTabPanel" constraints="border(expandHorizontally=false;expandVertically=false;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center)">
-      <Dependancy id="15" componentName="ConnectorType" />
-      <Tab id="16" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" borderLeft="0" sizeAdjustment="OriginalSize" border="empty" borderRight="0" trackViewPortWidth="true" align="left" borderBottom="0" titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" useScrollBar="true" title="Layout" layout="twocols" name="FIBTab" flowAlignment="CENTER">
-        <Label id="17" height="16" name="ConstraintsLabel" index="0" localize="true" width="130" align="right" constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)" label="layout_constraints" />
-        <DropDown id="18" data="rectPolylinConnectorSpecification.rectPolylinConstraints" index="1" localize="true" width="150" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.connectors.RectPolylinConnectorSpecification$RectPolylinConstraints" showIcon="false" name="Constraints" />
-        <Label id="19" enable="((rectPolylinConnectorSpecification.rectPolylinConstraints = &quot;ORIENTATIONS_FIXED&quot;) | (rectPolylinConnectorSpecification.rectPolylinConstraints = &quot;START_ORIENTATION_FIXED&quot;))" name="StartOrientationLabel" index="2" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)" label="start_orientation" />
-        <DropDown id="20" enable="((rectPolylinConnectorSpecification.rectPolylinConstraints = &quot;ORIENTATIONS_FIXED&quot;) | (rectPolylinConnectorSpecification.rectPolylinConstraints = &quot;START_ORIENTATION_FIXED&quot;))" data="rectPolylinConnectorSpecification.startOrientation" index="3" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.geom.FGEGeometricObject$SimplifiedCardinalDirection" showIcon="true" name="StartOrientation" />
-        <Label id="21" enable="((rectPolylinConnectorSpecification.rectPolylinConstraints = &quot;ORIENTATIONS_FIXED&quot;) | (rectPolylinConnectorSpecification.rectPolylinConstraints = &quot;END_ORIENTATION_FIXED&quot;))" name="EndOrientationLabel" index="4" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)" label="end_orientation" />
-        <DropDown id="22" enable="((rectPolylinConnectorSpecification.rectPolylinConstraints = &quot;ORIENTATIONS_FIXED&quot;) | (rectPolylinConnectorSpecification.rectPolylinConstraints = &quot;END_ORIENTATION_FIXED&quot;))" data="rectPolylinConnectorSpecification.endOrientation" index="5" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.geom.FGEGeometricObject$SimplifiedCardinalDirection" showIcon="true" name="EndOrientation" />
-        <Label id="23" name="StraightLineWhenPossibleLabel" index="6" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)" label="straight_when_possible" />
-        <CheckBox id="24" name="StraightLineWhenPossible" data="rectPolylinConnectorSpecification.straightLineWhenPossible" index="7" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)" />
-      </Tab>
-      <Tab id="25" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" borderLeft="0" sizeAdjustment="OriginalSize" border="empty" borderRight="0" trackViewPortWidth="true" align="left" borderBottom="0" titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" useScrollBar="true" title="Adjustability" layout="twocols" name="FIBTab2">
-        <Label id="26" name="AdjustabilityLabel" index="8" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)" label="adjustability" />
-        <DropDown id="27" data="rectPolylinConnectorSpecification.adjustability" index="9" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)" format="object.name.toLowerCase" showText="true" iteratorClassName="org.openflexo.fge.connectors.RectPolylinConnectorSpecification$RectPolylinAdjustability" showIcon="false" name="Adjustability" />
-        <Label id="28" name="IsStartingLocationFixedLabel" index="10" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=10;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)" label="start_location" />
-        <Panel id="29" vGap="0" borderLeft="0" hGap="0" sizeAdjustment="OriginalSize" borderRight="0" border="empty" trackViewPortWidth="true" index="11" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=11;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)" borderBottom="0" titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true" layout="flow" name="FIBPanel" flowAlignment="LEADING">
-          <CheckBox id="30" name="IsStartingLocationFixed" data="rectPolylinConnectorSpecification.isStartingLocationFixed" index="0" localize="true" constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=right)" />
-          <Label id="31" name="FixedLabel" index="1" localize="true" align="left" constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=right)" label="fixed" />
-          <CheckBox id="32" name="IsStartingLocationDraggable" data="rectPolylinConnectorSpecification.isStartingLocationDraggable" index="2" localize="true" constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right)" />
-          <Label id="33" name="IsStartingLocationDraggableLabel" index="3" localize="true" align="left" constraints="flow(expandHorizontally=false;expandVertically=false;index=3;location=left)" label="draggable" />
-        </Panel>
-        <Label id="34" name="IsEndingLocationFixedLabel" index="12" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=12;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)" label="end_location_fixed" />
-        <Panel id="35" vGap="0" borderLeft="0" hGap="0" sizeAdjustment="OriginalSize" borderRight="0" border="empty" trackViewPortWidth="true" index="13" align="left" constraints="twocols(expandHorizontally=true;expandVertically=false;index=13;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)" borderBottom="0" titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true" layout="flow" name="FIBPanel2" flowAlignment="LEADING">
-          <CheckBox id="36" name="IsEndingLocationFixed" data="rectPolylinConnectorSpecification.isEndingLocationFixed" index="0" localize="true" constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=right)" />
-          <Label id="37" name="IsEndingLocationDraggableLabel" index="1" localize="true" align="left" constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=left)" label="fixed" />
-          <CheckBox id="38" name="IsEndingLocationDraggable" data="rectPolylinConnectorSpecification.isEndingLocationDraggable" index="2" localize="true" constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right)" />
-          <Label id="39" name="IsEndingLocationDraggableLabel" index="3" localize="true" align="left" constraints="flow(expandHorizontally=false;expandVertically=false;index=3;location=left)" label="draggable" />
-        </Panel>
-      </Tab>
-      <Tab id="40" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" borderLeft="0" sizeAdjustment="OriginalSize" border="empty" borderRight="0" trackViewPortWidth="true" align="left" borderBottom="0" titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" useScrollBar="true" title="Advanced" layout="twocols" name="FIBTab3">
-        <Label id="41" name="PixelOverlapLabel" index="14" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=14;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)" label="overlap" />
-        <Label id="42" name="IsRoundedLabel" index="16" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=16;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)" label="rounded" />
-          <CheckBox id="44" name="IsRounded" data="rectPolylinConnectorSpecification.isRounded" index="0" localize="true" constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=right)" />
-          <Label id="45" enable="rectPolylinConnectorSpecification.isRounded" name="ArcSizeLabel" index="1" localize="true" align="left" constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=left)" label="arc_size_(pixels)" />
-          <Number id="46" minValue="0" columns="3" enable="rectPolylinConnectorSpecification.isRounded" name="ArcSize" data="rectPolylinConnectorSpecification.arcSize" maxValue="255" increment="1" index="2" localize="true" constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right)" numberType="IntegerType" />
-      </Tab>
-    </TabPanel>
-    <FIBVariable id="47" name="rectPolylinConnectorSpecification" value="($org.openflexo.fge.connectors.RectPolylinConnectorSpecification)data.connectorSpecification" type="org.openflexo.fge.connectors.RectPolylinConnectorSpecification" />
-  </Panel>
-  <Panel id="48" visible="(data.styleType = &quot;CURVE&quot;)" borderLeft="10" sizeAdjustment="OriginalSize" borderRight="10" border="rounded3d" trackViewPortWidth="true" index="6" align="left" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=2;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)" borderBottom="2" borderTitle="Curve connector" titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true" layout="twocols" name="CurveConnectorPanel">
-    <Dependancy id="49" componentName="ConnectorType" />
-    <Label id="50" height="16" name="AreBoundsAdjustableLabel" index="0" localize="true" width="130" align="right" constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)" label="adjustable_bounds" />
-    <CheckBox id="51" name="AreBoundsAdjustable" data="curveConnectorSpecification.areBoundsAdjustable" index="1" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" />
-    <FIBVariable id="52" name="curveConnectorSpecification" value="($org.openflexo.fge.connectors.CurveConnectorSpecification)data.connectorSpecification" type="org.openflexo.fge.connectors.CurveConnectorSpecification" />
-  </Panel>
-  <Panel id="53" visible="(data.styleType = &quot;CURVED_POLYLIN&quot;)" borderLeft="10" sizeAdjustment="OriginalSize" borderRight="10" border="rounded3d" trackViewPortWidth="true" index="7" align="left" constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=2;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)" borderBottom="2" borderTitle="Curved polyline" titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true" layout="twocols" name="CurvedPolylinConnectorPanel">
-    <Dependancy id="54" componentName="ConnectorType" />
-    <FIBVariable id="55" name="curvePolylinConnectorSpecification" value="($org.openflexo.fge.connectors.CurvedPolylinConnectorSpecification)data.connectorSpecification" type="org.openflexo.fge.connectors.CurvedPolylinConnectorSpecification" />
-  </Panel>
-  <Panel id="56" borderLeft="10" sizeAdjustment="OriginalSize" opaque="false" borderRight="10" border="rounded3d" trackViewPortWidth="true" index="6" align="left" constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)" borderBottom="2" borderTitle="Symbols" titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true" layout="twocols" name="TransparencyPanel">
-    <Label id="57" name="StartSymbolLabel" index="8" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)" label="start" />
-    <Panel id="58" vGap="0" borderLeft="0" hGap="5" sizeAdjustment="OriginalSize" borderRight="0" border="empty" trackViewPortWidth="true" index="9" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" borderBottom="0" titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true" layout="flow" name="FIBPanel" flowAlignment="LEADING">
-      <DropDown id="59" height="27" data="data.connectorSpecification.startSymbol" index="0" localize="true" width="80" constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=right;x=0;y=0)" format="object.name.toLowerCase" showText="false" iteratorClassName="org.openflexo.fge.connectors.ConnectorSymbol$StartSymbolType" showIcon="true" name="StartSymbol" icon="object.icon" />
-      <Label id="60" enable="(data.connectorSpecification.startSymbol != &quot;NONE&quot;)" name="StartSymbolSizeLabel" index="1" localize="true" align="left" constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=left;x=0;y=0)" label="size" />
-      <Number id="61" minValue="0.1" columns="3" enable="(data.connectorSpecification.startSymbol != &quot;NONE&quot;)" name="StartSymbolSize" data="data.connectorSpecification.startSymbolSize" maxValue="100.0" increment="1.0" index="2" localize="true" constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right;x=0;y=0)" numberType="DoubleType" />
-    </Panel>
-    <Label id="62" name="MiddleSymbolLabel" index="10" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=10;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)" label="middle" />
-    <Panel id="63" vGap="0" borderLeft="0" hGap="5" sizeAdjustment="OriginalSize" borderRight="0" border="empty" trackViewPortWidth="true" index="11" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=11;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" borderBottom="0" titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true" layout="flow" name="FIBPanel2" flowAlignment="LEADING">
-      <DropDown id="64" height="27" data="data.connectorSpecification.middleSymbol" index="0" localize="true" width="80" constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=right;x=0;y=0)" format="object.name.toLowerCase" showText="false" iteratorClassName="org.openflexo.fge.connectors.ConnectorSymbol$MiddleSymbolType" showIcon="true" name="MiddleSymbol" icon="object.icon" />
-      <Label id="65" enable="(data.connectorSpecification.middleSymbol != &quot;NONE&quot;)" name="MiddleSymbolSizeLabel" index="1" localize="true" align="left" constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=left;x=0;y=0)" label="size" />
-      <Number id="66" minValue="0.1" columns="3" enable="(data.connectorSpecification.middleSymbol != &quot;NONE&quot;)" name="MiddleSymbolSize" data="data.connectorSpecification.middleSymbolSize" maxValue="100.0" increment="1.0" index="2" localize="true" constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right;x=0;y=0)" numberType="DoubleType" />
-    </Panel>
-    <Label id="67" name="EndSymbolLabel" index="12" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=12;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)" label="end" />
-    <Panel id="68" vGap="0" borderLeft="0" hGap="5" sizeAdjustment="OriginalSize" borderRight="0" border="empty" trackViewPortWidth="true" index="13" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=13;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" borderBottom="0" titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true" layout="flow" name="FIBPanel3" flowAlignment="LEADING">
-      <DropDown id="69" height="27" data="data.connectorSpecification.endSymbol" index="0" localize="true" width="80" constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=right;x=0;y=0)" format="object.name.toLowerCase" showText="false" iteratorClassName="org.openflexo.fge.connectors.ConnectorSymbol$EndSymbolType" showIcon="true" name="EndSymbol" icon="object.icon" />
-      <Label id="70" enable="(data.connectorSpecification.endSymbol != &quot;NONE&quot;)" name="EndSymbolSizeLabel" index="1" localize="true" align="left" constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=left;x=0;y=0)" label="size" />
-      <Number id="71" minValue="0.1" columns="3" enable="(data.connectorSpecification.endSymbol != &quot;NONE&quot;)" name="EndSymbolSize" data="data.connectorSpecification.endSymbolSize" maxValue="100.0" increment="1.0" index="2" localize="true" constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right;x=0;y=0)" numberType="DoubleType" />
-    </Panel>
-    <Label id="72" name="RelativeMiddleSymbolLocationLabel" index="14" localize="true" align="left" constraints="twocols(expandHorizontally=false;expandVertically=false;index=14;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)" label="centre" />
-    <Number id="73" minValue="0.0" columns="4" name="RelativeMiddleSymbolLocation" data="data.connectorSpecification.relativeMiddleSymbolLocation" maxValue="1.0" increment="0.05" index="15" localize="true" constraints="twocols(expandHorizontally=false;expandVertically=false;index=15;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" numberType="DoubleType" />
-  </Panel>
-  <FIBVariable id="74" name="data" type="org.openflexo.fge.control.tools.ConnectorSpecificationFactory" />
-  <LocalizedDictionary id="75">
-    <Localized id="76" value="Shape" lang="English" key="shape_type" />
-    <Localized id="77" value="Forme" lang="French" key="shape_type" />
-    <Localized id="78" value="Shape" lang="Dutch" key="shape_type" />
-    <Localized id="79" value="Rectangle" lang="English" key="rectangle" />
-    <Localized id="80" value="Rectangle" lang="French" key="rectangle" />
-    <Localized id="81" value="Rectangle" lang="Dutch" key="rectangle" />
-    <Localized id="82" value="Square" lang="English" key="square" />
-    <Localized id="83" value="Carré" lang="French" key="square" />
-    <Localized id="84" value="Square" lang="Dutch" key="square" />
-    <Localized id="85" value="Rectangular octogon" lang="English" key="rectangularoctogon" />
-    <Localized id="86" value="Octogone rectangulaire" lang="French" key="rectangularoctogon" />
-    <Localized id="87" value="Rectangular octogon" lang="Dutch" key="rectangularoctogon" />
-    <Localized id="88" value="Regular polygon" lang="English" key="polygon" />
-    <Localized id="89" value="Polygone régulier" lang="French" key="polygon" />
-    <Localized id="90" value="Regular polygon" lang="Dutch" key="polygon" />
-    <Localized id="91" value="Triangle" lang="English" key="triangle" />
-    <Localized id="92" value="Triangle" lang="French" key="triangle" />
-    <Localized id="93" value="Triangle" lang="Dutch" key="triangle" />
-    <Localized id="94" value="Losange" lang="English" key="losange" />
-    <Localized id="95" value="Losange" lang="French" key="losange" />
-    <Localized id="96" value="Losange" lang="Dutch" key="losange" />
-    <Localized id="97" value="Oval" lang="English" key="oval" />
-    <Localized id="98" value="Ovale" lang="French" key="oval" />
-    <Localized id="99" value="Oval" lang="Dutch" key="oval" />
-    <Localized id="100" value="Circle" lang="English" key="circle" />
-    <Localized id="101" value="Cercle" lang="French" key="circle" />
-    <Localized id="102" value="Circle" lang="Dutch" key="circle" />
-    <Localized id="103" value="Star" lang="English" key="star" />
-    <Localized id="104" value="Étoile" lang="French" key="star" />
-    <Localized id="105" value="Star" lang="Dutch" key="star" />
-    <Localized id="106" value="Arc" lang="English" key="arc" />
-    <Localized id="107" value="Arc" lang="French" key="arc" />
-    <Localized id="108" value="Boog (arc)" lang="Dutch" key="arc" />
-    <Localized id="109" value="Custom polygon" lang="English" key="custom_polygon" />
-    <Localized id="110" value="Polygone personnalisé" lang="French" key="custom_polygon" />
-    <Localized id="111" value="Custom polygon" lang="Dutch" key="custom_polygon" />
-    <Localized id="112" value="Rectangle" lang="English" key="Rectangle" />
-    <Localized id="113" value="Rectangle" lang="French" key="Rectangle" />
-    <Localized id="114" value="Rectangle" lang="Dutch" key="Rectangle" />
-    <Localized id="115" value="Square" lang="English" key="Square" />
-    <Localized id="116" value="Carré" lang="French" key="Square" />
-    <Localized id="117" value="Square" lang="Dutch" key="Square" />
-    <Localized id="118" value="Regular polygon" lang="English" key="Regular polygon" />
-    <Localized id="119" value="Polygone régulier" lang="French" key="Regular polygon" />
-    <Localized id="120" value="Regular polygon" lang="Dutch" key="Regular polygon" />
-    <Localized id="121" value="Triangle" lang="English" key="Triangle" />
-    <Localized id="122" value="Triangle" lang="French" key="Triangle" />
-    <Localized id="123" value="Triangle" lang="Dutch" key="Triangle" />
-    <Localized id="124" value="Losange" lang="English" key="Losange" />
-    <Localized id="125" value="Losange" lang="French" key="Losange" />
-    <Localized id="126" value="Losange" lang="Dutch" key="Losange" />
-    <Localized id="127" value="Oval" lang="English" key="Oval" />
-    <Localized id="128" value="Ovale" lang="French" key="Oval" />
-    <Localized id="129" value="Oval" lang="Dutch" key="Oval" />
-    <Localized id="130" value="Circle" lang="English" key="Circle" />
-    <Localized id="131" value="Cercle" lang="French" key="Circle" />
-    <Localized id="132" value="Circle" lang="Dutch" key="Circle" />
-    <Localized id="133" value="Star" lang="English" key="Star" />
-    <Localized id="134" value="Etoile" lang="French" key="Star" />
-    <Localized id="135" value="Star" lang="Dutch" key="Star" />
-    <Localized id="136" value="Rounded" lang="English" key="rounded" />
-    <Localized id="137" value="Arrondi" lang="French" key="rounded" />
-    <Localized id="138" value="Rounded" lang="Dutch" key="rounded" />
-    <Localized id="139" value="Arc size" lang="English" key="arc_size" />
-    <Localized id="140" value="Taille de l'arc" lang="French" key="arc_size" />
-    <Localized id="141" value="Grootte boog" lang="Dutch" key="arc_size" />
-    <Localized id="142" value="Point number" lang="English" key="points_number" />
-    <Localized id="143" value="Nimbre de points" lang="French" key="points_number" />
-    <Localized id="144" value="Point number" lang="Dutch" key="points_number" />
-    <Localized id="145" value="Start angle" lang="English" key="start_angle" />
-    <Localized id="146" value="Angle de départ" lang="French" key="start_angle" />
-    <Localized id="147" value="Start angle" lang="Dutch" key="start_angle" />
-    <Localized id="148" value="Ratio" lang="English" key="ratio" />
-    <Localized id="149" value="Rapport" lang="French" key="ratio" />
-    <Localized id="150" value="Ratio" lang="Dutch" key="ratio" />
-    <Localized id="151" value="Angle extent" lang="English" key="angle_extent" />
-    <Localized id="152" value="Extension d'angle" lang="French" key="angle_extent" />
-    <Localized id="153" value="Vergroting van de hoek" lang="Dutch" key="angle_extent" />
-    <Localized id="154" value="Arc type" lang="English" key="arc_type" />
-    <Localized id="155" value="Type d'arc" lang="French" key="arc_type" />
-    <Localized id="156" value="Type boog" lang="Dutch" key="arc_type" />
-    <Localized id="157" value="Open" lang="English" key="open" />
-    <Localized id="158" value="Ouvrir" lang="French" key="open" />
-    <Localized id="159" value="Open" lang="Dutch" key="open" />
-    <Localized id="160" value="Open" lang="English" key="Open" />
-    <Localized id="161" value="Ouvert" lang="French" key="Open" />
-    <Localized id="162" value="Open" lang="Dutch" key="Open" />
-    <Localized id="163" value="Chord" lang="English" key="chord" />
-    <Localized id="164" value="Son" lang="French" key="chord" />
-    <Localized id="165" value="Chord" lang="Dutch" key="chord" />
-    <Localized id="166" value="Chord" lang="English" key="Chord" />
-    <Localized id="167" value="Chord" lang="French" key="Chord" />
-    <Localized id="168" value="Chord" lang="Dutch" key="Chord" />
-    <Localized id="169" value="Pie" lang="English" key="pie" />
-    <Localized id="170" value="Camembert" lang="French" key="pie" />
-    <Localized id="171" value="Pie" lang="Dutch" key="pie" />
-    <Localized id="172" value="Id" lang="English" key="id" />
-    <Localized id="173" value="Id" lang="French" key="id" />
-    <Localized id="174" value="Id" lang="Dutch" key="id" />
-    <Localized id="175" value="Position x" lang="English" key="x" />
-    <Localized id="176" value="Abscisse" lang="French" key="x" />
-    <Localized id="177" value="Position x" lang="Dutch" key="x" />
-    <Localized id="178" value="Position y" lang="English" key="y" />
-    <Localized id="179" value="Ordonnée" lang="French" key="y" />
-    <Localized id="180" value="Position y" lang="Dutch" key="y" />
-    <Localized id="181" value="Apply" lang="English" key="apply" />
-    <Localized id="182" value="Appliquer" lang="French" key="apply" />
-    <Localized id="183" value="Pas toe" lang="Dutch" key="apply" />
-    <Localized id="184" value="Cancel" lang="English" key="cancel" />
-    <Localized id="185" value="Annuler" lang="French" key="cancel" />
-    <Localized id="186" value="Cancel" lang="Dutch" key="cancel" />
-    <Localized id="187" value="Carré" lang="English" key="Carré" />
-    <Localized id="188" value="Carré" lang="French" key="Carré" />
-    <Localized id="189" value="Carré" lang="Dutch" key="Carré" />
-    <Localized id="190" value="Polygone régulier" lang="English" key="Polygone régulier" />
-    <Localized id="191" value="Polygone régulier" lang="French" key="Polygone régulier" />
-    <Localized id="192" value="Polygone régulier" lang="Dutch" key="Polygone régulier" />
-    <Localized id="193" value="Ovale" lang="English" key="Ovale" />
-    <Localized id="194" value="Ovale" lang="French" key="Ovale" />
-    <Localized id="195" value="Ovale" lang="Dutch" key="Ovale" />
-    <Localized id="196" value="Cercle" lang="English" key="Cercle" />
-    <Localized id="197" value="Cercle" lang="French" key="Cercle" />
-    <Localized id="198" value="Cercle" lang="Dutch" key="Cercle" />
-    <Localized id="199" value="Étoile" lang="English" key="Étoile" />
-    <Localized id="200" value="Étoile" lang="French" key="Étoile" />
-    <Localized id="201" value="Étoile" lang="Dutch" key="Étoile" />
-    <Localized id="202" value="Ouvrir" lang="English" key="Ouvrir" />
-    <Localized id="203" value="Ouvrir" lang="French" key="Ouvrir" />
-    <Localized id="204" value="Ouvrir" lang="Dutch" key="Ouvrir" />
-    <Localized id="205" value="Son" lang="English" key="Son" />
-    <Localized id="206" value="Son" lang="French" key="Son" />
-    <Localized id="207" value="Son" lang="Dutch" key="Son" />
-    <Localized id="208" value="Pie" lang="English" key="camember" />
-    <Localized id="209" value="Camembert" lang="French" key="camember" />
-    <Localized id="210" value="Pie" lang="Dutch" key="camember" />
-    <Localized id="211" value="boog (arc)" lang="English" key="boog (arc)" />
-    <Localized id="212" value="boog (arc)" lang="French" key="boog (arc)" />
-    <Localized id="213" value="boog (arc)" lang="Dutch" key="boog (arc)" />
-    <Localized id="214" value="Curved polyline" lang="English" key="Curved polyline" />
-    <Localized id="215" value="Curved polyline" lang="French" key="Curved polyline" />
-    <Localized id="216" value="Curved polyline" lang="Dutch" key="Curved polyline" />
-    <Localized id="217" value="line_type" lang="English" key="line_type" />
-    <Localized id="218" value="line_type" lang="French" key="line_type" />
-    <Localized id="219" value="line_type" lang="Dutch" key="line_type" />
-    <Localized id="220" value="Center to center" lang="English" key="center_to_center" />
-    <Localized id="221" value="Centre à centre" lang="French" key="center_to_center" />
-    <Localized id="222" value="Center tot center" lang="Dutch" key="center_to_center" />
-    <Localized id="223" value="Center to center" lang="English" key="Center to center" />
-    <Localized id="224" value="Center to center" lang="French" key="Center to center" />
-    <Localized id="225" value="Center to center" lang="Dutch" key="Center to center" />
-    <Localized id="226" value="Minimal length" lang="English" key="minimal_length" />
-    <Localized id="227" value="Longueur minimale" lang="French" key="minimal_length" />
-    <Localized id="228" value="Minimale lengte" lang="Dutch" key="minimal_length" />
-    <Localized id="229" value="Minimal length" lang="English" key="Minimal length" />
-    <Localized id="230" value="Minimal length" lang="French" key="Minimal length" />
-    <Localized id="231" value="Minimal length" lang="Dutch" key="Minimal length" />
-    <Localized id="232" value="funny" lang="English" key="funny" />
-    <Localized id="233" value="amusant" lang="French" key="funny" />
-    <Localized id="234" value="leuk" lang="Dutch" key="funny" />
-    <Localized id="235" value="adjustable" lang="English" key="adjustable" />
-    <Localized id="236" value="ajustable" lang="French" key="adjustable" />
-    <Localized id="237" value="regelbaar" lang="Dutch" key="adjustable" />
-    <Localized id="238" value="Line connector" lang="English" key="Line connector" />
-    <Localized id="239" value="Line connector" lang="French" key="Line connector" />
-    <Localized id="240" value="Line connector" lang="Dutch" key="Line connector" />
-    <Localized id="241" value="Straight when possible" lang="English" key="straight_when_possible" />
-    <Localized id="242" value="Droit si possible" lang="French" key="straight_when_possible" />
-    <Localized id="243" value="Recht als het mogelijk is" lang="Dutch" key="straight_when_possible" />
-    <Localized id="244" value="North" lang="English" key="north" />
-    <Localized id="245" value="Nord" lang="French" key="north" />
-    <Localized id="246" value="Noorden" lang="Dutch" key="north" />
-    <Localized id="247" value="East" lang="English" key="east" />
-    <Localized id="248" value="Est" lang="French" key="east" />
-    <Localized id="249" value="Oosten" lang="Dutch" key="east" />
-    <Localized id="250" value="South" lang="English" key="south" />
-    <Localized id="251" value="Sud" lang="French" key="south" />
-    <Localized id="252" value="Zuiden" lang="Dutch" key="south" />
-    <Localized id="253" value="West" lang="English" key="west" />
-    <Localized id="254" value="Ouest" lang="French" key="west" />
-    <Localized id="255" value="Westen" lang="Dutch" key="west" />
-    <Localized id="256" value="North" lang="English" key="North" />
-    <Localized id="257" value="North" lang="French" key="North" />
-    <Localized id="258" value="North" lang="Dutch" key="North" />
-    <Localized id="259" value="East" lang="English" key="East" />
-    <Localized id="260" value="East" lang="French" key="East" />
-    <Localized id="261" value="East" lang="Dutch" key="East" />
-    <Localized id="262" value="South" lang="English" key="South" />
-    <Localized id="263" value="South" lang="French" key="South" />
-    <Localized id="264" value="South" lang="Dutch" key="South" />
-    <Localized id="265" value="West" lang="English" key="West" />
-    <Localized id="266" value="West" lang="French" key="West" />
-    <Localized id="267" value="West" lang="Dutch" key="West" />
-    <Localized id="268" value="End orientation" lang="English" key="end_orientation" />
-    <Localized id="269" value="Fin orientation" lang="French" key="end_orientation" />
-    <Localized id="270" value="Einde van de orientatie" lang="Dutch" key="end_orientation" />
-    <Localized id="271" value="Start orientation" lang="English" key="start_orientation" />
-    <Localized id="272" value="Début d'orientation" lang="French" key="start_orientation" />
-    <Localized id="273" value="Start orientatie" lang="Dutch" key="start_orientation" />
-    <Localized id="274" value="Layout constraints" lang="English" key="layout_constraints" />
-    <Localized id="275" value="Contraintes" lang="French" key="layout_constraints" />
-    <Localized id="276" value="Layout constraints" lang="Dutch" key="layout_constraints" />
-    <Localized id="277" value="None" lang="English" key="none" />
-    <Localized id="278" value="Aucun" lang="French" key="none" />
-    <Localized id="279" value="Geen enkele" lang="Dutch" key="none" />
-    <Localized id="280" value="Orthogonal layout" lang="English" key="orthogonal_layout" />
-    <Localized id="281" value="Mise en page orthogonale" lang="French" key="orthogonal_layout" />
-    <Localized id="282" value="Orthogonale layout" lang="Dutch" key="orthogonal_layout" />
-    <Localized id="283" value="Orthogonal layout horizontal first" lang="English" key="orthogonal_layout_horizontal_first" />
-    <Localized id="284" value="Mise en page orthogonale (horizontal d'abord)" lang="French" key="orthogonal_layout_horizontal_first" />
-    <Localized id="285" value="Orthogonale layout (horizontaal eerst)" lang="Dutch" key="orthogonal_layout_horizontal_first" />
-    <Localized id="286" value="orthogonal layout vertical first" lang="English" key="orthogonal_layout_vertical_first" />
-    <Localized id="287" value="Mise en page orthogonale (vertital d'abord)" lang="French" key="orthogonal_layout_vertical_first" />
-    <Localized id="288" value="Orthogonale layout (vertikaal eerst)" lang="Dutch" key="orthogonal_layout_vertical_first" />
-    <Localized id="289" value="Horizontal or vertical layout" lang="English" key="horizontal_or_vertical_layout" />
-    <Localized id="290" value="Layout horizontal ou vertical" lang="French" key="horizontal_or_vertical_layout" />
-    <Localized id="291" value="Horizontale of verticale layout" lang="Dutch" key="horizontal_or_vertical_layout" />
-    <Localized id="292" value="Horizontal layout" lang="English" key="horizontal_layout" />
-    <Localized id="293" value="Mise en page horizontale" lang="French" key="horizontal_layout" />
-    <Localized id="294" value="Horizontale layout" lang="Dutch" key="horizontal_layout" />
-    <Localized id="295" value="Vertical layout" lang="English" key="vertical_layout" />
-    <Localized id="296" value="Mise en page verticale" lang="French" key="vertical_layout" />
-    <Localized id="297" value="Vertikale layout" lang="Dutch" key="vertical_layout" />
-    <Localized id="298" value="Orientations fixed" lang="English" key="orientations_fixed" />
-    <Localized id="299" value="Orientations fixées" lang="French" key="orientations_fixed" />
-    <Localized id="300" value="Vastgelegde orientatie" lang="Dutch" key="orientations_fixed" />
-    <Localized id="301" value="Start orientation fixed" lang="English" key="start_orientation_fixed" />
-    <Localized id="302" value="Direction initiale réparée" lang="French" key="start_orientation_fixed" />
-    <Localized id="303" value="Start orientatie vastgesteld" lang="Dutch" key="start_orientation_fixed" />
-    <Localized id="304" value="End orientation fixed" lang="English" key="end_orientation_fixed" />
-    <Localized id="305" value="Orientation finale fixe" lang="French" key="end_orientation_fixed" />
-    <Localized id="306" value="Eind orientatie vastgelegd" lang="Dutch" key="end_orientation_fixed" />
-    <Localized id="307" value="None" lang="English" key="None" />
-    <Localized id="308" value="None" lang="French" key="None" />
-    <Localized id="309" value="None" lang="Dutch" key="None" />
-    <Localized id="310" value="Orthogonal layout" lang="English" key="Orthogonal layout" />
-    <Localized id="311" value="Orthogonal layout" lang="French" key="Orthogonal layout" />
-    <Localized id="312" value="Orthogonal layout" lang="Dutch" key="Orthogonal layout" />
-    <Localized id="313" value="Orthogonal layout horizontal first" lang="English" key="Orthogonal layout horizontal first" />
-    <Localized id="314" value="Orthogonal layout horizontal first" lang="French" key="Orthogonal layout horizontal first" />
-    <Localized id="315" value="Orthogonal layout horizontal first" lang="Dutch" key="Orthogonal layout horizontal first" />
-    <Localized id="316" value="orthogonal layout vertical first" lang="English" key="orthogonal layout vertical first" />
-    <Localized id="317" value="orthogonal layout vertical first" lang="French" key="orthogonal layout vertical first" />
-    <Localized id="318" value="orthogonal layout vertical first" lang="Dutch" key="orthogonal layout vertical first" />
-    <Localized id="319" value="Horizontal or vertical layout" lang="English" key="Horizontal or vertical layout" />
-    <Localized id="320" value="Horizontal or vertical layout" lang="French" key="Horizontal or vertical layout" />
-    <Localized id="321" value="Horizontal or vertical layout" lang="Dutch" key="Horizontal or vertical layout" />
-    <Localized id="322" value="Horizontal layout" lang="English" key="Horizontal layout" />
-    <Localized id="323" value="Horizontal layout" lang="French" key="Horizontal layout" />
-    <Localized id="324" value="Horizontal layout" lang="Dutch" key="Horizontal layout" />
-    <Localized id="325" value="Vertical layout" lang="English" key="Vertical layout" />
-    <Localized id="326" value="Vertical layout" lang="French" key="Vertical layout" />
-    <Localized id="327" value="Vertical layout" lang="Dutch" key="Vertical layout" />
-    <Localized id="328" value="Orientations fixed" lang="English" key="Orientations fixed" />
-    <Localized id="329" value="Orientations fixed" lang="French" key="Orientations fixed" />
-    <Localized id="330" value="Orientations fixed" lang="Dutch" key="Orientations fixed" />
-    <Localized id="331" value="Start orientation fixed" lang="English" key="Start orientation fixed" />
-    <Localized id="332" value="Start orientation fixed" lang="French" key="Start orientation fixed" />
-    <Localized id="333" value="Start orientation fixed" lang="Dutch" key="Start orientation fixed" />
-    <Localized id="334" value="End orientation fixed" lang="English" key="End orientation fixed" />
-    <Localized id="335" value="End orientation fixed" lang="French" key="End orientation fixed" />
-    <Localized id="336" value="End orientation fixed" lang="Dutch" key="End orientation fixed" />
-    <Localized id="337" value="start_location" lang="English" key="start_location" />
-    <Localized id="338" value="start_location" lang="French" key="start_location" />
-    <Localized id="339" value="start_location" lang="Dutch" key="start_location" />
-    <Localized id="340" value="End location fixed" lang="English" key="end_location_fixed" />
-    <Localized id="341" value="End point fixe" lang="French" key="end_location_fixed" />
-    <Localized id="342" value="Eind punt niet verplaatsbeer" lang="Dutch" key="end_location_fixed" />
-    <Localized id="343" value="fixed" lang="English" key="fixed" />
-    <Localized id="344" value="fixed" lang="French" key="fixed" />
-    <Localized id="345" value="fixed" lang="Dutch" key="fixed" />
-    <Localized id="346" value="draggable" lang="English" key="draggable" />
-    <Localized id="347" value="draggable" lang="French" key="draggable" />
-    <Localized id="348" value="draggable" lang="Dutch" key="draggable" />
-    <Localized id="349" value="adjustability" lang="English" key="adjustability" />
-    <Localized id="350" value="ajustabilité" lang="French" key="adjustability" />
-    <Localized id="351" value="regelbaarheid" lang="Dutch" key="adjustability" />
-    <Localized id="352" value="Automatic layout" lang="English" key="auto_layout" />
-    <Localized id="353" value="Disposition automatique" lang="French" key="auto_layout" />
-    <Localized id="354" value="Automatic layout" lang="Dutch" key="auto_layout" />
-    <Localized id="355" value="Adjustable with a control point" lang="English" key="basically_adjustable" />
-    <Localized id="356" value="Ajustement avec un point de contrôle" lang="French" key="basically_adjustable" />
-    <Localized id="357" value="Adjustable with a control point" lang="Dutch" key="basically_adjustable" />
-    <Localized id="358" value="Fully adjustable" lang="English" key="fully_adjustable" />
-    <Localized id="359" value="Complètement ajustable" lang="French" key="fully_adjustable" />
-    <Localized id="360" value="Fully adjustable" lang="Dutch" key="fully_adjustable" />
-    <Localized id="361" value="Automatic layout" lang="English" key="Automatic layout" />
-    <Localized id="362" value="Automatic layout" lang="French" key="Automatic layout" />
-    <Localized id="363" value="Automatic layout" lang="Dutch" key="Automatic layout" />
-    <Localized id="364" value="Adjustable with a control point" lang="English" key="Adjustable with a control point" />
-    <Localized id="365" value="Adjustable with a control point" lang="French" key="Adjustable with a control point" />
-    <Localized id="366" value="Adjustable with a control point" lang="Dutch" key="Adjustable with a control point" />
-    <Localized id="367" value="Fully adjustable" lang="English" key="Fully adjustable" />
-    <Localized id="368" value="Fully adjustable" lang="French" key="Fully adjustable" />
-    <Localized id="369" value="Fully adjustable" lang="Dutch" key="Fully adjustable" />
-    <Localized id="370" value="arc size (pixels)" lang="English" key="arc_size_(pixels)" />
-    <Localized id="371" value="Taille de l'arc (pixels)" lang="French" key="arc_size_(pixels)" />
-    <Localized id="372" value="Grootte boog (pixels)" lang="Dutch" key="arc_size_(pixels)" />
-    <Localized id="373" value="Overlap (pixels)" lang="English" key="overlap_(pixels)" />
-    <Localized id="374" value="Chevauchement (pixels)" lang="French" key="overlap_(pixels)" />
-    <Localized id="375" value="Overlapping (pixels)" lang="Dutch" key="overlap_(pixels)" />
-    <Localized id="376" value="Layout" lang="English" key="Layout" />
-    <Localized id="377" value="Layout" lang="French" key="Layout" />
-    <Localized id="378" value="Layout" lang="Dutch" key="Layout" />
-    <Localized id="379" value="Adjustability" lang="English" key="Adjustability" />
-    <Localized id="380" value="Adjustability" lang="French" key="Adjustability" />
-    <Localized id="381" value="Adjustability" lang="Dutch" key="Adjustability" />
-    <Localized id="382" value="Advanced" lang="English" key="Advanced" />
-    <Localized id="383" value="Avancé" lang="French" key="Advanced" />
-    <Localized id="384" value="Geavanceerd" lang="Dutch" key="Advanced" />
-    <Localized id="385" value="line" lang="English" key="line" />
-    <Localized id="386" value="ligne" lang="French" key="line" />
-    <Localized id="387" value="line" lang="Dutch" key="line" />
-    <Localized id="388" value="Rect polyline" lang="English" key="rect_polylin" />
-    <Localized id="389" value="Polyligne rectangle" lang="French" key="rect_polylin" />
-    <Localized id="390" value="Rect polyline" lang="Dutch" key="rect_polylin" />
-    <Localized id="391" value="Curve" lang="English" key="curve" />
-    <Localized id="392" value="courbe" lang="French" key="curve" />
-    <Localized id="393" value="Curve" lang="Dutch" key="curve" />
-    <Localized id="394" value="Curved polyline" lang="English" key="curved_polylin" />
-    <Localized id="395" value="Poly-ligne courbe" lang="French" key="curved_polylin" />
-    <Localized id="396" value="Gebogen poly-lijn" lang="Dutch" key="curved_polylin" />
-    <Localized id="397" value="custom" lang="English" key="custom" />
-    <Localized id="398" value="sur mesure" lang="French" key="custom" />
-    <Localized id="399" value="op maat" lang="Dutch" key="custom" />
-    <Localized id="400" value="Rect polyline" lang="English" key="Rect polyline" />
-    <Localized id="401" value="Rect polyline" lang="French" key="Rect polyline" />
-    <Localized id="402" value="Rect polyline" lang="Dutch" key="Rect polyline" />
-    <Localized id="403" value="Curve" lang="English" key="Curve" />
-    <Localized id="404" value="Curve" lang="French" key="Curve" />
-    <Localized id="405" value="Curve" lang="Dutch" key="Curve" />
-    <Localized id="406" value="Connector type" lang="English" key="connector_type" />
-    <Localized id="407" value="Type de connecteur" lang="French" key="connector_type" />
-    <Localized id="408" value="Connectie type" lang="Dutch" key="connector_type" />
-    <Localized id="409" value="Size" lang="English" key="size" />
-    <Localized id="410" value="Taille" lang="French" key="size" />
-    <Localized id="411" value="Afmetingen" lang="Dutch" key="size" />
-    <Localized id="412" value="Arrow" lang="English" key="arrow" />
-    <Localized id="413" value="Flèche" lang="French" key="arrow" />
-    <Localized id="414" value="Pijl" lang="Dutch" key="arrow" />
-    <Localized id="415" value="Plain arrow" lang="English" key="plain_arrow" />
-    <Localized id="416" value="Flèche pleine" lang="French" key="plain_arrow" />
-    <Localized id="417" value="Volgekleurde pijl" lang="Dutch" key="plain_arrow" />
-    <Localized id="418" value="Filled arrow" lang="English" key="filled_arrow" />
-    <Localized id="419" value="Flèche pleine" lang="French" key="filled_arrow" />
-    <Localized id="420" value="Volgekleurde pijl" lang="Dutch" key="filled_arrow" />
-    <Localized id="421" value="Plain double arrow" lang="English" key="plain_double_arrow" />
-    <Localized id="422" value="Double flèche pleine" lang="French" key="plain_double_arrow" />
-    <Localized id="423" value="Volgekleurde dubbele pijl" lang="Dutch" key="plain_double_arrow" />
-    <Localized id="424" value="Filled double arrow" lang="English" key="filled_double_arrow" />
-    <Localized id="425" value="Double flèche pleine" lang="French" key="filled_double_arrow" />
-    <Localized id="426" value="Volgekleurde dubbele pijl" lang="Dutch" key="filled_double_arrow" />
-    <Localized id="427" value="Plain circle" lang="English" key="plain_circle" />
-    <Localized id="428" value="Disque" lang="French" key="plain_circle" />
-    <Localized id="429" value="Volgekleurde cirkel" lang="Dutch" key="plain_circle" />
-    <Localized id="430" value="Filled circle" lang="English" key="filled_circle" />
-    <Localized id="431" value="Cercle plein" lang="French" key="filled_circle" />
-    <Localized id="432" value="Volgekleurde cirkel" lang="Dutch" key="filled_circle" />
-    <Localized id="433" value="Plain square" lang="English" key="plain_square" />
-    <Localized id="434" value="Carré plein" lang="French" key="plain_square" />
-    <Localized id="435" value="Volgekleurd vierkant" lang="Dutch" key="plain_square" />
-    <Localized id="436" value="Filled square" lang="English" key="filled_square" />
-    <Localized id="437" value="Carré plein" lang="French" key="filled_square" />
-    <Localized id="438" value="Volgekleurd vierkant" lang="Dutch" key="filled_square" />
-    <Localized id="439" value="Plain diamond" lang="English" key="plain_diamond" />
-    <Localized id="440" value="Diamant plein" lang="French" key="plain_diamond" />
-    <Localized id="441" value="Volgekleurde diamant" lang="Dutch" key="plain_diamond" />
-    <Localized id="442" value="Plain long diamond" lang="English" key="plain_long_diamond" />
-    <Localized id="443" value="Long losange plein" lang="French" key="plain_long_diamond" />
-    <Localized id="444" value="Volgekleurde langwerpige diamant" lang="Dutch" key="plain_long_diamond" />
-    <Localized id="445" value="Filled diamond" lang="English" key="filled_diamond" />
-    <Localized id="446" value="Losange plein" lang="French" key="filled_diamond" />
-    <Localized id="447" value="Volgekleurde Ruit" lang="Dutch" key="filled_diamond" />
-    <Localized id="448" value="Default flow" lang="English" key="default_flow" />
-    <Localized id="449" value="Chemin par défaut" lang="French" key="default_flow" />
-    <Localized id="450" value="Standaard pad" lang="Dutch" key="default_flow" />
-    <Localized id="451" value="Arrow" lang="English" key="Arrow" />
-    <Localized id="452" value="Arrow" lang="French" key="Arrow" />
-    <Localized id="453" value="Arrow" lang="Dutch" key="Arrow" />
-    <Localized id="454" value="Plain arrow" lang="English" key="Plain arrow" />
-    <Localized id="455" value="Plain arrow" lang="French" key="Plain arrow" />
-    <Localized id="456" value="Plain arrow" lang="Dutch" key="Plain arrow" />
-    <Localized id="457" value="Filled arrow" lang="English" key="Filled arrow" />
-    <Localized id="458" value="Filled arrow" lang="French" key="Filled arrow" />
-    <Localized id="459" value="Filled arrow" lang="Dutch" key="Filled arrow" />
-    <Localized id="460" value="Plain double arrow" lang="English" key="Plain double arrow" />
-    <Localized id="461" value="Plain double arrow" lang="French" key="Plain double arrow" />
-    <Localized id="462" value="Plain double arrow" lang="Dutch" key="Plain double arrow" />
-    <Localized id="463" value="Filled double arrow" lang="English" key="Filled double arrow" />
-    <Localized id="464" value="Filled double arrow" lang="French" key="Filled double arrow" />
-    <Localized id="465" value="Filled double arrow" lang="Dutch" key="Filled double arrow" />
-    <Localized id="466" value="Plain circle" lang="English" key="Plain circle" />
-    <Localized id="467" value="Plain circle" lang="French" key="Plain circle" />
-    <Localized id="468" value="Plain circle" lang="Dutch" key="Plain circle" />
-    <Localized id="469" value="Filled circle" lang="English" key="Filled circle" />
-    <Localized id="470" value="Filled circle" lang="French" key="Filled circle" />
-    <Localized id="471" value="Filled circle" lang="Dutch" key="Filled circle" />
-    <Localized id="472" value="Plain square" lang="English" key="Plain square" />
-    <Localized id="473" value="Plain square" lang="French" key="Plain square" />
-    <Localized id="474" value="Plain square" lang="Dutch" key="Plain square" />
-    <Localized id="475" value="Filled square" lang="English" key="Filled square" />
-    <Localized id="476" value="Filled square" lang="French" key="Filled square" />
-    <Localized id="477" value="Filled square" lang="Dutch" key="Filled square" />
-    <Localized id="478" value="Plain diamond" lang="English" key="Plain diamond" />
-    <Localized id="479" value="Plain diamond" lang="French" key="Plain diamond" />
-    <Localized id="480" value="Plain diamond" lang="Dutch" key="Plain diamond" />
-    <Localized id="481" value="Plain long diamond" lang="English" key="Plain long diamond" />
-    <Localized id="482" value="Plain long diamond" lang="French" key="Plain long diamond" />
-    <Localized id="483" value="Plain long diamond" lang="Dutch" key="Plain long diamond" />
-    <Localized id="484" value="Filled diamond" lang="English" key="Filled diamond" />
-    <Localized id="485" value="Filled diamond" lang="French" key="Filled diamond" />
-    <Localized id="486" value="Filled diamond" lang="Dutch" key="Filled diamond" />
-    <Localized id="487" value="Default flow" lang="English" key="Default flow" />
-    <Localized id="488" value="Default flow" lang="French" key="Default flow" />
-    <Localized id="489" value="Default flow" lang="Dutch" key="Default flow" />
-    <Localized id="490" value="Start symbol" lang="English" key="start_symbol" />
-    <Localized id="491" value="Symbole de départ" lang="French" key="start_symbol" />
-    <Localized id="492" value="Start symbool" lang="Dutch" key="start_symbol" />
-    <Localized id="493" value="Middle location" lang="English" key="middle_location" />
-    <Localized id="494" value="Espace de milieu" lang="French" key="middle_location" />
-    <Localized id="495" value="Tussenruimte" lang="Dutch" key="middle_location" />
-    <Localized id="496" value="End symbol" lang="English" key="end_symbol" />
-    <Localized id="497" value="Symbole de fin" lang="French" key="end_symbol" />
-    <Localized id="498" value="Eind symbool" lang="Dutch" key="end_symbol" />
-    <Localized id="499" value="middle symbol" lang="English" key="middle_symbol" />
-    <Localized id="500" value="Symbole du milieu" lang="French" key="middle_symbol" />
-    <Localized id="501" value="Middelste symbool" lang="Dutch" key="middle_symbol" />
-    <Localized id="502" value="Symbols" lang="English" key="Symbols" />
-    <Localized id="503" value="Symbols" lang="French" key="Symbols" />
-    <Localized id="504" value="Symbols" lang="Dutch" key="Symbols" />
-    <Localized id="505" value="adjustable bounds" lang="English" key="adjustable_bounds" />
-    <Localized id="506" value="Liens adjustables" lang="French" key="adjustable_bounds" />
-    <Localized id="507" value="regelbare limitien" lang="Dutch" key="adjustable_bounds" />
-    <Localized id="508" value="Curve connector" lang="English" key="Curve connector" />
-    <Localized id="509" value="Curve connector" lang="French" key="Curve connector" />
-    <Localized id="510" value="Curve connector" lang="Dutch" key="Curve connector" />
-    <Localized id="511" value="Centre à centre" lang="English" key="Centre à centre" />
-    <Localized id="512" value="Centre à centre" lang="French" key="Centre à centre" />
-    <Localized id="513" value="Centre à centre" lang="Dutch" key="Centre à centre" />
-    <Localized id="514" value="Longueur minimale" lang="English" key="Longueur minimale" />
-    <Localized id="515" value="Longueur minimale" lang="French" key="Longueur minimale" />
-    <Localized id="516" value="Longueur minimale" lang="Dutch" key="Longueur minimale" />
-    <Localized id="517" value="amusant" lang="English" key="amusant" />
-    <Localized id="518" value="amusant" lang="French" key="amusant" />
-    <Localized id="519" value="amusant" lang="Dutch" key="amusant" />
-    <Localized id="520" value="ajustable" lang="English" key="ajustable" />
-    <Localized id="521" value="ajustable" lang="French" key="ajustable" />
-    <Localized id="522" value="ajustable" lang="Dutch" key="ajustable" />
-    <Localized id="523" value="Nord" lang="English" key="Nord" />
-    <Localized id="524" value="Nord" lang="French" key="Nord" />
-    <Localized id="525" value="Nord" lang="Dutch" key="Nord" />
-    <Localized id="526" value="Est" lang="English" key="Est" />
-    <Localized id="527" value="Est" lang="French" key="Est" />
-    <Localized id="528" value="Est" lang="Dutch" key="Est" />
-    <Localized id="529" value="Sud" lang="English" key="Sud" />
-    <Localized id="530" value="Sud" lang="French" key="Sud" />
-    <Localized id="531" value="Sud" lang="Dutch" key="Sud" />
-    <Localized id="532" value="Ouest" lang="English" key="Ouest" />
-    <Localized id="533" value="Ouest" lang="French" key="Ouest" />
-    <Localized id="534" value="Ouest" lang="Dutch" key="Ouest" />
-    <Localized id="535" value="Aucun" lang="English" key="Aucun" />
-    <Localized id="536" value="Aucun" lang="French" key="Aucun" />
-    <Localized id="537" value="Aucun" lang="Dutch" key="Aucun" />
-    <Localized id="538" value="Mise en page orthogonale" lang="English" key="Mise en page orthogonale" />
-    <Localized id="539" value="Mise en page orthogonale" lang="French" key="Mise en page orthogonale" />
-    <Localized id="540" value="Mise en page orthogonale" lang="Dutch" key="Mise en page orthogonale" />
-    <Localized id="541" value="Mise en page orthogonale (horizontal d'abord)" lang="English" key="Mise en page orthogonale (horizontal d'abord)" />
-    <Localized id="542" value="Mise en page orthogonale (horizontal d'abord)" lang="French" key="Mise en page orthogonale (horizontal d'abord)" />
-    <Localized id="543" value="Mise en page orthogonale (horizontal d'abord)" lang="Dutch" key="Mise en page orthogonale (horizontal d'abord)" />
-    <Localized id="544" value="Mise en page orthogonale (vertital d'abord)" lang="English" key="Mise en page orthogonale (vertital d'abord)" />
-    <Localized id="545" value="Mise en page orthogonale (vertital d'abord)" lang="French" key="Mise en page orthogonale (vertital d'abord)" />
-    <Localized id="546" value="Mise en page orthogonale (vertital d'abord)" lang="Dutch" key="Mise en page orthogonale (vertital d'abord)" />
-    <Localized id="547" value="Layout horizontal ou vertical" lang="English" key="Layout horizontal ou vertical" />
-    <Localized id="548" value="Layout horizontal ou vertical" lang="French" key="Layout horizontal ou vertical" />
-    <Localized id="549" value="Layout horizontal ou vertical" lang="Dutch" key="Layout horizontal ou vertical" />
-    <Localized id="550" value="Mise en page horizontale" lang="English" key="Mise en page horizontale" />
-    <Localized id="551" value="Mise en page horizontale" lang="French" key="Mise en page horizontale" />
-    <Localized id="552" value="Mise en page horizontale" lang="Dutch" key="Mise en page horizontale" />
-    <Localized id="553" value="Mise en page verticale" lang="English" key="Mise en page verticale" />
-    <Localized id="554" value="Mise en page verticale" lang="French" key="Mise en page verticale" />
-    <Localized id="555" value="Mise en page verticale" lang="Dutch" key="Mise en page verticale" />
-    <Localized id="556" value="Orientations fixées" lang="English" key="Orientations fixées" />
-    <Localized id="557" value="Orientations fixées" lang="French" key="Orientations fixées" />
-    <Localized id="558" value="Orientations fixées" lang="Dutch" key="Orientations fixées" />
-    <Localized id="559" value="Direction initiale réparée" lang="English" key="Direction initiale réparée" />
-    <Localized id="560" value="Direction initiale réparée" lang="French" key="Direction initiale réparée" />
-    <Localized id="561" value="Direction initiale réparée" lang="Dutch" key="Direction initiale réparée" />
-    <Localized id="562" value="Orientation finale fixe" lang="English" key="Orientation finale fixe" />
-    <Localized id="563" value="Orientation finale fixe" lang="French" key="Orientation finale fixe" />
-    <Localized id="564" value="Orientation finale fixe" lang="Dutch" key="Orientation finale fixe" />
-    <Localized id="565" value="Disposition automatique" lang="English" key="Disposition automatique" />
-    <Localized id="566" value="Disposition automatique" lang="French" key="Disposition automatique" />
-    <Localized id="567" value="Disposition automatique" lang="Dutch" key="Disposition automatique" />
-    <Localized id="568" value="Ajustement avec un point de contrôle" lang="English" key="Ajustement avec un point de contrôle" />
-    <Localized id="569" value="Ajustement avec un point de contrôle" lang="French" key="Ajustement avec un point de contrôle" />
-    <Localized id="570" value="Ajustement avec un point de contrôle" lang="Dutch" key="Ajustement avec un point de contrôle" />
-    <Localized id="571" value="Complètement ajustable" lang="English" key="Complètement ajustable" />
-    <Localized id="572" value="Complètement ajustable" lang="French" key="Complètement ajustable" />
-    <Localized id="573" value="Complètement ajustable" lang="Dutch" key="Complètement ajustable" />
-    <Localized id="574" value="ligne" lang="English" key="ligne" />
-    <Localized id="575" value="ligne" lang="French" key="ligne" />
-    <Localized id="576" value="ligne" lang="Dutch" key="ligne" />
-    <Localized id="577" value="Polyligne rectangle" lang="English" key="Polyligne rectangle" />
-    <Localized id="578" value="Polyligne rectangle" lang="French" key="Polyligne rectangle" />
-    <Localized id="579" value="Polyligne rectangle" lang="Dutch" key="Polyligne rectangle" />
-    <Localized id="580" value="courbe" lang="English" key="courbe" />
-    <Localized id="581" value="courbe" lang="French" key="courbe" />
-    <Localized id="582" value="courbe" lang="Dutch" key="courbe" />
-    <Localized id="583" value="Poly-ligne courbe" lang="English" key="Poly-ligne courbe" />
-    <Localized id="584" value="Poly-ligne courbe" lang="French" key="Poly-ligne courbe" />
-    <Localized id="585" value="Poly-ligne courbe" lang="Dutch" key="Poly-ligne courbe" />
-    <Localized id="586" value="sur mesure" lang="English" key="sur mesure" />
-    <Localized id="587" value="sur mesure" lang="French" key="sur mesure" />
-    <Localized id="588" value="sur mesure" lang="Dutch" key="sur mesure" />
-    <Localized id="589" value="Flèche" lang="English" key="Flèche" />
-    <Localized id="590" value="Flèche" lang="French" key="Flèche" />
-    <Localized id="591" value="Flèche" lang="Dutch" key="Flèche" />
-    <Localized id="592" value="Flèche pleine" lang="English" key="Flèche pleine" />
-    <Localized id="593" value="Flèche pleine" lang="French" key="Flèche pleine" />
-    <Localized id="594" value="Flèche pleine" lang="Dutch" key="Flèche pleine" />
-    <Localized id="595" value="Double flèche pleine" lang="English" key="Double flèche pleine" />
-    <Localized id="596" value="Double flèche pleine" lang="French" key="Double flèche pleine" />
-    <Localized id="597" value="Double flèche pleine" lang="Dutch" key="Double flèche pleine" />
-    <Localized id="598" value="Disque" lang="English" key="Disque" />
-    <Localized id="599" value="Disque" lang="French" key="Disque" />
-    <Localized id="600" value="Disque" lang="Dutch" key="Disque" />
-    <Localized id="601" value="Cercle plein" lang="English" key="Cercle plein" />
-    <Localized id="602" value="Cercle plein" lang="French" key="Cercle plein" />
-    <Localized id="603" value="Cercle plein" lang="Dutch" key="Cercle plein" />
-    <Localized id="604" value="Carré plein" lang="English" key="Carré plein" />
-    <Localized id="605" value="Carré plein" lang="French" key="Carré plein" />
-    <Localized id="606" value="Carré plein" lang="Dutch" key="Carré plein" />
-    <Localized id="607" value="Diamant plein" lang="English" key="Diamant plein" />
-    <Localized id="608" value="Diamant plein" lang="French" key="Diamant plein" />
-    <Localized id="609" value="Diamant plein" lang="Dutch" key="Diamant plein" />
-    <Localized id="610" value="Long losange plein" lang="English" key="Long losange plein" />
-    <Localized id="611" value="Long losange plein" lang="French" key="Long losange plein" />
-    <Localized id="612" value="Long losange plein" lang="Dutch" key="Long losange plein" />
-    <Localized id="613" value="Losange plein" lang="English" key="Losange plein" />
-    <Localized id="614" value="Losange plein" lang="French" key="Losange plein" />
-    <Localized id="615" value="Losange plein" lang="Dutch" key="Losange plein" />
-    <Localized id="616" value="Chemin par défaut" lang="English" key="Chemin par défaut" />
-    <Localized id="617" value="Chemin par défaut" lang="French" key="Chemin par défaut" />
-    <Localized id="618" value="Chemin par défaut" lang="Dutch" key="Chemin par défaut" />
-    <Localized id="619" value="Center tot center" lang="English" key="Center tot center" />
-    <Localized id="620" value="Center tot center" lang="French" key="Center tot center" />
-    <Localized id="621" value="Center tot center" lang="Dutch" key="Center tot center" />
-    <Localized id="622" value="Minimale lengte" lang="English" key="Minimale lengte" />
-    <Localized id="623" value="Minimale lengte" lang="French" key="Minimale lengte" />
-    <Localized id="624" value="Minimale lengte" lang="Dutch" key="Minimale lengte" />
-    <Localized id="625" value="leuk" lang="English" key="leuk" />
-    <Localized id="626" value="leuk" lang="French" key="leuk" />
-    <Localized id="627" value="leuk" lang="Dutch" key="leuk" />
-    <Localized id="628" value="regelbaar" lang="English" key="regelbaar" />
-    <Localized id="629" value="regelbaar" lang="French" key="regelbaar" />
-    <Localized id="630" value="regelbaar" lang="Dutch" key="regelbaar" />
-    <Localized id="631" value="Noorden" lang="English" key="Noorden" />
-    <Localized id="632" value="Noorden" lang="French" key="Noorden" />
-    <Localized id="633" value="Noorden" lang="Dutch" key="Noorden" />
-    <Localized id="634" value="Oosten" lang="English" key="Oosten" />
-    <Localized id="635" value="Oosten" lang="French" key="Oosten" />
-    <Localized id="636" value="Oosten" lang="Dutch" key="Oosten" />
-    <Localized id="637" value="Zuiden" lang="English" key="Zuiden" />
-    <Localized id="638" value="Zuiden" lang="French" key="Zuiden" />
-    <Localized id="639" value="Zuiden" lang="Dutch" key="Zuiden" />
-    <Localized id="640" value="Westen" lang="English" key="Westen" />
-    <Localized id="641" value="Westen" lang="French" key="Westen" />
-    <Localized id="642" value="Westen" lang="Dutch" key="Westen" />
-    <Localized id="643" value="Geen enkele" lang="English" key="Geen enkele" />
-    <Localized id="644" value="Geen enkele" lang="French" key="Geen enkele" />
-    <Localized id="645" value="Geen enkele" lang="Dutch" key="Geen enkele" />
-    <Localized id="646" value="Orthogonale layout" lang="English" key="Orthogonale layout" />
-    <Localized id="647" value="Orthogonale layout" lang="French" key="Orthogonale layout" />
-    <Localized id="648" value="Orthogonale layout" lang="Dutch" key="Orthogonale layout" />
-    <Localized id="649" value="Orthogonale layout (horizontaal eerst)" lang="English" key="Orthogonale layout (horizontaal eerst)" />
-    <Localized id="650" value="Orthogonale layout (horizontaal eerst)" lang="French" key="Orthogonale layout (horizontaal eerst)" />
-    <Localized id="651" value="Orthogonale layout (horizontaal eerst)" lang="Dutch" key="Orthogonale layout (horizontaal eerst)" />
-    <Localized id="652" value="Orthogonale layout (vertikaal eerst)" lang="English" key="Orthogonale layout (vertikaal eerst)" />
-    <Localized id="653" value="Orthogonale layout (vertikaal eerst)" lang="French" key="Orthogonale layout (vertikaal eerst)" />
-    <Localized id="654" value="Orthogonale layout (vertikaal eerst)" lang="Dutch" key="Orthogonale layout (vertikaal eerst)" />
-    <Localized id="655" value="Horizontale of verticale layout" lang="English" key="Horizontale of verticale layout" />
-    <Localized id="656" value="Horizontale of verticale layout" lang="French" key="Horizontale of verticale layout" />
-    <Localized id="657" value="Horizontale of verticale layout" lang="Dutch" key="Horizontale of verticale layout" />
-    <Localized id="658" value="Horizontale layout" lang="English" key="Horizontale layout" />
-    <Localized id="659" value="Horizontale layout" lang="French" key="Horizontale layout" />
-    <Localized id="660" value="Horizontale layout" lang="Dutch" key="Horizontale layout" />
-    <Localized id="661" value="Vertikale layout" lang="English" key="Vertikale layout" />
-    <Localized id="662" value="Vertikale layout" lang="French" key="Vertikale layout" />
-    <Localized id="663" value="Vertikale layout" lang="Dutch" key="Vertikale layout" />
-    <Localized id="664" value="Vastgelegde orientatie" lang="English" key="Vastgelegde orientatie" />
-    <Localized id="665" value="Vastgelegde orientatie" lang="French" key="Vastgelegde orientatie" />
-    <Localized id="666" value="Vastgelegde orientatie" lang="Dutch" key="Vastgelegde orientatie" />
-    <Localized id="667" value="Start orientatie vastgesteld" lang="English" key="Start orientatie vastgesteld" />
-    <Localized id="668" value="Start orientatie vastgesteld" lang="French" key="Start orientatie vastgesteld" />
-    <Localized id="669" value="Start orientatie vastgesteld" lang="Dutch" key="Start orientatie vastgesteld" />
-    <Localized id="670" value="Eind orientatie vastgelegd" lang="English" key="Eind orientatie vastgelegd" />
-    <Localized id="671" value="Eind orientatie vastgelegd" lang="French" key="Eind orientatie vastgelegd" />
-    <Localized id="672" value="Eind orientatie vastgelegd" lang="Dutch" key="Eind orientatie vastgelegd" />
-    <Localized id="673" value="Gebogen poly-lijn" lang="English" key="Gebogen poly-lijn" />
-    <Localized id="674" value="Gebogen poly-lijn" lang="French" key="Gebogen poly-lijn" />
-    <Localized id="675" value="Gebogen poly-lijn" lang="Dutch" key="Gebogen poly-lijn" />
-    <Localized id="676" value="op maat" lang="English" key="op maat" />
-    <Localized id="677" value="op maat" lang="French" key="op maat" />
-    <Localized id="678" value="op maat" lang="Dutch" key="op maat" />
-    <Localized id="679" value="Pijl" lang="English" key="Pijl" />
-    <Localized id="680" value="Pijl" lang="French" key="Pijl" />
-    <Localized id="681" value="Pijl" lang="Dutch" key="Pijl" />
-    <Localized id="682" value="Volgekleurde pijl" lang="English" key="Volgekleurde pijl" />
-    <Localized id="683" value="Volgekleurde pijl" lang="French" key="Volgekleurde pijl" />
-    <Localized id="684" value="Volgekleurde pijl" lang="Dutch" key="Volgekleurde pijl" />
-    <Localized id="685" value="Volgekleurde dubbele pijl" lang="English" key="Volgekleurde dubbele pijl" />
-    <Localized id="686" value="Volgekleurde dubbele pijl" lang="French" key="Volgekleurde dubbele pijl" />
-    <Localized id="687" value="Volgekleurde dubbele pijl" lang="Dutch" key="Volgekleurde dubbele pijl" />
-    <Localized id="688" value="Volgekleurde cirkel" lang="English" key="Volgekleurde cirkel" />
-    <Localized id="689" value="Volgekleurde cirkel" lang="French" key="Volgekleurde cirkel" />
-    <Localized id="690" value="Volgekleurde cirkel" lang="Dutch" key="Volgekleurde cirkel" />
-    <Localized id="691" value="Volgekleurd vierkant" lang="English" key="Volgekleurd vierkant" />
-    <Localized id="692" value="Volgekleurd vierkant" lang="French" key="Volgekleurd vierkant" />
-    <Localized id="693" value="Volgekleurd vierkant" lang="Dutch" key="Volgekleurd vierkant" />
-    <Localized id="694" value="Volgekleurde diamant" lang="English" key="Volgekleurde diamant" />
-    <Localized id="695" value="Volgekleurde diamant" lang="French" key="Volgekleurde diamant" />
-    <Localized id="696" value="Volgekleurde diamant" lang="Dutch" key="Volgekleurde diamant" />
-    <Localized id="697" value="Volgekleurde langwerpige diamant" lang="English" key="Volgekleurde langwerpige diamant" />
-    <Localized id="698" value="Volgekleurde langwerpige diamant" lang="French" key="Volgekleurde langwerpige diamant" />
-    <Localized id="699" value="Volgekleurde langwerpige diamant" lang="Dutch" key="Volgekleurde langwerpige diamant" />
-    <Localized id="700" value="Volgekleurde Ruit" lang="English" key="Volgekleurde Ruit" />
-    <Localized id="701" value="Volgekleurde Ruit" lang="French" key="Volgekleurde Ruit" />
-    <Localized id="702" value="Volgekleurde Ruit" lang="Dutch" key="Volgekleurde Ruit" />
-    <Localized id="703" value="Standaard pad" lang="English" key="Standaard pad" />
-    <Localized id="704" value="Standaard pad" lang="French" key="Standaard pad" />
-    <Localized id="705" value="Standaard pad" lang="Dutch" key="Standaard pad" />
-  </LocalizedDictionary>
+<Panel id="0" borderLeft="0" sizeAdjustment="OriginalSize"
+	opaque="false"
+	controllerClassName="org.openflexo.diana.swing.widget.JFIBShapeSelector$ShapeDetailsPanel$CustomFIBController"
+	borderRight="0" border="empty" trackViewPortWidth="true"
+	font="SansSerif,0,11" align="left" borderBottom="5"
+	titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true"
+	layout="gridbag" name="ConnectorPanel">
+	<Custom id="1" manageDynamicModel="true"
+		dataClassForComponent="org.openflexo.diana.connectors.ConnectorSpecification"
+		componentClassName="org.openflexo.diana.swing.widget.JConnectorPreviewPanel"
+		name="PreviewPanel" data="data.connectorSpecification" index="0"
+		localize="true"
+		constraints="gridbag(anchor=center;fill=vertical;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=0;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=5;padX=0;padY=0;weightX=0.0;weightY=0.0)">
+		<Dependancy id="2" componentName="ConnectorType" />
+		<Dependancy id="3" componentName="EndSymbol" />
+	</Custom>
+	<Panel id="4" borderLeft="10" sizeAdjustment="OriginalSize"
+		opaque="false" borderRight="10" border="empty"
+		trackViewPortWidth="true" index="1" align="left"
+		constraints="gridbag(anchor=center;fill=horizontal;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=10;padX=0;padY=0;weightX=0.0;weightY=0.0)"
+		borderBottom="2" borderTitle="" titleFont="SansSerif,0,11"
+		borderTop="2" trackViewPortHeight="true" layout="twocols"
+		name="ShapeTypePanel" flowAlignment="CENTER">
+		<Label id="5" name="ConnectorTypeLabel" index="2"
+			localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)"
+			label="connector_type" />
+		<DropDown id="6" data="data.styleType" index="3"
+			localize="true"
+			constraints="twocols(expandHorizontally=true;expandVertically=false;index=3;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)"
+			format="object.name.toLowerCase" showText="true"
+			iteratorClassName="org.openflexo.diana.connectors.ConnectorSpecification$ConnectorType"
+			showIcon="true" name="ConnectorType" icon="object.icon" />
+	</Panel>
+	<Panel id="7" visible="(data.styleType = &quot;LINE&quot;)"
+		borderLeft="10" sizeAdjustment="OriginalSize" borderRight="10"
+		border="rounded3d" trackViewPortWidth="true" index="4" align="left"
+		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=5;padX=0;padY=0;weightX=1.0;weightY=1.0)"
+		borderBottom="2" borderTitle="Line connector"
+		titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true"
+		layout="twocols" name="LineConnectorPanel">
+		<Dependancy id="8" componentName="ConnectorType" />
+		<Label id="9" height="16" name="ConnectorTypeLabel" index="0"
+			localize="true" width="130" align="right"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)"
+			label="line_type" />
+		<DropDown id="10"
+			data="lineConnectorSpecification.lineConnectorType" index="1"
+			localize="true" width="150"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)"
+			format="object.name.toLowerCase" showText="true"
+			iteratorClassName="org.openflexo.diana.connectors.LineConnectorSpecification$LineConnectorType"
+			showIcon="false" name="ConnectorType" />
+		<FIBVariable id="11" name="lineConnectorSpecification"
+			value="($org.openflexo.diana.connectors.LineConnectorSpecification)data.connectorSpecification"
+			type="org.openflexo.diana.connectors.LineConnectorSpecification" />
+	</Panel>
+	<Panel id="12"
+		visible="(data.styleType = &quot;RECT_POLYLIN&quot;)"
+		borderLeft="10" sizeAdjustment="OriginalSize" borderRight="10"
+		border="rounded3d" trackViewPortWidth="true" index="4" align="left"
+		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=1.0)"
+		borderBottom="2" borderTitle="Rect polylin connector"
+		titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true"
+		layout="twocols"
+		name="RectPolylinConnectorPanel" useScrollBar="false"
+		verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED"
+		horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_NEVER">
+
+		<Panel
+			borderLeft="0" sizeAdjustment="OriginalSize" borderRight="0"
+			border="none" trackViewPortWidth="true" index="4" align="left"
+			constraints="twocols(expandHorizontally=true;expandVertically=true;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;x=0;y=0)"
+			borderBottom="0" borderTop="0" trackViewPortHeight="true"
+			layout="twocols"
+			name="ScrollbarManager" useScrollBar="true"
+			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED"
+			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_NEVER">
+
+				<Label id="26" name="AdjustabilityLabel" index="0"
+					localize="true" align="left"
+					constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)"
+					label="adjustability" />
+				<DropDown id="27"
+					data="rectPolylinConnectorSpecification.adjustability" index="1"
+					localize="true"
+					constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)"
+					format="object.name.toLowerCase" showText="true"
+					iteratorClassName="org.openflexo.diana.connectors.RectPolylinConnectorSpecification$RectPolylinAdjustability"
+					showIcon="false" name="Adjustability" />
+				<Label id="17" height="16" name="ConstraintsLabel" index="0"
+					localize="true" width="130" align="right"
+					constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)"
+					label="layout_constraints" />
+				<DropDown id="18"
+					data="rectPolylinConnectorSpecification.rectPolylinConstraints"
+					index="1" localize="true"
+					constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)"
+					format="object.name.toLowerCase" showText="true"
+					iteratorClassName="org.openflexo.diana.connectors.RectPolylinConnectorSpecification$RectPolylinConstraints"
+					showIcon="false" name="Constraints" />
+				<Label id="19"
+					enable="((rectPolylinConnectorSpecification.rectPolylinConstraints = &quot;ORIENTATIONS_FIXED&quot;) | (rectPolylinConnectorSpecification.rectPolylinConstraints = &quot;START_ORIENTATION_FIXED&quot;))"
+					name="StartOrientationLabel" index="2" localize="true" align="left"
+					constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)"
+					label="start_orientation" />
+				<DropDown id="20"
+					enable="((rectPolylinConnectorSpecification.rectPolylinConstraints = &quot;ORIENTATIONS_FIXED&quot;) | (rectPolylinConnectorSpecification.rectPolylinConstraints = &quot;START_ORIENTATION_FIXED&quot;))"
+					data="rectPolylinConnectorSpecification.startOrientation" index="3"
+					localize="true"
+					constraints="twocols(expandHorizontally=false;expandVertically=false;index=3;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)"
+					format="object.name.toLowerCase" showText="true"
+					iteratorClassName="org.openflexo.diana.geom.DianaGeometricObject$SimplifiedCardinalDirection"
+					showIcon="true" name="StartOrientation" />
+				<Label id="21"
+					enable="((rectPolylinConnectorSpecification.rectPolylinConstraints = &quot;ORIENTATIONS_FIXED&quot;) | (rectPolylinConnectorSpecification.rectPolylinConstraints = &quot;END_ORIENTATION_FIXED&quot;))"
+					name="EndOrientationLabel" index="4" localize="true" align="left"
+					constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)"
+					label="end_orientation" />
+				<DropDown id="22"
+					enable="((rectPolylinConnectorSpecification.rectPolylinConstraints = &quot;ORIENTATIONS_FIXED&quot;) | (rectPolylinConnectorSpecification.rectPolylinConstraints = &quot;END_ORIENTATION_FIXED&quot;))"
+					data="rectPolylinConnectorSpecification.endOrientation" index="5"
+					localize="true"
+					constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)"
+					format="object.name.toLowerCase" showText="true"
+					iteratorClassName="org.openflexo.diana.geom.DianaGeometricObject$SimplifiedCardinalDirection"
+					showIcon="true" name="EndOrientation" />
+				<Label id="23" name="StraightLineWhenPossibleLabel" index="6"
+					localize="true" align="left"
+					constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)"
+					label="straight_when_possible" />
+				<CheckBox id="24" name="StraightLineWhenPossible"
+					data="rectPolylinConnectorSpecification.straightLineWhenPossible"
+					index="7" localize="true"
+					constraints="twocols(expandHorizontally=false;expandVertically=false;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)" />
+				<Label id="41" name="PixelOverlapLabel" index="14"
+					localize="true" align="left"
+					constraints="twocols(expandHorizontally=false;expandVertically=false;index=14;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)"
+					label="overlap" />
+				<Number minValue="0" columns="3" name="PixelOverlap"
+					data="rectPolylinConnectorSpecification.pixelOverlap"
+					maxValue="255" increment="1" index="15" localize="true"
+					constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)"
+					numberType="IntegerType" />
+				<Label id="42" name="IsRoundedLabel" index="16"
+					localize="true" align="left"
+					constraints="twocols(expandHorizontally=false;expandVertically=false;index=16;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)"
+					label="rounded" />
+				<CheckBox id="44" name="IsRounded"
+					data="rectPolylinConnectorSpecification.isRounded" index="0"
+					localize="true"
+					constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=right)" />
+				<Label id="45"
+					enable="rectPolylinConnectorSpecification.isRounded"
+					name="ArcSizeLabel" index="1" localize="true" align="left"
+					constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=left)"
+					label="arc_size_(pixels)" />
+				<Number id="46" minValue="0" columns="3"
+					enable="rectPolylinConnectorSpecification.isRounded" name="ArcSize"
+					data="rectPolylinConnectorSpecification.arcSize" maxValue="255"
+					increment="1" index="2" localize="true"
+					constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right)"
+					numberType="IntegerType" />
+			</Panel>
+		<FIBVariable id="47"
+			name="rectPolylinConnectorSpecification"
+			value="($org.openflexo.diana.connectors.RectPolylinConnectorSpecification)data.connectorSpecification"
+			type="org.openflexo.diana.connectors.RectPolylinConnectorSpecification" />
+	</Panel>
+	<Panel id="48" visible="(data.styleType = &quot;CURVE&quot;)"
+		borderLeft="10" sizeAdjustment="OriginalSize" borderRight="10"
+		border="rounded3d" trackViewPortWidth="true" index="6" align="left"
+		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=1.0)"
+		borderBottom="2" borderTitle="Curve connector"
+		titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true"
+		layout="twocols" name="CurveConnectorPanel">
+		<Dependancy id="49" componentName="ConnectorType" />
+		
+		
+		<Label id="50" height="16" name="ConnectorTypeLabel" index="0"
+			localize="true" width="130" align="right"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)"
+			label="curve_type" />
+		<DropDown id="51"
+			data="curveConnectorSpecification.curveConnectorType" index="1"
+			localize="true" width="150"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)"
+			format="object.name.toLowerCase" showText="true"
+			iteratorClassName="org.openflexo.diana.connectors.CurveConnectorSpecification$CurveConnectorType"
+			showIcon="false" name="ConnectorType" />
+		
+		
+		<!--  <Label id="50" height="16" name="AreBoundsAdjustableLabel"
+			index="0" localize="true" width="130" align="right"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)"
+			label="adjustable_bounds" />
+		<CheckBox id="51" name="AreBoundsAdjustable"
+			data="curveConnectorSpecification.areBoundsAdjustable" index="1"
+			localize="true"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" /> -->
+		<FIBVariable id="52" name="curveConnectorSpecification"
+			value="($org.openflexo.diana.connectors.CurveConnectorSpecification)data.connectorSpecification"
+			type="org.openflexo.diana.connectors.CurveConnectorSpecification" />
+	</Panel>
+	<Panel id="53"
+		visible="(data.styleType = &quot;CURVED_POLYLIN&quot;)"
+		borderLeft="10" sizeAdjustment="OriginalSize" borderRight="10"
+		border="rounded3d" trackViewPortWidth="true" index="7" align="left"
+		constraints="gridbag(anchor=center;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)"
+		borderBottom="2" borderTitle="Curved polyline"
+		titleFont="SansSerif,0,11" borderTop="2" trackViewPortHeight="true"
+		layout="twocols" name="CurvedPolylinConnectorPanel">
+		<Dependancy id="54" componentName="ConnectorType" />
+		<FIBVariable id="55"
+			name="curvePolylinConnectorSpecification"
+			value="($org.openflexo.diana.connectors.CurvedPolylinConnectorSpecification)data.connectorSpecification"
+			type="org.openflexo.diana.connectors.CurvedPolylinConnectorSpecification" />
+	</Panel>
+	<Panel id="156" borderLeft="10" sizeAdjustment="OriginalSize"
+		opaque="false" borderRight="10" border="rounded3d"
+		trackViewPortWidth="true" index="6" align="left"
+		constraints="gridbag(anchor=center;fill=horizontal;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)"
+		borderBottom="2" borderTitle="Bounds adjustability" titleFont="SansSerif,0,11"
+		borderTop="2" trackViewPortHeight="true" layout="twocols"
+		name="BoundsPanel">
+				<Label id="128" name="IsStartingLocationFixedLabel" index="10"
+					localize="true" align="left"
+					constraints="twocols(expandHorizontally=false;expandVertically=false;index=10;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)"
+					label="start_location" />
+				<Panel id="129" vGap="0" borderLeft="0" hGap="0"
+					sizeAdjustment="OriginalSize" borderRight="0" border="empty"
+					trackViewPortWidth="true" index="11" align="left"
+					constraints="twocols(expandHorizontally=true;expandVertically=false;index=11;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)"
+					borderBottom="0" titleFont="SansSerif,0,11" borderTop="0"
+					trackViewPortHeight="true" layout="flow" name="FIBPanel"
+					flowAlignment="LEADING">
+					<CheckBox id="130" name="IsStartingLocationFixed"
+						data="data.connectorSpecification.isStartingLocationFixed"
+						index="0" localize="true"
+						constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=right)" />
+					<Label id="131" name="FixedLabel" index="1" localize="true"
+						align="left"
+						constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=right)"
+						label="fixed" />
+					<CheckBox id="132" name="IsStartingLocationDraggable"
+						data="data.connectorSpecification.isStartingLocationDraggable"
+						index="2" localize="true"
+						constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right)" />
+					<Label id="133" name="IsStartingLocationDraggableLabel"
+						index="3" localize="true" align="left"
+						constraints="flow(expandHorizontally=false;expandVertically=false;index=3;location=left)"
+						label="draggable" />
+				</Panel>
+				<Label id="134" name="IsEndingLocationFixedLabel" index="12"
+					localize="true" align="left"
+					constraints="twocols(expandHorizontally=false;expandVertically=false;index=12;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left;x=0;y=0)"
+					label="end_location" />
+				<Panel id="135" vGap="0" borderLeft="0" hGap="0"
+					sizeAdjustment="OriginalSize" borderRight="0" border="empty"
+					trackViewPortWidth="true" index="13" align="left"
+					constraints="twocols(expandHorizontally=true;expandVertically=false;index=13;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right;x=0;y=0)"
+					borderBottom="0" titleFont="SansSerif,0,11" borderTop="0"
+					trackViewPortHeight="true" layout="flow" name="FIBPanel2"
+					flowAlignment="LEADING">
+					<CheckBox id="136" name="IsEndingLocationFixed"
+						data="data.connectorSpecification.isEndingLocationFixed"
+						index="0" localize="true"
+						constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=right)" />
+					<Label id="137" name="IsEndingLocationDraggableLabel"
+						index="1" localize="true" align="left"
+						constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=left)"
+						label="fixed" />
+					<CheckBox id="138" name="IsEndingLocationDraggable"
+						data="data.connectorSpecification.isEndingLocationDraggable"
+						index="2" localize="true"
+						constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right)" />
+					<Label id="139" name="IsEndingLocationDraggableLabel"
+						index="3" localize="true" align="left"
+						constraints="flow(expandHorizontally=false;expandVertically=false;index=3;location=left)"
+						label="draggable" />
+				</Panel>
+	</Panel>
+	<Panel id="56" borderLeft="10" sizeAdjustment="OriginalSize"
+		opaque="false" borderRight="10" border="rounded3d"
+		trackViewPortWidth="true" index="6" align="left"
+		constraints="gridbag(anchor=center;fill=horizontal;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;padX=0;padY=0;weightX=1.0;weightY=0.0)"
+		borderBottom="2" borderTitle="Symbols" titleFont="SansSerif,0,11"
+		borderTop="2" trackViewPortHeight="true" layout="twocols"
+		name="SymbolsPanel">
+		<Label id="57" name="StartSymbolLabel" index="8" localize="true"
+			align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)"
+			label="start" />
+		<Panel id="58" vGap="0" borderLeft="0" hGap="5"
+			sizeAdjustment="OriginalSize" borderRight="0" border="empty"
+			trackViewPortWidth="true" index="9" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)"
+			borderBottom="0" titleFont="SansSerif,0,11" borderTop="0"
+			trackViewPortHeight="true" layout="flow" name="FIBPanel"
+			flowAlignment="LEADING">
+			<DropDown id="59" height="27"
+				data="data.connectorSpecification.startSymbol" index="0"
+				localize="true" width="80"
+				constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=right;x=0;y=0)"
+				format="object.name.toLowerCase" showText="false"
+				iteratorClassName="org.openflexo.diana.connectors.ConnectorSymbol$StartSymbolType"
+				showIcon="true" name="StartSymbol" icon="object.icon" />
+			<Label id="60"
+				enable="(data.connectorSpecification.startSymbol != &quot;NONE&quot;)"
+				name="StartSymbolSizeLabel" index="1" localize="true" align="left"
+				constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=left;x=0;y=0)"
+				label="size" />
+			<Number id="61" minValue="0.1" columns="3"
+				enable="(data.connectorSpecification.startSymbol != &quot;NONE&quot;)"
+				name="StartSymbolSize"
+				data="data.connectorSpecification.startSymbolSize" maxValue="100.0"
+				increment="1.0" index="2" localize="true"
+				constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right;x=0;y=0)"
+				numberType="DoubleType" />
+		</Panel>
+		<Label id="62" name="MiddleSymbolLabel" index="10"
+			localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=10;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)"
+			label="middle" />
+		<Panel id="63" vGap="0" borderLeft="0" hGap="5"
+			sizeAdjustment="OriginalSize" borderRight="0" border="empty"
+			trackViewPortWidth="true" index="11" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=11;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)"
+			borderBottom="0" titleFont="SansSerif,0,11" borderTop="0"
+			trackViewPortHeight="true" layout="flow" name="FIBPanel2"
+			flowAlignment="LEADING">
+			<DropDown id="64" height="27"
+				data="data.connectorSpecification.middleSymbol" index="0"
+				localize="true" width="80"
+				constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=right;x=0;y=0)"
+				format="object.name.toLowerCase" showText="false"
+				iteratorClassName="org.openflexo.diana.connectors.ConnectorSymbol$MiddleSymbolType"
+				showIcon="true" name="MiddleSymbol" icon="object.icon" />
+			<Label id="65"
+				enable="(data.connectorSpecification.middleSymbol != &quot;NONE&quot;)"
+				name="MiddleSymbolSizeLabel" index="1" localize="true" align="left"
+				constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=left;x=0;y=0)"
+				label="size" />
+			<Number id="66" minValue="0.1" columns="3"
+				enable="(data.connectorSpecification.middleSymbol != &quot;NONE&quot;)"
+				name="MiddleSymbolSize"
+				data="data.connectorSpecification.middleSymbolSize" maxValue="100.0"
+				increment="1.0" index="2" localize="true"
+				constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right;x=0;y=0)"
+				numberType="DoubleType" />
+		</Panel>
+		<Label id="67" name="EndSymbolLabel" index="12" localize="true"
+			align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=12;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)"
+			label="end" />
+		<Panel id="68" vGap="0" borderLeft="0" hGap="5"
+			sizeAdjustment="OriginalSize" borderRight="0" border="empty"
+			trackViewPortWidth="true" index="13" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=13;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)"
+			borderBottom="0" titleFont="SansSerif,0,11" borderTop="0"
+			trackViewPortHeight="true" layout="flow" name="FIBPanel3"
+			flowAlignment="LEADING">
+			<DropDown id="69" height="27"
+				data="data.connectorSpecification.endSymbol" index="0"
+				localize="true" width="80"
+				constraints="flow(expandHorizontally=false;expandVertically=false;index=0;location=right;x=0;y=0)"
+				format="object.name.toLowerCase" showText="false"
+				iteratorClassName="org.openflexo.diana.connectors.ConnectorSymbol$EndSymbolType"
+				showIcon="true" name="EndSymbol" icon="object.icon" />
+			<Label id="70"
+				enable="(data.connectorSpecification.endSymbol != &quot;NONE&quot;)"
+				name="EndSymbolSizeLabel" index="1" localize="true" align="left"
+				constraints="flow(expandHorizontally=false;expandVertically=false;index=1;location=left;x=0;y=0)"
+				label="size" />
+			<Number id="71" minValue="0.1" columns="3"
+				enable="(data.connectorSpecification.endSymbol != &quot;NONE&quot;)"
+				name="EndSymbolSize"
+				data="data.connectorSpecification.endSymbolSize" maxValue="100.0"
+				increment="1.0" index="2" localize="true"
+				constraints="flow(expandHorizontally=false;expandVertically=false;index=2;location=right;x=0;y=0)"
+				numberType="DoubleType" />
+		</Panel>
+		<Label id="72" name="RelativeMiddleSymbolLocationLabel"
+			index="14" localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=14;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=left)"
+			label="centre" />
+		<Number id="73" minValue="0.0" columns="4"
+			name="RelativeMiddleSymbolLocation"
+			data="data.connectorSpecification.relativeMiddleSymbolLocation"
+			maxValue="1.0" increment="0.05" index="15" localize="true"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=15;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)"
+			numberType="DoubleType" />
+	</Panel>
+	<FIBVariable id="74" name="data"
+		type="org.openflexo.diana.control.tools.ConnectorSpecificationFactory" />
+	<LocalizedDictionary id="75">
+		<!-- <Localized id="76" value="Shape" lang="English"
+			key="shape_type" />
+		<Localized id="77" value="Forme" lang="French"
+			key="shape_type" />
+		<Localized id="78" value="Shape" lang="Dutch"
+			key="shape_type" />
+		<Localized id="79" value="Rectangle" lang="English"
+			key="rectangle" />
+		<Localized id="80" value="Rectangle" lang="French"
+			key="rectangle" />
+		<Localized id="81" value="Rectangle" lang="Dutch"
+			key="rectangle" />
+		<Localized id="82" value="Square" lang="English"
+			key="square" />
+		<Localized id="83" value="Carré" lang="French" key="square" />
+		<Localized id="84" value="Square" lang="Dutch" key="square" />
+		<Localized id="85" value="Rectangular octogon"
+			lang="English" key="rectangularoctogon" />
+		<Localized id="86" value="Octogone rectangulaire"
+			lang="French" key="rectangularoctogon" />
+		<Localized id="87" value="Rectangular octogon" lang="Dutch"
+			key="rectangularoctogon" />
+		<Localized id="88" value="Regular polygon" lang="English"
+			key="polygon" />
+		<Localized id="89" value="Polygone régulier" lang="French"
+			key="polygon" />
+		<Localized id="90" value="Regular polygon" lang="Dutch"
+			key="polygon" />
+		<Localized id="91" value="Triangle" lang="English"
+			key="triangle" />
+		<Localized id="92" value="Triangle" lang="French"
+			key="triangle" />
+		<Localized id="93" value="Triangle" lang="Dutch"
+			key="triangle" />
+		<Localized id="94" value="Losange" lang="English"
+			key="losange" />
+		<Localized id="95" value="Losange" lang="French"
+			key="losange" />
+		<Localized id="96" value="Losange" lang="Dutch"
+			key="losange" />
+		<Localized id="97" value="Oval" lang="English" key="oval" />
+		<Localized id="98" value="Ovale" lang="French" key="oval" />
+		<Localized id="99" value="Oval" lang="Dutch" key="oval" />
+		<Localized id="100" value="Circle" lang="English"
+			key="circle" />
+		<Localized id="101" value="Cercle" lang="French"
+			key="circle" />
+		<Localized id="102" value="Circle" lang="Dutch" key="circle" />
+		<Localized id="103" value="Star" lang="English" key="star" />
+		<Localized id="104" value="Étoile" lang="French" key="star" />
+		<Localized id="105" value="Star" lang="Dutch" key="star" />
+		<Localized id="106" value="Arc" lang="English" key="arc" />
+		<Localized id="107" value="Arc" lang="French" key="arc" />
+		<Localized id="108" value="Boog (arc)" lang="Dutch"
+			key="arc" />
+		<Localized id="109" value="Custom polygon" lang="English"
+			key="custom_polygon" />
+		<Localized id="110" value="Polygone personnalisé"
+			lang="French" key="custom_polygon" />
+		<Localized id="111" value="Custom polygon" lang="Dutch"
+			key="custom_polygon" />
+		<Localized id="112" value="Rectangle" lang="English"
+			key="Rectangle" />
+		<Localized id="113" value="Rectangle" lang="French"
+			key="Rectangle" />
+		<Localized id="114" value="Rectangle" lang="Dutch"
+			key="Rectangle" />
+		<Localized id="115" value="Square" lang="English"
+			key="Square" />
+		<Localized id="116" value="Carré" lang="French" key="Square" />
+		<Localized id="117" value="Square" lang="Dutch" key="Square" />
+		<Localized id="118" value="Regular polygon" lang="English"
+			key="Regular polygon" />
+		<Localized id="119" value="Polygone régulier" lang="French"
+			key="Regular polygon" />
+		<Localized id="120" value="Regular polygon" lang="Dutch"
+			key="Regular polygon" />
+		<Localized id="121" value="Triangle" lang="English"
+			key="Triangle" />
+		<Localized id="122" value="Triangle" lang="French"
+			key="Triangle" />
+		<Localized id="123" value="Triangle" lang="Dutch"
+			key="Triangle" />
+		<Localized id="124" value="Losange" lang="English"
+			key="Losange" />
+		<Localized id="125" value="Losange" lang="French"
+			key="Losange" />
+		<Localized id="126" value="Losange" lang="Dutch"
+			key="Losange" />
+		<Localized id="127" value="Oval" lang="English" key="Oval" />
+		<Localized id="128" value="Ovale" lang="French" key="Oval" />
+		<Localized id="129" value="Oval" lang="Dutch" key="Oval" />
+		<Localized id="130" value="Circle" lang="English"
+			key="Circle" />
+		<Localized id="131" value="Cercle" lang="French"
+			key="Circle" />
+		<Localized id="132" value="Circle" lang="Dutch" key="Circle" />
+		<Localized id="133" value="Star" lang="English" key="Star" />
+		<Localized id="134" value="Etoile" lang="French" key="Star" />
+		<Localized id="135" value="Star" lang="Dutch" key="Star" />
+		<Localized id="136" value="Rounded" lang="English"
+			key="rounded" />
+		<Localized id="137" value="Arrondi" lang="French"
+			key="rounded" />
+		<Localized id="138" value="Rounded" lang="Dutch"
+			key="rounded" />
+		<Localized id="139" value="Arc size" lang="English"
+			key="arc_size" />
+		<Localized id="140" value="Taille de l'arc" lang="French"
+			key="arc_size" />
+		<Localized id="141" value="Grootte boog" lang="Dutch"
+			key="arc_size" />
+		<Localized id="142" value="Point number" lang="English"
+			key="points_number" />
+		<Localized id="143" value="Nimbre de points" lang="French"
+			key="points_number" />
+		<Localized id="144" value="Point number" lang="Dutch"
+			key="points_number" />
+		<Localized id="145" value="Start angle" lang="English"
+			key="start_angle" />
+		<Localized id="146" value="Angle de départ" lang="French"
+			key="start_angle" />
+		<Localized id="147" value="Start angle" lang="Dutch"
+			key="start_angle" />
+		<Localized id="148" value="Ratio" lang="English" key="ratio" />
+		<Localized id="149" value="Rapport" lang="French"
+			key="ratio" />
+		<Localized id="150" value="Ratio" lang="Dutch" key="ratio" />
+		<Localized id="151" value="Angle extent" lang="English"
+			key="angle_extent" />
+		<Localized id="152" value="Extension d'angle" lang="French"
+			key="angle_extent" />
+		<Localized id="153" value="Vergroting van de hoek"
+			lang="Dutch" key="angle_extent" />
+		<Localized id="154" value="Arc type" lang="English"
+			key="arc_type" />
+		<Localized id="155" value="Type d'arc" lang="French"
+			key="arc_type" />
+		<Localized id="156" value="Type boog" lang="Dutch"
+			key="arc_type" />
+		<Localized id="157" value="Open" lang="English" key="open" />
+		<Localized id="158" value="Ouvrir" lang="French" key="open" />
+		<Localized id="159" value="Open" lang="Dutch" key="open" />
+		<Localized id="160" value="Open" lang="English" key="Open" />
+		<Localized id="161" value="Ouvert" lang="French" key="Open" />
+		<Localized id="162" value="Open" lang="Dutch" key="Open" />
+		<Localized id="163" value="Chord" lang="English" key="chord" />
+		<Localized id="164" value="Son" lang="French" key="chord" />
+		<Localized id="165" value="Chord" lang="Dutch" key="chord" />
+		<Localized id="166" value="Chord" lang="English" key="Chord" />
+		<Localized id="167" value="Chord" lang="French" key="Chord" />
+		<Localized id="168" value="Chord" lang="Dutch" key="Chord" />
+		<Localized id="169" value="Pie" lang="English" key="pie" />
+		<Localized id="170" value="Camembert" lang="French"
+			key="pie" />
+		<Localized id="171" value="Pie" lang="Dutch" key="pie" />
+		<Localized id="172" value="Id" lang="English" key="id" />
+		<Localized id="173" value="Id" lang="French" key="id" />
+		<Localized id="174" value="Id" lang="Dutch" key="id" />
+		<Localized id="175" value="Position x" lang="English"
+			key="x" />
+		<Localized id="176" value="Abscisse" lang="French" key="x" />
+		<Localized id="177" value="Position x" lang="Dutch" key="x" />
+		<Localized id="178" value="Position y" lang="English"
+			key="y" />
+		<Localized id="179" value="Ordonnée" lang="French" key="y" />
+		<Localized id="180" value="Position y" lang="Dutch" key="y" />
+		<Localized id="181" value="Apply" lang="English" key="apply" />
+		<Localized id="182" value="Appliquer" lang="French"
+			key="apply" />
+		<Localized id="183" value="Pas toe" lang="Dutch" key="apply" />
+		<Localized id="184" value="Cancel" lang="English"
+			key="cancel" />
+		<Localized id="185" value="Annuler" lang="French"
+			key="cancel" />
+		<Localized id="186" value="Cancel" lang="Dutch" key="cancel" />
+		<Localized id="187" value="Carré" lang="English" key="Carré" />
+		<Localized id="188" value="Carré" lang="French" key="Carré" />
+		<Localized id="189" value="Carré" lang="Dutch" key="Carré" />
+		<Localized id="190" value="Polygone régulier" lang="English"
+			key="Polygone régulier" />
+		<Localized id="191" value="Polygone régulier" lang="French"
+			key="Polygone régulier" />
+		<Localized id="192" value="Polygone régulier" lang="Dutch"
+			key="Polygone régulier" />
+		<Localized id="193" value="Ovale" lang="English" key="Ovale" />
+		<Localized id="194" value="Ovale" lang="French" key="Ovale" />
+		<Localized id="195" value="Ovale" lang="Dutch" key="Ovale" />
+		<Localized id="196" value="Cercle" lang="English"
+			key="Cercle" />
+		<Localized id="197" value="Cercle" lang="French"
+			key="Cercle" />
+		<Localized id="198" value="Cercle" lang="Dutch" key="Cercle" />
+		<Localized id="199" value="Étoile" lang="English"
+			key="Étoile" />
+		<Localized id="200" value="Étoile" lang="French"
+			key="Étoile" />
+		<Localized id="201" value="Étoile" lang="Dutch" key="Étoile" />
+		<Localized id="202" value="Ouvrir" lang="English"
+			key="Ouvrir" />
+		<Localized id="203" value="Ouvrir" lang="French"
+			key="Ouvrir" />
+		<Localized id="204" value="Ouvrir" lang="Dutch" key="Ouvrir" />
+		<Localized id="205" value="Son" lang="English" key="Son" />
+		<Localized id="206" value="Son" lang="French" key="Son" />
+		<Localized id="207" value="Son" lang="Dutch" key="Son" />
+		<Localized id="208" value="Pie" lang="English"
+			key="camember" />
+		<Localized id="209" value="Camembert" lang="French"
+			key="camember" />
+		<Localized id="210" value="Pie" lang="Dutch" key="camember" />
+		<Localized id="211" value="boog (arc)" lang="English"
+			key="boog (arc)" />
+		<Localized id="212" value="boog (arc)" lang="French"
+			key="boog (arc)" />
+		<Localized id="213" value="boog (arc)" lang="Dutch"
+			key="boog (arc)" />
+		<Localized id="214" value="Curved polyline" lang="English"
+			key="Curved polyline" />
+		<Localized id="215" value="Curved polyline" lang="French"
+			key="Curved polyline" />
+		<Localized id="216" value="Curved polyline" lang="Dutch"
+			key="Curved polyline" />
+		<Localized id="217" value="line_type" lang="English"
+			key="line_type" />
+		<Localized id="218" value="line_type" lang="French"
+			key="line_type" />
+		<Localized id="219" value="line_type" lang="Dutch"
+			key="line_type" />
+		<Localized id="220" value="Center to center" lang="English"
+			key="center_to_center" />
+		<Localized id="221" value="Centre à centre" lang="French"
+			key="center_to_center" />
+		<Localized id="222" value="Center tot center" lang="Dutch"
+			key="center_to_center" />
+		<Localized id="223" value="Center to center" lang="English"
+			key="Center to center" />
+		<Localized id="224" value="Center to center" lang="French"
+			key="Center to center" />
+		<Localized id="225" value="Center to center" lang="Dutch"
+			key="Center to center" />
+		<Localized id="226" value="Minimal length" lang="English"
+			key="minimal_length" />
+		<Localized id="227" value="Longueur minimale" lang="French"
+			key="minimal_length" />
+		<Localized id="228" value="Minimale lengte" lang="Dutch"
+			key="minimal_length" />
+		<Localized id="229" value="Minimal length" lang="English"
+			key="Minimal length" />
+		<Localized id="230" value="Minimal length" lang="French"
+			key="Minimal length" />
+		<Localized id="231" value="Minimal length" lang="Dutch"
+			key="Minimal length" />
+		<Localized id="232" value="funny" lang="English" key="funny" />
+		<Localized id="233" value="amusant" lang="French"
+			key="funny" />
+		<Localized id="234" value="leuk" lang="Dutch" key="funny" />
+		<Localized id="235" value="adjustable" lang="English"
+			key="adjustable" />
+		<Localized id="236" value="ajustable" lang="French"
+			key="adjustable" />
+		<Localized id="237" value="regelbaar" lang="Dutch"
+			key="adjustable" />
+		<Localized id="238" value="Line connector" lang="English"
+			key="Line connector" />
+		<Localized id="239" value="Line connector" lang="French"
+			key="Line connector" />
+		<Localized id="240" value="Line connector" lang="Dutch"
+			key="Line connector" />
+		<Localized id="241" value="Straight when possible"
+			lang="English" key="straight_when_possible" />
+		<Localized id="242" value="Droit si possible" lang="French"
+			key="straight_when_possible" />
+		<Localized id="243" value="Recht als het mogelijk is"
+			lang="Dutch" key="straight_when_possible" />
+		<Localized id="244" value="North" lang="English" key="north" />
+		<Localized id="245" value="Nord" lang="French" key="north" />
+		<Localized id="246" value="Noorden" lang="Dutch" key="north" />
+		<Localized id="247" value="East" lang="English" key="east" />
+		<Localized id="248" value="Est" lang="French" key="east" />
+		<Localized id="249" value="Oosten" lang="Dutch" key="east" />
+		<Localized id="250" value="South" lang="English" key="south" />
+		<Localized id="251" value="Sud" lang="French" key="south" />
+		<Localized id="252" value="Zuiden" lang="Dutch" key="south" />
+		<Localized id="253" value="West" lang="English" key="west" />
+		<Localized id="254" value="Ouest" lang="French" key="west" />
+		<Localized id="255" value="Westen" lang="Dutch" key="west" />
+		<Localized id="256" value="North" lang="English" key="North" />
+		<Localized id="257" value="North" lang="French" key="North" />
+		<Localized id="258" value="North" lang="Dutch" key="North" />
+		<Localized id="259" value="East" lang="English" key="East" />
+		<Localized id="260" value="East" lang="French" key="East" />
+		<Localized id="261" value="East" lang="Dutch" key="East" />
+		<Localized id="262" value="South" lang="English" key="South" />
+		<Localized id="263" value="South" lang="French" key="South" />
+		<Localized id="264" value="South" lang="Dutch" key="South" />
+		<Localized id="265" value="West" lang="English" key="West" />
+		<Localized id="266" value="West" lang="French" key="West" />
+		<Localized id="267" value="West" lang="Dutch" key="West" />
+		<Localized id="268" value="End orientation" lang="English"
+			key="end_orientation" />
+		<Localized id="269" value="Fin orientation" lang="French"
+			key="end_orientation" />
+		<Localized id="270" value="Einde van de orientatie"
+			lang="Dutch" key="end_orientation" />
+		<Localized id="271" value="Start orientation" lang="English"
+			key="start_orientation" />
+		<Localized id="272" value="Début d'orientation"
+			lang="French" key="start_orientation" />
+		<Localized id="273" value="Start orientatie" lang="Dutch"
+			key="start_orientation" />
+		<Localized id="274" value="Layout constraints"
+			lang="English" key="layout_constraints" />
+		<Localized id="275" value="Contraintes" lang="French"
+			key="layout_constraints" />
+		<Localized id="276" value="Layout constraints" lang="Dutch"
+			key="layout_constraints" />
+		<Localized id="277" value="None" lang="English" key="none" />
+		<Localized id="278" value="Aucun" lang="French" key="none" />
+		<Localized id="279" value="Geen enkele" lang="Dutch"
+			key="none" />
+		<Localized id="280" value="Orthogonal layout" lang="English"
+			key="orthogonal_layout" />
+		<Localized id="281" value="Mise en page orthogonale"
+			lang="French" key="orthogonal_layout" />
+		<Localized id="282" value="Orthogonale layout" lang="Dutch"
+			key="orthogonal_layout" />
+		<Localized id="283"
+			value="Orthogonal layout horizontal first" lang="English"
+			key="orthogonal_layout_horizontal_first" />
+		<Localized id="284"
+			value="Mise en page orthogonale (horizontal d'abord)" lang="French"
+			key="orthogonal_layout_horizontal_first" />
+		<Localized id="285"
+			value="Orthogonale layout (horizontaal eerst)" lang="Dutch"
+			key="orthogonal_layout_horizontal_first" />
+		<Localized id="286" value="orthogonal layout vertical first"
+			lang="English" key="orthogonal_layout_vertical_first" />
+		<Localized id="287"
+			value="Mise en page orthogonale (vertital d'abord)" lang="French"
+			key="orthogonal_layout_vertical_first" />
+		<Localized id="288"
+			value="Orthogonale layout (vertikaal eerst)" lang="Dutch"
+			key="orthogonal_layout_vertical_first" />
+		<Localized id="289" value="Horizontal or vertical layout"
+			lang="English" key="horizontal_or_vertical_layout" />
+		<Localized id="290" value="Layout horizontal ou vertical"
+			lang="French" key="horizontal_or_vertical_layout" />
+		<Localized id="291" value="Horizontale of verticale layout"
+			lang="Dutch" key="horizontal_or_vertical_layout" />
+		<Localized id="292" value="Horizontal layout" lang="English"
+			key="horizontal_layout" />
+		<Localized id="293" value="Mise en page horizontale"
+			lang="French" key="horizontal_layout" />
+		<Localized id="294" value="Horizontale layout" lang="Dutch"
+			key="horizontal_layout" />
+		<Localized id="295" value="Vertical layout" lang="English"
+			key="vertical_layout" />
+		<Localized id="296" value="Mise en page verticale"
+			lang="French" key="vertical_layout" />
+		<Localized id="297" value="Vertikale layout" lang="Dutch"
+			key="vertical_layout" />
+		<Localized id="298" value="Orientations fixed"
+			lang="English" key="orientations_fixed" />
+		<Localized id="299" value="Orientations fixées"
+			lang="French" key="orientations_fixed" />
+		<Localized id="300" value="Vastgelegde orientatie"
+			lang="Dutch" key="orientations_fixed" />
+		<Localized id="301" value="Start orientation fixed"
+			lang="English" key="start_orientation_fixed" />
+		<Localized id="302" value="Direction initiale réparée"
+			lang="French" key="start_orientation_fixed" />
+		<Localized id="303" value="Start orientatie vastgesteld"
+			lang="Dutch" key="start_orientation_fixed" />
+		<Localized id="304" value="End orientation fixed"
+			lang="English" key="end_orientation_fixed" />
+		<Localized id="305" value="Orientation finale fixe"
+			lang="French" key="end_orientation_fixed" />
+		<Localized id="306" value="Eind orientatie vastgelegd"
+			lang="Dutch" key="end_orientation_fixed" />
+		<Localized id="307" value="None" lang="English" key="None" />
+		<Localized id="308" value="None" lang="French" key="None" />
+		<Localized id="309" value="None" lang="Dutch" key="None" />
+		<Localized id="310" value="Orthogonal layout" lang="English"
+			key="Orthogonal layout" />
+		<Localized id="311" value="Orthogonal layout" lang="French"
+			key="Orthogonal layout" />
+		<Localized id="312" value="Orthogonal layout" lang="Dutch"
+			key="Orthogonal layout" />
+		<Localized id="313"
+			value="Orthogonal layout horizontal first" lang="English"
+			key="Orthogonal layout horizontal first" />
+		<Localized id="314"
+			value="Orthogonal layout horizontal first" lang="French"
+			key="Orthogonal layout horizontal first" />
+		<Localized id="315"
+			value="Orthogonal layout horizontal first" lang="Dutch"
+			key="Orthogonal layout horizontal first" />
+		<Localized id="316" value="orthogonal layout vertical first"
+			lang="English" key="orthogonal layout vertical first" />
+		<Localized id="317" value="orthogonal layout vertical first"
+			lang="French" key="orthogonal layout vertical first" />
+		<Localized id="318" value="orthogonal layout vertical first"
+			lang="Dutch" key="orthogonal layout vertical first" />
+		<Localized id="319" value="Horizontal or vertical layout"
+			lang="English" key="Horizontal or vertical layout" />
+		<Localized id="320" value="Horizontal or vertical layout"
+			lang="French" key="Horizontal or vertical layout" />
+		<Localized id="321" value="Horizontal or vertical layout"
+			lang="Dutch" key="Horizontal or vertical layout" />
+		<Localized id="322" value="Horizontal layout" lang="English"
+			key="Horizontal layout" />
+		<Localized id="323" value="Horizontal layout" lang="French"
+			key="Horizontal layout" />
+		<Localized id="324" value="Horizontal layout" lang="Dutch"
+			key="Horizontal layout" />
+		<Localized id="325" value="Vertical layout" lang="English"
+			key="Vertical layout" />
+		<Localized id="326" value="Vertical layout" lang="French"
+			key="Vertical layout" />
+		<Localized id="327" value="Vertical layout" lang="Dutch"
+			key="Vertical layout" />
+		<Localized id="328" value="Orientations fixed"
+			lang="English" key="Orientations fixed" />
+		<Localized id="329" value="Orientations fixed" lang="French"
+			key="Orientations fixed" />
+		<Localized id="330" value="Orientations fixed" lang="Dutch"
+			key="Orientations fixed" />
+		<Localized id="331" value="Start orientation fixed"
+			lang="English" key="Start orientation fixed" />
+		<Localized id="332" value="Start orientation fixed"
+			lang="French" key="Start orientation fixed" />
+		<Localized id="333" value="Start orientation fixed"
+			lang="Dutch" key="Start orientation fixed" />
+		<Localized id="334" value="End orientation fixed"
+			lang="English" key="End orientation fixed" />
+		<Localized id="335" value="End orientation fixed"
+			lang="French" key="End orientation fixed" />
+		<Localized id="336" value="End orientation fixed"
+			lang="Dutch" key="End orientation fixed" />
+		<Localized id="337" value="start_location" lang="English"
+			key="start_location" />
+		<Localized id="338" value="start_location" lang="French"
+			key="start_location" />
+		<Localized id="339" value="start_location" lang="Dutch"
+			key="start_location" />
+		<Localized id="340" value="End location fixed"
+			lang="English" key="end_location_fixed" />
+		<Localized id="341" value="End point fixe" lang="French"
+			key="end_location_fixed" />
+		<Localized id="342" value="Eind punt niet verplaatsbeer"
+			lang="Dutch" key="end_location_fixed" />
+		<Localized id="343" value="fixed" lang="English" key="fixed" />
+		<Localized id="344" value="fixed" lang="French" key="fixed" />
+		<Localized id="345" value="fixed" lang="Dutch" key="fixed" />
+		<Localized id="346" value="draggable" lang="English"
+			key="draggable" />
+		<Localized id="347" value="draggable" lang="French"
+			key="draggable" />
+		<Localized id="348" value="draggable" lang="Dutch"
+			key="draggable" />
+		<Localized id="349" value="adjustability" lang="English"
+			key="adjustability" />
+		<Localized id="350" value="ajustabilité" lang="French"
+			key="adjustability" />
+		<Localized id="351" value="regelbaarheid" lang="Dutch"
+			key="adjustability" />
+		<Localized id="352" value="Automatic layout" lang="English"
+			key="auto_layout" />
+		<Localized id="353" value="Disposition automatique"
+			lang="French" key="auto_layout" />
+		<Localized id="354" value="Automatic layout" lang="Dutch"
+			key="auto_layout" />
+		<Localized id="355" value="Adjustable with a control point"
+			lang="English" key="basically_adjustable" />
+		<Localized id="356"
+			value="Ajustement avec un point de contrôle" lang="French"
+			key="basically_adjustable" />
+		<Localized id="357" value="Adjustable with a control point"
+			lang="Dutch" key="basically_adjustable" />
+		<Localized id="358" value="Fully adjustable" lang="English"
+			key="fully_adjustable" />
+		<Localized id="359" value="Complètement ajustable"
+			lang="French" key="fully_adjustable" />
+		<Localized id="360" value="Fully adjustable" lang="Dutch"
+			key="fully_adjustable" />
+		<Localized id="361" value="Automatic layout" lang="English"
+			key="Automatic layout" />
+		<Localized id="362" value="Automatic layout" lang="French"
+			key="Automatic layout" />
+		<Localized id="363" value="Automatic layout" lang="Dutch"
+			key="Automatic layout" />
+		<Localized id="364" value="Adjustable with a control point"
+			lang="English" key="Adjustable with a control point" />
+		<Localized id="365" value="Adjustable with a control point"
+			lang="French" key="Adjustable with a control point" />
+		<Localized id="366" value="Adjustable with a control point"
+			lang="Dutch" key="Adjustable with a control point" />
+		<Localized id="367" value="Fully adjustable" lang="English"
+			key="Fully adjustable" />
+		<Localized id="368" value="Fully adjustable" lang="French"
+			key="Fully adjustable" />
+		<Localized id="369" value="Fully adjustable" lang="Dutch"
+			key="Fully adjustable" />
+		<Localized id="370" value="arc size (pixels)" lang="English"
+			key="arc_size_(pixels)" />
+		<Localized id="371" value="Taille de l'arc (pixels)"
+			lang="French" key="arc_size_(pixels)" />
+		<Localized id="372" value="Grootte boog (pixels)"
+			lang="Dutch" key="arc_size_(pixels)" />
+		<Localized id="373" value="Overlap (pixels)" lang="English"
+			key="overlap_(pixels)" />
+		<Localized id="374" value="Chevauchement (pixels)"
+			lang="French" key="overlap_(pixels)" />
+		<Localized id="375" value="Overlapping (pixels)"
+			lang="Dutch" key="overlap_(pixels)" />
+		<Localized id="376" value="Layout" lang="English"
+			key="Layout" />
+		<Localized id="377" value="Layout" lang="French"
+			key="Layout" />
+		<Localized id="378" value="Layout" lang="Dutch" key="Layout" />
+		<Localized id="379" value="Adjustability" lang="English"
+			key="Adjustability" />
+		<Localized id="380" value="Adjustability" lang="French"
+			key="Adjustability" />
+		<Localized id="381" value="Adjustability" lang="Dutch"
+			key="Adjustability" />
+		<Localized id="382" value="Advanced" lang="English"
+			key="Advanced" />
+		<Localized id="383" value="Avancé" lang="French"
+			key="Advanced" />
+		<Localized id="384" value="Geavanceerd" lang="Dutch"
+			key="Advanced" />
+		<Localized id="385" value="line" lang="English" key="line" />
+		<Localized id="386" value="ligne" lang="French" key="line" />
+		<Localized id="387" value="line" lang="Dutch" key="line" />
+		<Localized id="388" value="Rect polyline" lang="English"
+			key="rect_polylin" />
+		<Localized id="389" value="Polyligne rectangle"
+			lang="French" key="rect_polylin" />
+		<Localized id="390" value="Rect polyline" lang="Dutch"
+			key="rect_polylin" />
+		<Localized id="391" value="Curve" lang="English" key="curve" />
+		<Localized id="392" value="courbe" lang="French" key="curve" />
+		<Localized id="393" value="Curve" lang="Dutch" key="curve" />
+		<Localized id="394" value="Curved polyline" lang="English"
+			key="curved_polylin" />
+		<Localized id="395" value="Poly-ligne courbe" lang="French"
+			key="curved_polylin" />
+		<Localized id="396" value="Gebogen poly-lijn" lang="Dutch"
+			key="curved_polylin" />
+		<Localized id="397" value="custom" lang="English"
+			key="custom" />
+		<Localized id="398" value="sur mesure" lang="French"
+			key="custom" />
+		<Localized id="399" value="op maat" lang="Dutch"
+			key="custom" />
+		<Localized id="400" value="Rect polyline" lang="English"
+			key="Rect polyline" />
+		<Localized id="401" value="Rect polyline" lang="French"
+			key="Rect polyline" />
+		<Localized id="402" value="Rect polyline" lang="Dutch"
+			key="Rect polyline" />
+		<Localized id="403" value="Curve" lang="English" key="Curve" />
+		<Localized id="404" value="Curve" lang="French" key="Curve" />
+		<Localized id="405" value="Curve" lang="Dutch" key="Curve" />
+		<Localized id="406" value="Connector type" lang="English"
+			key="connector_type" />
+		<Localized id="407" value="Type de connecteur" lang="French"
+			key="connector_type" />
+		<Localized id="408" value="Connectie type" lang="Dutch"
+			key="connector_type" />
+		<Localized id="409" value="Size" lang="English" key="size" />
+		<Localized id="410" value="Taille" lang="French" key="size" />
+		<Localized id="411" value="Afmetingen" lang="Dutch"
+			key="size" />
+		<Localized id="412" value="Arrow" lang="English" key="arrow" />
+		<Localized id="413" value="Flèche" lang="French" key="arrow" />
+		<Localized id="414" value="Pijl" lang="Dutch" key="arrow" />
+		<Localized id="415" value="Plain arrow" lang="English"
+			key="plain_arrow" />
+		<Localized id="416" value="Flèche pleine" lang="French"
+			key="plain_arrow" />
+		<Localized id="417" value="Volgekleurde pijl" lang="Dutch"
+			key="plain_arrow" />
+		<Localized id="418" value="Filled arrow" lang="English"
+			key="filled_arrow" />
+		<Localized id="419" value="Flèche pleine" lang="French"
+			key="filled_arrow" />
+		<Localized id="420" value="Volgekleurde pijl" lang="Dutch"
+			key="filled_arrow" />
+		<Localized id="421" value="Plain double arrow"
+			lang="English" key="plain_double_arrow" />
+		<Localized id="422" value="Double flèche pleine"
+			lang="French" key="plain_double_arrow" />
+		<Localized id="423" value="Volgekleurde dubbele pijl"
+			lang="Dutch" key="plain_double_arrow" />
+		<Localized id="424" value="Filled double arrow"
+			lang="English" key="filled_double_arrow" />
+		<Localized id="425" value="Double flèche pleine"
+			lang="French" key="filled_double_arrow" />
+		<Localized id="426" value="Volgekleurde dubbele pijl"
+			lang="Dutch" key="filled_double_arrow" />
+		<Localized id="427" value="Plain circle" lang="English"
+			key="plain_circle" />
+		<Localized id="428" value="Disque" lang="French"
+			key="plain_circle" />
+		<Localized id="429" value="Volgekleurde cirkel" lang="Dutch"
+			key="plain_circle" />
+		<Localized id="430" value="Filled circle" lang="English"
+			key="filled_circle" />
+		<Localized id="431" value="Cercle plein" lang="French"
+			key="filled_circle" />
+		<Localized id="432" value="Volgekleurde cirkel" lang="Dutch"
+			key="filled_circle" />
+		<Localized id="433" value="Plain square" lang="English"
+			key="plain_square" />
+		<Localized id="434" value="Carré plein" lang="French"
+			key="plain_square" />
+		<Localized id="435" value="Volgekleurd vierkant"
+			lang="Dutch" key="plain_square" />
+		<Localized id="436" value="Filled square" lang="English"
+			key="filled_square" />
+		<Localized id="437" value="Carré plein" lang="French"
+			key="filled_square" />
+		<Localized id="438" value="Volgekleurd vierkant"
+			lang="Dutch" key="filled_square" />
+		<Localized id="439" value="Plain diamond" lang="English"
+			key="plain_diamond" />
+		<Localized id="440" value="Diamant plein" lang="French"
+			key="plain_diamond" />
+		<Localized id="441" value="Volgekleurde diamant"
+			lang="Dutch" key="plain_diamond" />
+		<Localized id="442" value="Plain long diamond"
+			lang="English" key="plain_long_diamond" />
+		<Localized id="443" value="Long losange plein" lang="French"
+			key="plain_long_diamond" />
+		<Localized id="444" value="Volgekleurde langwerpige diamant"
+			lang="Dutch" key="plain_long_diamond" />
+		<Localized id="445" value="Filled diamond" lang="English"
+			key="filled_diamond" />
+		<Localized id="446" value="Losange plein" lang="French"
+			key="filled_diamond" />
+		<Localized id="447" value="Volgekleurde Ruit" lang="Dutch"
+			key="filled_diamond" />
+		<Localized id="448" value="Default flow" lang="English"
+			key="default_flow" />
+		<Localized id="449" value="Chemin par défaut" lang="French"
+			key="default_flow" />
+		<Localized id="450" value="Standaard pad" lang="Dutch"
+			key="default_flow" />
+		<Localized id="451" value="Arrow" lang="English" key="Arrow" />
+		<Localized id="452" value="Arrow" lang="French" key="Arrow" />
+		<Localized id="453" value="Arrow" lang="Dutch" key="Arrow" />
+		<Localized id="454" value="Plain arrow" lang="English"
+			key="Plain arrow" />
+		<Localized id="455" value="Plain arrow" lang="French"
+			key="Plain arrow" />
+		<Localized id="456" value="Plain arrow" lang="Dutch"
+			key="Plain arrow" />
+		<Localized id="457" value="Filled arrow" lang="English"
+			key="Filled arrow" />
+		<Localized id="458" value="Filled arrow" lang="French"
+			key="Filled arrow" />
+		<Localized id="459" value="Filled arrow" lang="Dutch"
+			key="Filled arrow" />
+		<Localized id="460" value="Plain double arrow"
+			lang="English" key="Plain double arrow" />
+		<Localized id="461" value="Plain double arrow" lang="French"
+			key="Plain double arrow" />
+		<Localized id="462" value="Plain double arrow" lang="Dutch"
+			key="Plain double arrow" />
+		<Localized id="463" value="Filled double arrow"
+			lang="English" key="Filled double arrow" />
+		<Localized id="464" value="Filled double arrow"
+			lang="French" key="Filled double arrow" />
+		<Localized id="465" value="Filled double arrow" lang="Dutch"
+			key="Filled double arrow" />
+		<Localized id="466" value="Plain circle" lang="English"
+			key="Plain circle" />
+		<Localized id="467" value="Plain circle" lang="French"
+			key="Plain circle" />
+		<Localized id="468" value="Plain circle" lang="Dutch"
+			key="Plain circle" />
+		<Localized id="469" value="Filled circle" lang="English"
+			key="Filled circle" />
+		<Localized id="470" value="Filled circle" lang="French"
+			key="Filled circle" />
+		<Localized id="471" value="Filled circle" lang="Dutch"
+			key="Filled circle" />
+		<Localized id="472" value="Plain square" lang="English"
+			key="Plain square" />
+		<Localized id="473" value="Plain square" lang="French"
+			key="Plain square" />
+		<Localized id="474" value="Plain square" lang="Dutch"
+			key="Plain square" />
+		<Localized id="475" value="Filled square" lang="English"
+			key="Filled square" />
+		<Localized id="476" value="Filled square" lang="French"
+			key="Filled square" />
+		<Localized id="477" value="Filled square" lang="Dutch"
+			key="Filled square" />
+		<Localized id="478" value="Plain diamond" lang="English"
+			key="Plain diamond" />
+		<Localized id="479" value="Plain diamond" lang="French"
+			key="Plain diamond" />
+		<Localized id="480" value="Plain diamond" lang="Dutch"
+			key="Plain diamond" />
+		<Localized id="481" value="Plain long diamond"
+			lang="English" key="Plain long diamond" />
+		<Localized id="482" value="Plain long diamond" lang="French"
+			key="Plain long diamond" />
+		<Localized id="483" value="Plain long diamond" lang="Dutch"
+			key="Plain long diamond" />
+		<Localized id="484" value="Filled diamond" lang="English"
+			key="Filled diamond" />
+		<Localized id="485" value="Filled diamond" lang="French"
+			key="Filled diamond" />
+		<Localized id="486" value="Filled diamond" lang="Dutch"
+			key="Filled diamond" />
+		<Localized id="487" value="Default flow" lang="English"
+			key="Default flow" />
+		<Localized id="488" value="Default flow" lang="French"
+			key="Default flow" />
+		<Localized id="489" value="Default flow" lang="Dutch"
+			key="Default flow" />
+		<Localized id="490" value="Start symbol" lang="English"
+			key="start_symbol" />
+		<Localized id="491" value="Symbole de départ" lang="French"
+			key="start_symbol" />
+		<Localized id="492" value="Start symbool" lang="Dutch"
+			key="start_symbol" />
+		<Localized id="493" value="Middle location" lang="English"
+			key="middle_location" />
+		<Localized id="494" value="Espace de milieu" lang="French"
+			key="middle_location" />
+		<Localized id="495" value="Tussenruimte" lang="Dutch"
+			key="middle_location" />
+		<Localized id="496" value="End symbol" lang="English"
+			key="end_symbol" />
+		<Localized id="497" value="Symbole de fin" lang="French"
+			key="end_symbol" />
+		<Localized id="498" value="Eind symbool" lang="Dutch"
+			key="end_symbol" />
+		<Localized id="499" value="middle symbol" lang="English"
+			key="middle_symbol" />
+		<Localized id="500" value="Symbole du milieu" lang="French"
+			key="middle_symbol" />
+		<Localized id="501" value="Middelste symbool" lang="Dutch"
+			key="middle_symbol" />
+		<Localized id="502" value="Symbols" lang="English"
+			key="Symbols" />
+		<Localized id="503" value="Symbols" lang="French"
+			key="Symbols" />
+		<Localized id="504" value="Symbols" lang="Dutch"
+			key="Symbols" />
+		<Localized id="505" value="adjustable bounds" lang="English"
+			key="adjustable_bounds" />
+		<Localized id="506" value="Liens adjustables" lang="French"
+			key="adjustable_bounds" />
+		<Localized id="507" value="regelbare limitien" lang="Dutch"
+			key="adjustable_bounds" />
+		<Localized id="508" value="Curve connector" lang="English"
+			key="Curve connector" />
+		<Localized id="509" value="Curve connector" lang="French"
+			key="Curve connector" />
+		<Localized id="510" value="Curve connector" lang="Dutch"
+			key="Curve connector" />
+		<Localized id="511" value="Centre à centre" lang="English"
+			key="Centre à centre" />
+		<Localized id="512" value="Centre à centre" lang="French"
+			key="Centre à centre" />
+		<Localized id="513" value="Centre à centre" lang="Dutch"
+			key="Centre à centre" />
+		<Localized id="514" value="Longueur minimale" lang="English"
+			key="Longueur minimale" />
+		<Localized id="515" value="Longueur minimale" lang="French"
+			key="Longueur minimale" />
+		<Localized id="516" value="Longueur minimale" lang="Dutch"
+			key="Longueur minimale" />
+		<Localized id="517" value="amusant" lang="English"
+			key="amusant" />
+		<Localized id="518" value="amusant" lang="French"
+			key="amusant" />
+		<Localized id="519" value="amusant" lang="Dutch"
+			key="amusant" />
+		<Localized id="520" value="ajustable" lang="English"
+			key="ajustable" />
+		<Localized id="521" value="ajustable" lang="French"
+			key="ajustable" />
+		<Localized id="522" value="ajustable" lang="Dutch"
+			key="ajustable" />
+		<Localized id="523" value="Nord" lang="English" key="Nord" />
+		<Localized id="524" value="Nord" lang="French" key="Nord" />
+		<Localized id="525" value="Nord" lang="Dutch" key="Nord" />
+		<Localized id="526" value="Est" lang="English" key="Est" />
+		<Localized id="527" value="Est" lang="French" key="Est" />
+		<Localized id="528" value="Est" lang="Dutch" key="Est" />
+		<Localized id="529" value="Sud" lang="English" key="Sud" />
+		<Localized id="530" value="Sud" lang="French" key="Sud" />
+		<Localized id="531" value="Sud" lang="Dutch" key="Sud" />
+		<Localized id="532" value="Ouest" lang="English" key="Ouest" />
+		<Localized id="533" value="Ouest" lang="French" key="Ouest" />
+		<Localized id="534" value="Ouest" lang="Dutch" key="Ouest" />
+		<Localized id="535" value="Aucun" lang="English" key="Aucun" />
+		<Localized id="536" value="Aucun" lang="French" key="Aucun" />
+		<Localized id="537" value="Aucun" lang="Dutch" key="Aucun" />
+		<Localized id="538" value="Mise en page orthogonale"
+			lang="English" key="Mise en page orthogonale" />
+		<Localized id="539" value="Mise en page orthogonale"
+			lang="French" key="Mise en page orthogonale" />
+		<Localized id="540" value="Mise en page orthogonale"
+			lang="Dutch" key="Mise en page orthogonale" />
+		<Localized id="541"
+			value="Mise en page orthogonale (horizontal d'abord)" lang="English"
+			key="Mise en page orthogonale (horizontal d'abord)" />
+		<Localized id="542"
+			value="Mise en page orthogonale (horizontal d'abord)" lang="French"
+			key="Mise en page orthogonale (horizontal d'abord)" />
+		<Localized id="543"
+			value="Mise en page orthogonale (horizontal d'abord)" lang="Dutch"
+			key="Mise en page orthogonale (horizontal d'abord)" />
+		<Localized id="544"
+			value="Mise en page orthogonale (vertital d'abord)" lang="English"
+			key="Mise en page orthogonale (vertital d'abord)" />
+		<Localized id="545"
+			value="Mise en page orthogonale (vertital d'abord)" lang="French"
+			key="Mise en page orthogonale (vertital d'abord)" />
+		<Localized id="546"
+			value="Mise en page orthogonale (vertital d'abord)" lang="Dutch"
+			key="Mise en page orthogonale (vertital d'abord)" />
+		<Localized id="547" value="Layout horizontal ou vertical"
+			lang="English" key="Layout horizontal ou vertical" />
+		<Localized id="548" value="Layout horizontal ou vertical"
+			lang="French" key="Layout horizontal ou vertical" />
+		<Localized id="549" value="Layout horizontal ou vertical"
+			lang="Dutch" key="Layout horizontal ou vertical" />
+		<Localized id="550" value="Mise en page horizontale"
+			lang="English" key="Mise en page horizontale" />
+		<Localized id="551" value="Mise en page horizontale"
+			lang="French" key="Mise en page horizontale" />
+		<Localized id="552" value="Mise en page horizontale"
+			lang="Dutch" key="Mise en page horizontale" />
+		<Localized id="553" value="Mise en page verticale"
+			lang="English" key="Mise en page verticale" />
+		<Localized id="554" value="Mise en page verticale"
+			lang="French" key="Mise en page verticale" />
+		<Localized id="555" value="Mise en page verticale"
+			lang="Dutch" key="Mise en page verticale" />
+		<Localized id="556" value="Orientations fixées"
+			lang="English" key="Orientations fixées" />
+		<Localized id="557" value="Orientations fixées"
+			lang="French" key="Orientations fixées" />
+		<Localized id="558" value="Orientations fixées" lang="Dutch"
+			key="Orientations fixées" />
+		<Localized id="559" value="Direction initiale réparée"
+			lang="English" key="Direction initiale réparée" />
+		<Localized id="560" value="Direction initiale réparée"
+			lang="French" key="Direction initiale réparée" />
+		<Localized id="561" value="Direction initiale réparée"
+			lang="Dutch" key="Direction initiale réparée" />
+		<Localized id="562" value="Orientation finale fixe"
+			lang="English" key="Orientation finale fixe" />
+		<Localized id="563" value="Orientation finale fixe"
+			lang="French" key="Orientation finale fixe" />
+		<Localized id="564" value="Orientation finale fixe"
+			lang="Dutch" key="Orientation finale fixe" />
+		<Localized id="565" value="Disposition automatique"
+			lang="English" key="Disposition automatique" />
+		<Localized id="566" value="Disposition automatique"
+			lang="French" key="Disposition automatique" />
+		<Localized id="567" value="Disposition automatique"
+			lang="Dutch" key="Disposition automatique" />
+		<Localized id="568"
+			value="Ajustement avec un point de contrôle" lang="English"
+			key="Ajustement avec un point de contrôle" />
+		<Localized id="569"
+			value="Ajustement avec un point de contrôle" lang="French"
+			key="Ajustement avec un point de contrôle" />
+		<Localized id="570"
+			value="Ajustement avec un point de contrôle" lang="Dutch"
+			key="Ajustement avec un point de contrôle" />
+		<Localized id="571" value="Complètement ajustable"
+			lang="English" key="Complètement ajustable" />
+		<Localized id="572" value="Complètement ajustable"
+			lang="French" key="Complètement ajustable" />
+		<Localized id="573" value="Complètement ajustable"
+			lang="Dutch" key="Complètement ajustable" />
+		<Localized id="574" value="ligne" lang="English" key="ligne" />
+		<Localized id="575" value="ligne" lang="French" key="ligne" />
+		<Localized id="576" value="ligne" lang="Dutch" key="ligne" />
+		<Localized id="577" value="Polyligne rectangle"
+			lang="English" key="Polyligne rectangle" />
+		<Localized id="578" value="Polyligne rectangle"
+			lang="French" key="Polyligne rectangle" />
+		<Localized id="579" value="Polyligne rectangle" lang="Dutch"
+			key="Polyligne rectangle" />
+		<Localized id="580" value="courbe" lang="English"
+			key="courbe" />
+		<Localized id="581" value="courbe" lang="French"
+			key="courbe" />
+		<Localized id="582" value="courbe" lang="Dutch" key="courbe" />
+		<Localized id="583" value="Poly-ligne courbe" lang="English"
+			key="Poly-ligne courbe" />
+		<Localized id="584" value="Poly-ligne courbe" lang="French"
+			key="Poly-ligne courbe" />
+		<Localized id="585" value="Poly-ligne courbe" lang="Dutch"
+			key="Poly-ligne courbe" />
+		<Localized id="586" value="sur mesure" lang="English"
+			key="sur mesure" />
+		<Localized id="587" value="sur mesure" lang="French"
+			key="sur mesure" />
+		<Localized id="588" value="sur mesure" lang="Dutch"
+			key="sur mesure" />
+		<Localized id="589" value="Flèche" lang="English"
+			key="Flèche" />
+		<Localized id="590" value="Flèche" lang="French"
+			key="Flèche" />
+		<Localized id="591" value="Flèche" lang="Dutch" key="Flèche" />
+		<Localized id="592" value="Flèche pleine" lang="English"
+			key="Flèche pleine" />
+		<Localized id="593" value="Flèche pleine" lang="French"
+			key="Flèche pleine" />
+		<Localized id="594" value="Flèche pleine" lang="Dutch"
+			key="Flèche pleine" />
+		<Localized id="595" value="Double flèche pleine"
+			lang="English" key="Double flèche pleine" />
+		<Localized id="596" value="Double flèche pleine"
+			lang="French" key="Double flèche pleine" />
+		<Localized id="597" value="Double flèche pleine"
+			lang="Dutch" key="Double flèche pleine" />
+		<Localized id="598" value="Disque" lang="English"
+			key="Disque" />
+		<Localized id="599" value="Disque" lang="French"
+			key="Disque" />
+		<Localized id="600" value="Disque" lang="Dutch" key="Disque" />
+		<Localized id="601" value="Cercle plein" lang="English"
+			key="Cercle plein" />
+		<Localized id="602" value="Cercle plein" lang="French"
+			key="Cercle plein" />
+		<Localized id="603" value="Cercle plein" lang="Dutch"
+			key="Cercle plein" />
+		<Localized id="604" value="Carré plein" lang="English"
+			key="Carré plein" />
+		<Localized id="605" value="Carré plein" lang="French"
+			key="Carré plein" />
+		<Localized id="606" value="Carré plein" lang="Dutch"
+			key="Carré plein" />
+		<Localized id="607" value="Diamant plein" lang="English"
+			key="Diamant plein" />
+		<Localized id="608" value="Diamant plein" lang="French"
+			key="Diamant plein" />
+		<Localized id="609" value="Diamant plein" lang="Dutch"
+			key="Diamant plein" />
+		<Localized id="610" value="Long losange plein"
+			lang="English" key="Long losange plein" />
+		<Localized id="611" value="Long losange plein" lang="French"
+			key="Long losange plein" />
+		<Localized id="612" value="Long losange plein" lang="Dutch"
+			key="Long losange plein" />
+		<Localized id="613" value="Losange plein" lang="English"
+			key="Losange plein" />
+		<Localized id="614" value="Losange plein" lang="French"
+			key="Losange plein" />
+		<Localized id="615" value="Losange plein" lang="Dutch"
+			key="Losange plein" />
+		<Localized id="616" value="Chemin par défaut" lang="English"
+			key="Chemin par défaut" />
+		<Localized id="617" value="Chemin par défaut" lang="French"
+			key="Chemin par défaut" />
+		<Localized id="618" value="Chemin par défaut" lang="Dutch"
+			key="Chemin par défaut" />
+		<Localized id="619" value="Center tot center" lang="English"
+			key="Center tot center" />
+		<Localized id="620" value="Center tot center" lang="French"
+			key="Center tot center" />
+		<Localized id="621" value="Center tot center" lang="Dutch"
+			key="Center tot center" />
+		<Localized id="622" value="Minimale lengte" lang="English"
+			key="Minimale lengte" />
+		<Localized id="623" value="Minimale lengte" lang="French"
+			key="Minimale lengte" />
+		<Localized id="624" value="Minimale lengte" lang="Dutch"
+			key="Minimale lengte" />
+		<Localized id="625" value="leuk" lang="English" key="leuk" />
+		<Localized id="626" value="leuk" lang="French" key="leuk" />
+		<Localized id="627" value="leuk" lang="Dutch" key="leuk" />
+		<Localized id="628" value="regelbaar" lang="English"
+			key="regelbaar" />
+		<Localized id="629" value="regelbaar" lang="French"
+			key="regelbaar" />
+		<Localized id="630" value="regelbaar" lang="Dutch"
+			key="regelbaar" />
+		<Localized id="631" value="Noorden" lang="English"
+			key="Noorden" />
+		<Localized id="632" value="Noorden" lang="French"
+			key="Noorden" />
+		<Localized id="633" value="Noorden" lang="Dutch"
+			key="Noorden" />
+		<Localized id="634" value="Oosten" lang="English"
+			key="Oosten" />
+		<Localized id="635" value="Oosten" lang="French"
+			key="Oosten" />
+		<Localized id="636" value="Oosten" lang="Dutch" key="Oosten" />
+		<Localized id="637" value="Zuiden" lang="English"
+			key="Zuiden" />
+		<Localized id="638" value="Zuiden" lang="French"
+			key="Zuiden" />
+		<Localized id="639" value="Zuiden" lang="Dutch" key="Zuiden" />
+		<Localized id="640" value="Westen" lang="English"
+			key="Westen" />
+		<Localized id="641" value="Westen" lang="French"
+			key="Westen" />
+		<Localized id="642" value="Westen" lang="Dutch" key="Westen" />
+		<Localized id="643" value="Geen enkele" lang="English"
+			key="Geen enkele" />
+		<Localized id="644" value="Geen enkele" lang="French"
+			key="Geen enkele" />
+		<Localized id="645" value="Geen enkele" lang="Dutch"
+			key="Geen enkele" />
+		<Localized id="646" value="Orthogonale layout"
+			lang="English" key="Orthogonale layout" />
+		<Localized id="647" value="Orthogonale layout" lang="French"
+			key="Orthogonale layout" />
+		<Localized id="648" value="Orthogonale layout" lang="Dutch"
+			key="Orthogonale layout" />
+		<Localized id="649"
+			value="Orthogonale layout (horizontaal eerst)" lang="English"
+			key="Orthogonale layout (horizontaal eerst)" />
+		<Localized id="650"
+			value="Orthogonale layout (horizontaal eerst)" lang="French"
+			key="Orthogonale layout (horizontaal eerst)" />
+		<Localized id="651"
+			value="Orthogonale layout (horizontaal eerst)" lang="Dutch"
+			key="Orthogonale layout (horizontaal eerst)" />
+		<Localized id="652"
+			value="Orthogonale layout (vertikaal eerst)" lang="English"
+			key="Orthogonale layout (vertikaal eerst)" />
+		<Localized id="653"
+			value="Orthogonale layout (vertikaal eerst)" lang="French"
+			key="Orthogonale layout (vertikaal eerst)" />
+		<Localized id="654"
+			value="Orthogonale layout (vertikaal eerst)" lang="Dutch"
+			key="Orthogonale layout (vertikaal eerst)" />
+		<Localized id="655" value="Horizontale of verticale layout"
+			lang="English" key="Horizontale of verticale layout" />
+		<Localized id="656" value="Horizontale of verticale layout"
+			lang="French" key="Horizontale of verticale layout" />
+		<Localized id="657" value="Horizontale of verticale layout"
+			lang="Dutch" key="Horizontale of verticale layout" />
+		<Localized id="658" value="Horizontale layout"
+			lang="English" key="Horizontale layout" />
+		<Localized id="659" value="Horizontale layout" lang="French"
+			key="Horizontale layout" />
+		<Localized id="660" value="Horizontale layout" lang="Dutch"
+			key="Horizontale layout" />
+		<Localized id="661" value="Vertikale layout" lang="English"
+			key="Vertikale layout" />
+		<Localized id="662" value="Vertikale layout" lang="French"
+			key="Vertikale layout" />
+		<Localized id="663" value="Vertikale layout" lang="Dutch"
+			key="Vertikale layout" />
+		<Localized id="664" value="Vastgelegde orientatie"
+			lang="English" key="Vastgelegde orientatie" />
+		<Localized id="665" value="Vastgelegde orientatie"
+			lang="French" key="Vastgelegde orientatie" />
+		<Localized id="666" value="Vastgelegde orientatie"
+			lang="Dutch" key="Vastgelegde orientatie" />
+		<Localized id="667" value="Start orientatie vastgesteld"
+			lang="English" key="Start orientatie vastgesteld" />
+		<Localized id="668" value="Start orientatie vastgesteld"
+			lang="French" key="Start orientatie vastgesteld" />
+		<Localized id="669" value="Start orientatie vastgesteld"
+			lang="Dutch" key="Start orientatie vastgesteld" />
+		<Localized id="670" value="Eind orientatie vastgelegd"
+			lang="English" key="Eind orientatie vastgelegd" />
+		<Localized id="671" value="Eind orientatie vastgelegd"
+			lang="French" key="Eind orientatie vastgelegd" />
+		<Localized id="672" value="Eind orientatie vastgelegd"
+			lang="Dutch" key="Eind orientatie vastgelegd" />
+		<Localized id="673" value="Gebogen poly-lijn" lang="English"
+			key="Gebogen poly-lijn" />
+		<Localized id="674" value="Gebogen poly-lijn" lang="French"
+			key="Gebogen poly-lijn" />
+		<Localized id="675" value="Gebogen poly-lijn" lang="Dutch"
+			key="Gebogen poly-lijn" />
+		<Localized id="676" value="op maat" lang="English"
+			key="op maat" />
+		<Localized id="677" value="op maat" lang="French"
+			key="op maat" />
+		<Localized id="678" value="op maat" lang="Dutch"
+			key="op maat" />
+		<Localized id="679" value="Pijl" lang="English" key="Pijl" />
+		<Localized id="680" value="Pijl" lang="French" key="Pijl" />
+		<Localized id="681" value="Pijl" lang="Dutch" key="Pijl" />
+		<Localized id="682" value="Volgekleurde pijl" lang="English"
+			key="Volgekleurde pijl" />
+		<Localized id="683" value="Volgekleurde pijl" lang="French"
+			key="Volgekleurde pijl" />
+		<Localized id="684" value="Volgekleurde pijl" lang="Dutch"
+			key="Volgekleurde pijl" />
+		<Localized id="685" value="Volgekleurde dubbele pijl"
+			lang="English" key="Volgekleurde dubbele pijl" />
+		<Localized id="686" value="Volgekleurde dubbele pijl"
+			lang="French" key="Volgekleurde dubbele pijl" />
+		<Localized id="687" value="Volgekleurde dubbele pijl"
+			lang="Dutch" key="Volgekleurde dubbele pijl" />
+		<Localized id="688" value="Volgekleurde cirkel"
+			lang="English" key="Volgekleurde cirkel" />
+		<Localized id="689" value="Volgekleurde cirkel"
+			lang="French" key="Volgekleurde cirkel" />
+		<Localized id="690" value="Volgekleurde cirkel" lang="Dutch"
+			key="Volgekleurde cirkel" />
+		<Localized id="691" value="Volgekleurd vierkant"
+			lang="English" key="Volgekleurd vierkant" />
+		<Localized id="692" value="Volgekleurd vierkant"
+			lang="French" key="Volgekleurd vierkant" />
+		<Localized id="693" value="Volgekleurd vierkant"
+			lang="Dutch" key="Volgekleurd vierkant" />
+		<Localized id="694" value="Volgekleurde diamant"
+			lang="English" key="Volgekleurde diamant" />
+		<Localized id="695" value="Volgekleurde diamant"
+			lang="French" key="Volgekleurde diamant" />
+		<Localized id="696" value="Volgekleurde diamant"
+			lang="Dutch" key="Volgekleurde diamant" />
+		<Localized id="697" value="Volgekleurde langwerpige diamant"
+			lang="English" key="Volgekleurde langwerpige diamant" />
+		<Localized id="698" value="Volgekleurde langwerpige diamant"
+			lang="French" key="Volgekleurde langwerpige diamant" />
+		<Localized id="699" value="Volgekleurde langwerpige diamant"
+			lang="Dutch" key="Volgekleurde langwerpige diamant" />
+		<Localized id="700" value="Volgekleurde Ruit" lang="English"
+			key="Volgekleurde Ruit" />
+		<Localized id="701" value="Volgekleurde Ruit" lang="French"
+			key="Volgekleurde Ruit" />
+		<Localized id="702" value="Volgekleurde Ruit" lang="Dutch"
+			key="Volgekleurde Ruit" />
+		<Localized id="703" value="Standaard pad" lang="English"
+			key="Standaard pad" />
+		<Localized id="704" value="Standaard pad" lang="French"
+			key="Standaard pad" />
+		<Localized id="705" value="Standaard pad" lang="Dutch"
+			key="Standaard pad" /> -->
+	</LocalizedDictionary>
 </Panel>

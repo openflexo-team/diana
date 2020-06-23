@@ -39,53 +39,53 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geomedit.model.ExplicitPointConstruction.ExplicitPointConstructionImpl;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLAttribute;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLAttribute;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(ExplicitPointConstructionImpl.class)
 @XMLElement
 public interface ExplicitPointConstruction extends PointConstruction {
 
-	@PropertyIdentifier(type = FGEPoint.class)
+	@PropertyIdentifier(type = DianaPoint.class)
 	public static final String POINT_KEY = "point";
 
 	@Override
 	@Getter(value = POINT_KEY, isStringConvertable = true)
 	@XMLAttribute
-	public FGEPoint getPoint();
+	public DianaPoint getPoint();
 
 	@Setter(POINT_KEY)
-	public void setPoint(FGEPoint p);
+	public void setPoint(DianaPoint p);
 
 	public static abstract class ExplicitPointConstructionImpl extends PointConstructionImpl implements ExplicitPointConstruction {
 
-		private FGEPoint point;
+		private DianaPoint point;
 
 		@Override
-		public final FGEPoint getPoint() {
+		public final DianaPoint getPoint() {
 			return point;
 		}
 
 		@Override
-		public void setPoint(FGEPoint p) {
+		public void setPoint(DianaPoint p) {
 			if (point == null || p.x != point.x || p.y != point.y) {
 				point = p;
-				//System.out.println("Je mets le point a " + p);
+				// System.out.println("Je mets le point a " + p);
 				setModified(true);
 				notifyGeometryChanged();
 			}
 		}
 
 		@Override
-		protected FGEPoint computeData() {
+		protected DianaPoint computeData() {
 			return point;
 		}
 

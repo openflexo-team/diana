@@ -39,16 +39,16 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaGeometricObject.Filling;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRoundRectangle;
 import org.openflexo.diana.geomedit.model.RoundRectangleWithTwoPointsConstruction.RoundRectangleWithTwoPointsConstructionImpl;
-import org.openflexo.fge.geom.FGEGeometricObject.Filling;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGERoundRectangle;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(RoundRectangleWithTwoPointsConstructionImpl.class)
@@ -78,20 +78,19 @@ public interface RoundRectangleWithTwoPointsConstruction extends RoundRectangleC
 			implements RoundRectangleWithTwoPointsConstruction {
 
 		@Override
-		protected FGERoundRectangle computeData() {
+		protected DianaRoundRectangle computeData() {
 			if (getPointConstruction1() != null && getPointConstruction2() != null) {
+				DianaPoint p1 = getPointConstruction1().getPoint();
+				DianaPoint p2 = getPointConstruction2().getPoint();
 
-				FGEPoint p1 = getPointConstruction1().getPoint();
-				FGEPoint p2 = getPointConstruction2().getPoint();
-
-				FGEPoint p = new FGEPoint();
+				DianaPoint p = new DianaPoint();
 				p.x = Math.min(p1.x, p2.x);
 				p.y = Math.min(p1.y, p2.y);
 
 				double width = Math.abs(p1.x - p2.x);
 				double height = Math.abs(p1.y - p2.y);
 
-				return new FGERoundRectangle(p.x, p.y, width, height, getArcWidth(), getArcHeight(),
+				return new DianaRoundRectangle(p.x, p.y, width, height, getArcWidth(), getArcHeight(),
 						getIsFilled() ? Filling.FILLED : Filling.NOT_FILLED);
 			}
 			return null;

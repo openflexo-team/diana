@@ -53,45 +53,45 @@ import org.openflexo.diana.geomedit.model.ExplicitPointConstruction;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.PointConstruction;
 import org.openflexo.diana.geomedit.model.gr.CubicCurveGraphicalRepresentation.CubicCurveGraphicalRepresentationImpl;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.ForegroundStyle.DashStyle;
-import org.openflexo.fge.GeometricGraphicalRepresentation;
-import org.openflexo.fge.cp.ControlArea;
-import org.openflexo.fge.geom.FGECubicCurve;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.fge.graphics.FGEGraphics;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.ForegroundStyle.DashStyle;
+import org.openflexo.diana.GeometricGraphicalRepresentation;
+import org.openflexo.diana.cp.ControlArea;
+import org.openflexo.diana.geom.DianaCubicCurve;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaSegment;
+import org.openflexo.diana.graphics.DianaGraphics;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(CubicCurveGraphicalRepresentationImpl.class)
 @XMLElement
-public interface CubicCurveGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGECubicCurve> {
+public interface CubicCurveGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<DianaCubicCurve> {
 
-	public static abstract class CubicCurveGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<FGECubicCurve>
+	public static abstract class CubicCurveGraphicalRepresentationImpl extends GeometricObjectGraphicalRepresentationImpl<DianaCubicCurve>
 			implements CubicCurveGraphicalRepresentation {
 
 		@Override
 		public List<? extends ControlArea<?>> makeControlAreasFor(
-				DrawingTreeNode<GeometricConstruction<FGECubicCurve>, GeometricGraphicalRepresentation> dtn) {
+				DrawingTreeNode<GeometricConstruction<DianaCubicCurve>, GeometricGraphicalRepresentation> dtn) {
 			Vector<ControlArea<?>> returned = new Vector<ControlArea<?>>();
 
 			CubicCurveConstruction curveConstruction = (CubicCurveConstruction) dtn.getDrawable();
-			FGECubicCurve curve = curveConstruction.getCurve();
+			DianaCubicCurve curve = curveConstruction.getCurve();
 
 			if (curveConstruction instanceof CubicCurveWithFourPointsConstruction) {
 				PointConstruction startPointConstruction = ((CubicCurveWithFourPointsConstruction) curveConstruction)
 						.getStartPointConstruction();
 
 				if (startPointConstruction instanceof ExplicitPointConstruction) {
-					returned.add(new DraggableControlPoint<FGECubicCurve>((GeometricNode<?>) dtn, "p1", curve.getP1(),
+					returned.add(new DraggableControlPoint<DianaCubicCurve>((GeometricNode<?>) dtn, "p1", curve.getP1(),
 							(ExplicitPointConstruction) startPointConstruction) {
 						@Override
-						public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-								FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+						public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+								DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 							getGeometricObject().setP1(newAbsolutePoint);
 							setPoint(newAbsolutePoint);
 							((GeometricNode<?>) dtn).notifyGeometryChanged();
@@ -99,15 +99,15 @@ public interface CubicCurveGraphicalRepresentation extends GeometricObjectGraphi
 						}
 
 						@Override
-						public void update(FGECubicCurve geometricObject) {
+						public void update(DianaCubicCurve geometricObject) {
 							setPoint(geometricObject.getP1());
 						}
 					});
 				}
 				else {
-					returned.add(new ComputedControlPoint<FGECubicCurve>((GeometricNode<?>) dtn, "p1", curve.getP1()) {
+					returned.add(new ComputedControlPoint<DianaCubicCurve>((GeometricNode<?>) dtn, "p1", curve.getP1()) {
 						@Override
-						public void update(FGECubicCurve geometricObject) {
+						public void update(DianaCubicCurve geometricObject) {
 							setPoint(geometricObject.getP1());
 						}
 					});
@@ -115,11 +115,11 @@ public interface CubicCurveGraphicalRepresentation extends GeometricObjectGraphi
 				PointConstruction controlPointConstruction1 = ((CubicCurveWithFourPointsConstruction) curveConstruction)
 						.getControlPointConstruction1();
 				if (controlPointConstruction1 instanceof ExplicitPointConstruction) {
-					returned.add(new DraggableControlPoint<FGECubicCurve>((GeometricNode<?>) dtn, "cp1", curve.getCtrlP1(),
+					returned.add(new DraggableControlPoint<DianaCubicCurve>((GeometricNode<?>) dtn, "cp1", curve.getCtrlP1(),
 							(ExplicitPointConstruction) controlPointConstruction1) {
 						@Override
-						public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-								FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+						public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+								DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 							getGeometricObject().setCtrlP1(newAbsolutePoint);
 							setPoint(newAbsolutePoint);
 							((GeometricNode<?>) dtn).notifyGeometryChanged();
@@ -127,15 +127,15 @@ public interface CubicCurveGraphicalRepresentation extends GeometricObjectGraphi
 						}
 
 						@Override
-						public void update(FGECubicCurve geometricObject) {
+						public void update(DianaCubicCurve geometricObject) {
 							setPoint(geometricObject.getCtrlP1());
 						}
 					});
 				}
 				else {
-					returned.add(new ComputedControlPoint<FGECubicCurve>((GeometricNode<?>) dtn, "cp1", curve.getCtrlP1()) {
+					returned.add(new ComputedControlPoint<DianaCubicCurve>((GeometricNode<?>) dtn, "cp1", curve.getCtrlP1()) {
 						@Override
-						public void update(FGECubicCurve geometricObject) {
+						public void update(DianaCubicCurve geometricObject) {
 							setPoint(geometricObject.getCtrlP1());
 						}
 					});
@@ -143,11 +143,11 @@ public interface CubicCurveGraphicalRepresentation extends GeometricObjectGraphi
 				PointConstruction endPointConstruction = ((CubicCurveWithFourPointsConstruction) curveConstruction)
 						.getEndPointConstruction();
 				if (endPointConstruction instanceof ExplicitPointConstruction) {
-					returned.add(new DraggableControlPoint<FGECubicCurve>((GeometricNode<?>) dtn, "p2", curve.getP2(),
+					returned.add(new DraggableControlPoint<DianaCubicCurve>((GeometricNode<?>) dtn, "p2", curve.getP2(),
 							(ExplicitPointConstruction) endPointConstruction) {
 						@Override
-						public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-								FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+						public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+								DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 							getGeometricObject().setP2(newAbsolutePoint);
 							setPoint(newAbsolutePoint);
 							((GeometricNode<?>) dtn).notifyGeometryChanged();
@@ -155,15 +155,15 @@ public interface CubicCurveGraphicalRepresentation extends GeometricObjectGraphi
 						}
 
 						@Override
-						public void update(FGECubicCurve geometricObject) {
+						public void update(DianaCubicCurve geometricObject) {
 							setPoint(geometricObject.getP2());
 						}
 					});
 				}
 				else {
-					returned.add(new ComputedControlPoint<FGECubicCurve>((GeometricNode<?>) dtn, "p2", curve.getP2()) {
+					returned.add(new ComputedControlPoint<DianaCubicCurve>((GeometricNode<?>) dtn, "p2", curve.getP2()) {
 						@Override
-						public void update(FGECubicCurve geometricObject) {
+						public void update(DianaCubicCurve geometricObject) {
 							setPoint(geometricObject.getP2());
 						}
 					});
@@ -171,11 +171,11 @@ public interface CubicCurveGraphicalRepresentation extends GeometricObjectGraphi
 				PointConstruction controlPointConstruction2 = ((CubicCurveWithFourPointsConstruction) curveConstruction)
 						.getControlPointConstruction2();
 				if (controlPointConstruction2 instanceof ExplicitPointConstruction) {
-					returned.add(new DraggableControlPoint<FGECubicCurve>((GeometricNode<?>) dtn, "cp2", curve.getCtrlP2(),
+					returned.add(new DraggableControlPoint<DianaCubicCurve>((GeometricNode<?>) dtn, "cp2", curve.getCtrlP2(),
 							(ExplicitPointConstruction) controlPointConstruction2) {
 						@Override
-						public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-								FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
+						public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+								DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
 							getGeometricObject().setCtrlP2(newAbsolutePoint);
 							setPoint(newAbsolutePoint);
 							((GeometricNode<?>) dtn).notifyGeometryChanged();
@@ -183,29 +183,29 @@ public interface CubicCurveGraphicalRepresentation extends GeometricObjectGraphi
 						}
 
 						@Override
-						public void update(FGECubicCurve geometricObject) {
+						public void update(DianaCubicCurve geometricObject) {
 							setPoint(geometricObject.getCtrlP2());
 						}
 					});
 				}
 				else {
-					returned.add(new ComputedControlPoint<FGECubicCurve>((GeometricNode<?>) dtn, "cp2", curve.getCtrlP2()) {
+					returned.add(new ComputedControlPoint<DianaCubicCurve>((GeometricNode<?>) dtn, "cp2", curve.getCtrlP2()) {
 						@Override
-						public void update(FGECubicCurve geometricObject) {
+						public void update(DianaCubicCurve geometricObject) {
 							setPoint(geometricObject.getCtrlP2());
 						}
 					});
 				}
 
-				final FGESegment line1 = new FGESegment(getGeometricObject().getP1(), getGeometricObject().getCtrlP1());
-				returned.add(new ControlArea<FGESegment>(dtn, line1) {
+				final DianaSegment line1 = new DianaSegment(getGeometricObject().getP1(), getGeometricObject().getCtrlP1());
+				returned.add(new ControlArea<DianaSegment>(dtn, line1) {
 					@Override
 					public boolean isDraggable() {
 						return false;
 					}
 
 					@Override
-					public Rectangle paint(FGEGraphics graphics) {
+					public Rectangle paint(DianaGraphics graphics) {
 						graphics.setDefaultForeground(
 								graphics.getFactory().makeForegroundStyle(Color.LIGHT_GRAY, 0.5f, DashStyle.BIG_DASHES));
 						graphics.useDefaultForegroundStyle();
@@ -213,15 +213,15 @@ public interface CubicCurveGraphicalRepresentation extends GeometricObjectGraphi
 						return null;
 					}
 				});
-				final FGESegment line2 = new FGESegment(getGeometricObject().getP2(), getGeometricObject().getCtrlP2());
-				returned.add(new ControlArea<FGESegment>(dtn, line2) {
+				final DianaSegment line2 = new DianaSegment(getGeometricObject().getP2(), getGeometricObject().getCtrlP2());
+				returned.add(new ControlArea<DianaSegment>(dtn, line2) {
 					@Override
 					public boolean isDraggable() {
 						return false;
 					}
 
 					@Override
-					public Rectangle paint(FGEGraphics graphics) {
+					public Rectangle paint(DianaGraphics graphics) {
 						graphics.setDefaultForeground(
 								graphics.getFactory().makeForegroundStyle(Color.LIGHT_GRAY, 0.5f, DashStyle.BIG_DASHES));
 						graphics.useDefaultForegroundStyle();

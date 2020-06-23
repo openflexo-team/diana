@@ -44,9 +44,9 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.JFrame;
 
-import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.control.notifications.ObjectAddedToSelection;
-import org.openflexo.fge.control.notifications.SelectionCleared;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.control.notifications.ObjectAddedToSelection;
+import org.openflexo.diana.control.notifications.SelectionCleared;
 import org.openflexo.gina.FIBLibrary;
 import org.openflexo.gina.swing.utils.JFIBDialogInspectorController;
 import org.openflexo.localization.LocalizedDelegate;

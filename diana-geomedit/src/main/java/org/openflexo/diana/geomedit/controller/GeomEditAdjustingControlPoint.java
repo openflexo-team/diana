@@ -39,16 +39,16 @@
 
 package org.openflexo.diana.geomedit.controller;
 
-import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.cp.GeometryAdjustingControlPoint;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.area.FGEArea;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.cp.GeometryAdjustingControlPoint;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.area.DianaArea;
 
-public abstract class GeomEditAdjustingControlPoint<O extends FGEArea> extends GeometryAdjustingControlPoint<O> {
+public abstract class GeomEditAdjustingControlPoint<O extends DianaArea> extends GeometryAdjustingControlPoint<O> {
 
 	private String name;
 
-	public GeomEditAdjustingControlPoint(GeometricNode<?> node, String aName, FGEPoint pt) {
+	public GeomEditAdjustingControlPoint(GeometricNode<?> node, String aName, DianaPoint pt) {
 		super(node, aName, pt);
 		name = aName;
 	}

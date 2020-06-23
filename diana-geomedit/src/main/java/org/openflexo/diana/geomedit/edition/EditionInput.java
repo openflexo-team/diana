@@ -55,7 +55,7 @@ import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.edition.EditionInputMethod.InputComponent;
 import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.GeometricConstructionFactory;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
 public abstract class EditionInput<O> {
 	private String inputLabel;
@@ -189,7 +189,7 @@ public abstract class EditionInput<O> {
 	public void endEdition() {
 	}
 
-	public void paint(JFGEDrawingGraphics graphics) {
+	public void paint(JDianaDrawingGraphics graphics) {
 	}
 
 	private EditionInputMethod parentInputMethod = null;

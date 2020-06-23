@@ -41,22 +41,22 @@ package org.openflexo.diana.geomedit.controller;
 
 import java.awt.event.MouseEvent;
 
+import org.openflexo.diana.DianaConstants;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaPlane;
 import org.openflexo.diana.geomedit.model.ExplicitPointConstruction;
-import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.FGEConstants;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.geom.area.FGEPlane;
-import org.openflexo.fge.graphics.FGEGraphics;
+import org.openflexo.diana.graphics.DianaGraphics;
 
-public abstract class DraggableControlPoint<O extends FGEArea> extends GeomEditAdjustingControlPoint<O> {
+public abstract class DraggableControlPoint<O extends DianaArea> extends GeomEditAdjustingControlPoint<O> {
 
 	private ExplicitPointConstruction explicitPointConstruction;
 
-	public DraggableControlPoint(GeometricNode<?> node, String aName, FGEPoint pt, ExplicitPointConstruction pc) {
+	public DraggableControlPoint(GeometricNode<?> node, String aName, DianaPoint pt, ExplicitPointConstruction pc) {
 		super(node, aName, pt);
 		explicitPointConstruction = pc;
-		setDraggingAuthorizedArea(new FGEPlane());
+		setDraggingAuthorizedArea(new DianaPlane());
 	}
 
 	@Override
@@ -65,8 +65,8 @@ public abstract class DraggableControlPoint<O extends FGEArea> extends GeomEditA
 	}
 
 	@Override
-	public abstract boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration, FGEPoint newAbsolutePoint,
-			FGEPoint initialPoint, MouseEvent event);
+	public abstract boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+			DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event);
 
 	@Override
 	public abstract void update(O geometricObject);
@@ -74,7 +74,7 @@ public abstract class DraggableControlPoint<O extends FGEArea> extends GeomEditA
 	private boolean isUpdatingPoint = false;
 
 	@Override
-	public void setPoint(FGEPoint point) {
+	public void setPoint(DianaPoint point) {
 		if (!isUpdatingPoint) {
 			try {
 				isUpdatingPoint = true;
@@ -90,8 +90,8 @@ public abstract class DraggableControlPoint<O extends FGEArea> extends GeomEditA
 		return explicitPointConstruction;
 	}
 
-	public void paint(FGEGraphics graphics, boolean focused) {
-		graphics.drawControlPoint(getPoint(), FGEConstants.CONTROL_POINT_SIZE);
+	public void paint(DianaGraphics graphics, boolean focused) {
+		graphics.drawControlPoint(getPoint(), DianaConstants.CONTROL_POINT_SIZE);
 		if (focused) {
 			graphics.drawRoundArroundPoint(getPoint(), 8);
 		}

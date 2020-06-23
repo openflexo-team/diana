@@ -39,14 +39,14 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaLine;
 import org.openflexo.diana.geomedit.model.VerticalLineWithPointConstruction.VerticalLineWithPointConstructionImpl;
-import org.openflexo.fge.geom.FGELine;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.pamela.annotations.XMLElement;
 
 @ModelEntity
 @ImplementationClass(VerticalLineWithPointConstructionImpl.class)
@@ -84,9 +84,9 @@ public interface VerticalLineWithPointConstruction extends LineConstruction {
 		}
 
 		@Override
-		protected FGELine computeData() {
+		protected DianaLine computeData() {
 			if (getPointConstruction() != null) {
-				return FGELine.makeVerticalLine(getPointConstruction().getPoint(), 100);
+				return DianaLine.makeVerticalLine(getPointConstruction().getPoint(), 100);
 			}
 			return null;
 		}

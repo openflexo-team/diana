@@ -42,39 +42,40 @@ package org.openflexo.diana.geomedit.model;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaIntersectionArea;
+import org.openflexo.diana.geomedit.model.GeometricConstruction.GeometricConstructionImpl;
 import org.openflexo.diana.geomedit.model.IntersectionConstruction.IntersectionConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.ComputedAreaGraphicalRepresentation;
-import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.geom.area.FGEIntersectionArea;
 import org.openflexo.logging.FlexoLogger;
-import org.openflexo.model.annotations.Adder;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.Getter.Cardinality;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Remover;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Adder;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Remover;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.pamela.annotations.Getter.Cardinality;
 
 @ModelEntity
 @ImplementationClass(IntersectionConstructionImpl.class)
 @XMLElement
-public interface IntersectionConstruction extends GeometricConstruction<FGEArea> {
+public interface IntersectionConstruction extends GeometricConstruction<DianaArea> {
 
 	@PropertyIdentifier(type = ObjectReference.class, cardinality = Cardinality.LIST)
 	public static final String OBJECT_CONSTRUCTIONS_KEY = "objectConstructions";
 
 	@Getter(value = OBJECT_CONSTRUCTIONS_KEY, cardinality = Cardinality.LIST)
 	@XMLElement
-	public List<ObjectReference<? extends FGEArea>> getObjectConstructions();
+	public List<ObjectReference<? extends DianaArea>> getObjectConstructions();
 
 	@Adder(OBJECT_CONSTRUCTIONS_KEY)
-	public void addToObjectConstructions(ObjectReference<? extends FGEArea> objectReference);
+	public void addToObjectConstructions(ObjectReference<? extends DianaArea> objectReference);
 
 	@Remover(OBJECT_CONSTRUCTIONS_KEY)
-	public void removeFromObjectConstructions(ObjectReference<? extends FGEArea> objectReference);
+	public void removeFromObjectConstructions(ObjectReference<? extends DianaArea> objectReference);
 
-	public static abstract class IntersectionConstructionImpl extends GeometricConstructionImpl<FGEArea>
+	public static abstract class IntersectionConstructionImpl extends GeometricConstructionImpl<DianaArea>
 			implements IntersectionConstruction {
 
 		private static final Logger logger = FlexoLogger.getLogger(IntersectionConstruction.class.getPackage().getName());
@@ -91,14 +92,13 @@ public interface IntersectionConstruction extends GeometricConstruction<FGEArea>
 		}
 
 		@Override
-		protected FGEArea computeData() {
+		protected DianaArea computeData() {
 			if (getObjectConstructions() != null) {
-				FGEArea[] objects = new FGEArea[getObjectConstructions().size()];
+				DianaArea[] objects = new DianaArea[getObjectConstructions().size()];
 				for (int i = 0; i < getObjectConstructions().size(); i++) {
 					objects[i] = getObjectConstructions().get(i).getData();
 				}
-				FGEArea returned = FGEIntersectionArea.makeIntersection(objects);
-
+				DianaArea returned = DianaIntersectionArea.makeIntersection(objects);
 				if (returned == null) {
 					new Exception("Unexpected intersection").printStackTrace();
 				}

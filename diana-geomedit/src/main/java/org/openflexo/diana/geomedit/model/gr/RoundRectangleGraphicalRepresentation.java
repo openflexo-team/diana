@@ -50,39 +50,39 @@ import org.openflexo.diana.geomedit.model.GeometricConstruction;
 import org.openflexo.diana.geomedit.model.RoundRectangleConstruction;
 import org.openflexo.diana.geomedit.model.RoundRectangleWithTwoPointsConstruction;
 import org.openflexo.diana.geomedit.model.gr.RoundRectangleGraphicalRepresentation.RoundRectangleGraphicalRepresentationImpl;
-import org.openflexo.fge.Drawing.DrawingTreeNode;
-import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.GeometricGraphicalRepresentation;
-import org.openflexo.fge.control.DianaEditor;
-import org.openflexo.fge.cp.ControlArea;
-import org.openflexo.fge.cp.ControlPoint;
-import org.openflexo.fge.geom.FGEGeometricObject.CardinalQuadrant;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGERoundRectangle;
-import org.openflexo.fge.geom.area.FGEQuarterPlane;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.GeometricGraphicalRepresentation;
+import org.openflexo.diana.control.DianaEditor;
+import org.openflexo.diana.cp.ControlArea;
+import org.openflexo.diana.cp.ControlPoint;
+import org.openflexo.diana.geom.DianaGeometricObject.CardinalQuadrant;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRoundRectangle;
+import org.openflexo.diana.geom.area.DianaQuarterPlane;
 
 @ModelEntity
 @ImplementationClass(RoundRectangleGraphicalRepresentationImpl.class)
 @XMLElement
-public interface RoundRectangleGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGERoundRectangle> {
+public interface RoundRectangleGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<DianaRoundRectangle> {
 
 	public static abstract class RoundRectangleGraphicalRepresentationImpl
-			extends GeometricObjectGraphicalRepresentationImpl<FGERoundRectangle> implements RoundRectangleGraphicalRepresentation {
+			extends GeometricObjectGraphicalRepresentationImpl<DianaRoundRectangle> implements RoundRectangleGraphicalRepresentation {
 
 		private DraggableControlPoint nwCP1;
 		private DraggableControlPoint seCP2;
 
 		@Override
 		public List<? extends ControlArea<?>> makeControlAreasFor(
-				DrawingTreeNode<GeometricConstruction<FGERoundRectangle>, GeometricGraphicalRepresentation> dtn) {
+				DrawingTreeNode<GeometricConstruction<DianaRoundRectangle>, GeometricGraphicalRepresentation> dtn) {
 
 			Vector<ControlPoint> returned = new Vector<ControlPoint>();
 
 			RoundRectangleConstruction rectangleConstruction = (RoundRectangleConstruction) dtn.getDrawable();
-			FGERoundRectangle rectangle = rectangleConstruction.getRectangle();
+			DianaRoundRectangle rectangle = rectangleConstruction.getRectangle();
 
 			ExplicitPointConstruction pc1 = null;
 			ExplicitPointConstruction pc2 = null;
@@ -101,24 +101,24 @@ public interface RoundRectangleGraphicalRepresentation extends GeometricObjectGr
 			}
 
 			if (pc1 != null) {
-				returned.add(nwCP1 = new DraggableControlPoint<FGERoundRectangle>((GeometricNode<?>) dtn, "northWest",
+				returned.add(nwCP1 = new DraggableControlPoint<DianaRoundRectangle>((GeometricNode<?>) dtn, "northWest",
 						rectangle.getNorthWestPt(), pc1) {
 					private double initialWidth;
 					private double initialHeight;
 
 					@Override
-					public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
+					public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 						super.startDragging(controller, startPoint);
 						initialWidth = getGeometricObject().width;
 						initialHeight = getGeometricObject().height;
 						setDraggingAuthorizedArea(
-								FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getSouthEastPt(), CardinalQuadrant.NORTH_WEST));
+								DianaQuarterPlane.makeDianaQuarterPlane(getGeometricObject().getSouthEastPt(), CardinalQuadrant.NORTH_WEST));
 					}
 
 					@Override
-					public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-							FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
-						FGEPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
+					public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+							DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
+						DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 						setPoint(pt);
 
 						getGeometricObject().x = pt.x;
@@ -132,39 +132,39 @@ public interface RoundRectangleGraphicalRepresentation extends GeometricObjectGr
 					}
 
 					@Override
-					public void update(FGERoundRectangle geometricObject) {
+					public void update(DianaRoundRectangle geometricObject) {
 						setPoint(geometricObject.getNorthWestPt());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<FGERoundRectangle>((GeometricNode<?>) dtn, "northWest", rectangle.getNorthWestPt()) {
+				returned.add(new ComputedControlPoint<DianaRoundRectangle>((GeometricNode<?>) dtn, "northWest", rectangle.getNorthWestPt()) {
 					@Override
-					public void update(FGERoundRectangle geometricObject) {
+					public void update(DianaRoundRectangle geometricObject) {
 						setPoint(geometricObject.getNorthWestPt());
 					}
 				});
 			}
 
 			if (pc2 != null) {
-				returned.add(seCP2 = new DraggableControlPoint<FGERoundRectangle>((GeometricNode<?>) dtn, "southEast",
+				returned.add(seCP2 = new DraggableControlPoint<DianaRoundRectangle>((GeometricNode<?>) dtn, "southEast",
 						rectangle.getSouthEastPt(), pc2) {
 					private double initialWidth;
 					private double initialHeight;
 
 					@Override
-					public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
+					public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 						super.startDragging(controller, startPoint);
 						initialWidth = getGeometricObject().width;
 						initialHeight = getGeometricObject().height;
 						setDraggingAuthorizedArea(
-								FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getNorthWestPt(), CardinalQuadrant.SOUTH_EAST));
+								DianaQuarterPlane.makeDianaQuarterPlane(getGeometricObject().getNorthWestPt(), CardinalQuadrant.SOUTH_EAST));
 					}
 
 					@Override
-					public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-							FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
-						FGEPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
+					public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+							DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
+						DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 						setPoint(pt);
 
 						getGeometricObject().width = pt.x - initialPoint.x + initialWidth;
@@ -175,22 +175,22 @@ public interface RoundRectangleGraphicalRepresentation extends GeometricObjectGr
 					}
 
 					@Override
-					public void update(FGERoundRectangle geometricObject) {
+					public void update(DianaRoundRectangle geometricObject) {
 						setPoint(geometricObject.getSouthEastPt());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<FGERoundRectangle>((GeometricNode<?>) dtn, "southEast", rectangle.getSouthEastPt()) {
+				returned.add(new ComputedControlPoint<DianaRoundRectangle>((GeometricNode<?>) dtn, "southEast", rectangle.getSouthEastPt()) {
 					@Override
-					public void update(FGERoundRectangle geometricObject) {
+					public void update(DianaRoundRectangle geometricObject) {
 						setPoint(geometricObject.getSouthEastPt());
 					}
 				});
 			}
 
 			if (pc1 != null && pc2 != null) {
-				returned.add(new ComputedControlPoint<FGERoundRectangle>((GeometricNode<?>) dtn, "northEast", rectangle.getNorthEastPt()) {
+				returned.add(new ComputedControlPoint<DianaRoundRectangle>((GeometricNode<?>) dtn, "northEast", rectangle.getNorthEastPt()) {
 					private double initialWidth;
 					private double initialHeight;
 
@@ -200,48 +200,48 @@ public interface RoundRectangleGraphicalRepresentation extends GeometricObjectGr
 					}
 
 					@Override
-					public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
+					public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 						super.startDragging(controller, startPoint);
 						initialWidth = getGeometricObject().width;
 						initialHeight = getGeometricObject().height;
 						setDraggingAuthorizedArea(
-								FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getSouthWestPt(), CardinalQuadrant.NORTH_EAST));
+								DianaQuarterPlane.makeDianaQuarterPlane(getGeometricObject().getSouthWestPt(), CardinalQuadrant.NORTH_EAST));
 					}
 
 					@Override
-					public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-							FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
-						FGEPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
+					public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+							DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
+						DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 						setPoint(pt);
 
 						getGeometricObject().y = pt.y;
 						getGeometricObject().width = pt.x - initialPoint.x + initialWidth;
 						getGeometricObject().height = -pt.y + initialPoint.y + initialHeight;
 
-						nwCP1.setPoint(new FGEPoint(getGeometricObject().x, pt.y));
-						seCP2.setPoint(new FGEPoint(pt.x, getGeometricObject().y + getGeometricObject().height));
+						nwCP1.setPoint(new DianaPoint(getGeometricObject().x, pt.y));
+						seCP2.setPoint(new DianaPoint(pt.x, getGeometricObject().y + getGeometricObject().height));
 
 						((GeometricNode<?>) dtn).notifyGeometryChanged();
 						return true;
 					}
 
 					@Override
-					public void update(FGERoundRectangle geometricObject) {
+					public void update(DianaRoundRectangle geometricObject) {
 						setPoint(geometricObject.getNorthEastPt());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<FGERoundRectangle>((GeometricNode<?>) dtn, "northEast", rectangle.getSouthEastPt()) {
+				returned.add(new ComputedControlPoint<DianaRoundRectangle>((GeometricNode<?>) dtn, "northEast", rectangle.getSouthEastPt()) {
 					@Override
-					public void update(FGERoundRectangle geometricObject) {
+					public void update(DianaRoundRectangle geometricObject) {
 						setPoint(geometricObject.getNorthEastPt());
 					}
 				});
 			}
 
 			if (pc1 != null && pc2 != null) {
-				returned.add(new ComputedControlPoint<FGERoundRectangle>((GeometricNode<?>) dtn, "southWest", rectangle.getSouthWestPt()) {
+				returned.add(new ComputedControlPoint<DianaRoundRectangle>((GeometricNode<?>) dtn, "southWest", rectangle.getSouthWestPt()) {
 					private double initialWidth;
 					private double initialHeight;
 
@@ -251,41 +251,41 @@ public interface RoundRectangleGraphicalRepresentation extends GeometricObjectGr
 					}
 
 					@Override
-					public void startDragging(DianaEditor<?> controller, FGEPoint startPoint) {
+					public void startDragging(DianaEditor<?> controller, DianaPoint startPoint) {
 						super.startDragging(controller, startPoint);
 						initialWidth = getGeometricObject().width;
 						initialHeight = getGeometricObject().height;
 						setDraggingAuthorizedArea(
-								FGEQuarterPlane.makeFGEQuarterPlane(getGeometricObject().getNorthEastPt(), CardinalQuadrant.SOUTH_WEST));
+								DianaQuarterPlane.makeDianaQuarterPlane(getGeometricObject().getNorthEastPt(), CardinalQuadrant.SOUTH_WEST));
 					}
 
 					@Override
-					public boolean dragToPoint(FGEPoint newRelativePoint, FGEPoint pointRelativeToInitialConfiguration,
-							FGEPoint newAbsolutePoint, FGEPoint initialPoint, MouseEvent event) {
-						FGEPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
+					public boolean dragToPoint(DianaPoint newRelativePoint, DianaPoint pointRelativeToInitialConfiguration,
+							DianaPoint newAbsolutePoint, DianaPoint initialPoint, MouseEvent event) {
+						DianaPoint pt = getNearestPointOnAuthorizedArea(newAbsolutePoint);
 						setPoint(pt);
 
 						getGeometricObject().x = pt.x;
 						getGeometricObject().width = -pt.x + initialPoint.x + initialWidth;
 						getGeometricObject().height = pt.y - initialPoint.y + initialHeight;
 
-						nwCP1.setPoint(new FGEPoint(pt.x, getGeometricObject().y));
-						seCP2.setPoint(new FGEPoint(getGeometricObject().x + getGeometricObject().width, pt.y));
+						nwCP1.setPoint(new DianaPoint(pt.x, getGeometricObject().y));
+						seCP2.setPoint(new DianaPoint(getGeometricObject().x + getGeometricObject().width, pt.y));
 
 						((GeometricNode<?>) dtn).notifyGeometryChanged();
 						return true;
 					}
 
 					@Override
-					public void update(FGERoundRectangle geometricObject) {
+					public void update(DianaRoundRectangle geometricObject) {
 						setPoint(geometricObject.getSouthWestPt());
 					}
 				});
 			}
 			else {
-				returned.add(new ComputedControlPoint<FGERoundRectangle>((GeometricNode<?>) dtn, "southWest", rectangle.getSouthEastPt()) {
+				returned.add(new ComputedControlPoint<DianaRoundRectangle>((GeometricNode<?>) dtn, "southWest", rectangle.getSouthEastPt()) {
 					@Override
-					public void update(FGERoundRectangle geometricObject) {
+					public void update(DianaRoundRectangle geometricObject) {
 						setPoint(geometricObject.getSouthWestPt());
 					}
 				});

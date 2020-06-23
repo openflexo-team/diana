@@ -41,19 +41,19 @@ package org.openflexo.diana.geomedit.model;
 
 import org.openflexo.diana.geomedit.model.SegmentConstruction.SegmentConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.SegmentGraphicalRepresentation;
-import org.openflexo.fge.geom.FGESegment;
-import org.openflexo.model.annotations.Getter;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.PropertyIdentifier;
-import org.openflexo.model.annotations.Setter;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.Import;
+import org.openflexo.pamela.annotations.Imports;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.diana.geom.DianaSegment;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(SegmentConstructionImpl.class)
 @Imports({ @Import(SegmentReference.class), @Import(SegmentWithTwoPointsConstruction.class) })
-public interface SegmentConstruction extends GeometricConstruction<FGESegment> {
+public interface SegmentConstruction extends GeometricConstruction<DianaSegment> {
 
 	@PropertyIdentifier(type = Double.class)
 	public static final String X1_KEY = "x1";
@@ -88,9 +88,9 @@ public interface SegmentConstruction extends GeometricConstruction<FGESegment> {
 	@Setter(value = Y2_KEY)
 	public void setY2(double value);
 
-	public FGESegment getSegment();
+	public DianaSegment getSegment();
 
-	public abstract class SegmentConstructionImpl extends GeometricConstructionImpl<FGESegment> implements SegmentConstruction {
+	public abstract class SegmentConstructionImpl extends GeometricConstructionImpl<DianaSegment> implements SegmentConstruction {
 
 		@Override
 		public String getBaseName() {
@@ -98,7 +98,7 @@ public interface SegmentConstruction extends GeometricConstruction<FGESegment> {
 		}
 
 		@Override
-		public final FGESegment getSegment() {
+		public final DianaSegment getSegment() {
 			return getData();
 		}
 
@@ -109,7 +109,7 @@ public interface SegmentConstruction extends GeometricConstruction<FGESegment> {
 		}
 
 		@Override
-		protected abstract FGESegment computeData();
+		protected abstract DianaSegment computeData();
 
 		@Override
 		public double getX1() {

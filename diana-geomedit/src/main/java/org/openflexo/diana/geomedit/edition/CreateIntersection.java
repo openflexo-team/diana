@@ -44,8 +44,8 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
 import org.openflexo.diana.geomedit.model.ObjectReference;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 import org.openflexo.logging.FlexoLogger;
 
 public class CreateIntersection extends Edition {
@@ -101,7 +101,7 @@ public class CreateIntersection extends Edition {
 	}
 
 	@Override
-	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
+	public void paintEdition(JDianaDrawingGraphics graphics, DianaPoint lastMouseLocation) {
 		/*for (EditionInput o : inputs) {
 			ObtainObject oo = (ObtainObject) o;
 			if (oo.getReferencedObject() != null) {

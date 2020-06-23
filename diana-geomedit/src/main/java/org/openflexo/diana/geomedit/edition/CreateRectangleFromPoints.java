@@ -40,9 +40,9 @@
 package org.openflexo.diana.geomedit.edition;
 
 import org.openflexo.diana.geomedit.GeomEditDrawingController;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.FGERectangle;
-import org.openflexo.fge.swing.graphics.JFGEDrawingGraphics;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.DianaRectangle;
+import org.openflexo.diana.swing.graphics.JDianaDrawingGraphics;
 
 public class CreateRectangleFromPoints extends Edition {
 
@@ -62,17 +62,17 @@ public class CreateRectangleFromPoints extends Edition {
 	}
 
 	@Override
-	public void paintEdition(JFGEDrawingGraphics graphics, FGEPoint lastMouseLocation) {
+	public void paintEdition(JDianaDrawingGraphics graphics, DianaPoint lastMouseLocation) {
 		if (currentStep == 0) {
 			// Nothing to draw
 		}
 		else if (currentStep == 1) {
 			// Nothing to draw
 
-			FGEPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
-			FGEPoint p2 = lastMouseLocation;
+			DianaPoint p1 = ((ObtainPoint) inputs.get(0)).getInputData();
+			DianaPoint p2 = lastMouseLocation;
 
-			FGEPoint p = new FGEPoint();
+			DianaPoint p = new DianaPoint();
 			p.x = Math.min(p1.x, p2.x);
 			p.y = Math.min(p1.y, p2.y);
 
@@ -81,7 +81,7 @@ public class CreateRectangleFromPoints extends Edition {
 
 			graphics.setDefaultForeground(focusedForegroundStyle);
 			p1.paint(graphics);
-			new FGERectangle(p.x, p.y, width, height).paint(graphics);
+			new DianaRectangle(p.x, p.y, width, height).paint(graphics);
 		}
 	}
 }

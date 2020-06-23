@@ -40,18 +40,18 @@
 package org.openflexo.diana.geomedit.model.gr;
 
 import org.openflexo.diana.geomedit.model.gr.QuarterPlaneGraphicalRepresentation.QuarterPlaneGraphicalRepresentationImpl;
-import org.openflexo.fge.geom.area.FGEQuarterPlane;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.ModelEntity;
-import org.openflexo.model.annotations.XMLElement;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.diana.geom.area.DianaQuarterPlane;
 
 @ModelEntity
 @ImplementationClass(QuarterPlaneGraphicalRepresentationImpl.class)
 @XMLElement
-public interface QuarterPlaneGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<FGEQuarterPlane> {
+public interface QuarterPlaneGraphicalRepresentation extends GeometricObjectGraphicalRepresentation<DianaQuarterPlane> {
 
 	public static abstract class QuarterPlaneGraphicalRepresentationImpl
-			extends GeometricObjectGraphicalRepresentationImpl<FGEQuarterPlane> {
+			extends GeometricObjectGraphicalRepresentationImpl<DianaQuarterPlane> {
 	}
 
 }

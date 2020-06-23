@@ -41,17 +41,17 @@ package org.openflexo.diana.geomedit.controller;
 
 import java.awt.Cursor;
 
-import org.openflexo.fge.Drawing.GeometricNode;
-import org.openflexo.fge.cp.GeometryAdjustingControlPoint;
-import org.openflexo.fge.geom.FGEPoint;
-import org.openflexo.fge.geom.area.FGEArea;
-import org.openflexo.fge.geom.area.FGEEmptyArea;
+import org.openflexo.diana.Drawing.GeometricNode;
+import org.openflexo.diana.cp.GeometryAdjustingControlPoint;
+import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.geom.area.DianaEmptyArea;
 
-public abstract class ComputedControlPoint<O extends FGEArea> extends GeometryAdjustingControlPoint<O> {
+public abstract class ComputedControlPoint<O extends DianaArea> extends GeometryAdjustingControlPoint<O> {
 
-	public ComputedControlPoint(GeometricNode<?> node, String aName, FGEPoint pt) {
+	public ComputedControlPoint(GeometricNode<?> node, String aName, DianaPoint pt) {
 		super(node, aName, pt);
-		setDraggingAuthorizedArea(new FGEEmptyArea());
+		setDraggingAuthorizedArea(new DianaEmptyArea());
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public abstract class ComputedControlPoint<O extends FGEArea> extends GeometryAd
 	public abstract void update(O geometricObject);
 
 	@Override
-	public FGEPoint getPoint() {
+	public DianaPoint getPoint() {
 		// TODO Faire quelque chose ici pour recalculer le point ???
 		// update(((GeometricObject<O>) getGraphicalRepresentation().getDrawable()).getGeometricObject());
 		return super.getPoint();

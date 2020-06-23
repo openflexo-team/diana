@@ -39,22 +39,22 @@
 
 package org.openflexo.diana.geomedit.model;
 
+import org.openflexo.diana.geom.DianaCubicCurve;
 import org.openflexo.diana.geomedit.model.CubicCurveConstruction.CubicCurveConstructionImpl;
 import org.openflexo.diana.geomedit.model.gr.CubicCurveGraphicalRepresentation;
-import org.openflexo.fge.geom.FGECubicCurve;
-import org.openflexo.model.annotations.ImplementationClass;
-import org.openflexo.model.annotations.Import;
-import org.openflexo.model.annotations.Imports;
-import org.openflexo.model.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.Import;
+import org.openflexo.pamela.annotations.Imports;
+import org.openflexo.pamela.annotations.ModelEntity;
 
 @ModelEntity(isAbstract = true)
 @ImplementationClass(CubicCurveConstructionImpl.class)
 @Imports({ @Import(CubicCurveWithFourPointsConstruction.class) })
-public interface CubicCurveConstruction extends GeometricConstruction<FGECubicCurve> {
+public interface CubicCurveConstruction extends GeometricConstruction<DianaCubicCurve> {
 
-	public FGECubicCurve getCurve();
+	public DianaCubicCurve getCurve();
 
-	public static abstract class CubicCurveConstructionImpl extends GeometricConstructionImpl<FGECubicCurve>
+	public static abstract class CubicCurveConstructionImpl extends GeometricConstructionImpl<DianaCubicCurve>
 			implements CubicCurveConstruction {
 
 		@Override
@@ -63,7 +63,7 @@ public interface CubicCurveConstruction extends GeometricConstruction<FGECubicCu
 		}
 
 		@Override
-		public final FGECubicCurve getCurve() {
+		public final DianaCubicCurve getCurve() {
 			return getData();
 		}
 
@@ -74,7 +74,7 @@ public interface CubicCurveConstruction extends GeometricConstruction<FGECubicCu
 		}
 
 		@Override
-		protected abstract FGECubicCurve computeData();
+		protected abstract DianaCubicCurve computeData();
 
 	}
 
