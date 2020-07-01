@@ -5,14 +5,14 @@
 		<artifactId>openflexo-component</artifactId>
         <version>0.5-SNAPSHOT</version>
 	</parent>
-	<version>1.5-SNAPSHOT</version>
+	<version>1.5</version>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>diana</artifactId>
 	<name>diana</name>
 	<packaging>pom</packaging>
 	<properties>
-		<connie.version>1.5-SNAPSHOT</connie.version>
-		<pamela.version>1.5-SNAPSHOT</pamela.version>
+		<connie.version>1.5</connie.version>
+		<pamela.version>1.5</pamela.version>
 		<gina.version>2.2-SNAPSHOT</gina.version>
 		<graphicsutils.version>2.2-SNAPSHOT</graphicsutils.version>
 		<diana.logo>https://media.openflexo.org/images/diana_logo64x64.png</diana.logo>
