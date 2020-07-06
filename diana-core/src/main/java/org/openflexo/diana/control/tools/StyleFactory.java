@@ -39,7 +39,7 @@
 package org.openflexo.diana.control.tools;
 
 import org.openflexo.diana.DianaModelFactory;
-import org.openflexo.pamela.factory.KeyValueCoding;
+import org.openflexo.pamela.KeyValueCoding;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 
 /**

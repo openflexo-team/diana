@@ -56,11 +56,11 @@ import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.logging.FlexoLogger;
-import org.openflexo.pamela.factory.AccessibleProxyObject;
-import org.openflexo.pamela.factory.CloneableProxyObject;
-import org.openflexo.pamela.factory.KeyValueCoding;
-import org.openflexo.pamela.factory.PAMELAVisitor;
-import org.openflexo.pamela.factory.PAMELAVisitor.VisitingStrategy;
+import org.openflexo.pamela.AccessibleProxyObject;
+import org.openflexo.pamela.CloneableProxyObject;
+import org.openflexo.pamela.KeyValueCoding;
+import org.openflexo.pamela.model.PAMELAVisitor;
+import org.openflexo.pamela.model.PAMELAVisitor.VisitingStrategy;
 import org.openflexo.pamela.undo.CompoundEdit;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 

@@ -45,9 +45,9 @@ import java.util.StringTokenizer;
 import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectPolylin;
-import org.openflexo.pamela.StringConverterLibrary.Converter;
 import org.openflexo.pamela.exceptions.InvalidDataException;
 import org.openflexo.pamela.factory.ModelFactory;
+import org.openflexo.pamela.model.StringConverterLibrary.Converter;
 
 public class RectPolylinConverter extends Converter<DianaRectPolylin> {
 	public RectPolylinConverter(Class<? super DianaRectPolylin> aClass) {

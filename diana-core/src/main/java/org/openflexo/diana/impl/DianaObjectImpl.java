@@ -49,9 +49,9 @@ import org.openflexo.diana.DianaObject;
 import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.notifications.DianaAttributeNotification;
 import org.openflexo.diana.notifications.DianaNotification;
-import org.openflexo.pamela.ModelEntity;
+import org.openflexo.pamela.DeletableProxyObject;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
-import org.openflexo.pamela.factory.DeletableProxyObject;
+import org.openflexo.pamela.model.ModelEntity;
 
 public abstract class DianaObjectImpl implements DianaObject {
 	private static final Logger logger = Logger.getLogger(DianaObjectImpl.class.getPackage().getName());

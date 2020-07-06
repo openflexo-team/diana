@@ -41,8 +41,8 @@ package org.openflexo.diana.converter;
 import java.util.StringTokenizer;
 
 import org.openflexo.diana.geom.DianaPoint;
-import org.openflexo.pamela.StringConverterLibrary.Converter;
 import org.openflexo.pamela.factory.ModelFactory;
+import org.openflexo.pamela.model.StringConverterLibrary.Converter;
 
 public class PointConverter extends Converter<DianaPoint> {
 	public PointConverter(Class<? super DianaPoint> aClass) {

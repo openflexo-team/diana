@@ -41,8 +41,8 @@ package org.openflexo.diana.converter;
 import java.util.StringTokenizer;
 
 import org.openflexo.diana.geom.DianaSteppedDimensionConstraint;
-import org.openflexo.pamela.StringConverterLibrary.Converter;
 import org.openflexo.pamela.factory.ModelFactory;
+import org.openflexo.pamela.model.StringConverterLibrary.Converter;
 
 public class SteppedDimensionConverter extends Converter<DianaSteppedDimensionConstraint> {
 	public SteppedDimensionConverter(Class<? super DianaSteppedDimensionConstraint> aClass) {

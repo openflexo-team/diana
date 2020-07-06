@@ -44,6 +44,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.openflexo.diana.GraphicalRepresentation;
+import org.openflexo.pamela.AccessibleProxyObject;
+import org.openflexo.pamela.CloneableProxyObject;
+import org.openflexo.pamela.DeletableProxyObject;
 import org.openflexo.pamela.annotations.Adder;
 import org.openflexo.pamela.annotations.CloningStrategy;
 import org.openflexo.pamela.annotations.Embedded;
@@ -57,9 +60,6 @@ import org.openflexo.pamela.annotations.XMLAttribute;
 import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.pamela.annotations.CloningStrategy.StrategyType;
 import org.openflexo.pamela.annotations.Getter.Cardinality;
-import org.openflexo.pamela.factory.AccessibleProxyObject;
-import org.openflexo.pamela.factory.CloneableProxyObject;
-import org.openflexo.pamela.factory.DeletableProxyObject;
 
 @ModelEntity
 @ImplementationClass(DiagramElementImpl.class)

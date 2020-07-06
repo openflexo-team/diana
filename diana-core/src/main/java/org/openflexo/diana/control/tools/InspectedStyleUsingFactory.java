@@ -45,7 +45,7 @@ import java.util.logging.Logger;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.GRProperty;
 import org.openflexo.diana.control.DianaInteractiveViewer;
-import org.openflexo.pamela.factory.KeyValueCoding;
+import org.openflexo.pamela.KeyValueCoding;
 
 /**
  * 

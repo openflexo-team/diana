@@ -92,7 +92,7 @@ import org.openflexo.diana.notifications.LabelHasMoved;
 import org.openflexo.diana.notifications.LabelWillEdit;
 import org.openflexo.diana.notifications.LabelWillMove;
 import org.openflexo.diana.notifications.NodeDeleted;
-import org.openflexo.pamela.factory.DeletableProxyObject;
+import org.openflexo.pamela.DeletableProxyObject;
 import org.openflexo.pamela.factory.EditingContext;
 import org.openflexo.pamela.factory.ProxyMethodHandler;
 import org.openflexo.pamela.undo.UndoManager;
