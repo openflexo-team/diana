@@ -7,6 +7,7 @@ dependencies {
   testImplementation project(':diana-core-test')
 
   api ginaSwing()
+  testImplementation testUtils()
   testImplementation ginaTest()
   testImplementation ginaReplayTest()
 }
