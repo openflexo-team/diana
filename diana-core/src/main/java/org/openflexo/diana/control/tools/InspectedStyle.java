@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,6 +60,7 @@ import org.openflexo.logging.FlexoLogger;
 import org.openflexo.pamela.AccessibleProxyObject;
 import org.openflexo.pamela.CloneableProxyObject;
 import org.openflexo.pamela.KeyValueCoding;
+import org.openflexo.pamela.model.ModelProperty;
 import org.openflexo.pamela.model.PAMELAVisitor;
 import org.openflexo.pamela.model.PAMELAVisitor.VisitingStrategy;
 import org.openflexo.pamela.undo.CompoundEdit;
@@ -596,6 +598,10 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	public boolean equalsObject(Object obj) {
 		// Not relevant
 		return false;
+	}
+
+	public boolean equalsObject(Object obj, Function<ModelProperty, Boolean> considerProperty) {
+		return equals(obj);
 	}
 
 	public void updateWith(Object obj) {
