@@ -1,7 +1,8 @@
 dependencies {
-  compile project(':diana-api')
-  compile project(':diana-core')
-  compile project(':diana-swing')
-  compile flexoUtils()
-  testCompile testUtils()
+  implementation project(':diana-api')
+  implementation project(':diana-core')
+  implementation project(':diana-swing')
+  implementation flexoUtils()
+  implementation flexoLocalization()
+  implementation flexoGraphicUtils()
 }

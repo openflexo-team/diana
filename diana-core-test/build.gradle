@@ -1,4 +1,6 @@
 dependencies {
-  compile project(':diana-core')
-  compile testUtils()
+  implementation project(':diana-core')
+  implementation connie()
+  implementation pamela()
+  implementation testUtils()
 }

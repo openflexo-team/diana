@@ -1,12 +1,14 @@
 dependencies {
-  compile project(':diana-geom')
-  compile project(':diana-api')
-  compile project(':diana-core')
-  testCompile project(':diana-core-test')
+  implementation connie()
+  api pamela()
+  implementation project(':diana-geom')
+  implementation project(':diana-api')
+  implementation project(':diana-core')
+  testImplementation project(':diana-core-test')
 
-  compile ginaSwing()
-  testCompile ginaTest()
-  testCompile ginaReplayTest()
+  api ginaSwing()
+  testImplementation ginaTest()
+  testImplementation ginaReplayTest()
 }
 // To be able to use private apple api
 if (!JavaVersion.current().isJava9Compatible()) {
@@ -15,7 +17,7 @@ if (!JavaVersion.current().isJava9Compatible()) {
     	options.fork = true
 	    options.forkOptions.executable = 'javac'
     }
-}  
+}
 if (JavaVersion.current().isJava9Compatible()) {
 	tasks.withType(JavaCompile) {
 		options.compilerArgs.addAll(['--add-exports', 'java.desktop/sun.awt.image=ALL-UNNAMED'])
