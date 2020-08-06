@@ -5,5 +5,4 @@ dependencies {
   implementation flexoUtils()
   implementation flexoLocalization()
   implementation flexoGraphicUtils()
-    testImplementation testUtils()
 }

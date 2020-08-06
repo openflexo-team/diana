@@ -4,5 +4,4 @@ dependencies {
   implementation project(':diana-swing')
   implementation project(':diana-geomedit')
   implementation flexoUtils()
-    testImplementation testUtils()
 }
