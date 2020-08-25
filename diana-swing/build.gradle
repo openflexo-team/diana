@@ -1,6 +1,9 @@
 dependencies {
   implementation connie()
   api pamela()
+  
+  implementation group: 'org.apache.xmlgraphics', name: 'batik-svggen', version: '1.13'
+  
   implementation project(':diana-geom')
   implementation project(':diana-api')
   implementation project(':diana-core')
@@ -21,6 +24,6 @@ if (!JavaVersion.current().isJava9Compatible()) {
 if (JavaVersion.current().isJava9Compatible()) {
 	tasks.withType(JavaCompile) {
 		options.compilerArgs.addAll(['--add-exports', 'java.desktop/sun.awt.image=ALL-UNNAMED'])
-		options.compilerArgs.addAll(['--add-exports', 'java.desktop/sun.awt.dnd=ALL-UNNAMED'])
+		options.compilerArgs.addAll(['--add-exports', 'java.desktop/sun.awt.dnd=ALL-UNNAMED']) // à faire dans eclipse à la main
     }
 }
