@@ -3,6 +3,9 @@ dependencies {
   api pamela()
   
   implementation group: 'org.apache.xmlgraphics', name: 'batik-svggen', version: '1.13'
+  implementation group: 'org.apache.xmlgraphics', name: 'batik-dom', version: '1.13',  {
+       exclude group: "xml-apis", module: "xml-apis"
+  }
   
   implementation project(':diana-geom')
   implementation project(':diana-api')
