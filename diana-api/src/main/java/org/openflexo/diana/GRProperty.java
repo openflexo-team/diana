@@ -39,9 +39,9 @@
 package org.openflexo.diana;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import org.openflexo.pamela.annotations.PropertyIdentifier;
@@ -106,7 +106,7 @@ public class GRProperty<T> {
 				cacheForClass = retrieveParameters(declaringClass);
 				cachedParameters.put(declaringClass, cacheForClass);
 			}
-			returned = new ArrayList<>();
+			returned = new HashSet<>();
 			returned.addAll(cacheForClass.values());
 			if (declaringClass.getSuperclass() != null) {
 				returned.addAll(getGRParameters(declaringClass.getSuperclass()));
