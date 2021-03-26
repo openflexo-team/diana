@@ -15,5 +15,5 @@ subprojects {
     }
 }
 
-version = "1.5.2"
+version = "1.7"
 apply plugin: 'org.openflexo.buildconfig'
