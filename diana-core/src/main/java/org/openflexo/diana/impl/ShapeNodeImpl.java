@@ -423,13 +423,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 */
 	@Override
 	public int getBorderTop() {
-		
+
 		int returned = DEFAULT_BORDER_TOP;
 
 		if (getForegroundStyle() != null) {
-			returned = (int)getForegroundStyle().getLineWidth();
+			returned = (int) getForegroundStyle().getLineWidth();
 		}
-		
+
 		// Handle control areas
 		if (getControlAreas() != null) {
 			for (ControlArea<?> ca : new ArrayList<>(getControlAreas())) {
@@ -473,7 +473,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		int returned = DEFAULT_BORDER_LEFT;
 
 		if (getForegroundStyle() != null) {
-			returned = (int)getForegroundStyle().getLineWidth();
+			returned = (int) getForegroundStyle().getLineWidth();
 		}
 
 		// Handle control areas
@@ -2135,6 +2135,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public void relayoutNode() {
 
 		// System.out.println("************* relayoutNode called for " + this);
+
+		if (getGraphicalRepresentation() == null) {
+			return;
+		}
 
 		DianaLayoutManager<?, ?> layoutManager = null;
 		if (StringUtils.isNotEmpty(getGraphicalRepresentation().getLayoutManagerIdentifier())) {
