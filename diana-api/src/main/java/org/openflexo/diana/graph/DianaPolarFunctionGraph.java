@@ -89,7 +89,7 @@ public abstract class DianaPolarFunctionGraph<A> extends DianaSingleParameteredG
 
 	@Override
 	public <R> R evaluateFunction(DianaFunction<R> function, A value)
-			throws TypeMismatchException, NullReferenceException, InvocationTargetException {
+			throws TypeMismatchException, NullReferenceException, InvocationTargetException, ReflectiveOperationException {
 		getEvaluator().set(getParameter(), value);
 		R returned = function.evaluate();
 		return returned;
@@ -376,6 +376,8 @@ public abstract class DianaPolarFunctionGraph<A> extends DianaSingleParameteredG
 			} catch (NullReferenceException e) {
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			} catch (ReflectiveOperationException e) {
 				e.printStackTrace();
 			}
 		}

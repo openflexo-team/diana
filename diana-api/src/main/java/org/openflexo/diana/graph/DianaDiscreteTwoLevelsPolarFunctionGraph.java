@@ -238,6 +238,8 @@ public class DianaDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends DianaDiscr
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
+			} catch (ReflectiveOperationException e) {
+				e.printStackTrace();
 			}
 		}
 		return primaryValue.toString();
@@ -255,6 +257,8 @@ public class DianaDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends DianaDiscr
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
+			} catch (ReflectiveOperationException e) {
+				e.printStackTrace();
 			}
 		}
 		return secondaryValue.toString();
@@ -270,6 +274,8 @@ public class DianaDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends DianaDiscr
 			} catch (NullReferenceException e) {
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			} catch (ReflectiveOperationException e) {
 				e.printStackTrace();
 			}
 		}
@@ -287,6 +293,8 @@ public class DianaDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends DianaDiscr
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
+			} catch (ReflectiveOperationException e) {
+				e.printStackTrace();
 			}
 		}
 		List<T2> allSecondaryValues = secondaryDiscreteValues.get(primaryValue);
@@ -294,7 +302,7 @@ public class DianaDiscreteTwoLevelsPolarFunctionGraph<T1, T2> extends DianaDiscr
 	}
 
 	public <R> R evaluateFunction(DianaFunction<R> function, T1 primaryValue, T2 secondaryValue)
-			throws TypeMismatchException, NullReferenceException, InvocationTargetException {
+			throws TypeMismatchException, NullReferenceException, ReflectiveOperationException {
 		getEvaluator().set(getParameter(), primaryValue);
 		getEvaluator().set(getSecondaryParameterName(), secondaryValue);
 		// System.out.println(getParameter() + "=" + primaryValue);
