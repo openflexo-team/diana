@@ -7,10 +7,10 @@
         <CheckBox selected="false" data="data.isSelectable" constraints="flow()" name="IsSelectable" localize="true" />
         <CheckBox selected="true" index="1" data="data.hasSelectedForeground" constraints="flow(index=1)" localize="true" enable="data.isSelectable" />
         <Label label="use" index="2" constraints="flow(index=2;location=east)" localize="true" enable="data.isSelectable" />
-        <Custom componentClassName="org.openflexo.diana.view.widget.FIBForegroundStyleSelector" localize="true" enable="(data.isSelectable &amp; data.hasSelectedForeground)" manageDynamicModel="true" index="3" data="data.selectedForeground" constraints="flow(index=3)" />
+        <Custom componentClassName="org.openflexo.diana.view.widget.FIBForegroundStyleSelector" localize="true" enable="(data.isSelectable &amp;&amp; data.hasSelectedForeground)" manageDynamicModel="true" index="3" data="data.selectedForeground" constraints="flow(index=3)" />
         <CheckBox selected="true" index="4" data="data.hasSelectedBackground" constraints="flow(index=4)" localize="true" enable="data.isSelectable" />
         <Label label="use" index="5" constraints="flow(index=5)" localize="true" enable="data.isSelectable" />
-        <Custom componentClassName="org.openflexo.diana.view.widget.FIBBackgroundStyleSelector" localize="true" enable="(data.isSelectable &amp; data.hasSelectedBackground)" manageDynamicModel="true" index="6" data="data.selectedBackground" constraints="flow(index=6)" />
+        <Custom componentClassName="org.openflexo.diana.view.widget.FIBBackgroundStyleSelector" localize="true" enable="(data.isSelectable &amp;&amp; data.hasSelectedBackground)" manageDynamicModel="true" index="6" data="data.selectedBackground" constraints="flow(index=6)" />
         <Label label="cp" index="10" constraints="flow(expandHorizontally=false;expandVertically=false;index=10;location=left)" localize="true" enable="data.isSelectable" />
         <CheckBox selected="false" index="11" data="data.drawControlPointsWhenSelected" constraints="flow(expandHorizontally=false;expandVertically=false;index=11;location=right)" localize="true" enable="data.isSelectable" />
       </Panel>
@@ -19,10 +19,10 @@
         <CheckBox selected="false" index="0" data="data.isFocusable" constraints="flow(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=center)" name="IsFocusable" localize="true" />
         <CheckBox selected="true" index="1" data="data.hasFocusedForeground" constraints="flow(index=1)" localize="true" enable="data.isFocusable" />
         <Label label="use" index="2" constraints="flow(index=2;location=east)" localize="true" enable="data.isFocusable" />
-        <Custom componentClassName="org.openflexo.diana.view.widget.FIBForegroundStyleSelector" localize="true" enable="(data.isFocusable &amp; data.hasFocusedForeground)" manageDynamicModel="true" index="3" data="data.focusedForeground" constraints="flow(index=3)" />
+        <Custom componentClassName="org.openflexo.diana.view.widget.FIBForegroundStyleSelector" localize="true" enable="(data.isFocusable &amp;&amp; data.hasFocusedForeground)" manageDynamicModel="true" index="3" data="data.focusedForeground" constraints="flow(index=3)" />
         <CheckBox selected="true" index="4" data="data.hasFocusedBackground" constraints="flow(index=4)" localize="true" enable="data.isFocusable" />
         <Label label="use" index="5" constraints="flow(index=5)" localize="true" enable="data.isFocusable" />
-        <Custom componentClassName="org.openflexo.diana.view.widget.FIBBackgroundStyleSelector" localize="true" enable="(data.isFocusable &amp; data.hasFocusedBackground)" manageDynamicModel="true" index="6" data="data.focusedBackground" constraints="flow(index=6)" />
+        <Custom componentClassName="org.openflexo.diana.view.widget.FIBBackgroundStyleSelector" localize="true" enable="(data.isFocusable &amp;&amp; data.hasFocusedBackground)" manageDynamicModel="true" index="6" data="data.focusedBackground" constraints="flow(index=6)" />
         <Label label="cp" index="10" constraints="flow(expandHorizontally=false;expandVertically=false;index=10;location=left)" localize="true" enable="data.isFocusable" />
         <CheckBox selected="false" index="11" data="data.drawControlPointsWhenFocused" constraints="flow(expandHorizontally=false;expandVertically=false;index=11;location=right)" localize="true" enable="data.isFocusable" />
       </Panel>
@@ -47,19 +47,19 @@
       <Label label="dimensions_constraints" index="8" constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;location=left)" name="DimensionConstraintsLabel" localize="true" />
       <DropDown index="9" data="data.dimensionConstraints" constraints="twocols(expandHorizontally=false;expandVertically=false;index=9;location=right)" width="150" name="DimensionConstraints" format="object.name.toLowerCase" localize="true" iteratorClassName="org.openflexo.diana.ShapeGraphicalRepresentation$DimensionConstraints" autoSelectFirstRow="false" />
       <Label label="x_constraints" index="10" constraints="twocols(expandVertically=false;index=10;location=left)" localize="true" />
-      <Custom componentClassName="org.openflexo.gina.swing.utils.BindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.xConstraints)" index="11" data="data.xConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=11;location=right)">
+      <Custom componentClassName="org.openflexo.gina.swing.utils.JavaBindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.xConstraints)" index="11" data="data.xConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=11;location=right)">
         <Assignment variable="component.bindable" value="data" />
       </Custom>
       <Label label="y_constraints" index="12" constraints="twocols(expandVertically=false;index=12;location=left)" localize="true" />
-      <Custom componentClassName="org.openflexo.gina.swing.utils.BindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.yConstraints)" index="13" data="data.yConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=13;location=right)">
+      <Custom componentClassName="org.openflexo.gina.swing.utils.JavaBindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.yConstraints)" index="13" data="data.yConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=13;location=right)">
         <Assignment variable="component.bindable" value="data" />
       </Custom>
       <Label label="width_constraints" index="14" constraints="twocols(expandVertically=false;index=14;location=left)" localize="true" />
-      <Custom componentClassName="org.openflexo.gina.swing.utils.BindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.widthConstraints)" index="15" data="data.widthConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=15;location=right)">
+      <Custom componentClassName="org.openflexo.gina.swing.utils.JavaBindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.widthConstraints)" index="15" data="data.widthConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=15;location=right)">
         <Assignment variable="component.bindable" value="data" />
       </Custom>
       <Label label="height_constraints" index="16" constraints="twocols(expandVertically=false;index=16;location=left)" localize="true" />
-      <Custom componentClassName="org.openflexo.gina.swing.utils.BindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.heightConstraints)" index="17" data="data.heightConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=17;location=right)">
+      <Custom componentClassName="org.openflexo.gina.swing.utils.JavaBindingSelector" localize="true" manageDynamicModel="true" valueChangedAction="data.constraintChanged(data.heightConstraints)" index="17" data="data.heightConstraints" constraints="twocols(expandHorizontally=true;expandVertically=false;index=17;location=right)">
         <Assignment variable="component.bindable" value="data" />
       </Custom>
       <Label label="border" index="18" constraints="twocols(expandHorizontally=false;expandVertically=false;index=18;location=left)" name="BorderLabel" localize="true" />
@@ -87,14 +87,14 @@
       <CheckBox selected="false" index="15" data="data.isFloatingLabel" constraints="twocols(expandHorizontally=false;expandVertically=false;index=15;location=right)" name="IsFloatingLabel" localize="true" />
       <Label label="line_wrap" index="16" constraints="twocols(expandHorizontally=false;expandVertically=false;index=16;location=left)" localize="true" />
       <CheckBox selected="false" index="17" data="data.lineWrap" constraints="twocols(expandHorizontally=false;expandVertically=false;index=17;location=right)" name="LineWrap" localize="true" />
-      <Label label="absolute_text_x" index="18" constraints="twocols(expandHorizontally=false;expandVertically=false;index=18;location=left)" visible="(data.isFloatingLabel = true)" name="AbsoluteTextXLabel" localize="true" />
-      <Number minValue="-Infinity" maxValue="Infinity" increment="1.0" numberType="DoubleType" index="19" data="data.absoluteTextX" constraints="twocols(expandHorizontally=false;expandVertically=false;index=19;location=right)" visible="(data.isFloatingLabel = true)" name="AbsoluteTextX" localize="true" />
-      <Label label="absolute_text_y" index="20" constraints="twocols(expandHorizontally=false;expandVertically=false;index=20;location=left)" visible="(data.isFloatingLabel = true)" name="AbsoluteTextYLabel" localize="true" />
-      <Number minValue="-Infinity" maxValue="Infinity" increment="1.0" numberType="DoubleType" index="21" data="data.absoluteTextY" constraints="twocols(expandHorizontally=false;expandVertically=false;index=21;location=right)" visible="(data.isFloatingLabel = true)" name="AbsoluteTextY" localize="true" />
-      <Label label="relative_text_x" index="22" constraints="twocols(expandHorizontally=false;expandVertically=false;index=22;location=left)" visible="(data.isFloatingLabel = false)" name="RelativeTextXLabel" localize="true" />
-      <Number minValue="-1.0" maxValue="1.0" increment="0.01" numberType="DoubleType" index="23" data="data.relativeTextX" constraints="twocols(expandHorizontally=false;expandVertically=false;index=23;location=right)" visible="(data.isFloatingLabel = false)" name="RelativeTextX" localize="true" />
-      <Label label="relative_text_y" index="24" constraints="twocols(expandHorizontally=false;expandVertically=false;index=24;location=left)" visible="(data.isFloatingLabel = false)" name="RelativeTextYLabel" localize="true" />
-      <Number minValue="-1.0" maxValue="1.0" increment="0.01" numberType="DoubleType" index="25" data="data.relativeTextY" constraints="twocols(expandHorizontally=false;expandVertically=false;index=25;location=right)" visible="(data.isFloatingLabel = false)" name="RelativeTextY" localize="true" />
+      <Label label="absolute_text_x" index="18" constraints="twocols(expandHorizontally=false;expandVertically=false;index=18;location=left)" visible="(data.isFloatingLabel == true)" name="AbsoluteTextXLabel" localize="true" />
+      <Number minValue="-Infinity" maxValue="Infinity" increment="1.0" numberType="DoubleType" index="19" data="data.absoluteTextX" constraints="twocols(expandHorizontally=false;expandVertically=false;index=19;location=right)" visible="(data.isFloatingLabel == true)" name="AbsoluteTextX" localize="true" />
+      <Label label="absolute_text_y" index="20" constraints="twocols(expandHorizontally=false;expandVertically=false;index=20;location=left)" visible="(data.isFloatingLabel == true)" name="AbsoluteTextYLabel" localize="true" />
+      <Number minValue="-Infinity" maxValue="Infinity" increment="1.0" numberType="DoubleType" index="21" data="data.absoluteTextY" constraints="twocols(expandHorizontally=false;expandVertically=false;index=21;location=right)" visible="(data.isFloatingLabel == true)" name="AbsoluteTextY" localize="true" />
+      <Label label="relative_text_x" index="22" constraints="twocols(expandHorizontally=false;expandVertically=false;index=22;location=left)" visible="(data.isFloatingLabel == false)" name="RelativeTextXLabel" localize="true" />
+      <Number minValue="-1.0" maxValue="1.0" increment="0.01" numberType="DoubleType" index="23" data="data.relativeTextX" constraints="twocols(expandHorizontally=false;expandVertically=false;index=23;location=right)" visible="(data.isFloatingLabel == false)" name="RelativeTextX" localize="true" />
+      <Label label="relative_text_y" index="24" constraints="twocols(expandHorizontally=false;expandVertically=false;index=24;location=left)" visible="(data.isFloatingLabel == false)" name="RelativeTextYLabel" localize="true" />
+      <Number minValue="-1.0" maxValue="1.0" increment="0.01" numberType="DoubleType" index="25" data="data.relativeTextY" constraints="twocols(expandHorizontally=false;expandVertically=false;index=25;location=right)" visible="(data.isFloatingLabel == false)" name="RelativeTextY" localize="true" />
       <CheckBox selected="false" index="26" data="data.adjustMinimalWidthToLabelWidth" constraints="twocols(expandHorizontally=false;expandVertically=false;index=26;location=left)" name="AdjustMinimalWidthToLabelWidth" localize="true" />
       <Label label="adjust_minimal_width_to_label_width" index="27" constraints="twocols(expandHorizontally=false;expandVertically=false;index=27;location=right)" name="AdjustMinimalWidthToLabelWidthLabel" localize="true" />
       <CheckBox selected="false" index="28" data="data.adjustMinimalHeightToLabelHeight" constraints="twocols(expandHorizontally=false;expandVertically=false;index=28;location=left)" name="AdjustMinimalHeightToLabelHeight" localize="true" />

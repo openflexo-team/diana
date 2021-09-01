@@ -156,7 +156,7 @@
 			data="data.adaptBoundsToContents" index="23" localize="true"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=23;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" />
 		<Label id="35"
-			enable="((!(data.isFloatingLabel)) &amp; data.areShapePropertiesApplicable)"
+			enable="((!(data.isFloatingLabel)) &amp;&amp; data.areShapePropertiesApplicable)"
 			name="AdaptBoundsToContentsLabel" index="22" localize="true" align="left"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=22;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
 			label="adapt_bounds_to_contents" />
