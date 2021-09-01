@@ -65,6 +65,8 @@ import org.openflexo.connie.binding.BindingValueChangeListener;
 import org.openflexo.connie.exception.NotSettableContextException;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
+import org.openflexo.connie.expr.ExpressionEvaluator;
+import org.openflexo.connie.java.expr.JavaExpressionEvaluator;
 import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.DianaPrefs;
 import org.openflexo.diana.DianaUtils;
@@ -1053,6 +1055,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 				throw new InvocationTargetException(e);
 			} catch (NullReferenceException e) {
 				throw new InvocationTargetException(e);
+			} catch (ReflectiveOperationException e) {
+				throw new InvocationTargetException(e);
 			}
 		}
 		throw new InvocationTargetException(new IllegalArgumentException("Parameter " + parameter + " has no dynamic property value"));
@@ -1076,6 +1080,8 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			} catch (NullReferenceException e) {
 				throw new InvocationTargetException(e);
 			} catch (NotSettableContextException e) {
+				throw new InvocationTargetException(e);
+			} catch (ReflectiveOperationException e) {
 				throw new InvocationTargetException(e);
 			}
 		}
@@ -1251,6 +1257,11 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 				DrawingImpl.logger.warning("Could not find variable named " + variable);
 				return null;
 			}
+		}
+
+		@Override
+		public ExpressionEvaluator getEvaluator() {
+			return new JavaExpressionEvaluator(this);
 		}
 
 		@Override

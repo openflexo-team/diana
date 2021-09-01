@@ -423,13 +423,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 */
 	@Override
 	public int getBorderTop() {
-		
+
 		int returned = DEFAULT_BORDER_TOP;
 
 		if (getForegroundStyle() != null) {
-			returned = (int)getForegroundStyle().getLineWidth();
+			returned = (int) getForegroundStyle().getLineWidth();
 		}
-		
+
 		// Handle control areas
 		if (getControlAreas() != null) {
 			for (ControlArea<?> ca : new ArrayList<>(getControlAreas())) {
@@ -473,7 +473,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		int returned = DEFAULT_BORDER_LEFT;
 
 		if (getForegroundStyle() != null) {
-			returned = (int)getForegroundStyle().getLineWidth();
+			returned = (int) getForegroundStyle().getLineWidth();
 		}
 
 		// Handle control areas
@@ -1296,6 +1296,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
 					e.printStackTrace();
+				} catch (ReflectiveOperationException e) {
+					e.printStackTrace();
 				}
 				getGraphicalRepresentation().setLocationConstraints(LocationConstraints.UNMOVABLE);
 			}
@@ -1309,6 +1311,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				} catch (NullReferenceException e) {
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (ReflectiveOperationException e) {
 					e.printStackTrace();
 				}
 				getGraphicalRepresentation().setLocationConstraints(LocationConstraints.UNMOVABLE);
@@ -1327,6 +1331,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
 					e.printStackTrace();
+				} catch (ReflectiveOperationException e) {
+					e.printStackTrace();
 				}
 				getGraphicalRepresentation().setDimensionConstraints(DimensionConstraints.UNRESIZABLE);
 			}
@@ -1343,6 +1349,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				} catch (NullReferenceException e) {
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (ReflectiveOperationException e) {
 					e.printStackTrace();
 				}
 				getGraphicalRepresentation().setDimensionConstraints(DimensionConstraints.UNRESIZABLE);
@@ -1390,6 +1398,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
+		} catch (ReflectiveOperationException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -1405,6 +1415,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		} catch (NullReferenceException e) {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (ReflectiveOperationException e) {
 			e.printStackTrace();
 		}
 	}
@@ -1422,6 +1434,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
+		} catch (ReflectiveOperationException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -1437,6 +1451,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		} catch (NullReferenceException e) {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (ReflectiveOperationException e) {
 			e.printStackTrace();
 		}
 	}
