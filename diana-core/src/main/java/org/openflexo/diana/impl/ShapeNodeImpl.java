@@ -1286,7 +1286,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public void finalizeConstraints() {
 		if (getGraphicalRepresentation() != null) {
 			if (getGraphicalRepresentation().getXConstraints() != null && getGraphicalRepresentation().getXConstraints().isValid()) {
-				getGraphicalRepresentation().getXConstraints().decode();
+				// getGraphicalRepresentation().getXConstraints().decode();
 				try {
 					setX((Double) TypeUtils.castTo(
 							getGraphicalRepresentation().getXConstraints().getBindingValue(getBindingEvaluationContext()), Double.class));
@@ -1302,7 +1302,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				getGraphicalRepresentation().setLocationConstraints(LocationConstraints.UNMOVABLE);
 			}
 			if (getGraphicalRepresentation().getYConstraints() != null && getGraphicalRepresentation().getYConstraints().isValid()) {
-				getGraphicalRepresentation().getYConstraints().decode();
+				// getGraphicalRepresentation().getYConstraints().decode();
 				try {
 					setY((Double) TypeUtils.castTo(
 							getGraphicalRepresentation().getYConstraints().getBindingValue(getBindingEvaluationContext()), Double.class));
@@ -1319,7 +1319,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			}
 			if (getGraphicalRepresentation().getWidthConstraints() != null
 					&& getGraphicalRepresentation().getWidthConstraints().isValid()) {
-				getGraphicalRepresentation().getWidthConstraints().decode();
+				// getGraphicalRepresentation().getWidthConstraints().decode();
 				try {
 					Object bdv = getGraphicalRepresentation().getWidthConstraints().getBindingValue(getBindingEvaluationContext());
 					if (bdv != null) {
@@ -1338,7 +1338,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			}
 			if (getGraphicalRepresentation().getHeightConstraints() != null
 					&& getGraphicalRepresentation().getHeightConstraints().isValid()) {
-				getGraphicalRepresentation().getHeightConstraints().decode();
+				// getGraphicalRepresentation().getHeightConstraints().decode();
 				try {
 					Object bdv = getGraphicalRepresentation().getHeightConstraints().getBindingValue(getBindingEvaluationContext());
 					if (bdv != null) {
