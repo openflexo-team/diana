@@ -600,7 +600,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		return false;
 	}
 
-	public boolean equalsObject(Object obj, Function<ModelProperty, Boolean> considerProperty) {
+	public boolean equalsObject(Object obj, Function<ModelProperty<?>, Boolean> considerProperty) {
 		return equals(obj);
 	}
 
