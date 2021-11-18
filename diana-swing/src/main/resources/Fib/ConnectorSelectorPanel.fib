@@ -53,7 +53,7 @@
 			iteratorClassName="org.openflexo.diana.connectors.LineConnectorSpecification$LineConnectorType"
 			showIcon="false" name="ConnectorType" />
 		<FIBVariable id="11" name="lineConnectorSpecification"
-			value="($org.openflexo.diana.connectors.LineConnectorSpecification)data.connectorSpecification"
+			value="(org.openflexo.diana.connectors.LineConnectorSpecification)data.connectorSpecification"
 			type="org.openflexo.diana.connectors.LineConnectorSpecification" />
 	</Panel>
 	<Panel id="12"
@@ -165,7 +165,7 @@
 			</Panel>
 		<FIBVariable id="47"
 			name="rectPolylinConnectorSpecification"
-			value="($org.openflexo.diana.connectors.RectPolylinConnectorSpecification)data.connectorSpecification"
+			value="(org.openflexo.diana.connectors.RectPolylinConnectorSpecification)data.connectorSpecification"
 			type="org.openflexo.diana.connectors.RectPolylinConnectorSpecification" />
 	</Panel>
 	<Panel id="48" visible="(data.styleType == &quot;CURVE&quot;)"
@@ -200,7 +200,7 @@
 			localize="true"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=1;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=right)" /> -->
 		<FIBVariable id="52" name="curveConnectorSpecification"
-			value="($org.openflexo.diana.connectors.CurveConnectorSpecification)data.connectorSpecification"
+			value="(org.openflexo.diana.connectors.CurveConnectorSpecification)data.connectorSpecification"
 			type="org.openflexo.diana.connectors.CurveConnectorSpecification" />
 	</Panel>
 	<Panel id="53"
@@ -214,7 +214,7 @@
 		<Dependancy id="54" componentName="ConnectorType" />
 		<FIBVariable id="55"
 			name="curvePolylinConnectorSpecification"
-			value="($org.openflexo.diana.connectors.CurvedPolylinConnectorSpecification)data.connectorSpecification"
+			value="(org.openflexo.diana.connectors.CurvedPolylinConnectorSpecification)data.connectorSpecification"
 			type="org.openflexo.diana.connectors.CurvedPolylinConnectorSpecification" />
 	</Panel>
 	<Panel id="156" borderLeft="10" sizeAdjustment="OriginalSize"
