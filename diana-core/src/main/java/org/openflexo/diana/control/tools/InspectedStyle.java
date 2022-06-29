@@ -570,6 +570,11 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		return null;
 	}
 
+	public void performSuperInitializer(Object... args) {
+		// Not relevant
+		return;
+	}
+
 	public boolean delete(Object... context) {
 		// Not relevant
 		return false;
