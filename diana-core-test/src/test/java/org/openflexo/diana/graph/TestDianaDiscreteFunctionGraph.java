@@ -55,11 +55,9 @@ import org.junit.runner.RunWith;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
+import org.openflexo.diana.ColorGradientBackgroundStyle.ColorGradientDirection;
 import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.DianaModelFactoryImpl;
-import org.openflexo.diana.ColorGradientBackgroundStyle.ColorGradientDirection;
-import org.openflexo.diana.graph.DianaDiscreteSimpleFunctionGraph;
-import org.openflexo.diana.graph.DianaNumericFunction;
 import org.openflexo.diana.graph.DianaFunction.DianaGraphType;
 import org.openflexo.diana.graph.DianaSimpleFunctionGraph.Orientation;
 import org.openflexo.diana.test.data.SimplePerson;
@@ -129,7 +127,8 @@ public class TestDianaDiscreteFunctionGraph {
 
 	@Test
 	@TestOrder(2)
-	public void testEvaluation() throws TypeMismatchException, NullReferenceException, InvocationTargetException {
+	public void testEvaluation()
+			throws TypeMismatchException, NullReferenceException, InvocationTargetException, ReflectiveOperationException {
 		assertEquals((Integer) 173, graph.evaluateFunction(sizeFunction, martin));
 		assertEquals((Integer) 165, graph.evaluateFunction(sizeFunction, mary));
 		assertEquals((Integer) 107, graph.evaluateFunction(sizeFunction, john));
@@ -142,7 +141,8 @@ public class TestDianaDiscreteFunctionGraph {
 
 	@Test
 	@TestOrder(3)
-	public void testIterate() throws TypeMismatchException, NullReferenceException, InvocationTargetException {
+	public void testIterate()
+			throws TypeMismatchException, NullReferenceException, InvocationTargetException, ReflectiveOperationException {
 		int i = 0;
 		Iterator<SimplePerson> it = graph.iterateParameter();
 		while (it.hasNext()) {

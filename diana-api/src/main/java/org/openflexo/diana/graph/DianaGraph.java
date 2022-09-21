@@ -50,7 +50,9 @@ import org.openflexo.connie.BindingModel;
 import org.openflexo.connie.BindingVariable;
 import org.openflexo.connie.DataBinding;
 import org.openflexo.connie.DefaultBindable;
+import org.openflexo.connie.expr.ExpressionEvaluator;
 import org.openflexo.connie.java.JavaBindingFactory;
+import org.openflexo.connie.java.expr.JavaExpressionEvaluator;
 import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.geom.area.DianaArea;
@@ -65,8 +67,8 @@ import org.openflexo.diana.graphics.DianaShapeGraphics;
  * Regarding the life-cycle, some methods are used to update the data beeing represented by the graph:, see {@link #update()}<br>
  * And some other methods are used to draw the graph, see {@link #paint(DianaShapeGraphics)}
  * 
- * From performance point of view, remember that {@link #paint(DianaShapeGraphics)} will be continuously called while update() will be called
- * only when some data change and when graph has to be recomputed
+ * From performance point of view, remember that {@link #paint(DianaShapeGraphics)} will be continuously called while update() will be
+ * called only when some data change and when graph has to be recomputed
  * 
  * @author sylvain
  * 
@@ -128,8 +130,8 @@ public abstract class DianaGraph extends DefaultBindable {
 
 	public <T extends Number> DianaNumericFunction<T> addNumericFunction(String functionName, Type functionType,
 			DataBinding<T> functionExpression, DianaGraphType type, T minValue, T maxValue) {
-		DianaNumericFunction<T> returned = new DianaNumericFunction<>(functionName, functionType, functionExpression, type, minValue, maxValue,
-				this);
+		DianaNumericFunction<T> returned = new DianaNumericFunction<>(functionName, functionType, functionExpression, type, minValue,
+				maxValue, this);
 		functions.add(returned);
 		return returned;
 	}
@@ -287,6 +289,11 @@ public abstract class DianaGraph extends DefaultBindable {
 				this.evaluationContext = evaluationContext;
 				getPropertyChangeSupport().firePropertyChange("evaluationContext", oldValue, evaluationContext);
 			}
+		}
+
+		@Override
+		public ExpressionEvaluator getEvaluator() {
+			return new JavaExpressionEvaluator(this);
 		}
 
 		public Object get(String parameter) {

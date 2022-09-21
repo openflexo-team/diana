@@ -48,8 +48,7 @@ import org.openflexo.connie.exception.TypeMismatchException;
  * A graph determined by a unique parameter on which we iterate<br>
  * This parameter might be continuous or take values on a discrete set of values
  * 
- * @param
- * 			<P>
+ * @param <P>
  *            type of parameter which plays iterator role
  */
 public abstract class DianaSingleParameteredGraph<P> extends DianaGraph {
@@ -77,7 +76,7 @@ public abstract class DianaSingleParameteredGraph<P> extends DianaGraph {
 	}*/
 
 	public <Y> Y evaluateFunction(DianaFunction<Y> function, P value)
-			throws TypeMismatchException, NullReferenceException, InvocationTargetException {
+			throws TypeMismatchException, NullReferenceException, InvocationTargetException, ReflectiveOperationException {
 		getEvaluator().set(getParameter(), value);
 		return function.evaluate();
 	}

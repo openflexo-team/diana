@@ -130,6 +130,8 @@ public class DianaDiscreteSimpleFunctionGraph<T> extends DianaSimpleFunctionGrap
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
+			} catch (ReflectiveOperationException e) {
+				e.printStackTrace();
 			}
 		}
 		return param.toString();

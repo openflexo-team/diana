@@ -183,6 +183,8 @@ public class DianaDiscretePolarFunctionGraph<T> extends DianaPolarFunctionGraph<
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
+			} catch (ReflectiveOperationException e) {
+				e.printStackTrace();
 			}
 		}
 		return param.toString();
@@ -214,6 +216,8 @@ public class DianaDiscretePolarFunctionGraph<T> extends DianaPolarFunctionGraph<
 			} catch (NullReferenceException e) {
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			} catch (ReflectiveOperationException e) {
 				e.printStackTrace();
 			}
 		}

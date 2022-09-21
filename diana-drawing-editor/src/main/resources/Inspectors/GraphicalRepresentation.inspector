@@ -35,10 +35,10 @@
       </Table>
     </Tab>
     <Tab title="Text" layout="twocols" titleFont="SansSerif,0,11" darkLevel="0" index="1" font="SansSerif,0,11" useScrollBar="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="TextTab">
-      <Label label="text" index="0" constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;location=left)" visible="(data.isMultilineAllowed = false)" name="TextLabel" localize="true" />
-      <TextField index="1" data="data.text" constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;location=right)" visible="(data.isMultilineAllowed = false)" name="Text" localize="true" columns="10" />
-      <Label label="text" index="2" constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;location=left)" visible="(data.isMultilineAllowed = true)" name="MultilineTextLabel" localize="true" />
-      <TextArea columns="10" index="3" data="data.text" constraints="twocols(expandHorizontally=true;expandVertically=true;index=3;location=right)" visible="(data.isMultilineAllowed = true)" useScrollBar="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="MultilineText" localize="true" />
+      <Label label="text" index="0" constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;location=left)" visible="(data.isMultilineAllowed == false)" name="TextLabel" localize="true" />
+      <TextField index="1" data="data.text" constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;location=right)" visible="(data.isMultilineAllowed == false)" name="Text" localize="true" columns="10" />
+      <Label label="text" index="2" constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;location=left)" visible="(data.isMultilineAllowed == true)" name="MultilineTextLabel" localize="true" />
+      <TextArea columns="10" index="3" data="data.text" constraints="twocols(expandHorizontally=true;expandVertically=true;index=3;location=right)" visible="(data.isMultilineAllowed == true)" useScrollBar="true" horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="MultilineText" localize="true" />
       <Label label="text_style" index="4" constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;location=left)" name="TextStyleLabel" localize="true" />
       <Custom componentClassName="org.openflexo.diana.view.widget.FIBTextStyleSelector" localize="true" manageDynamicModel="true" name="TextStyle" index="5" data="data.textStyle" constraints="twocols(expandHorizontally=false;expandVertically=false;index=5;location=right)" />
       <Label label="multiple_lines" index="6" constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;location=left)" name="IsMultilineAllowedLabel" localize="true" />
@@ -115,4 +115,4 @@
     <Localized key="paragraph_alignment" lang="Dutch" value="Paragraph alignment" />
   </LocalizedDictionary>
   <Parameter name="title" value="Default" />
-</Panel>
+</Inspector>

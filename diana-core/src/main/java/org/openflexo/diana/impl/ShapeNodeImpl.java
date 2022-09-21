@@ -423,13 +423,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 */
 	@Override
 	public int getBorderTop() {
-		
+
 		int returned = DEFAULT_BORDER_TOP;
 
 		if (getForegroundStyle() != null) {
-			returned = (int)getForegroundStyle().getLineWidth();
+			returned = (int) getForegroundStyle().getLineWidth();
 		}
-		
+
 		// Handle control areas
 		if (getControlAreas() != null) {
 			for (ControlArea<?> ca : new ArrayList<>(getControlAreas())) {
@@ -473,7 +473,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		int returned = DEFAULT_BORDER_LEFT;
 
 		if (getForegroundStyle() != null) {
-			returned = (int)getForegroundStyle().getLineWidth();
+			returned = (int) getForegroundStyle().getLineWidth();
 		}
 
 		// Handle control areas
@@ -1286,7 +1286,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	public void finalizeConstraints() {
 		if (getGraphicalRepresentation() != null) {
 			if (getGraphicalRepresentation().getXConstraints() != null && getGraphicalRepresentation().getXConstraints().isValid()) {
-				getGraphicalRepresentation().getXConstraints().decode();
+				// getGraphicalRepresentation().getXConstraints().decode();
 				try {
 					setX((Double) TypeUtils.castTo(
 							getGraphicalRepresentation().getXConstraints().getBindingValue(getBindingEvaluationContext()), Double.class));
@@ -1296,11 +1296,13 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
 					e.printStackTrace();
+				} catch (ReflectiveOperationException e) {
+					e.printStackTrace();
 				}
 				getGraphicalRepresentation().setLocationConstraints(LocationConstraints.UNMOVABLE);
 			}
 			if (getGraphicalRepresentation().getYConstraints() != null && getGraphicalRepresentation().getYConstraints().isValid()) {
-				getGraphicalRepresentation().getYConstraints().decode();
+				// getGraphicalRepresentation().getYConstraints().decode();
 				try {
 					setY((Double) TypeUtils.castTo(
 							getGraphicalRepresentation().getYConstraints().getBindingValue(getBindingEvaluationContext()), Double.class));
@@ -1310,12 +1312,14 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
 					e.printStackTrace();
+				} catch (ReflectiveOperationException e) {
+					e.printStackTrace();
 				}
 				getGraphicalRepresentation().setLocationConstraints(LocationConstraints.UNMOVABLE);
 			}
 			if (getGraphicalRepresentation().getWidthConstraints() != null
 					&& getGraphicalRepresentation().getWidthConstraints().isValid()) {
-				getGraphicalRepresentation().getWidthConstraints().decode();
+				// getGraphicalRepresentation().getWidthConstraints().decode();
 				try {
 					Object bdv = getGraphicalRepresentation().getWidthConstraints().getBindingValue(getBindingEvaluationContext());
 					if (bdv != null) {
@@ -1327,12 +1331,14 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
 					e.printStackTrace();
+				} catch (ReflectiveOperationException e) {
+					e.printStackTrace();
 				}
 				getGraphicalRepresentation().setDimensionConstraints(DimensionConstraints.UNRESIZABLE);
 			}
 			if (getGraphicalRepresentation().getHeightConstraints() != null
 					&& getGraphicalRepresentation().getHeightConstraints().isValid()) {
-				getGraphicalRepresentation().getHeightConstraints().decode();
+				// getGraphicalRepresentation().getHeightConstraints().decode();
 				try {
 					Object bdv = getGraphicalRepresentation().getHeightConstraints().getBindingValue(getBindingEvaluationContext());
 					if (bdv != null) {
@@ -1343,6 +1349,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 				} catch (NullReferenceException e) {
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (ReflectiveOperationException e) {
 					e.printStackTrace();
 				}
 				getGraphicalRepresentation().setDimensionConstraints(DimensionConstraints.UNRESIZABLE);
@@ -1390,6 +1398,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
+		} catch (ReflectiveOperationException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -1405,6 +1415,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		} catch (NullReferenceException e) {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (ReflectiveOperationException e) {
 			e.printStackTrace();
 		}
 	}
@@ -1422,6 +1434,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
+		} catch (ReflectiveOperationException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -1437,6 +1451,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		} catch (NullReferenceException e) {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (ReflectiveOperationException e) {
 			e.printStackTrace();
 		}
 	}

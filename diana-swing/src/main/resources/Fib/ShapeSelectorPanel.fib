@@ -27,10 +27,10 @@
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="2"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=2;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		visible="(data.styleType = &quot;RECTANGLE&quot;)" opaque="false"
+		visible="(data.styleType == &quot;RECTANGLE&quot;)" opaque="false"
 		name="RectanglePanel">
 		<FIBVariable name="rectangle"
-			value="($org.openflexo.diana.shapes.Rectangle)data.shapeSpecification"
+			value="(org.openflexo.diana.shapes.Rectangle)data.shapeSpecification"
 			type="org.openflexo.diana.shapes.Rectangle" />
 		<Label label="rounded" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
@@ -53,9 +53,9 @@
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="3"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=3;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		visible="(data.styleType = &quot;SQUARE&quot;)" opaque="false" name="SquarePanel">
+		visible="(data.styleType == &quot;SQUARE&quot;)" opaque="false" name="SquarePanel">
 		<FIBVariable name="square"
-			value="($org.openflexo.diana.shapes.Square)data.shapeSpecification"
+			value="(org.openflexo.diana.shapes.Square)data.shapeSpecification"
 			type="org.openflexo.diana.shapes.Square" />
 		<Label label="rounded" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
@@ -77,9 +77,9 @@
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="4"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=4;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		visible="(data.styleType = &quot;POLYGON&quot;)" opaque="false" name="PolygonPanel">
+		visible="(data.styleType == &quot;POLYGON&quot;)" opaque="false" name="PolygonPanel">
 		<FIBVariable name="polygon"
-			value="($org.openflexo.diana.shapes.RegularPolygon)data.shapeSpecification"
+			value="(org.openflexo.diana.shapes.RegularPolygon)data.shapeSpecification"
 			type="org.openflexo.diana.shapes.RegularPolygon" />
 		<Label label="points_number" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
@@ -103,10 +103,10 @@
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="5"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=5;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		visible="(data.styleType = &quot;TRIANGLE&quot;)" opaque="false"
+		visible="(data.styleType == &quot;TRIANGLE&quot;)" opaque="false"
 		name="TrianglePanel">
 		<FIBVariable name="triangle"
-			value="($org.openflexo.diana.shapes.Triangle)data.shapeSpecification"
+			value="(org.openflexo.diana.shapes.Triangle)data.shapeSpecification"
 			type="org.openflexo.diana.shapes.Triangle" />
 		<Label label="start_angle" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
@@ -122,9 +122,9 @@
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="6"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		visible="(data.styleType = &quot;LOSANGE&quot;)" opaque="false" name="LosangePanel">
+		visible="(data.styleType == &quot;LOSANGE&quot;)" opaque="false" name="LosangePanel">
 		<FIBVariable name="losange"
-			value="($org.openflexo.diana.shapes.Losange)data.shapeSpecification"
+			value="(org.openflexo.diana.shapes.Losange)data.shapeSpecification"
 			type="org.openflexo.diana.shapes.Losange" />
 		<Dependancy componentName="shapeTypeDropdown" />
 	</Panel>
@@ -132,10 +132,10 @@
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="6"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		visible="(data.styleType = &quot;RECTANGULAROCTOGON&quot;)" opaque="false"
+		visible="(data.styleType == &quot;RECTANGULAROCTOGON&quot;)" opaque="false"
 		name="RectangularOctogonPanel">
 		<FIBVariable name="regularOctogon"
-			value="($org.openflexo.diana.shapes.RectangularOctogon)data.shapeSpecification"
+			value="(org.openflexo.diana.shapes.RectangularOctogon)data.shapeSpecification"
 			type="org.openflexo.diana.shapes.RectangularOctogon" />
 		<Dependancy componentName="shapeTypeDropdown" />
 		<Label label="ratio" index="0"
@@ -151,10 +151,10 @@
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="6"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=6;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		visible="(data.styleType = &quot;PARALLELOGRAM&quot;)" opaque="false"
+		visible="(data.styleType == &quot;PARALLELOGRAM&quot;)" opaque="false"
 		name="ParallelogramPanel">
 		<FIBVariable name="parallelogram"
-			value="($org.openflexo.diana.shapes.Parallelogram)data.shapeSpecification"
+			value="(org.openflexo.diana.shapes.Parallelogram)data.shapeSpecification"
 			type="org.openflexo.diana.shapes.Parallelogram" />
 		<Dependancy componentName="shapeTypeDropdown" />
 		<Label label="shift_ratio" index="0"
@@ -170,9 +170,9 @@
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="7"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=7;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		visible="(data.styleType = &quot;OVAL&quot;)" opaque="false" name="OvalPanel">
+		visible="(data.styleType == &quot;OVAL&quot;)" opaque="false" name="OvalPanel">
 		<FIBVariable name="oval"
-			value="($org.openflexo.diana.shapes.Oval)data.shapeSpecification"
+			value="(org.openflexo.diana.shapes.Oval)data.shapeSpecification"
 			type="org.openflexo.diana.shapes.Oval" />
 		<Dependancy componentName="shapeTypeDropdown" />
 	</Panel>
@@ -180,19 +180,19 @@
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="8"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=8;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		visible="(data.styleType = &quot;CIRCLE&quot;)" opaque="false" name="CirclePanel">
+		visible="(data.styleType == &quot;CIRCLE&quot;)" opaque="false" name="CirclePanel">
 		<Dependancy componentName="shapeTypeDropdown" />
 		<FIBVariable name="circle"
-			value="($org.openflexo.diana.shapes.Circle)data.shapeSpecification"
+			value="(org.openflexo.diana.shapes.Circle)data.shapeSpecification"
 			type="org.openflexo.diana.shapes.Circle" />
 	</Panel>
 	<Panel layout="twocols" border="rounded3d" borderTitle=""
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="9"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=9;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		visible="(data.styleType = &quot;STAR&quot;)" opaque="false" name="StarPanel">
+		visible="(data.styleType == &quot;STAR&quot;)" opaque="false" name="StarPanel">
 		<FIBVariable name="star"
-			value="($org.openflexo.diana.shapes.Star)data.shapeSpecification"
+			value="(org.openflexo.diana.shapes.Star)data.shapeSpecification"
 			type="org.openflexo.diana.shapes.Star" />
 		<Label label="points_number" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
@@ -224,9 +224,9 @@
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="10"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=10;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		visible="(data.styleType = &quot;ARC&quot;)" opaque="false" name="ArcPanel">
+		visible="(data.styleType == &quot;ARC&quot;)" opaque="false" name="ArcPanel">
 		<FIBVariable name="arc"
-			value="($org.openflexo.diana.shapes.Arc)data.shapeSpecification"
+			value="(org.openflexo.diana.shapes.Arc)data.shapeSpecification"
 			type="org.openflexo.diana.shapes.Arc" />
 		<Label label="start_angle" index="0"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
@@ -259,9 +259,9 @@
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="8"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=8;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		visible="(data.styleType = &quot;CHEVRON&quot;)" opaque="false" name="ChevronPanel">
+		visible="(data.styleType == &quot;CHEVRON&quot;)" opaque="false" name="ChevronPanel">
 		<FIBVariable name="chevron"
-			value="($org.openflexo.diana.shapes.Chevron)data.shapeSpecification"
+			value="(org.openflexo.diana.shapes.Chevron)data.shapeSpecification"
 			type="org.openflexo.diana.shapes.Chevron" />
 		<Dependancy componentName="shapeTypeDropdown" />
 		<Label label="arrow_length" index="0"
@@ -279,9 +279,9 @@
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="8"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=8;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		visible="(data.styleType = &quot;PLUS&quot;)" opaque="false" name="PlusPanel">
+		visible="(data.styleType == &quot;PLUS&quot;)" opaque="false" name="PlusPanel">
 		<FIBVariable name="plus"
-			value="($org.openflexo.diana.shapes.Plus)data.shapeSpecification"
+			value="(org.openflexo.diana.shapes.Plus)data.shapeSpecification"
 			type="org.openflexo.diana.shapes.Plus" />
 		<Dependancy componentName="shapeTypeDropdown" />
 		<Label label="ratio" index="0"
@@ -298,10 +298,10 @@
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="11"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=11;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		visible="(data.styleType = &quot;CUSTOM_POLYGON&quot;)" opaque="false"
+		visible="(data.styleType == &quot;CUSTOM_POLYGON&quot;)" opaque="false"
 		name="CustomPolygonPanel">
 		<FIBVariable name="polygon"
-			value="($org.openflexo.diana.shapes.Polygon)data.shapeSpecification"
+			value="(org.openflexo.diana.shapes.Polygon)data.shapeSpecification"
 			type="org.openflexo.diana.shapes.Polygon" />
 		<Table iteratorClassName="org.openflexo.diana.geom.DianaPoint"
 			visibleRowCount="3" rowHeight="18" autoSelectFirstRow="false"
@@ -334,10 +334,10 @@
 		borderTop="2" borderBottom="2" borderLeft="10" borderRight="10"
 		titleFont="SansSerif,0,11" darkLevel="0" index="11"
 		constraints="gridbag(anchor=center;expandHorizontally=true;expandVertically=false;fill=both;gridHeight=1;gridWidth=0;gridX=-1;gridY=-1;index=11;insetsBottom=0;insetsLeft=0;insetsRight=0;insetsTop=0;location=center;padX=0;padY=0;weightX=1.0;weightY=1.0)"
-		visible="(data.styleType = &quot;COMPLEX_CURVE&quot;)" opaque="false"
+		visible="(data.styleType == &quot;COMPLEX_CURVE&quot;)" opaque="false"
 		name="ComplexCurvePanel">
 		<FIBVariable name="curve"
-			value="($org.openflexo.diana.shapes.ComplexCurve)data.shapeSpecification"
+			value="(org.openflexo.diana.shapes.ComplexCurve)data.shapeSpecification"
 			type="org.openflexo.diana.shapes.ComplexCurve" />
 		<Label label="closure" index="4"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"

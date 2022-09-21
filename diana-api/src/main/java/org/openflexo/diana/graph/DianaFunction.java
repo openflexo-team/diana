@@ -97,7 +97,8 @@ public abstract class DianaFunction<T> extends PropertyChangedSupportDefaultImpl
 	protected List<T> valueSamples;
 	protected Map<?, List<T>> twoLevelsValueSamples;
 
-	public DianaFunction(String functionName, Type functionType, DataBinding<T> functionExpression, DianaGraphType graphType, DianaGraph graph) {
+	public DianaFunction(String functionName, Type functionType, DataBinding<T> functionExpression, DianaGraphType graphType,
+			DianaGraph graph) {
 		super();
 		this.functionName = functionName;
 		this.functionType = functionType;
@@ -190,7 +191,7 @@ public abstract class DianaFunction<T> extends PropertyChangedSupportDefaultImpl
 		}
 	}
 
-	public T evaluate() throws TypeMismatchException, NullReferenceException, InvocationTargetException {
+	public T evaluate() throws TypeMismatchException, NullReferenceException, ReflectiveOperationException {
 		// System.out.println("on evalue " + functionExpression + " valid=" + functionExpression.isValid() + " reason: "
 		// + functionExpression.invalidBindingReason());
 		T returned = functionExpression.getBindingValue(getGraph().getEvaluator());
@@ -282,6 +283,8 @@ public abstract class DianaFunction<T> extends PropertyChangedSupportDefaultImpl
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
 					e.printStackTrace();
+				} catch (ReflectiveOperationException e) {
+					e.printStackTrace();
 				}
 
 				// System.out.println("value=" + value);
@@ -333,6 +336,8 @@ public abstract class DianaFunction<T> extends PropertyChangedSupportDefaultImpl
 						} catch (NullReferenceException e) {
 							e.printStackTrace();
 						} catch (InvocationTargetException e) {
+							e.printStackTrace();
+						} catch (ReflectiveOperationException e) {
 							e.printStackTrace();
 						}
 						values.add(value);
