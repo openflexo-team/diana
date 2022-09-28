@@ -53,7 +53,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.openflexo.diana.drawingeditor.model.DiagramFactory;
@@ -63,7 +62,7 @@ import org.openflexo.pamela.factory.EditingContextImpl;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.test.UITest;
 
-@Ignore
+//@Ignore
 public class TestLoadAndDisplaySomeDiagrams {
 
 	public static EventProcessor eventProcessor;
