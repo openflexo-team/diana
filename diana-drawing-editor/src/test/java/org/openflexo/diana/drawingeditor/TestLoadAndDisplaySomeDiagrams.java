@@ -350,6 +350,7 @@ public class TestLoadAndDisplaySomeDiagrams {
 			try {
 				super.dispatchEvent(e);
 			} catch (Throwable exception) {
+				System.out.println("Caught " + exception);
 				this.exception = exception;
 			}
 		}
