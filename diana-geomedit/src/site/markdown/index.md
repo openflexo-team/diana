@@ -1,0 +1,14 @@
+# DIANA GeomEdit
+
+This is is a stand-alone implementation of a Swing geometry constructions editor.
+  
+This is a tool which can be used out of the box to buid geometrical constructions.
+Geometric constructions beeing build using this tool are built above a construction model provided by this component.
+
+Complex shapes might be exported using this tool to be used in DIANA diagram editors.
+
+[/images/components/diana/GeomEditScreenshot] GeomEditScreenshot
+
+To be continued...
+  
+    
