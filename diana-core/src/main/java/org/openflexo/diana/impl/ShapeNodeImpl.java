@@ -2152,6 +2152,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 		// System.out.println("************* relayoutNode called for " + this);
 
+		if (getGraphicalRepresentation() == null) {
+			return;
+		}
+
 		DianaLayoutManager<?, ?> layoutManager = null;
 		if (StringUtils.isNotEmpty(getGraphicalRepresentation().getLayoutManagerIdentifier())) {
 			layoutManager = getParentNode().getLayoutManager(getGraphicalRepresentation().getLayoutManagerIdentifier());

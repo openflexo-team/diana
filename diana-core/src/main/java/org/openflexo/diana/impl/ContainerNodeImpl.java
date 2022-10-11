@@ -134,6 +134,8 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	private void updateLayoutManagers() {
 		DianaLayoutManager<?, O> oldDefaultLayoutManager = getDefaultLayoutManager();
 		List<DianaLayoutManager<?, O>> lmToRemove = new ArrayList<>(getLayoutManagers());
+		if (getGraphicalRepresentation() == null)
+			return;
 		for (DianaLayoutManagerSpecification<?> spec : getGraphicalRepresentation().getLayoutManagerSpecifications()) {
 			if (spec.isDeleted())
 				continue;

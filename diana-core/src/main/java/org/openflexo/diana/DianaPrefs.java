@@ -46,9 +46,14 @@ public class DianaPrefs {
 	private static final Logger LOGGER = Logger.getLogger(DianaPrefs.class.getPackage().getName());
 
 	public static final boolean DEFAULT_HANDLE_LONG_FOCUSING = true;
-	public static final int DEFAULT_LONG_FOCUSING_DELAY = 1500; // ms
+	public static final int DEFAULT_LONG_FOCUSING_DELAY = 1000; // ms
+	public static final boolean DEFAULT_HANDLE_TRAILING_FOCUSING = true;
+	public static final int DEFAULT_TRAILING_FOCUSING_DELAY = 1500; // ms
 
 	public static boolean HANDLE_LONG_FOCUSING = DEFAULT_HANDLE_LONG_FOCUSING;
 	public static int LONG_FOCUSING_DELAY = DEFAULT_LONG_FOCUSING_DELAY;
+
+	public static boolean HANDLE_TRAILING_FOCUSING = DEFAULT_HANDLE_TRAILING_FOCUSING;
+	public static int TRAILING_FOCUSING_DELAY = DEFAULT_TRAILING_FOCUSING_DELAY;
 
 }
