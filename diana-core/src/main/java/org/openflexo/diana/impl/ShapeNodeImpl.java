@@ -50,7 +50,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
-import org.openflexo.connie.binding.BindingValueChangeListener;
+import org.openflexo.connie.binding.BindingPathChangeListener;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
 import org.openflexo.connie.type.TypeUtils;
@@ -121,10 +121,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	private DianaLayoutManager<?, ?> activeLayoutManager;
 	private boolean layoutValidated = false;
 
-	private BindingValueChangeListener<Double> xConstraintsListener;
-	private BindingValueChangeListener<Double> yConstraintsListener;
-	private BindingValueChangeListener<Double> widthConstraintsListener;
-	private BindingValueChangeListener<Double> heightConstraintsListener;
+	private BindingPathChangeListener<Double> xConstraintsListener;
+	private BindingPathChangeListener<Double> yConstraintsListener;
+	private BindingPathChangeListener<Double> widthConstraintsListener;
+	private BindingPathChangeListener<Double> heightConstraintsListener;
 
 	public static final int DEFAULT_BORDER_TOP = 0;
 	public static final int DEFAULT_BORDER_LEFT = 0;
@@ -153,7 +153,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 		if (getGraphicalRepresentation().getXConstraints() != null && getGraphicalRepresentation().getXConstraints().isSet()
 				&& getGraphicalRepresentation().getXConstraints().isValid()) {
-			xConstraintsListener = new BindingValueChangeListener<Double>(getGraphicalRepresentation().getXConstraints(),
+			xConstraintsListener = new BindingPathChangeListener<Double>(getGraphicalRepresentation().getXConstraints(),
 					getBindingEvaluationContext(), true) {
 				@Override
 				public void bindingValueChanged(Object source, Double newValue) {
@@ -180,7 +180,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 		if (getGraphicalRepresentation().getYConstraints() != null && getGraphicalRepresentation().getYConstraints().isSet()
 				&& getGraphicalRepresentation().getYConstraints().isValid()) {
-			yConstraintsListener = new BindingValueChangeListener<Double>(getGraphicalRepresentation().getYConstraints(),
+			yConstraintsListener = new BindingPathChangeListener<Double>(getGraphicalRepresentation().getYConstraints(),
 					getBindingEvaluationContext(), true) {
 				@Override
 				public void bindingValueChanged(Object source, Double newValue) {
@@ -206,7 +206,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 		if (getGraphicalRepresentation().getWidthConstraints() != null && getGraphicalRepresentation().getWidthConstraints().isSet()
 				&& getGraphicalRepresentation().getWidthConstraints().isValid()) {
-			widthConstraintsListener = new BindingValueChangeListener<Double>(getGraphicalRepresentation().getWidthConstraints(),
+			widthConstraintsListener = new BindingPathChangeListener<Double>(getGraphicalRepresentation().getWidthConstraints(),
 					getBindingEvaluationContext(), true) {
 				@Override
 				public void bindingValueChanged(Object source, Double newValue) {
@@ -231,7 +231,7 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 
 		if (getGraphicalRepresentation().getHeightConstraints() != null && getGraphicalRepresentation().getHeightConstraints().isSet()
 				&& getGraphicalRepresentation().getHeightConstraints().isValid()) {
-			heightConstraintsListener = new BindingValueChangeListener<Double>(getGraphicalRepresentation().getHeightConstraints(),
+			heightConstraintsListener = new BindingPathChangeListener<Double>(getGraphicalRepresentation().getHeightConstraints(),
 					getBindingEvaluationContext(), true) {
 				@Override
 				public void bindingValueChanged(Object source, Double newValue) {

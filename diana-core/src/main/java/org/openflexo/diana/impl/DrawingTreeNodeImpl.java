@@ -61,7 +61,7 @@ import java.util.logging.Logger;
 import org.openflexo.connie.BindingEvaluationContext;
 import org.openflexo.connie.BindingVariable;
 import org.openflexo.connie.DataBinding;
-import org.openflexo.connie.binding.BindingValueChangeListener;
+import org.openflexo.connie.binding.BindingPathChangeListener;
 import org.openflexo.connie.exception.NotSettableContextException;
 import org.openflexo.connie.exception.NullReferenceException;
 import org.openflexo.connie.exception.TypeMismatchException;
@@ -186,7 +186,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 */
 	public class BindingValueObserver {
 
-		private Map<DynamicPropertyValue<?>, BindingValueChangeListener<?>> listeners;
+		private Map<DynamicPropertyValue<?>, BindingPathChangeListener<?>> listeners;
 
 		public BindingValueObserver() {
 			listeners = new HashMap<>();
@@ -196,7 +196,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		}
 
 		private <T> void registerBindingValueChangeListener(final DynamicPropertyValue<T> dynamicPropertyValue) {
-			BindingValueChangeListener<T> listener = new BindingValueChangeListener<T>(dynamicPropertyValue.dataBinding,
+			BindingPathChangeListener<T> listener = new BindingPathChangeListener<T>(dynamicPropertyValue.dataBinding,
 					getBindingEvaluationContext()) {
 				@Override
 				public void bindingValueChanged(Object source, T newValue) {
@@ -208,7 +208,7 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 		}
 
 		public void delete() {
-			for (BindingValueChangeListener<?> l : listeners.values()) {
+			for (BindingPathChangeListener<?> l : listeners.values()) {
 				l.stopObserving();
 				l.delete();
 			}

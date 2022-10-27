@@ -45,7 +45,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
-import org.openflexo.connie.binding.BindingValueListChangeListener;
+import org.openflexo.connie.binding.BindingPathListChangeListener;
 import org.openflexo.diana.graph.DianaDiscreteSimpleFunctionGraph;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.graph.FIBDiscreteSimpleFunctionGraph;
@@ -60,7 +60,7 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 
 	private static final Logger logger = Logger.getLogger(JFIBDiscreteSimpleGraphWidget.class.getPackage().getName());
 
-	private BindingValueListChangeListener<Object, List<Object>> valuesBindingValueChangeListener;
+	private BindingPathListChangeListener<Object, List<Object>> valuesBindingValueChangeListener;
 
 	public JFIBDiscreteSimpleGraphWidget(FIBDiscreteSimpleFunctionGraph model, FIBController controller) {
 		super(model, controller);
@@ -86,7 +86,7 @@ public class JFIBDiscreteSimpleGraphWidget extends JFIBSimpleGraphWidget<FIBDisc
 		}
 		if (getComponent().getValues() != null && getComponent().getValues().isValid()) {
 
-			valuesBindingValueChangeListener = new BindingValueListChangeListener<Object, List<Object>>(
+			valuesBindingValueChangeListener = new BindingPathListChangeListener<Object, List<Object>>(
 					((DataBinding) getComponent().getValues()), getBindingEvaluationContext()) {
 
 				@Override
