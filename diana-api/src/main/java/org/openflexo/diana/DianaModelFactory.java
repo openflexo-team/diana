@@ -152,7 +152,7 @@ public abstract class DianaModelFactory extends PamelaModelFactory {
 	 */
 	public DianaModelFactory(final Collection<Class<?>> classes) throws ModelDefinitionException {
 
-		super(PamelaMetaModelLibrary.getCompoundModelContext(appendGRClasses(classes)));
+		super(PamelaMetaModelLibrary.retrieveMetaModel(appendGRClasses(classes)));
 
 		this.addConverter(DianaUtils.DATA_BINDING_CONVERTER);
 		this.getStringEncoder().addConverter(DianaUtils.POINT_CONVERTER);
