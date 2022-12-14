@@ -99,9 +99,9 @@ import org.openflexo.diana.shapes.RegularPolygon;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.shapes.ShapeUnion;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
-import org.openflexo.pamela.ModelContextLibrary;
+import org.openflexo.pamela.PamelaMetaModelLibrary;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
-import org.openflexo.pamela.factory.ModelFactory;
+import org.openflexo.pamela.factory.PamelaModelFactory;
 import org.openflexo.diana.shapes.Square;
 import org.openflexo.diana.shapes.Star;
 import org.openflexo.diana.shapes.Triangle;
@@ -123,7 +123,7 @@ import org.openflexo.toolbox.ToolBox;
  * @author sylvain
  * 
  */
-public abstract class DianaModelFactory extends ModelFactory {
+public abstract class DianaModelFactory extends PamelaModelFactory {
 
 	static final Logger LOGGER = Logger.getLogger(DianaModelFactory.class.getPackage().getName());
 
@@ -152,7 +152,7 @@ public abstract class DianaModelFactory extends ModelFactory {
 	 */
 	public DianaModelFactory(final Collection<Class<?>> classes) throws ModelDefinitionException {
 
-		super(ModelContextLibrary.getCompoundModelContext(appendGRClasses(classes)));
+		super(PamelaMetaModelLibrary.getCompoundModelContext(appendGRClasses(classes)));
 
 		this.addConverter(DianaUtils.DATA_BINDING_CONVERTER);
 		this.getStringEncoder().addConverter(DianaUtils.POINT_CONVERTER);

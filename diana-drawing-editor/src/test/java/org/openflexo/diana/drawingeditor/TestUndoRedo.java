@@ -79,7 +79,7 @@ public class TestUndoRedo {
 	private static CompoundEdit addSecondShape;
 	private static CompoundEdit addConnector;
 
-	// private ModelContext modelContext;
+	// private PamelaMetaModel pamelaMetaModel;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

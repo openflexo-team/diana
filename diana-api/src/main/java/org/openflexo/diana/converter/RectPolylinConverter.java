@@ -46,7 +46,7 @@ import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectPolylin;
 import org.openflexo.pamela.exceptions.InvalidDataException;
-import org.openflexo.pamela.factory.ModelFactory;
+import org.openflexo.pamela.factory.PamelaModelFactory;
 import org.openflexo.pamela.model.StringConverterLibrary.Converter;
 
 public class RectPolylinConverter extends Converter<DianaRectPolylin> {
@@ -55,7 +55,7 @@ public class RectPolylinConverter extends Converter<DianaRectPolylin> {
 	}
 
 	@Override
-	public DianaRectPolylin convertFromString(String value, ModelFactory factory) {
+	public DianaRectPolylin convertFromString(String value, PamelaModelFactory factory) {
 		try {
 			List<DianaPoint> points = new ArrayList<>();
 			StringTokenizer st = new StringTokenizer(value, ";");
