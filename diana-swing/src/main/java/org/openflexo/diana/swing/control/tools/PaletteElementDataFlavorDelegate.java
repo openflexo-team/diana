@@ -129,6 +129,8 @@ public class PaletteElementDataFlavorDelegate extends DataFlavorDelegate {
 				return element.elementDragged(focused, modelLocation);
 
 			} catch (Exception e1) {
+				// Unexpected exception
+				e1.printStackTrace();
 				return false;
 			}
 
