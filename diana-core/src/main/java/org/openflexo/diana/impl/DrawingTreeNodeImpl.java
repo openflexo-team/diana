@@ -1054,7 +1054,9 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			} catch (TypeMismatchException e) {
 				throw new InvocationTargetException(e);
 			} catch (NullReferenceException e) {
-				throw new InvocationTargetException(e);
+				// No need to throw an exception
+				// throw new InvocationTargetException(e);
+				return null;
 			} catch (ReflectiveOperationException e) {
 				throw new InvocationTargetException(e);
 			}
