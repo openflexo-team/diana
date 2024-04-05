@@ -10,17 +10,18 @@ dependencies {
   testImplementation ginaTest()
   testImplementation ginaReplayTest()
 }
+// Does not seems to work anymore => evaluate for Java11
 // To be able to use private apple api
-if (!JavaVersion.current().isJava9Compatible()) {
-	tasks.withType(JavaCompile) {
-	    options.compilerArgs << "-XDignore.symbol.file=true"
-    	options.fork = true
-	    options.forkOptions.executable = 'javac'
-    }
-}
-if (JavaVersion.current().isJava9Compatible()) {
-	tasks.withType(JavaCompile) {
-		options.compilerArgs.addAll(['--add-exports', 'java.desktop/sun.awt.image=ALL-UNNAMED'])
-		options.compilerArgs.addAll(['--add-exports', 'java.desktop/sun.awt.dnd=ALL-UNNAMED'])
-    }
-}
+//if (!JavaVersion.current().isJava9Compatible()) {
+//	tasks.withType(JavaCompile) {
+//	    options.compilerArgs << "-XDignore.symbol.file=true"
+//    	options.fork = true
+//	    options.forkOptions.executable = 'javac'
+//    }
+//}
+//if (JavaVersion.current().isJava9Compatible()) {
+//	tasks.withType(JavaCompile) {
+//		options.compilerArgs.addAll(['--add-exports', 'java.desktop/sun.awt.image=ALL-UNNAMED'])
+//		options.compilerArgs.addAll(['--add-exports', 'java.desktop/sun.awt.dnd=ALL-UNNAMED'])
+//    }
+//}
