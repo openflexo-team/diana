@@ -18,3 +18,4 @@ target/
 /.gradle/
 build/
 **/out/
+.java-version
