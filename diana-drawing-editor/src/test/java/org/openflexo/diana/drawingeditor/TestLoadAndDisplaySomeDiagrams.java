@@ -63,7 +63,7 @@ import org.openflexo.pamela.factory.EditingContextImpl;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.test.UITest;
 
-@Ignore
+@Ignore("Freeze jenkins, please investigate")
 public class TestLoadAndDisplaySomeDiagrams {
 
 	public static EventProcessor eventProcessor;
