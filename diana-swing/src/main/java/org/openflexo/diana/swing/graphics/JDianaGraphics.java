@@ -44,7 +44,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Paint;
@@ -54,7 +53,6 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.TexturePaint;
-import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.geom.CubicCurve2D;
@@ -63,9 +61,6 @@ import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.FilteredImageSource;
-import java.awt.image.ImageProducer;
-import java.awt.image.RGBImageFilter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -93,9 +88,11 @@ import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.graphics.DianaGraphics;
 import org.openflexo.diana.graphics.DianaGraphicsImpl;
 import org.openflexo.diana.swing.view.JDianaView;
+import org.openflexo.swing.ImageUtils;
+import org.openflexo.swing.ImageUtils.RGBFilter;
 
-import sun.awt.image.ImageRepresentation;
-import sun.awt.image.ToolkitImage;
+//import sun.awt.image.ImageRepresentation;
+//import sun.awt.image.ToolkitImage;
 
 /**
  * This is the SWING base implementation of a {@link DianaGraphics}.<br>
@@ -133,7 +130,7 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 	 * @param controller
 	 */
 
-	public void createGraphics(Graphics2D graphics2D/*, AbstractDianaEditor<?, ?, ?> controller*/) {
+	public void createGraphics(Graphics2D graphics2D/* , AbstractDianaEditor<?, ?, ?> controller */) {
 		g2d = (Graphics2D) graphics2D.create();
 	}
 
@@ -142,7 +139,8 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 	}
 
 	/**
-	 * Creates a new <code>Graphics2D</code> object that is a copy of current <code>Graphics2D</code> object.
+	 * Creates a new <code>Graphics2D</code> object that is a copy of current
+	 * <code>Graphics2D</code> object.
 	 * 
 	 * @return old <code>Graphics2D</code> object
 	 */
@@ -189,9 +187,9 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 			// When exporting to SVG, do not set the Composite
 			if (!(g2d instanceof SVGGraphics2D)) {
 				if (getCurrentForeground().getUseTransparency()) {
-					g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getCurrentForeground().getTransparencyLevel()));
-				}
-				else {
+					g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+							getCurrentForeground().getTransparencyLevel()));
+				} else {
 					g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
 				}
 			}
@@ -202,8 +200,9 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 
 	protected String debugForegroundStyle() {
 		BasicStroke stroke = (BasicStroke) g2d.getStroke();
-		return "FS-(color=" + g2d.getColor() + ")-(with=" + stroke.getLineWidth() + ")-(transp=" + g2d.getComposite() + ")-(join="
-				+ stroke.getLineJoin() + ")-(cap=" + stroke.getEndCap() + ")-(dash=" + stroke.getDashPhase() + ")";
+		return "FS-(color=" + g2d.getColor() + ")-(with=" + stroke.getLineWidth() + ")-(transp=" + g2d.getComposite()
+				+ ")-(join=" + stroke.getLineJoin() + ")-(cap=" + stroke.getEndCap() + ")-(dash="
+				+ stroke.getDashPhase() + ")";
 	}
 
 	@Override
@@ -219,16 +218,15 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 				// When exporting to SVG, do not set the Composite
 				if (!(g2d instanceof SVGGraphics2D)) {
 					if (getCurrentBackground().getUseTransparency()) {
-						g2d.setComposite(
-								AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getCurrentBackground().getTransparencyLevel()));
-					}
-					else {
+						g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+								getCurrentBackground().getTransparencyLevel()));
+					} else {
 						g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
 					}
 				}
-			}
-			else {
-				// paint was null, meaning that Paint could not been obtained yet (texture not ready yet)
+			} else {
+				// paint was null, meaning that Paint could not been obtained yet (texture not
+				// ready yet)
 				// the best is to paint it totally transparent
 				// When exporting to SVG, do not set the Composite
 				if (!(g2d instanceof SVGGraphics2D)) {
@@ -300,8 +298,7 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 		// g2d.drawRect(r.x,r.y,r.width,r.height);
 		if (r.height == 0 || r.width == 0) {
 			g2d.drawLine(r.x, r.y, r.x + r.width, r.y + r.height);
-		}
-		else {
+		} else {
 			g2d.drawLine(r.x, r.y, r.x + r.width - 1, r.y);
 			g2d.drawLine(r.x + r.width, r.y, r.x + r.width, r.y + r.height - 1);
 			g2d.drawLine(r.x + r.width, r.y + r.height, r.x + 1, r.y + r.height);
@@ -322,8 +319,7 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 
 		if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
 			fillInShapeWithImage(r);
-		}
-		else {
+		} else {
 			g2d.fillRect(r.x, r.y, r.width, r.height);
 		}
 		if (logger.isLoggable(Level.FINER)) {
@@ -332,8 +328,9 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 	}
 
 	/**
-	 * This method is used to paint an image or a portion of an image into a supplied shape. Background properties are used, and
-	 * transparency managed here.
+	 * This method is used to paint an image or a portion of an image into a
+	 * supplied shape. Background properties are used, and transparency managed
+	 * here.
 	 * 
 	 * @param aShape
 	 */
@@ -343,18 +340,22 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 		// g2d.setClip(aShape);
 
 		AffineTransform at = AffineTransform.getScaleInstance(getScale(), getScale());
-		/*if (getNode() instanceof ShapeNode) {
-			ShapeNode<?> node = (ShapeNode<?>) getNode();
-			at.concatenate(AffineTransform.getTranslateInstance(node.getBorderLeft(), node.getBorderTop()));
-		}*/
+		/*
+		 * if (getNode() instanceof ShapeNode) { ShapeNode<?> node = (ShapeNode<?>)
+		 * getNode();
+		 * at.concatenate(AffineTransform.getTranslateInstance(node.getBorderLeft(),
+		 * node.getBorderTop())); }
+		 */
 		if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
 			BackgroundImageBackgroundStyle imageBGStyle = (BackgroundImageBackgroundStyle) getCurrentBackground();
 
 			if (imageBGStyle.getImage() != null) {
 				if (!imageBGStyle.getFitToShape()) {
-					at.concatenate(AffineTransform.getTranslateInstance(imageBGStyle.getDeltaX(), imageBGStyle.getDeltaY()));
+					at.concatenate(
+							AffineTransform.getTranslateInstance(imageBGStyle.getDeltaX(), imageBGStyle.getDeltaY()));
 				}
-				if (imageBGStyle.getImageBackgroundType() == BackgroundImageBackgroundStyle.ImageBackgroundType.OPAQUE) {
+				if (imageBGStyle
+						.getImageBackgroundType() == BackgroundImageBackgroundStyle.ImageBackgroundType.OPAQUE) {
 					g2d.setColor(imageBGStyle.getImageBackgroundColor());
 					g2d.fill(aShape);
 				}
@@ -363,18 +364,17 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 					at.concatenate(AffineTransform.getScaleInstance(
 							((ContainerNode) getNode()).getWidth() / imageBGStyle.getImage().getWidth(null),
 							((ContainerNode) getNode()).getHeight() / imageBGStyle.getImage().getHeight(null)));
-				}
-				else {
-					at.concatenate(AffineTransform.getScaleInstance(imageBGStyle.getScaleX(), imageBGStyle.getScaleY()));
+				} else {
+					at.concatenate(
+							AffineTransform.getScaleInstance(imageBGStyle.getScaleX(), imageBGStyle.getScaleY()));
 				}
 
 				// When exporting to SVG, do not set the Composite
 				if (!(g2d instanceof SVGGraphics2D)) {
 					if (getCurrentBackground().getUseTransparency()) {
-						g2d.setComposite(
-								AlphaComposite.getInstance(TRANSPARENT_COMPOSITE_RULE, getCurrentBackground().getTransparencyLevel()));
-					}
-					else {
+						g2d.setComposite(AlphaComposite.getInstance(TRANSPARENT_COMPOSITE_RULE,
+								getCurrentBackground().getTransparencyLevel()));
+					} else {
 						g2d.setComposite(AlphaComposite.getInstance(TRANSPARENT_COMPOSITE_RULE));
 					}
 				}
@@ -386,8 +386,9 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 	}
 
 	/**
-	 * This method is used to paint an image or a portion of an image into a supplied shape. Background properties are used, and
-	 * transparency managed here.
+	 * This method is used to paint an image or a portion of an image into a
+	 * supplied shape. Background properties are used, and transparency managed
+	 * here.
 	 * 
 	 * @param aShape
 	 */
@@ -414,10 +415,10 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 		Rectangle r = convertNormalizedRectangleToViewCoordinates(x, y, width, height);
 		Rectangle arcRect = convertNormalizedRectangleToViewCoordinates(0, 0, arcwidth, archeight);
 		if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
-			RoundRectangle2D.Double rr = new RoundRectangle2D.Double(r.x, r.y, r.width, r.height, arcRect.width, arcRect.height);
+			RoundRectangle2D.Double rr = new RoundRectangle2D.Double(r.x, r.y, r.width, r.height, arcRect.width,
+					arcRect.height);
 			fillInShapeWithImage(rr);
-		}
-		else {
+		} else {
 			g2d.fillRoundRect(r.x, r.y, r.width, r.height, arcRect.width, arcRect.height);
 		}
 		if (logger.isLoggable(Level.FINER)) {
@@ -442,7 +443,8 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 
 	@Override
 	public void drawLine(double x1, double y1, double x2, double y2) {
-		// logger.info("drawLine(" + x1 + "," + y1 + "," + x2 + "," + y2 + ")" + " with " + debugForegroundStyle());
+		// logger.info("drawLine(" + x1 + "," + y1 + "," + x2 + "," + y2 + ")" + " with
+		// " + debugForegroundStyle());
 		// logger.info("clipbounds=" + g2d.getClipBounds());
 
 		if (getCurrentForeground() == null || getCurrentForeground().getNoStroke()) {
@@ -518,8 +520,7 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 		if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
 			Polygon p = new Polygon(xpoints, ypoints, points.length);
 			fillInShapeWithImage(p);
-		}
-		else {
+		} else {
 			g2d.fillPolygon(xpoints, ypoints, points.length);
 		}
 		if (logger.isLoggable(Level.FINER)) {
@@ -560,8 +561,7 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 		if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
 			Arc2D.Double a = new Arc2D.Double(r.x, r.y, r.width, r.height, 0, 360, Arc2D.CHORD);
 			fillInShapeWithImage(a);
-		}
-		else {
+		} else {
 			g2d.fillArc(r.x, r.y, r.width, r.height, 0, 360);
 		}
 		if (logger.isLoggable(Level.FINER)) {
@@ -584,16 +584,17 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 	}
 
 	@Override
-	public void fillArc(double x, double y, double width, double height, double angleStart, double arcAngle, boolean chord) {
+	public void fillArc(double x, double y, double width, double height, double angleStart, double arcAngle,
+			boolean chord) {
 		Rectangle r = convertNormalizedRectangleToViewCoordinates(x, y, width, height);
 		if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
 			Arc2D.Double a = new Arc2D.Double(r.x, r.y, r.width, r.height, (int) angleStart, (int) arcAngle,
 					chord ? Arc2D.CHORD : Arc2D.PIE);
 			fillInShapeWithImage(a);
-		}
-		else {
+		} else {
 			if (chord) {
-				Arc2D.Double a = new Arc2D.Double(r.x, r.y, r.width, r.height, (int) angleStart, (int) arcAngle, Arc2D.CHORD);
+				Arc2D.Double a = new Arc2D.Double(r.x, r.y, r.width, r.height, (int) angleStart, (int) arcAngle,
+						Arc2D.CHORD);
 				g2d.setClip(a);
 			}
 			g2d.fillArc(r.x, r.y, r.width, r.height, (int) angleStart, (int) arcAngle);
@@ -614,7 +615,8 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 		QuadCurve2D awtCurve = new QuadCurve2D.Double(p1.x, p1.y, ctrl_p.x, ctrl_p.y, p2.x, p2.y);
 		g2d.draw(awtCurve);
 		if (logger.isLoggable(Level.FINE)) {
-			logger.fine("drawCurve(" + p1.x + "," + p1.y + "," + ctrl_p.x + "," + ctrl_p.y + "," + p2.x + "," + p2.y + ")");
+			logger.fine(
+					"drawCurve(" + p1.x + "," + p1.y + "," + ctrl_p.x + "," + ctrl_p.y + "," + p2.x + "," + p2.y + ")");
 		}
 	}
 
@@ -627,11 +629,12 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 		Point ctrl_p1 = convertNormalizedPointToViewCoordinates(curve.getCtrlX1(), curve.getCtrlY1());
 		Point ctrl_p2 = convertNormalizedPointToViewCoordinates(curve.getCtrlX2(), curve.getCtrlY2());
 		Point p2 = convertNormalizedPointToViewCoordinates(curve.getX2(), curve.getY2());
-		CubicCurve2D awtCurve = new CubicCurve2D.Double(p1.x, p1.y, ctrl_p1.x, ctrl_p1.y, ctrl_p2.x, ctrl_p2.y, p2.x, p2.y);
+		CubicCurve2D awtCurve = new CubicCurve2D.Double(p1.x, p1.y, ctrl_p1.x, ctrl_p1.y, ctrl_p2.x, ctrl_p2.y, p2.x,
+				p2.y);
 		g2d.draw(awtCurve);
 		if (logger.isLoggable(Level.FINE)) {
-			logger.fine("drawCurve(" + p1.x + "," + p1.y + "," + ctrl_p1.x + "," + ctrl_p1.y + "," + p2.x + ctrl_p2.x + "," + ctrl_p2.y
-					+ "," + p2.x + "," + p2.y + ")");
+			logger.fine("drawCurve(" + p1.x + "," + p1.y + "," + ctrl_p1.x + "," + ctrl_p1.y + "," + p2.x + ctrl_p2.x
+					+ "," + ctrl_p2.y + "," + p2.x + "," + p2.y + ")");
 		}
 	}
 
@@ -642,14 +645,14 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 		GeneralPath p = transformedShape.getGeneralPath();
 		if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
 			fillInShapeWithImage(p);
-		}
-		else {
+		} else {
 			g2d.fill(p);
 		}
 	}
 
 	@Override
-	public DianaRectangle drawString(String text, double x, double y, int orientation, HorizontalTextAlignment alignment) {
+	public DianaRectangle drawString(String text, double x, double y, int orientation,
+			HorizontalTextAlignment alignment) {
 		if (text == null || text.length() == 0) {
 			return new DianaRectangle();
 		}
@@ -663,38 +666,43 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 		Font font = oldFont.deriveFont(at);
 		Rectangle2D b = g2d.getFontMetrics().getStringBounds(text, g2d);
 		g2d.setFont(font);
-		/*DianaRectangle returned = convertViewCoordinatesToNormalizedRectangle(
-				(int)(bounds.getX()+p.x-bounds.getWidth()/2),
-				(int)(bounds.getY()+p.y+bounds.getHeight()/2),
-				(int)bounds.getWidth(),(int)bounds.getHeight());*/
+		/*
+		 * DianaRectangle returned = convertViewCoordinatesToNormalizedRectangle(
+		 * (int)(bounds.getX()+p.x-bounds.getWidth()/2),
+		 * (int)(bounds.getY()+p.y+bounds.getHeight()/2),
+		 * (int)bounds.getWidth(),(int)bounds.getHeight());
+		 */
 		DianaRectangle bounds = new DianaRectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
 		if (orientation != 0) {
-			bounds = bounds.transform(AffineTransform.getRotateInstance(Math.toRadians(orientation))).getEmbeddingBounds();
+			bounds = bounds.transform(AffineTransform.getRotateInstance(Math.toRadians(orientation)))
+					.getEmbeddingBounds();
 		}
 		int x2 = (int) (p.x - bounds.getWidth() / 2);
 		int y2 = (int) (p.y + bounds.getHeight() / 2);
 		switch (alignment) {
-			case LEFT:
-				x2 = p.x;
-				break;
-			case RIGHT:
-				x2 = (int) (p.x - bounds.getWidth());
-				break;
-			case CENTER:
-			default:
-				break;
+		case LEFT:
+			x2 = p.x;
+			break;
+		case RIGHT:
+			x2 = (int) (p.x - bounds.getWidth());
+			break;
+		case CENTER:
+		default:
+			break;
 		}
 		// GPO: Je crois que c'est complètement foireux si le background est "colored"
 		if (getCurrentTextStyle().getIsBackgroundColored()) {
 			g2d.setColor(getCurrentTextStyle().getBackgroundColor());
-			g2d.fillRect((int) (bounds.getX() + p.x - bounds.getWidth() / 2), (int) (bounds.getY() + p.y + bounds.getHeight() / 2),
-					(int) bounds.getWidth(), (int) bounds.getHeight());
+			g2d.fillRect((int) (bounds.getX() + p.x - bounds.getWidth() / 2),
+					(int) (bounds.getY() + p.y + bounds.getHeight() / 2), (int) bounds.getWidth(),
+					(int) bounds.getHeight());
 			g2d.setColor(getCurrentTextStyle().getColor());
 		}
 		g2d.drawString(text, x2, y2);
 		g2d.setFont(oldFont);
 		return convertViewCoordinatesToNormalizedRectangle((int) (bounds.getX() + p.x - bounds.getWidth() / 2),
-				(int) (bounds.getY() + p.y + bounds.getHeight() / 2), (int) bounds.getWidth(), (int) bounds.getHeight());
+				(int) (bounds.getY() + p.y + bounds.getHeight() / 2), (int) bounds.getWidth(),
+				(int) bounds.getHeight());
 	}
 
 	// TODO: implements cache for stroke
@@ -709,23 +717,26 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 	 * @return
 	 */
 	public Stroke getStroke(ForegroundStyle foregroundStyle, double scale) {
-		// if (cachedStroke == null || cachedStrokeFS == null || !cachedStrokeFS.equalsObject(foregroundStyle) || scale != cachedStokeScale)
+		// if (cachedStroke == null || cachedStrokeFS == null ||
+		// !cachedStrokeFS.equalsObject(foregroundStyle) || scale != cachedStokeScale)
 		// {
 		if (foregroundStyle.getDashStyle() == null) {
 			return null;
 		}
 		if (foregroundStyle.getDashStyle() == DashStyle.PLAIN_STROKE) {
-			cachedStroke = new BasicStroke((float) (foregroundStyle.getLineWidth() * scale), foregroundStyle.getCapStyle().ordinal(),
-					foregroundStyle.getJoinStyle().ordinal());
-		}
-		else {
+			cachedStroke = new BasicStroke((float) (foregroundStyle.getLineWidth() * scale),
+					foregroundStyle.getCapStyle().ordinal(), foregroundStyle.getJoinStyle().ordinal());
+		} else {
 			float[] scaledDashArray = new float[foregroundStyle.getDashStyle().getDashArray().length];
 			for (int i = 0; i < foregroundStyle.getDashStyle().getDashArray().length; i++) {
-				scaledDashArray[i] = (float) (foregroundStyle.getDashStyle().getDashArray()[i] * scale * foregroundStyle.getLineWidth());
+				scaledDashArray[i] = (float) (foregroundStyle.getDashStyle().getDashArray()[i] * scale
+						* foregroundStyle.getLineWidth());
 			}
-			float scaledDashedPhase = (float) (foregroundStyle.getDashStyle().getDashPhase() * scale * foregroundStyle.getLineWidth());
-			cachedStroke = new BasicStroke((float) (foregroundStyle.getLineWidth() * scale), foregroundStyle.getCapStyle().ordinal(),
-					foregroundStyle.getJoinStyle().ordinal(), 10, scaledDashArray, scaledDashedPhase);
+			float scaledDashedPhase = (float) (foregroundStyle.getDashStyle().getDashPhase() * scale
+					* foregroundStyle.getLineWidth());
+			cachedStroke = new BasicStroke((float) (foregroundStyle.getLineWidth() * scale),
+					foregroundStyle.getCapStyle().ordinal(), foregroundStyle.getJoinStyle().ordinal(), 10,
+					scaledDashArray, scaledDashedPhase);
 		}
 		// cachedStokeScale = scale;
 		// }
@@ -743,48 +754,44 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 	public Paint getPaint(BackgroundStyle backgroundStyle, double scale) {
 		if (backgroundStyle instanceof NoneBackgroundStyle) {
 			return null;
-		}
-		else if (backgroundStyle instanceof ColorBackgroundStyle) {
+		} else if (backgroundStyle instanceof ColorBackgroundStyle) {
 			return ((ColorBackgroundStyle) backgroundStyle).getColor();
-		}
-		else if (getCurrentBackground() instanceof ColorGradientBackgroundStyle) {
+		} else if (getCurrentBackground() instanceof ColorGradientBackgroundStyle) {
 			return getGradientPaint((ColorGradientBackgroundStyle) backgroundStyle, scale);
-		}
-		else if (getCurrentBackground() instanceof TextureBackgroundStyle) {
+		} else if (getCurrentBackground() instanceof TextureBackgroundStyle) {
 			return getTexturePaint((TextureBackgroundStyle) backgroundStyle, scale);
-		}
-		else if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
+		} else if (getCurrentBackground() instanceof BackgroundImageBackgroundStyle) {
 			return Color.WHITE;
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
 
 	private GradientPaint getGradientPaint(ColorGradientBackgroundStyle bs, double scale) {
 		switch (bs.getDirection()) {
-			case NORTH_WEST_SOUTH_EAST:
-				return new GradientPaint(0, 0, bs.getColor1(), getNode().getViewWidth(scale), getNode().getViewHeight(scale),
-						bs.getColor2());
-			case SOUTH_WEST_NORTH_EAST:
-				return new GradientPaint(0, getNode().getViewHeight(scale), bs.getColor1(), getNode().getViewWidth(scale), 0,
-						bs.getColor2());
-			case WEST_EAST:
-				return new GradientPaint(0, 0.5f * getNode().getViewHeight(scale), bs.getColor1(), getNode().getViewWidth(scale),
-						0.5f * getNode().getViewHeight(scale), bs.getColor2());
-			case NORTH_SOUTH:
-				return new GradientPaint(0.5f * getNode().getViewWidth(scale), 0, bs.getColor1(), 0.5f * getNode().getViewWidth(scale),
-						getNode().getViewHeight(scale), bs.getColor2());
-			default:
-				return new GradientPaint(0, 0, bs.getColor1(), getNode().getViewWidth(scale), getNode().getViewHeight(scale),
-						bs.getColor2());
+		case NORTH_WEST_SOUTH_EAST:
+			return new GradientPaint(0, 0, bs.getColor1(), getNode().getViewWidth(scale),
+					getNode().getViewHeight(scale), bs.getColor2());
+		case SOUTH_WEST_NORTH_EAST:
+			return new GradientPaint(0, getNode().getViewHeight(scale), bs.getColor1(), getNode().getViewWidth(scale),
+					0, bs.getColor2());
+		case WEST_EAST:
+			return new GradientPaint(0, 0.5f * getNode().getViewHeight(scale), bs.getColor1(),
+					getNode().getViewWidth(scale), 0.5f * getNode().getViewHeight(scale), bs.getColor2());
+		case NORTH_SOUTH:
+			return new GradientPaint(0.5f * getNode().getViewWidth(scale), 0, bs.getColor1(),
+					0.5f * getNode().getViewWidth(scale), getNode().getViewHeight(scale), bs.getColor2());
+		default:
+			return new GradientPaint(0, 0, bs.getColor1(), getNode().getViewWidth(scale),
+					getNode().getViewHeight(scale), bs.getColor2());
 		}
 	}
 
 	private synchronized TexturePaint getTexturePaint(TextureBackgroundStyle bs, double scale) {
 		final BufferedImage coloredTexture = getColoredTexture(bs);
 		if (coloredTexture != null) {
-			return new TexturePaint(coloredTexture, new Rectangle(0, 0, coloredTexture.getWidth(), coloredTexture.getHeight()));
+			return new TexturePaint(coloredTexture,
+					new Rectangle(0, 0, coloredTexture.getWidth(), coloredTexture.getHeight()));
 		}
 		// Since image building take some time, colored texture might not be ready yet
 		// In this case, invoke repaint later
@@ -798,32 +805,31 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 			// Now it's ok, proceed repaint
 			getView().getPaintManager().invalidate(getNode());
 			getView().getPaintManager().repaint(getView());
-		}
-		else {
+		} else {
 			SwingUtilities.invokeLater(() -> repaintWhenColoredTextureHasBeenComputed());
 		}
 	}
 
 	private BufferedImage coloredTexture;
-	private ToolkitImage coloredImage;
-	private ToolkitImage requestedColoredImage;
 	private TextureType coloredTextureMadeForThisTextureType = null;
 	private Color coloredTextureMadeForThisColor1 = null;
 	private Color coloredTextureMadeForThisColor2 = null;
 
 	/**
-	 * Internally called to rebuild colored texture if cached value is not up-to-date (parameters have changed)
+	 * Internally called to rebuild colored texture if cached value is not
+	 * up-to-date (parameters have changed)
 	 * 
 	 * @param bs
 	 */
 	private synchronized void rebuildColoredTextureWhenRequired(TextureBackgroundStyle bs) {
-		if (coloredTexture == null || coloredTextureMadeForThisTextureType == null || coloredTextureMadeForThisColor1 == null
-				|| coloredTextureMadeForThisColor2 == null || coloredTextureMadeForThisTextureType != bs.getTextureType()
-				|| coloredTextureMadeForThisColor1 != bs.getColor1() || coloredTextureMadeForThisColor2 != bs.getColor2()) {
+		if (coloredTexture == null || coloredTextureMadeForThisTextureType == null
+				|| coloredTextureMadeForThisColor1 == null || coloredTextureMadeForThisColor2 == null
+				|| coloredTextureMadeForThisTextureType != bs.getTextureType()
+				|| coloredTextureMadeForThisColor1 != bs.getColor1()
+				|| coloredTextureMadeForThisColor2 != bs.getColor2()) {
 			// Texture needs to be rebuilt
 			rebuildColoredTexture(bs);
-		}
-		else {
+		} else {
 			logger.fine("Texture is still valid");
 		}
 	}
@@ -835,61 +841,31 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 	 */
 	private synchronized void rebuildColoredTexture(final TextureBackgroundStyle bs) {
 		coloredTexture = null;
-		coloredImage = null;
+		// coloredImage = null;
 		if (bs.getTextureType() == null) {
 			return;
 		}
 		final Image initialImage = bs.getTextureType().getImageIcon().getImage();
-		ColorSwapFilter imgfilter = new ColorSwapFilter(java.awt.Color.BLACK, bs.getColor1(), java.awt.Color.WHITE, bs.getColor2()) {
-			@Override
-			public void imageComplete(int status) {
-				super.imageComplete(status);
-				synchronized (JDianaGraphics.this) {
-					coloredTexture = new BufferedImage(coloredImage.getWidth(null), coloredImage.getHeight(null),
-							BufferedImage.TYPE_INT_ARGB);
-					Graphics gi = coloredTexture.getGraphics();
-					if (coloredImage != null) {
-						gi.drawImage(coloredImage, 0, 0, null);
-					}
-					coloredTextureMadeForThisTextureType = bs.getTextureType();
-					coloredTextureMadeForThisColor1 = bs.getColor1();
-					coloredTextureMadeForThisColor2 = bs.getColor2();
-					logger.fine("Image has been computed, status=" + status);
-				}
-			}
-		};
+		ColorSwapFilter imgfilter = new ColorSwapFilter(java.awt.Color.BLACK, bs.getColor1(), java.awt.Color.WHITE,
+				bs.getColor2());
 
-		// Launch a background job building a new image with specified two colors
-		ImageProducer producer = new FilteredImageSource(initialImage.getSource(), imgfilter);
-		coloredImage = (ToolkitImage) Toolkit.getDefaultToolkit().createImage(producer);
-		ImageRepresentation consumer = new ImageRepresentation(coloredImage, null, true);
-		producer.addConsumer(consumer);
-		try {
-			producer.startProduction(consumer);
-		} catch (RuntimeException e) {
-			logger.warning("Unexpected exception: " + e);
-		}
+		coloredTexture = ImageUtils.applyFilter(initialImage, imgfilter);
 
 	}
 
 	private BufferedImage getColoredTexture(TextureBackgroundStyle bs) {
 		rebuildColoredTextureWhenRequired(bs);
 		return coloredTexture;
-
-		/*if (coloredTexture == null) {
-			rebuildColoredTexture(bs);
-		} 
-		return coloredTexture;*/
-
 	}
 
-	static class ColorSwapFilter extends RGBImageFilter {
+	static class ColorSwapFilter implements RGBFilter {
 		private final int target1;
 		private final int replacement1;
 		private final int target2;
 		private final int replacement2;
 
-		public ColorSwapFilter(java.awt.Color target1, java.awt.Color replacement1, java.awt.Color target2, java.awt.Color replacement2) {
+		public ColorSwapFilter(java.awt.Color target1, java.awt.Color replacement1, java.awt.Color target2,
+				java.awt.Color replacement2) {
 			this.target1 = target1.getRGB();
 			this.replacement1 = replacement1.getRGB();
 			this.target2 = target2.getRGB();
@@ -898,23 +874,12 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 
 		@Override
 		public int filterRGB(int x, int y, int rgb) {
-			// if (x==0 && y==0) logger.info("Starting convert image");
-			// if (x==15 && y==15) logger.info("Finished convert image");
 			if (rgb == target1) {
 				return replacement1;
-			}
-			else if (rgb == target2) {
+			} else if (rgb == target2) {
 				return replacement2;
 			}
 			return rgb;
-		}
-
-		@Override
-		public void imageComplete(int status) {
-			super.imageComplete(status);
-			if (logger.isLoggable(Level.FINE)) {
-				logger.fine("imageComplete status=" + status);
-			}
 		}
 
 	}
