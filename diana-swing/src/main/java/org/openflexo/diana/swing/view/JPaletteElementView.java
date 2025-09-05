@@ -50,7 +50,6 @@ import java.awt.dnd.DragSourceDragEvent;
 import java.awt.dnd.DragSourceDropEvent;
 import java.awt.dnd.DragSourceEvent;
 import java.awt.dnd.DragSourceListener;
-import java.awt.dnd.InvalidDnDOperationException;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
@@ -63,9 +62,8 @@ import org.openflexo.diana.control.PaletteElement;
 import org.openflexo.diana.control.tools.DianaPalette;
 import org.openflexo.diana.swing.JPaletteController;
 import org.openflexo.diana.swing.control.tools.JDianaPalette.PaletteElementTransferable;
-import org.openflexo.toolbox.ToolBox;
 
-import sun.awt.dnd.SunDragSourceContextPeer;
+//import sun.awt.dnd.SunDragSourceContextPeer;
 
 @SuppressWarnings("serial")
 public class JPaletteElementView extends JShapeView<PaletteElement> {
@@ -112,10 +110,11 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 		return getToolTipText();
 	}
 
-	/*@Override
-	public PaletteElementGraphicalRepresentation getGraphicalRepresentation() {
-		return (PaletteElementGraphicalRepresentation) super.getGraphicalRepresentation();
-	}*/
+	/*
+	 * @Override public PaletteElementGraphicalRepresentation
+	 * getGraphicalRepresentation() { return (PaletteElementGraphicalRepresentation)
+	 * super.getGraphicalRepresentation(); }
+	 */
 
 	public PaletteElement getPaletteElement() {
 		return getDrawable();
@@ -135,8 +134,9 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 		/**
 		 * FIX for bug where element is not draggable when initial click begins on label
 		 * 
-		 * There is a big trick here: the label view is not a subcomponent of view, so dragging on this component will not be seen by
-		 * palette element view, so we need here to force disable mouse listeners registered for this palette view
+		 * There is a big trick here: the label view is not a subcomponent of view, so
+		 * dragging on this component will not be seen by palette element view, so we
+		 * need here to force disable mouse listeners registered for this palette view
 		 */
 		if (getLabelView() != null) {
 			if (labelDgr == null) {
@@ -159,7 +159,8 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 	}
 
 	/**
-	 * DGListener a listener that will start the drag. has access to top level's dsListener and dragSource
+	 * DGListener a listener that will start the drag. has access to top level's
+	 * dsListener and dragSource
 	 * 
 	 * @see java.awt.dnd.DragGestureListener
 	 * @see java.awt.dnd.DragSource
@@ -167,10 +168,10 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 	 */
 	class DGListener implements DragGestureListener {
 		/**
-		 * Start the drag if the operation is ok. uses java.awt.datatransfer.StringSelection to transfer the label's data
+		 * Start the drag if the operation is ok. uses
+		 * java.awt.datatransfer.StringSelection to transfer the label's data
 		 * 
-		 * @param e
-		 *            the event object
+		 * @param e the event object
 		 */
 		@Override
 		public void dragGestureRecognized(DragGestureEvent e) {
@@ -187,27 +188,22 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 
 			Point p = SwingUtilities.convertPoint(e.getComponent(), e.getDragOrigin(), JPaletteElementView.this);
 			PaletteElementTransferable transferable = new PaletteElementTransferable(getDrawable(), p);
-			if (ToolBox.isMacOS()) {
-				// Need to call this on MacOS.
-				// Scenario to reproduce issue
-				// 1. Drop a sub process node
-				// 2. Choose create a new subprocess
-				// 3. Try to drop another element-->InvalidDnDOperationException
-				synchronized (SunDragSourceContextPeer.class) {
-					try {
-						SunDragSourceContextPeer.checkDragDropInProgress();
-					} catch (InvalidDnDOperationException ex) {
-						if (logger.isLoggable(Level.WARNING)) {
-							logger.warning(
-									"For some reason there was still a Dnd in progress. Will set it back to false. God knows why this happens");
-						}
-						if (logger.isLoggable(Level.FINE)) {
-							logger.log(Level.FINE, "Stacktrace for DnD still in progress", ex);
-						}
-						SunDragSourceContextPeer.setDragDropInProgress(false);
-					}
-				}
-			}
+
+			// TODO: is that bug still happening ?
+			// Commented out this code since the use of Sun packages is now forbidden
+			/*
+			 * if (ToolBox.isMacOS()) { // Need to call this on MacOS. // Scenario to
+			 * reproduce issue // 1. Drop a sub process node // 2. Choose create a new
+			 * subprocess // 3. Try to drop another element-->InvalidDnDOperationException
+			 * synchronized (SunDragSourceContextPeer.class) { try {
+			 * SunDragSourceContextPeer.checkDragDropInProgress(); } catch
+			 * (InvalidDnDOperationException ex) { if (logger.isLoggable(Level.WARNING)) {
+			 * logger.warning(
+			 * "For some reason there was still a Dnd in progress. Will set it back to false. God knows why this happens"
+			 * ); } if (logger.isLoggable(Level.FINE)) { logger.log(Level.FINE,
+			 * "Stacktrace for DnD still in progress", ex); }
+			 * SunDragSourceContextPeer.setDragDropInProgress(false); } } }
+			 */
 			try {
 				// initial cursor, transferrable, dsource listener
 				e.startDrag(DianaPalette.dropKO, transferable, dsListener);
@@ -230,8 +226,7 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 	public class DSListener implements DragSourceListener {
 
 		/**
-		 * @param e
-		 *            the event
+		 * @param e the event
 		 */
 		@Override
 		public void dragDropEnd(DragSourceDropEvent e) {
@@ -246,8 +241,7 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 				return;
 			}
 			/*
-			 * the dropAction should be what the drop target specified in
-			 * acceptDrop
+			 * the dropAction should be what the drop target specified in acceptDrop
 			 */
 			// this is the action selected by the drop target
 			if (e.getDropAction() == DnDConstants.ACTION_MOVE) {
@@ -256,8 +250,7 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 		}
 
 		/**
-		 * @param e
-		 *            the event
+		 * @param e the event
 		 */
 		@Override
 		public void dragEnter(DragSourceDragEvent e) {
@@ -267,15 +260,13 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 			int myaction = e.getDropAction();
 			if ((myaction & dragAction) != 0) {
 				context.setCursor(DragSource.DefaultCopyDrop);
-			}
-			else {
+			} else {
 				context.setCursor(DragSource.DefaultCopyNoDrop);
 			}
 		}
 
 		/**
-		 * @param e
-		 *            the event
+		 * @param e the event
 		 */
 		@Override
 		public void dragOver(DragSourceDragEvent e) {
@@ -285,8 +276,7 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 		}
 
 		/**
-		 * @param e
-		 *            the event
+		 * @param e the event
 		 */
 		@Override
 		public void dragExit(DragSourceEvent e) {
@@ -296,8 +286,7 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 		/**
 		 * for example, press shift during drag to change to a link action
 		 * 
-		 * @param e
-		 *            the event
+		 * @param e the event
 		 */
 		@Override
 		public void dropActionChanged(DragSourceDragEvent e) {

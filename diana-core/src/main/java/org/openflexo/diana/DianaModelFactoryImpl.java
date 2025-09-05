@@ -150,7 +150,7 @@ import org.openflexo.diana.shapes.impl.GeneralShapeImpl.GeneralShapePathElementI
 import org.openflexo.diana.shapes.impl.GeneralShapeImpl.QuadCurvePathElementImpl;
 import org.openflexo.diana.shapes.impl.GeneralShapeImpl.SegmentPathElementImpl;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
-import org.openflexo.pamela.factory.ModelFactory;
+import org.openflexo.pamela.factory.PamelaModelFactory;
 import org.openflexo.diana.shapes.impl.LosangeImpl;
 import org.openflexo.diana.shapes.impl.OvalImpl;
 import org.openflexo.diana.shapes.impl.ParallelogramImpl;
@@ -201,81 +201,81 @@ public class DianaModelFactoryImpl extends DianaModelFactory {
 		installImplementingClasses(this);
 	}
 
-	public static void installImplementingClasses(ModelFactory modelFactory) throws ModelDefinitionException {
+	public static void installImplementingClasses(PamelaModelFactory pamelaModelFactory) throws ModelDefinitionException {
 
-		modelFactory.setImplementingClassForInterface(GraphicalRepresentationImpl.class, GraphicalRepresentation.class);
-		modelFactory.setImplementingClassForInterface(ShapeGraphicalRepresentationImpl.class, ShapeGraphicalRepresentation.class);
-		modelFactory.setImplementingClassForInterface(ConnectorGraphicalRepresentationImpl.class, ConnectorGraphicalRepresentation.class);
-		modelFactory.setImplementingClassForInterface(DrawingGraphicalRepresentationImpl.class, DrawingGraphicalRepresentation.class);
-		modelFactory.setImplementingClassForInterface(ContainerGraphicalRepresentationImpl.class, ContainerGraphicalRepresentation.class);
-		modelFactory.setImplementingClassForInterface(GeometricGraphicalRepresentationImpl.class, GeometricGraphicalRepresentation.class);
+		pamelaModelFactory.setImplementingClassForInterface(GraphicalRepresentationImpl.class, GraphicalRepresentation.class);
+		pamelaModelFactory.setImplementingClassForInterface(ShapeGraphicalRepresentationImpl.class, ShapeGraphicalRepresentation.class);
+		pamelaModelFactory.setImplementingClassForInterface(ConnectorGraphicalRepresentationImpl.class, ConnectorGraphicalRepresentation.class);
+		pamelaModelFactory.setImplementingClassForInterface(DrawingGraphicalRepresentationImpl.class, DrawingGraphicalRepresentation.class);
+		pamelaModelFactory.setImplementingClassForInterface(ContainerGraphicalRepresentationImpl.class, ContainerGraphicalRepresentation.class);
+		pamelaModelFactory.setImplementingClassForInterface(GeometricGraphicalRepresentationImpl.class, GeometricGraphicalRepresentation.class);
 
 		// modelFactory.setImplementingClassForInterface(ShapeBorderImpl.class, ShapeBorder.class);
 
-		modelFactory.setImplementingClassForInterface(DianaStyleImpl.class, DianaStyle.class);
-		modelFactory.setImplementingClassForInterface(ForegroundStyleImpl.class, ForegroundStyle.class);
-		modelFactory.setImplementingClassForInterface(ShadowStyleImpl.class, ShadowStyle.class);
-		modelFactory.setImplementingClassForInterface(TextStyleImpl.class, TextStyle.class);
-		modelFactory.setImplementingClassForInterface(BackgroundStyleImpl.class, BackgroundStyle.class);
-		modelFactory.setImplementingClassForInterface(NoneBackgroundStyleImpl.class, NoneBackgroundStyle.class);
-		modelFactory.setImplementingClassForInterface(ColorBackgroundStyleImpl.class, ColorBackgroundStyle.class);
-		modelFactory.setImplementingClassForInterface(ColorGradientBackgroundStyleImpl.class, ColorGradientBackgroundStyle.class);
-		modelFactory.setImplementingClassForInterface(TextureBackgroundStyleImpl.class, TextureBackgroundStyle.class);
-		modelFactory.setImplementingClassForInterface(BackgroundImageBackgroundStyleImpl.class, BackgroundImageBackgroundStyle.class);
+		pamelaModelFactory.setImplementingClassForInterface(DianaStyleImpl.class, DianaStyle.class);
+		pamelaModelFactory.setImplementingClassForInterface(ForegroundStyleImpl.class, ForegroundStyle.class);
+		pamelaModelFactory.setImplementingClassForInterface(ShadowStyleImpl.class, ShadowStyle.class);
+		pamelaModelFactory.setImplementingClassForInterface(TextStyleImpl.class, TextStyle.class);
+		pamelaModelFactory.setImplementingClassForInterface(BackgroundStyleImpl.class, BackgroundStyle.class);
+		pamelaModelFactory.setImplementingClassForInterface(NoneBackgroundStyleImpl.class, NoneBackgroundStyle.class);
+		pamelaModelFactory.setImplementingClassForInterface(ColorBackgroundStyleImpl.class, ColorBackgroundStyle.class);
+		pamelaModelFactory.setImplementingClassForInterface(ColorGradientBackgroundStyleImpl.class, ColorGradientBackgroundStyle.class);
+		pamelaModelFactory.setImplementingClassForInterface(TextureBackgroundStyleImpl.class, TextureBackgroundStyle.class);
+		pamelaModelFactory.setImplementingClassForInterface(BackgroundImageBackgroundStyleImpl.class, BackgroundImageBackgroundStyle.class);
 
-		modelFactory.setImplementingClassForInterface(ShapeSpecificationImpl.class, ShapeSpecification.class);
-		modelFactory.setImplementingClassForInterface(ArcImpl.class, Arc.class);
-		modelFactory.setImplementingClassForInterface(CircleImpl.class, Circle.class);
-		modelFactory.setImplementingClassForInterface(LosangeImpl.class, Losange.class);
-		modelFactory.setImplementingClassForInterface(OvalImpl.class, Oval.class);
-		modelFactory.setImplementingClassForInterface(PolygonImpl.class, Polygon.class);
-		modelFactory.setImplementingClassForInterface(RectangleImpl.class, Rectangle.class);
-		modelFactory.setImplementingClassForInterface(RectangularOctogonImpl.class, RectangularOctogon.class);
-		modelFactory.setImplementingClassForInterface(RegularPolygonImpl.class, RegularPolygon.class);
-		modelFactory.setImplementingClassForInterface(SquareImpl.class, Square.class);
-		modelFactory.setImplementingClassForInterface(StarImpl.class, Star.class);
-		modelFactory.setImplementingClassForInterface(TriangleImpl.class, Triangle.class);
-		modelFactory.setImplementingClassForInterface(ComplexCurveImpl.class, ComplexCurve.class);
-		modelFactory.setImplementingClassForInterface(GeneralShapeImpl.class, GeneralShape.class);
-		modelFactory.setImplementingClassForInterface(GeneralShapePathElementImpl.class, GeneralShapePathElement.class);
-		modelFactory.setImplementingClassForInterface(SegmentPathElementImpl.class, SegmentPathElement.class);
-		modelFactory.setImplementingClassForInterface(QuadCurvePathElementImpl.class, QuadCurvePathElement.class);
-		modelFactory.setImplementingClassForInterface(CubicCurvePathElementImpl.class, CubicCurvePathElement.class);
-		modelFactory.setImplementingClassForInterface(PlusImpl.class, Plus.class);
-		modelFactory.setImplementingClassForInterface(ChevronImpl.class, Chevron.class);
-		modelFactory.setImplementingClassForInterface(ParallelogramImpl.class, Parallelogram.class);
-		modelFactory.setImplementingClassForInterface(ShapeUnionImpl.class, ShapeUnion.class);
+		pamelaModelFactory.setImplementingClassForInterface(ShapeSpecificationImpl.class, ShapeSpecification.class);
+		pamelaModelFactory.setImplementingClassForInterface(ArcImpl.class, Arc.class);
+		pamelaModelFactory.setImplementingClassForInterface(CircleImpl.class, Circle.class);
+		pamelaModelFactory.setImplementingClassForInterface(LosangeImpl.class, Losange.class);
+		pamelaModelFactory.setImplementingClassForInterface(OvalImpl.class, Oval.class);
+		pamelaModelFactory.setImplementingClassForInterface(PolygonImpl.class, Polygon.class);
+		pamelaModelFactory.setImplementingClassForInterface(RectangleImpl.class, Rectangle.class);
+		pamelaModelFactory.setImplementingClassForInterface(RectangularOctogonImpl.class, RectangularOctogon.class);
+		pamelaModelFactory.setImplementingClassForInterface(RegularPolygonImpl.class, RegularPolygon.class);
+		pamelaModelFactory.setImplementingClassForInterface(SquareImpl.class, Square.class);
+		pamelaModelFactory.setImplementingClassForInterface(StarImpl.class, Star.class);
+		pamelaModelFactory.setImplementingClassForInterface(TriangleImpl.class, Triangle.class);
+		pamelaModelFactory.setImplementingClassForInterface(ComplexCurveImpl.class, ComplexCurve.class);
+		pamelaModelFactory.setImplementingClassForInterface(GeneralShapeImpl.class, GeneralShape.class);
+		pamelaModelFactory.setImplementingClassForInterface(GeneralShapePathElementImpl.class, GeneralShapePathElement.class);
+		pamelaModelFactory.setImplementingClassForInterface(SegmentPathElementImpl.class, SegmentPathElement.class);
+		pamelaModelFactory.setImplementingClassForInterface(QuadCurvePathElementImpl.class, QuadCurvePathElement.class);
+		pamelaModelFactory.setImplementingClassForInterface(CubicCurvePathElementImpl.class, CubicCurvePathElement.class);
+		pamelaModelFactory.setImplementingClassForInterface(PlusImpl.class, Plus.class);
+		pamelaModelFactory.setImplementingClassForInterface(ChevronImpl.class, Chevron.class);
+		pamelaModelFactory.setImplementingClassForInterface(ParallelogramImpl.class, Parallelogram.class);
+		pamelaModelFactory.setImplementingClassForInterface(ShapeUnionImpl.class, ShapeUnion.class);
 
-		modelFactory.setImplementingClassForInterface(ConnectorSpecificationImpl.class, ConnectorSpecification.class);
-		modelFactory.setImplementingClassForInterface(LineConnectorSpecificationImpl.class, LineConnectorSpecification.class);
-		modelFactory.setImplementingClassForInterface(CurveConnectorSpecificationImpl.class, CurveConnectorSpecification.class);
-		modelFactory.setImplementingClassForInterface(RectPolylinConnectorSpecificationImpl.class, RectPolylinConnectorSpecification.class);
-		modelFactory.setImplementingClassForInterface(CurvedPolylinConnectorSpecificationImpl.class,
+		pamelaModelFactory.setImplementingClassForInterface(ConnectorSpecificationImpl.class, ConnectorSpecification.class);
+		pamelaModelFactory.setImplementingClassForInterface(LineConnectorSpecificationImpl.class, LineConnectorSpecification.class);
+		pamelaModelFactory.setImplementingClassForInterface(CurveConnectorSpecificationImpl.class, CurveConnectorSpecification.class);
+		pamelaModelFactory.setImplementingClassForInterface(RectPolylinConnectorSpecificationImpl.class, RectPolylinConnectorSpecification.class);
+		pamelaModelFactory.setImplementingClassForInterface(CurvedPolylinConnectorSpecificationImpl.class,
 				CurvedPolylinConnectorSpecification.class);
 
 		// Layout managers
-		modelFactory.setImplementingClassForInterface(FlowLayoutManagerImpl.class, FlowLayoutManager.class);
-		modelFactory.setImplementingClassForInterface(FlowLayoutManagerSpecificationImpl.class, FlowLayoutManagerSpecification.class);
-		modelFactory.setImplementingClassForInterface(GridLayoutManagerImpl.class, GridLayoutManager.class);
-		modelFactory.setImplementingClassForInterface(GridLayoutManagerSpecificationImpl.class, GridLayoutManagerSpecification.class);
-		modelFactory.setImplementingClassForInterface(OutlineLayoutManagerImpl.class, OutlineLayoutManager.class);
-		modelFactory.setImplementingClassForInterface(OutlineLayoutManagerSpecificationImpl.class, OutlineLayoutManagerSpecification.class);
-		modelFactory.setImplementingClassForInterface(ForceDirectedGraphLayoutManagerImpl.class, ForceDirectedGraphLayoutManager.class);
-		modelFactory.setImplementingClassForInterface(ForceDirectedGraphLayoutManagerSpecificationImpl.class,
+		pamelaModelFactory.setImplementingClassForInterface(FlowLayoutManagerImpl.class, FlowLayoutManager.class);
+		pamelaModelFactory.setImplementingClassForInterface(FlowLayoutManagerSpecificationImpl.class, FlowLayoutManagerSpecification.class);
+		pamelaModelFactory.setImplementingClassForInterface(GridLayoutManagerImpl.class, GridLayoutManager.class);
+		pamelaModelFactory.setImplementingClassForInterface(GridLayoutManagerSpecificationImpl.class, GridLayoutManagerSpecification.class);
+		pamelaModelFactory.setImplementingClassForInterface(OutlineLayoutManagerImpl.class, OutlineLayoutManager.class);
+		pamelaModelFactory.setImplementingClassForInterface(OutlineLayoutManagerSpecificationImpl.class, OutlineLayoutManagerSpecification.class);
+		pamelaModelFactory.setImplementingClassForInterface(ForceDirectedGraphLayoutManagerImpl.class, ForceDirectedGraphLayoutManager.class);
+		pamelaModelFactory.setImplementingClassForInterface(ForceDirectedGraphLayoutManagerSpecificationImpl.class,
 				ForceDirectedGraphLayoutManagerSpecification.class);
-		modelFactory.setImplementingClassForInterface(ISOMGraphLayoutManagerImpl.class, ISOMGraphLayoutManager.class);
-		modelFactory.setImplementingClassForInterface(ISOMGraphLayoutManagerSpecificationImpl.class,
+		pamelaModelFactory.setImplementingClassForInterface(ISOMGraphLayoutManagerImpl.class, ISOMGraphLayoutManager.class);
+		pamelaModelFactory.setImplementingClassForInterface(ISOMGraphLayoutManagerSpecificationImpl.class,
 				ISOMGraphLayoutManagerSpecification.class);
-		modelFactory.setImplementingClassForInterface(TreeLayoutManagerImpl.class, TreeLayoutManager.class);
-		modelFactory.setImplementingClassForInterface(TreeLayoutManagerSpecificationImpl.class, TreeLayoutManagerSpecification.class);
-		modelFactory.setImplementingClassForInterface(BalloonLayoutManagerImpl.class, BalloonLayoutManager.class);
-		modelFactory.setImplementingClassForInterface(BalloonLayoutManagerSpecificationImpl.class, BalloonLayoutManagerSpecification.class);
-		modelFactory.setImplementingClassForInterface(RadialTreeLayoutManagerImpl.class, RadialTreeLayoutManager.class);
-		modelFactory.setImplementingClassForInterface(RadialTreeLayoutManagerSpecificationImpl.class,
+		pamelaModelFactory.setImplementingClassForInterface(TreeLayoutManagerImpl.class, TreeLayoutManager.class);
+		pamelaModelFactory.setImplementingClassForInterface(TreeLayoutManagerSpecificationImpl.class, TreeLayoutManagerSpecification.class);
+		pamelaModelFactory.setImplementingClassForInterface(BalloonLayoutManagerImpl.class, BalloonLayoutManager.class);
+		pamelaModelFactory.setImplementingClassForInterface(BalloonLayoutManagerSpecificationImpl.class, BalloonLayoutManagerSpecification.class);
+		pamelaModelFactory.setImplementingClassForInterface(RadialTreeLayoutManagerImpl.class, RadialTreeLayoutManager.class);
+		pamelaModelFactory.setImplementingClassForInterface(RadialTreeLayoutManagerSpecificationImpl.class,
 				RadialTreeLayoutManagerSpecification.class);
 
 		// PaletteElementSpecification
-		modelFactory.setImplementingClassForInterface(PaletteElementSpecificationImpl.class, PaletteElementSpecification.class);
+		pamelaModelFactory.setImplementingClassForInterface(PaletteElementSpecificationImpl.class, PaletteElementSpecification.class);
 
 	}
 

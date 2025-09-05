@@ -41,12 +41,9 @@ package org.openflexo.diana;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.Stroke;
-import java.awt.Toolkit;
 
 public interface DianaConstants {
 
@@ -60,8 +57,6 @@ public interface DianaConstants {
 	public static final int CONTROL_POINT_SIZE = 2;
 	public static final int POINT_SIZE = 4;
 
-	public static final Cursor MOVE_CURSOR = Toolkit.getDefaultToolkit().createCustomCursor(DianaIconLibrary.CURSOR_MOVE_ICON.getImage(),
-			new Point(16, 16), "CustomMove");
 	public static final Integer INITIAL_LAYER = 32;
 	public static final Integer DEFAULT_CONNECTOR_LAYER = 64;
 	public static final Integer DEFAULT_SHAPE_LAYER = 1;

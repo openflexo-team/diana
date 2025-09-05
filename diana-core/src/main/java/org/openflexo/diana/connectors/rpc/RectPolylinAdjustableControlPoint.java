@@ -40,9 +40,11 @@
 package org.openflexo.diana.connectors.rpc;
 
 import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 
-import org.openflexo.diana.DianaConstants;
+import org.openflexo.diana.DianaIconLibrary;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.connectors.RectPolylinConnectorSpecification;
 import org.openflexo.diana.connectors.impl.RectPolylinConnector;
@@ -55,6 +57,8 @@ import org.openflexo.diana.geom.area.DianaArea;
 public abstract class RectPolylinAdjustableControlPoint extends ConnectorAdjustingControlPoint {
 	protected DianaRectPolylin initialPolylin;
 	private RectPolylinConnector connector;
+	
+	public static Cursor MOVE_CURSOR;
 
 	public RectPolylinAdjustableControlPoint(DianaPoint point, RectPolylinConnector connector) {
 		super(connector.getConnectorNode(), point);
@@ -64,10 +68,18 @@ public abstract class RectPolylinAdjustableControlPoint extends ConnectorAdjusti
 	public RectPolylinConnectorSpecification getConnectorSpecification() {
 		return connector.getConnectorSpecification();
 	}
+	
+	public static Cursor getMoveCursor() {
+		if (MOVE_CURSOR == null) {
+			MOVE_CURSOR = Toolkit.getDefaultToolkit().createCustomCursor(DianaIconLibrary.CURSOR_MOVE_ICON.getImage(),
+					new Point(16, 16), "CustomMove");
+		}
+		return MOVE_CURSOR;
+	}
 
 	@Override
 	public Cursor getDraggingCursor() {
-		return DianaConstants.MOVE_CURSOR;
+		return getMoveCursor();
 	}
 
 	@Override

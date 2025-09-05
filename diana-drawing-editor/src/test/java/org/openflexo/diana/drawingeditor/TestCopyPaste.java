@@ -72,7 +72,7 @@ public class TestCopyPaste {
 
 	private DiagramFactory factory;
 
-	// private ModelContext modelContext;
+	// private PamelaMetaModel pamelaMetaModel;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -86,7 +86,7 @@ public class TestCopyPaste {
 	@Before
 	public void setUp() throws Exception {
 		new File("/tmp").mkdirs();
-		// modelContext = new ModelContext(FlexoProcess.class);
+		// pamelaMetaModel = new PamelaMetaModel(FlexoProcess.class);
 		EditingContextImpl editingContext = new EditingContextImpl();
 		editingContext.createUndoManager();
 		factory = new DiagramFactory(editingContext);

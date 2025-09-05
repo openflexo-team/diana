@@ -45,7 +45,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.openflexo.connie.DataBinding;
-import org.openflexo.connie.binding.BindingValueListChangeListener;
+import org.openflexo.connie.binding.BindingPathListChangeListener;
 import org.openflexo.diana.graph.DianaDiscretePolarFunctionGraph;
 import org.openflexo.gina.controller.FIBController;
 import org.openflexo.gina.model.graph.FIBDiscretePolarFunctionGraph;
@@ -60,7 +60,7 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 
 	private static final Logger logger = Logger.getLogger(JFIBDiscretePolarGraphWidget.class.getPackage().getName());
 
-	private BindingValueListChangeListener<Object, List<Object>> valuesBindingValueChangeListener;
+	private BindingPathListChangeListener<Object, List<Object>> valuesBindingValueChangeListener;
 
 	public JFIBDiscretePolarGraphWidget(FIBDiscretePolarFunctionGraph model, FIBController controller) {
 		super(model, controller);
@@ -85,7 +85,7 @@ public class JFIBDiscretePolarGraphWidget extends JFIBPolarGraphWidget<FIBDiscre
 			valuesBindingValueChangeListener.delete();
 		}
 		if (getComponent().getValues() != null && getComponent().getValues().isValid()) {
-			valuesBindingValueChangeListener = new BindingValueListChangeListener<Object, List<Object>>(
+			valuesBindingValueChangeListener = new BindingPathListChangeListener<Object, List<Object>>(
 					((DataBinding) getComponent().getValues()), getBindingEvaluationContext()) {
 
 				@Override

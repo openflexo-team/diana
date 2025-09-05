@@ -47,6 +47,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.openflexo.diana.DianaModelFactory;
+import org.openflexo.diana.DianaPrefs;
 import org.openflexo.diana.Drawing;
 import org.openflexo.diana.Drawing.ConnectorNode;
 import org.openflexo.diana.Drawing.ContainerNode;
@@ -94,6 +95,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 	private DrawingTreeNode<?, ?> focusedFloatingLabel;
 
 	private List<DrawingTreeNode<?, ?>> focusedObjects;
+	private List<DrawingTreeNode<?, ?>> expectedFocusedObjects;
 	private List<DrawingTreeNode<?, ?>> selectedObjects;
 	private List<ShapeNode<?>> selectedShapes;
 	private List<DrawingTreeNode<?, ?>> selectedShapesAndGeometricNodes;
@@ -131,6 +133,7 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 		// inspectors = new DianaInspectors(this);
 		focusedObjects = new ArrayList<>();
 		selectedObjects = new ArrayList<>();
+		expectedFocusedObjects = new ArrayList<>();
 	}
 
 	@Override
@@ -433,21 +436,72 @@ public abstract class DianaInteractiveViewer<M, F extends DianaViewFactory<F, C>
 			return;
 		}
 
-		if (!focusedObjects.equals(someFocusedObjects)) {
-			clearFocusSelection();
+		if (!expectedFocusedObjects.equals(someFocusedObjects)) {
+			List<DrawingTreeNode<?, ?>> nodesToUnfocus = new ArrayList<>();
+			nodesToUnfocus.addAll(expectedFocusedObjects);
+			for (DrawingTreeNode<?, ?> node : someFocusedObjects) {
+				nodesToUnfocus.remove(node);
+			}
+
+			expectedFocusedObjects.clear();
+			expectedFocusedObjects.addAll(someFocusedObjects);
+
+			if (DianaPrefs.HANDLE_TRAILING_FOCUSING) {
+
+				final List<ShapeNode<?>> trailingNodes = new ArrayList<>();
+				for (DrawingTreeNode<?, ?> node : focusedObjects) {
+					// only ShapeNode may be trailing
+					if (node instanceof ShapeNode && node.getIsLongTimeFocused()) {
+						trailingNodes.add((ShapeNode) node);
+					}
+				}
+				for (DrawingTreeNode<?, ?> node : someFocusedObjects) {
+					trailingNodes.remove(node);
+				}
+
+				// Handle nodes to unfocus now
+				for (DrawingTreeNode<?, ?> d : nodesToUnfocus) {
+					if (!trailingNodes.contains(d)) {
+						removeFromFocusedObjects(d);
+					}
+				}
+
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						// Waiting
+						try {
+							Thread.sleep(DianaPrefs.TRAILING_FOCUSING_DELAY);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						for (DrawingTreeNode<?, ?> node : trailingNodes) {
+							if (!expectedFocusedObjects.contains(node)) {
+								removeFromFocusedObjects(node);
+							}
+						}
+
+					}
+				}).start();
+
+			}
+			else {
+				for (DrawingTreeNode<?, ?> d : nodesToUnfocus) {
+					removeFromFocusedObjects(d);
+				}
+
+			}
+
+			// clearFocusSelection();
 			for (DrawingTreeNode<?, ?> d : someFocusedObjects) {
 				addToFocusedObjects(d);
 			}
+
 		}
 	}
 
-	public void setFocusedObject(DrawingTreeNode<?, ?> aNode) {
-		if (aNode == null) {
-			clearFocusSelection();
-			return;
-		}
-
-		setFocusedObjects(Collections.singletonList(aNode));
+	public void setFocusedObject(final DrawingTreeNode<?, ?> aNode) {
+		setFocusedObjects(aNode == null ? null : Collections.singletonList(aNode));
 	}
 
 	public void addToFocusedObjects(DrawingTreeNode<?, ?> aNode) {
