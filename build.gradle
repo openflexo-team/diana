@@ -8,5 +8,13 @@ buildscript {
     }
 }
 
+subprojects {
+	repositories {
+        maven { url "https://maven.openflexo.org/artifactory/openflexo-deps/" }
+  		maven { url "https://maven.openflexo.org/artifactory/openflexo-java10/" }
+    }
+}
+
 version = "1.6"
 apply plugin: 'org.openflexo.buildconfig'
+
