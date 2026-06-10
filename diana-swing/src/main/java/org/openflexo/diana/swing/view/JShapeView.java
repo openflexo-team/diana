@@ -364,7 +364,13 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 				}
 			}
 			else {
-				if (!getPaintManager().renderUsingBuffer((Graphics2D) g, g.getClipBounds(), shapeNode, getScale())) {
+				java.awt.image.BufferedImage dragBuffer = getPaintManager().getNodeBuffer(shapeNode);
+				if (dragBuffer != null) {
+					// Drag-cache fast path: this shape is being moved; blit its subtree snapshot
+					// (captured once at drag start) instead of re-rendering the whole subtree.
+					((Graphics2D) g).drawImage(dragBuffer, 0, 0, null);
+				}
+				else if (!getPaintManager().renderUsingBuffer((Graphics2D) g, g.getClipBounds(), shapeNode, getScale())) {
 					doPaint(g);
 				}
 
@@ -451,6 +457,8 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 				// GR changed
 				relocateAndResizeView();
 				if (getPaintManager().isPaintingCacheEnabled()) {
+					// Appearance changed: any move drag-cache for this node is now stale.
+					getPaintManager().discardNodeBuffer(shapeNode);
 					getPaintManager().removeFromTemporaryObjects(shapeNode);
 					getPaintManager().invalidate(shapeNode);
 					getPaintManager().repaint(getParentView());
@@ -491,6 +499,9 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 				if (getPaintManager().isPaintingCacheEnabled()) {
 					getPaintManager().addToTemporaryObjects(shapeNode);
 					getPaintManager().invalidate(shapeNode);
+					// Snapshot this node's subtree once, to blit (instead of re-render) on each
+					// drag frame. Valid only for a move; discarded on ObjectHasMoved.
+					getPaintManager().captureNode(shapeNode);
 				}
 			}
 			else if (evt.getPropertyName().equals(ObjectMove.PROPERTY_NAME)) {
@@ -501,6 +512,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 			}
 			else if (evt.getPropertyName().equals(ObjectHasMoved.EVENT_NAME)) {
 				if (getPaintManager().isPaintingCacheEnabled()) {
+					getPaintManager().discardNodeBuffer(shapeNode);
 					getPaintManager().removeFromTemporaryObjects(shapeNode);
 					getPaintManager().invalidate(shapeNode);
 					getPaintManager().repaint(getParentView());
@@ -508,6 +520,8 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 			}
 			else if (evt.getPropertyName().equals(ObjectWillResize.EVENT_NAME)) {
 				if (getPaintManager().isPaintingCacheEnabled()) {
+					// A resize changes the subtree's appearance, so any move drag-cache is stale.
+					getPaintManager().discardNodeBuffer(shapeNode);
 					getPaintManager().addToTemporaryObjects(shapeNode);
 					getPaintManager().invalidate(shapeNode);
 				}
@@ -540,9 +554,21 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 				// System.out.println("Relocating view");
 				relocateView();
 				if (getPaintManager().isPaintingCacheEnabled()) {
-					getPaintManager().removeFromTemporaryObjects(shapeNode);
-					getPaintManager().invalidate(shapeNode);
-					getPaintManager().repaint(getParentView());
+					if (getPaintManager().isTemporaryObject(shapeNode)) {
+						// Active drag: this shape is a temporary object, already excluded from the
+						// background buffer. A position change here must NOT invalidate that buffer
+						// nor remove the shape from the temporary set - otherwise the whole drawing
+						// gets re-buffered on every single drag increment (severe slowdown for large
+						// shapes). Just repaint the moving view (its own drag-cache blit / live
+						// render handles the appearance).
+						getPaintManager().repaint(this);
+					}
+					else {
+						// Programmatic move (outside a drag): the background buffer must be rebuilt.
+						getPaintManager().removeFromTemporaryObjects(shapeNode);
+						getPaintManager().invalidate(shapeNode);
+						getPaintManager().repaint(getParentView());
+					}
 				}
 			}
 			else if (evt.getPropertyName().equals(ShapeNeedsToBeRedrawn.EVENT_NAME)) {

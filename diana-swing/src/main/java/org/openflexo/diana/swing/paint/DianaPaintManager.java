@@ -49,7 +49,9 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Vector;
 import java.util.WeakHashMap;
 import java.util.logging.Level;
@@ -102,11 +104,20 @@ public class DianaPaintManager {
 	private BufferedImage _paintBuffer;
 	private final HashSet<DrawingTreeNode<?, ?>> _temporaryObjects;
 
+	/**
+	 * Per-node drag buffers: a snapshot of a node's whole subtree, captured once at the
+	 * start of a <em>move</em> and blitted at the node's current location on every drag
+	 * frame, instead of re-rendering the entire subtree each frame (see
+	 * {@link #captureNode(DrawingTreeNode)}). Keyed by the dragged node.
+	 */
+	private final Map<DrawingTreeNode<?, ?>, BufferedImage> _nodeDragBuffers;
+
 	public DianaPaintManager(JDrawingView<?> drawingView) {
 		super();
 		_drawingView = drawingView;
 		_paintBuffer = null;
 		_temporaryObjects = new HashSet<DrawingTreeNode<?, ?>>();
+		_nodeDragBuffers = new HashMap<DrawingTreeNode<?, ?>, BufferedImage>();
 		if (ENABLE_CACHE_BY_DEFAULT) {
 			enablePaintingCache();
 		}
@@ -185,17 +196,109 @@ public class DianaPaintManager {
 		}
 		if (!_temporaryObjects.contains(dtn)) {
 			_temporaryObjects.add(dtn);
+			// The set of objects excluded from the background buffer changed: rebuild it
+			// (once) so the newly-temporary object is no longer baked into the background.
+			_paintBuffer = null;
 		}
 	}
 
 	public void removeFromTemporaryObjects(DrawingTreeNode<?, ?> dtn) {
-		_temporaryObjects.remove(dtn);
+		if (_temporaryObjects.remove(dtn)) {
+			// Excluded set changed: rebuild the background buffer so the object is baked back
+			// in at its final position.
+			_paintBuffer = null;
+		}
+	}
+
+	// *******************************************************************************
+	// * Node drag-cache *
+	// *******************************************************************************
+	//
+	// During a pure MOVE, the rendered appearance of the dragged node's subtree is
+	// invariant - only its position changes. Diana already caches the rest of the
+	// drawing as a bitmap (_paintBuffer); without the node drag-cache below, the dragged
+	// node's whole subtree (which can be arbitrarily large for nested shapes) is instead
+	// re-rendered on every frame. We snapshot that subtree once at drag start and blit it
+	// at the node's current location on each frame, making a move O(blit) regardless of
+	// subtree size. This is valid ONLY while the appearance is invariant, i.e. for a move
+	// and never a resize, so the buffer is captured on ObjectWillMove and discarded on
+	// ObjectHasMoved / any resize / any GR change (see JShapeView).
+
+	/**
+	 * Captures the current rendered appearance of a node's subtree into an offscreen
+	 * image, to be blitted while the node is dragged instead of re-rendering the whole
+	 * subtree on every frame. The render is forced live (painting cache temporarily
+	 * disabled) because the background buffer has just been invalidated and excludes this
+	 * temporary object. Must be called only for a move (never a resize), and balanced by
+	 * {@link #discardNodeBuffer(DrawingTreeNode)} at the end of the drag.
+	 */
+	public void captureNode(DrawingTreeNode<?, ?> node) {
+		if (node == null) {
+			return;
+		}
+		DianaView<?, ?> v = _drawingView.viewForNode(node);
+		if (!(v instanceof JComponent)) {
+			return;
+		}
+		JComponent comp = (JComponent) v;
+		int w = comp.getWidth();
+		int h = comp.getHeight();
+		if (w <= 0 || h <= 0) {
+			return;
+		}
+		GraphicsConfiguration gc = comp.getGraphicsConfiguration();
+		if (gc == null) {
+			gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+		}
+		BufferedImage image = gc.createCompatibleImage(w, h, Transparency.TRANSLUCENT);
+		Graphics2D g = image.createGraphics();
+		boolean wasEnabled = _paintingCacheEnabled;
+		// Force a real, live subtree render: with the cache enabled, JShapeView.paint would
+		// try to blit from the (now invalidated, temporary-excluding) background buffer.
+		disablePaintingCache();
+		try {
+			comp.print(g);
+		} catch (RuntimeException e) {
+			// Capture failed: fall back to live rendering during the drag (no buffer stored).
+			logger.log(Level.WARNING, "Could not capture drag buffer for " + node, e);
+			return;
+		} finally {
+			if (wasEnabled) {
+				enablePaintingCache();
+			}
+			g.dispose();
+		}
+		_nodeDragBuffers.put(node, image);
+	}
+
+	/** The drag buffer captured for {@code node}, or {@code null} if none (not being moved). */
+	public BufferedImage getNodeBuffer(DrawingTreeNode<?, ?> node) {
+		return node == null ? null : _nodeDragBuffers.get(node);
+	}
+
+	/** Discards (and flushes) the drag buffer of {@code node}, if any. */
+	public void discardNodeBuffer(DrawingTreeNode<?, ?> node) {
+		if (node != null) {
+			BufferedImage img = _nodeDragBuffers.remove(node);
+			if (img != null) {
+				img.flush();
+			}
+		}
 	}
 
 	// CPU-expensive because it will ask to recreate the whole buffer
 	public void invalidate(DrawingTreeNode<?, ?> dtn) {
 		if (paintRequestLogger.isLoggable(Level.FINE)) {
 			paintRequestLogger.fine("CALLED invalidate on DianaPaintManager");
+		}
+		// A change concerning an object that is (transitively) part of the current drag must
+		// not rebuild the background buffer: that buffer excludes all temporary objects, so it
+		// stays valid as long as only temporary objects change. The buffer is rebuilt only when
+		// the excluded set itself changes (see add/removeFromTemporaryObjects). This neutralises
+		// the per-frame invalidations fired by the dragged shape, its connectors and their
+		// labels (position, focus, text, …) that otherwise re-buffer the whole drawing each frame.
+		if (dtn != null && isTemporaryObjectOrParentIsTemporaryObject(dtn)) {
+			return;
 		}
 		_paintBuffer = null;
 		// repaintManager.clearTemporaryRepaintArea();

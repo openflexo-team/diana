@@ -610,30 +610,49 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 						DianaPaintManager.paintPrimitiveLogger
 								.fine("JDrawingView: continuous painting, paint " + node + " temporaryObjectsOnly=" + temporaryObjectsOnly);
 					}
-					childGraphics.createGraphics(g2d/*, controller*/);
-					if (node instanceof ShapeNode) {
-						((ShapeNode<?>) node).paint((JDianaShapeGraphics) childGraphics);
+					BufferedImage dragBuffer = (node instanceof ShapeNode) ? getPaintManager().getNodeBuffer(node) : null;
+					if (dragBuffer != null) {
+						// Drag-cache fast path: blit the whole subtree snapshot at the node's
+						// current location instead of re-rendering it. Captured at drag start
+						// and valid only for a move (see DianaPaintManager.captureNode).
+						g2d.drawImage(dragBuffer, 0, 0, null);
+						// The node's own (floating) label is a sibling, not part of the captured
+						// subtree, so paint it live above the blit.
+						JLabelView<?> labelView = view.getLabelView();
+						if (labelView != null) {
+							Graphics labelGraphics = g.create(labelView.getX(), labelView.getY(), labelView.getWidth(),
+									labelView.getHeight());
+							labelView.paint(labelGraphics);
+							labelGraphics.dispose();
+						}
 					}
-					else if (node instanceof ConnectorNode) {
-						((ConnectorNode<?>) node).paint((JDianaConnectorGraphics) childGraphics);
-					}
-					if (node instanceof GeometricNode) {
-						((GeometricNode<?>) node).paint((JDianaGeometricGraphics) childGraphics);
-					}
-					childGraphics.releaseGraphics();
-					JLabelView<?> labelView = view.getLabelView();
-					if (labelView != null) {
-						Graphics labelGraphics = g.create(labelView.getX(), labelView.getY(), labelView.getWidth(), labelView.getHeight());
-						// Tricky area: if label is currently being edited,
-						// call to paint is required here
-						// to paint text component above buffer image.
-						// Otherwise, just call doPaint to force paint label
-						labelView.paint(labelGraphics);
-						labelGraphics.dispose();
-					}
-					// do the job for childs
-					if (node instanceof ContainerNode) {
-						forcePaintObjects((ContainerNode<?, ?>) node, g2d, false);
+					else {
+						childGraphics.createGraphics(g2d/*, controller*/);
+						if (node instanceof ShapeNode) {
+							((ShapeNode<?>) node).paint((JDianaShapeGraphics) childGraphics);
+						}
+						else if (node instanceof ConnectorNode) {
+							((ConnectorNode<?>) node).paint((JDianaConnectorGraphics) childGraphics);
+						}
+						if (node instanceof GeometricNode) {
+							((GeometricNode<?>) node).paint((JDianaGeometricGraphics) childGraphics);
+						}
+						childGraphics.releaseGraphics();
+						JLabelView<?> labelView = view.getLabelView();
+						if (labelView != null) {
+							Graphics labelGraphics = g.create(labelView.getX(), labelView.getY(), labelView.getWidth(),
+									labelView.getHeight());
+							// Tricky area: if label is currently being edited,
+							// call to paint is required here
+							// to paint text component above buffer image.
+							// Otherwise, just call doPaint to force paint label
+							labelView.paint(labelGraphics);
+							labelGraphics.dispose();
+						}
+						// do the job for childs
+						if (node instanceof ContainerNode) {
+							forcePaintObjects((ContainerNode<?, ?>) node, g2d, false);
+						}
 					}
 				}
 				else {
