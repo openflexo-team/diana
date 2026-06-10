@@ -207,7 +207,8 @@ public class ShapeResizingControlPoint extends ControlPoint {
 				}
 				else {
 					setDraggingAuthorizedArea(new DianaEmptyArea());
-					logger.warning("Created SOUTH_EAST ShapeResizingControlPoint with EMPTY dragging authorized area");
+					// TODO : check if this is normal ?
+					//logger.warning("Created SOUTH_EAST ShapeResizingControlPoint with EMPTY dragging authorized area");
 				}
 			}
 			else {
