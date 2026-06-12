@@ -169,6 +169,7 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 	private long dbgLastBufferRebuilds = 0;
 	private long dbgLastDragBlits = 0;
 	private long dbgLastLiveRenders = 0;
+	private long dbgLastRegionRefreshes = 0;
 
 	private boolean isBuffering = false;
 	private boolean bufferingHasBeenStartedAgain = false;
@@ -797,14 +798,17 @@ public class JDrawingView<M> extends JDianaLayeredView<M> implements Autoscroll,
 			long rebuilds = getPaintManager().getBufferRebuildCount();
 			long blits = getPaintManager().getDragBlitCount();
 			long live = getPaintManager().getLiveRenderCount();
+			long regions = getPaintManager().getRegionRefreshCount();
 			System.err.println("[diana.paint] frame=" + (endTime - startTime) + "ms"
 					+ " | bufferRebuilds(+" + (rebuilds - dbgLastBufferRebuilds) + ")=" + rebuilds
+					+ " | regionRefreshes(+" + (regions - dbgLastRegionRefreshes) + ")"
 					+ " | dragBlits(+" + (blits - dbgLastDragBlits) + ")"
 					+ " | liveShapeRenders(+" + (live - dbgLastLiveRenders) + ")"
 					+ " | clip=" + g.getClipBounds());
 			dbgLastBufferRebuilds = rebuilds;
 			dbgLastDragBlits = blits;
 			dbgLastLiveRenders = live;
+			dbgLastRegionRefreshes = regions;
 		}
 
 		if (DianaPaintManager.paintStatsLogger.isLoggable(Level.FINE)) {
