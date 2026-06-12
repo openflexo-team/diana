@@ -693,6 +693,29 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 */
 	@Override
 	public <T> void fireDynamicPropertyChanged(GRProperty<T> parameter, T oldValue, T newValue) {
+		if ((parameter == ShapeGraphicalRepresentation.X || parameter == ShapeGraphicalRepresentation.Y)
+				&& newValue instanceof Double) {
+			// A settable X/Y dynamic binding round-trips GR -> model -> GR: setting the GR location
+			// writes the value into the model, whose change notification re-fires this method with
+			// newValue equal to the GR's *current* location. That echo is not a real move and must be
+			// suppressed ENTIRELY (before super), for two reasons:
+			//  - super.fireDynamicPropertyChanged() would re-fire a redundant X/Y PropertyChange to
+			//    the views; when the shape is not a temporary object (e.g. the echo arriving just
+			//    after the drag's mouseReleased) JShapeView's X/Y handler then invalidates and fully
+			//    rebuilds the whole paint buffer (re-rendering every shape of the drawing) - a severe
+			//    slowdown on large diagrams;
+			//  - the no-arg notifyObjectMoved() below would emit a spurious ObjectWillMove/
+			//    ObjectHasMoved cycle (same full-rebuild cost).
+			// During a genuine drag the real move is already propagated from the GR's own X/Y
+			// PropertyChange (see propertyChange()), so suppressing this echo loses nothing. A genuine
+			// external/programmatic model change carries a value that differs from the current
+			// location and is therefore NOT suppressed.
+			double current = (parameter == ShapeGraphicalRepresentation.X) ? getX() : getY();
+			if (((Double) newValue).doubleValue() == current) {
+				// Echo of an unchanged value: not a move.
+				return;
+			}
+		}
 		super.fireDynamicPropertyChanged(parameter, oldValue, newValue);
 		if (parameter == ShapeGraphicalRepresentation.X || parameter == ShapeGraphicalRepresentation.Y) {
 			notifyObjectMoved();

@@ -86,6 +86,55 @@ public class DianaPaintManager {
 
 	private boolean _paintingCacheEnabled;
 
+	// *** Performance diagnostic instrumentation (toggle with -Ddiana.paintdebug=true) ***
+	// All prints below are no-ops unless the flag is set; no behavioural change.
+	public static final boolean PAINT_DEBUG = Boolean.getBoolean("diana.paintdebug");
+
+	private long bufferRebuildCount = 0; // # of full background-buffer rebuilds (hypothesis 2)
+	private long dragBlitCount = 0;      // # of drag-cache blits (hypothesis 1: should be ~1/frame)
+	private long liveRenderCount = 0;    // # of live subtree re-renders during a drag (hypothesis 1)
+
+	public long getBufferRebuildCount() {
+		return bufferRebuildCount;
+	}
+
+	public long getDragBlitCount() {
+		return dragBlitCount;
+	}
+
+	public long getLiveRenderCount() {
+		return liveRenderCount;
+	}
+
+	public void notifyDragBlit() {
+		if (PAINT_DEBUG) {
+			dragBlitCount++;
+		}
+	}
+
+	public void notifyLiveRender() {
+		if (PAINT_DEBUG) {
+			liveRenderCount++;
+		}
+	}
+
+	/** Short hint of the caller chain (skips this class) to attribute a temporary-set mutation. */
+	private static String dbgCaller() {
+		StackTraceElement[] st = Thread.currentThread().getStackTrace();
+		StringBuilder sb = new StringBuilder("  <- ");
+		int printed = 0;
+		for (int i = 2; i < st.length && printed < 4; i++) {
+			String cn = st[i].getClassName();
+			if (cn.endsWith("DianaPaintManager")) {
+				continue;
+			}
+			sb.append(cn.substring(cn.lastIndexOf('.') + 1)).append('.').append(st[i].getMethodName())
+					.append(':').append(st[i].getLineNumber()).append(' ');
+			printed++;
+		}
+		return sb.toString();
+	}
+
 	// private static final int DEFAULT_IMAGE_TYPE = BufferedImage.TYPE_INT_RGB;
 
 	private static DianaRepaintManager repaintManager;
@@ -194,6 +243,9 @@ public class DianaPaintManager {
 		if (paintRequestLogger.isLoggable(Level.FINE)) {
 			paintRequestLogger.fine("addToTemporaryObjects() " + dtn);
 		}
+		if (PAINT_DEBUG && !_temporaryObjects.contains(dtn)) {
+			System.err.println("[diana.temp]  + ADD    " + dtn + dbgCaller());
+		}
 		if (!_temporaryObjects.contains(dtn)) {
 			_temporaryObjects.add(dtn);
 			// The set of objects excluded from the background buffer changed: rebuild it
@@ -203,6 +255,9 @@ public class DianaPaintManager {
 	}
 
 	public void removeFromTemporaryObjects(DrawingTreeNode<?, ?> dtn) {
+		if (PAINT_DEBUG && _temporaryObjects.contains(dtn)) {
+			System.err.println("[diana.temp]  - REMOVE " + dtn + dbgCaller());
+		}
 		if (_temporaryObjects.remove(dtn)) {
 			// Excluded set changed: rebuild the background buffer so the object is baked back
 			// in at its final position.
@@ -269,6 +324,9 @@ public class DianaPaintManager {
 			g.dispose();
 		}
 		_nodeDragBuffers.put(node, image);
+		if (PAINT_DEBUG) {
+			System.err.println("[diana.paint] CAPTURE drag-cache for " + node + " (" + w + "x" + h + ")");
+		}
 	}
 
 	/** The drag buffer captured for {@code node}, or {@code null} if none (not being moved). */
@@ -299,6 +357,9 @@ public class DianaPaintManager {
 		// labels (position, focus, text, …) that otherwise re-buffer the whole drawing each frame.
 		if (dtn != null && isTemporaryObjectOrParentIsTemporaryObject(dtn)) {
 			return;
+		}
+		if (PAINT_DEBUG && _paintBuffer != null) {
+			System.err.println("[diana.inval] buffer nulled by " + dtn + dbgCaller());
 		}
 		_paintBuffer = null;
 		// repaintManager.clearTemporaryRepaintArea();
@@ -446,6 +507,11 @@ public class DianaPaintManager {
 	private BufferedImage bufferDrawingView() {
 		if (paintRequestLogger.isLoggable(Level.FINE)) {
 			paintRequestLogger.fine("Buffering whole JDrawingView. Is it really necessary ?");
+		}
+		if (PAINT_DEBUG) {
+			bufferRebuildCount++;
+			System.err.println("[diana.paint] FULL BUFFER REBUILD #" + bufferRebuildCount
+					+ " (re-renders every non-temporary shape of the whole drawing)");
 		}
 		Component view = getDrawingView();
 		GraphicsConfiguration gc = view.getGraphicsConfiguration();

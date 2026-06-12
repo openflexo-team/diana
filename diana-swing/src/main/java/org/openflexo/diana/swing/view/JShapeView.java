@@ -368,6 +368,7 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 				if (dragBuffer != null) {
 					// Drag-cache fast path: this shape is being moved; blit its subtree snapshot
 					// (captured once at drag start) instead of re-rendering the whole subtree.
+					getPaintManager().notifyDragBlit();
 					((Graphics2D) g).drawImage(dragBuffer, 0, 0, null);
 				}
 				else if (!getPaintManager().renderUsingBuffer((Graphics2D) g, g.getClipBounds(), shapeNode, getScale())) {
@@ -403,6 +404,11 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 	}
 
 	private void doPaint(Graphics g) {
+		if (DianaPaintManager.PAINT_DEBUG && !getDrawingView().isBuffering()) {
+			// A live shape render outside the buffering pass: during a drag this is the slow path
+			// (the moved subtree being re-rendered instead of blitted from the drag-cache).
+			getPaintManager().notifyLiveRender();
+		}
 		Graphics2D g2 = (Graphics2D) g;
 		DrawUtils.turnOnAntiAlising(g2);
 		DrawUtils.setRenderQuality(g2);
@@ -588,9 +594,14 @@ public class JShapeView<O> extends JDianaLayeredView<O> implements ShapeView<O, 
 
 			}
 			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_FOCUSED.getName())) {
-				// if (shapeNode.getHasFocusedForegroundStyle() || shapeNode.getHasFocusedBackgroundStyle()) {
-				getPaintManager().invalidate(shapeNode);
-				// }
+				// Only invalidate (= full paint-buffer rebuild) when focus actually changes this
+				// shape's appearance, i.e. it declares a focused foreground/background style. A shape
+				// with no focused style (e.g. a plain container box) does not change when focused, so
+				// rebuilding the whole buffer for it is pure waste - a severe cost on large diagrams.
+				// This mirrors the IS_SELECTED branch below.
+				if (shapeNode.getHasFocusedForegroundStyle() || shapeNode.getHasFocusedBackgroundStyle()) {
+					getPaintManager().invalidate(shapeNode);
+				}
 				getPaintManager().repaint(this);
 			}
 			else if (evt.getPropertyName().equals(DrawingTreeNode.IS_LONG_TIME_FOCUSED.getName())) {
