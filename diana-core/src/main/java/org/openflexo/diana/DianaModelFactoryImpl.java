@@ -88,6 +88,8 @@ import org.openflexo.diana.impl.TextStyleImpl;
 import org.openflexo.diana.impl.TextureBackgroundStyleImpl;
 import org.openflexo.diana.layout.BalloonLayoutManager;
 import org.openflexo.diana.layout.BalloonLayoutManagerSpecification;
+import org.openflexo.diana.layout.BoxLayoutManager;
+import org.openflexo.diana.layout.BoxLayoutManagerSpecification;
 import org.openflexo.diana.layout.FlowLayoutManager;
 import org.openflexo.diana.layout.FlowLayoutManagerSpecification;
 import org.openflexo.diana.layout.ForceDirectedGraphLayoutManager;
@@ -104,6 +106,8 @@ import org.openflexo.diana.layout.TreeLayoutManager;
 import org.openflexo.diana.layout.TreeLayoutManagerSpecification;
 import org.openflexo.diana.layout.impl.BalloonLayoutManagerImpl;
 import org.openflexo.diana.layout.impl.BalloonLayoutManagerSpecificationImpl;
+import org.openflexo.diana.layout.impl.BoxLayoutManagerImpl;
+import org.openflexo.diana.layout.impl.BoxLayoutManagerSpecificationImpl;
 import org.openflexo.diana.layout.impl.FlowLayoutManagerImpl;
 import org.openflexo.diana.layout.impl.FlowLayoutManagerSpecificationImpl;
 import org.openflexo.diana.layout.impl.ForceDirectedGraphLayoutManagerImpl;
@@ -256,6 +260,8 @@ public class DianaModelFactoryImpl extends DianaModelFactory {
 		// Layout managers
 		pamelaModelFactory.setImplementingClassForInterface(FlowLayoutManagerImpl.class, FlowLayoutManager.class);
 		pamelaModelFactory.setImplementingClassForInterface(FlowLayoutManagerSpecificationImpl.class, FlowLayoutManagerSpecification.class);
+		pamelaModelFactory.setImplementingClassForInterface(BoxLayoutManagerImpl.class, BoxLayoutManager.class);
+		pamelaModelFactory.setImplementingClassForInterface(BoxLayoutManagerSpecificationImpl.class, BoxLayoutManagerSpecification.class);
 		pamelaModelFactory.setImplementingClassForInterface(GridLayoutManagerImpl.class, GridLayoutManager.class);
 		pamelaModelFactory.setImplementingClassForInterface(GridLayoutManagerSpecificationImpl.class, GridLayoutManagerSpecification.class);
 		pamelaModelFactory.setImplementingClassForInterface(OutlineLayoutManagerImpl.class, OutlineLayoutManager.class);

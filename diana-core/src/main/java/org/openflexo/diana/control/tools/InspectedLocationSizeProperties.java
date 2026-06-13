@@ -168,6 +168,14 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_MANAGER_IDENTIFIER, value);
 	}
 
+	public Double getLayoutWeight() {
+		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_WEIGHT);
+	}
+
+	public void setLayoutWeight(Double value) {
+		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_WEIGHT, value);
+	}
+
 	public Double getX() {
 		return getPropertyValue(ShapeGraphicalRepresentation.X);
 	}

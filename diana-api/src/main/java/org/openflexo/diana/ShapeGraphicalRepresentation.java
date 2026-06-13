@@ -133,6 +133,8 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 
 	@PropertyIdentifier(type = String.class)
 	public static final String LAYOUT_MANAGER_IDENTIFIER_KEY = "layoutManagerIdentifier";
+	@PropertyIdentifier(type = Double.class)
+	public static final String LAYOUT_WEIGHT_KEY = "layoutWeight";
 
 	// *******************************************************************************
 	// * Inner concepts
@@ -299,6 +301,8 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 			HEIGHT_CONSTRAINTS_KEY, DataBinding.class);
 	public static GRProperty<String> LAYOUT_MANAGER_IDENTIFIER = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			LAYOUT_MANAGER_IDENTIFIER_KEY, String.class);
+	public static GRProperty<Double> LAYOUT_WEIGHT = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, LAYOUT_WEIGHT_KEY,
+			Double.class);
 
 	// *******************************************************************************
 	// * Model
@@ -728,5 +732,25 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	 */
 	@Setter(value = LAYOUT_MANAGER_IDENTIFIER_KEY)
 	public void setLayoutManagerIdentifier(String identifier);
+
+	/**
+	 * Return the layout weight of the represented {@link ShapeNode}, used by weight-distributing layout managers (e.g.
+	 * {@link org.openflexo.diana.layout.BoxLayoutManager}) to share free space along the main axis.<br>
+	 * A weight of <code>0</code> (default) means the node keeps a fixed (its own) main-axis extent; a strictly positive weight means the node
+	 * grows to take a share of the free space proportional to its weight.
+	 *
+	 * @return
+	 */
+	@Getter(value = LAYOUT_WEIGHT_KEY, defaultValue = "0.0")
+	@XMLAttribute
+	public double getLayoutWeight();
+
+	/**
+	 * Sets the layout weight of the represented {@link ShapeNode} (see {@link #getLayoutWeight()}).
+	 *
+	 * @param weight
+	 */
+	@Setter(value = LAYOUT_WEIGHT_KEY)
+	public void setLayoutWeight(double weight);
 
 }

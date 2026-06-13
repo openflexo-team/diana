@@ -433,6 +433,24 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 		}
 	}
 
+	/**
+	 * Re-layout, live, the {@link DianaLayoutManager}s of this container whose layout depends on the container geometry (those returning
+	 * <code>true</code> to {@link DianaLayoutManager#isFullyLayouted()}, e.g. box/flow layouts). Called on every container resize step (see
+	 * {@link #updateSize(DianaDimension)}) so children reflow continuously while the user drags a resize handle — not only when the resize
+	 * ends. Managers whose placement does not depend on the container size (e.g. grid) are left untouched.
+	 */
+	private void performLiveRelayoutOnResize() {
+		if (getDrawing() == null || getDrawing().isUpdatingGraphicalObjectsHierarchy() || getDrawing().isDeleting()) {
+			return;
+		}
+		for (DianaLayoutManager<?, O> lm : getLayoutManagers()) {
+			if (lm.isFullyLayouted() && !lm.isLayoutInProgress()) {
+				lm.invalidate();
+				lm.doLayout(true);
+			}
+		}
+	}
+
 	@Override
 	public <O2> boolean hasShapeFor(ShapeGRBinding<O2> binding, O2 aDrawable) {
 		return getShapeFor(binding, aDrawable) != null;
@@ -661,6 +679,9 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 			notifyObjectResized(oldSize);
 			notifyAttributeChanged(ContainerGraphicalRepresentation.WIDTH, oldWidth, getWidth());
 			notifyAttributeChanged(ContainerGraphicalRepresentation.HEIGHT, oldHeight, getHeight());
+			// Live reflow of geometry-dependent layout managers (box/flow): children re-layout
+			// continuously while a resize handle is dragged, not only when the resize ends.
+			performLiveRelayoutOnResize();
 			/*if (!isFullyContainedInContainer()) {
 				if (logger.isLoggable(Level.FINE)) {
 					logger.fine("setLocation() lead shape going outside it's parent view");

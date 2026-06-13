@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Inspector
+	layout="border" titleFont="SansSerif,0,12" darkLevel="0"
+	dataClassName="org.openflexo.diana.layout.BoxLayoutManager" font="SansSerif,0,12"
+	name="Inspector">
+	<TabPanel name="Tab" index="0" constraints="border(index=0;location=center)">
+
+		<Tab title="Basic" layout="twocols" titleFont="SansSerif,0,11"
+			darkLevel="0" index="1" font="SansSerif,0,11" useScrollBar="true"
+			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
+			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="BasicTab">
+
+			<Label label="orientation" index="0"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="OrientationLabel" localize="true" />
+			<DropDown index="1" data="data.layoutManagerSpecification.orientation"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
+				width="150" name="Orientation" format="object.name" localize="true"
+				iteratorClassName="org.openflexo.diana.layout.BoxLayoutManagerSpecification$Orientation"
+				autoSelectFirstRow="true" />
+
+			<Label label="cross_axis_policy" index="2"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="CrossAxisPolicyLabel" localize="true" />
+			<DropDown index="3" data="data.layoutManagerSpecification.crossAxisPolicy"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
+				width="150" name="CrossAxisPolicy" format="object.name" localize="true"
+				iteratorClassName="org.openflexo.diana.layout.BoxLayoutManagerSpecification$CrossAxisPolicy"
+				autoSelectFirstRow="true" />
+
+			<Label label="main_axis_policy" index="4"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="MainAxisPolicyLabel" localize="true" />
+			<DropDown index="5" data="data.layoutManagerSpecification.mainAxisPolicy"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
+				width="150" name="MainAxisPolicy" format="object.name" localize="true"
+				iteratorClassName="org.openflexo.diana.layout.BoxLayoutManagerSpecification$MainAxisPolicy"
+				autoSelectFirstRow="true" />
+
+			<Label label="gap" index="6"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="GapLabel" localize="true" />
+			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
+				numberType="DoubleType" columns="5" index="7" data="data.layoutManagerSpecification.gap"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
+				name="Gap" localize="true" />
+
+			<Label label="inset_top" index="8"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="InsetTopLabel" localize="true" />
+			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
+				numberType="DoubleType" columns="5" index="9" data="data.layoutManagerSpecification.insetTop"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
+				name="InsetTop" localize="true" />
+
+			<Label label="inset_bottom" index="10"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="InsetBottomLabel" localize="true" />
+			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
+				numberType="DoubleType" columns="5" index="11" data="data.layoutManagerSpecification.insetBottom"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
+				name="InsetBottom" localize="true" />
+
+			<Label label="inset_left" index="12"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="InsetLeftLabel" localize="true" />
+			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
+				numberType="DoubleType" columns="5" index="13" data="data.layoutManagerSpecification.insetLeft"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
+				name="InsetLeft" localize="true" />
+
+			<Label label="inset_right" index="14"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="InsetRightLabel" localize="true" />
+			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
+				numberType="DoubleType" columns="5" index="15" data="data.layoutManagerSpecification.insetRight"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
+				name="InsetRight" localize="true" />
+
+		</Tab>
+
+	</TabPanel>
+	<LocalizedDictionary>
+		<Localized key="orientation" lang="English" value="Orientation" />
+		<Localized key="orientation" lang="French" value="Orientation" />
+		<Localized key="cross_axis_policy" lang="English" value="Cross axis" />
+		<Localized key="cross_axis_policy" lang="French" value="Axe transverse" />
+		<Localized key="main_axis_policy" lang="English" value="Main axis" />
+		<Localized key="main_axis_policy" lang="French" value="Axe principal" />
+		<Localized key="gap" lang="English" value="Gap" />
+		<Localized key="gap" lang="French" value="Espacement" />
+		<Localized key="inset_top" lang="English" value="Inset top" />
+		<Localized key="inset_top" lang="French" value="Marge haut" />
+		<Localized key="inset_bottom" lang="English" value="Inset bottom" />
+		<Localized key="inset_bottom" lang="French" value="Marge bas" />
+		<Localized key="inset_left" lang="English" value="Inset left" />
+		<Localized key="inset_left" lang="French" value="Marge gauche" />
+		<Localized key="inset_right" lang="English" value="Inset right" />
+		<Localized key="inset_right" lang="French" value="Marge droite" />
+	</LocalizedDictionary>
+	<Parameter name="title" value="BoxLayoutManager" />
+</Inspector>

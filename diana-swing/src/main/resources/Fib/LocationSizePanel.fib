@@ -94,6 +94,15 @@
 		<TextField data="data.layoutManagerIdentifier" enable="data.areLocationPropertiesApplicable"
 			name="LayoutManagerIdentifierTF"
 			constraints="twocols(expandHorizontally=true;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"/>
+		<Label enable="data.areLocationPropertiesApplicable"
+			name="LayoutWeightLabel" index="6" localize="true" align="left"
+			constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
+			label="layout_weight" />
+		<Number minValue="0.0" maxValue="1000.0" increment="0.5"
+			numberType="DoubleType" columns="5" data="data.layoutWeight"
+			enable="data.areLocationPropertiesApplicable" name="LayoutWeight" index="7"
+			constraints="twocols(expandHorizontally=true;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)"
+			localize="true" />
 		<Label id="20" enable="data.areLocationPropertiesApplicable"
 			name="LocationConstraintsLabel" index="4" localize="true" align="left"
 			constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)"
