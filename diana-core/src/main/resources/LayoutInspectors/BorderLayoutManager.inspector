@@ -8,53 +8,53 @@
 		<Tab title="Basic" layout="twocols" titleFont="SansSerif,0,11"
 			darkLevel="0" index="1" font="SansSerif,0,11" useScrollBar="true"
 			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
-			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="BasicTab">
+			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="TextTab">
 
-			<Label label="hgap" index="0"
+			<Label label="hgap" index="10"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="HgapLabel" localize="true" />
 			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
-				numberType="DoubleType" columns="5" index="1" data="data.layoutManagerSpecification.hgap"
+				numberType="DoubleType" columns="5" index="11" data="data.layoutManagerSpecification.hgap"
 				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
 				name="Hgap" localize="true" />
 
-			<Label label="vgap" index="2"
+			<Label label="vgap" index="12"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="VgapLabel" localize="true" />
 			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
-				numberType="DoubleType" columns="5" index="3" data="data.layoutManagerSpecification.vgap"
+				numberType="DoubleType" columns="5" index="13" data="data.layoutManagerSpecification.vgap"
 				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
 				name="Vgap" localize="true" />
 
-			<Label label="inset_top" index="4"
+			<Label label="inset_top" index="14"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="InsetTopLabel" localize="true" />
 			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
-				numberType="DoubleType" columns="5" index="5" data="data.layoutManagerSpecification.insetTop"
+				numberType="DoubleType" columns="5" index="15" data="data.layoutManagerSpecification.insetTop"
 				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
 				name="InsetTop" localize="true" />
 
-			<Label label="inset_bottom" index="6"
+			<Label label="inset_bottom" index="16"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="InsetBottomLabel" localize="true" />
 			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
-				numberType="DoubleType" columns="5" index="7" data="data.layoutManagerSpecification.insetBottom"
+				numberType="DoubleType" columns="5" index="17" data="data.layoutManagerSpecification.insetBottom"
 				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
 				name="InsetBottom" localize="true" />
 
-			<Label label="inset_left" index="8"
+			<Label label="inset_left" index="18"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="InsetLeftLabel" localize="true" />
 			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
-				numberType="DoubleType" columns="5" index="9" data="data.layoutManagerSpecification.insetLeft"
+				numberType="DoubleType" columns="5" index="19" data="data.layoutManagerSpecification.insetLeft"
 				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
 				name="InsetLeft" localize="true" />
 
-			<Label label="inset_right" index="10"
+			<Label label="inset_right" index="20"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="InsetRightLabel" localize="true" />
 			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
-				numberType="DoubleType" columns="5" index="11" data="data.layoutManagerSpecification.insetRight"
+				numberType="DoubleType" columns="5" index="21" data="data.layoutManagerSpecification.insetRight"
 				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
 				name="InsetRight" localize="true" />
 

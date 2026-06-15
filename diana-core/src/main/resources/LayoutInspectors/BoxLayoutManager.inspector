@@ -8,72 +8,72 @@
 		<Tab title="Basic" layout="twocols" titleFont="SansSerif,0,11"
 			darkLevel="0" index="1" font="SansSerif,0,11" useScrollBar="true"
 			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
-			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="BasicTab">
+			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="TextTab">
 
-			<Label label="orientation" index="0"
+			<Label label="orientation" index="10"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="OrientationLabel" localize="true" />
-			<DropDown index="1" data="data.layoutManagerSpecification.orientation"
+			<DropDown index="11" data="data.layoutManagerSpecification.orientation"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
 				width="150" name="Orientation" format="object.name" localize="true"
 				iteratorClassName="org.openflexo.diana.layout.BoxLayoutManagerSpecification$Orientation"
 				autoSelectFirstRow="true" />
 
-			<Label label="cross_axis_policy" index="2"
+			<Label label="cross_axis_policy" index="12"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="CrossAxisPolicyLabel" localize="true" />
-			<DropDown index="3" data="data.layoutManagerSpecification.crossAxisPolicy"
+			<DropDown index="13" data="data.layoutManagerSpecification.crossAxisPolicy"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
 				width="150" name="CrossAxisPolicy" format="object.name" localize="true"
 				iteratorClassName="org.openflexo.diana.layout.BoxLayoutManagerSpecification$CrossAxisPolicy"
 				autoSelectFirstRow="true" />
 
-			<Label label="main_axis_policy" index="4"
+			<Label label="main_axis_policy" index="14"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="MainAxisPolicyLabel" localize="true" />
-			<DropDown index="5" data="data.layoutManagerSpecification.mainAxisPolicy"
+			<DropDown index="15" data="data.layoutManagerSpecification.mainAxisPolicy"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
 				width="150" name="MainAxisPolicy" format="object.name" localize="true"
 				iteratorClassName="org.openflexo.diana.layout.BoxLayoutManagerSpecification$MainAxisPolicy"
 				autoSelectFirstRow="true" />
 
-			<Label label="gap" index="6"
+			<Label label="gap" index="16"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="GapLabel" localize="true" />
 			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
-				numberType="DoubleType" columns="5" index="7" data="data.layoutManagerSpecification.gap"
+				numberType="DoubleType" columns="5" index="17" data="data.layoutManagerSpecification.gap"
 				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
 				name="Gap" localize="true" />
 
-			<Label label="inset_top" index="8"
+			<Label label="inset_top" index="18"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="InsetTopLabel" localize="true" />
 			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
-				numberType="DoubleType" columns="5" index="9" data="data.layoutManagerSpecification.insetTop"
+				numberType="DoubleType" columns="5" index="19" data="data.layoutManagerSpecification.insetTop"
 				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
 				name="InsetTop" localize="true" />
 
-			<Label label="inset_bottom" index="10"
+			<Label label="inset_bottom" index="20"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="InsetBottomLabel" localize="true" />
 			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
-				numberType="DoubleType" columns="5" index="11" data="data.layoutManagerSpecification.insetBottom"
+				numberType="DoubleType" columns="5" index="21" data="data.layoutManagerSpecification.insetBottom"
 				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
 				name="InsetBottom" localize="true" />
 
-			<Label label="inset_left" index="12"
+			<Label label="inset_left" index="22"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="InsetLeftLabel" localize="true" />
 			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
-				numberType="DoubleType" columns="5" index="13" data="data.layoutManagerSpecification.insetLeft"
+				numberType="DoubleType" columns="5" index="23" data="data.layoutManagerSpecification.insetLeft"
 				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
 				name="InsetLeft" localize="true" />
 
-			<Label label="inset_right" index="14"
+			<Label label="inset_right" index="24"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="InsetRightLabel" localize="true" />
 			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
-				numberType="DoubleType" columns="5" index="15" data="data.layoutManagerSpecification.insetRight"
+				numberType="DoubleType" columns="5" index="25" data="data.layoutManagerSpecification.insetRight"
 				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
 				name="InsetRight" localize="true" />
 
