@@ -53,6 +53,7 @@ import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.diana.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.impl.DrawingImpl;
+import org.openflexo.diana.layout.BoxLayoutConstraints;
 import org.openflexo.diana.layout.BoxLayoutManagerSpecification;
 import org.openflexo.diana.layout.BoxLayoutManagerSpecification.CrossAxisPolicy;
 import org.openflexo.diana.layout.BoxLayoutManagerSpecification.MainAxisPolicy;
@@ -191,7 +192,9 @@ public class BoxCompartmentInsetDrawing extends DrawingImpl<TestGraph> {
 
 				double[] weights = { 0, 1, 3, 2 }; // index 0 is the header (handled separately)
 				int idx = nonRootIndex(node);
-				gr.setLayoutWeight(idx >= 0 && idx < weights.length ? weights[idx] : 1);
+				BoxLayoutConstraints lc = factory.newInstance(BoxLayoutConstraints.class);
+				lc.setWeight(idx >= 0 && idx < weights.length ? weights[idx] : 1);
+				gr.setLayoutConstraints(lc);
 				gr.setBackground(factory.makeColoredBackground(idx % 2 == 0 ? new Color(225, 235, 250) : new Color(240, 244, 250)));
 				return gr;
 			}

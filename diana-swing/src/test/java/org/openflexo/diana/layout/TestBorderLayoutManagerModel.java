@@ -50,8 +50,7 @@ import org.openflexo.diana.ShapeGraphicalRepresentation;
 /**
  * Headless validation that the {@link BorderLayoutManager} PAMELA model is well-formed: the factory can be built (which compiles every
  * {@code @ModelEntity} including the new {@code BORDER} entities), a {@link BorderLayoutManagerSpecification} can be instantiated and
- * configured, and the new per-child {@link ShapeGraphicalRepresentation#getLayoutBorderRegion()} GR property round-trips with its
- * {@code CENTER} default.
+ * configured, and the per-child {@link BorderLayoutConstraints} round-trips with its {@code CENTER} region default.
  *
  * @author sylvain
  */
@@ -85,20 +84,22 @@ public class TestBorderLayoutManagerModel {
 	}
 
 	@Test
-	public void testLayoutBorderRegionGRProperty() throws Exception {
-		// Building the factory compiles the ShapeGraphicalRepresentation entity, including the new
-		// layoutBorderRegion @Getter with defaultValue="CENTER" (an invalid enum default would fail here).
+	public void testBorderLayoutConstraintsRoundTrip() throws Exception {
+		// Building the factory compiles the LayoutConstraints hierarchy, including BorderLayoutConstraints with its
+		// region @Getter defaultValue="CENTER" (an invalid enum default would fail here).
 		DianaModelFactory factory = new DianaModelFactoryImpl();
-		assertEquals(DianaModelFactoryImpl.class, factory.getClass());
 
-		// The per-child GR property must be registered with the right key and enum type, and be distinct
-		// from the box weight property (headless-safe: no ShapeGraphicalRepresentation instance is created,
-		// which would require a graphics environment).
-		assertEquals(ShapeGraphicalRepresentation.LAYOUT_BORDER_REGION_KEY,
-				ShapeGraphicalRepresentation.LAYOUT_BORDER_REGION.getName());
-		assertEquals(BorderRegion.class, ShapeGraphicalRepresentation.LAYOUT_BORDER_REGION.getType());
-		assertFalse(ShapeGraphicalRepresentation.LAYOUT_BORDER_REGION.getName()
-				.equals(ShapeGraphicalRepresentation.LAYOUT_WEIGHT.getName()));
+		BorderLayoutConstraints c = factory.newInstance(BorderLayoutConstraints.class);
+		// Default region is CENTER
+		assertEquals(BorderRegion.CENTER, c.getRegion());
+		c.setRegion(BorderRegion.NORTH);
+		assertEquals(BorderRegion.NORTH, c.getRegion());
+
+		// The single polymorphic GR slot is registered with the right key and type
+		assertEquals(ShapeGraphicalRepresentation.LAYOUT_CONSTRAINTS_KEY,
+				ShapeGraphicalRepresentation.LAYOUT_CONSTRAINTS.getName());
+		assertEquals(org.openflexo.diana.layout.LayoutConstraints.class,
+				ShapeGraphicalRepresentation.LAYOUT_CONSTRAINTS.getType());
 	}
 
 	@Test

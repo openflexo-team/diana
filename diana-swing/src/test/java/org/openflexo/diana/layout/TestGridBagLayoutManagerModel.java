@@ -76,28 +76,36 @@ public class TestGridBagLayoutManagerModel {
 	}
 
 	@Test
-	public void testGridBagChildGRProperties() throws Exception {
-		// Building the factory compiles ShapeGraphicalRepresentation, including the new layoutGrid*/layoutWeight*/
-		// layoutFill/layoutAnchor getters with their defaults (an invalid enum default would fail here).
+	public void testGridBagLayoutConstraintsRoundTrip() throws Exception {
+		// Building the factory compiles the LayoutConstraints hierarchy, including GridBagLayoutConstraints with its
+		// int/double/enum getters and defaults (an invalid enum default would fail here).
 		DianaModelFactory factory = new DianaModelFactoryImpl();
-		assertEquals(DianaModelFactoryImpl.class, factory.getClass());
 
-		// Keys and types of the eight per-child properties (headless-safe: no ShapeGraphicalRepresentation
-		// instance is created, which would require a graphics environment).
-		assertEquals("layoutGridX", ShapeGraphicalRepresentation.LAYOUT_GRID_X.getName());
-		assertEquals(Integer.class, ShapeGraphicalRepresentation.LAYOUT_GRID_X.getType());
-		assertEquals("layoutGridY", ShapeGraphicalRepresentation.LAYOUT_GRID_Y.getName());
-		assertEquals("layoutGridWidth", ShapeGraphicalRepresentation.LAYOUT_GRID_WIDTH.getName());
-		assertEquals("layoutGridHeight", ShapeGraphicalRepresentation.LAYOUT_GRID_HEIGHT.getName());
-		assertEquals(Double.class, ShapeGraphicalRepresentation.LAYOUT_WEIGHT_X.getType());
-		assertEquals("layoutWeightX", ShapeGraphicalRepresentation.LAYOUT_WEIGHT_X.getName());
-		assertEquals("layoutWeightY", ShapeGraphicalRepresentation.LAYOUT_WEIGHT_Y.getName());
-		assertEquals(GridBagFill.class, ShapeGraphicalRepresentation.LAYOUT_FILL.getType());
-		assertEquals(GridBagAnchor.class, ShapeGraphicalRepresentation.LAYOUT_ANCHOR.getType());
+		GridBagLayoutConstraints c = factory.newInstance(GridBagLayoutConstraints.class);
+		// Defaults
+		assertEquals(0, c.getGridX());
+		assertEquals(1, c.getGridWidth());
+		assertEquals(GridBagFill.NONE, c.getFill());
+		assertEquals(GridBagAnchor.CENTER, c.getAnchor());
 
-		// Independent of the box weight property
-		assertFalse(ShapeGraphicalRepresentation.LAYOUT_WEIGHT_X.getName()
-				.equals(ShapeGraphicalRepresentation.LAYOUT_WEIGHT.getName()));
+		c.setGridX(2);
+		c.setGridY(3);
+		c.setGridWidth(2);
+		c.setWeightX(1.0);
+		c.setFill(GridBagFill.HORIZONTAL);
+		c.setAnchor(GridBagAnchor.WEST);
+		assertEquals(2, c.getGridX());
+		assertEquals(3, c.getGridY());
+		assertEquals(2, c.getGridWidth());
+		assertEquals(1.0, c.getWeightX(), 0.0);
+		assertEquals(GridBagFill.HORIZONTAL, c.getFill());
+		assertEquals(GridBagAnchor.WEST, c.getAnchor());
+
+		// The single polymorphic GR slot is registered with the right key and type
+		assertEquals(ShapeGraphicalRepresentation.LAYOUT_CONSTRAINTS_KEY,
+				ShapeGraphicalRepresentation.LAYOUT_CONSTRAINTS.getName());
+		assertEquals(org.openflexo.diana.layout.LayoutConstraints.class,
+				ShapeGraphicalRepresentation.LAYOUT_CONSTRAINTS.getType());
 	}
 
 	@Test

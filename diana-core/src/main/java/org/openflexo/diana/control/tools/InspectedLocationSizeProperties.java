@@ -177,84 +177,193 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_MANAGER_IDENTIFIER, value);
 	}
 
+	// --- Per-child layout constraints (navigate into the GR's polymorphic layoutConstraints object) ---------------
+	// The child FIBs (LayoutChildInspectors/*.fib) keep binding data.layoutWeight / data.layoutBorderRegion /
+	// data.layoutGridX… ; these accessors read the single selected shape's constraints and write back to every
+	// selected shape whose constraints are of the matching type. The "Layout Manager" child panel is only shown for a
+	// single active manager (getSelectedChildLayoutManager), so heterogeneous multi-selection is not a concern.
+
+	/** Layout constraints of the single selected shape, or {@code null} if not exactly one shape / none. */
+	private org.openflexo.diana.layout.LayoutConstraints singleSelectedConstraints() {
+		List<ShapeNode<?>> shapes = getController().getSelectedShapes();
+		if (shapes.size() == 1) {
+			return shapes.get(0).getGraphicalRepresentation().getLayoutConstraints();
+		}
+		return null;
+	}
+
+	private <T extends org.openflexo.diana.layout.LayoutConstraints> T singleSelectedConstraints(Class<T> type) {
+		org.openflexo.diana.layout.LayoutConstraints c = singleSelectedConstraints();
+		return type.isInstance(c) ? type.cast(c) : null;
+	}
+
+	// Box --------------------------------------------------------------------------------------------------------
 	public Double getLayoutWeight() {
-		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_WEIGHT);
+		org.openflexo.diana.layout.BoxLayoutConstraints c = singleSelectedConstraints(org.openflexo.diana.layout.BoxLayoutConstraints.class);
+		return c != null ? c.getWeight() : 0.0;
 	}
 
 	public void setLayoutWeight(Double value) {
-		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_WEIGHT, value);
+		if (value == null) {
+			return;
+		}
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.BoxLayoutConstraints) {
+				((org.openflexo.diana.layout.BoxLayoutConstraints) c).setWeight(value);
+			}
+		}
 	}
 
+	// Border -----------------------------------------------------------------------------------------------------
 	public org.openflexo.diana.layout.BorderRegion getLayoutBorderRegion() {
-		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_BORDER_REGION);
+		org.openflexo.diana.layout.BorderLayoutConstraints c = singleSelectedConstraints(
+				org.openflexo.diana.layout.BorderLayoutConstraints.class);
+		return c != null ? c.getRegion() : null;
 	}
 
 	public void setLayoutBorderRegion(org.openflexo.diana.layout.BorderRegion value) {
-		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_BORDER_REGION, value);
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.BorderLayoutConstraints) {
+				((org.openflexo.diana.layout.BorderLayoutConstraints) c).setRegion(value);
+			}
+		}
+	}
+
+	// GridBag ----------------------------------------------------------------------------------------------------
+	private org.openflexo.diana.layout.GridBagLayoutConstraints selectedGridBag() {
+		return singleSelectedConstraints(org.openflexo.diana.layout.GridBagLayoutConstraints.class);
 	}
 
 	public Integer getLayoutGridX() {
-		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_GRID_X);
+		org.openflexo.diana.layout.GridBagLayoutConstraints c = selectedGridBag();
+		return c != null ? c.getGridX() : 0;
 	}
 
 	public void setLayoutGridX(Integer value) {
-		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_GRID_X, value);
+		if (value == null) {
+			return;
+		}
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.GridBagLayoutConstraints) {
+				((org.openflexo.diana.layout.GridBagLayoutConstraints) c).setGridX(value);
+			}
+		}
 	}
 
 	public Integer getLayoutGridY() {
-		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_GRID_Y);
+		org.openflexo.diana.layout.GridBagLayoutConstraints c = selectedGridBag();
+		return c != null ? c.getGridY() : 0;
 	}
 
 	public void setLayoutGridY(Integer value) {
-		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_GRID_Y, value);
+		if (value == null) {
+			return;
+		}
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.GridBagLayoutConstraints) {
+				((org.openflexo.diana.layout.GridBagLayoutConstraints) c).setGridY(value);
+			}
+		}
 	}
 
 	public Integer getLayoutGridWidth() {
-		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_GRID_WIDTH);
+		org.openflexo.diana.layout.GridBagLayoutConstraints c = selectedGridBag();
+		return c != null ? c.getGridWidth() : 1;
 	}
 
 	public void setLayoutGridWidth(Integer value) {
-		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_GRID_WIDTH, value);
+		if (value == null) {
+			return;
+		}
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.GridBagLayoutConstraints) {
+				((org.openflexo.diana.layout.GridBagLayoutConstraints) c).setGridWidth(value);
+			}
+		}
 	}
 
 	public Integer getLayoutGridHeight() {
-		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_GRID_HEIGHT);
+		org.openflexo.diana.layout.GridBagLayoutConstraints c = selectedGridBag();
+		return c != null ? c.getGridHeight() : 1;
 	}
 
 	public void setLayoutGridHeight(Integer value) {
-		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_GRID_HEIGHT, value);
+		if (value == null) {
+			return;
+		}
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.GridBagLayoutConstraints) {
+				((org.openflexo.diana.layout.GridBagLayoutConstraints) c).setGridHeight(value);
+			}
+		}
 	}
 
 	public Double getLayoutWeightX() {
-		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_WEIGHT_X);
+		org.openflexo.diana.layout.GridBagLayoutConstraints c = selectedGridBag();
+		return c != null ? c.getWeightX() : 0.0;
 	}
 
 	public void setLayoutWeightX(Double value) {
-		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_WEIGHT_X, value);
+		if (value == null) {
+			return;
+		}
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.GridBagLayoutConstraints) {
+				((org.openflexo.diana.layout.GridBagLayoutConstraints) c).setWeightX(value);
+			}
+		}
 	}
 
 	public Double getLayoutWeightY() {
-		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_WEIGHT_Y);
+		org.openflexo.diana.layout.GridBagLayoutConstraints c = selectedGridBag();
+		return c != null ? c.getWeightY() : 0.0;
 	}
 
 	public void setLayoutWeightY(Double value) {
-		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_WEIGHT_Y, value);
+		if (value == null) {
+			return;
+		}
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.GridBagLayoutConstraints) {
+				((org.openflexo.diana.layout.GridBagLayoutConstraints) c).setWeightY(value);
+			}
+		}
 	}
 
 	public org.openflexo.diana.layout.GridBagFill getLayoutFill() {
-		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_FILL);
+		org.openflexo.diana.layout.GridBagLayoutConstraints c = selectedGridBag();
+		return c != null ? c.getFill() : null;
 	}
 
 	public void setLayoutFill(org.openflexo.diana.layout.GridBagFill value) {
-		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_FILL, value);
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.GridBagLayoutConstraints) {
+				((org.openflexo.diana.layout.GridBagLayoutConstraints) c).setFill(value);
+			}
+		}
 	}
 
 	public org.openflexo.diana.layout.GridBagAnchor getLayoutAnchor() {
-		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_ANCHOR);
+		org.openflexo.diana.layout.GridBagLayoutConstraints c = selectedGridBag();
+		return c != null ? c.getAnchor() : null;
 	}
 
 	public void setLayoutAnchor(org.openflexo.diana.layout.GridBagAnchor value) {
-		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_ANCHOR, value);
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.GridBagLayoutConstraints) {
+				((org.openflexo.diana.layout.GridBagLayoutConstraints) c).setAnchor(value);
+			}
+		}
 	}
 
 	/**

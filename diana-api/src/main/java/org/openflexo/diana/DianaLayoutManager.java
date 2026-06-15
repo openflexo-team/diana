@@ -206,4 +206,13 @@ public interface DianaLayoutManager<LMS extends DianaLayoutManagerSpecification<
 	 * @return the child-inspector FIB resource, or {@code null}
 	 */
 	public Resource getChildInspectorFIB();
+
+	/**
+	 * Build a new {@link org.openflexo.diana.layout.LayoutConstraints} of the type this layout manager understands (e.g.
+	 * {@code BoxLayoutConstraints} for a box layout), or {@code null} if this manager has no per-child constraint data (e.g. a snap-grid or a
+	 * graph layout). Used to assign a child a default, correctly-typed constraints object when it joins this manager.
+	 *
+	 * @return a fresh default constraints object, or {@code null}
+	 */
+	public org.openflexo.diana.layout.LayoutConstraints makeDefaultConstraints();
 }

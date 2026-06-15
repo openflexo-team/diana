@@ -50,6 +50,7 @@ import org.openflexo.diana.geom.DianaDimension;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.impl.DianaLayoutManagerImpl;
+import org.openflexo.diana.layout.BorderLayoutConstraints;
 import org.openflexo.diana.layout.BorderLayoutManager;
 import org.openflexo.diana.layout.BorderLayoutManagerSpecification;
 import org.openflexo.diana.layout.BorderRegion;
@@ -119,8 +120,16 @@ public abstract class BorderLayoutManagerImpl<O> extends DianaLayoutManagerImpl<
 	private final Map<ShapeNode<?>, DianaRectangle> geometryMap = new HashMap<>();
 
 	private BorderRegion regionOf(ShapeNode<?> node) {
-		BorderRegion region = node.getGraphicalRepresentation().getLayoutBorderRegion();
-		return region != null ? region : BorderRegion.CENTER;
+		org.openflexo.diana.layout.LayoutConstraints c = node.getGraphicalRepresentation().getLayoutConstraints();
+		if (c instanceof BorderLayoutConstraints && ((BorderLayoutConstraints) c).getRegion() != null) {
+			return ((BorderLayoutConstraints) c).getRegion();
+		}
+		return BorderRegion.CENTER;
+	}
+
+	@Override
+	public org.openflexo.diana.layout.LayoutConstraints makeDefaultConstraints() {
+		return getFactory().newInstance(BorderLayoutConstraints.class);
 	}
 
 	/**

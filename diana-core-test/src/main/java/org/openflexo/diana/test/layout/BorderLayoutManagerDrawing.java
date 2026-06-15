@@ -53,6 +53,7 @@ import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.diana.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.impl.DrawingImpl;
+import org.openflexo.diana.layout.BorderLayoutConstraints;
 import org.openflexo.diana.layout.BorderLayoutManagerSpecification;
 import org.openflexo.diana.layout.BorderRegion;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
@@ -144,7 +145,9 @@ public class BorderLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 				int index = childIndexOf(node); // 0..4, in declared order
 				ShapeGraphicalRepresentation gr = factory.makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
 				gr.setLayoutManagerIdentifier("border");
-				gr.setLayoutBorderRegion(REGIONS[index % REGIONS.length]);
+				BorderLayoutConstraints lc = factory.newInstance(BorderLayoutConstraints.class);
+				lc.setRegion(REGIONS[index % REGIONS.length]);
+				gr.setLayoutConstraints(lc);
 				gr.setBackground(factory.makeColoredBackground(COLORS[index % COLORS.length]));
 				// Labels drawn centered inside the shape rather than floating at its top-left corner
 				gr.setIsFloatingLabel(false);

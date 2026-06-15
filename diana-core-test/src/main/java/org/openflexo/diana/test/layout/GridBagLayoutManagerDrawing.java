@@ -55,6 +55,7 @@ import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.impl.DrawingImpl;
 import org.openflexo.diana.layout.GridBagAnchor;
 import org.openflexo.diana.layout.GridBagFill;
+import org.openflexo.diana.layout.GridBagLayoutConstraints;
 import org.openflexo.diana.layout.GridBagLayoutManagerSpecification;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.diana.test.TestGraph;
@@ -142,30 +143,32 @@ public class GridBagLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 
 				ShapeGraphicalRepresentation gr = factory.makeShapeGraphicalRepresentation(ShapeType.RECTANGLE);
 				gr.setLayoutManagerIdentifier("gridbag");
-				gr.setLayoutGridX(isLabel ? 0 : 1);
-				gr.setLayoutGridY(row);
+				GridBagLayoutConstraints lc = factory.newInstance(GridBagLayoutConstraints.class);
+				lc.setGridX(isLabel ? 0 : 1);
+				lc.setGridY(row);
 				gr.setIsFloatingLabel(false);
 				gr.setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
 				gr.setVerticalTextAlignment(VerticalTextAlignment.MIDDLE);
 
 				if (isLabel) {
 					// Label column: own size, anchored to the left (WEST), no growth
-					gr.setLayoutAnchor(GridBagAnchor.WEST);
-					gr.setLayoutFill(GridBagFill.NONE);
-					gr.setLayoutWeightX(0);
+					lc.setAnchor(GridBagAnchor.WEST);
+					lc.setFill(GridBagFill.NONE);
+					lc.setWeightX(0);
 					gr.setBackground(factory.makeColoredBackground(new Color(225, 235, 250)));
 					gr.setWidth(60);
 					gr.setHeight(24);
 				}
 				else {
 					// Field column: stretched horizontally, absorbs the extra width
-					gr.setLayoutFill(GridBagFill.HORIZONTAL);
-					gr.setLayoutWeightX(1);
+					lc.setFill(GridBagFill.HORIZONTAL);
+					lc.setWeightX(1);
 					gr.setBackground(factory.makeColoredBackground(Color.white));
 					gr.setForeground(factory.makeForegroundStyle(Color.gray, 1f));
 					gr.setWidth(120);
 					gr.setHeight(24);
 				}
+				gr.setLayoutConstraints(lc);
 				return gr;
 			}
 		});

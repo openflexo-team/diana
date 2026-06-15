@@ -53,6 +53,7 @@ import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.impl.DianaLayoutManagerImpl;
 import org.openflexo.diana.layout.GridBagAnchor;
 import org.openflexo.diana.layout.GridBagFill;
+import org.openflexo.diana.layout.GridBagLayoutConstraints;
 import org.openflexo.diana.layout.GridBagLayoutManager;
 import org.openflexo.diana.layout.GridBagLayoutManagerSpecification;
 
@@ -119,28 +120,45 @@ public abstract class GridBagLayoutManagerImpl<O> extends DianaLayoutManagerImpl
 	/** Resolved target geometry per node, computed in {@link #computeLayout()} and applied in {@link #performLayout(ShapeNode)}. */
 	private final Map<ShapeNode<?>, DianaRectangle> geometryMap = new HashMap<>();
 
+	/** The child's GridBag constraints, or {@code null} if it carries none (defaults are then used). */
+	private static GridBagLayoutConstraints gbc(ShapeNode<?> n) {
+		org.openflexo.diana.layout.LayoutConstraints c = n.getGraphicalRepresentation().getLayoutConstraints();
+		return (c instanceof GridBagLayoutConstraints) ? (GridBagLayoutConstraints) c : null;
+	}
+
 	private static int gridX(ShapeNode<?> n) {
-		return Math.max(0, n.getGraphicalRepresentation().getLayoutGridX());
+		GridBagLayoutConstraints c = gbc(n);
+		return c != null ? Math.max(0, c.getGridX()) : 0;
 	}
 
 	private static int gridY(ShapeNode<?> n) {
-		return Math.max(0, n.getGraphicalRepresentation().getLayoutGridY());
+		GridBagLayoutConstraints c = gbc(n);
+		return c != null ? Math.max(0, c.getGridY()) : 0;
 	}
 
 	private static int gridWidth(ShapeNode<?> n) {
-		return Math.max(1, n.getGraphicalRepresentation().getLayoutGridWidth());
+		GridBagLayoutConstraints c = gbc(n);
+		return c != null ? Math.max(1, c.getGridWidth()) : 1;
 	}
 
 	private static int gridHeight(ShapeNode<?> n) {
-		return Math.max(1, n.getGraphicalRepresentation().getLayoutGridHeight());
+		GridBagLayoutConstraints c = gbc(n);
+		return c != null ? Math.max(1, c.getGridHeight()) : 1;
 	}
 
 	private static double weightX(ShapeNode<?> n) {
-		return Math.max(0, n.getGraphicalRepresentation().getLayoutWeightX());
+		GridBagLayoutConstraints c = gbc(n);
+		return c != null ? Math.max(0, c.getWeightX()) : 0;
 	}
 
 	private static double weightY(ShapeNode<?> n) {
-		return Math.max(0, n.getGraphicalRepresentation().getLayoutWeightY());
+		GridBagLayoutConstraints c = gbc(n);
+		return c != null ? Math.max(0, c.getWeightY()) : 0;
+	}
+
+	@Override
+	public org.openflexo.diana.layout.LayoutConstraints makeDefaultConstraints() {
+		return getFactory().newInstance(GridBagLayoutConstraints.class);
 	}
 
 	/**
@@ -275,19 +293,14 @@ public abstract class GridBagLayoutManagerImpl<O> extends DianaLayoutManagerImpl
 			double blockW = sum(colW, gx, gw) + hgap * (gw - 1);
 			double blockH = sum(rowH, gy, gh) + vgap * (gh - 1);
 
-			GridBagFill fill = n.getGraphicalRepresentation().getLayoutFill();
-			if (fill == null) {
-				fill = GridBagFill.NONE;
-			}
+			GridBagLayoutConstraints c = gbc(n);
+			GridBagFill fill = (c != null && c.getFill() != null) ? c.getFill() : GridBagFill.NONE;
 			double cw = (fill == GridBagFill.BOTH || fill == GridBagFill.HORIZONTAL) ? blockW : Math.min(n.getWidth(), blockW);
 			double ch = (fill == GridBagFill.BOTH || fill == GridBagFill.VERTICAL) ? blockH : Math.min(n.getHeight(), blockH);
 
 			double slackX = Math.max(0, blockW - cw);
 			double slackY = Math.max(0, blockH - ch);
-			GridBagAnchor anchor = n.getGraphicalRepresentation().getLayoutAnchor();
-			if (anchor == null) {
-				anchor = GridBagAnchor.CENTER;
-			}
+			GridBagAnchor anchor = (c != null && c.getAnchor() != null) ? c.getAnchor() : GridBagAnchor.CENTER;
 			double offX = anchorOffsetX(anchor, slackX);
 			double offY = anchorOffsetY(anchor, slackY);
 

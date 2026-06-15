@@ -51,6 +51,7 @@ import org.openflexo.diana.geom.DianaDimension;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.impl.DianaLayoutManagerImpl;
+import org.openflexo.diana.layout.BoxLayoutConstraints;
 import org.openflexo.diana.layout.BoxLayoutManager;
 import org.openflexo.diana.layout.BoxLayoutManagerSpecification;
 import org.openflexo.diana.layout.BoxLayoutManagerSpecification.CrossAxisPolicy;
@@ -142,7 +143,13 @@ public abstract class BoxLayoutManagerImpl<O> extends DianaLayoutManagerImpl<Box
 	}
 
 	private double weight(ShapeNode<?> node) {
-		return Math.max(0, node.getGraphicalRepresentation().getLayoutWeight());
+		org.openflexo.diana.layout.LayoutConstraints c = node.getGraphicalRepresentation().getLayoutConstraints();
+		return (c instanceof BoxLayoutConstraints) ? Math.max(0, ((BoxLayoutConstraints) c).getWeight()) : 0;
+	}
+
+	@Override
+	public org.openflexo.diana.layout.LayoutConstraints makeDefaultConstraints() {
+		return getFactory().newInstance(BoxLayoutConstraints.class);
 	}
 
 	/**

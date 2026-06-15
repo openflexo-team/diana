@@ -53,6 +53,7 @@ import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.diana.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.impl.DrawingImpl;
+import org.openflexo.diana.layout.BoxLayoutConstraints;
 import org.openflexo.diana.layout.BoxLayoutManagerSpecification;
 import org.openflexo.diana.layout.BoxLayoutManagerSpecification.CrossAxisPolicy;
 import org.openflexo.diana.layout.BoxLayoutManagerSpecification.MainAxisPolicy;
@@ -157,17 +158,19 @@ public class BoxCompartmentDrawing extends DrawingImpl<TestGraph> {
 				gr.setIsFocusable(false);
 
 				int rowIndex = rowIndexOf(node); // 0 = header, 1..3 = compartments
+				BoxLayoutConstraints lc = factory.newInstance(BoxLayoutConstraints.class);
 				if (rowIndex == 0) {
-					gr.setLayoutWeight(0); // fixed extent
+					lc.setWeight(0); // fixed extent
 					gr.setHeight(HEADER_HEIGHT);
 					gr.setBackground(factory.makeColoredBackground(new Color(80, 110, 170)));
 				}
 				else {
 					double[] weights = { 0, 1, 3, 2 };
-					gr.setLayoutWeight(rowIndex < weights.length ? weights[rowIndex] : 1);
+					lc.setWeight(rowIndex < weights.length ? weights[rowIndex] : 1);
 					gr.setBackground(
 							factory.makeColoredBackground(rowIndex % 2 == 0 ? new Color(225, 235, 250) : new Color(240, 244, 250)));
 				}
+				gr.setLayoutConstraints(lc);
 				return gr;
 			}
 		});

@@ -92,8 +92,14 @@ import org.openflexo.diana.layout.BorderLayoutManager;
 import org.openflexo.diana.layout.BorderLayoutManagerSpecification;
 import org.openflexo.diana.layout.BoxLayoutManager;
 import org.openflexo.diana.layout.BoxLayoutManagerSpecification;
+import org.openflexo.diana.layout.BorderLayoutConstraints;
+import org.openflexo.diana.layout.BoxLayoutConstraints;
+import org.openflexo.diana.layout.GridBagLayoutConstraints;
 import org.openflexo.diana.layout.GridBagLayoutManager;
 import org.openflexo.diana.layout.GridBagLayoutManagerSpecification;
+import org.openflexo.diana.layout.impl.BorderLayoutConstraintsImpl;
+import org.openflexo.diana.layout.impl.BoxLayoutConstraintsImpl;
+import org.openflexo.diana.layout.impl.GridBagLayoutConstraintsImpl;
 import org.openflexo.diana.layout.FlowLayoutManager;
 import org.openflexo.diana.layout.FlowLayoutManagerSpecification;
 import org.openflexo.diana.layout.ForceDirectedGraphLayoutManager;
@@ -276,6 +282,9 @@ public class DianaModelFactoryImpl extends DianaModelFactory {
 		pamelaModelFactory.setImplementingClassForInterface(GridBagLayoutManagerImpl.class, GridBagLayoutManager.class);
 		pamelaModelFactory.setImplementingClassForInterface(GridBagLayoutManagerSpecificationImpl.class,
 				GridBagLayoutManagerSpecification.class);
+		pamelaModelFactory.setImplementingClassForInterface(BoxLayoutConstraintsImpl.class, BoxLayoutConstraints.class);
+		pamelaModelFactory.setImplementingClassForInterface(BorderLayoutConstraintsImpl.class, BorderLayoutConstraints.class);
+		pamelaModelFactory.setImplementingClassForInterface(GridBagLayoutConstraintsImpl.class, GridBagLayoutConstraints.class);
 		pamelaModelFactory.setImplementingClassForInterface(GridLayoutManagerImpl.class, GridLayoutManager.class);
 		pamelaModelFactory.setImplementingClassForInterface(GridLayoutManagerSpecificationImpl.class, GridLayoutManagerSpecification.class);
 		pamelaModelFactory.setImplementingClassForInterface(OutlineLayoutManagerImpl.class, OutlineLayoutManager.class);

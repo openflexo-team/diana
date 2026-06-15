@@ -54,6 +54,7 @@ import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
+import org.openflexo.diana.layout.LayoutConstraints;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.graphics.DianaGraphics;
@@ -72,9 +73,11 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 	// Nodes beeing layouted
 	private final List<ShapeNode<?>> layoutedNodes;
 
-	// Child GRs this manager has subscribed to, to react to per-child layout property changes (e.g. layoutWeight,
-	// layoutBorderRegion, layoutGridX...). Kept in sync with layoutedNodes in retrieveNodesToLayout().
+	// Child GRs and their LayoutConstraints objects this manager has subscribed to, to react to per-child layout
+	// changes (e.g. editing a weight / region / grid cell in an inspector). Kept in sync with layoutedNodes in
+	// retrieveNodesToLayout().
 	private final List<ShapeNode<?>> observedChildren = new ArrayList<>();
+	private final List<LayoutConstraints> observedConstraints = new ArrayList<>();
 
 	public DianaLayoutManagerImpl() {
 		layoutedNodes = new ArrayList<ShapeNode<?>>() {
@@ -257,18 +260,60 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 			}
 		}
 
-		updateChildListeners();
+		// Detach listeners before (re)assigning default constraints so the assignment does not re-enter propertyChange,
+		// then re-attach to the current children and their constraints objects.
+		detachChildListeners();
+		assignDefaultConstraints();
+		attachChildListeners();
 
 		getPropertyChangeSupport().firePropertyChange("layoutedNodes", null, layoutedNodes);
 
 	}
 
 	/**
-	 * Subscribes this manager to the {@link ShapeGraphicalRepresentation} of every layouted child so that editing a per-child layout property
-	 * (e.g. {@code layoutWeight}, {@code layoutBorderRegion}, {@code layoutGridX}…) through an inspector re-triggers the layout. Kept in sync
-	 * with {@link #layoutedNodes}: previously observed children are unsubscribed first.
+	 * Ensures every layouted child carries a {@link LayoutConstraints} of the type this manager understands (from
+	 * {@link #makeDefaultConstraints()}): a child with no constraints, or constraints of the wrong manager's type (e.g. left over from a
+	 * previous manager), is given a fresh default. No-op for managers without per-child data ({@code makeDefaultConstraints() == null}).
 	 */
-	private void updateChildListeners() {
+	private void assignDefaultConstraints() {
+		LayoutConstraints sample = makeDefaultConstraints();
+		if (sample == null) {
+			return;
+		}
+		for (ShapeNode<?> n : layoutedNodes) {
+			ShapeGraphicalRepresentation gr = n.getGraphicalRepresentation();
+			if (gr == null) {
+				continue;
+			}
+			LayoutConstraints current = gr.getLayoutConstraints();
+			if (current == null || !sample.getClass().isInstance(current)) {
+				gr.setLayoutConstraints(makeDefaultConstraints());
+			}
+		}
+	}
+
+	/**
+	 * Subscribes this manager to each layouted child's {@link ShapeGraphicalRepresentation} (for {@code layoutConstraints} replacement and
+	 * {@code layoutManagerIdentifier} changes) and to its {@link LayoutConstraints} object (for per-field edits), so editing a child's layout
+	 * property through an inspector re-triggers the layout.
+	 */
+	private void attachChildListeners() {
+		for (ShapeNode<?> n : layoutedNodes) {
+			ShapeGraphicalRepresentation gr = n.getGraphicalRepresentation();
+			if (gr != null && gr.getPropertyChangeSupport() != null) {
+				gr.getPropertyChangeSupport().addPropertyChangeListener(this);
+				observedChildren.add(n);
+				LayoutConstraints c = gr.getLayoutConstraints();
+				if (c != null && c.getPropertyChangeSupport() != null) {
+					c.getPropertyChangeSupport().addPropertyChangeListener(this);
+					observedConstraints.add(c);
+				}
+			}
+		}
+	}
+
+	/** Unsubscribes from every previously observed child GR and constraints object. */
+	private void detachChildListeners() {
 		for (ShapeNode<?> n : observedChildren) {
 			ShapeGraphicalRepresentation gr = n.getGraphicalRepresentation();
 			if (gr != null && gr.getPropertyChangeSupport() != null) {
@@ -276,13 +321,12 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 			}
 		}
 		observedChildren.clear();
-		for (ShapeNode<?> n : layoutedNodes) {
-			ShapeGraphicalRepresentation gr = n.getGraphicalRepresentation();
-			if (gr != null && gr.getPropertyChangeSupport() != null) {
-				gr.getPropertyChangeSupport().addPropertyChangeListener(this);
-				observedChildren.add(n);
+		for (LayoutConstraints c : observedConstraints) {
+			if (c.getPropertyChangeSupport() != null) {
+				c.getPropertyChangeSupport().removePropertyChangeListener(this);
 			}
 		}
+		observedConstraints.clear();
 	}
 
 	@Override
@@ -374,11 +418,20 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 	public void propertyChange(PropertyChangeEvent evt) {
 		// System.out.println("Received " + evt.getPropertyName() + " with " + evt);
 		String propertyName = evt.getPropertyName();
-		// A per-child layout property changed (layoutWeight, layoutBorderRegion, layoutGrid*, layoutFill, layoutAnchor,
-		// layoutManagerIdentifier...): re-trigger the layout. These are fired by a child's ShapeGraphicalRepresentation,
-		// never by the layout-manager specification (whose properties do not start with "layout"). Guarded against
-		// re-entrancy (a layout pass writes x/y/width/height, which are not "layout"-prefixed, so it cannot loop here).
-		if (propertyName != null && propertyName.startsWith("layout") && evt.getSource() instanceof ShapeGraphicalRepresentation) {
+		// A per-child layout change re-triggers the layout: either a field of a child's LayoutConstraints object was
+		// edited (e.g. a weight / region / grid cell in an inspector), or the child replaced its constraints / changed
+		// the manager it opts into. Guarded against re-entrancy (a layout pass writes x/y/width/height on the GR, which
+		// is neither a LayoutConstraints source nor the two GR keys below, so it cannot loop here).
+		if (evt.getSource() instanceof LayoutConstraints) {
+			if (!layoutInProgress) {
+				invalidate();
+				doLayout(true);
+			}
+			return;
+		}
+		if (evt.getSource() instanceof ShapeGraphicalRepresentation
+				&& (ShapeGraphicalRepresentation.LAYOUT_CONSTRAINTS_KEY.equals(propertyName)
+						|| ShapeGraphicalRepresentation.LAYOUT_MANAGER_IDENTIFIER_KEY.equals(propertyName))) {
 			if (!layoutInProgress) {
 				invalidate();
 				doLayout(true);
@@ -421,15 +474,18 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 		return null;
 	}
 
+	/**
+	 * Default implementation returns {@code null}: this layout manager has no per-child constraint data. Managers with per-child constraints
+	 * (Box/Border/GridBag) override this to return a fresh constraints object of their type.
+	 */
+	@Override
+	public LayoutConstraints makeDefaultConstraints() {
+		return null;
+	}
+
 	@Override
 	public boolean delete(Object... context) {
-		for (ShapeNode<?> n : observedChildren) {
-			ShapeGraphicalRepresentation gr = n.getGraphicalRepresentation();
-			if (gr != null && gr.getPropertyChangeSupport() != null) {
-				gr.getPropertyChangeSupport().removePropertyChangeListener(this);
-			}
-		}
-		observedChildren.clear();
+		detachChildListeners();
 		for (ShapeNode<?> n : layoutedNodes) {
 			// Disconnect all layouted layoutedNodes from related DianaLayoutManagerSpecification
 			n.getGraphicalRepresentation().setLayoutManagerIdentifier(null);

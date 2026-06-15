@@ -46,9 +46,7 @@ import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.geom.DianaDimension;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.area.DianaArea;
-import org.openflexo.diana.layout.BorderRegion;
-import org.openflexo.diana.layout.GridBagAnchor;
-import org.openflexo.diana.layout.GridBagFill;
+import org.openflexo.diana.layout.LayoutConstraints;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.pamela.annotations.CloningStrategy;
@@ -136,26 +134,8 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 
 	@PropertyIdentifier(type = String.class)
 	public static final String LAYOUT_MANAGER_IDENTIFIER_KEY = "layoutManagerIdentifier";
-	@PropertyIdentifier(type = Double.class)
-	public static final String LAYOUT_WEIGHT_KEY = "layoutWeight";
-	@PropertyIdentifier(type = BorderRegion.class)
-	public static final String LAYOUT_BORDER_REGION_KEY = "layoutBorderRegion";
-	@PropertyIdentifier(type = Integer.class)
-	public static final String LAYOUT_GRID_X_KEY = "layoutGridX";
-	@PropertyIdentifier(type = Integer.class)
-	public static final String LAYOUT_GRID_Y_KEY = "layoutGridY";
-	@PropertyIdentifier(type = Integer.class)
-	public static final String LAYOUT_GRID_WIDTH_KEY = "layoutGridWidth";
-	@PropertyIdentifier(type = Integer.class)
-	public static final String LAYOUT_GRID_HEIGHT_KEY = "layoutGridHeight";
-	@PropertyIdentifier(type = Double.class)
-	public static final String LAYOUT_WEIGHT_X_KEY = "layoutWeightX";
-	@PropertyIdentifier(type = Double.class)
-	public static final String LAYOUT_WEIGHT_Y_KEY = "layoutWeightY";
-	@PropertyIdentifier(type = GridBagFill.class)
-	public static final String LAYOUT_FILL_KEY = "layoutFill";
-	@PropertyIdentifier(type = GridBagAnchor.class)
-	public static final String LAYOUT_ANCHOR_KEY = "layoutAnchor";
+	@PropertyIdentifier(type = LayoutConstraints.class)
+	public static final String LAYOUT_CONSTRAINTS_KEY = "layoutConstraints";
 
 	// *******************************************************************************
 	// * Inner concepts
@@ -322,26 +302,8 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 			HEIGHT_CONSTRAINTS_KEY, DataBinding.class);
 	public static GRProperty<String> LAYOUT_MANAGER_IDENTIFIER = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			LAYOUT_MANAGER_IDENTIFIER_KEY, String.class);
-	public static GRProperty<Double> LAYOUT_WEIGHT = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, LAYOUT_WEIGHT_KEY,
-			Double.class);
-	public static GRProperty<BorderRegion> LAYOUT_BORDER_REGION = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
-			LAYOUT_BORDER_REGION_KEY, BorderRegion.class);
-	public static GRProperty<Integer> LAYOUT_GRID_X = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, LAYOUT_GRID_X_KEY,
-			Integer.class);
-	public static GRProperty<Integer> LAYOUT_GRID_Y = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, LAYOUT_GRID_Y_KEY,
-			Integer.class);
-	public static GRProperty<Integer> LAYOUT_GRID_WIDTH = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
-			LAYOUT_GRID_WIDTH_KEY, Integer.class);
-	public static GRProperty<Integer> LAYOUT_GRID_HEIGHT = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
-			LAYOUT_GRID_HEIGHT_KEY, Integer.class);
-	public static GRProperty<Double> LAYOUT_WEIGHT_X = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, LAYOUT_WEIGHT_X_KEY,
-			Double.class);
-	public static GRProperty<Double> LAYOUT_WEIGHT_Y = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, LAYOUT_WEIGHT_Y_KEY,
-			Double.class);
-	public static GRProperty<GridBagFill> LAYOUT_FILL = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, LAYOUT_FILL_KEY,
-			GridBagFill.class);
-	public static GRProperty<GridBagAnchor> LAYOUT_ANCHOR = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, LAYOUT_ANCHOR_KEY,
-			GridBagAnchor.class);
+	public static GRProperty<LayoutConstraints> LAYOUT_CONSTRAINTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
+			LAYOUT_CONSTRAINTS_KEY, LayoutConstraints.class);
 
 	// *******************************************************************************
 	// * Model
@@ -773,131 +735,27 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	public void setLayoutManagerIdentifier(String identifier);
 
 	/**
-	 * Return the layout weight of the represented {@link ShapeNode}, used by weight-distributing layout managers (e.g.
-	 * {@link org.openflexo.diana.layout.BoxLayoutManager}) to share free space along the main axis.<br>
-	 * A weight of <code>0</code> (default) means the node keeps a fixed (its own) main-axis extent; a strictly positive weight means the node
-	 * grows to take a share of the free space proportional to its weight.
+	 * Return the per-child {@link LayoutConstraints} of the represented {@link ShapeNode} for the {@link DianaLayoutManager} it opts into (see
+	 * {@link #getLayoutManagerIdentifier()}).<br>
+	 * This is a single polymorphic slot whose concrete subtype matches the manager —
+	 * {@link org.openflexo.diana.layout.BoxLayoutConstraints} (weight),
+	 * {@link org.openflexo.diana.layout.BorderLayoutConstraints} (region) or
+	 * {@link org.openflexo.diana.layout.GridBagLayoutConstraints} (cell/span/weights/fill/anchor). It is {@code @Embedded} (owned, cloned,
+	 * deleted and serialized with this GR). The owning layout manager assigns a default of the right type when a node joins it.
 	 *
 	 * @return
 	 */
-	@Getter(value = LAYOUT_WEIGHT_KEY, defaultValue = "0.0")
-	@XMLAttribute
-	public double getLayoutWeight();
+	@Getter(value = LAYOUT_CONSTRAINTS_KEY)
+	@Embedded
+	@XMLElement
+	public LayoutConstraints getLayoutConstraints();
 
 	/**
-	 * Sets the layout weight of the represented {@link ShapeNode} (see {@link #getLayoutWeight()}).
+	 * Sets the per-child {@link LayoutConstraints} of the represented {@link ShapeNode} (see {@link #getLayoutConstraints()}).
 	 *
-	 * @param weight
+	 * @param constraints
 	 */
-	@Setter(value = LAYOUT_WEIGHT_KEY)
-	public void setLayoutWeight(double weight);
-
-	/**
-	 * Return the {@link BorderRegion} of the represented {@link ShapeNode}, used by {@link org.openflexo.diana.layout.BorderLayoutManager} to
-	 * decide which of the five regions (NORTH/SOUTH/EAST/WEST/CENTER) the node occupies.<br>
-	 * Default is {@link BorderRegion#CENTER}.
-	 *
-	 * @return
-	 */
-	@Getter(value = LAYOUT_BORDER_REGION_KEY, defaultValue = "CENTER")
-	@XMLAttribute
-	public BorderRegion getLayoutBorderRegion();
-
-	/**
-	 * Sets the {@link BorderRegion} of the represented {@link ShapeNode} (see {@link #getLayoutBorderRegion()}).
-	 *
-	 * @param region
-	 */
-	@Setter(value = LAYOUT_BORDER_REGION_KEY)
-	public void setLayoutBorderRegion(BorderRegion region);
-
-	/**
-	 * Return the 0-based grid column of the represented {@link ShapeNode}, used by {@link org.openflexo.diana.layout.GridBagLayoutManager}
-	 * (modelling {@link java.awt.GridBagConstraints#gridx}). Default <code>0</code>.
-	 */
-	@Getter(value = LAYOUT_GRID_X_KEY, defaultValue = "0")
-	@XMLAttribute
-	public int getLayoutGridX();
-
-	@Setter(value = LAYOUT_GRID_X_KEY)
-	public void setLayoutGridX(int gridX);
-
-	/**
-	 * Return the 0-based grid row of the represented {@link ShapeNode} (modelling {@link java.awt.GridBagConstraints#gridy}). Default
-	 * <code>0</code>.
-	 */
-	@Getter(value = LAYOUT_GRID_Y_KEY, defaultValue = "0")
-	@XMLAttribute
-	public int getLayoutGridY();
-
-	@Setter(value = LAYOUT_GRID_Y_KEY)
-	public void setLayoutGridY(int gridY);
-
-	/**
-	 * Return the column span of the represented {@link ShapeNode} (modelling {@link java.awt.GridBagConstraints#gridwidth}). Default
-	 * <code>1</code>.
-	 */
-	@Getter(value = LAYOUT_GRID_WIDTH_KEY, defaultValue = "1")
-	@XMLAttribute
-	public int getLayoutGridWidth();
-
-	@Setter(value = LAYOUT_GRID_WIDTH_KEY)
-	public void setLayoutGridWidth(int gridWidth);
-
-	/**
-	 * Return the row span of the represented {@link ShapeNode} (modelling {@link java.awt.GridBagConstraints#gridheight}). Default
-	 * <code>1</code>.
-	 */
-	@Getter(value = LAYOUT_GRID_HEIGHT_KEY, defaultValue = "1")
-	@XMLAttribute
-	public int getLayoutGridHeight();
-
-	@Setter(value = LAYOUT_GRID_HEIGHT_KEY)
-	public void setLayoutGridHeight(int gridHeight);
-
-	/**
-	 * Return the horizontal weight of the represented {@link ShapeNode}, used by {@link org.openflexo.diana.layout.GridBagLayoutManager} to
-	 * distribute extra horizontal space across columns (modelling {@link java.awt.GridBagConstraints#weightx}). Default <code>0.0</code>.
-	 */
-	@Getter(value = LAYOUT_WEIGHT_X_KEY, defaultValue = "0.0")
-	@XMLAttribute
-	public double getLayoutWeightX();
-
-	@Setter(value = LAYOUT_WEIGHT_X_KEY)
-	public void setLayoutWeightX(double weightX);
-
-	/**
-	 * Return the vertical weight of the represented {@link ShapeNode}, used by {@link org.openflexo.diana.layout.GridBagLayoutManager} to
-	 * distribute extra vertical space across rows (modelling {@link java.awt.GridBagConstraints#weighty}). Default <code>0.0</code>.
-	 */
-	@Getter(value = LAYOUT_WEIGHT_Y_KEY, defaultValue = "0.0")
-	@XMLAttribute
-	public double getLayoutWeightY();
-
-	@Setter(value = LAYOUT_WEIGHT_Y_KEY)
-	public void setLayoutWeightY(double weightY);
-
-	/**
-	 * Return how the represented {@link ShapeNode} fills its cell block in a {@link org.openflexo.diana.layout.GridBagLayoutManager}
-	 * (modelling {@link java.awt.GridBagConstraints#fill}). Default {@link GridBagFill#NONE}.
-	 */
-	@Getter(value = LAYOUT_FILL_KEY, defaultValue = "NONE")
-	@XMLAttribute
-	public GridBagFill getLayoutFill();
-
-	@Setter(value = LAYOUT_FILL_KEY)
-	public void setLayoutFill(GridBagFill fill);
-
-	/**
-	 * Return where the represented {@link ShapeNode} is anchored within its cell block in a
-	 * {@link org.openflexo.diana.layout.GridBagLayoutManager} (modelling {@link java.awt.GridBagConstraints#anchor}). Default
-	 * {@link GridBagAnchor#CENTER}.
-	 */
-	@Getter(value = LAYOUT_ANCHOR_KEY, defaultValue = "CENTER")
-	@XMLAttribute
-	public GridBagAnchor getLayoutAnchor();
-
-	@Setter(value = LAYOUT_ANCHOR_KEY)
-	public void setLayoutAnchor(GridBagAnchor anchor);
+	@Setter(value = LAYOUT_CONSTRAINTS_KEY)
+	public void setLayoutConstraints(LayoutConstraints constraints);
 
 }
