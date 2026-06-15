@@ -118,6 +118,15 @@ public abstract class BoxLayoutManagerImpl<O> extends DianaLayoutManagerImpl<Box
 		return true;
 	}
 
+	/** FIB editing a box-layouted child's properties (its {@code layoutWeight}). */
+	private static final org.openflexo.rm.Resource CHILD_INSPECTOR_FIB =
+			org.openflexo.rm.ResourceLocator.locateResource("LayoutChildInspectors/BoxLayoutManager.fib");
+
+	@Override
+	public org.openflexo.rm.Resource getChildInspectorFIB() {
+		return CHILD_INSPECTOR_FIB;
+	}
+
 	/** Resolved target geometry per node, computed in {@link #computeLayout()} and applied in {@link #performLayout(ShapeNode)}. */
 	private final Map<ShapeNode<?>, DianaRectangle> geometryMap = new HashMap<>();
 

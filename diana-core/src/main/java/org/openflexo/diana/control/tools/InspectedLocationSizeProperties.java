@@ -47,7 +47,10 @@ import org.openflexo.connie.DataBinding;
 import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
 import org.openflexo.diana.ContainerGraphicalRepresentation;
+import org.openflexo.diana.DianaLayoutManager;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.GRProperty;
@@ -57,6 +60,8 @@ import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.diana.ShapeGraphicalRepresentation.LocationConstraints;
 import org.openflexo.diana.control.DianaInteractiveViewer;
+import org.openflexo.gina.model.FIBComponent;
+import org.openflexo.rm.Resource;
 
 /**
  * Implementation of {@link InspectedStyle}, as a container of graphical properties synchronized with and reflecting a selection<br>
@@ -133,6 +138,10 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 			getPropertyChangeSupport().firePropertyChange("hasSelectedForeground", !getHasSelectedForeground(),
 					(boolean) getHasSelectedForeground());
 		}
+		// Computed properties (not GR properties): re-evaluate the per-manager child layout
+		// panel for the new selection, so the "Layout Manager" panel swaps/hides accordingly.
+		getPropertyChangeSupport().firePropertyChange("childLayoutComponent", null, getChildLayoutComponent());
+		getPropertyChangeSupport().firePropertyChange("hasChildLayoutPanel", !hasChildLayoutPanel(), hasChildLayoutPanel());
 	}
 
 	public Boolean getIsVisible() {
@@ -174,6 +183,41 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 
 	public void setLayoutWeight(Double value) {
 		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_WEIGHT, value);
+	}
+
+	/**
+	 * The layout manager that lays out the (single) currently selected shape, or {@code null} when the selection is not a single shape or
+	 * that shape is not laid out by any manager. Drives which per-manager child-properties panel is shown in the Location/Size "Layout
+	 * Manager" panel.
+	 */
+	public DianaLayoutManager<?, ?> getSelectedChildLayoutManager() {
+		List<ShapeNode<?>> shapes = getController().getSelectedShapes();
+		if (shapes.size() == 1) {
+			return shapes.get(0).getActiveLayoutManager();
+		}
+		return null;
+	}
+
+	/**
+	 * The FIB component (per layout-manager type) editing the selected child's layout properties, or {@code null} if none. Loaded from the
+	 * manager's {@link DianaLayoutManager#getChildInspectorFIB()} and cached by the FIB library. The component's data object is {@code this}
+	 * ({@link InspectedLocationSizeProperties}), so it binds e.g. {@code data.layoutWeight} across the whole selection.
+	 */
+	public FIBComponent getChildLayoutComponent() {
+		DianaLayoutManager<?, ?> lm = getSelectedChildLayoutManager();
+		if (lm == null) {
+			return null;
+		}
+		Resource fib = lm.getChildInspectorFIB();
+		if (fib == null) {
+			return null;
+		}
+		return AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(fib);
+	}
+
+	/** Whether a per-manager child-properties panel is available for the current selection. */
+	public boolean hasChildLayoutPanel() {
+		return getChildLayoutComponent() != null;
 	}
 
 	public Double getX() {

@@ -48,6 +48,7 @@ import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.DianaLayoutManagerSpecification.DraggingMode;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.rm.Resource;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PropertyIdentifier;
@@ -193,4 +194,16 @@ public interface DianaLayoutManager<LMS extends DianaLayoutManagerSpecification<
 	public List<ControlArea<?>> getControlAreas();
 
 	public String getIdentifier();
+
+	/**
+	 * Return the FIB {@link Resource} of a panel allowing to edit the layout properties of a
+	 * <b>child</b> laid out by this layout manager (e.g. its weight). This panel is inserted in
+	 * the "Layout Manager" panel of the Location/Size inspector; its data object is the
+	 * inspected child ({@code InspectedLocationSizeProperties}), so it binds e.g.
+	 * {@code data.layoutWeight}.<br>
+	 * Default value is {@code null} (this layout manager exposes no per-child property).
+	 *
+	 * @return the child-inspector FIB resource, or {@code null}
+	 */
+	public Resource getChildInspectorFIB();
 }

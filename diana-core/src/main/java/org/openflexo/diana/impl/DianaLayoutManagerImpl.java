@@ -371,6 +371,15 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 		return null;
 	}
 
+	/**
+	 * Default implementation returns {@code null}: this layout manager exposes no per-child layout property panel. Subclasses that have
+	 * editable per-child properties (e.g. a weight) override this to return their child-inspector FIB.
+	 */
+	@Override
+	public org.openflexo.rm.Resource getChildInspectorFIB() {
+		return null;
+	}
+
 	@Override
 	public boolean delete(Object... context) {
 		for (ShapeNode<?> n : layoutedNodes) {
