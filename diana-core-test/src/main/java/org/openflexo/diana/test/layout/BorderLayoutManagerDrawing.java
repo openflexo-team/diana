@@ -80,7 +80,9 @@ public class BorderLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 	private static final Color[] COLORS = { Color.pink, Color.green, Color.orange, Color.yellow, Color.cyan };
 
 	public BorderLayoutManagerDrawing(TestGraph graph, DianaModelFactory factory) {
-		super(graph, factory, PersistenceMode.SharedGraphicalRepresentations);
+		// UniqueGraphicalRepresentations so the Location/Size inspector controls the shapes (geometry stored in the GR,
+		// not node-local as in Shared mode — see diana-analysis.md §21.2).
+		super(graph, factory, PersistenceMode.UniqueGraphicalRepresentations);
 	}
 
 	/**

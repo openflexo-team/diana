@@ -75,7 +75,10 @@ public class WrapFlowLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 			"assignee", "due", "notes" };
 
 	public WrapFlowLayoutManagerDrawing(TestGraph graph, DianaModelFactory factory) {
-		super(graph, factory, PersistenceMode.SharedGraphicalRepresentations);
+		// UniqueGraphicalRepresentations: node geometry is stored in (and read from) the GR, so the Location/Size
+		// inspector actually controls the shapes. In SharedGraphicalRepresentations the geometry is node-local and the
+		// inspector's writes to the GR would have no effect (see diana-analysis.md §21.2).
+		super(graph, factory, PersistenceMode.UniqueGraphicalRepresentations);
 	}
 
 	/** Root node = the container box; the other nodes are the wrapped items. */

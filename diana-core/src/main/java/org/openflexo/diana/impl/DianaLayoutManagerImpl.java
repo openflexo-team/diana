@@ -438,6 +438,21 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 			}
 			return;
 		}
+		// A layouted child's own geometry changed from outside a layout pass (e.g. its size/position edited in the
+		// Location/Size inspector): re-run the layout so the change is taken into account (a width change re-wraps a
+		// flow, re-distributes a box/gridbag, …). The manager subscribes only to its layouted children's GRs, so any
+		// such event is from a managed child. Guarded by layoutInProgress: the manager's own setLocation/setSize during
+		// a layout pass fire these same keys but must not re-enter.
+		if (evt.getSource() instanceof ShapeGraphicalRepresentation
+				&& (ShapeGraphicalRepresentation.X_KEY.equals(propertyName) || ShapeGraphicalRepresentation.Y_KEY.equals(propertyName)
+						|| ShapeGraphicalRepresentation.WIDTH_KEY.equals(propertyName)
+						|| ShapeGraphicalRepresentation.HEIGHT_KEY.equals(propertyName))) {
+			if (!layoutInProgress) {
+				invalidate();
+				doLayout(true);
+			}
+			return;
+		}
 		if (propertyName.equals(DianaLayoutManagerSpecification.DELETED)) {
 			delete();
 		}
