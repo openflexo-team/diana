@@ -97,6 +97,8 @@ import org.openflexo.diana.layout.BoxLayoutConstraints;
 import org.openflexo.diana.layout.GridBagLayoutConstraints;
 import org.openflexo.diana.layout.GridBagLayoutManager;
 import org.openflexo.diana.layout.GridBagLayoutManagerSpecification;
+import org.openflexo.diana.layout.WrapFlowLayoutManager;
+import org.openflexo.diana.layout.WrapFlowLayoutManagerSpecification;
 import org.openflexo.diana.layout.impl.BorderLayoutConstraintsImpl;
 import org.openflexo.diana.layout.impl.BoxLayoutConstraintsImpl;
 import org.openflexo.diana.layout.impl.GridBagLayoutConstraintsImpl;
@@ -122,6 +124,8 @@ import org.openflexo.diana.layout.impl.BoxLayoutManagerImpl;
 import org.openflexo.diana.layout.impl.BoxLayoutManagerSpecificationImpl;
 import org.openflexo.diana.layout.impl.GridBagLayoutManagerImpl;
 import org.openflexo.diana.layout.impl.GridBagLayoutManagerSpecificationImpl;
+import org.openflexo.diana.layout.impl.WrapFlowLayoutManagerImpl;
+import org.openflexo.diana.layout.impl.WrapFlowLayoutManagerSpecificationImpl;
 import org.openflexo.diana.layout.impl.FlowLayoutManagerImpl;
 import org.openflexo.diana.layout.impl.FlowLayoutManagerSpecificationImpl;
 import org.openflexo.diana.layout.impl.ForceDirectedGraphLayoutManagerImpl;
@@ -282,6 +286,9 @@ public class DianaModelFactoryImpl extends DianaModelFactory {
 		pamelaModelFactory.setImplementingClassForInterface(GridBagLayoutManagerImpl.class, GridBagLayoutManager.class);
 		pamelaModelFactory.setImplementingClassForInterface(GridBagLayoutManagerSpecificationImpl.class,
 				GridBagLayoutManagerSpecification.class);
+		pamelaModelFactory.setImplementingClassForInterface(WrapFlowLayoutManagerImpl.class, WrapFlowLayoutManager.class);
+		pamelaModelFactory.setImplementingClassForInterface(WrapFlowLayoutManagerSpecificationImpl.class,
+				WrapFlowLayoutManagerSpecification.class);
 		pamelaModelFactory.setImplementingClassForInterface(BoxLayoutConstraintsImpl.class, BoxLayoutConstraints.class);
 		pamelaModelFactory.setImplementingClassForInterface(BorderLayoutConstraintsImpl.class, BorderLayoutConstraints.class);
 		pamelaModelFactory.setImplementingClassForInterface(GridBagLayoutConstraintsImpl.class, GridBagLayoutConstraints.class);
