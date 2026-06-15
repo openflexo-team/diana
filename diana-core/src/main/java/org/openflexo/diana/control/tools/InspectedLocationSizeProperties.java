@@ -193,6 +193,70 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_BORDER_REGION, value);
 	}
 
+	public Integer getLayoutGridX() {
+		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_GRID_X);
+	}
+
+	public void setLayoutGridX(Integer value) {
+		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_GRID_X, value);
+	}
+
+	public Integer getLayoutGridY() {
+		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_GRID_Y);
+	}
+
+	public void setLayoutGridY(Integer value) {
+		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_GRID_Y, value);
+	}
+
+	public Integer getLayoutGridWidth() {
+		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_GRID_WIDTH);
+	}
+
+	public void setLayoutGridWidth(Integer value) {
+		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_GRID_WIDTH, value);
+	}
+
+	public Integer getLayoutGridHeight() {
+		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_GRID_HEIGHT);
+	}
+
+	public void setLayoutGridHeight(Integer value) {
+		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_GRID_HEIGHT, value);
+	}
+
+	public Double getLayoutWeightX() {
+		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_WEIGHT_X);
+	}
+
+	public void setLayoutWeightX(Double value) {
+		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_WEIGHT_X, value);
+	}
+
+	public Double getLayoutWeightY() {
+		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_WEIGHT_Y);
+	}
+
+	public void setLayoutWeightY(Double value) {
+		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_WEIGHT_Y, value);
+	}
+
+	public org.openflexo.diana.layout.GridBagFill getLayoutFill() {
+		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_FILL);
+	}
+
+	public void setLayoutFill(org.openflexo.diana.layout.GridBagFill value) {
+		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_FILL, value);
+	}
+
+	public org.openflexo.diana.layout.GridBagAnchor getLayoutAnchor() {
+		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_ANCHOR);
+	}
+
+	public void setLayoutAnchor(org.openflexo.diana.layout.GridBagAnchor value) {
+		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_ANCHOR, value);
+	}
+
 	/**
 	 * The layout manager that lays out the (single) currently selected shape, or {@code null} when the selection is not a single shape or
 	 * that shape is not laid out by any manager. Drives which per-manager child-properties panel is shown in the Location/Size "Layout

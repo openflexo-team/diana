@@ -47,6 +47,8 @@ import org.openflexo.diana.geom.DianaDimension;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.area.DianaArea;
 import org.openflexo.diana.layout.BorderRegion;
+import org.openflexo.diana.layout.GridBagAnchor;
+import org.openflexo.diana.layout.GridBagFill;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.pamela.annotations.CloningStrategy;
@@ -138,6 +140,22 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	public static final String LAYOUT_WEIGHT_KEY = "layoutWeight";
 	@PropertyIdentifier(type = BorderRegion.class)
 	public static final String LAYOUT_BORDER_REGION_KEY = "layoutBorderRegion";
+	@PropertyIdentifier(type = Integer.class)
+	public static final String LAYOUT_GRID_X_KEY = "layoutGridX";
+	@PropertyIdentifier(type = Integer.class)
+	public static final String LAYOUT_GRID_Y_KEY = "layoutGridY";
+	@PropertyIdentifier(type = Integer.class)
+	public static final String LAYOUT_GRID_WIDTH_KEY = "layoutGridWidth";
+	@PropertyIdentifier(type = Integer.class)
+	public static final String LAYOUT_GRID_HEIGHT_KEY = "layoutGridHeight";
+	@PropertyIdentifier(type = Double.class)
+	public static final String LAYOUT_WEIGHT_X_KEY = "layoutWeightX";
+	@PropertyIdentifier(type = Double.class)
+	public static final String LAYOUT_WEIGHT_Y_KEY = "layoutWeightY";
+	@PropertyIdentifier(type = GridBagFill.class)
+	public static final String LAYOUT_FILL_KEY = "layoutFill";
+	@PropertyIdentifier(type = GridBagAnchor.class)
+	public static final String LAYOUT_ANCHOR_KEY = "layoutAnchor";
 
 	// *******************************************************************************
 	// * Inner concepts
@@ -308,6 +326,22 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 			Double.class);
 	public static GRProperty<BorderRegion> LAYOUT_BORDER_REGION = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			LAYOUT_BORDER_REGION_KEY, BorderRegion.class);
+	public static GRProperty<Integer> LAYOUT_GRID_X = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, LAYOUT_GRID_X_KEY,
+			Integer.class);
+	public static GRProperty<Integer> LAYOUT_GRID_Y = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, LAYOUT_GRID_Y_KEY,
+			Integer.class);
+	public static GRProperty<Integer> LAYOUT_GRID_WIDTH = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
+			LAYOUT_GRID_WIDTH_KEY, Integer.class);
+	public static GRProperty<Integer> LAYOUT_GRID_HEIGHT = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
+			LAYOUT_GRID_HEIGHT_KEY, Integer.class);
+	public static GRProperty<Double> LAYOUT_WEIGHT_X = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, LAYOUT_WEIGHT_X_KEY,
+			Double.class);
+	public static GRProperty<Double> LAYOUT_WEIGHT_Y = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, LAYOUT_WEIGHT_Y_KEY,
+			Double.class);
+	public static GRProperty<GridBagFill> LAYOUT_FILL = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, LAYOUT_FILL_KEY,
+			GridBagFill.class);
+	public static GRProperty<GridBagAnchor> LAYOUT_ANCHOR = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, LAYOUT_ANCHOR_KEY,
+			GridBagAnchor.class);
 
 	// *******************************************************************************
 	// * Model
@@ -776,5 +810,94 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	 */
 	@Setter(value = LAYOUT_BORDER_REGION_KEY)
 	public void setLayoutBorderRegion(BorderRegion region);
+
+	/**
+	 * Return the 0-based grid column of the represented {@link ShapeNode}, used by {@link org.openflexo.diana.layout.GridBagLayoutManager}
+	 * (modelling {@link java.awt.GridBagConstraints#gridx}). Default <code>0</code>.
+	 */
+	@Getter(value = LAYOUT_GRID_X_KEY, defaultValue = "0")
+	@XMLAttribute
+	public int getLayoutGridX();
+
+	@Setter(value = LAYOUT_GRID_X_KEY)
+	public void setLayoutGridX(int gridX);
+
+	/**
+	 * Return the 0-based grid row of the represented {@link ShapeNode} (modelling {@link java.awt.GridBagConstraints#gridy}). Default
+	 * <code>0</code>.
+	 */
+	@Getter(value = LAYOUT_GRID_Y_KEY, defaultValue = "0")
+	@XMLAttribute
+	public int getLayoutGridY();
+
+	@Setter(value = LAYOUT_GRID_Y_KEY)
+	public void setLayoutGridY(int gridY);
+
+	/**
+	 * Return the column span of the represented {@link ShapeNode} (modelling {@link java.awt.GridBagConstraints#gridwidth}). Default
+	 * <code>1</code>.
+	 */
+	@Getter(value = LAYOUT_GRID_WIDTH_KEY, defaultValue = "1")
+	@XMLAttribute
+	public int getLayoutGridWidth();
+
+	@Setter(value = LAYOUT_GRID_WIDTH_KEY)
+	public void setLayoutGridWidth(int gridWidth);
+
+	/**
+	 * Return the row span of the represented {@link ShapeNode} (modelling {@link java.awt.GridBagConstraints#gridheight}). Default
+	 * <code>1</code>.
+	 */
+	@Getter(value = LAYOUT_GRID_HEIGHT_KEY, defaultValue = "1")
+	@XMLAttribute
+	public int getLayoutGridHeight();
+
+	@Setter(value = LAYOUT_GRID_HEIGHT_KEY)
+	public void setLayoutGridHeight(int gridHeight);
+
+	/**
+	 * Return the horizontal weight of the represented {@link ShapeNode}, used by {@link org.openflexo.diana.layout.GridBagLayoutManager} to
+	 * distribute extra horizontal space across columns (modelling {@link java.awt.GridBagConstraints#weightx}). Default <code>0.0</code>.
+	 */
+	@Getter(value = LAYOUT_WEIGHT_X_KEY, defaultValue = "0.0")
+	@XMLAttribute
+	public double getLayoutWeightX();
+
+	@Setter(value = LAYOUT_WEIGHT_X_KEY)
+	public void setLayoutWeightX(double weightX);
+
+	/**
+	 * Return the vertical weight of the represented {@link ShapeNode}, used by {@link org.openflexo.diana.layout.GridBagLayoutManager} to
+	 * distribute extra vertical space across rows (modelling {@link java.awt.GridBagConstraints#weighty}). Default <code>0.0</code>.
+	 */
+	@Getter(value = LAYOUT_WEIGHT_Y_KEY, defaultValue = "0.0")
+	@XMLAttribute
+	public double getLayoutWeightY();
+
+	@Setter(value = LAYOUT_WEIGHT_Y_KEY)
+	public void setLayoutWeightY(double weightY);
+
+	/**
+	 * Return how the represented {@link ShapeNode} fills its cell block in a {@link org.openflexo.diana.layout.GridBagLayoutManager}
+	 * (modelling {@link java.awt.GridBagConstraints#fill}). Default {@link GridBagFill#NONE}.
+	 */
+	@Getter(value = LAYOUT_FILL_KEY, defaultValue = "NONE")
+	@XMLAttribute
+	public GridBagFill getLayoutFill();
+
+	@Setter(value = LAYOUT_FILL_KEY)
+	public void setLayoutFill(GridBagFill fill);
+
+	/**
+	 * Return where the represented {@link ShapeNode} is anchored within its cell block in a
+	 * {@link org.openflexo.diana.layout.GridBagLayoutManager} (modelling {@link java.awt.GridBagConstraints#anchor}). Default
+	 * {@link GridBagAnchor#CENTER}.
+	 */
+	@Getter(value = LAYOUT_ANCHOR_KEY, defaultValue = "CENTER")
+	@XMLAttribute
+	public GridBagAnchor getLayoutAnchor();
+
+	@Setter(value = LAYOUT_ANCHOR_KEY)
+	public void setLayoutAnchor(GridBagAnchor anchor);
 
 }

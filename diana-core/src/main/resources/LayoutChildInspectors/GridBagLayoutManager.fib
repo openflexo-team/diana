@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel id="0" controllerClassName="org.openflexo.gina.controller.FIBController"
+	dataClassName="org.openflexo.diana.control.tools.InspectedLocationSizeProperties"
+	layout="twocols" border="empty" borderTop="0" borderBottom="0" borderLeft="0" borderRight="0"
+	titleFont="SansSerif,0,11" font="SansSerif,0,11" trackViewPortWidth="true"
+	trackViewPortHeight="true" name="GridBagChildLayoutPanel">
+
+	<Label name="GridXLabel" index="0" localize="true" align="left" label="layout_grid_x"
+		constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" />
+	<Number minValue="0" maxValue="1000" increment="1" numberType="IntegerType" columns="4"
+		data="data.layoutGridX" name="GridX" index="1" localize="true"
+		constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+
+	<Label name="GridYLabel" index="2" localize="true" align="left" label="layout_grid_y"
+		constraints="twocols(expandHorizontally=false;expandVertically=false;index=2;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" />
+	<Number minValue="0" maxValue="1000" increment="1" numberType="IntegerType" columns="4"
+		data="data.layoutGridY" name="GridY" index="3" localize="true"
+		constraints="twocols(expandHorizontally=true;expandVertically=false;index=3;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+
+	<Label name="GridWidthLabel" index="4" localize="true" align="left" label="layout_grid_width"
+		constraints="twocols(expandHorizontally=false;expandVertically=false;index=4;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" />
+	<Number minValue="1" maxValue="1000" increment="1" numberType="IntegerType" columns="4"
+		data="data.layoutGridWidth" name="GridWidth" index="5" localize="true"
+		constraints="twocols(expandHorizontally=true;expandVertically=false;index=5;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+
+	<Label name="GridHeightLabel" index="6" localize="true" align="left" label="layout_grid_height"
+		constraints="twocols(expandHorizontally=false;expandVertically=false;index=6;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" />
+	<Number minValue="1" maxValue="1000" increment="1" numberType="IntegerType" columns="4"
+		data="data.layoutGridHeight" name="GridHeight" index="7" localize="true"
+		constraints="twocols(expandHorizontally=true;expandVertically=false;index=7;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+
+	<Label name="WeightXLabel" index="8" localize="true" align="left" label="layout_weight_x"
+		constraints="twocols(expandHorizontally=false;expandVertically=false;index=8;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" />
+	<Number minValue="0.0" maxValue="1000.0" increment="0.5" numberType="DoubleType" columns="4"
+		data="data.layoutWeightX" name="WeightX" index="9" localize="true"
+		constraints="twocols(expandHorizontally=true;expandVertically=false;index=9;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+
+	<Label name="WeightYLabel" index="10" localize="true" align="left" label="layout_weight_y"
+		constraints="twocols(expandHorizontally=false;expandVertically=false;index=10;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" />
+	<Number minValue="0.0" maxValue="1000.0" increment="0.5" numberType="DoubleType" columns="4"
+		data="data.layoutWeightY" name="WeightY" index="11" localize="true"
+		constraints="twocols(expandHorizontally=true;expandVertically=false;index=11;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+
+	<Label name="FillLabel" index="12" localize="true" align="left" label="layout_fill"
+		constraints="twocols(expandHorizontally=false;expandVertically=false;index=12;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" />
+	<DropDown index="13" data="data.layoutFill" name="Fill" format="object.name" localize="true"
+		width="120" iteratorClassName="org.openflexo.diana.layout.GridBagFill" autoSelectFirstRow="true"
+		constraints="twocols(expandHorizontally=true;expandVertically=false;index=13;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+
+	<Label name="AnchorLabel" index="14" localize="true" align="left" label="layout_anchor"
+		constraints="twocols(expandHorizontally=false;expandVertically=false;index=14;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=left)" />
+	<DropDown index="15" data="data.layoutAnchor" name="Anchor" format="object.name" localize="true"
+		width="120" iteratorClassName="org.openflexo.diana.layout.GridBagAnchor" autoSelectFirstRow="true"
+		constraints="twocols(expandHorizontally=true;expandVertically=false;index=15;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+
+	<LocalizedDictionary />
+</Panel>

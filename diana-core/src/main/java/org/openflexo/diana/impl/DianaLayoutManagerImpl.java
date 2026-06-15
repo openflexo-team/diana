@@ -53,6 +53,7 @@ import org.openflexo.diana.DianaLayoutManagerSpecification.DraggingMode;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.graphics.DianaGraphics;
@@ -70,6 +71,10 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 
 	// Nodes beeing layouted
 	private final List<ShapeNode<?>> layoutedNodes;
+
+	// Child GRs this manager has subscribed to, to react to per-child layout property changes (e.g. layoutWeight,
+	// layoutBorderRegion, layoutGridX...). Kept in sync with layoutedNodes in retrieveNodesToLayout().
+	private final List<ShapeNode<?>> observedChildren = new ArrayList<>();
 
 	public DianaLayoutManagerImpl() {
 		layoutedNodes = new ArrayList<ShapeNode<?>>() {
@@ -252,8 +257,32 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 			}
 		}
 
+		updateChildListeners();
+
 		getPropertyChangeSupport().firePropertyChange("layoutedNodes", null, layoutedNodes);
 
+	}
+
+	/**
+	 * Subscribes this manager to the {@link ShapeGraphicalRepresentation} of every layouted child so that editing a per-child layout property
+	 * (e.g. {@code layoutWeight}, {@code layoutBorderRegion}, {@code layoutGridX}…) through an inspector re-triggers the layout. Kept in sync
+	 * with {@link #layoutedNodes}: previously observed children are unsubscribed first.
+	 */
+	private void updateChildListeners() {
+		for (ShapeNode<?> n : observedChildren) {
+			ShapeGraphicalRepresentation gr = n.getGraphicalRepresentation();
+			if (gr != null && gr.getPropertyChangeSupport() != null) {
+				gr.getPropertyChangeSupport().removePropertyChangeListener(this);
+			}
+		}
+		observedChildren.clear();
+		for (ShapeNode<?> n : layoutedNodes) {
+			ShapeGraphicalRepresentation gr = n.getGraphicalRepresentation();
+			if (gr != null && gr.getPropertyChangeSupport() != null) {
+				gr.getPropertyChangeSupport().addPropertyChangeListener(this);
+				observedChildren.add(n);
+			}
+		}
 	}
 
 	@Override
@@ -344,7 +373,19 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		// System.out.println("Received " + evt.getPropertyName() + " with " + evt);
-		if (evt.getPropertyName().equals(DianaLayoutManagerSpecification.DELETED)) {
+		String propertyName = evt.getPropertyName();
+		// A per-child layout property changed (layoutWeight, layoutBorderRegion, layoutGrid*, layoutFill, layoutAnchor,
+		// layoutManagerIdentifier...): re-trigger the layout. These are fired by a child's ShapeGraphicalRepresentation,
+		// never by the layout-manager specification (whose properties do not start with "layout"). Guarded against
+		// re-entrancy (a layout pass writes x/y/width/height, which are not "layout"-prefixed, so it cannot loop here).
+		if (propertyName != null && propertyName.startsWith("layout") && evt.getSource() instanceof ShapeGraphicalRepresentation) {
+			if (!layoutInProgress) {
+				invalidate();
+				doLayout(true);
+			}
+			return;
+		}
+		if (propertyName.equals(DianaLayoutManagerSpecification.DELETED)) {
 			delete();
 		}
 		else if (evt.getPropertyName().equals(DianaLayoutManagerSpecification.DRAGGING_MODE_KEY)) {
@@ -382,6 +423,13 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 
 	@Override
 	public boolean delete(Object... context) {
+		for (ShapeNode<?> n : observedChildren) {
+			ShapeGraphicalRepresentation gr = n.getGraphicalRepresentation();
+			if (gr != null && gr.getPropertyChangeSupport() != null) {
+				gr.getPropertyChangeSupport().removePropertyChangeListener(this);
+			}
+		}
+		observedChildren.clear();
 		for (ShapeNode<?> n : layoutedNodes) {
 			// Disconnect all layouted layoutedNodes from related DianaLayoutManagerSpecification
 			n.getGraphicalRepresentation().setLayoutManagerIdentifier(null);
