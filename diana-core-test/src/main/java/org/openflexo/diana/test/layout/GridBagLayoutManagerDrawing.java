@@ -169,6 +169,9 @@ public class GridBagLayoutManagerDrawing extends DrawingImpl<TestGraph> {
 					gr.setForeground(factory.makeForegroundStyle(Color.gray, 1f));
 					gr.setWidth(120);
 					gr.setHeight(24);
+					// Declared minimum so the field (stretched horizontally) still constrains the container's
+					// minimum width — otherwise it could be shrunk to 0 and pushed outside the box.
+					gr.setMinimalWidth(80);
 				}
 				gr.setLayoutConstraints(lc);
 				return gr;

@@ -215,4 +215,24 @@ public interface DianaLayoutManager<LMS extends DianaLayoutManagerSpecification<
 	 * @return a fresh default constraints object, or {@code null}
 	 */
 	public org.openflexo.diana.layout.LayoutConstraints makeDefaultConstraints();
+
+	/**
+	 * The minimum width this layout manager requires of its container to lay its children out validly, regardless of the available height
+	 * (the "driver"-axis minimum for a horizontal flow — e.g. the widest single item). Default <code>0</code> (no constraint). Used to clamp
+	 * the container on resize.
+	 *
+	 * @return the minimum container width, or <code>0</code> if this manager imposes none
+	 */
+	public double getMinimumWidth();
+
+	/**
+	 * The minimum height this layout manager requires of its container <b>for a given available width</b> — intrinsic "height-for-width"
+	 * sizing. For a wrapping manager a narrower width needs more lines, hence more height; the container's height auto-grows accordingly. For
+	 * managers whose minimum height does not depend on the width, this simply returns their (constant) minimum height. Default <code>0</code>
+	 * (no constraint).
+	 *
+	 * @param width the available (inner-or-total, see implementation) container width
+	 * @return the minimum container height at that width, or <code>0</code> if this manager imposes none
+	 */
+	public double getMinimumHeightForWidth(double width);
 }

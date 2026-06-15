@@ -498,6 +498,51 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 		return null;
 	}
 
+	/**
+	 * Intrinsic minimum width a child contributes to its parent's minimum: if the child is itself a container laid out by one or more managers,
+	 * it is the largest of those managers' {@link #getMinimumWidth()} (bottom-up composition); otherwise (a leaf, or a manager imposing none)
+	 * it is the child's own current width. Used by the per-manager minimum-size computations so a nested managed container constrains its
+	 * ancestors.
+	 */
+	protected double childMinWidth(ShapeNode<?> node) {
+		double m = 0;
+		if (node instanceof ContainerNode) {
+			for (DianaLayoutManager<?, ?> lm : ((ContainerNode<?, ?>) node).getLayoutManagers()) {
+				m = Math.max(m, lm.getMinimumWidth());
+			}
+		}
+		return m > 0 ? m : node.getWidth();
+	}
+
+	/** Symmetric of {@link #childMinWidth(ShapeNode)} for the height (uses the child's current width as the height-for-width hint). */
+	protected double childMinHeight(ShapeNode<?> node) {
+		double m = 0;
+		if (node instanceof ContainerNode) {
+			for (DianaLayoutManager<?, ?> lm : ((ContainerNode<?, ?>) node).getLayoutManagers()) {
+				m = Math.max(m, lm.getMinimumHeightForWidth(node.getWidth()));
+			}
+		}
+		return m > 0 ? m : node.getHeight();
+	}
+
+	/**
+	 * Default implementation returns <code>0</code>: this layout manager imposes no minimum container width. Managers with an intrinsic
+	 * minimum (e.g. a wrap flow) override this.
+	 */
+	@Override
+	public double getMinimumWidth() {
+		return 0;
+	}
+
+	/**
+	 * Default implementation returns <code>0</code>: this layout manager imposes no minimum container height. Managers whose minimum height
+	 * depends on the width (e.g. a wrap flow) override this.
+	 */
+	@Override
+	public double getMinimumHeightForWidth(double width) {
+		return 0;
+	}
+
 	@Override
 	public boolean delete(Object... context) {
 		detachChildListeners();

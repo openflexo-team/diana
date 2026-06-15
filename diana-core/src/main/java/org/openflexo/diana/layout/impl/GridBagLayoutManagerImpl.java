@@ -370,6 +370,85 @@ public abstract class GridBagLayoutManagerImpl<O> extends DianaLayoutManagerImpl
 		}
 	}
 
+	private List<ShapeNode<?>> placeableNodes() {
+		List<ShapeNode<?>> nodes = new ArrayList<>();
+		for (ShapeNode<?> node : getLayoutedNodes()) {
+			if (!isSelfConstrained(node)) {
+				nodes.add(node);
+			}
+		}
+		return nodes;
+	}
+
+	/**
+	 * Minimum sizes of the grid tracks (columns if {@code columns}, else rows), computed like {@link #computeLayout()}'s minimum pass but from
+	 * each child's intrinsic minimum ({@link #childMinWidth(ShapeNode)} / {@link #childMinHeight(ShapeNode)}, bottom-up) and the
+	 * circularity-safe base rule: a track-spanning child with a positive weight on that axis can shrink, so it contributes 0.
+	 */
+	private double[] minTracks(boolean columns) {
+		List<ShapeNode<?>> nodes = placeableNodes();
+		double gap = columns ? getHgap() : getVgap();
+		int nTracks = 0;
+		for (ShapeNode<?> n : nodes) {
+			nTracks = Math.max(nTracks, columns ? gridX(n) + gridWidth(n) : gridY(n) + gridHeight(n));
+		}
+		double[] min = new double[nTracks];
+		// single-track children
+		for (ShapeNode<?> n : nodes) {
+			int span = columns ? gridWidth(n) : gridHeight(n);
+			if (span == 1) {
+				int idx = columns ? gridX(n) : gridY(n);
+				min[idx] = Math.max(min[idx], trackBase(n, columns));
+			}
+		}
+		// multi-track children: top up the spanned tracks if their own min exceeds the current span sum
+		for (ShapeNode<?> n : nodes) {
+			int span = columns ? gridWidth(n) : gridHeight(n);
+			if (span > 1) {
+				int start = columns ? gridX(n) : gridY(n);
+				double current = sum(min, start, span) + gap * (span - 1);
+				double deficit = trackBase(n, columns) - current;
+				if (deficit > 0) {
+					double add = deficit / span;
+					for (int t = start; t < start + span; t++) {
+						min[t] += add;
+					}
+				}
+			}
+		}
+		return min;
+	}
+
+	/**
+	 * Minimum extent a child contributes to a track. A child <b>stretched on that axis</b> (fill HORIZONTAL/BOTH for columns,
+	 * VERTICAL/BOTH for rows) has its size written by the manager, so its current size cannot be used as a minimum (it would drift); its only
+	 * stable floor is its declared {@link org.openflexo.diana.ShapeGraphicalRepresentation#getMinimalWidth() minimalWidth} /
+	 * {@code minimalHeight} (default 0). A child <b>not</b> stretched on that axis keeps its own (natural) size, used directly (bottom-up via
+	 * {@link #childMinWidth(ShapeNode)}). Weight only governs how free space is distributed, not the floor, so it does not enter here.
+	 */
+	private double trackBase(ShapeNode<?> n, boolean columns) {
+		GridBagLayoutConstraints c = gbc(n);
+		GridBagFill fill = (c != null && c.getFill() != null) ? c.getFill() : GridBagFill.NONE;
+		if (columns) {
+			boolean stretched = fill == GridBagFill.HORIZONTAL || fill == GridBagFill.BOTH;
+			return stretched ? n.getGraphicalRepresentation().getMinimalWidth() : childMinWidth(n);
+		}
+		boolean stretched = fill == GridBagFill.VERTICAL || fill == GridBagFill.BOTH;
+		return stretched ? n.getGraphicalRepresentation().getMinimalHeight() : childMinHeight(n);
+	}
+
+	@Override
+	public double getMinimumWidth() {
+		double[] cols = minTracks(true);
+		return sum(cols, 0, cols.length) + getHgap() * Math.max(0, cols.length - 1) + getInsetLeft() + getInsetRight();
+	}
+
+	@Override
+	public double getMinimumHeightForWidth(double width) {
+		double[] rows = minTracks(false);
+		return sum(rows, 0, rows.length) + getVgap() * Math.max(0, rows.length - 1) + getInsetTop() + getInsetBottom();
+	}
+
 	@Override
 	protected void performLayout(ShapeNode<?> node) {
 		DianaRectangle rect = geometryMap.get(node);

@@ -822,6 +822,18 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 			double maxWidth = getMaximalWidth();
 			double maxHeight = getMaximalHeight();
 
+			// Fold in the layout managers' intrinsic minimum size. The minimum height may depend on the available
+			// width (intrinsic "height-for-width" sizing, e.g. a wrap flow needs more lines — hence more height —
+			// when narrowed), so the height minimum is evaluated at the effective (min-clamped) width: the container
+			// auto-grows taller as it is narrowed. Managers without a minimum return 0 (no effect).
+			for (DianaLayoutManager<?, O> lm : getLayoutManagers()) {
+				minWidth = Math.max(minWidth, lm.getMinimumWidth());
+			}
+			double widthForHeight = Math.max(newDimension.width, minWidth);
+			for (DianaLayoutManager<?, O> lm : getLayoutManagers()) {
+				minHeight = Math.max(minHeight, lm.getMinimumHeightForWidth(widthForHeight));
+			}
+
 			if (hasContainedLabel()) {
 				Dimension normalizedLabelSize = getNormalizedLabelSize();
 				int labelWidth = normalizedLabelSize.width;

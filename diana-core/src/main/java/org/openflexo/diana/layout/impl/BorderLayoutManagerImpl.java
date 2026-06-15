@@ -209,6 +209,45 @@ public abstract class BorderLayoutManagerImpl<O> extends DianaLayoutManagerImpl<
 		}
 	}
 
+	/** One node per region (first declared wins), self-constrained nodes excluded — same bucketing as {@link #computeLayout()}. */
+	private EnumMap<BorderRegion, ShapeNode<?>> byRegion() {
+		EnumMap<BorderRegion, ShapeNode<?>> byRegion = new EnumMap<>(BorderRegion.class);
+		for (ShapeNode<?> node : getLayoutedNodes()) {
+			if (!isSelfConstrained(node)) {
+				byRegion.putIfAbsent(regionOf(node), node);
+			}
+		}
+		return byRegion;
+	}
+
+	/**
+	 * Minimum container width: WEST and EAST keep their own width (NORTH/SOUTH span the full width and CENTER is stretched, so they impose no
+	 * width lower bound) + the horizontal gaps between them and the center + the left/right insets.
+	 */
+	@Override
+	public double getMinimumWidth() {
+		EnumMap<BorderRegion, ShapeNode<?>> r = byRegion();
+		ShapeNode<?> west = r.get(BorderRegion.WEST);
+		ShapeNode<?> east = r.get(BorderRegion.EAST);
+		double w = (west != null ? childMinWidth(west) : 0) + (east != null ? childMinWidth(east) : 0);
+		int gaps = (west != null ? 1 : 0) + (east != null ? 1 : 0);
+		return w + getHgap() * gaps + getInsetLeft() + getInsetRight();
+	}
+
+	/**
+	 * Minimum container height (width-independent): NORTH and SOUTH keep their own height (WEST/EAST/CENTER are stretched vertically and
+	 * impose no height lower bound) + the vertical gaps + the top/bottom insets.
+	 */
+	@Override
+	public double getMinimumHeightForWidth(double width) {
+		EnumMap<BorderRegion, ShapeNode<?>> r = byRegion();
+		ShapeNode<?> north = r.get(BorderRegion.NORTH);
+		ShapeNode<?> south = r.get(BorderRegion.SOUTH);
+		double h = (north != null ? childMinHeight(north) : 0) + (south != null ? childMinHeight(south) : 0);
+		int gaps = (north != null ? 1 : 0) + (south != null ? 1 : 0);
+		return h + getVgap() * gaps + getInsetTop() + getInsetBottom();
+	}
+
 	@Override
 	protected void performLayout(ShapeNode<?> node) {
 		DianaRectangle rect = geometryMap.get(node);

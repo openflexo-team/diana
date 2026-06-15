@@ -217,6 +217,78 @@ public abstract class WrapFlowLayoutManagerImpl<O> extends DianaLayoutManagerImp
 		}
 	}
 
+	/** Layouted children that the manager actually places (self-constrained nodes excluded). */
+	private List<ShapeNode<?>> placeableNodes() {
+		List<ShapeNode<?>> nodes = new ArrayList<>();
+		for (ShapeNode<?> node : getLayoutedNodes()) {
+			if (!isSelfConstrained(node)) {
+				nodes.add(node);
+			}
+		}
+		return nodes;
+	}
+
+	/**
+	 * Minimum container width: a line can never be narrower than the widest single item (a HORIZONTAL flow wraps on width). Plus the left and
+	 * right insets. Returns 0 for VERTICAL orientation (the driver axis is then the height — not covered by this proof-of-concept).
+	 */
+	@Override
+	public double getMinimumWidth() {
+		if (getOrientation() != Orientation.HORIZONTAL) {
+			return 0;
+		}
+		double widest = 0;
+		for (ShapeNode<?> n : placeableNodes()) {
+			widest = Math.max(widest, childMinWidth(n));
+		}
+		if (widest == 0) {
+			return 0;
+		}
+		return widest + getInsetLeft() + getInsetRight();
+	}
+
+	/**
+	 * Intrinsic height-for-width: lays the items out (without moving them) at the given total width and returns the total height the wrapped
+	 * lines need — so the container auto-grows taller as it is narrowed. HORIZONTAL only (returns 0 for VERTICAL in this proof-of-concept).
+	 */
+	@Override
+	public double getMinimumHeightForWidth(double width) {
+		if (getOrientation() != Orientation.HORIZONTAL) {
+			return 0;
+		}
+		List<ShapeNode<?>> nodes = placeableNodes();
+		if (nodes.isEmpty()) {
+			return 0;
+		}
+		double innerW = width - getInsetLeft() - getInsetRight();
+		double hgap = getHgap();
+		double vgap = getVgap();
+		double totalLinesHeight = 0; // Σ line heights
+		int lineCount = 0;
+		double lineW = 0;
+		double lineH = 0;
+		boolean lineEmpty = true;
+		for (ShapeNode<?> n : nodes) {
+			double w = childMinWidth(n);
+			double prospective = lineEmpty ? w : lineW + hgap + w;
+			if (!lineEmpty && prospective > innerW) {
+				totalLinesHeight += lineH;
+				lineCount++;
+				lineW = 0;
+				lineH = 0;
+				lineEmpty = true;
+			}
+			lineW = lineEmpty ? w : lineW + hgap + w;
+			lineH = Math.max(lineH, childMinHeight(n));
+			lineEmpty = false;
+		}
+		if (!lineEmpty) {
+			totalLinesHeight += lineH;
+			lineCount++;
+		}
+		return totalLinesHeight + vgap * Math.max(0, lineCount - 1) + getInsetTop() + getInsetBottom();
+	}
+
 	@Override
 	protected void performLayout(ShapeNode<?> node) {
 		DianaPoint p = locationMap.get(node);

@@ -291,6 +291,69 @@ public abstract class BoxLayoutManagerImpl<O> extends DianaLayoutManagerImpl<Box
 		}
 	}
 
+	private List<ShapeNode<?>> placeableNodes() {
+		List<ShapeNode<?>> nodes = new ArrayList<>();
+		for (ShapeNode<?> node : getLayoutedNodes()) {
+			if (!isSelfConstrained(node)) {
+				nodes.add(node);
+			}
+		}
+		return nodes;
+	}
+
+	/**
+	 * Minimum container width. On the <b>main</b> axis (HORIZONTAL): sum of the fixed children's widths (weighted children can shrink, so they
+	 * contribute 0) + gaps + insets. On the <b>cross</b> axis (VERTICAL): the widest child (or 0 under STRETCH, since children are stretched to
+	 * the container and impose no lower bound) + insets. Children that are themselves managed containers contribute their own minimum
+	 * (bottom-up, via {@link #childMinWidth(ShapeNode)}).
+	 */
+	@Override
+	public double getMinimumWidth() {
+		List<ShapeNode<?>> nodes = placeableNodes();
+		double insets = getInsetLeft() + getInsetRight();
+		if (getOrientation() == Orientation.HORIZONTAL) {
+			double sum = 0;
+			for (ShapeNode<?> n : nodes) {
+				sum += (weight(n) == 0) ? childMinWidth(n) : 0;
+			}
+			return sum + getGap() * Math.max(0, nodes.size() - 1) + insets;
+		}
+		if (getCrossAxisPolicy() == CrossAxisPolicy.STRETCH) {
+			return insets;
+		}
+		double widest = 0;
+		for (ShapeNode<?> n : nodes) {
+			widest = Math.max(widest, childMinWidth(n));
+		}
+		return widest + insets;
+	}
+
+	/**
+	 * Minimum container height (independent of the width — Box is not a height-for-width manager). Symmetric of {@link #getMinimumWidth()}:
+	 * sum of fixed children's heights + gaps + insets on the main axis (VERTICAL), or the tallest child (0 under STRETCH) + insets on the cross
+	 * axis (HORIZONTAL).
+	 */
+	@Override
+	public double getMinimumHeightForWidth(double width) {
+		List<ShapeNode<?>> nodes = placeableNodes();
+		double insets = getInsetTop() + getInsetBottom();
+		if (getOrientation() == Orientation.VERTICAL) {
+			double sum = 0;
+			for (ShapeNode<?> n : nodes) {
+				sum += (weight(n) == 0) ? childMinHeight(n) : 0;
+			}
+			return sum + getGap() * Math.max(0, nodes.size() - 1) + insets;
+		}
+		if (getCrossAxisPolicy() == CrossAxisPolicy.STRETCH) {
+			return insets;
+		}
+		double tallest = 0;
+		for (ShapeNode<?> n : nodes) {
+			tallest = Math.max(tallest, childMinHeight(n));
+		}
+		return tallest + insets;
+	}
+
 	@Override
 	protected void performLayout(ShapeNode<?> node) {
 		DianaRectangle rect = geometryMap.get(node);
