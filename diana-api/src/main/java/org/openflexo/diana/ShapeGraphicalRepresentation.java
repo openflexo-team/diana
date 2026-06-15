@@ -46,6 +46,7 @@ import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.geom.DianaDimension;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.layout.BorderRegion;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.pamela.annotations.CloningStrategy;
@@ -135,6 +136,8 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	public static final String LAYOUT_MANAGER_IDENTIFIER_KEY = "layoutManagerIdentifier";
 	@PropertyIdentifier(type = Double.class)
 	public static final String LAYOUT_WEIGHT_KEY = "layoutWeight";
+	@PropertyIdentifier(type = BorderRegion.class)
+	public static final String LAYOUT_BORDER_REGION_KEY = "layoutBorderRegion";
 
 	// *******************************************************************************
 	// * Inner concepts
@@ -303,6 +306,8 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 			LAYOUT_MANAGER_IDENTIFIER_KEY, String.class);
 	public static GRProperty<Double> LAYOUT_WEIGHT = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class, LAYOUT_WEIGHT_KEY,
 			Double.class);
+	public static GRProperty<BorderRegion> LAYOUT_BORDER_REGION = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
+			LAYOUT_BORDER_REGION_KEY, BorderRegion.class);
 
 	// *******************************************************************************
 	// * Model
@@ -752,5 +757,24 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	 */
 	@Setter(value = LAYOUT_WEIGHT_KEY)
 	public void setLayoutWeight(double weight);
+
+	/**
+	 * Return the {@link BorderRegion} of the represented {@link ShapeNode}, used by {@link org.openflexo.diana.layout.BorderLayoutManager} to
+	 * decide which of the five regions (NORTH/SOUTH/EAST/WEST/CENTER) the node occupies.<br>
+	 * Default is {@link BorderRegion#CENTER}.
+	 *
+	 * @return
+	 */
+	@Getter(value = LAYOUT_BORDER_REGION_KEY, defaultValue = "CENTER")
+	@XMLAttribute
+	public BorderRegion getLayoutBorderRegion();
+
+	/**
+	 * Sets the {@link BorderRegion} of the represented {@link ShapeNode} (see {@link #getLayoutBorderRegion()}).
+	 *
+	 * @param region
+	 */
+	@Setter(value = LAYOUT_BORDER_REGION_KEY)
+	public void setLayoutBorderRegion(BorderRegion region);
 
 }

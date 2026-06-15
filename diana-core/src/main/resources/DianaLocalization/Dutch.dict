@@ -118,6 +118,7 @@ layout_height=Layout height
 layout_manager=Layout manager
 layout_managers=Layout Managers
 layout_weight=Layout weight
+layout_border_region=Region
 layout_width=Layout width
 layouted_as=Layouted as
 left=Links

@@ -41,6 +41,7 @@ package org.openflexo.diana;
 import org.openflexo.connie.Bindable;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.layout.BalloonLayoutManagerSpecification;
+import org.openflexo.diana.layout.BorderLayoutManagerSpecification;
 import org.openflexo.diana.layout.BoxLayoutManagerSpecification;
 import org.openflexo.diana.layout.FlowLayoutManagerSpecification;
 import org.openflexo.diana.layout.ForceDirectedGraphLayoutManagerSpecification;
@@ -68,7 +69,8 @@ import org.openflexo.pamela.annotations.XMLAttribute;
 @ModelEntity(isAbstract = true)
 @Imports({ @Import(GridLayoutManagerSpecification.class), @Import(OutlineLayoutManagerSpecification.class),
 		@Import(FlowLayoutManagerSpecification.class), @Import(BoxLayoutManagerSpecification.class),
-		@Import(GraphBasedLayoutManagerSpecification.class), @Import(TreeBasedLayoutManagerSpecification.class) })
+		@Import(BorderLayoutManagerSpecification.class), @Import(GraphBasedLayoutManagerSpecification.class),
+		@Import(TreeBasedLayoutManagerSpecification.class) })
 public interface DianaLayoutManagerSpecification<LM extends DianaLayoutManager<?, ?>> extends DianaObject, Bindable {
 
 	/**
@@ -188,6 +190,17 @@ public interface DianaLayoutManagerSpecification<LM extends DianaLayoutManager<?
 			@Override
 			public String getDefaultLayoutManagerName() {
 				return "box";
+			}
+		},
+		BORDER {
+			@Override
+			public Class<BorderLayoutManagerSpecification> getLayoutManagerSpecificationClass() {
+				return BorderLayoutManagerSpecification.class;
+			}
+
+			@Override
+			public String getDefaultLayoutManagerName() {
+				return "border";
 			}
 		};
 

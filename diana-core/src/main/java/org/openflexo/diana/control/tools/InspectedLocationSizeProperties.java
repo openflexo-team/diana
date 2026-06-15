@@ -185,6 +185,14 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_WEIGHT, value);
 	}
 
+	public org.openflexo.diana.layout.BorderRegion getLayoutBorderRegion() {
+		return getPropertyValue(ShapeGraphicalRepresentation.LAYOUT_BORDER_REGION);
+	}
+
+	public void setLayoutBorderRegion(org.openflexo.diana.layout.BorderRegion value) {
+		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_BORDER_REGION, value);
+	}
+
 	/**
 	 * The layout manager that lays out the (single) currently selected shape, or {@code null} when the selection is not a single shape or
 	 * that shape is not laid out by any manager. Drives which per-manager child-properties panel is shown in the Location/Size "Layout

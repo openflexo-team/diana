@@ -56,6 +56,7 @@ import org.openflexo.diana.DianaLayoutManager;
 import org.openflexo.diana.swing.JDianaInteractiveEditor;
 import org.openflexo.diana.swing.SwingViewFactory;
 import org.openflexo.diana.swing.control.SwingToolFactory;
+import org.openflexo.diana.swing.control.tools.JDianaDialogInspectors;
 import org.openflexo.diana.swing.control.tools.JDianaScaleSelector;
 import org.openflexo.diana.test.TestGraph;
 import org.openflexo.diana.test.TestGraphNode;
@@ -186,7 +187,25 @@ public class AbstractLaunchLayoutManagerExample {
 		}
 
 		public DianaLayoutManager<?, ?> getLayoutManager() {
-			return drawingController.getDrawing().getRoot().getDefaultLayoutManager();
+			// Examples where the layout manager is on the drawing root return it directly; examples where it
+			// is on a nested container shape (e.g. BoxCompartment, Border) fall back to the first descendant
+			// container carrying a layout manager, so the "Inspect" dialog targets it.
+			return findLayoutManager(drawingController.getDrawing().getRoot());
+		}
+
+		private static DianaLayoutManager<?, ?> findLayoutManager(Drawing.ContainerNode<?, ?> container) {
+			if (container.getDefaultLayoutManager() != null) {
+				return container.getDefaultLayoutManager();
+			}
+			for (Drawing.DrawingTreeNode<?, ?> child : container.getChildNodes()) {
+				if (child instanceof Drawing.ContainerNode) {
+					DianaLayoutManager<?, ?> found = findLayoutManager((Drawing.ContainerNode<?, ?>) child);
+					if (found != null) {
+						return found;
+					}
+				}
+			}
+			return null;
 		}
 
 	}
@@ -211,6 +230,34 @@ public class AbstractLaunchLayoutManagerExample {
 
 		dialog.setVisible(true);
 
+	}
+
+	/**
+	 * Shows the drawing along with the two native Diana floating inspectors wired to the editor's selection: the <b>Layout Manager</b>
+	 * inspector (the selected container's layout-manager properties, e.g. the border gaps/insets when the container box is selected) and the
+	 * <b>Location/Size</b> inspector (the selected shape's geometry and its per-child layout properties, e.g. the border region of a selected
+	 * child). Use this for examples where the layout manager is carried by a selectable container shape and the children are selectable.
+	 */
+	public static void showPanelWithSelectionInspectors(final Drawing<TestGraph> d) {
+		final JDialog dialog = new JDialog((Frame) null, false);
+
+		LayoutDemoPanel panel = new LayoutDemoPanel(d);
+
+		dialog.setPreferredSize(new Dimension(550, 600));
+		dialog.getContentPane().add(panel);
+		dialog.validate();
+		dialog.pack();
+
+		// Native Diana floating inspectors, attached to the editor so they follow the selection.
+		JDianaDialogInspectors inspectors = SwingToolFactory.DEFAULT.makeDianaDialogInspectors();
+		// Instantiate both dialogs before attaching: attachToEditor only wires inspectors already created.
+		inspectors.getLayoutManagersInspector();
+		inspectors.getLocationSizeInspector();
+		inspectors.attachToEditor(panel.getDrawingController());
+
+		dialog.setVisible(true);
+		inspectors.getLayoutManagersInspector().setVisible(true);
+		inspectors.getLocationSizeInspector().setVisible(true);
 	}
 
 }

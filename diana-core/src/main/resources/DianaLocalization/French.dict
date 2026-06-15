@@ -119,6 +119,7 @@ layout_height=layout_height
 layout_manager=layout_manager
 layout_managers=Gestionnaires de mise en forme
 layout_weight=Poids de disposition
+layout_border_region=Région
 layout_width=layout_width
 layouted_as=layouted_as
 left=Gauche

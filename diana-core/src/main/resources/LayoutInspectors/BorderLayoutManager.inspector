@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Inspector
+	layout="border" titleFont="SansSerif,0,12" darkLevel="0"
+	dataClassName="org.openflexo.diana.layout.BorderLayoutManager" font="SansSerif,0,12"
+	name="Inspector">
+	<TabPanel name="Tab" index="0" constraints="border(index=0;location=center)">
+
+		<Tab title="Basic" layout="twocols" titleFont="SansSerif,0,11"
+			darkLevel="0" index="1" font="SansSerif,0,11" useScrollBar="true"
+			horizontalScrollbarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
+			verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED" name="BasicTab">
+
+			<Label label="hgap" index="0"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="HgapLabel" localize="true" />
+			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
+				numberType="DoubleType" columns="5" index="1" data="data.layoutManagerSpecification.hgap"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
+				name="Hgap" localize="true" />
+
+			<Label label="vgap" index="2"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="VgapLabel" localize="true" />
+			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
+				numberType="DoubleType" columns="5" index="3" data="data.layoutManagerSpecification.vgap"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
+				name="Vgap" localize="true" />
+
+			<Label label="inset_top" index="4"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="InsetTopLabel" localize="true" />
+			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
+				numberType="DoubleType" columns="5" index="5" data="data.layoutManagerSpecification.insetTop"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
+				name="InsetTop" localize="true" />
+
+			<Label label="inset_bottom" index="6"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="InsetBottomLabel" localize="true" />
+			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
+				numberType="DoubleType" columns="5" index="7" data="data.layoutManagerSpecification.insetBottom"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
+				name="InsetBottom" localize="true" />
+
+			<Label label="inset_left" index="8"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="InsetLeftLabel" localize="true" />
+			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
+				numberType="DoubleType" columns="5" index="9" data="data.layoutManagerSpecification.insetLeft"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
+				name="InsetLeft" localize="true" />
+
+			<Label label="inset_right" index="10"
+				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
+				name="InsetRightLabel" localize="true" />
+			<Number minValue="0.0" maxValue="1000.0" increment="1.0"
+				numberType="DoubleType" columns="5" index="11" data="data.layoutManagerSpecification.insetRight"
+				constraints="twocols(expandHorizontally=true;expandVertically=false;location=right)"
+				name="InsetRight" localize="true" />
+
+		</Tab>
+
+	</TabPanel>
+	<LocalizedDictionary>
+		<Localized key="hgap" lang="English" value="Horizontal gap" />
+		<Localized key="hgap" lang="French" value="Espacement horizontal" />
+		<Localized key="vgap" lang="English" value="Vertical gap" />
+		<Localized key="vgap" lang="French" value="Espacement vertical" />
+		<Localized key="inset_top" lang="English" value="Inset top" />
+		<Localized key="inset_top" lang="French" value="Marge haut" />
+		<Localized key="inset_bottom" lang="English" value="Inset bottom" />
+		<Localized key="inset_bottom" lang="French" value="Marge bas" />
+		<Localized key="inset_left" lang="English" value="Inset left" />
+		<Localized key="inset_left" lang="French" value="Marge gauche" />
+		<Localized key="inset_right" lang="English" value="Inset right" />
+		<Localized key="inset_right" lang="French" value="Marge droite" />
+	</LocalizedDictionary>
+	<Parameter name="title" value="BorderLayoutManager" />
+</Inspector>
