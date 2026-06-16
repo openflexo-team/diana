@@ -77,10 +77,12 @@ import org.openflexo.diana.Drawing.PersistenceMode;
 import org.openflexo.diana.GRBinding;
 import org.openflexo.diana.GRBinding.DynamicPropertyValue;
 import org.openflexo.diana.GRProperty;
+import org.openflexo.diana.ContainerGraphicalRepresentation;
 import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.diana.GraphicalRepresentation.LabelMetricsProvider;
 import org.openflexo.diana.GraphicalRepresentation.VerticalTextAlignment;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.diana.TextStyle;
 import org.openflexo.diana.cp.ControlArea;
@@ -582,8 +584,58 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			case ProxyMethodHandler.DESERIALIZING:
 				return false;
 			default:
+				// A change to a drawable property that only feeds a SETTABLE GEOMETRY GR binding
+				// (x / y / width / height) never alters the drawing STRUCTURE: it is the position/size
+				// being written back to the model by Diana itself during a move or resize. Treating it
+				// as structural triggers a full updateGraphicalObjectsHierarchy() + layout-manager
+				// relayout on EVERY drag increment — a severe cost for nodes with layout-managed
+				// children (e.g. a UML box with compartments). The geometry is already propagated
+				// through the GR's own X/Y/WIDTH/HEIGHT notifications, so skipping the structural
+				// re-evaluation here loses nothing. See diana §32 (move-performance investigation).
+				if (getGeometryBoundDrawableProperties().contains(propertyName)) {
+					return false;
+				}
 				return true;
 		}
+	}
+
+	/**
+	 * Drawable property names that only feed a settable geometry ({@code x}/{@code y}/{@code width}/
+	 * {@code height}) dynamic GR binding of this node. Such a property changing means the model
+	 * geometry was written back during a move/resize, which never changes the drawing structure.
+	 * Computed once (dynamic property values are fixed after binding setup) and cached.
+	 */
+	private Set<String> geometryBoundDrawableProperties;
+
+	private Set<String> getGeometryBoundDrawableProperties() {
+		if (geometryBoundDrawableProperties == null) {
+			Set<String> result = new HashSet<>();
+			if (getGRBinding() != null) {
+				for (DynamicPropertyValue<?> dpv : getGRBinding().getDynamicPropertyValues()) {
+					if (dpv == null || !dpv.isSettable() || !isGeometryGRProperty(dpv.parameter) || dpv.dataBinding == null) {
+						continue;
+					}
+					// The bound drawable property is the last path element of the binding
+					// expression, e.g. "drawable.x" -> "x". If it cannot be parsed, the property is
+					// simply not registered (conservative: the event keeps its default treatment).
+					String expr = dpv.dataBinding.toString();
+					if (expr != null) {
+						int dot = expr.lastIndexOf('.');
+						String prop = (dot >= 0 ? expr.substring(dot + 1) : expr).trim();
+						if (!prop.isEmpty()) {
+							result.add(prop);
+						}
+					}
+				}
+			}
+			geometryBoundDrawableProperties = result;
+		}
+		return geometryBoundDrawableProperties;
+	}
+
+	private static boolean isGeometryGRProperty(GRProperty<?> p) {
+		return p == ShapeGraphicalRepresentation.X || p == ShapeGraphicalRepresentation.Y
+				|| p == ContainerGraphicalRepresentation.WIDTH || p == ContainerGraphicalRepresentation.HEIGHT;
 	}
 
 	@Override
@@ -1177,8 +1229,23 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 *            value to be set
 	 * @return
 	 */
+	/**
+	 * Hook called at the start of every {@link #setPropertyValue(GRProperty, Object)}, before the
+	 * value is written. Default no-op; subclasses override to invalidate caches derived from GR
+	 * properties (see {@link ShapeNodeImpl#onPropertyValueSet}).
+	 */
+	protected void onPropertyValueSet(GRProperty<?> parameter) {
+		// no-op by default
+	}
+
 	@Override
 	public <T> void setPropertyValue(GRProperty<T> parameter, T value) {
+
+		// Hook for subclasses to react to any property mutation (e.g. invalidate a derived cache).
+		// Called for EVERY set, on whichever path (notified or "no-notification"): in Unique mode this
+		// method deliberately suppresses the GR's own notification and re-fires on the node's PCS, so a
+		// subclass observing only GR events would miss geometry writes done during a drag.
+		onPropertyValueSet(parameter);
 
 		T oldValue = null;
 
