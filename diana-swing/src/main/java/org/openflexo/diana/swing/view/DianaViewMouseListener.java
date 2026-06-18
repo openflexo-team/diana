@@ -82,6 +82,20 @@ public class DianaViewMouseListener implements MouseListener, MouseMotionListene
 	protected JDianaView<?, ?> view;
 	private MouseEvent previousEvent;
 
+	/**
+	 * True once the current click gesture's popup-trigger (right-click / Control-click) has
+	 * been handled on mousePressed (macOS) or mouseReleased (Windows/Linux). Prevents the
+	 * subsequent {@link #mouseClicked(MouseEvent)} from re-firing the same click controls.
+	 * <p>
+	 * Rationale: right-click contextual menus used to be triggered only from
+	 * {@code mouseClicked}, but AWT does not deliver {@code mouseClicked} when the pointer
+	 * moves even slightly between press and release — which happens constantly with a
+	 * physical mouse (hand jitter) but never with a trackpad secondary-click. Handling the
+	 * popup trigger on press/release (where {@code isPopupTrigger()} is set, regardless of
+	 * movement) makes right-click reliable on a mouse too.
+	 */
+	private boolean popupTriggerHandled;
+
 	public <O> DianaViewMouseListener(DrawingTreeNode<O, ?> node, JDianaView<O, ?> aView) {
 		this.node = node;
 		view = aView;
@@ -120,10 +134,63 @@ public class DianaViewMouseListener implements MouseListener, MouseMotionListene
 		return (DrawTextToolController<MouseEvent>) ((DianaInteractiveEditor<?, ?, ?>) getController()).getDrawTextToolController();
 	}
 
+	/**
+	 * Evaluates the focused object's {@link MouseClickControl}s for a popup-trigger event
+	 * (physical right-click) coming from {@code mousePressed} / {@code mouseReleased}. Only
+	 * controls bound to the right button (matching click count) apply, so left-click controls
+	 * are untouched. Returns {@code true} if at least one control handled the event.
+	 *
+	 * <p>This intentionally mirrors the tail of {@link #mouseClicked(MouseEvent)} so the
+	 * contextual menu can open even when AWT suppresses {@code mouseClicked} because the
+	 * pointer jittered between press and release (typical with a physical mouse; never with a
+	 * trackpad secondary-click).</p>
+	 */
+	@SuppressWarnings("unchecked")
+	private boolean handlePopupMouseClickControls(MouseEvent e) {
+		if (view.isDeleted() || getFocusRetriever() == null) {
+			return false;
+		}
+		if (!(getController() instanceof DianaInteractiveViewer)) {
+			return false;
+		}
+		// Only in selection mode — never interfere with the drawing tools.
+		if (getController() instanceof DianaInteractiveEditor
+				&& ((DianaInteractiveEditor<?, ?, ?>) getController()).getCurrentTool() != EditorTool.SelectionTool) {
+			return false;
+		}
+		DianaInteractiveViewer<?, ?, ?> controller = (DianaInteractiveViewer<?, ?, ?>) getController();
+		DrawingTreeNode<?, ?> focusedObject = getFocusRetriever().getFocusedObject(e);
+		if (focusedObject == null) {
+			focusedObject = node.getDrawing().getRoot();
+		}
+		if (focusedObject == null) {
+			return false;
+		}
+		MouseControlContext mcc = new JMouseControlContext(e);
+		boolean handled = false;
+		for (MouseClickControl<?> mouseClickControl : new ArrayList<>(
+				focusedObject.getGraphicalRepresentation().getMouseClickControls())) {
+			if (((MouseClickControl<DianaInteractiveViewer<?, ?, ?>>) mouseClickControl).isApplicable(focusedObject, controller,
+					mcc)) {
+				((MouseClickControl<DianaInteractiveViewer<?, ?, ?>>) mouseClickControl).handleClick(focusedObject, controller, mcc);
+				handled = true;
+			}
+		}
+		return handled;
+	}
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 
 		if (view.isDeleted()) {
+			return;
+		}
+
+		// The popup trigger (right-click) was already handled on press/release — where it
+		// fires regardless of pointer jitter. Skip so the menu is not opened twice.
+		if (popupTriggerHandled) {
+			popupTriggerHandled = false;
+			e.consume();
 			return;
 		}
 
@@ -473,6 +540,16 @@ public class DianaViewMouseListener implements MouseListener, MouseMotionListene
 			return;
 		}
 
+		// Right-click / popup trigger: on macOS isPopupTrigger() is set on PRESS. Handle the
+		// contextual-menu click controls here so they fire even if the pointer jitters before
+		// release (which would otherwise suppress mouseClicked). See popupTriggerHandled.
+		popupTriggerHandled = false;
+		if (e.isPopupTrigger() && handlePopupMouseClickControls(e)) {
+			popupTriggerHandled = true;
+			e.consume();
+			return;
+		}
+
 		// If a specific tool is active, delegate event to him, and return is the event was consumed by delegate tool controller
 		if (getController() instanceof DianaInteractiveEditor) {
 			switch (((DianaInteractiveEditor<?, ?, ?>) getController()).getCurrentTool()) {
@@ -599,6 +676,14 @@ public class DianaViewMouseListener implements MouseListener, MouseMotionListene
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (view.isDeleted()) {
+			return;
+		}
+
+		// Right-click / popup trigger: on Windows/Linux isPopupTrigger() is set on RELEASE
+		// (on macOS it was already handled on press → popupTriggerHandled guards against that).
+		if (!popupTriggerHandled && e.isPopupTrigger() && handlePopupMouseClickControls(e)) {
+			popupTriggerHandled = true;
+			e.consume();
 			return;
 		}
 
