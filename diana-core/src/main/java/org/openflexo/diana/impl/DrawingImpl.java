@@ -424,11 +424,37 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 	 * graphical object hierarchy structure has changed)
 	 * 
 	 */
+	private int diagUpdateDepth = 0;
+
 	@Override
 	public final void updateGraphicalObjectsHierarchy() {
 
 		if (logger.isLoggable(Level.FINE)) {
 			System.out.println("UPDATE HIERARCHY for ROOT " + this);
+		}
+
+		if (Boolean.getBoolean("diana.isvaliddiag")) {
+			diagUpdateDepth++;
+			if (diagUpdateDepth > 1) {
+				StringBuilder sb = new StringBuilder();
+				sb.append("\n######### RE-ENTRANT updateGraphicalObjectsHierarchy (depth=")
+						.append(diagUpdateDepth).append(") #########\n");
+				StackTraceElement[] st = Thread.currentThread().getStackTrace();
+				for (int i = 2; i < Math.min(st.length, 30); i++) {
+					sb.append("  at ").append(st[i]).append("\n");
+				}
+				sb.append("#######################################################");
+				System.out.println(sb);
+			}
+			try {
+				fireGraphicalObjectHierarchyRebuildStarted();
+				updateGraphicalObjectsHierarchy(getRoot());
+				fireGraphicalObjectHierarchyRebuildEnded();
+			}
+			finally {
+				diagUpdateDepth--;
+			}
+			return;
 		}
 
 		fireGraphicalObjectHierarchyRebuildStarted();

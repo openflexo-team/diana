@@ -270,26 +270,75 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 * 
 	 * @return
 	 */
+	/** Diagnostic flag for the isValid() mismatch warning. Enable with -Ddiana.isvaliddiag=true */
+	private static final boolean DIAG_ISVALID = Boolean.getBoolean("diana.isvaliddiag");
+	/** Print each orphan node once to avoid flooding the console on hover repaints. */
+	private static final java.util.Set<Object> DIAG_SEEN =
+			java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<>());
+
+	private static String parentDiag(DrawingTreeNode<?, ?> n) {
+		DrawingTreeNode<?, ?> p = n.getParentNode();
+		return p == null ? "null" : (Integer.toHexString(System.identityHashCode(p)) + ":" + p.getClass().getSimpleName());
+	}
+
+	private static boolean isInParentChildren(DrawingTreeNode<?, ?> n) {
+		DrawingTreeNode<?, ?> p = n.getParentNode();
+		if (!(p instanceof ContainerNode)) {
+			return false;
+		}
+		for (DrawingTreeNode<?, ?> c : ((ContainerNode<?, ?>) p).getChildNodes()) {
+			if (c == n) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public boolean isValid() {
 		if (getDrawable() == null) {
 			return false;
 		}
 		if (getDrawing().getDrawingTreeNode(getDrawable(), getGRBinding()) != this) {
-			logger.warning(
-					"Please investigate here: something strange at this point, see isValid() in DrawingTreeNode. More informations in the console");
-			System.out.println("drawable=" + getDrawable());
-			System.out.println("grBinding=" + getGRBinding());
-			DrawingTreeNode<?, ?> dtn = getDrawing().getDrawingTreeNode(getDrawable(), getGRBinding());
-			if (dtn != null) {
-				System.out.println("dtn.drawable=" + dtn.getDrawable());
-				System.out.println("dtn.grBinding=" + dtn.getGRBinding());
+			if (DIAG_ISVALID && DIAG_SEEN.add(this)) {
+				DrawingTreeNode<?, ?> dtn = getDrawing().getDrawingTreeNode(getDrawable(), getGRBinding());
+				StringBuilder sb = new StringBuilder();
+				sb.append("\n========= isValid() MISMATCH =========\n");
+				sb.append("drawable        = ").append(getDrawable())
+						.append("  [identity=").append(Integer.toHexString(System.identityHashCode(getDrawable())))
+						.append(", hashCode=").append(Integer.toHexString(getDrawable().hashCode())).append("]\n");
+				sb.append("grBinding       = ").append(getGRBinding()).append("\n");
+				sb.append("this(node)      = ").append(Integer.toHexString(System.identityHashCode(this)))
+						.append("  parent=").append(parentDiag(this))
+						.append("  inParentChildren=").append(isInParentChildren(this))
+						.append("  invalidated=").append(isInvalidated).append("\n");
+				if (dtn != null) {
+					sb.append("hashtable node  = ").append(Integer.toHexString(System.identityHashCode(dtn)))
+							.append("  parent=").append(parentDiag(dtn))
+							.append("  inParentChildren=").append(isInParentChildren(dtn))
+							.append("  sameDrawable==").append(dtn.getDrawable() == getDrawable()).append("\n");
+				}
+				else {
+					sb.append("hashtable node  = null (lookup returned nothing)\n");
+				}
+				if (this instanceof org.openflexo.diana.Drawing.ConnectorNode) {
+					org.openflexo.diana.Drawing.ConnectorNode<?> cn = (org.openflexo.diana.Drawing.ConnectorNode<?>) this;
+					sb.append("this.start/end  = ").append(Integer.toHexString(System.identityHashCode(cn.getStartNode())))
+							.append(" / ").append(Integer.toHexString(System.identityHashCode(cn.getEndNode()))).append("\n");
+				}
+				if (dtn instanceof org.openflexo.diana.Drawing.ConnectorNode) {
+					org.openflexo.diana.Drawing.ConnectorNode<?> cn = (org.openflexo.diana.Drawing.ConnectorNode<?>) dtn;
+					sb.append("htnode.start/end= ").append(Integer.toHexString(System.identityHashCode(cn.getStartNode())))
+							.append(" / ").append(Integer.toHexString(System.identityHashCode(cn.getEndNode()))).append("\n");
+				}
+				sb.append("--- caller stack (top 12) ---\n");
+				StackTraceElement[] st = Thread.currentThread().getStackTrace();
+				for (int i = 2; i < Math.min(st.length, 14); i++) {
+					sb.append("  at ").append(st[i]).append("\n");
+				}
+				sb.append("=====================================");
+				System.out.println(sb);
 			}
-			else {
-				System.out.println("dtn=null");
-			}
-			// Thread.dumpStack();
-			// return false;
 		}
 
 		DrawingTreeNode<?, ?> current = this;
