@@ -40,6 +40,7 @@
 package org.openflexo.diana.control.actions;
 
 import java.awt.Cursor;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -67,15 +68,26 @@ public class MoveAction extends MouseDragControlActionImpl<DianaInteractiveViewe
 	private MoveInfo currentMove = null;
 	private DNDInfo currentDND = null;
 
-	private static final Image DROP_OK_IMAGE = FIBIconLibrary.DROP_OK_CURSOR.getImage();
-	private static final Image DROP_KO_IMAGE = FIBIconLibrary.DROP_KO_CURSOR.getImage();
+	// Drag-and-drop cursors need a display. They used to be built in the static initializer, which
+	// raised HeadlessException in a headless JVM (the CI "test" task) and turned every later use of
+	// this class into NoClassDefFoundError - making any FML resource carrying a diagram model slot
+	// impossible to even LOAD headless. They stay null when headless, where no drag can happen.
+	// (Same lazy-and-guarded spirit as RectPolylinAdjustableControlPoint.getMoveCursor().)
+	public static Cursor dropOK;
+	public static Cursor dropKO;
 
-	public static Cursor dropOK = ToolBox.isMacOS()
-			? Toolkit.getDefaultToolkit().createCustomCursor(DROP_OK_IMAGE, new Point(16, 16), "Drop OK")
-			: DragSource.DefaultMoveDrop;
-	public static Cursor dropKO = ToolBox.isMacOS()
-			? Toolkit.getDefaultToolkit().createCustomCursor(DROP_KO_IMAGE, new Point(16, 16), "Drop KO")
-			: DragSource.DefaultMoveNoDrop;
+	static {
+		if (!GraphicsEnvironment.isHeadless()) {
+			Image dropOKImage = FIBIconLibrary.DROP_OK_CURSOR.getImage();
+			Image dropKOImage = FIBIconLibrary.DROP_KO_CURSOR.getImage();
+			dropOK = ToolBox.isMacOS()
+					? Toolkit.getDefaultToolkit().createCustomCursor(dropOKImage, new Point(16, 16), "Drop OK")
+					: DragSource.DefaultMoveDrop;
+			dropKO = ToolBox.isMacOS()
+					? Toolkit.getDefaultToolkit().createCustomCursor(dropKOImage, new Point(16, 16), "Drop KO")
+					: DragSource.DefaultMoveNoDrop;
+		}
+	}
 
 	public Point initialClickOffset;
 
