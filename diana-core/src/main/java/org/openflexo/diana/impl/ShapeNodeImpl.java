@@ -393,8 +393,41 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		return bounds;
 	}
 
+	// *** View-bounds cache (move/resize performance, see diana §32) ***
+	// getViewBounds(scale) walks getViewX/Y/Width/Height + getBorderLeft/Top, each going through the
+	// PAMELA proxy (ProxyMethodHandler) for every GR getter — dozens of slow proxy calls per call.
+	// During a move, every attached connector recomputes its bounds MANY times per frame via this
+	// method (twice per self-connector, since start == end), with no change in between: the dominant
+	// cost for richly-connected entities. The result depends ONLY on this node's GR geometry/border
+	// properties, so it is memoized here and invalidated on ANY change of this node's GR (see
+	// invalidateViewBoundsCache(), called from propertyChange). Disable with -Ddiana.disableBoundsCache=true.
+	private static final boolean BOUNDS_CACHE = !Boolean.getBoolean("diana.disableBoundsCache");
+	private Rectangle cachedViewBounds;
+	private double cachedViewBoundsScale = Double.NaN;
+
+	void invalidateViewBoundsCache() {
+		cachedViewBounds = null;
+	}
+
+	/**
+	 * Invalidate the view-bounds cache on ANY property write. This is the reliable invalidation
+	 * point: in Unique mode {@link #setPropertyValue} suppresses the GR's own notification and the
+	 * geometry-setting drag path uses {@code setXNoNotification}/{@code setYNoNotification}, so a
+	 * GR-event-based invalidation would miss the position writes done while dragging (leaving stale
+	 * bounds that break selection/focus hit-testing). Nulling a field is cheap; within a single
+	 * frame no write occurs between a connector's repeated bounds reads, so the cache still pays off.
+	 */
+	@Override
+	protected void onPropertyValueSet(GRProperty<?> parameter) {
+		invalidateViewBoundsCache();
+	}
+
 	@Override
 	public Rectangle getViewBounds(double scale) {
+		if (BOUNDS_CACHE && cachedViewBounds != null && cachedViewBoundsScale == scale) {
+			return new Rectangle(cachedViewBounds); // defensive copy: callers may mutate
+		}
+
 		Rectangle bounds = new Rectangle();
 
 		bounds.x = getViewX(scale) - (int) (getBorderLeft() * scale);
@@ -402,6 +435,10 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		bounds.width = getViewWidth(scale);
 		bounds.height = getViewHeight(scale);
 
+		if (BOUNDS_CACHE) {
+			cachedViewBounds = new Rectangle(bounds);
+			cachedViewBoundsScale = scale;
+		}
 		return bounds;
 	}
 
@@ -693,6 +730,29 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 	 */
 	@Override
 	public <T> void fireDynamicPropertyChanged(GRProperty<T> parameter, T oldValue, T newValue) {
+		if ((parameter == ShapeGraphicalRepresentation.X || parameter == ShapeGraphicalRepresentation.Y)
+				&& newValue instanceof Double) {
+			// A settable X/Y dynamic binding round-trips GR -> model -> GR: setting the GR location
+			// writes the value into the model, whose change notification re-fires this method with
+			// newValue equal to the GR's *current* location. That echo is not a real move and must be
+			// suppressed ENTIRELY (before super), for two reasons:
+			//  - super.fireDynamicPropertyChanged() would re-fire a redundant X/Y PropertyChange to
+			//    the views; when the shape is not a temporary object (e.g. the echo arriving just
+			//    after the drag's mouseReleased) JShapeView's X/Y handler then invalidates and fully
+			//    rebuilds the whole paint buffer (re-rendering every shape of the drawing) - a severe
+			//    slowdown on large diagrams;
+			//  - the no-arg notifyObjectMoved() below would emit a spurious ObjectWillMove/
+			//    ObjectHasMoved cycle (same full-rebuild cost).
+			// During a genuine drag the real move is already propagated from the GR's own X/Y
+			// PropertyChange (see propertyChange()), so suppressing this echo loses nothing. A genuine
+			// external/programmatic model change carries a value that differs from the current
+			// location and is therefore NOT suppressed.
+			double current = (parameter == ShapeGraphicalRepresentation.X) ? getX() : getY();
+			if (((Double) newValue).doubleValue() == current) {
+				// Echo of an unchanged value: not a move.
+				return;
+			}
+		}
 		super.fireDynamicPropertyChanged(parameter, oldValue, newValue);
 		if (parameter == ShapeGraphicalRepresentation.X || parameter == ShapeGraphicalRepresentation.Y) {
 			notifyObjectMoved();
@@ -712,6 +772,8 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		// logger.info("Received for " + getDrawable() + " in ShapeNodeImpl: " + evt.getPropertyName() + " evt=" + evt);
 
 		if (evt.getSource() == getGraphicalRepresentation()) {
+			// Any change to my GR (position, size, borders, styles) may change my view bounds.
+			invalidateViewBoundsCache();
 			// Those notifications are forwarded by my graphical representation
 
 			if (evt.getPropertyName() == GraphicalRepresentation.TEXT.getName()) {

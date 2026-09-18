@@ -53,6 +53,8 @@ import org.openflexo.diana.DianaLayoutManagerSpecification.DraggingMode;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
 import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
+import org.openflexo.diana.layout.LayoutConstraints;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.graphics.DianaGraphics;
@@ -70,6 +72,12 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 
 	// Nodes beeing layouted
 	private final List<ShapeNode<?>> layoutedNodes;
+
+	// Child GRs and their LayoutConstraints objects this manager has subscribed to, to react to per-child layout
+	// changes (e.g. editing a weight / region / grid cell in an inspector). Kept in sync with layoutedNodes in
+	// retrieveNodesToLayout().
+	private final List<ShapeNode<?>> observedChildren = new ArrayList<>();
+	private final List<LayoutConstraints> observedConstraints = new ArrayList<>();
 
 	public DianaLayoutManagerImpl() {
 		layoutedNodes = new ArrayList<ShapeNode<?>>() {
@@ -252,8 +260,73 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 			}
 		}
 
+		// Detach listeners before (re)assigning default constraints so the assignment does not re-enter propertyChange,
+		// then re-attach to the current children and their constraints objects.
+		detachChildListeners();
+		assignDefaultConstraints();
+		attachChildListeners();
+
 		getPropertyChangeSupport().firePropertyChange("layoutedNodes", null, layoutedNodes);
 
+	}
+
+	/**
+	 * Ensures every layouted child carries a {@link LayoutConstraints} of the type this manager understands (from
+	 * {@link #makeDefaultConstraints()}): a child with no constraints, or constraints of the wrong manager's type (e.g. left over from a
+	 * previous manager), is given a fresh default. No-op for managers without per-child data ({@code makeDefaultConstraints() == null}).
+	 */
+	private void assignDefaultConstraints() {
+		LayoutConstraints sample = makeDefaultConstraints();
+		if (sample == null) {
+			return;
+		}
+		for (ShapeNode<?> n : layoutedNodes) {
+			ShapeGraphicalRepresentation gr = n.getGraphicalRepresentation();
+			if (gr == null) {
+				continue;
+			}
+			LayoutConstraints current = gr.getLayoutConstraints();
+			if (current == null || !sample.getClass().isInstance(current)) {
+				gr.setLayoutConstraints(makeDefaultConstraints());
+			}
+		}
+	}
+
+	/**
+	 * Subscribes this manager to each layouted child's {@link ShapeGraphicalRepresentation} (for {@code layoutConstraints} replacement and
+	 * {@code layoutManagerIdentifier} changes) and to its {@link LayoutConstraints} object (for per-field edits), so editing a child's layout
+	 * property through an inspector re-triggers the layout.
+	 */
+	private void attachChildListeners() {
+		for (ShapeNode<?> n : layoutedNodes) {
+			ShapeGraphicalRepresentation gr = n.getGraphicalRepresentation();
+			if (gr != null && gr.getPropertyChangeSupport() != null) {
+				gr.getPropertyChangeSupport().addPropertyChangeListener(this);
+				observedChildren.add(n);
+				LayoutConstraints c = gr.getLayoutConstraints();
+				if (c != null && c.getPropertyChangeSupport() != null) {
+					c.getPropertyChangeSupport().addPropertyChangeListener(this);
+					observedConstraints.add(c);
+				}
+			}
+		}
+	}
+
+	/** Unsubscribes from every previously observed child GR and constraints object. */
+	private void detachChildListeners() {
+		for (ShapeNode<?> n : observedChildren) {
+			ShapeGraphicalRepresentation gr = n.getGraphicalRepresentation();
+			if (gr != null && gr.getPropertyChangeSupport() != null) {
+				gr.getPropertyChangeSupport().removePropertyChangeListener(this);
+			}
+		}
+		observedChildren.clear();
+		for (LayoutConstraints c : observedConstraints) {
+			if (c.getPropertyChangeSupport() != null) {
+				c.getPropertyChangeSupport().removePropertyChangeListener(this);
+			}
+		}
+		observedConstraints.clear();
 	}
 
 	@Override
@@ -344,7 +417,43 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		// System.out.println("Received " + evt.getPropertyName() + " with " + evt);
-		if (evt.getPropertyName().equals(DianaLayoutManagerSpecification.DELETED)) {
+		String propertyName = evt.getPropertyName();
+		// A per-child layout change re-triggers the layout: either a field of a child's LayoutConstraints object was
+		// edited (e.g. a weight / region / grid cell in an inspector), or the child replaced its constraints / changed
+		// the manager it opts into. Guarded against re-entrancy (a layout pass writes x/y/width/height on the GR, which
+		// is neither a LayoutConstraints source nor the two GR keys below, so it cannot loop here).
+		if (evt.getSource() instanceof LayoutConstraints) {
+			if (!layoutInProgress) {
+				invalidate();
+				doLayout(true);
+			}
+			return;
+		}
+		if (evt.getSource() instanceof ShapeGraphicalRepresentation
+				&& (ShapeGraphicalRepresentation.LAYOUT_CONSTRAINTS_KEY.equals(propertyName)
+						|| ShapeGraphicalRepresentation.LAYOUT_MANAGER_IDENTIFIER_KEY.equals(propertyName))) {
+			if (!layoutInProgress) {
+				invalidate();
+				doLayout(true);
+			}
+			return;
+		}
+		// A layouted child's own geometry changed from outside a layout pass (e.g. its size/position edited in the
+		// Location/Size inspector): re-run the layout so the change is taken into account (a width change re-wraps a
+		// flow, re-distributes a box/gridbag, …). The manager subscribes only to its layouted children's GRs, so any
+		// such event is from a managed child. Guarded by layoutInProgress: the manager's own setLocation/setSize during
+		// a layout pass fire these same keys but must not re-enter.
+		if (evt.getSource() instanceof ShapeGraphicalRepresentation
+				&& (ShapeGraphicalRepresentation.X_KEY.equals(propertyName) || ShapeGraphicalRepresentation.Y_KEY.equals(propertyName)
+						|| ShapeGraphicalRepresentation.WIDTH_KEY.equals(propertyName)
+						|| ShapeGraphicalRepresentation.HEIGHT_KEY.equals(propertyName))) {
+			if (!layoutInProgress) {
+				invalidate();
+				doLayout(true);
+			}
+			return;
+		}
+		if (propertyName.equals(DianaLayoutManagerSpecification.DELETED)) {
 			delete();
 		}
 		else if (evt.getPropertyName().equals(DianaLayoutManagerSpecification.DRAGGING_MODE_KEY)) {
@@ -371,8 +480,72 @@ public abstract class DianaLayoutManagerImpl<LMS extends DianaLayoutManagerSpeci
 		return null;
 	}
 
+	/**
+	 * Default implementation returns {@code null}: this layout manager exposes no per-child layout property panel. Subclasses that have
+	 * editable per-child properties (e.g. a weight) override this to return their child-inspector FIB.
+	 */
+	@Override
+	public org.openflexo.rm.Resource getChildInspectorFIB() {
+		return null;
+	}
+
+	/**
+	 * Default implementation returns {@code null}: this layout manager has no per-child constraint data. Managers with per-child constraints
+	 * (Box/Border/GridBag) override this to return a fresh constraints object of their type.
+	 */
+	@Override
+	public LayoutConstraints makeDefaultConstraints() {
+		return null;
+	}
+
+	/**
+	 * Intrinsic minimum width a child contributes to its parent's minimum: if the child is itself a container laid out by one or more managers,
+	 * it is the largest of those managers' {@link #getMinimumWidth()} (bottom-up composition); otherwise (a leaf, or a manager imposing none)
+	 * it is the child's own current width. Used by the per-manager minimum-size computations so a nested managed container constrains its
+	 * ancestors.
+	 */
+	protected double childMinWidth(ShapeNode<?> node) {
+		double m = 0;
+		if (node instanceof ContainerNode) {
+			for (DianaLayoutManager<?, ?> lm : ((ContainerNode<?, ?>) node).getLayoutManagers()) {
+				m = Math.max(m, lm.getMinimumWidth());
+			}
+		}
+		return m > 0 ? m : node.getWidth();
+	}
+
+	/** Symmetric of {@link #childMinWidth(ShapeNode)} for the height (uses the child's current width as the height-for-width hint). */
+	protected double childMinHeight(ShapeNode<?> node) {
+		double m = 0;
+		if (node instanceof ContainerNode) {
+			for (DianaLayoutManager<?, ?> lm : ((ContainerNode<?, ?>) node).getLayoutManagers()) {
+				m = Math.max(m, lm.getMinimumHeightForWidth(node.getWidth()));
+			}
+		}
+		return m > 0 ? m : node.getHeight();
+	}
+
+	/**
+	 * Default implementation returns <code>0</code>: this layout manager imposes no minimum container width. Managers with an intrinsic
+	 * minimum (e.g. a wrap flow) override this.
+	 */
+	@Override
+	public double getMinimumWidth() {
+		return 0;
+	}
+
+	/**
+	 * Default implementation returns <code>0</code>: this layout manager imposes no minimum container height. Managers whose minimum height
+	 * depends on the width (e.g. a wrap flow) override this.
+	 */
+	@Override
+	public double getMinimumHeightForWidth(double width) {
+		return 0;
+	}
+
 	@Override
 	public boolean delete(Object... context) {
+		detachChildListeners();
 		for (ShapeNode<?> n : layoutedNodes) {
 			// Disconnect all layouted layoutedNodes from related DianaLayoutManagerSpecification
 			n.getGraphicalRepresentation().setLayoutManagerIdentifier(null);

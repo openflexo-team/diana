@@ -47,7 +47,10 @@ import org.openflexo.connie.DataBinding;
 import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.ConnectorGraphicalRepresentation;
 import org.openflexo.diana.ContainerGraphicalRepresentation;
+import org.openflexo.diana.DianaLayoutManager;
 import org.openflexo.diana.Drawing.DrawingTreeNode;
+import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.control.AbstractDianaEditor;
 import org.openflexo.diana.DrawingGraphicalRepresentation;
 import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.GRProperty;
@@ -57,6 +60,8 @@ import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.diana.ShapeGraphicalRepresentation.LocationConstraints;
 import org.openflexo.diana.control.DianaInteractiveViewer;
+import org.openflexo.gina.model.FIBComponent;
+import org.openflexo.rm.Resource;
 
 /**
  * Implementation of {@link InspectedStyle}, as a container of graphical properties synchronized with and reflecting a selection<br>
@@ -133,6 +138,10 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 			getPropertyChangeSupport().firePropertyChange("hasSelectedForeground", !getHasSelectedForeground(),
 					(boolean) getHasSelectedForeground());
 		}
+		// Computed properties (not GR properties): re-evaluate the per-manager child layout
+		// panel for the new selection, so the "Layout Manager" panel swaps/hides accordingly.
+		getPropertyChangeSupport().firePropertyChange("childLayoutComponent", null, getChildLayoutComponent());
+		getPropertyChangeSupport().firePropertyChange("hasChildLayoutPanel", !hasChildLayoutPanel(), hasChildLayoutPanel());
 	}
 
 	public Boolean getIsVisible() {
@@ -166,6 +175,230 @@ public class InspectedLocationSizeProperties extends InspectedStyle<GraphicalRep
 
 	public void setLayoutManagerIdentifier(String value) {
 		setPropertyValue(ShapeGraphicalRepresentation.LAYOUT_MANAGER_IDENTIFIER, value);
+	}
+
+	// --- Per-child layout constraints (navigate into the GR's polymorphic layoutConstraints object) ---------------
+	// The child FIBs (LayoutChildInspectors/*.fib) keep binding data.layoutWeight / data.layoutBorderRegion /
+	// data.layoutGridX… ; these accessors read the single selected shape's constraints and write back to every
+	// selected shape whose constraints are of the matching type. The "Layout Manager" child panel is only shown for a
+	// single active manager (getSelectedChildLayoutManager), so heterogeneous multi-selection is not a concern.
+
+	/** Layout constraints of the single selected shape, or {@code null} if not exactly one shape / none. */
+	private org.openflexo.diana.layout.LayoutConstraints singleSelectedConstraints() {
+		List<ShapeNode<?>> shapes = getController().getSelectedShapes();
+		if (shapes.size() == 1) {
+			return shapes.get(0).getGraphicalRepresentation().getLayoutConstraints();
+		}
+		return null;
+	}
+
+	private <T extends org.openflexo.diana.layout.LayoutConstraints> T singleSelectedConstraints(Class<T> type) {
+		org.openflexo.diana.layout.LayoutConstraints c = singleSelectedConstraints();
+		return type.isInstance(c) ? type.cast(c) : null;
+	}
+
+	// Box --------------------------------------------------------------------------------------------------------
+	public Double getLayoutWeight() {
+		org.openflexo.diana.layout.BoxLayoutConstraints c = singleSelectedConstraints(org.openflexo.diana.layout.BoxLayoutConstraints.class);
+		return c != null ? c.getWeight() : 0.0;
+	}
+
+	public void setLayoutWeight(Double value) {
+		if (value == null) {
+			return;
+		}
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.BoxLayoutConstraints) {
+				((org.openflexo.diana.layout.BoxLayoutConstraints) c).setWeight(value);
+			}
+		}
+	}
+
+	// Border -----------------------------------------------------------------------------------------------------
+	public org.openflexo.diana.layout.BorderRegion getLayoutBorderRegion() {
+		org.openflexo.diana.layout.BorderLayoutConstraints c = singleSelectedConstraints(
+				org.openflexo.diana.layout.BorderLayoutConstraints.class);
+		return c != null ? c.getRegion() : null;
+	}
+
+	public void setLayoutBorderRegion(org.openflexo.diana.layout.BorderRegion value) {
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.BorderLayoutConstraints) {
+				((org.openflexo.diana.layout.BorderLayoutConstraints) c).setRegion(value);
+			}
+		}
+	}
+
+	// GridBag ----------------------------------------------------------------------------------------------------
+	private org.openflexo.diana.layout.GridBagLayoutConstraints selectedGridBag() {
+		return singleSelectedConstraints(org.openflexo.diana.layout.GridBagLayoutConstraints.class);
+	}
+
+	public Integer getLayoutGridX() {
+		org.openflexo.diana.layout.GridBagLayoutConstraints c = selectedGridBag();
+		return c != null ? c.getGridX() : 0;
+	}
+
+	public void setLayoutGridX(Integer value) {
+		if (value == null) {
+			return;
+		}
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.GridBagLayoutConstraints) {
+				((org.openflexo.diana.layout.GridBagLayoutConstraints) c).setGridX(value);
+			}
+		}
+	}
+
+	public Integer getLayoutGridY() {
+		org.openflexo.diana.layout.GridBagLayoutConstraints c = selectedGridBag();
+		return c != null ? c.getGridY() : 0;
+	}
+
+	public void setLayoutGridY(Integer value) {
+		if (value == null) {
+			return;
+		}
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.GridBagLayoutConstraints) {
+				((org.openflexo.diana.layout.GridBagLayoutConstraints) c).setGridY(value);
+			}
+		}
+	}
+
+	public Integer getLayoutGridWidth() {
+		org.openflexo.diana.layout.GridBagLayoutConstraints c = selectedGridBag();
+		return c != null ? c.getGridWidth() : 1;
+	}
+
+	public void setLayoutGridWidth(Integer value) {
+		if (value == null) {
+			return;
+		}
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.GridBagLayoutConstraints) {
+				((org.openflexo.diana.layout.GridBagLayoutConstraints) c).setGridWidth(value);
+			}
+		}
+	}
+
+	public Integer getLayoutGridHeight() {
+		org.openflexo.diana.layout.GridBagLayoutConstraints c = selectedGridBag();
+		return c != null ? c.getGridHeight() : 1;
+	}
+
+	public void setLayoutGridHeight(Integer value) {
+		if (value == null) {
+			return;
+		}
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.GridBagLayoutConstraints) {
+				((org.openflexo.diana.layout.GridBagLayoutConstraints) c).setGridHeight(value);
+			}
+		}
+	}
+
+	public Double getLayoutWeightX() {
+		org.openflexo.diana.layout.GridBagLayoutConstraints c = selectedGridBag();
+		return c != null ? c.getWeightX() : 0.0;
+	}
+
+	public void setLayoutWeightX(Double value) {
+		if (value == null) {
+			return;
+		}
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.GridBagLayoutConstraints) {
+				((org.openflexo.diana.layout.GridBagLayoutConstraints) c).setWeightX(value);
+			}
+		}
+	}
+
+	public Double getLayoutWeightY() {
+		org.openflexo.diana.layout.GridBagLayoutConstraints c = selectedGridBag();
+		return c != null ? c.getWeightY() : 0.0;
+	}
+
+	public void setLayoutWeightY(Double value) {
+		if (value == null) {
+			return;
+		}
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.GridBagLayoutConstraints) {
+				((org.openflexo.diana.layout.GridBagLayoutConstraints) c).setWeightY(value);
+			}
+		}
+	}
+
+	public org.openflexo.diana.layout.GridBagFill getLayoutFill() {
+		org.openflexo.diana.layout.GridBagLayoutConstraints c = selectedGridBag();
+		return c != null ? c.getFill() : null;
+	}
+
+	public void setLayoutFill(org.openflexo.diana.layout.GridBagFill value) {
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.GridBagLayoutConstraints) {
+				((org.openflexo.diana.layout.GridBagLayoutConstraints) c).setFill(value);
+			}
+		}
+	}
+
+	public org.openflexo.diana.layout.GridBagAnchor getLayoutAnchor() {
+		org.openflexo.diana.layout.GridBagLayoutConstraints c = selectedGridBag();
+		return c != null ? c.getAnchor() : null;
+	}
+
+	public void setLayoutAnchor(org.openflexo.diana.layout.GridBagAnchor value) {
+		for (ShapeNode<?> s : getController().getSelectedShapes()) {
+			org.openflexo.diana.layout.LayoutConstraints c = s.getGraphicalRepresentation().getLayoutConstraints();
+			if (c instanceof org.openflexo.diana.layout.GridBagLayoutConstraints) {
+				((org.openflexo.diana.layout.GridBagLayoutConstraints) c).setAnchor(value);
+			}
+		}
+	}
+
+	/**
+	 * The layout manager that lays out the (single) currently selected shape, or {@code null} when the selection is not a single shape or
+	 * that shape is not laid out by any manager. Drives which per-manager child-properties panel is shown in the Location/Size "Layout
+	 * Manager" panel.
+	 */
+	public DianaLayoutManager<?, ?> getSelectedChildLayoutManager() {
+		List<ShapeNode<?>> shapes = getController().getSelectedShapes();
+		if (shapes.size() == 1) {
+			return shapes.get(0).getActiveLayoutManager();
+		}
+		return null;
+	}
+
+	/**
+	 * The FIB component (per layout-manager type) editing the selected child's layout properties, or {@code null} if none. Loaded from the
+	 * manager's {@link DianaLayoutManager#getChildInspectorFIB()} and cached by the FIB library. The component's data object is {@code this}
+	 * ({@link InspectedLocationSizeProperties}), so it binds e.g. {@code data.layoutWeight} across the whole selection.
+	 */
+	public FIBComponent getChildLayoutComponent() {
+		DianaLayoutManager<?, ?> lm = getSelectedChildLayoutManager();
+		if (lm == null) {
+			return null;
+		}
+		Resource fib = lm.getChildInspectorFIB();
+		if (fib == null) {
+			return null;
+		}
+		return AbstractDianaEditor.EDITOR_FIB_LIBRARY.retrieveFIBComponent(fib);
+	}
+
+	/** Whether a per-manager child-properties panel is available for the current selection. */
+	public boolean hasChildLayoutPanel() {
+		return getChildLayoutComponent() != null;
 	}
 
 	public Double getX() {

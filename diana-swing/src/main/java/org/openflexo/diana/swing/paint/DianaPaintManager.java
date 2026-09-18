@@ -39,7 +39,9 @@
 
 package org.openflexo.diana.swing.paint;
 
+import java.awt.AlphaComposite;
 import java.awt.Component;
+import java.awt.Composite;
 import java.awt.Container;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
@@ -49,7 +51,9 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Vector;
 import java.util.WeakHashMap;
 import java.util.logging.Level;
@@ -84,6 +88,68 @@ public class DianaPaintManager {
 
 	private boolean _paintingCacheEnabled;
 
+	// *** Performance diagnostic instrumentation (toggle with -Ddiana.paintdebug=true) ***
+	// All prints below are no-ops unless the flag is set; no behavioural change.
+	public static final boolean PAINT_DEBUG = Boolean.getBoolean("diana.paintdebug");
+
+	private long bufferRebuildCount = 0; // # of full background-buffer rebuilds (hypothesis 2)
+	private long dragBlitCount = 0;      // # of drag-cache blits (hypothesis 1: should be ~1/frame)
+	private long liveRenderCount = 0;    // # of live subtree re-renders during a drag (hypothesis 1)
+	private long regionRefreshCount = 0; // # of region-incremental buffer refreshes (Piste C)
+
+	// *** Region-incremental background buffer (Piste C) ***
+	// Instead of discarding the whole _paintBuffer whenever a single node's contribution to the
+	// background changes (appearance change via invalidate(), or temporary-status change via
+	// add/removeFromTemporaryObjects), re-render only that node's region into the existing buffer.
+	// Cost drops from O(all shapes of the drawing) to O(shapes intersecting the node's region).
+	// On by default; disable with -Ddiana.disableRegionCache=true to fall back to full rebuilds.
+	public static final boolean REGION_CACHE = !Boolean.getBoolean("diana.disableRegionCache");
+
+	// Last region (in drawing-view coordinates) each node contributed to the buffer. Used to clear
+	// the union(previous, current) so a node that moved/shrank leaves no ghost. Reset on full rebuild.
+	private final Map<DrawingTreeNode<?, ?>, Rectangle> _bufferedNodeBounds = new HashMap<DrawingTreeNode<?, ?>, Rectangle>();
+
+	public long getBufferRebuildCount() {
+		return bufferRebuildCount;
+	}
+
+	public long getDragBlitCount() {
+		return dragBlitCount;
+	}
+
+	public long getLiveRenderCount() {
+		return liveRenderCount;
+	}
+
+	public void notifyDragBlit() {
+		if (PAINT_DEBUG) {
+			dragBlitCount++;
+		}
+	}
+
+	public void notifyLiveRender() {
+		if (PAINT_DEBUG) {
+			liveRenderCount++;
+		}
+	}
+
+	/** Short hint of the caller chain (skips this class) to attribute a temporary-set mutation. */
+	private static String dbgCaller() {
+		StackTraceElement[] st = Thread.currentThread().getStackTrace();
+		StringBuilder sb = new StringBuilder("  <- ");
+		int printed = 0;
+		for (int i = 2; i < st.length && printed < 4; i++) {
+			String cn = st[i].getClassName();
+			if (cn.endsWith("DianaPaintManager")) {
+				continue;
+			}
+			sb.append(cn.substring(cn.lastIndexOf('.') + 1)).append('.').append(st[i].getMethodName())
+					.append(':').append(st[i].getLineNumber()).append(' ');
+			printed++;
+		}
+		return sb.toString();
+	}
+
 	// private static final int DEFAULT_IMAGE_TYPE = BufferedImage.TYPE_INT_RGB;
 
 	private static DianaRepaintManager repaintManager;
@@ -102,11 +168,20 @@ public class DianaPaintManager {
 	private BufferedImage _paintBuffer;
 	private final HashSet<DrawingTreeNode<?, ?>> _temporaryObjects;
 
+	/**
+	 * Per-node drag buffers: a snapshot of a node's whole subtree, captured once at the
+	 * start of a <em>move</em> and blitted at the node's current location on every drag
+	 * frame, instead of re-rendering the entire subtree each frame (see
+	 * {@link #captureNode(DrawingTreeNode)}). Keyed by the dragged node.
+	 */
+	private final Map<DrawingTreeNode<?, ?>, BufferedImage> _nodeDragBuffers;
+
 	public DianaPaintManager(JDrawingView<?> drawingView) {
 		super();
 		_drawingView = drawingView;
 		_paintBuffer = null;
 		_temporaryObjects = new HashSet<DrawingTreeNode<?, ?>>();
+		_nodeDragBuffers = new HashMap<DrawingTreeNode<?, ?>, BufferedImage>();
 		if (ENABLE_CACHE_BY_DEFAULT) {
 			enablePaintingCache();
 		}
@@ -183,19 +258,132 @@ public class DianaPaintManager {
 		if (paintRequestLogger.isLoggable(Level.FINE)) {
 			paintRequestLogger.fine("addToTemporaryObjects() " + dtn);
 		}
+		if (PAINT_DEBUG && !_temporaryObjects.contains(dtn)) {
+			System.err.println("[diana.temp]  + ADD    " + dtn + dbgCaller());
+		}
 		if (!_temporaryObjects.contains(dtn)) {
 			_temporaryObjects.add(dtn);
+			// The set of objects excluded from the background buffer changed: the newly-temporary
+			// object must no longer be baked into the background. Piste C: refresh only its region
+			// (re-rendered without it, so the background behind it shows); else rebuild the lot.
+			if (!(REGION_CACHE && refreshBufferRegion(dtn))) {
+				_paintBuffer = null;
+			}
 		}
 	}
 
 	public void removeFromTemporaryObjects(DrawingTreeNode<?, ?> dtn) {
-		_temporaryObjects.remove(dtn);
+		if (PAINT_DEBUG && _temporaryObjects.contains(dtn)) {
+			System.err.println("[diana.temp]  - REMOVE " + dtn + dbgCaller());
+		}
+		if (_temporaryObjects.remove(dtn)) {
+			// Excluded set changed: the object re-enters the background buffer at its final position.
+			// Piste C: render it back into its region only; else rebuild the lot.
+			if (!(REGION_CACHE && refreshBufferRegion(dtn))) {
+				_paintBuffer = null;
+			}
+		}
+	}
+
+	// *******************************************************************************
+	// * Node drag-cache *
+	// *******************************************************************************
+	//
+	// During a pure MOVE, the rendered appearance of the dragged node's subtree is
+	// invariant - only its position changes. Diana already caches the rest of the
+	// drawing as a bitmap (_paintBuffer); without the node drag-cache below, the dragged
+	// node's whole subtree (which can be arbitrarily large for nested shapes) is instead
+	// re-rendered on every frame. We snapshot that subtree once at drag start and blit it
+	// at the node's current location on each frame, making a move O(blit) regardless of
+	// subtree size. This is valid ONLY while the appearance is invariant, i.e. for a move
+	// and never a resize, so the buffer is captured on ObjectWillMove and discarded on
+	// ObjectHasMoved / any resize / any GR change (see JShapeView).
+
+	/**
+	 * Captures the current rendered appearance of a node's subtree into an offscreen
+	 * image, to be blitted while the node is dragged instead of re-rendering the whole
+	 * subtree on every frame. The render is forced live (painting cache temporarily
+	 * disabled) because the background buffer has just been invalidated and excludes this
+	 * temporary object. Must be called only for a move (never a resize), and balanced by
+	 * {@link #discardNodeBuffer(DrawingTreeNode)} at the end of the drag.
+	 */
+	public void captureNode(DrawingTreeNode<?, ?> node) {
+		if (node == null) {
+			return;
+		}
+		DianaView<?, ?> v = _drawingView.viewForNode(node);
+		if (!(v instanceof JComponent)) {
+			return;
+		}
+		JComponent comp = (JComponent) v;
+		int w = comp.getWidth();
+		int h = comp.getHeight();
+		if (w <= 0 || h <= 0) {
+			return;
+		}
+		GraphicsConfiguration gc = comp.getGraphicsConfiguration();
+		if (gc == null) {
+			gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+		}
+		BufferedImage image = gc.createCompatibleImage(w, h, Transparency.TRANSLUCENT);
+		Graphics2D g = image.createGraphics();
+		boolean wasEnabled = _paintingCacheEnabled;
+		// Force a real, live subtree render: with the cache enabled, JShapeView.paint would
+		// try to blit from the (now invalidated, temporary-excluding) background buffer.
+		disablePaintingCache();
+		try {
+			comp.print(g);
+		} catch (RuntimeException e) {
+			// Capture failed: fall back to live rendering during the drag (no buffer stored).
+			logger.log(Level.WARNING, "Could not capture drag buffer for " + node, e);
+			return;
+		} finally {
+			if (wasEnabled) {
+				enablePaintingCache();
+			}
+			g.dispose();
+		}
+		_nodeDragBuffers.put(node, image);
+		if (PAINT_DEBUG) {
+			System.err.println("[diana.paint] CAPTURE drag-cache for " + node + " (" + w + "x" + h + ")");
+		}
+	}
+
+	/** The drag buffer captured for {@code node}, or {@code null} if none (not being moved). */
+	public BufferedImage getNodeBuffer(DrawingTreeNode<?, ?> node) {
+		return node == null ? null : _nodeDragBuffers.get(node);
+	}
+
+	/** Discards (and flushes) the drag buffer of {@code node}, if any. */
+	public void discardNodeBuffer(DrawingTreeNode<?, ?> node) {
+		if (node != null) {
+			BufferedImage img = _nodeDragBuffers.remove(node);
+			if (img != null) {
+				img.flush();
+			}
+		}
 	}
 
 	// CPU-expensive because it will ask to recreate the whole buffer
 	public void invalidate(DrawingTreeNode<?, ?> dtn) {
 		if (paintRequestLogger.isLoggable(Level.FINE)) {
 			paintRequestLogger.fine("CALLED invalidate on DianaPaintManager");
+		}
+		// A change concerning an object that is (transitively) part of the current drag must
+		// not rebuild the background buffer: that buffer excludes all temporary objects, so it
+		// stays valid as long as only temporary objects change. The buffer is rebuilt only when
+		// the excluded set itself changes (see add/removeFromTemporaryObjects). This neutralises
+		// the per-frame invalidations fired by the dragged shape, its connectors and their
+		// labels (position, focus, text, …) that otherwise re-buffer the whole drawing each frame.
+		if (dtn != null && isTemporaryObjectOrParentIsTemporaryObject(dtn)) {
+			return;
+		}
+		// Piste C: re-render only this node's region into the buffer instead of discarding it all.
+		if (REGION_CACHE && dtn != null && _paintBuffer != null && refreshBufferRegion(dtn)) {
+			return;
+		}
+		if (PAINT_DEBUG && _paintBuffer != null) {
+			System.err.println("[diana.inval] buffer nulled by " + dtn + dbgCaller());
 		}
 		_paintBuffer = null;
 		// repaintManager.clearTemporaryRepaintArea();
@@ -207,6 +395,108 @@ public class DianaPaintManager {
 		}
 		_paintBuffer = null;
 
+	}
+
+	// *******************************************************************************
+	// * Region-incremental buffer refresh (Piste C) *
+	// *******************************************************************************
+
+	/**
+	 * Bounds of {@code dtn}'s view, in the drawing-view coordinate system, padded for shadow /
+	 * control points / anti-alias bleed and unioned with its floating label (if any). Returns
+	 * {@code null} when the node cannot be localized (no view, not displayed, zero-sized): the
+	 * caller then falls back to a full buffer invalidation.
+	 */
+	private Rectangle nodeViewBounds(DrawingTreeNode<?, ?> dtn) {
+		if (dtn == null) {
+			return null;
+		}
+		if (dtn.getParentNode() == null) {
+			// Root node (the whole drawing): "invalidate everything" - cannot be localized to a
+			// region; let the caller fall back to a full buffer rebuild.
+			return null;
+		}
+		DianaView<?, ?> v = _drawingView.viewForNode(dtn);
+		if (!(v instanceof JComponent)) {
+			return null;
+		}
+		JComponent comp = (JComponent) v;
+		if (comp.getParent() == null || comp.getWidth() <= 0 || comp.getHeight() <= 0) {
+			return null;
+		}
+		Rectangle r = SwingUtilities.convertRectangle(comp.getParent(), comp.getBounds(), _drawingView);
+		if (v instanceof JShapeView) {
+			JLabelView<?> label = ((JShapeView<?>) v).getLabelView();
+			if (label != null && label.getParent() != null && label.getWidth() > 0 && label.getHeight() > 0) {
+				r = r.union(SwingUtilities.convertRectangle(label.getParent(), label.getBounds(), _drawingView));
+			}
+		}
+		// Pad for the drop shadow, selection/focus control points and anti-alias bleed.
+		int pad = DianaConstants.CONTROL_POINT_SIZE + 6;
+		r.grow(pad, pad);
+		return r;
+	}
+
+	/**
+	 * Re-render only {@code dtn}'s region into the existing {@link #_paintBuffer}, instead of
+	 * discarding the whole buffer. Clears the union of the node's previous and current regions
+	 * (so a moved/shrunk node leaves no ghost) and re-prints the drawing clipped to that region
+	 * (Java2D clipping protects the rest of the buffer; the buffering pass excludes temporary
+	 * objects, so this also handles a node entering/leaving the temporary set).
+	 *
+	 * @return {@code true} if the buffer is left consistent (was already null, or region
+	 *         successfully refreshed); {@code false} if the node could not be localized and the
+	 *         caller must fall back to a full invalidation.
+	 */
+	private boolean refreshBufferRegion(DrawingTreeNode<?, ?> dtn) {
+		if (_paintBuffer == null) {
+			return true; // nothing to maintain; a full rebuild will happen lazily on next paint
+		}
+		Rectangle current = nodeViewBounds(dtn);
+		Rectangle previous = _bufferedNodeBounds.get(dtn);
+		Rectangle region = current;
+		if (previous != null) {
+			region = (region == null) ? new Rectangle(previous) : region.union(previous);
+		}
+		if (region == null) {
+			return false; // cannot localize -> caller nulls the whole buffer
+		}
+		region = region.intersection(new Rectangle(0, 0, _paintBuffer.getWidth(), _paintBuffer.getHeight()));
+		if (!region.isEmpty()) {
+			Graphics2D g = _paintBuffer.createGraphics();
+			try {
+				g.setClip(region);
+				// Clear the region to transparent, then re-render the drawing clipped to it. The
+				// drawing background + every shape intersecting the region are repainted in z-order;
+				// the JShapeView buffering branch skips temporary objects.
+				Composite previousComposite = g.getComposite();
+				g.setComposite(AlphaComposite.Clear);
+				g.fillRect(region.x, region.y, region.width, region.height);
+				g.setComposite(previousComposite);
+				getDrawingView().prepareForBuffering(g);
+				getDrawingView().print(g);
+			} catch (RuntimeException e) {
+				logger.log(Level.WARNING, "Region buffer refresh failed for " + dtn + "; falling back to full rebuild", e);
+				g.dispose();
+				return false;
+			}
+			g.dispose();
+		}
+		if (current != null) {
+			_bufferedNodeBounds.put(dtn, current);
+		}
+		else {
+			_bufferedNodeBounds.remove(dtn);
+		}
+		if (PAINT_DEBUG) {
+			regionRefreshCount++;
+			System.err.println("[diana.region] refresh #" + regionRefreshCount + " " + region + " for " + dtn);
+		}
+		return true;
+	}
+
+	public long getRegionRefreshCount() {
+		return regionRefreshCount;
 	}
 
 	public void repaint(DianaView<?, ?> view, Rectangle bounds) {
@@ -344,6 +634,11 @@ public class DianaPaintManager {
 		if (paintRequestLogger.isLoggable(Level.FINE)) {
 			paintRequestLogger.fine("Buffering whole JDrawingView. Is it really necessary ?");
 		}
+		if (PAINT_DEBUG) {
+			bufferRebuildCount++;
+			System.err.println("[diana.paint] FULL BUFFER REBUILD #" + bufferRebuildCount
+					+ " (re-renders every non-temporary shape of the whole drawing)");
+		}
 		Component view = getDrawingView();
 		GraphicsConfiguration gc = view.getGraphicsConfiguration();
 		if (gc == null) {
@@ -354,6 +649,8 @@ public class DianaPaintManager {
 		getDrawingView().prepareForBuffering(g);
 		view.print(g);
 		g.dispose();
+		// Fresh full render: every node is now baked in, so per-node region history is stale.
+		_bufferedNodeBounds.clear();
 		return image;
 	}
 

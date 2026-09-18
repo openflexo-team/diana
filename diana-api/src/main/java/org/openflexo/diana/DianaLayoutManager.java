@@ -48,6 +48,7 @@ import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.DianaLayoutManagerSpecification.DraggingMode;
 import org.openflexo.diana.cp.ControlArea;
 import org.openflexo.diana.geom.DianaPoint;
+import org.openflexo.rm.Resource;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PropertyIdentifier;
@@ -193,4 +194,45 @@ public interface DianaLayoutManager<LMS extends DianaLayoutManagerSpecification<
 	public List<ControlArea<?>> getControlAreas();
 
 	public String getIdentifier();
+
+	/**
+	 * Return the FIB {@link Resource} of a panel allowing to edit the layout properties of a
+	 * <b>child</b> laid out by this layout manager (e.g. its weight). This panel is inserted in
+	 * the "Layout Manager" panel of the Location/Size inspector; its data object is the
+	 * inspected child ({@code InspectedLocationSizeProperties}), so it binds e.g.
+	 * {@code data.layoutWeight}.<br>
+	 * Default value is {@code null} (this layout manager exposes no per-child property).
+	 *
+	 * @return the child-inspector FIB resource, or {@code null}
+	 */
+	public Resource getChildInspectorFIB();
+
+	/**
+	 * Build a new {@link org.openflexo.diana.layout.LayoutConstraints} of the type this layout manager understands (e.g.
+	 * {@code BoxLayoutConstraints} for a box layout), or {@code null} if this manager has no per-child constraint data (e.g. a snap-grid or a
+	 * graph layout). Used to assign a child a default, correctly-typed constraints object when it joins this manager.
+	 *
+	 * @return a fresh default constraints object, or {@code null}
+	 */
+	public org.openflexo.diana.layout.LayoutConstraints makeDefaultConstraints();
+
+	/**
+	 * The minimum width this layout manager requires of its container to lay its children out validly, regardless of the available height
+	 * (the "driver"-axis minimum for a horizontal flow — e.g. the widest single item). Default <code>0</code> (no constraint). Used to clamp
+	 * the container on resize.
+	 *
+	 * @return the minimum container width, or <code>0</code> if this manager imposes none
+	 */
+	public double getMinimumWidth();
+
+	/**
+	 * The minimum height this layout manager requires of its container <b>for a given available width</b> — intrinsic "height-for-width"
+	 * sizing. For a wrapping manager a narrower width needs more lines, hence more height; the container's height auto-grows accordingly. For
+	 * managers whose minimum height does not depend on the width, this simply returns their (constant) minimum height. Default <code>0</code>
+	 * (no constraint).
+	 *
+	 * @param width the available (inner-or-total, see implementation) container width
+	 * @return the minimum container height at that width, or <code>0</code> if this manager imposes none
+	 */
+	public double getMinimumHeightForWidth(double width);
 }

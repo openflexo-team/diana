@@ -77,10 +77,12 @@ import org.openflexo.diana.Drawing.PersistenceMode;
 import org.openflexo.diana.GRBinding;
 import org.openflexo.diana.GRBinding.DynamicPropertyValue;
 import org.openflexo.diana.GRProperty;
+import org.openflexo.diana.ContainerGraphicalRepresentation;
 import org.openflexo.diana.GraphicalRepresentation;
 import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
 import org.openflexo.diana.GraphicalRepresentation.LabelMetricsProvider;
 import org.openflexo.diana.GraphicalRepresentation.VerticalTextAlignment;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.ShapeGraphicalRepresentation.DimensionConstraints;
 import org.openflexo.diana.TextStyle;
 import org.openflexo.diana.cp.ControlArea;
@@ -268,26 +270,75 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 * 
 	 * @return
 	 */
+	/** Diagnostic flag for the isValid() mismatch warning. Enable with -Ddiana.isvaliddiag=true */
+	private static final boolean DIAG_ISVALID = Boolean.getBoolean("diana.isvaliddiag");
+	/** Print each orphan node once to avoid flooding the console on hover repaints. */
+	private static final java.util.Set<Object> DIAG_SEEN =
+			java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<>());
+
+	private static String parentDiag(DrawingTreeNode<?, ?> n) {
+		DrawingTreeNode<?, ?> p = n.getParentNode();
+		return p == null ? "null" : (Integer.toHexString(System.identityHashCode(p)) + ":" + p.getClass().getSimpleName());
+	}
+
+	private static boolean isInParentChildren(DrawingTreeNode<?, ?> n) {
+		DrawingTreeNode<?, ?> p = n.getParentNode();
+		if (!(p instanceof ContainerNode)) {
+			return false;
+		}
+		for (DrawingTreeNode<?, ?> c : ((ContainerNode<?, ?>) p).getChildNodes()) {
+			if (c == n) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public boolean isValid() {
 		if (getDrawable() == null) {
 			return false;
 		}
 		if (getDrawing().getDrawingTreeNode(getDrawable(), getGRBinding()) != this) {
-			logger.warning(
-					"Please investigate here: something strange at this point, see isValid() in DrawingTreeNode. More informations in the console");
-			System.out.println("drawable=" + getDrawable());
-			System.out.println("grBinding=" + getGRBinding());
-			DrawingTreeNode<?, ?> dtn = getDrawing().getDrawingTreeNode(getDrawable(), getGRBinding());
-			if (dtn != null) {
-				System.out.println("dtn.drawable=" + dtn.getDrawable());
-				System.out.println("dtn.grBinding=" + dtn.getGRBinding());
+			if (DIAG_ISVALID && DIAG_SEEN.add(this)) {
+				DrawingTreeNode<?, ?> dtn = getDrawing().getDrawingTreeNode(getDrawable(), getGRBinding());
+				StringBuilder sb = new StringBuilder();
+				sb.append("\n========= isValid() MISMATCH =========\n");
+				sb.append("drawable        = ").append(getDrawable())
+						.append("  [identity=").append(Integer.toHexString(System.identityHashCode(getDrawable())))
+						.append(", hashCode=").append(Integer.toHexString(getDrawable().hashCode())).append("]\n");
+				sb.append("grBinding       = ").append(getGRBinding()).append("\n");
+				sb.append("this(node)      = ").append(Integer.toHexString(System.identityHashCode(this)))
+						.append("  parent=").append(parentDiag(this))
+						.append("  inParentChildren=").append(isInParentChildren(this))
+						.append("  invalidated=").append(isInvalidated).append("\n");
+				if (dtn != null) {
+					sb.append("hashtable node  = ").append(Integer.toHexString(System.identityHashCode(dtn)))
+							.append("  parent=").append(parentDiag(dtn))
+							.append("  inParentChildren=").append(isInParentChildren(dtn))
+							.append("  sameDrawable==").append(dtn.getDrawable() == getDrawable()).append("\n");
+				}
+				else {
+					sb.append("hashtable node  = null (lookup returned nothing)\n");
+				}
+				if (this instanceof org.openflexo.diana.Drawing.ConnectorNode) {
+					org.openflexo.diana.Drawing.ConnectorNode<?> cn = (org.openflexo.diana.Drawing.ConnectorNode<?>) this;
+					sb.append("this.start/end  = ").append(Integer.toHexString(System.identityHashCode(cn.getStartNode())))
+							.append(" / ").append(Integer.toHexString(System.identityHashCode(cn.getEndNode()))).append("\n");
+				}
+				if (dtn instanceof org.openflexo.diana.Drawing.ConnectorNode) {
+					org.openflexo.diana.Drawing.ConnectorNode<?> cn = (org.openflexo.diana.Drawing.ConnectorNode<?>) dtn;
+					sb.append("htnode.start/end= ").append(Integer.toHexString(System.identityHashCode(cn.getStartNode())))
+							.append(" / ").append(Integer.toHexString(System.identityHashCode(cn.getEndNode()))).append("\n");
+				}
+				sb.append("--- caller stack (top 12) ---\n");
+				StackTraceElement[] st = Thread.currentThread().getStackTrace();
+				for (int i = 2; i < Math.min(st.length, 14); i++) {
+					sb.append("  at ").append(st[i]).append("\n");
+				}
+				sb.append("=====================================");
+				System.out.println(sb);
 			}
-			else {
-				System.out.println("dtn=null");
-			}
-			// Thread.dumpStack();
-			// return false;
 		}
 
 		DrawingTreeNode<?, ?> current = this;
@@ -582,8 +633,58 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 			case ProxyMethodHandler.DESERIALIZING:
 				return false;
 			default:
+				// A change to a drawable property that only feeds a SETTABLE GEOMETRY GR binding
+				// (x / y / width / height) never alters the drawing STRUCTURE: it is the position/size
+				// being written back to the model by Diana itself during a move or resize. Treating it
+				// as structural triggers a full updateGraphicalObjectsHierarchy() + layout-manager
+				// relayout on EVERY drag increment — a severe cost for nodes with layout-managed
+				// children (e.g. a UML box with compartments). The geometry is already propagated
+				// through the GR's own X/Y/WIDTH/HEIGHT notifications, so skipping the structural
+				// re-evaluation here loses nothing. See diana §32 (move-performance investigation).
+				if (getGeometryBoundDrawableProperties().contains(propertyName)) {
+					return false;
+				}
 				return true;
 		}
+	}
+
+	/**
+	 * Drawable property names that only feed a settable geometry ({@code x}/{@code y}/{@code width}/
+	 * {@code height}) dynamic GR binding of this node. Such a property changing means the model
+	 * geometry was written back during a move/resize, which never changes the drawing structure.
+	 * Computed once (dynamic property values are fixed after binding setup) and cached.
+	 */
+	private Set<String> geometryBoundDrawableProperties;
+
+	private Set<String> getGeometryBoundDrawableProperties() {
+		if (geometryBoundDrawableProperties == null) {
+			Set<String> result = new HashSet<>();
+			if (getGRBinding() != null) {
+				for (DynamicPropertyValue<?> dpv : getGRBinding().getDynamicPropertyValues()) {
+					if (dpv == null || !dpv.isSettable() || !isGeometryGRProperty(dpv.parameter) || dpv.dataBinding == null) {
+						continue;
+					}
+					// The bound drawable property is the last path element of the binding
+					// expression, e.g. "drawable.x" -> "x". If it cannot be parsed, the property is
+					// simply not registered (conservative: the event keeps its default treatment).
+					String expr = dpv.dataBinding.toString();
+					if (expr != null) {
+						int dot = expr.lastIndexOf('.');
+						String prop = (dot >= 0 ? expr.substring(dot + 1) : expr).trim();
+						if (!prop.isEmpty()) {
+							result.add(prop);
+						}
+					}
+				}
+			}
+			geometryBoundDrawableProperties = result;
+		}
+		return geometryBoundDrawableProperties;
+	}
+
+	private static boolean isGeometryGRProperty(GRProperty<?> p) {
+		return p == ShapeGraphicalRepresentation.X || p == ShapeGraphicalRepresentation.Y
+				|| p == ContainerGraphicalRepresentation.WIDTH || p == ContainerGraphicalRepresentation.HEIGHT;
 	}
 
 	@Override
@@ -1177,8 +1278,23 @@ public abstract class DrawingTreeNodeImpl<O, GR extends GraphicalRepresentation>
 	 *            value to be set
 	 * @return
 	 */
+	/**
+	 * Hook called at the start of every {@link #setPropertyValue(GRProperty, Object)}, before the
+	 * value is written. Default no-op; subclasses override to invalidate caches derived from GR
+	 * properties (see {@link ShapeNodeImpl#onPropertyValueSet}).
+	 */
+	protected void onPropertyValueSet(GRProperty<?> parameter) {
+		// no-op by default
+	}
+
 	@Override
 	public <T> void setPropertyValue(GRProperty<T> parameter, T value) {
+
+		// Hook for subclasses to react to any property mutation (e.g. invalidate a derived cache).
+		// Called for EVERY set, on whichever path (notified or "no-notification"): in Unique mode this
+		// method deliberately suppresses the GR's own notification and re-fires on the node's PCS, so a
+		// subclass observing only GR events would miss geometry writes done during a drag.
+		onPropertyValueSet(parameter);
 
 		T oldValue = null;
 

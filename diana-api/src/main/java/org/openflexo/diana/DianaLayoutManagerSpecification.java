@@ -41,6 +41,10 @@ package org.openflexo.diana;
 import org.openflexo.connie.Bindable;
 import org.openflexo.diana.Drawing.ContainerNode;
 import org.openflexo.diana.layout.BalloonLayoutManagerSpecification;
+import org.openflexo.diana.layout.BorderLayoutManagerSpecification;
+import org.openflexo.diana.layout.BoxLayoutManagerSpecification;
+import org.openflexo.diana.layout.GridBagLayoutManagerSpecification;
+import org.openflexo.diana.layout.WrapFlowLayoutManagerSpecification;
 import org.openflexo.diana.layout.FlowLayoutManagerSpecification;
 import org.openflexo.diana.layout.ForceDirectedGraphLayoutManagerSpecification;
 import org.openflexo.diana.layout.GraphBasedLayoutManagerSpecification;
@@ -66,7 +70,9 @@ import org.openflexo.pamela.annotations.XMLAttribute;
  */
 @ModelEntity(isAbstract = true)
 @Imports({ @Import(GridLayoutManagerSpecification.class), @Import(OutlineLayoutManagerSpecification.class),
-		@Import(FlowLayoutManagerSpecification.class), @Import(GraphBasedLayoutManagerSpecification.class),
+		@Import(FlowLayoutManagerSpecification.class), @Import(BoxLayoutManagerSpecification.class),
+		@Import(BorderLayoutManagerSpecification.class), @Import(GridBagLayoutManagerSpecification.class),
+		@Import(WrapFlowLayoutManagerSpecification.class), @Import(GraphBasedLayoutManagerSpecification.class),
 		@Import(TreeBasedLayoutManagerSpecification.class) })
 public interface DianaLayoutManagerSpecification<LM extends DianaLayoutManager<?, ?>> extends DianaObject, Bindable {
 
@@ -176,6 +182,50 @@ public interface DianaLayoutManagerSpecification<LM extends DianaLayoutManager<?
 			@Override
 			public String getDefaultLayoutManagerName() {
 				return "flow";
+			}
+		},
+		BOX {
+			@Override
+			public Class<BoxLayoutManagerSpecification> getLayoutManagerSpecificationClass() {
+				return BoxLayoutManagerSpecification.class;
+			}
+
+			@Override
+			public String getDefaultLayoutManagerName() {
+				return "box";
+			}
+		},
+		BORDER {
+			@Override
+			public Class<BorderLayoutManagerSpecification> getLayoutManagerSpecificationClass() {
+				return BorderLayoutManagerSpecification.class;
+			}
+
+			@Override
+			public String getDefaultLayoutManagerName() {
+				return "border";
+			}
+		},
+		GRIDBAG {
+			@Override
+			public Class<GridBagLayoutManagerSpecification> getLayoutManagerSpecificationClass() {
+				return GridBagLayoutManagerSpecification.class;
+			}
+
+			@Override
+			public String getDefaultLayoutManagerName() {
+				return "gridbag";
+			}
+		},
+		WRAP_FLOW {
+			@Override
+			public Class<WrapFlowLayoutManagerSpecification> getLayoutManagerSpecificationClass() {
+				return WrapFlowLayoutManagerSpecification.class;
+			}
+
+			@Override
+			public String getDefaultLayoutManagerName() {
+				return "wrap-flow";
 			}
 		};
 

@@ -85,6 +85,11 @@ public class AdjustableIntermediateControlPoint extends RectPolylinAdjustableCon
 
 		if (getConnectorSpecification().getAdjustability() == RectPolylinAdjustability.BASICALLY_ADJUSTABLE) {
 			getConnectorSpecification().setCrossedControlPoint(newRelativePoint);
+			// Recompute the polylin from the new crossed control point before notifying, exactly
+			// as RectPolylinAdjustingArea.dragToPoint does. Without this, _connectorChanged(true)
+			// only stores the layout and the route is not re-laid-out, so the view repaints the
+			// stale polylin until some later event triggers updateLayout().
+			getConnector().updateLayout();
 			getConnector()._connectorChanged(true);
 			getNode().notifyConnectorModified();
 			return true;

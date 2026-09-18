@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel id="0" controllerClassName="org.openflexo.gina.controller.FIBController"
+	dataClassName="org.openflexo.diana.control.tools.InspectedLocationSizeProperties"
+	layout="twocols" border="empty" borderTop="0" borderBottom="0" borderLeft="0" borderRight="0"
+	titleFont="SansSerif,0,11" font="SansSerif,0,11" trackViewPortWidth="true"
+	trackViewPortHeight="true" name="BorderChildLayoutPanel">
+	<Label name="LayoutBorderRegionLabel" index="0" localize="true" align="left"
+		label="layout_border_region"
+		constraints="twocols(expandHorizontally=false;expandVertically=false;index=0;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=5;location=left)" />
+	<DropDown index="1" data="data.layoutBorderRegion" name="LayoutBorderRegion"
+		format="object.name" localize="true" width="120"
+		iteratorClassName="org.openflexo.diana.layout.BorderRegion" autoSelectFirstRow="true"
+		constraints="twocols(expandHorizontally=true;expandVertically=false;index=1;insetsBottom=0;insetsLeft=2;insetsRight=2;insetsTop=0;location=right)" />
+	<LocalizedDictionary>
+		<Localized key="layout_border_region" lang="English" value="Region" />
+		<Localized key="layout_border_region" lang="French" value="Région" />
+	</LocalizedDictionary>
+</Panel>

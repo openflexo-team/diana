@@ -532,9 +532,19 @@ public class ConnectorNodeImpl<O> extends DrawingTreeNodeImpl<O, ConnectorGraphi
 			connector.delete();
 			connector = null;
 		}
-		// We clear and re-compute control areas
+		// Invalidate the node's cached control areas, then rebuild the connector delegate.
+		// refreshConnector(true) recreates the (lazily-rebuilt) connector and runs updateLayout(),
+		// which populates BOTH the connector's control points AND its control areas (e.g. the
+		// RectPolylinAdjustingArea segment-drag area for a BASICALLY_ADJUSTABLE polylin).
+		// The node's control-area cache is then rebuilt lazily from the fully laid-out connector
+		// (on the repaint fired by refreshConnector, or at the next access).
+		//
+		// NOTE: we must NOT call getControlAreas() here BEFORE refreshConnector(): at that point the
+		// freshly (re)created connector has not been laid out yet, so its control-areas vector is
+		// empty and RectPolylinConnector.getControlAreas() returns only the (still-empty) control
+		// points vector. Caching that snapshot permanently dropped the separately-held control areas
+		// (the segment-drag area), e.g. after switching a connector's style from LINE to RECT_POLYLIN.
 		clearControlAreas();
-		getControlAreas();
 		refreshConnector(true);
 	}
 

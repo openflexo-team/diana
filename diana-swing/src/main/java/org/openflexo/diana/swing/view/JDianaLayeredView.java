@@ -202,7 +202,7 @@ public abstract class JDianaLayeredView<O> extends JLayeredPane
 		}
 		else if (newNode instanceof ConnectorNode) {
 			ConnectorNode<?> connectorNode = (ConnectorNode<?>) newNode;
-			JConnectorView<?> connectorView = (JConnectorView<?>) getController().makeConnectorView(connectorNode);
+			JConnectorView<?> connectorView = (JConnectorView) getController().makeConnectorView(connectorNode);
 			addView(connectorView);
 			revalidate();
 			getPaintManager().invalidate(parentNode);

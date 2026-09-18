@@ -46,6 +46,7 @@ import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.geom.DianaDimension;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.geom.area.DianaArea;
+import org.openflexo.diana.layout.LayoutConstraints;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.pamela.annotations.CloningStrategy;
@@ -133,6 +134,8 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 
 	@PropertyIdentifier(type = String.class)
 	public static final String LAYOUT_MANAGER_IDENTIFIER_KEY = "layoutManagerIdentifier";
+	@PropertyIdentifier(type = LayoutConstraints.class)
+	public static final String LAYOUT_CONSTRAINTS_KEY = "layoutConstraints";
 
 	// *******************************************************************************
 	// * Inner concepts
@@ -299,6 +302,8 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 			HEIGHT_CONSTRAINTS_KEY, DataBinding.class);
 	public static GRProperty<String> LAYOUT_MANAGER_IDENTIFIER = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
 			LAYOUT_MANAGER_IDENTIFIER_KEY, String.class);
+	public static GRProperty<LayoutConstraints> LAYOUT_CONSTRAINTS = GRProperty.getGRParameter(ShapeGraphicalRepresentation.class,
+			LAYOUT_CONSTRAINTS_KEY, LayoutConstraints.class);
 
 	// *******************************************************************************
 	// * Model
@@ -728,5 +733,29 @@ public interface ShapeGraphicalRepresentation extends ContainerGraphicalRepresen
 	 */
 	@Setter(value = LAYOUT_MANAGER_IDENTIFIER_KEY)
 	public void setLayoutManagerIdentifier(String identifier);
+
+	/**
+	 * Return the per-child {@link LayoutConstraints} of the represented {@link ShapeNode} for the {@link DianaLayoutManager} it opts into (see
+	 * {@link #getLayoutManagerIdentifier()}).<br>
+	 * This is a single polymorphic slot whose concrete subtype matches the manager —
+	 * {@link org.openflexo.diana.layout.BoxLayoutConstraints} (weight),
+	 * {@link org.openflexo.diana.layout.BorderLayoutConstraints} (region) or
+	 * {@link org.openflexo.diana.layout.GridBagLayoutConstraints} (cell/span/weights/fill/anchor). It is {@code @Embedded} (owned, cloned,
+	 * deleted and serialized with this GR). The owning layout manager assigns a default of the right type when a node joins it.
+	 *
+	 * @return
+	 */
+	@Getter(value = LAYOUT_CONSTRAINTS_KEY)
+	@Embedded
+	@XMLElement
+	public LayoutConstraints getLayoutConstraints();
+
+	/**
+	 * Sets the per-child {@link LayoutConstraints} of the represented {@link ShapeNode} (see {@link #getLayoutConstraints()}).
+	 *
+	 * @param constraints
+	 */
+	@Setter(value = LAYOUT_CONSTRAINTS_KEY)
+	public void setLayoutConstraints(LayoutConstraints constraints);
 
 }

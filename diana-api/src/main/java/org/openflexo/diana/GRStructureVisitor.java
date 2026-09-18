@@ -70,6 +70,9 @@ public abstract class GRStructureVisitor<R> {
 
 	static final Logger LOGGER = Logger.getLogger(GRStructureVisitor.class.getPackage().getName());
 
+	/** Diagnostic flag for connector node lifecycle. Enable with -Ddiana.isvaliddiag=true */
+	private static final boolean DIAG_CONN = Boolean.getBoolean("diana.isvaliddiag");
+
 	private DrawingTreeNode<R, ?> node;
 	// Unused private Drawing<?> drawing;
 
@@ -344,6 +347,16 @@ public abstract class GRStructureVisitor<R> {
 		DrawingTreeNode<?, ?> toNode = drawing.getDrawingTreeNode(toDrawable, toBinding);
 		if (fromNode == null || toNode == null || node == null) {
 			// Not fully resolved now, declare as pending
+			if (DIAG_CONN) {
+				System.out.println("[diag.conn] PENDING connector drawable="
+						+ Integer.toHexString(System.identityHashCode(drawable))
+						+ " fromNode=" + (fromNode == null ? "NULL(from="
+								+ Integer.toHexString(System.identityHashCode(fromDrawable)) + ")"
+								: Integer.toHexString(System.identityHashCode(fromNode)))
+						+ " toNode=" + (toNode == null ? "NULL(to="
+								+ Integer.toHexString(System.identityHashCode(toDrawable)) + ")"
+								: Integer.toHexString(System.identityHashCode(toNode))));
+			}
 			DrawingTreeNodeIdentifier<?> parentNodeIdentifier = new DrawingTreeNodeIdentifier<>(node.getDrawable(), node.getGRBinding());
 			DrawingTreeNodeIdentifier<?> startNodeIdentifier = new DrawingTreeNodeIdentifier<>(fromDrawable, null);
 			DrawingTreeNodeIdentifier<?> endNodeIdentifier = new DrawingTreeNodeIdentifier<>(toDrawable, null);
@@ -429,6 +442,14 @@ public abstract class GRStructureVisitor<R> {
 			ConnectorNode<O> returned = parent.getConnectorFor(binding, drawable);
 			if (returned.getStartNode() != fromNode || returned.getEndNode() != toNode) {
 				// the structure is incorrect
+				if (DIAG_CONN) {
+					System.out.println("[diag.conn] DELETE+RECREATE connector drawable="
+							+ Integer.toHexString(System.identityHashCode(drawable))
+							+ " startWas=" + Integer.toHexString(System.identityHashCode(returned.getStartNode()))
+							+ " startNow=" + Integer.toHexString(System.identityHashCode(fromNode))
+							+ " endWas=" + Integer.toHexString(System.identityHashCode(returned.getEndNode()))
+							+ " endNow=" + Integer.toHexString(System.identityHashCode(toNode)));
+				}
 				deletedNodes.add(returned);
 				returned = drawing.createNewConnectorNode(parent, binding, drawable, fromNode, toNode);
 				createdNodes.add(returned);
@@ -443,6 +464,16 @@ public abstract class GRStructureVisitor<R> {
 				updatedNodes.add(returned);
 			}
 			return returned;
+		}
+		if (DIAG_CONN) {
+			DrawingTreeNode<O, ?> existing = drawing.getDrawingTreeNode(drawable, binding);
+			System.out.println("[diag.conn] CREATE connector drawable="
+					+ Integer.toHexString(System.identityHashCode(drawable))
+					+ " notUnderThisParent; hashtableAlreadyHasNode="
+					+ (existing == null ? "null"
+							: Integer.toHexString(System.identityHashCode(existing))
+									+ " parent=" + Integer.toHexString(System.identityHashCode(existing.getParentNode())))
+					+ " newParent=" + Integer.toHexString(System.identityHashCode(parent)));
 		}
 		ConnectorNode<O> returned = drawing.createNewConnectorNode(parent, binding, drawable, fromNode, toNode);
 		createdNodes.add(returned);
