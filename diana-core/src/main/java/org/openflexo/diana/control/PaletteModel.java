@@ -95,11 +95,6 @@ public abstract class PaletteModel implements HasPropertyChangeSupport {
 
 	public PaletteModel(String title, int paletteWidth, int paletteHeight, int elementWidth, int elementHeight, int marginWidth,
 			int marginHeight) {
-		try {
-			FACTORY = new DianaModelFactoryImpl();
-		} catch (ModelDefinitionException e) {
-			e.printStackTrace();
-		}
 		pcSupport = new PropertyChangeSupport(this);
 		this.paletteWidth = paletteWidth;
 		this.paletteHeight = paletteHeight;

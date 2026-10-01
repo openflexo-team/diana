@@ -40,6 +40,8 @@ polygon variants) and offers no complex shapes.
 - `JDrawingView` tracks a single active palette (used to place the dragged image): a palette now
   becomes the active one when a drag starts from one of its elements (`JPaletteElementView`), so
   that several palettes may be shown together.
+- `PaletteModel` no longer re-creates its shared factory (`FACTORY`, a PAMELA model introspection)
+  for each palette: a palette could build its drawing with another factory than its elements.
 - `GeneralShape.pathElements` now allows repeated elements: DIANA objects compare by value, so
   PAMELA silently dropped a segment ending on an already-used point (flowchart *Collate* lost its
   second pass through the center).
