@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PaletteElementSpecification id="0" name="Oval"
-	index="10" applyCurrentForeground="true" applyCurrentBackground="true"
+	index="11" applyCurrentForeground="true" applyCurrentBackground="true"
 	applyCurrentTextStyle="true" applyCurrentShadowStyle="true"
 	askForImage="false">
 	<ShapeGraphicalRepresentation id="1"

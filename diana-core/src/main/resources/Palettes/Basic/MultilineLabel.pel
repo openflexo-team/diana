@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PaletteElementSpecification id="0"
-	name="MultilineLabel" index="15" applyCurrentForeground="false"
+	name="MultilineLabel" index="16" applyCurrentForeground="false"
 	applyCurrentBackground="false" applyCurrentTextStyle="true"
 	applyCurrentShadowStyle="false" askForImage="false">
 	<ShapeGraphicalRepresentation id="1"

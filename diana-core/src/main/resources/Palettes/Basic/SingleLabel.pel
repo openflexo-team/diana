@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PaletteElementSpecification id="0"
-	name="SingleLabel" index="14" applyCurrentForeground="false"
+	name="SingleLabel" index="15" applyCurrentForeground="false"
 	applyCurrentBackground="false" applyCurrentTextStyle="true"
 	applyCurrentShadowStyle="false" askForImage="false">
 	<ShapeGraphicalRepresentation id="1"
