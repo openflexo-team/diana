@@ -53,6 +53,11 @@ polygon variants) and offers no complex shapes.
   `DrawingMLPaletteGenerator`). The anchor of a floating label follows its shape when the shape is
   resized (`ContainerNodeImpl.updateSize`, also before the label has a text) and when a palette fits
   an element in its cell (`DianaUtils.scaledFloatingLabelAnchor`).
+- `DianaPalettes` (diana-palettes) lists the palettes tools show; `JDianaPaletteGroup` (diana-swing)
+  shows palettes as collapsible panels. The FML diagram editor (diagram-ta-ui `DiagramEditor`, common
+  tab) and the Free Modelling Editor ("Free shapes" tab) show all of them, Basic opened first.
+  A dropped palette element keeps its aspect ratio and its centered floating label
+  (`DianaUtils.fitInBox`), instead of a fixed size.
 - `PaletteModel` no longer re-creates its shared factory (`FACTORY`, a PAMELA model introspection)
   for each palette: a palette could build its drawing with another factory than its elements.
 - `GeneralShape.pathElements` now allows repeated elements: DIANA objects compare by value, so
@@ -66,9 +71,6 @@ polygon variants) and offers no complex shapes.
   painted once (`TestPaletteShadows`, UI test).
 
 **Remaining.**
-- Discover palettes (scan `Palettes/*` across jars) rather than listing them in each tool; the
-  drawing editor uses a fixed list.
-- FML diagram editor (`CommonPalette`, diagram-ta-ui) still shows `Basic` only.
 - Complete `Basic` with the existing shape parameters (arc, more stars/polygons).
 - Not translated from DrawingML: adjust handles (shapes are frozen at default values) and text
   rectangles.

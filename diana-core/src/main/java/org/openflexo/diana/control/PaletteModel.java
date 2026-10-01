@@ -233,20 +233,9 @@ public abstract class PaletteModel implements HasPropertyChangeSupport {
 
 		ShapeGraphicalRepresentation gr = paletteElement.getGraphicalRepresentation();
 		// Fit the element in its cell, keeping its aspect ratio, and center it
-		double width = getElementWidth();
-		double height = getElementHeight();
-		if (gr.getWidth() > 0 && gr.getHeight() > 0) {
-			double scale = Math.min(getElementWidth() / gr.getWidth(), getElementHeight() / gr.getHeight());
-			width = gr.getWidth() * scale;
-			height = gr.getHeight() * scale;
-		}
-		if (gr.getIsFloatingLabel()) {
-			// Move the anchor of a floating label as resizing a shape does (see ContainerNodeImpl)
-			gr.setAbsoluteTextX(DianaUtils.scaledFloatingLabelAnchor(gr.getAbsoluteTextX(), gr.getWidth(), width));
-			gr.setAbsoluteTextY(DianaUtils.scaledFloatingLabelAnchor(gr.getAbsoluteTextY(), gr.getHeight(), height));
-		}
-		gr.setWidth(width);
-		gr.setHeight(height);
+		DianaUtils.fitInBox(gr, getElementWidth(), getElementHeight());
+		double width = gr.getWidth();
+		double height = gr.getHeight();
 		gr.setX(colIndex * (getElementWidth() + getMarginWidth()) + getMarginWidth() + (getElementWidth() - width) / 2);
 		gr.setY(rawIndex * (getElementHeight() + getMarginHeight()) + getMarginHeight() + (getElementHeight() - height) / 2);
 

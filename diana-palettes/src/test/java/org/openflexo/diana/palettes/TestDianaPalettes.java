@@ -61,6 +61,7 @@ import org.openflexo.diana.geom.DianaGeneralShape;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geom.DianaShapeUnion;
+import org.openflexo.diana.palettes.DianaPalettes.PaletteDefinition;
 import org.openflexo.diana.palettes.DrawingMLPaletteGenerator.PresetElement;
 import org.openflexo.diana.palettes.RenderPalettes.PreviewPalette;
 import org.openflexo.diana.shapes.GeneralShape;
@@ -175,6 +176,18 @@ public class TestDianaPalettes {
 			assertEquals(name, -PaletteLabels.FLOATING_LABEL_GAP, gr.getAbsoluteTextY(), 0.001);
 			assertEquals(name, HorizontalTextAlignment.CENTER, gr.getHorizontalTextAlignment());
 			assertEquals(name, VerticalTextAlignment.BOTTOM, gr.getVerticalTextAlignment());
+		}
+	}
+
+	/**
+	 * Each palette of the catalog is on the classpath, with elements
+	 */
+	@Test
+	public void testCatalog() {
+		for (PaletteDefinition palette : DianaPalettes.PALETTES) {
+			Resource directory = ResourceLocator.locateResource(palette.getPath());
+			assertNotNull(palette.getPath(), directory);
+			assertTrue(palette.getPath() + " is empty", directory.getContents().size() > 0);
 		}
 	}
 

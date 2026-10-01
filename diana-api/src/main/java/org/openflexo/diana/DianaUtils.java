@@ -462,4 +462,24 @@ public class DianaUtils {
 		return anchor + newSize - oldSize;
 	}
 
+	/**
+	 * Resize supplied shape so that it fits in a box of supplied size, keeping its aspect ratio (a shape without size fills the box),
+	 * and move the anchor of its floating label accordingly
+	 */
+	public static void fitInBox(ShapeGraphicalRepresentation gr, double boxWidth, double boxHeight) {
+		double width = boxWidth;
+		double height = boxHeight;
+		if (gr.getWidth() > 0 && gr.getHeight() > 0) {
+			double scale = Math.min(boxWidth / gr.getWidth(), boxHeight / gr.getHeight());
+			width = gr.getWidth() * scale;
+			height = gr.getHeight() * scale;
+		}
+		if (gr.getIsFloatingLabel()) {
+			gr.setAbsoluteTextX(scaledFloatingLabelAnchor(gr.getAbsoluteTextX(), gr.getWidth(), width));
+			gr.setAbsoluteTextY(scaledFloatingLabelAnchor(gr.getAbsoluteTextY(), gr.getHeight(), height));
+		}
+		gr.setWidth(width);
+		gr.setHeight(height);
+	}
+
 }
