@@ -40,12 +40,17 @@
 package org.openflexo.diana.drawingeditor;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Rectangle;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -63,6 +68,7 @@ import java.util.prefs.PreferenceChangeListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
@@ -79,11 +85,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 
+import org.jdesktop.swingx.JXCollapsiblePane;
 import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.drawingeditor.model.Diagram;
@@ -95,6 +103,7 @@ import org.openflexo.diana.swing.control.tools.JDianaPalette;
 import org.openflexo.diana.swing.control.tools.JDianaScaleSelector;
 import org.openflexo.diana.swing.control.tools.JDianaStyles;
 import org.openflexo.diana.swing.control.tools.JDianaToolSelector;
+import org.openflexo.diana.swing.view.JDrawingView;
 import org.openflexo.exceptions.CopyException;
 import org.openflexo.exceptions.CutException;
 import org.openflexo.exceptions.PasteException;
@@ -111,6 +120,8 @@ import org.openflexo.pamela.undo.UndoManager;
 import org.openflexo.rm.FileSystemResourceLocatorImpl;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.swing.ComponentBoundSaver;
+import org.openflexo.swing.FlexoCollabsiblePanel;
+import org.openflexo.swing.FlexoCollabsiblePanelGroup;
 import org.openflexo.swing.FlexoFileChooser;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
 import org.openflexo.toolbox.PropertyChangeListenerRegistrationManager;
@@ -150,13 +161,14 @@ public class DiagramEditorApplication {
 	private final JDianaScaleSelector scaleSelector;
 	private final JDianaLayoutWidget layoutWidget;
 	private final JDianaStyles stylesWidget;
-	/** Palettes shown in the palette dialog, one tab each */
-	private static final String[] PALETTES = { "Basic", "Rectangles", "BasicShapes", "Arrows", "Flowchart", "StarsAndBanners",
-			"Equations", "Shapes3D" };
+	/** Palettes shown in the palette dialog, one collapsible panel each: directory and title */
+	private static final String[][] PALETTES = { { "Basic", "Basic" }, { "Rectangles", "Rectangles" }, { "BasicShapes", "Basic shapes" },
+			{ "Arrows", "Arrows" }, { "Flowchart", "Flowchart" }, { "StarsAndBanners", "Stars and banners" }, { "Equations", "Equations" },
+			{ "Shapes3D", "3D shapes" } };
 
-	private final List<JDianaPalette> palettes = new ArrayList<>();
 	private final List<DiagramEditorPalette> paletteModels = new ArrayList<>();
-	private final JTabbedPane paletteTabs;
+	private final List<JDianaPalette> palettes = new ArrayList<>();
+	private final FlexoCollabsiblePanelGroup paletteGroup;
 	private final JDianaDialogInspectors inspectors;
 
 	protected PropertyChangeListenerRegistrationManager manager;
@@ -563,22 +575,45 @@ public class DiagramEditorApplication {
 
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 
-		paletteTabs = new JTabbedPane();
-		for (String paletteName : PALETTES) {
-			DiagramEditorPalette paletteModel = new DiagramEditorPalette(paletteName);
+		// Palettes are shown as collapsible panels, which may be opened together: all of them are attached to the edited
+		// drawing, a palette becoming the active one when elements are dragged from it
+		paletteGroup = new FlexoCollabsiblePanelGroup();
+		List<FlexoCollabsiblePanel> palettePanels = new ArrayList<>();
+		for (String[] paletteDefinition : PALETTES) {
+			DiagramEditorPalette paletteModel = new DiagramEditorPalette(paletteDefinition[0]);
 			JDianaPalette palette = toolFactory.makeDianaPalette(paletteModel);
 			paletteModels.add(paletteModel);
 			palettes.add(palette);
-			paletteTabs.addTab(paletteName, palette.getComponent());
+			FlexoCollabsiblePanel palettePanel = new FlexoCollabsiblePanel(paletteDefinition[1], palette.getFittingComponent());
+			// The group collapses its other panels when a panel is added (and only then): panels are toggled independently
+			paletteGroup.addContents(palettePanel);
+			palettePanels.add(palettePanel);
+			for (Component child : palettePanel.getComponents()) {
+				if (child instanceof FlexoCollabsiblePanel.FlexoCollabsiblePanelHeader) {
+					((JComponent) child).setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+				}
+				else if (child instanceof JXCollapsiblePane) {
+					// Fired once expanded (after the animation, if any): bring the opened palette into view
+					child.addPropertyChangeListener("collapsed", e -> {
+						if (Boolean.FALSE.equals(e.getNewValue())) {
+							SwingUtilities.invokeLater(() -> palettePanel
+									.scrollRectToVisible(new Rectangle(0, 0, palettePanel.getWidth(), palettePanel.getHeight())));
+						}
+					});
+				}
+			}
 		}
-		// The drawing view tracks a single active palette (used to locate the dragged image):
-		// activate the one which is shown, the only one elements may be dragged from
-		paletteTabs.addChangeListener(e -> activateSelectedPalette());
+		// Open Basic palette only
+		for (FlexoCollabsiblePanel palettePanel : palettePanels) {
+			palettePanel.setCollapsed(palettePanel != palettePanels.get(0));
+		}
+		setWhiteBackground(paletteGroup);
 
 		paletteDialog = new JDialog(frame, "Palette", false);
-		paletteDialog.getContentPane().add(paletteTabs);
+		paletteDialog.getContentPane().add(paletteGroup);
 		paletteDialog.setLocation(1010, 0);
-		paletteDialog.pack();
+		paletteDialog.setSize(370, 500);
+		fitPaletteDialogHeightOnce();
 		paletteDialog.setVisible(true);
 		paletteDialog.setFocusableWindowState(false);
 
@@ -932,9 +967,49 @@ public class DiagramEditorApplication {
 		}
 	}
 
-	private void activateSelectedPalette() {
-		if (currentDiagramEditor != null && paletteTabs.getSelectedIndex() >= 0) {
-			palettes.get(paletteTabs.getSelectedIndex()).attachToEditor(currentDiagramEditor.getController());
+	/**
+	 * Once the palette dialog contents are laid out (Basic palette opened, other ones collapsed, possibly with an animation), make the
+	 * dialog just as high as them. Done once: opening palettes later scrolls the dialog contents
+	 */
+	private void fitPaletteDialogHeightOnce() {
+		JComponent contents = (JComponent) paletteGroup.getViewport().getView();
+		Timer settled = new Timer(300, null);
+		ComponentAdapter resizeListener = new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				settled.restart();
+			}
+		};
+		settled.setRepeats(false);
+		settled.addActionListener(e -> {
+			contents.removeComponentListener(resizeListener);
+			int chromeHeight = paletteDialog.getHeight() - paletteGroup.getViewport().getExtentSize().height;
+			paletteDialog.setSize(paletteDialog.getWidth(), contents.getPreferredSize().height + chromeHeight);
+		});
+		contents.addComponentListener(resizeListener);
+		settled.start();
+	}
+
+	private void attachPalettes() {
+		if (currentDiagramEditor != null) {
+			for (JDianaPalette palette : palettes) {
+				palette.attachToEditor(currentDiagramEditor.getController());
+			}
+		}
+	}
+
+	/**
+	 * Sets a white background to supplied component and its descendants, palette drawings excepted
+	 */
+	private static void setWhiteBackground(Component component) {
+		if (component instanceof JDrawingView) {
+			return;
+		}
+		component.setBackground(Color.WHITE);
+		if (component instanceof Container) {
+			for (Component child : ((Container) component).getComponents()) {
+				setWhiteBackground(child);
+			}
 		}
 	}
 
@@ -954,7 +1029,7 @@ public class DiagramEditorApplication {
 		for (DiagramEditorPalette paletteModel : paletteModels) {
 			paletteModel.setEditor(diagramEditor.getController());
 		}
-		activateSelectedPalette();
+		attachPalettes();
 		inspectors.attachToEditor(diagramEditor.getController());
 
 		/*JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));

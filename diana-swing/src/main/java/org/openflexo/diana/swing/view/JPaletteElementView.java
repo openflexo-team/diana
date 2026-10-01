@@ -58,9 +58,11 @@ import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 import org.openflexo.diana.Drawing.ShapeNode;
+import org.openflexo.diana.control.DianaInteractiveEditor;
 import org.openflexo.diana.control.PaletteElement;
 import org.openflexo.diana.control.tools.DianaPalette;
 import org.openflexo.diana.swing.JPaletteController;
+import org.openflexo.diana.swing.control.tools.JDianaPalette;
 import org.openflexo.diana.swing.control.tools.JDianaPalette.PaletteElementTransferable;
 
 //import sun.awt.dnd.SunDragSourceContextPeer;
@@ -184,6 +186,13 @@ public class JPaletteElementView extends JShapeView<PaletteElement> {
 				// get the label's text and put it inside a Transferable
 				// Transferable transferable = new StringSelection(
 				// DragLabel.this.getText() );
+			}
+
+			// Several palettes may be shown together, while the edited drawing view tracks a single one (used to locate the dragged
+			// image): the palette elements are dragged from becomes the active one
+			JDianaPalette palette = getController().getPalette();
+			if (palette != null && palette.getEditor() instanceof DianaInteractiveEditor) {
+				((DianaInteractiveEditor<?, ?, ?>) palette.getEditor()).activatePalette(palette);
 			}
 
 			Point p = SwingUtilities.convertPoint(e.getComponent(), e.getDragOrigin(), JPaletteElementView.this);

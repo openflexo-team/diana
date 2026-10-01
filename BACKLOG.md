@@ -32,8 +32,14 @@ polygon variants) and offers no complex shapes.
 - A shape of a `ShapeUnion` overrides default styles for itself only (`DianaShapeUnion.paint`,
   `AbstractDianaGraphics.saveDefaultStyles()`/`restoreDefaultStyles()`): its foreground or
   background no longer leaks to the following shapes.
-- The DIANA drawing editor (`LaunchDiagramEditor`) shows all palettes in tabs of its palette
-  dialog; the selected tab is the palette attached to the current editor.
+- The DIANA drawing editor (`LaunchDiagramEditor`) shows all palettes as collapsible panels
+  (`FlexoCollabsiblePanelGroup`, as the inspectors of the FME diagram view) on a white background,
+  Basic opened first; several panels may be opened together.
+  `JDianaPalette.getFittingComponent()` shows a palette without scrolling, its height following
+  the wrapped lines of elements.
+- `JDrawingView` tracks a single active palette (used to place the dragged image): a palette now
+  becomes the active one when a drag starts from one of its elements (`JPaletteElementView`), so
+  that several palettes may be shown together.
 - `GeneralShape.pathElements` now allows repeated elements: DIANA objects compare by value, so
   PAMELA silently dropped a segment ending on an already-used point (flowchart *Collate* lost its
   second pass through the center).
@@ -48,8 +54,6 @@ polygon variants) and offers no complex shapes.
 - Discover palettes (scan `Palettes/*` across jars) rather than listing them in each tool; the
   drawing editor uses a fixed list.
 - FML diagram editor (`CommonPalette`, diagram-ta-ui) still shows `Basic` only.
-- `JDrawingView` tracks a single active palette (used to place the dragged image): tools showing
-  several palettes at once need to activate a palette when a drag starts from it.
 - Complete `Basic` with the existing shape parameters (arc, more stars/polygons).
 - Not translated from DrawingML: adjust handles (shapes are frozen at default values) and text
   rectangles.
