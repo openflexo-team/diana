@@ -52,12 +52,17 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.DianaModelFactoryImpl;
+import org.openflexo.diana.GraphicalRepresentation.HorizontalTextAlignment;
+import org.openflexo.diana.GraphicalRepresentation.VerticalTextAlignment;
 import org.openflexo.diana.PaletteElementSpecification;
+import org.openflexo.diana.ShapeGraphicalRepresentation;
+import org.openflexo.diana.control.PaletteElement;
 import org.openflexo.diana.geom.DianaGeneralShape;
 import org.openflexo.diana.geom.DianaRectangle;
 import org.openflexo.diana.geom.DianaShape;
 import org.openflexo.diana.geom.DianaShapeUnion;
 import org.openflexo.diana.palettes.DrawingMLPaletteGenerator.PresetElement;
+import org.openflexo.diana.palettes.RenderPalettes.PreviewPalette;
 import org.openflexo.diana.shapes.GeneralShape;
 import org.openflexo.diana.shapes.ShapeSpecification;
 import org.openflexo.rm.Resource;
@@ -105,6 +110,7 @@ public class TestDianaPalettes {
 			for (PresetElement element : palette.getValue()) {
 				PaletteElementSpecification spec = load(palette.getKey(), element.fileName);
 				assertEquals(element.name, spec.getName());
+				assertFloatingLabel(element.fileName, spec.getGraphicalRepresentation(), element.floatingLabel);
 				ShapeSpecification shape = spec.getGraphicalRepresentation().getShapeSpecification();
 				assertNotNull(element.fileName, shape);
 				DianaShape<?> dianaShape = shape.makeDianaShape(new DianaRectangle(0, 0, 1, 1));
@@ -156,6 +162,32 @@ public class TestDianaPalettes {
 								.equalsObject(loaded.getGraphicalRepresentation().getShapeSpecification()));
 				assertEquals(element.fileName, generated.getIndex(), loaded.getIndex());
 			}
+		}
+	}
+
+	/**
+	 * A label floating above its shape, centered, when the generator asks for it; in the middle of the shape otherwise
+	 */
+	static void assertFloatingLabel(String name, ShapeGraphicalRepresentation gr, boolean floating) {
+		assertEquals(name, floating, gr.getIsFloatingLabel());
+		if (floating) {
+			assertEquals(name, gr.getWidth() / 2, gr.getAbsoluteTextX(), 0.001);
+			assertEquals(name, -PaletteLabels.FLOATING_LABEL_GAP, gr.getAbsoluteTextY(), 0.001);
+			assertEquals(name, HorizontalTextAlignment.CENTER, gr.getHorizontalTextAlignment());
+			assertEquals(name, VerticalTextAlignment.BOTTOM, gr.getVerticalTextAlignment());
+		}
+	}
+
+	/**
+	 * Fitting an element in its palette cell moves the anchor of its floating label: still centered above it
+	 */
+	@Test
+	public void testFloatingLabelInPalette() {
+		PreviewPalette equations = new PreviewPalette("Equations");
+		for (PaletteElement element : equations.getElements()) {
+			// Elements of 100x100, in cells of 120x80
+			assertEquals(80, element.getGraphicalRepresentation().getWidth(), 0.001);
+			assertFloatingLabel(element.getName(), element.getGraphicalRepresentation(), true);
 		}
 	}
 

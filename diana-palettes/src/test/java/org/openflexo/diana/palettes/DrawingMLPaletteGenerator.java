@@ -114,6 +114,8 @@ public class DrawingMLPaletteGenerator {
 		final String name;
 		final double refWidth;
 		final double refHeight;
+		/** Label shown above the shape rather than in its middle */
+		boolean floatingLabel = false;
 
 		PresetElement(String preset, String fileName, String name, double refWidth, double refHeight) {
 			this.preset = preset;
@@ -130,6 +132,15 @@ public class DrawingMLPaletteGenerator {
 
 	private static PresetElement element(String preset, String fileName, String name, double refWidth, double refHeight) {
 		return new PresetElement(preset, fileName, name, refWidth, refHeight);
+	}
+
+	/**
+	 * Supplied element shows its label above its shape: a label in its middle would be crossed by a stroke, or mostly outside of the
+	 * shape (empty or thin middle)
+	 */
+	private static PresetElement floating(PresetElement element) {
+		element.floatingLabel = true;
+		return element;
 	}
 
 	/**
@@ -155,10 +166,10 @@ public class DrawingMLPaletteGenerator {
 		flowchart.add(element("flowChartOffpageConnector", "OffpageConnector", "Off-page connector", 80, 80));
 		flowchart.add(element("flowChartPunchedCard", "Card", "Card"));
 		flowchart.add(element("flowChartPunchedTape", "PunchedTape", "Punched tape"));
-		flowchart.add(element("flowChartSummingJunction", "SummingJunction", "Summing junction", 80, 80));
-		flowchart.add(element("flowChartOr", "Or", "Or", 80, 80));
-		flowchart.add(element("flowChartCollate", "Collate", "Collate", 80, 80));
-		flowchart.add(element("flowChartSort", "Sort", "Sort", 80, 80));
+		flowchart.add(floating(element("flowChartSummingJunction", "SummingJunction", "Summing junction", 80, 80)));
+		flowchart.add(floating(element("flowChartOr", "Or", "Or", 80, 80)));
+		flowchart.add(floating(element("flowChartCollate", "Collate", "Collate", 80, 80)));
+		flowchart.add(floating(element("flowChartSort", "Sort", "Sort", 80, 80)));
 		flowchart.add(element("flowChartExtract", "Extract", "Extract", 80, 80));
 		flowchart.add(element("flowChartMerge", "Merge", "Merge", 80, 80));
 		flowchart.add(element("flowChartOnlineStorage", "StoredData", "Stored data"));
@@ -192,7 +203,7 @@ public class DrawingMLPaletteGenerator {
 		// Presets matching a native shape of the Basic palette are left out: rect, ellipse, triangle, diamond, parallelogram,
 		// pentagon, hexagon, octagon, plus, chevron, pie and arc
 		List<PresetElement> basicShapes = new ArrayList<>();
-		basicShapes.add(element("rtTriangle", "RightTriangle", "Right triangle", 100, 100));
+		basicShapes.add(floating(element("rtTriangle", "RightTriangle", "Right triangle", 100, 100)));
 		basicShapes.add(element("trapezoid", "Trapezoid", "Trapezoid"));
 		basicShapes.add(element("nonIsoscelesTrapezoid", "NonIsoscelesTrapezoid", "Non-isosceles trapezoid"));
 		basicShapes.add(element("heptagon", "Heptagon", "Heptagon", 100, 100));
@@ -200,29 +211,29 @@ public class DrawingMLPaletteGenerator {
 		basicShapes.add(element("dodecagon", "Dodecagon", "Dodecagon", 100, 100));
 		basicShapes.add(element("chord", "Chord", "Chord", 100, 100));
 		basicShapes.add(element("pieWedge", "PieWedge", "Pie wedge", 100, 100));
-		basicShapes.add(element("blockArc", "BlockArc", "Block arc", 100, 100));
+		basicShapes.add(floating(element("blockArc", "BlockArc", "Block arc", 100, 100)));
 		basicShapes.add(element("teardrop", "Teardrop", "Teardrop", 100, 100));
 		basicShapes.add(element("frame", "Frame", "Frame"));
-		basicShapes.add(element("halfFrame", "HalfFrame", "Half frame", 100, 100));
-		basicShapes.add(element("corner", "LShape", "L-shape", 100, 100));
-		basicShapes.add(element("diagStripe", "DiagonalStripe", "Diagonal stripe", 100, 100));
-		basicShapes.add(element("donut", "Donut", "Donut", 100, 100));
-		basicShapes.add(element("noSmoking", "NoSymbol", "\"No\" symbol", 100, 100));
-		basicShapes.add(element("smileyFace", "SmileyFace", "Smiley face", 100, 100));
+		basicShapes.add(floating(element("halfFrame", "HalfFrame", "Half frame", 100, 100)));
+		basicShapes.add(floating(element("corner", "LShape", "L-shape", 100, 100)));
+		basicShapes.add(floating(element("diagStripe", "DiagonalStripe", "Diagonal stripe", 100, 100)));
+		basicShapes.add(floating(element("donut", "Donut", "Donut", 100, 100)));
+		basicShapes.add(floating(element("noSmoking", "NoSymbol", "\"No\" symbol", 100, 100)));
+		basicShapes.add(floating(element("smileyFace", "SmileyFace", "Smiley face", 100, 100)));
 		basicShapes.add(element("heart", "Heart", "Heart", 100, 100));
-		basicShapes.add(element("lightningBolt", "LightningBolt", "Lightning bolt", 100, 100));
+		basicShapes.add(floating(element("lightningBolt", "LightningBolt", "Lightning bolt", 100, 100)));
 		basicShapes.add(element("sun", "Sun", "Sun", 100, 100));
-		basicShapes.add(element("moon", "Moon", "Moon", 60, 100));
+		basicShapes.add(floating(element("moon", "Moon", "Moon", 60, 100)));
 		basicShapes.add(element("cloud", "Cloud", "Cloud"));
-		basicShapes.add(element("funnel", "Funnel", "Funnel", 100, 100));
+		basicShapes.add(floating(element("funnel", "Funnel", "Funnel", 100, 100)));
 		basicShapes.add(element("gear6", "Gear6", "Gear (6 teeth)", 100, 100));
 		basicShapes.add(element("gear9", "Gear9", "Gear (9 teeth)", 100, 100));
 		basicShapes.add(element("bracketPair", "DoubleBracket", "Double bracket"));
 		basicShapes.add(element("bracePair", "DoubleBrace", "Double brace"));
-		basicShapes.add(element("leftBracket", "LeftBracket", "Left bracket", 30, 100));
-		basicShapes.add(element("rightBracket", "RightBracket", "Right bracket", 30, 100));
-		basicShapes.add(element("leftBrace", "LeftBrace", "Left brace", 30, 100));
-		basicShapes.add(element("rightBrace", "RightBrace", "Right brace", 30, 100));
+		basicShapes.add(floating(element("leftBracket", "LeftBracket", "Left bracket", 30, 100)));
+		basicShapes.add(floating(element("rightBracket", "RightBracket", "Right bracket", 30, 100)));
+		basicShapes.add(floating(element("leftBrace", "LeftBrace", "Left brace", 30, 100)));
+		basicShapes.add(floating(element("rightBrace", "RightBrace", "Right brace", 30, 100)));
 		returned.put("BasicShapes", basicShapes);
 
 		// chevron is in the Basic palette
@@ -234,15 +245,15 @@ public class DrawingMLPaletteGenerator {
 		arrows.add(element("leftRightArrow", "LeftRightArrow", "Left-right arrow", 140, 60));
 		arrows.add(element("upDownArrow", "UpDownArrow", "Up-down arrow", 60, 140));
 		arrows.add(element("quadArrow", "QuadArrow", "Quad arrow", 100, 100));
-		arrows.add(element("leftRightUpArrow", "LeftRightUpArrow", "Left-right-up arrow", 120, 80));
-		arrows.add(element("bentArrow", "BentArrow", "Bent arrow", 100, 100));
-		arrows.add(element("uturnArrow", "UTurnArrow", "U-turn arrow", 100, 100));
-		arrows.add(element("leftUpArrow", "LeftUpArrow", "Left-up arrow", 100, 100));
-		arrows.add(element("bentUpArrow", "BentUpArrow", "Bent-up arrow", 100, 100));
-		arrows.add(element("curvedRightArrow", "CurvedRightArrow", "Curved right arrow", 60, 120));
-		arrows.add(element("curvedLeftArrow", "CurvedLeftArrow", "Curved left arrow", 60, 120));
-		arrows.add(element("curvedUpArrow", "CurvedUpArrow", "Curved up arrow", 120, 60));
-		arrows.add(element("curvedDownArrow", "CurvedDownArrow", "Curved down arrow", 120, 60));
+		arrows.add(floating(element("leftRightUpArrow", "LeftRightUpArrow", "Left-right-up arrow", 120, 80)));
+		arrows.add(floating(element("bentArrow", "BentArrow", "Bent arrow", 100, 100)));
+		arrows.add(floating(element("uturnArrow", "UTurnArrow", "U-turn arrow", 100, 100)));
+		arrows.add(floating(element("leftUpArrow", "LeftUpArrow", "Left-up arrow", 100, 100)));
+		arrows.add(floating(element("bentUpArrow", "BentUpArrow", "Bent-up arrow", 100, 100)));
+		arrows.add(floating(element("curvedRightArrow", "CurvedRightArrow", "Curved right arrow", 60, 120)));
+		arrows.add(floating(element("curvedLeftArrow", "CurvedLeftArrow", "Curved left arrow", 60, 120)));
+		arrows.add(floating(element("curvedUpArrow", "CurvedUpArrow", "Curved up arrow", 120, 60)));
+		arrows.add(floating(element("curvedDownArrow", "CurvedDownArrow", "Curved down arrow", 120, 60)));
 		arrows.add(element("stripedRightArrow", "StripedRightArrow", "Striped right arrow", 120, 60));
 		arrows.add(element("notchedRightArrow", "NotchedRightArrow", "Notched right arrow", 120, 60));
 		arrows.add(element("homePlate", "Pentagon", "Pentagon", 120, 60));
@@ -253,17 +264,19 @@ public class DrawingMLPaletteGenerator {
 		arrows.add(element("leftRightArrowCallout", "LeftRightArrowCallout", "Left-right arrow callout", 140, 80));
 		arrows.add(element("upDownArrowCallout", "UpDownArrowCallout", "Up-down arrow callout", 80, 140));
 		arrows.add(element("quadArrowCallout", "QuadArrowCallout", "Quad arrow callout", 100, 100));
-		arrows.add(element("circularArrow", "CircularArrow", "Circular arrow", 100, 100));
-		arrows.add(element("leftCircularArrow", "LeftCircularArrow", "Left circular arrow", 100, 100));
-		arrows.add(element("leftRightCircularArrow", "LeftRightCircularArrow", "Left-right circular arrow", 100, 100));
-		arrows.add(element("swooshArrow", "SwooshArrow", "Swoosh arrow"));
+		arrows.add(floating(element("circularArrow", "CircularArrow", "Circular arrow", 100, 100)));
+		arrows.add(floating(element("leftCircularArrow", "LeftCircularArrow", "Left circular arrow", 100, 100)));
+		arrows.add(floating(element("leftRightCircularArrow", "LeftRightCircularArrow", "Left-right circular arrow", 100, 100)));
+		arrows.add(floating(element("swooshArrow", "SwooshArrow", "Swoosh arrow")));
 		returned.put("Arrows", arrows);
 
 		List<PresetElement> starsAndBanners = new ArrayList<>();
 		starsAndBanners.add(element("irregularSeal1", "Explosion1", "Explosion 1", 100, 100));
 		starsAndBanners.add(element("irregularSeal2", "Explosion2", "Explosion 2", 100, 100));
 		for (int n : new int[] { 4, 5, 6, 7, 8, 10, 12, 16, 24, 32 }) {
-			starsAndBanners.add(element("star" + n, "Star" + n, n + "-point star", 100, 100));
+			PresetElement star = element("star" + n, "Star" + n, n + "-point star", 100, 100);
+			// The 4-point star is too thin for a label in its middle
+			starsAndBanners.add(n == 4 ? floating(star) : star);
 		}
 		starsAndBanners.add(element("ribbon2", "RibbonUp", "Ribbon: tilted up", 140, 70));
 		starsAndBanners.add(element("ribbon", "RibbonDown", "Ribbon: tilted down", 140, 70));
@@ -277,12 +290,12 @@ public class DrawingMLPaletteGenerator {
 		returned.put("StarsAndBanners", starsAndBanners);
 
 		List<PresetElement> equations = new ArrayList<>();
-		equations.add(element("mathPlus", "Plus", "Plus", 100, 100));
-		equations.add(element("mathMinus", "Minus", "Minus", 100, 100));
-		equations.add(element("mathMultiply", "Multiply", "Multiply", 100, 100));
-		equations.add(element("mathDivide", "Divide", "Division", 100, 100));
-		equations.add(element("mathEqual", "Equal", "Equal", 100, 100));
-		equations.add(element("mathNotEqual", "NotEqual", "Not equal", 100, 100));
+		equations.add(floating(element("mathPlus", "Plus", "Plus", 100, 100)));
+		equations.add(floating(element("mathMinus", "Minus", "Minus", 100, 100)));
+		equations.add(floating(element("mathMultiply", "Multiply", "Multiply", 100, 100)));
+		equations.add(floating(element("mathDivide", "Divide", "Division", 100, 100)));
+		equations.add(floating(element("mathEqual", "Equal", "Equal", 100, 100)));
+		equations.add(floating(element("mathNotEqual", "NotEqual", "Not equal", 100, 100)));
 		returned.put("Equations", equations);
 
 		// Left out: line callouts (accentCallout*, borderCallout*, callout*), speech callouts (wedge*Callout, cloudCallout),
@@ -361,6 +374,9 @@ public class DrawingMLPaletteGenerator {
 		gr.setDimensionConstraints(DimensionConstraints.FREELY_RESIZABLE);
 		gr.setWidth(element.refWidth);
 		gr.setHeight(element.refHeight);
+		if (element.floatingLabel) {
+			PaletteLabels.setFloatingLabelAbove(gr);
+		}
 		spec.setGraphicalRepresentation(gr);
 		return spec;
 	}

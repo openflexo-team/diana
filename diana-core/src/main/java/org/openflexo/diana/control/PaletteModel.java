@@ -49,6 +49,7 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.DianaModelFactoryImpl;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.PaletteElementSpecification;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
@@ -238,6 +239,11 @@ public abstract class PaletteModel implements HasPropertyChangeSupport {
 			double scale = Math.min(getElementWidth() / gr.getWidth(), getElementHeight() / gr.getHeight());
 			width = gr.getWidth() * scale;
 			height = gr.getHeight() * scale;
+		}
+		if (gr.getIsFloatingLabel()) {
+			// Move the anchor of a floating label as resizing a shape does (see ContainerNodeImpl)
+			gr.setAbsoluteTextX(DianaUtils.scaledFloatingLabelAnchor(gr.getAbsoluteTextX(), gr.getWidth(), width));
+			gr.setAbsoluteTextY(DianaUtils.scaledFloatingLabelAnchor(gr.getAbsoluteTextY(), gr.getHeight(), height));
 		}
 		gr.setWidth(width);
 		gr.setHeight(height);

@@ -47,6 +47,12 @@ polygon variants) and offers no complex shapes.
 - The drawing editor stores a classpath resource (an image of a palette element, in a jar) as
   `classpath:<path>` (`ClasspathAwareResourceConverter`): it used to store an absolute jar URL,
   which was not read back.
+- Floating labels, above the shape and centered, for elements on which a label in the middle would
+  be hidden or crossed: all emojis, the Basic image, Equations, and shapes whose middle is empty, thin
+  or crossed by a stroke (chosen by measuring the label zone; `floating(...)` in
+  `DrawingMLPaletteGenerator`). The anchor of a floating label follows its shape when the shape is
+  resized (`ContainerNodeImpl.updateSize`, also before the label has a text) and when a palette fits
+  an element in its cell (`DianaUtils.scaledFloatingLabelAnchor`).
 - `PaletteModel` no longer re-creates its shared factory (`FACTORY`, a PAMELA model introspection)
   for each palette: a palette could build its drawing with another factory than its elements.
 - `GeneralShape.pathElements` now allows repeated elements: DIANA objects compare by value, so

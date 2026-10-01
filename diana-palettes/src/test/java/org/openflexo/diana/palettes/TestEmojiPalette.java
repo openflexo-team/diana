@@ -91,6 +91,8 @@ public class TestEmojiPalette {
 			PaletteElementSpecification spec = (PaletteElementSpecification) factory.deserialize(resource.openInputStream());
 			assertEquals(fileName, index++, spec.getIndex().intValue());
 			assertTrue(fileName, spec.getGraphicalRepresentation().getBackground() instanceof BackgroundImageBackgroundStyle);
+			// The label would hide the image
+			TestDianaPalettes.assertFloatingLabel(fileName, spec.getGraphicalRepresentation(), true);
 			Resource imageResource = ((BackgroundImageBackgroundStyle) spec.getGraphicalRepresentation().getBackground())
 					.getImageResource();
 			assertNotNull(fileName + ": image not resolved", imageResource);

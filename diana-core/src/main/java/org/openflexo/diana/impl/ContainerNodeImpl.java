@@ -676,6 +676,14 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 			setWidthNoNotification(newSize.width);
 			setHeightNoNotification(newSize.height);
 			// }
+			// The anchor of a floating label follows the shape, even before the label has a text
+			if (getGraphicalRepresentation() instanceof ShapeGraphicalRepresentation
+					&& ((ShapeGraphicalRepresentation) getGraphicalRepresentation()).getIsFloatingLabel()) {
+				getGraphicalRepresentation().setAbsoluteTextX(
+						DianaUtils.scaledFloatingLabelAnchor(getGraphicalRepresentation().getAbsoluteTextX(), oldWidth, newSize.width));
+				getGraphicalRepresentation().setAbsoluteTextY(
+						DianaUtils.scaledFloatingLabelAnchor(getGraphicalRepresentation().getAbsoluteTextY(), oldHeight, newSize.height));
+			}
 			notifyObjectResized(oldSize);
 			notifyAttributeChanged(ContainerGraphicalRepresentation.WIDTH, oldWidth, getWidth());
 			notifyAttributeChanged(ContainerGraphicalRepresentation.HEIGHT, oldHeight, getHeight());

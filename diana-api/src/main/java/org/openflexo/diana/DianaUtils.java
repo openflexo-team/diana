@@ -448,4 +448,18 @@ public class DianaUtils {
 		public ImageIcon getIcon();
 	}
 
+	/**
+	 * Anchor (absolute text location, along one axis) of a floating label once its shape is resized from oldSize to newSize:
+	 * proportional within the shape, translated beyond it, unchanged before it (a label above or left of its shape keeps its gap)
+	 */
+	public static double scaledFloatingLabelAnchor(double anchor, double oldSize, double newSize) {
+		if (anchor < 0 || oldSize <= 0) {
+			return anchor;
+		}
+		if (anchor < oldSize) {
+			return anchor / oldSize * newSize;
+		}
+		return anchor + newSize - oldSize;
+	}
+
 }

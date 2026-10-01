@@ -276,6 +276,8 @@ public class FluentEmojiPaletteGenerator {
 		gr.setDimensionConstraints(DimensionConstraints.FREELY_RESIZABLE);
 		gr.setWidth(64);
 		gr.setHeight(64);
+		// The label would hide the image
+		PaletteLabels.setFloatingLabelAbove(gr);
 		spec.setGraphicalRepresentation(gr);
 		return spec;
 	}

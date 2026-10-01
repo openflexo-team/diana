@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PaletteElementSpecification id="0" description="DrawingML preset geometry: leftRightCircularArrow" index="28" name="Left-right circular arrow">
-  <ShapeGraphicalRepresentation id="1" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" identifier="leftRightCircularArrow" isFloatingLabel="false" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5">
+  <ShapeGraphicalRepresentation id="1" absoluteTextX="50.0" absoluteTextY="-2.0" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" identifier="leftRightCircularArrow" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5" verticalTextAlignment="BOTTOM">
     <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
     <ForegroundStyle id="3" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
     <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />

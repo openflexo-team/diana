@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PaletteElementSpecification id="0" applyCurrentBackground="false" applyCurrentForeground="false" applyCurrentShadowStyle="false" description="Fluent Emoji (MIT license): Light bulb" index="34" name="Light bulb">
-  <ShapeGraphicalRepresentation id="1" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" height="64.0" identifier="fluent-emoji-LightBulb" isFloatingLabel="false" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5" width="64.0">
+  <ShapeGraphicalRepresentation id="1" absoluteTextX="32.0" absoluteTextY="-2.0" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" height="64.0" identifier="fluent-emoji-LightBulb" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5" verticalTextAlignment="BOTTOM" width="64.0">
     <SelectedImageBackgroundStyle id="2" fitToShape="true" imageBackgroundColor="255,255,255" imageBackgroundType="TRANSPARENT" imageFile="Images/FluentEmoji/LightBulb.png" transparencyLevel="0.5" />
     <ForegroundStyle id="3" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
     <FocusedImageBackgroundStyle id="4" fitToShape="true" imageBackgroundColor="255,255,255" imageBackgroundType="TRANSPARENT" imageFile="Images/FluentEmoji/LightBulb.png" transparencyLevel="0.5" />
