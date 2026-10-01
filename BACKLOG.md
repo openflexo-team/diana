@@ -23,6 +23,8 @@ polygon variants) and offers no complex shapes.
 - `GeneralShape.pathElements` now allows repeated elements: DIANA objects compare by value, so
   PAMELA silently dropped a segment ending on an already-used point (flowchart *Collate* lost its
   second pass through the center).
+- `Basic` has a rounded rectangle (`RoundedRectangle.pel`, `arcSize` 12 pixels), right after the
+  rectangle.
 - Shadow of a `ShapeUnion` (`JDianaShapeGraphics.paintShadow`): it was clipped by the union's
   bounding box (a `DianaShapeUnion` is a `Rectangle2D` as a `java.awt.Shape`), and darker, one
   translucent layer per shape of the union. It is now cast from the area the shapes really cover,
@@ -34,7 +36,7 @@ polygon variants) and offers no complex shapes.
 - FML diagram editor (`CommonPalette`, diagram-ta-ui) still shows `Basic` only.
 - `JDrawingView` tracks a single active palette (used to place the dragged image): tools showing
   several palettes at once need to activate a palette when a drag starts from it.
-- Complete `Basic` with the existing shape parameters (rounded rectangle, arc, more stars/polygons).
+- Complete `Basic` with the existing shape parameters (arc, more stars/polygons).
 - Further DrawingML families (arrows, stars and banners, misc.); callouts and connectors excluded.
 - Not translated from DrawingML: adjust handles (shapes are frozen at default values) and text
   rectangles.
