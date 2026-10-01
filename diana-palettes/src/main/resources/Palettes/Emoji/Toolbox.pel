@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" applyCurrentBackground="false" applyCurrentForeground="false" applyCurrentShadowStyle="false" description="Fluent Emoji (MIT license): Toolbox" index="27" name="Toolbox">
+  <ShapeGraphicalRepresentation id="1" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" height="64.0" identifier="fluent-emoji-Toolbox" isFloatingLabel="false" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5" width="64.0">
+    <SelectedImageBackgroundStyle id="2" fitToShape="true" imageBackgroundColor="255,255,255" imageBackgroundType="TRANSPARENT" imageFile="Images/FluentEmoji/Toolbox.png" transparencyLevel="0.5" />
+    <ForegroundStyle id="3" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
+    <FocusedImageBackgroundStyle id="4" fitToShape="true" imageBackgroundColor="255,255,255" imageBackgroundType="TRANSPARENT" imageFile="Images/FluentEmoji/Toolbox.png" transparencyLevel="0.5" />
+    <ShadowStyle id="5" drawShadow="false" shadowDepth="0" />
+    <FocusedForegroundStyle id="6" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
+    <SelectedForegroundStyle id="7" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
+    <ImageBackgroundStyle id="8" fitToShape="true" imageBackgroundColor="255,255,255" imageBackgroundType="TRANSPARENT" imageFile="Images/FluentEmoji/Toolbox.png" transparencyLevel="0.5" />
+    <RectangleShape id="9" />
+    <TextStyle id="10" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </ShapeGraphicalRepresentation>
+</PaletteElementSpecification>

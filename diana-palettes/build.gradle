@@ -25,5 +25,14 @@ task renderPalettes(type: JavaExec) {
   description = 'Renders DIANA palettes of this module to PNG images (needs a display)'
   classpath = sourceSets.test.runtimeClasspath
   mainClass = 'org.openflexo.diana.palettes.RenderPalettes'
-  args file("$buildDir/palettes-preview").absolutePath, 'Flowchart', 'Shapes3D', 'Rectangles', 'BasicShapes', 'Arrows', 'StarsAndBanners', 'Equations'
+  args file("$buildDir/palettes-preview").absolutePath, 'Flowchart', 'Shapes3D', 'Rectangles', 'BasicShapes', 'Arrows', 'StarsAndBanners', 'Equations', 'Emoji'
+}
+
+// Regenerates the Emoji palette from a local checkout of https://github.com/microsoft/fluentui-emoji
+task generateEmojiPalette(type: JavaExec) {
+  group = 'build'
+  description = 'Generates the Emoji palette from Fluent Emoji (-PfluentEmojiDir=<fluentui-emoji checkout>)'
+  classpath = sourceSets.test.runtimeClasspath
+  mainClass = 'org.openflexo.diana.palettes.FluentEmojiPaletteGenerator'
+  args(project.findProperty('fluentEmojiDir') ?: '', file('src/main/resources').absolutePath)
 }

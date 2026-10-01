@@ -164,7 +164,7 @@ public class DiagramEditorApplication {
 	/** Palettes shown in the palette dialog, one collapsible panel each: directory and title */
 	private static final String[][] PALETTES = { { "Basic", "Basic" }, { "Rectangles", "Rectangles" }, { "BasicShapes", "Basic shapes" },
 			{ "Arrows", "Arrows" }, { "Flowchart", "Flowchart" }, { "StarsAndBanners", "Stars and banners" }, { "Equations", "Equations" },
-			{ "Shapes3D", "3D shapes" } };
+			{ "Shapes3D", "3D shapes" }, { "Emoji", "Emoji" } };
 
 	private final List<DiagramEditorPalette> paletteModels = new ArrayList<>();
 	private final List<JDianaPalette> palettes = new ArrayList<>();

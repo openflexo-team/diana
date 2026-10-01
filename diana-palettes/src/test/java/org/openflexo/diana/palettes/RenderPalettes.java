@@ -54,6 +54,7 @@ import org.openflexo.diana.control.PaletteModel;
 import org.openflexo.diana.geom.DianaPoint;
 import org.openflexo.diana.swing.control.tools.JDianaPalette;
 import org.openflexo.diana.swing.view.JDrawingView;
+import org.openflexo.pamela.converter.RelativePathResourceConverter;
 import org.openflexo.rm.ResourceLocator;
 
 /**
@@ -68,6 +69,9 @@ public class RenderPalettes {
 
 		PreviewPalette(String paletteName) {
 			super(paletteName, 840, 800, 120, 80, 20, 30);
+			// Image files of palette elements are relative to the resources directory
+			FACTORY.addConverter(new RelativePathResourceConverter(
+					ResourceLocator.locateResource("Palettes/" + paletteName).getContainer().getContainer()));
 			readFromDirectory(ResourceLocator.locateResource("Palettes/" + paletteName));
 		}
 
