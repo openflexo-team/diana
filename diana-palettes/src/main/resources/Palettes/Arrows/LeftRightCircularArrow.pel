@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" description="DrawingML preset geometry: leftRightCircularArrow" index="28" name="Left-right circular arrow">
+  <ShapeGraphicalRepresentation id="1" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" identifier="leftRightCircularArrow" isFloatingLabel="false" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5">
+    <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="3" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
+    <ShadowStyle id="5" />
+    <FocusedForegroundStyle id="6" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <SelectedForegroundStyle id="7" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
+    <GeneralShape id="9" startPoint="0.125,0.5">
+      <Segment id="10" point="0.0205,0.3777" />
+      <Segment id="11" point="0.0799,0.3777" />
+      <CubicCurve id="12" controlPoint1="0.1343,0.1909" controlPoint2="0.3055,0.0625" point="0.5,0.0625" />
+      <CubicCurve id="13" controlPoint1="0.6945,0.0625" controlPoint2="0.8657,0.1909" point="0.9201,0.3777" />
+      <Segment id="14" point="0.9795,0.3777" />
+      <Segment id="15" point="0.875,0.5" />
+      <Segment id="16" point="0.7295,0.3777" />
+      <Segment id="17" point="0.7876,0.3777" />
+      <CubicCurve id="18" controlPoint1="0.7385,0.2624" controlPoint2="0.6253,0.1875" point="0.5,0.1875" />
+      <CubicCurve id="19" controlPoint1="0.3747,0.1875" controlPoint2="0.2615,0.2624" point="0.2124,0.3777" />
+      <Segment id="20" point="0.2705,0.3777" />
+    </GeneralShape>
+    <TextStyle id="21" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </ShapeGraphicalRepresentation>
+</PaletteElementSpecification>

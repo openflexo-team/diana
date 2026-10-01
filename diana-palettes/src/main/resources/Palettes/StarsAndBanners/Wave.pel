@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" description="DrawingML preset geometry: wave" index="19" name="Wave">
+  <ShapeGraphicalRepresentation id="1" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" height="70.0" identifier="wave" isFloatingLabel="false" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5" width="120.0">
+    <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="3" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
+    <ShadowStyle id="5" />
+    <FocusedForegroundStyle id="6" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <SelectedForegroundStyle id="7" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
+    <GeneralShape id="9" startPoint="0.0,0.125">
+      <CubicCurve id="10" controlPoint1="0.3333,-0.2917" controlPoint2="0.6667,0.5417" point="1.0,0.125" />
+      <Segment id="11" point="1.0,0.875" />
+      <CubicCurve id="12" controlPoint1="0.6667,1.2917" controlPoint2="0.3333,0.4583" point="0.0,0.875" />
+    </GeneralShape>
+    <TextStyle id="13" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </ShapeGraphicalRepresentation>
+</PaletteElementSpecification>

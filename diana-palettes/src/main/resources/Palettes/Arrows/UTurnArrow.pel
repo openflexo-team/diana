@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" description="DrawingML preset geometry: uturnArrow" index="9" name="U-turn arrow">
+  <ShapeGraphicalRepresentation id="1" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" identifier="uturnArrow" isFloatingLabel="false" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5">
+    <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="3" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
+    <ShadowStyle id="5" />
+    <FocusedForegroundStyle id="6" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <SelectedForegroundStyle id="7" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
+    <GeneralShape id="9" startPoint="0.0,1.0">
+      <Segment id="10" point="0.0,0.4375" />
+      <CubicCurve id="11" controlPoint1="0.0,0.1959" controlPoint2="0.1959,0.0" point="0.4375,0.0" />
+      <CubicCurve id="12" controlPoint1="0.6791,0.0" controlPoint2="0.875,0.1959" point="0.875,0.4375" />
+      <Segment id="13" point="0.875,0.5" />
+      <Segment id="14" point="1.0,0.5" />
+      <Segment id="15" point="0.75,0.75" />
+      <Segment id="16" point="0.5,0.5" />
+      <Segment id="17" point="0.625,0.5" />
+      <Segment id="18" point="0.625,0.4375" />
+      <CubicCurve id="19" controlPoint1="0.625,0.3339" controlPoint2="0.5411,0.25" point="0.4375,0.25" />
+      <CubicCurve id="20" controlPoint1="0.3339,0.25" controlPoint2="0.25,0.3339" point="0.25,0.4375" />
+      <Segment id="21" point="0.25,1.0" />
+    </GeneralShape>
+    <TextStyle id="22" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </ShapeGraphicalRepresentation>
+</PaletteElementSpecification>

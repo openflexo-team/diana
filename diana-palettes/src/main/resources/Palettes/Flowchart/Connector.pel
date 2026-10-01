@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PaletteElementSpecification id="0" name="Connector" description="DrawingML preset geometry: flowChartConnector" index="12">
-  <ShapeGraphicalRepresentation id="1" relativeTextY="0.5" locationConstraints="FREELY_MOVABLE" isFloatingLabel="false" adaptBoundsToContents="false" relativeTextX="0.5" dimensionConstraints="FREELY_RESIZABLE" width="80.0" height="80.0" identifier="74751b3" layer="1">
+<PaletteElementSpecification id="0" description="DrawingML preset geometry: flowChartConnector" index="12" name="Connector">
+  <ShapeGraphicalRepresentation id="1" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" height="80.0" identifier="flowChartConnector" isFloatingLabel="false" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5" width="80.0">
     <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
-    <ForegroundStyle id="3" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <ForegroundStyle id="3" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
     <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
     <ShadowStyle id="5" />
-    <FocusedForegroundStyle id="6" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
-    <SelectedForegroundStyle id="7" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <FocusedForegroundStyle id="6" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <SelectedForegroundStyle id="7" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
     <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
     <GeneralShape id="9" startPoint="0.0,0.5">
       <CubicCurve id="10" controlPoint1="0.0,0.2239" controlPoint2="0.2239,0.0" point="0.5,0.0" />

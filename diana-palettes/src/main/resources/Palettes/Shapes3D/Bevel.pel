@@ -1,86 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PaletteElementSpecification id="0" name="Bevel" description="DrawingML preset geometry: bevel" index="2">
-  <ShapeGraphicalRepresentation id="1" relativeTextY="0.5" locationConstraints="FREELY_MOVABLE" isFloatingLabel="false" adaptBoundsToContents="false" relativeTextX="0.5" dimensionConstraints="FREELY_RESIZABLE" identifier="383dc82c" layer="1">
+<PaletteElementSpecification id="0" description="DrawingML preset geometry: bevel" index="2" name="Bevel">
+  <ShapeGraphicalRepresentation id="1" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" identifier="bevel" isFloatingLabel="false" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5">
     <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
-    <ForegroundStyle id="3" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <ForegroundStyle id="3" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
     <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
     <ShadowStyle id="5" />
-    <FocusedForegroundStyle id="6" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
-    <SelectedForegroundStyle id="7" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <FocusedForegroundStyle id="6" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <SelectedForegroundStyle id="7" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
     <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
     <Union id="9">
       <GeneralShape id="10" startPoint="0.125,0.125">
         <Segment id="11" point="0.875,0.125" />
         <Segment id="12" point="0.875,0.875" />
         <Segment id="13" point="0.125,0.875" />
+        <ForegroundStyle id="14" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
       </GeneralShape>
-      <GeneralShape id="14" startPoint="0.0,0.0">
-        <Segment id="15" point="1.0,0.0" />
-        <Segment id="16" point="0.875,0.125" />
-        <Segment id="17" point="0.125,0.125" />
+      <GeneralShape id="15" startPoint="0.0,0.0">
+        <Segment id="16" point="1.0,0.0" />
+        <Segment id="17" point="0.875,0.125" />
+        <Segment id="18" point="0.125,0.125" />
+        <ForegroundStyle id="19" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
       </GeneralShape>
-      <GeneralShape id="18" startPoint="0.0,1.0">
-        <Segment id="19" point="0.125,0.875" />
-        <Segment id="20" point="0.875,0.875" />
-        <Segment id="21" point="1.0,1.0" />
-      </GeneralShape>
-      <GeneralShape id="22" startPoint="0.0,0.0">
+      <GeneralShape id="20" startPoint="0.0,0.0">
+        <Segment id="21" point="1.0,0.0" />
+        <Segment id="22" point="0.875,0.125" />
         <Segment id="23" point="0.125,0.125" />
-        <Segment id="24" point="0.125,0.875" />
-        <Segment id="25" point="0.0,1.0" />
+        <ColorBackgroundStyle id="24" color="255,255,255" transparencyLevel="0.2" useTransparency="true" />
+        <ForegroundStyle id="25" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
       </GeneralShape>
-      <GeneralShape id="26" startPoint="1.0,0.0">
-        <Segment id="27" point="1.0,1.0" />
+      <GeneralShape id="26" startPoint="0.0,1.0">
+        <Segment id="27" point="0.125,0.875" />
         <Segment id="28" point="0.875,0.875" />
-        <Segment id="29" point="0.875,0.125" />
+        <Segment id="29" point="1.0,1.0" />
+        <ForegroundStyle id="30" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
       </GeneralShape>
-      <GeneralShape id="30" startPoint="0.0,0.0">
-        <Segment id="31" point="1.0,0.0" />
-        <Segment id="32" point="0.875,0.125" />
-        <Segment id="33" point="0.125,0.125" />
-        <ColorBackgroundStyle id="34" color="255,255,255" useTransparency="true" transparencyLevel="0.2" />
+      <GeneralShape id="31" startPoint="0.0,1.0">
+        <Segment id="32" point="0.125,0.875" />
+        <Segment id="33" point="0.875,0.875" />
+        <Segment id="34" point="1.0,1.0" />
+        <ColorBackgroundStyle id="35" color="0,0,0" transparencyLevel="0.2" useTransparency="true" />
+        <ForegroundStyle id="36" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
       </GeneralShape>
-      <GeneralShape id="35" startPoint="0.0,1.0">
-        <Segment id="36" point="0.125,0.875" />
-        <Segment id="37" point="0.875,0.875" />
-        <Segment id="38" point="1.0,1.0" />
-        <ColorBackgroundStyle id="39" color="0,0,0" useTransparency="true" transparencyLevel="0.2" />
+      <GeneralShape id="37" startPoint="0.0,0.0">
+        <Segment id="38" point="0.125,0.125" />
+        <Segment id="39" point="0.125,0.875" />
+        <Segment id="40" point="0.0,1.0" />
+        <ForegroundStyle id="41" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
       </GeneralShape>
-      <GeneralShape id="40" startPoint="0.0,0.0">
-        <Segment id="41" point="0.125,0.125" />
-        <Segment id="42" point="0.125,0.875" />
-        <Segment id="43" point="0.0,1.0" />
-        <ColorBackgroundStyle id="44" color="255,255,255" useTransparency="true" transparencyLevel="0.4" />
+      <GeneralShape id="42" startPoint="0.0,0.0">
+        <Segment id="43" point="0.125,0.125" />
+        <Segment id="44" point="0.125,0.875" />
+        <Segment id="45" point="0.0,1.0" />
+        <ColorBackgroundStyle id="46" color="255,255,255" transparencyLevel="0.4" useTransparency="true" />
+        <ForegroundStyle id="47" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
       </GeneralShape>
-      <GeneralShape id="45" startPoint="1.0,0.0">
-        <Segment id="46" point="1.0,1.0" />
-        <Segment id="47" point="0.875,0.875" />
-        <Segment id="48" point="0.875,0.125" />
-        <ColorBackgroundStyle id="49" color="0,0,0" useTransparency="true" transparencyLevel="0.4" />
+      <GeneralShape id="48" startPoint="1.0,0.0">
+        <Segment id="49" point="1.0,1.0" />
+        <Segment id="50" point="0.875,0.875" />
+        <Segment id="51" point="0.875,0.125" />
+        <ForegroundStyle id="52" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
       </GeneralShape>
-      <GeneralShape id="50" startPoint="0.0,0.0" closure="CLOSED_NOT_FILLED">
-        <Segment id="51" point="1.0,0.0" />
-        <Segment id="52" point="1.0,1.0" />
-        <Segment id="53" point="0.0,1.0" />
+      <GeneralShape id="53" startPoint="1.0,0.0">
+        <Segment id="54" point="1.0,1.0" />
+        <Segment id="55" point="0.875,0.875" />
+        <Segment id="56" point="0.875,0.125" />
+        <ColorBackgroundStyle id="57" color="0,0,0" transparencyLevel="0.4" useTransparency="true" />
+        <ForegroundStyle id="58" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
       </GeneralShape>
-      <GeneralShape id="54" startPoint="0.125,0.125" closure="CLOSED_NOT_FILLED">
-        <Segment id="55" point="0.875,0.125" />
-        <Segment id="56" point="0.875,0.875" />
-        <Segment id="57" point="0.125,0.875" />
+      <GeneralShape id="59" closure="CLOSED_NOT_FILLED" startPoint="0.0,0.0">
+        <Segment id="60" point="1.0,0.0" />
+        <Segment id="61" point="1.0,1.0" />
+        <Segment id="62" point="0.0,1.0" />
       </GeneralShape>
-      <GeneralShape id="58" startPoint="0.0,0.0" closure="OPEN_NOT_FILLED">
-        <Segment id="59" point="0.125,0.125" />
-      </GeneralShape>
-      <GeneralShape id="60" startPoint="0.0,1.0" closure="OPEN_NOT_FILLED">
-        <Segment id="61" point="0.125,0.875" />
-      </GeneralShape>
-      <GeneralShape id="62" startPoint="1.0,0.0" closure="OPEN_NOT_FILLED">
-        <Segment id="63" point="0.875,0.125" />
-      </GeneralShape>
-      <GeneralShape id="64" startPoint="1.0,1.0" closure="OPEN_NOT_FILLED">
+      <GeneralShape id="63" closure="CLOSED_NOT_FILLED" startPoint="0.125,0.125">
+        <Segment id="64" point="0.875,0.125" />
         <Segment id="65" point="0.875,0.875" />
+        <Segment id="66" point="0.125,0.875" />
+      </GeneralShape>
+      <GeneralShape id="67" closure="OPEN_NOT_FILLED" startPoint="0.0,0.0">
+        <Segment id="68" point="0.125,0.125" />
+      </GeneralShape>
+      <GeneralShape id="69" closure="OPEN_NOT_FILLED" startPoint="0.0,1.0">
+        <Segment id="70" point="0.125,0.875" />
+      </GeneralShape>
+      <GeneralShape id="71" closure="OPEN_NOT_FILLED" startPoint="1.0,0.0">
+        <Segment id="72" point="0.875,0.125" />
+      </GeneralShape>
+      <GeneralShape id="73" closure="OPEN_NOT_FILLED" startPoint="1.0,1.0">
+        <Segment id="74" point="0.875,0.875" />
       </GeneralShape>
     </Union>
-    <TextStyle id="66" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+    <TextStyle id="75" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
   </ShapeGraphicalRepresentation>
 </PaletteElementSpecification>

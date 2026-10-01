@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PaletteElementSpecification id="0" name="Or" description="DrawingML preset geometry: flowChartOr" index="17">
-  <ShapeGraphicalRepresentation id="1" relativeTextY="0.5" locationConstraints="FREELY_MOVABLE" isFloatingLabel="false" adaptBoundsToContents="false" relativeTextX="0.5" dimensionConstraints="FREELY_RESIZABLE" width="80.0" height="80.0" identifier="2034b64c" layer="1">
+<PaletteElementSpecification id="0" description="DrawingML preset geometry: flowChartOr" index="17" name="Or">
+  <ShapeGraphicalRepresentation id="1" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" height="80.0" identifier="flowChartOr" isFloatingLabel="false" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5" width="80.0">
     <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
-    <ForegroundStyle id="3" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <ForegroundStyle id="3" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
     <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
     <ShadowStyle id="5" />
-    <FocusedForegroundStyle id="6" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
-    <SelectedForegroundStyle id="7" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <FocusedForegroundStyle id="6" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <SelectedForegroundStyle id="7" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
     <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
     <Union id="9">
       <GeneralShape id="10" startPoint="0.0,0.5">
@@ -14,20 +14,21 @@
         <CubicCurve id="12" controlPoint1="0.7761,0.0" controlPoint2="1.0,0.2239" point="1.0,0.5" />
         <CubicCurve id="13" controlPoint1="1.0,0.7761" controlPoint2="0.7761,1.0" point="0.5,1.0" />
         <CubicCurve id="14" controlPoint1="0.2239,1.0" controlPoint2="0.0,0.7761" point="0.0,0.5" />
+        <ForegroundStyle id="15" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
       </GeneralShape>
-      <GeneralShape id="15" startPoint="0.5,0.0" closure="OPEN_NOT_FILLED">
-        <Segment id="16" point="0.5,1.0" />
+      <GeneralShape id="16" closure="OPEN_NOT_FILLED" startPoint="0.5,0.0">
+        <Segment id="17" point="0.5,1.0" />
       </GeneralShape>
-      <GeneralShape id="17" startPoint="0.0,0.5" closure="OPEN_NOT_FILLED">
-        <Segment id="18" point="1.0,0.5" />
+      <GeneralShape id="18" closure="OPEN_NOT_FILLED" startPoint="0.0,0.5">
+        <Segment id="19" point="1.0,0.5" />
       </GeneralShape>
-      <GeneralShape id="19" startPoint="0.0,0.5" closure="CLOSED_NOT_FILLED">
-        <CubicCurve id="20" controlPoint1="0.0,0.2239" controlPoint2="0.2239,0.0" point="0.5,0.0" />
-        <CubicCurve id="21" controlPoint1="0.7761,0.0" controlPoint2="1.0,0.2239" point="1.0,0.5" />
-        <CubicCurve id="22" controlPoint1="1.0,0.7761" controlPoint2="0.7761,1.0" point="0.5,1.0" />
-        <CubicCurve id="23" controlPoint1="0.2239,1.0" controlPoint2="0.0,0.7761" point="0.0,0.5" />
+      <GeneralShape id="20" closure="CLOSED_NOT_FILLED" startPoint="0.0,0.5">
+        <CubicCurve id="21" controlPoint1="0.0,0.2239" controlPoint2="0.2239,0.0" point="0.5,0.0" />
+        <CubicCurve id="22" controlPoint1="0.7761,0.0" controlPoint2="1.0,0.2239" point="1.0,0.5" />
+        <CubicCurve id="23" controlPoint1="1.0,0.7761" controlPoint2="0.7761,1.0" point="0.5,1.0" />
+        <CubicCurve id="24" controlPoint1="0.2239,1.0" controlPoint2="0.0,0.7761" point="0.0,0.5" />
       </GeneralShape>
     </Union>
-    <TextStyle id="24" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+    <TextStyle id="25" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
   </ShapeGraphicalRepresentation>
 </PaletteElementSpecification>

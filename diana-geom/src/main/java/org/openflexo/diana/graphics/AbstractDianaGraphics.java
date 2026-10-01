@@ -95,6 +95,19 @@ public interface AbstractDianaGraphics {
 	public abstract void setDefaultBackgroundStyle(DianaShape<?> shape);
 
 	/**
+	 * Saves current default foreground and background styles, to be restored by {@link #restoreDefaultStyles()}<br>
+	 * Used to let a part of a shape override default styles for itself only
+	 */
+	public default void saveDefaultStyles() {
+	}
+
+	/**
+	 * Restores default foreground and background styles saved by last call to {@link #saveDefaultStyles()}
+	 */
+	public default void restoreDefaultStyles() {
+	}
+
+	/**
 	 * Draw control point at specified location, and with specified size
 	 * 
 	 * @param x

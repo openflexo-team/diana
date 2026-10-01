@@ -25,5 +25,5 @@ task renderPalettes(type: JavaExec) {
   description = 'Renders DIANA palettes of this module to PNG images (needs a display)'
   classpath = sourceSets.test.runtimeClasspath
   mainClass = 'org.openflexo.diana.palettes.RenderPalettes'
-  args file("$buildDir/palettes-preview").absolutePath, 'Flowchart', 'Shapes3D'
+  args file("$buildDir/palettes-preview").absolutePath, 'Flowchart', 'Shapes3D', 'Rectangles', 'BasicShapes', 'Arrows', 'StarsAndBanners', 'Equations'
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" description="DrawingML preset geometry: bracketPair" index="25" name="Double bracket">
+  <ShapeGraphicalRepresentation id="1" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" height="80.0" identifier="bracketPair" isFloatingLabel="false" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5" width="120.0">
+    <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="3" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
+    <ShadowStyle id="5" />
+    <FocusedForegroundStyle id="6" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <SelectedForegroundStyle id="7" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
+    <Union id="9">
+      <GeneralShape id="10" startPoint="0.0,0.1667">
+        <CubicCurve id="11" controlPoint1="0.0,0.0746" controlPoint2="0.0497,0.0" point="0.1111,0.0" />
+        <Segment id="12" point="0.8889,0.0" />
+        <CubicCurve id="13" controlPoint1="0.9503,0.0" controlPoint2="1.0,0.0746" point="1.0,0.1667" />
+        <Segment id="14" point="1.0,0.8333" />
+        <CubicCurve id="15" controlPoint1="1.0,0.9254" controlPoint2="0.9503,1.0" point="0.8889,1.0" />
+        <Segment id="16" point="0.1111,1.0" />
+        <CubicCurve id="17" controlPoint1="0.0497,1.0" controlPoint2="0.0,0.9254" point="0.0,0.8333" />
+        <ForegroundStyle id="18" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
+      </GeneralShape>
+      <GeneralShape id="19" closure="OPEN_NOT_FILLED" startPoint="0.1111,1.0">
+        <CubicCurve id="20" controlPoint1="0.0497,1.0" controlPoint2="0.0,0.9254" point="0.0,0.8333" />
+        <Segment id="21" point="0.0,0.1667" />
+        <CubicCurve id="22" controlPoint1="0.0,0.0746" controlPoint2="0.0497,0.0" point="0.1111,0.0" />
+      </GeneralShape>
+      <GeneralShape id="23" closure="OPEN_NOT_FILLED" startPoint="0.8889,0.0">
+        <CubicCurve id="24" controlPoint1="0.9503,0.0" controlPoint2="1.0,0.0746" point="1.0,0.1667" />
+        <Segment id="25" point="1.0,0.8333" />
+        <CubicCurve id="26" controlPoint1="1.0,0.9254" controlPoint2="0.9503,1.0" point="0.8889,1.0" />
+      </GeneralShape>
+    </Union>
+    <TextStyle id="27" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </ShapeGraphicalRepresentation>
+</PaletteElementSpecification>

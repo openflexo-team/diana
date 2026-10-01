@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" description="DrawingML preset geometry: leftCircularArrow" index="27" name="Left circular arrow">
+  <ShapeGraphicalRepresentation id="1" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" identifier="leftCircularArrow" isFloatingLabel="false" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5">
+    <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="3" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
+    <ShadowStyle id="5" />
+    <FocusedForegroundStyle id="6" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <SelectedForegroundStyle id="7" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
+    <GeneralShape id="9" startPoint="0.0625,0.5">
+      <Segment id="10" point="0.1875,0.5" />
+      <CubicCurve id="11" controlPoint1="0.1875,0.6485" controlPoint2="0.292,0.7765" point="0.4376,0.8062" />
+      <CubicCurve id="12" controlPoint1="0.5831,0.8359" controlPoint2="0.7294,0.759" point="0.7876,0.6223" />
+      <Segment id="13" point="0.7295,0.6223" />
+      <Segment id="14" point="0.875,0.5" />
+      <Segment id="15" point="0.9795,0.6223" />
+      <Segment id="16" point="0.9201,0.6223" />
+      <CubicCurve id="17" controlPoint1="0.8592,0.8314" controlPoint2="0.6538,0.9639" point="0.4382,0.9331" />
+      <CubicCurve id="18" controlPoint1="0.2226,0.9024" controlPoint2="0.0625,0.7178" point="0.0625,0.5" />
+    </GeneralShape>
+    <TextStyle id="19" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </ShapeGraphicalRepresentation>
+</PaletteElementSpecification>

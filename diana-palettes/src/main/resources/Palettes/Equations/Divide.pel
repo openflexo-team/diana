@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" description="DrawingML preset geometry: mathDivide" index="3" name="Division">
+  <ShapeGraphicalRepresentation id="1" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" identifier="mathDivide" isFloatingLabel="false" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5">
+    <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="3" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
+    <ShadowStyle id="5" />
+    <FocusedForegroundStyle id="6" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <SelectedForegroundStyle id="7" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
+    <Union id="9">
+      <GeneralShape id="10" startPoint="0.5,0.1179">
+        <CubicCurve id="11" controlPoint1="0.5649,0.1179" controlPoint2="0.6176,0.1706" point="0.6176,0.2355" />
+        <CubicCurve id="12" controlPoint1="0.6176,0.3004" controlPoint2="0.5649,0.3531" point="0.5,0.3531" />
+        <CubicCurve id="13" controlPoint1="0.4351,0.3531" controlPoint2="0.3824,0.3004" point="0.3824,0.2355" />
+        <CubicCurve id="14" controlPoint1="0.3824,0.1706" controlPoint2="0.4351,0.1179" point="0.5,0.1179" />
+        <Segment id="15" point="0.5,0.8821" />
+        <CubicCurve id="16" controlPoint1="0.4351,0.8821" controlPoint2="0.3824,0.8294" point="0.3824,0.7645" />
+        <CubicCurve id="17" controlPoint1="0.3824,0.6996" controlPoint2="0.4351,0.6469" point="0.5,0.6469" />
+        <CubicCurve id="18" controlPoint1="0.5649,0.6469" controlPoint2="0.6176,0.6996" point="0.6176,0.7645" />
+        <CubicCurve id="19" controlPoint1="0.6176,0.8294" controlPoint2="0.5649,0.8821" point="0.5,0.8821" />
+        <Segment id="20" point="0.5,0.1179" />
+        <Segment id="21" point="0.1326,0.3824" />
+        <Segment id="22" point="0.8675,0.3824" />
+        <Segment id="23" point="0.8675,0.6176" />
+        <Segment id="24" point="0.1326,0.6176" />
+        <Segment id="25" point="0.1326,0.3824" />
+        <Segment id="26" point="0.5,0.1179" />
+        <ForegroundStyle id="27" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
+      </GeneralShape>
+      <GeneralShape id="28" closure="CLOSED_NOT_FILLED" startPoint="0.5,0.1179">
+        <CubicCurve id="29" controlPoint1="0.5649,0.1179" controlPoint2="0.6176,0.1706" point="0.6176,0.2355" />
+        <CubicCurve id="30" controlPoint1="0.6176,0.3004" controlPoint2="0.5649,0.3531" point="0.5,0.3531" />
+        <CubicCurve id="31" controlPoint1="0.4351,0.3531" controlPoint2="0.3824,0.3004" point="0.3824,0.2355" />
+        <CubicCurve id="32" controlPoint1="0.3824,0.1706" controlPoint2="0.4351,0.1179" point="0.5,0.1179" />
+      </GeneralShape>
+      <GeneralShape id="33" closure="CLOSED_NOT_FILLED" startPoint="0.5,0.8821">
+        <CubicCurve id="34" controlPoint1="0.4351,0.8821" controlPoint2="0.3824,0.8294" point="0.3824,0.7645" />
+        <CubicCurve id="35" controlPoint1="0.3824,0.6996" controlPoint2="0.4351,0.6469" point="0.5,0.6469" />
+        <CubicCurve id="36" controlPoint1="0.5649,0.6469" controlPoint2="0.6176,0.6996" point="0.6176,0.7645" />
+        <CubicCurve id="37" controlPoint1="0.6176,0.8294" controlPoint2="0.5649,0.8821" point="0.5,0.8821" />
+      </GeneralShape>
+      <GeneralShape id="38" closure="CLOSED_NOT_FILLED" startPoint="0.1326,0.3824">
+        <Segment id="39" point="0.8675,0.3824" />
+        <Segment id="40" point="0.8675,0.6176" />
+        <Segment id="41" point="0.1326,0.6176" />
+      </GeneralShape>
+    </Union>
+    <TextStyle id="42" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </ShapeGraphicalRepresentation>
+</PaletteElementSpecification>

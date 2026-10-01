@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" description="DrawingML preset geometry: quadArrow" index="6" name="Quad arrow">
+  <ShapeGraphicalRepresentation id="1" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" identifier="quadArrow" isFloatingLabel="false" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5">
+    <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="3" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
+    <ShadowStyle id="5" />
+    <FocusedForegroundStyle id="6" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <SelectedForegroundStyle id="7" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
+    <GeneralShape id="9" startPoint="0.0,0.5">
+      <Segment id="10" point="0.225,0.275" />
+      <Segment id="11" point="0.225,0.3875" />
+      <Segment id="12" point="0.3875,0.3875" />
+      <Segment id="13" point="0.3875,0.225" />
+      <Segment id="14" point="0.275,0.225" />
+      <Segment id="15" point="0.5,0.0" />
+      <Segment id="16" point="0.725,0.225" />
+      <Segment id="17" point="0.6125,0.225" />
+      <Segment id="18" point="0.6125,0.3875" />
+      <Segment id="19" point="0.775,0.3875" />
+      <Segment id="20" point="0.775,0.275" />
+      <Segment id="21" point="1.0,0.5" />
+      <Segment id="22" point="0.775,0.725" />
+      <Segment id="23" point="0.775,0.6125" />
+      <Segment id="24" point="0.6125,0.6125" />
+      <Segment id="25" point="0.6125,0.775" />
+      <Segment id="26" point="0.725,0.775" />
+      <Segment id="27" point="0.5,1.0" />
+      <Segment id="28" point="0.275,0.775" />
+      <Segment id="29" point="0.3875,0.775" />
+      <Segment id="30" point="0.3875,0.6125" />
+      <Segment id="31" point="0.225,0.6125" />
+      <Segment id="32" point="0.225,0.725" />
+    </GeneralShape>
+    <TextStyle id="33" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </ShapeGraphicalRepresentation>
+</PaletteElementSpecification>

@@ -44,6 +44,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 import org.openflexo.diana.BackgroundStyle;
 import org.openflexo.diana.DianaCoreUtils;
@@ -84,6 +86,7 @@ public abstract class DianaGraphicsImpl implements DianaGraphics {
 
 	private ForegroundStyle defaultForeground = DEFAULT_FG;
 	private BackgroundStyle defaultBackground = DEFAULT_BG;
+	private final Deque<Object[]> savedDefaultStyles = new ArrayDeque<>();
 	private TextStyle defaultTextStyle = DEFAULT_TEXT;
 
 	private ForegroundStyle currentForeground = defaultForeground;
@@ -151,6 +154,18 @@ public abstract class DianaGraphicsImpl implements DianaGraphics {
 		if (shape.getBackground() instanceof BackgroundStyle) {
 			setDefaultBackground((BackgroundStyle) shape.getBackground());
 		}
+	}
+
+	@Override
+	public void saveDefaultStyles() {
+		savedDefaultStyles.push(new Object[] { defaultForeground, defaultBackground });
+	}
+
+	@Override
+	public void restoreDefaultStyles() {
+		Object[] saved = savedDefaultStyles.pop();
+		defaultForeground = (ForegroundStyle) saved[0];
+		defaultBackground = (BackgroundStyle) saved[1];
 	}
 
 	@Override

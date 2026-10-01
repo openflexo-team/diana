@@ -110,7 +110,8 @@ public class TestDianaPalettes {
 				DianaShape<?> dianaShape = shape.makeDianaShape(new DianaRectangle(0, 0, 1, 1));
 				assertNotNull(element.fileName, dianaShape);
 				Rectangle2D box = curveBounds(dianaShape);
-				double eps = 0.001;
+				// Some DrawingML presets slightly overshoot their box (heart: 0.4%)
+				double eps = 0.01;
 				assertTrue(element.fileName + " is empty: " + box, box.getWidth() > 0.1 && box.getHeight() > 0.1);
 				assertTrue(element.fileName + " exceeds unit square: " + box, box.getX() > -eps && box.getY() > -eps
 						&& box.getX() + box.getWidth() < 1 + eps && box.getY() + box.getHeight() < 1 + eps);

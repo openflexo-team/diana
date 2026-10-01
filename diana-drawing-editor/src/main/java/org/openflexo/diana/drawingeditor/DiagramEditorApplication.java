@@ -151,7 +151,8 @@ public class DiagramEditorApplication {
 	private final JDianaLayoutWidget layoutWidget;
 	private final JDianaStyles stylesWidget;
 	/** Palettes shown in the palette dialog, one tab each */
-	private static final String[] PALETTES = { "Basic", "Flowchart", "Shapes3D" };
+	private static final String[] PALETTES = { "Basic", "Rectangles", "BasicShapes", "Arrows", "Flowchart", "StarsAndBanners",
+			"Equations", "Shapes3D" };
 
 	private final List<JDianaPalette> palettes = new ArrayList<>();
 	private final List<DiagramEditorPalette> paletteModels = new ArrayList<>();

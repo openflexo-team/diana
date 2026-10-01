@@ -236,10 +236,18 @@ public abstract class PaletteModel implements HasPropertyChangeSupport {
 		int colIndex = index % colSize;
 
 		ShapeGraphicalRepresentation gr = paletteElement.getGraphicalRepresentation();
-		gr.setWidth(getElementWidth());
-		gr.setHeight(getElementHeight());
-		gr.setX(colIndex * (getElementWidth() + getMarginWidth()) + getMarginWidth());
-		gr.setY(rawIndex * (getElementHeight() + getMarginHeight()) + getMarginHeight());
+		// Fit the element in its cell, keeping its aspect ratio, and center it
+		double width = getElementWidth();
+		double height = getElementHeight();
+		if (gr.getWidth() > 0 && gr.getHeight() > 0) {
+			double scale = Math.min(getElementWidth() / gr.getWidth(), getElementHeight() / gr.getHeight());
+			width = gr.getWidth() * scale;
+			height = gr.getHeight() * scale;
+		}
+		gr.setWidth(width);
+		gr.setHeight(height);
+		gr.setX(colIndex * (getElementWidth() + getMarginWidth()) + getMarginWidth() + (getElementWidth() - width) / 2);
+		gr.setY(rawIndex * (getElementHeight() + getMarginHeight()) + getMarginHeight() + (getElementHeight() - height) / 2);
 
 		return buildPaletteElement(paletteElement);
 	}

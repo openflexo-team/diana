@@ -64,7 +64,7 @@ import org.openflexo.rm.ResourceLocator;
  */
 public class RenderPalettes {
 
-	private static class PreviewPalette extends PaletteModel {
+	static class PreviewPalette extends PaletteModel {
 
 		PreviewPalette(String paletteName) {
 			super(paletteName, 840, 800, 120, 80, 20, 30);
@@ -102,11 +102,15 @@ public class RenderPalettes {
 	}
 
 	/**
-	 * Renders a palette (elements of 120x80 named by their label) through DIANA Swing rendering. Must not be called from the event
-	 * dispatch thread.
+	 * Renders a palette (elements in cells of 120x80, named by their label) through DIANA Swing rendering. Must not be called from the
+	 * event dispatch thread.
 	 */
 	public static BufferedImage render(String paletteName) throws Exception {
-		PreviewPalette model = new PreviewPalette(paletteName);
+		return render(new PreviewPalette(paletteName));
+	}
+
+	static BufferedImage render(PaletteModel model) throws Exception {
+		String paletteName = model.getTitle();
 		// Show the element name as label, to identify shapes on the image
 		for (PaletteElement element : model.getElements()) {
 			element.getGraphicalRepresentation().setText(element.getName());

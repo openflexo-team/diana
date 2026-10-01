@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" description="DrawingML preset geometry: leftBracket" index="27" name="Left bracket">
+  <ShapeGraphicalRepresentation id="1" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" identifier="leftBracket" isFloatingLabel="false" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5" width="30.0">
+    <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="3" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
+    <ShadowStyle id="5" />
+    <FocusedForegroundStyle id="6" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <SelectedForegroundStyle id="7" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
+    <Union id="9">
+      <GeneralShape id="10" startPoint="1.0,1.0">
+        <CubicCurve id="11" controlPoint1="0.4477,1.0" controlPoint2="0.0,0.9888" point="0.0,0.975" />
+        <Segment id="12" point="0.0,0.025" />
+        <CubicCurve id="13" controlPoint1="0.0,0.0112" controlPoint2="0.4477,0.0" point="1.0,0.0" />
+        <ForegroundStyle id="14" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
+      </GeneralShape>
+      <GeneralShape id="15" closure="OPEN_NOT_FILLED" startPoint="1.0,1.0">
+        <CubicCurve id="16" controlPoint1="0.4477,1.0" controlPoint2="0.0,0.9888" point="0.0,0.975" />
+        <Segment id="17" point="0.0,0.025" />
+        <CubicCurve id="18" controlPoint1="0.0,0.0112" controlPoint2="0.4477,0.0" point="1.0,0.0" />
+      </GeneralShape>
+    </Union>
+    <TextStyle id="19" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </ShapeGraphicalRepresentation>
+</PaletteElementSpecification>

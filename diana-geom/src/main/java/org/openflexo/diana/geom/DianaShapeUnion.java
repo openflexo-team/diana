@@ -200,8 +200,11 @@ public class DianaShapeUnion extends Rectangle2D.Double implements DianaShape<Di
 		g.setDefaultBackgroundStyle(this);
 		g.setDefaultForegroundStyle(this);
 
+		// A shape of the union overrides default styles for itself only
 		for (DianaShape<?> a : shapes) {
+			g.saveDefaultStyles();
 			a.paint(g);
+			g.restoreDefaultStyles();
 		}
 	}
 
