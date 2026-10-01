@@ -1,0 +1,29 @@
+dependencies {
+  implementation project(':diana-api')
+  implementation project(':diana-core')
+
+  testImplementation project(':diana-swing')
+  testImplementation connie()
+  testImplementation pamela()
+  testImplementation testUtils()
+  // Only used to generate palettes from DrawingML preset geometries: never a runtime dependency
+  testImplementation group: 'org.apache.poi', name: 'poi', version: '3.17'
+}
+
+// Regenerates the .pel files of src/main/resources/Palettes from DrawingML preset geometries
+task generatePalettes(type: JavaExec) {
+  group = 'build'
+  description = 'Generates DIANA palettes from DrawingML preset geometries (Apache POI)'
+  classpath = sourceSets.test.runtimeClasspath
+  mainClass = 'org.openflexo.diana.palettes.DrawingMLPaletteGenerator'
+  args file('src/main/resources/Palettes').absolutePath
+}
+
+// Renders the palettes to PNG images through DIANA Swing rendering, for visual review (needs a display)
+task renderPalettes(type: JavaExec) {
+  group = 'verification'
+  description = 'Renders DIANA palettes of this module to PNG images (needs a display)'
+  classpath = sourceSets.test.runtimeClasspath
+  mainClass = 'org.openflexo.diana.palettes.RenderPalettes'
+  args file("$buildDir/palettes-preview").absolutePath, 'Flowchart', 'Shapes3D'
+}

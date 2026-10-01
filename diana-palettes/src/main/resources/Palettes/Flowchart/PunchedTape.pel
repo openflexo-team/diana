@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" name="Punched tape" description="DrawingML preset geometry: flowChartPunchedTape" index="15">
+  <ShapeGraphicalRepresentation id="1" relativeTextY="0.5" locationConstraints="FREELY_MOVABLE" isFloatingLabel="false" adaptBoundsToContents="false" relativeTextX="0.5" dimensionConstraints="FREELY_RESIZABLE" width="120.0" height="80.0" identifier="27462a88" layer="1">
+    <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="3" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
+    <ShadowStyle id="5" />
+    <FocusedForegroundStyle id="6" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <SelectedForegroundStyle id="7" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
+    <GeneralShape id="9" startPoint="0.0,0.1">
+      <CubicCurve id="10" controlPoint1="0.0,0.1552" controlPoint2="0.1119,0.2" point="0.25,0.2" />
+      <CubicCurve id="11" controlPoint1="0.3881,0.2" controlPoint2="0.5,0.1552" point="0.5,0.1" />
+      <CubicCurve id="12" controlPoint1="0.5,0.0448" controlPoint2="0.6119,0.0" point="0.75,0.0" />
+      <CubicCurve id="13" controlPoint1="0.8881,0.0" controlPoint2="1.0,0.0448" point="1.0,0.1" />
+      <Segment id="14" point="1.0,0.9" />
+      <CubicCurve id="15" controlPoint1="1.0,0.8448" controlPoint2="0.8881,0.8" point="0.75,0.8" />
+      <CubicCurve id="16" controlPoint1="0.6119,0.8" controlPoint2="0.5,0.8448" point="0.5,0.9" />
+      <CubicCurve id="17" controlPoint1="0.5,0.9552" controlPoint2="0.3881,1.0" point="0.25,1.0" />
+      <CubicCurve id="18" controlPoint1="0.1119,1.0" controlPoint2="0.0,0.9552" point="0.0,0.9" />
+    </GeneralShape>
+    <TextStyle id="19" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </ShapeGraphicalRepresentation>
+</PaletteElementSpecification>

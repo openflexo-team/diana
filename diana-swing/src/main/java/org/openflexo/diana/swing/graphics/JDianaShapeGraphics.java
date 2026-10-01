@@ -38,6 +38,7 @@
 
 package org.openflexo.diana.swing.graphics;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -50,6 +51,7 @@ import org.openflexo.diana.ForegroundStyle;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.geom.DianaShape;
+import org.openflexo.diana.geom.DianaShapeUnion;
 import org.openflexo.diana.graphics.DianaShapeGraphics;
 import org.openflexo.diana.impl.DianaCachedModelFactory;
 import org.openflexo.diana.swing.view.JShapeView;
@@ -155,8 +157,12 @@ public class JDianaShapeGraphics extends JDianaGraphics implements DianaShapeGra
 
 		Area clipArea = new Area(
 				new java.awt.Rectangle(0, 0, getViewWidth(getController().getScale()), getViewHeight(getController().getScale())));
-		Area a = new Area(getNode().getDianaShape());
-		a.transform(getNode().convertNormalizedPointToViewCoordinatesAT(getController().getScale()));
+		DianaShape<?> shape = getNode().getDianaShape();
+		AffineTransform toView = getNode().convertNormalizedPointToViewCoordinatesAT(getController().getScale());
+		// A DianaShapeUnion is a Rectangle2D as a java.awt.Shape: use the area its shapes really cover
+		boolean isUnion = shape instanceof DianaShapeUnion;
+		Area shapeArea = isUnion ? coveredArea((DianaShapeUnion) shape) : new Area(shape);
+		Area a = shapeArea.createTransformedArea(toView);
 		clipArea.subtract(a);
 		getGraphics().clip(clipArea);
 
@@ -176,11 +182,42 @@ public class JDianaShapeGraphics extends JDianaGraphics implements DianaShapeGra
 			background.setTransparencyLevel(transparency);
 			AffineTransform at = AffineTransform.getScaleInstance((i + 1 + viewWidth) / viewWidth, (i + 1 + viewHeight) / viewHeight);
 			at.concatenate(shadowTranslation);
-			getNode().getDianaShape().transform(at).paint(this);
+			if (isUnion) {
+				// Painting each shape of the union would stack as many translucent layers where they overlap
+				Area shadowArea = shapeArea.createTransformedArea(at);
+				shadowArea.transform(toView);
+				Graphics2D g2d = getGraphics();
+				g2d.setColor(shadowColor);
+				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, transparency));
+				g2d.fill(shadowArea);
+				g2d.draw(shadowArea);
+			}
+			else {
+				shape.transform(at).paint(this);
+			}
 		}
 		releaseClonedGraphics(oldGraphics);
 		isPaintingShadow = false;
 
+	}
+
+	/**
+	 * Area covered by the filled shapes of a union (by all of them when none is filled)
+	 */
+	private static Area coveredArea(DianaShapeUnion union) {
+		Area returned = new Area();
+		for (DianaShape<?> s : union.getShapes()) {
+			// DianaShapeUnion.getIsFilled() is always false
+			if (s instanceof DianaShapeUnion || s.getIsFilled()) {
+				returned.add(s instanceof DianaShapeUnion ? coveredArea((DianaShapeUnion) s) : new Area(s));
+			}
+		}
+		if (returned.isEmpty()) {
+			for (DianaShape<?> s : union.getShapes()) {
+				returned.add(s instanceof DianaShapeUnion ? coveredArea((DianaShapeUnion) s) : new Area(s));
+			}
+		}
+		return returned;
 	}
 
 	@Override

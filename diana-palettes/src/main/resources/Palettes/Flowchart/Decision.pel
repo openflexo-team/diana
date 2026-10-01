@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" name="Decision" description="DrawingML preset geometry: flowChartDecision" index="2">
+  <ShapeGraphicalRepresentation id="1" relativeTextY="0.5" locationConstraints="FREELY_MOVABLE" isFloatingLabel="false" adaptBoundsToContents="false" relativeTextX="0.5" dimensionConstraints="FREELY_RESIZABLE" width="120.0" height="80.0" identifier="610f7aa" layer="1">
+    <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="3" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
+    <ShadowStyle id="5" />
+    <FocusedForegroundStyle id="6" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <SelectedForegroundStyle id="7" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
+    <GeneralShape id="9" startPoint="0.0,0.5">
+      <Segment id="10" point="0.5,0.0" />
+      <Segment id="11" point="1.0,0.5" />
+      <Segment id="12" point="0.5,1.0" />
+    </GeneralShape>
+    <TextStyle id="13" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </ShapeGraphicalRepresentation>
+</PaletteElementSpecification>

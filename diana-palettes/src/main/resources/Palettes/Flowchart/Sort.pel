@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" name="Sort" description="DrawingML preset geometry: flowChartSort" index="19">
+  <ShapeGraphicalRepresentation id="1" relativeTextY="0.5" locationConstraints="FREELY_MOVABLE" isFloatingLabel="false" adaptBoundsToContents="false" relativeTextX="0.5" dimensionConstraints="FREELY_RESIZABLE" width="80.0" height="80.0" identifier="909217e" layer="1">
+    <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="3" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
+    <ShadowStyle id="5" />
+    <FocusedForegroundStyle id="6" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <SelectedForegroundStyle id="7" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
+    <Union id="9">
+      <GeneralShape id="10" startPoint="0.0,0.5">
+        <Segment id="11" point="0.5,0.0" />
+        <Segment id="12" point="1.0,0.5" />
+        <Segment id="13" point="0.5,1.0" />
+      </GeneralShape>
+      <GeneralShape id="14" startPoint="0.0,0.5" closure="OPEN_NOT_FILLED">
+        <Segment id="15" point="1.0,0.5" />
+      </GeneralShape>
+      <GeneralShape id="16" startPoint="0.0,0.5" closure="CLOSED_NOT_FILLED">
+        <Segment id="17" point="0.5,0.0" />
+        <Segment id="18" point="1.0,0.5" />
+        <Segment id="19" point="0.5,1.0" />
+      </GeneralShape>
+    </Union>
+    <TextStyle id="20" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </ShapeGraphicalRepresentation>
+</PaletteElementSpecification>

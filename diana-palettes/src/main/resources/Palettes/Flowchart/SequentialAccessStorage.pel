@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" name="Sequential access storage" description="DrawingML preset geometry: flowChartMagneticTape" index="24">
+  <ShapeGraphicalRepresentation id="1" relativeTextY="0.5" locationConstraints="FREELY_MOVABLE" isFloatingLabel="false" adaptBoundsToContents="false" relativeTextX="0.5" dimensionConstraints="FREELY_RESIZABLE" width="80.0" height="80.0" identifier="28dcca0c" layer="1">
+    <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="3" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
+    <ShadowStyle id="5" />
+    <FocusedForegroundStyle id="6" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <SelectedForegroundStyle id="7" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
+    <GeneralShape id="9" startPoint="0.5,1.0">
+      <CubicCurve id="10" controlPoint1="0.2239,1.0" controlPoint2="0.0,0.7761" point="0.0,0.5" />
+      <CubicCurve id="11" controlPoint1="0.0,0.2239" controlPoint2="0.2239,0.0" point="0.5,0.0" />
+      <CubicCurve id="12" controlPoint1="0.7761,0.0" controlPoint2="1.0,0.2239" point="1.0,0.5" />
+      <CubicCurve id="13" controlPoint1="1.0,0.6326" controlPoint2="0.9473,0.7598" point="0.8536,0.8536" />
+      <Segment id="14" point="1.0,0.8536" />
+      <Segment id="15" point="1.0,1.0" />
+    </GeneralShape>
+    <TextStyle id="16" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </ShapeGraphicalRepresentation>
+</PaletteElementSpecification>

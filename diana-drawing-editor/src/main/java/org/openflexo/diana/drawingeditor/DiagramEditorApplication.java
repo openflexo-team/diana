@@ -54,6 +54,7 @@ import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
@@ -149,8 +150,12 @@ public class DiagramEditorApplication {
 	private final JDianaScaleSelector scaleSelector;
 	private final JDianaLayoutWidget layoutWidget;
 	private final JDianaStyles stylesWidget;
-	private final JDianaPalette commonPalette;
-	private final DiagramEditorPalette commonPaletteModel;
+	/** Palettes shown in the palette dialog, one tab each */
+	private static final String[] PALETTES = { "Basic", "Flowchart", "Shapes3D" };
+
+	private final List<JDianaPalette> palettes = new ArrayList<>();
+	private final List<DiagramEditorPalette> paletteModels = new ArrayList<>();
+	private final JTabbedPane paletteTabs;
 	private final JDianaDialogInspectors inspectors;
 
 	protected PropertyChangeListenerRegistrationManager manager;
@@ -557,11 +562,20 @@ public class DiagramEditorApplication {
 
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 
-		commonPaletteModel = new DiagramEditorPalette();
-		commonPalette = toolFactory.makeDianaPalette(commonPaletteModel);
+		paletteTabs = new JTabbedPane();
+		for (String paletteName : PALETTES) {
+			DiagramEditorPalette paletteModel = new DiagramEditorPalette(paletteName);
+			JDianaPalette palette = toolFactory.makeDianaPalette(paletteModel);
+			paletteModels.add(paletteModel);
+			palettes.add(palette);
+			paletteTabs.addTab(paletteName, palette.getComponent());
+		}
+		// The drawing view tracks a single active palette (used to locate the dragged image):
+		// activate the one which is shown, the only one elements may be dragged from
+		paletteTabs.addChangeListener(e -> activateSelectedPalette());
 
 		paletteDialog = new JDialog(frame, "Palette", false);
-		paletteDialog.getContentPane().add(commonPalette.getComponent());
+		paletteDialog.getContentPane().add(paletteTabs);
 		paletteDialog.setLocation(1010, 0);
 		paletteDialog.pack();
 		paletteDialog.setVisible(true);
@@ -917,6 +931,12 @@ public class DiagramEditorApplication {
 		}
 	}
 
+	private void activateSelectedPalette() {
+		if (currentDiagramEditor != null && paletteTabs.getSelectedIndex() >= 0) {
+			palettes.get(paletteTabs.getSelectedIndex()).attachToEditor(currentDiagramEditor.getController());
+		}
+	}
+
 	private void drawingSwitched(DiagramEditor diagramEditor) {
 
 		logger.info("Switch to editor " + diagramEditor);
@@ -930,8 +950,10 @@ public class DiagramEditorApplication {
 		stylesWidget.attachToEditor(diagramEditor.getController());
 		scaleSelector.attachToEditor(diagramEditor.getController());
 		layoutWidget.attachToEditor(diagramEditor.getController());
-		commonPaletteModel.setEditor(diagramEditor.getController());
-		commonPalette.attachToEditor(diagramEditor.getController());
+		for (DiagramEditorPalette paletteModel : paletteModels) {
+			paletteModel.setEditor(diagramEditor.getController());
+		}
+		activateSelectedPalette();
 		inspectors.attachToEditor(diagramEditor.getController());
 
 		/*JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));

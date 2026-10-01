@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" name="Folded corner" description="DrawingML preset geometry: foldedCorner" index="3">
+  <ShapeGraphicalRepresentation id="1" relativeTextY="0.5" locationConstraints="FREELY_MOVABLE" isFloatingLabel="false" adaptBoundsToContents="false" relativeTextX="0.5" dimensionConstraints="FREELY_RESIZABLE" identifier="222a59e6" layer="1">
+    <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="3" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
+    <ShadowStyle id="5" />
+    <FocusedForegroundStyle id="6" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <SelectedForegroundStyle id="7" color="0,0,0" joinStyle="JOIN_MITER" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />
+    <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
+    <Union id="9">
+      <GeneralShape id="10" startPoint="0.0,0.0">
+        <Segment id="11" point="1.0,0.0" />
+        <Segment id="12" point="1.0,0.8333" />
+        <Segment id="13" point="0.8333,1.0" />
+        <Segment id="14" point="0.0,1.0" />
+      </GeneralShape>
+      <GeneralShape id="15" startPoint="0.8333,1.0">
+        <Segment id="16" point="0.8667,0.8667" />
+        <Segment id="17" point="1.0,0.8333" />
+      </GeneralShape>
+      <GeneralShape id="18" startPoint="0.8333,1.0">
+        <Segment id="19" point="0.8667,0.8667" />
+        <Segment id="20" point="1.0,0.8333" />
+        <ColorBackgroundStyle id="21" color="0,0,0" useTransparency="true" transparencyLevel="0.2" />
+      </GeneralShape>
+      <GeneralShape id="22" startPoint="0.8333,1.0" closure="OPEN_NOT_FILLED">
+        <Segment id="23" point="0.8667,0.8667" />
+        <Segment id="24" point="1.0,0.8333" />
+        <Segment id="25" point="0.8333,1.0" />
+        <Segment id="26" point="0.0,1.0" />
+        <Segment id="27" point="0.0,0.0" />
+        <Segment id="28" point="1.0,0.0" />
+        <Segment id="29" point="1.0,0.8333" />
+      </GeneralShape>
+    </Union>
+    <TextStyle id="30" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </ShapeGraphicalRepresentation>
+</PaletteElementSpecification>
