@@ -58,6 +58,11 @@ polygon variants) and offers no complex shapes.
   tab) and the Free Modelling Editor ("Free shapes" tab) show all of them, Basic opened first.
   A dropped palette element keeps its aspect ratio and its centered floating label
   (`DianaUtils.fitInBox`), instead of a fixed size.
+- Palettes are loaded lazily (`JDianaPaletteGroup.addPalette(title, loader, opened)`): a panel shows
+  a "Loading..." label, expands with its animation, and its palette is loaded at the end of the
+  expansion, laid out for the panel width (`JDianaPalette.fitToWidth`) before replacing the label.
+  The palette opened first (Basic) is loaded at once. Loading stays on the event dispatch thread
+  (the shared `PaletteModel.FACTORY` is not known to be thread-safe).
 - `PaletteModel` no longer re-creates its shared factory (`FACTORY`, a PAMELA model introspection)
   for each palette: a palette could build its drawing with another factory than its elements.
 - `GeneralShape.pathElements` now allows repeated elements: DIANA objects compare by value, so

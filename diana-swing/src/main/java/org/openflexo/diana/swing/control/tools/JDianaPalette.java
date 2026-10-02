@@ -142,6 +142,14 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 		return fittingComponent;
 	}
 
+	/**
+	 * Size the palette shown by {@link #getFittingComponent()} for supplied width, without waiting for the component to be laid out:
+	 * its preferred height is then right before it is shown
+	 */
+	public void fitToWidth(double width) {
+		updatePaletteSize(width, 0, getFittingComponent());
+	}
+
 	private void updateFittingComponent() {
 		if (fittingComponent != null) {
 			fittingComponent.removeAll();

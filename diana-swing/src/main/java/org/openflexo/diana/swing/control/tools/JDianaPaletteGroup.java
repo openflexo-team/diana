@@ -38,16 +38,21 @@
 
 package org.openflexo.diana.swing.control.tools;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXCollapsiblePane;
@@ -61,15 +66,34 @@ import org.openflexo.swing.FlexoCollabsiblePanelGroup;
  * Shows several palettes as collapsible panels, on a white background: panels are toggled independently, several of them may be
  * opened together (a palette becomes the active one of the edited drawing when a drag starts from it), and an opened panel is brought
  * into view.<br>
- * All palettes are attached to the editor supplied to {@link #attachToEditor(AbstractDianaEditor)}
+ * A palette may be loaded lazily: its panel then shows a "Loading..." label, and the palette is loaded once the panel is opened for
+ * the first time (at the end of its expansion, so that the label is shown meanwhile).<br>
+ * Loaded palettes are attached to the editor supplied to {@link #attachToEditor(AbstractDianaEditor)}
  * 
  * @author sylvain
  */
 public class JDianaPaletteGroup {
 
+	/**
+	 * A palette of the group, loaded or not yet
+	 */
+	private class PaletteEntry {
+		private final String title;
+		private final Supplier<JDianaPalette> loader;
+		/** Holds the "Loading..." label, then the palette */
+		private final JPanel container = new JPanel(new BorderLayout());
+		private FlexoCollabsiblePanel panel;
+		private JDianaPalette palette;
+
+		private PaletteEntry(String title, Supplier<JDianaPalette> loader) {
+			this.title = title;
+			this.loader = loader;
+		}
+	}
+
 	private final FlexoCollabsiblePanelGroup component;
-	private final List<JDianaPalette> palettes = new ArrayList<>();
-	private final List<FlexoCollabsiblePanel> panels = new ArrayList<>();
+	private final List<PaletteEntry> entries = new ArrayList<>();
+	private AbstractDianaEditor<?, SwingViewFactory, ?> editor;
 
 	public JDianaPaletteGroup() {
 		component = new FlexoCollabsiblePanelGroup();
@@ -80,55 +104,137 @@ public class JDianaPaletteGroup {
 		return component;
 	}
 
+	/**
+	 * Return the palettes loaded so far, in the order of their panels
+	 */
 	public List<JDianaPalette> getPalettes() {
-		return Collections.unmodifiableList(palettes);
+		List<JDianaPalette> returned = new ArrayList<>();
+		for (PaletteEntry entry : entries) {
+			if (entry.palette != null) {
+				returned.add(entry.palette);
+			}
+		}
+		return Collections.unmodifiableList(returned);
+	}
+
+	public int getPaletteCount() {
+		return entries.size();
+	}
+
+	public String getTitle(int index) {
+		return entries.get(index).title;
+	}
+
+	/**
+	 * Return the palette at supplied index, or null if it is not loaded yet
+	 */
+	public JDianaPalette getPalette(int index) {
+		return entries.get(index).palette;
+	}
+
+	public boolean isLoaded(int index) {
+		return entries.get(index).palette != null;
 	}
 
 	/**
 	 * Add supplied palette, in a panel of supplied title. The panel is opened if supplied flag is set, collapsed otherwise
 	 */
 	public void addPalette(String title, JDianaPalette palette, boolean opened) {
-		FlexoCollabsiblePanel panel = new FlexoCollabsiblePanel(title, palette.getFittingComponent());
-		palettes.add(palette);
-		panels.add(panel);
-		for (Component child : panel.getComponents()) {
+		addPalette(title, () -> palette, opened);
+	}
+
+	/**
+	 * Add the palette built by supplied loader, in a panel of supplied title. The panel is opened (and the palette loaded) if supplied
+	 * flag is set; otherwise it is collapsed, and the palette is loaded the first time the panel is opened
+	 */
+	public void addPalette(String title, Supplier<JDianaPalette> loader, boolean opened) {
+		PaletteEntry entry = new PaletteEntry(title, loader);
+		JLabel loadingLabel = new JLabel("Loading...");
+		loadingLabel.setFont(loadingLabel.getFont().deriveFont(Font.ITALIC));
+		loadingLabel.setForeground(Color.GRAY);
+		loadingLabel.setBorder(BorderFactory.createEmptyBorder(6, 10, 6, 10));
+		entry.container.add(loadingLabel, BorderLayout.CENTER);
+		entry.panel = new FlexoCollabsiblePanel(title, entry.container);
+		for (Component child : entry.panel.getComponents()) {
 			if (child instanceof FlexoCollabsiblePanel.FlexoCollabsiblePanelHeader) {
 				((JComponent) child).setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 			}
 			else if (child instanceof JXCollapsiblePane) {
-				// Fired once expanded (after the animation, if any): bring the opened palette into view
+				// Fired once expanded (after the animation, if any): load the palette the first time, bring it into view
 				child.addPropertyChangeListener("collapsed", e -> {
-					if (Boolean.FALSE.equals(e.getNewValue())) {
-						SwingUtilities.invokeLater(() -> panel.scrollRectToVisible(new Rectangle(0, 0, panel.getWidth(), panel.getHeight())));
+					if (Boolean.FALSE.equals(e.getNewValue()) && !entry.panel.isCollapsed()) {
+						// Let the expanded panel (and its label) be painted first
+						SwingUtilities.invokeLater(() -> {
+							if (entry.palette == null) {
+								load(entry);
+							}
+							bringIntoView(entry);
+						});
 					}
 				});
 			}
 		}
-		setWhiteBackground(panel);
+		setWhiteBackground(entry.panel);
+		entries.add(entry);
+		if (opened) {
+			load(entry);
+		}
 		// The group opens a panel when it is added (and collapses the other ones): panels are then toggled independently
 		List<Boolean> wasOpened = new ArrayList<>();
-		for (FlexoCollabsiblePanel p : panels) {
-			wasOpened.add(!p.isCollapsed());
+		for (PaletteEntry e : entries) {
+			wasOpened.add(!e.panel.isCollapsed());
 		}
-		component.addContents(panel);
-		for (int i = 0; i < panels.size() - 1; i++) {
-			panels.get(i).setCollapsed(!wasOpened.get(i));
+		component.addContents(entry.panel);
+		for (int i = 0; i < entries.size() - 1; i++) {
+			entries.get(i).panel.setCollapsed(!wasOpened.get(i));
 		}
-		panel.setCollapsed(!opened);
+		entry.panel.setCollapsed(!opened);
+	}
+
+	/**
+	 * Replace the "Loading..." label of supplied entry with its palette, laid out for the available width
+	 */
+	private void load(PaletteEntry entry) {
+		entry.palette = entry.loader.get();
+		int width = entry.container.getWidth() > 0 ? entry.container.getWidth() : component.getViewport().getWidth();
+		if (width > 0) {
+			entry.palette.fitToWidth(width);
+		}
+		entry.container.removeAll();
+		entry.container.add(entry.palette.getFittingComponent(), BorderLayout.CENTER);
+		setWhiteBackground(entry.palette.getFittingComponent());
+		if (editor != null) {
+			entry.palette.attachToEditor(editor);
+		}
+		entry.container.revalidate();
+		entry.container.repaint();
+	}
+
+	private static void bringIntoView(PaletteEntry entry) {
+		FlexoCollabsiblePanel panel = entry.panel;
+		SwingUtilities.invokeLater(() -> panel.scrollRectToVisible(new Rectangle(0, 0, panel.getWidth(), panel.getHeight())));
 	}
 
 	/**
 	 * Tells if the panel of the palette at supplied index is opened
 	 */
 	public boolean isOpened(int index) {
-		return !panels.get(index).isCollapsed();
+		return !entries.get(index).panel.isCollapsed();
 	}
 
 	/**
-	 * Attach all palettes to supplied editor
+	 * Open or collapse the panel of the palette at supplied index (opening it loads its palette, if not done yet)
+	 */
+	public void setOpened(int index, boolean opened) {
+		entries.get(index).panel.setCollapsed(!opened);
+	}
+
+	/**
+	 * Attach loaded palettes to supplied editor, and palettes loaded later
 	 */
 	public void attachToEditor(AbstractDianaEditor<?, SwingViewFactory, ?> editor) {
-		for (JDianaPalette palette : palettes) {
+		this.editor = editor;
+		for (JDianaPalette palette : getPalettes()) {
 			palette.attachToEditor(editor);
 		}
 	}

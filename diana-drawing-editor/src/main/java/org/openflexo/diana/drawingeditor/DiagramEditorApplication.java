@@ -564,13 +564,18 @@ public class DiagramEditorApplication {
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 
 		// Palettes are shown as collapsible panels, which may be opened together: all of them are attached to the edited
-		// drawing, a palette becoming the active one when elements are dragged from it. Basic is opened first
+		// drawing, a palette becoming the active one when elements are dragged from it. Basic is opened (and loaded) first, the
+		// other palettes are loaded the first time their panel is opened
 		paletteGroup = new JDianaPaletteGroup();
 		for (PaletteDefinition paletteDefinition : DianaPalettes.PALETTES) {
-			DiagramEditorPalette paletteModel = new DiagramEditorPalette(paletteDefinition.getDirectory());
-			paletteModels.add(paletteModel);
-			paletteGroup.addPalette(paletteDefinition.getTitle(), toolFactory.makeDianaPalette(paletteModel),
-					paletteDefinition == DianaPalettes.BASIC);
+			paletteGroup.addPalette(paletteDefinition.getTitle(), () -> {
+				DiagramEditorPalette paletteModel = new DiagramEditorPalette(paletteDefinition.getDirectory());
+				paletteModels.add(paletteModel);
+				if (currentDiagramEditor != null) {
+					paletteModel.setEditor(currentDiagramEditor.getController());
+				}
+				return toolFactory.makeDianaPalette(paletteModel);
+			}, paletteDefinition == DianaPalettes.BASIC);
 		}
 
 		paletteDialog = new JDialog(frame, "Palette", false);
