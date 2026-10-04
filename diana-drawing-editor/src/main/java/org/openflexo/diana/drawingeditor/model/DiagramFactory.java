@@ -64,7 +64,7 @@ public class DiagramFactory extends DianaModelFactoryImpl {
 	public DiagramFactory(EditingContext editingContext) throws ModelDefinitionException {
 		super(Diagram.class, Shape.class, Connector.class);
 		setEditingContext(editingContext);
-		addConverter(resourceConverter = new ClasspathAwareResourceConverter(null));
+		addConverter(resourceConverter = new RelativePathResourceConverter(null));
 
 	}
 
