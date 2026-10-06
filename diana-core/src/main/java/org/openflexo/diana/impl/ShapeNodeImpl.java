@@ -893,6 +893,12 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		}
 
 		getShape().updateShape();
+
+		// The control areas of this node, cached, hold the control points of the shape which has just been deleted (an emptied list): they
+		// have to be computed again, with the ones of the new shape
+		clearControlAreas();
+		getControlAreas();
+
 		notifyShapeChanged();
 	}
 
