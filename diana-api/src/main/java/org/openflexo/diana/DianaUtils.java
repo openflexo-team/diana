@@ -464,7 +464,8 @@ public class DianaUtils {
 
 	/**
 	 * Resize supplied shape so that it fits in a box of supplied size, keeping its aspect ratio (a shape without size fills the box),
-	 * and move the anchor of its floating label accordingly
+	 * and move the anchor of its floating label accordingly. A shape whose dimensions are constrained (a square, a circle) fits in the
+	 * box as a square.
 	 */
 	public static void fitInBox(ShapeGraphicalRepresentation gr, double boxWidth, double boxHeight) {
 		double width = boxWidth;
@@ -473,6 +474,11 @@ public class DianaUtils {
 			double scale = Math.min(boxWidth / gr.getWidth(), boxHeight / gr.getHeight());
 			width = gr.getWidth() * scale;
 			height = gr.getHeight() * scale;
+		}
+		if (gr.getShapeSpecification() != null && gr.getShapeSpecification().areDimensionConstrained()) {
+			// A square or a circle keeps its width equal to its height: the biggest one fitting in the box
+			width = Math.min(width, height);
+			height = width;
 		}
 		if (gr.getIsFloatingLabel()) {
 			gr.setAbsoluteTextX(scaledFloatingLabelAnchor(gr.getAbsoluteTextX(), gr.getWidth(), width));

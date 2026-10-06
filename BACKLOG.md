@@ -70,6 +70,11 @@ polygon variants) and offers no complex shapes.
   second pass through the center).
 - `Basic` has a rounded rectangle (`RoundedRectangle.pel`, `arcSize` 12 pixels), right after the
   rectangle.
+- `Basic` has a square (`Square.pel`, after the rounded rectangle) and a circle (`Circle.pel`, after
+  the oval): `SquareShape` and `CircleShape` keep their width equal to their height whatever the way
+  they are resized (`ShapeNodeImpl.adaptRequestedSize`), from the corners of their bounds only (the
+  handles of their sides are disabled; a circle has the four corner handles an ellipse does not have).
+  The elements after them in `Basic` were renumbered.
 - Shadow of a `ShapeUnion` (`JDianaShapeGraphics.paintShadow`): it was clipped by the union's
   bounding box (a `DianaShapeUnion` is a `Rectangle2D` as a `java.awt.Shape`), and darker, one
   translucent layer per shape of the union. It is now cast from the area the shapes really cover,

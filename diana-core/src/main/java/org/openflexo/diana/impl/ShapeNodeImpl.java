@@ -883,6 +883,19 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 		}
 	}
 
+	/**
+	 * A shape whose dimensions are constrained (a square, a circle) keeps its width equal to its height: the biggest of the two requested
+	 */
+	@Override
+	protected DianaDimension adaptRequestedSize(DianaDimension requestedSize) {
+		if (getShapeSpecification() != null && getShapeSpecification().areDimensionConstrained()
+				&& requestedSize.getWidth() != requestedSize.getHeight()) {
+			double side = Math.max(requestedSize.getWidth(), requestedSize.getHeight());
+			return new DianaDimension(side, side);
+		}
+		return requestedSize;
+	}
+
 	private void fireShapeSpecificationChanged() {
 
 		// logger.info("fireShapeSpecificationChanged()");
@@ -890,6 +903,11 @@ public class ShapeNodeImpl<O> extends ContainerNodeImpl<O, ShapeGraphicalReprese
 			getShapeSpecification().getPropertyChangeSupport().removePropertyChangeListener(shape);
 			shape.delete();
 			shape = null;
+		}
+
+		// What was a rectangle or an oval becomes a square or a circle: it is squared (the shape is not yet notified)
+		if (getShapeSpecification() != null && getShapeSpecification().areDimensionConstrained() && getWidth() != getHeight()) {
+			setSize(getSize());
 		}
 
 		getShape().updateShape();

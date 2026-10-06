@@ -66,6 +66,7 @@ import org.openflexo.diana.palettes.DrawingMLPaletteGenerator.PresetElement;
 import org.openflexo.diana.palettes.RenderPalettes.PreviewPalette;
 import org.openflexo.diana.shapes.GeneralShape;
 import org.openflexo.diana.shapes.ShapeSpecification;
+import org.openflexo.diana.shapes.ShapeSpecification.ShapeType;
 import org.openflexo.rm.Resource;
 import org.openflexo.rm.ResourceLocator;
 
@@ -103,6 +104,22 @@ public class TestDianaPalettes {
 			}
 			assertEquals("Unexpected files in palette " + palette.getKey() + ": " + files, palette.getValue().size(), files.size());
 		}
+	}
+
+	/**
+	 * The Basic palette has a square and a circle: elements of a constrained shape, as wide as they are high
+	 */
+	@Test
+	public void testBasicSquareAndCircle() throws Exception {
+		PaletteElementSpecification square = load("Basic", "Square");
+		assertEquals(ShapeType.SQUARE, square.getGraphicalRepresentation().getShapeSpecification().getShapeType());
+		assertEquals(square.getGraphicalRepresentation().getWidth(), square.getGraphicalRepresentation().getHeight(), 0.001);
+		PaletteElementSpecification circle = load("Basic", "Circle");
+		assertEquals(ShapeType.CIRCLE, circle.getGraphicalRepresentation().getShapeSpecification().getShapeType());
+		assertEquals(circle.getGraphicalRepresentation().getWidth(), circle.getGraphicalRepresentation().getHeight(), 0.001);
+		// Right after the rounded rectangle, and right after the oval
+		assertEquals((int) load("Basic", "RoundedRectangle").getIndex() + 1, (int) square.getIndex());
+		assertEquals((int) load("Basic", "Oval").getIndex() + 1, (int) circle.getIndex());
 	}
 
 	@Test

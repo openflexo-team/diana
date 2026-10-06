@@ -94,9 +94,9 @@ public class ShapeResizingControlPoint extends ControlPoint {
 		}
 		else {
 			if (cardinalDirection == CardinalDirection.NORTH) {
-				if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.FREELY_RESIZABLE
-						|| getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.WIDTH_FIXED
-						|| getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.STEP_CONSTRAINED) {
+				if (getDimensionConstraints() == DimensionConstraints.FREELY_RESIZABLE
+						|| getDimensionConstraints() == DimensionConstraints.WIDTH_FIXED
+						|| getDimensionConstraints() == DimensionConstraints.STEP_CONSTRAINED) {
 					setDraggingAuthorizedArea(new DianaHalfLine(ShapeSpecification.SOUTH, ShapeSpecification.NORTH));
 				}
 				else {
@@ -104,9 +104,9 @@ public class ShapeResizingControlPoint extends ControlPoint {
 				}
 			}
 			else if (cardinalDirection == CardinalDirection.EAST) {
-				if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.FREELY_RESIZABLE
-						|| getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.HEIGHT_FIXED
-						|| getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.STEP_CONSTRAINED) {
+				if (getDimensionConstraints() == DimensionConstraints.FREELY_RESIZABLE
+						|| getDimensionConstraints() == DimensionConstraints.HEIGHT_FIXED
+						|| getDimensionConstraints() == DimensionConstraints.STEP_CONSTRAINED) {
 					setDraggingAuthorizedArea(new DianaHalfLine(ShapeSpecification.WEST, ShapeSpecification.EAST));
 				}
 				else {
@@ -114,9 +114,9 @@ public class ShapeResizingControlPoint extends ControlPoint {
 				}
 			}
 			else if (cardinalDirection == CardinalDirection.SOUTH) {
-				if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.FREELY_RESIZABLE
-						|| getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.WIDTH_FIXED
-						|| getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.STEP_CONSTRAINED) {
+				if (getDimensionConstraints() == DimensionConstraints.FREELY_RESIZABLE
+						|| getDimensionConstraints() == DimensionConstraints.WIDTH_FIXED
+						|| getDimensionConstraints() == DimensionConstraints.STEP_CONSTRAINED) {
 					setDraggingAuthorizedArea(new DianaHalfLine(ShapeSpecification.NORTH, ShapeSpecification.SOUTH));
 				}
 				else {
@@ -124,9 +124,9 @@ public class ShapeResizingControlPoint extends ControlPoint {
 				}
 			}
 			else if (cardinalDirection == CardinalDirection.WEST) {
-				if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.FREELY_RESIZABLE
-						|| getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.HEIGHT_FIXED
-						|| getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.STEP_CONSTRAINED) {
+				if (getDimensionConstraints() == DimensionConstraints.FREELY_RESIZABLE
+						|| getDimensionConstraints() == DimensionConstraints.HEIGHT_FIXED
+						|| getDimensionConstraints() == DimensionConstraints.STEP_CONSTRAINED) {
 					setDraggingAuthorizedArea(new DianaHalfLine(ShapeSpecification.EAST, ShapeSpecification.WEST));
 				}
 				else {
@@ -134,18 +134,18 @@ public class ShapeResizingControlPoint extends ControlPoint {
 				}
 			}
 			else if (cardinalDirection == CardinalDirection.NORTH_EAST) {
-				if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.FREELY_RESIZABLE
-						|| getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.STEP_CONSTRAINED) {
+				if (getDimensionConstraints() == DimensionConstraints.FREELY_RESIZABLE
+						|| getDimensionConstraints() == DimensionConstraints.STEP_CONSTRAINED) {
 					setDraggingAuthorizedArea(
 							DianaQuarterPlane.makeDianaQuarterPlane(ShapeSpecification.SOUTH_WEST, CardinalQuadrant.NORTH_EAST));
 				}
-				else if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.CONSTRAINED_DIMENSIONS) {
+				else if (getDimensionConstraints() == DimensionConstraints.CONSTRAINED_DIMENSIONS) {
 					setDraggingAuthorizedArea(new DianaHalfLine(ShapeSpecification.SOUTH_WEST, ShapeSpecification.NORTH_EAST));
 				}
-				else if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.WIDTH_FIXED) {
+				else if (getDimensionConstraints() == DimensionConstraints.WIDTH_FIXED) {
 					setDraggingAuthorizedArea(new DianaHalfLine(ShapeSpecification.SOUTH, ShapeSpecification.NORTH));
 				}
-				else if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.HEIGHT_FIXED) {
+				else if (getDimensionConstraints() == DimensionConstraints.HEIGHT_FIXED) {
 					setDraggingAuthorizedArea(new DianaHalfLine(ShapeSpecification.WEST, ShapeSpecification.EAST));
 				}
 				else {
@@ -153,18 +153,18 @@ public class ShapeResizingControlPoint extends ControlPoint {
 				}
 			}
 			else if (cardinalDirection == CardinalDirection.NORTH_WEST) {
-				if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.FREELY_RESIZABLE
-						|| getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.STEP_CONSTRAINED) {
+				if (getDimensionConstraints() == DimensionConstraints.FREELY_RESIZABLE
+						|| getDimensionConstraints() == DimensionConstraints.STEP_CONSTRAINED) {
 					setDraggingAuthorizedArea(
 							DianaQuarterPlane.makeDianaQuarterPlane(ShapeSpecification.SOUTH_EAST, CardinalQuadrant.NORTH_WEST));
 				}
-				else if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.CONSTRAINED_DIMENSIONS) {
+				else if (getDimensionConstraints() == DimensionConstraints.CONSTRAINED_DIMENSIONS) {
 					setDraggingAuthorizedArea(new DianaHalfLine(ShapeSpecification.SOUTH_EAST, ShapeSpecification.NORTH_WEST));
 				}
-				else if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.WIDTH_FIXED) {
+				else if (getDimensionConstraints() == DimensionConstraints.WIDTH_FIXED) {
 					setDraggingAuthorizedArea(new DianaHalfLine(ShapeSpecification.SOUTH, ShapeSpecification.NORTH));
 				}
-				else if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.HEIGHT_FIXED) {
+				else if (getDimensionConstraints() == DimensionConstraints.HEIGHT_FIXED) {
 					setDraggingAuthorizedArea(new DianaHalfLine(ShapeSpecification.EAST, ShapeSpecification.WEST));
 				}
 				else {
@@ -172,18 +172,18 @@ public class ShapeResizingControlPoint extends ControlPoint {
 				}
 			}
 			else if (cardinalDirection == CardinalDirection.SOUTH_WEST) {
-				if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.FREELY_RESIZABLE
-						|| getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.STEP_CONSTRAINED) {
+				if (getDimensionConstraints() == DimensionConstraints.FREELY_RESIZABLE
+						|| getDimensionConstraints() == DimensionConstraints.STEP_CONSTRAINED) {
 					setDraggingAuthorizedArea(
 							DianaQuarterPlane.makeDianaQuarterPlane(ShapeSpecification.NORTH_EAST, CardinalQuadrant.SOUTH_WEST));
 				}
-				else if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.CONSTRAINED_DIMENSIONS) {
+				else if (getDimensionConstraints() == DimensionConstraints.CONSTRAINED_DIMENSIONS) {
 					setDraggingAuthorizedArea(new DianaHalfLine(ShapeSpecification.NORTH_EAST, ShapeSpecification.SOUTH_WEST));
 				}
-				else if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.WIDTH_FIXED) {
+				else if (getDimensionConstraints() == DimensionConstraints.WIDTH_FIXED) {
 					setDraggingAuthorizedArea(new DianaHalfLine(ShapeSpecification.NORTH, ShapeSpecification.SOUTH));
 				}
-				else if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.HEIGHT_FIXED) {
+				else if (getDimensionConstraints() == DimensionConstraints.HEIGHT_FIXED) {
 					setDraggingAuthorizedArea(new DianaHalfLine(ShapeSpecification.EAST, ShapeSpecification.WEST));
 				}
 				else {
@@ -191,18 +191,18 @@ public class ShapeResizingControlPoint extends ControlPoint {
 				}
 			}
 			else if (cardinalDirection == CardinalDirection.SOUTH_EAST) {
-				if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.FREELY_RESIZABLE
-						|| getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.STEP_CONSTRAINED) {
+				if (getDimensionConstraints() == DimensionConstraints.FREELY_RESIZABLE
+						|| getDimensionConstraints() == DimensionConstraints.STEP_CONSTRAINED) {
 					setDraggingAuthorizedArea(
 							DianaQuarterPlane.makeDianaQuarterPlane(ShapeSpecification.NORTH_WEST, CardinalQuadrant.SOUTH_EAST));
 				}
-				else if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.CONSTRAINED_DIMENSIONS) {
+				else if (getDimensionConstraints() == DimensionConstraints.CONSTRAINED_DIMENSIONS) {
 					setDraggingAuthorizedArea(new DianaHalfLine(ShapeSpecification.NORTH_WEST, ShapeSpecification.SOUTH_EAST));
 				}
-				else if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.WIDTH_FIXED) {
+				else if (getDimensionConstraints() == DimensionConstraints.WIDTH_FIXED) {
 					setDraggingAuthorizedArea(new DianaHalfLine(ShapeSpecification.NORTH, ShapeSpecification.SOUTH));
 				}
-				else if (getNode().getGraphicalRepresentation().getDimensionConstraints() == DimensionConstraints.HEIGHT_FIXED) {
+				else if (getDimensionConstraints() == DimensionConstraints.HEIGHT_FIXED) {
 					setDraggingAuthorizedArea(new DianaHalfLine(ShapeSpecification.EAST, ShapeSpecification.WEST));
 				}
 				else {
@@ -220,6 +220,23 @@ public class ShapeResizingControlPoint extends ControlPoint {
 	@Override
 	public ShapeNode<?> getNode() {
 		return (ShapeNode<?>) super.getNode();
+	}
+
+	/**
+	 * The dimension constraints applying to the shape: the ones of its graphical representation, except for a shape whose dimensions are
+	 * constrained (a square, a circle) which, unless it cannot be resized at all, keeps its width equal to its height
+	 */
+	private DimensionConstraints getDimensionConstraints() {
+		DimensionConstraints returned = getNode().getGraphicalRepresentation().getDimensionConstraints();
+		if (isShapeWithConstrainedDimensions()
+				&& (returned == DimensionConstraints.FREELY_RESIZABLE || returned == DimensionConstraints.STEP_CONSTRAINED)) {
+			return DimensionConstraints.CONSTRAINED_DIMENSIONS;
+		}
+		return returned;
+	}
+
+	private boolean isShapeWithConstrainedDimensions() {
+		return getNode().getShapeSpecification() != null && getNode().getShapeSpecification().areDimensionConstrained();
 	}
 
 	@Override
@@ -267,8 +284,13 @@ public class ShapeResizingControlPoint extends ControlPoint {
 
 	@Override
 	public boolean isDraggable() {
-		return getNode().getGraphicalRepresentation().getDimensionConstraints() != DimensionConstraints.UNRESIZABLE
-				&& getNode().getGraphicalRepresentation().getDimensionConstraints() != DimensionConstraints.CONTAINER;
+		if (isShapeWithConstrainedDimensions() && (cardinalDirection == CardinalDirection.NORTH || cardinalDirection == CardinalDirection.SOUTH
+				|| cardinalDirection == CardinalDirection.EAST || cardinalDirection == CardinalDirection.WEST)) {
+			// Resizing from a side would break the equality of the width and the height: only the corners are active
+			return false;
+		}
+		return getDimensionConstraints() != DimensionConstraints.UNRESIZABLE
+				&& getDimensionConstraints() != DimensionConstraints.CONTAINER;
 	}
 
 	private CompoundEdit resizeEdit = null;
