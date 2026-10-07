@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PaletteElementSpecification id="0"
-	name="Parallelogram" index="4" applyCurrentForeground="true"
+	name="Parallelogram" index="6" applyCurrentForeground="true"
 	applyCurrentBackground="true" applyCurrentTextStyle="true"
 	applyCurrentShadowStyle="true" askForImage="false">
 	<ShapeGraphicalRepresentation id="1"

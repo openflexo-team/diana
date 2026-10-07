@@ -488,4 +488,49 @@ public class DianaUtils {
 		gr.setHeight(height);
 	}
 
+	/** Distance between a floating label and its shape, in pixels */
+	public static final double FLOATING_LABEL_GAP = 2;
+
+	/**
+	 * Height a floating label shown above the shape needs above it (the label and its gap), 0 when the shape has no such label.<br>
+	 * The label has to have a text to show, and to be anchored above the shape. Its height is the one of a line of text in its font.
+	 */
+	public static double getFloatingLabelRoomAbove(ShapeGraphicalRepresentation gr) {
+		if (hasShownFloatingLabel(gr) && gr.getAbsoluteTextY() < 0) {
+			return floatingLabelHeight(gr) + FLOATING_LABEL_GAP;
+		}
+		return 0;
+	}
+
+	/**
+	 * Same as {@link #getFloatingLabelRoomAbove(ShapeGraphicalRepresentation)} for a label shown below the shape
+	 */
+	public static double getFloatingLabelRoomBelow(ShapeGraphicalRepresentation gr) {
+		if (hasShownFloatingLabel(gr) && gr.getAbsoluteTextY() > gr.getHeight()) {
+			// The label may be further from the shape than usual (to leave the shadow of the shape visible)
+			return floatingLabelHeight(gr) + Math.max(FLOATING_LABEL_GAP, gr.getAbsoluteTextY() - gr.getHeight());
+		}
+		return 0;
+	}
+
+	private static boolean hasShownFloatingLabel(ShapeGraphicalRepresentation gr) {
+		return gr != null && gr.getIsFloatingLabel() && gr.getText() != null && gr.getText().length() > 0;
+	}
+
+	/**
+	 * The height of a line of the text of supplied shape, measured with its font
+	 */
+	private static double floatingLabelHeight(ShapeGraphicalRepresentation gr) {
+		java.awt.Font font = gr.getTextStyle() != null ? gr.getTextStyle().getFont() : null;
+		if (font == null) {
+			return 12;
+		}
+		java.awt.Graphics2D graphics = new java.awt.image.BufferedImage(1, 1, java.awt.image.BufferedImage.TYPE_INT_ARGB).createGraphics();
+		try {
+			return graphics.getFontMetrics(font).getHeight();
+		} finally {
+			graphics.dispose();
+		}
+	}
+
 }

@@ -117,9 +117,39 @@ public class TestDianaPalettes {
 		PaletteElementSpecification circle = load("Basic", "Circle");
 		assertEquals(ShapeType.CIRCLE, circle.getGraphicalRepresentation().getShapeSpecification().getShapeType());
 		assertEquals(circle.getGraphicalRepresentation().getWidth(), circle.getGraphicalRepresentation().getHeight(), 0.001);
-		// Right after the rounded rectangle, and right after the oval
-		assertEquals((int) load("Basic", "RoundedRectangle").getIndex() + 1, (int) square.getIndex());
+		// Right after the rectangles, and right after the oval
+		assertEquals((int) load("Basic", "RectangleLabelBelow").getIndex() + 1, (int) square.getIndex());
 		assertEquals((int) load("Basic", "Oval").getIndex() + 1, (int) circle.getIndex());
+	}
+
+	/**
+	 * The Basic palette has two rectangles with a floating label, above and below the shape
+	 */
+	@Test
+	public void testBasicRectanglesWithFloatingLabel() throws Exception {
+		ShapeGraphicalRepresentation above = load("Basic", "RectangleLabelAbove").getGraphicalRepresentation();
+		assertTrue(above.getIsFloatingLabel());
+		assertEquals(VerticalTextAlignment.BOTTOM, above.getVerticalTextAlignment());
+		assertEquals(HorizontalTextAlignment.CENTER, above.getHorizontalTextAlignment());
+		assertEquals(above.getWidth() / 2, above.getAbsoluteTextX(), 0.001);
+		assertEquals(-PaletteLabels.FLOATING_LABEL_GAP, above.getAbsoluteTextY(), 0.001);
+
+		ShapeGraphicalRepresentation below = load("Basic", "RectangleLabelBelow").getGraphicalRepresentation();
+		assertTrue(below.getIsFloatingLabel());
+		assertEquals(VerticalTextAlignment.TOP, below.getVerticalTextAlignment());
+		assertEquals(HorizontalTextAlignment.CENTER, below.getHorizontalTextAlignment());
+		assertEquals(below.getWidth() / 2, below.getAbsoluteTextX(), 0.001);
+		// A little further from the shape than the other labels, so that the shadow of the shape does not show through the text
+		assertEquals(below.getHeight() + 2 * PaletteLabels.FLOATING_LABEL_GAP, below.getAbsoluteTextY(), 0.001);
+		// The palette shows a label, which is the one of the shapes dropped
+		assertEquals("Label", above.getText());
+		assertEquals("Label", below.getText());
+		assertEquals(ShapeType.RECTANGLE, below.getShapeSpecification().getShapeType());
+		assertEquals(ShapeType.RECTANGLE, above.getShapeSpecification().getShapeType());
+
+		// Right after the rounded rectangle
+		assertEquals((int) load("Basic", "RoundedRectangle").getIndex() + 1, (int) load("Basic", "RectangleLabelAbove").getIndex());
+		assertEquals((int) load("Basic", "RoundedRectangle").getIndex() + 2, (int) load("Basic", "RectangleLabelBelow").getIndex());
 	}
 
 	@Test

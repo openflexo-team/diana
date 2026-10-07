@@ -68,13 +68,22 @@ polygon variants) and offers no complex shapes.
 - `GeneralShape.pathElements` now allows repeated elements: DIANA objects compare by value, so
   PAMELA silently dropped a segment ending on an already-used point (flowchart *Collate* lost its
   second pass through the center).
-- `Basic` has a rounded rectangle (`RoundedRectangle.pel`, `arcSize` 12 pixels), right after the
+- `Basic` has a rounded rectangle (`RoundedRectangle.pel`, `arcSize` 24 pixels), right after the
   rectangle.
-- `Basic` has a square (`Square.pel`, after the rounded rectangle) and a circle (`Circle.pel`, after
+- `Basic` has a square (`Square.pel`, after the rectangles) and a circle (`Circle.pel`, after
   the oval): `SquareShape` and `CircleShape` keep their width equal to their height whatever the way
   they are resized (`ShapeNodeImpl.adaptRequestedSize`), from the corners of their bounds only (the
   handles of their sides are disabled; a circle has the four corner handles an ellipse does not have).
   The elements after them in `Basic` were renumbered.
+- `Basic` has two rectangles with a floating label, centered, above (`RectangleLabelAbove.pel`, 2
+  pixels away) and below (`RectangleLabelBelow.pel`, 4 pixels away, so that the shadow of the shape
+  does not show through the text) the shape: right after the rounded rectangle. They carry the text
+  "Label" so that the palette shows where the label goes (the shapes dropped are labelled "Label", as
+  with `SingleLabel`). A floating label with a text is not part of the box a shape is fitted in: it
+  takes room above or below the shape (a line of its font plus the gap:
+  `DianaUtils.getFloatingLabelRoomAbove/Below`), which `WrapFlowLayoutManagerImpl` counts in the height
+  of its line, putting a shape under the label shown above it. The two elements are 60x34 (40x23 in a
+  40x30 cell), so their line is taller than the others.
 - Shadow of a `ShapeUnion` (`JDianaShapeGraphics.paintShadow`): it was clipped by the union's
   bounding box (a `DianaShapeUnion` is a `Rectangle2D` as a `java.awt.Shape`), and darker, one
   translucent layer per shape of the union. It is now cast from the area the shapes really cover,

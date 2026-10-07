@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openflexo.connie.DataBinding;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.Drawing.ShapeNode;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.diana.geom.DianaPoint;
@@ -162,7 +163,7 @@ public abstract class WrapFlowLayoutManagerImpl<O> extends DianaLayoutManagerImp
 
 		for (ShapeNode<?> node : nodes) {
 			double main = horizontal ? node.getWidth() : node.getHeight();
-			double cross = horizontal ? node.getHeight() : node.getWidth();
+			double cross = horizontal ? node.getHeight() + labelRoomAbove(node) + labelRoomBelow(node) : node.getWidth();
 			double prospective = line.isEmpty() ? main : lineMain + itemGap + main;
 			if (!line.isEmpty() && prospective > innerMain) {
 				// wrap: place the current line, then start a new one
@@ -207,7 +208,8 @@ public abstract class WrapFlowLayoutManagerImpl<O> extends DianaLayoutManagerImp
 		double main = mainStart + offset;
 		for (ShapeNode<?> node : line) {
 			if (horizontal) {
-				locationMap.put(node, new DianaPoint(main, crossPos));
+				// A label floating above the shape stays in the line: the shape goes down by what the label needs
+				locationMap.put(node, new DianaPoint(main, crossPos + labelRoomAbove(node)));
 				main += node.getWidth() + itemGap;
 			}
 			else {
@@ -215,6 +217,16 @@ public abstract class WrapFlowLayoutManagerImpl<O> extends DianaLayoutManagerImp
 				main += node.getHeight() + itemGap;
 			}
 		}
+	}
+
+	/** Room needed above a node for its floating label (horizontal flow only: lines are rows), which the line has to contain */
+	private double labelRoomAbove(ShapeNode<?> node) {
+		return getOrientation() == Orientation.HORIZONTAL ? DianaUtils.getFloatingLabelRoomAbove(node.getGraphicalRepresentation()) : 0;
+	}
+
+	/** Room needed below a node for its floating label */
+	private double labelRoomBelow(ShapeNode<?> node) {
+		return getOrientation() == Orientation.HORIZONTAL ? DianaUtils.getFloatingLabelRoomBelow(node.getGraphicalRepresentation()) : 0;
 	}
 
 	/** Layouted children that the manager actually places (self-constrained nodes excluded). */
@@ -279,7 +291,7 @@ public abstract class WrapFlowLayoutManagerImpl<O> extends DianaLayoutManagerImp
 				lineEmpty = true;
 			}
 			lineW = lineEmpty ? w : lineW + hgap + w;
-			lineH = Math.max(lineH, childMinHeight(n));
+			lineH = Math.max(lineH, childMinHeight(n) + labelRoomAbove(n) + labelRoomBelow(n));
 			lineEmpty = false;
 		}
 		if (!lineEmpty) {

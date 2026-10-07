@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PaletteElementSpecification id="0" name="Image"
-	index="16" applyCurrentForeground="false" applyCurrentBackground="false"
+	index="18" applyCurrentForeground="false" applyCurrentBackground="false"
 	applyCurrentTextStyle="false" applyCurrentShadowStyle="false"
 	askForImage="true">
 	<ShapeGraphicalRepresentation id="1"

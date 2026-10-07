@@ -232,12 +232,26 @@ public abstract class PaletteModel implements HasPropertyChangeSupport {
 		int colIndex = index % colSize;
 
 		ShapeGraphicalRepresentation gr = paletteElement.getGraphicalRepresentation();
+
+		// A label floating above or below the shape (when it has a text to show) is not part of the box the shape is fitted in: it takes
+		// room above or below it, which the layout counts in the height of its line
+		double roomAbove = DianaUtils.getFloatingLabelRoomAbove(gr);
+		double roomBelow = DianaUtils.getFloatingLabelRoomBelow(gr);
+		double gapBelow = Math.max(DianaUtils.FLOATING_LABEL_GAP, gr.getAbsoluteTextY() - gr.getHeight());
+
 		// Fit the element in its cell, keeping its aspect ratio, and center it
 		DianaUtils.fitInBox(gr, getElementWidth(), getElementHeight());
 		double width = gr.getWidth();
 		double height = gr.getHeight();
 		gr.setX(colIndex * (getElementWidth() + getMarginWidth()) + getMarginWidth() + (getElementWidth() - width) / 2);
 		gr.setY(rawIndex * (getElementHeight() + getMarginHeight()) + getMarginHeight() + (getElementHeight() - height) / 2);
+		// The label stays at the same distance from the shape
+		if (roomAbove > 0) {
+			gr.setAbsoluteTextY(-DianaUtils.FLOATING_LABEL_GAP);
+		}
+		else if (roomBelow > 0) {
+			gr.setAbsoluteTextY(height + gapBelow);
+		}
 
 		return buildPaletteElement(paletteElement);
 	}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PaletteElementSpecification id="0" name="File" index="20">
+<PaletteElementSpecification id="0" name="File" index="21">
   <ShapeGraphicalRepresentation id="1" relativeTextY="0.5" locationConstraints="FREELY_MOVABLE" isFloatingLabel="false" adaptBoundsToContents="false" relativeTextX="0.5" dimensionConstraints="FREELY_RESIZABLE" width="1.0" height="1.0" identifier="1ee86813" layer="1">
     <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
     <ForegroundStyle id="3" joinStyle="JOIN_MITER" color="0,0,0" dashStyle="PLAIN_STROKE" capStyle="CAP_SQUARE" />

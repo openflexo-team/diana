@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PaletteElementSpecification id="0"
-	name="RectangularOctogon" index="3" applyCurrentForeground="true"
+	name="RectangularOctogon" index="5" applyCurrentForeground="true"
 	applyCurrentBackground="true" applyCurrentTextStyle="true"
 	applyCurrentShadowStyle="true" askForImage="false">
 	<ShapeGraphicalRepresentation id="1"
