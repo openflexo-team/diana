@@ -39,6 +39,7 @@
 package org.openflexo.diana.palettes;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -150,6 +151,25 @@ public class TestDianaPalettes {
 		// Right after the rounded rectangle
 		assertEquals((int) load("Basic", "RoundedRectangle").getIndex() + 1, (int) load("Basic", "RectangleLabelAbove").getIndex());
 		assertEquals((int) load("Basic", "RoundedRectangle").getIndex() + 2, (int) load("Basic", "RectangleLabelBelow").getIndex());
+	}
+
+	/**
+	 * The labels of the Basic palette have a box filling a cell (40x30 once fitted), so that their text is centered vertically in it, and
+	 * keep their text, which is the one of the shapes dropped
+	 */
+	@Test
+	public void testBasicLabels() throws Exception {
+		ShapeGraphicalRepresentation single = load("Basic", "SingleLabel").getGraphicalRepresentation();
+		ShapeGraphicalRepresentation multiple = load("Basic", "MultilineLabel").getGraphicalRepresentation();
+		assertEquals("Label", single.getText());
+		assertEquals("Multiple\nlines label", multiple.getText());
+		for (ShapeGraphicalRepresentation label : new ShapeGraphicalRepresentation[] { single, multiple }) {
+			assertFalse(label.getIsFloatingLabel());
+			assertEquals(VerticalTextAlignment.MIDDLE, label.getVerticalTextAlignment());
+			// The aspect ratio of a cell of the palette (40x30) once fitted in a 60 wide box
+			assertEquals(60, label.getWidth(), 0.001);
+			assertEquals(45, label.getHeight(), 0.001);
+		}
 	}
 
 	@Test

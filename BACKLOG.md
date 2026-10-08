@@ -84,6 +84,9 @@ polygon variants) and offers no complex shapes.
   `DianaUtils.getFloatingLabelRoomAbove/Below`), which `WrapFlowLayoutManagerImpl` counts in the height
   of its line, putting a shape under the label shown above it. The two elements are 60x34 (40x23 in a
   40x30 cell), so their line is taller than the others.
+- The labels of `Basic` (`SingleLabel.pel`, `MultilineLabel.pel`) are 60x45, so that the box of their text
+  fills a cell (40x30) and their text is centered vertically in it, like the other elements of its row;
+  they keep their text ("Label", "Multiple lines label") when dropped.
 - Shadow of a `ShapeUnion` (`JDianaShapeGraphics.paintShadow`): it was clipped by the union's
   bounding box (a `DianaShapeUnion` is a `Rectangle2D` as a `java.awt.Shape`), and darker, one
   translucent layer per shape of the union. It is now cast from the area the shapes really cover,
