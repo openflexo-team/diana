@@ -13,3 +13,7 @@ Status legend: `TODO` · `IN PROGRESS` · `BLOCKED` · `DONE` · `DEFERRED`.
 **Symptom.** At the start of an application that loads the diagram editors: `NoSuchMethodException: Could not instanciate class org.openflexo.diana.swing.widget.JFIBShapeSelector$ShapeDetailsPanel$CustomFIBController` (`FIBController.instanciateController`), twice per start (formod-app, 2026-10-09).
 
 **Read, not reproduced in isolation.** `CustomFIBController` is declared `public class CustomFIBController extends FIBController` inside the details panel of the selector, i.e. NOT static: its constructor takes the enclosing panel as a hidden first parameter, which the reflection of `instanciateController` — looking for `(FIBComponent, GinaViewFactory)` — cannot find. `JFIBTextStyleSelector` declares the same inner class the same way. Whether the selector still works (the panel creates its own controller with `new CustomFIBController(...)`) was not checked.
+
+### DIANA-D-2 — Warnings repeated in the log while editing a diagram  ·  `TODO`
+
+Seen in the formod application (2026-10-12), not investigated: `notifyObservers() called by a deleted DrawingTreeNode` (hundreds per diagram close), `finalizeDeletion called for ShapeNodeImpl … while object still being observed`, `Calling updateBounds() for element is not connected to the drawing`, `More than one applicable CustomMouseDragControlImpl … [Rectangle selection, Rectangle selection]`, `Not implemented: DrawRectangle`. None stopped a scenario.
