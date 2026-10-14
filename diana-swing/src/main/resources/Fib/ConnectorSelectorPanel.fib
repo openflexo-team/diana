@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Panel id="0" borderLeft="0" sizeAdjustment="OriginalSize"
 	opaque="false"
-	controllerClassName="org.openflexo.diana.swing.widget.JFIBShapeSelector$ShapeDetailsPanel$CustomFIBController"
+	controllerClassName="org.openflexo.gina.controller.FIBController"
 	borderRight="0" border="empty" trackViewPortWidth="true"
 	font="SansSerif,0,11" align="left" borderBottom="5"
 	titleFont="SansSerif,0,11" borderTop="0" trackViewPortHeight="true"
