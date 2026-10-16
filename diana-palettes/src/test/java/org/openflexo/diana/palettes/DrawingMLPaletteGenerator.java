@@ -103,6 +103,9 @@ public class DrawingMLPaletteGenerator {
 
 	private static final double PRECISION = 10000;
 
+	/** Normalized distance under which a line segment is considered of null length */
+	private static final double NULL_LENGTH = 1e-6;
+
 	private static final Color DEFAULT_BACKGROUND = new Color(254, 247, 217);
 
 	/**
@@ -545,6 +548,9 @@ public class DrawingMLPaletteGenerator {
 		List<SubPath> returned = new ArrayList<>();
 		SubPath current = null;
 		double[] c = new double[6];
+		// Last point reached, normalized but not rounded
+		double lastX = 0;
+		double lastY = 0;
 		for (PathIterator it = path.getPathIterator(null); !it.isDone(); it.next()) {
 			int type = it.currentSegment(c);
 			if (type != PathIterator.SEG_MOVETO && type != PathIterator.SEG_CLOSE && hasNaN(c, type)) {
@@ -555,16 +561,28 @@ public class DrawingMLPaletteGenerator {
 				case PathIterator.SEG_MOVETO:
 					current = new SubPath(point(c[0] / w, c[1] / h));
 					returned.add(current);
+					lastX = c[0] / w;
+					lastY = c[1] / h;
 					break;
 				case PathIterator.SEG_LINETO:
-					current.elements.add(new DianaPoint[] { point(c[0] / w, c[1] / h) });
+					// A segment of (almost) null length is floating point noise, which depends on the JDK (Math.sin/cos): rounding
+					// it would produce a spurious segment when the point lies on a rounding boundary
+					if (Math.abs(c[0] / w - lastX) > NULL_LENGTH || Math.abs(c[1] / h - lastY) > NULL_LENGTH) {
+						current.elements.add(new DianaPoint[] { point(c[0] / w, c[1] / h) });
+					}
+					lastX = c[0] / w;
+					lastY = c[1] / h;
 					break;
 				case PathIterator.SEG_QUADTO:
 					current.elements.add(new DianaPoint[] { point(c[0] / w, c[1] / h), point(c[2] / w, c[3] / h) });
+					lastX = c[2] / w;
+					lastY = c[3] / h;
 					break;
 				case PathIterator.SEG_CUBICTO:
 					current.elements.add(
 							new DianaPoint[] { point(c[0] / w, c[1] / h), point(c[2] / w, c[3] / h), point(c[4] / w, c[5] / h) });
+					lastX = c[4] / w;
+					lastY = c[5] / h;
 					break;
 				case PathIterator.SEG_CLOSE:
 					current.closed = true;
