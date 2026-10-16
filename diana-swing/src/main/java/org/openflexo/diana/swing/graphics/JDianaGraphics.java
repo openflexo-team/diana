@@ -54,7 +54,6 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.TexturePaint;
-import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.geom.CubicCurve2D;
@@ -63,13 +62,10 @@ import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.FilteredImageSource;
-import java.awt.image.ImageProducer;
 import java.awt.image.RGBImageFilter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.SwingUtilities;
 
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.openflexo.diana.BackgroundImageBackgroundStyle;
@@ -94,8 +90,6 @@ import org.openflexo.diana.graphics.DianaGraphics;
 import org.openflexo.diana.graphics.DianaGraphicsImpl;
 import org.openflexo.diana.swing.view.JDianaView;
 
-import sun.awt.image.ImageRepresentation;
-import sun.awt.image.ToolkitImage;
 
 /**
  * This is the SWING base implementation of a {@link DianaGraphics}.<br>
@@ -786,27 +780,11 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 		if (coloredTexture != null) {
 			return new TexturePaint(coloredTexture, new Rectangle(0, 0, coloredTexture.getWidth(), coloredTexture.getHeight()));
 		}
-		// Since image building take some time, colored texture might not be ready yet
-		// In this case, invoke repaint later
-		logger.warning("ColoredTexture not ready");
-		repaintWhenColoredTextureHasBeenComputed();
+		logger.warning("ColoredTexture not available for " + bs.getTextureType());
 		return null;
 	}
 
-	private synchronized void repaintWhenColoredTextureHasBeenComputed() {
-		if (coloredTexture != null) {
-			// Now it's ok, proceed repaint
-			getView().getPaintManager().invalidate(getNode());
-			getView().getPaintManager().repaint(getView());
-		}
-		else {
-			SwingUtilities.invokeLater(() -> repaintWhenColoredTextureHasBeenComputed());
-		}
-	}
-
 	private BufferedImage coloredTexture;
-	private ToolkitImage coloredImage;
-	private ToolkitImage requestedColoredImage;
 	private TextureType coloredTextureMadeForThisTextureType = null;
 	private Color coloredTextureMadeForThisColor1 = null;
 	private Color coloredTextureMadeForThisColor2 = null;
@@ -835,41 +813,34 @@ public abstract class JDianaGraphics extends DianaGraphicsImpl {
 	 */
 	private synchronized void rebuildColoredTexture(final TextureBackgroundStyle bs) {
 		coloredTexture = null;
-		coloredImage = null;
 		if (bs.getTextureType() == null) {
 			return;
 		}
+		// ImageIcon waits for the image to be fully loaded: its size is available at once
 		final Image initialImage = bs.getTextureType().getImageIcon().getImage();
-		ColorSwapFilter imgfilter = new ColorSwapFilter(java.awt.Color.BLACK, bs.getColor1(), java.awt.Color.WHITE, bs.getColor2()) {
-			@Override
-			public void imageComplete(int status) {
-				super.imageComplete(status);
-				synchronized (JDianaGraphics.this) {
-					coloredTexture = new BufferedImage(coloredImage.getWidth(null), coloredImage.getHeight(null),
-							BufferedImage.TYPE_INT_ARGB);
-					Graphics gi = coloredTexture.getGraphics();
-					if (coloredImage != null) {
-						gi.drawImage(coloredImage, 0, 0, null);
-					}
-					coloredTextureMadeForThisTextureType = bs.getTextureType();
-					coloredTextureMadeForThisColor1 = bs.getColor1();
-					coloredTextureMadeForThisColor2 = bs.getColor2();
-					logger.fine("Image has been computed, status=" + status);
-				}
-			}
-		};
+		int width = initialImage.getWidth(null);
+		int height = initialImage.getHeight(null);
+		if (width <= 0 || height <= 0) {
+			logger.warning("Texture image not loaded for " + bs.getTextureType());
+			return;
+		}
+		BufferedImage texture = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		Graphics gi = texture.getGraphics();
+		gi.drawImage(initialImage, 0, 0, null);
+		gi.dispose();
 
-		// Launch a background job building a new image with specified two colors
-		ImageProducer producer = new FilteredImageSource(initialImage.getSource(), imgfilter);
-		coloredImage = (ToolkitImage) Toolkit.getDefaultToolkit().createImage(producer);
-		ImageRepresentation consumer = new ImageRepresentation(coloredImage, null, true);
-		producer.addConsumer(consumer);
-		try {
-			producer.startProduction(consumer);
-		} catch (RuntimeException e) {
-			logger.warning("Unexpected exception: " + e);
+		// Swap the two colors of the texture (black and white) by the two requested colors
+		ColorSwapFilter imgfilter = new ColorSwapFilter(java.awt.Color.BLACK, bs.getColor1(), java.awt.Color.WHITE, bs.getColor2());
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				texture.setRGB(x, y, imgfilter.filterRGB(x, y, texture.getRGB(x, y)));
+			}
 		}
 
+		coloredTexture = texture;
+		coloredTextureMadeForThisTextureType = bs.getTextureType();
+		coloredTextureMadeForThisColor1 = bs.getColor1();
+		coloredTextureMadeForThisColor2 = bs.getColor2();
 	}
 
 	private BufferedImage getColoredTexture(TextureBackgroundStyle bs) {
