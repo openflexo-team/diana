@@ -62,6 +62,9 @@ import org.openflexo.diana.control.DianaInteractiveEditor;
 import org.openflexo.diana.control.PaletteElement;
 import org.openflexo.diana.control.PaletteModel;
 import org.openflexo.diana.impl.DrawingImpl;
+import org.openflexo.diana.layout.WrapFlowLayoutManagerSpecification;
+import org.openflexo.diana.layout.WrapFlowLayoutManagerSpecification.LineAlignment;
+import org.openflexo.diana.layout.WrapFlowLayoutManagerSpecification.Orientation;
 import org.openflexo.diana.view.DianaViewFactory;
 import org.openflexo.diana.view.DrawingView;
 import org.openflexo.gina.utils.FIBIconLibrary;
@@ -173,7 +176,14 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 
 	public static class PaletteDrawing extends DrawingImpl<PaletteModel> {
 
+		/** Identifier of the wrap-flow layout managing palette elements */
+		public static final String WRAP_FLOW_LAYOUT_ID = "palette-wrap-flow";
+
 		private final DrawingGraphicalRepresentation gr;
+
+		public DrawingGraphicalRepresentation getDrawingGraphicalRepresentation() {
+			return gr;
+		}
 
 		private PaletteDrawing(PaletteModel palette) {
 			super(palette, PaletteModel.FACTORY, PersistenceMode.UniqueGraphicalRepresentations);
@@ -182,6 +192,17 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 			gr.setHeight(palette.getPaletteHeight());
 			gr.setBackgroundColor(Color.WHITE);
 			gr.setDrawWorkingArea(palette.getDrawWorkingArea());
+			WrapFlowLayoutManagerSpecification wrap = PaletteModel.FACTORY.makeLayoutManagerSpecification(WRAP_FLOW_LAYOUT_ID,
+					WrapFlowLayoutManagerSpecification.class);
+			wrap.setOrientation(Orientation.HORIZONTAL);
+			wrap.setLineAlignment(LineAlignment.LEADING);
+			wrap.setHgap(palette.getMarginWidth());
+			wrap.setVgap(palette.getMarginHeight());
+			wrap.setInsetTop(palette.getMarginHeight());
+			wrap.setInsetBottom(palette.getMarginHeight());
+			wrap.setInsetLeft(palette.getMarginWidth());
+			wrap.setInsetRight(palette.getMarginWidth());
+			gr.addToLayoutManagerSpecifications(wrap);
 			setEditable(true);
 		}
 
@@ -199,7 +220,9 @@ public abstract class DianaPalette<C, F extends DianaViewFactory<F, ? super C>> 
 					new ShapeGRProvider<PaletteElement>() {
 						@Override
 						public ShapeGraphicalRepresentation provideGR(PaletteElement drawable, DianaModelFactory factory) {
-							return drawable.getGraphicalRepresentation();
+							ShapeGraphicalRepresentation returned = drawable.getGraphicalRepresentation();
+							returned.setLayoutManagerIdentifier(WRAP_FLOW_LAYOUT_ID);
+							return returned;
 						}
 					});
 

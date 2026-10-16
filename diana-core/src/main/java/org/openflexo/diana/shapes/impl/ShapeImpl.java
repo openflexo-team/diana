@@ -181,6 +181,14 @@ public class ShapeImpl<SS extends ShapeSpecification> implements PropertyChangeL
 				controlPoints.add(new ShapeResizingControlPoint(shapeNode, pt, null));
 			}
 		}
+		if (getShapeSpecification() != null && getShapeSpecification().getShapeType() == ShapeType.CIRCLE) {
+			// The only handles of an ellipse are the ones of its sides, which are disabled for a circle (its width and its height stay
+			// equal): its size is changed from the corners of its bounds
+			controlPoints.add(new ShapeResizingControlPoint(shapeNode, ShapeSpecification.NORTH_WEST, null));
+			controlPoints.add(new ShapeResizingControlPoint(shapeNode, ShapeSpecification.NORTH_EAST, null));
+			controlPoints.add(new ShapeResizingControlPoint(shapeNode, ShapeSpecification.SOUTH_WEST, null));
+			controlPoints.add(new ShapeResizingControlPoint(shapeNode, ShapeSpecification.SOUTH_EAST, null));
+		}
 		return controlPoints;
 	}
 

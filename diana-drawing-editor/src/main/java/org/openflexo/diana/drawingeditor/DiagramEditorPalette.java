@@ -64,10 +64,20 @@ public class DiagramEditorPalette extends PaletteModel {
 	private DianaDrawingEditor editor;
 
 	public DiagramEditorPalette() {
-		super("default", 250, 210, 50, 40, 10, 10);
-		FACTORY.addConverter(
-				new RelativePathResourceConverter(ResourceLocator.locateResource("Palettes/Basic").getContainer().getContainer()));
-		readFromDirectory(ResourceLocator.locateResource("Palettes/Basic"));
+		this("Basic");
+	}
+
+	/**
+	 * Build the palette whose elements are the .pel files of <code>Palettes/&lt;paletteName&gt;</code> on the classpath
+	 * 
+	 * @param paletteName
+	 *            name of the palette directory (Basic, Flowchart, Shapes3D...)
+	 */
+	public DiagramEditorPalette(String paletteName) {
+		super(paletteName, 250, 210, 50, 40, 10, 10);
+		FACTORY.addConverter(new RelativePathResourceConverter(
+				ResourceLocator.locateResource("Palettes/" + paletteName).getContainer().getContainer()));
+		readFromDirectory(ResourceLocator.locateResource("Palettes/" + paletteName));
 	}
 
 	public DianaDrawingEditor getEditor() {

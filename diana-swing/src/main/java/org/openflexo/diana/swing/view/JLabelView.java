@@ -51,6 +51,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import java.beans.PropertyChangeEvent;
 import java.util.Arrays;
@@ -128,6 +129,15 @@ public class JLabelView<O> extends JScrollPane implements JDianaView<O, JPanel>,
 	private boolean initialized = false;
 
 	private boolean mouseInsideLabel = false;
+
+	/**
+	 * A label never scrolls, and a component listening to the mouse wheel swallows wheel events: refuse wheel listeners (the scroll
+	 * pane UI installs one, whatever {@link #setWheelScrollingEnabled(boolean)} says), so that wheel events over a label reach the
+	 * enclosing scroll pane (a diagram, a palette)
+	 */
+	@Override
+	public synchronized void addMouseWheelListener(MouseWheelListener l) {
+	}
 
 	public JLabelView(final DrawingTreeNode<O, ?> node, AbstractDianaEditor<?, SwingViewFactory, JComponent> controller,
 			JDianaView<O, ? extends JComponent> delegateView) {

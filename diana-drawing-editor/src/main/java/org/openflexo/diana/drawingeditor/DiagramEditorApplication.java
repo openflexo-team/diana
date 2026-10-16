@@ -46,6 +46,8 @@ import java.awt.Rectangle;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -54,6 +56,7 @@ import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
@@ -78,6 +81,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -87,10 +91,12 @@ import org.openflexo.diana.DianaCoreUtils;
 import org.openflexo.diana.control.DianaInteractiveViewer;
 import org.openflexo.diana.drawingeditor.model.Diagram;
 import org.openflexo.diana.drawingeditor.model.DiagramFactory;
+import org.openflexo.diana.palettes.DianaPalettes;
+import org.openflexo.diana.palettes.DianaPalettes.PaletteDefinition;
 import org.openflexo.diana.swing.control.SwingToolFactory;
 import org.openflexo.diana.swing.control.tools.JDianaDialogInspectors;
 import org.openflexo.diana.swing.control.tools.JDianaLayoutWidget;
-import org.openflexo.diana.swing.control.tools.JDianaPalette;
+import org.openflexo.diana.swing.control.tools.JDianaPaletteGroup;
 import org.openflexo.diana.swing.control.tools.JDianaScaleSelector;
 import org.openflexo.diana.swing.control.tools.JDianaStyles;
 import org.openflexo.diana.swing.control.tools.JDianaToolSelector;
@@ -149,8 +155,8 @@ public class DiagramEditorApplication {
 	private final JDianaScaleSelector scaleSelector;
 	private final JDianaLayoutWidget layoutWidget;
 	private final JDianaStyles stylesWidget;
-	private final JDianaPalette commonPalette;
-	private final DiagramEditorPalette commonPaletteModel;
+	private final List<DiagramEditorPalette> paletteModels = new ArrayList<>();
+	private final JDianaPaletteGroup paletteGroup;
 	private final JDianaDialogInspectors inspectors;
 
 	protected PropertyChangeListenerRegistrationManager manager;
@@ -557,13 +563,26 @@ public class DiagramEditorApplication {
 
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 
-		commonPaletteModel = new DiagramEditorPalette();
-		commonPalette = toolFactory.makeDianaPalette(commonPaletteModel);
+		// Palettes are shown as collapsible panels, which may be opened together: all of them are attached to the edited
+		// drawing, a palette becoming the active one when elements are dragged from it. Basic is opened (and loaded) first, the
+		// other palettes are loaded the first time their panel is opened
+		paletteGroup = new JDianaPaletteGroup();
+		for (PaletteDefinition paletteDefinition : DianaPalettes.PALETTES) {
+			paletteGroup.addPalette(paletteDefinition.getTitle(), () -> {
+				DiagramEditorPalette paletteModel = new DiagramEditorPalette(paletteDefinition.getDirectory());
+				paletteModels.add(paletteModel);
+				if (currentDiagramEditor != null) {
+					paletteModel.setEditor(currentDiagramEditor.getController());
+				}
+				return toolFactory.makeDianaPalette(paletteModel);
+			}, paletteDefinition == DianaPalettes.BASIC);
+		}
 
 		paletteDialog = new JDialog(frame, "Palette", false);
-		paletteDialog.getContentPane().add(commonPalette.getComponent());
+		paletteDialog.getContentPane().add(paletteGroup.getComponent());
 		paletteDialog.setLocation(1010, 0);
-		paletteDialog.pack();
+		paletteDialog.setSize(370, 500);
+		fitPaletteDialogHeightOnce();
 		paletteDialog.setVisible(true);
 		paletteDialog.setFocusableWindowState(false);
 
@@ -917,6 +936,30 @@ public class DiagramEditorApplication {
 		}
 	}
 
+	/**
+	 * Once the palette dialog contents are laid out (Basic palette opened, other ones collapsed, possibly with an animation), make the
+	 * dialog just as high as them. Done once: opening palettes later scrolls the dialog contents
+	 */
+	private void fitPaletteDialogHeightOnce() {
+		JComponent contents = (JComponent) paletteGroup.getComponent().getViewport().getView();
+		Timer settled = new Timer(300, null);
+		ComponentAdapter resizeListener = new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				settled.restart();
+			}
+		};
+		settled.setRepeats(false);
+		settled.addActionListener(e -> {
+			contents.removeComponentListener(resizeListener);
+			int chromeHeight = paletteDialog.getHeight() - paletteGroup.getComponent().getViewport().getExtentSize().height;
+			paletteDialog.setSize(paletteDialog.getWidth(), contents.getPreferredSize().height + chromeHeight);
+		});
+		contents.addComponentListener(resizeListener);
+		settled.start();
+	}
+
+
 	private void drawingSwitched(DiagramEditor diagramEditor) {
 
 		logger.info("Switch to editor " + diagramEditor);
@@ -930,8 +973,10 @@ public class DiagramEditorApplication {
 		stylesWidget.attachToEditor(diagramEditor.getController());
 		scaleSelector.attachToEditor(diagramEditor.getController());
 		layoutWidget.attachToEditor(diagramEditor.getController());
-		commonPaletteModel.setEditor(diagramEditor.getController());
-		commonPalette.attachToEditor(diagramEditor.getController());
+		for (DiagramEditorPalette paletteModel : paletteModels) {
+			paletteModel.setEditor(diagramEditor.getController());
+		}
+		paletteGroup.attachToEditor(diagramEditor.getController());
 		inspectors.attachToEditor(diagramEditor.getController());
 
 		/*JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));

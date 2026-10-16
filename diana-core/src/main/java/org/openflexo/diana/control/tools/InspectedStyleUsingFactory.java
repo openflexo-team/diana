@@ -121,6 +121,20 @@ public abstract class InspectedStyleUsingFactory<F extends StyleFactory<S, ST>, 
 		}
 	}
 
+	/**
+	 * Changes are notified by the inspected style of current style type: freeze its registered values too
+	 */
+	@Override
+	protected void notifyChangedProperties() {
+		InspectedStyle<? extends S> currentlyInspected = styleFactory.getCurrentStyle();
+		currentlyInspected.startNotifyingChanges();
+		try {
+			super.notifyChangedProperties();
+		} finally {
+			currentlyInspected.stopNotifyingChanges();
+		}
+	}
+
 	@Override
 	protected <T> void fireChangedProperty(GRProperty<T> parameter) {
 		InspectedStyle<? extends S> currentlyInspected = styleFactory.getCurrentStyle();

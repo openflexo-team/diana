@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" description="DrawingML preset geometry: star24" index="10" name="24-point star">
+  <ShapeGraphicalRepresentation id="1" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" identifier="star24" isFloatingLabel="false" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5">
+    <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="3" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
+    <ShadowStyle id="5" />
+    <FocusedForegroundStyle id="6" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <SelectedForegroundStyle id="7" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
+    <GeneralShape id="9" startPoint="0.0,0.5">
+      <Segment id="10" point="0.1282,0.4511" />
+      <Segment id="11" point="0.017,0.3706" />
+      <Segment id="12" point="0.1535,0.3565" />
+      <Segment id="13" point="0.067,0.25" />
+      <Segment id="14" point="0.2025,0.2717" />
+      <Segment id="15" point="0.1464,0.1464" />
+      <Segment id="16" point="0.2717,0.2025" />
+      <Segment id="17" point="0.25,0.067" />
+      <Segment id="18" point="0.3565,0.1535" />
+      <Segment id="19" point="0.3706,0.017" />
+      <Segment id="20" point="0.4511,0.1282" />
+      <Segment id="21" point="0.5,0.0" />
+      <Segment id="22" point="0.5489,0.1282" />
+      <Segment id="23" point="0.6294,0.017" />
+      <Segment id="24" point="0.6435,0.1535" />
+      <Segment id="25" point="0.75,0.067" />
+      <Segment id="26" point="0.7283,0.2025" />
+      <Segment id="27" point="0.8536,0.1464" />
+      <Segment id="28" point="0.7975,0.2717" />
+      <Segment id="29" point="0.933,0.25" />
+      <Segment id="30" point="0.8465,0.3565" />
+      <Segment id="31" point="0.983,0.3706" />
+      <Segment id="32" point="0.8718,0.4511" />
+      <Segment id="33" point="1.0,0.5" />
+      <Segment id="34" point="0.8718,0.5489" />
+      <Segment id="35" point="0.983,0.6294" />
+      <Segment id="36" point="0.8465,0.6435" />
+      <Segment id="37" point="0.933,0.75" />
+      <Segment id="38" point="0.7975,0.7283" />
+      <Segment id="39" point="0.8536,0.8536" />
+      <Segment id="40" point="0.7283,0.7975" />
+      <Segment id="41" point="0.75,0.933" />
+      <Segment id="42" point="0.6435,0.8465" />
+      <Segment id="43" point="0.6294,0.983" />
+      <Segment id="44" point="0.5489,0.8718" />
+      <Segment id="45" point="0.5,1.0" />
+      <Segment id="46" point="0.4511,0.8718" />
+      <Segment id="47" point="0.3706,0.983" />
+      <Segment id="48" point="0.3565,0.8465" />
+      <Segment id="49" point="0.25,0.933" />
+      <Segment id="50" point="0.2717,0.7975" />
+      <Segment id="51" point="0.1464,0.8536" />
+      <Segment id="52" point="0.2025,0.7283" />
+      <Segment id="53" point="0.067,0.75" />
+      <Segment id="54" point="0.1535,0.6435" />
+      <Segment id="55" point="0.017,0.6294" />
+      <Segment id="56" point="0.1282,0.5489" />
+    </GeneralShape>
+    <TextStyle id="57" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </ShapeGraphicalRepresentation>
+</PaletteElementSpecification>

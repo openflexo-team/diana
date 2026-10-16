@@ -12,7 +12,7 @@
 			<Label label="orientation" index="16"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=left)"
 				name="VerticalOrientationLabel" localize="true" />
-			<DropDown index="17" data="data.layoutManagerSpecification.FlowOrientationType"
+			<DropDown index="17" data="data.layoutManagerSpecification.flowOrientationType"
 				constraints="twocols(expandHorizontally=false;expandVertically=false;location=right)"
 				width="150" name="FlowOrientationType" format="object.name"
 				localize="true"

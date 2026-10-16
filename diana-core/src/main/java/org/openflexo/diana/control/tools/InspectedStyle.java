@@ -93,6 +93,14 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 
 	protected Map<GRProperty<?>, Object> storedPropertyValues = new HashMap<>();
 
+	/**
+	 * Copy of {@link #storedPropertyValues} taken when changes start being notified, and the reference for change detection until they
+	 * all are: a listener of the first notified changes may read other properties (an inspected shape rebuilding its preview reads them
+	 * all), which stores their new values and would otherwise hide their changes
+	 */
+	private Map<GRProperty<?>, Object> notificationBaseline;
+	private int notificationDepth = 0;
+
 	protected InspectedStyle(DianaInteractiveViewer<?, ?, ?> controller, S defaultValue) {
 		this.controller = controller;
 		this.defaultValue = defaultValue;
@@ -335,11 +343,53 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 		}
 
 		// Then we look if some properties have changed due to new selection
-		fireChangedProperties();
+		notifyChangedProperties();
 	}
 
 	/**
-	 * Internally called to fire change events between previously registered values and current resulting values
+	 * Fire change events between previously registered values and current resulting values, the registered values being frozen until
+	 * all changes are notified
+	 */
+	protected void notifyChangedProperties() {
+		startNotifyingChanges();
+		try {
+			fireChangedProperties();
+		} finally {
+			stopNotifyingChanges();
+		}
+	}
+
+	protected void startNotifyingChanges() {
+		if (notificationDepth++ == 0) {
+			notificationBaseline = new HashMap<>(storedPropertyValues);
+		}
+	}
+
+	protected void stopNotifyingChanges() {
+		if (--notificationDepth == 0) {
+			notificationBaseline = null;
+		}
+	}
+
+	/**
+	 * Return the value of supplied property as registered for change detection
+	 */
+	private Object getRegisteredValue(GRProperty<?> p) {
+		return notificationBaseline != null ? notificationBaseline.get(p) : storedPropertyValues.get(p);
+	}
+
+	/**
+	 * Called once a change has been notified, so that it is not notified twice while changes are being notified
+	 */
+	private void changeNotified(GRProperty<?> p, Object newValue) {
+		if (notificationBaseline != null) {
+			notificationBaseline.put(p, newValue);
+		}
+	}
+
+	/**
+	 * Internally called to fire change events between previously registered values and current resulting values<br>
+	 * Use {@link #notifyChangedProperties()} to perform it
 	 */
 	protected void fireChangedProperties() {
 
@@ -360,9 +410,10 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	 */
 	protected <T> void fireChangedProperty(GRProperty<T> p) {
 		@SuppressWarnings("unchecked")
-		T storedValue = (T) storedPropertyValues.get(p);
+		T storedValue = (T) getRegisteredValue(p);
 		T newValue = _getPropertyValue(p);
 		if (requireChange(storedValue, newValue)) {
+			changeNotified(p, newValue);
 			_doFireChangedProperty(p, storedValue, newValue);
 		}
 	}
@@ -376,8 +427,9 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 
 	protected <T> void forceFireChangedProperty(GRProperty<T> p) {
 		@SuppressWarnings("unchecked")
-		T storedValue = (T) storedPropertyValues.get(p);
+		T storedValue = (T) getRegisteredValue(p);
 		T newValue = _getPropertyValue(p);
+		changeNotified(p, newValue);
 		if (requireChange(storedValue, newValue)) {
 			_doFireChangedProperty(p, storedValue, newValue);
 		}
@@ -397,7 +449,7 @@ public abstract class InspectedStyle<S extends KeyValueCoding> implements HasPro
 	public void propertyChange(PropertyChangeEvent evt) {
 		// System.out.println("****************** PropertyChange with " + evt + " property=" + evt.getPropertyName());
 		if (shouldBeUpdated) {
-			fireChangedProperties();
+			notifyChangedProperties();
 		}
 	}
 

@@ -644,6 +644,14 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 	}
 
 	/**
+	 * Hook allowing a node to impose a relation between the width and the height of the size it is asked for (before and after the
+	 * dimension constraints are applied): the requested size is returned as it is by default
+	 */
+	protected DianaDimension adaptRequestedSize(DianaDimension requestedSize) {
+		return requestedSize;
+	}
+
+	/**
 	 * General method called to update size of a ContainerNode
 	 * 
 	 * @param requestedSize
@@ -655,13 +663,16 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 			return;
 		}
 
+		// The nature of the node may impose a relation between width and height
+		requestedSize = adaptRequestedSize(requestedSize);
+
 		// If value is same, also ignore
 		if (requestedSize.equals(getSize())) {
 			return;
 		}
 
 		// Prelude of update, first select new size respecting contextual constraints
-		DianaDimension newSize = getConstrainedSize(requestedSize);
+		DianaDimension newSize = adaptRequestedSize(getConstrainedSize(requestedSize));
 		if (!newSize.equals(requestedSize)) {
 			logger.info("Dimension constraints force " + requestedSize + " to be " + newSize);
 		}
@@ -676,6 +687,14 @@ public abstract class ContainerNodeImpl<O, GR extends ContainerGraphicalRepresen
 			setWidthNoNotification(newSize.width);
 			setHeightNoNotification(newSize.height);
 			// }
+			// The anchor of a floating label follows the shape, even before the label has a text
+			if (getGraphicalRepresentation() instanceof ShapeGraphicalRepresentation
+					&& ((ShapeGraphicalRepresentation) getGraphicalRepresentation()).getIsFloatingLabel()) {
+				getGraphicalRepresentation().setAbsoluteTextX(
+						DianaUtils.scaledFloatingLabelAnchor(getGraphicalRepresentation().getAbsoluteTextX(), oldWidth, newSize.width));
+				getGraphicalRepresentation().setAbsoluteTextY(
+						DianaUtils.scaledFloatingLabelAnchor(getGraphicalRepresentation().getAbsoluteTextY(), oldHeight, newSize.height));
+			}
 			notifyObjectResized(oldSize);
 			notifyAttributeChanged(ContainerGraphicalRepresentation.WIDTH, oldWidth, getWidth());
 			notifyAttributeChanged(ContainerGraphicalRepresentation.HEIGHT, oldHeight, getHeight());

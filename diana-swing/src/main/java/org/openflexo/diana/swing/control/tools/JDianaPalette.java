@@ -39,18 +39,25 @@
 
 package org.openflexo.diana.swing.control.tools;
 
+import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import org.openflexo.diana.DianaLayoutManager;
+import org.openflexo.diana.Drawing.RootNode;
 import org.openflexo.diana.control.PaletteElement;
+import org.openflexo.diana.geom.DianaDimension;
 import org.openflexo.diana.control.PaletteModel;
 import org.openflexo.diana.control.tools.DianaPalette;
 import org.openflexo.diana.swing.SwingViewFactory;
@@ -80,13 +87,15 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 		if (component != null) {
 			component.setViewportView(getPaletteView());
 		}
+		updateFittingComponent();
 	}
 
 	@Override
 	public JScrollPane getComponent() {
 		if (component == null) {
 			component = new JScrollPane(getPaletteView(), ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			trackViewportWidth(component);
 		}
 		return component;
 	}
@@ -99,10 +108,93 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 
 	private JScrollPane scrollPane;
 
+	/**
+	 * Palette elements wrap according to the available width: make the palette drawing width follow the viewport width
+	 */
+	private void trackViewportWidth(final JScrollPane pane) {
+		pane.getViewport().addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				updatePaletteSize(pane.getViewport().getWidth(), pane.getViewport().getHeight(), pane);
+			}
+		});
+	}
+
+	private JPanel fittingComponent;
+
+	/**
+	 * Return a component showing the palette without scrolling: its width follows the width it is given, its height is the one of the
+	 * wrapped lines of elements. To be used in a container providing the scrolling, such as a
+	 * {@link org.openflexo.swing.FlexoCollabsiblePanelGroup}
+	 */
+	public JComponent getFittingComponent() {
+		if (fittingComponent == null) {
+			fittingComponent = new JPanel(new BorderLayout());
+			fittingComponent.setOpaque(false);
+			fittingComponent.addComponentListener(new ComponentAdapter() {
+				@Override
+				public void componentResized(ComponentEvent e) {
+					updatePaletteSize(fittingComponent.getWidth(), 0, fittingComponent);
+				}
+			});
+			updateFittingComponent();
+		}
+		return fittingComponent;
+	}
+
+	/**
+	 * Size the palette shown by {@link #getFittingComponent()} for supplied width, without waiting for the component to be laid out:
+	 * its preferred height is then right before it is shown
+	 */
+	public void fitToWidth(double width) {
+		updatePaletteSize(width, 0, getFittingComponent());
+	}
+
+	private void updateFittingComponent() {
+		if (fittingComponent != null) {
+			fittingComponent.removeAll();
+			fittingComponent.add(getPaletteView(), BorderLayout.CENTER);
+			fittingComponent.revalidate();
+		}
+	}
+
+	/**
+	 * Resize the palette drawing to the available size, enlarged if required by the wrap-flow layout (width of the widest element, height
+	 * of the wrapped lines), then revalidate supplied container.<br>
+	 * This is computed here since the root node does not enforce the minimal size requested by its layout managers.
+	 */
+	private void updatePaletteSize(double availableWidth, double availableHeight, JComponent container) {
+		if (getPaletteDrawing() == null || getPaletteDrawing().getRoot() == null) {
+			return;
+		}
+		RootNode<PaletteModel> root = getPaletteDrawing().getRoot();
+		double width = availableWidth;
+		double height = availableHeight;
+		if (width <= 0) {
+			return;
+		}
+		double minHeight = 0;
+		for (DianaLayoutManager<?, PaletteModel> lm : root.getLayoutManagers()) {
+			width = Math.max(width, lm.getMinimumWidth());
+		}
+		for (DianaLayoutManager<?, PaletteModel> lm : root.getLayoutManagers()) {
+			minHeight = Math.max(minHeight, lm.getMinimumHeightForWidth(width));
+		}
+		DianaDimension newSize = new DianaDimension(width, Math.max(height, minHeight));
+		if (newSize.equals(root.getSize())) {
+			return;
+		}
+		// Single update (one relayout, one repaint): nodes may not leave the container bounds, so width and height must be
+		// applied together, the container being tall enough when the relayout is triggered
+		root.setSize(newSize);
+		container.revalidate();
+	}
+
 	public JScrollPane getPaletteViewInScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane(getPaletteView(), ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			trackViewportWidth(scrollPane);
 		}
 		return scrollPane;
 	}
@@ -122,6 +214,7 @@ public class JDianaPalette extends DianaPalette<JComponent, SwingViewFactory> {
 		if (component != null) {
 			component.setViewportView(getPaletteView());
 		}
+		updateFittingComponent();
 	}
 
 	@Override

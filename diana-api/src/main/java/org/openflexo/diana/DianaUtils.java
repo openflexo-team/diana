@@ -448,4 +448,89 @@ public class DianaUtils {
 		public ImageIcon getIcon();
 	}
 
+	/**
+	 * Anchor (absolute text location, along one axis) of a floating label once its shape is resized from oldSize to newSize:
+	 * proportional within the shape, translated beyond it, unchanged before it (a label above or left of its shape keeps its gap)
+	 */
+	public static double scaledFloatingLabelAnchor(double anchor, double oldSize, double newSize) {
+		if (anchor < 0 || oldSize <= 0) {
+			return anchor;
+		}
+		if (anchor < oldSize) {
+			return anchor / oldSize * newSize;
+		}
+		return anchor + newSize - oldSize;
+	}
+
+	/**
+	 * Resize supplied shape so that it fits in a box of supplied size, keeping its aspect ratio (a shape without size fills the box),
+	 * and move the anchor of its floating label accordingly. A shape whose dimensions are constrained (a square, a circle) fits in the
+	 * box as a square.
+	 */
+	public static void fitInBox(ShapeGraphicalRepresentation gr, double boxWidth, double boxHeight) {
+		double width = boxWidth;
+		double height = boxHeight;
+		if (gr.getWidth() > 0 && gr.getHeight() > 0) {
+			double scale = Math.min(boxWidth / gr.getWidth(), boxHeight / gr.getHeight());
+			width = gr.getWidth() * scale;
+			height = gr.getHeight() * scale;
+		}
+		if (gr.getShapeSpecification() != null && gr.getShapeSpecification().areDimensionConstrained()) {
+			// A square or a circle keeps its width equal to its height: the biggest one fitting in the box
+			width = Math.min(width, height);
+			height = width;
+		}
+		if (gr.getIsFloatingLabel()) {
+			gr.setAbsoluteTextX(scaledFloatingLabelAnchor(gr.getAbsoluteTextX(), gr.getWidth(), width));
+			gr.setAbsoluteTextY(scaledFloatingLabelAnchor(gr.getAbsoluteTextY(), gr.getHeight(), height));
+		}
+		gr.setWidth(width);
+		gr.setHeight(height);
+	}
+
+	/** Distance between a floating label and its shape, in pixels */
+	public static final double FLOATING_LABEL_GAP = 2;
+
+	/**
+	 * Height a floating label shown above the shape needs above it (the label and its gap), 0 when the shape has no such label.<br>
+	 * The label has to have a text to show, and to be anchored above the shape. Its height is the one of a line of text in its font.
+	 */
+	public static double getFloatingLabelRoomAbove(ShapeGraphicalRepresentation gr) {
+		if (hasShownFloatingLabel(gr) && gr.getAbsoluteTextY() < 0) {
+			return floatingLabelHeight(gr) + FLOATING_LABEL_GAP;
+		}
+		return 0;
+	}
+
+	/**
+	 * Same as {@link #getFloatingLabelRoomAbove(ShapeGraphicalRepresentation)} for a label shown below the shape
+	 */
+	public static double getFloatingLabelRoomBelow(ShapeGraphicalRepresentation gr) {
+		if (hasShownFloatingLabel(gr) && gr.getAbsoluteTextY() > gr.getHeight()) {
+			// The label may be further from the shape than usual (to leave the shadow of the shape visible)
+			return floatingLabelHeight(gr) + Math.max(FLOATING_LABEL_GAP, gr.getAbsoluteTextY() - gr.getHeight());
+		}
+		return 0;
+	}
+
+	private static boolean hasShownFloatingLabel(ShapeGraphicalRepresentation gr) {
+		return gr != null && gr.getIsFloatingLabel() && gr.getText() != null && gr.getText().length() > 0;
+	}
+
+	/**
+	 * The height of a line of the text of supplied shape, measured with its font
+	 */
+	private static double floatingLabelHeight(ShapeGraphicalRepresentation gr) {
+		java.awt.Font font = gr.getTextStyle() != null ? gr.getTextStyle().getFont() : null;
+		if (font == null) {
+			return 12;
+		}
+		java.awt.Graphics2D graphics = new java.awt.image.BufferedImage(1, 1, java.awt.image.BufferedImage.TYPE_INT_ARGB).createGraphics();
+		try {
+			return graphics.getFontMetrics(font).getHeight();
+		} finally {
+			graphics.dispose();
+		}
+	}
+
 }

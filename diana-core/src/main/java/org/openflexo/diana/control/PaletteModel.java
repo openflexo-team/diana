@@ -49,6 +49,7 @@ import java.util.logging.Logger;
 
 import org.openflexo.diana.DianaModelFactory;
 import org.openflexo.diana.DianaModelFactoryImpl;
+import org.openflexo.diana.DianaUtils;
 import org.openflexo.diana.PaletteElementSpecification;
 import org.openflexo.diana.ShapeGraphicalRepresentation;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
@@ -95,11 +96,6 @@ public abstract class PaletteModel implements HasPropertyChangeSupport {
 
 	public PaletteModel(String title, int paletteWidth, int paletteHeight, int elementWidth, int elementHeight, int marginWidth,
 			int marginHeight) {
-		try {
-			FACTORY = new DianaModelFactoryImpl();
-		} catch (ModelDefinitionException e) {
-			e.printStackTrace();
-		}
 		pcSupport = new PropertyChangeSupport(this);
 		this.paletteWidth = paletteWidth;
 		this.paletteHeight = paletteHeight;
@@ -236,10 +232,26 @@ public abstract class PaletteModel implements HasPropertyChangeSupport {
 		int colIndex = index % colSize;
 
 		ShapeGraphicalRepresentation gr = paletteElement.getGraphicalRepresentation();
-		gr.setWidth(getElementWidth());
-		gr.setHeight(getElementHeight());
-		gr.setX(colIndex * (getElementWidth() + getMarginWidth()) + getMarginWidth());
-		gr.setY(rawIndex * (getElementHeight() + getMarginHeight()) + getMarginHeight());
+
+		// A label floating above or below the shape (when it has a text to show) is not part of the box the shape is fitted in: it takes
+		// room above or below it, which the layout counts in the height of its line
+		double roomAbove = DianaUtils.getFloatingLabelRoomAbove(gr);
+		double roomBelow = DianaUtils.getFloatingLabelRoomBelow(gr);
+		double gapBelow = Math.max(DianaUtils.FLOATING_LABEL_GAP, gr.getAbsoluteTextY() - gr.getHeight());
+
+		// Fit the element in its cell, keeping its aspect ratio, and center it
+		DianaUtils.fitInBox(gr, getElementWidth(), getElementHeight());
+		double width = gr.getWidth();
+		double height = gr.getHeight();
+		gr.setX(colIndex * (getElementWidth() + getMarginWidth()) + getMarginWidth() + (getElementWidth() - width) / 2);
+		gr.setY(rawIndex * (getElementHeight() + getMarginHeight()) + getMarginHeight() + (getElementHeight() - height) / 2);
+		// The label stays at the same distance from the shape
+		if (roomAbove > 0) {
+			gr.setAbsoluteTextY(-DianaUtils.FLOATING_LABEL_GAP);
+		}
+		else if (roomBelow > 0) {
+			gr.setAbsoluteTextY(height + gapBelow);
+		}
 
 		return buildPaletteElement(paletteElement);
 	}

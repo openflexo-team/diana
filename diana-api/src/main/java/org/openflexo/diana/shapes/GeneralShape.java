@@ -93,7 +93,7 @@ public interface GeneralShape extends ShapeSpecification {
 	@Setter(START_POINT_KEY)
 	public void setStartPoint(DianaPoint point);
 
-	@Getter(value = PATH_ELEMENTS_KEY, cardinality = Cardinality.LIST)
+	@Getter(value = PATH_ELEMENTS_KEY, cardinality = Cardinality.LIST, allowsMultipleOccurences = true)
 	@XMLElement
 	@CloningStrategy(StrategyType.CLONE)
 	@Embedded

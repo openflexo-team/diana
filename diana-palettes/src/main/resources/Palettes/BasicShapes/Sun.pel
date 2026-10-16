@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PaletteElementSpecification id="0" description="DrawingML preset geometry: sun" index="19" name="Sun">
+  <ShapeGraphicalRepresentation id="1" adaptBoundsToContents="false" dimensionConstraints="FREELY_RESIZABLE" identifier="sun" isFloatingLabel="false" layer="1" locationConstraints="FREELY_MOVABLE" relativeTextX="0.5" relativeTextY="0.5">
+    <SelectedColorBackgroundStyle id="2" color="254,247,217" transparencyLevel="0.5" />
+    <ForegroundStyle id="3" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <FocusedColorBackgroundStyle id="4" color="254,247,217" transparencyLevel="0.5" />
+    <ShadowStyle id="5" />
+    <FocusedForegroundStyle id="6" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <SelectedForegroundStyle id="7" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" />
+    <ColorBackgroundStyle id="8" color="254,247,217" transparencyLevel="0.5" />
+    <Union id="9">
+      <GeneralShape id="10" startPoint="1.0,0.5">
+        <Segment id="11" point="0.7982,0.5718" />
+        <Segment id="12" point="0.7982,0.4282" />
+        <Segment id="13" point="1.0,0.5" />
+        <Segment id="14" point="0.8535,0.1464" />
+        <Segment id="15" point="0.7616,0.3399" />
+        <Segment id="16" point="0.6601,0.2384" />
+        <Segment id="17" point="0.8535,0.1464" />
+        <Segment id="18" point="1.0,0.5" />
+        <Segment id="19" point="0.5,0.0" />
+        <Segment id="20" point="0.5718,0.2018" />
+        <Segment id="21" point="0.4282,0.2018" />
+        <Segment id="22" point="0.5,0.0" />
+        <Segment id="23" point="1.0,0.5" />
+        <Segment id="24" point="0.1464,0.1464" />
+        <Segment id="25" point="0.3399,0.2384" />
+        <Segment id="26" point="0.2384,0.3399" />
+        <Segment id="27" point="0.1464,0.1464" />
+        <Segment id="28" point="1.0,0.5" />
+        <Segment id="29" point="0.0,0.5" />
+        <Segment id="30" point="0.2018,0.4282" />
+        <Segment id="31" point="0.2018,0.5718" />
+        <Segment id="32" point="0.0,0.5" />
+        <Segment id="33" point="1.0,0.5" />
+        <Segment id="34" point="0.1464,0.8535" />
+        <Segment id="35" point="0.2384,0.6601" />
+        <Segment id="36" point="0.3399,0.7616" />
+        <Segment id="37" point="0.1464,0.8535" />
+        <Segment id="38" point="1.0,0.5" />
+        <Segment id="39" point="0.5,1.0" />
+        <Segment id="40" point="0.4282,0.7982" />
+        <Segment id="41" point="0.5718,0.7982" />
+        <Segment id="42" point="0.5,1.0" />
+        <Segment id="43" point="1.0,0.5" />
+        <Segment id="44" point="0.8535,0.8535" />
+        <Segment id="45" point="0.6601,0.7616" />
+        <Segment id="46" point="0.7616,0.6601" />
+        <Segment id="47" point="0.8535,0.8535" />
+        <Segment id="48" point="1.0,0.5" />
+        <Segment id="49" point="0.25,0.5" />
+        <CubicCurve id="50" controlPoint1="0.25,0.3619" controlPoint2="0.3619,0.25" point="0.5,0.25" />
+        <CubicCurve id="51" controlPoint1="0.6381,0.25" controlPoint2="0.75,0.3619" point="0.75,0.5" />
+        <CubicCurve id="52" controlPoint1="0.75,0.6381" controlPoint2="0.6381,0.75" point="0.5,0.75" />
+        <CubicCurve id="53" controlPoint1="0.3619,0.75" controlPoint2="0.25,0.6381" point="0.25,0.5" />
+        <Segment id="54" point="1.0,0.5" />
+        <ForegroundStyle id="55" capStyle="CAP_SQUARE" color="0,0,0" dashStyle="PLAIN_STROKE" joinStyle="JOIN_MITER" noStroke="true" />
+      </GeneralShape>
+      <GeneralShape id="56" closure="CLOSED_NOT_FILLED" startPoint="1.0,0.5">
+        <Segment id="57" point="0.7982,0.5718" />
+        <Segment id="58" point="0.7982,0.4282" />
+      </GeneralShape>
+      <GeneralShape id="59" closure="CLOSED_NOT_FILLED" startPoint="0.8535,0.1464">
+        <Segment id="60" point="0.7616,0.3399" />
+        <Segment id="61" point="0.6601,0.2384" />
+      </GeneralShape>
+      <GeneralShape id="62" closure="CLOSED_NOT_FILLED" startPoint="0.5,0.0">
+        <Segment id="63" point="0.5718,0.2018" />
+        <Segment id="64" point="0.4282,0.2018" />
+      </GeneralShape>
+      <GeneralShape id="65" closure="CLOSED_NOT_FILLED" startPoint="0.1464,0.1464">
+        <Segment id="66" point="0.3399,0.2384" />
+        <Segment id="67" point="0.2384,0.3399" />
+      </GeneralShape>
+      <GeneralShape id="68" closure="CLOSED_NOT_FILLED" startPoint="0.0,0.5">
+        <Segment id="69" point="0.2018,0.4282" />
+        <Segment id="70" point="0.2018,0.5718" />
+      </GeneralShape>
+      <GeneralShape id="71" closure="CLOSED_NOT_FILLED" startPoint="0.1464,0.8535">
+        <Segment id="72" point="0.2384,0.6601" />
+        <Segment id="73" point="0.3399,0.7616" />
+      </GeneralShape>
+      <GeneralShape id="74" closure="CLOSED_NOT_FILLED" startPoint="0.5,1.0">
+        <Segment id="75" point="0.4282,0.7982" />
+        <Segment id="76" point="0.5718,0.7982" />
+      </GeneralShape>
+      <GeneralShape id="77" closure="CLOSED_NOT_FILLED" startPoint="0.8535,0.8535">
+        <Segment id="78" point="0.6601,0.7616" />
+        <Segment id="79" point="0.7616,0.6601" />
+      </GeneralShape>
+      <GeneralShape id="80" closure="CLOSED_NOT_FILLED" startPoint="0.25,0.5">
+        <CubicCurve id="81" controlPoint1="0.25,0.3619" controlPoint2="0.3619,0.25" point="0.5,0.25" />
+        <CubicCurve id="82" controlPoint1="0.6381,0.25" controlPoint2="0.75,0.3619" point="0.75,0.5" />
+        <CubicCurve id="83" controlPoint1="0.75,0.6381" controlPoint2="0.6381,0.75" point="0.5,0.75" />
+        <CubicCurve id="84" controlPoint1="0.3619,0.75" controlPoint2="0.25,0.6381" point="0.25,0.5" />
+      </GeneralShape>
+    </Union>
+    <TextStyle id="85" backgroundColor="255,255,255" color="0,0,0" font="Lucida Sans,0,11" />
+  </ShapeGraphicalRepresentation>
+</PaletteElementSpecification>
