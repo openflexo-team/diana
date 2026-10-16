@@ -69,10 +69,9 @@ import org.openflexo.diana.graph.DianaGraph;
 import org.openflexo.diana.notifications.DianaNotification;
 import org.openflexo.diana.notifications.DrawingTreeNodeHierarchyRebuildEnded;
 import org.openflexo.diana.notifications.DrawingTreeNodeHierarchyRebuildStarted;
+import org.openflexo.pamela.factory.PamelaProxies;
 import org.openflexo.pamela.factory.ProxyMethodHandler;
 import org.openflexo.pamela.undo.UndoManager;
-
-import javassist.util.proxy.ProxyObject;
 
 /**
  * This class is the default implementation for all objects representing a graphical drawing, that is a complex graphical representation
@@ -949,11 +948,9 @@ public abstract class DrawingImpl<M> implements Drawing<M> {
 
 	@Override
 	public UndoManager getUndoManager() {
-		if (getModel() instanceof ProxyObject) {
-			ProxyMethodHandler<?> proxyMethodHandler = (ProxyMethodHandler<?>) ((ProxyObject) getModel()).getHandler();
-			if (proxyMethodHandler != null) {
-				return proxyMethodHandler.getUndoManager();
-			}
+		ProxyMethodHandler<?> proxyMethodHandler = PamelaProxies.handlerOf(getModel());
+		if (proxyMethodHandler != null) {
+			return proxyMethodHandler.getUndoManager();
 		}
 		return null;
 	}
