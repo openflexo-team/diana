@@ -111,7 +111,7 @@ public abstract class TreeBasedLayoutManagerImpl<LMS extends TreeBasedLayoutMana
 	 * @return
 	 */
 	protected DianaPoint locationForNode(ShapeNode<?> node) {
-		Point2D newLocation = getLayout().transform(node);
+		Point2D newLocation = getLayout().apply(node);
 		return new DianaPoint(newLocation.getX() - node.getWidth() / 2 /*- node.getBorder().getLeft()*/,
 				newLocation.getY() - node.getHeight() / 2 /*- node.getBorder().getTop()*/);
 	}

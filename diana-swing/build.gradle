@@ -2,10 +2,10 @@ dependencies {
   implementation connie()
   api pamela()
   
-  implementation group: 'org.apache.xmlgraphics', name: 'batik-svggen', version: '1.13',  {
+  implementation(batikSvggen()) {
        exclude group: "xml-apis", module: "xml-apis"
   }
-  implementation group: 'org.apache.xmlgraphics', name: 'batik-dom', version: '1.13',  {
+  implementation(batikDom()) {
        exclude group: "xml-apis", module: "xml-apis"
   }
   
