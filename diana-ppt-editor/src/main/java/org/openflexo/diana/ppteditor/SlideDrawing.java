@@ -50,7 +50,7 @@ import java.util.logging.Logger;
 import org.apache.poi.hslf.usermodel.HSLFShape;
 import org.apache.poi.sl.draw.geom.Context;
 import org.apache.poi.sl.draw.geom.CustomGeometry;
-import org.apache.poi.sl.draw.geom.Path;
+import org.apache.poi.sl.draw.geom.PathIf;
 import org.apache.poi.sl.usermodel.AutoShape;
 import org.apache.poi.sl.usermodel.MasterSheet;
 import org.apache.poi.sl.usermodel.PaintStyle;
@@ -201,7 +201,7 @@ public class SlideDrawing extends DrawingImpl<Slide> {
 
 		CustomGeometry geometry = autoShape.getGeometry();
 		if (geometry != null) {
-			for (Path p : geometry) {
+			for (PathIf p : geometry) {
 				System.out.println(" > " + p + " of " + p.getClass());
 
 				double w = p.getW(), h = p.getH(), scaleX = Units.toPoints(1), scaleY = scaleX;

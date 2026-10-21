@@ -56,7 +56,7 @@ import java.util.regex.Pattern;
 
 import org.apache.poi.sl.draw.geom.Context;
 import org.apache.poi.sl.draw.geom.CustomGeometry;
-import org.apache.poi.sl.draw.geom.Path;
+import org.apache.poi.sl.draw.geom.PathIf;
 import org.apache.poi.sl.draw.geom.PresetGeometries;
 import org.apache.poi.sl.usermodel.PaintStyle.PaintModifier;
 import org.openflexo.diana.ColorBackgroundStyle;
@@ -391,7 +391,7 @@ public class DrawingMLPaletteGenerator {
 		}
 
 		List<ShapeSpecification> shapes = new ArrayList<>();
-		for (Path path : geometry) {
+		for (PathIf path : geometry) {
 			// Paths declaring their own coordinate space (w/h) are scaled to the anchor
 			double w = path.getW() > 0 ? path.getW() : element.refWidth;
 			double h = path.getH() > 0 ? path.getH() : element.refHeight;
