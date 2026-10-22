@@ -8,8 +8,6 @@ dependencies {
   testImplementation testUtils()
   // Only used to generate palettes from DrawingML preset geometries: never a runtime dependency
   testImplementation poi()
-  // POI 3.17 reads its preset geometries through JAXB, which is no longer part of the JDK since Java 11
-  testImplementation 'org.glassfish.jaxb:jaxb-runtime:2.3.3'
 }
 
 // Regenerates the .pel files of src/main/resources/Palettes from DrawingML preset geometries
