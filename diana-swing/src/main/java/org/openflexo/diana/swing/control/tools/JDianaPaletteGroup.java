@@ -61,6 +61,8 @@ import org.openflexo.diana.swing.SwingViewFactory;
 import org.openflexo.diana.swing.view.JDrawingView;
 import org.openflexo.swing.FlexoCollabsiblePanel;
 import org.openflexo.swing.FlexoCollabsiblePanelGroup;
+import org.openflexo.diana.DianaCoreUtils;
+import org.openflexo.localization.LocalizedSwing;
 
 /**
  * Shows several palettes as collapsible panels, on a white background: panels are toggled independently, several of them may be
@@ -149,7 +151,7 @@ public class JDianaPaletteGroup {
 	 */
 	public void addPalette(String title, Supplier<JDianaPalette> loader, boolean opened) {
 		PaletteEntry entry = new PaletteEntry(title, loader);
-		JLabel loadingLabel = new JLabel("Loading...");
+		JLabel loadingLabel = LocalizedSwing.bind(new JLabel(DianaCoreUtils.DIANA_LOCALIZATION.localizedForKey("loading")), DianaCoreUtils.DIANA_LOCALIZATION, "loading");
 		loadingLabel.setFont(loadingLabel.getFont().deriveFont(Font.ITALIC));
 		loadingLabel.setForeground(Color.GRAY);
 		loadingLabel.setBorder(BorderFactory.createEmptyBorder(6, 10, 6, 10));
