@@ -87,6 +87,8 @@ import org.openflexo.diana.geomedit.view.GeomEditIconLibrary;
 import org.openflexo.exceptions.CopyException;
 import org.openflexo.exceptions.CutException;
 import org.openflexo.exceptions.PasteException;
+import org.openflexo.localization.LocalizedSwing;
+import org.openflexo.diana.geomedit.GeomEditApplication;
 
 /**
  * General contextual menu (applies to {@link GeometricDiagram}
@@ -120,7 +122,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		add(makeCreateOperationMenu());
 
 		addSeparator();
-		JMenuItem copyItem = new JMenuItem("Copy", GeomEditIconLibrary.COPY_ICON);
+		JMenuItem copyItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("copy"), GeomEditIconLibrary.COPY_ICON), GeomEditApplication.GEOMEDIT_LOCALIZATION, "copy");
 		copyItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -132,7 +134,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 			}
 		});
 		add(copyItem);
-		JMenuItem pasteItem = new JMenuItem("Paste", GeomEditIconLibrary.PASTE_ICON);
+		JMenuItem pasteItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("paste"), GeomEditIconLibrary.PASTE_ICON), GeomEditApplication.GEOMEDIT_LOCALIZATION, "paste");
 		pasteItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -144,7 +146,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 			}
 		});
 		add(pasteItem);
-		JMenuItem cutItem = new JMenuItem("Cut", GeomEditIconLibrary.CUT_ICON);
+		JMenuItem cutItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("cut"), GeomEditIconLibrary.CUT_ICON), GeomEditApplication.GEOMEDIT_LOCALIZATION, "cut");
 		cutItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -159,7 +161,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 
 		addSeparator();
 
-		JMenuItem undoItem = new JMenuItem("Undo");
+		JMenuItem undoItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("undo")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "undo");
 		undoItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -167,7 +169,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 			}
 		});
 		add(undoItem);
-		JMenuItem redoItem = new JMenuItem("Redo");
+		JMenuItem redoItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("redo")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "redo");
 		redoItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -179,9 +181,9 @@ public class GeneralContextualMenu extends JPopupMenu {
 	}
 
 	private JMenu makeCreateNodeMenu() {
-		JMenu createNodeItem = new JMenu("Create node");
+		JMenu createNodeItem = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("create_node")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "create_node");
 
-		JMenuItem createNodeFromPointsItem = new JMenuItem("From points");
+		JMenuItem createNodeFromPointsItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("from_points")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "from_points");
 		createNodeFromPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -190,7 +192,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createNodeItem.add(createNodeFromPointsItem);
 
-		JMenuItem createNodeFromCenterAndSizeItem = new JMenuItem("From center and size");
+		JMenuItem createNodeFromCenterAndSizeItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("from_center_and_size")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "from_center_and_size");
 		createNodeFromCenterAndSizeItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -199,7 +201,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createNodeItem.add(createNodeFromCenterAndSizeItem);
 
-		JMenuItem createNodeAtRelativeLocationItem = new JMenuItem("At relative location");
+		JMenuItem createNodeAtRelativeLocationItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("at_relative_location")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "at_relative_location");
 		createNodeAtRelativeLocationItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -210,7 +212,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 
 		createNodeItem.addSeparator();
 
-		JMenuItem createNodeConnectorItem = new JMenuItem("Connector between nodes");
+		JMenuItem createNodeConnectorItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("connector_between_nodes")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "connector_between_nodes");
 		createNodeConnectorItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -223,9 +225,9 @@ public class GeneralContextualMenu extends JPopupMenu {
 	}
 
 	private JMenu makeCreatePointMenu() {
-		JMenu createPointItem = new JMenu("Create point");
+		JMenu createPointItem = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("create_point")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "create_point");
 
-		JMenuItem createExplicitPoint = new JMenuItem("As explicit position");
+		JMenuItem createExplicitPoint = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("as_explicit_position")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "as_explicit_position");
 		createExplicitPoint.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -234,7 +236,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createPointItem.add(createExplicitPoint);
 
-		JMenuItem createPointAsMiddleFromPointsItem = new JMenuItem("Middle of two other points");
+		JMenuItem createPointAsMiddleFromPointsItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("middle_of_two_other_points")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "middle_of_two_other_points");
 		createPointAsMiddleFromPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -243,7 +245,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createPointItem.add(createPointAsMiddleFromPointsItem);
 
-		JMenuItem createPointSymetricOfPointItem = new JMenuItem("Symetric relatively to an other point");
+		JMenuItem createPointSymetricOfPointItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("symmetric_relatively_to_another_point")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "symmetric_relatively_to_another_point");
 		createPointSymetricOfPointItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -252,7 +254,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createPointItem.add(createPointSymetricOfPointItem);
 
-		JMenuItem createPointSymetricOfLineItem = new JMenuItem("Symetric relatively to a line");
+		JMenuItem createPointSymetricOfLineItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("symmetric_relatively_to_a_line")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "symmetric_relatively_to_a_line");
 		createPointSymetricOfLineItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -261,7 +263,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createPointItem.add(createPointSymetricOfLineItem);
 
-		JMenuItem createNearestPointFromObjectItem = new JMenuItem("Nearest from object");
+		JMenuItem createNearestPointFromObjectItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("nearest_from_object")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "nearest_from_object");
 		createNearestPointFromObjectItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -274,9 +276,9 @@ public class GeneralContextualMenu extends JPopupMenu {
 	}
 
 	private JMenu makeCreateLineMenu() {
-		JMenu createLineItem = new JMenu("Create line");
+		JMenu createLineItem = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("create_line")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "create_line");
 
-		JMenuItem createLineFromPointsItem = new JMenuItem("From points");
+		JMenuItem createLineFromPointsItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("from_points")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "from_points");
 		createLineFromPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -285,7 +287,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createLineItem.add(createLineFromPointsItem);
 
-		JMenuItem createHorizontalLineWithPointItem = new JMenuItem("Horizontal crossing point");
+		JMenuItem createHorizontalLineWithPointItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("horizontal_crossing_point")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "horizontal_crossing_point");
 		createHorizontalLineWithPointItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -294,7 +296,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createLineItem.add(createHorizontalLineWithPointItem);
 
-		JMenuItem createVerticalLineWithPointItem = new JMenuItem("Vertical crossing point");
+		JMenuItem createVerticalLineWithPointItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("vertical_crossing_point")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "vertical_crossing_point");
 		createVerticalLineWithPointItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -303,7 +305,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createLineItem.add(createVerticalLineWithPointItem);
 
-		JMenuItem createParallelLineWithPointItem = new JMenuItem("Parallel crossing point");
+		JMenuItem createParallelLineWithPointItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("parallel_crossing_point")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "parallel_crossing_point");
 		createParallelLineWithPointItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -312,7 +314,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createLineItem.add(createParallelLineWithPointItem);
 
-		JMenuItem createOrthogonalLineWithPointItem = new JMenuItem("Orthogonal crossing point");
+		JMenuItem createOrthogonalLineWithPointItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("orthogonal_crossing_point")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "orthogonal_crossing_point");
 		createOrthogonalLineWithPointItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -321,7 +323,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createLineItem.add(createOrthogonalLineWithPointItem);
 
-		JMenuItem createRotatedLineWithPointItem = new JMenuItem("Rotated line crossing point");
+		JMenuItem createRotatedLineWithPointItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("rotated_line_crossing_point")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "rotated_line_crossing_point");
 		createRotatedLineWithPointItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -330,7 +332,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createLineItem.add(createRotatedLineWithPointItem);
 
-		JMenuItem createTangentLineWithCircleAndPointItem = new JMenuItem("Tangent to a circle and crossing point");
+		JMenuItem createTangentLineWithCircleAndPointItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("tangent_to_a_circle_and_crossing_point")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "tangent_to_a_circle_and_crossing_point");
 		createTangentLineWithCircleAndPointItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -343,9 +345,9 @@ public class GeneralContextualMenu extends JPopupMenu {
 	}
 
 	private JMenu makeCreateHalfLineMenu() {
-		JMenu createHalfLineItem = new JMenu("Create half-line");
+		JMenu createHalfLineItem = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("create_half-line")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "create_half-line");
 
-		JMenuItem createHalfLineFromPointsItem = new JMenuItem("From points");
+		JMenuItem createHalfLineFromPointsItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("from_points")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "from_points");
 		createHalfLineFromPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -358,9 +360,9 @@ public class GeneralContextualMenu extends JPopupMenu {
 	}
 
 	private JMenu makeCreateSegmentMenu() {
-		JMenu createLineItem = new JMenu("Create segment");
+		JMenu createLineItem = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("create_segment")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "create_segment");
 
-		JMenuItem createSegmentFromPointsItem = new JMenuItem("From points");
+		JMenuItem createSegmentFromPointsItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("from_points")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "from_points");
 		createSegmentFromPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -373,9 +375,9 @@ public class GeneralContextualMenu extends JPopupMenu {
 	}
 
 	private JMenu makePolylineMenu() {
-		JMenu createPolylineItem = new JMenu("Create polylin");
+		JMenu createPolylineItem = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("create_polyline")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "create_polyline");
 
-		JMenuItem createPolylinWithNPointsItem = new JMenuItem("With n points");
+		JMenuItem createPolylinWithNPointsItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("with_n_points")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "with_n_points");
 		createPolylinWithNPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -384,7 +386,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createPolylineItem.add(createPolylinWithNPointsItem);
 
-		JMenuItem createRectPolylinWithStartAndEndAreaItem = new JMenuItem("Rect polylin with start and end area");
+		JMenuItem createRectPolylinWithStartAndEndAreaItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("rect_polyline_with_start_and_end_area")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "rect_polyline_with_start_and_end_area");
 		createRectPolylinWithStartAndEndAreaItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -397,9 +399,9 @@ public class GeneralContextualMenu extends JPopupMenu {
 	}
 
 	private JMenu makeCreateRectangleMenu() {
-		JMenu createRectangleItem = new JMenu("Create rectangle");
+		JMenu createRectangleItem = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("create_rectangle")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "create_rectangle");
 
-		JMenuItem createRectangleFromPointsItem = new JMenuItem("From points");
+		JMenuItem createRectangleFromPointsItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("from_points")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "from_points");
 		createRectangleFromPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -412,9 +414,9 @@ public class GeneralContextualMenu extends JPopupMenu {
 	}
 
 	private JMenu makeCreateRoundRectangleMenu() {
-		JMenu createRoundRectangleItem = new JMenu("Create round rectangle");
+		JMenu createRoundRectangleItem = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("create_round_rectangle")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "create_round_rectangle");
 
-		JMenuItem createRoundRectangleFromPointsItem = new JMenuItem("From points");
+		JMenuItem createRoundRectangleFromPointsItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("from_points")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "from_points");
 		createRoundRectangleFromPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -427,9 +429,9 @@ public class GeneralContextualMenu extends JPopupMenu {
 	}
 
 	private JMenu makeCreatePolygonMenu() {
-		JMenu createPolygonItem = new JMenu("Create polygon");
+		JMenu createPolygonItem = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("create_polygon")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "create_polygon");
 
-		JMenuItem CreatePolygonWithNPointsItem = new JMenuItem("With n points");
+		JMenuItem CreatePolygonWithNPointsItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("with_n_points")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "with_n_points");
 		CreatePolygonWithNPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -442,9 +444,9 @@ public class GeneralContextualMenu extends JPopupMenu {
 	}
 
 	private JMenu makeCreateCircleMenu() {
-		JMenu createCircleItem = new JMenu("Create circle");
+		JMenu createCircleItem = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("create_circle")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "create_circle");
 
-		JMenuItem createCircleWithCenterAndPointItem = new JMenuItem("With center and point");
+		JMenuItem createCircleWithCenterAndPointItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("with_center_and_point")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "with_center_and_point");
 		createCircleWithCenterAndPointItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -453,7 +455,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createCircleItem.add(createCircleWithCenterAndPointItem);
 
-		JMenuItem createCircleWithThreePointsItem = new JMenuItem("With three points");
+		JMenuItem createCircleWithThreePointsItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("with_three_points")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "with_three_points");
 		createCircleWithThreePointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -466,9 +468,9 @@ public class GeneralContextualMenu extends JPopupMenu {
 	}
 
 	private JMenu makeCreateHalfPlaneMenu() {
-		JMenu createBandItem = new JMenu("Create half-plane");
+		JMenu createBandItem = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("create_half-plane")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "create_half-plane");
 
-		JMenuItem createBandWithTwoLinesItem = new JMenuItem("With line and point");
+		JMenuItem createBandWithTwoLinesItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("with_line_and_point")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "with_line_and_point");
 		createBandWithTwoLinesItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -481,9 +483,9 @@ public class GeneralContextualMenu extends JPopupMenu {
 	}
 
 	private JMenu makeCreateBandMenu() {
-		JMenu createBandItem = new JMenu("Create band");
+		JMenu createBandItem = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("create_band")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "create_band");
 
-		JMenuItem createBandWithTwoLinesItem = new JMenuItem("With two lines");
+		JMenuItem createBandWithTwoLinesItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("with_two_lines")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "with_two_lines");
 		createBandWithTwoLinesItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -496,9 +498,9 @@ public class GeneralContextualMenu extends JPopupMenu {
 	}
 
 	private JMenu makeCreateHalfBandMenu() {
-		JMenu createHalfBandItem = new JMenu("Create half-band");
+		JMenu createHalfBandItem = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("create_half-band")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "create_half-band");
 
-		JMenuItem createHalfBandWithTwoLinesItem = new JMenuItem("With lines");
+		JMenuItem createHalfBandWithTwoLinesItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("with_lines")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "with_lines");
 		createHalfBandWithTwoLinesItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -511,9 +513,9 @@ public class GeneralContextualMenu extends JPopupMenu {
 	}
 
 	private JMenu makeCreateCurveMenu() {
-		JMenu createCurveItem = new JMenu("Create curve");
+		JMenu createCurveItem = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("create_curve")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "create_curve");
 
-		JMenuItem createQuadCurveFromThreePoints = new JMenuItem("Quad-curve from three points");
+		JMenuItem createQuadCurveFromThreePoints = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("quad-curve_from_three_points")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "quad-curve_from_three_points");
 		createQuadCurveFromThreePoints.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -522,7 +524,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createCurveItem.add(createQuadCurveFromThreePoints);
 
-		JMenuItem createCubicCurveFromFourPoints = new JMenuItem("Cubic-curve from four points");
+		JMenuItem createCubicCurveFromFourPoints = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("cubic-curve_from_four_points")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "cubic-curve_from_four_points");
 		createCubicCurveFromFourPoints.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -531,7 +533,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createCurveItem.add(createCubicCurveFromFourPoints);
 
-		JMenuItem createComplexCurveWithNPointsItem = new JMenuItem("With n points");
+		JMenuItem createComplexCurveWithNPointsItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("with_n_points")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "with_n_points");
 		createComplexCurveWithNPointsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -544,9 +546,9 @@ public class GeneralContextualMenu extends JPopupMenu {
 	}
 
 	private JMenu makeCreateOperationMenu() {
-		JMenu createOperationItem = new JMenu("Create operation");
+		JMenu createOperationItem = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("create_operation")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "create_operation");
 
-		JMenuItem createIntersectionItem = new JMenuItem("Intersection");
+		JMenuItem createIntersectionItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("intersection")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "intersection");
 		createIntersectionItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -555,7 +557,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createOperationItem.add(createIntersectionItem);
 
-		JMenuItem createUnionItem = new JMenuItem("Union");
+		JMenuItem createUnionItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("union")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "union");
 		createUnionItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -564,7 +566,7 @@ public class GeneralContextualMenu extends JPopupMenu {
 		});
 		createOperationItem.add(createUnionItem);
 
-		JMenuItem createSoustractionItem = new JMenuItem("Soustraction");
+		JMenuItem createSoustractionItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("subtraction")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "subtraction");
 		createSoustractionItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

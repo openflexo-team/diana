@@ -1027,7 +1027,7 @@ public class DiagramEditorApplication {
 			return;
 		}
 		if (currentDiagramEditor.getDiagram().hasChanged()) {
-			int result = JOptionPane.showOptionDialog(frame, "Would you like to save drawing changes?", "Save changes",
+			int result = JOptionPane.showOptionDialog(frame, DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("would_you_like_to_save_drawing_changes"), DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("save_changes"),
 					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.YES_OPTION);
 			switch (result) {
 				case JOptionPane.YES_OPTION:
