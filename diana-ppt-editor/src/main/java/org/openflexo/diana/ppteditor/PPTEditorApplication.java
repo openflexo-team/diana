@@ -93,6 +93,7 @@ import org.openflexo.gina.swing.utils.logging.FlexoLoggingViewer;
 import org.openflexo.icon.ImageIconResource;
 import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.localization.LocalizedDelegateImpl;
+import org.openflexo.localization.LocalizedSwing;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.rm.FileSystemResourceLocatorImpl;
@@ -207,11 +208,11 @@ public class PPTEditorApplication {
 		manager = new PropertyChangeListenerRegistrationManager();
 
 		JMenuBar mb = new JMenuBar();
-		JMenu fileMenu = new JMenu(PPT_EDITOR_LOCALIZATION.localizedForKey("file"));
-		JMenu editMenu = new JMenu(PPT_EDITOR_LOCALIZATION.localizedForKey("edit"));
-		JMenu viewMenu = new JMenu(PPT_EDITOR_LOCALIZATION.localizedForKey("view"));
-		JMenu toolsMenu = new JMenu(PPT_EDITOR_LOCALIZATION.localizedForKey("tools"));
-		JMenu helpMenu = new JMenu(PPT_EDITOR_LOCALIZATION.localizedForKey("help"));
+		JMenu fileMenu = LocalizedSwing.bind(new JMenu(PPT_EDITOR_LOCALIZATION.localizedForKey("file")), PPT_EDITOR_LOCALIZATION, "file");
+		JMenu editMenu = LocalizedSwing.bind(new JMenu(PPT_EDITOR_LOCALIZATION.localizedForKey("edit")), PPT_EDITOR_LOCALIZATION, "edit");
+		JMenu viewMenu = LocalizedSwing.bind(new JMenu(PPT_EDITOR_LOCALIZATION.localizedForKey("view")), PPT_EDITOR_LOCALIZATION, "view");
+		JMenu toolsMenu = LocalizedSwing.bind(new JMenu(PPT_EDITOR_LOCALIZATION.localizedForKey("tools")), PPT_EDITOR_LOCALIZATION, "tools");
+		JMenu helpMenu = LocalizedSwing.bind(new JMenu(PPT_EDITOR_LOCALIZATION.localizedForKey("help")), PPT_EDITOR_LOCALIZATION, "help");
 
 		JMenuItem newItem = makeJMenuItem("new_slideshow", NEW_ICON, KeyStroke.getKeyStroke(KeyEvent.VK_N, META_MASK),
 				new AbstractAction() {
@@ -399,7 +400,7 @@ public class PPTEditorApplication {
 		viewMenu.addSeparator();
 		// viewMenu.add(paletteItem);
 
-		JMenuItem logsItem = new JMenuItem(PPT_EDITOR_LOCALIZATION.localizedForKey("logs"));
+		JMenuItem logsItem = LocalizedSwing.bind(new JMenuItem(PPT_EDITOR_LOCALIZATION.localizedForKey("logs")), PPT_EDITOR_LOCALIZATION, "logs");
 		logsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -407,7 +408,7 @@ public class PPTEditorApplication {
 			}
 		});
 
-		JMenuItem localizedItem = new JMenuItem(PPT_EDITOR_LOCALIZATION.localizedForKey("localized_editor"));
+		JMenuItem localizedItem = LocalizedSwing.bind(new JMenuItem(PPT_EDITOR_LOCALIZATION.localizedForKey("localized_editor")), PPT_EDITOR_LOCALIZATION, "localized_editor");
 		localizedItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -639,7 +640,7 @@ public class PPTEditorApplication {
 
 	private JMenuItem makeJMenuItem(String actionName, Icon icon, KeyStroke accelerator, AbstractAction action) {
 
-		JMenuItem returned = new JMenuItem(PPT_EDITOR_LOCALIZATION.localizedForKey(actionName));
+		JMenuItem returned = LocalizedSwing.bind(new JMenuItem(PPT_EDITOR_LOCALIZATION.localizedForKey(actionName)), PPT_EDITOR_LOCALIZATION, actionName);
 		returned.addActionListener(action);
 		returned.setIcon(icon);
 		returned.setAccelerator(accelerator);

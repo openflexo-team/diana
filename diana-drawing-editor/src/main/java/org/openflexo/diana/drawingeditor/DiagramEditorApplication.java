@@ -109,6 +109,7 @@ import org.openflexo.gina.swing.utils.logging.FlexoLoggingViewer;
 import org.openflexo.icon.ImageIconResource;
 import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.localization.LocalizedDelegateImpl;
+import org.openflexo.localization.LocalizedSwing;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
@@ -196,13 +197,13 @@ public class DiagramEditorApplication {
 		private final JMenuItem showPaletteItem;
 
 		public MenuBar() {
-			fileMenu = new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("file"));
-			editMenu = new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("edit"));
-			viewMenu = new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("view"));
-			toolsMenu = new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("tools"));
-			helpMenu = new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("help"));
+			fileMenu = LocalizedSwing.bind(new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("file")), DIAGRAM_EDITOR_LOCALIZATION, "file");
+			editMenu = LocalizedSwing.bind(new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("edit")), DIAGRAM_EDITOR_LOCALIZATION, "edit");
+			viewMenu = LocalizedSwing.bind(new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("view")), DIAGRAM_EDITOR_LOCALIZATION, "view");
+			toolsMenu = LocalizedSwing.bind(new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("tools")), DIAGRAM_EDITOR_LOCALIZATION, "tools");
+			helpMenu = LocalizedSwing.bind(new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("help")), DIAGRAM_EDITOR_LOCALIZATION, "help");
 
-			newItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("new_diagram"));
+			newItem = LocalizedSwing.bind(new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("new_diagram")), DIAGRAM_EDITOR_LOCALIZATION, "new_diagram");
 			newItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -210,7 +211,7 @@ public class DiagramEditorApplication {
 				}
 			});
 
-			loadItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("open_diagram"));
+			loadItem = LocalizedSwing.bind(new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("open_diagram")), DIAGRAM_EDITOR_LOCALIZATION, "open_diagram");
 			loadItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -218,10 +219,10 @@ public class DiagramEditorApplication {
 				}
 			});
 
-			openRecent = new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("open_recent"));
+			openRecent = LocalizedSwing.bind(new JMenu(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("open_recent")), DIAGRAM_EDITOR_LOCALIZATION, "open_recent");
 			DiagramEditorPreferences.addPreferenceChangeListener(this);
 			updateOpenRecent();
-			saveItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("save_diagram"));
+			saveItem = LocalizedSwing.bind(new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("save_diagram")), DIAGRAM_EDITOR_LOCALIZATION, "save_diagram");
 			saveItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -229,7 +230,7 @@ public class DiagramEditorApplication {
 				}
 			});
 
-			saveAsItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("save_diagram_as"));
+			saveAsItem = LocalizedSwing.bind(new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("save_diagram_as")), DIAGRAM_EDITOR_LOCALIZATION, "save_diagram_as");
 			saveAsItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -237,7 +238,7 @@ public class DiagramEditorApplication {
 				}
 			});
 
-			closeItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("close"));
+			closeItem = LocalizedSwing.bind(new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("close")), DIAGRAM_EDITOR_LOCALIZATION, "close");
 			closeItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -245,7 +246,7 @@ public class DiagramEditorApplication {
 				}
 			});
 
-			quitItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("quit"));
+			quitItem = LocalizedSwing.bind(new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("quit")), DIAGRAM_EDITOR_LOCALIZATION, "quit");
 			quitItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -263,7 +264,7 @@ public class DiagramEditorApplication {
 
 			fileMenu.add(quitItem);
 
-			showPaletteItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("show_palette"));
+			showPaletteItem = LocalizedSwing.bind(new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("show_palette")), DIAGRAM_EDITOR_LOCALIZATION, "show_palette");
 			showPaletteItem.addActionListener(new ActionListener() {
 
 				@Override
@@ -271,7 +272,7 @@ public class DiagramEditorApplication {
 					paletteDialog.setVisible(true);
 				}
 			});
-			logsItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("logs"));
+			logsItem = LocalizedSwing.bind(new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("logs")), DIAGRAM_EDITOR_LOCALIZATION, "logs");
 			logsItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -279,7 +280,7 @@ public class DiagramEditorApplication {
 				}
 			});
 
-			localizedItem = new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("localized_editor"));
+			localizedItem = LocalizedSwing.bind(new JMenuItem(DIAGRAM_EDITOR_LOCALIZATION.localizedForKey("localized_editor")), DIAGRAM_EDITOR_LOCALIZATION, "localized_editor");
 			localizedItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {

@@ -86,6 +86,7 @@ import org.openflexo.gina.ApplicationFIBLibrary.ApplicationFIBLibraryImpl;
 import org.openflexo.gina.swing.utils.localization.LocalizedEditor;
 import org.openflexo.localization.LocalizedDelegate;
 import org.openflexo.localization.LocalizedDelegateImpl;
+import org.openflexo.localization.LocalizedSwing;
 import org.openflexo.logging.FlexoLogger;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.rm.FileSystemResourceLocatorImpl;
@@ -493,7 +494,7 @@ public class GeomEditApplication {
 
 	private JMenuItem makeJMenuItem(String actionName, Icon icon, KeyStroke accelerator, AbstractAction action) {
 
-		JMenuItem returned = new JMenuItem(GEOMEDIT_LOCALIZATION.localizedForKey(actionName));
+		JMenuItem returned = LocalizedSwing.bind(new JMenuItem(GEOMEDIT_LOCALIZATION.localizedForKey(actionName)), GEOMEDIT_LOCALIZATION, actionName);
 		returned.addActionListener(action);
 		returned.setIcon(icon);
 		returned.setAccelerator(accelerator);

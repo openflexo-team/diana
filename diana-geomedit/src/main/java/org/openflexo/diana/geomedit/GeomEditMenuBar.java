@@ -30,6 +30,7 @@ import org.openflexo.logging.FlexoLoggingManager;
 import org.openflexo.pamela.undo.UndoManager;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.toolbox.HasPropertyChangeSupport;
+import org.openflexo.localization.LocalizedSwing;
 
 @SuppressWarnings("serial")
 public class GeomEditMenuBar extends JMenuBar implements PreferenceChangeListener {
@@ -88,13 +89,13 @@ public class GeomEditMenuBar extends JMenuBar implements PreferenceChangeListene
 
 	public GeomEditMenuBar(GeomEditApplication geomEditApplication) {
 		this.geomEditApplication = geomEditApplication;
-		fileMenu = new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("file"));
-		editMenu = new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("edit"));
-		viewMenu = new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("view"));
-		toolsMenu = new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("tools"));
-		helpMenu = new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("help"));
+		fileMenu = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("file")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "file");
+		editMenu = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("edit")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "edit");
+		viewMenu = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("view")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "view");
+		toolsMenu = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("tools")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "tools");
+		helpMenu = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("help")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "help");
 
-		newItem = new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("new_diagram"), NEW_ICON);
+		newItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("new_diagram"), NEW_ICON), GeomEditApplication.GEOMEDIT_LOCALIZATION, "new_diagram");
 		newItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -102,7 +103,7 @@ public class GeomEditMenuBar extends JMenuBar implements PreferenceChangeListene
 			}
 		});
 
-		loadItem = new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("open_diagram"), OPEN_ICON);
+		loadItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("open_diagram"), OPEN_ICON), GeomEditApplication.GEOMEDIT_LOCALIZATION, "open_diagram");
 		loadItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -110,10 +111,10 @@ public class GeomEditMenuBar extends JMenuBar implements PreferenceChangeListene
 			}
 		});
 
-		openRecent = new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("open_recent"));
+		openRecent = LocalizedSwing.bind(new JMenu(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("open_recent")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "open_recent");
 		GeomEditPreferences.addPreferenceChangeListener(this);
 		updateOpenRecent();
-		saveItem = new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("save_diagram"), SAVE_ICON);
+		saveItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("save_diagram"), SAVE_ICON), GeomEditApplication.GEOMEDIT_LOCALIZATION, "save_diagram");
 		saveItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -121,7 +122,7 @@ public class GeomEditMenuBar extends JMenuBar implements PreferenceChangeListene
 			}
 		});
 
-		saveAsItem = new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("save_diagram_as"), SAVE_AS_ICON);
+		saveAsItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("save_diagram_as"), SAVE_AS_ICON), GeomEditApplication.GEOMEDIT_LOCALIZATION, "save_diagram_as");
 		saveAsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -129,7 +130,7 @@ public class GeomEditMenuBar extends JMenuBar implements PreferenceChangeListene
 			}
 		});
 
-		closeItem = new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("close"));
+		closeItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("close")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "close");
 		closeItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -137,7 +138,7 @@ public class GeomEditMenuBar extends JMenuBar implements PreferenceChangeListene
 			}
 		});
 
-		quitItem = new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("quit"));
+		quitItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("quit")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "quit");
 		quitItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -155,7 +156,7 @@ public class GeomEditMenuBar extends JMenuBar implements PreferenceChangeListene
 
 		fileMenu.add(quitItem);
 
-		showPaletteItem = new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("show_palette"));
+		showPaletteItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("show_palette")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "show_palette");
 		showPaletteItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -163,7 +164,7 @@ public class GeomEditMenuBar extends JMenuBar implements PreferenceChangeListene
 				// paletteDialog.setVisible(true);
 			}
 		});
-		logsItem = new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("logs"));
+		logsItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("logs")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "logs");
 		logsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -172,7 +173,7 @@ public class GeomEditMenuBar extends JMenuBar implements PreferenceChangeListene
 			}
 		});
 
-		localizedItem = new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("localized_editor"));
+		localizedItem = LocalizedSwing.bind(new JMenuItem(GeomEditApplication.GEOMEDIT_LOCALIZATION.localizedForKey("localized_editor")), GeomEditApplication.GEOMEDIT_LOCALIZATION, "localized_editor");
 		localizedItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
