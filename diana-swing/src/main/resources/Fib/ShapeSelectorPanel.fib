@@ -526,8 +526,5 @@
 		<Localized key="camember" lang="English" value="Pie" />
 		<Localized key="camember" lang="French" value="Camembert" />
 		<Localized key="camember" lang="Dutch" value="Pie" />
-		<Localized key="boog (arc)" lang="English" value="boog (arc)" />
-		<Localized key="boog (arc)" lang="French" value="boog (arc)" />
-		<Localized key="boog (arc)" lang="Dutch" value="boog (arc)" />
 	</LocalizedDictionary>
 </Panel>
