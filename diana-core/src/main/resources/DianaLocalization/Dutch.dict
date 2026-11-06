@@ -134,6 +134,7 @@ layouted_as=Ingedeeld als
 left=Links
 line_type=Type lijn
 line_wrap=Regelafbreking
+loading=Laden...
 location=Positie
 location_constraints=Beperkingen in verband met de positie
 location_size=Positie en grootte
