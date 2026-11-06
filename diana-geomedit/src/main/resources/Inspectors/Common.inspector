@@ -47,28 +47,28 @@
   <LocalizedDictionary>
     <Localized key="read_only" lang="English" value="Read only" />
     <Localized key="read_only" lang="French" value="Lecture seule" />
-    <Localized key="read_only" lang="Dutch" value="Read only" />
+    <Localized key="read_only" lang="Dutch" value="Alleen-lezen" />
     <Localized key="is_selectable" lang="English" value="Is selectable" />
     <Localized key="is_selectable" lang="French" value="Sélectionnable" />
-    <Localized key="is_selectable" lang="Dutch" value="Is selectable" />
+    <Localized key="is_selectable" lang="Dutch" value="Is selecteerbaar" />
     <Localized key="is_selected" lang="English" value="Is selected" />
     <Localized key="is_selected" lang="French" value="Sélectionné ?" />
-    <Localized key="is_selected" lang="Dutch" value="Is selected" />
+    <Localized key="is_selected" lang="Dutch" value="Is geselecteerd" />
     <Localized key="is_focusable" lang="English" value="Is focusable" />
     <Localized key="is_focusable" lang="French" value="Focusable" />
-    <Localized key="is_focusable" lang="Dutch" value="Is focusable" />
+    <Localized key="is_focusable" lang="Dutch" value="Kan de focus krijgen" />
     <Localized key="is_focused" lang="English" value="Is focused" />
     <Localized key="is_focused" lang="French" value="A le focus" />
-    <Localized key="is_focused" lang="Dutch" value="Is focused" />
+    <Localized key="is_focused" lang="Dutch" value="Heeft de focus" />
     <Localized key="mouse_click_controls" lang="English" value="Mouse click controls" />
     <Localized key="mouse_click_controls" lang="French" value="Contrôle des clicks de souris" />
-    <Localized key="mouse_click_controls" lang="Dutch" value="Mouse click controls" />
+    <Localized key="mouse_click_controls" lang="Dutch" value="Muisklikbesturing" />
     <Localized key="mouse_drag_controls" lang="English" value="Mouse drag controls" />
     <Localized key="mouse_drag_controls" lang="French" value="Contrôle des 'drag' de souris" />
-    <Localized key="mouse_drag_controls" lang="Dutch" value="Mouse drag controls" />
+    <Localized key="mouse_drag_controls" lang="Dutch" value="Muissleepbesturing" />
     <Localized key="text_style" lang="English" value="Text style" />
     <Localized key="text_style" lang="French" value="Style de texte" />
-    <Localized key="text_style" lang="Dutch" value="Text style" />
+    <Localized key="text_style" lang="Dutch" value="Tekststijl" />
   </LocalizedDictionary>
   <Parameter name="title" value="Common" />
 </Panel>

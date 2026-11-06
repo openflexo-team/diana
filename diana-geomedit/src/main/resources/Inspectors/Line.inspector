@@ -23,10 +23,10 @@
   <LocalizedDictionary>
     <Localized key="name" lang="English" value="Name" />
     <Localized key="name" lang="French" value="Nom" />
-    <Localized key="name" lang="Dutch" value="Name" />
+    <Localized key="name" lang="Dutch" value="Naam" />
     <Localized key="description" lang="English" value="Description" />
     <Localized key="description" lang="French" value="Description" />
-    <Localized key="description" lang="Dutch" value="Description" />
+    <Localized key="description" lang="Dutch" value="Beschrijving" />
   </LocalizedDictionary>
   <Parameter name="title" value="Line" />
 </Panel>

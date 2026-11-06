@@ -15,14 +15,14 @@
   <LocalizedDictionary>
     <Localized key="center_x" lang="English" value="Center x" />
     <Localized key="center_x" lang="French" value="Centre x" />
-    <Localized key="center_x" lang="Dutch" value="Center x" />
+    <Localized key="center_x" lang="Dutch" value="Midden X" />
     <Localized key="center_y" lang="English" value="Center y" />
     <Localized key="center_y" lang="French" value="Centre y" />
-    <Localized key="center_y" lang="Dutch" value="Center y" />
+    <Localized key="center_y" lang="Dutch" value="Midden Y" />
     <Localized key="radius" lang="French" value="rayon" />
     <Localized key="filled" lang="English" value="Filled" />
     <Localized key="filled" lang="French" value="Plein" />
-    <Localized key="filled" lang="Dutch" value="Filled" />
+    <Localized key="filled" lang="Dutch" value="Gevuld" />
   </LocalizedDictionary>
   <Parameter name="title" value="Circle" />
 </Panel>

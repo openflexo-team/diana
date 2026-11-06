@@ -9,7 +9,7 @@
   <LocalizedDictionary>
     <Localized key="filled" lang="English" value="Filled" />
     <Localized key="filled" lang="French" value="Plein" />
-    <Localized key="filled" lang="Dutch" value="Filled" />
+    <Localized key="filled" lang="Dutch" value="Gevuld" />
   </LocalizedDictionary>
   <Parameter name="title" value="Polygon" />
 </Panel>

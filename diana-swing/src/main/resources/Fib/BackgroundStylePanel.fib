@@ -77,49 +77,49 @@
   <FIBVariable id="63" name="data" type="org.openflexo.diana.control.tools.BackgroundStyleFactory" />
   <LocalizedDictionary id="64">
     <Localized id="65" value="Background" lang="English" key="background" />
-    <Localized id="66" value="Background" lang="Dutch" key="background" />
+    <Localized id="66" value="Achtergrond" lang="Dutch" key="background" />
     <Localized id="67" value="Arr.plan" lang="French" key="background" />
     <Localized id="68" value="Color 1" lang="English" key="color_1" />
-    <Localized id="69" value="Color 1" lang="Dutch" key="color_1" />
+    <Localized id="69" value="Kleur 1" lang="Dutch" key="color_1" />
     <Localized id="70" value="Couleur 1" lang="French" key="color_1" />
     <Localized id="71" value="Color 2" lang="English" key="color_2" />
-    <Localized id="72" value="Color 2" lang="Dutch" key="color_2" />
+    <Localized id="72" value="Kleur 2" lang="Dutch" key="color_2" />
     <Localized id="73" value="Couleur 2" lang="French" key="color_2" />
     <Localized id="74" value="Gradient" lang="English" key="gradient" />
-    <Localized id="75" value="Gradient" lang="Dutch" key="gradient" />
+    <Localized id="75" value="Kleurverloop" lang="Dutch" key="gradient" />
     <Localized id="76" value="Dégradé" lang="French" key="gradient" />
     <Localized id="77" value="Not applicable" lang="English" key="not_applicable" />
-    <Localized id="78" value="Not applicable" lang="Dutch" key="not_applicable" />
+    <Localized id="78" value="Niet van toepassing" lang="Dutch" key="not_applicable" />
     <Localized id="79" value="N/A" lang="French" key="not_applicable" />
     <Localized id="80" value="Texture" lang="English" key="texture" />
-    <Localized id="81" value="Texture" lang="Dutch" key="texture" />
+    <Localized id="81" value="Textuur" lang="Dutch" key="texture" />
     <Localized id="82" value="Texture" lang="French" key="texture" />
     <Localized id="83" value="Color gradient" lang="English" key="color_gradient" />
-    <Localized id="84" value="Color gradient" lang="Dutch" key="color_gradient" />
+    <Localized id="84" value="Kleurverloop" lang="Dutch" key="color_gradient" />
     <Localized id="85" value="Gradient" lang="French" key="color_gradient" />
     <Localized id="86" value="Image" lang="English" key="image" />
-    <Localized id="87" value="Image" lang="Dutch" key="image" />
+    <Localized id="87" value="Afbeelding" lang="Dutch" key="image" />
     <Localized id="88" value="Image" lang="French" key="image" />
     <Localized id="89" value="Select an image" lang="English" key="select_an_image" />
-    <Localized id="90" value="Select an image" lang="Dutch" key="select_an_image" />
+    <Localized id="90" value="Selecteer een afbeelding" lang="Dutch" key="select_an_image" />
     <Localized id="91" value="Selectionner une image" lang="French" key="select_an_image" />
     <Localized id="92" value="Fit to shape" lang="English" key="fit_to_shape" />
-    <Localized id="93" value="Fit to shape" lang="Dutch" key="fit_to_shape" />
+    <Localized id="93" value="Aan de vorm aanpassen" lang="Dutch" key="fit_to_shape" />
     <Localized id="94" value="Adapter à la place disponible" lang="French" key="fit_to_shape" />
     <Localized id="95" value="Scale" lang="English" key="scale" />
-    <Localized id="96" value="Scale" lang="Dutch" key="scale" />
+    <Localized id="96" value="Schaal" lang="Dutch" key="scale" />
     <Localized id="97" value="Echelle" lang="French" key="scale" />
     <Localized id="98" value="X" lang="English" key="x" />
-    <Localized id="99" value="X" lang="Dutch" key="x" />
+    <Localized id="99" value="Positie x" lang="Dutch" key="x" />
     <Localized id="100" value="X" lang="French" key="x" />
     <Localized id="101" value="Y" lang="English" key="y" />
-    <Localized id="102" value="Y" lang="Dutch" key="y" />
+    <Localized id="102" value="Positie y" lang="Dutch" key="y" />
     <Localized id="103" value="Y" lang="French" key="y" />
     <Localized id="104" value="Delta" lang="English" key="delta" />
     <Localized id="105" value="Delta" lang="Dutch" key="delta" />
     <Localized id="106" value="Delta" lang="French" key="delta" />
     <Localized id="107" value="Use transparency" lang="English" key="use_transparency" />
-    <Localized id="108" value="Use transparency" lang="Dutch" key="use_transparency" />
+    <Localized id="108" value="Transparantie gebruiken" lang="Dutch" key="use_transparency" />
     <Localized id="109" value="Transparence" lang="French" key="use_transparency" />
     <Localized id="110" value="Transp. level" lang="English" key="transparency_level" />
     <Localized id="111" value="Transparency level" lang="Dutch" key="transparency_level" />

@@ -399,41 +399,41 @@
 			key="shape_type" />
 		<Localized id="77" value="Forme" lang="French"
 			key="shape_type" />
-		<Localized id="78" value="Shape" lang="Dutch"
+		<Localized id="78" value="Type vorm" lang="Dutch"
 			key="shape_type" />
 		<Localized id="79" value="Rectangle" lang="English"
 			key="rectangle" />
 		<Localized id="80" value="Rectangle" lang="French"
 			key="rectangle" />
-		<Localized id="81" value="Rectangle" lang="Dutch"
+		<Localized id="81" value="Rechthoek" lang="Dutch"
 			key="rectangle" />
 		<Localized id="82" value="Square" lang="English"
 			key="square" />
 		<Localized id="83" value="Carré" lang="French" key="square" />
-		<Localized id="84" value="Square" lang="Dutch" key="square" />
+		<Localized id="84" value="Vierkant" lang="Dutch" key="square" />
 		<Localized id="85" value="Rectangular octogon"
 			lang="English" key="rectangularoctogon" />
 		<Localized id="86" value="Octogone rectangulaire"
 			lang="French" key="rectangularoctogon" />
-		<Localized id="87" value="Rectangular octogon" lang="Dutch"
+		<Localized id="87" value="Rechthoekige achthoek" lang="Dutch"
 			key="rectangularoctogon" />
 		<Localized id="88" value="Regular polygon" lang="English"
 			key="polygon" />
 		<Localized id="89" value="Polygone régulier" lang="French"
 			key="polygon" />
-		<Localized id="90" value="Regular polygon" lang="Dutch"
+		<Localized id="90" value="Regelmatige veelhoek" lang="Dutch"
 			key="polygon" />
 		<Localized id="91" value="Triangle" lang="English"
 			key="triangle" />
 		<Localized id="92" value="Triangle" lang="French"
 			key="triangle" />
-		<Localized id="93" value="Triangle" lang="Dutch"
+		<Localized id="93" value="Driehoek" lang="Dutch"
 			key="triangle" />
 		<Localized id="94" value="Losange" lang="English"
 			key="losange" />
 		<Localized id="95" value="Losange" lang="French"
 			key="losange" />
-		<Localized id="96" value="Losange" lang="Dutch"
+		<Localized id="96" value="Ruit" lang="Dutch"
 			key="losange" />
 		<Localized id="97" value="Oval" lang="English" key="oval" />
 		<Localized id="98" value="Ovale" lang="French" key="oval" />
@@ -442,7 +442,7 @@
 			key="circle" />
 		<Localized id="101" value="Cercle" lang="French"
 			key="circle" />
-		<Localized id="102" value="Circle" lang="Dutch" key="circle" />
+		<Localized id="102" value="Cirkel" lang="Dutch" key="circle" />
 		<Localized id="103" value="Star" lang="English" key="star" />
 		<Localized id="104" value="Étoile" lang="French" key="star" />
 		<Localized id="105" value="Star" lang="Dutch" key="star" />
@@ -454,52 +454,52 @@
 			key="custom_polygon" />
 		<Localized id="110" value="Polygone personnalisé"
 			lang="French" key="custom_polygon" />
-		<Localized id="111" value="Custom polygon" lang="Dutch"
+		<Localized id="111" value="Aangepaste veelhoek" lang="Dutch"
 			key="custom_polygon" />
 		<Localized id="112" value="Rectangle" lang="English"
 			key="Rectangle" />
 		<Localized id="113" value="Rectangle" lang="French"
 			key="Rectangle" />
-		<Localized id="114" value="Rectangle" lang="Dutch"
+		<Localized id="114" value="Rechthoek" lang="Dutch"
 			key="Rectangle" />
 		<Localized id="115" value="Square" lang="English"
 			key="Square" />
 		<Localized id="116" value="Carré" lang="French" key="Square" />
-		<Localized id="117" value="Square" lang="Dutch" key="Square" />
+		<Localized id="117" value="Vierkant" lang="Dutch" key="Square" />
 		<Localized id="118" value="Regular polygon" lang="English"
 			key="Regular polygon" />
 		<Localized id="119" value="Polygone régulier" lang="French"
 			key="Regular polygon" />
-		<Localized id="120" value="Regular polygon" lang="Dutch"
+		<Localized id="120" value="Regelmatige veelhoek" lang="Dutch"
 			key="Regular polygon" />
 		<Localized id="121" value="Triangle" lang="English"
 			key="Triangle" />
 		<Localized id="122" value="Triangle" lang="French"
 			key="Triangle" />
-		<Localized id="123" value="Triangle" lang="Dutch"
+		<Localized id="123" value="Driehoek" lang="Dutch"
 			key="Triangle" />
 		<Localized id="124" value="Losange" lang="English"
 			key="Losange" />
 		<Localized id="125" value="Losange" lang="French"
 			key="Losange" />
-		<Localized id="126" value="Losange" lang="Dutch"
+		<Localized id="126" value="Ruit" lang="Dutch"
 			key="Losange" />
 		<Localized id="127" value="Oval" lang="English" key="Oval" />
 		<Localized id="128" value="Ovale" lang="French" key="Oval" />
-		<Localized id="129" value="Oval" lang="Dutch" key="Oval" />
+		<Localized id="129" value="Ovaal" lang="Dutch" key="Oval" />
 		<Localized id="130" value="Circle" lang="English"
 			key="Circle" />
 		<Localized id="131" value="Cercle" lang="French"
 			key="Circle" />
-		<Localized id="132" value="Circle" lang="Dutch" key="Circle" />
+		<Localized id="132" value="Cirkel" lang="Dutch" key="Circle" />
 		<Localized id="133" value="Star" lang="English" key="Star" />
 		<Localized id="134" value="Etoile" lang="French" key="Star" />
-		<Localized id="135" value="Star" lang="Dutch" key="Star" />
+		<Localized id="135" value="Ster" lang="Dutch" key="Star" />
 		<Localized id="136" value="Rounded" lang="English"
 			key="rounded" />
 		<Localized id="137" value="Arrondi" lang="French"
 			key="rounded" />
-		<Localized id="138" value="Rounded" lang="Dutch"
+		<Localized id="138" value="Afgerond" lang="Dutch"
 			key="rounded" />
 		<Localized id="139" value="Arc size" lang="English"
 			key="arc_size" />
@@ -511,18 +511,18 @@
 			key="points_number" />
 		<Localized id="143" value="Nimbre de points" lang="French"
 			key="points_number" />
-		<Localized id="144" value="Point number" lang="Dutch"
+		<Localized id="144" value="Aantal punten" lang="Dutch"
 			key="points_number" />
 		<Localized id="145" value="Start angle" lang="English"
 			key="start_angle" />
 		<Localized id="146" value="Angle de départ" lang="French"
 			key="start_angle" />
-		<Localized id="147" value="Start angle" lang="Dutch"
+		<Localized id="147" value="Starthoek" lang="Dutch"
 			key="start_angle" />
 		<Localized id="148" value="Ratio" lang="English" key="ratio" />
 		<Localized id="149" value="Rapport" lang="French"
 			key="ratio" />
-		<Localized id="150" value="Ratio" lang="Dutch" key="ratio" />
+		<Localized id="150" value="Verhouding" lang="Dutch" key="ratio" />
 		<Localized id="151" value="Angle extent" lang="English"
 			key="angle_extent" />
 		<Localized id="152" value="Extension d'angle" lang="French"
@@ -543,10 +543,10 @@
 		<Localized id="162" value="Open" lang="Dutch" key="Open" />
 		<Localized id="163" value="Chord" lang="English" key="chord" />
 		<Localized id="164" value="Son" lang="French" key="chord" />
-		<Localized id="165" value="Chord" lang="Dutch" key="chord" />
+		<Localized id="165" value="Koorde" lang="Dutch" key="chord" />
 		<Localized id="166" value="Chord" lang="English" key="Chord" />
 		<Localized id="167" value="Corde" lang="French" key="Chord" />
-		<Localized id="168" value="Chord" lang="Dutch" key="Chord" />
+		<Localized id="168" value="Koorde" lang="Dutch" key="Chord" />
 		<Localized id="169" value="Pie" lang="English" key="pie" />
 		<Localized id="170" value="Camembert" lang="French"
 			key="pie" />
@@ -557,11 +557,11 @@
 		<Localized id="175" value="Position x" lang="English"
 			key="x" />
 		<Localized id="176" value="Abscisse" lang="French" key="x" />
-		<Localized id="177" value="Position x" lang="Dutch" key="x" />
+		<Localized id="177" value="Positie x" lang="Dutch" key="x" />
 		<Localized id="178" value="Position y" lang="English"
 			key="y" />
 		<Localized id="179" value="Ordonnée" lang="French" key="y" />
-		<Localized id="180" value="Position y" lang="Dutch" key="y" />
+		<Localized id="180" value="Positie y" lang="Dutch" key="y" />
 		<Localized id="181" value="Apply" lang="English" key="apply" />
 		<Localized id="182" value="Appliquer" lang="French"
 			key="apply" />
@@ -570,7 +570,7 @@
 			key="cancel" />
 		<Localized id="185" value="Annuler" lang="French"
 			key="cancel" />
-		<Localized id="186" value="Cancel" lang="Dutch" key="cancel" />
+		<Localized id="186" value="Annuleren" lang="Dutch" key="cancel" />
 		<Localized id="190" value="Polygone régulier" lang="English"
 			key="Polygone régulier" />
 		<Localized id="191" value="Polygone régulier" lang="French"
@@ -604,13 +604,13 @@
 			key="Curved polyline" />
 		<Localized id="215" value="Polyligne courbe" lang="French"
 			key="Curved polyline" />
-		<Localized id="216" value="Curved polyline" lang="Dutch"
+		<Localized id="216" value="Gebogen polylijn" lang="Dutch"
 			key="Curved polyline" />
 		<Localized id="217" value="line_type" lang="English"
 			key="line_type" />
 		<Localized id="218" value="Type de ligne" lang="French"
 			key="line_type" />
-		<Localized id="219" value="line_type" lang="Dutch"
+		<Localized id="219" value="Type lijn" lang="Dutch"
 			key="line_type" />
 		<Localized id="220" value="Center to center" lang="English"
 			key="center_to_center" />
@@ -622,7 +622,7 @@
 			key="Center to center" />
 		<Localized id="224" value="Centre à centre" lang="French"
 			key="Center to center" />
-		<Localized id="225" value="Center to center" lang="Dutch"
+		<Localized id="225" value="Midden naar midden" lang="Dutch"
 			key="Center to center" />
 		<Localized id="226" value="Minimal length" lang="English"
 			key="minimal_length" />
@@ -634,7 +634,7 @@
 			key="Minimal length" />
 		<Localized id="230" value="Longueur minimale" lang="French"
 			key="Minimal length" />
-		<Localized id="231" value="Minimal length" lang="Dutch"
+		<Localized id="231" value="Minimale lengte" lang="Dutch"
 			key="Minimal length" />
 		<Localized id="232" value="funny" lang="English" key="funny" />
 		<Localized id="233" value="amusant" lang="French"
@@ -650,7 +650,7 @@
 			key="Line connector" />
 		<Localized id="239" value="Connecteur droit" lang="French"
 			key="Line connector" />
-		<Localized id="240" value="Line connector" lang="Dutch"
+		<Localized id="240" value="Rechte connector" lang="Dutch"
 			key="Line connector" />
 		<Localized id="241" value="Straight when possible"
 			lang="English" key="straight_when_possible" />
@@ -672,13 +672,13 @@
 		<Localized id="255" value="Westen" lang="Dutch" key="west" />
 		<Localized id="256" value="North" lang="English" key="North" />
 		<Localized id="257" value="Nord" lang="French" key="North" />
-		<Localized id="258" value="North" lang="Dutch" key="North" />
+		<Localized id="258" value="Noord" lang="Dutch" key="North" />
 		<Localized id="259" value="East" lang="English" key="East" />
 		<Localized id="260" value="Est" lang="French" key="East" />
-		<Localized id="261" value="East" lang="Dutch" key="East" />
+		<Localized id="261" value="Oost" lang="Dutch" key="East" />
 		<Localized id="262" value="South" lang="English" key="South" />
 		<Localized id="263" value="Sud" lang="French" key="South" />
-		<Localized id="264" value="South" lang="Dutch" key="South" />
+		<Localized id="264" value="Zuid" lang="Dutch" key="South" />
 		<Localized id="265" value="West" lang="English" key="West" />
 		<Localized id="266" value="Ouest" lang="French" key="West" />
 		<Localized id="267" value="West" lang="Dutch" key="West" />
@@ -698,7 +698,7 @@
 			lang="English" key="layout_constraints" />
 		<Localized id="275" value="Contraintes" lang="French"
 			key="layout_constraints" />
-		<Localized id="276" value="Layout constraints" lang="Dutch"
+		<Localized id="276" value="Indelingsbeperkingen" lang="Dutch"
 			key="layout_constraints" />
 		<Localized id="277" value="None" lang="English" key="none" />
 		<Localized id="278" value="Aucun" lang="French" key="none" />
@@ -765,12 +765,12 @@
 			lang="Dutch" key="end_orientation_fixed" />
 		<Localized id="307" value="None" lang="English" key="None" />
 		<Localized id="308" value="Aucun" lang="French" key="None" />
-		<Localized id="309" value="None" lang="Dutch" key="None" />
+		<Localized id="309" value="Geen" lang="Dutch" key="None" />
 		<Localized id="310" value="Orthogonal layout" lang="English"
 			key="Orthogonal layout" />
 		<Localized id="311" value="Disposition orthogonale" lang="French"
 			key="Orthogonal layout" />
-		<Localized id="312" value="Orthogonal layout" lang="Dutch"
+		<Localized id="312" value="Orthogonale indeling" lang="Dutch"
 			key="Orthogonal layout" />
 		<Localized id="313"
 			value="Orthogonal layout horizontal first" lang="English"
@@ -779,55 +779,55 @@
 			value="Disposition orthogonale (horizontal d'abord)" lang="French"
 			key="Orthogonal layout horizontal first" />
 		<Localized id="315"
-			value="Orthogonal layout horizontal first" lang="Dutch"
+			value="Orthogonale indeling (eerst horizontaal)" lang="Dutch"
 			key="Orthogonal layout horizontal first" />
 		<Localized id="316" value="orthogonal layout vertical first"
 			lang="English" key="orthogonal layout vertical first" />
 		<Localized id="317" value="Disposition orthogonale (vertical d'abord)"
 			lang="French" key="orthogonal layout vertical first" />
-		<Localized id="318" value="orthogonal layout vertical first"
+		<Localized id="318" value="Orthogonale indeling (eerst verticaal)"
 			lang="Dutch" key="orthogonal layout vertical first" />
 		<Localized id="319" value="Horizontal or vertical layout"
 			lang="English" key="Horizontal or vertical layout" />
 		<Localized id="320" value="Disposition horizontale ou verticale"
 			lang="French" key="Horizontal or vertical layout" />
-		<Localized id="321" value="Horizontal or vertical layout"
+		<Localized id="321" value="Horizontale of verticale indeling"
 			lang="Dutch" key="Horizontal or vertical layout" />
 		<Localized id="322" value="Horizontal layout" lang="English"
 			key="Horizontal layout" />
 		<Localized id="323" value="Disposition horizontale" lang="French"
 			key="Horizontal layout" />
-		<Localized id="324" value="Horizontal layout" lang="Dutch"
+		<Localized id="324" value="Horizontale indeling" lang="Dutch"
 			key="Horizontal layout" />
 		<Localized id="325" value="Vertical layout" lang="English"
 			key="Vertical layout" />
 		<Localized id="326" value="Disposition verticale" lang="French"
 			key="Vertical layout" />
-		<Localized id="327" value="Vertical layout" lang="Dutch"
+		<Localized id="327" value="Verticale indeling" lang="Dutch"
 			key="Vertical layout" />
 		<Localized id="328" value="Orientations fixed"
 			lang="English" key="Orientations fixed" />
 		<Localized id="329" value="Orientations fixes" lang="French"
 			key="Orientations fixed" />
-		<Localized id="330" value="Orientations fixed" lang="Dutch"
+		<Localized id="330" value="Vaste oriëntaties" lang="Dutch"
 			key="Orientations fixed" />
 		<Localized id="331" value="Start orientation fixed"
 			lang="English" key="Start orientation fixed" />
 		<Localized id="332" value="Orientation de départ fixe"
 			lang="French" key="Start orientation fixed" />
-		<Localized id="333" value="Start orientation fixed"
+		<Localized id="333" value="Vaste beginoriëntatie"
 			lang="Dutch" key="Start orientation fixed" />
 		<Localized id="334" value="End orientation fixed"
 			lang="English" key="End orientation fixed" />
 		<Localized id="335" value="Orientation d'arrivée fixe"
 			lang="French" key="End orientation fixed" />
-		<Localized id="336" value="End orientation fixed"
+		<Localized id="336" value="Vaste eindoriëntatie"
 			lang="Dutch" key="End orientation fixed" />
 		<Localized id="337" value="start_location" lang="English"
 			key="start_location" />
 		<Localized id="338" value="Position de début" lang="French"
 			key="start_location" />
-		<Localized id="339" value="start_location" lang="Dutch"
+		<Localized id="339" value="Beginpositie" lang="Dutch"
 			key="start_location" />
 		<Localized id="340" value="End location fixed"
 			lang="English" key="end_location_fixed" />
@@ -837,12 +837,12 @@
 			lang="Dutch" key="end_location_fixed" />
 		<Localized id="343" value="fixed" lang="English" key="fixed" />
 		<Localized id="344" value="Fixe" lang="French" key="fixed" />
-		<Localized id="345" value="fixed" lang="Dutch" key="fixed" />
+		<Localized id="345" value="Vast" lang="Dutch" key="fixed" />
 		<Localized id="346" value="draggable" lang="English"
 			key="draggable" />
 		<Localized id="347" value="Déplaçable" lang="French"
 			key="draggable" />
-		<Localized id="348" value="draggable" lang="Dutch"
+		<Localized id="348" value="Versleepbaar" lang="Dutch"
 			key="draggable" />
 		<Localized id="349" value="adjustability" lang="English"
 			key="adjustability" />
@@ -854,38 +854,38 @@
 			key="auto_layout" />
 		<Localized id="353" value="Disposition automatique"
 			lang="French" key="auto_layout" />
-		<Localized id="354" value="Automatic layout" lang="Dutch"
+		<Localized id="354" value="Automatische indeling" lang="Dutch"
 			key="auto_layout" />
 		<Localized id="355" value="Adjustable with a control point"
 			lang="English" key="basically_adjustable" />
 		<Localized id="356"
 			value="Ajustement avec un point de contrôle" lang="French"
 			key="basically_adjustable" />
-		<Localized id="357" value="Adjustable with a control point"
+		<Localized id="357" value="Aanpasbaar met een controlepunt"
 			lang="Dutch" key="basically_adjustable" />
 		<Localized id="358" value="Fully adjustable" lang="English"
 			key="fully_adjustable" />
 		<Localized id="359" value="Complètement ajustable"
 			lang="French" key="fully_adjustable" />
-		<Localized id="360" value="Fully adjustable" lang="Dutch"
+		<Localized id="360" value="Volledig aanpasbaar" lang="Dutch"
 			key="fully_adjustable" />
 		<Localized id="361" value="Automatic layout" lang="English"
 			key="Automatic layout" />
 		<Localized id="362" value="Disposition automatique" lang="French"
 			key="Automatic layout" />
-		<Localized id="363" value="Automatic layout" lang="Dutch"
+		<Localized id="363" value="Automatische indeling" lang="Dutch"
 			key="Automatic layout" />
 		<Localized id="364" value="Adjustable with a control point"
 			lang="English" key="Adjustable with a control point" />
 		<Localized id="365" value="Ajustable avec un point de contrôle"
 			lang="French" key="Adjustable with a control point" />
-		<Localized id="366" value="Adjustable with a control point"
+		<Localized id="366" value="Aanpasbaar met een controlepunt"
 			lang="Dutch" key="Adjustable with a control point" />
 		<Localized id="367" value="Fully adjustable" lang="English"
 			key="Fully adjustable" />
 		<Localized id="368" value="Entièrement ajustable" lang="French"
 			key="Fully adjustable" />
-		<Localized id="369" value="Fully adjustable" lang="Dutch"
+		<Localized id="369" value="Volledig aanpasbaar" lang="Dutch"
 			key="Fully adjustable" />
 		<Localized id="370" value="arc size (pixels)" lang="English"
 			key="arc_size_(pixels)" />
@@ -903,12 +903,12 @@
 			key="Layout" />
 		<Localized id="377" value="Disposition" lang="French"
 			key="Layout" />
-		<Localized id="378" value="Layout" lang="Dutch" key="Layout" />
+		<Localized id="378" value="Indeling" lang="Dutch" key="Layout" />
 		<Localized id="379" value="Adjustability" lang="English"
 			key="Adjustability" />
 		<Localized id="380" value="Ajustabilité" lang="French"
 			key="Adjustability" />
-		<Localized id="381" value="Adjustability" lang="Dutch"
+		<Localized id="381" value="Aanpasbaarheid" lang="Dutch"
 			key="Adjustability" />
 		<Localized id="382" value="Advanced" lang="English"
 			key="Advanced" />
@@ -918,16 +918,16 @@
 			key="Advanced" />
 		<Localized id="385" value="line" lang="English" key="line" />
 		<Localized id="386" value="ligne" lang="French" key="line" />
-		<Localized id="387" value="line" lang="Dutch" key="line" />
+		<Localized id="387" value="Lijn" lang="Dutch" key="line" />
 		<Localized id="388" value="Rect polyline" lang="English"
 			key="rect_polylin" />
 		<Localized id="389" value="Polyligne rectangle"
 			lang="French" key="rect_polylin" />
-		<Localized id="390" value="Rect polyline" lang="Dutch"
+		<Localized id="390" value="Rechthoekige polylijn" lang="Dutch"
 			key="rect_polylin" />
 		<Localized id="391" value="Curve" lang="English" key="curve" />
 		<Localized id="392" value="courbe" lang="French" key="curve" />
-		<Localized id="393" value="Curve" lang="Dutch" key="curve" />
+		<Localized id="393" value="Kromme" lang="Dutch" key="curve" />
 		<Localized id="394" value="Curved polyline" lang="English"
 			key="curved_polylin" />
 		<Localized id="395" value="Poly-ligne courbe" lang="French"
@@ -944,11 +944,11 @@
 			key="Rect polyline" />
 		<Localized id="401" value="Polyligne rectangulaire" lang="French"
 			key="Rect polyline" />
-		<Localized id="402" value="Rect polyline" lang="Dutch"
+		<Localized id="402" value="Rechthoekige polylijn" lang="Dutch"
 			key="Rect polyline" />
 		<Localized id="403" value="Curve" lang="English" key="Curve" />
 		<Localized id="404" value="Courbe" lang="French" key="Curve" />
-		<Localized id="405" value="Curve" lang="Dutch" key="Curve" />
+		<Localized id="405" value="Kromme" lang="Dutch" key="Curve" />
 		<Localized id="406" value="Connector type" lang="English"
 			key="connector_type" />
 		<Localized id="407" value="Type de connecteur" lang="French"
@@ -1036,78 +1036,78 @@
 			key="default_flow" />
 		<Localized id="451" value="Arrow" lang="English" key="Arrow" />
 		<Localized id="452" value="Flèche" lang="French" key="Arrow" />
-		<Localized id="453" value="Arrow" lang="Dutch" key="Arrow" />
+		<Localized id="453" value="Pijl" lang="Dutch" key="Arrow" />
 		<Localized id="454" value="Plain arrow" lang="English"
 			key="Plain arrow" />
 		<Localized id="455" value="Flèche vide" lang="French"
 			key="Plain arrow" />
-		<Localized id="456" value="Plain arrow" lang="Dutch"
+		<Localized id="456" value="Lege pijl" lang="Dutch"
 			key="Plain arrow" />
 		<Localized id="457" value="Filled arrow" lang="English"
 			key="Filled arrow" />
 		<Localized id="458" value="Flèche pleine" lang="French"
 			key="Filled arrow" />
-		<Localized id="459" value="Filled arrow" lang="Dutch"
+		<Localized id="459" value="Gevulde pijl" lang="Dutch"
 			key="Filled arrow" />
 		<Localized id="460" value="Plain double arrow"
 			lang="English" key="Plain double arrow" />
 		<Localized id="461" value="Double flèche vide" lang="French"
 			key="Plain double arrow" />
-		<Localized id="462" value="Plain double arrow" lang="Dutch"
+		<Localized id="462" value="Lege dubbele pijl" lang="Dutch"
 			key="Plain double arrow" />
 		<Localized id="463" value="Filled double arrow"
 			lang="English" key="Filled double arrow" />
 		<Localized id="464" value="Double flèche pleine"
 			lang="French" key="Filled double arrow" />
-		<Localized id="465" value="Filled double arrow" lang="Dutch"
+		<Localized id="465" value="Gevulde dubbele pijl" lang="Dutch"
 			key="Filled double arrow" />
 		<Localized id="466" value="Plain circle" lang="English"
 			key="Plain circle" />
 		<Localized id="467" value="Cercle vide" lang="French"
 			key="Plain circle" />
-		<Localized id="468" value="Plain circle" lang="Dutch"
+		<Localized id="468" value="Lege cirkel" lang="Dutch"
 			key="Plain circle" />
 		<Localized id="469" value="Filled circle" lang="English"
 			key="Filled circle" />
 		<Localized id="470" value="Cercle plein" lang="French"
 			key="Filled circle" />
-		<Localized id="471" value="Filled circle" lang="Dutch"
+		<Localized id="471" value="Gevulde cirkel" lang="Dutch"
 			key="Filled circle" />
 		<Localized id="472" value="Plain square" lang="English"
 			key="Plain square" />
 		<Localized id="473" value="Carré vide" lang="French"
 			key="Plain square" />
-		<Localized id="474" value="Plain square" lang="Dutch"
+		<Localized id="474" value="Leeg vierkant" lang="Dutch"
 			key="Plain square" />
 		<Localized id="475" value="Filled square" lang="English"
 			key="Filled square" />
 		<Localized id="476" value="Carré plein" lang="French"
 			key="Filled square" />
-		<Localized id="477" value="Filled square" lang="Dutch"
+		<Localized id="477" value="Gevuld vierkant" lang="Dutch"
 			key="Filled square" />
 		<Localized id="478" value="Plain diamond" lang="English"
 			key="Plain diamond" />
 		<Localized id="479" value="Losange vide" lang="French"
 			key="Plain diamond" />
-		<Localized id="480" value="Plain diamond" lang="Dutch"
+		<Localized id="480" value="Lege ruit" lang="Dutch"
 			key="Plain diamond" />
 		<Localized id="481" value="Plain long diamond"
 			lang="English" key="Plain long diamond" />
 		<Localized id="482" value="Long losange vide" lang="French"
 			key="Plain long diamond" />
-		<Localized id="483" value="Plain long diamond" lang="Dutch"
+		<Localized id="483" value="Lange lege ruit" lang="Dutch"
 			key="Plain long diamond" />
 		<Localized id="484" value="Filled diamond" lang="English"
 			key="Filled diamond" />
 		<Localized id="485" value="Losange plein" lang="French"
 			key="Filled diamond" />
-		<Localized id="486" value="Filled diamond" lang="Dutch"
+		<Localized id="486" value="Gevulde ruit" lang="Dutch"
 			key="Filled diamond" />
 		<Localized id="487" value="Default flow" lang="English"
 			key="Default flow" />
 		<Localized id="488" value="Flux par défaut" lang="French"
 			key="Default flow" />
-		<Localized id="489" value="Default flow" lang="Dutch"
+		<Localized id="489" value="Standaardstroom" lang="Dutch"
 			key="Default flow" />
 		<Localized id="490" value="Start symbol" lang="English"
 			key="start_symbol" />
@@ -1137,7 +1137,7 @@
 			key="Symbols" />
 		<Localized id="503" value="Symboles" lang="French"
 			key="Symbols" />
-		<Localized id="504" value="Symbols" lang="Dutch"
+		<Localized id="504" value="Symbolen" lang="Dutch"
 			key="Symbols" />
 		<Localized id="505" value="adjustable bounds" lang="English"
 			key="adjustable_bounds" />
@@ -1149,7 +1149,7 @@
 			key="Curve connector" />
 		<Localized id="509" value="Connecteur courbe" lang="French"
 			key="Curve connector" />
-		<Localized id="510" value="Curve connector" lang="Dutch"
+		<Localized id="510" value="Gebogen connector" lang="Dutch"
 			key="Curve connector" />
 		<Localized id="511" value="Centre à centre" lang="English"
 			key="Centre à centre" />

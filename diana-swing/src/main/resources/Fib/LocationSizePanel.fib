@@ -186,10 +186,10 @@
 		type="org.openflexo.diana.control.tools.InspectedLocationSizeProperties" />
 	<LocalizedDictionary id="44">
 		<Localized id="45" value="Layer" lang="English" key="layer" />
-		<Localized id="46" value="Layer" lang="Dutch" key="layer" />
+		<Localized id="46" value="Laag" lang="Dutch" key="layer" />
 		<Localized id="47" value="Couche" lang="French" key="layer" />
 		<Localized id="48" value="Position" lang="English" key="position" />
-		<Localized id="49" value="Position" lang="Dutch" key="position" />
+		<Localized id="49" value="Positie" lang="Dutch" key="position" />
 		<Localized id="50" value="Position" lang="French" key="position" />
 		<Localized id="51" value=";" lang="English" key=";" />
 		<Localized id="52" value=";" lang="Dutch" key=";" />
@@ -198,83 +198,83 @@
 		<Localized id="55" value="Size" lang="Dutch" key="size" />
 		<Localized id="56" value="Taille" lang="French" key="size" />
 		<Localized id="57" value="X" lang="English" key="x" />
-		<Localized id="58" value="X" lang="Dutch" key="x" />
+		<Localized id="58" value="Positie x" lang="Dutch" key="x" />
 		<Localized id="59" value="X" lang="French" key="x" />
 		<Localized id="60" value="Is visible" lang="English" key="is_visible" />
-		<Localized id="61" value="Is visible" lang="Dutch" key="is_visible" />
+		<Localized id="61" value="Is zichtbaar" lang="Dutch" key="is_visible" />
 		<Localized id="62" value="Visible" lang="French" key="is_visible" />
 		<Localized id="63" value="Index" lang="English" key="index" />
 		<Localized id="64" value="Index" lang="Dutch" key="index" />
 		<Localized id="65" value="Index" lang="French" key="index" />
 		<Localized id="66" value="Location/Size" lang="English"
 			key="Location/Size" />
-		<Localized id="67" value="Location/Size" lang="Dutch"
+		<Localized id="67" value="Positie en grootte" lang="Dutch"
 			key="Location/Size" />
 		<Localized id="68" value="Position/Taille" lang="French"
 			key="Location/Size" />
 		<Localized id="69" value="Horizontal" lang="English" key="horizontal" />
-		<Localized id="70" value="Horizontal" lang="Dutch" key="horizontal" />
+		<Localized id="70" value="Horizontaal" lang="Dutch" key="horizontal" />
 		<Localized id="71" value="Horizontal" lang="French" key="horizontal" />
 		<Localized id="72" value="Vertical" lang="English" key="vertical" />
-		<Localized id="73" value="Vertical" lang="Dutch" key="vertical" />
+		<Localized id="73" value="Verticaal" lang="Dutch" key="vertical" />
 		<Localized id="74" value="Vertical" lang="French" key="vertical" />
 		<Localized id="75" value="Paragraph" lang="English" key="paragraph" />
-		<Localized id="76" value="Paragraph" lang="Dutch" key="paragraph" />
+		<Localized id="76" value="Alinea" lang="Dutch" key="paragraph" />
 		<Localized id="77" value="Paragraphe" lang="French" key="paragraph" />
 		<Localized id="78" value="Is floating label" lang="English"
 			key="is_floating_label" />
-		<Localized id="79" value="Is floating label" lang="Dutch"
+		<Localized id="79" value="Zwevend label" lang="Dutch"
 			key="is_floating_label" />
 		<Localized id="80" value="Label floattant" lang="French"
 			key="is_floating_label" />
 		<Localized id="81" value="Y" lang="English" key="y" />
-		<Localized id="82" value="Y" lang="Dutch" key="y" />
+		<Localized id="82" value="Positie y" lang="Dutch" key="y" />
 		<Localized id="83" value="Y" lang="French" key="y" />
 		<Localized id="84" value="Relative text x" lang="English"
 			key="relative_text_x" />
-		<Localized id="85" value="Relative text x" lang="Dutch"
+		<Localized id="85" value="Relatieve tekst X" lang="Dutch"
 			key="relative_text_x" />
 		<Localized id="86" value="Texte X" lang="French" key="relative_text_x" />
 		<Localized id="87" value="Relative text y" lang="English"
 			key="relative_text_y" />
-		<Localized id="88" value="Relative text y" lang="Dutch"
+		<Localized id="88" value="Relatieve tekst Y" lang="Dutch"
 			key="relative_text_y" />
 		<Localized id="89" value="Texte Y" lang="French" key="relative_text_y" />
 		<Localized id="90" value="Is multiline allowed" lang="English"
 			key="is_multiline_allowed" />
-		<Localized id="91" value="Is multiline allowed" lang="Dutch"
+		<Localized id="91" value="Meerdere regels toegestaan" lang="Dutch"
 			key="is_multiline_allowed" />
 		<Localized id="92" value="Multi-lignes autorisé" lang="French"
 			key="is_multiline_allowed" />
 		<Localized id="93" value="Line wrap" lang="English" key="line_wrap" />
-		<Localized id="94" value="Line wrap" lang="Dutch" key="line_wrap" />
+		<Localized id="94" value="Regelafbreking" lang="Dutch" key="line_wrap" />
 		<Localized id="95" value="Retour à la ligne" lang="French" key="line_wrap" />
 		<Localized id="96" value="Adapt bounds to contents" lang="English"
 			key="adapt_bounds_to_contents" />
-		<Localized id="97" value="Adapt bounds to contents" lang="Dutch"
+		<Localized id="97" value="Grenzen aan de inhoud aanpassen" lang="Dutch"
 			key="adapt_bounds_to_contents" />
 		<Localized id="98" value="Adapter la taille au contenu"
 			lang="French" key="adapt_bounds_to_contents" />
 		<Localized id="99" value="Text" lang="English" key="Text" />
-		<Localized id="100" value="Text" lang="Dutch" key="Text" />
+		<Localized id="100" value="Tekst" lang="Dutch" key="Text" />
 		<Localized id="101" value="Texte" lang="French" key="Text" />
 		<Localized id="102" value="Dimensions" lang="English" key="dimensions" />
-		<Localized id="103" value="Dimensions" lang="Dutch" key="dimensions" />
+		<Localized id="103" value="Afmetingen" lang="Dutch" key="dimensions" />
 		<Localized id="104" value="Taille" lang="French" key="dimensions" />
 		<Localized id="105" value="Width" lang="English" key="width" />
-		<Localized id="106" value="Width" lang="Dutch" key="width" />
+		<Localized id="106" value="Breedte" lang="Dutch" key="width" />
 		<Localized id="107" value="Largeur" lang="French" key="width" />
 		<Localized id="108" value="Height" lang="English" key="height" />
-		<Localized id="109" value="Height" lang="Dutch" key="height" />
+		<Localized id="109" value="Hoogte" lang="Dutch" key="height" />
 		<Localized id="110" value="Hauteur" lang="French" key="height" />
 		<Localized id="111" value="Allows to leave bounds" lang="English"
 			key="allows_to_leave_bounds" />
-		<Localized id="112" value="Allows to leave bounds" lang="Dutch"
+		<Localized id="112" value="Staat toe de grenzen te verlaten" lang="Dutch"
 			key="allows_to_leave_bounds" />
 		<Localized id="113" value="Autorisé à sortir" lang="French"
 			key="allows_to_leave_bounds" />
 		<Localized id="114" value="Constraints" lang="English" key="Constraints" />
-		<Localized id="115" value="Constraints" lang="Dutch" key="Constraints" />
+		<Localized id="115" value="Beperkingen" lang="Dutch" key="Constraints" />
 		<Localized id="116" value="Contraintes" lang="French" key="Constraints" />
 	</LocalizedDictionary>
 </Panel>

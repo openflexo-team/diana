@@ -37,25 +37,25 @@
     <Localized id="28" value="Orientation" lang="French" key="orientation" />
     <Localized id="29" value="Appliquer" lang="French" key="apply" />
     <Localized id="30" value="Annuler" lang="French" key="cancel" />
-    <Localized id="31" value="Font" lang="Dutch" key="font" />
-    <Localized id="32" value="Color" lang="Dutch" key="color" />
+    <Localized id="31" value="Lettertype" lang="Dutch" key="font" />
+    <Localized id="32" value="Kleur" lang="Dutch" key="color" />
     <Localized id="33" value="Orientation" lang="Dutch" key="orientation" />
-    <Localized id="34" value="Apply" lang="Dutch" key="apply" />
-    <Localized id="35" value="Cancel" lang="Dutch" key="cancel" />
+    <Localized id="34" value="Toepassen" lang="Dutch" key="apply" />
+    <Localized id="35" value="Annuleren" lang="Dutch" key="cancel" />
     <Localized id="36" value="Background" lang="English" key="background" />
     <Localized id="37" value="Arrière-p" lang="French" key="background" />
-    <Localized id="38" value="Background" lang="Dutch" key="background" />
+    <Localized id="38" value="Achtergrond" lang="Dutch" key="background" />
     <Localized id="39" value="transp." lang="English" key="transparent" />
     <Localized id="40" value="Transparent" lang="French" key="transparent" />
-    <Localized id="41" value="transparent" lang="Dutch" key="transparent" />
+    <Localized id="41" value="Transparant" lang="Dutch" key="transparent" />
     <Localized id="42" value="Foreground" lang="English" key="foreground" />
     <Localized id="43" value="Avant-p" lang="French" key="foreground" />
-    <Localized id="44" value="Foreground" lang="Dutch" key="foreground" />
+    <Localized id="44" value="Voorgrond" lang="Dutch" key="foreground" />
     <Localized id="45" value="Foreground" lang="English" key="foreground_color" />
-    <Localized id="46" value="Foreground" lang="Dutch" key="foreground_color" />
+    <Localized id="46" value="Voorgrondkleur" lang="Dutch" key="foreground_color" />
     <Localized id="47" value="Avant-p" lang="French" key="foreground_color" />
     <Localized id="48" value="Background" lang="English" key="background_color" />
-    <Localized id="49" value="Background" lang="Dutch" key="background_color" />
+    <Localized id="49" value="Achtergrondkleur" lang="Dutch" key="background_color" />
     <Localized id="50" value="Arrière-p" lang="French" key="background_color" />
   </LocalizedDictionary>
 </Panel>

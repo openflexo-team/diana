@@ -64,24 +64,24 @@
     <Localized id="49" value="Transparence" lang="French" key="use_transparency" />
     <Localized id="50" value="Appliquer" lang="French" key="apply" />
     <Localized id="51" value="Annuler" lang="French" key="cancel" />
-    <Localized id="52" value="No stroke" lang="Dutch" key="no_stroke" />
-    <Localized id="53" value="Line width" lang="Dutch" key="line_width" />
-    <Localized id="54" value="Color" lang="Dutch" key="color" />
-    <Localized id="55" value="Join style" lang="Dutch" key="join_style" />
-    <Localized id="56" value="Cap style" lang="Dutch" key="cap_style" />
-    <Localized id="57" value="Dash style" lang="Dutch" key="dash_style" />
-    <Localized id="58" value="Use transparency" lang="Dutch" key="use_transparency" />
-    <Localized id="59" value="Apply" lang="Dutch" key="apply" />
-    <Localized id="60" value="Cancel" lang="Dutch" key="cancel" />
+    <Localized id="52" value="Geen lijn" lang="Dutch" key="no_stroke" />
+    <Localized id="53" value="Lijndikte" lang="Dutch" key="line_width" />
+    <Localized id="54" value="Kleur" lang="Dutch" key="color" />
+    <Localized id="55" value="Verbindingsstijl" lang="Dutch" key="join_style" />
+    <Localized id="56" value="Uiteindestijl" lang="Dutch" key="cap_style" />
+    <Localized id="57" value="Streepjesstijl" lang="Dutch" key="dash_style" />
+    <Localized id="58" value="Transparantie gebruiken" lang="Dutch" key="use_transparency" />
+    <Localized id="59" value="Toepassen" lang="Dutch" key="apply" />
+    <Localized id="60" value="Annuleren" lang="Dutch" key="cancel" />
     <Localized id="61" value="Join miter" lang="English" key="join_miter" />
     <Localized id="62" value="Join round" lang="English" key="join_round" />
     <Localized id="63" value="Join bevel" lang="English" key="join_bevel" />
     <Localized id="64" value="En onglet" lang="French" key="join_miter" />
     <Localized id="65" value="Arrondi" lang="French" key="join_round" />
     <Localized id="66" value="En biseau" lang="French" key="join_bevel" />
-    <Localized id="67" value="Join miter" lang="Dutch" key="join_miter" />
-    <Localized id="68" value="Join round" lang="Dutch" key="join_round" />
-    <Localized id="69" value="Join bevel" lang="Dutch" key="join_bevel" />
+    <Localized id="67" value="Verstekverbinding" lang="Dutch" key="join_miter" />
+    <Localized id="68" value="Ronde verbinding" lang="Dutch" key="join_round" />
+    <Localized id="69" value="Afgeschuinde verbinding" lang="Dutch" key="join_bevel" />
     <Localized id="70" value="Cap butt" lang="English" key="cap_butt" />
     <Localized id="71" value="Cap round" lang="English" key="cap_round" />
     <Localized id="72" value="Cap square" lang="English" key="cap_square" />
@@ -102,16 +102,16 @@
     <Localized id="87" value="Gros pointillés" lang="French" key="big_dashes" />
     <Localized id="88" value="Ligne pointillée fine" lang="French" key="dots_dashes" />
     <Localized id="89" value="Ligne pointillée alternée" lang="French" key="dot_lines_dashes" />
-    <Localized id="90" value="Cap butt" lang="Dutch" key="cap_butt" />
-    <Localized id="91" value="Cap round" lang="Dutch" key="cap_round" />
-    <Localized id="92" value="Cap square" lang="Dutch" key="cap_square" />
-    <Localized id="93" value="Plain stroke" lang="Dutch" key="plain_stroke" />
-    <Localized id="94" value="Small dashes" lang="Dutch" key="small_dashes" />
-    <Localized id="95" value="Medium dashes" lang="Dutch" key="medium_dashes" />
-    <Localized id="96" value="Medium spaced dashes" lang="Dutch" key="medium_spaced_dashes" />
-    <Localized id="97" value="Big dashes" lang="Dutch" key="big_dashes" />
-    <Localized id="98" value="Dots dashes" lang="Dutch" key="dots_dashes" />
-    <Localized id="99" value="Dot lines dashes" lang="Dutch" key="dot_lines_dashes" />
+    <Localized id="90" value="Plat uiteinde" lang="Dutch" key="cap_butt" />
+    <Localized id="91" value="Rond uiteinde" lang="Dutch" key="cap_round" />
+    <Localized id="92" value="Vierkant uiteinde" lang="Dutch" key="cap_square" />
+    <Localized id="93" value="Ononderbroken lijn" lang="Dutch" key="plain_stroke" />
+    <Localized id="94" value="Korte streepjes" lang="Dutch" key="small_dashes" />
+    <Localized id="95" value="Middellange streepjes" lang="Dutch" key="medium_dashes" />
+    <Localized id="96" value="Middellange streepjes met tussenruimte" lang="Dutch" key="medium_spaced_dashes" />
+    <Localized id="97" value="Lange streepjes" lang="Dutch" key="big_dashes" />
+    <Localized id="98" value="Punten en streepjes" lang="Dutch" key="dots_dashes" />
+    <Localized id="99" value="Stippellijnen" lang="Dutch" key="dot_lines_dashes" />
     <Localized id="100" value="Transp. level" lang="English" key="transparency_level" />
     <Localized id="101" value="Transparency level" lang="Dutch" key="transparency_level" />
     <Localized id="102" value="Niveau" lang="French" key="transparency_level" />

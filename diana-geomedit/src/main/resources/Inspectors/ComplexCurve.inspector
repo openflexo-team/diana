@@ -9,7 +9,7 @@
   <LocalizedDictionary>
     <Localized key="closure" lang="English" value="Closure" />
     <Localized key="closure" lang="French" value="Fermeture" />
-    <Localized key="closure" lang="Dutch" value="Closure" />
+    <Localized key="closure" lang="Dutch" value="Sluiting" />
   </LocalizedDictionary>
   <Parameter name="title" value="Complex curve" />
 </Panel>

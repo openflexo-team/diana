@@ -23,22 +23,22 @@
   <LocalizedDictionary>
     <Localized key="selection_color" lang="English" value="Selection color" />
     <Localized key="selection_color" lang="French" value="Couleur de sélection" />
-    <Localized key="selection_color" lang="Dutch" value="Selection color" />
+    <Localized key="selection_color" lang="Dutch" value="Selectiekleur" />
     <Localized key="focus_color" lang="English" value="Focus color" />
     <Localized key="focus_color" lang="French" value="Couleur de focus" />
-    <Localized key="focus_color" lang="Dutch" value="Focus color" />
+    <Localized key="focus_color" lang="Dutch" value="Focuskleur" />
     <Localized key="rectangle_selection_color" lang="English" value="Rectangle selection color" />
     <Localized key="rectangle_selection_color" lang="French" value="Couleur du rectangle de sélection" />
-    <Localized key="rectangle_selection_color" lang="Dutch" value="Rectangle selection color" />
+    <Localized key="rectangle_selection_color" lang="Dutch" value="Kleur van de rechthoekselectie" />
     <Localized key="background_color" lang="English" value="Background color" />
     <Localized key="background_color" lang="French" value="Couleur de l'arrière-plan" />
-    <Localized key="background_color" lang="Dutch" value="Background color" />
+    <Localized key="background_color" lang="Dutch" value="Achtergrondkleur" />
     <Localized key="width" lang="English" value="Width" />
     <Localized key="width" lang="French" value="Largeur" />
-    <Localized key="width" lang="Dutch" value="Width" />
+    <Localized key="width" lang="Dutch" value="Breedte" />
     <Localized key="height" lang="English" value="Height" />
     <Localized key="height" lang="French" value="Hauteur" />
-    <Localized key="height" lang="Dutch" value="Height" />
+    <Localized key="height" lang="Dutch" value="Hoogte" />
   </LocalizedDictionary>
   <Parameter name="title" value="Drawing" />
 </Panel>

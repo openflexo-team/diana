@@ -33,12 +33,12 @@
     <Localized key="blur" lang="French" value="Flou" />
     <Localized key="apply" lang="French" value="Appliquer" />
     <Localized key="cancel" lang="French" value="Annuler" />
-    <Localized key="draw_shadow" lang="Dutch" value="Draw shadow" />
-    <Localized key="darkness" lang="Dutch" value="Darkness" />
-    <Localized key="depth" lang="Dutch" value="Depth" />
+    <Localized key="draw_shadow" lang="Dutch" value="Schaduw tekenen" />
+    <Localized key="darkness" lang="Dutch" value="Donkerte" />
+    <Localized key="depth" lang="Dutch" value="Diepte" />
     <Localized key="blur" lang="Dutch" value="Blur" />
-    <Localized key="apply" lang="Dutch" value="Apply" />
-    <Localized key="cancel" lang="Dutch" value="Cancel" />
+    <Localized key="apply" lang="Dutch" value="Toepassen" />
+    <Localized key="cancel" lang="Dutch" value="Annuleren" />
   </LocalizedDictionary>
 </Panel>
 

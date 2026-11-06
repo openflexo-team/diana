@@ -174,71 +174,71 @@
 		<Localized id="45" value="Orientation" lang="French" key="orientation" />
 		<Localized id="46" value="Appliquer" lang="French" key="apply" />
 		<Localized id="47" value="Annuler" lang="French" key="cancel" />
-		<Localized id="48" value="Font" lang="Dutch" key="font" />
-		<Localized id="49" value="Color" lang="Dutch" key="color" />
+		<Localized id="48" value="Lettertype" lang="Dutch" key="font" />
+		<Localized id="49" value="Kleur" lang="Dutch" key="color" />
 		<Localized id="50" value="Orientation" lang="Dutch" key="orientation" />
-		<Localized id="51" value="Apply" lang="Dutch" key="apply" />
-		<Localized id="52" value="Cancel" lang="Dutch" key="cancel" />
+		<Localized id="51" value="Toepassen" lang="Dutch" key="apply" />
+		<Localized id="52" value="Annuleren" lang="Dutch" key="cancel" />
 		<Localized id="53" value="Background" lang="English" key="background" />
 		<Localized id="54" value="Arrière-plan" lang="French" key="background" />
-		<Localized id="55" value="Background" lang="Dutch" key="background" />
+		<Localized id="55" value="Achtergrond" lang="Dutch" key="background" />
 		<Localized id="56" value="transp." lang="English" key="transparent" />
 		<Localized id="57" value="Transparent" lang="French" key="transparent" />
-		<Localized id="58" value="transparent" lang="Dutch" key="transparent" />
+		<Localized id="58" value="Transparant" lang="Dutch" key="transparent" />
 		<Localized id="59" value="Foreground" lang="English" key="foreground" />
 		<Localized id="60" value="Avant-plan" lang="French" key="foreground" />
-		<Localized id="61" value="Foreground" lang="Dutch" key="foreground" />
+		<Localized id="61" value="Voorgrond" lang="Dutch" key="foreground" />
 		<Localized id="62" value="Foreground" lang="English"
 			key="foreground_color" />
-		<Localized id="63" value="Foreground" lang="Dutch"
+		<Localized id="63" value="Voorgrondkleur" lang="Dutch"
 			key="foreground_color" />
 		<Localized id="64" value="Avant-plan" lang="French"
 			key="foreground_color" />
 		<Localized id="65" value="Background" lang="English"
 			key="background_color" />
-		<Localized id="66" value="Background" lang="Dutch"
+		<Localized id="66" value="Achtergrondkleur" lang="Dutch"
 			key="background_color" />
 		<Localized id="67" value="Arrière-plan" lang="French"
 			key="background_color" />
 		<Localized id="68" value="Horizontal" lang="English" key="horizontal" />
-		<Localized id="69" value="Horizontal" lang="Dutch" key="horizontal" />
+		<Localized id="69" value="Horizontaal" lang="Dutch" key="horizontal" />
 		<Localized id="70" value="Horizontal" lang="French" key="horizontal" />
 		<Localized id="71" value="Vertical" lang="English" key="vertical" />
-		<Localized id="72" value="Vertical" lang="Dutch" key="vertical" />
+		<Localized id="72" value="Verticaal" lang="Dutch" key="vertical" />
 		<Localized id="73" value="Vertical" lang="French" key="vertical" />
 		<Localized id="74" value="Paragraph" lang="English" key="paragraph" />
-		<Localized id="75" value="Paragraph" lang="Dutch" key="paragraph" />
+		<Localized id="75" value="Alinea" lang="Dutch" key="paragraph" />
 		<Localized id="76" value="Paragraphe" lang="French" key="paragraph" />
 		<Localized id="77" value="Is floating label" lang="English"
 			key="is_floating_label" />
-		<Localized id="78" value="Is floating label" lang="Dutch"
+		<Localized id="78" value="Zwevend label" lang="Dutch"
 			key="is_floating_label" />
 		<Localized id="79" value="Label flottant" lang="French"
 			key="is_floating_label" />
 		<Localized id="80" value="x" lang="English" key="x" />
-		<Localized id="81" value="x" lang="Dutch" key="x" />
+		<Localized id="81" value="Positie x" lang="Dutch" key="x" />
 		<Localized id="82" value="x" lang="French" key="x" />
 		<Localized id="83" value="y" lang="English" key="y" />
-		<Localized id="84" value="y" lang="Dutch" key="y" />
+		<Localized id="84" value="Positie y" lang="Dutch" key="y" />
 		<Localized id="85" value="y" lang="French" key="y" />
 		<Localized id="86" value="x" lang="English" key="relative_text_x" />
-		<Localized id="87" value="x" lang="Dutch" key="relative_text_x" />
+		<Localized id="87" value="Relatieve tekst X" lang="Dutch" key="relative_text_x" />
 		<Localized id="88" value="x" lang="French" key="relative_text_x" />
 		<Localized id="89" value="y" lang="English" key="relative_text_y" />
-		<Localized id="90" value="y" lang="Dutch" key="relative_text_y" />
+		<Localized id="90" value="Relatieve tekst Y" lang="Dutch" key="relative_text_y" />
 		<Localized id="91" value="y" lang="French" key="relative_text_y" />
 		<Localized id="92" value="Is multiline allowed" lang="English"
 			key="is_multiline_allowed" />
-		<Localized id="93" value="Is multiline allowed" lang="Dutch"
+		<Localized id="93" value="Meerdere regels toegestaan" lang="Dutch"
 			key="is_multiline_allowed" />
 		<Localized id="94" value="Multilignes autorisé" lang="French"
 			key="is_multiline_allowed" />
 		<Localized id="95" value="Line wrap" lang="English" key="line_wrap" />
-		<Localized id="96" value="Line wrap" lang="Dutch" key="line_wrap" />
+		<Localized id="96" value="Regelafbreking" lang="Dutch" key="line_wrap" />
 		<Localized id="97" value="Ligne wrap" lang="French" key="line_wrap" />
 		<Localized id="98" value="Adapt bounds to contents" lang="English"
 			key="adapt_bounds_to_contents" />
-		<Localized id="99" value="Adapt bounds to contents" lang="Dutch"
+		<Localized id="99" value="Grenzen aan de inhoud aanpassen" lang="Dutch"
 			key="adapt_bounds_to_contents" />
 		<Localized id="100" value="Adapter la taille au contenu"
 			lang="French" key="adapt_bounds_to_contents" />
