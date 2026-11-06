@@ -114,7 +114,7 @@ public class PPTEditorApplication {
 	private static final Logger logger = FlexoLogger.getLogger(PPTEditorApplication.class.getPackage().getName());
 
 	public static LocalizedDelegate PPT_EDITOR_LOCALIZATION = new LocalizedDelegateImpl(
-			ResourceLocator.locateResource("FlexoLocalization/PPTEditor"), DianaCoreUtils.DIANA_LOCALIZATION, true, true);
+			ResourceLocator.locateResource("FlexoLocalization/PPTEditor"), DianaCoreUtils.DIANA_LOCALIZATION, true, true).withContext("diana:ppt-editor");
 
 	private static final int META_MASK = ToolBox.isMacOS() ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
 

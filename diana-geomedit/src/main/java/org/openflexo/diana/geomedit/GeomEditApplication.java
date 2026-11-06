@@ -110,7 +110,7 @@ public class GeomEditApplication {
 	private static final Logger logger = FlexoLogger.getLogger(GeomEditApplication.class.getPackage().getName());
 
 	public static LocalizedDelegate GEOMEDIT_LOCALIZATION = new LocalizedDelegateImpl(
-			ResourceLocator.locateResource("FlexoLocalization/GeomEdit"), DianaCoreUtils.DIANA_LOCALIZATION, true, true);
+			ResourceLocator.locateResource("FlexoLocalization/GeomEdit"), DianaCoreUtils.DIANA_LOCALIZATION, true, true).withContext("diana:geomedit");
 
 	public static final int META_MASK = ToolBox.isMacOS() ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
 

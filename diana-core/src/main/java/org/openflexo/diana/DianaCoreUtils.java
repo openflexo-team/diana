@@ -53,7 +53,7 @@ public class DianaCoreUtils {
 	// Locales for DIANA
 	// (based on deprecated resources, to be removed)
 	public static final LocalizedDelegate DIANA_LOCALIZATION = new LocalizedDelegateImpl(
-			ResourceLocator.locateResource("DianaLocalization"), null, true, true);
+			ResourceLocator.locateResource("DianaLocalization"), null, true, true).withContext("diana");
 	/**
 	 * This is the Diana model factory shared by all Diana tools
 	 */

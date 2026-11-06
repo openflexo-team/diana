@@ -133,7 +133,7 @@ public class DiagramEditorApplication {
 	private static final Logger logger = FlexoLogger.getLogger(DiagramEditorApplication.class.getPackage().getName());
 
 	public static LocalizedDelegate DIAGRAM_EDITOR_LOCALIZATION = new LocalizedDelegateImpl(
-			ResourceLocator.locateResource("FlexoLocalization/DrawingEditor"), DianaCoreUtils.DIANA_LOCALIZATION, true, true);
+			ResourceLocator.locateResource("FlexoLocalization/DrawingEditor"), DianaCoreUtils.DIANA_LOCALIZATION, true, true).withContext("diana:drawing-editor");
 
 	private static final int META_MASK = ToolBox.isMacOS() ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
 
