@@ -248,7 +248,7 @@
 			key="is_multiline_allowed" />
 		<Localized id="93" value="Line wrap" lang="English" key="line_wrap" />
 		<Localized id="94" value="Line wrap" lang="Dutch" key="line_wrap" />
-		<Localized id="95" value="Line wrap" lang="French" key="line_wrap" />
+		<Localized id="95" value="Retour à la ligne" lang="French" key="line_wrap" />
 		<Localized id="96" value="Adapt bounds to contents" lang="English"
 			key="adapt_bounds_to_contents" />
 		<Localized id="97" value="Adapt bounds to contents" lang="Dutch"

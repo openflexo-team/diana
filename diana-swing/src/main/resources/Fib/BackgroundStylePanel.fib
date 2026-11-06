@@ -87,7 +87,7 @@
     <Localized id="73" value="Couleur 2" lang="French" key="color_2" />
     <Localized id="74" value="Gradient" lang="English" key="gradient" />
     <Localized id="75" value="Gradient" lang="Dutch" key="gradient" />
-    <Localized id="76" value="Gradient" lang="French" key="gradient" />
+    <Localized id="76" value="Dégradé" lang="French" key="gradient" />
     <Localized id="77" value="Not applicable" lang="English" key="not_applicable" />
     <Localized id="78" value="Not applicable" lang="Dutch" key="not_applicable" />
     <Localized id="79" value="N/A" lang="French" key="not_applicable" />

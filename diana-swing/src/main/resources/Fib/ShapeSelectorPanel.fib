@@ -488,7 +488,7 @@
 		<Localized key="chord" lang="French" value="Son" />
 		<Localized key="chord" lang="Dutch" value="Chord" />
 		<Localized key="Chord" lang="English" value="Chord" />
-		<Localized key="Chord" lang="French" value="Chord" />
+		<Localized key="Chord" lang="French" value="Corde" />
 		<Localized key="Chord" lang="Dutch" value="Chord" />
 		<Localized key="pie" lang="English" value="Pie" />
 		<Localized key="pie" lang="French" value="Camembert" />
@@ -508,24 +508,12 @@
 		<Localized key="cancel" lang="English" value="Cancel" />
 		<Localized key="cancel" lang="French" value="Annuler" />
 		<Localized key="cancel" lang="Dutch" value="Cancel" />
-		<Localized key="Carré" lang="English" value="Carré" />
-		<Localized key="Carré" lang="French" value="Carré" />
-		<Localized key="Carré" lang="Dutch" value="Carré" />
 		<Localized key="Polygone régulier" lang="English">Polygone régulier
 		</Localized>
 		<Localized key="Polygone régulier" lang="French">Polygone régulier
 		</Localized>
 		<Localized key="Polygone régulier" lang="Dutch">Polygone régulier
 		</Localized>
-		<Localized key="Ovale" lang="English" value="Ovale" />
-		<Localized key="Ovale" lang="French" value="Ovale" />
-		<Localized key="Ovale" lang="Dutch" value="Ovale" />
-		<Localized key="Cercle" lang="English" value="Cercle" />
-		<Localized key="Cercle" lang="French" value="Cercle" />
-		<Localized key="Cercle" lang="Dutch" value="Cercle" />
-		<Localized key="Étoile" lang="English" value="Étoile" />
-		<Localized key="Étoile" lang="French" value="Étoile" />
-		<Localized key="Étoile" lang="Dutch" value="Étoile" />
 		<Localized key="Parallelogram" lang="English" value="Parallelogram" />
 		<Localized key="Parallelogram" lang="French" value="Parallelogramme" />
 		<Localized key="Parallelogram" lang="Dutch" value="Parallelogram" />
@@ -535,12 +523,6 @@
 		<Localized key="Plus" lang="English" value="Plus" />
 		<Localized key="Plus" lang="French" value="Plus" />
 		<Localized key="Plus" lang="Dutch" value="Plus" />
-		<Localized key="Ouvrir" lang="English" value="Ouvrir" />
-		<Localized key="Ouvrir" lang="French" value="Ouvrir" />
-		<Localized key="Ouvrir" lang="Dutch" value="Ouvrir" />
-		<Localized key="Son" lang="English" value="Son" />
-		<Localized key="Son" lang="French" value="Son" />
-		<Localized key="Son" lang="Dutch" value="Son" />
 		<Localized key="camember" lang="English" value="Pie" />
 		<Localized key="camember" lang="French" value="Camembert" />
 		<Localized key="camember" lang="Dutch" value="Pie" />

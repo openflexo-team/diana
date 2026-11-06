@@ -34,7 +34,7 @@
     <Localized id="25" value="Cancel" lang="English" key="cancel" />
     <Localized id="26" value="Police" lang="French" key="font" />
     <Localized id="27" value="Couleur" lang="French" key="color" />
-    <Localized id="28" value="Orient." lang="French" key="orientation" />
+    <Localized id="28" value="Orientation" lang="French" key="orientation" />
     <Localized id="29" value="Appliquer" lang="French" key="apply" />
     <Localized id="30" value="Annuler" lang="French" key="cancel" />
     <Localized id="31" value="Font" lang="Dutch" key="font" />
@@ -46,7 +46,7 @@
     <Localized id="37" value="Arrière-p" lang="French" key="background" />
     <Localized id="38" value="Background" lang="Dutch" key="background" />
     <Localized id="39" value="transp." lang="English" key="transparent" />
-    <Localized id="40" value="transp." lang="French" key="transparent" />
+    <Localized id="40" value="Transparent" lang="French" key="transparent" />
     <Localized id="41" value="transparent" lang="Dutch" key="transparent" />
     <Localized id="42" value="Foreground" lang="English" key="foreground" />
     <Localized id="43" value="Avant-p" lang="French" key="foreground" />

@@ -171,7 +171,7 @@
 		<Localized id="42" value="Cancel" lang="English" key="cancel" />
 		<Localized id="43" value="Police" lang="French" key="font" />
 		<Localized id="44" value="Couleur" lang="French" key="color" />
-		<Localized id="45" value="Orient." lang="French" key="orientation" />
+		<Localized id="45" value="Orientation" lang="French" key="orientation" />
 		<Localized id="46" value="Appliquer" lang="French" key="apply" />
 		<Localized id="47" value="Annuler" lang="French" key="cancel" />
 		<Localized id="48" value="Font" lang="Dutch" key="font" />
@@ -183,7 +183,7 @@
 		<Localized id="54" value="Arrière-plan" lang="French" key="background" />
 		<Localized id="55" value="Background" lang="Dutch" key="background" />
 		<Localized id="56" value="transp." lang="English" key="transparent" />
-		<Localized id="57" value="transp." lang="French" key="transparent" />
+		<Localized id="57" value="Transparent" lang="French" key="transparent" />
 		<Localized id="58" value="transparent" lang="Dutch" key="transparent" />
 		<Localized id="59" value="Foreground" lang="English" key="foreground" />
 		<Localized id="60" value="Avant-plan" lang="French" key="foreground" />
@@ -208,7 +208,7 @@
 		<Localized id="73" value="Vertical" lang="French" key="vertical" />
 		<Localized id="74" value="Paragraph" lang="English" key="paragraph" />
 		<Localized id="75" value="Paragraph" lang="Dutch" key="paragraph" />
-		<Localized id="76" value="Paragraph" lang="French" key="paragraph" />
+		<Localized id="76" value="Paragraphe" lang="French" key="paragraph" />
 		<Localized id="77" value="Is floating label" lang="English"
 			key="is_floating_label" />
 		<Localized id="78" value="Is floating label" lang="Dutch"
