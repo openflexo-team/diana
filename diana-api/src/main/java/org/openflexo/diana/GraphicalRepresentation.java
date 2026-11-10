@@ -447,7 +447,9 @@ public interface GraphicalRepresentation extends DianaObject, Bindable, Property
 	@Setter(value = TRANSPARENCY_KEY)
 	public void setTransparency(double transparency);
 
-	@Getter(value = MOUSE_CLICK_CONTROLS_KEY, cardinality = Cardinality.LIST, ignoreType = true)
+	// Transient: the controls are installed by the code, not saved
+	@Getter(value = MOUSE_CLICK_CONTROLS_KEY, cardinality = Cardinality.LIST, ignoreType = true, isTransient = true)
+	@CloningStrategy(StrategyType.REFERENCE)
 	public List<MouseClickControl<?>> getMouseClickControls();
 
 	@Setter(value = MOUSE_CLICK_CONTROLS_KEY)
@@ -463,7 +465,8 @@ public interface GraphicalRepresentation extends DianaObject, Bindable, Property
 
 	public MouseClickControl<?> getMouseClickControl(String name);
 
-	@Getter(value = MOUSE_DRAG_CONTROLS_KEY, cardinality = Cardinality.LIST, ignoreType = true)
+	@Getter(value = MOUSE_DRAG_CONTROLS_KEY, cardinality = Cardinality.LIST, ignoreType = true, isTransient = true)
+	@CloningStrategy(StrategyType.REFERENCE)
 	public List<MouseDragControl<?>> getMouseDragControls();
 
 	@Setter(value = MOUSE_DRAG_CONTROLS_KEY)

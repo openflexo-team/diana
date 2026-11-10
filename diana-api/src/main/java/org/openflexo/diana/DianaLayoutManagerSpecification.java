@@ -54,6 +54,8 @@ import org.openflexo.diana.layout.OutlineLayoutManagerSpecification;
 import org.openflexo.diana.layout.RadialTreeLayoutManagerSpecification;
 import org.openflexo.diana.layout.TreeBasedLayoutManagerSpecification;
 import org.openflexo.diana.layout.TreeLayoutManagerSpecification;
+import org.openflexo.pamela.annotations.CloningStrategy;
+import org.openflexo.pamela.annotations.CloningStrategy.StrategyType;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.Import;
 import org.openflexo.pamela.annotations.Imports;
@@ -282,7 +284,8 @@ public interface DianaLayoutManagerSpecification<LM extends DianaLayoutManager<?
 	 * Return {@link DianaModelFactory} to use when creating new layout manager conform to this specification
 	 */
 	@Override
-	@Getter(value = FACTORY, ignoreType = true)
+	@Getter(value = FACTORY, ignoreType = true, isTransient = true)
+	@CloningStrategy(StrategyType.REFERENCE)
 	public DianaModelFactory getFactory();
 
 	/**
