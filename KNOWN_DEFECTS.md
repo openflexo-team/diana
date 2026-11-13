@@ -6,17 +6,9 @@ Identifiers are stable and never reused: `DIANA-D-<n>`. Reference them from comm
 
 Status legend: `TODO` · `IN PROGRESS` · `BLOCKED` · `DONE` · `DEFERRED`.
 
+Fixed defects are moved to [`FIXED_DEFECTS.md`](./FIXED_DEFECTS.md) once their status is `DONE`.
+
 ---
-
-### DIANA-D-1 — The user interface of the shape selector cannot instantiate its controller  ·  `DONE`
-
-**Symptom.** At the start of an application that loads the diagram editors: `NoSuchMethodException: Could not instanciate class org.openflexo.diana.swing.widget.JFIBShapeSelector$ShapeDetailsPanel$CustomFIBController` (`FIBController.instanciateController`), twice per start (formod-app, 2026-10-09).
-
-**Measured (2026-10-14, stack of the warning).** It is not the shape selector. Both warnings come from `Fib/ConnectorSelectorPanel.fib` (component `ConnectorPanel`): `JDianaInspectors.getConnectorInspector` -> `JInspector` -> `FIBJPanel.makeFIBController` (first one), and a `JFIBDialog.initDialog` (second one), both reaching `FIBController.instanciateController`. That file declared `controllerClassName="…JFIBShapeSelector$ShapeDetailsPanel$CustomFIBController"`, a copy-paste of the shape selector (it has been there for years, see "Fixed FIBs" in its history). `CustomFIBController` is not static, so its constructor takes the enclosing panel as a hidden first parameter and the reflection of `instanciateController`, looking for `(FIBComponent, GinaViewFactory)` then `(FIBComponent)`, finds neither: the warning, then the fallback on a plain `FIBController`. The shape selector is not concerned: `JFIBShapeSelector.ShapeDetailsPanel` builds its controller itself, with `new CustomFIBController(...)`, and does not go through the reflection.
-
-**Fixed (2026-10-14).** `ConnectorSelectorPanel.fib` declares `org.openflexo.gina.controller.FIBController`, as its sibling `*Panel.fib` do (`BackgroundStylePanel`, `ForegroundStylePanel`, `TextPropertiesPanel`, …). No change of behaviour: the fallback already built that very class. No warning at the start of formod-app; `diana-swing` 21/21 (`TestDianaFibs` validates the FIB).
-
-**Not checked.** The other `*Selector.fib` (`ShapeSelector`, `BackgroundStyleSelector`, `ForegroundStyleSelector`, `ShadowStyleSelector`, `TextStyleSelector`) declare their inner `CustomFIBController` the same way; they are built directly by their selector, so they do not reach the reflection, but nothing guards that a future caller does not.
 
 ### DIANA-D-2 — Warnings repeated in the log while editing a diagram  ·  `TODO`
 
