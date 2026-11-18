@@ -12,4 +12,6 @@ Fixed defects are moved to [`FIXED_DEFECTS.md`](./FIXED_DEFECTS.md) once their s
 
 ### DIANA-D-2 — Warnings repeated in the log while editing a diagram  ·  `TODO`
 
+**GitHub:** [openflexo-team/diana#6](https://github.com/openflexo-team/diana/issues/6)
+
 Seen in the formod application (2026-10-12), not investigated: `notifyObservers() called by a deleted DrawingTreeNode` (hundreds per diagram close), `finalizeDeletion called for ShapeNodeImpl … while object still being observed`, `Calling updateBounds() for element is not connected to the drawing`, `More than one applicable CustomMouseDragControlImpl … [Rectangle selection, Rectangle selection]`, `Not implemented: DrawRectangle`. None stopped a scenario.

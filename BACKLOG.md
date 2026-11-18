@@ -2,7 +2,9 @@
 
 Features and evolutions to develop. Known bugs go in `KNOWN_DEFECTS.md`.
 
-## DIANA-F-1 — Richer shape palettes · IN PROGRESS
+## DIANA-F-1 — Richer shape palettes  ·  `IN PROGRESS`
+
+**GitHub:** [openflexo-team/diana#8](https://github.com/openflexo-team/diana/issues/8)
 
 **Problem.** DIANA ships a single palette (`diana-core`, `Palettes/Basic`, 17 elements), whose path
 is hard-coded in `CommonPalette` (diagram-ta-ui) and `DiagramEditorPalette` (diana-drawing-editor).
