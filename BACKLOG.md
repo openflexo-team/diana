@@ -2,7 +2,7 @@
 
 Features and evolutions to develop. Known bugs go in `KNOWN_DEFECTS.md`.
 
-## DIANA-F-1 — Richer shape palettes  ·  `IN PROGRESS`
+## DIANA-F-1 — Richer shape palettes  ·  `DONE`
 
 **GitHub:** [openflexo-team/diana#8](https://github.com/openflexo-team/diana/issues/8)
 
@@ -94,10 +94,12 @@ polygon variants) and offers no complex shapes.
   translucent layer per shape of the union. It is now cast from the area the shapes really cover,
   painted once (`TestPaletteShadows`, UI test).
 
-**Remaining.**
+**Remaining (not done, accepted).**
 - Complete `Basic` with the existing shape parameters (arc, more stars/polygons).
 - Not translated from DrawingML: adjust handles (shapes are frozen at default values) and text
   rectangles.
 
 **Acceptance.** Each palette loads in the DIANA drawing editor and in the FML diagram editor, its
 elements can be dropped and resized, and `TestDianaPalettes` passes.
+
+**Resolution (2026-11-24).** Closed by decision of the user with the palettes above delivered. Accepted as left: completing `Basic` with the remaining shape parameters (arc, more stars and polygons), and the adjust handles and text rectangles of DrawingML shapes.
